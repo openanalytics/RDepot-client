@@ -1,11 +1,21 @@
 <template>
-  <v-container>
+  <v-container class="login">
     <v-form 
       ref="form" 
       lazy-validation 
-      v-model="valid">
-      
-      <v-text-field 
+      v-model="valid"
+      class="form-login"
+      >
+
+      <v-img
+          :src="require('@/assets/logo.png')"
+          class="my-3 mb-5"
+          contain
+          height="200"
+        />
+
+        <v-text-field 
+        class="mt-10"
         v-model="formData.userName" 
         label="Name" 
         :rules="validation.nameRules" 
@@ -22,16 +32,24 @@
         validate-on-blur>
       </v-text-field>
       
-      <v-btn 
-        @click="login">
-          login
-      </v-btn>
+      <v-row class="form-buttons my-10">
 
-      <v-btn 
-        @click="clear">
-          clear
-      </v-btn>
-    
+        <v-btn 
+          class="btn mx-2"
+          @click="login"
+          color="primary"
+          >
+            login
+        </v-btn>
+      
+        <v-btn
+          class="btn mx-2" 
+          @click="clear"
+          color="primary">
+            clear
+        </v-btn>
+
+      </v-row>
     </v-form>
   </v-container>
 </template>
@@ -87,3 +105,27 @@ export default Vue.extend({
   },
 });
 </script>
+
+
+<style scoped lang="scss">
+  .login{
+    max-width: 90%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .form-login{
+      max-width: 500px;
+      width: 80%;
+      margin: 100px auto !important; 
+
+    }
+
+    .form-buttons{
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+</style>
