@@ -1,5 +1,8 @@
 <template>
   <v-container class="login">
+
+    <ChangeLanguageVue/>
+
     <v-form 
       ref="form" 
       lazy-validation 
@@ -17,7 +20,7 @@
         <v-text-field 
         class="mt-10"
         v-model="formData.userName" 
-        label="Name" 
+        :label="$t('authorization.username')" 
         :rules="validation.nameRules" 
         required 
         validate-on-blur>
@@ -25,7 +28,7 @@
       
       <v-text-field 
         v-model="formData.password" 
-        label="Password" 
+        :label="$t('authorization.password')" 
         type="password"
         :rules="validation.passwordRules" 
         required
@@ -39,14 +42,14 @@
           @click="login"
           color="primary"
           >
-            login
+        {{ $t('authorization.login') }}
         </v-btn>
       
         <v-btn
           class="btn mx-2" 
           @click="clear"
           color="primary">
-            clear
+            {{ $t('authorization.clear') }}
         </v-btn>
 
       </v-row>
@@ -58,6 +61,7 @@
 
 import { Login, LoginApiData } from '@/models'
 import Vue from 'vue'
+import ChangeLanguageVue from '@/components/navbar/ChangeLanguage.vue';
 
 export default Vue.extend({
   data() {
@@ -65,10 +69,10 @@ export default Vue.extend({
       formData: {} as Login,
       validation: {
         nameRules: [
-          (v: String) => !!v || 'Name is required',
+          (v: String) => !!v || this.$t('authorization.usernameError')
         ],
         passwordRules: [
-          (v: String) => !!v || "Password is required"
+          (v: String) => !!v || this.$t('authorization.passwordError')
         ]
       },
       valid: false
@@ -101,6 +105,10 @@ export default Vue.extend({
       }
     },
   },
+
+  components:{
+    ChangeLanguageVue
+  }
 });
 </script>
 
