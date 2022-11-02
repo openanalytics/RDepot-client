@@ -1,8 +1,7 @@
 <template>
-<v-btn icon @click="toggleDarkMode">
-    <v-icon>mdi-theme-light-dark</v-icon>
-</v-btn>
-
+    <v-btn icon @click="toggleDarkMode" class="ma-2">
+        <v-icon color="text">mdi-theme-light-dark</v-icon>
+    </v-btn>
 </template>
 
 <script lang="ts">

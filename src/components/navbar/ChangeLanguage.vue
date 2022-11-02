@@ -1,14 +1,11 @@
 <template>
     <div class="locale-changer">
-      <v-row align="center">
-        <v-col cols="5">
+      <v-row align="center" class="my-2">
             <v-select
-            color="oablue"
             id="mySelect"
             v-model="$i18n.locale"
             :items="langs"
             ></v-select>
-        </v-col>
       </v-row>  
     </div>
 </template>
@@ -26,11 +23,22 @@ export default Vue.extend({
 })
 </script>
 
-<style>
-    .v-list-item__content{
-    color: var(--v-text-base);
+<style lang="scss" >
+   .v-list-item__content div 
+    // .mdi-menu-down::before 
+    {
+        color: var(--v-text-base) !important;
     }
-    .theme--light.v-list-item:hover:before {
-        opacity: 0.14;
+
+    // .theme--light.v-list-item:hover:before {
+    //     opacity: 0.14;
+    // }
+
+    // .theme--dark.v-text-field > .v-input__control > .v-input__slot:before{
+    //     border-color: var(--v-text-base);
+    // }
+
+    .locale-changer{
+        max-width: 80px;
     }
 </style>

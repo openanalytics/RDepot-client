@@ -1,9 +1,6 @@
 <template>
   <v-container class="login">
 
-    <ChangeLanguageVue/>
-    <ChangeTheme/>
-
     <v-form 
       ref="form" 
       lazy-validation 
@@ -64,8 +61,6 @@
 
 import { Login, LoginApiData } from '@/models'
 import Vue from 'vue'
-import ChangeLanguageVue from '@/components/navbar/ChangeLanguage.vue';
-import ChangeTheme from '@/components/navbar/ChangeTheme.vue';
 
 export default Vue.extend({
   data() {
@@ -111,10 +106,6 @@ export default Vue.extend({
    
   },
 
-  components:{
-    ChangeLanguageVue,
-    ChangeTheme
-}
 });
 </script>
 
@@ -131,7 +122,7 @@ export default Vue.extend({
     .form-login{
       max-width: 500px;
       width: 80%;
-      margin: 100px auto !important; 
+      margin: 150px auto 100px auto !important; 
 
     }
 
