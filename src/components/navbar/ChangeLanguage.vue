@@ -3,13 +3,10 @@
       <v-row align="center">
         <v-col cols="5">
             <v-select
+            color="oablue"
+            id="mySelect"
             v-model="$i18n.locale"
             :items="langs"
-            menu-props="auto"
-            label="Select"
-            hide-details
-            prepend-icon="mdi-flag"
-            single-line
             ></v-select>
         </v-col>
       </v-row>  
@@ -28,3 +25,12 @@ export default Vue.extend({
     },
 })
 </script>
+
+<style>
+    .v-list-item__content{
+    color: var(--v-text-base);
+    }
+    .theme--light.v-list-item:hover:before {
+        opacity: 0.14;
+    }
+</style>

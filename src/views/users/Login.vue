@@ -2,6 +2,7 @@
   <v-container class="login">
 
     <ChangeLanguageVue/>
+    <ChangeTheme/>
 
     <v-form 
       ref="form" 
@@ -23,6 +24,7 @@
         :label="$t('authorization.username')" 
         :rules="validation.nameRules" 
         required 
+        color="oablue"
         validate-on-blur>
       </v-text-field>
       
@@ -32,6 +34,7 @@
         type="password"
         :rules="validation.passwordRules" 
         required
+        color="oablue"
         validate-on-blur>
       </v-text-field>
       
@@ -40,7 +43,7 @@
         <v-btn 
           class="btn mx-2"
           @click="login"
-          color="primary"
+          color="oablue"
           >
         {{ $t('authorization.login') }}
         </v-btn>
@@ -48,7 +51,7 @@
         <v-btn
           class="btn mx-2" 
           @click="clear"
-          color="primary">
+          color="oablue">
             {{ $t('authorization.clear') }}
         </v-btn>
 
@@ -62,6 +65,7 @@
 import { Login, LoginApiData } from '@/models'
 import Vue from 'vue'
 import ChangeLanguageVue from '@/components/navbar/ChangeLanguage.vue';
+import ChangeTheme from '@/components/navbar/ChangeTheme.vue';
 
 export default Vue.extend({
   data() {
@@ -104,11 +108,13 @@ export default Vue.extend({
         });
       }
     },
+   
   },
 
   components:{
-    ChangeLanguageVue
-  }
+    ChangeLanguageVue,
+    ChangeTheme
+}
 });
 </script>
 
