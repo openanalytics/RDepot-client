@@ -71,7 +71,7 @@ export default Vue.extend({
           (v: String) => !!v || "Password is required"
         ]
       },
-      valid: true
+      valid: false
     };
   },
 
@@ -90,16 +90,14 @@ export default Vue.extend({
       (this.$refs.form as Vue & {reset: () => void}).reset()
     },
     validate(): void {
-      this.form.validate()
+      this.valid = this.form.validate()
     },
     async login() {
-      this.form.validate()
-      if (this.valid) {
-
-        console.log("valid form")
-           this.$store.dispatch("login", {
-            data: this.formData as LoginApiData
-           });
+      this.validate()
+      if (this.valid == true) {       
+        this.$store.dispatch("login", {
+        data: this.formData as LoginApiData
+        });
       }
     },
   },
