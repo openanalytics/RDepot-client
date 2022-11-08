@@ -1,6 +1,7 @@
 <template>
 <div>
     {{title}}
+    {{repositories}}
 </div>
 </template>
 
@@ -12,7 +13,23 @@ export default Vue.extend({
     return {
       title: 'repositories' 
     }
-}
+},
+
+mounted() {
+      this.updateState()
+    },
+
+    computed:{
+      repositories() {
+        return this.$store.state.repositories.repositories
+    },
+  },
+
+methods: {
+      updateState(): void{
+        this.$store.dispatch('fetchRepositories');
+      }
+    }
 })
 </script>
 

@@ -12,6 +12,8 @@
   import Login from './views/users/Login.vue'
   import Vue from 'vue'
 import Navbar from '@/components/navbar/Navbar.vue';
+import Keycloak from 'keycloak-js';
+import HomeView from './views/HomeView.vue';
 
   export default Vue.extend({
     name: 'App',
@@ -19,7 +21,11 @@ import Navbar from '@/components/navbar/Navbar.vue';
     components: {
     Login,
     Navbar,
+    HomeView
 },
+  props:{
+    keycloak: Keycloak
+   } ,
 
     mounted() {
       const theme = localStorage.getItem("darkTheme");

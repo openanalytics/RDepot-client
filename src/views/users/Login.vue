@@ -53,6 +53,12 @@
         </v-btn>
 
       </v-row>
+      
+      <v-row>
+        <v-btn @click="keyloackMethod">
+          Keycloak
+        </v-btn>
+      </v-row>
     </v-form>
   </v-container>
 </template>
@@ -60,9 +66,13 @@
 <script lang="ts">
 
 import { Login, LoginApiData } from '@/models'
+import Keycloak from 'keycloak-js';
 import Vue from 'vue'
 
 export default Vue.extend({
+  props:{
+    keycloak: Keycloak
+  },
   data() {
     return {
       formData: {} as Login,
@@ -103,7 +113,9 @@ export default Vue.extend({
         });
       }
     },
-   
+    keyloackMethod(){
+      console.log("keycloak")
+    }
   },
 
 });
