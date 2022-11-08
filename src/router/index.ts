@@ -36,7 +36,14 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.name !== 'login' && store.state.users.userToken == '') next({ name: 'login' }) 
+  const basePath = window.location.toString()
+  console.log(Vue.prototype.$keycloak.authenticated)
+  if (!Vue.prototype.$keycloak.authenticated) {
+    Vue.prototype.$keycloak.login({ redirectUri: basePath.slice(0, -1) + to.path })
+  } 
+  if (to.name !== 'login' && store.state.users.userToken == '' &&
+  !localStorage.getItem('vue-token')
+  ) next({ name: 'login' }) 
   else next();
 });
 
