@@ -7,6 +7,7 @@ import Notifications from 'vue-notification'
 import VueI18n from 'vue-i18n'
 import { messages } from './locales/messages'
 import { keycloak, updateToken } from './plugins/keycloak'
+import { LoginType } from '@/enum/LoginType'
 
 Vue.use(Notifications)
 Vue.use(VueI18n)
@@ -16,26 +17,35 @@ const i18n = new VueI18n({
   messages: messages
 })
 
-keycloak.init({ onLoad: "login-required", checkLoginIframe: false }).then((auth) => {
-  if (!auth) {
-    window.location.reload();
-  } else {
-    new Vue({
-      i18n,
-      router,
-      store,
-      vuetify,
-      render: h => h(App, { props: { keycloak: keycloak, } })
-    }).$mount('#app');
-    localStorage.setItem('vue-token', keycloak.token!);
-    localStorage.setItem('vue-refresh-token', keycloak.refreshToken!)
-  }
+if(localStorage.getItem("authorizationType") == LoginType.KEYCLOAK.toString()){
+  keycloak.init({ onLoad: "login-required", checkLoginIframe: false }).then((auth) => {
+    if (!auth) {
+      window.location.reload();
+    } else {
+      new Vue({
+        i18n,
+        router,
+        store,
+        vuetify,
+        render: h => h(App, { props: { keycloak: keycloak, } })
+      }).$mount('#app');
+      localStorage.setItem('vue-token', keycloak.token!);
+      localStorage.setItem('vue-refresh-token', keycloak.refreshToken!)
+    }
 
-  setInterval(() => { updateToken }, 6000)
+    setInterval(() => { updateToken }, 6000)
 
-}).catch((e) => {
-  alert("Login Failure " + e)
-})
+  }).catch((e) => {
+    alert("Login Failure " + e)
+  })
 
-Vue.prototype.$keycloak = keycloak
-
+  Vue.prototype.$keycloak = keycloak
+} else{
+  new Vue({
+    i18n,
+    router,
+    store,
+    vuetify,
+    render: h => h(App)
+  }).$mount('#app');
+}
