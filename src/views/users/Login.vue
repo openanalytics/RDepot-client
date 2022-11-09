@@ -1,6 +1,6 @@
 <template>
   <v-container class="login">
-
+  
     <v-form 
       ref="form" 
       lazy-validation 
@@ -55,9 +55,16 @@
       </v-row>
       
       <v-row>
-        <v-btn @click="keyloackMethod">
-          Keycloak
+        <v-btn @click="keyloackMethod" class="loginTypeButton">
+          <div class="loginType">
+            Keycloak
+          </div>
         </v-btn>
+<!-- 
+        <div style="color: white; font-size: 20px; font-weight: 800; border: solid white 5px;">
+      {{$store.state.users.loginType}}
+    </div> -->
+
       </v-row>
     </v-form>
   </v-container>
@@ -68,6 +75,8 @@
 import { Login, LoginApiData } from '@/models'
 import Keycloak from 'keycloak-js';
 import Vue from 'vue'
+import { LoginType } from '@/enum/LoginType'
+import { initKeycloak } from '@/plugins/keycloak'
 
 export default Vue.extend({
   props:{
@@ -115,7 +124,10 @@ export default Vue.extend({
     },
     keyloackMethod(){
       console.log("keycloak")
-    }
+      localStorage.setItem('authorizationType', LoginType.KEYCLOAK.toString());
+      this.$store.dispatch("chooseLoginType", LoginType.KEYCLOAK);
+      initKeycloak()
+    },
   },
 
 });
@@ -142,5 +154,15 @@ export default Vue.extend({
       display: flex;
       justify-content: flex-end;
     }
+
+    .loginTypeButton{
+      border: var(--v-text-base) solid 1px;
+      .loginType{
+      max-width: 500px;
+      width: 500px;
+      
+    }
+    }
+  
   }
 </style>
