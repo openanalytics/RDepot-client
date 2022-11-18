@@ -17,7 +17,7 @@ const i18n = new VueI18n({
   messages: messages
 })
 
-if(localStorage.getItem("authorizationType") == LoginType.KEYCLOAK.toString()){
+if(store.state.users.loginType == LoginType.KEYCLOAK){
   keycloak.init({ onLoad: "login-required", checkLoginIframe: false }).then((auth) => {
     if (!auth) {
       window.location.reload();
