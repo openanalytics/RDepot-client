@@ -2,6 +2,7 @@
   <div>
     <v-app>
       <notifications group="rdepot" />
+      <ProgressCircular/>
       <Navbar/>
       <router-view></router-view>
     </v-app>
@@ -14,6 +15,7 @@
 import Navbar from '@/components/navbar/Navbar.vue';
 import Keycloak from 'keycloak-js';
 import HomeView from './views/HomeView.vue';
+import ProgressCircular from './components/progress/ProgressCircular.vue';
 
   export default Vue.extend({
     name: 'App',
@@ -21,12 +23,12 @@ import HomeView from './views/HomeView.vue';
     components: {
     Login,
     Navbar,
-    HomeView
+    HomeView,
+    ProgressCircular
 },
   props:{
     keycloak: Keycloak
    } ,
-
     mounted() {
       const theme = localStorage.getItem("darkTheme");
       if (theme) {
@@ -48,7 +50,6 @@ import HomeView from './views/HomeView.vue';
   },
 
     methods: {
-      
       setUserInfo(){
         this.$vuetify.theme.dark = true;
       },
