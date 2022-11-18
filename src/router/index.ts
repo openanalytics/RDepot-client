@@ -5,6 +5,7 @@ import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import { LoginType } from '@/enum/LoginType'
+import AddSubmissionVue from '@/views/submissions/AddSubmission.vue'
 
 Vue.use(VueRouter)
 
@@ -28,6 +29,12 @@ const routes: Array<RouteConfig> = [
     component: RepositoriesVue,
     meta: {title: 'RDepot - repositories'}
   },
+  {
+    path: '/add-packages',
+    name: 'addSubmission',
+    component: AddSubmissionVue,
+    meta: {title: 'RDepot - add packages'}
+  },
 ]
 
 const router = new VueRouter({
@@ -44,9 +51,10 @@ router.beforeEach((to, from, next) => {
   //     Vue.prototype.$keycloak.login({ redirectUri: basePath.slice(0, -1) + to.path })
   //   } 
   // }
-  if ((to.name !== 'login' && store.state.users.userToken == '') && localStorage.getItem('authorizationType') == LoginType.DEFAULT.toString()
-  ) next({ name: 'login' }) 
-  else next();
+  // if ((to.name !== 'login' && store.state.users.userToken == '') && localStorage.getItem('authorizationType') == LoginType.DEFAULT.toString()
+  // ) next({ name: 'login' }) 
+  // else next();
+  next();
 });
 
 router.afterEach((to, from) => {
