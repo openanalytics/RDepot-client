@@ -4,7 +4,7 @@
       <notifications group="rdepot" />
       <ProgressCircular/>
       <Navbar/>
-      <router-view></router-view>
+      <router-view class="app"></router-view>
     </v-app>
   </div>
 </template>
@@ -12,8 +12,8 @@
 <script lang="ts">
   import Login from './views/users/Login.vue'
   import Vue from 'vue'
-import Navbar from '@/components/navbar/Navbar.vue';
-import Keycloak from 'keycloak-js';
+  import Navbar from '@/components/navbar/Navbar.vue';
+  import Keycloak from 'keycloak-js';
 import HomeView from './views/HomeView.vue';
 import ProgressCircular from './components/progress/ProgressCircular.vue';
 
@@ -64,7 +64,9 @@ import ProgressCircular from './components/progress/ProgressCircular.vue';
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cantarell:wght@400;700&display=swap');
-
+  .app{
+    margin-top: 100px;
+  }
   div{
     font-size: 16px;
     font-family: 'Cantarell', sans-serif;
