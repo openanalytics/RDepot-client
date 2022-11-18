@@ -23,9 +23,9 @@ export default new Vuetify({
             text: '#2d2d2d'
           },
           dark: {
-            primary: '#000',
+            primary: '#fff,',
             secondary: '#000',
-            accent: '#8c9eff',
+            accent: '#fff',
             error: '#b71c1c',
             background: '#666666',
             oared: '#e52323',
