@@ -60,11 +60,6 @@
             Keycloak
           </div>
         </v-btn>
-<!-- 
-        <div style="color: white; font-size: 20px; font-weight: 800; border: solid white 5px;">
-      {{$store.state.users.loginType}}
-    </div> -->
-
       </v-row>
     </v-form>
   </v-container>
@@ -115,7 +110,8 @@ export default Vue.extend({
       this.valid = this.form.validate()
     },
     async login() {
-      this.validate()
+      this.$store.dispatch("chooseLoginType", LoginType.DEFAULT);
+      this.validate();
       if (this.valid == true) {       
         this.$store.dispatch("login", {
         data: this.formData as LoginApiData
@@ -123,10 +119,7 @@ export default Vue.extend({
       }
     },
     keyloackMethod(){
-      console.log("keycloak")
-      localStorage.setItem('authorizationType', LoginType.KEYCLOAK.toString());
-      this.$store.dispatch("chooseLoginType", LoginType.KEYCLOAK);
-      initKeycloak()
+      initKeycloak()      
     },
   },
 
