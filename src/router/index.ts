@@ -38,13 +38,13 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   const basePath = window.location.toString()
-  if(store.state.users.loginType != LoginType.DEFAULT){
-    if (!Vue.prototype.$keycloak.authenticated) {
-      Vue.prototype.$keycloak.login({ redirectUri: basePath.slice(0, -1) + to.path })
-    } 
-  }
-  if (to.name !== 'login' && store.state.users.userToken == '' &&
-  !localStorage.getItem('vue-token')
+  // if(localStorage.getItem('authorizationType') != LoginType.DEFAULT.toString()){
+  //   console.log(Vue.prototype.$keycloak )
+  //   if (!Vue.prototype.$keycloak.authenticated) {
+  //     Vue.prototype.$keycloak.login({ redirectUri: basePath.slice(0, -1) + to.path })
+  //   } 
+  // }
+  if ((to.name !== 'login' && store.state.users.userToken == '') || localStorage.getItem('authorizationType') == LoginType.DEFAULT.toString()
   ) next({ name: 'login' }) 
   else next();
 });

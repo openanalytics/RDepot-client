@@ -22,8 +22,6 @@ const users_state = {
     mutations:{
         setUserToken(state: UserState, payload: UserState) {
             state.userToken = payload.userToken
-            localStorage.setItem("userToken", payload.userToken.toString())
-            localStorage.setItem("userName", payload.userName.toString())
           },
         setLoginType(state: UserState, payload: LoginType){
             state.loginType = payload

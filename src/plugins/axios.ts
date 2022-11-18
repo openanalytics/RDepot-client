@@ -1,18 +1,17 @@
 import axios, { AxiosRequestConfig } from "axios";
-import { updateToken } from "./keycloak";
 
 const api = axios.create({
     baseURL: 'http://localhost:8017/api',
     timeout: 6000,
   });
 
-  api.interceptors.request.use(function (config: AxiosRequestConfig) {let token = localStorage.getItem("userToken") 
+  api.interceptors.request.use(function (config: AxiosRequestConfig) {
     const multipart = localStorage.getItem("multipart")
+    let token = null;
 
     if (token) {
       config.headers!.Authorization = `Token ${token}`
     } else{
-      // updateToken();
       token = localStorage.getItem('vue-token');
       config.headers!.Authorization = `Token ${token}`;
     }

@@ -1,4 +1,3 @@
-import store from '@/store';
 import Keycloak from 'keycloak-js'
 import Vue from 'vue';
 import { LoginType } from '@/enum/LoginType';
@@ -15,7 +14,8 @@ const options = {
   onLoad: "login-required"
 }
 
-export const keycloak = new Keycloak(options)
+const keycloak = new Keycloak(options)
+
 
 export async function updateToken(){
   Vue.prototype.$keycloak.updateToken(70).then((refreshed: string) => {
@@ -32,16 +32,19 @@ export async function updateToken(){
 
 export async function initKeycloak(){
   keycloak.init({ onLoad: "login-required", checkLoginIframe: false }).then((auth) => {
+    localStorage.setItem('authorizationType', LoginType.KEYCLOAK.toString())
     if (!auth) {
       window.location.reload();
     } else {
-      store.dispatch("chooseLoginType", LoginType.KEYCLOAK);
+     
     }
     setInterval(() => { updateToken }, 6000)
-  
   }).catch((e) => {
     alert("Login Failure " + e)
   })
   
-  Vue.prototype.$keycloak = keycloak
+  
 }
+
+export default keycloak
+
