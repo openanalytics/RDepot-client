@@ -44,7 +44,7 @@ router.beforeEach((to, from, next) => {
   //     Vue.prototype.$keycloak.login({ redirectUri: basePath.slice(0, -1) + to.path })
   //   } 
   // }
-  if ((to.name !== 'login' && store.state.users.userToken == '') || localStorage.getItem('authorizationType') == LoginType.DEFAULT.toString()
+  if ((to.name !== 'login' && store.state.users.userToken == '') && localStorage.getItem('authorizationType') == LoginType.DEFAULT.toString()
   ) next({ name: 'login' }) 
   else next();
 });
