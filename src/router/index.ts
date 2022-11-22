@@ -5,6 +5,7 @@ import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import { LoginType } from '@/enum/LoginType'
+import PackagesVue from '@/views/packages/Packages.vue'
 
 Vue.use(VueRouter)
 
@@ -27,6 +28,13 @@ const routes: Array<RouteConfig> = [
     name: 'repositories',
     component: RepositoriesVue,
     meta: {title: 'RDepot - repositories'}
+  },
+
+  {
+    path: '/packages',
+    name: 'packages',
+    component: PackagesVue,
+    meta: {title: 'RDepot - packages'}
   },
 ]
 
