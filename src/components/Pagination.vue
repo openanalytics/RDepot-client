@@ -5,7 +5,7 @@
         <v-col cols="8">
           <v-container class="max-width">
             <v-pagination
-              v-model="pageNo"
+              v-model="page"
               class="my-4"
               :length="howMany"
             ></v-pagination>
@@ -28,16 +28,18 @@ export default Vue.extend({
   },
   data() {
     return {
-      pageNo: this.page
+      // pageNo: this.page
     }
   },
   methods: {
     changePageNo() {
-      this.$emit('changePage', this.pageNo)
+      this.$emit('changePage', this.page)
     }
   },
   watch: {
-    pageNo: (value: Number) => {}
+    page(value) {
+      this.$emit('newPage', value)
+    }
   }
 })
 </script>

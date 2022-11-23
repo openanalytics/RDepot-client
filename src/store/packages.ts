@@ -15,7 +15,7 @@ const packages_state = {
   state: {
     packages: [],
     page: 1,
-    howManyPages: 10
+    howManyPages: 10,
   } as PackageState,
   mutations: {
     setPackages(state: PackageState, payload: Package[]) {
@@ -30,8 +30,9 @@ const packages_state = {
   },
   actions: {
     async fetchPackages(context: Context) {
+      //change: add parameter with the page so fetched data will be only from wanted page
+      //change: if you want to send the filtration request - then set page to 1 and add parameter with filtration part
       var packages = await fetchPackagesServices()
-      context.commit('setPackages', packages.data)
     },
     async setPage(context: Context, data: Number) {
       context.commit('setPage', data)
