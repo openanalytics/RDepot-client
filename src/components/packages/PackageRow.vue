@@ -1,6 +1,6 @@
 <template>
   <v-row :class="{ title: title }">
-    <v-col cols="1" class="d-flex align-center">{{
+    <v-col cols="lg-1 sm-2" class="d-flex align-center">{{
       title == true
         ? 'Name'
         : packageBag
@@ -14,7 +14,7 @@
         ? packageBag.version
         : ''
     }}</v-col>
-    <v-col cols="6" class="d-flex align-center">
+    <v-col cols="lg-6 sm-2" class="d-flex align-center">
       {{
         title == true
           ? 'Description'
@@ -26,7 +26,7 @@
           : ''
       }}</v-col
     >
-    <v-col cols="1" class="d-flex align-center">
+    <v-col cols="lg-1 sm-2" class="d-flex align-center">
       {{
         title == true
           ? 'Maintainer'
@@ -35,7 +35,7 @@
           : ''
       }}</v-col
     >
-    <v-col cols="1" class="d-flex align-center">
+    <v-col cols="lg-1 sm-2" class="d-flex align-center">
       {{
         title == true
           ? 'Repository'
