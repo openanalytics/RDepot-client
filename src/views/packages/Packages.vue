@@ -1,11 +1,14 @@
 <template>
   <div>
+    <Filtration
+      :dialog="getFiltrationDialog"
+      @changeOptions="openFiltrationDialog"
+    />
     <PackagesList />
-    {{ page }}
     <Pagination
       :howMany="howManyPages"
       :page="page"
-      v-on:next="nextPage"
+      v-on:newPage="nextPage"
     />
   </div>
 </template>
@@ -16,10 +19,13 @@ import Vue from 'vue'
 import PackagesList from '@/components/packages/PackagesList.vue'
 import Pagination from '@/components/Pagination.vue'
 import store from '@/store'
+import Filtration from '@/components/packages/Filtration.vue'
 
 export default Vue.extend({
   data() {
-    return {}
+    return {
+      filtrationDialog: false
+    }
   },
   computed: {
     page() {
@@ -27,17 +33,25 @@ export default Vue.extend({
     },
     howManyPages() {
       return store.state.packages.howManyPages
+    },
+    getFiltrationDialog(): boolean {
+      return this.filtrationDialog
+    }
+  },
+  methods: {
+    nextPage(value: Number) {
+      store.dispatch('setPage', value)
+    },
+    openFiltrationDialog() {
+      console.log(this.filtrationDialog)
+      this.filtrationDialog = !this.filtrationDialog
+      console.log(this.filtrationDialog)
     }
   },
   components: {
     PackagesList,
-    Pagination
-  },
-  methods: {
-    nextPage(value: Number) {
-      console.log(value)
-      store.dispatch('setPage', value)
-    }
+    Pagination,
+    Filtration
   }
 })
 </script>
