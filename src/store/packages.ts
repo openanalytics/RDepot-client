@@ -3,11 +3,12 @@ import { Package } from '@/models/packages/Package'
 import { State } from '.'
 import { ActionContext } from 'vuex'
 import { PackagesFiltration } from '@/models/Filtration'
+import packages from '@/tmpLists/packages.json'
 
 export interface PackageState {
   packages: Package[]
-  page: Number
-  howManyPages: Number
+  page: number
+  howManyPages: number
   filtration: PackagesFiltration
 }
 
@@ -41,10 +42,18 @@ const packages_state = {
     setPackages(state: PackageState, payload: Package[]) {
       state.packages = payload
     },
-    setPage(state: PackageState, payload: Number) {
-      state.page = payload
+    setTmpPackages(state: PackageState) {
+      if (state.page % 2 == 0) {
+        state.packages = packages.page1
+      } else {
+        state.packages = packages.page2
+      }
     },
-    setHowManyPages(state: PackageState, payload: Number) {
+    setPage(state: PackageState, payload: number) {
+      state.page = payload
+      console.log(payload)
+    },
+    setHowManyPages(state: PackageState, payload: number) {
       state.howManyPages = payload
     },
     setFiltration(
@@ -52,7 +61,6 @@ const packages_state = {
       payload: PackagesFiltration
     ) {
       state.filtration = payload
-      console.log('packages filtration mutation: ', payload)
     },
     clearFiltration(state: PackageState) {
       state.filtration.state.value = ''
@@ -64,20 +72,25 @@ const packages_state = {
     async fetchPackages(context: Context) {
       //change: add parameter with the page so fetched data will be only from wanted page
       //change: if you want to send the filtration request - then set page to 1 and add parameter with filtration part
-      var packages = await fetchPackagesServices()
+      // var packages = await fetchPackagesServices()
+      context.commit('setPackages', packages)
+      context.commit('setTmpPackages')
     },
-    async setPage(context: Context, data: Number) {
+    async setPage(context: Context, data: number) {
       context.commit('setPage', data)
-      this.fetchPackages(context)
+      await context.dispatch('fetchPackages')
     },
-    setFiltration(
+    async setFiltration(
       context: Context,
       data: PackagesFiltration
     ) {
       context.commit('setFiltration', data)
+      context.commit('setPage', 1)
+      await context.dispatch('fetchPackages')
     },
-    clearFiltration(context: Context) {
+    async clearFiltration(context: Context) {
       context.commit('clearFiltration')
+      // await context.dispatch('fetchPackages')
     }
   }
 }
