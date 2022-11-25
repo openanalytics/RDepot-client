@@ -2,7 +2,8 @@ export const en = {
   common: {
     search: 'search',
     reset: 'reset',
-    cancel: 'cancel'
+    cancel: 'cancel',
+    details: 'see details'
   },
   authorization: {
     username: 'Name',
@@ -11,7 +12,7 @@ export const en = {
     passwordError: 'Password is required',
     login: 'login',
     clear: 'clear',
-    wrongCredentials: 'Wrond credential data, please try '
+    wrongCredentials: 'Wrong credential data, please try '
   },
   filtration: {
     title: 'filtration'
