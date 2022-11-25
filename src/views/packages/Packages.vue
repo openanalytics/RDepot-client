@@ -43,9 +43,7 @@ export default Vue.extend({
       store.dispatch('setPage', value)
     },
     openFiltrationDialog() {
-      console.log(this.filtrationDialog)
       this.filtrationDialog = !this.filtrationDialog
-      console.log(this.filtrationDialog)
     }
   },
   components: {

@@ -15,11 +15,13 @@
           v-on="on"
           @click="changeDialogOptions"
         >
-          filtration
+          {{ $t('filtration.title') }}
         </v-btn>
       </template>
       <v-card>
-        <v-card-title>Package Filtration</v-card-title>
+        <v-card-title>
+          {{ $t('packages.filtration') }}
+        </v-card-title>
         <v-divider></v-divider>
         <v-card-text style="height: 300px">
           <v-form ref="form" lazy-validation>
@@ -51,14 +53,14 @@
             text
             @click="clearFiltration"
           >
-            reset
+            {{ $t('common.reset') }}
           </v-btn>
           <v-btn
             color="blue darken-1"
             text
             @click="setFiltration"
           >
-            Search
+            {{ $t('common.search') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -79,6 +81,7 @@ export default Vue.extend({
     return {
       checkbox: false,
       dialogLocal: this.dialog,
+      //two below will be fetched and get from vuex store
       submissionStateSelect: ['ACCEPTED', 'CANCELLED'],
       repositoryNameSelect: ['repo1', 'repo2']
     }

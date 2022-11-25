@@ -2,14 +2,14 @@
   <v-row :class="{ title: title }">
     <v-col cols="lg-1 sm-2" class="d-flex align-center">{{
       title == true
-        ? 'Name'
+        ? prepareString($t('packages.name').toString())
         : packageBag
         ? packageBag.name
         : ''
     }}</v-col>
     <v-col cols="1" class="d-flex align-center">{{
       title == true
-        ? 'Version'
+        ? prepareString($t('packages.version').toString())
         : packageBag
         ? packageBag.version
         : ''
@@ -17,7 +17,9 @@
     <v-col cols="lg-6 sm-2" class="d-flex align-center">
       {{
         title == true
-          ? 'Description'
+          ? prepareString(
+              $t('packages.description').toString()
+            )
           : packageBag
           ? packageBag.desc.length > descMaxLength
             ? packageBag.desc.slice(0, descMaxLength) +
@@ -29,7 +31,9 @@
     <v-col cols="lg-1 sm-2" class="d-flex align-center">
       {{
         title == true
-          ? 'Maintainer'
+          ? prepareString(
+              $t('packages.maintainer').toString()
+            )
           : packageBag
           ? packageBag.maintainer
           : ''
@@ -38,14 +42,20 @@
     <v-col cols="lg-1 sm-2" class="d-flex align-center">
       {{
         title == true
-          ? 'Repository'
+          ? prepareString(
+              $t('packages.repository').toString()
+            )
           : packageBag
           ? packageBag.reposiotory
           : ''
       }}</v-col
     >
     <v-col cols="1" class="d-flex justify-center">
-      <span v-if="title == true"> Active </span>
+      <span v-if="title == true">
+        {{
+          prepareString($t('packages.active').toString())
+        }}</span
+      >
       <v-checkbox
         color="text"
         dense
@@ -55,7 +65,9 @@
       />
     </v-col>
     <v-col cls="1" class="d-flex align-center">{{
-      title == true ? 'Actions' : ''
+      title == true
+        ? prepareString($t('packages.actions').toString())
+        : ''
     }}</v-col>
   </v-row>
 </template>
@@ -76,6 +88,11 @@ export default Vue.extend({
   data() {
     return {
       descMaxLength: 110
+    }
+  },
+  methods: {
+    prepareString(value: String): String {
+      return value.charAt(0).toUpperCase() + value.slice(1)
     }
   }
 })

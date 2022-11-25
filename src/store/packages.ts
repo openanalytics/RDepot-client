@@ -73,7 +73,7 @@ const packages_state = {
       //change: add parameter with the page so fetched data will be only from wanted page
       //change: if you want to send the filtration request - then set page to 1 and add parameter with filtration part
       // var packages = await fetchPackagesServices()
-      context.commit('setPackages', packages)
+      // context.commit('setPackages', packages)
       context.commit('setTmpPackages')
     },
     async setPage(context: Context, data: number) {
