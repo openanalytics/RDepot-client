@@ -3,7 +3,13 @@ export const en = {
     search: 'search',
     reset: 'reset',
     cancel: 'cancel',
-    details: 'see details'
+    details: 'see details',
+    packages: 'packages',
+    repositories: 'repositories',
+    submissions: 'submissions',
+    maintainers: 'maintainers',
+    list: 'list',
+    addPackage: 'add package'
   },
   authorization: {
     username: 'Name',

@@ -4,6 +4,7 @@
       <notifications group="rdepot" />
       <ProgressCircular />
       <Navbar />
+      <Sidebar />
       <router-view class="mainApp"></router-view>
     </v-app>
   </div>
@@ -16,6 +17,7 @@ import Navbar from '@/components/navbar/Navbar.vue'
 import Keycloak from 'keycloak-js'
 import HomeView from './views/HomeView.vue'
 import ProgressCircular from './components/progress/ProgressCircular.vue'
+import Sidebar from '@/components/navbar/Sidebar.vue'
 
 export default Vue.extend({
   name: 'App',
@@ -24,12 +26,18 @@ export default Vue.extend({
     Login,
     Navbar,
     HomeView,
-    ProgressCircular
+    ProgressCircular,
+    Sidebar
   },
   props: {
     keycloak: Keycloak
   },
   mounted() {
+    document.addEventListener(
+      'backbutton',
+      this.goBack,
+      false
+    )
     const theme = localStorage.getItem('darkTheme')
     if (theme) {
       if (theme === 'true') {
@@ -52,6 +60,10 @@ export default Vue.extend({
   methods: {
     setUserInfo() {
       this.$vuetify.theme.dark = true
+    },
+    goBack() {
+      console.log('here')
+      this.$router.go(-1)
     }
   },
 
