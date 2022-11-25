@@ -7,6 +7,7 @@ import HomeView from '../views/HomeView.vue'
 import { LoginType } from '@/enum/LoginType'
 import PackagesVue from '@/views/packages/Packages.vue'
 import PackageDetailsVue from '@/views/packages/PackageDetails.vue'
+import AddSubmissionVue from '@/views/submissions/AddSubmission.vue'
 
 Vue.use(VueRouter)
 
@@ -30,7 +31,6 @@ const routes: Array<RouteConfig> = [
     component: RepositoriesVue,
     meta: { title: 'RDepot - repositories' }
   },
-
   {
     path: '/packages',
     name: 'packages',
@@ -43,6 +43,12 @@ const routes: Array<RouteConfig> = [
     component: PackageDetailsVue,
     meta: { title: 'RDepot - package details' },
     props: true
+  },
+  {
+    path: '/add-packages',
+    name: 'addSubmission',
+    component: AddSubmissionVue,
+    meta: { title: 'RDepot - add packages' }
   }
 ]
 
