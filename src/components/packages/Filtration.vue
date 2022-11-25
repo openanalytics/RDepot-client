@@ -1,5 +1,5 @@
 <template>
-  <v-row class="my-5 mr-5" justify="end">
+  <v-row class="my-5 mr-9" justify="end">
     <v-dialog
       v-model="dialog"
       scrollable
@@ -88,9 +88,9 @@ export default Vue.extend({
     changeDialogOptions() {
       this.$emit('changeOptions')
     },
-    setFiltration() {
-      store.dispatch('setFiltration', this.filtration)
-      this.$emit('cancelModal')
+    async setFiltration() {
+      this.changeDialogOptions()
+      await store.dispatch('setFiltration', this.filtration)
     },
     clearFiltration() {
       store.dispatch('clearFiltration')
