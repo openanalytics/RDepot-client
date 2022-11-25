@@ -48,6 +48,7 @@
       <span v-if="title == true"> Active </span>
       <v-checkbox
         color="text"
+        dense
         @click.native.stop
         v-else-if="packageBag"
         v-model="packageBag.active"
@@ -83,6 +84,7 @@ export default Vue.extend({
 <style lang="scss">
 .v-col {
   padding: 10px !important;
+  font-size: 13px !important;
 }
 .col {
   line-height: 1.3;

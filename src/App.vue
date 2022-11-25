@@ -74,6 +74,6 @@ div {
 }
 
 .mainApp {
-  margin-top: 50px;
+  margin-top: 80px;
 }
 </style>
