@@ -1,9 +1,9 @@
 <template>
   <div>
-    <v-expansion-panels inset>
+    <v-expansion-panels inset class="v-expansion">
       <PackagesListTitle />
       <PackageItem
-        v-for="(item, index) in packages.data"
+        v-for="(item, index) in packages"
         :key="index"
         :packageBag="item"
       />
@@ -12,8 +12,8 @@
 </template>
 
 <script lang="ts">
+import { Package } from '@/models/packages/Package'
 import Vue from 'vue'
-import packages from '@/tmpLists/packages.json'
 import PackageItem from './PackageItem.vue'
 import PackagesListTitle from './PackagesListTitle.vue'
 
@@ -23,15 +23,12 @@ export default Vue.extend({
     this.updateState()
   },
   data() {
-    return {
-      packages: packages
-    }
+    return {}
   },
   computed: {
-    //uncomment while fetch packages from database
-    //   packages() {
-    //     return this.$store.state.packages.packages
-    // },
+    packages(): Package[] {
+      return this.$store.state.packages.packages
+    }
   },
   methods: {
     updateState(): void {
@@ -41,3 +38,10 @@ export default Vue.extend({
   components: { PackageItem, PackagesListTitle }
 })
 </script>
+
+<style scoped>
+.v-expansion {
+  max-width: 80% !important;
+  margin: 0 2% 0 18% !important;
+}
+</style>
