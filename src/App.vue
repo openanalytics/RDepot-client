@@ -4,8 +4,10 @@
       <notifications group="rdepot" />
       <ProgressCircular />
       <Navbar />
-      <Sidebar />
-      <router-view class="mainApp"></router-view>
+      <div class="d-flex">
+        <Sidebar style="flex: 40%" />
+        <router-view class="mainApp"></router-view>
+      </div>
     </v-app>
   </div>
 </template>
