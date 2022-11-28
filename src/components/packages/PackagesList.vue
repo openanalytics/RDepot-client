@@ -41,7 +41,7 @@ export default Vue.extend({
 
 <style scoped>
 .v-expansion {
-  max-width: 80% !important;
-  margin: 0 2% 0 18% !important;
+  max-width: 90% !important;
+  margin: 0 2% 0 2% !important;
 }
 </style>
