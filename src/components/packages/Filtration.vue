@@ -1,5 +1,5 @@
 <template>
-  <v-row class="my-5 mr-9" justify="end">
+  <div>
     <v-dialog
       v-model="dialog"
       scrollable
@@ -53,19 +53,19 @@
             text
             @click="clearFiltration"
           >
-            {{ $t('common.reset') }}
+            {{ $t('common.clearForm') }}
           </v-btn>
           <v-btn
             color="blue darken-1"
             text
             @click="setFiltration"
           >
-            {{ $t('common.search') }}
+            {{ $t('common.apply') }}
           </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
-  </v-row>
+  </div>
 </template>
 
 <script lang="ts">
