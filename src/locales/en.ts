@@ -23,7 +23,8 @@ export const en = {
     addPackage: 'add package'
   },
   filtration: {
-    title: 'filtration'
+    title: 'filtration',
+    makeSure: 'this action will clear all filtration'
   },
   navbar: {
     changeLanguage: 'lang'
