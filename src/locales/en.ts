@@ -1,4 +1,13 @@
 export const en = {
+  authorization: {
+    username: 'Name',
+    usernameError: 'Name is required',
+    password: 'Password',
+    passwordError: 'Password is required',
+    login: 'login',
+    clear: 'clear',
+    wrongCredentials: 'Wrong credential data, please try '
+  },
   common: {
     apply: 'apply',
     clearForm: 'clear form',
@@ -13,17 +22,11 @@ export const en = {
     list: 'list',
     addPackage: 'add package'
   },
-  authorization: {
-    username: 'Name',
-    usernameError: 'Name is required',
-    password: 'Password',
-    passwordError: 'Password is required',
-    login: 'login',
-    clear: 'clear',
-    wrongCredentials: 'Wrong credential data, please try '
-  },
   filtration: {
     title: 'filtration'
+  },
+  navbar: {
+    changeLanguage: 'lang'
   },
   packages: {
     filtration: 'Packages filtration',
