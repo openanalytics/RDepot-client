@@ -1,5 +1,7 @@
 export const en = {
   common: {
+    apply: 'apply',
+    clearForm: 'clear form',
     search: 'search',
     reset: 'reset',
     cancel: 'cancel'

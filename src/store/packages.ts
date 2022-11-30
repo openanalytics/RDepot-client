@@ -88,9 +88,13 @@ const packages_state = {
       context.commit('setPage', 1)
       await context.dispatch('fetchPackages')
     },
-    async clearFiltration(context: Context) {
+    clearFiltration(context: Context) {
       context.commit('clearFiltration')
       // await context.dispatch('fetchPackages')
+    },
+    async clearFiltrationAndFetch(context: Context) {
+      context.commit('clearFiltration')
+      await context.dispatch('fetchPackages')
     }
   }
 }

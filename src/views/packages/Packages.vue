@@ -1,9 +1,17 @@
 <template>
   <div>
-    <Filtration
-      :dialog="getFiltrationDialog"
-      @changeOptions="openFiltrationDialog"
-    />
+    <v-row justify="end" class="my-5 mx-10" align="center">
+      <Button
+        :title="$t('common.reset')"
+        v-on:buttonClicked="resetForm"
+        class="mx-3"
+      />
+      <Filtration
+        :dialog="getFiltrationDialog"
+        @changeOptions="openFiltrationDialog"
+      />
+    </v-row>
+
     <PackagesList />
     <Pagination
       :howMany="howManyPages"
@@ -20,6 +28,7 @@ import PackagesList from '@/components/packages/PackagesList.vue'
 import Pagination from '@/components/Pagination.vue'
 import store from '@/store'
 import Filtration from '@/components/packages/Filtration.vue'
+import Button from '@/components/common/Button.vue'
 
 export default Vue.extend({
   data() {
@@ -44,12 +53,16 @@ export default Vue.extend({
     },
     openFiltrationDialog() {
       this.filtrationDialog = !this.filtrationDialog
+    },
+    resetForm() {
+      store.dispatch('clearFiltrationAndFetch')
     }
   },
   components: {
     PackagesList,
     Pagination,
-    Filtration
+    Filtration,
+    Button
   }
 })
 </script>
