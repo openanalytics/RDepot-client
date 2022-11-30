@@ -16,7 +16,8 @@ export const en = {
     wrongCredentials: 'Wrond credential data, please try '
   },
   filtration: {
-    title: 'filtration'
+    title: 'filtration',
+    makeSure: 'this action will clear all filtration'
   },
   packages: {
     filtration: 'Packages filtration',

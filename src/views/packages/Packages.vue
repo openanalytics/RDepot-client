@@ -3,12 +3,24 @@
     <v-row justify="end" class="my-5 mx-10" align="center">
       <Button
         :title="$t('common.reset')"
-        v-on:buttonClicked="resetForm"
+        v-on:buttonClicked="
+          showOverlay(OverlayEnum.PackagesFiltrationReset)
+        "
         class="mx-3"
       />
-      <Filtration
-        :dialog="getFiltrationDialog"
-        @changeOptions="openFiltrationDialog"
+      <Button
+        :title="$t('filtration.title')"
+        v-on:buttonClicked="
+          showOverlay(OverlayEnum.PackagesFiltration)
+        "
+        class="mx-3"
+      />
+      <Overlay
+        :text="$t('filtration.makeSure')"
+        :overlay="overlay"
+        :opacity="opacity"
+        :component="component"
+        v-on:overlayClicked="overlayValue"
       />
     </v-row>
 
@@ -29,11 +41,17 @@ import Pagination from '@/components/Pagination.vue'
 import store from '@/store'
 import Filtration from '@/components/packages/Filtration.vue'
 import Button from '@/components/common/Button.vue'
+import Overlay from '@/components/common/Overlay.vue'
+import { OverlayEnum } from '@/enum/Overlay'
 
 export default Vue.extend({
   data() {
     return {
-      filtrationDialog: false
+      filtrationDialog: false,
+      overlay: false,
+      opacity: 0.8,
+      component: OverlayEnum.PackagesFiltration,
+      OverlayEnum
     }
   },
   computed: {
@@ -56,13 +74,24 @@ export default Vue.extend({
     },
     resetForm() {
       store.dispatch('clearFiltrationAndFetch')
+    },
+    overlayValue(value: boolean) {
+      if (value) {
+        this.resetForm()
+      }
+      this.overlay = false
+    },
+    showOverlay(value: number) {
+      this.component = value
+      this.overlay = true
     }
   },
   components: {
     PackagesList,
     Pagination,
     Filtration,
-    Button
+    Button,
+    Overlay
   }
 })
 </script>
