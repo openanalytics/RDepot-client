@@ -1,11 +1,11 @@
 <template>
   <div>
     <v-app>
+      <Sidebar />
       <notifications group="rdepot" />
       <ProgressCircular />
       <Navbar />
       <div class="d-flex">
-        <Sidebar style="flex: 40%" />
         <router-view class="mainApp"></router-view>
       </div>
     </v-app>
@@ -19,7 +19,7 @@ import Navbar from '@/components/navbar/Navbar.vue'
 import Keycloak from 'keycloak-js'
 import HomeView from './views/HomeView.vue'
 import ProgressCircular from './components/progress/ProgressCircular.vue'
-import Sidebar from '@/components/navbar/Sidebar.vue'
+import Sidebar from './components/navbar/Sidebar.vue'
 
 export default Vue.extend({
   name: 'App',
@@ -28,8 +28,8 @@ export default Vue.extend({
     Login,
     Navbar,
     HomeView,
-    ProgressCircular,
-    Sidebar
+    Sidebar,
+    ProgressCircular
   },
   props: {
     keycloak: Keycloak
