@@ -8,6 +8,11 @@ export const en = {
     clear: 'clear',
     wrongCredentials: 'Wrong credential data, please try '
   },
+  addSubmission: {
+    step1Title: 'Choose repository',
+    step2Title: 'Choose packages you want to upload',
+    step3Title: 'Summary'
+  },
   common: {
     apply: 'apply',
     clearForm: 'clear form',
