@@ -43,5 +43,8 @@ export const en = {
     repository: 'repository',
     active: 'active',
     actions: 'actions'
+  },
+  pagination: {
+    size: 'page size'
   }
 }
