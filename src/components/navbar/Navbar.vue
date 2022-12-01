@@ -1,10 +1,21 @@
 <template>
   <v-app-bar app color="oablue" dark class="navbar">
     <v-row justify="space-around" align="center">
-      <v-row justify="start" class="mx-3">
+      <v-row justify="start" align="center" class="ml-1">
+        <v-btn
+          fab
+          small
+          height="50"
+          width="50"
+          class="mx-1"
+          color="oablue darken-2"
+          @click.stop="showSidebar"
+        >
+          <v-icon>mdi-menu</v-icon>
+        </v-btn>
         <v-img
           :src="require('@/assets/logo.png')"
-          class="logo"
+          class="ml-2 logo"
           contain
           height="40"
           width="40"
@@ -23,14 +34,21 @@
 import Vue from 'vue'
 import ChangeLanguageVue from '@/components/navbar/ChangeLanguage.vue'
 import ChangeTheme from '@/components/navbar/ChangeTheme.vue'
+import Sidebar from './Sidebar.vue'
+import store from '@/store'
 
 export default Vue.extend({
   name: 'Navbar',
   data: () => ({}),
-
+  methods: {
+    showSidebar() {
+      store.dispatch('setDrawer', true)
+    }
+  },
   components: {
     ChangeLanguageVue,
-    ChangeTheme
+    ChangeTheme,
+    Sidebar
   }
 })
 </script>

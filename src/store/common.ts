@@ -1,29 +1,43 @@
-import { ActionContext } from "vuex";
-import { State } from ".";
+import { ActionContext } from 'vuex'
+import { State } from '.'
 
-export interface CommonState{
-    progressCircularActive: Boolean,
+export interface CommonState {
+  progressCircularActive: Boolean
+  drawer: Boolean
 }
 
-type Context = ActionContext<CommonState, State>;
+type Context = ActionContext<CommonState, State>
 
 const common_state = {
-    state: () => ({
-        progressCircularActive: false
-    }) as CommonState,
+  state: () =>
+    ({
+      progressCircularActive: false,
+      drawer: false
+    } as CommonState),
 
-    mutations:{
-        setProgressCircularActive(state: CommonState, payload: Boolean) {
-            state.progressCircularActive = payload
-          },
+  mutations: {
+    setProgressCircularActive(
+      state: CommonState,
+      payload: Boolean
+    ) {
+      state.progressCircularActive = payload
     },
-
-    actions:{
-        async setProgressCircularActive(context: Context, data: Boolean) {
-            context.commit('setProgressCircularActive', data)
-            console.log("common " + data)
-        },  
+    setDrawer(state: CommonState, payload: Boolean) {
+      state.drawer = payload
     }
+  },
+
+  actions: {
+    async setProgressCircularActive(
+      context: Context,
+      data: Boolean
+    ) {
+      context.commit('setProgressCircularActive', data)
+    },
+    async setDrawer(context: Context, data: Boolean) {
+      context.commit('setDrawer', data)
+    }
+  }
 }
 
 export default common_state

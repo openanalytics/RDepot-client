@@ -1,20 +1,14 @@
 <template>
-  <v-navigation-drawer permanent class="sidebar">
-    <v-list-item class="itemsList px-2">
-      <v-list-item-avatar>
-        <v-img
-          src="https://randomuser.me/api/portraits/men/85.jpg"
-        ></v-img>
-      </v-list-item-avatar>
+  <v-navigation-drawer v-model="drawer" absolute temporary>
+    <v-list-item class="itemsList px-2 py-5">
+      <v-list-item-avatar
+        ><v-icon>mdi-account</v-icon></v-list-item-avatar
+      >
 
       <v-list-item-title>username</v-list-item-title>
-
-      <!-- <v-btn icon @click.stop="mini = !mini">
-        <v-icon>mdi-chevron-left</v-icon>
-      </v-btn> -->
     </v-list-item>
 
-    <v-divider></v-divider>
+    <v-divider class="pb-3"></v-divider>
 
     <v-list nav dense>
       <v-list-item link>
@@ -22,9 +16,9 @@
           <v-icon>mdi-upload</v-icon>
         </v-list-item-icon>
         <router-link :to="{ name: 'addSubmission' }">
-          <v-list-item-title>{{
-            $t('common.addPackage')
-          }}</v-list-item-title>
+          <v-list-item-title
+            >{{ $t('common.addPackage') }}
+          </v-list-item-title>
         </router-link>
       </v-list-item>
 
@@ -34,30 +28,34 @@
         prepend-icon="mdi-package"
       >
         <template v-slot:activator>
-          <v-list-item-title>
-            {{ $t('common.packages') }}
-          </v-list-item-title>
+          <v-list-item-title>{{
+            $t('common.packages')
+          }}</v-list-item-title>
         </template>
 
         <router-link :to="{ name: 'packages' }">
           <v-list-item>
-            <v-list-item-title
-              class="pl-15"
-              v-text="$t('common.list')"
-            ></v-list-item-title>
-            <v-list-item-icon>
-              <v-icon>mdi-format-list-bulleted</v-icon>
-            </v-list-item-icon>
+            <router-link
+              :to="{ name: 'packages' }"
+              style="width: 100%"
+            >
+              <v-list-item-title
+                class="pl-15"
+                v-text="$t('common.list')"
+              ></v-list-item-title>
+            </router-link>
           </v-list-item>
         </router-link>
         <v-list-item>
-          <v-list-item-title
-            class="pl-15"
-            v-text="$t('common.maintainers')"
-          ></v-list-item-title>
-          <v-list-item-icon>
-            <v-icon>mdi-account</v-icon>
-          </v-list-item-icon>
+          <router-link
+            :to="{ name: 'packages' }"
+            style="width: 100%"
+          >
+            <v-list-item-title
+              class="pl-15"
+              v-text="$t('common.maintainers')"
+            ></v-list-item-title>
+          </router-link>
         </v-list-item>
       </v-list-group>
 
@@ -67,53 +65,61 @@
         prepend-icon="mdi-source-repository"
       >
         <template v-slot:activator>
-          <v-list-item-title>
-            {{ $t('common.repositories') }}
-          </v-list-item-title>
+          <v-list-item-title>{{
+            $t('common.repositories')
+          }}</v-list-item-title>
         </template>
 
         <v-list-item>
-          <v-list-item-title
-            class="pl-15"
-            v-text="$t('common.list')"
-          ></v-list-item-title>
-          <v-list-item-icon>
-            <v-icon>mdi-format-list-bulleted</v-icon>
-          </v-list-item-icon>
+          <router-link :to="{ name: 'repositories' }">
+            <v-list-item-title
+              class="pl-15"
+              v-text="$t('common.list')"
+            ></v-list-item-title>
+          </router-link>
         </v-list-item>
         <v-list-item>
-          <v-list-item-title
-            class="pl-15"
-            v-text="$t('common.maintainers')"
-          ></v-list-item-title>
-          <v-list-item-icon>
-            <v-icon>mdi-account</v-icon>
-          </v-list-item-icon>
+          <router-link :to="{ name: 'repositories' }">
+            <v-list-item-title
+              class="pl-15"
+              v-text="$t('common.maintainers')"
+            ></v-list-item-title>
+          </router-link>
         </v-list-item>
       </v-list-group>
-      <v-list-item link>
+      <v-list-item
+        link
+        style="width: 100%"
+        class="d-flex justify-left"
+      >
         <v-list-item-icon>
           <v-icon>mdi-star</v-icon>
         </v-list-item-icon>
-        <v-list-item-title>{{
-          $t('submissions')
-        }}</v-list-item-title>
+        <router-link :to="{ name: 'submissions' }">
+          <v-list-item-title>{{
+            $t('submissions')
+          }}</v-list-item-title>
+        </router-link>
       </v-list-item>
     </v-list>
   </v-navigation-drawer>
 </template>
 
 <script lang="ts">
+import store from '@/store'
 import Vue from 'vue'
 export default Vue.extend({
   data() {
-    return {
-      mini: true,
-      drawer: true,
-      admins: [
-        ['Management', 'mdi-account-multiple-outline'],
-        ['Settings', 'mdi-cog-outline']
-      ]
+    return {}
+  },
+  computed: {
+    drawer: {
+      get() {
+        return store.state.common.drawer
+      },
+      set(value: Boolean) {
+        store.dispatch('setDrawer', value)
+      }
     }
   }
 })
@@ -128,10 +134,15 @@ export default Vue.extend({
   }
 }
 
-// .sidebar-hide {
-//   min-width: 60px;
-// }
 .sidebar-show {
   min-width: 350px;
+}
+div .v-list a {
+  text-decoration: none;
+  color: unset;
+}
+.v-application--is-ltr
+  .v-list-item__icon:last-of-type:not(:only-child) {
+  margin-left: 0 !important;
 }
 </style>
