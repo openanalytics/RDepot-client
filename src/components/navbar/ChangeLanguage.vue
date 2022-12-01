@@ -6,11 +6,11 @@
         v-bind="attrs"
         v-on="on"
         class="px-0"
+        depressed
       >
         {{ $i18n.locale }}
       </v-btn>
     </template>
-    <!-- v-model="$i18n.locale" -->
     <v-list>
       <v-list-item
         v-for="(item, index) in langs"
