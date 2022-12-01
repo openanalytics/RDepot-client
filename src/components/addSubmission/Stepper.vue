@@ -1,11 +1,23 @@
 <template>
-  <v-stepper v-model="e1">
+  <v-stepper v-model="e1" class="stepper mx-10">
     <v-stepper-header>
-      <StepTitile :e1="e1"  step=1 :title="$t('addSubmission.step1Title')" />
+      <StepTitile
+        :e1="e1"
+        step="1"
+        :title="$t('addSubmission.step1Title')"
+      />
       <v-divider></v-divider>
-      <StepTitile :e1="e1" step=2 :title="$t('addSubmission.step2Title')" />
+      <StepTitile
+        :e1="e1"
+        step="2"
+        :title="$t('addSubmission.step2Title')"
+      />
       <v-divider></v-divider>
-      <StepTitile :e1="e1" step=3 :title="$t('addSubmission.step3Title')" />
+      <StepTitile
+        :e1="e1"
+        step="3"
+        :title="$t('addSubmission.step3Title')"
+      />
     </v-stepper-header>
 
     <v-stepper-items>
@@ -13,7 +25,6 @@
       <StepSecond v-on:next="changeValue" />
       <StepThird v-on:next="changeValue" />
     </v-stepper-items>
-
   </v-stepper>
 </template>
 
@@ -34,23 +45,24 @@ export default Vue.extend({
   data() {
     return {
       title: 'addSubmission',
-      e1: 1,
+      e1: 1
     }
   },
   computed: {
     submission() {
       return this.$store.state.submission
-    },
+    }
   },
   methods: {
     changeValue(event: number) {
       this.e1 = event
     }
   }
-
 })
 </script>
 
-<stlye scoped>
-
+<stlye scoped lang="scss">
+.stepper {
+  max-width: 96% !important;
+}
 </stlye>
