@@ -1,6 +1,9 @@
 <template>
   <div>
-    <v-expansion-panels inset class="v-expansion">
+    <v-expansion-panels
+      inset
+      class="v-expansion mt-8 mx-10"
+    >
       <PackagesListTitle />
       <PackageItem
         v-for="(item, index) in packages"
@@ -41,7 +44,6 @@ export default Vue.extend({
 
 <style scoped>
 .v-expansion {
-  max-width: 90% !important;
-  margin: 0 2% 0 2% !important;
+  max-width: 96% !important;
 }
 </style>
