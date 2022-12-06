@@ -66,7 +66,7 @@ export default Vue.extend({
     }
   },
   methods: {
-    nextPage(value: Number) {
+    nextPage(value: number) {
       store.dispatch('setPage', value)
     },
     openFiltrationDialog() {
@@ -95,5 +95,3 @@ export default Vue.extend({
   }
 })
 </script>
-
-<style scoped lang="scss"></style>

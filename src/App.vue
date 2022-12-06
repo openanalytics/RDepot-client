@@ -27,7 +27,7 @@ export default Vue.extend({
     ProgressCircular
   },
   props: {
-    keycloak: Keycloak
+    keycloak: Object as () => Keycloak
   },
   mounted() {
     const theme = localStorage.getItem('darkTheme')
