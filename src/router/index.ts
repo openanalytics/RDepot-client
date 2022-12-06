@@ -5,11 +5,12 @@ import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import { LoginType } from '@/enum/LoginType'
+import PackagesVue from '@/views/packages/Packages.vue'
 import AddSubmissionVue from '@/views/submissions/AddSubmission.vue'
 
 Vue.use(VueRouter)
 
-const DEFAULT_TITLE = "RDepot"
+const DEFAULT_TITLE = 'RDepot'
 
 const routes: Array<RouteConfig> = [
   {
@@ -21,20 +22,26 @@ const routes: Array<RouteConfig> = [
     path: '/login',
     name: 'login',
     component: LoginVue,
-    meta: {title: 'RDepot - login'}
+    meta: { title: 'RDepot - login' }
   },
   {
     path: '/repositories',
     name: 'repositories',
     component: RepositoriesVue,
-    meta: {title: 'RDepot - repositories'}
+    meta: { title: 'RDepot - repositories' }
+  },
+  {
+    path: '/packages',
+    name: 'packages',
+    component: PackagesVue,
+    meta: { title: 'RDepot - packages' }
   },
   {
     path: '/add-packages',
     name: 'addSubmission',
     component: AddSubmissionVue,
-    meta: {title: 'RDepot - add packages'}
-  },
+    meta: { title: 'RDepot - add packages' }
+  }
 ]
 
 const router = new VueRouter({
@@ -49,18 +56,18 @@ router.beforeEach((to, from, next) => {
   //   console.log(Vue.prototype.$keycloak )
   //   if (!Vue.prototype.$keycloak.authenticated) {
   //     Vue.prototype.$keycloak.login({ redirectUri: basePath.slice(0, -1) + to.path })
-  //   } 
+  //   }
   // }
   // if ((to.name !== 'login' && store.state.users.userToken == '') && localStorage.getItem('authorizationType') == LoginType.DEFAULT.toString()
-  // ) next({ name: 'login' }) 
+  // ) next({ name: 'login' })
   // else next();
-  next();
-});
+  next()
+})
 
 router.afterEach((to, from) => {
   Vue.nextTick(() => {
-    document.title = to.meta?.title || DEFAULT_TITLE;
-  });
+    document.title = to.meta?.title || DEFAULT_TITLE
+  })
 })
 
 export default router
