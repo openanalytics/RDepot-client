@@ -34,6 +34,7 @@
 </template>
 
 <script lang="ts">
+import store from '@/store'
 import Vue from 'vue'
 
 export default Vue.extend({
