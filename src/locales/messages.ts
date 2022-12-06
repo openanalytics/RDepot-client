@@ -8,6 +8,11 @@ export const messages = {
       login: 'login',
       clear: 'clear',
       wrongCredentials: 'Wrond credential data, please try ',
+    },
+    addSubmission: {
+      step1Title: 'Choose repository',
+      step2Title: 'Choose packages you want to upload',
+      step3Title: 'Summary'
     }
   },
   pl:{
