@@ -32,7 +32,7 @@ export default Vue.extend({
     ProgressCircular
   },
   props: {
-    keycloak: Keycloak
+    keycloak: Object as () => Keycloak
   },
   mounted() {
     document.addEventListener(
