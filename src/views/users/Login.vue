@@ -1,9 +1,6 @@
 <template>
   <v-container class="login">
-
-    <ChangeLanguageVue/>
-    <ChangeTheme/>
-
+  
     <v-form 
       ref="form" 
       lazy-validation 
@@ -56,6 +53,14 @@
         </v-btn>
 
       </v-row>
+      
+      <v-row>
+        <v-btn @click="keyloackMethod" class="loginTypeButton">
+          <div class="loginType">
+            Keycloak
+          </div>
+        </v-btn>
+      </v-row>
     </v-form>
   </v-container>
 </template>
@@ -63,11 +68,15 @@
 <script lang="ts">
 
 import { Login, LoginApiData } from '@/models'
+import Keycloak from 'keycloak-js';
 import Vue from 'vue'
-import ChangeLanguageVue from '@/components/navbar/ChangeLanguage.vue';
-import ChangeTheme from '@/components/navbar/ChangeTheme.vue';
+import { LoginType } from '@/enum/LoginType'
+import { initKeycloak } from '@/plugins/keycloak'
 
 export default Vue.extend({
+  props:{
+    keycloak: Keycloak
+  },
   data() {
     return {
       formData: {} as Login,
@@ -101,20 +110,19 @@ export default Vue.extend({
       this.valid = this.form.validate()
     },
     async login() {
-      this.validate()
+      this.$store.dispatch("chooseLoginType", LoginType.DEFAULT);
+      this.validate();
       if (this.valid == true) {       
         this.$store.dispatch("login", {
         data: this.formData as LoginApiData
         });
       }
     },
-   
+    keyloackMethod(){
+      initKeycloak()
+    },
   },
 
-  components:{
-    ChangeLanguageVue,
-    ChangeTheme
-}
 });
 </script>
 
@@ -131,7 +139,7 @@ export default Vue.extend({
     .form-login{
       max-width: 500px;
       width: 80%;
-      margin: 100px auto !important; 
+      margin: 150px auto 100px auto !important; 
 
     }
 
@@ -139,5 +147,15 @@ export default Vue.extend({
       display: flex;
       justify-content: flex-end;
     }
+
+    .loginTypeButton{
+      border: var(--v-text-base) solid 1px;
+      .loginType{
+      max-width: 500px;
+      width: 500px;
+      
+    }
+    }
+  
   }
 </style>

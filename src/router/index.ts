@@ -4,6 +4,7 @@ import RepositoriesVue from '@/views/repositories/Repositories.vue'
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import { LoginType } from '@/enum/LoginType'
 
 Vue.use(VueRouter)
 
@@ -36,7 +37,15 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.name !== 'login' && store.state.users.userToken == '') next({ name: 'login' }) 
+  const basePath = window.location.toString()
+  // if(localStorage.getItem('authorizationType') != LoginType.DEFAULT.toString()){
+  //   console.log(Vue.prototype.$keycloak )
+  //   if (!Vue.prototype.$keycloak.authenticated) {
+  //     Vue.prototype.$keycloak.login({ redirectUri: basePath.slice(0, -1) + to.path })
+  //   } 
+  // }
+  if ((to.name !== 'login' && store.state.users.userToken == '') && localStorage.getItem('authorizationType') == LoginType.DEFAULT.toString()
+  ) next({ name: 'login' }) 
   else next();
 });
 

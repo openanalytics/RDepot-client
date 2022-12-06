@@ -6,23 +6,24 @@
 </template>
 
 <script lang="ts">
-  import Vue from 'vue'
+  import Keycloak from 'keycloak-js'
+import Vue from 'vue'
   import HelloWorld from '../components/HelloWorld.vue'
 
   export default Vue.extend({
     name: 'Home',
-
+    props: ['keycloak'],
     components: {
       HelloWorld,
     },
 
     mounted() {
-      this.updateState()
+      // this.updateState()
     },
 
     computed:{
       repositories() {
-        return this.$store.state.repositories.repositories
+        // return this.$store.state.repositories.repositories
     },
   },
 
