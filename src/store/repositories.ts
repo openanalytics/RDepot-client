@@ -1,5 +1,5 @@
 import { fetchRepositoriesServices } from "../services";
-import { Repository } from "@/models/Repository";
+import { Repository } from "@/models/repositories/Repository";
 import { State } from '.'
 import { ActionContext } from "vuex";
 
