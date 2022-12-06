@@ -15,20 +15,18 @@ export default Vue.extend({
     step: Number,
     title: String,
     e1: Number
-  },
+  }
 })
 </script>
 
 <style lang="scss">
-  span{
-    font-size: 1.25em !important;
-    
-   
+span {
+  font-size: 1.25em !important;
 }
-span.v-stepper__step__step{
-    padding: 15px !important
-  }
-  .v-stepper__label{
-    font-size: 1.125em;;
-  }
+span.v-stepper__step__step {
+  padding: 15px !important;
+}
+.v-stepper__label {
+  font-size: 1.125em;
+}
 </style>

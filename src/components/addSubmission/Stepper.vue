@@ -61,8 +61,8 @@ export default Vue.extend({
 })
 </script>
 
-<stlye scoped lang="scss">
+<style scoped lang="scss">
 .stepper {
   max-width: 96% !important;
 }
-</stlye>
+</style>

@@ -1,64 +1,64 @@
 <template>
   <v-container class="login">
-  
-    <v-form 
-      ref="form" 
-      lazy-validation 
+    <v-form
+      ref="form"
+      lazy-validation
       v-model="valid"
       class="form-login"
-      >
-
+    >
       <v-img
-          :src="require('@/assets/logo.png')"
-          class="my-3 mb-5"
-          contain
-          height="200"
-        />
+        :src="require('@/assets/logo.png')"
+        class="my-3 mb-5"
+        contain
+        height="200"
+      />
 
-        <v-text-field 
+      <v-text-field
         class="mt-10"
-        v-model="formData.userName" 
-        :label="$t('authorization.username')" 
-        :rules="validation.nameRules" 
-        required 
-        color="oablue"
-        validate-on-blur>
-      </v-text-field>
-      
-      <v-text-field 
-        v-model="formData.password" 
-        :label="$t('authorization.password')" 
-        type="password"
-        :rules="validation.passwordRules" 
+        v-model="formData.userName"
+        :label="$t('authorization.username')"
+        :rules="validation.nameRules"
         required
         color="oablue"
-        validate-on-blur>
+        validate-on-blur
+      >
       </v-text-field>
-      
-      <v-row class="form-buttons my-10">
 
-        <v-btn 
+      <v-text-field
+        v-model="formData.password"
+        :label="$t('authorization.password')"
+        type="password"
+        :rules="validation.passwordRules"
+        required
+        color="oablue"
+        validate-on-blur
+      >
+      </v-text-field>
+
+      <v-row class="form-buttons my-10">
+        <v-btn
           class="btn mx-2"
           @click="login"
           color="oablue"
-          >
-        {{ $t('authorization.login') }}
-        </v-btn>
-      
-        <v-btn
-          class="btn mx-2" 
-          @click="clear"
-          color="oablue">
-            {{ $t('authorization.clear') }}
+        >
+          {{ $t('authorization.login') }}
         </v-btn>
 
+        <v-btn
+          class="btn mx-2"
+          @click="clear"
+          color="oablue"
+        >
+          {{ $t('authorization.clear') }}
+        </v-btn>
       </v-row>
-      
+
       <v-row>
-        <v-btn @click="keyloackMethod" class="loginTypeButton">
-          <div class="loginType">
-            Keycloak
-          </div>
+        <v-btn
+          @click="keyloackMethod"
+          class="loginTypeButton"
+        >
+          <div class="loginType">Keycloak</div>
         </v-btn>
       </v-row>
     </v-form>
@@ -66,96 +66,99 @@
 </template>
 
 <script lang="ts">
-
 import { Login, LoginApiData } from '@/models'
-import Keycloak from 'keycloak-js';
+import Keycloak from 'keycloak-js'
 import Vue from 'vue'
 import { LoginType } from '@/enum/LoginType'
 import { initKeycloak } from '@/plugins/keycloak'
 
 export default Vue.extend({
-  props:{
-    keycloak: Keycloak
+  props: {
+    keycloak: Object as () => Keycloak
   },
   data() {
     return {
       formData: {} as Login,
       validation: {
         nameRules: [
-          (v: String) => !!v || this.$t('authorization.usernameError')
+          (v: string) =>
+            !!v || this.$t('authorization.usernameError')
         ],
         passwordRules: [
-          (v: String) => !!v || this.$t('authorization.passwordError')
+          (v: string) =>
+            !!v || this.$t('authorization.passwordError')
         ]
       },
       valid: false
-    };
+    }
   },
 
   mounted() {
-    this.clear();
+    this.clear()
   },
 
   computed: {
     form(): Vue & { validate: () => boolean } {
-      return this.$refs.form as Vue & { validate: () => boolean }
+      return this.$refs.form as Vue & {
+        validate: () => boolean
+      }
     }
   },
 
   methods: {
     clear(): void {
-      (this.$refs.form as Vue & {reset: () => void}).reset()
+      ;(
+        this.$refs.form as Vue & { reset: () => void }
+      ).reset()
     },
     validate(): void {
       this.valid = this.form.validate()
     },
     async login() {
-      this.$store.dispatch("chooseLoginType", LoginType.DEFAULT);
-      this.validate();
-      if (this.valid == true) {       
-        this.$store.dispatch("login", {
-        data: this.formData as LoginApiData
-        });
+      this.$store.dispatch(
+        'chooseLoginType',
+        LoginType.DEFAULT
+      )
+      this.validate()
+      if (this.valid) {
+        this.$store.dispatch('login', {
+          data: this.formData as LoginApiData
+        })
       }
     },
-    keyloackMethod(){
+    keyloackMethod() {
       initKeycloak()
-    },
-  },
-
-});
+    }
+  }
+})
 </script>
 
-
 <style scoped lang="scss">
-  .login{
-    max-width: 90%;
-    width: 100%;
+.login {
+  max-width: 90%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .form-login {
+    max-width: 500px;
+    width: 80%;
+    margin: 150px auto 100px auto !important;
+  }
+
+  .form-buttons {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
+  }
 
-    .form-login{
-      max-width: 500px;
-      width: 80%;
-      margin: 150px auto 100px auto !important; 
-
-    }
-
-    .form-buttons{
-      display: flex;
-      justify-content: flex-end;
-    }
-
-    .loginTypeButton{
-      border: var(--v-text-base) solid 1px;
-      .loginType{
+  .loginTypeButton {
+    border: var(--v-text-base) solid 1px;
+    .loginType {
       max-width: 500px;
       width: 500px;
-      
     }
-    }
-  
   }
+}
 </style>

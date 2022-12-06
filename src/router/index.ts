@@ -1,13 +1,13 @@
-import store from '@/store'
 import LoginVue from '@/views/users/Login.vue'
 import RepositoriesVue from '@/views/repositories/Repositories.vue'
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import { LoginType } from '@/enum/LoginType'
 import PackagesVue from '@/views/packages/Packages.vue'
 import PackageDetailsVue from '@/views/packages/PackageDetails.vue'
 import AddSubmissionVue from '@/views/submissions/AddSubmission.vue'
+import store from '@/store'
+import { LoginType } from '@/enum/LoginType'
 
 Vue.use(VueRouter)
 
@@ -59,7 +59,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const basePath = window.location.toString()
+  // const basePath = window.location.toString()
   // if(localStorage.getItem('authorizationType') != LoginType.DEFAULT.toString()){
   //   console.log(Vue.prototype.$keycloak )
   //   if (!Vue.prototype.$keycloak.authenticated) {

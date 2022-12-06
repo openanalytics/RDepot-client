@@ -81,6 +81,9 @@ export default Vue.extend({
 div {
   font-size: 16px;
   font-family: 'Cantarell', sans-serif;
+  .app {
+    margin-top: 100px;
+  }
 
   @media only screen and (max-width: 700px) {
     font-size: 14px !important;

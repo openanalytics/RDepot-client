@@ -53,7 +53,7 @@ export default Vue.extend({
     }
   },
   methods: {
-    sendEvent(value: Boolean) {
+    sendEvent(value: boolean) {
       this.$emit('overlayClicked', value)
     }
   }
