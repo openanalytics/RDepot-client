@@ -58,17 +58,36 @@
       >
       <v-checkbox
         color="text"
-        dense
         @click.native.stop
         v-else-if="packageBag"
         v-model="packageBag.active"
       />
     </v-col>
-    <v-col cls="1" class="d-flex align-center">{{
-      title == true
-        ? prepareString($t('packages.actions').toString())
-        : ''
-    }}</v-col>
+    <v-col cls="1" class="d-flex justify-center">
+      <span v-if="title == true">
+        {{
+          prepareString($t('packages.actions').toString())
+        }}
+      </span>
+      <span
+        v-else
+        class="d-flex justify-center align-center"
+      >
+        <v-tooltip top>
+          <template v-slot:activator="{ on, attrs }">
+            <v-icon
+              @click.native.stop
+              @click="navigate"
+              v-bind="attrs"
+              v-on="on"
+              color="text"
+              >mdi-forward</v-icon
+            >
+          </template>
+          <span>{{ $t('common.details') }}</span>
+        </v-tooltip>
+      </span>
+    </v-col>
   </v-row>
 </template>
 
@@ -93,6 +112,16 @@ export default Vue.extend({
   methods: {
     prepareString(value: string): string {
       return value.charAt(0).toUpperCase() + value.slice(1)
+    },
+    navigate() {
+      if (this.packageBag) {
+        this.$router.replace({
+          name: 'packageDetails',
+          params: {
+            name: this.packageBag.name
+          }
+        })
+      }
     }
   }
 })

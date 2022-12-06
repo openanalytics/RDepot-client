@@ -25,11 +25,7 @@
     </v-row>
 
     <PackagesList />
-    <Pagination
-      :howMany="howManyPages"
-      :page="page"
-      v-on:newPage="nextPage"
-    />
+    <Pagination :page="page" v-on:newPage="nextPage" />
   </div>
 </template>
 
@@ -57,9 +53,6 @@ export default Vue.extend({
   computed: {
     page() {
       return store.state.packages.page
-    },
-    howManyPages() {
-      return store.state.packages.howManyPages
     },
     getFiltrationDialog(): boolean {
       return this.filtrationDialog

@@ -4,7 +4,10 @@ import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import PackagesVue from '@/views/packages/Packages.vue'
+import PackageDetailsVue from '@/views/packages/PackageDetails.vue'
 import AddSubmissionVue from '@/views/submissions/AddSubmission.vue'
+import store from '@/store'
+import { LoginType } from '@/enum/LoginType'
 
 Vue.use(VueRouter)
 
@@ -35,6 +38,13 @@ const routes: Array<RouteConfig> = [
     meta: { title: 'RDepot - packages' }
   },
   {
+    path: '/package-details/:name',
+    name: 'packageDetails',
+    component: PackageDetailsVue,
+    meta: { title: 'RDepot - package details' },
+    props: true
+  },
+  {
     path: '/add-packages',
     name: 'addSubmission',
     component: AddSubmissionVue,
@@ -56,10 +66,14 @@ router.beforeEach((to, from, next) => {
   //     Vue.prototype.$keycloak.login({ redirectUri: basePath.slice(0, -1) + to.path })
   //   }
   // }
-  // if ((to.name !== 'login' && store.state.users.userToken == '') && localStorage.getItem('authorizationType') == LoginType.DEFAULT.toString()
-  // ) next({ name: 'login' })
-  // else next();
-  next()
+  if (
+    to.name !== 'login' &&
+    store.state.users.userToken == '' &&
+    localStorage.getItem('authorizationType') ==
+      LoginType.DEFAULT.toString()
+  )
+    next({ name: 'login' })
+  else next()
 })
 
 router.afterEach((to, from) => {

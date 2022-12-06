@@ -7,7 +7,7 @@ import packages from '@/tmpLists/packages.json'
 export interface PackageState {
   packages: Package[]
   page: number
-  howManyPages: number
+  pageSize: number
   filtration: PackagesFiltration
 }
 
@@ -17,7 +17,7 @@ const packages_state = {
   state: {
     packages: [],
     page: 1,
-    howManyPages: 10,
+    pageSize: 10,
     filtration: {
       state: {
         label: 'Submission State',
@@ -52,8 +52,11 @@ const packages_state = {
       state.page = payload
       console.log(payload)
     },
-    setHowManyPages(state: PackageState, payload: number) {
-      state.howManyPages = payload
+    setPackagePageSize(
+      state: PackageState,
+      payload: number
+    ) {
+      state.pageSize = payload
     },
     setFiltration(
       state: PackageState,
