@@ -1,6 +1,7 @@
 <template>
   <div>
     <v-app>
+      <notifications group="rdepot" />
       <router-view></router-view>
     </v-app>
   </div>
