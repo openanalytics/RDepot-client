@@ -1,5 +1,4 @@
 <template>
-  <!-- <v-toolbar color="oablue" dark> -->
   <v-expansion-panel>
     <v-expansion-panel-header
       expand-icon=""

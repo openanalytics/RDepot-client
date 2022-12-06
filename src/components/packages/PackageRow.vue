@@ -91,7 +91,7 @@ export default Vue.extend({
     }
   },
   methods: {
-    prepareString(value: String): String {
+    prepareString(value: string): string {
       return value.charAt(0).toUpperCase() + value.slice(1)
     }
   }
