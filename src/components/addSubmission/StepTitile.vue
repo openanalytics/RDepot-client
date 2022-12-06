@@ -1,8 +1,9 @@
 <template>
-  <v-stepper-step 
-    :complete="e1 > step" 
-    :step="step" 
-    color="oablue">
+  <v-stepper-step
+    :complete="e1 > step"
+    :step="step"
+    color="oablue"
+  >
     {{ title }}
   </v-stepper-step>
 </template>
