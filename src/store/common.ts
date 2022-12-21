@@ -36,7 +36,6 @@ const common_state = {
     },
     async setDrawer(context: Context, data: boolean) {
       context.commit('setDrawer', data)
-      console.log('common ' + data)
     }
   }
 }

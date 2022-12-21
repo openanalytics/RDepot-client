@@ -30,9 +30,6 @@ export default Vue.extend({
   methods: {
     updateState(): void {
       this.$store.dispatch('setProgressCircularActive')
-      console.log(
-        this.$store.state.common.progressCircularActive
-      )
     }
   }
 })
