@@ -33,47 +33,37 @@
   </div>
 </template>
 
-<script lang="ts">
-import store from '@/store'
-import Vue from 'vue'
+<script setup lang="ts">
+import { usePackagesStore } from "@/store/packages"
+import { ref } from "vue"
+import { computed } from "@vue/runtime-core"
 
-export default Vue.extend({
-  name: 'Pagination',
-  props: {
+  var props = defineProps({
     howMany: Number,
     page: Number
-  },
-  data() {
-    return {
-      allPackages: 100 as number
-    }
-  },
-  methods: {
-    changePageNo() {
-      this.$emit('changePage', this.page)
-    }
-  },
-  computed: {
-    howManyPages(): number {
-      return (
-        this.allPackages / store.state.packages.pageSize
-      )
+  })
+
+  const emit = defineEmits(['newPage'])
+  const allPackages = ref(100)
+  const package_store = usePackagesStore()
+
+  const howManyPages = computed(function() {
+    return allPackages.value / package_store.pageSize
+  })
+
+  const pageSize = computed({
+    get() {
+      return package_store.pageSize
     },
-    pageSize: {
-      get() {
-        return store.state.packages.pageSize
-      },
-      set(value: number) {
-        store.commit('setPackagePageSize', value)
-      }
+    set(value: number) {
+      package_store.setPageSize(value)
     }
-  },
-  watch: {
-    page(value) {
-      this.$emit('newPage', value)
-    }
-  }
-})
+  })
+
+  const page = computed({ 
+    get: () => props.page, 
+    set: (value) => emit('newPage', value) 
+  }) 
 </script>
 
 <style lang="scss" scoped>

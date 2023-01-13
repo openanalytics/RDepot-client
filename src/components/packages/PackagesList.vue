@@ -1,9 +1,6 @@
 <template>
   <div>
-    <v-expansion-panels
-      inset
-      class="v-expansion mt-8 mx-10"
-    >
+    <v-expansion-panels inset class="v-expansion mt-8 mx-10">
       <PackagesListTitle />
       <PackageItem
         v-for="(item, index) in packages"
@@ -14,32 +11,25 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Package } from '@/models/packages/Package'
-import Vue from 'vue'
-import PackageItem from './PackageItem.vue'
-import PackagesListTitle from './PackagesListTitle.vue'
+<script setup lang="ts">
+import { usePackagesStore } from "@/store/packages";
+import { computed, onMounted } from "vue";
+import PackageItem from "./PackageItem.vue";
+import PackagesListTitle from "./PackagesListTitle.vue";
 
-export default Vue.extend({
-  name: 'PackagesList',
-  mounted() {
-    this.updateState()
-  },
-  data() {
-    return {}
-  },
-  computed: {
-    packages(): Package[] {
-      return this.$store.state.packages.packages
-    }
-  },
-  methods: {
-    updateState(): void {
-      this.$store.dispatch('fetchPackages')
-    }
-  },
-  components: { PackageItem, PackagesListTitle }
-})
+const packages_store = usePackagesStore();
+
+const packages = computed(function () {
+  return packages_store.packages;
+});
+
+function updateState(): void {
+  packages_store.fetchPackages();
+}
+
+onMounted(() => {
+  updateState();
+});
 </script>
 
 <style scoped>

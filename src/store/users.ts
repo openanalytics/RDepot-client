@@ -1,46 +1,29 @@
-import { login } from '@/services'
-import { ActionContext } from 'vuex'
-import { State } from '.'
+import { defineStore } from 'pinia'
 import { LoginApiData } from '@/models'
 import { LoginType } from '@/enum/LoginType'
 
-export interface UserState {
+interface State {
   userToken: string
   userName: string
   loginType: LoginType
 }
 
-type Context = ActionContext<UserState, State>
-
-const users_state = {
-  state: () =>
-    ({
+export const useUserStore = defineStore('user_store', {
+  state: (): State => {
+    return {
       userToken: '',
       userName: '',
       loginType: LoginType.DEFAULT
-    } as UserState),
-
-  mutations: {
-    setUserToken(state: UserState, payload: UserState) {
-      state.userToken = payload.userToken
-    },
-    setLoginType(state: UserState, payload: LoginType) {
-      state.loginType = payload
     }
   },
-
-  actions: {
-    async login(context: Context, data: LoginApiData) {
-      let response = await login(data)
-      context.commit('setUserToken', {
-        username: data.userName,
-        token: response
-      })
+  actions:{
+    async login(payload: LoginApiData) {
+      // let response = await login(data)
+      // this.userToken = response.userToken
+      console.log(payload)
     },
-    chooseLoginType(context: Context, data: LoginType) {
-      context.commit('setLoginType', data)
+    chooseLoginType(payload: LoginType) {
+      this.loginType = payload
     }
   }
-}
-
-export default users_state
+})

@@ -1,32 +1,22 @@
-import { fetchRepositoriesServices } from '../services'
 import { Repository } from '@/models/repositories/Repository'
-import { State } from '.'
-import { ActionContext } from 'vuex'
+import { defineStore } from 'pinia'
 
-export interface RepositoryState {
+interface State {
   repositories: Repository[]
 }
 
-type Context = ActionContext<RepositoryState, State>
-
-const repositories_state = {
-  state: {
-    repositories: []
-  } as RepositoryState,
-  mutations: {
-    setRepositories(
-      state: RepositoryState,
-      payload: Repository[]
-    ) {
-      state.repositories = payload
+export const useRepositoryStore = defineStore('repository_store', {
+  state: (): State => {
+    return {
+      repositories: []
     }
   },
   actions: {
-    async fetchRepositories(context: Context) {
-      let repositories = await fetchRepositoriesServices()
-      context.commit('setRepositories', repositories.data)
+    async fetchRepositories() {
+      // let repositories = await fetchRepositoriesServices()
+      // this.repositories = repositories
     }
   }
-}
+})
 
-export default repositories_state
+

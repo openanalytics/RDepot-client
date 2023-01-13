@@ -5,30 +5,23 @@
   </div>
 </template>
 
-<script lang="ts">
-import Vue from 'vue'
+<script  setup lang="ts">
+import { useRepositoryStore } from '@/store/repositories';
+import { computed, onMounted, ref } from 'vue';
 
-export default Vue.extend({
-  data() {
-    return {
-      title: 'repositories'
-    }
-  },
+const title = ref('repositories')
+const repository_store = useRepositoryStore()
 
-  mounted() {
-    this.updateState()
-  },
-
-  computed: {
-    repositories() {
-      return this.$store.state.repositories.repositories
-    }
-  },
-
-  methods: {
-    updateState(): void {
-      this.$store.dispatch('fetchRepositories')
-    }
-  }
+const repositories = computed(function(){
+  return repository_store.repositories
 })
+
+function updateState(){
+  repository_store.fetchRepositories()
+}
+
+onMounted(() => {
+  updateState()
+})
+
 </script>

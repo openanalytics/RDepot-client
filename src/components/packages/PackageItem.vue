@@ -1,45 +1,22 @@
 <template>
   <v-expansion-panel>
-    <v-expansion-panel-header expand-icon="">
-      <PackageRow :packageBag="packageBag" />
-    </v-expansion-panel-header>
-    <v-expansion-panel-content>
+    <v-expansion-panel-title expand-icon="">
+      <PackageRow :packageBag="props.packageBag" />
+    </v-expansion-panel-title>
+    <v-expansion-panel-text>
       <v-divider class="content-divider" />
-      <div class="content">{{ packageBag.desc }}</div>
-    </v-expansion-panel-content>
+      <div class="content">{{ props.packageBag?.desc }}</div>
+    </v-expansion-panel-text>
   </v-expansion-panel>
 </template>
 
-<script lang="ts">
-import Vue from 'vue'
-import { Package } from '@/models/packages/Package'
-import PackageRow from './PackageRow.vue'
+<script setup lang="ts">
+import { Package } from "@/models/packages/Package";
+import PackageRow from "./PackageRow.vue";
 
-export default Vue.extend({
-  props: {
-    packageBag: Object as () => Package
-  },
-  name: 'PackagesList',
-  components: {
-    PackageRow
-  },
-  mounted() {
-    this.updateState()
-  },
-
-  computed: {
-    //uncomment while fetch packages from database
-    //   packages() {
-    //     return this.$store.state.packages.packages
-    // },
-  },
-
-  methods: {
-    updateState(): void {
-      this.$store.dispatch('fetchPackages')
-    }
-  }
-})
+const props = defineProps({
+  packageBag: Object as () => Package,
+});
 </script>
 
 <style scoped lang="scss">

@@ -1,43 +1,26 @@
-import { ActionContext } from 'vuex'
-import { State } from '.'
+import { defineStore } from 'pinia'
 
-export interface CommonState {
+interface State {
   drawer: boolean
   progressCircularActive: boolean
 }
 
-type Context = ActionContext<CommonState, State>
-
-const common_state = {
-  state: () =>
-    ({
-      progressCircularActive: false,
-      drawer: false
-    } as CommonState),
-
-  mutations: {
-    setProgressCircularActive(
-      state: CommonState,
-      payload: boolean
-    ) {
-      state.progressCircularActive = payload
-    },
-    setDrawer(state: CommonState, payload: boolean) {
-      state.drawer = payload
+export const useCommonStore = defineStore('common_store', {
+  state: (): State => {
+    return {
+     drawer: false,
+     progressCircularActive: false
     }
   },
-
   actions: {
     async setProgressCircularActive(
-      context: Context,
-      data: boolean
+      payload: boolean
     ) {
-      context.commit('setProgressCircularActive', data)
+      this.progressCircularActive = payload
     },
-    async setDrawer(context: Context, data: boolean) {
-      context.commit('setDrawer', data)
+    async setDrawer(payload: boolean) {
+      this.drawer = payload
     }
   }
-}
-
-export default common_state
+  }
+)

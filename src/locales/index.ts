@@ -1,4 +1,6 @@
-export const langs = [
+const langs = [
     'en',
     'pl',
 ]
+
+export default langs

@@ -2,24 +2,13 @@
   <div>
     PACKAGE DETAILS
     <p>
-      {{ name }}
+      {{ props.name }}
     </p>
   </div>
 </template>
 
-<script lang="ts">
-import Vue from 'vue'
-
-export default Vue.extend({
-  props: {
-    name: String
-  },
-  data() {
-    return {
-      filtrationDialog: false
-    }
-  }
-})
+<script setup lang="ts">
+const props = defineProps({name: String})
 </script>
 
 <style scoped lang="scss"></style>

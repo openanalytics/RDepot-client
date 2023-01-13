@@ -10,13 +10,19 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { ref } from 'vue'
 import PackageRow from './PackageRow.vue'
-export default Vue.extend({
+export default({
   components: { PackageRow },
   name: 'PackagesList',
-  data() {
-    return { title: true, disabled: true }
+  setup(){
+    const title = ref(true)
+    const disabled = ref(true)
+
+    return{
+      title, 
+      disabled
+    }
   }
 })
 </script>

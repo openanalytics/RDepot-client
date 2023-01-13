@@ -1,116 +1,53 @@
 <template>
-  <v-stepper-content step="3">
+  <v-window-item :value="3">
     <v-card class="mb-12 px-10 py-5 step" height="250px">
       <div class="ml-4">{{ choosenRepository }}</div>
 
-      <v-virtual-scroll
-        :items="choosenPackages"
-        :item-height="50"
-        height="200"
+      <v-chip-group
+        v-model="accepted_packages"
+        column
+        multiple
       >
-        <template v-slot:default="{ item }">
-          <v-list-item>
-            <!-- <v-list-item-avatar>
-            <v-avatar
-              :color="item.color"
-              size="56"
-              class="white--text"
-            > -->
-            <!-- {{ item.name }} -->
-            <!-- </v-avatar>
-          </v-list-item-avatar> -->
-
-            <v-list-item-content>
-              <v-list-item-title>{{
-                item.name
-              }}</v-list-item-title>
-            </v-list-item-content>
-
-            <v-list-item-action>
-              <v-btn depressed small>
-                remove
-
-                <v-icon color="orange darken-4" right>
-                  mdi-open-in-new
-                </v-icon>
-              </v-btn>
-            </v-list-item-action>
-          </v-list-item>
-        </template>
-      </v-virtual-scroll>
+        <v-chip
+        v-for="(file, index) in choosenPackages" :key="index"
+          filter
+          variant="outlined"
+        >{{ file.name}}
+        </v-chip>
+      </v-chip-group>
     </v-card>
     <div class="d-flex justify-space-between">
-      <v-btn color="oablue" @click="nextStep">
-        go back
-      </v-btn>
+      <v-btn color="oablue" @click="nextStep"> go back </v-btn>
 
-      <v-btn color="oablue"> submit </v-btn>
+      <v-btn color="oablue" @click="submit"> submit </v-btn>
     </div>
-    <v-card class="mb-12 px-10 py-5 step" height="250px">
-      <div class="ml-4">{{ choosenRepository }}</div>
-
-      <v-virtual-scroll
-        :items="choosenPackages"
-        :item-height="50"
-        height="200"
-      >
-        <template v-slot:default="{ item }">
-          <v-list-item>
-            <v-list-item-content>
-              <v-list-item-title>{{
-                item.name
-              }}</v-list-item-title>
-            </v-list-item-content>
-
-            <v-list-item-action>
-              <v-btn depressed small>
-                remove
-
-                <v-icon color="orange darken-4" right>
-                  mdi-open-in-new
-                </v-icon>
-              </v-btn>
-            </v-list-item-action>
-          </v-list-item>
-        </template>
-      </v-virtual-scroll>
-    </v-card>
-    <div class="d-flex justify-space-between">
-      <v-btn color="oablue" @click="nextStep">
-        go back
-      </v-btn>
-
-      <v-btn color="oablue"> submit </v-btn>
-    </div>
-  </v-stepper-content>
+ 
+  </v-window-item>
 </template>
 
-<script lang="ts">
-import store from '@/store'
-import Vue from 'vue'
+<script setup lang="ts">
+import { useSubmissionState } from "@/store/submission";
+import { computed, ref } from "vue";
 
-export default Vue.extend({
-  data() {
-    return {}
-  },
-
-  mounted() {},
-
-  computed: {
-    choosenRepository() {
-      return store.state.submission.repository
-    },
-    choosenPackages() {
-      return store.state.submission.packages
-    }
-  },
-  methods: {
-    changeRepository(value: number) {
-      store.dispatch('setRepository', value)
-    },
-    nextStep() {
-      this.$emit('next', 2)
-    }
-  }
-})
+const emits = defineEmits(["next"]);
+const submissions_store = useSubmissionState();
+const accepted_packages = ref<number[]>([])
+const choosenRepository = computed(() => {
+  return submissions_store.repository;
+});
+const choosenPackages = computed(() => {
+  return submissions_store.packages;
+});
+function nextStep() {
+  emits("next", 2);
+}
+function submit(){
+  var approved_packages = [] as File[]
+  choosenPackages.value.forEach((element, index) => {
+      if(accepted_packages.value.includes(index)){
+        approved_packages.push(element)
+      }
+  });
+  submissions_store.setPackages(approved_packages)
+}
 </script>

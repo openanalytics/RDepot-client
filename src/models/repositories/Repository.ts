@@ -3,4 +3,4 @@ interface Repository{
     name: string
 }
 
-export { Repository }
+export type { Repository }

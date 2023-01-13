@@ -1,55 +1,56 @@
 <template>
-  <v-stepper-content step=1>
+  <v-window-item :value="1">
     <v-card class="mb-12 px-10 py-5 step" height="250px">
-      <v-select class="mt-5" :items="repositories" :label="$t('addSubmission.step1Title')" item-text="name" dense
-        v-on:change="changeRepository"></v-select>
+      <v-select
+        class="mt-5"
+        :items="repositories"
+        :label="$t('addSubmission.step1Title')"
+        @update:modelValue="changeRepository"
+        item-value="id"
+        item-title="name"
+        color="black"
+        persistent-hint
+        return-object
+      ></v-select>
     </v-card>
     <div class="d-flex justify-end">
-      <v-btn color="oablue" @click="nextStep">
-        Continue
-      </v-btn>
+      <v-btn color="oablue" @click="nextStep"> Continue </v-btn>
     </div>
-  </v-stepper-content>
+  </v-window-item>
 </template>
 
-<script lang="ts">
-import { Repository } from '@/models';
-import store from '@/store';
-import Vue from 'vue'
-
-export default Vue.extend({
-  data() {
-    return {
-      repositories: [
-        {
-          id: 1,
-          name: 'repository1'
-        },
-        {
-          id: 2,
-          name: 'repository2'
-        }
-      ] as Repository[]
-    }
+<script setup lang="ts">
+import { Repository } from "@/models";
+import { useSubmissionState } from "@/store/submission";
+const emits = defineEmits(["next"]);
+const submissions_store = useSubmissionState();
+const repositories = [
+  {
+    id: 1,
+    name: "repository1",
   },
+  {
+    id: 2,
+    name: "repository2",
+  },
+] as Repository[];
 
-  methods: {
-    changeRepository(value: Repository) {
-      store.dispatch("setRepository", value)
-    },
-    nextStep() {
-      if (store.state.submission.repository != null) {
-        this.$emit('next', 2)
-      } else {
-        this.$notify({
-          group: 'rdepot',
-          text: 'no repository choosen',
-          type: 'warn'
-        })
-      }
-    }
+function changeRepository(value: Repository) {
+  console.log('repository')
+      submissions_store.setRepository(value);
+}
+function nextStep() {
+  if (submissions_store.repository != null) {
+    console.log('false')
+    emits("next", 2);
+  } else {
+    // this.$notify({
+    //   group: 'rdepot',
+    //   text: 'no repository choosen',
+    //   type: 'warn'
+    // })
   }
-})
+}
 </script>
 
 <style lang="scss">
@@ -60,7 +61,6 @@ label.v-label.theme--dark {
 
 .v-select__selection.v-select__selection--comma {
   padding: 10px 0;
-
 }
 
 .v-list-item__title {
@@ -83,5 +83,3 @@ label.v-label.theme--dark {
   }
 }
 </style>
-
-

@@ -39,7 +39,7 @@
           : ''
       }}</v-col
     >
-    <v-col cols="lg-1 sm-2" class="d-flex align-center">
+    <v-col cols="lg-1 sm-2" class="d-flex align-center justify-center">
       {{
         title == true
           ? prepareString(
@@ -57,8 +57,8 @@
         }}</span
       >
       <v-checkbox
-        color="text"
-        @click.native.stop
+        color="oablue"
+        @click.stop
         v-else-if="packageBag"
         v-model="packageBag.active"
       />
@@ -74,13 +74,12 @@
         class="d-flex justify-center align-center"
       >
         <v-tooltip top>
-          <template v-slot:activator="{ on, attrs }">
+          <template v-slot:activator="{ props }">
             <v-icon
-              @click.native.stop
+              @click.stop
               @click="navigate"
-              v-bind="attrs"
-              v-on="on"
-              color="text"
+              v-bind="props"
+              color="oablue"
               >mdi-forward</v-icon
             >
           </template>
@@ -93,9 +92,10 @@
 
 <script lang="ts">
 import { Package } from '@/models/packages/Package'
-import Vue from 'vue'
+import { ref } from '@vue/reactivity'
+import router from '@/router'
 
-export default Vue.extend({
+export default ({
   props: {
     title: {
       type: Boolean,
@@ -104,30 +104,36 @@ export default Vue.extend({
     packageBag: Object as () => Package | undefined
   },
   name: 'PackagesRow',
-  data() {
-    return {
-      descMaxLength: 110
-    }
-  },
-  methods: {
-    prepareString(value: string): string {
+  setup(props: any){
+    
+    const descMaxLength = ref(110)
+    
+    function prepareString(value: string): string {
       return value.charAt(0).toUpperCase() + value.slice(1)
-    },
-    navigate() {
-      if (this.packageBag) {
-        this.$router.replace({
+    }
+
+    function navigate() {
+      if (props.packageBag) {
+        router.replace({
           name: 'packageDetails',
           params: {
-            name: this.packageBag.name
+            name: props.packageBag.name
           }
         })
       }
+    }
+
+    return {
+      props,
+      prepareString,
+      navigate,
+      descMaxLength
     }
   }
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .v-col {
   padding: 10px !important;
   font-size: 13px !important;
@@ -137,5 +143,9 @@ export default Vue.extend({
 }
 .title {
   font-weight: 600 !important;
+  padding: 16px 24px;
+}
+.v-input__control, .v-input{
+  justify-content: center !important;
 }
 </style>

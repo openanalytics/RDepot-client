@@ -13,26 +13,24 @@
   </div>
 </template>
 
-<script lang="ts">
-import Vue from 'vue'
+<script setup lang="ts">
+  import { useCommonStore } from '@/store/common';
+import { computed, onMounted } from 'vue';
 
-export default Vue.extend({
-  name: 'ProgressCircular',
-  mounted() {
-    this.updateState()
-  },
+    const common_store = useCommonStore()
 
-  computed: {
-    active() {
-      return this.$store.state.common.progressCircularActive
-    }
-  },
-  methods: {
-    updateState(): void {
-      this.$store.dispatch('setProgressCircularActive')
-    }
-  }
-})
+    const active = computed(() => {
+        return common_store.progressCircularActive
+    })
+
+    function updateState(): void {
+        common_store.setProgressCircularActive(true)
+      }
+
+    onMounted(() => {
+      updateState()
+    })
+
 </script>
 
 <style scoped lang="scss">
