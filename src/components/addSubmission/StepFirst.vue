@@ -14,41 +14,45 @@
       ></v-select>
     </v-card>
     <div class="d-flex justify-end">
-      <v-btn color="oablue" @click="nextStep"> Continue </v-btn>
+      <v-btn color="oablue" @click="nextStep">
+        Continue
+      </v-btn>
     </div>
   </v-window-item>
 </template>
 
 <script setup lang="ts">
-import { Repository } from "@/models";
-import { useSubmissionState } from "@/store/submission";
-const emits = defineEmits(["next"]);
-const submissions_store = useSubmissionState();
+import { Repository } from '@/models'
+import { useSubmissionState } from '@/store/submission'
+import { useNotification } from '@kyvg/vue3-notification'
+const emits = defineEmits(['next'])
+const submissions_store = useSubmissionState()
+const nofications = useNotification()
+
 const repositories = [
   {
     id: 1,
-    name: "repository1",
+    name: 'repository1'
   },
   {
     id: 2,
-    name: "repository2",
-  },
-] as Repository[];
+    name: 'repository2'
+  }
+] as Repository[]
 
 function changeRepository(value: Repository) {
   console.log('repository')
-      submissions_store.setRepository(value);
+  submissions_store.setRepository(value)
 }
 function nextStep() {
   if (submissions_store.repository != null) {
     console.log('false')
-    emits("next", 2);
+    emits('next', 2)
   } else {
-    // this.$notify({
-    //   group: 'rdepot',
-    //   text: 'no repository choosen',
-    //   type: 'warn'
-    // })
+    nofications.notify({
+      text: 'no repository choosen',
+      type: 'warn'
+    })
   }
 }
 </script>
