@@ -1,6 +1,6 @@
 <template>
   <v-expansion-panel>
-    <v-expansion-panel-title expand-icon="">
+    <v-expansion-panel-title class="no-icon">
       <PackageRow :packageBag="props.packageBag" />
     </v-expansion-panel-title>
     <v-expansion-panel-text>
@@ -21,12 +21,16 @@ const props = defineProps({
 })
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .content-divider {
   padding: 0 0 30px 0;
 }
 .content {
   text-align: justify;
   padding: 0 40px 0 0;
+}
+
+.v-expansion-panel-title__icon {
+  display: none !important;
 }
 </style>

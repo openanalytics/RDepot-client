@@ -53,7 +53,7 @@
           : ''
       }}</v-col
     >
-    <v-col cols="1" class="d-flex justify-center">
+    <v-col cols="lg-1" class="d-flex justify-center">
       <span v-if="title == true">
         {{
           prepareString($t('packages.active').toString())
@@ -66,7 +66,7 @@
         v-model="packageBag.active"
       />
     </v-col>
-    <v-col cls="1" class="d-flex justify-center">
+    <v-col cols="lg-1" class="d-flex justify-center">
       <span v-if="title == true">
         {{
           prepareString($t('packages.actions').toString())
@@ -135,7 +135,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .v-col {
   padding: 10px !important;
   font-size: 13px !important;
@@ -147,8 +147,8 @@ export default {
   font-weight: 600 !important;
   padding: 16px 24px;
 }
-.v-input__control,
-.v-input {
+
+.v-input__control {
   justify-content: center !important;
 }
 </style>

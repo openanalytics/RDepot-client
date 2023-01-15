@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="d-flex justify-center mt-10">
     <Stepper class="mx-15 mt-10 stepper"></Stepper>
   </div>
 </template>

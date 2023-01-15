@@ -8,7 +8,6 @@
         "
         class="mx-3"
       />
-      {{ overlay }}
       <CommonButton
         :title="$t('filtration.title')"
         v-on:buttonClicked="

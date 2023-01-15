@@ -1,11 +1,11 @@
 <template>
   <v-expansion-panel>
-    <v-expansion-panel-header
+    <!-- <v-expansion-panel-header
       expand-icon=""
       :disabled="disabled"
-    >
-      <package-row :title="title" />
-    </v-expansion-panel-header>
+    > -->
+    <package-row :title="title" />
+    <!-- </v-expansion-panel-header> -->
   </v-expansion-panel>
 </template>
 

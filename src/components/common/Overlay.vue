@@ -1,13 +1,9 @@
 <template>
-  <div>
-    text {{ props.overlay }}, {{ parentComponent }},
-    {{ parentOpacity }}, {{ parentText }}
-  </div>
-  <!-- <v-btn @click="overlay = true">overlay</v-btn> -->
   <v-overlay
     :absolute="absolute"
     v-model="parentOverlay"
     :opacity="parentOpacity"
+    class="d-flex justify-center align-center"
   >
     <Filtration
       v-if="packagesFiltration"

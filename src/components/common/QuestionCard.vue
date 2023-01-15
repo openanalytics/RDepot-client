@@ -1,5 +1,5 @@
 <template>
-  <v-card class="pa-5" color="primary lighten-2">
+  <v-card class="pa-5">
     <v-card-title>
       {{ props.text }}
     </v-card-title>
