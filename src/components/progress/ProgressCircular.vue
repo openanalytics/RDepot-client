@@ -14,23 +14,22 @@
 </template>
 
 <script setup lang="ts">
-  import { useCommonStore } from '@/store/common';
-import { computed, onMounted } from 'vue';
+import { useCommonStore } from '@/store/common'
+import { computed, onMounted } from 'vue'
 
-    const common_store = useCommonStore()
+const common_store = useCommonStore()
 
-    const active = computed(() => {
-        return common_store.progressCircularActive
-    })
+const active = computed(() => {
+  return common_store.progressCircularActive
+})
 
-    function updateState(): void {
-        common_store.setProgressCircularActive(true)
-      }
+function updateState(): void {
+  common_store.setProgressCircularActive(true)
+}
 
-    onMounted(() => {
-      updateState()
-    })
-
+onMounted(() => {
+  updateState()
+})
 </script>
 
 <style scoped lang="scss">

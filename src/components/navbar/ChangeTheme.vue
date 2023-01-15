@@ -5,13 +5,16 @@
 </template>
 
 <script setup lang="ts">
-import { useTheme } from 'vuetify/lib/framework.mjs';
+import { useTheme } from 'vuetify/lib/framework.mjs'
 const theme = useTheme()
-  function toggleDarkMode() {
-      theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
-      console.log('after theme change ', theme)
-      localStorage.setItem(
-        'theme', theme.global.current.value.dark.toString()
-      )
-    }
+function toggleDarkMode() {
+  theme.global.name.value = theme.global.current.value.dark
+    ? 'light'
+    : 'dark'
+  console.log('after theme change ', theme)
+  localStorage.setItem(
+    'theme',
+    theme.global.current.value.dark.toString()
+  )
+}
 </script>

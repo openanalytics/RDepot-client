@@ -34,36 +34,36 @@
 </template>
 
 <script setup lang="ts">
-import { usePackagesStore } from "@/store/packages"
-import { ref } from "vue"
-import { computed } from "@vue/runtime-core"
+import { usePackagesStore } from '@/store/packages'
+import { ref } from 'vue'
+import { computed } from '@vue/runtime-core'
 
-  var props = defineProps({
-    howMany: Number,
-    page: Number
-  })
+var props = defineProps({
+  howMany: Number,
+  page: Number
+})
 
-  const emit = defineEmits(['newPage'])
-  const allPackages = ref(100)
-  const package_store = usePackagesStore()
+const emit = defineEmits(['newPage'])
+const allPackages = ref(100)
+const package_store = usePackagesStore()
 
-  const howManyPages = computed(function() {
-    return allPackages.value / package_store.pageSize
-  })
+const howManyPages = computed(function () {
+  return allPackages.value / package_store.pageSize
+})
 
-  const pageSize = computed({
-    get() {
-      return package_store.pageSize
-    },
-    set(value: number) {
-      package_store.setPageSize(value)
-    }
-  })
+const pageSize = computed({
+  get() {
+    return package_store.pageSize
+  },
+  set(value: number) {
+    package_store.setPageSize(value)
+  }
+})
 
-  const page = computed({ 
-    get: () => props.page, 
-    set: (value) => emit('newPage', value) 
-  }) 
+const page = computed({
+  get: () => props.page,
+  set: (value) => emit('newPage', value)
+})
 </script>
 
 <style lang="scss" scoped>

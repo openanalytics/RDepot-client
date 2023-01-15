@@ -6,12 +6,12 @@
 
 <script setup lang="ts">
 var props = defineProps({
-  title: String,
-});
+  title: String
+})
 
-const emits = defineEmits(["buttonClicked"]);
+const emits = defineEmits(['buttonClicked'])
 
 function sendEvent() {
-  emits("buttonClicked");
+  emits('buttonClicked')
 }
 </script>

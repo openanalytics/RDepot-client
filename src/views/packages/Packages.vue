@@ -40,39 +40,39 @@ import { OverlayEnum } from '@/enum/Overlay'
 import { ref, computed } from 'vue'
 import { usePackagesStore } from '@/store/packages'
 
-  const filtrationDialog = ref(false)
-  const overlay = ref(false)
-  const opacity = ref(0.8)
-  const component = ref(OverlayEnum.PackagesFiltration)
+const filtrationDialog = ref(false)
+const overlay = ref(false)
+const opacity = ref(0.8)
+const component = ref(OverlayEnum.PackagesFiltration)
 
-  const package_store = usePackagesStore()
+const package_store = usePackagesStore()
 
-  const page = computed(function() {
-    return package_store.page
-  })
+const page = computed(function () {
+  return package_store.page
+})
 
-  function nextPage(value: number) {
-      package_store.setPage(value)
-  }
-  
-  function openFiltrationDialog() {
-    filtrationDialog.value = !filtrationDialog.value
-  }
+function nextPage(value: number) {
+  package_store.setPage(value)
+}
 
-  function resetForm() {
-    package_store.clearFiltrationAndFetch()
-  }
+function openFiltrationDialog() {
+  filtrationDialog.value = !filtrationDialog.value
+}
 
-  function overlayValue(value: boolean) {
-    if (value) {
-        resetForm()
-      }
-    overlay.value = false
+function resetForm() {
+  package_store.clearFiltrationAndFetch()
+}
+
+function overlayValue(value: boolean) {
+  if (value) {
+    resetForm()
   }
-  
-  function showOverlay(value: number) {
-    component.value = value
-    overlay.value = true
-    console.log(component.value)
-  }
+  overlay.value = false
+}
+
+function showOverlay(value: number) {
+  component.value = value
+  overlay.value = true
+  console.log(component.value)
+}
 </script>

@@ -18,19 +18,20 @@
         @click="$i18n.locale = item"
         link
       >
-        <v-list-item-title v-text="item"></v-list-item-title>
+        <v-list-item-title
+          v-text="item"
+        ></v-list-item-title>
       </v-list-item>
     </v-list>
   </v-menu>
 </template>
 
 <script setup lang="ts">
-import langs from "../../locales/index";
+import langs from '../../locales/index'
 </script>
 
 <style lang="scss">
-.v-list-item__content div 
-{
+.v-list-item__content div {
   color: var(--v-text-base) !important;
 }
 

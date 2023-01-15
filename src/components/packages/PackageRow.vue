@@ -39,7 +39,10 @@
           : ''
       }}</v-col
     >
-    <v-col cols="lg-1 sm-2" class="d-flex align-center justify-center">
+    <v-col
+      cols="lg-1 sm-2"
+      class="d-flex align-center justify-center"
+    >
       {{
         title == true
           ? prepareString(
@@ -95,7 +98,7 @@ import { Package } from '@/models/packages/Package'
 import { ref } from '@vue/reactivity'
 import router from '@/router'
 
-export default ({
+export default {
   props: {
     title: {
       type: Boolean,
@@ -104,10 +107,9 @@ export default ({
     packageBag: Object as () => Package | undefined
   },
   name: 'PackagesRow',
-  setup(props: any){
-    
+  setup(props: any) {
     const descMaxLength = ref(110)
-    
+
     function prepareString(value: string): string {
       return value.charAt(0).toUpperCase() + value.slice(1)
     }
@@ -130,7 +132,7 @@ export default ({
       descMaxLength
     }
   }
-})
+}
 </script>
 
 <style lang="scss" scoped>
@@ -145,7 +147,8 @@ export default ({
   font-weight: 600 !important;
   padding: 16px 24px;
 }
-.v-input__control, .v-input{
+.v-input__control,
+.v-input {
   justify-content: center !important;
 }
 </style>

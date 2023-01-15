@@ -9,45 +9,47 @@
         multiple
       >
         <v-chip
-        v-for="(file, index) in choosenPackages" :key="index"
+          v-for="(file, index) in choosenPackages"
+          :key="index"
           filter
           variant="outlined"
-        >{{ file.name}}
+          >{{ file.name }}
         </v-chip>
       </v-chip-group>
     </v-card>
     <div class="d-flex justify-space-between">
-      <v-btn color="oablue" @click="nextStep"> go back </v-btn>
+      <v-btn color="oablue" @click="nextStep">
+        go back
+      </v-btn>
 
       <v-btn color="oablue" @click="submit"> submit </v-btn>
     </div>
- 
   </v-window-item>
 </template>
 
 <script setup lang="ts">
-import { useSubmissionState } from "@/store/submission";
-import { computed, ref } from "vue";
+import { useSubmissionState } from '@/store/submission'
+import { computed, ref } from 'vue'
 
-const emits = defineEmits(["next"]);
-const submissions_store = useSubmissionState();
+const emits = defineEmits(['next'])
+const submissions_store = useSubmissionState()
 const accepted_packages = ref<number[]>([])
 const choosenRepository = computed(() => {
-  return submissions_store.repository;
-});
+  return submissions_store.repository
+})
 const choosenPackages = computed(() => {
-  return submissions_store.packages;
-});
+  return submissions_store.packages
+})
 function nextStep() {
-  emits("next", 2);
+  emits('next', 2)
 }
-function submit(){
+function submit() {
   var approved_packages = [] as File[]
   choosenPackages.value.forEach((element, index) => {
-      if(accepted_packages.value.includes(index)){
-        approved_packages.push(element)
-      }
-  });
+    if (accepted_packages.value.includes(index)) {
+      approved_packages.push(element)
+    }
+  })
   submissions_store.setPackages(approved_packages)
 }
 </script>

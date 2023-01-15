@@ -12,17 +12,17 @@
 <script lang="ts">
 import { ref } from 'vue'
 import PackageRow from './PackageRow.vue'
-export default({
+export default {
   components: { PackageRow },
   name: 'PackagesList',
-  setup(){
+  setup() {
     const title = ref(true)
     const disabled = ref(true)
 
-    return{
-      title, 
+    return {
+      title,
       disabled
     }
   }
-})
+}
 </script>

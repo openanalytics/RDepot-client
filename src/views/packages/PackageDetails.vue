@@ -8,7 +8,5 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps({name: String})
+const props = defineProps({ name: String })
 </script>
-
-<style scoped lang="scss"></style>

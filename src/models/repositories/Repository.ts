@@ -1,6 +1,6 @@
-interface Repository{
-    id: number,
-    name: string
+interface Repository {
+  id: number
+  name: string
 }
 
 export type { Repository }

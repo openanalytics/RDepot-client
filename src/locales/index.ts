@@ -1,6 +1,3 @@
-const langs = [
-    'en',
-    'pl',
-]
+const langs = ['en', 'pl']
 
 export default langs

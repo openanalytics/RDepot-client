@@ -3,7 +3,7 @@ import { fetchPackagesServices } from './package_services'
 import { login } from './users_services'
 
 export {
-    fetchRepositoriesServices,
-    fetchPackagesServices,
-    login
+  fetchRepositoriesServices,
+  fetchPackagesServices,
+  login
 }

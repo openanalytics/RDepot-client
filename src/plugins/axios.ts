@@ -21,7 +21,7 @@ api.interceptors.request.use(
     showProgress(true)
     const multipart = localStorage.getItem('multipart')
     let token = null
-    config.headers = { ...config.headers } as AxiosHeaders;
+    config.headers = { ...config.headers } as AxiosHeaders
     if (token) {
       config.headers.set('Authorization', `Token ${token}`)
     } else {
@@ -29,10 +29,13 @@ api.interceptors.request.use(
       config.headers.set('Authorization', `Token ${token}`)
     }
 
-    config.headers.set('AccessControlAllowOrigin','*')
+    config.headers.set('AccessControlAllowOrigin', '*')
 
     if (multipart == 'true') {
-      config.headers.set('Content-Type','multipart/form-data')
+      config.headers.set(
+        'Content-Type',
+        'multipart/form-data'
+      )
       localStorage.setItem('multipart', 'false')
     }
     return config

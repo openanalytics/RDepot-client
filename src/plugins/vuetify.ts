@@ -4,14 +4,12 @@
  * Framework documentation: https://vuetifyjs.com`
  */
 
-// Styles
 import '@mdi/font/css/materialdesignicons.css'
 import 'vuetify/styles'
-import "vuetify/dist/vuetify.min.css";
-// Composables
+import 'vuetify/dist/vuetify.min.css'
+
 import { createVuetify } from 'vuetify'
 
-// https://vuetifyjs.com/en/introduction/why-vuetify/#feature-guides
 export default createVuetify({
   theme: {
     themes: {
@@ -24,14 +22,14 @@ export default createVuetify({
           background: '#073642',
           oared: '#e52323',
           oablue: '#32a6d3',
-          "oablue-darken-2": '#00729c',
+          'oablue-darken-2': '#00729c',
           docsblue: '#30638e',
           lightyellow: '#f9eebf',
           darkyellow: '#ffd512',
           green: '#c3ed07',
           pink: '#fc53be',
           text: '#2d2d2d'
-        },
+        }
       },
       light: {
         colors: {
@@ -39,10 +37,10 @@ export default createVuetify({
           secondary: '#000',
           accent: '#fff',
           error: '#b71c1c',
-          background: '#666666',
+          background: '#edebeb',
           oared: '#e52323',
           oablue: '#32a6d3',
-          "oablue-darken-2": '#00729c',
+          'oablue-darken-2': '#00729c',
           docsblue: '#30638e',
           lightyellow: '#f9eebf',
           darkyellow: '#ffd512',
@@ -51,6 +49,6 @@ export default createVuetify({
           text: '#fff'
         }
       }
-    },
-  },
+    }
+  }
 })

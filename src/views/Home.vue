@@ -1,4 +1,0 @@
-<template>
-  Home Page
-</template>
-

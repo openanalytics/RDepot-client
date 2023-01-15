@@ -16,7 +16,7 @@ export const useUserStore = defineStore('user_store', {
       loginType: LoginType.DEFAULT
     }
   },
-  actions:{
+  actions: {
     async login(payload: LoginApiData) {
       // let response = await login(data)
       // this.userToken = response.userToken

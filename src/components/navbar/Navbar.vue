@@ -2,8 +2,11 @@
   <v-app-bar app color="oablue" dark class="navbar">
     <v-row justify="space-around" align="center">
       <v-row justify="start" align="center" class="ml-4">
-        <v-app-bar-nav-icon color="oablue-darken-2"  @click.stop="showSidebar" ></v-app-bar-nav-icon>
-        
+        <v-app-bar-nav-icon
+          color="oablue-darken-2"
+          @click.stop="showSidebar"
+        ></v-app-bar-nav-icon>
+
         <v-img
           src="@/assets/logo.png"
           class="ml-2 logo"
@@ -14,8 +17,8 @@
         <p class="logotext">RDepot</p>
       </v-row>
       <v-row align="center" justify="end" class="my-0 mx-3">
-        <ChangeLanguage class="mr-4"/>
-        <ChangeTheme class="mr-2 ml-3"/>
+        <ChangeLanguage class="mr-4" />
+        <ChangeTheme class="mr-2 ml-3" />
       </v-row>
     </v-row>
   </v-app-bar>
@@ -28,9 +31,9 @@ import { useCommonStore } from '@/store/common'
 
 const common_store = useCommonStore()
 
-  function showSidebar() {
-      common_store.setDrawer(!common_store.drawer)
-    }
+function showSidebar() {
+  common_store.setDrawer(!common_store.drawer)
+}
 </script>
 
 <style scoped lang="scss">
