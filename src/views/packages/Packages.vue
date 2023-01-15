@@ -2,6 +2,7 @@
   <div>
     <v-row justify="end" class="my-5 mx-10" align="center">
       <CommonButton
+        id="reset-packages-filtration"
         :title="$t('common.reset')"
         v-on:buttonClicked="
           showOverlay(OverlayEnum.PackagesFiltrationReset)
