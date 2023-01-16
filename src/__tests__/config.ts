@@ -14,6 +14,7 @@ import vue from '@vitejs/plugin-vue'
 import Notifications, {
   useNotification
 } from '@kyvg/vue3-notification'
+import { useCommonStore } from '@/store/common'
 
 const vuetify = createVuetify({ components, directives })
 export const router = createRouter({
@@ -23,6 +24,7 @@ export const router = createRouter({
 
 beforeEach(() => {
   setActivePinia(createPinia())
+  const common_store = useCommonStore()
 })
 
 beforeAll(() => {
