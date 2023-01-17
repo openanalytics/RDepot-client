@@ -1,5 +1,11 @@
 <template>
-  <v-btn color="oablue" dark dense @click="sendEvent">
+  <v-btn
+    id="commonbutton"
+    color="oablue"
+    dark
+    dense
+    @click="sendEvent"
+  >
     {{ props.title }}
   </v-btn>
 </template>

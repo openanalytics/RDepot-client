@@ -54,6 +54,7 @@
             </small>
           </v-btn>
           <v-btn
+            id="setfiltration"
             color="blue darken-1"
             class="mx-1"
             @click="setFiltration"
@@ -89,7 +90,6 @@ function updateFiltration() {
 
 async function setFiltration() {
   await package_store.setFiltration(localFiltration.value)
-  console.log(localFiltration.value)
   changeDialogOptions()
 }
 
