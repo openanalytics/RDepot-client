@@ -39,7 +39,6 @@ const emits = defineEmits(['overlayClicked'])
 const absolute = true
 
 const packagesFiltration = computed(function () {
-  console.log('check if packages filtration')
   return (
     parentComponent.value == OverlayEnum.PackagesFiltration
   )

@@ -11,12 +11,14 @@
         class="mx-3 mt-4"
       >
         <v-btn
+          id="cancelaction"
           color="oablue darken-2"
           @click="sendEvent(false)"
         >
           {{ $t('common.cancel') }}
         </v-btn>
         <v-btn
+          id="applyaction"
           color="oablue darken-2"
           @click="sendEvent(true)"
         >
