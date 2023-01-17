@@ -11,6 +11,7 @@ import { routes } from '@/router/routes'
 import { createPinia, setActivePinia } from 'pinia'
 import { mocks } from '@/__tests__/config/mocks'
 import { plugins } from '@/__tests__/config/plugins'
+import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 
 let router: Router
 let globalSettigns: any
@@ -18,11 +19,7 @@ let wrapper: any
 
 beforeAll(() => {
   setActivePinia(createPinia())
-  global.ResizeObserver = class ResizeObserver {
-    observe() {}
-    unobserve() {}
-    disconnect() {}
-  }
+  global.ResizeObserver = ResizeObserver
 })
 
 beforeEach(async () => {
