@@ -2,6 +2,7 @@
   <v-menu offset-y>
     <template v-slot:activator="{ props }">
       <v-btn
+        id="languagesbutton"
         color="oablue-darken-2"
         variant="elevated"
         v-bind="props"
