@@ -6,16 +6,17 @@
     <v-divider></v-divider>
     <v-card-text style="height: 300px">
       <v-form ref="form" lazy-validation>
-        {{ filtration.state.value }}
-        {{ localFiltration.state.value }}
         <v-select
+          id="filtrationstate"
           v-model="localFiltration.state.value"
           :items="submissionStateSelect"
           :label="localFiltration.state.label"
           color="text"
+          data-test="filtrationstate"
         ></v-select>
 
         <v-select
+          id="filtrationrepository"
           v-model="localFiltration.repository.value"
           :items="repositoryNameSelect"
           :label="localFiltration.repository.label"
@@ -23,6 +24,7 @@
         ></v-select>
 
         <v-checkbox
+          id="filtrationdeleter"
           :label="
             localFiltration && localFiltration.deleted.label
           "
@@ -35,6 +37,7 @@
     <v-card-actions>
       <v-row justify="space-between" class="mt-1">
         <v-btn
+          id="cancelbutton"
           color="blue darken-1"
           @click="changeDialogOptions"
           class="mx-1"
@@ -45,6 +48,7 @@
         </v-btn>
         <v-row class="my-0" justify="end">
           <v-btn
+            id="resetbutton"
             color="blue darken-1"
             class="mx-1"
             @click="clearFiltration"
