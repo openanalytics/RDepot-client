@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 import { fileURLToPath, URL } from 'url'
 
 import { defineConfig } from 'vite'
@@ -11,7 +12,8 @@ export default defineConfig({
     includeSource: ['src/**/*.{js,ts,vue}'],
     deps: {
       inline: ['vuetify']
-    }
+    },
+    environment: 'jsdom'
   },
   define: {
     'import.meta.vitest': 'undefined'
