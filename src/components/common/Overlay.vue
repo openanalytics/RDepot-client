@@ -1,8 +1,9 @@
 <template>
   <v-overlay
     :absolute="absolute"
-    :value="overlay"
-    :opacity="opacity"
+    v-model="parentOverlay"
+    :opacity="parentOpacity"
+    class="d-flex justify-center align-center"
   >
     <Filtration
       v-if="packagesFiltration"
@@ -10,52 +11,47 @@
     />
     <QuestionCard
       v-else-if="resetPackagesFiltration"
-      :text="text"
+      :text="parentText"
       v-on:sendEvent="sendEvent"
     />
   </v-overlay>
 </template>
 
-<script lang="ts">
-import Vue from 'vue'
+<script setup lang="ts">
+import { computed, toRef } from 'vue'
 import Filtration from '@/components/packages/Filtration.vue'
 import { OverlayEnum } from '@/enum/Overlay'
 import QuestionCard from './QuestionCard.vue'
 
-export default Vue.extend({
-  name: 'overlay',
-  props: {
-    text: String,
-    overlay: Boolean,
-    opacity: Number,
-    component: Number
-  },
-  data() {
-    return {
-      absolute: true
-    }
-  },
-  components: {
-    Filtration,
-    QuestionCard
-  },
-  computed: {
-    packagesFiltration() {
-      return (
-        this.component == OverlayEnum.PackagesFiltration
-      )
-    },
-    resetPackagesFiltration() {
-      return (
-        this.component ==
-        OverlayEnum.PackagesFiltrationReset
-      )
-    }
-  },
-  methods: {
-    sendEvent(value: boolean) {
-      this.$emit('overlayClicked', value)
-    }
-  }
+const props = defineProps({
+  text: String,
+  overlay: Boolean,
+  opacity: Number,
+  component: Number
 })
+
+const parentText = toRef(props, 'text')
+const parentOverlay = toRef(props, 'overlay')
+const parentOpacity = toRef(props, 'opacity')
+const parentComponent = toRef(props, 'component')
+
+const emits = defineEmits(['overlayClicked'])
+const absolute = true
+
+const packagesFiltration = computed(function () {
+  console.log('check if packages filtration')
+  return (
+    parentComponent.value == OverlayEnum.PackagesFiltration
+  )
+})
+const resetPackagesFiltration = computed(function () {
+  return (
+    parentComponent.value ==
+    OverlayEnum.PackagesFiltrationReset
+  )
+})
+
+function sendEvent(value: boolean) {
+  emits('overlayClicked', value)
+}
 </script>

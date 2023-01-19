@@ -1,7 +1,7 @@
 <template>
-  <v-card class="pa-5" color="primary lighten-2">
+  <v-card class="pa-5">
     <v-card-title>
-      {{ text }}
+      {{ props.text }}
     </v-card-title>
     <v-card-text>
       <v-divider />
@@ -12,13 +12,13 @@
       >
         <v-btn
           color="oablue darken-2"
-          @click="$emit('sendEvent', false)"
+          @click="sendEvent(false)"
         >
           {{ $t('common.cancel') }}
         </v-btn>
         <v-btn
           color="oablue darken-2"
-          @click="$emit('sendEvent', true)"
+          @click="sendEvent(true)"
         >
           {{ $t('common.apply') }}
         </v-btn>
@@ -27,13 +27,14 @@
   </v-card>
 </template>
 
-<script lang="ts">
-import Vue from 'vue'
-
-export default Vue.extend({
-  name: 'questionCard',
-  props: {
-    text: String
-  }
+<script setup lang="ts">
+const props = defineProps({
+  text: String
 })
+
+const emits = defineEmits(['sendEvent'])
+
+function sendEvent(value: boolean) {
+  emits('sendEvent', value)
+}
 </script>

@@ -1,21 +1,17 @@
 <template>
   <v-btn color="oablue" dark dense @click="sendEvent">
-    {{ title }}
+    {{ props.title }}
   </v-btn>
 </template>
 
-<script lang="ts">
-import Vue from 'vue'
-
-export default Vue.extend({
-  name: 'clearForm',
-  props: {
-    title: String
-  },
-  methods: {
-    sendEvent() {
-      this.$emit('buttonClicked')
-    }
-  }
+<script setup lang="ts">
+var props = defineProps({
+  title: String
 })
+
+const emits = defineEmits(['buttonClicked'])
+
+function sendEvent() {
+  emits('buttonClicked')
+}
 </script>

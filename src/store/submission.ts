@@ -1,51 +1,35 @@
-import { Repository } from "@/models";
-import { ActionContext } from "vuex";
-import { State } from ".";
+import { Repository } from '@/models'
+import { defineStore } from 'pinia'
 
-export interface SubmissionState {
-  repository: Repository | null,
+interface State {
+  repository: Repository | null
   packages: File[]
 }
 
-type Context = ActionContext<SubmissionState, State>;
-
-const submission_state = {
-  state: () => ({
-    repository: null,
-    packages: []
-  }) as SubmissionState,
-
-  mutations: {
-    setRepository(state: SubmissionState, payload: Repository) {
-      state.repository = payload
+export const useSubmissionState = defineStore(
+  'submission_store',
+  {
+    state: (): State => {
+      return {
+        repository: null,
+        packages: []
+      }
     },
-    setPackages(state: SubmissionState, payload: File[]) {
-      state.packages = payload
-    },
-    addPackage(state: SubmissionState, payload: File) {
-      state.packages = [...state.packages, payload]
-    },
-    addPackages(state: SubmissionState, payload: File[]) {
-      payload.forEach((packageBag: File) => {
-        state.packages = [...state.packages, packageBag]
-      })
-    }
-  },
-
-  actions: {
-    setRepository(context: Context, data: Repository) {
-      context.commit('setRepository', data)
-    },
-    setPackages(context: Context, data: File[]){
-      context.commit("setPackages", data)
-    },
-    addPackage(context: Context, data: File){
-      context.commit("addPackage", data)
-    },
-    addPackages(context: Context, data: File[]){
-      context.commit("addPackages", data)
+    actions: {
+      setRepository(payload: Repository) {
+        this.repository = payload
+      },
+      setPackages(payload: File[]) {
+        this.packages = payload
+      },
+      addPackage(payload: File) {
+        this.packages = [...this.packages, payload]
+      },
+      addPackages(payload: File[]) {
+        payload.forEach((packageBag: File) => {
+          this.packages = [...this.packages, packageBag]
+        })
+      }
     }
   }
-}
-
-export default submission_state
+)

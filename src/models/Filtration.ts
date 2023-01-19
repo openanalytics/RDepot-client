@@ -16,4 +16,4 @@ interface PackagesFiltration {
   repository: Filtration
 }
 
-export { PackagesFiltration }
+export type { PackagesFiltration }

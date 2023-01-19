@@ -1,13 +1,13 @@
 <template>
   <v-container class="login">
     <v-form
-      ref="form"
+      ref="form_id"
       lazy-validation
-      v-model="valid"
       class="form-login"
+      v-model="valid"
     >
       <v-img
-        :src="require('@/assets/logo.png')"
+        src="@/assets/logo.png"
         class="my-3 mb-5"
         contain
         height="200"
@@ -27,10 +27,10 @@
       <v-text-field
         v-model="formData.password"
         :label="$t('authorization.password')"
-        type="password"
         :rules="validation.passwordRules"
-        required
+        type="password"
         color="oablue"
+        required
         validate-on-blur
       >
       </v-text-field>
@@ -55,6 +55,7 @@
 
       <v-row>
         <v-btn
+          color="background"
           @click="keyloackMethod"
           class="loginTypeButton"
         >
@@ -65,72 +66,74 @@
   </v-container>
 </template>
 
-<script lang="ts">
-import { Login, LoginApiData } from '@/models'
+<script setup lang="ts">
 import Keycloak from 'keycloak-js'
-import Vue from 'vue'
-import { LoginType } from '@/enum/LoginType'
 import { initKeycloak } from '@/plugins/keycloak'
+import { Login, LoginApiData } from '@/models'
+import { LoginType } from '@/enum/LoginType'
+import { onMounted, ref } from 'vue'
+import { useUserStore } from '@/store/users'
+import { useI18n } from 'vue-i18n'
 
-export default Vue.extend({
-  props: {
-    keycloak: Object as () => Keycloak
-  },
-  data() {
-    return {
-      formData: {} as Login,
-      validation: {
-        nameRules: [
-          (v: string) =>
-            !!v || this.$t('authorization.usernameError')
-        ],
-        passwordRules: [
-          (v: string) =>
-            !!v || this.$t('authorization.passwordError')
-        ]
-      },
-      valid: false
-    }
-  },
+const { t } = useI18n()
+const user_store = useUserStore()
 
-  mounted() {
-    this.clear()
-  },
-
-  computed: {
-    form(): Vue & { validate: () => boolean } {
-      return this.$refs.form as Vue & {
-        validate: () => boolean
-      }
-    }
-  },
-
-  methods: {
-    clear(): void {
-      ;(
-        this.$refs.form as Vue & { reset: () => void }
-      ).reset()
-    },
-    validate(): void {
-      this.valid = this.form.validate()
-    },
-    async login() {
-      this.$store.dispatch(
-        'chooseLoginType',
-        LoginType.DEFAULT
-      )
-      this.validate()
-      if (this.valid) {
-        this.$store.dispatch('login', {
-          data: this.formData as LoginApiData
-        })
-      }
-    },
-    keyloackMethod() {
-      initKeycloak()
-    }
-  }
+const props = defineProps({
+  keycloak: Object as () => Keycloak
 })
+
+const formData = ref<Login>({
+  error: false,
+  errorMessage: '',
+  password: '',
+  userName: ''
+})
+
+const validation = {
+  nameRules: [
+    (v: string) => !!v || t('authorization.usernameError')
+  ],
+  passwordRules: [
+    (v: string) => !!v || t('authorization.passwordError')
+  ]
+}
+
+const valid = ref(true)
+
+onMounted(() => {
+  clear()
+})
+
+const form_id = ref<null | {
+  validate: () => false
+  reset: () => null
+  errors: []
+}>(null)
+
+async function validate() {
+  if (form_id.value) {
+    await form_id.value?.validate()
+    valid.value = form_id.value?.errors.length < 1
+  } else {
+    valid.value = false
+  }
+}
+
+function clear() {
+  form_id.value?.reset()
+}
+
+async function login() {
+  user_store.chooseLoginType(LoginType.DEFAULT)
+
+  await validate()
+  if (valid.value) {
+    user_store.login(<LoginApiData>formData.value)
+  }
+}
+function keyloackMethod() {
+  initKeycloak()
+}
 </script>
 
 <style scoped lang="scss">
@@ -154,7 +157,7 @@ export default Vue.extend({
   }
 
   .loginTypeButton {
-    border: var(--v-text-base) solid 1px;
+    border: rgb(var(--v-theme-surface)) solid 1px;
     .loginType {
       max-width: 500px;
       width: 500px;

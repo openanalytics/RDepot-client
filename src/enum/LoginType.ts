@@ -1,6 +1,6 @@
 enum LoginType {
-    DEFAULT,
-    KEYCLOAK,
+  DEFAULT,
+  KEYCLOAK
 }
 
 export { LoginType }

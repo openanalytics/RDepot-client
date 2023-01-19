@@ -1,6 +1,6 @@
 import Keycloak from 'keycloak-js'
-import Vue from 'vue'
 import { LoginType } from '@/enum/LoginType'
+import { getCurrentInstance } from 'vue'
 
 const options = {
   url: 'http://192.168.49.17:8080/auth',
@@ -17,7 +17,9 @@ const options = {
 const keycloak = new Keycloak(options)
 
 export async function updateToken() {
-  Vue.prototype.$keycloak
+  const app = getCurrentInstance()
+
+  app?.appContext.config.globalProperties.$keycloak
     .updateToken(70)
     .then((refreshed: string) => {
       if (refreshed) {
@@ -45,7 +47,7 @@ export async function initKeycloak() {
       onLoad: 'login-required',
       checkLoginIframe: false
     })
-    .then((auth) => {
+    .then((auth: any) => {
       localStorage.setItem(
         'authorizationType',
         LoginType.KEYCLOAK.toString()
@@ -57,7 +59,7 @@ export async function initKeycloak() {
         updateToken()
       }, 6000)
     })
-    .catch((e) => {
+    .catch((e: string) => {
       alert('Login Failure ' + e)
     })
 }

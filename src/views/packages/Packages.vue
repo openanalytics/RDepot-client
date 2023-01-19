@@ -1,17 +1,14 @@
 <template>
   <div>
     <v-row justify="end" class="my-5 mx-10" align="center">
-      <button @click="getDataFromOpenapi">
-        createOpenApiRequest
-      </button>
-      <Button
+      <CommonButton
         :title="$t('common.reset')"
         v-on:buttonClicked="
           showOverlay(OverlayEnum.PackagesFiltrationReset)
         "
         class="mx-3"
       />
-      <Button
+      <CommonButton
         :title="$t('filtration.title')"
         v-on:buttonClicked="
           showOverlay(OverlayEnum.PackagesFiltration)
@@ -32,73 +29,49 @@
   </div>
 </template>
 
-<script lang="ts">
-import Vue from 'vue'
-
+<script setup lang="ts">
 import PackagesList from '@/components/packages/PackagesList.vue'
 import Pagination from '@/components/Pagination.vue'
-import store from '@/store'
-import Filtration from '@/components/packages/Filtration.vue'
-import Button from '@/components/common/Button.vue'
+import CommonButton from '@/components/common/Button.vue'
 import Overlay from '@/components/common/Overlay.vue'
 import { OverlayEnum } from '@/enum/Overlay'
-import { RPackageControllerApiFactory } from '@/openapi'
+// import { RPackageControllerApiFactory } from '@/openapi'
+import { ref, computed } from 'vue'
+import { usePackagesStore } from '@/store/packages'
 
-export default Vue.extend({
-  data() {
-    return {
-      filtrationDialog: false,
-      overlay: false,
-      opacity: 0.8,
-      component: OverlayEnum.PackagesFiltration,
-      OverlayEnum
-    }
-  },
-  computed: {
-    page() {
-      return store.state.packages.page
-    },
-    getFiltrationDialog(): boolean {
-      return this.filtrationDialog
-    }
-  },
-  methods: {
-    nextPage(value: number) {
-      store.dispatch('setPage', value)
-    },
-    openFiltrationDialog() {
-      this.filtrationDialog = !this.filtrationDialog
-    },
-    resetForm() {
-      store.dispatch('clearFiltrationAndFetch')
-    },
-    overlayValue(value: boolean) {
-      if (value) {
-        this.resetForm()
-      }
-      this.overlay = false
-    },
-    showOverlay(value: number) {
-      this.component = value
-      this.overlay = true
-    },
-    getDataFromOpenapi() {
-      console.log('try')
-      const rPackagesApi = RPackageControllerApiFactory()
-      rPackagesApi.getAllPackages(
-        undefined,
-        undefined,
-        undefined,
-        2
-      )
-    }
-  },
-  components: {
-    PackagesList,
-    Pagination,
-    Filtration,
-    Button,
-    Overlay
-  }
+const filtrationDialog = ref(false)
+const overlay = ref(false)
+const opacity = ref(0.8)
+const component = ref(OverlayEnum.PackagesFiltration)
+
+const package_store = usePackagesStore()
+
+const page = computed(function () {
+  return package_store.page
 })
+
+function nextPage(value: number) {
+  package_store.setPage(value)
+}
+
+function openFiltrationDialog() {
+  filtrationDialog.value = !filtrationDialog.value
+}
+
+function resetForm() {
+  package_store.clearFiltrationAndFetch()
+}
+
+function overlayValue(value: boolean) {
+  if (value) {
+    resetForm()
+  }
+  overlay.value = false
+}
+
+function showOverlay(value: number) {
+  component.value = value
+  overlay.value = true
+  console.log(component.value)
+}
 </script>

@@ -6,23 +6,27 @@
     <v-divider></v-divider>
     <v-card-text style="height: 300px">
       <v-form ref="form" lazy-validation>
+        {{ filtration.state.value }}
+        {{ localFiltration.state.value }}
         <v-select
-          v-model="getFiltration.state.value"
+          v-model="localFiltration.state.value"
           :items="submissionStateSelect"
-          :label="getFiltration.state.label"
+          :label="localFiltration.state.label"
           color="text"
         ></v-select>
 
         <v-select
-          v-model="getFiltration.repository.value"
+          v-model="localFiltration.repository.value"
           :items="repositoryNameSelect"
-          :label="getFiltration.repository.label"
+          :label="localFiltration.repository.label"
           color="text"
         ></v-select>
 
         <v-checkbox
-          :label="getFiltration.deleted.label"
-          v-model="getFiltration.deleted.value"
+          :label="
+            localFiltration && localFiltration.deleted.label
+          "
+          v-model="localFiltration.deleted.value"
           color="text"
         ></v-checkbox>
       </v-form>
@@ -64,49 +68,43 @@
   </v-card>
 </template>
 
-<script lang="ts">
-import { PackagesFiltration } from '@/models/Filtration'
-import store from '@/store'
-import Vue from 'vue'
+<script setup lang="ts">
+import { usePackagesStore } from '@/store/packages'
+import { ref, onMounted } from 'vue'
 
-export default Vue.extend({
-  data() {
-    return {
-      checkbox: false,
-      //two below will be fetched and get from vuex store
-      submissionStateSelect: ['ACCEPTED', 'CANCELLED'],
-      repositoryNameSelect: ['repo1', 'repo2'],
-      filtration: {} as PackagesFiltration
-    }
-  },
+const package_store = usePackagesStore()
 
-  methods: {
-    changeDialogOptions() {
-      this.updateFiltration()
-      this.$emit('changeOptions')
-    },
-    async setFiltration() {
-      store.dispatch('setFiltration', this.filtration)
-      this.changeDialogOptions()
-    },
-    clearFiltration() {
-      this.filtration.state.value = ''
-      this.filtration.repository.value = ''
-      this.filtration.deleted.value = false
-    },
-    updateFiltration() {
-      this.filtration = JSON.parse(
-        JSON.stringify(store.state.packages.filtration)
-      )
-    }
-  },
-  created() {
-    this.updateFiltration()
-  },
-  computed: {
-    getFiltration(): PackagesFiltration {
-      return this.filtration
-    }
-  }
+const submissionStateSelect = ref(['ACCEPTED', 'CANCELLED'])
+const repositoryNameSelect = ref(['repo1', 'repo2'])
+let filtration = package_store.filtration
+const localFiltration = ref(filtration)
+
+const emit = defineEmits(['changeOptions'])
+
+function updateFiltration() {
+  localFiltration.value = JSON.parse(
+    JSON.stringify(package_store.filtration)
+  )
+}
+
+async function setFiltration() {
+  await package_store.setFiltration(localFiltration.value)
+  console.log(localFiltration.value)
+  changeDialogOptions()
+}
+
+function changeDialogOptions() {
+  updateFiltration()
+  emit('changeOptions')
+}
+
+onMounted(() => {
+  updateFiltration()
 })
+
+function clearFiltration() {
+  localFiltration!.value.state.value = ''
+  localFiltration!.value.repository.value = ''
+  localFiltration!.value.deleted.value = false
+}
 </script>

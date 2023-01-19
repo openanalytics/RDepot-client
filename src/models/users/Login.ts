@@ -8,4 +8,4 @@ interface Login extends LoginApiData {
   errorMessage: string
 }
 
-export { Login, LoginApiData }
+export type { Login, LoginApiData }

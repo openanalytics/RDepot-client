@@ -4,26 +4,17 @@
   </v-btn>
 </template>
 
-<script lang="ts">
-import Vue from 'vue'
-import { langs } from '@/locales/index'
-
-export default Vue.extend({
-  data() {
-    return {
-      langs: langs
-    }
-  },
-
-  methods: {
-    toggleDarkMode() {
-      this.$vuetify.theme.dark = !this.$vuetify.theme.dark
-      console.log('we are here', this.$vuetify.theme)
-      localStorage.setItem(
-        'darkTheme',
-        this.$vuetify.theme.dark.toString()
-      )
-    }
-  }
-})
+<script setup lang="ts">
+import { useTheme } from 'vuetify/lib/framework.mjs'
+const theme = useTheme()
+function toggleDarkMode() {
+  theme.global.name.value = theme.global.current.value.dark
+    ? 'light'
+    : 'dark'
+  console.log('after theme change ', theme)
+  localStorage.setItem(
+    'theme',
+    theme.global.current.value.dark.toString()
+  )
+}
 </script>

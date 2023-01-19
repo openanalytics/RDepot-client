@@ -8,4 +8,4 @@ interface Package {
   active: boolean
 }
 
-export { Package }
+export type { Package }

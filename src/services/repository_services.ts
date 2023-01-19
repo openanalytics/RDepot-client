@@ -1,4 +1,4 @@
-import { api } from '../plugins'
+import api from '@/plugins/axios'
 
 export async function fetchRepositoriesServices() {
   let repositories = await api.get(

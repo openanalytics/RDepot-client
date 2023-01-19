@@ -1,64 +1,31 @@
 <template>
-  <v-stepper v-model="e1" class="stepper mx-10">
-    <v-stepper-header>
-      <StepTitile
-        :e1="e1"
-        step="1"
-        :title="$t('addSubmission.step1Title')"
-      />
-      <v-divider></v-divider>
-      <StepTitile
-        :e1="e1"
-        step="2"
-        :title="$t('addSubmission.step2Title')"
-      />
-      <v-divider></v-divider>
-      <StepTitile
-        :e1="e1"
-        step="3"
-        :title="$t('addSubmission.step3Title')"
-      />
-    </v-stepper-header>
-
-    <v-stepper-items>
+  <div style="max-width: 800px !important; width: 100%">
+    <StepTtile :e1="e1" />
+    <v-window
+      v-model="e1"
+      class="stepper mx-10"
+      direction="vertical"
+    >
       <StepFirst v-on:next="changeValue" />
       <StepSecond v-on:next="changeValue" />
       <StepThird v-on:next="changeValue" />
-    </v-stepper-items>
-  </v-stepper>
+    </v-window>
+  </div>
 </template>
 
-<script lang="ts">
-import Vue from 'vue'
-import StepTitile from './StepTitile.vue'
+<script setup lang="ts">
+import StepTtile from './StepTitle.vue'
 import StepFirst from './StepFirst.vue'
 import StepSecond from './StepSecond.vue'
 import StepThird from './StepThird.vue'
+import { ref } from 'vue'
 
-export default Vue.extend({
-  components: {
-    StepTitile,
-    StepFirst,
-    StepSecond,
-    StepThird
-  },
-  data() {
-    return {
-      title: 'addSubmission',
-      e1: 1
-    }
-  },
-  computed: {
-    submission() {
-      return this.$store.state.submission
-    }
-  },
-  methods: {
-    changeValue(event: number) {
-      this.e1 = event
-    }
-  }
-})
+const e1 = ref(1)
+
+function changeValue(event: number) {
+  console.log('true')
+  e1.value = event
+}
 </script>
 
 <style scoped lang="scss">

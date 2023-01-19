@@ -1,16 +1,19 @@
-import store from '@/store'
 import axios, {
+  AxiosHeaders,
   AxiosRequestConfig,
   AxiosResponse
 } from 'axios'
+import { useCommonStore } from '@/store/common'
 
 const api = axios.create({
   baseURL: 'http://localhost:8017/api',
   timeout: 6000
 })
 
+const common_store = useCommonStore()
+
 function showProgress(active: boolean) {
-  store.dispatch('setProgressCircularActive', active)
+  common_store.setProgressCircularActive(active)
 }
 
 api.interceptors.request.use(
@@ -18,19 +21,21 @@ api.interceptors.request.use(
     showProgress(true)
     const multipart = localStorage.getItem('multipart')
     let token = null
-
+    config.headers = { ...config.headers } as AxiosHeaders
     if (token) {
-      config.headers!.Authorization = `Token ${token}`
+      config.headers.set('Authorization', `Token ${token}`)
     } else {
       token = localStorage.getItem('vue-token')
-      config.headers!.Authorization = `Token ${token}`
+      config.headers.set('Authorization', `Token ${token}`)
     }
 
-    config.headers!.AccessControlAllowOrigin = '*'
+    config.headers.set('AccessControlAllowOrigin', '*')
 
     if (multipart == 'true') {
-      config.headers!['Content-Type'] =
+      config.headers.set(
+        'Content-Type',
         'multipart/form-data'
+      )
       localStorage.setItem('multipart', 'false')
     }
     return config
