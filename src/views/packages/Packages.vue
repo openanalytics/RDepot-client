@@ -1,6 +1,9 @@
 <template>
   <div>
     <v-row justify="end" class="my-5 mx-10" align="center">
+      <button @click="getDataFromOpenapi">
+        createOpenApiRequest
+      </button>
       <Button
         :title="$t('common.reset')"
         v-on:buttonClicked="
@@ -39,6 +42,7 @@ import Filtration from '@/components/packages/Filtration.vue'
 import Button from '@/components/common/Button.vue'
 import Overlay from '@/components/common/Overlay.vue'
 import { OverlayEnum } from '@/enum/Overlay'
+import { RPackageControllerApiFactory } from '@/openapi'
 
 export default Vue.extend({
   data() {
@@ -77,6 +81,16 @@ export default Vue.extend({
     showOverlay(value: number) {
       this.component = value
       this.overlay = true
+    },
+    getDataFromOpenapi() {
+      console.log('try')
+      const rPackagesApi = RPackageControllerApiFactory()
+      rPackagesApi.getAllPackages(
+        undefined,
+        undefined,
+        undefined,
+        2
+      )
     }
   },
   components: {
