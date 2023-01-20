@@ -32,7 +32,7 @@
 
 <script setup lang="ts">
 import PackagesList from '@/components/packages/PackagesList.vue'
-import Pagination from '@/components/Pagination.vue'
+import Pagination from '@/components/common/Pagination.vue'
 import CommonButton from '@/components/common/Button.vue'
 import Overlay from '@/components/common/Overlay.vue'
 import { OverlayEnum } from '@/enum/Overlay'

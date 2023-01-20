@@ -1,24 +1,22 @@
 <template>
-  <v-window-item :value="1">
-    <v-card class="mb-12 px-10 py-5 step" height="250px">
-      <v-select
-        class="mt-5"
-        :items="repositories"
-        :label="$t('addSubmission.step1Title')"
-        @update:modelValue="changeRepository"
-        item-value="id"
-        item-title="name"
-        color="black"
-        persistent-hint
-        return-object
-      ></v-select>
-    </v-card>
-    <div class="d-flex justify-end">
-      <v-btn color="oablue" @click="nextStep">
-        Continue
-      </v-btn>
-    </div>
-  </v-window-item>
+  <v-card class="mb-12 px-10 py-5 step" height="250px">
+    <v-select
+      class="mt-5"
+      :items="repositories"
+      :label="$t('addSubmission.step1Title')"
+      @update:modelValue="changeRepository"
+      item-value="id"
+      item-title="name"
+      color="black"
+      persistent-hint
+      return-object
+    ></v-select>
+  </v-card>
+  <div class="d-flex justify-end">
+    <v-btn id="nextbutton" color="oablue" @click="nextStep">
+      Continue
+    </v-btn>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -46,7 +44,6 @@ function changeRepository(value: Repository) {
 }
 function nextStep() {
   if (submissions_store.repository != null) {
-    console.log('false')
     emits('next', 2)
   } else {
     nofications.notify({

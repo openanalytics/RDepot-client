@@ -1,30 +1,30 @@
 <template>
-  <v-window-item :value="3">
-    <v-card class="mb-12 px-10 py-5 step" height="250px">
-      <div class="ml-4">{{ choosenRepository }}</div>
+  <v-card class="mb-12 px-10 py-5 step" height="250px">
+    <div class="ml-4">{{ choosenRepository }}</div>
 
-      <v-chip-group
-        v-model="accepted_packages"
-        column
-        multiple
-      >
-        <v-chip
-          v-for="(file, index) in choosenPackages"
-          :key="index"
-          filter
-          variant="outlined"
-          >{{ file.name }}
-        </v-chip>
-      </v-chip-group>
-    </v-card>
-    <div class="d-flex justify-space-between">
-      <v-btn color="oablue" @click="nextStep">
-        go back
-      </v-btn>
+    <v-chip-group
+      v-model="accepted_packages"
+      column
+      multiple
+    >
+      <v-chip
+        v-for="(file, index) in choosenPackages"
+        :key="index"
+        filter
+        variant="outlined"
+        >{{ file.name }}
+      </v-chip>
+    </v-chip-group>
+  </v-card>
+  <div class="d-flex justify-space-between">
+    <v-btn id="backbutton" color="oablue" @click="backStep">
+      go back
+    </v-btn>
 
-      <v-btn color="oablue" @click="submit"> submit </v-btn>
-    </div>
-  </v-window-item>
+    <v-btn id="submitbutton" color="oablue" @click="submit">
+      submit
+    </v-btn>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -40,7 +40,7 @@ const choosenRepository = computed(() => {
 const choosenPackages = computed(() => {
   return submissions_store.packages
 })
-function nextStep() {
+function backStep() {
   emits('next', 2)
 }
 function submit() {

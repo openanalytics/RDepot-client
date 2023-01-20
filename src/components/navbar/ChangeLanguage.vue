@@ -28,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import langs from '../../locales/index'
+import langs from '@/locales/index'
 </script>
 
 <style lang="scss">

@@ -21,7 +21,7 @@
 import { computed, toRef } from 'vue'
 import Filtration from '@/components/packages/Filtration.vue'
 import { OverlayEnum } from '@/enum/Overlay'
-import QuestionCard from './QuestionCard.vue'
+import QuestionCard from '@/components/common/QuestionCard.vue'
 
 const props = defineProps({
   text: String,

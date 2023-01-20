@@ -1,9 +1,7 @@
 <template>
   <div>
-    <div style="color: red; font-size: 64px">
-      {{ active }}
-    </div>
     <v-progress-circular
+      id="progresscircular"
       v-if="active"
       class="progressCircular"
       indeterminate

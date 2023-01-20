@@ -6,9 +6,15 @@
       class="stepper mx-10"
       direction="vertical"
     >
-      <StepFirst v-on:next="changeValue" />
-      <StepSecond v-on:next="changeValue" />
-      <StepThird v-on:next="changeValue" />
+      <v-window-item :value="1">
+        <StepFirst v-on:next="changeValue" />
+      </v-window-item>
+      <v-window-item :value="2">
+        <StepSecond v-on:next="changeValue" />
+      </v-window-item>
+      <v-window-item :value="3">
+        <StepThird v-on:next="changeValue" />
+      </v-window-item>
     </v-window>
   </div>
 </template>
