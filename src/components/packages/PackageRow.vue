@@ -1,20 +1,34 @@
 <template>
   <v-row :class="{ title: title }">
-    <v-col cols="lg-1 sm-2" class="d-flex align-center">{{
-      title == true
-        ? prepareString($t('packages.name').toString())
-        : packageBag
-        ? packageBag.name
-        : ''
-    }}</v-col>
-    <v-col cols="1" class="d-flex align-center">{{
-      title == true
-        ? prepareString($t('packages.version').toString())
-        : packageBag
-        ? packageBag.version
-        : ''
-    }}</v-col>
-    <v-col cols="lg-6 sm-2" class="d-flex align-center">
+    <v-col
+      id="packagerowname"
+      cols="lg-1 sm-2"
+      class="d-flex align-center"
+      >{{
+        title == true
+          ? prepareString($t('packages.name').toString())
+          : packageBag
+          ? packageBag.name
+          : ''
+      }}</v-col
+    >
+    <v-col
+      id="packagerowversion"
+      cols="1"
+      class="d-flex align-center"
+      >{{
+        title == true
+          ? prepareString($t('packages.version').toString())
+          : packageBag
+          ? packageBag.version
+          : ''
+      }}</v-col
+    >
+    <v-col
+      id="packagerowdescription"
+      cols="lg-6 sm-2"
+      class="d-flex align-center"
+    >
       {{
         title == true
           ? prepareString(
@@ -28,7 +42,11 @@
           : ''
       }}</v-col
     >
-    <v-col cols="lg-1 sm-2" class="d-flex align-center">
+    <v-col
+      id="packagerowmaintainer"
+      cols="lg-1 sm-2"
+      class="d-flex align-center"
+    >
       {{
         title == true
           ? prepareString(
@@ -40,6 +58,7 @@
       }}</v-col
     >
     <v-col
+      id="packagerowrepository"
       cols="lg-1 sm-2"
       class="d-flex align-center justify-center"
     >
@@ -53,20 +72,29 @@
           : ''
       }}</v-col
     >
-    <v-col cols="lg-1" class="d-flex justify-center">
+    <v-col
+      id="packagerowactive"
+      cols="lg-1"
+      class="d-flex justify-center"
+    >
       <span v-if="title == true">
         {{
           prepareString($t('packages.active').toString())
         }}</span
       >
       <v-checkbox
+        id="checkboxactive"
         color="oablue"
         @click.stop
         v-else-if="packageBag"
         v-model="packageBag.active"
       />
     </v-col>
-    <v-col cols="lg-1" class="d-flex justify-center">
+    <v-col
+      id="packagerowactions"
+      cols="lg-1"
+      class="d-flex justify-center"
+    >
       <span v-if="title == true">
         {{
           prepareString($t('packages.actions').toString())
@@ -79,6 +107,7 @@
         <v-tooltip top>
           <template v-slot:activator="{ props }">
             <v-icon
+              id="navigateicon"
               @click.stop
               @click="navigate"
               v-bind="props"
@@ -86,51 +115,41 @@
               >mdi-forward</v-icon
             >
           </template>
-          <span>{{ $t('common.details') }}</span>
+          <span id="actiondetails">{{
+            $t('common.details')
+          }}</span>
         </v-tooltip>
       </span>
     </v-col>
   </v-row>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { Package } from '@/models/packages/Package'
 import { ref } from '@vue/reactivity'
 import router from '@/router'
 
-export default {
-  props: {
-    title: {
-      type: Boolean,
-      default: false
-    },
-    packageBag: Object as () => Package | undefined
+const props = defineProps({
+  title: {
+    type: Boolean,
+    default: false
   },
-  name: 'PackagesRow',
-  setup(props: any) {
-    const descMaxLength = ref(110)
+  packageBag: Object as () => Package | undefined
+})
+const descMaxLength = ref(110)
 
-    function prepareString(value: string): string {
-      return value.charAt(0).toUpperCase() + value.slice(1)
-    }
+function prepareString(value: string): string {
+  return value.charAt(0).toUpperCase() + value.slice(1)
+}
 
-    function navigate() {
-      if (props.packageBag) {
-        router.replace({
-          name: 'packageDetails',
-          params: {
-            name: props.packageBag.name
-          }
-        })
+function navigate() {
+  if (props.packageBag) {
+    router.replace({
+      name: 'packageDetails',
+      params: {
+        name: props.packageBag.name
       }
-    }
-
-    return {
-      props,
-      prepareString,
-      navigate,
-      descMaxLength
-    }
+    })
   }
 }
 </script>

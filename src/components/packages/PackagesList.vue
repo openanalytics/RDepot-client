@@ -17,8 +17,8 @@
 <script setup lang="ts">
 import { usePackagesStore } from '@/store/packages'
 import { computed, onMounted } from 'vue'
-import PackageItem from './PackageItem.vue'
-import PackagesListTitle from './PackagesListTitle.vue'
+import PackageItem from '@/components/packages/PackageItem.vue'
+import PackagesListTitle from '@/components/packages/PackagesListTitle.vue'
 
 const packages_store = usePackagesStore()
 

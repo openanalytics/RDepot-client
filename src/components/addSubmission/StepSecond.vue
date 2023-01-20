@@ -1,44 +1,43 @@
 <template>
-  <v-window-item :value="2">
-    <v-card
-      class="mb-12 px-10 py-5 step"
-      min-height="250px"
+  <v-card class="mb-12 px-10 py-5 step" min-height="250px">
+    <v-file-input
+      multiple
+      v-model="files"
+      counter
+      placeholder="Choose packages"
+      prepend-icon="mdi-paperclip"
+      v-on:change="addPackages"
     >
-      <v-file-input
-        multiple
-        v-model="files"
-        counter
-        placeholder="Choose packages"
-        prepend-icon="mdi-paperclip"
-        v-on:change="addPackages"
-      >
-        <template v-slot:selection="{ fileNames }">
-          <template
-            v-for="fileName in fileNames"
-            :key="fileName"
+      <template v-slot:selection="{ fileNames }">
+        <template
+          v-for="fileName in fileNames"
+          :key="fileName"
+        >
+          <v-chip
+            size="x-small"
+            label
+            color="oablue"
+            class="mt-3 p-2"
+            @click="removePackage"
           >
-            <v-chip
-              size="x-small"
-              label
-              color="oablue"
-              class="mt-3 p-2"
-              @click="removePackage"
-            >
-              {{ fileName }}
-            </v-chip>
-          </template>
+            {{ fileName }}
+          </v-chip>
         </template>
-      </v-file-input>
-    </v-card>
-    <div class="d-flex justify-space-between">
-      <v-btn color="oablue" @click="$emit('next', 1)">
-        go back
-      </v-btn>
-      <v-btn color="oablue" @click="nextStep">
-        Continue
-      </v-btn>
-    </div>
-  </v-window-item>
+      </template>
+    </v-file-input>
+  </v-card>
+  <div class="d-flex justify-space-between">
+    <v-btn
+      id="backbutton"
+      color="oablue"
+      @click="$emit('next', 1)"
+    >
+      go back
+    </v-btn>
+    <v-btn id="nextbutton" color="oablue" @click="nextStep">
+      Continue
+    </v-btn>
+  </div>
 </template>
 
 <script setup lang="ts">
