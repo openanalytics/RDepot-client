@@ -56,6 +56,14 @@ describe('Overlay - filtration', () => {
       false
     )
   })
+
+  it('send event for closing overaly after escape key is clicked', async () => {
+    const event = new KeyboardEvent('keyup', {
+      code: 'Escape'
+    })
+    await document.dispatchEvent(event)
+    expect(wrapper.emitted().overlayClicked).toBeTruthy()
+  })
 })
 
 describe('Overlay - questioncard', () => {
@@ -96,5 +104,13 @@ describe('Overlay - questioncard', () => {
     const content = wrapper.findComponent(FiltrationVue)
     expect(content.exists()).toBeFalsy()
     expect(wrapper.vm.packagesFiltration).toEqual(false)
+  })
+
+  it('send event for closing overaly after escape key is clicked', async () => {
+    const event = new KeyboardEvent('keyup', {
+      code: 'Escape'
+    })
+    await document.dispatchEvent(event)
+    expect(wrapper.emitted().overlayClicked).toBeTruthy()
   })
 })

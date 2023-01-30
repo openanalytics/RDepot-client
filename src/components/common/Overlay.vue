@@ -1,9 +1,13 @@
 <template>
   <v-overlay
     :absolute="absolute"
-    v-model="parentOverlay"
+    v-model="props.overlay"
     :opacity="parentOpacity"
+    contained
+    location-strategy="connected"
+    scroll-strategy="none"
     class="d-flex justify-center align-center"
+    @click:outside="sendEvent(false)"
   >
     <Filtration
       v-if="packagesFiltration"
@@ -18,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, toRef } from 'vue'
+import { computed, toRef, onMounted } from 'vue'
 import Filtration from '@/components/packages/Filtration.vue'
 import { OverlayEnum } from '@/enum/Overlay'
 import QuestionCard from '@/components/common/QuestionCard.vue'
@@ -31,7 +35,6 @@ const props = defineProps({
 })
 
 const parentText = toRef(props, 'text')
-const parentOverlay = toRef(props, 'overlay')
 const parentOpacity = toRef(props, 'opacity')
 const parentComponent = toRef(props, 'component')
 
@@ -50,7 +53,19 @@ const resetPackagesFiltration = computed(function () {
   )
 })
 
-function sendEvent(value: boolean) {
+onMounted(() => {
+  document.addEventListener('keyup', (e) => {
+    if (e.code == 'Escape') {
+      onKeyup()
+    }
+  })
+})
+
+function onKeyup() {
+  sendEvent()
+}
+
+function sendEvent(value: boolean = false) {
   emits('overlayClicked', value)
 }
 </script>

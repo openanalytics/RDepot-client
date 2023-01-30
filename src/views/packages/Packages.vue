@@ -36,11 +36,9 @@ import Pagination from '@/components/common/Pagination.vue'
 import CommonButton from '@/components/common/Button.vue'
 import Overlay from '@/components/common/Overlay.vue'
 import { OverlayEnum } from '@/enum/Overlay'
-// import { RPackageControllerApiFactory } from '@/openapi'
 import { ref, computed } from 'vue'
 import { usePackagesStore } from '@/store/packages'
 
-const filtrationDialog = ref(false)
 const overlay = ref(false)
 const opacity = ref(0.8)
 const component = ref(OverlayEnum.PackagesFiltration)
@@ -53,10 +51,6 @@ const page = computed(function () {
 
 function nextPage(value: number) {
   package_store.setPage(value)
-}
-
-function openFiltrationDialog() {
-  filtrationDialog.value = !filtrationDialog.value
 }
 
 function resetForm() {
@@ -73,6 +67,5 @@ function overlayValue(value: boolean) {
 function showOverlay(value: number) {
   component.value = value
   overlay.value = true
-  console.log(component.value)
 }
 </script>
