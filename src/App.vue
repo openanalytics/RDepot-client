@@ -1,15 +1,19 @@
 <template>
   <v-app>
-    <v-main>
-      <Sidebar />
-      <Navbar />
-      <notifications
-        position="top right"
-        :max="5"
-        pauseOnHover
-      />
-      <router-view class="mainApp"></router-view>
-    </v-main>
+    <Navbar style="max-width: 100%" />
+    <div class="d-flex">
+      <v-row style="margin: 0">
+        <Sidebar />
+        <v-main>
+          <router-view style="margin: 0 15px"></router-view>
+        </v-main>
+      </v-row>
+    </div>
+    <notifications
+      position="top right"
+      :max="5"
+      pauseOnHover
+    />
   </v-app>
 </template>
 

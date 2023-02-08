@@ -25,7 +25,8 @@ export const en = {
     submissions: 'submissions',
     maintainers: 'maintainers',
     list: 'list',
-    addPackage: 'add package'
+    addPackage: 'add package',
+    events: 'events'
   },
   filtration: {
     title: 'filtration',
@@ -42,7 +43,13 @@ export const en = {
     maintainer: 'maintainer',
     repository: 'repository',
     active: 'active',
-    actions: 'actions'
+    actions: 'actions',
+    maintainers: 'package maintainers',
+    list: 'packages'
+  },
+  repositories: {
+    maintainers: 'repository maintainers',
+    list: 'repositories'
   },
   pagination: {
     size: 'page size'
