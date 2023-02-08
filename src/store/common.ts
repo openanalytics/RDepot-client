@@ -8,7 +8,7 @@ interface State {
 export const useCommonStore = defineStore('common_store', {
   state: (): State => {
     return {
-      drawer: false,
+      drawer: true,
       progressCircularActive: false
     }
   },
