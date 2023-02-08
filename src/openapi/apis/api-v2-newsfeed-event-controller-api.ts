@@ -16,7 +16,8 @@ import { Configuration } from '../configuration';
 // Some imports not used depending on template conditions
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
-import { ResponseDtoObject } from '../models';
+import { ResponseDtoEntityModelNewsfeedEventDto } from '../models';
+import { ResponseDtoPagedModelEntityModelNewsfeedEventDto } from '../models';
 /**
  * ApiV2NewsfeedEventControllerApi - axios parameter creator
  * @export
@@ -161,7 +162,7 @@ export const ApiV2NewsfeedEventControllerApiFp = function(configuration?: Config
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getAllEvents(technology?: string, userId?: number, resourceId?: number, eventType?: string, resourceType?: string, page?: number, size?: number, sort?: Array<string>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<ResponseDtoObject>>> {
+        async getAllEvents(technology?: string, userId?: number, resourceId?: number, eventType?: string, resourceType?: string, page?: number, size?: number, sort?: Array<string>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<ResponseDtoPagedModelEntityModelNewsfeedEventDto>>> {
             const localVarAxiosArgs = await ApiV2NewsfeedEventControllerApiAxiosParamCreator(configuration).getAllEvents(technology, userId, resourceId, eventType, resourceType, page, size, sort, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
@@ -174,7 +175,7 @@ export const ApiV2NewsfeedEventControllerApiFp = function(configuration?: Config
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getEvent(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<any>>> {
+        async getEvent(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<ResponseDtoEntityModelNewsfeedEventDto>>> {
             const localVarAxiosArgs = await ApiV2NewsfeedEventControllerApiAxiosParamCreator(configuration).getEvent(id, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
@@ -203,7 +204,7 @@ export const ApiV2NewsfeedEventControllerApiFactory = function (configuration?: 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getAllEvents(technology?: string, userId?: number, resourceId?: number, eventType?: string, resourceType?: string, page?: number, size?: number, sort?: Array<string>, options?: AxiosRequestConfig): Promise<AxiosResponse<ResponseDtoObject>> {
+        async getAllEvents(technology?: string, userId?: number, resourceId?: number, eventType?: string, resourceType?: string, page?: number, size?: number, sort?: Array<string>, options?: AxiosRequestConfig): Promise<AxiosResponse<ResponseDtoPagedModelEntityModelNewsfeedEventDto>> {
             return ApiV2NewsfeedEventControllerApiFp(configuration).getAllEvents(technology, userId, resourceId, eventType, resourceType, page, size, sort, options).then((request) => request(axios, basePath));
         },
         /**
@@ -212,7 +213,7 @@ export const ApiV2NewsfeedEventControllerApiFactory = function (configuration?: 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getEvent(id: number, options?: AxiosRequestConfig): Promise<AxiosResponse<any>> {
+        async getEvent(id: number, options?: AxiosRequestConfig): Promise<AxiosResponse<ResponseDtoEntityModelNewsfeedEventDto>> {
             return ApiV2NewsfeedEventControllerApiFp(configuration).getEvent(id, options).then((request) => request(axios, basePath));
         },
     };
@@ -239,7 +240,7 @@ export class ApiV2NewsfeedEventControllerApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ApiV2NewsfeedEventControllerApi
      */
-    public async getAllEvents(technology?: string, userId?: number, resourceId?: number, eventType?: string, resourceType?: string, page?: number, size?: number, sort?: Array<string>, options?: AxiosRequestConfig) : Promise<AxiosResponse<ResponseDtoObject>> {
+    public async getAllEvents(technology?: string, userId?: number, resourceId?: number, eventType?: string, resourceType?: string, page?: number, size?: number, sort?: Array<string>, options?: AxiosRequestConfig) : Promise<AxiosResponse<ResponseDtoPagedModelEntityModelNewsfeedEventDto>> {
         return ApiV2NewsfeedEventControllerApiFp(this.configuration).getAllEvents(technology, userId, resourceId, eventType, resourceType, page, size, sort, options).then((request) => request(this.axios, this.basePath));
     }
     /**
@@ -249,7 +250,7 @@ export class ApiV2NewsfeedEventControllerApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ApiV2NewsfeedEventControllerApi
      */
-    public async getEvent(id: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<any>> {
+    public async getEvent(id: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<ResponseDtoEntityModelNewsfeedEventDto>> {
         return ApiV2NewsfeedEventControllerApiFp(this.configuration).getEvent(id, options).then((request) => request(this.axios, this.basePath));
     }
 }
