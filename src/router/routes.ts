@@ -43,6 +43,13 @@ export const routes = [
         component: () =>
           import('@/views/submissions/AddSubmission.vue'),
         meta: { title: 'RDepot - add packages' }
+      },
+      {
+        path: '/events',
+        name: 'events',
+        component: () =>
+          import('@/views/events/Events.vue'),
+        meta: { title: 'RDepot - events' }
       }
     ]
   }
