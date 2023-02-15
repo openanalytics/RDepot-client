@@ -22,6 +22,11 @@ interface PackagesFiltration {
   repository: Filtration
 }
 
+interface RepositoriesFiltration {
+  technology: Filtration
+  name: Filtration
+}
+
 interface EventsFiltration {
   technology: Filtration
   userId: FiltrationNumber
@@ -30,4 +35,8 @@ interface EventsFiltration {
   resourceType: Filtration
 }
 
-export type { PackagesFiltration, EventsFiltration }
+export type {
+  PackagesFiltration,
+  EventsFiltration,
+  RepositoriesFiltration
+}
