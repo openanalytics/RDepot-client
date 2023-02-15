@@ -16,7 +16,9 @@
       @click="clickDot(item)"
       :width="eventBoxWidth"
       :hide-dot="!item"
-      :min-height="item ? '30' : '0'"
+      :min-height="
+        item ? (isYearAndMonthDate(item) ? '90' : '0') : '0'
+      "
     >
       <template v-slot:icon>
         <div v-if="!item.eventType" class="dateDot">
@@ -36,6 +38,8 @@
         </div>
         <v-icon
           :icon="eventsIcons.get(item.eventType)"
+          size="20"
+          center
           v-else
         >
         </v-icon>
@@ -56,7 +60,9 @@ import EventBox from './EventBox.vue'
 import { eventsIcons } from '@/models/EventTypeIcon'
 import { useDisplay } from 'vuetify/lib/framework.mjs'
 import { EntityModelNewsfeedEventDto } from '@/openapi'
+import { useTheme } from 'vuetify'
 
+const { current } = useTheme()
 const { lgAndUp, mdAndUp, smAndUp, smAndDown } =
   useDisplay()
 const events_store = useEventsStore()
@@ -78,7 +84,7 @@ function getMonthName(monthNumber: number) {
   const date = new Date()
   date.setMonth(monthNumber)
 
-  return date.toLocaleString('en-US', { month: 'short' })
+  return date.toLocaleString('en-US', { month: 'long' })
 }
 
 function isFullDate(date: string): boolean {
@@ -93,7 +99,9 @@ function getYear(yearMonthDate: string) {
 }
 
 function getDotColor(item: any) {
-  return item && !item.eventType ? 'oared' : 'oablue'
+  return item && !item.eventType
+    ? current.value.colors.background
+    : 'oablue'
 }
 
 function clickDot(item: any) {
@@ -136,7 +144,7 @@ function getMonthAndYear(date: Date): string {
   return (
     date.getFullYear().toString() +
     '.' +
-    padTo2Digits(date.getMonth())
+    padTo2Digits(date.getMonth() + 1)
   )
 }
 
@@ -147,23 +155,22 @@ const grouped_events = computed(function () {
     events_store.events
   )
 
-  var [monthAndYear] = events_grouped_by_date.keys()
-  var dateTime = new Date(monthAndYear)
-  monthAndYear = getMonthAndYear(dateTime)
+  var firstDate = events_grouped_by_date.keys().next().value
+  var dateTime = new Date(firstDate)
+  var monthYear = getMonthAndYear(dateTime)
   local_events.push(false)
-  local_events.push(monthAndYear)
+  local_events.push(monthYear)
   local_events.push(null)
-  console.log(monthAndYear)
 
   events_grouped_by_date.forEach((events, date) => {
-    if (monthAndYear != getMonthAndYear(new Date(date))) {
-      monthAndYear = getMonthAndYear(new Date(date))
+    if (monthYear != getMonthAndYear(new Date(date))) {
+      monthYear = getMonthAndYear(new Date(date))
       local_events.push(false)
-      local_events.push(monthAndYear)
+      local_events.push(monthYear)
       local_events.push(false)
     }
 
-    if (hiddenMonths.value.indexOf(monthAndYear) == -1) {
+    if (hiddenMonths.value.indexOf(monthYear) == -1) {
       local_events.push(false)
       local_events.push(date)
       local_events.push(false)
@@ -200,7 +207,7 @@ function padTo2Digits(num: number) {
 function formatDate(date: Date) {
   return [
     date.getFullYear(),
-    padTo2Digits(date.getMonth()),
+    padTo2Digits(date.getMonth() + 1),
     padTo2Digits(date.getDate())
   ].join('.')
 }
@@ -232,11 +239,12 @@ function getDate(
 .dateDot {
   width: 200px;
   background-color: rgb(var(--v-theme-oared));
+  opacity: 0.8;
   border-radius: 16px;
-  transition: all 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out;
 
   &:hover {
-    transform: scale(1.1);
+    transform: scale(1.05);
     cursor: pointer;
   }
   .day {
@@ -247,8 +255,8 @@ function getDate(
     padding: 5px 5px 10px 5px;
     .month {
       text-align: center;
-      border-top: solid 2px #fff;
-      border-bottom: solid 2px #fff;
+      border-top: solid 2px;
+      border-bottom: solid 2px;
       font-size: 1rem !important;
       padding: 5px 0;
     }
@@ -262,5 +270,10 @@ function getDate(
   align-items: start;
   height: auto !important;
   margin-top: 50px;
+  // margin-bottom: 100px;
+}
+
+.v-timeline .v-timeline-divider__dot {
+  background: none !important;
 }
 </style>
