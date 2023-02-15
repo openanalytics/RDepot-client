@@ -47,6 +47,9 @@ export const en = {
     maintainers: 'package maintainers',
     list: 'packages'
   },
+  events: {
+    filtration: 'Events filtration'
+  },
   repositories: {
     maintainers: 'repository maintainers',
     list: 'repositories'
