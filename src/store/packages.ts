@@ -62,7 +62,6 @@ export const usePackagesStore = defineStore(
         this.filtration.state.value = ''
         this.filtration.repository.value = ''
         this.filtration.deleted.value = false
-        console.log('clera filtration')
       },
       async clearFiltrationAndFetch() {
         this.clearFiltration()
