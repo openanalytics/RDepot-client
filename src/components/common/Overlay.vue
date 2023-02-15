@@ -1,56 +1,68 @@
 <template>
   <v-overlay
     :absolute="absolute"
-    v-model="props.overlay"
-    :opacity="parentOpacity"
+    v-model="common_store.overlayModel"
+    :opacity="common_store.overlayOpacity"
     contained
     location-strategy="connected"
     scroll-strategy="none"
     class="d-flex justify-center align-center"
-    @click:outside="sendEvent(false)"
+    @click:outside="overlayValue(false)"
   >
-    <Filtration
-      v-if="packagesFiltration"
-      v-on:changeOptions="sendEvent(false)"
+    <PackageFiltration
+      v-if="packageFiltration"
+      v-on:changeOptions="overlayValue(false)"
+    />
+    <EventsFiltration
+      v-else-if="eventsFiltration"
+      v-on:changeOptions="overlayValue(false)"
     />
     <QuestionCard
-      v-else-if="resetPackagesFiltration"
-      :text="parentText"
-      v-on:sendEvent="sendEvent"
+      v-else-if="resetFiltration"
+      :text="common_store.overlayText"
+      v-on:sendEvent="overlayValue"
     />
   </v-overlay>
 </template>
 
 <script setup lang="ts">
-import { computed, toRef, onMounted } from 'vue'
-import Filtration from '@/components/packages/Filtration.vue'
-import { OverlayEnum } from '@/enum/Overlay'
+import PackageFiltration from '@/components/packages/Filtration.vue'
+import EventsFiltration from '@/components/events/Filtration.vue'
 import QuestionCard from '@/components/common/QuestionCard.vue'
+import { computed, onMounted } from 'vue'
+import { OverlayEnum } from '@/enum/Overlay'
+import { useCommonStore } from '@/store/common'
+import { usePackagesStore } from '@/store/packages'
+import { useEventsStore } from '@/store/events'
 
-const props = defineProps({
-  text: String,
-  overlay: Boolean,
-  opacity: Number,
-  component: Number
-})
+const common_store = useCommonStore()
+const package_store = usePackagesStore()
+const event_store = useEventsStore()
 
-const parentText = toRef(props, 'text')
-const parentOpacity = toRef(props, 'opacity')
-const parentComponent = toRef(props, 'component')
+const absolute = false
 
-const emits = defineEmits(['overlayClicked'])
-const absolute = true
-
-const packagesFiltration = computed(function () {
+const packageFiltration = computed(() => {
   return (
-    parentComponent.value == OverlayEnum.PackagesFiltration
+    common_store.overlayComponent ==
+    OverlayEnum.PackagesFiltration
   )
 })
-const resetPackagesFiltration = computed(function () {
+
+const eventsFiltration = computed(() => {
   return (
-    parentComponent.value ==
+    common_store.overlayComponent ==
+    OverlayEnum.EventsFiltration
+  )
+})
+
+const resetFiltration = computed(function () {
+  let a: boolean =
+    common_store.overlayComponent ==
     OverlayEnum.PackagesFiltrationReset
-  )
+  let b: boolean =
+    common_store.overlayComponent ==
+    OverlayEnum.EventsFiltrationReset
+  return b || a
 })
 
 onMounted(() => {
@@ -62,10 +74,23 @@ onMounted(() => {
 })
 
 function onKeyup() {
-  sendEvent()
+  overlayValue()
 }
 
-function sendEvent(value: boolean = false) {
-  emits('overlayClicked', value)
+function overlayValue(value: boolean = false) {
+  if (value) {
+    if (
+      common_store.overlayComponent ==
+      OverlayEnum.PackagesFiltrationReset
+    ) {
+      package_store.clearFiltrationAndFetch()
+    } else if (
+      common_store.overlayComponent ==
+      OverlayEnum.EventsFiltrationReset
+    ) {
+      event_store.clearFiltrationAndFetch()
+    }
+  }
+  common_store.setOverlayModel(false)
 }
 </script>
