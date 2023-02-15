@@ -1,37 +1,33 @@
 <template>
-  <v-card class="eventCard">
+  <v-card class="eventCard elevation-2" v-ripple rounded>
     <v-card-title
       style="padding: 0"
       class="d-flex justify-space-between align-items-start"
     >
       <div class="title">
-        {{
-          props.event?.resourceType?.replaceAll('_', ' ')
-        }}
+        {{ resourceType }} - {{ eventType }}
       </div>
       <div class="date">
-        {{ shortDate }}
+        <div>
+          {{ time }}
+        </div>
       </div>
     </v-card-title>
     <v-card-text class="eventCard">
-      <div class="d-flex justify-beteen align-items-start">
-        <div class="description">
-          {{ props.event?.resourceDescription }}
-          {{ props.event?.time }}
-          {{ props.event?.user }}
-        </div>
+      <div class="by-user d-flex">
+        <span class="subtitle"> author</span>
+        <p class="value">
+          {{ login }} <br />
+          {{ email }}
+        </p>
       </div>
-      <p></p>
-      <!-- :color="item.color" -->
-      <v-btn variant="outlined">
-        {{ props.event?.eventType }}
-      </v-btn>
-      <v-btn variant="outlined" v-if="props.event?.time">
-        {{ date?.getDay() }}
-        {{ date?.getDate() }}
-        {{ date?.getMonth() }}
-        {{ date?.getFullYear() }}
-      </v-btn>
+      <v-divider></v-divider>
+      <div class="desc d-flex">
+        <span class="subtitle"> description</span>
+        <p class="value">
+          {{ description }}
+        </p>
+      </div>
     </v-card-text>
   </v-card>
 </template>
@@ -39,25 +35,47 @@
 <script setup lang="ts">
 import { EntityModelNewsfeedEventDto } from '@/openapi'
 import { computed } from 'vue'
+
 const props = defineProps({
   event: Object as () => EntityModelNewsfeedEventDto
 })
-const date = computed(function () {
+
+const time = computed(function () {
   if (props.event?.time) {
-    return new Date(props.event.time)
+    let date: Date = new Date(props.event.time)
+    let time: String =
+      padTo2Digits(date.getHours()) +
+      ':' +
+      date.getMinutes()
+    return time
   } else {
     return null
   }
 })
 
-const shortDate = computed(function () {
-  if (props.event?.time) {
-    let date: string = new Date(props.event.time).toString()
-    return date.substring(4, date.indexOf(' GMT'))
-  } else {
-    return null
-  }
+const resourceType = computed(() => {
+  return props.event?.resourceType?.replaceAll('_', ' ')
 })
+
+const eventType = computed(() => {
+  return props.event?.eventType
+})
+
+const login = computed(() => {
+  return props.event?.user?.login
+})
+
+const email = computed(() => {
+  return props.event?.user?.email
+})
+
+const description = computed(() => {
+  return props.event?.resourceDescription
+})
+
+function padTo2Digits(num: number) {
+  return num.toString().padStart(2, '0')
+}
 </script>
 
 <style lang="scss">
@@ -66,6 +84,7 @@ const shortDate = computed(function () {
 
   .title {
     padding: 0.5em;
+    margin-left: 10px;
   }
 
   .date {
@@ -73,13 +92,21 @@ const shortDate = computed(function () {
     border-left: solid rgb(var(--v-theme-oablue)) 1px;
     border-bottom: solid rgb(var(--v-theme-oablue)) 1px;
     border-bottom-left-radius: 16px;
-    padding: 4px 10px;
-    // line-height: 1;
+    padding: 10px 10px 10px 10px;
     max-height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
-  .description {
-    margin-top: 10px;
+  .subtitle {
+    font-size: 1.2em;
+    margin: 10px 5px;
+    flex-basis: 30%;
+  }
+  .value {
+    flex-basis: 70%;
+    margin: 10px 0;
   }
 }
 </style>
