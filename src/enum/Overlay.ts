@@ -1,6 +1,8 @@
 enum OverlayEnum {
   PackagesFiltration,
-  PackagesFiltrationReset
+  PackagesFiltrationReset,
+  EventsFiltration,
+  EventsFiltrationReset
 }
 
 export { OverlayEnum }
