@@ -17,6 +17,10 @@
       v-else-if="eventsFiltration"
       v-on:changeOptions="overlayValue(false)"
     />
+    <RepositoriesFiltration
+      v-else-if="repositoryFiltration"
+      v-on:changeOptions="overlayValue(false)"
+    />
     <QuestionCard
       v-else-if="resetFiltration"
       :text="common_store.overlayText"
@@ -28,16 +32,19 @@
 <script setup lang="ts">
 import PackageFiltration from '@/components/packages/Filtration.vue'
 import EventsFiltration from '@/components/events/Filtration.vue'
+import RepositoriesFiltration from '@/components/repositories/Filtration.vue'
 import QuestionCard from '@/components/common/QuestionCard.vue'
 import { computed, onMounted } from 'vue'
 import { OverlayEnum } from '@/enum/Overlay'
 import { useCommonStore } from '@/store/common'
 import { usePackagesStore } from '@/store/packages'
 import { useEventsStore } from '@/store/events'
+import { useRepositoryStore } from '@/store/repositories'
 
 const common_store = useCommonStore()
 const package_store = usePackagesStore()
 const event_store = useEventsStore()
+const repository_store = useRepositoryStore()
 
 const absolute = false
 
@@ -55,6 +62,13 @@ const eventsFiltration = computed(() => {
   )
 })
 
+const repositoryFiltration = computed(() => {
+  return (
+    common_store.overlayComponent ==
+    OverlayEnum.RepositoryFiltration
+  )
+})
+
 const resetFiltration = computed(function () {
   let a: boolean =
     common_store.overlayComponent ==
@@ -62,7 +76,10 @@ const resetFiltration = computed(function () {
   let b: boolean =
     common_store.overlayComponent ==
     OverlayEnum.EventsFiltrationReset
-  return b || a
+  let c: boolean =
+    common_store.overlayComponent ==
+    OverlayEnum.RepositoryFiltrationReset
+  return b || a || c
 })
 
 onMounted(() => {
@@ -89,6 +106,11 @@ function overlayValue(value: boolean = false) {
       OverlayEnum.EventsFiltrationReset
     ) {
       event_store.clearFiltrationAndFetch()
+    } else if (
+      common_store.overlayComponent ==
+      OverlayEnum.RepositoryFiltrationReset
+    ) {
+      repository_store.clearFiltrationAndFetch()
     }
   }
   common_store.setOverlayModel(false)
