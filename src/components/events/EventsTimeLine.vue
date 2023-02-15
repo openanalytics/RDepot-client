@@ -21,28 +21,10 @@
       "
     >
       <template v-slot:icon>
-        <div v-if="!item.eventType" class="dateDot">
-          <div v-if="isFullDate(item)" class="day">
-            {{ item }}
-          </div>
-          <div v-if="isYearAndMonthDate(item)">
-            <div class="year">
-              {{ new Date(item).getFullYear() }}
-              <div class="month">
-                {{
-                  getMonthName(new Date(item).getMonth())
-                }}
-              </div>
-            </div>
-          </div>
-        </div>
-        <v-icon
-          :icon="eventsIcons.get(item.eventType)"
-          size="20"
-          center
-          v-else
-        >
-        </v-icon>
+        <EventIcon
+          :event="item.eventType ? item : undefined"
+          :date="!item.eventType ? item : undefined"
+        />
       </template>
 
       <EventBox
@@ -54,12 +36,12 @@
 </template>
 
 <script setup lang="ts">
+import EventBox from './EventBox.vue'
+import EventIcon from './EventIcon.vue'
+import { EntityModelNewsfeedEventDto } from '@/openapi'
 import { useEventsStore } from '@/store/events'
 import { computed, ref } from 'vue'
-import EventBox from './EventBox.vue'
-import { eventsIcons } from '@/models/EventTypeIcon'
 import { useDisplay } from 'vuetify/lib/framework.mjs'
-import { EntityModelNewsfeedEventDto } from '@/openapi'
 import { useTheme } from 'vuetify'
 
 const { current } = useTheme()
@@ -80,22 +62,8 @@ const eventBoxWidth = computed(() => {
     : '250'
 })
 
-function getMonthName(monthNumber: number) {
-  const date = new Date()
-  date.setMonth(monthNumber)
-
-  return date.toLocaleString('en-US', { month: 'long' })
-}
-
-function isFullDate(date: string): boolean {
-  return date.length == 10
-}
-
 function isYearAndMonthDate(date: string): boolean {
   return date.length == 7
-}
-function getYear(yearMonthDate: string) {
-  return yearMonthDate.substring(0, 4)
 }
 
 function getDotColor(item: any) {
@@ -150,7 +118,6 @@ function getMonthAndYear(date: Date): string {
 
 const grouped_events = computed(function () {
   const local_events: any[] = []
-
   const events_grouped_by_date = groupByDate(
     events_store.events
   )
