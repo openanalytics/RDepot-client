@@ -1,5 +1,5 @@
 <template>
-  <v-row :class="{ title: title }">
+  <v-row :class="{ title: title }" id="packagerow">
     <v-col
       id="packagerowname"
       cols="lg-1 sm-2"
@@ -34,26 +34,28 @@
           ? prepareString(
               $t('packages.description').toString()
             )
-          : packageBag
-          ? packageBag.desc.length > descMaxLength
-            ? packageBag.desc.slice(0, descMaxLength) +
-              '...'
-            : packageBag.desc
+          : packageBag && packageBag.description
+          ? packageBag.description.length > descMaxLength
+            ? packageBag.description.slice(
+                0,
+                descMaxLength
+              ) + '...'
+            : packageBag.description
           : ''
       }}</v-col
     >
     <v-col
       id="packagerowmaintainer"
       cols="lg-1 sm-2"
-      class="d-flex align-center"
+      class="d-flex align-center justify-center"
     >
       {{
         title == true
           ? prepareString(
               $t('packages.maintainer').toString()
-            )
+            ) + ' userId'
           : packageBag
-          ? packageBag.maintainer
+          ? packageBag.userId
           : ''
       }}</v-col
     >
@@ -68,7 +70,7 @@
               $t('packages.repository').toString()
             )
           : packageBag
-          ? packageBag.reposiotory
+          ? packageBag.repositoryId
           : ''
       }}</v-col
     >
@@ -125,16 +127,18 @@
 </template>
 
 <script setup lang="ts">
-import { Package } from '@/models/packages/Package'
 import { ref } from '@vue/reactivity'
 import router from '@/router'
+import { EntityModelPackageDtoObjectObject } from '@/openapi'
 
 const props = defineProps({
   title: {
     type: Boolean,
     default: false
   },
-  packageBag: Object as () => Package | undefined
+  packageBag: Object as () =>
+    | EntityModelPackageDtoObjectObject
+    | undefined
 })
 const descMaxLength = ref(110)
 
@@ -169,5 +173,11 @@ function navigate() {
 
 .v-input__control {
   justify-content: center !important;
+}
+
+#packagerow {
+  .v-input__details {
+    display: none !important;
+  }
 }
 </style>

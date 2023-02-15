@@ -1,28 +1,28 @@
 <template>
-  <v-expansion-panels variant="inset" class="my-1">
-    <v-expansion-panel>
-      <v-expansion-panel-title
-        id="expansionpaneltitle"
-        class="no-icon"
-      >
-        <PackageRow :packageBag="props.packageBag" />
-      </v-expansion-panel-title>
-      <v-expansion-panel-text>
-        <v-divider class="content-divider" />
-        <div class="content">
-          {{ props.packageBag?.desc }}
-        </div>
-      </v-expansion-panel-text>
-    </v-expansion-panel>
-  </v-expansion-panels>
+  <v-expansion-panel>
+    <v-expansion-panel-title
+      id="expansionpaneltitle"
+      class="no-icon"
+    >
+      <PackageRow :packageBag="props.packageBag" />
+    </v-expansion-panel-title>
+    <v-expansion-panel-text>
+      <v-divider class="content-divider" />
+      <div class="content">
+        {{ props.packageBag?.description }}
+      </div>
+    </v-expansion-panel-text>
+  </v-expansion-panel>
 </template>
 
 <script setup lang="ts">
 import { Package } from '@/models/packages/Package'
 import PackageRow from '@/components/packages/PackageRow.vue'
+import { EntityModelPackageDtoObjectObject } from '@/openapi'
 
 const props = defineProps({
-  packageBag: Object as () => Package
+  packageBag:
+    Object as () => EntityModelPackageDtoObjectObject
 })
 </script>
 

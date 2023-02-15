@@ -2,7 +2,7 @@
   <div>
     <v-expansion-panels
       variant="inset"
-      class="v-expansion mx-10"
+      class="v-expansion mx-5"
     >
       <PackagesListTitle />
       <PackageItem
@@ -35,8 +35,12 @@ onMounted(() => {
 })
 </script>
 
-<style scoped>
+<style>
 .v-expansion {
   max-width: 96% !important;
 }
+
+/* .v-checkbox .v-selection-control {
+  min-height: auto !important;
+} */
 </style>
