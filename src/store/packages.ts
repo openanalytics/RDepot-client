@@ -1,10 +1,10 @@
-import { Package } from '@/models/packages/Package'
 import { PackagesFiltration } from '@/models/Filtration'
 import packages from '@/tmpLists/packages.json'
 import { defineStore } from 'pinia'
+import { EntityModelPackageDtoObjectObject } from '@/openapi'
 
 interface State {
-  packages: Package[]
+  packages: EntityModelPackageDtoObjectObject[]
   page: number
   pageSize: number
   filtration: PackagesFiltration
@@ -41,9 +41,13 @@ export const usePackagesStore = defineStore(
       async fetchPackages() {
         //dummy page fetch - in real you need to fertch packages from servcice and set page to 1
         if (this.page % 2 == 0) {
-          this.packages = packages.page1
+          this.packages = JSON.parse(
+            JSON.stringify(packages.page1)
+          )
         } else {
-          this.packages = packages.page2
+          this.packages = JSON.parse(
+            JSON.stringify(packages.page2)
+          )
         }
       },
       async setPage(payload: number) {
