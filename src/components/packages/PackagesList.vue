@@ -1,8 +1,8 @@
 <template>
   <div>
     <v-expansion-panels
-      inset
-      class="v-expansion mt-8 mx-10"
+      variant="inset"
+      class="v-expansion mx-10"
     >
       <PackagesListTitle />
       <PackageItem

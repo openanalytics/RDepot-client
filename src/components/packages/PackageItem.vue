@@ -1,5 +1,5 @@
 <template>
-  <v-expansion-panels>
+  <v-expansion-panels variant="inset" class="my-1">
     <v-expansion-panel>
       <v-expansion-panel-title
         id="expansionpaneltitle"
