@@ -4,6 +4,12 @@ interface Filtration {
   value: string
 }
 
+interface FiltrationNumber {
+  label: string
+  requestName: string
+  value: number | undefined
+}
+
 interface FiltrationBoolean {
   label: string
   requestName: string
@@ -16,4 +22,12 @@ interface PackagesFiltration {
   repository: Filtration
 }
 
-export type { PackagesFiltration }
+interface EventsFiltration {
+  technology: Filtration
+  userId: FiltrationNumber
+  resourceId: FiltrationNumber
+  eventType: Filtration
+  resourceType: Filtration
+}
+
+export type { PackagesFiltration, EventsFiltration }
