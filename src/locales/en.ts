@@ -51,8 +51,15 @@ export const en = {
     filtration: 'Events filtration'
   },
   repositories: {
+    filtration: 'Repositoires filtration',
     maintainers: 'repository maintainers',
-    list: 'repositories'
+    list: 'repositories',
+    name: 'name',
+    publicationUri: 'publication uri',
+    serverAddress: 'server address',
+    version: 'version',
+    packagesNo: 'number of packages',
+    published: 'published'
   },
   pagination: {
     size: 'page size'
