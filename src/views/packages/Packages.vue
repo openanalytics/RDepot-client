@@ -16,15 +16,7 @@
         "
         class="mx-3"
       />
-      <Overlay
-        :text="$t('filtration.makeSure')"
-        :overlay="overlay"
-        :opacity="opacity"
-        :component="component"
-        v-on:overlayClicked="overlayValue"
-      />
     </v-row>
-
     <PackagesList />
     <Pagination :page="page" v-on:newPage="nextPage" />
   </div>
@@ -34,15 +26,14 @@
 import PackagesList from '@/components/packages/PackagesList.vue'
 import Pagination from '@/components/common/Pagination.vue'
 import CommonButton from '@/components/common/Button.vue'
-import Overlay from '@/components/common/Overlay.vue'
 import { OverlayEnum } from '@/enum/Overlay'
-import { ref, computed } from 'vue'
+import { computed } from 'vue'
 import { usePackagesStore } from '@/store/packages'
+import { useCommonStore } from '@/store/common'
+import { useI18n } from 'vue-i18n'
 
-const overlay = ref(false)
-const opacity = ref(0.8)
-const component = ref(OverlayEnum.PackagesFiltration)
-
+const { t } = useI18n()
+const common_store = useCommonStore()
 const package_store = usePackagesStore()
 
 const page = computed(function () {
@@ -53,19 +44,10 @@ function nextPage(value: number) {
   package_store.setPage(value)
 }
 
-function resetForm() {
-  package_store.clearFiltrationAndFetch()
-}
-
-function overlayValue(value: boolean) {
-  if (value) {
-    resetForm()
-  }
-  overlay.value = false
-}
-
 function showOverlay(value: number) {
-  component.value = value
-  overlay.value = true
+  common_store.setOverlayText(t('filtration.makeSure'))
+  common_store.setOverlayModel(true)
+  common_store.setOverlayOpacity(0.8)
+  common_store.setOverlayComponent(value)
 }
 </script>
