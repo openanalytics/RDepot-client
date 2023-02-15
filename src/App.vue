@@ -1,6 +1,7 @@
 <template>
   <v-app>
     <Navbar style="max-width: 100%" />
+    <Overlay />
     <div class="d-flex">
       <v-row style="margin: 0">
         <Sidebar />
@@ -20,4 +21,12 @@
 <script setup lang="ts">
 import Sidebar from '@/components/navbar/Sidebar.vue'
 import Navbar from '@/components/navbar/Navbar.vue'
+import Overlay from '@/components/common/Overlay.vue'
 </script>
+
+<style>
+.v-overlay--absolute,
+.v-overlay--contained .v-overlay__scrim {
+  position: fixed !important;
+}
+</style>
