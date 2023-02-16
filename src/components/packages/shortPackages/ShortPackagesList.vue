@@ -4,8 +4,8 @@
       variant="inset"
       class="v-expansion mx-5"
     >
-      <PackagesListTitle />
-      <PackageItem
+      <ShortPackagesListTitle />
+      <ShortPackageItem
         v-for="(item, index) in packages"
         :key="index"
         :packageBag="item"
@@ -15,19 +15,19 @@
 </template>
 
 <script setup lang="ts">
-import { usePackagesStore } from '@/store/packages'
+import { useRepositoryStore } from '@/store/repositories'
 import { computed, onMounted } from 'vue'
-import PackageItem from '@/components/packages/PackageItem.vue'
-import PackagesListTitle from '@/components/packages/PackagesListTitle.vue'
+import ShortPackageItem from '@/components/packages/shortPackages/ShortPackageItem.vue'
+import ShortPackagesListTitle from '@/components/packages/shortPackages/ShortPackagesListTitle.vue'
 
-const packages_store = usePackagesStore()
+const repository_store = useRepositoryStore()
 
 const packages = computed(function () {
-  return packages_store.packages
+  return repository_store.repositoryPackages
 })
 
 function updateState(): void {
-  packages_store.fetchPackages()
+  repository_store.fetchPackages()
 }
 
 onMounted(() => {
@@ -41,10 +41,6 @@ onMounted(() => {
 }
 
 /* .v-checkbox .v-selection-control {
-  min-height: auto !important;
-} */
-
-.v-expansion-panel-title {
-  padding: 0 !important;
-}
+    min-height: auto !important;
+  } */
 </style>
