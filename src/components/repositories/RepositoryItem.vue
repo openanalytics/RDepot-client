@@ -1,17 +1,6 @@
 <template>
   <v-expansion-panel>
-    <v-expansion-panel-title
-      id="expansionpaneltitle"
-      class="no-icon"
-    >
-      <RepositoryRow :repository="props.repository" />
-    </v-expansion-panel-title>
-    <!-- <v-expansion-panel-text>
-      <v-divider class="content-divider" />
-      <div class="content">
-        {{ props.repository?. }}
-      </div>
-    </v-expansion-panel-text> -->
+    <repository-row :repository="props.repository" />
   </v-expansion-panel>
 </template>
 

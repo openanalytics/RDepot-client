@@ -1,9 +1,6 @@
 <template>
   <div>
-    <v-expansion-panels
-      variant="inset"
-      class="v-expansion mx-5"
-    >
+    <v-expansion-panels class="v-expansion mx-5">
       <RepositoriesListTitle />
       <RepositoryItem
         v-for="(item, index) in repositories"

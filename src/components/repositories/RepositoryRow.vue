@@ -1,5 +1,9 @@
 <template>
-  <v-row :class="{ title: title }" id="repositoryrow">
+  <v-row
+    class="px-5"
+    :class="{ title: title }"
+    id="repositoryrow"
+  >
     <v-col
       id="repositoryname"
       cols="lg-2 sm-2"
@@ -122,13 +126,28 @@
             $t('common.details')
           }}</span>
         </v-tooltip>
+        <v-tooltip top>
+          <template v-slot:activator="{ props }">
+            <v-icon
+              id="navigateicon"
+              @click.stop
+              @click="navigate"
+              v-bind="props"
+              color="oared"
+              class="ml-3"
+              >mdi-trash-can</v-icon
+            >
+          </template>
+          <span id="actiondelete">{{
+            $t('common.delete')
+          }}</span>
+        </v-tooltip>
       </span>
     </v-col>
   </v-row>
 </template>
 
 <script setup lang="ts">
-import { ref } from '@vue/reactivity'
 import router from '@/router'
 import { EntityModelRRepositoryDto } from '@/openapi'
 
@@ -168,7 +187,8 @@ function navigate() {
 }
 .title {
   font-weight: 600 !important;
-  padding: 16px 24px;
+  padding-top: 16px;
+  padding-bottom: 16px;
 }
 
 .v-input__control {
