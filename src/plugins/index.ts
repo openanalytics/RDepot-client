@@ -12,7 +12,7 @@ import vuelidate from '@vuelidate/core'
 import Notifications from '@kyvg/vue3-notification'
 
 import type { App } from 'vue'
-import { i18n } from './i18n'
+import { i18nInstance } from './i18n'
 
 export function registerPlugins(app: App) {
   loadFonts()
@@ -20,7 +20,7 @@ export function registerPlugins(app: App) {
     .use(vuetify)
     .use(router)
     .use(pinia)
-    .use(i18n)
+    .use(i18nInstance)
     .use(vuelidate)
     .use(Notifications)
 }
