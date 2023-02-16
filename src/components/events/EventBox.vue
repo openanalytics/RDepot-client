@@ -73,13 +73,13 @@ const email = computed(() => {
 })
 
 const description = computed(() => {
-  return props.event?.resourceDescription
+  return props.event?.changedProperties
 })
 </script>
 
 <style lang="scss">
 .eventCard {
-  max-width: 500px;
+  // max-width: 500px;
 
   .title {
     padding: 0.5em;

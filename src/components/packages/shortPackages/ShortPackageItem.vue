@@ -1,5 +1,5 @@
 <template>
-  <v-expansion-panel>
+  <v-expansion-panel id="shortpackagelist">
     <v-expansion-panel-title
       id="expansionpaneltitle"
       class="no-icon"
@@ -7,8 +7,7 @@
       <ShortPackageRow :packageBag="props.packageBag" />
     </v-expansion-panel-title>
     <v-expansion-panel-text>
-      <v-divider />
-      <div class="content mt-4">
+      <div class="content mt-2">
         {{ props.packageBag?.description }}
       </div>
     </v-expansion-panel-text>
@@ -34,5 +33,11 @@ const props = defineProps({
 
 .v-expansion-panel-title__icon {
   display: none !important;
+}
+
+#shortpackagelist {
+  .v-expansion-panel-title {
+    padding: 16px 24px !important;
+  }
 }
 </style>

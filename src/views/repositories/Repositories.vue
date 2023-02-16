@@ -24,25 +24,10 @@ import RepositoriesList from '@/components/repositories/RepositoriesList.vue'
 import CommonButton from '@/components/common/Button.vue'
 import { OverlayEnum } from '@/enum/Overlay'
 import { useCommonStore } from '@/store/common'
-import { useRepositoryStore } from '@/store/repositories'
-import { computed, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const common_store = useCommonStore()
-const repository_store = useRepositoryStore()
 const { t } = useI18n()
-
-const repositories = computed(function () {
-  return repository_store.repositories
-})
-
-function updateState() {
-  repository_store.fetchRepositories()
-}
-
-onMounted(() => {
-  updateState()
-})
 
 function showOverlay(value: number) {
   common_store.setOverlayText(t('filtration.makeSure'))

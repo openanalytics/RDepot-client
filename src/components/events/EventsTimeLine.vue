@@ -56,7 +56,7 @@ const hiddenMonths = ref<string[]>([])
 
 const eventBoxWidth = computed(() => {
   return lgAndUp
-    ? '450'
+    ? '650'
     : mdAndUp
     ? '450'
     : smAndUp
