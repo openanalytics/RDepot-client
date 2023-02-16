@@ -11,7 +11,6 @@
           v-model="localFiltration.name.value"
           :items="repositoryNameSelect"
           :label="localFiltration.name.label"
-          color="text"
           data-test="filtrationstate"
         ></v-select>
 
@@ -20,7 +19,6 @@
           v-model="localFiltration.technology.value"
           :items="technologySelect"
           :label="localFiltration.technology.label"
-          color="text"
         ></v-select>
       </v-form>
     </v-card-text>

@@ -205,7 +205,7 @@ function groupByDate(
   align-items: start;
   height: auto !important;
   margin-top: 50px;
-  // margin-bottom: 100px;
+  margin-bottom: 100px;
 }
 
 .v-timeline .v-timeline-divider__dot {

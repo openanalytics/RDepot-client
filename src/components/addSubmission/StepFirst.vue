@@ -7,7 +7,6 @@
       @update:modelValue="changeRepository"
       item-value="id"
       item-title="name"
-      color="black"
       persistent-hint
       return-object
     ></v-select>
@@ -55,21 +54,6 @@ function nextStep() {
 </script>
 
 <style lang="scss">
-.v-select__selection,
-label.v-label.theme--dark {
-  font-size: 1.125em;
-}
-
-.v-select__selection.v-select__selection--comma {
-  padding: 10px 0;
-}
-
-.v-list-item__title {
-  font-size: 1.125em !important;
-  line-height: 1.5;
-  padding: 10px 0;
-}
-
 .v-input {
   align-items: center !important;
 }
@@ -78,7 +62,7 @@ label.v-label.theme--dark {
   .v-file-input__text {
     .v-chip {
       font-size: 1.125em !important;
-      padding: 15px 5px !important;
+      // padding: 15px 5px !important;
       margin-bottom: 10px !important;
     }
   }

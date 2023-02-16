@@ -11,7 +11,6 @@
           v-model="localFiltration.eventType.value"
           :items="eventTypeSelect"
           :label="localFiltration.eventType.label"
-          color="text"
           data-test="filtrationeventtype"
         ></v-select>
 
@@ -20,7 +19,6 @@
           v-model="localFiltration.resourceType.value"
           :items="resourceTypeSelect"
           :label="localFiltration.resourceType.label"
-          color="text"
           data-test="filtrationresourcetype"
         ></v-select>
 
@@ -29,7 +27,6 @@
           v-model="localFiltration.technology.value"
           :items="technologySelect"
           :label="localFiltration.technology.label"
-          color="text"
           data-test="filtrationtechnology"
         ></v-select>
 
@@ -38,7 +35,6 @@
           type="number"
           v-model="localFiltration.resourceId.value"
           :label="localFiltration.resourceId.label"
-          color="text"
           min="0"
         ></v-text-field>
 
@@ -47,7 +43,6 @@
           type="number"
           v-model="localFiltration.userId.value"
           :label="localFiltration.userId.label"
-          color="text"
         ></v-text-field>
       </v-form>
     </v-card-text>

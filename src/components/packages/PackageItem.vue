@@ -7,8 +7,8 @@
       <PackageRow :packageBag="props.packageBag" />
     </v-expansion-panel-title>
     <v-expansion-panel-text>
-      <v-divider class="content-divider" />
-      <div class="content">
+      <v-divider />
+      <div class="content mt-4">
         {{ props.packageBag?.description }}
       </div>
     </v-expansion-panel-text>
@@ -16,7 +16,6 @@
 </template>
 
 <script setup lang="ts">
-import { Package } from '@/models/packages/Package'
 import PackageRow from '@/components/packages/PackageRow.vue'
 import { EntityModelPackageDtoObjectObject } from '@/openapi'
 
@@ -27,11 +26,9 @@ const props = defineProps({
 </script>
 
 <style lang="scss">
-.content-divider {
-  padding: 0 0 30px 0;
-}
 .content {
   text-align: justify;
+  font-size: 14px;
   padding: 0 40px 0 0;
 }
 

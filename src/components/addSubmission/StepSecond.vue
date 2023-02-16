@@ -1,6 +1,7 @@
 <template>
   <v-card class="mb-12 px-10 py-5 step" min-height="250px">
     <v-file-input
+      class="mt-5"
       multiple
       v-model="files"
       counter

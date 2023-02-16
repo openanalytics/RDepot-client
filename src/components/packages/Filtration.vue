@@ -11,7 +11,6 @@
           v-model="localFiltration.state.value"
           :items="submissionStateSelect"
           :label="localFiltration.state.label"
-          color="text"
           data-test="filtrationstate"
         ></v-select>
 
@@ -20,7 +19,6 @@
           v-model="localFiltration.repository.value"
           :items="repositoryNameSelect"
           :label="localFiltration.repository.label"
-          color="text"
         ></v-select>
 
         <v-checkbox
@@ -29,7 +27,6 @@
             localFiltration && localFiltration.deleted.label
           "
           v-model="localFiltration.deleted.value"
-          color="text"
         ></v-checkbox>
       </v-form>
     </v-card-text>
