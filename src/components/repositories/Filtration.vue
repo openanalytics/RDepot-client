@@ -1,24 +1,24 @@
 <template>
   <v-card class="pa-5" width="400">
     <v-card-title>
-      {{ $t('repositories.filtration') }}
+      {{ $t('repositories.filtration.title') }}
     </v-card-title>
     <v-divider></v-divider>
     <v-card-text style="height: 300px">
       <v-form ref="form" lazy-validation>
         <v-select
           id="filtrationstate"
-          v-model="localFiltration.name.value"
+          v-model="localFiltration.name"
           :items="repositoryNameSelect"
-          :label="localFiltration.name.label"
+          :label="$t('repositories.filtration.name')"
           data-test="filtrationstate"
         ></v-select>
 
         <v-select
           id="filtrationrepository"
-          v-model="localFiltration.technology.value"
+          v-model="localFiltration.technology"
           :items="technologySelect"
-          :label="localFiltration.technology.label"
+          :label="$t('repositories.filtration.technology')"
         ></v-select>
       </v-form>
     </v-card-text>
@@ -98,7 +98,7 @@ onMounted(() => {
 })
 
 function clearFiltration() {
-  localFiltration!.value.technology.value = ''
-  localFiltration!.value.name.value = ''
+  localFiltration!.value.technology = ''
+  localFiltration!.value.name = ''
 }
 </script>

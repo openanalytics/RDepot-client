@@ -26,7 +26,8 @@ export const en = {
     maintainers: 'maintainers',
     list: 'list',
     addPackage: 'add package',
-    events: 'events'
+    events: 'events',
+    delete: 'delete'
   },
   filtration: {
     title: 'filtration',
@@ -36,7 +37,12 @@ export const en = {
     changeLanguage: 'lang'
   },
   packages: {
-    filtration: 'Packages filtration',
+    filtration: {
+      title: 'Packages filtration',
+      state: 'State',
+      repository: 'Repository',
+      deleted: 'Deleted'
+    },
     name: 'name',
     version: 'version',
     description: 'descritpion',
@@ -45,13 +51,25 @@ export const en = {
     active: 'active',
     actions: 'actions',
     maintainers: 'package maintainers',
-    list: 'packages'
+    list: 'packages',
+    title: 'title'
   },
   events: {
-    filtration: 'Events filtration'
+    filtration: {
+      title: 'Events filtration',
+      eventType: 'Event Type',
+      resourceType: 'Resource Type',
+      technology: 'Technology',
+      resourceId: 'Resource Id',
+      userId: 'User Id'
+    }
   },
   repositories: {
-    filtration: 'Repositoires filtration',
+    filtration: {
+      title: 'Repositories filtration',
+      name: 'Name',
+      technology: 'Technology'
+    },
     maintainers: 'repository maintainers',
     list: 'repositories',
     name: 'name',

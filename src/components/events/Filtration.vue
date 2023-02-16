@@ -1,48 +1,49 @@
 <template>
   <v-card class="pa-5" width="400">
     <v-card-title>
-      {{ $t('events.filtration') }}
+      {{ $t('events.filtration.title') }}
     </v-card-title>
     <v-divider></v-divider>
     <v-card-text style="height: 400px">
       <v-form ref="form" lazy-validation>
         <v-select
           id="filtrationeventtype"
-          v-model="localFiltration.eventType.value"
+          v-model="localFiltration.eventType"
           :items="eventTypeSelect"
-          :label="localFiltration.eventType.label"
+          :label="$t('events.filtration.eventType')"
           data-test="filtrationeventtype"
         ></v-select>
 
         <v-select
           id="filtrationresourcetype"
-          v-model="localFiltration.resourceType.value"
+          v-model="localFiltration.resourceType"
           :items="resourceTypeSelect"
-          :label="localFiltration.resourceType.label"
+          :label="$t('events.filtration.resourceType')"
           data-test="filtrationresourcetype"
         ></v-select>
 
         <v-select
           id="filtrationtechnology"
-          v-model="localFiltration.technology.value"
+          v-model="localFiltration.technology"
           :items="technologySelect"
-          :label="localFiltration.technology.label"
+          :label="$t('events.filtration.technology')"
           data-test="filtrationtechnology"
         ></v-select>
 
         <v-text-field
           id="filtrationresourceid"
           type="number"
-          v-model="localFiltration.resourceId.value"
-          :label="localFiltration.resourceId.label"
+          v-model="localFiltration.resourceId"
+          :label="$t('events.filtration.resourceId')"
           min="0"
         ></v-text-field>
 
         <v-text-field
           id="filtrationuserid"
           type="number"
-          v-model="localFiltration.userId.value"
-          :label="localFiltration.userId.label"
+          v-model="localFiltration.userId"
+          :label="$t('events.filtration.userId')"
+          min="0"
         ></v-text-field>
       </v-form>
     </v-card-text>
@@ -127,10 +128,10 @@ onMounted(() => {
 })
 
 function clearFiltration() {
-  localFiltration!.value.eventType.value = ''
-  localFiltration!.value.resourceId.value = undefined
-  localFiltration!.value.resourceType.value = ''
-  localFiltration!.value.technology.value = ''
-  localFiltration!.value.userId.value = undefined
+  localFiltration!.value.eventType = ''
+  localFiltration!.value.resourceId = undefined
+  localFiltration!.value.resourceType = ''
+  localFiltration!.value.technology = ''
+  localFiltration!.value.userId = undefined
 }
 </script>
