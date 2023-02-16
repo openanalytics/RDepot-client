@@ -19,21 +19,9 @@ export const usePackagesStore = defineStore(
         page: 1,
         pageSize: 10,
         filtration: {
-          state: {
-            label: 'Submission State',
-            requestName: 'submissionState',
-            value: ''
-          },
-          deleted: {
-            label: 'Deleted',
-            requestName: 'deleted',
-            value: false
-          },
-          repository: {
-            label: 'Repository Name',
-            requestName: 'repositoryName',
-            value: ''
-          }
+          state: '',
+          deleted: false,
+          repository: ''
         }
       }
     },
@@ -63,9 +51,9 @@ export const usePackagesStore = defineStore(
         this.fetchPackages()
       },
       clearFiltration() {
-        this.filtration.state.value = ''
-        this.filtration.repository.value = ''
-        this.filtration.deleted.value = false
+        this.filtration.state = ''
+        this.filtration.repository = ''
+        this.filtration.deleted = false
       },
       async clearFiltrationAndFetch() {
         this.clearFiltration()

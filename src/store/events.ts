@@ -16,31 +16,11 @@ export const useEventsStore = defineStore('events_store', {
       page: 1,
       events: JSON.parse(JSON.stringify(events.events)),
       filtration: {
-        eventType: {
-          label: 'Event Type',
-          requestName: 'eventType',
-          value: ''
-        },
-        resourceId: {
-          label: 'Resource Id',
-          requestName: 'resourceId',
-          value: undefined
-        },
-        resourceType: {
-          label: 'Resource Type',
-          requestName: 'resourceType',
-          value: ''
-        },
-        technology: {
-          label: 'Technology',
-          requestName: 'technology',
-          value: ''
-        },
-        userId: {
-          label: 'User Id',
-          requestName: 'userId',
-          value: undefined
-        }
+        eventType: '',
+        resourceId: undefined,
+        resourceType: '',
+        technology: '',
+        userId: undefined
       }
     }
   },
@@ -66,11 +46,11 @@ export const useEventsStore = defineStore('events_store', {
       this.fetchEvents()
     },
     clearFiltration() {
-      this.filtration.eventType.value = ''
-      this.filtration.resourceId.value = undefined
-      this.filtration.resourceType.value = ''
-      this.filtration.technology.value = ''
-      this.filtration.userId.value = undefined
+      this.filtration.eventType = ''
+      this.filtration.resourceId = undefined
+      this.filtration.resourceType = ''
+      this.filtration.technology = ''
+      this.filtration.userId = undefined
     },
     async clearFiltrationAndFetch() {
       this.clearFiltration()

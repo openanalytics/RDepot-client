@@ -1,38 +1,20 @@
-interface Filtration {
-  label: string
-  requestName: string
-  value: string
-}
-
-interface FiltrationNumber {
-  label: string
-  requestName: string
-  value: number | undefined
-}
-
-interface FiltrationBoolean {
-  label: string
-  requestName: string
-  value: boolean
-}
-
 interface PackagesFiltration {
-  state: Filtration
-  deleted: FiltrationBoolean
-  repository: Filtration
+  state: string
+  deleted: boolean
+  repository: string
 }
 
 interface RepositoriesFiltration {
-  technology: Filtration
-  name: Filtration
+  technology: string
+  name: string
 }
 
 interface EventsFiltration {
-  technology: Filtration
-  userId: FiltrationNumber
-  resourceId: FiltrationNumber
-  eventType: Filtration
-  resourceType: Filtration
+  technology: string
+  userId: number | undefined
+  resourceId: number | undefined
+  eventType: string
+  resourceType: string
 }
 
 export type {
