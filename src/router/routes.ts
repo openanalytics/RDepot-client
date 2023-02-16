@@ -23,6 +23,16 @@ export const routes = [
         meta: { title: 'RDepot - repositories' }
       },
       {
+        path: '/repositories/:name',
+        name: 'repositoryDetails',
+        component: () =>
+          import(
+            '@/views/repositories/RepositoryDetails.vue'
+          ),
+        meta: { title: 'RDepot - repository details' },
+        props: true
+      },
+      {
         path: '/packages',
         name: 'packages',
         component: () =>
@@ -30,7 +40,7 @@ export const routes = [
         meta: { title: 'RDepot - packages' }
       },
       {
-        path: '/package-details/:name',
+        path: '/packages/:name',
         name: 'packageDetails',
         component: () =>
           import('@/views/packages/PackageDetails.vue'),
