@@ -43,12 +43,14 @@ import { useEventsStore } from '@/store/events'
 import { computed, ref } from 'vue'
 import { useDisplay } from 'vuetify/lib/framework.mjs'
 import { useTheme } from 'vuetify'
+import { useDates } from '@/composable/date'
 
 const { current } = useTheme()
 const { lgAndUp, mdAndUp, smAndUp, smAndDown } =
   useDisplay()
+const { isYearAndMonthDate, getMonthAndYear, getDate } =
+  useDates()
 const events_store = useEventsStore()
-
 const hiddenDays = ref<string[]>([])
 const hiddenMonths = ref<string[]>([])
 
@@ -61,10 +63,6 @@ const eventBoxWidth = computed(() => {
     ? '400'
     : '250'
 })
-
-function isYearAndMonthDate(date: string): boolean {
-  return date.length == 7
-}
 
 function getDotColor(item: any) {
   return item && !item.eventType
@@ -106,14 +104,6 @@ function hideMonth(date: string) {
       1
     )
   }
-}
-
-function getMonthAndYear(date: Date): string {
-  return (
-    date.getFullYear().toString() +
-    '.' +
-    padTo2Digits(date.getMonth() + 1)
-  )
 }
 
 const grouped_events = computed(function () {
@@ -165,28 +155,6 @@ function groupByDate(
     new Map()
   )
   return groupedMap
-}
-
-function padTo2Digits(num: number) {
-  return num.toString().padStart(2, '0')
-}
-
-function formatDate(date: Date) {
-  return [
-    date.getFullYear(),
-    padTo2Digits(date.getMonth() + 1),
-    padTo2Digits(date.getDate())
-  ].join('.')
-}
-
-function getDate(
-  event: EntityModelNewsfeedEventDto | undefined
-) {
-  if (event && event.time) {
-    const date = new Date(event.time)
-    return formatDate(date)
-  }
-  return 'null'
 }
 </script>
 

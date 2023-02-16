@@ -35,10 +35,13 @@
 <script setup lang="ts">
 import { EntityModelNewsfeedEventDto } from '@/openapi'
 import { computed } from 'vue'
+import { useDates } from '@/composable/date'
 
 const props = defineProps({
   event: Object as () => EntityModelNewsfeedEventDto
 })
+
+const { padTo2Digits } = useDates()
 
 const time = computed(function () {
   if (props.event?.time) {
@@ -72,10 +75,6 @@ const email = computed(() => {
 const description = computed(() => {
   return props.event?.resourceDescription
 })
-
-function padTo2Digits(num: number) {
-  return num.toString().padStart(2, '0')
-}
 </script>
 
 <style lang="scss">
