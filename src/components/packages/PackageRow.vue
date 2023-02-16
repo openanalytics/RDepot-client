@@ -1,5 +1,9 @@
 <template>
-  <v-row :class="{ title: title }" id="packagerow">
+  <v-row
+    class="px-5"
+    :class="{ title: title }"
+    id="packagerow"
+  >
     <v-col
       id="packagerowname"
       cols="lg-1 sm-2"
@@ -31,16 +35,12 @@
     >
       {{
         title == true
-          ? prepareString(
-              $t('packages.description').toString()
-            )
-          : packageBag && packageBag.description
-          ? packageBag.description.length > descMaxLength
-            ? packageBag.description.slice(
-                0,
-                descMaxLength
-              ) + '...'
-            : packageBag.description
+          ? prepareString($t('packages.title').toString())
+          : packageBag && packageBag.title
+          ? packageBag.title.length > descMaxLength
+            ? packageBag.title.slice(0, descMaxLength) +
+              '...'
+            : packageBag.title
           : ''
       }}</v-col
     >
@@ -119,6 +119,22 @@
           </template>
           <span id="actiondetails">{{
             $t('common.details')
+          }}</span>
+        </v-tooltip>
+        <v-tooltip top>
+          <template v-slot:activator="{ props }">
+            <v-icon
+              id="navigateicon"
+              @click.stop
+              @click="navigate"
+              v-bind="props"
+              color="oared"
+              class="ml-3"
+              >mdi-trash-can</v-icon
+            >
+          </template>
+          <span id="actiondelete">{{
+            $t('common.delete')
           }}</span>
         </v-tooltip>
       </span>
