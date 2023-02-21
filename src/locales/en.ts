@@ -79,6 +79,14 @@ export const en = {
     packagesNo: 'number of packages',
     published: 'published'
   },
+  submissions: {
+    actions: 'actions',
+    accepted: 'accepted',
+    submitter: 'submitter',
+    repository: 'repository',
+    package: 'package',
+    date: 'date'
+  },
   pagination: {
     size: 'page size'
   }

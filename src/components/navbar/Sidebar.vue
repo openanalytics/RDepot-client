@@ -25,6 +25,13 @@
         @click="$router.replace({ name: 'addSubmission' })"
       ></v-list-item>
 
+      <v-list-item
+        prepend-icon="mdi-email"
+        :title="$t('common.submissions')"
+        :value="$t('common.submissions')"
+        @click="$router.replace({ name: 'submissions' })"
+      ></v-list-item>
+
       <v-list-group value="Packages" tag="Packages">
         <template v-slot:activator="{ props }">
           <v-list-item

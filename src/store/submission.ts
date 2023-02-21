@@ -1,9 +1,12 @@
 import { Repository } from '@/models'
+import { EntityModelSubmissionDto } from '@/openapi'
 import { defineStore } from 'pinia'
+import submissions from '@/tmpLists/rSubmissions.json'
 
 interface State {
   repository: Repository | null
   packages: File[]
+  submissions: EntityModelSubmissionDto[]
 }
 
 export const useSubmissionState = defineStore(
@@ -12,10 +15,16 @@ export const useSubmissionState = defineStore(
     state: (): State => {
       return {
         repository: null,
-        packages: []
+        packages: [],
+        submissions: []
       }
     },
     actions: {
+      fetchSubmissions() {
+        this.submissions = JSON.parse(
+          JSON.stringify(submissions.content)
+        )
+      },
       setRepository(payload: Repository) {
         this.repository = payload
       },

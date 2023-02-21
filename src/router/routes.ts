@@ -33,6 +33,13 @@ export const routes = [
         props: true
       },
       {
+        path: '/submissions',
+        name: 'submissions',
+        component: () =>
+          import('@/views/submissions/Submissions.vue'),
+        meta: { title: 'RDepot - submissions' }
+      },
+      {
         path: '/packages',
         name: 'packages',
         component: () =>
