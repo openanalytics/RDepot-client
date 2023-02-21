@@ -163,7 +163,7 @@ function prepareString(value: string): string {
 }
 
 function navigate() {
-  if (props.packageBag) {
+  if (props.packageBag?.name) {
     router.replace({
       name: 'packageDetails',
       params: {

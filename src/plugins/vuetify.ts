@@ -23,6 +23,7 @@ export default createVuetify({
           oared: '#e52323',
           oablue: '#32a6d3',
           'oablue-darken-2': '#00729c',
+          darkoared: '#be1717',
           docsblue: '#30638e',
           lightyellow: '#f9eebf',
           darkyellow: '#ffd512',

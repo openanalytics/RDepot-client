@@ -1,0 +1,33 @@
+{
+  "package": {
+    "id": 8,
+    "userId": 4,
+    "version": "1.2",
+    "repositoryId": 3,
+    "submissionId": 6,
+    "name": "accrued",
+    "description": "Package for visualizing data quality of partially accruing time series.",
+    "author": "Julie Eaton and Ian Painter",
+    "title": "Visualization tools for partially accruing data",
+    "url": null,
+    "source": "/opt/rdepot/repositories/3/83118397/accrued_1.2.tar.gz",
+    "active": true,
+    "deleted": false,
+    "depends": "R (>= 3.0), grid",
+    "imports": null,
+    "suggests": null,
+    "systemRequirements": null,
+    "license": "GPL-3",
+    "md5sum": "70d295115295a4718593f6a39d77add9",
+    "links": [
+      {
+        "rel": "self",
+        "href": "http://localhost:8017/api/v2/manager/r/packages/8"
+      },
+      {
+        "rel": "packageList",
+        "href": "http://localhost:8017/api/v2/manager/r/packages"
+      }
+    ]
+  }
+}

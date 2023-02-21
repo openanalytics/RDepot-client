@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app color="oablue" dark class="navbar">
+  <v-app-bar app color="oared" dark class="navbar">
     <v-row justify="space-around" align="center">
       <v-row justify="start" align="center" class="ml-4">
         <v-app-bar-nav-icon
