@@ -6,42 +6,56 @@
     <div class="text my-5">
       {{ packageBag?.description }}
     </div>
-    <div class="text my-3">As described in R package:</div>
+    <div class="text my-3">
+      {{ $t('packages.originalRPackageData') }}:
+    </div>
     <div class="d-flex" style="flex-direction: column">
       <div class="d-flex">
-        <div class="col_title col_small">Author</div>
+        <div class="col_title col_small">
+          {{ $t('packages.author') }} :
+        </div>
         <div class="col_desc">
           {{ packageBag.author }}
         </div>
       </div>
     </div>
 
-    <div class="text my-3">Within RDepot:</div>
+    <div class="text my-3">
+      {{ $t('packages.withinRdepot') }} :
+    </div>
     <div class="d-flex" style="flex-direction: column">
       <div class="d-flex">
-        <div class="col_title col_small">Submitter</div>
+        <div class="col_title col_small">
+          {{ $t('packages.submitter') }}
+        </div>
         <div class="col_desc">
           <!-- {{ packageBag.sub }} -->
         </div>
       </div>
 
       <div class="d-flex">
-        <div class="col_title col_small">Approver</div>
+        <div class="col_title col_small">
+          {{ $t('packages.approver') }}
+        </div>
         <div class="col_desc">
           <!-- {{ packageBag.sub }} -->
         </div>
       </div>
 
       <div class="d-flex">
-        <div class="col_title col_small">Maintainer</div>
+        <div class="col_title col_small">
+          {{ $t('packages.maintainer') }}
+        </div>
         <div class="col_desc">
           <!-- {{ packageBag.sub }} -->
         </div>
       </div>
     </div>
-    <div class="subtitle my-5">Install</div>
+    <div class="subtitle my-5">
+      {{ $t('packages.install') }}
+    </div>
     <div class="text">
-      To install this package, start R and enter:
+      {{ $t('packages.installInstruction') }}
     </div>
     <div class="code my-2">
       <code>
@@ -52,7 +66,9 @@
         avaiable"), getOption("repos")))
       </code>
     </div>
-    <div class="subtitle my-5">Documentation</div>
+    <div class="subtitle my-5">
+      {{ $t('packages.documentation') }}
+    </div>
     <div
       class="document"
       v-for="(vignette, index) in vignettes.data"
@@ -61,52 +77,70 @@
       {{ vignette.title }}
     </div>
     <div v-show="vignettes.data?.length == 0">
-      No vignettes avaiable
+      {{ $t('packages.noVignette') }}
     </div>
     <div class="document" @click="getManual">
-      Reference Manual
+      {{ $t('packages.referenceManual') }}
     </div>
-    <div class="subtitle my-5">Details</div>
+    <div class="subtitle my-5">
+      {{ $t('packages.details') }}
+    </div>
     <div class="d-flex" style="flex-direction: column">
       <div class="d-flex">
-        <div class="col_title">Depends</div>
+        <div class="col_title">
+          {{ $t('packages.depends') }}
+        </div>
         <div class="col_desc">
           {{ packageBag.description }}
         </div>
       </div>
       <div class="d-flex">
-        <div class="col_title">Imports</div>
+        <div class="col_title">
+          {{ $t('packages.imports') }}
+        </div>
         <div class="col_desc">{{ packageBag.imports }}</div>
       </div>
       <div class="d-flex">
-        <div class="col_title">Suggests</div>
+        <div class="col_title">
+          {{ $t('packages.suggests') }}
+        </div>
         <div class="col_desc">
           {{ packageBag.suggests }}
         </div>
       </div>
       <div class="d-flex">
-        <div class="col_title">System Requirements</div>
+        <div class="col_title">
+          {{ $t('packages.systemRequirements') }}
+        </div>
         <div class="col_desc">
           {{ packageBag.systemRequirements }}
         </div>
       </div>
       <div class="d-flex">
-        <div class="col_title">License</div>
+        <div class="col_title">
+          {{ $t('packages.license') }}
+        </div>
         <div class="col_desc">
           {{ packageBag.license }}
         </div>
       </div>
       <div class="d-flex">
-        <div class="col_title">URL</div>
+        <div class="col_title">
+          {{ $t('packages.url') }}
+        </div>
         <div class="col_desc">
           {{ packageBag.url }}
         </div>
       </div>
     </div>
-    <div class="subtitle my-5">Downloads</div>
+    <div class="subtitle my-5">
+      {{ $t('packages.downloads') }}
+    </div>
     <div class="d-flex" style="flex-direction: column">
       <div class="d-flex align-center">
-        <div class="col_title">Source file</div>
+        <div class="col_title">
+          {{ $t('packages.sourceFile') }}
+        </div>
         <a
           :href="
             '/manager/packages/' +
@@ -125,16 +159,28 @@
         </a>
       </div>
       <div class="d-flex align-center">
-        <div class="col_title">Windows binaries</div>
-        <div class="col_desc">Not avaiable</div>
+        <div class="col_title">
+          {{ $t('packages.windowsBineries') }}
+        </div>
+        <div class="col_desc">
+          {{ $t('common.notAvaiable') }}
+        </div>
       </div>
       <div class="d-flex align-center">
-        <div class="col_title">OS X binaries</div>
-        <div class="col_desc">Not avaiable</div>
+        <div class="col_title">
+          {{ $t('packages.osxBinaries') }}
+        </div>
+        <div class="col_desc">
+          {{ $t('common.notAvaiable') }}
+        </div>
       </div>
       <div class="d-flex align-center">
-        <div class="col_title">Old sources</div>
-        <div class="col_desc document">Archive</div>
+        <div class="col_title">
+          {{ $t('packages.oldSources') }}
+        </div>
+        <div class="col_desc document">
+          {{ $t('packages.archive') }}
+        </div>
       </div>
     </div>
   </div>
@@ -224,7 +270,6 @@ $text_color: #555555;
   background-color: #e0dfdf;
   padding: 20px;
   line-height: 1.5;
-  // border: solid 1px #424455;
   border-radius: 8px;
   -webkit-box-shadow: 4px 4px 12px 0px #42445a;
   -moz-box-shadow: 4px 4px 12px 0px rgba(66, 68, 90, 1);
