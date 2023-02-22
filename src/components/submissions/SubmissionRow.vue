@@ -1,5 +1,4 @@
 <template>
-  {{ submission }}
   <v-row
     class="px-5"
     :class="{ title: title }"
@@ -7,7 +6,7 @@
   >
     <v-col
       id="submissiondate"
-      cols="lg-2 sm-2"
+      cols="lg-1 sm-2"
       class="d-flex align-center"
       >{{
         title == true
@@ -19,7 +18,7 @@
     >
     <v-col
       id="submissionpackage"
-      cols="lg-2"
+      cols="lg-1"
       class="d-flex align-center"
       >{{
         title == true
@@ -33,7 +32,7 @@
     >
     <v-col
       id="submissionrepository"
-      cols="lg-2 sm-2"
+      cols="lg-1 sm-2"
       class="d-flex align-center"
     >
       {{
@@ -48,8 +47,8 @@
     >
     <v-col
       id="submissionsubmitter"
-      cols="lg-5 sm-2"
-      class="d-flex align-center justify-center"
+      cols="lg-1 sm-2"
+      class="d-flex align-center"
     >
       {{
         title == true
@@ -57,7 +56,23 @@
               $t('submissions.submitter').toString()
             )
           : submission
-          ? submission.submitter?.login
+          ? submission.submitter?.name
+          : ''
+      }}</v-col
+    >
+
+    <v-col
+      id="submissionapprover"
+      cols="lg-5 sm-2"
+      class="d-flex align-center"
+    >
+      {{
+        title == true
+          ? prepareString(
+              $t('submissions.approver').toString()
+            )
+          : submission
+          ? submission.approver?.name
           : ''
       }}</v-col
     >
@@ -73,17 +88,19 @@
           )
         }}</span
       >
+
       <v-checkbox
         id="checkboxactive"
         color="oablue"
         @click.stop
+        disabled
         v-else-if="submission"
-        v-model="submission.state"
+        v-model="getAccepted"
       />
     </v-col>
     <v-col
       id="submission-actions"
-      cols="lg-1"
+      cols="lg-2"
       class="d-flex justify-center"
     >
       <span v-if="title == true">
@@ -94,10 +111,22 @@
         }}
       </span>
       <span
-        v-else
+        v-else-if="!getAccepted"
         class="d-flex justify-center align-center"
       >
-        ACCEPT / CANCEL
+        <v-btn
+          color="success"
+          class="mx-1"
+          @click="acceptSubmission"
+          :disabled="acceptDisabled"
+          >ACCEPT</v-btn
+        >
+        <v-btn
+          color="oared"
+          @click="cancelSubmission"
+          :disabled="cancelDisabled"
+          >CANCEL</v-btn
+        >
         <!-- <v-tooltip top>
           <template v-slot:activator="{ props }">
             <v-icon
@@ -135,8 +164,11 @@
 </template>
 
 <script setup lang="ts">
-import router from '@/router'
+import { computed, ref } from 'vue'
 import { EntityModelSubmissionDto } from '@/openapi'
+import { useNotification } from '@kyvg/vue3-notification'
+import { useCommonStore } from '@/store/common'
+import { i18n } from '@/plugins/i18n'
 
 const props = defineProps({
   title: {
@@ -148,19 +180,44 @@ const props = defineProps({
     | undefined
 })
 
+const notifications = useNotification()
+const common_store = useCommonStore()
+
+const getAccepted = computed<boolean>(() => {
+  return props.submission?.state == 'ACCEPTED'
+})
+
+const acceptDisabled = ref<boolean>(false)
+const cancelDisabled = ref<boolean>(false)
+
 function prepareString(value: string): string {
   return value.charAt(0).toUpperCase() + value.slice(1)
 }
 
-function navigate() {
-  if (props.submission) {
-    router.replace({
-      name: 'submissionDetails',
-      params: {
-        name: props.submission.id
-      }
+function acceptSubmission() {
+  common_store.setProgressCircularActive(true)
+  acceptDisabled.value = true
+  setTimeout(function () {
+    acceptDisabled.value = false
+    common_store.setProgressCircularActive(false)
+    notifications.notify({
+      type: 'success',
+      text: i18n.t('notifications.acceptSubmission')
     })
-  }
+  }, 1000)
+}
+
+function cancelSubmission() {
+  common_store.setProgressCircularActive(true)
+  cancelDisabled.value = true
+  setTimeout(function () {
+    notifications.notify({
+      type: 'success',
+      text: i18n.t('notifications.successCancelSubmission')
+    })
+    common_store.setProgressCircularActive(false)
+    cancelDisabled.value = false
+  }, 1000)
 }
 </script>
 

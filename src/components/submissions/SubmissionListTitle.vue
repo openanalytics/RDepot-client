@@ -6,6 +6,6 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import SubmissionRow from '@/components/repositories/RepositoryRow.vue'
+import SubmissionRow from '@/components/submissions/SubmissionRow.vue'
 const title = ref(true)
 </script>

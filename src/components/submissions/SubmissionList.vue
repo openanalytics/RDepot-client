@@ -5,7 +5,7 @@
       <SubmissionItem
         v-for="(item, index) in submissions"
         :key="index"
-        :repository="item"
+        :submission="item"
       />
     </v-expansion-panels>
   </div>
@@ -15,10 +15,10 @@
 import { computed, onMounted } from 'vue'
 import SubmissionListTitle from './SubmissionListTitle.vue'
 import SubmissionItem from './SubmissionItem.vue'
-import { useSubmissionState } from '@/store/submission'
+import { useSubmissionStore } from '@/store/submission'
 import { EntityModelSubmissionDto } from '@/openapi'
 
-const submission_store = useSubmissionState()
+const submission_store = useSubmissionStore()
 
 const submissions = computed<EntityModelSubmissionDto[]>(
   () => {
