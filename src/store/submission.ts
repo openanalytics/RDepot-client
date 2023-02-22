@@ -10,6 +10,7 @@ interface State {
 }
 
 export const useSubmissionState = defineStore(
+export const useSubmissionStore = defineStore(
   'submission_store',
   {
     state: (): State => {
