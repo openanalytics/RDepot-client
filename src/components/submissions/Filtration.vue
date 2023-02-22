@@ -1,25 +1,31 @@
 <template>
   <v-card class="pa-5" width="400">
     <v-card-title>
-      {{ $t('repositories.filtration.title') }}
+      {{ $t('submissions.filtration.title') }}
     </v-card-title>
     <v-divider></v-divider>
     <v-card-text style="height: 300px">
       <v-form ref="form" lazy-validation>
         <v-select
           id="filtrationstate"
-          v-model="localFiltration.name"
-          :items="repositoryNameSelect"
-          :label="$t('repositories.filtration.name')"
-          data-test="filtrationstate"
+          v-model="localFiltration.state"
+          :items="stateSelect"
+          :label="$t('submissions.filtration.state')"
         ></v-select>
 
         <v-select
           id="filtrationrepository"
-          v-model="localFiltration.technology"
-          :items="technologySelect"
-          :label="$t('repositories.filtration.technology')"
+          v-model="localFiltration.package"
+          :items="packageSelect"
+          :label="$t('submissions.filtration.package')"
         ></v-select>
+
+        <v-switch
+          v-model="localFiltration.assignedToMe"
+          color="oablue"
+          :label="$t('submissions.filtration.assigned')"
+        >
+        </v-switch>
       </v-form>
     </v-card-text>
     <v-divider></v-divider>
@@ -63,29 +69,38 @@
 </template>
 
 <script setup lang="ts">
-import { useRepositoryStore } from '@/store/repositories'
+import { useCommonStore } from '@/store/common'
+import { useSubmissionStore } from '@/store/submission'
 import { ref, onMounted } from 'vue'
 
-const repository_store = useRepositoryStore()
+const submissions_store = useSubmissionStore()
+const common_store = useCommonStore()
 
-const technologySelect = ref(['R', 'Python'])
-const repositoryNameSelect = ref(['repo1', 'repo2'])
-let filtration = repository_store.filtration
+const stateSelect = ref([
+  'ACCEPTED',
+  'CANCELLED',
+  'REJECTED'
+])
+const packageSelect = ref(['package1', 'package2'])
+let filtration = submissions_store.filtration
 const localFiltration = ref(filtration)
 
 const emit = defineEmits(['changeOptions'])
 
 function updateFiltration() {
   localFiltration.value = JSON.parse(
-    JSON.stringify(repository_store.filtration)
+    JSON.stringify(submissions_store.filtration)
   )
 }
 
 async function setFiltration() {
-  await repository_store.setFiltration(
+  changeDialogOptions()
+  common_store.setProgressCircularActive(true)
+  common_store.setOverlayOpacity(0.5)
+  await submissions_store.setFiltration(
     localFiltration.value
   )
-  changeDialogOptions()
+  common_store.setProgressCircularActive(false)
 }
 
 function changeDialogOptions() {
@@ -98,7 +113,8 @@ onMounted(() => {
 })
 
 function clearFiltration() {
-  localFiltration!.value.technology = ''
-  localFiltration!.value.name = ''
+  localFiltration!.value.state = ''
+  localFiltration!.value.package = ''
+  localFiltration!.value.assignedToMe = false
 }
 </script>
