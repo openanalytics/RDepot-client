@@ -27,7 +27,8 @@ export const en = {
     list: 'list',
     addPackage: 'add package',
     events: 'events',
-    delete: 'delete'
+    delete: 'delete',
+    notAvaiable: 'Not avaiable'
   },
   filtration: {
     title: 'filtration',
@@ -46,13 +47,37 @@ export const en = {
     name: 'name',
     version: 'version',
     description: 'descritpion',
+    author: 'author',
     maintainer: 'maintainer',
+    approver: 'approver',
+    submitter: 'submitter',
     repository: 'repository',
     active: 'active',
     actions: 'actions',
     maintainers: 'package maintainers',
     list: 'packages',
-    title: 'title'
+    title: 'title',
+    documentation: 'Documentation',
+    details: 'Details',
+    depends: 'Depends',
+    imports: 'Imports',
+    suggests: 'Suggests',
+    systemRequirements: 'System requirements',
+    license: 'License',
+    url: 'URL',
+    downloads: 'Downloads',
+    sourceFile: 'Source file',
+    windowsBineries: 'Windows binaries',
+    osxBinaries: 'OS X binaries',
+    oldSources: 'Old sources',
+    archive: 'Archive',
+    referenceManual: 'Reference Manual',
+    noVignette: 'No vignettes avaiable',
+    install: 'Install',
+    installInstruction:
+      'To install this package, start R and enter:',
+    withinRdepot: 'Within RDepot',
+    originalRPackageData: 'As described in R package'
   },
   events: {
     filtration: {
@@ -80,14 +105,27 @@ export const en = {
     published: 'published'
   },
   submissions: {
+    filtration: {
+      title: 'Submissions filtration',
+      assigned: 'assigned to me',
+      state: 'State',
+      package: 'Package'
+    },
     actions: 'actions',
     accepted: 'accepted',
     submitter: 'submitter',
+    approver: 'approver',
     repository: 'repository',
     package: 'package',
     date: 'date'
   },
   pagination: {
     size: 'page size'
+  },
+  notifications: {
+    successFiltration: 'successful filtration action',
+    successFiltrationReset: 'successful filtration reset',
+    successCancelSubmission: 'cancel submission',
+    acceptSubmission: 'accept submission'
   }
 }
