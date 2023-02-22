@@ -4,14 +4,14 @@
       id="reset-packages-filtration"
       :title="$t('common.reset')"
       v-on:buttonClicked="
-        showOverlay(OverlayEnum.PackagesFiltrationReset)
+        showOverlay(OverlayEnum.SubmissionsFiltrationReset)
       "
       class="mx-3"
     />
     <CommonButton
       :title="$t('filtration.title')"
       v-on:buttonClicked="
-        showOverlay(OverlayEnum.PackagesFiltration)
+        showOverlay(OverlayEnum.SubmissionsFiltration)
       "
       class="mx-3"
     />
