@@ -2,7 +2,7 @@
   <v-overlay
     :absolute="absolute"
     v-model="common_store.overlayModel"
-    :opacity="common_store.overlayOpacity"
+    :opacity="getOpacity"
     contained
     location-strategy="connected"
     scroll-strategy="none"
@@ -21,6 +21,10 @@
       v-else-if="repositoryFiltration"
       v-on:changeOptions="overlayValue(false)"
     />
+    <SubmissionsFiltration
+      v-else-if="submissionFiltration"
+      v-on:changeOptions="overlayValue(false)"
+    />
     <QuestionCard
       v-else-if="resetFiltration"
       :text="common_store.overlayText"
@@ -32,6 +36,7 @@
 <script setup lang="ts">
 import PackageFiltration from '@/components/packages/Filtration.vue'
 import EventsFiltration from '@/components/events/Filtration.vue'
+import SubmissionsFiltration from '@/components/submissions/Filtration.vue'
 import RepositoriesFiltration from '@/components/repositories/Filtration.vue'
 import QuestionCard from '@/components/common/QuestionCard.vue'
 import { computed, onMounted } from 'vue'
@@ -40,12 +45,13 @@ import { useCommonStore } from '@/store/common'
 import { usePackagesStore } from '@/store/packages'
 import { useEventsStore } from '@/store/events'
 import { useRepositoryStore } from '@/store/repositories'
+import { useSubmissionStore } from '@/store/submission'
 
 const common_store = useCommonStore()
 const package_store = usePackagesStore()
 const event_store = useEventsStore()
 const repository_store = useRepositoryStore()
-
+const submission_store = useSubmissionStore()
 const absolute = false
 
 const packageFiltration = computed(() => {
@@ -69,17 +75,36 @@ const repositoryFiltration = computed(() => {
   )
 })
 
+const submissionFiltration = computed(() => {
+  return (
+    common_store.overlayComponent ==
+    OverlayEnum.SubmissionsFiltration
+  )
+})
+
+const getOpacity = computed<number>(() => {
+  return common_store.overlayOpacity
+})
+
 const resetFiltration = computed(function () {
-  let a: boolean =
+  let packagesReset: boolean =
     common_store.overlayComponent ==
     OverlayEnum.PackagesFiltrationReset
-  let b: boolean =
+  let eventsReset: boolean =
     common_store.overlayComponent ==
     OverlayEnum.EventsFiltrationReset
-  let c: boolean =
+  let repositoryReset: boolean =
     common_store.overlayComponent ==
     OverlayEnum.RepositoryFiltrationReset
-  return b || a || c
+  let submissionsReset: boolean =
+    common_store.overlayComponent ==
+    OverlayEnum.SubmissionsFiltrationReset
+  return (
+    packagesReset ||
+    eventsReset ||
+    repositoryReset ||
+    submissionsReset
+  )
 })
 
 onMounted(() => {
@@ -94,25 +119,29 @@ function onKeyup() {
   overlayValue()
 }
 
-function overlayValue(value: boolean = false) {
-  if (value) {
-    if (
-      common_store.overlayComponent ==
-      OverlayEnum.PackagesFiltrationReset
-    ) {
-      package_store.clearFiltrationAndFetch()
-    } else if (
-      common_store.overlayComponent ==
-      OverlayEnum.EventsFiltrationReset
-    ) {
-      event_store.clearFiltrationAndFetch()
-    } else if (
-      common_store.overlayComponent ==
-      OverlayEnum.RepositoryFiltrationReset
-    ) {
-      repository_store.clearFiltrationAndFetch()
+async function clearFiltration() {
+  switch (common_store.overlayComponent) {
+    case OverlayEnum.PackagesFiltrationReset: {
+      await package_store.clearFiltrationAndFetch()
+    }
+    case OverlayEnum.EventsFiltrationReset: {
+      await event_store.clearFiltrationAndFetch()
+    }
+    case OverlayEnum.RepositoryFiltrationReset: {
+      await repository_store.clearFiltrationAndFetch()
+    }
+    case OverlayEnum.SubmissionsFiltrationReset: {
+      await submission_store.clearFiltrationAndFetch()
     }
   }
+}
+
+async function overlayValue(value: boolean = false) {
   common_store.setOverlayModel(false)
+  common_store.setProgressCircularActive(true)
+  if (value) {
+    await clearFiltration()
+  }
+  common_store.setProgressCircularActive(false)
 }
 </script>
