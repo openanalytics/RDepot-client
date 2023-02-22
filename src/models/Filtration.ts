@@ -9,6 +9,12 @@ interface RepositoriesFiltration {
   name: string
 }
 
+interface SubmissionsFiltration {
+  assignedToMe: boolean
+  state: string
+  package: string
+}
+
 interface EventsFiltration {
   technology: string
   userId: number | undefined
@@ -19,6 +25,7 @@ interface EventsFiltration {
 
 export type {
   PackagesFiltration,
+  SubmissionsFiltration,
   EventsFiltration,
   RepositoriesFiltration
 }
