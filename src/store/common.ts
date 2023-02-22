@@ -3,6 +3,7 @@ import { defineStore } from 'pinia'
 interface State {
   drawer: boolean
   progressCircularActive: boolean
+  progress: boolean
   overlayText: string
   overlayModel: boolean
   overlayOpacity: number
@@ -14,6 +15,7 @@ export const useCommonStore = defineStore('common_store', {
     return {
       drawer: true,
       progressCircularActive: false,
+      progress: false,
       overlayText: '',
       overlayOpacity: 0.8,
       overlayModel: false,
@@ -21,10 +23,10 @@ export const useCommonStore = defineStore('common_store', {
     }
   },
   actions: {
-    async setProgressCircularActive(payload: boolean) {
+    setProgressCircularActive(payload: boolean) {
       this.progressCircularActive = payload
     },
-    async setDrawer(payload: boolean) {
+    setDrawer(payload: boolean) {
       this.drawer = payload
     },
     setOverlayText(payload: string) {

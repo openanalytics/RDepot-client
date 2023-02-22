@@ -6,9 +6,7 @@ import {
   EntityModelPackageDtoObjectObject,
   EntityModelRPackageDto,
   ResponseDtoListVignette,
-  RPackageControllerApi,
-  RPackageControllerApiFactory,
-  RPackageControllerApiFp
+  RPackageControllerApiFactory
 } from '@/openapi'
 
 interface State {

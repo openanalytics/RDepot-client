@@ -6,7 +6,6 @@ import { defineStore } from 'pinia'
 import repositories from '@/tmpLists/repositories.json'
 import packages from '@/tmpLists/packages.json'
 import { RepositoriesFiltration } from '@/models/Filtration'
-import { i18n } from '@/plugins/i18n'
 
 interface State {
   repositories: EntityModelRRepositoryDto[]
