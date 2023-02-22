@@ -5,6 +5,7 @@
     <div class="d-flex">
       <v-row style="margin: 0">
         <Sidebar />
+        <ProgressCircular />
         <v-main>
           <router-view style="margin: 0 15px"></router-view>
         </v-main>
@@ -22,6 +23,7 @@
 import Sidebar from '@/components/navbar/Sidebar.vue'
 import Navbar from '@/components/navbar/Navbar.vue'
 import Overlay from '@/components/common/Overlay.vue'
+import ProgressCircular from './components/common/progress/ProgressCircular.vue'
 </script>
 
 <style>
