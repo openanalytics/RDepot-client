@@ -4,7 +4,9 @@ enum OverlayEnum {
   EventsFiltration,
   EventsFiltrationReset,
   RepositoryFiltration,
-  RepositoryFiltrationReset
+  RepositoryFiltrationReset,
+  SubmissionsFiltration,
+  SubmissionsFiltrationReset
 }
 
 export { OverlayEnum }
