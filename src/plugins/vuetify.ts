@@ -12,6 +12,7 @@ import { createVuetify } from 'vuetify'
 
 export default createVuetify({
   theme: {
+    defaultTheme: 'dark',
     themes: {
       dark: {
         colors: {
@@ -29,7 +30,10 @@ export default createVuetify({
           darkyellow: '#ffd512',
           green: '#c3ed07',
           pink: '#fc53be',
-          text: '#2d2d2d'
+          text: '#2d2d2d',
+          'about-package': '#b5b3b3',
+          'about-background': '#404746',
+          code: '#6b6e6d'
         }
       },
       light: {
@@ -47,7 +51,10 @@ export default createVuetify({
           darkyellow: '#ffd512',
           green: '#c3ed07',
           pink: '#fc53be',
-          text: '#fff'
+          text: '#fff',
+          'about-package': '#555555',
+          'about-background': '#bbb9b9',
+          code: '#e0dfdf'
         }
       }
     }

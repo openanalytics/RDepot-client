@@ -60,10 +60,9 @@
     <div class="code my-2">
       <code>
         <!--TODO-->
-        install.packages("{{ packageBag.name }}", repos =
-        c(rdepot = "repository publication id when there
-        will be dto with short version of repository
-        avaiable"), getOption("repos")))
+        {{
+          $t('packages.download-code', [packageBag.name])
+        }}
       </code>
     </div>
     <div class="subtitle my-5">
@@ -220,7 +219,10 @@ export default {
 </script>
 
 <style lang="scss">
-$text_color: #555555;
+$text_color: rgba(var(--v-theme-about-package));
+$background_color: rgba(var(--v-theme-about-background));
+$code_color: rgba(var(--v-theme-code));
+
 .package_title {
   font-size: 3rem;
   line-height: 1.4;
@@ -244,7 +246,7 @@ $text_color: #555555;
 .col_title {
   color: $text_color;
   width: 130px;
-  background-color: #bbb9b9;
+  background-color: $background_color;
   margin-right: 1rem;
   font-weight: 500;
   padding: 3px;
@@ -267,7 +269,7 @@ $text_color: #555555;
 }
 
 .code {
-  background-color: #e0dfdf;
+  background-color: $code_color;
   padding: 20px;
   line-height: 1.5;
   border-radius: 8px;
