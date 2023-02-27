@@ -20,10 +20,10 @@
 
 <script setup lang="ts">
 import { Repository } from '@/models'
-import { useSubmissionState } from '@/store/submission'
+import { useSubmissionStore } from '@/store/submission'
 import { useNotification } from '@kyvg/vue3-notification'
 const emits = defineEmits(['next'])
-const submissions_store = useSubmissionState()
+const submissions_store = useSubmissionStore()
 const nofications = useNotification()
 
 const repositories = [

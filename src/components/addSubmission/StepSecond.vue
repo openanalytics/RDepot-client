@@ -42,12 +42,12 @@
 </template>
 
 <script setup lang="ts">
-import { useSubmissionState } from '@/store/submission'
+import { useSubmissionStore } from '@/store/submission'
 import { useNotification } from '@kyvg/vue3-notification'
 import { ref } from 'vue'
 
 const emits = defineEmits(['next'])
-const submissions_store = useSubmissionState()
+const submissions_store = useSubmissionStore()
 const notifications = useNotification()
 const files = ref([])
 
