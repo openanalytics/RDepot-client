@@ -1,36 +1,25 @@
 <template>
   <v-card class="pa-5" width="400">
     <v-card-title>
-      {{ $t('packages.filtration') }}
+      {{ $t('repositories.filtration.title') }}
     </v-card-title>
     <v-divider></v-divider>
     <v-card-text style="height: 300px">
       <v-form ref="form" lazy-validation>
         <v-select
           id="filtrationstate"
-          v-model="localFiltration.state.value"
-          :items="submissionStateSelect"
-          :label="localFiltration.state.label"
-          color="text"
+          v-model="localFiltration.name"
+          :items="repositoryNameSelect"
+          :label="$t('repositories.filtration.name')"
           data-test="filtrationstate"
         ></v-select>
 
         <v-select
           id="filtrationrepository"
-          v-model="localFiltration.repository.value"
-          :items="repositoryNameSelect"
-          :label="localFiltration.repository.label"
-          color="text"
+          v-model="localFiltration.technology"
+          :items="technologySelect"
+          :label="$t('repositories.filtration.technology')"
         ></v-select>
-
-        <v-checkbox
-          id="filtrationdeleter"
-          :label="
-            localFiltration && localFiltration.deleted.label
-          "
-          v-model="localFiltration.deleted.value"
-          color="text"
-        ></v-checkbox>
       </v-form>
     </v-card-text>
     <v-divider></v-divider>
@@ -74,26 +63,28 @@
 </template>
 
 <script setup lang="ts">
-import { usePackagesStore } from '@/store/packages'
+import { useRepositoryStore } from '@/store/repositories'
 import { ref, onMounted } from 'vue'
 
-const package_store = usePackagesStore()
+const repository_store = useRepositoryStore()
 
-const submissionStateSelect = ref(['ACCEPTED', 'CANCELLED'])
+const technologySelect = ref(['R', 'Python'])
 const repositoryNameSelect = ref(['repo1', 'repo2'])
-let filtration = package_store.filtration
+let filtration = repository_store.filtration
 const localFiltration = ref(filtration)
 
 const emit = defineEmits(['closeModal'])
 
 function updateFiltration() {
   localFiltration.value = JSON.parse(
-    JSON.stringify(package_store.filtration)
+    JSON.stringify(repository_store.filtration)
   )
 }
 
 async function setFiltration() {
-  await package_store.setFiltration(localFiltration.value)
+  await repository_store.setFiltration(
+    localFiltration.value
+  )
   changeDialogOptions()
 }
 
@@ -107,8 +98,7 @@ onMounted(() => {
 })
 
 function clearFiltration() {
-  localFiltration!.value.state.value = ''
-  localFiltration!.value.repository.value = ''
-  localFiltration!.value.deleted.value = false
+  localFiltration!.value.technology = ''
+  localFiltration!.value.name = ''
 }
 </script>

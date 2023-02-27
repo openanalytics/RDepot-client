@@ -13,14 +13,14 @@
         <v-btn
           id="cancelaction"
           color="oablue darken-2"
-          @click="sendEvent(false)"
+          @click="cancel()"
         >
           {{ $t('common.cancel') }}
         </v-btn>
         <v-btn
           id="applyaction"
           color="oablue darken-2"
-          @click="sendEvent(true)"
+          @click="reset()"
         >
           {{ $t('common.apply') }}
         </v-btn>
@@ -34,9 +34,13 @@ const props = defineProps({
   text: String
 })
 
-const emits = defineEmits(['sendEvent'])
+const emits = defineEmits(['cancel', 'reset'])
 
-function sendEvent(value: boolean) {
-  emits('sendEvent', value)
+function cancel() {
+  emits('cancel')
+}
+
+function reset() {
+  emits('reset')
 }
 </script>

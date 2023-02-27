@@ -4,20 +4,29 @@
     color="oablue"
     dark
     dense
-    @click="sendEvent"
+    @click="openModal"
+    class="mx-3"
   >
-    {{ props.title }}
+    <slot>filtration</slot>
   </v-btn>
 </template>
 
 <script setup lang="ts">
+import { i18n } from '@/plugins/i18n'
+import { useCommonStore } from '@/store/common'
+
 var props = defineProps({
-  title: String
+  component: {
+    type: Number,
+    required: true
+  }
 })
 
-const emits = defineEmits(['buttonClicked'])
+const common_store = useCommonStore()
 
-function sendEvent() {
-  emits('buttonClicked')
+function openModal() {
+  common_store.setOverlayText(i18n.t('filtration.makeSure'))
+  common_store.setOverlayModel(true)
+  common_store.setOverlayComponent(props.component)
 }
 </script>
