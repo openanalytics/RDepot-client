@@ -1,7 +1,7 @@
 import { messages } from '@/locales/messages'
 import { createI18n } from 'vue-i18n'
 
-export const i18n = createI18n({
+export const i18nInstance = createI18n({
   legacy: false,
   globalInjection: true,
   locale: process.env.VUE_APP_I18N_LOCALE || 'en',
@@ -10,3 +10,5 @@ export const i18n = createI18n({
   allowComposition: true,
   messages: messages
 })
+
+export const i18n = i18nInstance.global

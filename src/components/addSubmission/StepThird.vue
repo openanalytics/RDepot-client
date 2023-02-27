@@ -28,11 +28,11 @@
 </template>
 
 <script setup lang="ts">
-import { useSubmissionState } from '@/store/submission'
+import { useSubmissionStore } from '@/store/submission'
 import { computed, ref } from 'vue'
 
 const emits = defineEmits(['next'])
-const submissions_store = useSubmissionState()
+const submissions_store = useSubmissionStore()
 const accepted_packages = ref<number[]>([])
 const choosenRepository = computed(() => {
   return submissions_store.repository

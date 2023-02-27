@@ -1,35 +1,33 @@
 <template>
   <v-card class="pa-5" width="400">
     <v-card-title>
-      {{ $t('packages.filtration') }}
+      {{ $t('packages.filtration.title') }}
     </v-card-title>
     <v-divider></v-divider>
     <v-card-text style="height: 300px">
       <v-form ref="form" lazy-validation>
         <v-select
           id="filtrationstate"
-          v-model="localFiltration.state.value"
+          v-model="localFiltration.state"
           :items="submissionStateSelect"
-          :label="localFiltration.state.label"
-          color="text"
+          :label="$t('packages.filtration.state')"
           data-test="filtrationstate"
         ></v-select>
 
         <v-select
           id="filtrationrepository"
-          v-model="localFiltration.repository.value"
+          v-model="localFiltration.repository"
           :items="repositoryNameSelect"
-          :label="localFiltration.repository.label"
-          color="text"
+          :label="$t('packages.filtration.repository')"
         ></v-select>
 
         <v-checkbox
           id="filtrationdeleter"
           :label="
-            localFiltration && localFiltration.deleted.label
+            localFiltration &&
+            $t('packages.filtration.deleted')
           "
-          v-model="localFiltration.deleted.value"
-          color="text"
+          v-model="localFiltration.deleted"
         ></v-checkbox>
       </v-form>
     </v-card-text>
@@ -107,8 +105,8 @@ onMounted(() => {
 })
 
 function clearFiltration() {
-  localFiltration!.value.state.value = ''
-  localFiltration!.value.repository.value = ''
-  localFiltration!.value.deleted.value = false
+  localFiltration!.value.state = ''
+  localFiltration!.value.repository = ''
+  localFiltration!.value.deleted = false
 }
 </script>

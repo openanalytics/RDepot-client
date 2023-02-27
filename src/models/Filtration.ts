@@ -1,19 +1,31 @@
-interface Filtration {
-  label: string
-  requestName: string
-  value: string
-}
-
-interface FiltrationBoolean {
-  label: string
-  requestName: string
-  value: boolean
-}
-
 interface PackagesFiltration {
-  state: Filtration
-  deleted: FiltrationBoolean
-  repository: Filtration
+  state: string
+  deleted: boolean
+  repository: string
 }
 
-export type { PackagesFiltration }
+interface RepositoriesFiltration {
+  technology: string
+  name: string
+}
+
+interface SubmissionsFiltration {
+  assignedToMe: boolean
+  state: string
+  package: string
+}
+
+interface EventsFiltration {
+  technology: string
+  userId: number | undefined
+  resourceId: number | undefined
+  eventType: string
+  resourceType: string
+}
+
+export type {
+  PackagesFiltration,
+  SubmissionsFiltration,
+  EventsFiltration,
+  RepositoriesFiltration
+}

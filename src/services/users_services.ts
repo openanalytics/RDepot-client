@@ -1,6 +1,5 @@
 import { LoginApiData } from '@/models'
 import api from '@/plugins/axios'
-import Vue from 'vue'
 import { notify } from '@kyvg/vue3-notification'
 
 export async function login(data: LoginApiData) {

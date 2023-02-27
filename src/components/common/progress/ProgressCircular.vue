@@ -1,9 +1,7 @@
 <template>
-  <div>
+  <div v-show="active" class="progressCircular">
     <v-progress-circular
       id="progresscircular"
-      v-if="active"
-      class="progressCircular"
       indeterminate
       color="oared"
     >
@@ -13,25 +11,29 @@
 
 <script setup lang="ts">
 import { useCommonStore } from '@/store/common'
-import { computed, onMounted } from 'vue'
+import { computed } from 'vue'
 
 const common_store = useCommonStore()
 
 const active = computed(() => {
   return common_store.progressCircularActive
 })
-
-function updateState(): void {
-  common_store.setProgressCircularActive(true)
-}
-
-onMounted(() => {
-  updateState()
-})
 </script>
 
 <style scoped lang="scss">
 .progressCircular {
-  z-index: 10;
+  z-index: 10000;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  // padding-top: 49%;
+  overflow: hidden;
+  background-color: rgba(3, 3, 3, 0.3);
+  div {
+    margin: 0 auto;
+  }
 }
 </style>

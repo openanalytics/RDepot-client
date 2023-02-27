@@ -23,6 +23,23 @@ export const routes = [
         meta: { title: 'RDepot - repositories' }
       },
       {
+        path: '/repositories/:name',
+        name: 'repositoryDetails',
+        component: () =>
+          import(
+            '@/views/repositories/RepositoryDetails.vue'
+          ),
+        meta: { title: 'RDepot - repository details' },
+        props: true
+      },
+      {
+        path: '/submissions',
+        name: 'submissions',
+        component: () =>
+          import('@/views/submissions/Submissions.vue'),
+        meta: { title: 'RDepot - submissions' }
+      },
+      {
         path: '/packages',
         name: 'packages',
         component: () =>
@@ -30,7 +47,7 @@ export const routes = [
         meta: { title: 'RDepot - packages' }
       },
       {
-        path: '/package-details/:name',
+        path: '/packages/:name',
         name: 'packageDetails',
         component: () =>
           import('@/views/packages/PackageDetails.vue'),
@@ -43,6 +60,13 @@ export const routes = [
         component: () =>
           import('@/views/submissions/AddSubmission.vue'),
         meta: { title: 'RDepot - add packages' }
+      },
+      {
+        path: '/events',
+        name: 'events',
+        component: () =>
+          import('@/views/events/Events.vue'),
+        meta: { title: 'RDepot - events' }
       }
     ]
   }

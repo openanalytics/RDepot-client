@@ -1,8 +1,8 @@
 <template>
   <div>
     <v-expansion-panels
-      inset
-      class="v-expansion mt-8 mx-10"
+      variant="inset"
+      class="v-expansion mx-5"
     >
       <PackagesListTitle />
       <PackageItem
@@ -35,7 +35,7 @@ onMounted(() => {
 })
 </script>
 
-<style scoped>
+<style>
 .v-expansion {
   max-width: 96% !important;
 }

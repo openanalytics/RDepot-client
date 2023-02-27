@@ -110,7 +110,7 @@ export const RSubmissionControllerApiAxiosParamCreator =
       /**
        *
        * @param {string} [state]
-       * @param {number} [userId]
+       * @param {number} [submitterId]
        * @param {number} [packageId]
        * @param {number} [page] Zero-based page index (0..N)
        * @param {number} [size] The size of the page to be returned
@@ -120,7 +120,7 @@ export const RSubmissionControllerApiAxiosParamCreator =
        */
       getAllSubmissions: async (
         state?: string,
-        userId?: number,
+        submitterId?: number,
         packageId?: number,
         page?: number,
         size?: number,
@@ -151,8 +151,9 @@ export const RSubmissionControllerApiAxiosParamCreator =
           localVarQueryParameter['state'] = state
         }
 
-        if (userId !== undefined) {
-          localVarQueryParameter['userId'] = userId
+        if (submitterId !== undefined) {
+          localVarQueryParameter['submitterId'] =
+            submitterId
         }
 
         if (packageId !== undefined) {
@@ -445,9 +446,17 @@ export const RSubmissionControllerApiAxiosParamCreator =
         }
         const needsSerialization =
           typeof body !== 'string' ||
-          localVarRequestOptions.headers![
-            'Content-Type'
-          ] === 'application/json'
+          Object.entries(
+            localVarRequestOptions.headers!
+          ).find(([key, value]) => {
+            if (
+              value === 'application/json' &&
+              key == 'Content-Type'
+            ) {
+              return true
+            }
+            return false
+          })
         localVarRequestOptions.data = needsSerialization
           ? JSON.stringify(body !== undefined ? body : {})
           : body || ''
@@ -504,7 +513,7 @@ export const RSubmissionControllerApiFp = function (
     /**
      *
      * @param {string} [state]
-     * @param {number} [userId]
+     * @param {number} [submitterId]
      * @param {number} [packageId]
      * @param {number} [page] Zero-based page index (0..N)
      * @param {number} [size] The size of the page to be returned
@@ -514,7 +523,7 @@ export const RSubmissionControllerApiFp = function (
      */
     async getAllSubmissions(
       state?: string,
-      userId?: number,
+      submitterId?: number,
       packageId?: number,
       page?: number,
       size?: number,
@@ -533,7 +542,7 @@ export const RSubmissionControllerApiFp = function (
           configuration
         ).getAllSubmissions(
           state,
-          userId,
+          submitterId,
           packageId,
           page,
           size,
@@ -687,7 +696,7 @@ export const RSubmissionControllerApiFactory = function (
     /**
      *
      * @param {string} [state]
-     * @param {number} [userId]
+     * @param {number} [submitterId]
      * @param {number} [packageId]
      * @param {number} [page] Zero-based page index (0..N)
      * @param {number} [size] The size of the page to be returned
@@ -697,7 +706,7 @@ export const RSubmissionControllerApiFactory = function (
      */
     async getAllSubmissions(
       state?: string,
-      userId?: number,
+      submitterId?: number,
       packageId?: number,
       page?: number,
       size?: number,
@@ -709,7 +718,7 @@ export const RSubmissionControllerApiFactory = function (
       return RSubmissionControllerApiFp(configuration)
         .getAllSubmissions(
           state,
-          userId,
+          submitterId,
           packageId,
           page,
           size,
@@ -804,7 +813,7 @@ export class RSubmissionControllerApi extends BaseAPI {
   /**
    *
    * @param {string} [state]
-   * @param {number} [userId]
+   * @param {number} [submitterId]
    * @param {number} [packageId]
    * @param {number} [page] Zero-based page index (0..N)
    * @param {number} [size] The size of the page to be returned
@@ -815,7 +824,7 @@ export class RSubmissionControllerApi extends BaseAPI {
    */
   public async getAllSubmissions(
     state?: string,
-    userId?: number,
+    submitterId?: number,
     packageId?: number,
     page?: number,
     size?: number,
@@ -827,7 +836,7 @@ export class RSubmissionControllerApi extends BaseAPI {
     return RSubmissionControllerApiFp(this.configuration)
       .getAllSubmissions(
         state,
-        userId,
+        submitterId,
         packageId,
         page,
         size,

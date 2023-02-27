@@ -3,6 +3,7 @@
     <v-row justify="space-around" align="center">
       <v-row justify="start" align="center" class="ml-4">
         <v-app-bar-nav-icon
+          v-show="mobile"
           color="oablue-darken-2"
           @click.stop="showSidebar"
         ></v-app-bar-nav-icon>
@@ -28,8 +29,10 @@
 import ChangeLanguage from '@/components/navbar/ChangeLanguage.vue'
 import ChangeTheme from '@/components/navbar/ChangeTheme.vue'
 import { useCommonStore } from '@/store/common'
+import { useDisplay } from 'vuetify/lib/framework.mjs'
 
 const common_store = useCommonStore()
+const { width, mobile } = useDisplay()
 
 function showSidebar() {
   common_store.setDrawer(!common_store.drawer)

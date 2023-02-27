@@ -1,5 +1,9 @@
 <template>
-  <v-row :class="{ title: title }">
+  <v-row
+    class="px-5"
+    :class="{ title: title }"
+    id="packagerow"
+  >
     <v-col
       id="packagerowname"
       cols="lg-1 sm-2"
@@ -31,29 +35,27 @@
     >
       {{
         title == true
-          ? prepareString(
-              $t('packages.description').toString()
-            )
-          : packageBag
-          ? packageBag.desc.length > descMaxLength
-            ? packageBag.desc.slice(0, descMaxLength) +
+          ? prepareString($t('packages.title').toString())
+          : packageBag && packageBag.title
+          ? packageBag.title.length > descMaxLength
+            ? packageBag.title.slice(0, descMaxLength) +
               '...'
-            : packageBag.desc
+            : packageBag.title
           : ''
       }}</v-col
     >
     <v-col
       id="packagerowmaintainer"
       cols="lg-1 sm-2"
-      class="d-flex align-center"
+      class="d-flex align-center justify-center"
     >
       {{
         title == true
           ? prepareString(
               $t('packages.maintainer').toString()
-            )
+            ) + ' userId'
           : packageBag
-          ? packageBag.maintainer
+          ? packageBag.userId
           : ''
       }}</v-col
     >
@@ -68,7 +70,7 @@
               $t('packages.repository').toString()
             )
           : packageBag
-          ? packageBag.reposiotory
+          ? packageBag.repositoryId
           : ''
       }}</v-col
     >
@@ -119,22 +121,46 @@
             $t('common.details')
           }}</span>
         </v-tooltip>
+        <v-tooltip top>
+          <template v-slot:activator="{ props }">
+            <v-icon
+              id="navigateicon"
+              @click.stop
+              @click="deleteDialog"
+              v-bind="props"
+              color="oared"
+              class="ml-3"
+              >mdi-trash-can</v-icon
+            >
+          </template>
+          <span id="actiondelete">{{
+            $t('common.delete')
+          }}</span>
+        </v-tooltip>
       </span>
     </v-col>
   </v-row>
 </template>
 
 <script setup lang="ts">
-import { Package } from '@/models/packages/Package'
 import { ref } from '@vue/reactivity'
 import router from '@/router'
+import { EntityModelPackageDtoObjectObject } from '@/openapi'
+import { useCommonStore } from '@/store/common'
+import { useI18n } from 'vue-i18n'
+import { OverlayEnum } from '@/enum/Overlay'
+
+const common_store = useCommonStore()
+const { t } = useI18n()
 
 const props = defineProps({
   title: {
     type: Boolean,
     default: false
   },
-  packageBag: Object as () => Package | undefined
+  packageBag: Object as () =>
+    | EntityModelPackageDtoObjectObject
+    | undefined
 })
 const descMaxLength = ref(110)
 
@@ -143,7 +169,7 @@ function prepareString(value: string): string {
 }
 
 function navigate() {
-  if (props.packageBag) {
+  if (props.packageBag?.name) {
     router.replace({
       name: 'packageDetails',
       params: {
@@ -151,6 +177,19 @@ function navigate() {
       }
     })
   }
+}
+
+function deleteDialog() {
+  common_store.setOverlayText(
+    t('packages.deleteQuestion', {
+      package_name: props.packageBag?.name
+    })
+  )
+  common_store.setOverlayModel(true)
+  common_store.setOverlayOpacity(0.8)
+  common_store.setOverlayComponent(
+    OverlayEnum.DeletePackage
+  )
 }
 </script>
 
@@ -169,5 +208,11 @@ function navigate() {
 
 .v-input__control {
   justify-content: center !important;
+}
+
+#packagerow {
+  .v-input__details {
+    display: none !important;
+  }
 }
 </style>

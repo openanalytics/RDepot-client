@@ -1,10 +1,18 @@
-import { Package } from '@/models/packages/Package'
 import { PackagesFiltration } from '@/models/Filtration'
 import packages from '@/tmpLists/packages.json'
+import vignettes from '@/tmpLists/rPackageVignettes.json'
 import { defineStore } from 'pinia'
+import {
+  EntityModelPackageDtoObjectObject,
+  EntityModelRPackageDto,
+  ResponseDtoListVignette,
+  RPackageControllerApiFactory
+} from '@/openapi'
 
 interface State {
-  packages: Package[]
+  packages: EntityModelPackageDtoObjectObject[]
+  package: EntityModelRPackageDto
+  vignettes: ResponseDtoListVignette
   page: number
   pageSize: number
   filtration: PackagesFiltration
@@ -16,24 +24,14 @@ export const usePackagesStore = defineStore(
     state: (): State => {
       return {
         packages: [],
+        package: {},
+        vignettes: {},
         page: 1,
         pageSize: 10,
         filtration: {
-          state: {
-            label: 'Submission State',
-            requestName: 'submissionState',
-            value: ''
-          },
-          deleted: {
-            label: 'Deleted',
-            requestName: 'deleted',
-            value: false
-          },
-          repository: {
-            label: 'Repository Name',
-            requestName: 'repositoryName',
-            value: ''
-          }
+          state: '',
+          deleted: false,
+          repository: ''
         }
       }
     },
@@ -41,9 +39,36 @@ export const usePackagesStore = defineStore(
       async fetchPackages() {
         //dummy page fetch - in real you need to fertch packages from servcice and set page to 1
         if (this.page % 2 == 0) {
-          this.packages = packages.page1
+          this.packages = JSON.parse(
+            JSON.stringify(packages.page1)
+          )
         } else {
-          this.packages = packages.page2
+          this.packages = JSON.parse(
+            JSON.stringify(packages.page2)
+          )
+        }
+      },
+      async fetchPackage(name: string) {
+        let packages2 = JSON.parse(
+          JSON.stringify(packages.page2)
+        ).filter(
+          (
+            packageBag: EntityModelPackageDtoObjectObject
+          ) => {
+            return packageBag.name == name
+          }
+        )
+        this.package = packages2[0]
+        this.vignettes = JSON.parse(
+          JSON.stringify(vignettes)
+        )
+      },
+      async downloadManual() {
+        const rPackageApi = RPackageControllerApiFactory()
+        if (this.package.id) {
+          return rPackageApi.downloadReferenceManual(
+            this.package.id
+          )
         }
       },
       async setPage(payload: number) {
@@ -59,10 +84,9 @@ export const usePackagesStore = defineStore(
         this.fetchPackages()
       },
       clearFiltration() {
-        this.filtration.state.value = ''
-        this.filtration.repository.value = ''
-        this.filtration.deleted.value = false
-        console.log('clera filtration')
+        this.filtration.state = ''
+        this.filtration.repository = ''
+        this.filtration.deleted = false
       },
       async clearFiltrationAndFetch() {
         this.clearFiltration()

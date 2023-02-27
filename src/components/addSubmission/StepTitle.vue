@@ -1,7 +1,7 @@
 <template>
   <v-timeline direction="horizontal">
     <v-timeline-item
-      :dot-color="e1 > 0 ? 'oablue-darken-2' : 'oablue'"
+      :dot-color="e1 > 0 ? 'oablue' : 'oablue-darken-2'"
     >
       <div>
         <div class="text-h6" dot-color="oablue-darken-2">
@@ -12,7 +12,7 @@
     </v-timeline-item>
 
     <v-timeline-item
-      :dot-color="e1 > 1 ? 'oablue-darken-2' : 'oablue'"
+      :dot-color="e1 > 1 ? 'oablue' : 'oablue-darken-2'"
     >
       <template v-slot:opposite>
         <div>
@@ -25,7 +25,7 @@
     </v-timeline-item>
 
     <v-timeline-item
-      :dot-color="e1 > 2 ? 'oablue-darken-2' : 'oablue'"
+      :dot-color="e1 > 2 ? 'oablue' : 'oablue-darken-2'"
     >
       <div>
         <div class="text-h6">

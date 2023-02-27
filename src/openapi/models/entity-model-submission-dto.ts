@@ -13,6 +13,7 @@
  */
 import { EntityModelPackageDtoObjectObject } from './entity-model-package-dto-object-object';
 import { Link } from './link';
+import { UserProjection } from './user-projection';
 /**
  * 
  * @export
@@ -27,10 +28,16 @@ export interface EntityModelSubmissionDto {
     id?: number;
     /**
      * 
-     * @type {number}
+     * @type {UserProjection}
      * @memberof EntityModelSubmissionDto
      */
-    userId?: number;
+    submitter?: UserProjection;
+    /**
+     * 
+     * @type {UserProjection}
+     * @memberof EntityModelSubmissionDto
+     */
+    approver?: UserProjection;
     /**
      * 
      * @type {EntityModelPackageDtoObjectObject}
