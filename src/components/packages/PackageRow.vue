@@ -126,7 +126,7 @@
             <v-icon
               id="navigateicon"
               @click.stop
-              @click="navigate"
+              @click="deleteDialog"
               v-bind="props"
               color="oared"
               class="ml-3"
@@ -146,6 +146,12 @@
 import { ref } from '@vue/reactivity'
 import router from '@/router'
 import { EntityModelPackageDtoObjectObject } from '@/openapi'
+import { useCommonStore } from '@/store/common'
+import { useI18n } from 'vue-i18n'
+import { OverlayEnum } from '@/enum/Overlay'
+
+const common_store = useCommonStore()
+const { t } = useI18n()
 
 const props = defineProps({
   title: {
@@ -171,6 +177,19 @@ function navigate() {
       }
     })
   }
+}
+
+function deleteDialog() {
+  common_store.setOverlayText(
+    t('packages.deleteQuestion', {
+      package_name: props.packageBag?.name
+    })
+  )
+  common_store.setOverlayModel(true)
+  common_store.setOverlayOpacity(0.8)
+  common_store.setOverlayComponent(
+    OverlayEnum.DeletePackage
+  )
 }
 </script>
 

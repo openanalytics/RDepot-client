@@ -26,7 +26,7 @@
       v-on:changeOptions="overlayValue(false)"
     />
     <QuestionCard
-      v-else-if="resetFiltration"
+      v-else-if="questionCard"
       :text="common_store.overlayText"
       v-on:sendEvent="overlayValue"
     />
@@ -86,7 +86,7 @@ const getOpacity = computed<number>(() => {
   return common_store.overlayOpacity
 })
 
-const resetFiltration = computed(function () {
+const questionCard = computed(function () {
   let packagesReset: boolean =
     common_store.overlayComponent ==
     OverlayEnum.PackagesFiltrationReset
@@ -99,11 +99,15 @@ const resetFiltration = computed(function () {
   let submissionsReset: boolean =
     common_store.overlayComponent ==
     OverlayEnum.SubmissionsFiltrationReset
+  let deletePackage: boolean =
+    common_store.overlayComponent ==
+    OverlayEnum.DeletePackage
   return (
     packagesReset ||
     eventsReset ||
     repositoryReset ||
-    submissionsReset
+    submissionsReset ||
+    deletePackage
   )
 })
 
