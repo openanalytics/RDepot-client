@@ -39,8 +39,4 @@ onMounted(() => {
 .v-expansion {
   max-width: 96% !important;
 }
-
-/* .v-checkbox .v-selection-control {
-    min-height: auto !important;
-  } */
 </style>
