@@ -33,6 +33,15 @@ export const routes = [
         props: true
       },
       {
+        path: '/repository-maintainers',
+        name: 'repositoryMaintainers',
+        component: () =>
+          import(
+            '@/views/maintainers/RepositoryMaintainers.vue'
+          ),
+        meta: { title: 'RDepot - repository maintainers' }
+      },
+      {
         path: '/submissions',
         name: 'submissions',
         component: () =>
@@ -53,6 +62,15 @@ export const routes = [
           import('@/views/packages/PackageDetails.vue'),
         meta: { title: 'RDepot - package details' },
         props: true
+      },
+      {
+        path: '/package-maintainers',
+        name: 'packageMaintainers',
+        component: () =>
+          import(
+            '@/views/maintainers/PackageMaintainers.vue'
+          ),
+        meta: { title: 'RDepot - package maintainers' }
       },
       {
         path: '/add-packages',
