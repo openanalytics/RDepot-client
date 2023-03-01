@@ -23,9 +23,15 @@ interface EventsFiltration {
   resourceType: string
 }
 
+interface MaintainersFiltration {
+  deleted: boolean
+  technology: string
+}
+
 export type {
   PackagesFiltration,
   SubmissionsFiltration,
   EventsFiltration,
-  RepositoriesFiltration
+  RepositoriesFiltration,
+  MaintainersFiltration
 }
