@@ -4,7 +4,7 @@
     <v-window
       v-model="e1"
       class="stepper mx-10"
-      direction="vertical"
+      :touch="{ left: null, right: null }"
     >
       <v-window-item :value="1">
         <StepFirst v-on:next="changeValue" />
@@ -29,7 +29,6 @@ import { ref } from 'vue'
 const e1 = ref(1)
 
 function changeValue(event: number) {
-  console.log('true')
   e1.value = event
 }
 </script>
