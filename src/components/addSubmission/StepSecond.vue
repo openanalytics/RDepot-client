@@ -1,31 +1,34 @@
 <template>
   <v-card class="mb-12 px-10 py-5 step" min-height="250px">
-    <v-file-input
-      class="mt-5"
-      multiple
-      v-model="files"
-      counter
-      placeholder="Choose packages"
-      prepend-icon="mdi-paperclip"
-      v-on:change="addPackages"
-    >
-      <template v-slot:selection="{ fileNames }">
-        <template
-          v-for="fileName in fileNames"
-          :key="fileName"
-        >
-          <v-chip
-            size="x-small"
-            label
-            color="oablue"
-            class="mt-3 p-2"
-            @click="removePackage"
+    <v-form v-model="valid">
+      <v-file-input
+        class="mt-5"
+        :rules="file_rules"
+        multiple
+        v-model="files"
+        counter
+        accept="application/gzip"
+        placeholder="Choose packages"
+        prepend-icon="mdi-paperclip"
+      >
+        <template v-slot:selection="{ fileNames }">
+          <template
+            v-for="fileName in fileNames"
+            :key="fileName"
           >
-            {{ fileName }}
-          </v-chip>
+            <v-chip
+              size="x-small"
+              label
+              color="oablue"
+              class="mt-3 p-2"
+              @click="removePackage"
+            >
+              {{ fileName }}
+            </v-chip>
+          </template>
         </template>
-      </template>
-    </v-file-input>
+      </v-file-input>
+    </v-form>
   </v-card>
   <div class="d-flex justify-space-between">
     <v-btn
@@ -44,21 +47,49 @@
 <script setup lang="ts">
 import { useSubmissionStore } from '@/store/submission'
 import { useNotification } from '@kyvg/vue3-notification'
+import { validate } from 'json-schema'
 import { ref } from 'vue'
 
 const emits = defineEmits(['next'])
 const submissions_store = useSubmissionStore()
 const notifications = useNotification()
 const files = ref([])
+const valid = ref<boolean>(true)
+
+const file_rules = [
+  (v: File[]) =>
+    !!v ||
+    'You need to choose at least 1 package with .tar.gz extenstion',
+  (v: File[]) =>
+    checkFilesExtentions(v) ||
+    'You choose at least one file with unsupported extention (supported extentions: .tar.gz)'
+]
+
+function checkFilesExtentions(files: File[]): boolean {
+  var unsupportedFiles: File[] = files.filter(
+    (file: File) => {
+      return !file.type.match('application/gzip')
+    }
+  )
+  return unsupportedFiles.length == 0
+}
 
 function removePackage() {}
-function addPackages(value: File[]) {
-  console.log(value)
+function savePackagesInStore() {
   submissions_store.setPackages(files.value)
 }
 function nextStep() {
-  if (submissions_store.packages.length > 0) {
+  savePackagesInStore()
+  if (
+    submissions_store.packages.length > 0 &&
+    valid.value
+  ) {
     emits('next', 3)
+  } else if (!valid.value) {
+    notifications.notify({
+      text: 'choose packages that have correct extention',
+      type: 'error'
+    })
   } else {
     notifications.notify({
       text: 'no packages choosen',
