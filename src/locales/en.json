@@ -128,5 +128,13 @@
     "successFiltrationReset": "successful filtration reset",
     "successCancelSubmission": "cancel submission",
     "acceptSubmission": "accept submission"
+  },
+  "maintainers": {
+    "edit": "edit maintainer",
+    "packageName": "package",
+    "repository": "repository",
+    "actions": "actions",
+    "name": "name",
+    "delete": "delete maintainer"
   }
 }
