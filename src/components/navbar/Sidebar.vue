@@ -50,7 +50,9 @@
         <v-list-item
           :title="$t('common.maintainers')"
           :value="$t('packages.maintainers')"
-          @click="$router.replace({ name: 'packages' })"
+          @click="
+            $router.replace({ name: 'packageMaintainers' })
+          "
         ></v-list-item>
       </v-list-group>
       <v-list-group value="Repositories" tag="Repositories">
