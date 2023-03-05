@@ -1,7 +1,7 @@
 <template>
   <v-navigation-drawer
     v-model="drawer"
-    :location="xs ? 'top' : 'left'"
+    :location="xs ? 'start' : 'left'"
     :touchless="mobile ? false : true"
   >
     <v-list nav open-strategy="single">

@@ -7,7 +7,7 @@
     @click="openModal"
     class="mx-3"
   >
-    <slot>filtration</slot>
+    <slot>{{ $t('filtration.title') }}</slot>
   </v-btn>
 </template>
 
