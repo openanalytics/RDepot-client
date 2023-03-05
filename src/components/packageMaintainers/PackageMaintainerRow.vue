@@ -1,5 +1,9 @@
 <template>
-  <v-row :class="{ title: title }" id="packagerow">
+  <v-row
+    class="px-5"
+    :class="{ title: title }"
+    id="packagerow"
+  >
     <v-col
       id="package-maintainer-name"
       cols="lg-1 sm-2"
@@ -14,7 +18,7 @@
     >
     <v-col
       id="package-maintainer-package"
-      cols="9"
+      cols="lg-9"
       class="d-flex align-center"
       >{{
         title == true
@@ -54,7 +58,7 @@
             <v-icon
               id="delete-icon"
               @click.stop
-              @click="deleteMaintainer()"
+              @click="deleteDialog()"
               v-bind="props"
               color="oared"
               >mdi-trash-can</v-icon
@@ -87,7 +91,11 @@
 </template>
 
 <script setup lang="ts">
+import { OverlayEnum } from '@/enum/Overlay'
 import { EntityModelPackageMaintainerDto } from '@/openapi'
+import { i18n } from '@/plugins/i18n'
+import { useCommonStore } from '@/store/common'
+import { usePackageMaintainersStore } from '@/store/package_maintainers'
 
 const props = defineProps({
   title: {
@@ -98,11 +106,39 @@ const props = defineProps({
     | EntityModelPackageMaintainerDto
     | undefined
 })
+
+const common_store = useCommonStore()
+const maintainers_store = usePackageMaintainersStore()
+
 function prepareString(value: string): string {
   return value.charAt(0).toUpperCase() + value.slice(1)
 }
-function edit() {}
-function deleteMaintainer() {}
+function edit() {
+  maintainers_store.setChoosenMaintainer(
+    props.packageMaintainer || {}
+  )
+  common_store.setOverlayText(
+    i18n.t('maintainers.edit', {
+      maintainerName: props.packageMaintainer?.userId
+    })
+  )
+  common_store.setOverlayModel(true)
+  common_store.setOverlayOpacity(0.8)
+  common_store.setOverlayComponent(OverlayEnum.Edit)
+}
+
+function deleteDialog() {
+  common_store.setOverlayText(
+    i18n.t('maintainers.deleteQuestion', {
+      maintainerName: props.packageMaintainer?.userId
+    })
+  )
+  common_store.setOverlayModel(true)
+  common_store.setOverlayOpacity(0.8)
+  common_store.setOverlayComponent(
+    OverlayEnum.DeleteMaintainer
+  )
+}
 </script>
 
 <style lang="scss">

@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import PackageMaintainerRow from '@/components/maintainers/PackageMaintainerRow.vue'
+import PackageMaintainerRow from '@/components/packageMaintainers/PackageMaintainerRow.vue'
 import { EntityModelPackageMaintainerDto } from '@/openapi'
 
 const props = defineProps({

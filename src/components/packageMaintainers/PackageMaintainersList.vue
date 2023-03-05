@@ -17,8 +17,8 @@
 <script setup lang="ts">
 import { usePackageMaintainersStore } from '@/store/package_maintainers'
 import { computed, onMounted } from 'vue'
-import PackageMaintainersListTitle from '@/components/maintainers/PackageMaintainersListTitle.vue'
-import PackageMaintainerItem from '@/components/maintainers/PackageMaintainerItem.vue'
+import PackageMaintainersListTitle from '@/components/packageMaintainers/PackageMaintainersListTitle.vue'
+import PackageMaintainerItem from '@/components/packageMaintainers/PackageMaintainerItem.vue'
 
 const package_mainatainers_store =
   usePackageMaintainersStore()
@@ -29,6 +29,8 @@ const package_maintainers = computed(function () {
 
 function updateState(): void {
   package_mainatainers_store.fetchMaintainers()
+  package_mainatainers_store.fetchReposiotires()
+  package_mainatainers_store.fetchPackages()
 }
 
 onMounted(() => {
