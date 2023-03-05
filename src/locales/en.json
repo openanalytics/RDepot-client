@@ -28,7 +28,8 @@
     "addPackage": "add package",
     "events": "events",
     "delete": "delete",
-    "notAvaiable": "Not avaiable"
+    "notAvaiable": "Not avaiable",
+    "save": "save"
   },
   "filtration": {
     "title": "filtration",
@@ -135,6 +136,18 @@
     "repository": "repository",
     "actions": "actions",
     "name": "name",
-    "delete": "delete maintainer"
+    "delete": "delete maintainer",
+    "filtration": {
+      "title": "Maintainers filtration",
+      "technology": "Technology",
+      "deleted": "Deleted"
+    },
+    "deleteQuestion": "Are you sure you want to delete {maintainer_name}?",
+    "editform": {
+      "title": "Edit package maintainer",
+      "repository": "Repository",
+      "package": "Package",
+      "user": "User"
+    }
   }
 }

@@ -6,7 +6,8 @@
     "passwordError": "Hasło jest wymagane",
     "login": "zaloguj",
     "clear": "resetuj",
-    "wrongCredentials": "Błędne dane logowania, spróbuj ponownie "
+    "wrongCredentials": "Błędne dane logowania, spróbuj ponownie ",
+    "name": "Moja ime to bla"
   },
   "packages": {
     "submitter": "zgłaszający"
