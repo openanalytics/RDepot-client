@@ -4,7 +4,7 @@
     <v-window
       v-model="e1"
       class="stepper mx-10"
-      :touch="{ left: null, right: null }"
+      :touch="{ left: () => {}, right: () => {} }"
     >
       <v-window-item :value="1">
         <StepFirst v-on:next="changeValue" />
