@@ -7,7 +7,11 @@ enum OverlayEnum {
   RepositoryFiltrationReset,
   SubmissionsFiltration,
   SubmissionsFiltrationReset,
-  DeletePackage
+  DeletePackage,
+  MaintainersFiltration,
+  MaintainersFiltrationReset,
+  DeleteMaintainer,
+  Edit
 }
 
 export { OverlayEnum }
