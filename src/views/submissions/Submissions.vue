@@ -1,19 +1,12 @@
 <template>
   <v-row justify="end" class="my-5 mx-10" align="center">
     <CommonButton
-      id="reset-packages-filtration"
-      :title="$t('common.reset')"
-      v-on:buttonClicked="
-        showOverlay(OverlayEnum.SubmissionsFiltrationReset)
-      "
-      class="mx-3"
-    />
+      id="reset-maintainers-filtration"
+      :component="OverlayEnum.SubmissionsFiltrationReset"
+      >{{ $t('common.reset') }}</CommonButton
+    >
     <CommonButton
-      :title="$t('filtration.title')"
-      v-on:buttonClicked="
-        showOverlay(OverlayEnum.SubmissionsFiltration)
-      "
-      class="mx-3"
+      :component="OverlayEnum.SubmissionsFiltration"
     />
   </v-row>
   <submission-list />
