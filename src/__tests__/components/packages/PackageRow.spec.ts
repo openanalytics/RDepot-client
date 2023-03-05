@@ -13,6 +13,7 @@ import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import PackageRowVue from '@/components/packages/PackageRow.vue'
 import { Package } from '@/models/packages/Package'
 import packages from '@/tmpLists/packages.json'
+import { EntityModelRPackageDto } from '@/openapi'
 
 let wrapper: any
 const globalConfig = {
@@ -24,7 +25,9 @@ beforeAll(() => {
 })
 
 describe('Packages - package row (packagebag)', () => {
-  const packagebag = packages.page1[0]
+  const packagebag: EntityModelRPackageDto = JSON.parse(
+    JSON.stringify(packages.page1[0])
+  )
   beforeEach(async () => {
     wrapper = mount(PackageRowVue, {
       global: globalConfig,
@@ -54,8 +57,10 @@ describe('Packages - package row (packagebag)', () => {
       '#packagerowdescription'
     )
     expect(name_column.text()).toBe(
-      packagebag.desc.slice(0, wrapper.vm.descMaxLength) +
-        '...'
+      packagebag.description?.slice(
+        0,
+        wrapper.vm.descMaxLength
+      ) + '...'
     )
   })
 
@@ -63,7 +68,7 @@ describe('Packages - package row (packagebag)', () => {
     const name_column = wrapper.find(
       '#packagerowmaintainer'
     )
-    expect(name_column.text()).toBe(packagebag.maintainer)
+    expect(name_column.text()).toBe(packagebag.userId)
   })
 
   it('package active value is correctly displayed', () => {

@@ -1,21 +1,20 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 
 import { mount } from '@vue/test-utils'
-import Button from '@/components/common/Button.vue'
 import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
+import CommonButton from '@/components/common/Button.vue'
 
 let wrapper: any
-const MESSAGE = 'Accept'
+const MESSAGE = 'filtration'
 const globalConfig = {
   mocks: mocks,
   plugins: plugins
 }
 
 beforeEach(async () => {
-  wrapper = mount(Button, {
-    global: globalConfig,
-    props: { title: MESSAGE }
+  wrapper = mount(CommonButton, {
+    global: globalConfig
   })
 })
 

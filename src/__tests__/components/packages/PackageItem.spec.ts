@@ -17,7 +17,9 @@ beforeEach(async () => {
   wrapper = mount(PackageItemVue, {
     global: globalConfig,
     props: {
-      packageBag: packages.page1[0]
+      packageBag: JSON.parse(
+        JSON.stringify(packages.page1[0])
+      )
     }
   })
 })
@@ -34,7 +36,9 @@ describe('Packages - package item', () => {
     await title.trigger('click')
     const description = wrapper.find('div.content')
     expect(description.exists()).toBeTruthy()
-    expect(description.text()).toBe(packages.page1[0].desc)
+    expect(description.text()).toBe(
+      packages.page1[0].description
+    )
   })
 
   it('displays expansion panel with package short version', () => {
