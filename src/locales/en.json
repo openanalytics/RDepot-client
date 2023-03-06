@@ -29,7 +29,8 @@
     "events": "events",
     "delete": "delete",
     "notAvaiable": "Not avaiable",
-    "save": "save"
+    "save": "save",
+    "edit": "edit"
   },
   "filtration": {
     "title": "filtration",
@@ -102,6 +103,7 @@
     "name": "name",
     "publicationUri": "publication uri",
     "serverAddress": "server address",
+    "maintainer": "maintainer",
     "version": "version",
     "packagesNo": "number of packages",
     "published": "published"
@@ -144,7 +146,7 @@
     },
     "deleteQuestion": "Are you sure you want to delete {maintainer_name}?",
     "editform": {
-      "title": "Edit package maintainer",
+      "title": "Edit maintainer",
       "repository": "Repository",
       "package": "Package",
       "user": "User"
