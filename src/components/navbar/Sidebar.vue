@@ -73,7 +73,11 @@
           :title="$t('common.maintainers')"
           :value="$t('repositories.maintainers')"
           id="sidebarrepositorymintainers"
-          @click="$router.replace({ name: 'repositories' })"
+          @click="
+            $router.replace({
+              name: 'repositoryMaintainers'
+            })
+          "
         ></v-list-item>
       </v-list-group>
     </v-list>
