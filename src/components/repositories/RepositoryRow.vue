@@ -2,11 +2,11 @@
   <v-row
     class="px-5"
     :class="{ title: title }"
-    id="repositoryrow"
+    id="repository-row"
   >
     <v-col
-      id="repositoryname"
-      cols="lg-2 sm-2"
+      id="repository-name"
+      cols="lg-1 sm-2"
       class="d-flex align-center"
       >{{
         title == true
@@ -19,8 +19,40 @@
       }}</v-col
     >
     <v-col
-      id="repositorypublicationuri"
-      cols="lg-3"
+      id="repository-maintainer"
+      cols="lg-1"
+      class="d-flex align-center"
+    >
+      {{
+        title == true
+          ? prepareString(
+              $t('repositories.maintainer').toString()
+            )
+          : repository
+          ? 'maintainer'
+          : ''
+      }}
+      <v-tooltip top>
+        <template v-slot:activator="{ props }">
+          <v-icon
+            v-show="title == false"
+            id="pencil-icon"
+            @click.stop
+            @click="edit"
+            v-bind="props"
+            class="ml-2"
+            color="oablue"
+            >mdi-pencil</v-icon
+          >
+        </template>
+        <span id="action-edit">{{
+          $t('common.edit')
+        }}</span>
+      </v-tooltip>
+    </v-col>
+    <v-col
+      id="repository-publication-uri"
+      cols="lg-2"
       class="d-flex align-center"
       >{{
         title == true
@@ -33,8 +65,8 @@
       }}</v-col
     >
     <v-col
-      id="repositoryserveraddress"
-      cols="lg-3 sm-2"
+      id="repository-server-address"
+      cols="lg-4 sm-2"
       class="d-flex align-center"
     >
       {{
@@ -47,6 +79,7 @@
           : ''
       }}</v-col
     >
+
     <v-col
       id="repositoriesversion"
       cols="lg-1 sm-2"
@@ -150,6 +183,10 @@
 <script setup lang="ts">
 import router from '@/router'
 import { EntityModelRRepositoryDto } from '@/openapi'
+import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
+import { useCommonStore } from '@/store/common'
+import { OverlayEnum } from '@/enum/Overlay'
+import { i18n } from '@/plugins/i18n'
 
 const props = defineProps({
   title: {
@@ -160,6 +197,9 @@ const props = defineProps({
     | EntityModelRRepositoryDto
     | undefined
 })
+
+const common_store = useCommonStore()
+const maintainers_store = useRepositoryMaintainersStore()
 
 function prepareString(value: string): string {
   return value.charAt(0).toUpperCase() + value.slice(1)
@@ -174,6 +214,21 @@ function navigate() {
       }
     })
   }
+}
+
+function edit() {
+  maintainers_store.setChoosenMaintainer(
+    maintainers_store.maintainers[0]
+  )
+  common_store.setOverlayText(
+    i18n.t('maintainers.edit', {
+      maintainerName:
+        maintainers_store.maintainers[0].userId
+    })
+  )
+  common_store.setOverlayModel(true)
+  common_store.setOverlayOpacity(0.8)
+  common_store.setOverlayComponent(OverlayEnum.Edit)
 }
 </script>
 
