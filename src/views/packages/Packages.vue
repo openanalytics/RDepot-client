@@ -1,6 +1,6 @@
 <template>
   <PackagesModal />
-  <PackagesButtons />
+  <FiltrationButtons />
   <PackagesList />
   <Pagination :page="page" v-on:newPage="nextPage" />
 </template>
@@ -11,8 +11,7 @@ import Pagination from '@/components/common/Pagination.vue'
 import { computed } from 'vue'
 import { usePackagesStore } from '@/store/packages'
 import PackagesModal from '@/components/packages/PackagesModal.vue'
-import PackagesButtons from '@/components/packages/PackagesButtons.vue'
-
+import FiltrationButtons from '@/components/common/FiltrationButtons.vue'
 const package_store = usePackagesStore()
 
 const page = computed(function () {

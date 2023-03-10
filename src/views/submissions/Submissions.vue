@@ -1,23 +1,13 @@
 <template>
-  <v-row justify="end" class="my-5 mx-10" align="center">
-    <CommonButton
-      id="reset-maintainers-filtration"
-      :component="OverlayEnum.SubmissionsFiltrationReset"
-      >{{ $t('common.reset') }}</CommonButton
-    >
-    <CommonButton
-      :component="OverlayEnum.SubmissionsFiltration"
-    />
-  </v-row>
+  <FiltrationButtons />
   <submission-list />
 </template>
 
 <script setup lang="ts">
 import SubmissionList from '@/components/submissions/SubmissionList.vue'
-import CommonButton from '@/components/common/Button.vue'
 import { useCommonStore } from '@/store/common'
 import { useI18n } from 'vue-i18n'
-import { OverlayEnum } from '@/enum/Overlay'
+import FiltrationButtons from '@/components/common/FiltrationButtons.vue'
 
 const common_store = useCommonStore()
 const { t } = useI18n()

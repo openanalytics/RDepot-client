@@ -1,11 +1,11 @@
 <template>
   <RepositoriesModal />
-  <RepositoriesButtons />
+  <FiltrationButtons />
   <RepositoriesList />
 </template>
 
 <script setup lang="ts">
 import RepositoriesModal from '@/components/repositories/RepositoriesModal.vue'
 import RepositoriesList from '@/components/repositories/RepositoriesList.vue'
-import RepositoriesButtons from '@/components/repositories/RepositoriesButtons.vue'
+import FiltrationButtons from '@/components/common/FiltrationButtons.vue'
 </script>
