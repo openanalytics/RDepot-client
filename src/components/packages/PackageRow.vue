@@ -103,7 +103,7 @@
         }}
       </span>
       <span
-        v-else
+        v-else-if="packageBag"
         class="d-flex justify-center align-center"
       >
         <v-tooltip top>
