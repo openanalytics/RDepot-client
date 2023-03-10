@@ -30,7 +30,8 @@
     "delete": "delete",
     "notAvaiable": "Not avaiable",
     "save": "save",
-    "edit": "edit"
+    "edit": "edit",
+    "projectTitle": "RDepot"
   },
   "filtration": {
     "title": "filtration",
