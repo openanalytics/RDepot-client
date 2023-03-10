@@ -4,12 +4,23 @@
       variant="inset"
       class="v-expansion mx-5"
     >
-      <RepositoryMaintainersListTitle />
-      <RepositoryMaintainerItem
-        v-for="(item, index) in package_maintainers"
+      <v-expansion-panel class="py-3">
+        <RepositoryMaintainerRow title />
+      </v-expansion-panel>
+      <v-expansion-panel
+        v-for="(item, index) in repository_maintainers"
         :key="index"
-        :repositoryMaintainer="item"
-      />
+      >
+        <v-expansion-panel-title
+          readonly
+          id="expansionpaneltitle"
+          class="no-icon"
+        >
+          <RepositoryMaintainerRow
+            :repositoryMaintainer="item"
+          />
+        </v-expansion-panel-title>
+      </v-expansion-panel>
     </v-expansion-panels>
   </div>
 </template>
@@ -19,11 +30,12 @@ import { computed, onMounted } from 'vue'
 import RepositoryMaintainersListTitle from './RepositoryMaintainersListTitle.vue'
 import RepositoryMaintainerItem from './RepositoryMaintainerItem.vue'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
+import RepositoryMaintainerRow from './RepositoryMaintainerRow.vue'
 
 const repository_maintainers_store =
   useRepositoryMaintainersStore()
 
-const package_maintainers = computed(function () {
+const repository_maintainers = computed(function () {
   return repository_maintainers_store.maintainers
 })
 
@@ -40,5 +52,8 @@ onMounted(() => {
 <style>
 .v-expansion {
   max-width: 96% !important;
+}
+.v-expansion-panel-title__icon {
+  display: none !important;
 }
 </style>

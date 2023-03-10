@@ -1,24 +1,34 @@
 <template>
-  <div>
-    <v-expansion-panels
-      variant="inset"
-      class="v-expansion mx-5"
+  <v-expansion-panels
+    variant="inset"
+    class="v-expansion mx-5"
+  >
+    <v-expansion-panel class="py-3">
+      <PackageRow :title="true" />
+    </v-expansion-panel>
+    <v-expansion-panel
+      v-for="(item, index) in packages"
+      :key="index"
     >
-      <PackagesListTitle />
-      <PackageItem
-        v-for="(item, index) in packages"
-        :key="index"
-        :packageBag="item"
-      />
-    </v-expansion-panels>
-  </div>
+      <v-expansion-panel-title
+        id="expansionpaneltitle"
+        class="no-icon"
+      >
+        <PackageRow :packageBag="item" />
+      </v-expansion-panel-title>
+      <v-expansion-panel-text>
+        <div class="content mt-2">
+          {{ item?.description }}
+        </div>
+      </v-expansion-panel-text>
+    </v-expansion-panel>
+  </v-expansion-panels>
 </template>
 
 <script setup lang="ts">
 import { usePackagesStore } from '@/store/packages'
 import { computed, onMounted } from 'vue'
-import PackageItem from '@/components/packages/PackageItem.vue'
-import PackagesListTitle from '@/components/packages/PackagesListTitle.vue'
+import PackageRow from './PackageRow.vue'
 
 const packages_store = usePackagesStore()
 
@@ -38,5 +48,32 @@ onMounted(() => {
 <style>
 .v-expansion {
   max-width: 96% !important;
+}
+
+.content {
+  text-align: justify;
+  font-size: 14px;
+  padding: 0 40px 0 0;
+}
+
+.v-expansion-panel-title__icon {
+  display: none !important;
+}
+
+.v-expansion-panel-title {
+  padding: 0 !important;
+}
+
+.v-col {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* .v-row {
+  margin: 0 !important;
+} */
+
+.v-input__details {
+  display: none !important;
 }
 </style>
