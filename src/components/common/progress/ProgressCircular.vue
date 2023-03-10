@@ -1,7 +1,7 @@
 <template>
   <div v-show="active" class="progressCircular">
     <v-progress-circular
-      id="progresscircular"
+      id="progress-circular"
       indeterminate
       color="oared"
     >

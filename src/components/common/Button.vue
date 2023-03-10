@@ -1,6 +1,6 @@
 <template>
   <v-btn
-    id="commonbutton"
+    id="common-button"
     color="oablue"
     dark
     dense

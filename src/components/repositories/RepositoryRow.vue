@@ -1,9 +1,5 @@
 <template>
-  <v-row
-    class="px-5"
-    :class="{ title: title }"
-    id="repository-row"
-  >
+  <v-row :class="{ title: title }" id="repository-row">
     <v-col
       id="repository-name"
       cols="lg-1 sm-2"
@@ -106,7 +102,7 @@
               $t('repositories.packagesNo').toString()
             )
           : repository
-          ? 'number of packages'
+          ? -1
           : ''
       }}</v-col
     >
@@ -240,17 +236,17 @@ function edit() {
 .col {
   line-height: 1.3;
 }
+
 .title {
   font-weight: 600 !important;
-  padding-top: 16px;
-  padding-bottom: 16px;
+  padding: 16px 24px;
 }
 
 .v-input__control {
   justify-content: center !important;
 }
 
-#repositoryrow {
+#repository-row {
   .v-input__details {
     display: none !important;
   }

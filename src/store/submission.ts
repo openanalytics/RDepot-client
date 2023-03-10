@@ -1,4 +1,4 @@
-import { Repository } from '@/models'
+import { Repository } from '@/models/repositories/Repository'
 import { EntityModelSubmissionDto } from '@/openapi'
 import { defineStore } from 'pinia'
 import submissions from '@/tmpLists/rSubmissions.json'

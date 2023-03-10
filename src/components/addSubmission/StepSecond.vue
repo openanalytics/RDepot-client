@@ -32,13 +32,17 @@
   </v-card>
   <div class="d-flex justify-space-between">
     <v-btn
-      id="backbutton"
+      id="back-button"
       color="oablue"
       @click="$emit('next', 1)"
     >
       go back
     </v-btn>
-    <v-btn id="nextbutton" color="oablue" @click="nextStep">
+    <v-btn
+      id="next-button"
+      color="oablue"
+      @click="nextStep"
+    >
       Continue
     </v-btn>
   </div>
@@ -47,7 +51,6 @@
 <script setup lang="ts">
 import { useSubmissionStore } from '@/store/submission'
 import { useNotification } from '@kyvg/vue3-notification'
-import { validate } from 'json-schema'
 import { ref } from 'vue'
 
 const emits = defineEmits(['next'])

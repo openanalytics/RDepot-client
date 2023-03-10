@@ -2,10 +2,10 @@
   <v-row
     class="px-5"
     :class="{ title: title }"
-    id="packagerow"
+    id="package-row"
   >
     <v-col
-      id="packagerowname"
+      id="package-row-name"
       cols="lg-1 sm-2"
       class="d-flex align-center"
       >{{
@@ -17,7 +17,7 @@
       }}</v-col
     >
     <v-col
-      id="packagerowversion"
+      id="package-row-version"
       cols="1"
       class="d-flex align-center"
       >{{
@@ -29,7 +29,7 @@
       }}</v-col
     >
     <v-col
-      id="packagerowdescription"
+      id="package-row-title"
       cols="lg-6 sm-2"
       class="d-flex align-center"
     >
@@ -45,7 +45,7 @@
       }}</v-col
     >
     <v-col
-      id="packagerowmaintainer"
+      id="package-row-maintainer"
       cols="lg-1 sm-2"
       class="d-flex align-center justify-center"
     >
@@ -53,14 +53,14 @@
         title == true
           ? prepareString(
               $t('packages.maintainer').toString()
-            ) + ' userId'
+            )
           : packageBag
           ? packageBag.userId
           : ''
       }}</v-col
     >
     <v-col
-      id="packagerowrepository"
+      id="package-row-repository"
       cols="lg-1 sm-2"
       class="d-flex align-center justify-center"
     >
@@ -75,7 +75,7 @@
       }}</v-col
     >
     <v-col
-      id="packagerowactive"
+      id="package-row-active"
       cols="lg-1"
       class="d-flex justify-center"
     >
@@ -85,7 +85,7 @@
         }}</span
       >
       <v-checkbox
-        id="checkboxactive"
+        id="checkbox-active"
         color="oablue"
         @click.stop
         v-else-if="packageBag"
@@ -93,7 +93,7 @@
       />
     </v-col>
     <v-col
-      id="packagerowactions"
+      id="package-row-actions"
       cols="lg-1"
       class="d-flex justify-center"
     >
@@ -109,7 +109,7 @@
         <v-tooltip top>
           <template v-slot:activator="{ props }">
             <v-icon
-              id="navigateicon"
+              id="navigate-icon"
               @click.stop
               @click="navigate"
               v-bind="props"
@@ -117,14 +117,14 @@
               >mdi-forward</v-icon
             >
           </template>
-          <span id="actiondetails">{{
+          <span id="action-details">{{
             $t('common.details')
           }}</span>
         </v-tooltip>
         <v-tooltip top>
           <template v-slot:activator="{ props }">
             <v-icon
-              id="navigateicon"
+              id="delete-icon"
               @click.stop
               @click="deleteDialog"
               v-bind="props"
@@ -133,7 +133,7 @@
               >mdi-trash-can</v-icon
             >
           </template>
-          <span id="actiondelete">{{
+          <span id="action-delete">{{
             $t('common.delete')
           }}</span>
         </v-tooltip>
