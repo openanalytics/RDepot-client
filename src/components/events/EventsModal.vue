@@ -26,8 +26,7 @@ async function clearFiltration() {
 
 const getFiltration = computed(() => {
   return (
-    common_store.overlayComponent ==
-    OverlayEnum.EventsFiltration
+    common_store.overlayComponent == OverlayEnum.Filtration
   )
 })
 </script>
