@@ -13,7 +13,6 @@ import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import { createPinia, setActivePinia } from 'pinia'
 import { useSubmissionStore } from '@/store/submission'
 import StepSecondVue from '@/components/addSubmission/StepSecond.vue'
-import packages from '@/tmpLists/packages.json'
 
 let wrapper: any
 const globalConfig = {
@@ -40,33 +39,35 @@ describe('Add submission - step first', () => {
   })
 
   it('back button exists', () => {
-    const button = wrapper.find('#backbutton')
+    const button = wrapper.find('#back-button')
     expect(button.exists()).toBeTruthy()
   })
 
   it('go back if back button is clicked', async () => {
-    const button = wrapper.find('#backbutton')
+    const button = wrapper.find('#back-button')
     expect(button.exists()).toBeTruthy()
     await button.trigger('click')
     expect(wrapper.emitted().next[0]).toEqual([1])
   })
 
   it('next button exists', () => {
-    const button = wrapper.find('#nextbutton')
+    const button = wrapper.find('#next-button')
     expect(button.exists()).toBeTruthy()
   })
 
-  it('go next not allowed if reposiotry is not choosen', async () => {
-    const button = wrapper.find('#nextbutton')
+  it('go next not allowed if repository is not choosen', async () => {
+    const button = wrapper.find('#next-button')
     expect(button.exists()).toBeTruthy()
     await button.trigger('click')
     expect(wrapper.emitted().next).toBeFalsy()
   })
 
   it('go next allowed if reposiotry is choosen', async () => {
-    await submission_store.setPackages(packages.page1)
-    const button = wrapper.find('#nextbutton')
-    expect(button.exists()).toBeTruthy()
+    var files = [new File([''], 'filename')]
+    const button = wrapper.find('#next-button')
+    wrapper.vm.valid = true
+    wrapper.vm.files = files
+    expect(button.isVisible()).toBeTruthy()
     await button.trigger('click')
     expect(wrapper.emitted().next).toBeTruthy()
     expect(wrapper.emitted().next[0]).toEqual([3])

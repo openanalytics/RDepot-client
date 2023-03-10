@@ -50,7 +50,7 @@ describe('Add submission - step first', () => {
     expect(wrapper.emitted().next).toBeFalsy()
   })
 
-  it('go next allowedif reposiotry is choosen', async () => {
+  it('go next allowed if reposiotry is choosen', async () => {
     await submission_store.setRepository({
       id: 1,
       name: 'repository1'

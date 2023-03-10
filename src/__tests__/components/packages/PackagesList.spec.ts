@@ -13,7 +13,7 @@ import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import { createPinia, setActivePinia } from 'pinia'
 import { usePackagesStore } from '@/store/packages'
 import PackagesListVue from '@/components/packages/PackagesList.vue'
-import PackageItemVue from '@/components/packages/PackageItem.vue'
+import PackageRowVue from '@/components/packages/PackageRow.vue'
 import packages from '@/tmpLists/packages.json'
 import PackagesListTitleVue from '@/components/packages/PackagesListTitle.vue'
 
@@ -40,19 +40,12 @@ describe('Packages - list', () => {
     expect(wrapper.exists()).toBe(true)
   })
 
-  it('displays one row for each package', async () => {
+  it('displays one row for each package + one for title', async () => {
     const packagesFromWrapper =
-      wrapper.findAllComponents(PackageItemVue)
+      wrapper.findAllComponents(PackageRowVue)
 
     expect(packagesFromWrapper.length).toEqual(
-      packages.page2.length
+      packages.page2.length + 1
     )
-  })
-
-  it('displays title row', async () => {
-    const packagesFromWrapper = wrapper.findComponent(
-      PackagesListTitleVue
-    )
-    expect(packagesFromWrapper.exists()).toBeTruthy()
   })
 })
