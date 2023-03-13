@@ -1,4 +1,7 @@
-import { EntityModelNewsfeedEventDto } from '@/openapi'
+import {
+  ApiV2NewsfeedEventControllerApiFp,
+  EntityModelNewsfeedEventDto
+} from '@/openapi'
 import events from '@/tmpLists/events.json'
 import eventsNext from '@/tmpLists/eventsNext.json'
 import { defineStore } from 'pinia'
@@ -26,6 +29,10 @@ export const useEventsStore = defineStore('events_store', {
   },
   actions: {
     async fetchEvents() {
+      var tmpEvents =
+        ApiV2NewsfeedEventControllerApiFp().getAllEvents()
+      console.log(tmpEvents)
+
       this.events = JSON.parse(
         JSON.stringify(events.events)
       )

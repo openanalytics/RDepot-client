@@ -1,8 +1,8 @@
 <template>
   <div>
     <v-expansion-panels class="v-expansion mx-5">
-      <v-expansion-panel class="py-1">
-        <submission-row title />
+      <v-expansion-panel class="py-3">
+        <SubmissionRow title />
       </v-expansion-panel>
       <v-expansion-panel>
         <v-expansion-panel-title
@@ -56,7 +56,30 @@ onMounted(() => {
 </script>
 
 <style>
-.v-expansion {
+v-expansion {
   max-width: 96% !important;
+}
+
+.content {
+  text-align: justify;
+  font-size: 14px;
+  padding: 0 40px 0 0;
+}
+
+.v-expansion-panel-title__icon {
+  display: none !important;
+}
+
+.v-expansion-panel-title {
+  padding: 0 !important;
+}
+
+.v-col {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.v-input__details {
+  display: none !important;
 }
 </style>

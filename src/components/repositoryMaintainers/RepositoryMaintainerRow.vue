@@ -2,10 +2,10 @@
   <v-row
     class="px-5"
     :class="{ title: title }"
-    id="packagerow"
+    id="repository-maintainer-row"
   >
     <v-col
-      id="package-maintainer-name"
+      id="repository-maintainer-name"
       cols="lg-1 sm-2"
       class="d-flex align-center"
       >{{
@@ -17,7 +17,7 @@
       }}</v-col
     >
     <v-col
-      id="package-maintainer-repository"
+      id="repository-maintainer-repository"
       cols="lg-10 sm-2"
       class="d-flex align-center"
     >
@@ -30,7 +30,7 @@
       }}</v-col
     >
     <v-col
-      id="packagerowactions"
+      id="repository-maintainer-actions"
       cols="lg-1"
       class="d-flex justify-center"
     >
@@ -38,7 +38,7 @@
         {{ prepareString($t('maintainers.actions')) }}
       </span>
       <span
-        v-else
+        v-else-if="repositoryMaintainer"
         class="d-flex justify-center align-center"
       >
         <v-tooltip top>
@@ -52,7 +52,7 @@
               >mdi-trash-can</v-icon
             >
           </template>
-          <span id="action-edit">{{
+          <span id="action-delete">{{
             $t('maintainers.delete')
           }}</span>
         </v-tooltip>

@@ -1,4 +1,4 @@
-import { LoginApiData } from '@/models'
+import { LoginApiData } from '@/models/users/Login'
 import api from '@/plugins/axios'
 import { notify } from '@kyvg/vue3-notification'
 

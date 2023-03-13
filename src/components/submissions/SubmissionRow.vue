@@ -2,10 +2,10 @@
   <v-row
     class="px-5"
     :class="{ title: title }"
-    id="submissionrow"
+    id="submission-row"
   >
     <v-col
-      id="submissiondate"
+      id="submission-date"
       cols="lg-1 sm-2"
       class="d-flex align-center"
       >{{
@@ -17,7 +17,7 @@
       }}</v-col
     >
     <v-col
-      id="submissionpackage"
+      id="submission-package"
       cols="lg-1"
       class="d-flex align-center"
       >{{
@@ -31,7 +31,7 @@
       }}</v-col
     >
     <v-col
-      id="submissionrepository"
+      id="submission-repository"
       cols="lg-1 sm-2"
       class="d-flex align-center"
     >
@@ -46,7 +46,7 @@
       }}</v-col
     >
     <v-col
-      id="submissionsubmitter"
+      id="submission-submitter"
       cols="lg-1 sm-2"
       class="d-flex align-center"
     >
@@ -62,7 +62,7 @@
     >
 
     <v-col
-      id="submissionapprover"
+      id="submission-approver"
       cols="lg-5 sm-2"
       class="d-flex align-center"
     >
@@ -77,7 +77,7 @@
       }}</v-col
     >
     <v-col
-      id="submissionaccepted"
+      id="submission-accepted"
       cols="lg-1"
       class="d-flex justify-center"
     >
@@ -90,7 +90,7 @@
       >
 
       <v-checkbox
-        id="checkboxactive"
+        id="checkbox-accepted"
         color="oablue"
         @click.stop
         disabled
@@ -111,10 +111,11 @@
         }}
       </span>
       <span
-        v-else-if="!getAccepted"
+        v-else-if="!getAccepted && submission"
         class="d-flex justify-center align-center"
       >
         <v-btn
+          id="accept-button"
           color="success"
           class="mx-1"
           @click="acceptSubmission"
@@ -122,42 +123,12 @@
           >ACCEPT</v-btn
         >
         <v-btn
+          id="cancel-button"
           color="oared"
           @click="cancelSubmission"
           :disabled="cancelDisabled"
           >CANCEL</v-btn
         >
-        <!-- <v-tooltip top>
-          <template v-slot:activator="{ props }">
-            <v-icon
-              id="navigateicon"
-              @click.stop
-              @click="navigate"
-              v-bind="props"
-              color="oablue"
-              >mdi-forward</v-icon
-            >
-          </template>
-          <span id="actiondetails">{{
-            $t('common.details')
-          }}</span>
-        </v-tooltip>
-        <v-tooltip top>
-          <template v-slot:activator="{ props }">
-            <v-icon
-              id="navigateicon"
-              @click.stop
-              @click="navigate"
-              v-bind="props"
-              color="oared"
-              class="ml-3"
-              >mdi-trash-can</v-icon
-            >
-          </template>
-          <span id="actiondelete">{{
-            $t('common.delete')
-          }}</span>
-        </v-tooltip> -->
       </span>
     </v-col>
   </v-row>
@@ -229,17 +200,23 @@ function cancelSubmission() {
 .col {
   line-height: 1.3;
 }
+
 .title {
   font-weight: 600 !important;
-  padding-top: 16px;
-  padding-bottom: 16px;
+  padding: 16px 24px;
 }
 
 .v-input__control {
   justify-content: center !important;
 }
 
-#submissionrow {
+#repository-row {
+  .v-input__details {
+    display: none !important;
+  }
+}
+
+#submission-row {
   .v-input__details {
     display: none !important;
   }

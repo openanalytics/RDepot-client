@@ -69,10 +69,6 @@ onMounted(() => {
   padding-bottom: 0 !important;
 }
 
-/* .v-row {
-  margin: 0 !important;
-} */
-
 .v-input__details {
   display: none !important;
 }

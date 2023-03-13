@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { LoginApiData } from '@/models'
+import { LoginApiData } from '@/models/users/Login'
 import { LoginType } from '@/enum/LoginType'
 
 interface State {

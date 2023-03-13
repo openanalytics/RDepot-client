@@ -69,7 +69,7 @@
 <script setup lang="ts">
 import Keycloak from 'keycloak-js'
 import { initKeycloak } from '@/plugins/keycloak'
-import { Login, LoginApiData } from '@/models'
+import { Login, LoginApiData } from '@/models/users/Login'
 import { LoginType } from '@/enum/LoginType'
 import { onMounted, ref } from 'vue'
 import { useUserStore } from '@/store/users'

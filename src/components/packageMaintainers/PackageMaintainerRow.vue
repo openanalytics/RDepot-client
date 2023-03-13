@@ -2,7 +2,7 @@
   <v-row
     class="px-5"
     :class="{ title: title }"
-    id="packagerow"
+    id="package-maintainer-row"
   >
     <v-col
       id="package-maintainer-name"
@@ -42,7 +42,7 @@
       }}</v-col
     >
     <v-col
-      id="packagerowactions"
+      id="package-maintainer-actions"
       cols="lg-1"
       class="d-flex justify-center"
     >
@@ -50,7 +50,7 @@
         {{ prepareString($t('maintainers.actions')) }}
       </span>
       <span
-        v-else
+        v-else-if="packageMaintainer"
         class="d-flex justify-center align-center"
       >
         <v-tooltip top>

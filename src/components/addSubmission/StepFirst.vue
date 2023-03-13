@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import { Repository } from '@/models'
+import { Repository } from '@/models/repositories/Repository'
 import { useSubmissionStore } from '@/store/submission'
 import { useNotification } from '@kyvg/vue3-notification'
 const emits = defineEmits(['next'])

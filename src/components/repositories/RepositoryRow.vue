@@ -28,23 +28,6 @@
           ? 'maintainer'
           : ''
       }}
-      <v-tooltip top>
-        <template v-slot:activator="{ props }">
-          <v-icon
-            v-show="title == false"
-            id="pencil-icon"
-            @click.stop
-            @click="edit"
-            v-bind="props"
-            class="ml-2"
-            color="oablue"
-            >mdi-pencil</v-icon
-          >
-        </template>
-        <span id="action-edit">{{
-          $t('common.edit')
-        }}</span>
-      </v-tooltip>
     </v-col>
     <v-col
       id="repository-publication-uri"
@@ -77,7 +60,7 @@
     >
 
     <v-col
-      id="repositoriesversion"
+      id="repository-version"
       cols="lg-1 sm-2"
       class="d-flex align-center justify-center"
     >
@@ -92,7 +75,7 @@
       }}</v-col
     >
     <v-col
-      id="repositorypackagesno"
+      id="repository-packages-no"
       cols="lg-1 sm-2"
       class="d-flex align-center justify-center"
     >
@@ -107,7 +90,7 @@
       }}</v-col
     >
     <v-col
-      id="repositorypublished"
+      id="repository-published"
       cols="lg-1"
       class="d-flex justify-center"
     >
@@ -119,15 +102,15 @@
         }}</span
       >
       <v-checkbox
-        id="checkboxactive"
+        v-else-if="repository"
+        id="checkbox-published"
+        v-model="repository.published"
         color="oablue"
         @click.stop
-        v-else-if="repository"
-        v-model="repository.published"
       />
     </v-col>
     <v-col
-      id="packagerowactions"
+      id="repository-actions"
       cols="lg-1"
       class="d-flex justify-center"
     >
@@ -137,13 +120,13 @@
         }}
       </span>
       <span
-        v-else
+        v-else-if="repository"
         class="d-flex justify-center align-center"
       >
         <v-tooltip top>
           <template v-slot:activator="{ props }">
             <v-icon
-              id="navigateicon"
+              id="navigate-icon"
               @click.stop
               @click="navigate"
               v-bind="props"
@@ -151,14 +134,14 @@
               >mdi-forward</v-icon
             >
           </template>
-          <span id="actiondetails">{{
+          <span id="action-details">{{
             $t('common.details')
           }}</span>
         </v-tooltip>
         <v-tooltip top>
           <template v-slot:activator="{ props }">
             <v-icon
-              id="navigateicon"
+              id="delete-icon"
               @click.stop
               @click="navigate"
               v-bind="props"
@@ -167,7 +150,7 @@
               >mdi-trash-can</v-icon
             >
           </template>
-          <span id="actiondelete">{{
+          <span id="action-delete">{{
             $t('common.delete')
           }}</span>
         </v-tooltip>

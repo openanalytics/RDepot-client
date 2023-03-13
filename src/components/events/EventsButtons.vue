@@ -2,13 +2,11 @@
   <v-row justify="end" class="mt-5 mx-10" align="center">
     <CommonButton
       id="reset-events-filtration"
-      :component="OverlayEnum.EventsFiltrationReset"
+      :component="OverlayEnum.Reset"
     >
       {{ $t('common.reset') }}
     </CommonButton>
-    <CommonButton
-      :component="OverlayEnum.EventsFiltration"
-    />
+    <CommonButton :component="OverlayEnum.Filtration" />
   </v-row>
 </template>
 
