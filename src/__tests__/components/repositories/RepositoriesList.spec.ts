@@ -12,17 +12,16 @@ import { mocks } from '@/__tests__/config/mocks'
 import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import { createPinia, setActivePinia } from 'pinia'
 import { usePackagesStore } from '@/store/packages'
-import PackagesListVue from '@/components/packages/PackagesList.vue'
-import PackageRowVue from '@/components/packages/PackageRow.vue'
-import packages from '@/tmpLists/packages.json'
+import RepositoriesListVue from '@/components/repositories/RepositoriesList.vue'
+import RepositoryRowVue from '@/components/repositories/RepositoryRow.vue'
+import repositories from '@/tmpLists/repositories.json'
 
 let wrapper: any
-let packages_store: any
 const globalConfig = {
   mocks: mocks,
   plugins: plugins
 }
-
+let packages_store: any
 beforeAll(() => {
   global.ResizeObserver = ResizeObserver
   setActivePinia(createPinia())
@@ -30,22 +29,22 @@ beforeAll(() => {
 })
 
 beforeEach(async () => {
-  wrapper = mount(PackagesListVue, {
+  wrapper = mount(RepositoriesListVue, {
     global: globalConfig
   })
 })
 
-describe('Packages - list', () => {
+describe('Repositories - list', () => {
   it('renders properly', () => {
     expect(wrapper.exists()).toBe(true)
   })
 
-  it('displays one row for each package + one for title', async () => {
-    const packagesFromWrapper =
-      wrapper.findAllComponents(PackageRowVue)
-
+  it('displays one row for each repository + one for title', async () => {
+    const packagesFromWrapper = wrapper.findAllComponents(
+      RepositoryRowVue
+    )
     expect(packagesFromWrapper.length).toEqual(
-      packages.page2.length + 1
+      repositories.data.length + 1
     )
   })
 })

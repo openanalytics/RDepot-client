@@ -11,7 +11,6 @@ import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
 import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import PackageRowVue from '@/components/packages/PackageRow.vue'
-import { Package } from '@/models/packages/Package'
 import packages from '@/tmpLists/packages.json'
 import { EntityModelRPackageDto } from '@/openapi'
 import { createPinia, setActivePinia } from 'pinia'
@@ -26,6 +25,8 @@ const globalConfig = {
 beforeAll(() => {
   global.ResizeObserver = ResizeObserver
   config.global.renderStubDefaultSlot = true
+  setActivePinia(createPinia())
+  common_store = useCommonStore()
 })
 
 describe('Packages - package row (packagebag)', () => {
@@ -33,8 +34,6 @@ describe('Packages - package row (packagebag)', () => {
     JSON.stringify(packages.page1[0])
   )
   beforeEach(async () => {
-    setActivePinia(createPinia())
-    common_store = useCommonStore()
     wrapper = mount(PackageRowVue, {
       global: globalConfig,
       props: {
@@ -48,45 +47,41 @@ describe('Packages - package row (packagebag)', () => {
     expect(wrapper.exists()).toBe(true)
   })
 
-  it('package name is correctly displayed', () => {
-    const name_column = wrapper.find('#package-row-name')
-    expect(name_column.text()).toBe(packagebag.name)
+  it('name field', () => {
+    const field = wrapper.find('#package-row-name')
+    expect(field.text()).toBe(packagebag.name)
   })
 
-  it('package version is correctly displayed', () => {
-    const name_column = wrapper.find('#package-row-version')
-    expect(name_column.text()).toBe(packagebag.version)
+  it('version field', () => {
+    const field = wrapper.find('#package-row-version')
+    expect(field.text()).toBe(packagebag.version)
   })
 
-  it('package title is correctly displayed', () => {
-    const name_column = wrapper.find('#package-row-title')
-    expect(name_column.text()).toBe(
+  it('title field', () => {
+    const field = wrapper.find('#package-row-title')
+    expect(field.text()).toBe(
       packagebag.title?.slice(0, wrapper.vm.descMaxLength)
     )
   })
 
-  it('package maintainer is correctly displayed', () => {
-    const name_column = wrapper.find(
-      '#package-row-maintainer'
-    )
-    expect(name_column.text()).toBe(
-      packagebag.userId?.toString()
-    )
+  it('maintainer field', () => {
+    const field = wrapper.find('#package-row-maintainer')
+    expect(field.text()).toBe(packagebag.userId?.toString())
   })
 
-  it('package active value is correctly displayed', () => {
+  it('active field (checkbox)', () => {
     const checkbox_active = wrapper.find('#checkbox-active')
     expect(checkbox_active.element.checked).toEqual(
       packagebag.active
     )
   })
 
-  it('package active change value after click', async () => {
+  it('click active field (checkbox)', async () => {
     const checkbox_active = wrapper.find('#checkbox-active')
     expect(checkbox_active.element.checked).toEqual(
       packagebag.active
     )
-    await checkbox_active.setChecked(false)
+    await checkbox_active.trigger('click')
     expect(checkbox_active.element.checked).toEqual(
       !packagebag.active
     )
@@ -105,16 +100,14 @@ describe('Packages - package row (packagebag)', () => {
   })
 })
 
-describe('Packages - package row (empty packagebag)', () => {
-  const packagebag: Package | null = null
+describe('Packages - package row (empty)', () => {
   beforeEach(async () => {
     setActivePinia(createPinia())
     common_store = useCommonStore()
     wrapper = mount(PackageRowVue, {
       global: globalConfig,
       props: {
-        title: false,
-        packageBag: packagebag!
+        title: false
       }
     })
   })
@@ -123,29 +116,27 @@ describe('Packages - package row (empty packagebag)', () => {
     expect(wrapper.exists()).toBe(true)
   })
 
-  it('package name is correctly displayed', () => {
-    const name_column = wrapper.find('#package-row-name')
-    expect(name_column.text()).toBe('')
+  it('name field', () => {
+    const field = wrapper.find('#package-row-name')
+    expect(field.text()).toBe('')
   })
 
-  it('package version is correctly displayed', () => {
-    const name_column = wrapper.find('#package-row-version')
-    expect(name_column.text()).toBe('')
+  it('version field', () => {
+    const field = wrapper.find('#package-row-version')
+    expect(field.text()).toBe('')
   })
 
-  it('package title is correctly displayed', () => {
-    const name_column = wrapper.find('#package-row-title')
-    expect(name_column.text()).toBe('')
+  it('title field', () => {
+    const field = wrapper.find('#package-row-title')
+    expect(field.text()).toBe('')
   })
 
-  it('package maintainer is correctly displayed', () => {
-    const name_column = wrapper.find(
-      '#package-row-maintainer'
-    )
-    expect(name_column.text()).toBe('')
+  it('maintainer field', () => {
+    const field = wrapper.find('#package-row-maintainer')
+    expect(field.text()).toBe('')
   })
 
-  it('package active value is correctly displayed', () => {
+  it('active field (checkbox)', () => {
     const checkbox_active = wrapper.find('#checkbox-active')
     expect(checkbox_active.exists()).toBeFalsy()
   })
@@ -163,10 +154,8 @@ describe('Packages - package row (empty packagebag)', () => {
   })
 })
 
-describe('Packages - package row (title row)', () => {
+describe('Packages - package row (title)', () => {
   beforeEach(async () => {
-    setActivePinia(createPinia())
-    common_store = useCommonStore()
     wrapper = mount(PackageRowVue, {
       global: globalConfig,
       props: {
@@ -179,30 +168,30 @@ describe('Packages - package row (title row)', () => {
     expect(wrapper.exists()).toBe(true)
   })
 
-  it('package name is correctly displayed', () => {
-    const name_column = wrapper.find('#package-row-name')
-    expect(name_column.text()).toEqual('Packages.name')
+  it('name title', () => {
+    const field = wrapper.find('#package-row-name')
+    expect(field.text()).toEqual('Packages.name')
   })
 
-  it('package version is correctly displayed', () => {
-    const name_column = wrapper.find('#package-row-version')
-    expect(name_column.text()).toBe('Packages.version')
+  it('version title', () => {
+    const field = wrapper.find('#package-row-version')
+    expect(field.text()).toBe('Packages.version')
   })
 
-  it('package title is correctly displayed', () => {
-    const name_column = wrapper.find('#package-row-title')
-    expect(name_column.text()).toBe('Packages.title')
+  it('title title', () => {
+    const field = wrapper.find('#package-row-title')
+    expect(field.text()).toBe('Packages.title')
   })
 
-  it('package maintainer is correctly displayed', () => {
-    const name_column = wrapper.find(
-      '#package-row-maintainer'
-    )
-    expect(name_column.text()).toBe('Packages.maintainer')
+  it('maintainer title', () => {
+    const field = wrapper.find('#package-row-maintainer')
+    expect(field.text()).toBe('Packages.maintainer')
   })
 
-  it('package active value is correctly displayed', () => {
+  it('active title', () => {
+    const field = wrapper.find('#package-row-active')
     const checkbox_active = wrapper.find('#checkbox-active')
+    expect(field.text()).toBe('Packages.active')
     expect(checkbox_active.exists()).toBeFalsy()
   })
 

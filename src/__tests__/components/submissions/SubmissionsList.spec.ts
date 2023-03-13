@@ -11,41 +11,41 @@ import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
 import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import { createPinia, setActivePinia } from 'pinia'
-import { usePackagesStore } from '@/store/packages'
-import PackagesListVue from '@/components/packages/PackagesList.vue'
-import PackageRowVue from '@/components/packages/PackageRow.vue'
-import packages from '@/tmpLists/packages.json'
+import { useSubmissionStore } from '@/store/submission'
+import SubmissionsListVue from '@/components/submissions/SubmissionList.vue'
+import SubmissionRowVue from '@/components/submissions/SubmissionRow.vue'
+import submissions from '@/tmpLists/rSubmissions.json'
 
 let wrapper: any
-let packages_store: any
+let submission_store: any
 const globalConfig = {
   mocks: mocks,
   plugins: plugins
 }
-
 beforeAll(() => {
   global.ResizeObserver = ResizeObserver
   setActivePinia(createPinia())
-  packages_store = usePackagesStore()
+  submission_store = useSubmissionStore()
 })
 
 beforeEach(async () => {
-  wrapper = mount(PackagesListVue, {
+  wrapper = mount(SubmissionsListVue, {
     global: globalConfig
   })
 })
 
-describe('Packages - list', () => {
+describe('Submissions - list', () => {
   it('renders properly', () => {
     expect(wrapper.exists()).toBe(true)
   })
 
-  it('displays one row for each package + one for title', async () => {
-    const packagesFromWrapper =
-      wrapper.findAllComponents(PackageRowVue)
+  it('displays one row for each submission + one for title', async () => {
+    const packagesFromWrapper = wrapper.findAllComponents(
+      SubmissionRowVue
+    )
 
     expect(packagesFromWrapper.length).toEqual(
-      packages.page2.length + 1
+      submissions.content.length + 1
     )
   })
 })

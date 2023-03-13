@@ -11,13 +11,13 @@ import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
 import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import { createPinia, setActivePinia } from 'pinia'
-import { usePackagesStore } from '@/store/packages'
-import PackagesListVue from '@/components/packages/PackagesList.vue'
-import PackageRowVue from '@/components/packages/PackageRow.vue'
-import packages from '@/tmpLists/packages.json'
+import { usePackageMaintainersStore } from '@/store/package_maintainers'
+import PackageMaintainersListVue from '@/components/packageMaintainers/PackageMaintainersList.vue'
+import PackageMaintainersRow from '@/components/packageMaintainers/PackageMaintainerRow.vue'
+import maintainers from '@/tmpLists/packageMaintainers.json'
 
 let wrapper: any
-let packages_store: any
+let package_maintainers_store: any
 const globalConfig = {
   mocks: mocks,
   plugins: plugins
@@ -26,26 +26,27 @@ const globalConfig = {
 beforeAll(() => {
   global.ResizeObserver = ResizeObserver
   setActivePinia(createPinia())
-  packages_store = usePackagesStore()
+  package_maintainers_store = usePackageMaintainersStore()
 })
 
 beforeEach(async () => {
-  wrapper = mount(PackagesListVue, {
+  wrapper = mount(PackageMaintainersListVue, {
     global: globalConfig
   })
 })
 
-describe('Packages - list', () => {
+describe('Package Maintainers - list', () => {
   it('renders properly', () => {
     expect(wrapper.exists()).toBe(true)
   })
 
-  it('displays one row for each package + one for title', async () => {
-    const packagesFromWrapper =
-      wrapper.findAllComponents(PackageRowVue)
+  it('displays one row for each maintainer + one for title', async () => {
+    const packagesFromWrapper = wrapper.findAllComponents(
+      PackageMaintainersRow
+    )
 
     expect(packagesFromWrapper.length).toEqual(
-      packages.page2.length + 1
+      maintainers.data.length + 1
     )
   })
 })
