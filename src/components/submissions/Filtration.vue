@@ -7,14 +7,14 @@
     <v-card-text style="height: 300px">
       <v-form ref="form" lazy-validation>
         <v-select
-          id="filtrationstate"
+          id="filtration-state"
           v-model="localFiltration.state"
           :items="stateSelect"
           :label="$t('submissions.filtration.state')"
         ></v-select>
 
         <v-select
-          id="filtrationrepository"
+          id="filtration-repository"
           v-model="localFiltration.package"
           :items="packageSelect"
           :label="$t('submissions.filtration.package')"
@@ -32,7 +32,7 @@
     <v-card-actions>
       <v-row justify="space-between" class="mt-1">
         <v-btn
-          id="cancelbutton"
+          id="cancel-button"
           color="blue darken-1"
           @click="changeDialogOptions"
           class="mx-1"
@@ -43,7 +43,7 @@
         </v-btn>
         <v-row class="my-0" justify="end">
           <v-btn
-            id="resetbutton"
+            id="reset-button"
             color="blue darken-1"
             class="mx-1"
             @click="clearFiltration"
@@ -53,7 +53,7 @@
             </small>
           </v-btn>
           <v-btn
-            id="setfiltration"
+            id="set-filtration"
             color="blue darken-1"
             class="mx-1"
             @click="setFiltration"
@@ -85,7 +85,7 @@ const packageSelect = ref(['package1', 'package2'])
 let filtration = submissions_store.filtration
 const localFiltration = ref(filtration)
 
-const emit = defineEmits(['changeOptions'])
+const emit = defineEmits(['closeModal'])
 
 function updateFiltration() {
   localFiltration.value = JSON.parse(
@@ -94,7 +94,7 @@ function updateFiltration() {
 }
 
 async function setFiltration() {
-  changeDialogOptions()
+  emit('closeModal')
   common_store.setProgressCircularActive(true)
   common_store.setOverlayOpacity(0.5)
   await submissions_store.setFiltration(
@@ -105,7 +105,7 @@ async function setFiltration() {
 
 function changeDialogOptions() {
   updateFiltration()
-  emit('changeOptions')
+  emit('closeModal')
 }
 
 onMounted(() => {
