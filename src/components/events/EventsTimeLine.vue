@@ -199,8 +199,6 @@ function groupByDate(
 }
 
 .timeline {
-  display: flex;
-  direction: column;
   justify-content: center;
   align-items: start;
   height: auto !important;
