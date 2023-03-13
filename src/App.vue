@@ -21,4 +21,5 @@
 <script setup lang="ts">
 import Sidebar from '@/components/navbar/Sidebar.vue'
 import Navbar from '@/components/navbar/Navbar.vue'
+import ProgressCircular from './components/common/progress/ProgressCircular.vue'
 </script>
