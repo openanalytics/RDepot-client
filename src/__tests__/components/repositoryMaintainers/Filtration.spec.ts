@@ -10,29 +10,30 @@ import { mount } from '@vue/test-utils'
 import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
 import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
-import FiltrationVue from '@/components/packages/Filtration.vue'
-import { createPinia, setActivePinia, Store } from 'pinia'
-import { usePackagesStore } from '@/store/packages'
+import FiltrationVue from '@/components/repositoryMaintainers/Filtration.vue'
+import { createPinia, setActivePinia } from 'pinia'
+import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
 
 let wrapper: any
 const globalConfig = {
   mocks: mocks,
   plugins: plugins
 }
-let packages_store: any
+let repository_maintainers_store: any
 beforeAll(() => {
   global.ResizeObserver = ResizeObserver
 })
 
 beforeEach(async () => {
   setActivePinia(createPinia())
-  packages_store = usePackagesStore()
+  repository_maintainers_store =
+    useRepositoryMaintainersStore()
   wrapper = mount(FiltrationVue, {
     global: globalConfig
   })
 })
 
-describe('Packages - filtration', () => {
+describe('Repository Maintainers - filtration', () => {
   it('renders properly', () => {
     expect(wrapper.exists()).toBe(true)
   })
@@ -66,30 +67,36 @@ describe('Packages - filtration', () => {
   it('reset form but not accept it yet', async () => {
     fillTheFormWithRandomData()
     fillPiniaFiltrationWithRandomData()
-    wrapper.vm.localFiltration.state = 'deleted'
+    wrapper.vm.localFiltration.technology = 'R'
     await clickButton('#reset-button')
     checkIfFiltrationIsEmpty()
-    expect(packages_store.filtration.state).toBe('accepted')
+    expect(
+      repository_maintainers_store.filtration.technology
+    ).toBe('Python')
   })
 
   it('reset form but and cancel it', async () => {
     fillTheFormWithRandomData()
     fillPiniaFiltrationWithRandomData()
-    wrapper.vm.localFiltration.state = 'deleted'
+    wrapper.vm.localFiltration.technology = 'R'
     await clickButton('#reset-button')
     await clickButton('#cancel-button')
-    expect(wrapper.vm.filtration.state).toBe('accepted')
-    expect(packages_store.filtration.state).toBe('accepted')
+    expect(wrapper.vm.filtration.technology).toBe('Python')
+    expect(
+      repository_maintainers_store.filtration.technology
+    ).toBe('Python')
   })
 
   it('change state but cancel action', async () => {
     fillTheFormWithRandomData()
     fillPiniaFiltrationWithRandomData()
     await clickButton('#set-filtration')
-    wrapper.vm.localFiltration.state = 'deleted'
+    wrapper.vm.localFiltration.technology = 'R'
     await clickButton('#cancel-button')
-    expect(wrapper.vm.filtration.state).toBe('accepted')
-    expect(packages_store.filtration.state).toBe('accepted')
+    expect(wrapper.vm.filtration.technology).toBe('Python')
+    expect(
+      repository_maintainers_store.filtration.technology
+    ).toBe('Python')
   })
 
   it('clear form and accept it', async () => {
@@ -112,36 +119,36 @@ describe('Packages - filtration', () => {
 })
 
 function checkIfFiltrationIsEmpty() {
-  console.log(wrapper.vm.localFiltration.deleted)
-
-  expect(wrapper.vm.localFiltration.state).toBe('')
-  expect(wrapper.vm.localFiltration.repository).toBe('')
+  expect(wrapper.vm.localFiltration.technology).toBe('')
   expect(wrapper.vm.localFiltration.deleted).toBe(false)
 }
 
 function checkIfPiniaFiltrationIsEmpty() {
-  expect(packages_store.filtration.state).toBe('')
-  expect(packages_store.filtration.repository).toBe('')
-  expect(packages_store.filtration.deleted).toBe(false)
+  expect(
+    repository_maintainers_store.filtration.technology
+  ).toBe('')
+  expect(
+    repository_maintainers_store.filtration.deleted
+  ).toBe(false)
 }
 
 function checkIfPiniaFiltrationIsFilledWithData() {
-  expect(packages_store.filtration.state).toBe('accepted')
-  expect(packages_store.filtration.repository).toBe(
-    'repository1'
-  )
-  expect(packages_store.filtration.deleted).toBe(false)
+  expect(
+    repository_maintainers_store.filtration.technology
+  ).toBe('Python')
+  expect(
+    repository_maintainers_store.filtration.deleted
+  ).toBe(false)
 }
 
 function fillPiniaFiltrationWithRandomData() {
-  packages_store.filtration.state = 'accepted'
-  packages_store.filtration.repository = 'repository1'
-  packages_store.filtration.deleted = false
+  repository_maintainers_store.filtration.technology =
+    'Python'
+  repository_maintainers_store.filtration.deleted = false
 }
 
 function fillTheFormWithRandomData() {
-  wrapper.vm.localFiltration.state = 'accepted'
-  wrapper.vm.localFiltration.repository = 'repository1'
+  wrapper.vm.localFiltration.technology = 'Python'
   wrapper.vm.localFiltration.deleted = false
 }
 

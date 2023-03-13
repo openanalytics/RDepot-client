@@ -10,29 +10,29 @@ import { mount } from '@vue/test-utils'
 import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
 import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
-import FiltrationVue from '@/components/packages/Filtration.vue'
+import FiltrationVue from '@/components/submissions/Filtration.vue'
 import { createPinia, setActivePinia, Store } from 'pinia'
-import { usePackagesStore } from '@/store/packages'
+import { useSubmissionStore } from '@/store/submission'
 
 let wrapper: any
 const globalConfig = {
   mocks: mocks,
   plugins: plugins
 }
-let packages_store: any
+let submissions_store: any
 beforeAll(() => {
   global.ResizeObserver = ResizeObserver
 })
 
 beforeEach(async () => {
   setActivePinia(createPinia())
-  packages_store = usePackagesStore()
+  submissions_store = useSubmissionStore()
   wrapper = mount(FiltrationVue, {
     global: globalConfig
   })
 })
 
-describe('Packages - filtration', () => {
+describe('Submissions - filtration', () => {
   it('renders properly', () => {
     expect(wrapper.exists()).toBe(true)
   })
@@ -69,7 +69,9 @@ describe('Packages - filtration', () => {
     wrapper.vm.localFiltration.state = 'deleted'
     await clickButton('#reset-button')
     checkIfFiltrationIsEmpty()
-    expect(packages_store.filtration.state).toBe('accepted')
+    expect(submissions_store.filtration.state).toBe(
+      'accepted'
+    )
   })
 
   it('reset form but and cancel it', async () => {
@@ -79,7 +81,9 @@ describe('Packages - filtration', () => {
     await clickButton('#reset-button')
     await clickButton('#cancel-button')
     expect(wrapper.vm.filtration.state).toBe('accepted')
-    expect(packages_store.filtration.state).toBe('accepted')
+    expect(submissions_store.filtration.state).toBe(
+      'accepted'
+    )
   })
 
   it('change state but cancel action', async () => {
@@ -89,7 +93,9 @@ describe('Packages - filtration', () => {
     wrapper.vm.localFiltration.state = 'deleted'
     await clickButton('#cancel-button')
     expect(wrapper.vm.filtration.state).toBe('accepted')
-    expect(packages_store.filtration.state).toBe('accepted')
+    expect(submissions_store.filtration.state).toBe(
+      'deleted'
+    )
   })
 
   it('clear form and accept it', async () => {
@@ -115,34 +121,42 @@ function checkIfFiltrationIsEmpty() {
   console.log(wrapper.vm.localFiltration.deleted)
 
   expect(wrapper.vm.localFiltration.state).toBe('')
-  expect(wrapper.vm.localFiltration.repository).toBe('')
-  expect(wrapper.vm.localFiltration.deleted).toBe(false)
+  expect(wrapper.vm.localFiltration.package).toBe('')
+  expect(wrapper.vm.localFiltration.assignedToMe).toBe(
+    false
+  )
 }
 
 function checkIfPiniaFiltrationIsEmpty() {
-  expect(packages_store.filtration.state).toBe('')
-  expect(packages_store.filtration.repository).toBe('')
-  expect(packages_store.filtration.deleted).toBe(false)
+  expect(submissions_store.filtration.state).toBe('')
+  expect(submissions_store.filtration.package).toBe('')
+  expect(submissions_store.filtration.assignedToMe).toBe(
+    false
+  )
 }
 
 function checkIfPiniaFiltrationIsFilledWithData() {
-  expect(packages_store.filtration.state).toBe('accepted')
-  expect(packages_store.filtration.repository).toBe(
-    'repository1'
+  expect(submissions_store.filtration.state).toBe(
+    'accepted'
   )
-  expect(packages_store.filtration.deleted).toBe(false)
+  expect(submissions_store.filtration.package).toBe(
+    'accured'
+  )
+  expect(submissions_store.filtration.assignedToMe).toBe(
+    false
+  )
 }
 
 function fillPiniaFiltrationWithRandomData() {
-  packages_store.filtration.state = 'accepted'
-  packages_store.filtration.repository = 'repository1'
-  packages_store.filtration.deleted = false
+  submissions_store.filtration.state = 'accepted'
+  submissions_store.filtration.package = 'accured'
+  submissions_store.filtration.assignedToMe = false
 }
 
 function fillTheFormWithRandomData() {
   wrapper.vm.localFiltration.state = 'accepted'
-  wrapper.vm.localFiltration.repository = 'repository1'
-  wrapper.vm.localFiltration.deleted = false
+  wrapper.vm.localFiltration.package = 'accured'
+  wrapper.vm.localFiltration.assignedToMe = false
 }
 
 async function clickButton(id: string) {

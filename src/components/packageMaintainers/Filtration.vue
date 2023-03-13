@@ -27,7 +27,7 @@
     <v-card-actions>
       <v-row justify="space-between" class="mt-1">
         <v-btn
-          id="cancelbutton"
+          id="cancel-button"
           color="blue darken-1"
           @click="changeDialogOptions"
           class="mx-1"
@@ -38,7 +38,7 @@
         </v-btn>
         <v-row class="my-0" justify="end">
           <v-btn
-            id="resetbutton"
+            id="reset-button"
             color="blue darken-1"
             class="mx-1"
             @click="clearFiltration"
@@ -48,7 +48,7 @@
             </small>
           </v-btn>
           <v-btn
-            id="setfiltration"
+            id="set-filtration"
             color="blue darken-1"
             class="mx-1"
             @click="setFiltration"
