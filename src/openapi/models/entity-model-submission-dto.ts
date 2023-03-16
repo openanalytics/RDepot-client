@@ -11,7 +11,7 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { EntityModelPackageDtoObjectObject } from './entity-model-package-dto-object-object';
+import { EntityModelPackageDto } from './entity-model-package-dto';
 import { Link } from './link';
 import { UserProjection } from './user-projection';
 /**
@@ -28,6 +28,12 @@ export interface EntityModelSubmissionDto {
     id?: number;
     /**
      * 
+     * @type {EntityModelPackageDto}
+     * @memberof EntityModelSubmissionDto
+     */
+    packageBag?: EntityModelPackageDto;
+    /**
+     * 
      * @type {UserProjection}
      * @memberof EntityModelSubmissionDto
      */
@@ -40,12 +46,6 @@ export interface EntityModelSubmissionDto {
     approver?: UserProjection;
     /**
      * 
-     * @type {EntityModelPackageDtoObjectObject}
-     * @memberof EntityModelSubmissionDto
-     */
-    packageBag?: EntityModelPackageDtoObjectObject;
-    /**
-     * 
      * @type {string}
      * @memberof EntityModelSubmissionDto
      */
@@ -56,6 +56,12 @@ export interface EntityModelSubmissionDto {
      * @memberof EntityModelSubmissionDto
      */
     state?: EntityModelSubmissionDtoStateEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof EntityModelSubmissionDto
+     */
+    description?: string;
     /**
      * 
      * @type {Array<Link>}

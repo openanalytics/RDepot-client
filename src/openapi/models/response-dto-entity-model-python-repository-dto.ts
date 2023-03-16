@@ -23,7 +23,7 @@ export interface ResponseDtoEntityModelPythonRepositoryDto {
      * @type {string}
      * @memberof ResponseDtoEntityModelPythonRepositoryDto
      */
-    status?: string;
+    status?: ResponseDtoEntityModelPythonRepositoryDtoStatusEnum;
     /**
      * 
      * @type {number}
@@ -49,3 +49,13 @@ export interface ResponseDtoEntityModelPythonRepositoryDto {
      */
     data?: EntityModelPythonRepositoryDto;
 }
+
+/**
+    * @export
+    * @enum {string}
+    */
+export enum ResponseDtoEntityModelPythonRepositoryDtoStatusEnum {
+    SUCCESS = 'SUCCESS',
+    ERROR = 'ERROR'
+}
+

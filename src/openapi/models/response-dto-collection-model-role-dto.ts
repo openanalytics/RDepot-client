@@ -23,7 +23,7 @@ export interface ResponseDtoCollectionModelRoleDto {
      * @type {string}
      * @memberof ResponseDtoCollectionModelRoleDto
      */
-    status?: string;
+    status?: ResponseDtoCollectionModelRoleDtoStatusEnum;
     /**
      * 
      * @type {number}
@@ -49,3 +49,13 @@ export interface ResponseDtoCollectionModelRoleDto {
      */
     data?: CollectionModelRoleDto;
 }
+
+/**
+    * @export
+    * @enum {string}
+    */
+export enum ResponseDtoCollectionModelRoleDtoStatusEnum {
+    SUCCESS = 'SUCCESS',
+    ERROR = 'ERROR'
+}
+

@@ -23,7 +23,7 @@ export interface ResponseDtoEntityModelMapStringString {
      * @type {string}
      * @memberof ResponseDtoEntityModelMapStringString
      */
-    status?: string;
+    status?: ResponseDtoEntityModelMapStringStringStatusEnum;
     /**
      * 
      * @type {number}
@@ -49,3 +49,13 @@ export interface ResponseDtoEntityModelMapStringString {
      */
     data?: EntityModelMapStringString;
 }
+
+/**
+    * @export
+    * @enum {string}
+    */
+export enum ResponseDtoEntityModelMapStringStringStatusEnum {
+    SUCCESS = 'SUCCESS',
+    ERROR = 'ERROR'
+}
+

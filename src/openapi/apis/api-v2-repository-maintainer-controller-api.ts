@@ -54,7 +54,7 @@ export const ApiV2RepositoryMaintainerControllerApiAxiosParamCreator =
             'Required parameter body was null or undefined when calling createMaintainer.'
           )
         }
-        const localVarPath = `/api/v2/manager/r/repository-maintainers`
+        const localVarPath = `/api/v2/manager/repository-maintainers`
         // use dummy base URL string because the URL constructor only accepts absolute URLs.
         const localVarUrlObj = new URL(
           localVarPath,
@@ -141,7 +141,7 @@ export const ApiV2RepositoryMaintainerControllerApiAxiosParamCreator =
           )
         }
         const localVarPath =
-          `/api/v2/manager/r/repository-maintainers/{id}`.replace(
+          `/api/v2/manager/repository-maintainers/{id}`.replace(
             `{${'id'}}`,
             encodeURIComponent(String(id))
           )
@@ -197,6 +197,7 @@ export const ApiV2RepositoryMaintainerControllerApiAxiosParamCreator =
       /**
        *
        * @param {boolean} [deleted]
+       * @param {string} [repositoryTechnology]
        * @param {number} [page] Zero-based page index (0..N)
        * @param {number} [size] The size of the page to be returned
        * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
@@ -205,12 +206,13 @@ export const ApiV2RepositoryMaintainerControllerApiAxiosParamCreator =
        */
       getAllRepositoryMaintainers: async (
         deleted?: boolean,
+        repositoryTechnology?: string,
         page?: number,
         size?: number,
         sort?: Array<string>,
         options: AxiosRequestConfig = {}
       ): Promise<RequestArgs> => {
-        const localVarPath = `/api/v2/manager/r/repository-maintainers`
+        const localVarPath = `/api/v2/manager/repository-maintainers`
         // use dummy base URL string because the URL constructor only accepts absolute URLs.
         const localVarUrlObj = new URL(
           localVarPath,
@@ -232,6 +234,11 @@ export const ApiV2RepositoryMaintainerControllerApiAxiosParamCreator =
 
         if (deleted !== undefined) {
           localVarQueryParameter['deleted'] = deleted
+        }
+
+        if (repositoryTechnology !== undefined) {
+          localVarQueryParameter['repositoryTechnology'] =
+            repositoryTechnology
         }
 
         if (page !== undefined) {
@@ -294,7 +301,7 @@ export const ApiV2RepositoryMaintainerControllerApiAxiosParamCreator =
           )
         }
         const localVarPath =
-          `/api/v2/manager/r/repository-maintainers/{id}`.replace(
+          `/api/v2/manager/repository-maintainers/{id}`.replace(
             `{${'id'}}`,
             encodeURIComponent(String(id))
           )
@@ -374,7 +381,7 @@ export const ApiV2RepositoryMaintainerControllerApiAxiosParamCreator =
           )
         }
         const localVarPath =
-          `/api/v2/manager/r/repository-maintainers/{id}`.replace(
+          `/api/v2/manager/repository-maintainers/{id}`.replace(
             `{${'id'}}`,
             encodeURIComponent(String(id))
           )
@@ -519,6 +526,7 @@ export const ApiV2RepositoryMaintainerControllerApiFp =
       /**
        *
        * @param {boolean} [deleted]
+       * @param {string} [repositoryTechnology]
        * @param {number} [page] Zero-based page index (0..N)
        * @param {number} [size] The size of the page to be returned
        * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
@@ -527,6 +535,7 @@ export const ApiV2RepositoryMaintainerControllerApiFp =
        */
       async getAllRepositoryMaintainers(
         deleted?: boolean,
+        repositoryTechnology?: string,
         page?: number,
         size?: number,
         sort?: Array<string>,
@@ -544,6 +553,7 @@ export const ApiV2RepositoryMaintainerControllerApiFp =
             configuration
           ).getAllRepositoryMaintainers(
             deleted,
+            repositoryTechnology,
             page,
             size,
             sort,
@@ -673,6 +683,7 @@ export const ApiV2RepositoryMaintainerControllerApiFactory =
       /**
        *
        * @param {boolean} [deleted]
+       * @param {string} [repositoryTechnology]
        * @param {number} [page] Zero-based page index (0..N)
        * @param {number} [size] The size of the page to be returned
        * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
@@ -681,6 +692,7 @@ export const ApiV2RepositoryMaintainerControllerApiFactory =
        */
       async getAllRepositoryMaintainers(
         deleted?: boolean,
+        repositoryTechnology?: string,
         page?: number,
         size?: number,
         sort?: Array<string>,
@@ -693,6 +705,7 @@ export const ApiV2RepositoryMaintainerControllerApiFactory =
         )
           .getAllRepositoryMaintainers(
             deleted,
+            repositoryTechnology,
             page,
             size,
             sort,
@@ -783,6 +796,7 @@ export class ApiV2RepositoryMaintainerControllerApi extends BaseAPI {
   /**
    *
    * @param {boolean} [deleted]
+   * @param {string} [repositoryTechnology]
    * @param {number} [page] Zero-based page index (0..N)
    * @param {number} [size] The size of the page to be returned
    * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
@@ -792,6 +806,7 @@ export class ApiV2RepositoryMaintainerControllerApi extends BaseAPI {
    */
   public async getAllRepositoryMaintainers(
     deleted?: boolean,
+    repositoryTechnology?: string,
     page?: number,
     size?: number,
     sort?: Array<string>,
@@ -804,6 +819,7 @@ export class ApiV2RepositoryMaintainerControllerApi extends BaseAPI {
     )
       .getAllRepositoryMaintainers(
         deleted,
+        repositoryTechnology,
         page,
         size,
         sort,

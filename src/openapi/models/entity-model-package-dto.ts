@@ -12,94 +12,96 @@
  * Do not edit the class manually.
  */
 import { Link } from './link';
+import { RepositoryProjection } from './repository-projection';
+import { UserProjection } from './user-projection';
 /**
  * 
  * @export
- * @interface EntityModelPackageDtoObjectObject
+ * @interface EntityModelPackageDto
  */
-export interface EntityModelPackageDtoObjectObject {
+export interface EntityModelPackageDto {
     /**
      * 
      * @type {number}
-     * @memberof EntityModelPackageDtoObjectObject
+     * @memberof EntityModelPackageDto
      */
     id?: number;
     /**
      * 
-     * @type {number}
-     * @memberof EntityModelPackageDtoObjectObject
+     * @type {UserProjection}
+     * @memberof EntityModelPackageDto
      */
-    userId?: number;
+    user?: UserProjection;
     /**
      * 
-     * @type {string}
-     * @memberof EntityModelPackageDtoObjectObject
+     * @type {RepositoryProjection}
+     * @memberof EntityModelPackageDto
      */
-    version?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof EntityModelPackageDtoObjectObject
-     */
-    repositoryId?: number;
+    repository?: RepositoryProjection;
     /**
      * 
      * @type {number}
-     * @memberof EntityModelPackageDtoObjectObject
+     * @memberof EntityModelPackageDto
      */
     submissionId?: number;
     /**
      * 
      * @type {string}
-     * @memberof EntityModelPackageDtoObjectObject
+     * @memberof EntityModelPackageDto
      */
     name?: string;
     /**
      * 
      * @type {string}
-     * @memberof EntityModelPackageDtoObjectObject
+     * @memberof EntityModelPackageDto
+     */
+    version?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EntityModelPackageDto
      */
     description?: string;
     /**
      * 
      * @type {string}
-     * @memberof EntityModelPackageDtoObjectObject
+     * @memberof EntityModelPackageDto
      */
     author?: string;
     /**
      * 
      * @type {string}
-     * @memberof EntityModelPackageDtoObjectObject
+     * @memberof EntityModelPackageDto
      */
     title?: string;
     /**
      * 
      * @type {string}
-     * @memberof EntityModelPackageDtoObjectObject
+     * @memberof EntityModelPackageDto
      */
     url?: string;
     /**
      * 
      * @type {string}
-     * @memberof EntityModelPackageDtoObjectObject
+     * @memberof EntityModelPackageDto
      */
     source?: string;
     /**
      * 
      * @type {boolean}
-     * @memberof EntityModelPackageDtoObjectObject
+     * @memberof EntityModelPackageDto
      */
     active?: boolean;
     /**
      * 
      * @type {boolean}
-     * @memberof EntityModelPackageDtoObjectObject
+     * @memberof EntityModelPackageDto
      */
     deleted?: boolean;
     /**
      * 
      * @type {Array<Link>}
-     * @memberof EntityModelPackageDtoObjectObject
+     * @memberof EntityModelPackageDto
      */
     links?: Array<Link>;
 }

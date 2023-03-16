@@ -205,7 +205,7 @@ export const RRepositoryControllerApiAxiosParamCreator =
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
-      getAllRepositories: async (
+      getAllRepositories1: async (
         deleted?: boolean,
         name?: string,
         page?: number,
@@ -289,7 +289,7 @@ export const RRepositoryControllerApiAxiosParamCreator =
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
-      getRepositoryById: async (
+      getRepositoryById1: async (
         id: number,
         options: AxiosRequestConfig = {}
       ): Promise<RequestArgs> => {
@@ -297,7 +297,7 @@ export const RRepositoryControllerApiAxiosParamCreator =
         if (id === null || id === undefined) {
           throw new RequiredError(
             'id',
-            'Required parameter id was null or undefined when calling getRepositoryById.'
+            'Required parameter id was null or undefined when calling getRepositoryById1.'
           )
         }
         const localVarPath =
@@ -676,7 +676,7 @@ export const RRepositoryControllerApiFp = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getAllRepositories(
+    async getAllRepositories1(
       deleted?: boolean,
       name?: string,
       page?: number,
@@ -694,7 +694,7 @@ export const RRepositoryControllerApiFp = function (
       const localVarAxiosArgs =
         await RRepositoryControllerApiAxiosParamCreator(
           configuration
-        ).getAllRepositories(
+        ).getAllRepositories1(
           deleted,
           name,
           page,
@@ -719,7 +719,7 @@ export const RRepositoryControllerApiFp = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getRepositoryById(
+    async getRepositoryById1(
       id: number,
       options?: AxiosRequestConfig
     ): Promise<
@@ -733,7 +733,7 @@ export const RRepositoryControllerApiFp = function (
       const localVarAxiosArgs =
         await RRepositoryControllerApiAxiosParamCreator(
           configuration
-        ).getRepositoryById(id, options)
+        ).getRepositoryById1(id, options)
       return (
         axios: AxiosInstance = globalAxios,
         basePath: string = BASE_PATH
@@ -888,7 +888,7 @@ export const RRepositoryControllerApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getAllRepositories(
+    async getAllRepositories1(
       deleted?: boolean,
       name?: string,
       page?: number,
@@ -899,7 +899,7 @@ export const RRepositoryControllerApiFactory = function (
       AxiosResponse<ResponseDtoPagedModelEntityModelRRepositoryDto>
     > {
       return RRepositoryControllerApiFp(configuration)
-        .getAllRepositories(
+        .getAllRepositories1(
           deleted,
           name,
           page,
@@ -915,14 +915,14 @@ export const RRepositoryControllerApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getRepositoryById(
+    async getRepositoryById1(
       id: number,
       options?: AxiosRequestConfig
     ): Promise<
       AxiosResponse<ResponseDtoEntityModelRRepositoryDto>
     > {
       return RRepositoryControllerApiFp(configuration)
-        .getRepositoryById(id, options)
+        .getRepositoryById1(id, options)
         .then((request) => request(axios, basePath))
     },
     /**
@@ -1020,7 +1020,7 @@ export class RRepositoryControllerApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof RRepositoryControllerApi
    */
-  public async getAllRepositories(
+  public async getAllRepositories1(
     deleted?: boolean,
     name?: string,
     page?: number,
@@ -1031,7 +1031,7 @@ export class RRepositoryControllerApi extends BaseAPI {
     AxiosResponse<ResponseDtoPagedModelEntityModelRRepositoryDto>
   > {
     return RRepositoryControllerApiFp(this.configuration)
-      .getAllRepositories(
+      .getAllRepositories1(
         deleted,
         name,
         page,
@@ -1048,14 +1048,14 @@ export class RRepositoryControllerApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof RRepositoryControllerApi
    */
-  public async getRepositoryById(
+  public async getRepositoryById1(
     id: number,
     options?: AxiosRequestConfig
   ): Promise<
     AxiosResponse<ResponseDtoEntityModelRRepositoryDto>
   > {
     return RRepositoryControllerApiFp(this.configuration)
-      .getRepositoryById(id, options)
+      .getRepositoryById1(id, options)
       .then((request) => request(this.axios, this.basePath))
   }
   /**

@@ -23,7 +23,7 @@ export interface ResponseDtoListVignette {
      * @type {string}
      * @memberof ResponseDtoListVignette
      */
-    status?: string;
+    status?: ResponseDtoListVignetteStatusEnum;
     /**
      * 
      * @type {number}
@@ -49,3 +49,13 @@ export interface ResponseDtoListVignette {
      */
     data?: Array<Vignette>;
 }
+
+/**
+    * @export
+    * @enum {string}
+    */
+export enum ResponseDtoListVignetteStatusEnum {
+    SUCCESS = 'SUCCESS',
+    ERROR = 'ERROR'
+}
+

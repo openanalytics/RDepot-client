@@ -15,73 +15,61 @@ import { Link } from './link';
 /**
  * 
  * @export
- * @interface EntityModelUserDto
+ * @interface EntityModelRepositoryDto
  */
-export interface EntityModelUserDto {
+export interface EntityModelRepositoryDto {
     /**
      * 
      * @type {number}
-     * @memberof EntityModelUserDto
+     * @memberof EntityModelRepositoryDto
      */
     id?: number;
     /**
      * 
+     * @type {number}
+     * @memberof EntityModelRepositoryDto
+     */
+    version?: number;
+    /**
+     * 
      * @type {string}
-     * @memberof EntityModelUserDto
+     * @memberof EntityModelRepositoryDto
+     */
+    publicationUri?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EntityModelRepositoryDto
      */
     name?: string;
     /**
      * 
      * @type {string}
-     * @memberof EntityModelUserDto
+     * @memberof EntityModelRepositoryDto
      */
-    email?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof EntityModelUserDto
-     */
-    login?: string;
+    serverAddress?: string;
     /**
      * 
      * @type {boolean}
-     * @memberof EntityModelUserDto
-     */
-    active?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof EntityModelUserDto
-     */
-    lastLoggedInOn?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof EntityModelUserDto
-     */
-    createdOn?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof EntityModelUserDto
+     * @memberof EntityModelRepositoryDto
      */
     deleted?: boolean;
     /**
      * 
-     * @type {number}
-     * @memberof EntityModelUserDto
+     * @type {boolean}
+     * @memberof EntityModelRepositoryDto
      */
-    roleId?: number;
+    published?: boolean;
     /**
      * 
-     * @type {string}
-     * @memberof EntityModelUserDto
+     * @type {boolean}
+     * @memberof EntityModelRepositoryDto
      */
-    description?: string;
+    synchronizing?: boolean;
     /**
      * 
      * @type {Array<Link>}
-     * @memberof EntityModelUserDto
+     * @memberof EntityModelRepositoryDto
      */
     links?: Array<Link>;
 }

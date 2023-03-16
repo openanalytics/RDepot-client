@@ -23,7 +23,7 @@ export interface ResponseDtoPagedModelEntityModelPythonRepositoryDto {
      * @type {string}
      * @memberof ResponseDtoPagedModelEntityModelPythonRepositoryDto
      */
-    status?: string;
+    status?: ResponseDtoPagedModelEntityModelPythonRepositoryDtoStatusEnum;
     /**
      * 
      * @type {number}
@@ -49,3 +49,13 @@ export interface ResponseDtoPagedModelEntityModelPythonRepositoryDto {
      */
     data?: PagedModelEntityModelPythonRepositoryDto;
 }
+
+/**
+    * @export
+    * @enum {string}
+    */
+export enum ResponseDtoPagedModelEntityModelPythonRepositoryDtoStatusEnum {
+    SUCCESS = 'SUCCESS',
+    ERROR = 'ERROR'
+}
+

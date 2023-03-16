@@ -23,7 +23,7 @@ export interface ResponseDtoPagedModelEntityModelNewsfeedEventDto {
      * @type {string}
      * @memberof ResponseDtoPagedModelEntityModelNewsfeedEventDto
      */
-    status?: string;
+    status?: ResponseDtoPagedModelEntityModelNewsfeedEventDtoStatusEnum;
     /**
      * 
      * @type {number}
@@ -49,3 +49,13 @@ export interface ResponseDtoPagedModelEntityModelNewsfeedEventDto {
      */
     data?: PagedModelEntityModelNewsfeedEventDto;
 }
+
+/**
+    * @export
+    * @enum {string}
+    */
+export enum ResponseDtoPagedModelEntityModelNewsfeedEventDtoStatusEnum {
+    SUCCESS = 'SUCCESS',
+    ERROR = 'ERROR'
+}
+

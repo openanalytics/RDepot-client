@@ -23,7 +23,7 @@ export interface ResponseDtoEntityModelRRepositoryDto {
      * @type {string}
      * @memberof ResponseDtoEntityModelRRepositoryDto
      */
-    status?: string;
+    status?: ResponseDtoEntityModelRRepositoryDtoStatusEnum;
     /**
      * 
      * @type {number}
@@ -49,3 +49,13 @@ export interface ResponseDtoEntityModelRRepositoryDto {
      */
     data?: EntityModelRRepositoryDto;
 }
+
+/**
+    * @export
+    * @enum {string}
+    */
+export enum ResponseDtoEntityModelRRepositoryDtoStatusEnum {
+    SUCCESS = 'SUCCESS',
+    ERROR = 'ERROR'
+}
+

@@ -26,40 +26,30 @@ import {
   BaseAPI,
   RequiredError
 } from '../base'
-import { ResponseDtoEntityModelNewsfeedEventDto } from '../models'
-import { ResponseDtoPagedModelEntityModelNewsfeedEventDto } from '../models'
+import { ResponseDtoEntityModelRepositoryDto } from '../models'
+import { ResponseDtoPagedModelEntityModelRepositoryDto } from '../models'
 /**
- * ApiV2NewsfeedEventControllerApi - axios parameter creator
+ * ApiV2RepositoryControllerApi - axios parameter creator
  * @export
  */
-export const ApiV2NewsfeedEventControllerApiAxiosParamCreator =
+export const ApiV2RepositoryControllerApiAxiosParamCreator =
   function (configuration?: Configuration) {
     return {
       /**
        *
-       * @param {string} [technology]
-       * @param {number} [userId]
-       * @param {number} [resourceId]
-       * @param {string} [eventType]
-       * @param {string} [resourceType]
-       * @param {number} [page] Zero-based page index (0..N)
-       * @param {number} [size] The size of the page to be returned
-       * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+       * @param {boolean} [deleted]
+       * @param {string} [name]
+       * @param {Array<string>} [technology]
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
-      getAllEvents: async (
-        technology?: string,
-        userId?: number,
-        resourceId?: number,
-        eventType?: string,
-        resourceType?: string,
-        page?: number,
-        size?: number,
-        sort?: Array<string>,
+      getAllRepositories: async (
+        deleted?: boolean,
+        name?: string,
+        technology?: Array<string>,
         options: AxiosRequestConfig = {}
       ): Promise<RequestArgs> => {
-        const localVarPath = `/api/v2/manager/events`
+        const localVarPath = `/api/v2/manager/repositories`
         // use dummy base URL string because the URL constructor only accepts absolute URLs.
         const localVarUrlObj = new URL(
           localVarPath,
@@ -74,42 +64,22 @@ export const ApiV2NewsfeedEventControllerApiAxiosParamCreator =
           ...baseOptions,
           ...options
         }
+
         const localVarHeaderParameter = {} as any
         const localVarQueryParameter = {} as any
 
         // authentication Bearer required
 
-        if (technology !== undefined) {
+        if (deleted !== undefined) {
+          localVarQueryParameter['deleted'] = deleted
+        }
+
+        if (name !== undefined) {
+          localVarQueryParameter['name'] = name
+        }
+
+        if (technology) {
           localVarQueryParameter['technology'] = technology
-        }
-
-        if (userId !== undefined) {
-          localVarQueryParameter['userId'] = userId
-        }
-
-        if (resourceId !== undefined) {
-          localVarQueryParameter['resourceId'] = resourceId
-        }
-
-        if (eventType !== undefined) {
-          localVarQueryParameter['eventType'] = eventType
-        }
-
-        if (resourceType !== undefined) {
-          localVarQueryParameter['resourceType'] =
-            resourceType
-        }
-
-        if (page !== undefined) {
-          localVarQueryParameter['page'] = page
-        }
-
-        if (size !== undefined) {
-          localVarQueryParameter['size'] = size
-        }
-
-        if (sort) {
-          localVarQueryParameter['sort'] = sort
         }
 
         const query = new URLSearchParams(
@@ -131,8 +101,12 @@ export const ApiV2NewsfeedEventControllerApiAxiosParamCreator =
         localVarRequestOptions.headers = {
           ...localVarHeaderParameter,
           ...headersFromBaseOptions,
-          ...options.headers
+          ...options.headers,
+          Authorization:
+            'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnYWxpZWxlbyJ9.Hp95DiIZ0L0JXyQZOvhJkzyTDzNuos81QoTWfLeVPlodWvGg7ziJTI6nJFitg5VAwrGmA4wpbWbjK9aItCKB3A'
         }
+
+        console.log(localVarRequestOptions.headers)
 
         return {
           url:
@@ -148,7 +122,7 @@ export const ApiV2NewsfeedEventControllerApiAxiosParamCreator =
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
-      getEvent: async (
+      getRepositoryById: async (
         id: number,
         options: AxiosRequestConfig = {}
       ): Promise<RequestArgs> => {
@@ -156,11 +130,11 @@ export const ApiV2NewsfeedEventControllerApiAxiosParamCreator =
         if (id === null || id === undefined) {
           throw new RequiredError(
             'id',
-            'Required parameter id was null or undefined when calling getEvent.'
+            'Required parameter id was null or undefined when calling getRepositoryById.'
           )
         }
         const localVarPath =
-          `/api/v2/manager/events/{id}`.replace(
+          `/api/v2/manager/repositories/{id}`.replace(
             `{${'id'}}`,
             encodeURIComponent(String(id))
           )
@@ -217,56 +191,41 @@ export const ApiV2NewsfeedEventControllerApiAxiosParamCreator =
   }
 
 /**
- * ApiV2NewsfeedEventControllerApi - functional programming interface
+ * ApiV2RepositoryControllerApi - functional programming interface
  * @export
  */
-export const ApiV2NewsfeedEventControllerApiFp = function (
+export const ApiV2RepositoryControllerApiFp = function (
   configuration?: Configuration
 ) {
   return {
     /**
      *
-     * @param {string} [technology]
-     * @param {number} [userId]
-     * @param {number} [resourceId]
-     * @param {string} [eventType]
-     * @param {string} [resourceType]
-     * @param {number} [page] Zero-based page index (0..N)
-     * @param {number} [size] The size of the page to be returned
-     * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     * @param {boolean} [deleted]
+     * @param {string} [name]
+     * @param {Array<string>} [technology]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getAllEvents(
-      technology?: string,
-      userId?: number,
-      resourceId?: number,
-      eventType?: string,
-      resourceType?: string,
-      page?: number,
-      size?: number,
-      sort?: Array<string>,
+    async getAllRepositories(
+      deleted?: boolean,
+      name?: string,
+      technology?: Array<string>,
       options?: AxiosRequestConfig
     ): Promise<
       (
         axios?: AxiosInstance,
         basePath?: string
       ) => Promise<
-        AxiosResponse<ResponseDtoPagedModelEntityModelNewsfeedEventDto>
+        AxiosResponse<ResponseDtoPagedModelEntityModelRepositoryDto>
       >
     > {
       const localVarAxiosArgs =
-        await ApiV2NewsfeedEventControllerApiAxiosParamCreator(
+        await ApiV2RepositoryControllerApiAxiosParamCreator(
           configuration
-        ).getAllEvents(
+        ).getAllRepositories(
+          deleted,
+          name,
           technology,
-          userId,
-          resourceId,
-          eventType,
-          resourceType,
-          page,
-          size,
-          sort,
           options
         )
       return (
@@ -286,7 +245,7 @@ export const ApiV2NewsfeedEventControllerApiFp = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getEvent(
+    async getRepositoryById(
       id: number,
       options?: AxiosRequestConfig
     ): Promise<
@@ -294,13 +253,13 @@ export const ApiV2NewsfeedEventControllerApiFp = function (
         axios?: AxiosInstance,
         basePath?: string
       ) => Promise<
-        AxiosResponse<ResponseDtoEntityModelNewsfeedEventDto>
+        AxiosResponse<ResponseDtoEntityModelRepositoryDto>
       >
     > {
       const localVarAxiosArgs =
-        await ApiV2NewsfeedEventControllerApiAxiosParamCreator(
+        await ApiV2RepositoryControllerApiAxiosParamCreator(
           configuration
-        ).getEvent(id, options)
+        ).getRepositoryById(id, options)
       return (
         axios: AxiosInstance = globalAxios,
         basePath: string = BASE_PATH
@@ -316,10 +275,10 @@ export const ApiV2NewsfeedEventControllerApiFp = function (
 }
 
 /**
- * ApiV2NewsfeedEventControllerApi - factory interface
+ * ApiV2RepositoryControllerApi - factory interface
  * @export
  */
-export const ApiV2NewsfeedEventControllerApiFactory =
+export const ApiV2RepositoryControllerApiFactory =
   function (
     configuration?: Configuration,
     basePath?: string,
@@ -328,42 +287,25 @@ export const ApiV2NewsfeedEventControllerApiFactory =
     return {
       /**
        *
-       * @param {string} [technology]
-       * @param {number} [userId]
-       * @param {number} [resourceId]
-       * @param {string} [eventType]
-       * @param {string} [resourceType]
-       * @param {number} [page] Zero-based page index (0..N)
-       * @param {number} [size] The size of the page to be returned
-       * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+       * @param {boolean} [deleted]
+       * @param {string} [name]
+       * @param {Array<string>} [technology]
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
-      async getAllEvents(
-        technology?: string,
-        userId?: number,
-        resourceId?: number,
-        eventType?: string,
-        resourceType?: string,
-        page?: number,
-        size?: number,
-        sort?: Array<string>,
+      async getAllRepositories(
+        deleted?: boolean,
+        name?: string,
+        technology?: Array<string>,
         options?: AxiosRequestConfig
       ): Promise<
-        AxiosResponse<ResponseDtoPagedModelEntityModelNewsfeedEventDto>
+        AxiosResponse<ResponseDtoPagedModelEntityModelRepositoryDto>
       > {
-        return ApiV2NewsfeedEventControllerApiFp(
-          configuration
-        )
-          .getAllEvents(
+        return ApiV2RepositoryControllerApiFp(configuration)
+          .getAllRepositories(
+            deleted,
+            name,
             technology,
-            userId,
-            resourceId,
-            eventType,
-            resourceType,
-            page,
-            size,
-            sort,
             options
           )
           .then((request) => request(axios, basePath))
@@ -374,67 +316,50 @@ export const ApiV2NewsfeedEventControllerApiFactory =
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
-      async getEvent(
+      async getRepositoryById(
         id: number,
         options?: AxiosRequestConfig
       ): Promise<
-        AxiosResponse<ResponseDtoEntityModelNewsfeedEventDto>
+        AxiosResponse<ResponseDtoEntityModelRepositoryDto>
       > {
-        return ApiV2NewsfeedEventControllerApiFp(
-          configuration
-        )
-          .getEvent(id, options)
+        return ApiV2RepositoryControllerApiFp(configuration)
+          .getRepositoryById(id, options)
           .then((request) => request(axios, basePath))
       }
     }
   }
 
 /**
- * ApiV2NewsfeedEventControllerApi - object-oriented interface
+ * ApiV2RepositoryControllerApi - object-oriented interface
  * @export
- * @class ApiV2NewsfeedEventControllerApi
+ * @class ApiV2RepositoryControllerApi
  * @extends {BaseAPI}
  */
-export class ApiV2NewsfeedEventControllerApi extends BaseAPI {
+export class ApiV2RepositoryControllerApi extends BaseAPI {
   /**
    *
-   * @param {string} [technology]
-   * @param {number} [userId]
-   * @param {number} [resourceId]
-   * @param {string} [eventType]
-   * @param {string} [resourceType]
-   * @param {number} [page] Zero-based page index (0..N)
-   * @param {number} [size] The size of the page to be returned
-   * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+   * @param {boolean} [deleted]
+   * @param {string} [name]
+   * @param {Array<string>} [technology]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof ApiV2NewsfeedEventControllerApi
+   * @memberof ApiV2RepositoryControllerApi
    */
-  public async getAllEvents(
-    technology?: string,
-    userId?: number,
-    resourceId?: number,
-    eventType?: string,
-    resourceType?: string,
-    page?: number,
-    size?: number,
-    sort?: Array<string>,
+  public async getAllRepositories(
+    deleted?: boolean,
+    name?: string,
+    technology?: Array<string>,
     options?: AxiosRequestConfig
   ): Promise<
-    AxiosResponse<ResponseDtoPagedModelEntityModelNewsfeedEventDto>
+    AxiosResponse<ResponseDtoPagedModelEntityModelRepositoryDto>
   > {
-    return ApiV2NewsfeedEventControllerApiFp(
+    return ApiV2RepositoryControllerApiFp(
       this.configuration
     )
-      .getAllEvents(
+      .getAllRepositories(
+        deleted,
+        name,
         technology,
-        userId,
-        resourceId,
-        eventType,
-        resourceType,
-        page,
-        size,
-        sort,
         options
       )
       .then((request) => request(this.axios, this.basePath))
@@ -444,18 +369,18 @@ export class ApiV2NewsfeedEventControllerApi extends BaseAPI {
    * @param {number} id
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof ApiV2NewsfeedEventControllerApi
+   * @memberof ApiV2RepositoryControllerApi
    */
-  public async getEvent(
+  public async getRepositoryById(
     id: number,
     options?: AxiosRequestConfig
   ): Promise<
-    AxiosResponse<ResponseDtoEntityModelNewsfeedEventDto>
+    AxiosResponse<ResponseDtoEntityModelRepositoryDto>
   > {
-    return ApiV2NewsfeedEventControllerApiFp(
+    return ApiV2RepositoryControllerApiFp(
       this.configuration
     )
-      .getEvent(id, options)
+      .getRepositoryById(id, options)
       .then((request) => request(this.axios, this.basePath))
   }
 }

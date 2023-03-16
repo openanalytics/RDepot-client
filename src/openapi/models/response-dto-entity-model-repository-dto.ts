@@ -11,50 +11,50 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { EntityModelSubmissionDto } from './entity-model-submission-dto';
+import { EntityModelRepositoryDto } from './entity-model-repository-dto';
 /**
  * 
  * @export
- * @interface ResponseDtoEntityModelSubmissionDto
+ * @interface ResponseDtoEntityModelRepositoryDto
  */
-export interface ResponseDtoEntityModelSubmissionDto {
+export interface ResponseDtoEntityModelRepositoryDto {
     /**
      * 
      * @type {string}
-     * @memberof ResponseDtoEntityModelSubmissionDto
+     * @memberof ResponseDtoEntityModelRepositoryDto
      */
-    status?: ResponseDtoEntityModelSubmissionDtoStatusEnum;
+    status?: ResponseDtoEntityModelRepositoryDtoStatusEnum;
     /**
      * 
      * @type {number}
-     * @memberof ResponseDtoEntityModelSubmissionDto
+     * @memberof ResponseDtoEntityModelRepositoryDto
      */
     code?: number;
     /**
      * 
      * @type {string}
-     * @memberof ResponseDtoEntityModelSubmissionDto
+     * @memberof ResponseDtoEntityModelRepositoryDto
      */
     message?: string;
     /**
      * 
      * @type {string}
-     * @memberof ResponseDtoEntityModelSubmissionDto
+     * @memberof ResponseDtoEntityModelRepositoryDto
      */
     messageCode?: string;
     /**
      * 
-     * @type {EntityModelSubmissionDto}
-     * @memberof ResponseDtoEntityModelSubmissionDto
+     * @type {EntityModelRepositoryDto}
+     * @memberof ResponseDtoEntityModelRepositoryDto
      */
-    data?: EntityModelSubmissionDto;
+    data?: EntityModelRepositoryDto;
 }
 
 /**
     * @export
     * @enum {string}
     */
-export enum ResponseDtoEntityModelSubmissionDtoStatusEnum {
+export enum ResponseDtoEntityModelRepositoryDtoStatusEnum {
     SUCCESS = 'SUCCESS',
     ERROR = 'ERROR'
 }
