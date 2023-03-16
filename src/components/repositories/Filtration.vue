@@ -7,7 +7,7 @@
     <v-card-text style="height: 300px">
       <v-form ref="form" lazy-validation>
         <v-select
-          id="filtration-state"
+          id="filtration-name"
           v-model="localFiltration.name"
           :items="repositoryNameSelect"
           :label="$t('repositories.filtration.name')"
@@ -15,7 +15,7 @@
         ></v-select>
 
         <v-select
-          id="filtration-repository"
+          id="filtration-technology"
           v-model="localFiltration.technology"
           :items="technologySelect"
           :label="$t('repositories.filtration.technology')"

@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { LoginApiData } from '@/models/users/Login'
 import { LoginType } from '@/enum/LoginType'
+import { loginApi } from '@/services/users_services'
 
 interface State {
   userToken: string
@@ -20,7 +21,7 @@ export const useUserStore = defineStore('user_store', {
     async login(payload: LoginApiData) {
       // let response = await login(data)
       // this.userToken = response.userToken
-      console.log(payload)
+      loginApi(payload)
     },
     chooseLoginType(payload: LoginType) {
       this.loginType = payload

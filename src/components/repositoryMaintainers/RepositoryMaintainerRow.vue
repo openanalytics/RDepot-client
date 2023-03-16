@@ -12,7 +12,7 @@
         title == true
           ? prepareString($t('maintainers.name'))
           : repositoryMaintainer
-          ? repositoryMaintainer.userId
+          ? repositoryMaintainer.user?.id
           : ''
       }}</v-col
     >
@@ -25,7 +25,7 @@
         title == true
           ? prepareString($t('maintainers.repository'))
           : repositoryMaintainer
-          ? repositoryMaintainer.repositoryId
+          ? repositoryMaintainer.repository?.id
           : ''
       }}</v-col
     >
@@ -107,7 +107,7 @@ function edit() {
   )
   common_store.setOverlayText(
     i18n.t('maintainers.edit', {
-      maintainerName: props.repositoryMaintainer?.userId
+      maintainerName: props.repositoryMaintainer?.user?.id
     })
   )
   common_store.setOverlayModel(true)
@@ -118,7 +118,7 @@ function edit() {
 function deleteDialog() {
   common_store.setOverlayText(
     i18n.t('maintainers.deleteQuestion', {
-      maintainerName: props.repositoryMaintainer?.userId
+      maintainerName: props.repositoryMaintainer?.user?.id
     })
   )
   common_store.setOverlayModel(true)

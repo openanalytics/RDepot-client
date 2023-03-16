@@ -14,7 +14,7 @@
           : ''
       }}</v-col
     >
-    <v-col
+    <!-- <v-col
       id="repository-maintainer"
       cols="lg-1"
       class="d-flex align-center"
@@ -28,7 +28,7 @@
           ? 'maintainer'
           : ''
       }}
-    </v-col>
+    </v-col> -->
     <v-col
       id="repository-publication-uri"
       cols="lg-2"
@@ -202,7 +202,7 @@ function edit() {
   common_store.setOverlayText(
     i18n.t('maintainers.edit', {
       maintainerName:
-        maintainers_store.maintainers[0].userId
+        maintainers_store.maintainers[0].user?.id
     })
   )
   common_store.setOverlayModel(true)

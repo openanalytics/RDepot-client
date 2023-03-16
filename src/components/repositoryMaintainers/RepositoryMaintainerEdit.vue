@@ -8,14 +8,14 @@
       <v-form ref="form" lazy-validation>
         <v-text-field
           id="edit-package-maintainer-user"
-          v-model="localMaintainer.userId"
+          v-model="localMaintainer.user?.id"
           :label="$t('maintainers.editform.user')"
           :disabled="blockedField == 'user'"
         >
         </v-text-field>
         <v-select
           id="edit-package-maintainer-repository"
-          v-model="localMaintainer.repositoryId"
+          v-model="localMaintainer.repository?.id"
           item-title="name"
           item-value="id"
           :items="repositories"

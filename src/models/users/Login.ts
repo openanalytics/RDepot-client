@@ -1,5 +1,5 @@
 interface LoginApiData {
-  userName: string
+  username: string
   password: string
 }
 
