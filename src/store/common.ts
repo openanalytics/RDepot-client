@@ -8,6 +8,7 @@ interface State {
   overlayModel: boolean
   overlayOpacity: number
   overlayComponent: number
+  key: number
 }
 
 export const useCommonStore = defineStore('common_store', {
@@ -19,7 +20,8 @@ export const useCommonStore = defineStore('common_store', {
       overlayText: '',
       overlayOpacity: 0.8,
       overlayModel: false,
-      overlayComponent: 0
+      overlayComponent: 0,
+      key: 0
     }
   },
   actions: {
@@ -40,6 +42,12 @@ export const useCommonStore = defineStore('common_store', {
     },
     setOverlayComponent(payload: number) {
       this.overlayComponent = payload
+    },
+    updateKey() {
+      this.key += 1
+      if (this.key > 100) {
+        this.key = 0
+      }
     }
   }
 })
