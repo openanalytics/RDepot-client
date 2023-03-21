@@ -3,12 +3,16 @@ import {
   EntityModelRepositoryMaintainerDto
 } from '@/openapi'
 import { defineStore } from 'pinia'
-import repository_maintainers from '@/tmpLists/repositoryMaintainers.json'
 import repositories from '@/tmpLists/repositories.json'
 import { MaintainersFiltration } from '@/models/Filtration'
+import {
+  fetchRepositoryMaintainersServices,
+  updateRepositoryMaintainer
+} from '@/services/repository_maintainers_services'
+import { notify } from '@kyvg/vue3-notification'
 
 interface State {
-  maintainers: EntityModelRepositoryMaintainerDto[]
+  maintainers?: EntityModelRepositoryMaintainerDto[]
   filtration: MaintainersFiltration
   repositories: EntityModelRepositoryMaintainerDto[]
   choosenMaintainer: EntityModelPackageMaintainerDto
@@ -30,8 +34,13 @@ export const useRepositoryMaintainersStore = defineStore(
     },
     actions: {
       async fetchMaintainers() {
-        this.maintainers = JSON.parse(
-          JSON.stringify(repository_maintainers.data)
+        await fetchRepositoryMaintainersServices().then(
+          (res) => {
+            this.maintainers = res.data.data?.content
+          },
+          (msg) => {
+            notify({ text: msg, type: 'error' })
+          }
         )
       },
       async fetchRepositories() {
@@ -43,21 +52,31 @@ export const useRepositoryMaintainersStore = defineStore(
         payload: EntityModelRepositoryMaintainerDto
       ) {
         this.choosenMaintainer = payload
-        this.saveMaintainer()
+        // this.saveMaintainer()
       },
       async saveMaintainer() {
-        this.maintainers = this.maintainers.map(
-          (
-            maintainer: EntityModelRepositoryMaintainerDto
-          ) => {
-            if (
-              maintainer.id == this.choosenMaintainer.id
-            ) {
-              return this.choosenMaintainer
-            }
-            return maintainer
-          }
-        )
+        if (
+          this.choosenMaintainer &&
+          this.choosenMaintainer.id &&
+          this.choosenMaintainer.repository?.id
+        ) {
+          updateRepositoryMaintainer(
+            this.choosenMaintainer.repository?.id,
+            this.choosenMaintainer.id
+          )
+        }
+        // this.maintainers = this.maintainers.map(
+        //   (
+        //     maintainer: EntityModelRepositoryMaintainerDto
+        //   ) => {
+        //     if (
+        //       maintainer.id == this.choosenMaintainer.id
+        //     ) {
+        //       return this.choosenMaintainer
+        //     }
+        //     return maintainer
+        //   }
+        // )
       },
       async setFiltration(payload: MaintainersFiltration) {
         this.filtration = payload
