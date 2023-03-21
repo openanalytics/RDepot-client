@@ -6,7 +6,10 @@
         <Sidebar />
         <ProgressCircular />
         <v-main>
-          <router-view style="margin: 0 15px"></router-view>
+          <router-view
+            :key="componentKey"
+            style="margin: 0 15px"
+          ></router-view>
         </v-main>
       </v-row>
     </div>
@@ -22,4 +25,11 @@
 import Sidebar from '@/components/navbar/Sidebar.vue'
 import Navbar from '@/components/navbar/Navbar.vue'
 import ProgressCircular from './components/common/progress/ProgressCircular.vue'
+import { computed } from 'vue'
+import { useCommonStore } from './store/common'
+
+const common_store = useCommonStore()
+const componentKey = computed(() => {
+  return common_store.key
+})
 </script>
