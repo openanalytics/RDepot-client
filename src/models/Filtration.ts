@@ -1,7 +1,8 @@
 interface PackagesFiltration {
-  state: string
-  deleted: boolean
-  repository: string
+  state: string | undefined
+  deleted: boolean | undefined
+  repository: string | undefined
+  technology: string[] | undefined
 }
 
 interface RepositoriesFiltration {
