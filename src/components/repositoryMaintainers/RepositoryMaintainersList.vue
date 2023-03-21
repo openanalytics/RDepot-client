@@ -27,8 +27,6 @@
 
 <script setup lang="ts">
 import { computed, onMounted } from 'vue'
-import RepositoryMaintainersListTitle from './RepositoryMaintainersListTitle.vue'
-import RepositoryMaintainerItem from './RepositoryMaintainerItem.vue'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
 import RepositoryMaintainerRow from './RepositoryMaintainerRow.vue'
 

@@ -8,16 +8,16 @@
       <v-form ref="form" lazy-validation>
         <v-text-field
           id="edit-package-maintainer-user"
-          v-model="localMaintainer.user?.id"
+          :value="localMaintainer.user?.login"
           :label="$t('maintainers.editform.user')"
           :disabled="blockedField == 'user'"
         >
         </v-text-field>
         <v-select
           id="edit-package-maintainer-repository"
-          v-model="localMaintainer.repository?.id"
+          v-model="localMaintainer.repository"
           item-title="name"
-          item-value="id"
+          return-object
           :items="repositories"
           :label="$t('maintainers.editform.repository')"
           :disabled="blockedField == 'repository'"
@@ -89,15 +89,11 @@ async function setMaintainer() {
   await maintainers_store.setChoosenMaintainer(
     localMaintainer.value
   )
+  await maintainers_store.saveMaintainer()
   changeDialogOptions()
 }
 
 function changeDialogOptions() {
-  updateMaintainer()
   emit('closeModal')
 }
-
-onMounted(() => {
-  updateMaintainer()
-})
 </script>

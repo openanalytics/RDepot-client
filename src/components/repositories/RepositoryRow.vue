@@ -14,21 +14,6 @@
           : ''
       }}</v-col
     >
-    <!-- <v-col
-      id="repository-maintainer"
-      cols="lg-1"
-      class="d-flex align-center"
-    >
-      {{
-        title == true
-          ? prepareString(
-              $t('repositories.maintainer').toString()
-            )
-          : repository
-          ? 'maintainer'
-          : ''
-      }}
-    </v-col> -->
     <v-col
       id="repository-publication-uri"
       cols="lg-2"
@@ -45,7 +30,7 @@
     >
     <v-col
       id="repository-server-address"
-      cols="lg-4 sm-2"
+      cols="lg-5 sm-2"
       class="d-flex align-center"
     >
       {{
@@ -193,21 +178,6 @@ function navigate() {
       }
     })
   }
-}
-
-function edit() {
-  maintainers_store.setChoosenMaintainer(
-    maintainers_store.maintainers[0]
-  )
-  common_store.setOverlayText(
-    i18n.t('maintainers.edit', {
-      maintainerName:
-        maintainers_store.maintainers[0].user?.id
-    })
-  )
-  common_store.setOverlayModel(true)
-  common_store.setOverlayOpacity(0.8)
-  common_store.setOverlayComponent(OverlayEnum.Edit)
 }
 </script>
 

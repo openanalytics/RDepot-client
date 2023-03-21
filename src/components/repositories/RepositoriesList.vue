@@ -27,7 +27,7 @@
 import { EntityModelRRepositoryDto } from '@/openapi'
 import router from '@/router'
 import { useRepositoryStore } from '@/store/repositories'
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, onBeforeMount } from 'vue'
 import RepositoryRow from './RepositoryRow.vue'
 
 const repository_store = useRepositoryStore()
@@ -48,7 +48,7 @@ function navigate(repository: EntityModelRRepositoryDto) {
   })
 }
 
-onMounted(() => {
+onBeforeMount(() => {
   updateState()
 })
 </script>
