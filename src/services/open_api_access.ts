@@ -3,20 +3,32 @@ import { AxiosResponse } from 'axios'
 
 let common_store = useCommonStore()
 
-export async function openApiRequest<T>(
-  callback: Function
-) {
-  common_store.setProgressCircularActive(true)
+var isPending = true
+
+export function openApiRequest<T>(callback: Function) {
+  turnOnProgress()
+  isPending = true
   let promise: Promise<AxiosResponse<T>> = callback()
   promise.then(resolved, rejected)
-  common_store.setProgressCircularActive(false)
   return promise
 }
 
-function resolved<T>(result: AxiosResponse<T>) {
-  return result.data
+function turnOnProgress() {
+  // setTimeout(() => {
+  // if (isPending) {
+  common_store.setProgressCircularActive(true)
+  // }
+  // }, 250)
+}
+
+async function resolved<T>(result: AxiosResponse<T>) {
+  isPending = false
+  common_store.setProgressCircularActive(false)
+  return result
 }
 
 function rejected(result: AxiosResponse<any, any>) {
-  alert(result)
+  common_store.setProgressCircularActive(false)
+  isPending = false
+  throw result
 }
