@@ -2,7 +2,10 @@
   <PackagesModal />
   <FiltrationButtons />
   <PackagesList />
-  <Pagination :page="page" v-on:newPage="nextPage" />
+  <Pagination
+    v-on:newPage="nextPage($event)"
+    v-on:newPageSize="newPageSize($event)"
+  />
 </template>
 
 <script setup lang="ts">
@@ -12,7 +15,10 @@ import { computed } from 'vue'
 import { usePackagesStore } from '@/store/packages'
 import PackagesModal from '@/components/packages/PackagesModal.vue'
 import FiltrationButtons from '@/components/common/FiltrationButtons.vue'
+import { useCommonStore } from '@/store/common'
+
 const package_store = usePackagesStore()
+const common_store = useCommonStore()
 
 const page = computed(function () {
   return package_store.page
@@ -20,5 +26,11 @@ const page = computed(function () {
 
 function nextPage(value: number) {
   package_store.setPage(value)
+  common_store.updateKey()
+}
+
+function newPageSize(value: number) {
+  package_store.setPageSize(value)
+  common_store.updateKey()
 }
 </script>
