@@ -1,36 +1,24 @@
 import {
-  ApiV2RepositoryControllerApiFactory,
+  ApiV2PackageControllerApiFactory,
   EntityModelPackageDto,
-  EntityModelRepositoryDto,
-  // EntityModelPackageDtoObjectObject,
-  EntityModelRRepositoryDto,
-  ResponseDtoPagedModelEntityModelRepositoryDto,
-  ResponseDtoPagedModelEntityModelRRepositoryDto,
-  RPackageControllerApiFactory,
-  RRepositoryControllerApiFactory
+  EntityModelRepositoryDto
 } from '@/openapi'
 import { defineStore } from 'pinia'
-import repositories from '@/tmpLists/repositories.json'
 import packages from '@/tmpLists/packages.json'
 import { RepositoriesFiltration } from '@/models/Filtration'
-import { AxiosResponse } from 'axios'
-import {
-  fetchPackagesServices,
-  fetchRepositoriesServices
-} from '@/services'
-import { testPromise } from '@/services/repository_services'
+import { fetchRepositoriesServices } from '@/services'
+import { notify } from '@kyvg/vue3-notification'
 
 interface State {
-  repositories: EntityModelRepositoryDto[]
+  repositories?: EntityModelRepositoryDto[]
   filtration: RepositoriesFiltration
   choosenRepository: number
   choosenRepositoryName: string
-  repositoryPackages: EntityModelPackageDto[]
-  page: number
+  repositoryPackages?: EntityModelPackageDto[]
+  page?: number
 }
 
-const repository_api = ApiV2RepositoryControllerApiFactory()
-const packages_api = RPackageControllerApiFactory()
+const packages_api = ApiV2PackageControllerApiFactory()
 
 export const useRepositoryStore = defineStore(
   'repository_store',
@@ -50,28 +38,15 @@ export const useRepositoryStore = defineStore(
     },
     actions: {
       async fetchRepositories() {
-        testPromise()
-
-        let axiosResponse: AxiosResponse<ResponseDtoPagedModelEntityModelRepositoryDto> =
-          await fetchRepositoriesServices()
-        // axiosResponse.data.
-
-        repository_api.getAllRepositories().then(
+        // const repositories: ResponseDtoPagedModelEntityModelRepositoryDto = fetchRepositoriesServices()
+        await fetchRepositoriesServices().then(
           (res) => {
-            if (
-              res.data.data?.content &&
-              res.data.data.page?.number
-            ) {
-              this.page = res.data.data.page?.number
-              this.repositories = res.data.data?.content
-            }
+            this.page = res.data.data?.page?.number
+            this.repositories = res.data.data?.content
           },
           (msg) => {
-            alert(msg)
+            notify({ text: msg, type: 'error' })
           }
-        )
-        this.repositories = JSON.parse(
-          JSON.stringify(repositories.data)
         )
       },
       async fetchPackages() {
@@ -79,9 +54,10 @@ export const useRepositoryStore = defineStore(
           .getAllPackages(this.choosenRepositoryName)
           .then(
             (res) => {
-              this.repositoryPackages = res.data.data
+              this.repositoryPackages =
+                res.data.data?.content
             },
-            (msg) => alert(msg)
+            (msg) => notify({ text: msg, type: 'error' })
           )
         this.repositoryPackages = JSON.parse(
           JSON.stringify(packages.page2)

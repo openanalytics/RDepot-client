@@ -1,20 +1,25 @@
 import { PackagesFiltration } from '@/models/Filtration'
-import packages from '@/tmpLists/packages.json'
 import vignettes from '@/tmpLists/rPackageVignettes.json'
 import { defineStore } from 'pinia'
 import {
-  EntityModelPackageDtoObjectObject,
-  EntityModelRPackageDto,
+  ApiV2PackageControllerApiFactory,
+  EntityModelPackageDto,
   ResponseDtoListVignette,
+  ResponseDtoPagedModelEntityModelPackageDto,
   RPackageControllerApiFactory
 } from '@/openapi'
+import { notify } from '@kyvg/vue3-notification'
+import { getConfiguration } from '@/services/api_config'
+import { openApiRequest } from '@/services/open_api_access'
+import { pathToFileURL } from 'url'
 
 interface State {
-  packages: EntityModelPackageDtoObjectObject[]
-  package: EntityModelRPackageDto
+  packages?: EntityModelPackageDto[]
+  package: EntityModelPackageDto
   vignettes: ResponseDtoListVignette
-  page: number
+  page?: number
   pageSize: number
+  totalNumber?: number
   filtration: PackagesFiltration
 }
 
@@ -26,39 +31,58 @@ export const usePackagesStore = defineStore(
         packages: [],
         package: {},
         vignettes: {},
-        page: 1,
+        page: 0,
         pageSize: 10,
+        totalNumber: 0,
         filtration: {
-          state: '',
-          deleted: false,
-          repository: ''
+          state: undefined,
+          deleted: undefined,
+          repository: undefined,
+          technology: undefined
         }
       }
     },
     actions: {
       async fetchPackages() {
-        //dummy page fetch - in real you need to fertch packages from servcice and set page to 1
-        if (this.page % 2 == 0) {
-          this.packages = JSON.parse(
-            JSON.stringify(packages.page1)
+        const packages_api =
+          ApiV2PackageControllerApiFactory(
+            getConfiguration()
           )
-        } else {
-          this.packages = JSON.parse(
-            JSON.stringify(packages.page2)
-          )
-        }
-      },
-      async fetchPackage(name: string) {
-        let packages2 = JSON.parse(
-          JSON.stringify(packages.page2)
-        ).filter(
-          (
-            packageBag: EntityModelPackageDtoObjectObject
-          ) => {
-            return packageBag.name == name
+        openApiRequest<ResponseDtoPagedModelEntityModelPackageDto>(
+          () =>
+            packages_api.getAllPackages(
+              this.filtration.repository,
+              this.filtration.deleted,
+              this.filtration.state,
+              this.filtration.technology,
+              this.page,
+              this.pageSize
+            )
+        ).then(
+          (res) => {
+            this.totalNumber =
+              res.data.data?.page?.totalElements
+            this.page = res.data.data?.page?.number
+            this.packages = res.data.data?.content
+          },
+          (msg) => {
+            this.packages = []
+            this.page = 0
+            notify({ text: msg, type: 'error' })
           }
         )
-        this.package = packages2[0]
+      },
+      async fetchPackage(name: string) {
+        // let packages2 = JSON.parse(
+        //   JSON.stringify(packages.page2)
+        // ).filter(
+        //   (
+        //     packageBag: EntityModelPackageDtoObjectObject
+        //   ) => {
+        //     return packageBag.name == name
+        //   }
+        // )
+        // this.package = packages2[0]
         this.vignettes = JSON.parse(
           JSON.stringify(vignettes)
         )
@@ -76,7 +100,9 @@ export const usePackagesStore = defineStore(
         this.fetchPackages()
       },
       async setPageSize(payload: number) {
-        this.pageSize = payload
+        if (payload > 0) {
+          this.pageSize = payload
+        }
       },
       async setFiltration(payload: PackagesFiltration) {
         this.filtration = payload
@@ -84,8 +110,9 @@ export const usePackagesStore = defineStore(
         this.fetchPackages()
       },
       clearFiltration() {
-        this.filtration.state = ''
-        this.filtration.repository = ''
+        this.filtration.state = undefined
+        this.filtration.repository = undefined
+        this.filtration.technology = undefined
         this.filtration.deleted = false
       },
       async clearFiltrationAndFetch() {
