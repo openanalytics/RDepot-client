@@ -1,6 +1,24 @@
-import api from '@/plugins/axios'
+import { PackagesFiltration } from '@/models/Filtration'
+import {
+  ApiV2PackageControllerApiFactory,
+  ResponseDtoPagedModelEntityModelPackageDto
+} from '@/openapi'
+import { getConfiguration } from './api_config'
+import { openApiRequest } from './open_api_access'
 
-export async function fetchPackagesServices() {
-  let packages = await api.get('/v2/manager/r/packages')
-  return packages
+export function fetchPackagesServices(
+  filtration: PackagesFiltration
+) {
+  const packages_api = ApiV2PackageControllerApiFactory(
+    getConfiguration()
+  )
+  return openApiRequest<ResponseDtoPagedModelEntityModelPackageDto>(
+    () =>
+      packages_api.getAllPackages(
+        filtration.repository,
+        filtration.deleted,
+        filtration.state,
+        filtration.technology
+      )
+  )
 }
