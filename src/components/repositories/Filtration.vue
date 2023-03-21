@@ -18,6 +18,7 @@
           id="filtration-technology"
           v-model="localFiltration.technology"
           :items="technologySelect"
+          multiple
           :label="$t('repositories.filtration.technology')"
         ></v-select>
       </v-form>

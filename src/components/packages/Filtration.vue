@@ -20,7 +20,13 @@
           :items="repositoryNameSelect"
           :label="$t('packages.filtration.repository')"
         ></v-select>
-
+        <v-select
+          id="filtration-technology"
+          v-model="localFiltration.technology"
+          :items="technologySelect"
+          multiple
+          :label="$t('repositories.filtration.technology')"
+        ></v-select>
         <v-checkbox
           id="filtration-deleter"
           :label="
@@ -77,7 +83,13 @@ import { ref, onMounted } from 'vue'
 
 const package_store = usePackagesStore()
 
-const submissionStateSelect = ref(['ACCEPTED', 'CANCELLED'])
+const submissionStateSelect = ref([
+  'ACCEPTED',
+  'CANCELLED',
+  'WAITING',
+  'REJECTED'
+])
+const technologySelect = ref(['R', 'Python'])
 const repositoryNameSelect = ref(['repo1', 'repo2'])
 let filtration = package_store.filtration
 const localFiltration = ref(filtration)
@@ -102,12 +114,12 @@ function changeDialogOptions() {
 
 onMounted(() => {
   updateFiltration()
-  console.log(localFiltration)
 })
 
 function clearFiltration() {
-  localFiltration.value.state = ''
-  localFiltration.value.repository = ''
+  localFiltration.value.state = undefined
+  localFiltration.value.repository = undefined
   localFiltration.value.deleted = false
+  localFiltration.value.technology = undefined
 }
 </script>
