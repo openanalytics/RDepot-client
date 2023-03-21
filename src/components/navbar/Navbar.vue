@@ -18,6 +18,7 @@
         <p class="logotext">RDepot</p>
       </v-row>
       <v-row align="center" justify="end" class="my-0 mx-3">
+        <User />
         <ChangeLanguage class="mr-4" />
         <ChangeTheme class="mr-2 ml-3" />
       </v-row>
@@ -30,6 +31,7 @@ import ChangeLanguage from '@/components/navbar/ChangeLanguage.vue'
 import ChangeTheme from '@/components/navbar/ChangeTheme.vue'
 import { useCommonStore } from '@/store/common'
 import { useDisplay } from 'vuetify/lib/framework.mjs'
+import User from './User.vue'
 
 const common_store = useCommonStore()
 const { width, mobile } = useDisplay()
