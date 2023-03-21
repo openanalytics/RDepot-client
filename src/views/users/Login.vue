@@ -15,7 +15,7 @@
 
       <v-text-field
         class="mt-10"
-        v-model="formData.userName"
+        v-model="formData.username"
         :label="$t('authorization.username')"
         :rules="validation.nameRules"
         required
@@ -74,6 +74,7 @@ import { LoginType } from '@/enum/LoginType'
 import { onMounted, ref } from 'vue'
 import { useUserStore } from '@/store/users'
 import { useI18n } from 'vue-i18n'
+import process from 'process'
 
 const { t } = useI18n()
 const user_store = useUserStore()
