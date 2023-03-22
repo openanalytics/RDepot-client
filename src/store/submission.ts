@@ -94,6 +94,15 @@ export const useSubmissionStore = defineStore(
         this.filtration.assignedToMe = false
         this.filtration.package = ''
       },
+      async setPage(payload: number) {
+        this.page = payload
+        this.fetchSubmissions()
+      },
+      async setPageSize(payload: number) {
+        if (payload > 0) {
+          this.pageSize = payload
+        }
+      },
       async clearFiltrationAndFetch() {
         this.clearFiltration()
         await this.fetchSubmissions()
