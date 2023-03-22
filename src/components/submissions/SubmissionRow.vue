@@ -136,10 +136,12 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { EntityModelSubmissionDto } from '@/openapi'
-import { useNotification } from '@kyvg/vue3-notification'
+import { EntityModelSubmissionDto, EntityModelSubmissionDtoStateEnum, ResponseDtoEntityModelSubmissionDto, ResponseDtoPagedModelEntityModelSubmissionDto, RSubmissionControllerApiFactory } from '@/openapi'
+import { notify, useNotification } from '@kyvg/vue3-notification'
 import { useCommonStore } from '@/store/common'
 import { i18n } from '@/plugins/i18n'
+import { getConfiguration } from '@/services/api_config'
+import { openApiRequest } from '@/services/open_api_access'
 
 const props = defineProps({
   title: {
@@ -168,14 +170,26 @@ function prepareString(value: string): string {
 function acceptSubmission() {
   common_store.setProgressCircularActive(true)
   acceptDisabled.value = true
-  setTimeout(function () {
-    acceptDisabled.value = false
-    common_store.setProgressCircularActive(false)
-    notifications.notify({
-      type: 'success',
-      text: i18n.t('notifications.acceptSubmission')
-    })
-  }, 1000)
+
+  const r_submission_api = RSubmissionControllerApiFactory(getConfiguration())
+  openApiRequest<EntityModelSubmissionDto>(
+      () => r_submission_api.updateSubmission({
+        "state": EntityModelSubmissionDtoStateEnum.ACCEPTED
+      }, props.submission?.id || 0) // This request currently causes an 400 Bad Request
+  ).then(
+    () => {
+      notifications.notify({
+        type: 'success',
+        text: i18n.t('notifications.acceptSubmission')
+      })
+    },
+    (msg) => {
+      acceptDisabled.value = false
+      notify({ text: msg, type: 'error' })
+    }
+  ).finally(
+    () => common_store.setProgressCircularActive(false)
+  )
 }
 
 function cancelSubmission() {
