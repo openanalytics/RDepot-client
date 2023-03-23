@@ -56,7 +56,7 @@
 
 <script setup lang="ts">
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
-import { ref, onMounted, computed } from 'vue'
+import { ref, computed } from 'vue'
 
 const props = defineProps({
   blockedField: {
