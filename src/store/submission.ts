@@ -48,7 +48,7 @@ export const useSubmissionStore = defineStore(
         openApiRequest<ResponseDtoPagedModelEntityModelSubmissionDto>(
             () => r_submission_api.getAllSubmissions(
               this.filtration.state,
-              this.filtration.assignedToMe ? logged_user.userId : undefined, // TODO: use the id of the current user
+              this.filtration.assignedToMe ? logged_user.userId : undefined,
               undefined, // TODO: add package id to filter if one is selected
               this.page,
               this.pageSize

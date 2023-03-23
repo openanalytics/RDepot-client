@@ -131,7 +131,8 @@
     "successFiltration": "successful filtration action",
     "successFiltrationReset": "successful filtration reset",
     "successCancelSubmission": "cancel submission",
-    "acceptSubmission": "accept submission"
+    "acceptSubmission": "accept submission",
+    "successRejectSubmission": "reject submission"
   },
   "maintainers": {
     "edit": "edit maintainer",

@@ -41,7 +41,7 @@
               $t('submissions.repository').toString()
             )
           : submission
-          ? submission.packageBag?.repositoryId
+          ? submission.packageBag?.repository?.id
           : ''
       }}</v-col
     >
@@ -123,11 +123,20 @@
           >ACCEPT</v-btn
         >
         <v-btn
+          v-if="check"
           id="cancel-button"
           color="oared"
           @click="cancelSubmission"
           :disabled="cancelDisabled"
           >CANCEL</v-btn
+        >
+        <v-btn
+          v-else
+          id="reject-button"
+          color="oared"
+          @click="rejectSubmission"
+          :disabled="rejectDisabled"
+          >REJECT</v-btn
         >
       </span>
     </v-col>
@@ -135,13 +144,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { EntityModelSubmissionDto, EntityModelSubmissionDtoStateEnum, ResponseDtoEntityModelSubmissionDto, ResponseDtoPagedModelEntityModelSubmissionDto, RSubmissionControllerApiFactory } from '@/openapi'
-import { notify, useNotification } from '@kyvg/vue3-notification'
+import { computed, Ref, ref } from 'vue'
+import { EntityModelSubmissionDto, EntityModelSubmissionDtoStateEnum } from '@/openapi'
+import { useNotification } from '@kyvg/vue3-notification'
 import { useCommonStore } from '@/store/common'
 import { i18n } from '@/plugins/i18n'
-import { getConfiguration } from '@/services/api_config'
-import { openApiRequest } from '@/services/open_api_access'
+import { useSubmissionStore } from '@/store/submission'
+import { updateSubmission } from '@/services/submission_services'
+import { useLoggedUserStore } from '@/store/logged_user'
 
 const props = defineProps({
   title: {
@@ -154,7 +164,11 @@ const props = defineProps({
 })
 
 const notifications = useNotification()
+const logged_store = useLoggedUserStore()
+const submission_store = useSubmissionStore()
 const common_store = useCommonStore()
+
+const check = logged_store.userId === props.submission?.submitter?.id
 
 const getAccepted = computed<boolean>(() => {
   return props.submission?.state == 'ACCEPTED'
@@ -162,47 +176,55 @@ const getAccepted = computed<boolean>(() => {
 
 const acceptDisabled = ref<boolean>(false)
 const cancelDisabled = ref<boolean>(false)
+const rejectDisabled = ref<boolean>(false)
 
 function prepareString(value: string): string {
   return value.charAt(0).toUpperCase() + value.slice(1)
 }
 
-function acceptSubmission() {
+function updateSubmissionFlow(state: string, disabled: Ref<boolean>, textNotification: string) {
   common_store.setProgressCircularActive(true)
-  acceptDisabled.value = true
-
-  const r_submission_api = RSubmissionControllerApiFactory(getConfiguration())
-  openApiRequest<EntityModelSubmissionDto>(
-      () => r_submission_api.updateSubmission({
-        "state": EntityModelSubmissionDtoStateEnum.ACCEPTED
-      }, props.submission?.id || 0) // This request currently causes an 400 Bad Request
-  ).then(
+  disabled.value = true
+  updateSubmission(state, props.submission?.id || -1)
+  .then(
     () => {
       notifications.notify({
         type: 'success',
-        text: i18n.t('notifications.acceptSubmission')
+        text: textNotification
       })
+      submission_store.fetchSubmissions()
     },
     (msg) => {
-      acceptDisabled.value = false
-      notify({ text: msg, type: 'error' })
+      disabled.value = false
+      notifications.notify({ type: 'error', text: msg })
     }
   ).finally(
     () => common_store.setProgressCircularActive(false)
   )
 }
 
+function acceptSubmission() {
+  updateSubmissionFlow(
+    EntityModelSubmissionDtoStateEnum.ACCEPTED,
+    acceptDisabled,
+    i18n.t('notifications.acceptSubmission')
+  )
+}
+
 function cancelSubmission() {
-  common_store.setProgressCircularActive(true)
-  cancelDisabled.value = true
-  setTimeout(function () {
-    notifications.notify({
-      type: 'success',
-      text: i18n.t('notifications.successCancelSubmission')
-    })
-    common_store.setProgressCircularActive(false)
-    cancelDisabled.value = false
-  }, 1000)
+  updateSubmissionFlow(
+    EntityModelSubmissionDtoStateEnum.CANCELLED,
+    cancelDisabled,
+    i18n.t('notifications.successCancelSubmission')
+  )
+}
+
+function rejectSubmission() {
+  updateSubmissionFlow(
+    EntityModelSubmissionDtoStateEnum.REJECTED,
+    rejectDisabled,
+    i18n.t('notifications.successRejectSubmission')
+  )
 }
 </script>
 
