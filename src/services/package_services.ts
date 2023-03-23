@@ -7,7 +7,9 @@ import { getConfiguration } from './api_config'
 import { openApiRequest } from './open_api_access'
 
 export function fetchPackagesServices(
-  filtration: PackagesFiltration
+  filtration: PackagesFiltration,
+  page?: number,
+  pageSize?: number
 ) {
   const packages_api = ApiV2PackageControllerApiFactory(
     getConfiguration()
@@ -18,7 +20,9 @@ export function fetchPackagesServices(
         filtration.repository,
         filtration.deleted,
         filtration.state,
-        filtration.technology
+        filtration.technology,
+        page,
+        pageSize
       )
   )
 }

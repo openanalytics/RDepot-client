@@ -2,16 +2,12 @@ import { PackagesFiltration } from '@/models/Filtration'
 import vignettes from '@/tmpLists/rPackageVignettes.json'
 import { defineStore } from 'pinia'
 import {
-  ApiV2PackageControllerApiFactory,
   EntityModelPackageDto,
   ResponseDtoListVignette,
-  ResponseDtoPagedModelEntityModelPackageDto,
   RPackageControllerApiFactory
 } from '@/openapi'
 import { notify } from '@kyvg/vue3-notification'
-import { getConfiguration } from '@/services/api_config'
-import { openApiRequest } from '@/services/open_api_access'
-import { pathToFileURL } from 'url'
+import { fetchPackagesServices } from '@/services'
 
 interface State {
   packages?: EntityModelPackageDto[]
@@ -44,20 +40,10 @@ export const usePackagesStore = defineStore(
     },
     actions: {
       async fetchPackages() {
-        const packages_api =
-          ApiV2PackageControllerApiFactory(
-            getConfiguration()
-          )
-        openApiRequest<ResponseDtoPagedModelEntityModelPackageDto>(
-          () =>
-            packages_api.getAllPackages(
-              this.filtration.repository,
-              this.filtration.deleted,
-              this.filtration.state,
-              this.filtration.technology,
-              this.page,
-              this.pageSize
-            )
+        fetchPackagesServices(
+          this.filtration,
+          this.page,
+          this.pageSize
         ).then(
           (res) => {
             this.totalNumber =
@@ -73,16 +59,6 @@ export const usePackagesStore = defineStore(
         )
       },
       async fetchPackage(name: string) {
-        // let packages2 = JSON.parse(
-        //   JSON.stringify(packages.page2)
-        // ).filter(
-        //   (
-        //     packageBag: EntityModelPackageDtoObjectObject
-        //   ) => {
-        //     return packageBag.name == name
-        //   }
-        // )
-        // this.package = packages2[0]
         this.vignettes = JSON.parse(
           JSON.stringify(vignettes)
         )
