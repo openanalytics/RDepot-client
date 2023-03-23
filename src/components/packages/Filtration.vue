@@ -43,7 +43,7 @@
         <v-btn
           id="cancel-button"
           color="blue darken-1"
-          @click="changeDialogOptions"
+          @click="cancelModal"
           class="mx-1"
         >
           <small>
@@ -104,10 +104,10 @@ function updateFiltration() {
 
 async function setFiltration() {
   await package_store.setFiltration(localFiltration.value)
-  changeDialogOptions()
+  cancelModal()
 }
 
-function changeDialogOptions() {
+function cancelModal() {
   updateFiltration()
   emit('closeModal')
 }
