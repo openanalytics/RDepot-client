@@ -87,7 +87,7 @@ const formData = ref<Login>({
   error: false,
   errorMessage: '',
   password: '',
-  userName: ''
+  username: ''
 })
 
 const validation = {
