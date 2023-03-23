@@ -5,20 +5,21 @@ let common_store = useCommonStore()
 
 var isPending = true
 
-export function openApiRequest<T>(callback: Function) {
+export function openApiRequest<T>(
+  callback: Function,
+  parameters?: any[]
+): Promise<AxiosResponse<T>> {
   turnOnProgress()
   isPending = true
-  let promise: Promise<AxiosResponse<T>> = callback()
-  promise.then(resolved, rejected)
-  return promise
+  if (parameters) {
+    return callback(...parameters).then(resolved, rejected)
+  } else {
+    return callback().then(resolved, rejected)
+  }
 }
 
 function turnOnProgress() {
-  // setTimeout(() => {
-  // if (isPending) {
   common_store.setProgressCircularActive(true)
-  // }
-  // }, 250)
 }
 
 async function resolved<T>(result: AxiosResponse<T>) {
