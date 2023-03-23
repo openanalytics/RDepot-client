@@ -11,7 +11,7 @@
             >
               <div></div>
               <v-pagination
-                v-model="page"
+                v-model="localPage"
                 class="my-4"
                 :length="howManyPages"
               ></v-pagination>
@@ -21,7 +21,7 @@
                   ref="pageSizeInput"
                   style="flex: 1"
                   width="40"
-                  v-model="pageSize"
+                  v-model="localPageSize"
                   type="number"
                   color="text"
                   aria-valuemin="1"
@@ -37,47 +37,46 @@
 </template>
 
 <script setup lang="ts">
-import { usePackagesStore } from '@/store/packages'
 import { computed, ref } from 'vue'
 
+const props = defineProps({
+  howManyPages: {
+    type: Number
+  },
+  pageSize: {
+    type: Number
+  },
+  page: { type: Number }
+})
+
 const emit = defineEmits(['newPage', 'newPageSize'])
-const package_store = usePackagesStore()
 
-const pageSizeInput = ref<HTMLDivElement>()
-
-const howManyPages = computed(function () {
-  if (package_store.totalNumber && package_store.pageSize) {
-    return Math.ceil(
-      package_store.totalNumber / package_store.pageSize
-    )
-  }
-  // return 2
-})
-
-const pageSize = computed({
+const localPage = computed({
   get() {
-    return package_store.pageSize
+    return props.page
   },
   set: (value) => {
-    if (pageSizeInput.value && pageSizeInput)
-      console.log(pageSizeInput.value.hasAttribute('focus'))
-
-    if (
-      pageSizeInput.value &&
-      !pageSizeInput.value.hasAttribute('focus')
-    )
-      emit('newPageSize', value)
-  }
-})
-
-const page = computed({
-  get: () => {
-    if (package_store.page) return package_store.page + 1
-  },
-  set: (value) => {
+    // if (pageSizeInput.value && pageSizeInput)
+    //   if (
+    //     pageSizeInput.value &&
+    //   )
     if (value) emit('newPage', value - 1)
   }
 })
+const localPageSize = computed({
+  get() {
+    return props.pageSize
+  },
+  set: (value) => {
+    // if (pageSizeInput.value && pageSizeInput)
+    //   if (
+    //     pageSizeInput.value &&
+    //   )
+    if (value) emit('newPageSize', value)
+  }
+})
+
+const pageSizeInput = ref<HTMLDivElement>()
 </script>
 
 <style lang="scss" scoped>

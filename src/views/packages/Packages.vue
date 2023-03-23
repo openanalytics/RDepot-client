@@ -3,6 +3,9 @@
   <FiltrationButtons />
   <PackagesList />
   <Pagination
+    :howManyPages="howManyPages"
+    :pageSize="pageSize"
+    :page="page"
     v-on:newPage="nextPage($event)"
     v-on:newPageSize="newPageSize($event)"
   />
@@ -20,8 +23,34 @@ import { useCommonStore } from '@/store/common'
 const package_store = usePackagesStore()
 const common_store = useCommonStore()
 
-const page = computed(function () {
-  return package_store.page
+const pageSize = computed({
+  get() {
+    return package_store.pageSize
+  },
+  set: (value) => {
+    // if (pageSizeInput.value && pageSizeInput)
+    //   if (
+    //     pageSizeInput.value &&
+    //   )
+    //     emit('newPageSize', value)
+  }
+})
+
+const page = computed({
+  get: () => {
+    if (package_store.page) return package_store.page + 1
+  },
+  set: (value) => {
+    if (value) nextPage(value - 1)
+  }
+})
+
+const howManyPages = computed(function () {
+  if (package_store.totalNumber && package_store.pageSize) {
+    return Math.ceil(
+      package_store.totalNumber / package_store.pageSize
+    )
+  }
 })
 
 function nextPage(value: number) {
