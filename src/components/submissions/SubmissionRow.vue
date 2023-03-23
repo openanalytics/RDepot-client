@@ -111,7 +111,7 @@
         }}
       </span>
       <span
-        v-else-if="!getAccepted && submission"
+        v-else-if="getWaiting && submission"
         class="d-flex justify-center align-center"
       >
         <v-btn
@@ -145,7 +145,10 @@
 
 <script setup lang="ts">
 import { computed, Ref, ref } from 'vue'
-import { EntityModelSubmissionDto, EntityModelSubmissionDtoStateEnum } from '@/openapi'
+import {
+  EntityModelSubmissionDto,
+  EntityModelSubmissionDtoStateEnum
+} from '@/openapi'
 import { useNotification } from '@kyvg/vue3-notification'
 import { useCommonStore } from '@/store/common'
 import { i18n } from '@/plugins/i18n'
@@ -168,10 +171,15 @@ const logged_store = useLoggedUserStore()
 const submission_store = useSubmissionStore()
 const common_store = useCommonStore()
 
-const check = logged_store.userId === props.submission?.submitter?.id
+const check =
+  logged_store.userId === props.submission?.submitter?.id
 
 const getAccepted = computed<boolean>(() => {
   return props.submission?.state == 'ACCEPTED'
+})
+
+const getWaiting = computed<boolean>(() => {
+  return props.submission?.state == 'WAITING'
 })
 
 const acceptDisabled = ref<boolean>(false)
@@ -182,25 +190,30 @@ function prepareString(value: string): string {
   return value.charAt(0).toUpperCase() + value.slice(1)
 }
 
-function updateSubmissionFlow(state: string, disabled: Ref<boolean>, textNotification: string) {
+function updateSubmissionFlow(
+  state: string,
+  disabled: Ref<boolean>,
+  textNotification: string
+) {
   common_store.setProgressCircularActive(true)
   disabled.value = true
   updateSubmission(state, props.submission?.id || -1)
-  .then(
-    () => {
-      notifications.notify({
-        type: 'success',
-        text: textNotification
-      })
-      submission_store.fetchSubmissions()
-    },
-    (msg) => {
-      disabled.value = false
-      notifications.notify({ type: 'error', text: msg })
-    }
-  ).finally(
-    () => common_store.setProgressCircularActive(false)
-  )
+    .then(
+      () => {
+        notifications.notify({
+          type: 'success',
+          text: textNotification
+        })
+        submission_store.fetchSubmissions()
+      },
+      (msg) => {
+        disabled.value = false
+        notifications.notify({ type: 'error', text: msg })
+      }
+    )
+    .finally(() =>
+      common_store.setProgressCircularActive(false)
+    )
 }
 
 function acceptSubmission() {
