@@ -1,17 +1,20 @@
+import { notify } from '@kyvg/vue3-notification'
 import { PackagesFiltration } from '@/models/Filtration'
-import vignettes from '@/tmpLists/rPackageVignettes.json'
+import { fetchPackagesServices } from '@/services'
 import { defineStore } from 'pinia'
 import {
   EntityModelPackageDto,
   ResponseDtoListVignette,
   RPackageControllerApiFactory
 } from '@/openapi'
-import { notify } from '@kyvg/vue3-notification'
-import { fetchPackagesServices } from '@/services'
+import {
+  fetchPackageServices,
+  updateRPackage
+} from '@/services/package_services'
 
 interface State {
   packages?: EntityModelPackageDto[]
-  package: EntityModelPackageDto
+  package?: EntityModelPackageDto
   vignettes: ResponseDtoListVignette
   page?: number
   pageSize: number
@@ -58,14 +61,28 @@ export const usePackagesStore = defineStore(
           }
         )
       },
-      async fetchPackage(name: string) {
-        this.vignettes = JSON.parse(
-          JSON.stringify(vignettes)
+      async fetchPackage(id: number) {
+        fetchPackageServices(id).then(
+          (res) => (this.package = res.data.data),
+          (msg) => {
+            this.package = {}
+            notify({ text: msg, type: 'error' })
+          }
+        )
+      },
+      async activatePackage(id: number, value: boolean) {
+        updateRPackage(id, 'active', value).then(
+          () => {
+            this.fetchPackages()
+          },
+          (msg) => {
+            notify({ text: msg, type: 'error' })
+          }
         )
       },
       async downloadManual() {
         const rPackageApi = RPackageControllerApiFactory()
-        if (this.package.id) {
+        if (this.package?.id) {
           return rPackageApi.downloadReferenceManual(
             this.package.id
           )
@@ -82,8 +99,7 @@ export const usePackagesStore = defineStore(
       },
       async setFiltration(payload: PackagesFiltration) {
         this.filtration = payload
-        this.page = 1
-        this.fetchPackages()
+        await this.setPage(0)
       },
       clearFiltration() {
         this.filtration.state = undefined

@@ -55,7 +55,7 @@
               $t('packages.maintainer').toString()
             )
           : packageBag
-          ? packageBag.userId
+          ? packageBag.user?.login
           : ''
       }}</v-col
     >
@@ -70,7 +70,7 @@
               $t('packages.repository').toString()
             )
           : packageBag
-          ? packageBag.repositoryId
+          ? packageBag.repository?.id
           : ''
       }}</v-col
     >
@@ -90,6 +90,7 @@
         @click.stop
         v-else-if="packageBag"
         v-model="packageBag.active"
+        @change="updatePackageActive"
       />
     </v-col>
     <v-col
@@ -103,7 +104,7 @@
         }}
       </span>
       <span
-        v-else-if="packageBag"
+        v-else-if="packageBag && !packageBag.deleted"
         class="d-flex justify-center align-center"
       >
         <v-tooltip top>
@@ -145,12 +146,14 @@
 <script setup lang="ts">
 import { ref } from '@vue/reactivity'
 import router from '@/router'
-import { EntityModelPackageDtoObjectObject } from '@/openapi'
+import { EntityModelPackageDto } from '@/openapi'
 import { useCommonStore } from '@/store/common'
 import { useI18n } from 'vue-i18n'
 import { OverlayEnum } from '@/enum/Overlay'
+import { usePackagesStore } from '@/store/packages'
 
 const common_store = useCommonStore()
+const package_store = usePackagesStore()
 const { t } = useI18n()
 
 const props = defineProps({
@@ -159,7 +162,7 @@ const props = defineProps({
     default: false
   },
   packageBag: Object as () =>
-    | EntityModelPackageDtoObjectObject
+    | EntityModelPackageDto
     | undefined
 })
 const descMaxLength = ref(110)
@@ -168,12 +171,25 @@ function prepareString(value: string): string {
   return value.charAt(0).toUpperCase() + value.slice(1)
 }
 
+function updatePackageActive() {
+  if (
+    props.packageBag &&
+    props.packageBag.id &&
+    props.packageBag.active != undefined
+  ) {
+    package_store.activatePackage(
+      props.packageBag?.id,
+      props.packageBag?.active
+    )
+  }
+}
+
 function navigate() {
   if (props.packageBag?.name) {
     router.replace({
       name: 'packageDetails',
       params: {
-        name: props.packageBag.name
+        name: props.packageBag.id
       }
     })
   }

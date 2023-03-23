@@ -14,26 +14,17 @@
 <script setup lang="ts">
 import PackagesList from '@/components/packages/PackagesList.vue'
 import Pagination from '@/components/common/Pagination.vue'
-import { computed } from 'vue'
-import { usePackagesStore } from '@/store/packages'
 import PackagesModal from '@/components/packages/PackagesModal.vue'
 import FiltrationButtons from '@/components/common/FiltrationButtons.vue'
+import { computed } from 'vue'
 import { useCommonStore } from '@/store/common'
+import { usePackagesStore } from '@/store/packages'
 
 const package_store = usePackagesStore()
 const common_store = useCommonStore()
 
-const pageSize = computed({
-  get() {
-    return package_store.pageSize
-  },
-  set: (value) => {
-    // if (pageSizeInput.value && pageSizeInput)
-    //   if (
-    //     pageSizeInput.value &&
-    //   )
-    //     emit('newPageSize', value)
-  }
+const pageSize = computed(() => {
+  return package_store.pageSize
 })
 
 const page = computed({
