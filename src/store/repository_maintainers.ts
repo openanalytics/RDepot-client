@@ -52,31 +52,25 @@ export const useRepositoryMaintainersStore = defineStore(
         payload: EntityModelRepositoryMaintainerDto
       ) {
         this.choosenMaintainer = payload
-        // this.saveMaintainer()
       },
       async saveMaintainer() {
         if (
-          this.choosenMaintainer &&
           this.choosenMaintainer.id &&
-          this.choosenMaintainer.repository?.id
+          this.choosenMaintainer.repository &&
+          this.choosenMaintainer.repository.id
         ) {
-          updateRepositoryMaintainer(
-            this.choosenMaintainer.repository?.id,
-            this.choosenMaintainer.id
+          await updateRepositoryMaintainer(
+            this.choosenMaintainer.id,
+            this.choosenMaintainer.repository?.id
+          ).then(
+            () => {
+              this.fetchMaintainers()
+            },
+            (msg) => {
+              notify({ text: msg, type: 'error' })
+            }
           )
         }
-        // this.maintainers = this.maintainers.map(
-        //   (
-        //     maintainer: EntityModelRepositoryMaintainerDto
-        //   ) => {
-        //     if (
-        //       maintainer.id == this.choosenMaintainer.id
-        //     ) {
-        //       return this.choosenMaintainer
-        //     }
-        //     return maintainer
-        //   }
-        // )
       },
       async setFiltration(payload: MaintainersFiltration) {
         this.filtration = payload
