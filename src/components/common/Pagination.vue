@@ -18,7 +18,6 @@
               <v-row class="pageSize">
                 <v-text-field
                   id="page-size-input"
-                  ref="pageSizeInput"
                   style="flex: 1"
                   width="40"
                   v-model="localPageSize"
@@ -26,6 +25,7 @@
                   color="text"
                   aria-valuemin="1"
                   :label="$t('pagination.size')"
+                  @blur="setPageSize()"
                 ></v-text-field>
               </v-row>
             </v-row>
@@ -56,27 +56,15 @@ const localPage = computed({
     return props.page
   },
   set: (value) => {
-    // if (pageSizeInput.value && pageSizeInput)
-    //   if (
-    //     pageSizeInput.value &&
-    //   )
     if (value) emit('newPage', value - 1)
   }
 })
-const localPageSize = computed({
-  get() {
-    return props.pageSize
-  },
-  set: (value) => {
-    // if (pageSizeInput.value && pageSizeInput)
-    //   if (
-    //     pageSizeInput.value &&
-    //   )
-    if (value) emit('newPageSize', value)
-  }
-})
 
-const pageSizeInput = ref<HTMLDivElement>()
+const localPageSize = ref(props.pageSize)
+
+function setPageSize() {
+  emit('newPageSize', localPageSize.value)
+}
 </script>
 
 <style lang="scss" scoped>
