@@ -150,7 +150,6 @@ import {
   EntityModelSubmissionDtoStateEnum
 } from '@/openapi'
 import { useNotification } from '@kyvg/vue3-notification'
-import { useCommonStore } from '@/store/common'
 import { i18n } from '@/plugins/i18n'
 import { useSubmissionStore } from '@/store/submission'
 import { updateSubmission } from '@/services/submission_services'
@@ -169,7 +168,6 @@ const props = defineProps({
 const notifications = useNotification()
 const logged_store = useLoggedUserStore()
 const submission_store = useSubmissionStore()
-const common_store = useCommonStore()
 
 const check =
   logged_store.userId === props.submission?.submitter?.id
@@ -195,7 +193,6 @@ function updateSubmissionFlow(
   disabled: Ref<boolean>,
   textNotification: string
 ) {
-  common_store.setProgressCircularActive(true)
   disabled.value = true
   updateSubmission(state, props.submission?.id || -1)
     .then(
@@ -207,12 +204,11 @@ function updateSubmissionFlow(
         submission_store.fetchSubmissions()
       },
       (msg) => {
-        disabled.value = false
         notifications.notify({ type: 'error', text: msg })
       }
     )
     .finally(() =>
-      common_store.setProgressCircularActive(false)
+      disabled.value = false
     )
 }
 
