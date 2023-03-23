@@ -1,13 +1,12 @@
 import { Repository } from '@/models/repositories/Repository'
 import { EntityModelSubmissionDto, ResponseDtoPagedModelEntityModelSubmissionDto, RSubmissionControllerApiFactory } from '@/openapi'
 import { defineStore } from 'pinia'
-import submissions from '@/tmpLists/rSubmissions.json'
 import { SubmissionsFiltration } from '@/models/Filtration'
 import { notify } from '@kyvg/vue3-notification'
 import { i18n } from '@/plugins/i18n'
-import { fetchRSubmissions } from '@/services/submission_services'
 import { getConfiguration } from '@/services/api_config'
 import { openApiRequest } from '@/services/open_api_access'
+import { useLoggedUserStore } from './logged_user'
 
 interface State {
   repository: Repository | null
@@ -44,11 +43,12 @@ export const useSubmissionStore = defineStore(
         )
       },
       async fetchSubmissions() {
+        const logged_user = useLoggedUserStore()
         const r_submission_api = RSubmissionControllerApiFactory(getConfiguration())
         openApiRequest<ResponseDtoPagedModelEntityModelSubmissionDto>(
             () => r_submission_api.getAllSubmissions(
               this.filtration.state,
-              this.filtration.assignedToMe ? undefined : undefined, // TODO: use the id of the current user
+              this.filtration.assignedToMe ? logged_user.userId : undefined, // TODO: use the id of the current user
               undefined, // TODO: add package id to filter if one is selected
               this.page,
               this.pageSize
