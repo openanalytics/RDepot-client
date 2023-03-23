@@ -17,7 +17,9 @@
           id="filtration-repository"
           v-model="localFiltration.package"
           :items="packageSelect"
+          item-title="name"
           :label="$t('submissions.filtration.package')"
+          return-object
         ></v-select>
 
         <v-switch
@@ -69,25 +71,26 @@
 </template>
 
 <script setup lang="ts">
+import { EntityModelSubmissionDtoStateEnum } from '@/openapi'
+import { fetchPackagesServices } from '@/services'
 import { useCommonStore } from '@/store/common'
+import { usePackagesStore } from '@/store/packages'
 import { useSubmissionStore } from '@/store/submission'
 import { ref, onMounted } from 'vue'
 
 const submissions_store = useSubmissionStore()
+const package_store = usePackagesStore()
 const common_store = useCommonStore()
 
-const stateSelect = ref([
-  'ACCEPTED',
-  'CANCELLED',
-  'REJECTED'
-])
-const packageSelect = ref(['package1', 'package2'])
+const stateSelect = ref(Object.values(EntityModelSubmissionDtoStateEnum))
+const packageSelect = ref(package_store.packages)
 let filtration = submissions_store.filtration
 const localFiltration = ref(filtration)
 
 const emit = defineEmits(['closeModal'])
 
 function updateFiltration() {
+  console.log(submissions_store.filtration)
   localFiltration.value = JSON.parse(
     JSON.stringify(submissions_store.filtration)
   )
@@ -108,13 +111,16 @@ function changeDialogOptions() {
   emit('closeModal')
 }
 
-onMounted(() => {
+onMounted(async () => {
   updateFiltration()
+  fetchPackagesServices(package_store.filtration).then(
+    (res) => packageSelect.value = res.data.data?.content
+  )
 })
 
 function clearFiltration() {
   localFiltration!.value.state = ''
-  localFiltration!.value.package = ''
+  localFiltration!.value.package = undefined
   localFiltration!.value.assignedToMe = false
 }
 </script>

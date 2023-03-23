@@ -27,7 +27,7 @@ export const useSubmissionStore = defineStore(
         packages: [],
         submissions: [],
         filtration: {
-          package: '',
+          package: undefined,
           state: '',
           assignedToMe: false
         },
@@ -49,7 +49,7 @@ export const useSubmissionStore = defineStore(
             () => r_submission_api.getAllSubmissions(
               this.filtration.state,
               this.filtration.assignedToMe ? logged_user.userId : undefined,
-              undefined, // TODO: add package id to filter if one is selected
+              this.filtration.package?.id,
               this.page,
               this.pageSize
             )
@@ -92,7 +92,7 @@ export const useSubmissionStore = defineStore(
       clearFiltration() {
         this.filtration.state = ''
         this.filtration.assignedToMe = false
-        this.filtration.package = ''
+        this.filtration.package = undefined
       },
       async setPage(payload: number) {
         this.page = payload
