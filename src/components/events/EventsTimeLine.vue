@@ -1,6 +1,8 @@
 <template>
   <v-timeline
     :side="smAndDown ? 'end' : undefined"
+    ref="eventsTimeline"
+    id="eventsTimeline"
     truncate-line="both"
     class="timeline"
     align="center"
@@ -33,7 +35,6 @@
       ></EventBox>
     </v-timeline-item>
   </v-timeline>
-  <v-btn @click="loadMoreEvents">LOAD ITEMS</v-btn>
 </template>
 
 <script setup lang="ts">
@@ -41,7 +42,14 @@ import EventBox from './EventBox.vue'
 import EventIcon from './EventIcon.vue'
 import { EntityModelNewsfeedEventDto } from '@/openapi'
 import { useEventsStore } from '@/store/events'
-import { computed, ref, onMounted } from 'vue'
+import {
+  computed,
+  ref,
+  onMounted,
+  nextTick,
+  onBeforeUnmount,
+  onActivated
+} from 'vue'
 import { useDisplay } from 'vuetify/lib/framework.mjs'
 import { useTheme } from 'vuetify'
 import { useDates } from '@/composable/date'
@@ -162,12 +170,36 @@ function groupByDate(
   return groupedMap
 }
 
+const eventsTimeline = ref<HTMLDivElement>()
+
 function loadMoreEvents() {
-  events_store.fetchNextPageEvents()
+  let element: HTMLElement | null = document.getElementById(
+    'eventsTimeline'
+  )
+  console.log(element)
+
+  if (
+    element != null &&
+    element.getBoundingClientRect().bottom <
+      window.innerHeight
+  ) {
+    events_store.fetchNextPageEvents()
+  }
 }
 
 onMounted(() => {
   events_store.fetchEvents()
+  nextTick(() => {
+    window.addEventListener('scroll', () => {
+      loadMoreEvents()
+    })
+  })
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('scroll', () => {
+    loadMoreEvents()
+  })
 })
 </script>
 
