@@ -31,7 +31,8 @@
     "notAvaiable": "Not avaiable",
     "save": "save",
     "edit": "edit",
-    "projectTitle": "RDepot"
+    "projectTitle": "RDepot",
+    "noListingResults": "No results where found"
   },
   "filtration": {
     "title": "filtration",

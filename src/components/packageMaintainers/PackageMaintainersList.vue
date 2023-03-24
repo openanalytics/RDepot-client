@@ -7,6 +7,9 @@
       <v-expansion-panel class="py-3">
         <PackageMaintainerRow title />
       </v-expansion-panel>
+      <EmptyListing
+        v-show="!package_maintainers.length"
+      ></EmptyListing>
       <v-expansion-panel
         v-for="(item, index) in package_maintainers"
         :key="index"
@@ -27,6 +30,7 @@
 import { usePackageMaintainersStore } from '@/store/package_maintainers'
 import { computed, onMounted } from 'vue'
 import PackageMaintainerRow from './PackageMaintainerRow.vue'
+import EmptyListing from '../common/EmptyListing.vue'
 
 const package_mainatainers_store =
   usePackageMaintainersStore()
