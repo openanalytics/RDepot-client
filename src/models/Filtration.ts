@@ -1,3 +1,5 @@
+import { Package } from "./packages/Package"
+
 interface PackagesFiltration {
   state: string | undefined
   deleted: boolean | undefined
@@ -13,7 +15,7 @@ interface RepositoriesFiltration {
 interface SubmissionsFiltration {
   assignedToMe: boolean
   state: string
-  package: string
+  package: Package | undefined
 }
 
 interface EventsFiltration {

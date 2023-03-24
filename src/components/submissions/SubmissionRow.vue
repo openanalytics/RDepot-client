@@ -41,7 +41,7 @@
               $t('submissions.repository').toString()
             )
           : submission
-          ? submission.packageBag?.repositoryId
+          ? submission.packageBag?.repository?.id
           : ''
       }}</v-col
     >
@@ -111,7 +111,7 @@
         }}
       </span>
       <span
-        v-else-if="!getAccepted && submission"
+        v-else-if="getWaiting && submission"
         class="d-flex justify-center align-center"
       >
         <v-btn
@@ -119,15 +119,24 @@
           color="success"
           class="mx-1"
           @click="acceptSubmission"
-          :disabled="acceptDisabled"
+          :disabled="disabled"
           >ACCEPT</v-btn
         >
         <v-btn
+          v-if="check"
           id="cancel-button"
           color="oared"
           @click="cancelSubmission"
-          :disabled="cancelDisabled"
+          :disabled="disabled"
           >CANCEL</v-btn
+        >
+        <v-btn
+          v-else
+          id="reject-button"
+          color="oared"
+          @click="rejectSubmission"
+          :disabled="disabled"
+          >REJECT</v-btn
         >
       </span>
     </v-col>
@@ -136,10 +145,13 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { EntityModelSubmissionDto } from '@/openapi'
-import { useNotification } from '@kyvg/vue3-notification'
-import { useCommonStore } from '@/store/common'
+import {
+  EntityModelSubmissionDto,
+  EntityModelSubmissionDtoStateEnum
+} from '@/openapi'
 import { i18n } from '@/plugins/i18n'
+import { useSubmissionStore } from '@/store/submission'
+import { useLoggedUserStore } from '@/store/logged_user'
 
 const props = defineProps({
   title: {
@@ -151,44 +163,54 @@ const props = defineProps({
     | undefined
 })
 
-const notifications = useNotification()
-const common_store = useCommonStore()
+const logged_store = useLoggedUserStore()
+const submission_store = useSubmissionStore()
+
+const check =
+  logged_store.userId === props.submission?.submitter?.id
 
 const getAccepted = computed<boolean>(() => {
   return props.submission?.state == 'ACCEPTED'
 })
 
-const acceptDisabled = ref<boolean>(false)
-const cancelDisabled = ref<boolean>(false)
+const getWaiting = computed<boolean>(() => {
+  return props.submission?.state == 'WAITING'
+})
+
+const disabled = ref<boolean>(false)
 
 function prepareString(value: string): string {
   return value.charAt(0).toUpperCase() + value.slice(1)
 }
 
-function acceptSubmission() {
-  common_store.setProgressCircularActive(true)
-  acceptDisabled.value = true
-  setTimeout(function () {
-    acceptDisabled.value = false
-    common_store.setProgressCircularActive(false)
-    notifications.notify({
-      type: 'success',
-      text: i18n.t('notifications.acceptSubmission')
-    })
-  }, 1000)
+async function acceptSubmission() {
+  disabled.value = true
+  await submission_store.updateSubmission(
+    props.submission?.id || -1,
+    EntityModelSubmissionDtoStateEnum.ACCEPTED,
+    i18n.t('notifications.acceptSubmission')
+  )
+  disabled.value = false
 }
 
-function cancelSubmission() {
-  common_store.setProgressCircularActive(true)
-  cancelDisabled.value = true
-  setTimeout(function () {
-    notifications.notify({
-      type: 'success',
-      text: i18n.t('notifications.successCancelSubmission')
-    })
-    common_store.setProgressCircularActive(false)
-    cancelDisabled.value = false
-  }, 1000)
+async function cancelSubmission() {
+  disabled.value = true
+  await submission_store.updateSubmission(
+    props.submission?.id || -1,
+    EntityModelSubmissionDtoStateEnum.CANCELLED,
+    i18n.t('notifications.successCancelSubmission')
+  )
+  disabled.value = false
+}
+
+async function rejectSubmission() {
+  disabled.value = true
+  await submission_store.updateSubmission(
+    props.submission?.id || -1,
+    EntityModelSubmissionDtoStateEnum.REJECTED,
+    i18n.t('notifications.successRejectSubmission')
+  )
+  disabled.value = false
 }
 </script>
 
