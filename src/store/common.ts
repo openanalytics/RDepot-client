@@ -4,6 +4,7 @@ interface State {
   drawer: boolean
   progressCircularActive: boolean
   progress: boolean
+  totalVisiblePages: number
   overlayText: string
   overlayModel: boolean
   overlayOpacity: number
@@ -17,6 +18,7 @@ export const useCommonStore = defineStore('common_store', {
       drawer: true,
       progressCircularActive: false,
       progress: false,
+      totalVisiblePages: 10,
       overlayText: '',
       overlayOpacity: 0.8,
       overlayModel: false,

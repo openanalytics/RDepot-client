@@ -13,6 +13,9 @@
               <v-pagination
                 v-model="localPage"
                 class="my-4"
+                :total-visible="
+                  common_store.totalVisiblePages
+                "
                 :length="howManyPages"
               ></v-pagination>
               <v-row class="pageSize">
@@ -37,7 +40,10 @@
 </template>
 
 <script setup lang="ts">
+import { useCommonStore } from '@/store/common'
 import { computed, ref } from 'vue'
+
+const common_store = useCommonStore()
 
 const props = defineProps({
   howManyPages: {
