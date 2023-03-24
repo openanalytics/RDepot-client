@@ -1,5 +1,5 @@
 <template>
-  <Overlay v-on:action="clearFiltration()">
+  <Overlay v-on:action="performAction()">
     <template v-slot:props="{ closeModal }">
       <Filtration
         v-if="getFiltration"
@@ -34,8 +34,15 @@ const props = defineProps({
   }
 })
 
-async function clearFiltration() {
-  await maintainers_store.clearFiltrationAndFetch()
+const emit = defineEmits(['delete'])
+
+async function performAction() {
+  if (getFiltration.value) {
+    await maintainers_store.clearFiltrationAndFetch()
+  } else if (getDelete.value) {
+    console.log('performAction')
+    await maintainers_store.deleteMaintainer()
+  }
 }
 
 const getFiltration = computed(() => {
@@ -46,5 +53,9 @@ const getFiltration = computed(() => {
 
 const getEdit = computed(() => {
   return common_store.overlayComponent == OverlayEnum.Edit
+})
+
+const getDelete = computed(() => {
+  return common_store.overlayComponent == OverlayEnum.Delete
 })
 </script>

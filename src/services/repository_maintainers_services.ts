@@ -36,3 +36,16 @@ export function updateRepositoryMaintainer(
     [patch, maintainer_id]
   )
 }
+
+export function deletedRepositoryMaintainer(
+  maintainer_id: number
+) {
+  const repository_maintainers_api =
+    ApiV2RepositoryMaintainerControllerApiFactory(
+      getConfiguration()
+    )
+  return openApiRequest<AxiosResponse<any>>(
+    repository_maintainers_api.deleteRepositoryMaintainer,
+    [maintainer_id]
+  )
+}

@@ -6,6 +6,7 @@ import { defineStore } from 'pinia'
 import repositories from '@/tmpLists/repositories.json'
 import { MaintainersFiltration } from '@/models/Filtration'
 import {
+  deletedRepositoryMaintainer,
   fetchRepositoryMaintainersServices,
   updateRepositoryMaintainer
 } from '@/services/repository_maintainers_services'
@@ -64,6 +65,24 @@ export const useRepositoryMaintainersStore = defineStore(
             this.choosenMaintainer.repository?.id
           ).then(
             () => {
+              this.fetchMaintainers()
+            },
+            (msg) => {
+              notify({ text: msg, type: 'error' })
+            }
+          )
+        }
+      },
+      async deleteMaintainer() {
+        if (this.choosenMaintainer.id) {
+          await deletedRepositoryMaintainer(
+            this.choosenMaintainer.id
+          ).then(
+            () => {
+              notify({
+                text: 'Repository maintainer deleted',
+                type: 'success'
+              })
               this.fetchMaintainers()
             },
             (msg) => {

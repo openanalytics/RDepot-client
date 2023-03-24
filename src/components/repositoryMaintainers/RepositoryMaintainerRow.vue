@@ -116,6 +116,9 @@ function edit() {
 }
 
 function deleteDialog() {
+  maintainers_store.setChoosenMaintainer(
+    props.repositoryMaintainer || {}
+  )
   common_store.setOverlayText(
     i18n.t('maintainers.deleteQuestion', {
       maintainerName: props.repositoryMaintainer?.user?.id
@@ -123,9 +126,7 @@ function deleteDialog() {
   )
   common_store.setOverlayModel(true)
   common_store.setOverlayOpacity(0.8)
-  common_store.setOverlayComponent(
-    OverlayEnum.DeleteMaintainer
-  )
+  common_store.setOverlayComponent(OverlayEnum.Delete)
 }
 </script>
 
