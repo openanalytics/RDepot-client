@@ -33,6 +33,7 @@
       ></EventBox>
     </v-timeline-item>
   </v-timeline>
+  <v-btn @click="loadMoreEvents">LOAD ITEMS</v-btn>
 </template>
 
 <script setup lang="ts">
@@ -40,7 +41,7 @@ import EventBox from './EventBox.vue'
 import EventIcon from './EventIcon.vue'
 import { EntityModelNewsfeedEventDto } from '@/openapi'
 import { useEventsStore } from '@/store/events'
-import { computed, ref } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import { useDisplay } from 'vuetify/lib/framework.mjs'
 import { useTheme } from 'vuetify'
 import { useDates } from '@/composable/date'
@@ -107,40 +108,44 @@ function hideMonth(date: string) {
 }
 
 const grouped_events = computed(function () {
-  const local_events: any[] = []
-  const events_grouped_by_date = groupByDate(
-    events_store.events
-  )
+  if (events_store.events) {
+    const local_events: any[] = []
+    const events_grouped_by_date = groupByDate(
+      events_store.events
+    )
 
-  var firstDate = events_grouped_by_date.keys().next().value
-  var dateTime = new Date(firstDate)
-  var monthYear = getMonthAndYear(dateTime)
-  local_events.push(false)
-  local_events.push(monthYear)
-  local_events.push(null)
+    var firstDate = events_grouped_by_date
+      .keys()
+      .next().value
+    var dateTime = new Date(firstDate)
+    var monthYear = getMonthAndYear(dateTime)
+    local_events.push(false)
+    local_events.push(monthYear)
+    local_events.push(null)
 
-  events_grouped_by_date.forEach((events, date) => {
-    if (monthYear != getMonthAndYear(new Date(date))) {
-      monthYear = getMonthAndYear(new Date(date))
-      local_events.push(false)
-      local_events.push(monthYear)
-      local_events.push(false)
-    }
-
-    if (hiddenMonths.value.indexOf(monthYear) == -1) {
-      local_events.push(false)
-      local_events.push(date)
-      local_events.push(false)
-      if (hiddenDays.value.indexOf(date) == -1) {
-        events.forEach(
-          (event: EntityModelNewsfeedEventDto) => {
-            local_events.push(event)
-          }
-        )
+    events_grouped_by_date.forEach((events, date) => {
+      if (monthYear != getMonthAndYear(new Date(date))) {
+        monthYear = getMonthAndYear(new Date(date))
+        local_events.push(false)
+        local_events.push(monthYear)
+        local_events.push(false)
       }
-    }
-  })
-  return local_events
+
+      if (hiddenMonths.value.indexOf(monthYear) == -1) {
+        local_events.push(false)
+        local_events.push(date)
+        local_events.push(false)
+        if (hiddenDays.value.indexOf(date) == -1) {
+          events.forEach(
+            (event: EntityModelNewsfeedEventDto) => {
+              local_events.push(event)
+            }
+          )
+        }
+      }
+    })
+    return local_events
+  }
 })
 
 function groupByDate(
@@ -156,6 +161,14 @@ function groupByDate(
   )
   return groupedMap
 }
+
+function loadMoreEvents() {
+  events_store.fetchNextPageEvents()
+}
+
+onMounted(() => {
+  events_store.fetchEvents()
+})
 </script>
 
 <style lang="scss">
