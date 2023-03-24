@@ -119,7 +119,7 @@
           color="success"
           class="mx-1"
           @click="acceptSubmission"
-          :disabled="acceptDisabled"
+          :disabled="disabled"
           >ACCEPT</v-btn
         >
         <v-btn
@@ -127,7 +127,7 @@
           id="cancel-button"
           color="oared"
           @click="cancelSubmission"
-          :disabled="cancelDisabled"
+          :disabled="disabled"
           >CANCEL</v-btn
         >
         <v-btn
@@ -135,7 +135,7 @@
           id="reject-button"
           color="oared"
           @click="rejectSubmission"
-          :disabled="rejectDisabled"
+          :disabled="disabled"
           >REJECT</v-btn
         >
       </span>
@@ -177,42 +177,40 @@ const getWaiting = computed<boolean>(() => {
   return props.submission?.state == 'WAITING'
 })
 
-const acceptDisabled = ref<boolean>(false)
-const cancelDisabled = ref<boolean>(false)
-const rejectDisabled = ref<boolean>(false)
+const disabled = ref<boolean>(false)
 
 function prepareString(value: string): string {
   return value.charAt(0).toUpperCase() + value.slice(1)
 }
 
 async function acceptSubmission() {
-  acceptDisabled.value = true
+  disabled.value = true
   await submission_store.updateSubmission(
     props.submission?.id || -1,
     EntityModelSubmissionDtoStateEnum.ACCEPTED,
     i18n.t('notifications.acceptSubmission')
   )
-  acceptDisabled.value = false
+  disabled.value = false
 }
 
 async function cancelSubmission() {
-  cancelDisabled.value = true
+  disabled.value = true
   await submission_store.updateSubmission(
     props.submission?.id || -1,
     EntityModelSubmissionDtoStateEnum.CANCELLED,
     i18n.t('notifications.successCancelSubmission')
   )
-  cancelDisabled.value = false
+  disabled.value = false
 }
 
 async function rejectSubmission() {
-  rejectDisabled.value = true
+  disabled.value = true
   await submission_store.updateSubmission(
     props.submission?.id || -1,
     EntityModelSubmissionDtoStateEnum.REJECTED,
     i18n.t('notifications.successRejectSubmission')
   )
-  rejectDisabled.value = false
+  disabled.value = false
 }
 </script>
 
