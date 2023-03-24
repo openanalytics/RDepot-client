@@ -1,5 +1,9 @@
 import { Repository } from '@/models/repositories/Repository'
-import { EntityModelSubmissionDto, ResponseDtoPagedModelEntityModelSubmissionDto, RSubmissionControllerApiFactory } from '@/openapi'
+import {
+  EntityModelSubmissionDto,
+  ResponseDtoPagedModelEntityModelSubmissionDto,
+  RSubmissionControllerApiFactory
+} from '@/openapi'
 import { defineStore } from 'pinia'
 import { SubmissionsFiltration } from '@/models/Filtration'
 import { notify } from '@kyvg/vue3-notification'
@@ -7,6 +11,7 @@ import { i18n } from '@/plugins/i18n'
 import { getConfiguration } from '@/services/api_config'
 import { openApiRequest } from '@/services/open_api_access'
 import { useLoggedUserStore } from './logged_user'
+import { updateSubmission } from '@/services/submission_services'
 
 interface State {
   repository: Repository | null
@@ -33,7 +38,7 @@ export const useSubmissionStore = defineStore(
         },
         page: 0,
         pageSize: 10,
-        totalNumber: 0,
+        totalNumber: 0
       }
     },
     actions: {
@@ -44,27 +49,55 @@ export const useSubmissionStore = defineStore(
       },
       async fetchSubmissions() {
         const logged_user = useLoggedUserStore()
-        const r_submission_api = RSubmissionControllerApiFactory(getConfiguration())
+        const r_submission_api =
+          RSubmissionControllerApiFactory(
+            getConfiguration()
+          )
         openApiRequest<ResponseDtoPagedModelEntityModelSubmissionDto>(
-            () => r_submission_api.getAllSubmissions(
+          () =>
+            r_submission_api.getAllSubmissions(
               this.filtration.state,
-              this.filtration.assignedToMe ? logged_user.userId : undefined,
+              this.filtration.assignedToMe
+                ? logged_user.userId
+                : undefined,
               this.filtration.package?.id,
               this.page,
               this.pageSize
             )
-          ).then(
-            (res) => {
-              this.totalNumber = res.data.data?.page?.totalElements
-              this.page = res.data.data?.page?.number
-              this.submissions = res.data.data?.content || []
-            },
-            (msg) => {
-              this.submissions = []
-              this.page = 0
-              notify({ text: msg, type: 'error' })
-            }
-          )
+        ).then(
+          (res) => {
+            this.totalNumber =
+              res.data.data?.page?.totalElements
+            this.page = res.data.data?.page?.number
+            this.submissions = res.data.data?.content || []
+          },
+          (msg) => {
+            this.submissions = []
+            this.page = 0
+            notify({ text: msg, type: 'error' })
+          }
+        )
+      },
+      async updateSubmission(
+        submission_id: number,
+        state: string,
+        textNotification: string
+      ) {
+        updateSubmission(state, submission_id).then(
+          () => {
+            notify({
+              type: 'success',
+              text: textNotification
+            })
+            this.fetchSubmissions()
+          },
+          (msg) => {
+            notify({
+              type: 'error',
+              text: msg
+            })
+          }
+        )
       },
       setRepository(payload: Repository) {
         this.repository = payload

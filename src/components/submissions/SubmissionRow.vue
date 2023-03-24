@@ -144,15 +144,13 @@
 </template>
 
 <script setup lang="ts">
-import { computed, Ref, ref } from 'vue'
+import { computed, ref } from 'vue'
 import {
   EntityModelSubmissionDto,
   EntityModelSubmissionDtoStateEnum
 } from '@/openapi'
-import { useNotification } from '@kyvg/vue3-notification'
 import { i18n } from '@/plugins/i18n'
 import { useSubmissionStore } from '@/store/submission'
-import { updateSubmission } from '@/services/submission_services'
 import { useLoggedUserStore } from '@/store/logged_user'
 
 const props = defineProps({
@@ -165,7 +163,6 @@ const props = defineProps({
     | undefined
 })
 
-const notifications = useNotification()
 const logged_store = useLoggedUserStore()
 const submission_store = useSubmissionStore()
 
@@ -188,52 +185,34 @@ function prepareString(value: string): string {
   return value.charAt(0).toUpperCase() + value.slice(1)
 }
 
-function updateSubmissionFlow(
-  state: string,
-  disabled: Ref<boolean>,
-  textNotification: string
-) {
-  disabled.value = true
-  updateSubmission(state, props.submission?.id || -1)
-    .then(
-      () => {
-        notifications.notify({
-          type: 'success',
-          text: textNotification
-        })
-        submission_store.fetchSubmissions()
-      },
-      (msg) => {
-        notifications.notify({ type: 'error', text: msg })
-      }
-    )
-    .finally(() =>
-      disabled.value = false
-    )
-}
-
-function acceptSubmission() {
-  updateSubmissionFlow(
+async function acceptSubmission() {
+  acceptDisabled.value = true
+  await submission_store.updateSubmission(
+    props.submission?.id || -1,
     EntityModelSubmissionDtoStateEnum.ACCEPTED,
-    acceptDisabled,
     i18n.t('notifications.acceptSubmission')
   )
+  acceptDisabled.value = false
 }
 
-function cancelSubmission() {
-  updateSubmissionFlow(
+async function cancelSubmission() {
+  cancelDisabled.value = true
+  await submission_store.updateSubmission(
+    props.submission?.id || -1,
     EntityModelSubmissionDtoStateEnum.CANCELLED,
-    cancelDisabled,
     i18n.t('notifications.successCancelSubmission')
   )
+  cancelDisabled.value = false
 }
 
-function rejectSubmission() {
-  updateSubmissionFlow(
+async function rejectSubmission() {
+  rejectDisabled.value = true
+  await submission_store.updateSubmission(
+    props.submission?.id || -1,
     EntityModelSubmissionDtoStateEnum.REJECTED,
-    rejectDisabled,
     i18n.t('notifications.successRejectSubmission')
   )
+  rejectDisabled.value = false
 }
 </script>
 
