@@ -1,5 +1,5 @@
 <template>
-  <Overlay v-on:action="clearFiltration()">
+  <Overlay v-on:action="overlayEvent()">
     <template v-slot:props="{ closeModal }">
       <Filtration
         v-if="getFiltration"
@@ -25,8 +25,14 @@ import PackageMaintainerEdit from './PackageMaintainerEdit.vue'
 const maintainers_store = usePackageMaintainersStore()
 const common_store = useCommonStore()
 
-async function clearFiltration() {
-  await maintainers_store.clearFiltrationAndFetch()
+async function overlayEvent() {
+  if (common_store.overlayComponent == OverlayEnum.Reset) {
+    await maintainers_store.clearFiltrationAndFetch()
+  } else if (
+    common_store.overlayComponent == OverlayEnum.Delete
+  ) {
+    maintainers_store.deleteChoosenMaintainer()
+  }
 }
 
 const getFiltration = computed(() => {

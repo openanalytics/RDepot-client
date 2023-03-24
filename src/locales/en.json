@@ -133,7 +133,9 @@
     "successFiltrationReset": "successful filtration reset",
     "successCancelSubmission": "cancel submission",
     "acceptSubmission": "accept submission",
-    "successRejectSubmission": "reject submission"
+    "successRejectSubmission": "reject submission",
+    "successDeletePackageManager": "successful deleted {maintainer_name}",
+    "successUpdatePackageManager": "successful updated {maintainer_name}"
   },
   "maintainers": {
     "edit": "edit maintainer",

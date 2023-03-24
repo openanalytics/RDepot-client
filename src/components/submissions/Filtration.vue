@@ -92,7 +92,6 @@ const localFiltration = ref(filtration)
 const emit = defineEmits(['closeModal'])
 
 function updateFiltration() {
-  console.log(submissions_store.filtration)
   localFiltration.value = JSON.parse(
     JSON.stringify(submissions_store.filtration)
   )

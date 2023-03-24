@@ -128,6 +128,9 @@ function edit() {
 }
 
 function deleteDialog() {
+  maintainers_store.setChoosenMaintainer(
+    props.packageMaintainer || {}
+  )
   common_store.setOverlayText(
     i18n.t('maintainers.deleteQuestion', {
       maintainerName: props.packageMaintainer?.user?.id

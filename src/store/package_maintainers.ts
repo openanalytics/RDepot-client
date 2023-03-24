@@ -1,7 +1,8 @@
 import {
   EntityModelPackageMaintainerDto,
   EntityModelPythonRepositoryDto,
-  EntityModelRPackageDto
+  EntityModelRPackageDto,
+  PackageMaintainerDto
 } from '@/openapi'
 import { defineStore } from 'pinia'
 import { MaintainersFiltration } from '@/models/Filtration'
@@ -10,7 +11,12 @@ import {
   fetchPackagesServices,
   fetchRepositoriesServices
 } from '@/services'
-import { fetchPackageMaintainersService } from '@/services/package_maintainers_service'
+import {
+  deletePackageMaintainerService,
+  fetchPackageMaintainersService,
+  patchPackageMaintainerService
+} from '@/services/package_maintainers_service'
+import { i18n } from '@/plugins/i18n'
 
 interface State {
   maintainers: EntityModelPackageMaintainerDto[]
@@ -105,6 +111,45 @@ export const usePackageMaintainersStore = defineStore(
       async clearFiltrationAndFetch() {
         this.clearFiltration()
         this.fetchMaintainers()
+      },
+      async deleteChoosenMaintainer() {
+        deletePackageMaintainerService(
+          this.choosenMaintainer.id || -1
+        ).then(
+          () => {
+            this.fetchMaintainers()
+            notify({
+              type: 'success',
+              text: i18n.t(
+                'notifications.successDeletePackageManager',
+                this.choosenMaintainer.user?.name || ''
+              )
+            })
+          },
+          (msg) => {
+            notify({ type: 'error', text: msg })
+          }
+        )
+      },
+      async editMaintainer(
+        maintainer: PackageMaintainerDto
+      ) {
+        patchPackageMaintainerService(
+          maintainer,
+          this.choosenMaintainer
+        ).then(
+          () => {
+            notify({
+              type: 'success',
+              text: i18n.t(
+                'notifications.successUpdatePackageManager',
+                this.choosenMaintainer.user?.name || ''
+              )
+            })
+            this.fetchMaintainers()
+          },
+          (msg) => notify({ type: 'error', text: msg })
+        )
       }
     }
   }
