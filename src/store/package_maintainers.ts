@@ -4,10 +4,13 @@ import {
   EntityModelRPackageDto
 } from '@/openapi'
 import { defineStore } from 'pinia'
-import package_maintainers from '@/tmpLists/packageMaintainers.json'
-import repositories from '@/tmpLists/repositories.json'
-import packages from '@/tmpLists/packages.json'
 import { MaintainersFiltration } from '@/models/Filtration'
+import { notify } from '@kyvg/vue3-notification'
+import {
+  fetchPackagesServices,
+  fetchRepositoriesServices
+} from '@/services'
+import { fetchPackageMaintainersService } from '@/services/package_maintainers_service'
 
 interface State {
   maintainers: EntityModelPackageMaintainerDto[]
@@ -15,6 +18,9 @@ interface State {
   repositories: EntityModelPythonRepositoryDto[]
   packages: EntityModelRPackageDto[]
   choosenMaintainer: EntityModelPackageMaintainerDto
+  page: number
+  pageSize: number
+  howManyPages: number
 }
 
 export const usePackageMaintainersStore = defineStore(
@@ -29,26 +35,47 @@ export const usePackageMaintainersStore = defineStore(
         },
         repositories: [],
         packages: [],
-        choosenMaintainer: {}
+        choosenMaintainer: {},
+        page: 0,
+        pageSize: 10,
+        howManyPages: 0
       }
     },
     actions: {
       async fetchMaintainers() {
-        this.maintainers = JSON.parse(
-          JSON.stringify(package_maintainers.data)
+        fetchPackageMaintainersService(
+          this.filtration,
+          this.page,
+          this.pageSize
+        ).then(
+          (res) => {
+            this.maintainers = res.data.data?.content || []
+          },
+          (msg) => {
+            notify({ type: 'error', text: msg })
+          }
         )
       },
-      async fetchReposiotires() {
-        this.repositories = JSON.parse(
-          JSON.stringify(repositories.data)
+      async fetchRepositories() {
+        fetchRepositoriesServices().then(
+          (res) => {
+            this.repositories = res.data.data?.content || []
+          },
+          (msg) => {
+            notify({ type: 'error', text: msg })
+          }
         )
       },
       async fetchPackages() {
-        this.packages = JSON.parse(
-          JSON.stringify(packages.page1)
-        ).concat(JSON.parse(JSON.stringify(packages.page2)))
+        fetchPackagesServices().then(
+          (res) => {
+            this.packages = res.data.data?.content || []
+          },
+          (msg) => {
+            notify({ type: 'error', text: msg })
+          }
+        )
       },
-
       async setChoosenMaintainer(
         payload: EntityModelPackageMaintainerDto
       ) {

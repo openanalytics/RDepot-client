@@ -37,7 +37,7 @@ const package_maintainers = computed(function () {
 
 function updateState(): void {
   package_mainatainers_store.fetchMaintainers()
-  package_mainatainers_store.fetchReposiotires()
+  package_mainatainers_store.fetchRepositories()
   package_mainatainers_store.fetchPackages()
 }
 
