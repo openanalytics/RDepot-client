@@ -3,6 +3,9 @@
   <FiltrationButtons />
   <submission-list />
   <Pagination
+    :howManyPages="howManyPages"
+    :pageSize="pageSize"
+    :page="page"
     v-on:newPage="nextPage($event)"
     v-on:newPageSize="newPageSize($event)"
   />
@@ -20,8 +23,39 @@ import { useCommonStore } from '@/store/common'
 const submission_store = useSubmissionStore()
 const common_store = useCommonStore()
 
-const page = computed(function () {
-  return submission_store.page
+const pageSize = computed({
+  get() {
+    return submission_store.pageSize
+  },
+  set: (value) => {
+    // if (pageSizeInput.value && pageSizeInput)
+    //   if (
+    //     pageSizeInput.value &&
+    //   )
+    //     emit('newPageSize', value)
+  }
+})
+
+const page = computed({
+  get: () => {
+    if (submission_store.page)
+      return submission_store.page + 1
+  },
+  set: (value) => {
+    if (value) nextPage(value - 1)
+  }
+})
+
+const howManyPages = computed(function () {
+  if (
+    submission_store.totalNumber &&
+    submission_store.pageSize
+  ) {
+    return Math.ceil(
+      submission_store.totalNumber /
+        submission_store.pageSize
+    )
+  }
 })
 
 function nextPage(value: number) {
