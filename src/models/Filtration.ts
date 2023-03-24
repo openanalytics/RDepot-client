@@ -17,11 +17,11 @@ interface SubmissionsFiltration {
 }
 
 interface EventsFiltration {
-  technology: string
+  technology: string | undefined
   userId: number | undefined
   resourceId: number | undefined
-  eventType: string
-  resourceType: string
+  eventType: string | undefined
+  resourceType: string | undefined
 }
 
 interface MaintainersFiltration {
