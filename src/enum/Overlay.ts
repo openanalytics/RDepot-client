@@ -1,6 +1,5 @@
 enum OverlayEnum {
-  DeletePackage,
-  DeleteMaintainer,
+  Delete,
   Edit,
   Reset,
   Filtration
