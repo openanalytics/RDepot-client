@@ -82,7 +82,9 @@ const submissions_store = useSubmissionStore()
 const package_store = usePackagesStore()
 const common_store = useCommonStore()
 
-const stateSelect = ref(Object.values(EntityModelSubmissionDtoStateEnum))
+const stateSelect = ref(
+  Object.values(EntityModelSubmissionDtoStateEnum)
+)
 const packageSelect = ref(package_store.packages)
 let filtration = submissions_store.filtration
 const localFiltration = ref(filtration)
@@ -90,7 +92,6 @@ const localFiltration = ref(filtration)
 const emit = defineEmits(['closeModal'])
 
 function updateFiltration() {
-  console.log(submissions_store.filtration)
   localFiltration.value = JSON.parse(
     JSON.stringify(submissions_store.filtration)
   )
@@ -114,7 +115,7 @@ function changeDialogOptions() {
 onMounted(async () => {
   updateFiltration()
   fetchPackagesServices(package_store.filtration).then(
-    (res) => packageSelect.value = res.data.data?.content
+    (res) => (packageSelect.value = res.data.data?.content)
   )
 })
 
