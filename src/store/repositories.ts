@@ -8,6 +8,7 @@ import packages from '@/tmpLists/packages.json'
 import { RepositoriesFiltration } from '@/models/Filtration'
 import { fetchRepositoriesServices } from '@/services'
 import { notify } from '@kyvg/vue3-notification'
+import { usePaginationStore } from './pagination'
 
 interface State {
   repositories?: EntityModelRepositoryDto[]
@@ -15,9 +16,6 @@ interface State {
   chosenRepository: number
   chosenRepositoryName: string
   repositoryPackages?: EntityModelPackageDto[]
-  page?: number
-  pageSize: number
-  totalNumber?: number
 }
 
 const packages_api = ApiV2PackageControllerApiFactory()
@@ -35,23 +33,24 @@ export const useRepositoryStore = defineStore(
         },
         chosenRepository: -1,
         chosenRepositoryName: '',
-        repositoryPackages: [],
-        page: 0,
-        pageSize: 10,
-        totalNumber: 0
+        repositoryPackages: []
       }
     },
     actions: {
       async fetchRepositories() {
+        const pagination = usePaginationStore()
         await fetchRepositoriesServices(
           this.filtration,
-          this.page,
-          this.pageSize
+          pagination.page,
+          pagination.pageSize
         ).then(
           (res) => {
-            this.totalNumber =
-              res.data.data?.page?.totalElements
-            this.page = res.data.data?.page?.number
+            pagination.setTotalNumber(
+              res.data.data?.page?.totalElements || 0
+            )
+            pagination.setPage(
+              res.data.data?.page?.number || 0
+            )
             this.repositories = res.data.data?.content
           },
           (msg) => {
@@ -73,16 +72,9 @@ export const useRepositoryStore = defineStore(
           JSON.stringify(packages.page2)
         )
       },
-      async setPage(payload: number) {
-        this.page = payload
-        this.fetchRepositories()
-      },
-      async setPageSize(payload: number) {
-        if (payload > 0) {
-          this.pageSize = payload
-        }
-      },
       async setFiltration(payload: RepositoriesFiltration) {
+        const pagination = usePaginationStore()
+        pagination.setPage(0)
         this.filtration = payload
         this.fetchRepositories()
       },

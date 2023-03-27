@@ -11,12 +11,13 @@ import {
   updateRepositoryMaintainer
 } from '@/services/repository_maintainers_services'
 import { notify } from '@kyvg/vue3-notification'
+import { usePaginationStore } from './pagination'
 
 interface State {
   maintainers?: EntityModelRepositoryMaintainerDto[]
   filtration: MaintainersFiltration
   repositories: EntityModelRepositoryMaintainerDto[]
-  choosenMaintainer: EntityModelPackageMaintainerDto
+  chosenMaintainer: EntityModelPackageMaintainerDto
 }
 
 export const useRepositoryMaintainersStore = defineStore(
@@ -30,13 +31,24 @@ export const useRepositoryMaintainersStore = defineStore(
           technology: ''
         },
         repositories: [],
-        choosenMaintainer: {}
+        chosenMaintainer: {}
       }
     },
     actions: {
       async fetchMaintainers() {
-        await fetchRepositoryMaintainersServices().then(
+        const pagination = usePaginationStore()
+        await fetchRepositoryMaintainersServices(
+          this.filtration,
+          pagination.page,
+          pagination.pageSize
+        ).then(
           (res) => {
+            pagination.setPage(
+              res.data.data?.page?.number || 0
+            )
+            pagination.setTotalNumber(
+              res.data.data?.page?.totalElements || 0
+            )
             this.maintainers = res.data.data?.content
           },
           (msg) => {
@@ -49,20 +61,20 @@ export const useRepositoryMaintainersStore = defineStore(
           JSON.stringify(repositories.data)
         )
       },
-      async setChoosenMaintainer(
+      async setChosenMaintainer(
         payload: EntityModelRepositoryMaintainerDto
       ) {
-        this.choosenMaintainer = payload
+        this.chosenMaintainer = payload
       },
       async saveMaintainer() {
         if (
-          this.choosenMaintainer.id &&
-          this.choosenMaintainer.repository &&
-          this.choosenMaintainer.repository.id
+          this.chosenMaintainer.id &&
+          this.chosenMaintainer.repository &&
+          this.chosenMaintainer.repository.id
         ) {
           await updateRepositoryMaintainer(
-            this.choosenMaintainer.id,
-            this.choosenMaintainer.repository?.id
+            this.chosenMaintainer.id,
+            this.chosenMaintainer.repository?.id
           ).then(
             () => {
               this.fetchMaintainers()
@@ -74,9 +86,9 @@ export const useRepositoryMaintainersStore = defineStore(
         }
       },
       async deleteMaintainer() {
-        if (this.choosenMaintainer.id) {
+        if (this.chosenMaintainer.id) {
           await deletedRepositoryMaintainer(
-            this.choosenMaintainer.id
+            this.chosenMaintainer.id
           ).then(
             () => {
               notify({
@@ -92,11 +104,13 @@ export const useRepositoryMaintainersStore = defineStore(
         }
       },
       async setFiltration(payload: MaintainersFiltration) {
+        const pagination = usePaginationStore()
+        pagination.setPage(0)
         this.filtration = payload
         this.fetchMaintainers()
       },
       clearFiltration() {
-        this.filtration.technology = ''
+        this.filtration.technology = undefined
         this.filtration.deleted = false
       },
       async clearFiltrationAndFetch() {

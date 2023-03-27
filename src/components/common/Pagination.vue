@@ -11,10 +11,10 @@
             >
               <div></div>
               <v-pagination
-                v-model="localPage"
+                v-model="page"
                 class="my-4"
                 :total-visible="
-                  common_store.totalVisiblePages
+                  pagination.totalVisiblePages
                 "
                 :length="howManyPages"
               ></v-pagination>
@@ -40,36 +40,16 @@
 </template>
 
 <script setup lang="ts">
-import { useCommonStore } from '@/store/common'
-import { computed, ref } from 'vue'
+import { usePagination } from '@/composable/pagination'
+import { usePaginationStore } from '@/store/pagination'
+import { ref } from 'vue'
 
-const common_store = useCommonStore()
-
-const props = defineProps({
-  howManyPages: {
-    type: Number
-  },
-  pageSize: {
-    type: Number
-  },
-  page: { type: Number }
-})
-
-const emit = defineEmits(['newPage', 'newPageSize'])
-
-const localPage = computed({
-  get() {
-    return props.page
-  },
-  set: (value) => {
-    if (value) emit('newPage', value - 1)
-  }
-})
-
-const localPageSize = ref(props.pageSize)
+const { howManyPages, page, newPageSize } = usePagination()
+const pagination = usePaginationStore()
+const localPageSize = ref(pagination.pageSize)
 
 function setPageSize() {
-  emit('newPageSize', localPageSize.value)
+  newPageSize(localPageSize.value || 10)
 }
 </script>
 
