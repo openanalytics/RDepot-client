@@ -1,8 +1,12 @@
-import { EntityModelNewsfeedEventDto } from '@/openapi'
+import {
+  EntityModelNewsfeedEventDto,
+  Link
+} from '@/openapi'
 import { defineStore } from 'pinia'
 import { EventsFiltration } from '@/models/Filtration'
 import { fetchEventsServices } from '@/services/events_services'
 import { notify } from '@kyvg/vue3-notification'
+import { link } from 'fs'
 
 interface State {
   page?: number
@@ -10,6 +14,8 @@ interface State {
   totalNumber?: number
   events?: EntityModelNewsfeedEventDto[]
   filtration: EventsFiltration
+  pending: boolean
+  next?: Link
 }
 
 export const useEventsStore = defineStore('events_store', {
@@ -25,40 +31,61 @@ export const useEventsStore = defineStore('events_store', {
         resourceType: undefined,
         technology: undefined,
         userId: undefined
-      }
+      },
+      pending: false,
+      next: undefined
     }
   },
   actions: {
     async fetchEvents() {
+      this.pending = true
       fetchEventsServices(
         this.filtration,
         this.page,
         this.pageSize
-      ).then(
-        (res) => {
-          this.page = res.data.data?.page?.number
-          this.totalNumber =
-            res.data.data?.page?.totalElements
-          if (
-            this.events != undefined &&
-            res.data.data?.content
-          ) {
-            this.events = this.events.concat(
-              res.data.data?.content
-            )
-          } else {
-            this.events = res.data.data?.content
-          }
-        },
-        (msg) => {
-          this.events = []
-          this.page = 0
-          notify({ text: msg, type: 'error' })
-        }
       )
+        .then(
+          (res) => {
+            this.page = res.data.data?.page?.number
+            this.totalNumber =
+              res.data.data?.page?.totalElements
+
+            if (res.data.data?.links != undefined) {
+              this.next = undefined
+              res.data.data?.links.forEach((link) => {
+                if (link.rel === 'next') {
+                  this.next = link
+                }
+              })
+            }
+
+            if (
+              this.events != undefined &&
+              res.data.data?.content
+            ) {
+              this.events = this.events.concat(
+                res.data.data?.content
+              )
+            } else {
+              this.events = res.data.data?.content
+            }
+          },
+          (msg) => {
+            this.events = []
+            this.page = 0
+            notify({ text: msg, type: 'error' })
+          }
+        )
+        .finally(() => {
+          this.pending = false
+        })
     },
     async fetchNextPageEvents() {
-      if (this.page != undefined) {
+      if (
+        this.next != undefined &&
+        this.page != undefined &&
+        !this.pending
+      ) {
         this.page = this.page + 1
         this.fetchEvents()
       }
