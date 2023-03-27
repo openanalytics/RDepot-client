@@ -69,13 +69,8 @@ export function updatePackageMaintainerService(
   ) {
     patch.push({
       op: 'replace',
-      path: '/repository',
-      value: {
-        id: newMaintainer.repository?.id,
-        name: newMaintainer.repository?.name,
-        publicationUri:
-          newMaintainer.repository?.publicationUri
-      }
+      path: '/repository/id',
+      value: newMaintainer.repository?.id
     })
   }
 
