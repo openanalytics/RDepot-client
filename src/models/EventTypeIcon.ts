@@ -1,5 +1,3 @@
-import { EntityModelNewsfeedEventDtoResourceTypeEnum } from '@/openapi'
-
 export let eventsIcons = new Map<string, string>([
   ['update', 'mdi-check'],
   ['removed', 'mdi-delete-forever'],

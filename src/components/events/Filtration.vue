@@ -89,9 +89,9 @@
 
 <script setup lang="ts">
 import { useEventsStore } from '@/store/events'
-import { useRepositoryStore } from '@/store/repositories'
 import { ref, onMounted } from 'vue'
 
+const emit = defineEmits(['closeModal'])
 const event_store = useEventsStore()
 
 const eventTypeSelect = ref(['create', 'update', 'delete'])
@@ -104,10 +104,9 @@ const resourceTypeSelect = ref([
   'packageMaintainer',
   'repositoryMaintainer'
 ])
+
 let filtration = event_store.filtration
 const localFiltration = ref(filtration)
-
-const emit = defineEmits(['closeModal'])
 
 function updateFiltration() {
   localFiltration.value = JSON.parse(
