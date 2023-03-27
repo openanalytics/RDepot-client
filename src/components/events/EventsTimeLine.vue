@@ -28,7 +28,6 @@
           :date="!item.eventType ? item : undefined"
         />
       </template>
-
       <EventBox
         v-if="item && item.eventType"
         :event="item"
@@ -116,7 +115,10 @@ function hideMonth(date: string) {
 }
 
 const grouped_events = computed(function () {
-  if (events_store.events) {
+  if (
+    events_store.events != undefined &&
+    events_store.events.length > 0
+  ) {
     const local_events: any[] = []
     const events_grouped_by_date = groupByDate(
       events_store.events
@@ -172,26 +174,22 @@ function groupByDate(
 
 const eventsTimeline = ref<HTMLDivElement>()
 
-function loadMoreEvents() {
+async function loadMoreEvents() {
   let element: HTMLElement | null = document.getElementById(
     'eventsTimeline'
   )
-  console.log(element)
 
   if (
     element != null &&
     element.getBoundingClientRect().bottom <
       window.innerHeight
   ) {
-    events_store.fetchNextPageEvents()
+    await events_store.fetchNextPageEvents()
   }
 }
 
-onMounted(() => {
-  events_store.fetchEvents()
   nextTick(() => {
     window.addEventListener('scroll', () => {
-      loadMoreEvents()
     })
   })
 })
