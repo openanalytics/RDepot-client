@@ -188,8 +188,19 @@ async function loadMoreEvents() {
   }
 }
 
+var lastScrollTop = 0
+
+onMounted(async () => {
+  await events_store.fetchEvents()
   nextTick(() => {
     window.addEventListener('scroll', () => {
+      var st =
+        window.pageYOffset ||
+        document.documentElement.scrollTop
+      if (st > lastScrollTop) {
+        loadMoreEvents()
+      }
+      lastScrollTop = st <= 0 ? 0 : st
     })
   })
 })
