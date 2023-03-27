@@ -15,11 +15,11 @@
 
         <v-select
           id="filtration-repository"
-          v-model="localFiltration.package"
+          v-model="localFiltration.packageId"
           :items="packageSelect"
           item-title="name"
           :label="$t('submissions.filtration.package')"
-          return-object
+          item-value="id"
         ></v-select>
 
         <v-switch
@@ -120,8 +120,8 @@ onMounted(async () => {
 })
 
 function clearFiltration() {
-  localFiltration!.value.state = ''
-  localFiltration!.value.package = undefined
+  localFiltration!.value.state = undefined
+  localFiltration!.value.packageId = undefined
   localFiltration!.value.assignedToMe = false
 }
 </script>

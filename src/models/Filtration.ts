@@ -14,7 +14,7 @@ interface RepositoriesFiltration {
 interface SubmissionsFiltration {
   assignedToMe: boolean | undefined
   state: string | undefined
-  package: string | undefined
+  packageId: number | undefined
 }
 
 interface EventsFiltration {
