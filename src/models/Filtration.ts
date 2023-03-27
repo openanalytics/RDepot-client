@@ -1,5 +1,3 @@
-import { Package } from './packages/Package'
-
 interface PackagesFiltration {
   state: string | undefined
   deleted: boolean | undefined
@@ -8,14 +6,15 @@ interface PackagesFiltration {
 }
 
 interface RepositoriesFiltration {
-  technology: string | undefined
+  technology: string[] | undefined
   name: string | undefined
+  deleted: boolean | undefined
 }
 
 interface SubmissionsFiltration {
   assignedToMe: boolean | undefined
   state: string | undefined
-  package: Package | undefined
+  package: string | undefined
 }
 
 interface EventsFiltration {

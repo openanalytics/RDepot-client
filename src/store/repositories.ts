@@ -12,10 +12,11 @@ import { notify } from '@kyvg/vue3-notification'
 interface State {
   repositories?: EntityModelRepositoryDto[]
   filtration: RepositoriesFiltration
-  choosenRepository: number
-  choosenRepositoryName: string
+  chosenRepository: number
+  chosenRepositoryName: string
   repositoryPackages?: EntityModelPackageDto[]
   page?: number
+  pageSize?: number
 }
 
 const packages_api = ApiV2PackageControllerApiFactory()
@@ -27,19 +28,24 @@ export const useRepositoryStore = defineStore(
       return {
         repositories: [],
         filtration: {
-          name: '',
-          technology: ''
+          name: undefined,
+          technology: undefined,
+          deleted: undefined
         },
-        choosenRepository: -1,
-        choosenRepositoryName: '',
+        chosenRepository: -1,
+        chosenRepositoryName: '',
         repositoryPackages: [],
-        page: 0
+        page: 0,
+        pageSize: 10
       }
     },
     actions: {
       async fetchRepositories() {
-        // const repositories: ResponseDtoPagedModelEntityModelRepositoryDto = fetchRepositoriesServices()
-        await fetchRepositoriesServices().then(
+        await fetchRepositoriesServices(
+          this.filtration,
+          this.page,
+          this.pageSize
+        ).then(
           (res) => {
             this.page = res.data.data?.page?.number
             this.repositories = res.data.data?.content
@@ -51,7 +57,7 @@ export const useRepositoryStore = defineStore(
       },
       async fetchPackages() {
         packages_api
-          .getAllPackages(this.choosenRepositoryName)
+          .getAllPackages(this.chosenRepositoryName)
           .then(
             (res) => {
               this.repositoryPackages =
@@ -68,8 +74,9 @@ export const useRepositoryStore = defineStore(
         this.fetchRepositories()
       },
       clearFiltration() {
-        this.filtration.technology = ''
-        this.filtration.name = ''
+        this.filtration.technology = undefined
+        this.filtration.name = undefined
+        this.filtration.deleted = undefined
       },
       async clearFiltrationAndFetch() {
         this.clearFiltration()
