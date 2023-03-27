@@ -12,9 +12,8 @@ import {
   fetchRepositoriesServices
 } from '@/services'
 import {
-  deletePackageMaintainerService,
   fetchPackageMaintainersService,
-  patchPackageMaintainerService
+  updatePackageMaintainerService
 } from '@/services/package_maintainers_service'
 import { i18n } from '@/plugins/i18n'
 
@@ -127,11 +126,16 @@ export const usePackageMaintainersStore = defineStore(
         }
       },
       async deleteChoosenMaintainer() {
-        deletePackageMaintainerService(
-          this.choosenMaintainer.id || -1
+        const newMaintainer = JSON.parse(
+          JSON.stringify(this.choosenMaintainer)
+        )
+        newMaintainer.deleted =
+          !this.choosenMaintainer.deleted
+        updatePackageMaintainerService(
+          newMaintainer,
+          this.choosenMaintainer
         ).then(
           () => {
-            this.fetchMaintainers()
             notify({
               type: 'success',
               text: i18n.t(
@@ -139,6 +143,7 @@ export const usePackageMaintainersStore = defineStore(
                 this.choosenMaintainer.user?.name || ''
               )
             })
+            this.fetchMaintainers()
           },
           (msg) => {
             notify({ type: 'error', text: msg })
@@ -148,7 +153,7 @@ export const usePackageMaintainersStore = defineStore(
       async editMaintainer(
         maintainer: PackageMaintainerDto
       ) {
-        patchPackageMaintainerService(
+        updatePackageMaintainerService(
           maintainer,
           this.choosenMaintainer
         ).then(

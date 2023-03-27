@@ -43,7 +43,7 @@ export function deletePackageMaintainerService(
   )
 }
 
-export function patchPackageMaintainerService(
+export function updatePackageMaintainerService(
   newMaintainer: PackageMaintainerDto,
   oldMaintainer: PackageMaintainerDto
 ) {
@@ -70,7 +70,20 @@ export function patchPackageMaintainerService(
     patch.push({
       op: 'replace',
       path: '/repository',
-      value: newMaintainer.repository
+      value: {
+        id: newMaintainer.repository?.id,
+        name: newMaintainer.repository?.name,
+        publicationUri:
+          newMaintainer.repository?.publicationUri
+      }
+    })
+  }
+
+  if (newMaintainer.deleted !== oldMaintainer.deleted) {
+    patch.push({
+      op: 'replace',
+      path: '/deleted',
+      value: newMaintainer.deleted
     })
   }
   console.log(patch)

@@ -18,9 +18,9 @@
           id="edit-package-maintainer-repository"
           v-model="localMaintainer.repository"
           item-title="name"
-          item-value="id"
           :items="repositories"
           :label="$t('maintainers.editform.repository')"
+          return-object
         ></v-select>
         <v-select
           id="edit-package-maintainer-package"
