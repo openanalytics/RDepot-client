@@ -1,5 +1,9 @@
 <template>
   <v-timeline
+    v-if="
+      grouped_events != undefined &&
+      grouped_events.length > 0
+    "
     :side="smAndDown ? 'end' : undefined"
     ref="eventsTimeline"
     id="eventsTimeline"
@@ -34,6 +38,9 @@
       ></EventBox>
     </v-timeline-item>
   </v-timeline>
+  <NoEvents
+    v-else-if="!common_store.progressCircularActive"
+  />
 </template>
 
 <script setup lang="ts">
@@ -46,18 +53,21 @@ import {
   ref,
   onMounted,
   nextTick,
-  onBeforeUnmount,
-  onActivated
+  onBeforeUnmount
 } from 'vue'
 import { useDisplay } from 'vuetify/lib/framework.mjs'
 import { useTheme } from 'vuetify'
 import { useDates } from '@/composable/date'
+import NoEvents from './NoEvents.vue'
+import { useCommonStore } from '@/store/common'
 
 const { current } = useTheme()
 const { lgAndUp, mdAndUp, smAndUp, smAndDown } =
   useDisplay()
 const { isYearAndMonthDate, getMonthAndYear, getDate } =
   useDates()
+
+const common_store = useCommonStore()
 const events_store = useEventsStore()
 const hiddenDays = ref<string[]>([])
 const hiddenMonths = ref<string[]>([])
