@@ -1,4 +1,4 @@
-import { Package } from "./packages/Package"
+import { Package } from './packages/Package'
 
 interface PackagesFiltration {
   state: string | undefined
@@ -28,7 +28,7 @@ interface EventsFiltration {
 
 interface MaintainersFiltration {
   deleted: boolean
-  technology: string
+  technologies?: string[]
 }
 
 export type {

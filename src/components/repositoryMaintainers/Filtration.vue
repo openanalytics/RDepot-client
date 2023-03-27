@@ -8,7 +8,7 @@
       <v-form ref="form" lazy-validation>
         <v-select
           id="filtration-technology"
-          v-model="localFiltration.technology"
+          v-model="localFiltration.technologies"
           :items="technologySelect"
           :label="$t('maintainers.filtration.technology')"
         ></v-select>
@@ -98,7 +98,7 @@ onMounted(() => {
 })
 
 function clearFiltration() {
-  localFiltration!.value.technology = ''
+  localFiltration!.value.technologies = ''
   localFiltration!.value.deleted = false
 }
 </script>

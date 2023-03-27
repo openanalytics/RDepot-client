@@ -7,8 +7,9 @@
     <v-card-text style="height: 300px">
       <v-form ref="form" lazy-validation>
         <v-select
+          multiple
           id="filtration-technology"
-          v-model="localFiltration.technology"
+          v-model="localFiltration.technologies"
           :items="technologySelect"
           :label="$t('maintainers.filtration.technology')"
         ></v-select>
@@ -98,7 +99,7 @@ onMounted(() => {
 })
 
 function clearFiltration() {
-  localFiltration!.value.technology = ''
+  localFiltration!.value.technologies = ''
   localFiltration!.value.deleted = false
 }
 </script>
