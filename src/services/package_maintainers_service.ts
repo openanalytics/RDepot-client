@@ -21,7 +21,9 @@ export function fetchPackageMaintainersService(
     package_maintainers_api.getAllPackageMaintainers,
     [
       filtration.deleted,
-      undefined, // TODO: use technology (maybe even technologies) as a filter,
+      filtration.technology.length
+        ? [filtration.technology]
+        : undefined,
       page,
       pageSize
     ]
