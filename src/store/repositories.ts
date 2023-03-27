@@ -16,7 +16,8 @@ interface State {
   chosenRepositoryName: string
   repositoryPackages?: EntityModelPackageDto[]
   page?: number
-  pageSize?: number
+  pageSize: number
+  totalNumber?: number
 }
 
 const packages_api = ApiV2PackageControllerApiFactory()
@@ -36,7 +37,8 @@ export const useRepositoryStore = defineStore(
         chosenRepositoryName: '',
         repositoryPackages: [],
         page: 0,
-        pageSize: 10
+        pageSize: 10,
+        totalNumber: 0
       }
     },
     actions: {
@@ -47,6 +49,8 @@ export const useRepositoryStore = defineStore(
           this.pageSize
         ).then(
           (res) => {
+            this.totalNumber =
+              res.data.data?.page?.totalElements
             this.page = res.data.data?.page?.number
             this.repositories = res.data.data?.content
           },
@@ -68,6 +72,15 @@ export const useRepositoryStore = defineStore(
         this.repositoryPackages = JSON.parse(
           JSON.stringify(packages.page2)
         )
+      },
+      async setPage(payload: number) {
+        this.page = payload
+        this.fetchRepositories()
+      },
+      async setPageSize(payload: number) {
+        if (payload > 0) {
+          this.pageSize = payload
+        }
       },
       async setFiltration(payload: RepositoriesFiltration) {
         this.filtration = payload
