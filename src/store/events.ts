@@ -6,7 +6,6 @@ import { defineStore } from 'pinia'
 import { EventsFiltration } from '@/models/Filtration'
 import { fetchEventsServices } from '@/services/events_services'
 import { notify } from '@kyvg/vue3-notification'
-import { link } from 'fs'
 
 interface State {
   page?: number
@@ -96,14 +95,15 @@ export const useEventsStore = defineStore('events_store', {
     },
     async setFiltration(payload: EventsFiltration) {
       this.filtration = payload
-      this.page = 1
+      this.page = 0
+      this.events = []
       this.fetchEvents()
     },
     clearFiltration() {
-      this.filtration.eventType = ''
+      this.filtration.eventType = undefined
       this.filtration.resourceId = undefined
-      this.filtration.resourceType = ''
-      this.filtration.technology = ''
+      this.filtration.resourceType = undefined
+      this.filtration.technology = undefined
       this.filtration.userId = undefined
     },
     async clearFiltrationAndFetch() {
