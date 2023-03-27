@@ -12,6 +12,7 @@ import {
   fetchRepositoriesServices
 } from '@/services'
 import {
+  deletePackageMaintainerService,
   fetchPackageMaintainersService,
   updatePackageMaintainerService
 } from '@/services/package_maintainers_service'
@@ -126,14 +127,8 @@ export const usePackageMaintainersStore = defineStore(
         }
       },
       async deleteChoosenMaintainer() {
-        const newMaintainer = JSON.parse(
-          JSON.stringify(this.choosenMaintainer)
-        )
-        newMaintainer.deleted =
-          !this.choosenMaintainer.deleted
-        updatePackageMaintainerService(
-          newMaintainer,
-          this.choosenMaintainer
+        deletePackageMaintainerService(
+          this.choosenMaintainer.id || -1
         ).then(
           () => {
             notify({
