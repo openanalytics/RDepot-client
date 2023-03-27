@@ -24,9 +24,10 @@ interface State {
   repositories: EntityModelPythonRepositoryDto[]
   packages: EntityModelRPackageDto[]
   choosenMaintainer: EntityModelPackageMaintainerDto
-  page: number
+  page?: number
   pageSize: number
   howManyPages: number
+  totalNumber?: number
 }
 
 export const usePackageMaintainersStore = defineStore(
@@ -44,7 +45,8 @@ export const usePackageMaintainersStore = defineStore(
         choosenMaintainer: {},
         page: 0,
         pageSize: 10,
-        howManyPages: 0
+        howManyPages: 0,
+        totalNumber: 0
       }
     },
     actions: {
@@ -55,6 +57,9 @@ export const usePackageMaintainersStore = defineStore(
           this.pageSize
         ).then(
           (res) => {
+            this.page = res.data.data?.page?.number
+            this.totalNumber =
+              res.data.data?.page?.totalElements
             this.maintainers = res.data.data?.content || []
           },
           (msg) => {
@@ -111,6 +116,15 @@ export const usePackageMaintainersStore = defineStore(
       async clearFiltrationAndFetch() {
         this.clearFiltration()
         this.fetchMaintainers()
+      },
+      async setPage(payload: number) {
+        this.page = payload
+        this.fetchPackages()
+      },
+      async setPageSize(payload: number) {
+        if (payload > 0) {
+          this.pageSize = payload
+        }
       },
       async deleteChoosenMaintainer() {
         deletePackageMaintainerService(

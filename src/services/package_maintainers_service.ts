@@ -9,9 +9,9 @@ import { getConfiguration } from './api_config'
 import { openApiRequest } from './open_api_access'
 
 export function fetchPackageMaintainersService(
-  filtration: MaintainersFiltration,
-  page: number,
-  pageSize: number
+  filtration?: MaintainersFiltration,
+  page?: number,
+  pageSize?: number
 ) {
   const package_maintainers_api =
     ApiV2PackageMaintainerControllerApiFactory(
@@ -20,9 +20,9 @@ export function fetchPackageMaintainersService(
   return openApiRequest<ResponseDtoPagedModelEntityModelPackageMaintainerDto>(
     package_maintainers_api.getAllPackageMaintainers,
     [
-      filtration.deleted,
-      filtration.technology.length
-        ? [filtration.technology]
+      filtration?.deleted,
+      filtration?.technology.length
+        ? [filtration?.technology]
         : undefined,
       page,
       pageSize
