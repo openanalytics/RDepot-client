@@ -22,7 +22,7 @@ export function fetchRSubmissions(
     [
       filtration.state,
       filtration.assignedToMe ? logged_user_id : undefined,
-      filtration.packageId,
+      filtration.package?.id,
       page,
       pageSize
     ]

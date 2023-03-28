@@ -26,7 +26,7 @@ export const useSubmissionStore = defineStore(
         packages: [],
         submissions: [],
         filtration: {
-          packageId: undefined,
+          package: undefined,
           state: undefined,
           assignedToMe: false
         },
@@ -106,7 +106,7 @@ export const useSubmissionStore = defineStore(
       clearFiltration() {
         this.filtration.state = undefined
         this.filtration.assignedToMe = false
-        this.filtration.packageId = undefined
+        this.filtration.package = undefined
       },
       async setPage(payload: number) {
         this.page = payload

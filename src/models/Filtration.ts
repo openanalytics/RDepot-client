@@ -1,3 +1,5 @@
+import { EntityModelPackageDto } from '@/openapi'
+
 interface PackagesFiltration {
   state: string | undefined
   deleted: boolean | undefined
@@ -14,7 +16,7 @@ interface RepositoriesFiltration {
 interface SubmissionsFiltration {
   assignedToMe: boolean | undefined
   state: string | undefined
-  packageId: number | undefined
+  package: EntityModelPackageDto | undefined
 }
 
 interface EventsFiltration {
