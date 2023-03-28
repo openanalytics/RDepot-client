@@ -1,83 +1,44 @@
 <template>
-  <v-card class="pa-5" width="400">
-    <v-card-title>
-      {{ $t('packages.filtration.title') }}
-    </v-card-title>
-    <v-divider></v-divider>
-    <v-card-text style="height: 300px">
-      <v-form ref="form" lazy-validation>
-        <v-select
-          id="filtration-state"
-          v-model="localFiltration.state"
-          :items="submissionStateSelect"
-          :label="$t('packages.filtration.state')"
-          data-test="filtration-state"
-        ></v-select>
+  <filtration-card
+    :title="$t('packages.filtration.title')"
+    v-on:clear-filtration="clearFiltration()"
+    v-on:set-filtration="setFiltration()"
+    v-on:change-dialog-options="cancelModal()"
+  >
+    <v-select
+      id="filtration-state"
+      v-model="localFiltration.state"
+      :items="submissionStateSelect"
+      :label="$t('packages.filtration.state')"
+      data-test="filtration-state"
+    ></v-select>
 
-        <v-select
-          id="filtration-repository"
-          v-model="localFiltration.repository"
-          :items="repositoryNameSelect"
-          :label="$t('packages.filtration.repository')"
-        ></v-select>
-        <v-select
-          id="filtration-technology"
-          v-model="localFiltration.technology"
-          :items="technologySelect"
-          multiple
-          :label="$t('repositories.filtration.technology')"
-        ></v-select>
-        <v-checkbox
-          id="filtration-deleted"
-          :label="
-            localFiltration &&
-            $t('packages.filtration.deleted')
-          "
-          v-model="localFiltration.deleted"
-        ></v-checkbox>
-      </v-form>
-    </v-card-text>
-    <v-divider></v-divider>
-    <v-card-actions>
-      <v-row justify="space-between" class="mt-1">
-        <v-btn
-          id="cancel-button"
-          color="blue darken-1"
-          @click="cancelModal"
-          class="mx-1"
-        >
-          <small>
-            {{ $t('common.cancel') }}
-          </small>
-        </v-btn>
-        <v-row class="my-0" justify="end">
-          <v-btn
-            id="reset-button"
-            color="blue darken-1"
-            class="mx-1"
-            @click="clearFiltration"
-          >
-            <small>
-              {{ $t('common.clearForm') }}
-            </small>
-          </v-btn>
-          <v-btn
-            id="set-filtration"
-            color="blue darken-1"
-            class="mx-1"
-            @click="setFiltration"
-          >
-            <small>
-              {{ $t('common.apply') }}
-            </small>
-          </v-btn>
-        </v-row>
-      </v-row>
-    </v-card-actions>
-  </v-card>
+    <v-combobox
+      v-model="localFiltration.repository"
+      :items="repositoryNameSelect"
+      :label="$t('packages.filtration.repository')"
+    >
+    </v-combobox>
+
+    <v-select
+      id="filtration-technology"
+      v-model="localFiltration.technology"
+      :items="technologySelect"
+      multiple
+      :label="$t('repositories.filtration.technology')"
+    ></v-select>
+    <v-checkbox
+      id="filtration-deleted"
+      :label="
+        localFiltration && $t('packages.filtration.deleted')
+      "
+      v-model="localFiltration.deleted"
+    ></v-checkbox>
+  </filtration-card>
 </template>
 
 <script setup lang="ts">
+import FiltrationCard from '@/components/common/FiltrationCard.vue'
 import { usePackagesStore } from '@/store/packages'
 import { ref, onMounted } from 'vue'
 

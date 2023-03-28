@@ -74,19 +74,19 @@ const repositories = computed(() => {
   return maintainers_store.repositories
 })
 
-let maintainer = maintainers_store.choosenMaintainer
+let maintainer = maintainers_store.chosenMaintainer
 const localMaintainer = ref(maintainer)
 
 const emit = defineEmits(['closeModal'])
 
 function updateMaintainer() {
   localMaintainer.value = JSON.parse(
-    JSON.stringify(maintainers_store.choosenMaintainer)
+    JSON.stringify(maintainers_store.chosenMaintainer)
   )
 }
 
 async function setMaintainer() {
-  await maintainers_store.setChoosenMaintainer(
+  await maintainers_store.setChosenMaintainer(
     localMaintainer.value
   )
   await maintainers_store.saveMaintainer()
