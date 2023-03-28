@@ -14,7 +14,7 @@ interface State {
   filtration: MaintainersFiltration
   repositories: EntityModelPythonRepositoryDto[]
   packages: EntityModelRPackageDto[]
-  choosenMaintainer: EntityModelPackageMaintainerDto
+  chosenMaintainer: EntityModelPackageMaintainerDto
 }
 
 export const usePackageMaintainersStore = defineStore(
@@ -29,7 +29,7 @@ export const usePackageMaintainersStore = defineStore(
         },
         repositories: [],
         packages: [],
-        choosenMaintainer: {}
+        chosenMaintainer: {}
       }
     },
     actions: {
@@ -38,7 +38,7 @@ export const usePackageMaintainersStore = defineStore(
           JSON.stringify(package_maintainers.data)
         )
       },
-      async fetchReposiotires() {
+      async fetchRepositories() {
         this.repositories = JSON.parse(
           JSON.stringify(repositories.data)
         )
@@ -49,19 +49,17 @@ export const usePackageMaintainersStore = defineStore(
         ).concat(JSON.parse(JSON.stringify(packages.page2)))
       },
 
-      async setChoosenMaintainer(
+      async setChosenMaintainer(
         payload: EntityModelPackageMaintainerDto
       ) {
-        this.choosenMaintainer = payload
+        this.chosenMaintainer = payload
         this.saveMaintainer()
       },
       async saveMaintainer() {
         this.maintainers = this.maintainers.map(
           (maintainer: EntityModelPackageMaintainerDto) => {
-            if (
-              maintainer.id == this.choosenMaintainer.id
-            ) {
-              return this.choosenMaintainer
+            if (maintainer.id == this.chosenMaintainer.id) {
+              return this.chosenMaintainer
             }
             return maintainer
           }

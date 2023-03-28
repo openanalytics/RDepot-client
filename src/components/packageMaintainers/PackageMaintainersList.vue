@@ -13,7 +13,7 @@
       >
         <v-expansion-panel-title
           readonly
-          id="expansionpaneltitle"
+          id="expansion-panel-title"
           class="no-icon"
         >
           <PackageMaintainerRow :packageMaintainer="item" />
@@ -28,17 +28,17 @@ import { usePackageMaintainersStore } from '@/store/package_maintainers'
 import { computed, onMounted } from 'vue'
 import PackageMaintainerRow from './PackageMaintainerRow.vue'
 
-const package_mainatainers_store =
+const package_maintainers_store =
   usePackageMaintainersStore()
 
 const package_maintainers = computed(function () {
-  return package_mainatainers_store.maintainers
+  return package_maintainers_store.maintainers
 })
 
 function updateState(): void {
-  package_mainatainers_store.fetchMaintainers()
-  package_mainatainers_store.fetchReposiotires()
-  package_mainatainers_store.fetchPackages()
+  package_maintainers_store.fetchMaintainers()
+  package_maintainers_store.fetchRepositories()
+  package_maintainers_store.fetchPackages()
 }
 
 onMounted(() => {
