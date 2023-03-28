@@ -8,18 +8,19 @@
       <v-form ref="form" lazy-validation>
         <v-text-field
           id="edit-package-maintainer-user"
-          v-model="localMaintainer.userId"
+          v-model="localMaintainer.user"
+          :value="localMaintainer.user?.name"
           :label="$t('maintainers.editform.user')"
           disabled
         >
         </v-text-field>
         <v-select
           id="edit-package-maintainer-repository"
-          v-model="localMaintainer.repositoryId"
+          v-model="localMaintainer.repository"
           item-title="name"
-          item-value="id"
           :items="repositories"
           :label="$t('maintainers.editform.repository')"
+          return-object
         ></v-select>
         <v-select
           id="edit-package-maintainer-package"
@@ -49,7 +50,7 @@
             id="setfiltration"
             color="blue darken-1"
             class="mx-1"
-            @click="setMaintainer()"
+            @click="editMaintainer()"
           >
             <small>
               {{ $t('common.save') }}
@@ -74,8 +75,8 @@ const repositories = computed(() => {
 const packages = computed(() => {
   return maintainers_store.packages.filter((packageBag) => {
     return (
-      packageBag.repositoryId ==
-      localMaintainer.value.repositoryId
+      packageBag.repository?.id ==
+      localMaintainer.value.repository?.id
     )
   })
 })
@@ -99,8 +100,8 @@ function updateMaintainer() {
   )
 }
 
-async function setMaintainer() {
-  await maintainers_store.setChoosenMaintainer(
+async function editMaintainer() {
+  await maintainers_store.editMaintainer(
     localMaintainer.value
   )
   changeDialogOptions()

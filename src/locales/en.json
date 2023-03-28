@@ -31,7 +31,8 @@
     "notAvaiable": "Not avaiable",
     "save": "save",
     "edit": "edit",
-    "projectTitle": "RDepot"
+    "projectTitle": "RDepot",
+    "noListingResults": "No results where found"
   },
   "filtration": {
     "title": "filtration",
@@ -133,7 +134,9 @@
     "successFiltrationReset": "successful filtration reset",
     "successCancelSubmission": "cancel submission",
     "acceptSubmission": "accept submission",
-    "successRejectSubmission": "reject submission"
+    "successRejectSubmission": "reject submission",
+    "successDeletePackageManager": "successful deleted {maintainer_name}",
+    "successUpdatePackageManager": "successful updated {maintainer_name}"
   },
   "maintainers": {
     "edit": "edit maintainer",

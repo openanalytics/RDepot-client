@@ -9,7 +9,7 @@ import { getConfiguration } from './api_config'
 import { openApiRequest } from './open_api_access'
 
 export function fetchPackagesServices(
-  filtration: PackagesFiltration,
+  filtration?: PackagesFiltration,
   page?: number,
   pageSize?: number
 ) {
@@ -19,10 +19,10 @@ export function fetchPackagesServices(
   return openApiRequest<ResponseDtoPagedModelEntityModelPackageDto>(
     packages_api.getAllPackages,
     [
-      filtration.repository,
-      filtration.deleted,
-      filtration.state,
-      filtration.technology,
+      filtration?.repository,
+      filtration?.deleted,
+      filtration?.state,
+      filtration?.technology,
       page,
       pageSize
     ]
