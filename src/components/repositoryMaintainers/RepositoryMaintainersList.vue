@@ -7,6 +7,12 @@
       <v-expansion-panel class="py-3">
         <RepositoryMaintainerRow title />
       </v-expansion-panel>
+      <EmptyListing
+        v-show="
+          repository_maintainers === undefined ||
+          !repository_maintainers.length
+        "
+      />
       <v-expansion-panel
         v-for="(item, index) in repository_maintainers"
         :key="index"
