@@ -1,94 +1,63 @@
 <template>
-  <v-card class="pa-5" width="400">
-    <v-card-title>
-      {{ $t('submissions.filtration.title') }}
-    </v-card-title>
-    <v-divider></v-divider>
-    <v-card-text style="height: 300px">
-      <v-form ref="form" lazy-validation>
-        <v-select
-          id="filtration-state"
-          v-model="localFiltration.state"
-          :items="stateSelect"
-          :label="$t('submissions.filtration.state')"
-        ></v-select>
+  <filtration-card
+    :title="$t('submissions.filtration.title')"
+    v-on:clear-filtration="clearFiltration()"
+    v-on:set-filtration="setFiltration()"
+    v-on:change-dialog-options="changeDialogOptions()"
+  >
+    <v-select
+      id="filtration-state"
+      v-model="localFiltration.state"
+      :items="stateSelect"
+      :label="$t('submissions.filtration.state')"
+    ></v-select>
 
-        <v-select
-          id="filtration-repository"
-          v-model="localFiltration.packageId"
-          :items="packageSelect"
-          item-title="name"
-          :label="$t('submissions.filtration.package')"
-          item-value="id"
-        ></v-select>
+    <v-combobox
+      id="filtration-repository"
+      v-model="localFiltration.package"
+      v-model:search="search"
+      :items="package_store.packages"
+      item-title="name"
+      filter-keys="name"
+      :placeholder="placeholder"
+      :hide-no-data="false"
+      persistent-hint
+      :menu-props="{
+        location: 'bottom center',
+        height: '200px'
+      }"
+      :label="$t('submissions.filtration.package')"
+      autofocus
+      @update:search="updateSearch($event)"
+      return-object
+    >
+    </v-combobox>
 
-        <v-switch
-          v-model="localFiltration.assignedToMe"
-          color="oablue"
-          :label="$t('submissions.filtration.assigned')"
-        >
-        </v-switch>
-      </v-form>
-    </v-card-text>
-    <v-divider></v-divider>
-    <v-card-actions>
-      <v-row justify="space-between" class="mt-1">
-        <v-btn
-          id="cancel-button"
-          color="blue darken-1"
-          @click="changeDialogOptions"
-          class="mx-1"
-        >
-          <small>
-            {{ $t('common.cancel') }}
-          </small>
-        </v-btn>
-        <v-row class="my-0" justify="end">
-          <v-btn
-            id="reset-button"
-            color="blue darken-1"
-            class="mx-1"
-            @click="clearFiltration"
-          >
-            <small>
-              {{ $t('common.clearForm') }}
-            </small>
-          </v-btn>
-          <v-btn
-            id="set-filtration"
-            color="blue darken-1"
-            class="mx-1"
-            @click="setFiltration"
-          >
-            <small>
-              {{ $t('common.apply') }}
-            </small>
-          </v-btn>
-        </v-row>
-      </v-row>
-    </v-card-actions>
-  </v-card>
+    <v-switch
+      v-model="localFiltration.assignedToMe"
+      color="oablue"
+      :label="$t('submissions.filtration.assigned')"
+    >
+    </v-switch>
+  </filtration-card>
 </template>
 
 <script setup lang="ts">
 import { EntityModelSubmissionDtoStateEnum } from '@/openapi'
-import { fetchPackagesServices } from '@/services'
-import { useCommonStore } from '@/store/common'
 import { usePackagesStore } from '@/store/packages'
 import { useSubmissionStore } from '@/store/submission'
 import { ref, onMounted } from 'vue'
+import FiltrationCard from '../common/FiltrationCard.vue'
 
 const submissions_store = useSubmissionStore()
 const package_store = usePackagesStore()
-const common_store = useCommonStore()
 
 const stateSelect = ref(
   Object.values(EntityModelSubmissionDtoStateEnum)
 )
-const packageSelect = ref(package_store.packages)
-let filtration = submissions_store.filtration
-const localFiltration = ref(filtration)
-
+const localFiltration = ref(submissions_store.filtration)
+const search = ref('')
+const placeholder = ref('')
 const emit = defineEmits(['closeModal'])
 
 function updateFiltration() {
@@ -97,14 +66,19 @@ function updateFiltration() {
   )
 }
 
+function updateSearch(value: string) {
+  // if (value.length > 2) {
+  // alert(value)
+  // package_store.fetchAllPackages()
+  // }
+  placeholder.value = value
+}
+
 async function setFiltration() {
   emit('closeModal')
-  common_store.setProgressCircularActive(true)
-  common_store.setOverlayOpacity(0.5)
   await submissions_store.setFiltration(
     localFiltration.value
   )
-  common_store.setProgressCircularActive(false)
 }
 
 function changeDialogOptions() {
@@ -114,14 +88,12 @@ function changeDialogOptions() {
 
 onMounted(async () => {
   updateFiltration()
-  fetchPackagesServices(package_store.filtration).then(
-    (res) => (packageSelect.value = res.data.data?.content)
-  )
+  package_store.fetchAllPackages()
 })
 
 function clearFiltration() {
   localFiltration!.value.state = undefined
-  localFiltration!.value.packageId = undefined
+  localFiltration!.value.package = undefined
   localFiltration!.value.assignedToMe = false
 }
 </script>
