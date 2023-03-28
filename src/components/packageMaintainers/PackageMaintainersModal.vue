@@ -20,7 +20,7 @@ import { computed } from 'vue'
 import Overlay from '@/components/common/Overlay.vue'
 import Filtration from '@/components/packageMaintainers/Filtration.vue'
 import { usePackageMaintainersStore } from '@/store/package_maintainers'
-import PackageMaintainerEdit from './PackageMaintainerEdit.vue'
+import PackageMaintainerEdit from '@/components/packageMaintainers/PackageMaintainerEdit.vue'
 
 const maintainers_store = usePackageMaintainersStore()
 const common_store = useCommonStore()

@@ -17,7 +17,7 @@ import {
   updatePackageMaintainerService
 } from '@/services/package_maintainers_service'
 import { i18n } from '@/plugins/i18n'
-import { usePaginationStore } from './pagination'
+import { usePaginationStore } from '@/store/pagination'
 
 interface State {
   maintainers: EntityModelPackageMaintainerDto[]

@@ -9,5 +9,5 @@
 import FiltrationButtons from '@/components/common/FiltrationButtons.vue'
 import PackageMaintainersList from '@/components/packageMaintainers/PackageMaintainersList.vue'
 import MaintainersModal from '@/components/packageMaintainers/PackageMaintainersModal.vue'
-import Pagination from '../../components/common/Pagination.vue'
+import Pagination from '@/components/common/Pagination.vue'
 </script>

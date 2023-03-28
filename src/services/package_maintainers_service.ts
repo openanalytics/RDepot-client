@@ -5,8 +5,8 @@ import {
   ResponseDtoPagedModelEntityModelPackageMaintainerDto
 } from '@/openapi'
 import { AxiosResponse } from 'axios'
-import { getConfiguration } from './api_config'
-import { openApiRequest } from './open_api_access'
+import { getConfiguration } from '@/services/api_config'
+import { openApiRequest } from '@/services/open_api_access'
 
 export function fetchPackageMaintainersService(
   filtration?: PackageMaintainersFiltration,
