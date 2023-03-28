@@ -9,7 +9,7 @@ import { getConfiguration } from './api_config'
 import { openApiRequest } from './open_api_access'
 
 export function fetchRepositoriesServices(
-  filtration: RepositoriesFiltration,
+  filtration?: RepositoriesFiltration,
   page?: number,
   pageSize?: number
 ) {
@@ -18,9 +18,9 @@ export function fetchRepositoriesServices(
   return openApiRequest<ResponseDtoPagedModelEntityModelRepositoryDto>(
     repository_api.getAllRepositories,
     [
-      filtration.deleted,
-      filtration.name,
-      filtration.technology,
+      filtration?.deleted,
+      filtration?.name,
+      filtration?.technology,
       page,
       pageSize
     ]

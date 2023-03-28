@@ -1,4 +1,4 @@
-import { MaintainersFiltration } from '@/models/Filtration'
+import { RepositoryMaintainersFiltration } from '@/models/Filtration'
 import {
   ApiV2RepositoryMaintainerControllerApiFactory,
   ResponseDtoPagedModelEntityModelRepositoryDto
@@ -8,7 +8,7 @@ import { getConfiguration } from './api_config'
 import { openApiRequest } from './open_api_access'
 
 export function fetchRepositoryMaintainersServices(
-  filtration: MaintainersFiltration,
+  filtration: RepositoryMaintainersFiltration,
   page?: number,
   pageSize?: number
 ) {
@@ -20,7 +20,7 @@ export function fetchRepositoryMaintainersServices(
     repository_maintainers_api.getAllRepositoryMaintainers,
     [
       filtration.deleted,
-      filtration.technology,
+      filtration.technologies,
       page,
       pageSize
     ]

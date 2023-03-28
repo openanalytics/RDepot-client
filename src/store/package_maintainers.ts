@@ -5,7 +5,7 @@ import {
   PackageMaintainerDto
 } from '@/openapi'
 import { defineStore } from 'pinia'
-import { MaintainersFiltration } from '@/models/Filtration'
+import { PackageMaintainersFiltration } from '@/models/Filtration'
 import { notify } from '@kyvg/vue3-notification'
 import {
   fetchPackagesServices,
@@ -21,7 +21,7 @@ import { usePaginationStore } from './pagination'
 
 interface State {
   maintainers: EntityModelPackageMaintainerDto[]
-  filtration: MaintainersFiltration
+  filtration: PackageMaintainersFiltration
   repositories: EntityModelPythonRepositoryDto[]
   packages: EntityModelRPackageDto[]
   choosenMaintainer: EntityModelPackageMaintainerDto
@@ -102,7 +102,9 @@ export const usePackageMaintainersStore = defineStore(
           }
         )
       },
-      async setFiltration(payload: MaintainersFiltration) {
+      async setFiltration(
+        payload: PackageMaintainersFiltration
+      ) {
         const pagination = usePaginationStore()
         pagination.setPage(0)
         this.filtration = payload

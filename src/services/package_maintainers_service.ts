@@ -1,4 +1,4 @@
-import { MaintainersFiltration } from '@/models/Filtration'
+import { PackageMaintainersFiltration } from '@/models/Filtration'
 import {
   ApiV2PackageMaintainerControllerApiFactory,
   PackageMaintainerDto,
@@ -9,7 +9,7 @@ import { getConfiguration } from './api_config'
 import { openApiRequest } from './open_api_access'
 
 export function fetchPackageMaintainersService(
-  filtration?: MaintainersFiltration,
+  filtration?: PackageMaintainersFiltration,
   page?: number,
   pageSize?: number
 ) {

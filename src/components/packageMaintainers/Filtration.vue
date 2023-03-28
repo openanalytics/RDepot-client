@@ -99,7 +99,7 @@ onMounted(() => {
 })
 
 function clearFiltration() {
-  localFiltration!.value.technologies = ''
+  localFiltration!.value.technologies = undefined
   localFiltration!.value.deleted = false
 }
 </script>
