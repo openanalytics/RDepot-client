@@ -6,6 +6,9 @@
     <v-expansion-panel class="py-3">
       <PackageRow :title="true" />
     </v-expansion-panel>
+    <EmptyListing
+      v-show="packages === undefined || !packages.length"
+    />
     <v-expansion-panel
       v-for="(item, index) in packages"
       :key="index"
@@ -29,6 +32,7 @@
 import { usePackagesStore } from '@/store/packages'
 import { computed, onMounted } from 'vue'
 import PackageRow from './PackageRow.vue'
+import EmptyListing from '../common/EmptyListing.vue'
 
 const packages_store = usePackagesStore()
 

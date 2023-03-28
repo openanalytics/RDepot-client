@@ -27,9 +27,14 @@ interface EventsFiltration {
   resourceType: string | undefined
 }
 
-interface MaintainersFiltration {
+interface PackageMaintainersFiltration {
   deleted: boolean | undefined
-  technology: string | undefined
+  technologies: string[] | undefined
+}
+
+interface RepositoryMaintainersFiltration {
+  deleted: boolean | undefined
+  technologies: string[] | undefined
 }
 
 export type {
@@ -37,5 +42,6 @@ export type {
   SubmissionsFiltration,
   EventsFiltration,
   RepositoriesFiltration,
-  MaintainersFiltration
+  PackageMaintainersFiltration,
+  RepositoryMaintainersFiltration
 }

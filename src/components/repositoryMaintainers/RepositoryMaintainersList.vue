@@ -7,13 +7,19 @@
       <v-expansion-panel class="py-3">
         <RepositoryMaintainerRow title />
       </v-expansion-panel>
+      <EmptyListing
+        v-show="
+          repository_maintainers === undefined ||
+          !repository_maintainers.length
+        "
+      />
       <v-expansion-panel
         v-for="(item, index) in repository_maintainers"
         :key="index"
       >
         <v-expansion-panel-title
           readonly
-          id="expansionpaneltitle"
+          id="expansion-panel-title"
           class="no-icon"
         >
           <RepositoryMaintainerRow
@@ -28,7 +34,7 @@
 <script setup lang="ts">
 import { computed, onMounted } from 'vue'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
-import RepositoryMaintainerRow from './RepositoryMaintainerRow.vue'
+import RepositoryMaintainerRow from '@/components/repositoryMaintainers/RepositoryMaintainerRow.vue'
 
 const repository_maintainers_store =
   useRepositoryMaintainersStore()

@@ -12,7 +12,7 @@
         title == true
           ? prepareString($t('maintainers.name'))
           : packageMaintainer
-          ? packageMaintainer.userId
+          ? packageMaintainer.user?.id
           : ''
       }}</v-col
     >
@@ -37,7 +37,7 @@
         title == true
           ? prepareString($t('maintainers.repository'))
           : packageMaintainer
-          ? packageMaintainer.repositoryId
+          ? packageMaintainer.repository?.id
           : ''
       }}</v-col
     >
@@ -114,12 +114,12 @@ function prepareString(value: string): string {
   return value.charAt(0).toUpperCase() + value.slice(1)
 }
 function edit() {
-  maintainers_store.setChoosenMaintainer(
+  maintainers_store.setChosenMaintainer(
     props.packageMaintainer || {}
   )
   common_store.setOverlayText(
     i18n.t('maintainers.edit', {
-      maintainerName: props.packageMaintainer?.userId
+      maintainerName: props.packageMaintainer?.user?.id
     })
   )
   common_store.setOverlayModel(true)
@@ -128,16 +128,17 @@ function edit() {
 }
 
 function deleteDialog() {
+  maintainers_store.setChosenMaintainer(
+    props.packageMaintainer || {}
+  )
   common_store.setOverlayText(
     i18n.t('maintainers.deleteQuestion', {
-      maintainerName: props.packageMaintainer?.userId
+      maintainerName: props.packageMaintainer?.user?.id
     })
   )
   common_store.setOverlayModel(true)
   common_store.setOverlayOpacity(0.8)
-  common_store.setOverlayComponent(
-    OverlayEnum.DeleteMaintainer
-  )
+  common_store.setOverlayComponent(OverlayEnum.Delete)
 }
 </script>
 

@@ -4,6 +4,11 @@
       <v-expansion-panel class="py-3">
         <SubmissionRow title />
       </v-expansion-panel>
+      <EmptyListing
+        v-show="
+          submissions === undefined || !submissions.length
+        "
+      />
       <v-expansion-panel>
         <v-expansion-panel-title
           v-for="(item, index) in submissions"

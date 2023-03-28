@@ -4,7 +4,7 @@ import {
 } from '@/openapi'
 import { defineStore } from 'pinia'
 import repositories from '@/tmpLists/repositories.json'
-import { MaintainersFiltration } from '@/models/Filtration'
+import { RepositoryMaintainersFiltration } from '@/models/Filtration'
 import {
   deletedRepositoryMaintainer,
   fetchRepositoryMaintainersServices,
@@ -15,7 +15,7 @@ import { usePaginationStore } from './pagination'
 
 interface State {
   maintainers?: EntityModelRepositoryMaintainerDto[]
-  filtration: MaintainersFiltration
+  filtration: RepositoryMaintainersFiltration
   repositories: EntityModelRepositoryMaintainerDto[]
   chosenMaintainer: EntityModelPackageMaintainerDto
 }
@@ -27,8 +27,8 @@ export const useRepositoryMaintainersStore = defineStore(
       return {
         maintainers: [],
         filtration: {
-          deleted: false,
-          technology: ''
+          deleted: undefined,
+          technologies: undefined
         },
         repositories: [],
         chosenMaintainer: {}
@@ -103,15 +103,17 @@ export const useRepositoryMaintainersStore = defineStore(
           )
         }
       },
-      async setFiltration(payload: MaintainersFiltration) {
+      async setFiltration(
+        payload: RepositoryMaintainersFiltration
+      ) {
         const pagination = usePaginationStore()
         pagination.setPage(0)
         this.filtration = payload
         this.fetchMaintainers()
       },
       clearFiltration() {
-        this.filtration.technology = undefined
-        this.filtration.deleted = false
+        this.filtration.technologies = undefined
+        this.filtration.deleted = undefined
       },
       async clearFiltrationAndFetch() {
         this.clearFiltration()

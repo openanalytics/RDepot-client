@@ -5,12 +5,13 @@
     v-on:set-filtration="setFiltration()"
     v-on:change-dialog-options="changeDialogOptions()"
   >
-    <v-select
-      id="filtration-technology"
-      v-model="localFiltration.technology"
-      :items="technologySelect"
-      :label="$t('maintainers.filtration.technology')"
-    ></v-select>
+        <v-select
+          multiple
+          id="filtration-technology"
+          v-model="localFiltration.technologies"
+          :items="technologySelect"
+          :label="$t('maintainers.filtration.technology')"
+        ></v-select>
 
     <v-checkbox
       id="filtration-deleted"
@@ -59,7 +60,7 @@ onMounted(() => {
 })
 
 function clearFiltration() {
-  localFiltration!.value.technology = ''
-  localFiltration!.value.deleted = false
+  localFiltration!.value.technologies = undefined
+  localFiltration!.value.deleted = undefined
 }
 </script>
