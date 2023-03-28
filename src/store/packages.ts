@@ -4,21 +4,23 @@ import { fetchPackagesServices } from '@/services'
 import { defineStore } from 'pinia'
 import {
   EntityModelPackageDto,
+  Link,
   ResponseDtoListVignette,
   RPackageControllerApiFactory
 } from '@/openapi'
 import {
   fetchPackageServices,
+  fetchPackagesWithoutProgressControl,
   updateRPackage
 } from '@/services/package_services'
 import { usePaginationStore } from './pagination'
-import { p } from 'vitest/dist/index-1cfc7f58'
 
 interface State {
   packages?: EntityModelPackageDto[]
   package?: EntityModelPackageDto
   vignettes: ResponseDtoListVignette
   filtration: PackagesFiltration
+  next?: boolean
 }
 
 export const usePackagesStore = defineStore(
@@ -34,7 +36,8 @@ export const usePackagesStore = defineStore(
           deleted: undefined,
           repository: undefined,
           technology: undefined
-        }
+        },
+        next: false
       }
     },
     actions: {
@@ -60,6 +63,36 @@ export const usePackagesStore = defineStore(
             notify({ text: msg, type: 'error' })
           }
         )
+      },
+      async fetchAllPackages(page: number = 0) {
+        if (page == 0) {
+          this.packages = []
+        }
+        await fetchPackagesWithoutProgressControl(
+          undefined,
+          page ? page : 0,
+          10
+        )
+          .then(
+            (res) => {
+              console.log(ifNext(res.data.data?.links))
+              this.next = ifNext(res.data.data?.links)
+              if (res.data.data?.content) {
+                this.packages = this.packages?.concat(
+                  res.data.data?.content
+                )
+              }
+            },
+            (msg) => {
+              this.packages = []
+              notify({ text: msg, type: 'error' })
+            }
+          )
+          .finally(() => {
+            if (this.next) {
+              this.fetchAllPackages(page + 1)
+            }
+          })
       },
       async fetchPackage(id: number) {
         fetchPackageServices(id).then(
@@ -92,12 +125,13 @@ export const usePackagesStore = defineStore(
         const pagination = usePaginationStore()
         pagination.setPage(0)
         this.filtration = payload
+        this.fetchPackages()
       },
       clearFiltration() {
         this.filtration.state = undefined
         this.filtration.repository = undefined
         this.filtration.technology = undefined
-        this.filtration.deleted = false
+        this.filtration.deleted = undefined
       },
       async clearFiltrationAndFetch() {
         this.clearFiltration()
@@ -106,3 +140,17 @@ export const usePackagesStore = defineStore(
     }
   }
 )
+
+function ifNext(links?: Link[]): boolean {
+  var flag: boolean = false
+  if (links != undefined) {
+    links.forEach((link: Link) => {
+      if (link.rel === 'next') {
+        console.log('here')
+        // return true
+        flag = true
+      }
+    })
+  }
+  return flag
+}
