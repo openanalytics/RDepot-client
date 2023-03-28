@@ -17,6 +17,7 @@ import {
   updatePackageMaintainerService
 } from '@/services/package_maintainers_service'
 import { i18n } from '@/plugins/i18n'
+import { usePaginationStore } from './pagination'
 
 interface State {
   maintainers: EntityModelPackageMaintainerDto[]
@@ -24,10 +25,6 @@ interface State {
   repositories: EntityModelPythonRepositoryDto[]
   packages: EntityModelRPackageDto[]
   choosenMaintainer: EntityModelPackageMaintainerDto
-  page?: number
-  pageSize: number
-  howManyPages: number
-  totalNumber?: number
 }
 
 export const usePackageMaintainersStore = defineStore(
@@ -42,24 +39,24 @@ export const usePackageMaintainersStore = defineStore(
         },
         repositories: [],
         packages: [],
-        choosenMaintainer: {},
-        page: 0,
-        pageSize: 10,
-        howManyPages: 0,
-        totalNumber: 0
+        choosenMaintainer: {}
       }
     },
     actions: {
       async fetchMaintainers() {
+        const pagination = usePaginationStore()
         fetchPackageMaintainersService(
           this.filtration,
-          this.page,
-          this.pageSize
+          pagination.page,
+          pagination.pageSize
         ).then(
           (res) => {
-            this.page = res.data.data?.page?.number
-            this.totalNumber =
-              res.data.data?.page?.totalElements
+            pagination.setPage(
+              res.data.data?.page?.number || 0
+            )
+            pagination.setTotalNumber(
+              res.data.data?.page?.totalElements || 0
+            )
             this.maintainers = res.data.data?.content || []
           },
           (msg) => {
@@ -106,6 +103,8 @@ export const usePackageMaintainersStore = defineStore(
         )
       },
       async setFiltration(payload: MaintainersFiltration) {
+        const pagination = usePaginationStore()
+        pagination.setPage(0)
         this.filtration = payload
         this.fetchMaintainers()
       },
@@ -116,15 +115,6 @@ export const usePackageMaintainersStore = defineStore(
       async clearFiltrationAndFetch() {
         this.clearFiltration()
         this.fetchMaintainers()
-      },
-      async setPage(payload: number) {
-        this.page = payload
-        this.fetchPackages()
-      },
-      async setPageSize(payload: number) {
-        if (payload > 0) {
-          this.pageSize = payload
-        }
       },
       async deleteChoosenMaintainer() {
         deletePackageMaintainerService(
