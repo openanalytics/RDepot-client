@@ -8,8 +8,11 @@
         <PackageMaintainerRow title />
       </v-expansion-panel>
       <EmptyListing
-        v-show="!package_maintainers.length"
-      ></EmptyListing>
+        v-show="
+          package_maintainers === undefined ||
+          !package_maintainers.length
+        "
+      />
       <v-expansion-panel
         v-for="(item, index) in package_maintainers"
         :key="index"

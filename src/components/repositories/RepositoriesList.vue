@@ -6,6 +6,11 @@
     <v-expansion-panel class="py-3">
       <repository-row :title="true" />
     </v-expansion-panel>
+    <EmptyListing
+      v-show="
+        repositories === undefined || !repositories.length
+      "
+    />
     <v-expansion-panel
       class="px-5"
       v-for="(item, index) in repositories"
