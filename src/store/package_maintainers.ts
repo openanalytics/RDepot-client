@@ -34,7 +34,7 @@ export const usePackageMaintainersStore = defineStore(
       return {
         maintainers: [],
         filtration: {
-          deleted: false,
+          deleted: undefined,
           technologies: undefined
         },
         repositories: [],
@@ -112,7 +112,7 @@ export const usePackageMaintainersStore = defineStore(
       },
       clearFiltration() {
         this.filtration.technologies = undefined
-        this.filtration.deleted = false
+        this.filtration.deleted = undefined
       },
       async clearFiltrationAndFetch() {
         this.clearFiltration()
