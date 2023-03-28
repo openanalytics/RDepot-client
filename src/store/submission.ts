@@ -1,20 +1,15 @@
-import { Repository } from '@/models/repositories/Repository'
-import {
-  EntityModelSubmissionDto,
-  ResponseDtoPagedModelEntityModelSubmissionDto,
-  RSubmissionControllerApiFactory
-} from '@/openapi'
+import { EntityModelSubmissionDto } from '@/openapi'
 import { defineStore } from 'pinia'
 import { SubmissionsFiltration } from '@/models/Filtration'
 import { notify } from '@kyvg/vue3-notification'
 import { i18n } from '@/plugins/i18n'
-import { getConfiguration } from '@/services/api_config'
-import { openApiRequest } from '@/services/open_api_access'
 import { useLoggedUserStore } from './logged_user'
-import { updateSubmission } from '@/services/submission_services'
+import {
+  fetchRSubmissions,
+  updateSubmission
+} from '@/services/submission_services'
 
 interface State {
-  repository: Repository | null
   packages: File[]
   submissions: EntityModelSubmissionDto[]
   filtration: SubmissionsFiltration
@@ -28,12 +23,11 @@ export const useSubmissionStore = defineStore(
   {
     state: (): State => {
       return {
-        repository: null,
         packages: [],
         submissions: [],
         filtration: {
-          package: undefined,
-          state: '',
+          packageId: undefined,
+          state: undefined,
           assignedToMe: false
         },
         page: 0,
@@ -49,21 +43,11 @@ export const useSubmissionStore = defineStore(
       },
       async fetchSubmissions() {
         const logged_user = useLoggedUserStore()
-        const r_submission_api =
-          RSubmissionControllerApiFactory(
-            getConfiguration()
-          )
-        openApiRequest<ResponseDtoPagedModelEntityModelSubmissionDto>(
-          () =>
-            r_submission_api.getAllSubmissions(
-              this.filtration.state,
-              this.filtration.assignedToMe
-                ? logged_user.userId
-                : undefined,
-              this.filtration.package?.id,
-              this.page,
-              this.pageSize
-            )
+        fetchRSubmissions(
+          this.filtration,
+          logged_user.userId,
+          this.page,
+          this.pageSize
         ).then(
           (res) => {
             this.totalNumber =
@@ -99,9 +83,6 @@ export const useSubmissionStore = defineStore(
           }
         )
       },
-      setRepository(payload: Repository) {
-        this.repository = payload
-      },
       setPackages(payload: File[]) {
         this.packages = payload
       },
@@ -123,9 +104,9 @@ export const useSubmissionStore = defineStore(
         })
       },
       clearFiltration() {
-        this.filtration.state = ''
+        this.filtration.state = undefined
         this.filtration.assignedToMe = false
-        this.filtration.package = undefined
+        this.filtration.packageId = undefined
       },
       async setPage(payload: number) {
         this.page = payload

@@ -92,7 +92,8 @@
       "technology": "Technology",
       "resourceId": "Resource Id",
       "userId": "User Id"
-    }
+    },
+    "noEvents": "No events available"
   },
   "repositories": {
     "filtration": {

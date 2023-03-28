@@ -11,14 +11,13 @@ import {
   fetchPackageServices,
   updateRPackage
 } from '@/services/package_services'
+import { usePaginationStore } from './pagination'
+import { p } from 'vitest/dist/index-1cfc7f58'
 
 interface State {
   packages?: EntityModelPackageDto[]
   package?: EntityModelPackageDto
   vignettes: ResponseDtoListVignette
-  page?: number
-  pageSize: number
-  totalNumber?: number
   filtration: PackagesFiltration
 }
 
@@ -30,9 +29,6 @@ export const usePackagesStore = defineStore(
         packages: [],
         package: {},
         vignettes: {},
-        page: 0,
-        pageSize: 10,
-        totalNumber: 0,
         filtration: {
           state: undefined,
           deleted: undefined,
@@ -43,20 +39,24 @@ export const usePackagesStore = defineStore(
     },
     actions: {
       async fetchPackages() {
+        const pagination = usePaginationStore()
         fetchPackagesServices(
           this.filtration,
-          this.page,
-          this.pageSize
+          pagination.page,
+          pagination.pageSize
         ).then(
           (res) => {
-            this.totalNumber =
-              res.data.data?.page?.totalElements
-            this.page = res.data.data?.page?.number
             this.packages = res.data.data?.content
+            pagination.setPage(
+              res.data.data?.page?.number || 0
+            )
+            pagination.setTotalNumber(
+              res.data.data?.page?.totalElements || 0
+            )
           },
           (msg) => {
             this.packages = []
-            this.page = 0
+            pagination.setPage(0)
             notify({ text: msg, type: 'error' })
           }
         )
@@ -88,18 +88,10 @@ export const usePackagesStore = defineStore(
           )
         }
       },
-      async setPage(payload: number) {
-        this.page = payload
-        this.fetchPackages()
-      },
-      async setPageSize(payload: number) {
-        if (payload > 0) {
-          this.pageSize = payload
-        }
-      },
       async setFiltration(payload: PackagesFiltration) {
+        const pagination = usePaginationStore()
+        pagination.setPage(0)
         this.filtration = payload
-        await this.setPage(0)
       },
       clearFiltration() {
         this.filtration.state = undefined

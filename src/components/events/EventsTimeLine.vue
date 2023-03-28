@@ -1,6 +1,12 @@
 <template>
   <v-timeline
+    v-if="
+      grouped_events != undefined &&
+      grouped_events.length > 0
+    "
     :side="smAndDown ? 'end' : undefined"
+    ref="eventsTimeline"
+    id="eventsTimeline"
     truncate-line="both"
     class="timeline"
     align="center"
@@ -26,13 +32,15 @@
           :date="!item.eventType ? item : undefined"
         />
       </template>
-
       <EventBox
         v-if="item && item.eventType"
         :event="item"
       ></EventBox>
     </v-timeline-item>
   </v-timeline>
+  <NoEvents
+    v-else-if="!common_store.progressCircularActive"
+  />
 </template>
 
 <script setup lang="ts">
@@ -40,16 +48,26 @@ import EventBox from './EventBox.vue'
 import EventIcon from './EventIcon.vue'
 import { EntityModelNewsfeedEventDto } from '@/openapi'
 import { useEventsStore } from '@/store/events'
-import { computed, ref } from 'vue'
+import {
+  computed,
+  ref,
+  onMounted,
+  nextTick,
+  onBeforeUnmount
+} from 'vue'
 import { useDisplay } from 'vuetify/lib/framework.mjs'
 import { useTheme } from 'vuetify'
 import { useDates } from '@/composable/date'
+import NoEvents from './NoEvents.vue'
+import { useCommonStore } from '@/store/common'
 
 const { current } = useTheme()
 const { lgAndUp, mdAndUp, smAndUp, smAndDown } =
   useDisplay()
 const { isYearAndMonthDate, getMonthAndYear, getDate } =
   useDates()
+
+const common_store = useCommonStore()
 const events_store = useEventsStore()
 const hiddenDays = ref<string[]>([])
 const hiddenMonths = ref<string[]>([])
@@ -107,40 +125,47 @@ function hideMonth(date: string) {
 }
 
 const grouped_events = computed(function () {
-  const local_events: any[] = []
-  const events_grouped_by_date = groupByDate(
-    events_store.events
-  )
+  if (
+    events_store.events != undefined &&
+    events_store.events.length > 0
+  ) {
+    const local_events: any[] = []
+    const events_grouped_by_date = groupByDate(
+      events_store.events
+    )
 
-  var firstDate = events_grouped_by_date.keys().next().value
-  var dateTime = new Date(firstDate)
-  var monthYear = getMonthAndYear(dateTime)
-  local_events.push(false)
-  local_events.push(monthYear)
-  local_events.push(null)
+    var firstDate = events_grouped_by_date
+      .keys()
+      .next().value
+    var dateTime = new Date(firstDate)
+    var monthYear = getMonthAndYear(dateTime)
+    local_events.push(false)
+    local_events.push(monthYear)
+    local_events.push(null)
 
-  events_grouped_by_date.forEach((events, date) => {
-    if (monthYear != getMonthAndYear(new Date(date))) {
-      monthYear = getMonthAndYear(new Date(date))
-      local_events.push(false)
-      local_events.push(monthYear)
-      local_events.push(false)
-    }
-
-    if (hiddenMonths.value.indexOf(monthYear) == -1) {
-      local_events.push(false)
-      local_events.push(date)
-      local_events.push(false)
-      if (hiddenDays.value.indexOf(date) == -1) {
-        events.forEach(
-          (event: EntityModelNewsfeedEventDto) => {
-            local_events.push(event)
-          }
-        )
+    events_grouped_by_date.forEach((events, date) => {
+      if (monthYear != getMonthAndYear(new Date(date))) {
+        monthYear = getMonthAndYear(new Date(date))
+        local_events.push(false)
+        local_events.push(monthYear)
+        local_events.push(false)
       }
-    }
-  })
-  return local_events
+
+      if (hiddenMonths.value.indexOf(monthYear) == -1) {
+        local_events.push(false)
+        local_events.push(date)
+        local_events.push(false)
+        if (hiddenDays.value.indexOf(date) == -1) {
+          events.forEach(
+            (event: EntityModelNewsfeedEventDto) => {
+              local_events.push(event)
+            }
+          )
+        }
+      }
+    })
+    return local_events
+  }
 })
 
 function groupByDate(
@@ -156,6 +181,45 @@ function groupByDate(
   )
   return groupedMap
 }
+
+const eventsTimeline = ref<HTMLDivElement>()
+
+async function loadMoreEvents() {
+  let element: HTMLElement | null = document.getElementById(
+    'eventsTimeline'
+  )
+
+  if (
+    element != null &&
+    element.getBoundingClientRect().bottom <
+      window.innerHeight
+  ) {
+    await events_store.fetchNextPageEvents()
+  }
+}
+
+var lastScrollTop = 0
+
+onMounted(async () => {
+  await events_store.fetchEvents()
+  nextTick(() => {
+    window.addEventListener('scroll', () => {
+      var st =
+        window.pageYOffset ||
+        document.documentElement.scrollTop
+      if (st > lastScrollTop) {
+        loadMoreEvents()
+      }
+      lastScrollTop = st <= 0 ? 0 : st
+    })
+  })
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('scroll', () => {
+    loadMoreEvents()
+  })
+})
 </script>
 
 <style lang="scss">

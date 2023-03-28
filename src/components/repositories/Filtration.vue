@@ -9,18 +9,27 @@
         <v-select
           id="filtration-name"
           v-model="localFiltration.name"
-          :items="repositoryNameSelect"
+          :items="repository_store.repositories"
+          item-value="name"
+          item-title="name"
           :label="$t('repositories.filtration.name')"
-          data-test="filtrationstate"
         ></v-select>
 
         <v-select
           id="filtration-technology"
           v-model="localFiltration.technology"
           :items="technologySelect"
-          multiple
           :label="$t('repositories.filtration.technology')"
+          multiple
         ></v-select>
+        <v-checkbox
+          id="filtration-deleted"
+          :label="
+            localFiltration &&
+            $t('packages.filtration.deleted')
+          "
+          v-model="localFiltration.deleted"
+        ></v-checkbox>
       </v-form>
     </v-card-text>
     <v-divider></v-divider>
@@ -29,7 +38,7 @@
         <v-btn
           id="cancel-button"
           color="blue darken-1"
-          @click="changeDialogOptions"
+          @click="changeDialogOptions()"
           class="mx-1"
         >
           <small>
@@ -41,7 +50,7 @@
             id="reset-button"
             color="blue darken-1"
             class="mx-1"
-            @click="clearFiltration"
+            @click="clearFiltration()"
           >
             <small>
               {{ $t('common.clearForm') }}
@@ -51,7 +60,7 @@
             id="set-filtration"
             color="blue darken-1"
             class="mx-1"
-            @click="setFiltration"
+            @click="setFiltration()"
           >
             <small>
               {{ $t('common.apply') }}
@@ -70,7 +79,6 @@ import { ref, onMounted } from 'vue'
 const repository_store = useRepositoryStore()
 
 const technologySelect = ref(['R', 'Python'])
-const repositoryNameSelect = ref(['repo1', 'repo2'])
 let filtration = repository_store.filtration
 const localFiltration = ref(filtration)
 
@@ -80,6 +88,7 @@ function updateFiltration() {
   localFiltration.value = JSON.parse(
     JSON.stringify(repository_store.filtration)
   )
+  console.log(localFiltration.value)
 }
 
 async function setFiltration() {
@@ -99,7 +108,8 @@ onMounted(() => {
 })
 
 function clearFiltration() {
-  localFiltration!.value.technology = ''
-  localFiltration!.value.name = ''
+  localFiltration!.value.technology = undefined
+  localFiltration!.value.name = undefined
+  localFiltration!.value.deleted = undefined
 }
 </script>

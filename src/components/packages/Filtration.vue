@@ -11,7 +11,7 @@
           v-model="localFiltration.state"
           :items="submissionStateSelect"
           :label="$t('packages.filtration.state')"
-          data-test="filtrationstate"
+          data-test="filtration-state"
         ></v-select>
 
         <v-select
@@ -28,7 +28,7 @@
           :label="$t('repositories.filtration.technology')"
         ></v-select>
         <v-checkbox
-          id="filtration-deleter"
+          id="filtration-deleted"
           :label="
             localFiltration &&
             $t('packages.filtration.deleted')
@@ -81,6 +81,8 @@
 import { usePackagesStore } from '@/store/packages'
 import { ref, onMounted } from 'vue'
 
+const emit = defineEmits(['closeModal'])
+
 const package_store = usePackagesStore()
 
 const submissionStateSelect = ref([
@@ -93,8 +95,6 @@ const technologySelect = ref(['R', 'Python'])
 const repositoryNameSelect = ref(['repo1', 'repo2'])
 let filtration = package_store.filtration
 const localFiltration = ref(filtration)
-
-const emit = defineEmits(['closeModal'])
 
 function updateFiltration() {
   localFiltration.value = JSON.parse(
@@ -119,7 +119,7 @@ onMounted(() => {
 function clearFiltration() {
   localFiltration.value.state = undefined
   localFiltration.value.repository = undefined
-  localFiltration.value.deleted = false
+  localFiltration.value.deleted = undefined
   localFiltration.value.technology = undefined
 }
 </script>

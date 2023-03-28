@@ -8,14 +8,14 @@ import packages from '@/tmpLists/packages.json'
 import { RepositoriesFiltration } from '@/models/Filtration'
 import { fetchRepositoriesServices } from '@/services'
 import { notify } from '@kyvg/vue3-notification'
+import { usePaginationStore } from './pagination'
 
 interface State {
   repositories?: EntityModelRepositoryDto[]
   filtration: RepositoriesFiltration
-  choosenRepository: number
-  choosenRepositoryName: string
+  chosenRepository: number
+  chosenRepositoryName: string
   repositoryPackages?: EntityModelPackageDto[]
-  page?: number
 }
 
 const packages_api = ApiV2PackageControllerApiFactory()
@@ -27,21 +27,30 @@ export const useRepositoryStore = defineStore(
       return {
         repositories: [],
         filtration: {
-          name: '',
-          technology: ''
+          name: undefined,
+          technology: undefined,
+          deleted: undefined
         },
-        choosenRepository: -1,
-        choosenRepositoryName: '',
-        repositoryPackages: [],
-        page: 0
+        chosenRepository: -1,
+        chosenRepositoryName: '',
+        repositoryPackages: []
       }
     },
     actions: {
       async fetchRepositories() {
-        // const repositories: ResponseDtoPagedModelEntityModelRepositoryDto = fetchRepositoriesServices()
-        await fetchRepositoriesServices().then(
+        const pagination = usePaginationStore()
+        await fetchRepositoriesServices(
+          this.filtration,
+          pagination.page,
+          pagination.pageSize
+        ).then(
           (res) => {
-            this.page = res.data.data?.page?.number
+            pagination.setTotalNumber(
+              res.data.data?.page?.totalElements || 0
+            )
+            pagination.setPage(
+              res.data.data?.page?.number || 0
+            )
             this.repositories = res.data.data?.content
           },
           (msg) => {
@@ -51,7 +60,7 @@ export const useRepositoryStore = defineStore(
       },
       async fetchPackages() {
         packages_api
-          .getAllPackages(this.choosenRepositoryName)
+          .getAllPackages(this.chosenRepositoryName)
           .then(
             (res) => {
               this.repositoryPackages =
@@ -64,12 +73,15 @@ export const useRepositoryStore = defineStore(
         )
       },
       async setFiltration(payload: RepositoriesFiltration) {
+        const pagination = usePaginationStore()
+        pagination.setPage(0)
         this.filtration = payload
         this.fetchRepositories()
       },
       clearFiltration() {
-        this.filtration.technology = ''
-        this.filtration.name = ''
+        this.filtration.technology = undefined
+        this.filtration.name = undefined
+        this.filtration.deleted = undefined
       },
       async clearFiltrationAndFetch() {
         this.clearFiltration()

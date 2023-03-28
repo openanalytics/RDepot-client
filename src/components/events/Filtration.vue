@@ -7,31 +7,31 @@
     <v-card-text style="height: 400px">
       <v-form ref="form" lazy-validation>
         <v-select
-          id="filtrationeventtype"
+          id="filtration-event-type"
           v-model="localFiltration.eventType"
           :items="eventTypeSelect"
           :label="$t('events.filtration.eventType')"
-          data-test="filtrationeventtype"
+          data-test="filtration-event-type"
         ></v-select>
 
         <v-select
-          id="filtrationresourcetype"
+          id="filtration-resource-type"
           v-model="localFiltration.resourceType"
           :items="resourceTypeSelect"
           :label="$t('events.filtration.resourceType')"
-          data-test="filtrationresourcetype"
+          data-test="filtration-resource-type"
         ></v-select>
 
         <v-select
-          id="filtrationtechnology"
+          id="filtration-technology"
           v-model="localFiltration.technology"
           :items="technologySelect"
           :label="$t('events.filtration.technology')"
-          data-test="filtrationtechnology"
+          data-test="filtration-technology"
         ></v-select>
 
         <v-text-field
-          id="filtrationresourceid"
+          id="filtration-resource-id"
           type="number"
           v-model="localFiltration.resourceId"
           :label="$t('events.filtration.resourceId')"
@@ -39,7 +39,7 @@
         ></v-text-field>
 
         <v-text-field
-          id="filtrationuserid"
+          id="filtration-user-id"
           type="number"
           v-model="localFiltration.userId"
           :label="$t('events.filtration.userId')"
@@ -51,7 +51,7 @@
     <v-card-actions>
       <v-row justify="space-between" class="mt-1">
         <v-btn
-          id="cancelbutton"
+          id="cancel-button"
           color="blue darken-1"
           @click="changeDialogOptions"
           class="mx-1"
@@ -62,7 +62,7 @@
         </v-btn>
         <v-row class="my-0" justify="end">
           <v-btn
-            id="resetbutton"
+            id="reset-button"
             color="blue darken-1"
             class="mx-1"
             @click="clearFiltration"
@@ -72,7 +72,7 @@
             </small>
           </v-btn>
           <v-btn
-            id="setfiltration"
+            id="set-filtration"
             color="blue darken-1"
             class="mx-1"
             @click="setFiltration"
@@ -91,21 +91,22 @@
 import { useEventsStore } from '@/store/events'
 import { ref, onMounted } from 'vue'
 
+const emit = defineEmits(['closeModal'])
 const event_store = useEventsStore()
 
 const eventTypeSelect = ref(['create', 'update', 'delete'])
 const technologySelect = ref(['R', 'Python'])
 const resourceTypeSelect = ref([
-  'repository',
   'package',
-  'repository maintainer',
-  'package maintainer',
-  'user'
+  'repository',
+  'user',
+  'submission',
+  'packageMaintainer',
+  'repositoryMaintainer'
 ])
+
 let filtration = event_store.filtration
 const localFiltration = ref(filtration)
-
-const emit = defineEmits(['closeModal'])
 
 function updateFiltration() {
   localFiltration.value = JSON.parse(
@@ -128,10 +129,10 @@ onMounted(() => {
 })
 
 function clearFiltration() {
-  localFiltration!.value.eventType = ''
+  localFiltration!.value.eventType = undefined
   localFiltration!.value.resourceId = undefined
-  localFiltration!.value.resourceType = ''
-  localFiltration!.value.technology = ''
+  localFiltration!.value.resourceType = undefined
+  localFiltration!.value.technology = undefined
   localFiltration!.value.userId = undefined
 }
 </script>
