@@ -33,7 +33,7 @@
 import { usePackageMaintainersStore } from '@/store/package_maintainers'
 import { computed, onMounted } from 'vue'
 import PackageMaintainerRow from '@/components/packageMaintainers/PackageMaintainerRow.vue'
-import EmptyListing from '@/common/EmptyListing.vue'
+import EmptyListing from '@/components/common/EmptyListing.vue'
 
 const package_mainatainers_store =
   usePackageMaintainersStore()
