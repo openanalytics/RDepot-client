@@ -24,10 +24,14 @@
         ></v-select>
         <v-select
           id="edit-package-maintainer-package"
-          v-model="localMaintainer.packageName"
+          v-model="localMaintainerPackage"
           :items="packages"
-          item-title="name"
-          item-value="name"
+          :item-title="
+            (item) => `${item.name}, ${item.version}`
+          "
+          :item-value="
+            (item) => `${item.name}, ${item.version}`
+          "
           :label="$t('maintainers.editform.package')"
         ></v-select>
       </v-form>
@@ -81,16 +85,15 @@ const packages = computed(() => {
   })
 })
 
-const packagesSelect = ref([
-  'accured',
-  'abc',
-  'A3',
-  'bea.R',
-  'AnaCoDa'
-])
-
 let maintainer = maintainers_store.choosenMaintainer
 const localMaintainer = ref(maintainer)
+
+const localMaintainerPackage = computed(() => {
+  return maintainers_store.packages.filter(
+    (packagedto) =>
+      packagedto.user?.id == localMaintainer.value.id
+  )[0]
+})
 
 const emit = defineEmits(['closeModal'])
 
