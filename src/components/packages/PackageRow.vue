@@ -55,7 +55,7 @@
               $t('packages.maintainer').toString()
             )
           : packageBag
-          ? packageBag.user?.login
+          ? packageBag.user?.name
           : ''
       }}</v-col
     >
