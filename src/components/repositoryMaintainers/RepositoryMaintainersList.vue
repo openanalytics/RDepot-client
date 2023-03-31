@@ -35,6 +35,7 @@
 import { computed, onMounted } from 'vue'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
 import RepositoryMaintainerRow from './RepositoryMaintainerRow.vue'
+import EmptyListing from '@/components/common/EmptyListing.vue'
 
 const repository_maintainers_store =
   useRepositoryMaintainersStore()
