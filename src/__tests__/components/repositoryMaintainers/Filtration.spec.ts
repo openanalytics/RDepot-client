@@ -67,36 +67,40 @@ describe('Repository Maintainers - filtration', () => {
   it('reset form but not accept it yet', async () => {
     fillTheFormWithRandomData()
     fillPiniaFiltrationWithRandomData()
-    wrapper.vm.localFiltration.technology = 'R'
+    wrapper.vm.localFiltration.technologies = ['R']
     await clickButton('#reset-button')
     checkIfFiltrationIsEmpty()
     expect(
-      repository_maintainers_store.filtration.technology
-    ).toBe('Python')
+      repository_maintainers_store.filtration.technologies
+    ).toStrictEqual(['Python'])
   })
 
   it('reset form but and cancel it', async () => {
     fillTheFormWithRandomData()
     fillPiniaFiltrationWithRandomData()
-    wrapper.vm.localFiltration.technology = 'R'
+    wrapper.vm.localFiltration.technologies = ['R']
     await clickButton('#reset-button')
     await clickButton('#cancel-button')
-    expect(wrapper.vm.filtration.technology).toBe('Python')
     expect(
-      repository_maintainers_store.filtration.technology
-    ).toBe('Python')
+      wrapper.vm.filtration.technologies
+    ).toStrictEqual(['Python'])
+    expect(
+      repository_maintainers_store.filtration.technologies
+    ).toStrictEqual(['Python'])
   })
 
   it('change state but cancel action', async () => {
     fillTheFormWithRandomData()
     fillPiniaFiltrationWithRandomData()
     await clickButton('#set-filtration')
-    wrapper.vm.localFiltration.technology = 'R'
+    wrapper.vm.localFiltration.technologies = ['R']
     await clickButton('#cancel-button')
-    expect(wrapper.vm.filtration.technology).toBe('Python')
     expect(
-      repository_maintainers_store.filtration.technology
-    ).toBe('Python')
+      wrapper.vm.filtration.technologies
+    ).toStrictEqual(['Python'])
+    expect(
+      repository_maintainers_store.filtration.technologies
+    ).toStrictEqual(['Python'])
   })
 
   it('clear form and accept it', async () => {
@@ -119,36 +123,39 @@ describe('Repository Maintainers - filtration', () => {
 })
 
 function checkIfFiltrationIsEmpty() {
-  expect(wrapper.vm.localFiltration.technology).toBe('')
-  expect(wrapper.vm.localFiltration.deleted).toBe(false)
+  expect(wrapper.vm.localFiltration.technologies).toBe(
+    undefined
+  )
+  expect(wrapper.vm.localFiltration.deleted).toBe(undefined)
 }
 
 function checkIfPiniaFiltrationIsEmpty() {
   expect(
-    repository_maintainers_store.filtration.technology
-  ).toBe('')
+    repository_maintainers_store.filtration.technologies
+  ).toBe(undefined)
   expect(
     repository_maintainers_store.filtration.deleted
-  ).toBe(false)
+  ).toBe(undefined)
 }
 
 function checkIfPiniaFiltrationIsFilledWithData() {
   expect(
-    repository_maintainers_store.filtration.technology
-  ).toBe('Python')
+    repository_maintainers_store.filtration.technologies
+  ).toStrictEqual(['Python'])
   expect(
     repository_maintainers_store.filtration.deleted
   ).toBe(false)
 }
 
 function fillPiniaFiltrationWithRandomData() {
-  repository_maintainers_store.filtration.technology =
+  repository_maintainers_store.filtration.technologies = [
     'Python'
+  ]
   repository_maintainers_store.filtration.deleted = false
 }
 
 function fillTheFormWithRandomData() {
-  wrapper.vm.localFiltration.technology = 'Python'
+  wrapper.vm.localFiltration.technologies = ['Python']
   wrapper.vm.localFiltration.deleted = false
 }
 

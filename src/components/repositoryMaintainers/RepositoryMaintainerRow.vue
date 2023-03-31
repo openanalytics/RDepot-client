@@ -12,7 +12,7 @@
         title == true
           ? prepareString($t('maintainers.name'))
           : repositoryMaintainer
-          ? repositoryMaintainer.user?.login
+          ? repositoryMaintainer.user?.name
           : ''
       }}</v-col
     >
