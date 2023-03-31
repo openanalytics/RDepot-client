@@ -45,9 +45,7 @@ describe('Repository Maintainers - maintainers row (maintainer)', () => {
 
   it('name field', () => {
     const field = wrapper.find('#package-maintainer-name')
-    expect(field.text()).toBe(
-      maintainer.user?.id?.toString()
-    )
+    expect(field.text()).toBe(maintainer.user?.name)
   })
 
   it('package field', () => {
