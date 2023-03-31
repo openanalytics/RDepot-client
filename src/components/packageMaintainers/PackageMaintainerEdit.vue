@@ -24,14 +24,10 @@
         ></v-select>
         <v-select
           id="edit-package-maintainer-package"
-          v-model="localMaintainerPackage"
+          v-model="localMaintainer.packageName"
           :items="packages"
-          :item-title="
-            (item) => `${item.name}, ${item.version}`
-          "
-          :item-value="
-            (item) => `${item.name}, ${item.version}`
-          "
+          item-title="name"
+          item-value="name"
           :label="$t('maintainers.editform.package')"
         ></v-select>
       </v-form>
@@ -67,6 +63,7 @@
 </template>
 
 <script setup lang="ts">
+import { EntityModelPackageDto } from '@/openapi'
 import { usePackageMaintainersStore } from '@/store/package_maintainers'
 import { ref, onMounted, computed } from 'vue'
 
@@ -77,23 +74,22 @@ const repositories = computed(() => {
 })
 
 const packages = computed(() => {
-  return maintainers_store.packages.filter((packageBag) => {
-    return (
-      packageBag.repository?.id ==
-      localMaintainer.value.repository?.id
+  return Array.from(
+    new Set(
+      maintainers_store.packages
+        .filter((packageBag) => {
+          return (
+            packageBag.repository?.id ==
+            localMaintainer.value.repository?.id
+          )
+        })
+        .map((packageBag) => packageBag.name)
     )
-  })
+  )
 })
 
 let maintainer = maintainers_store.choosenMaintainer
 const localMaintainer = ref(maintainer)
-
-const localMaintainerPackage = computed(() => {
-  return maintainers_store.packages.filter(
-    (packagedto) =>
-      packagedto.user?.id == localMaintainer.value.id
-  )[0]
-})
 
 const emit = defineEmits(['closeModal'])
 
