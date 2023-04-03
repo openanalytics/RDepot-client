@@ -11,13 +11,11 @@ import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
 import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import RepositoryMaintainerVue from '@/components/repositoryMaintainers/RepositoryMaintainerRow.vue'
-import maintainers from '@/tmpLists/repositoryMaintainers.json'
+import maintainers from '@/__tests__/config/mockData/repositoryMaintainers.json'
 import { EntityModelRepositoryMaintainerDto } from '@/openapi'
 import { createPinia, setActivePinia } from 'pinia'
-import { useCommonStore } from '@/store/common'
 
 let wrapper: any
-let common_store: any
 const globalConfig = {
   mocks: mocks,
   plugins: plugins
@@ -26,12 +24,11 @@ beforeAll(() => {
   global.ResizeObserver = ResizeObserver
   config.global.renderStubDefaultSlot = true
   setActivePinia(createPinia())
-  common_store = useCommonStore()
 })
 
 describe('Repository Maintainers - maintainers row (maintainer)', () => {
   const maintainer: EntityModelRepositoryMaintainerDto =
-    JSON.parse(JSON.stringify(maintainers.data[0]))
+    JSON.parse(JSON.stringify(maintainers.data.content[0]))
   beforeEach(async () => {
     wrapper = mount(RepositoryMaintainerVue, {
       global: globalConfig,
@@ -50,16 +47,14 @@ describe('Repository Maintainers - maintainers row (maintainer)', () => {
     const field = wrapper.find(
       '#repository-maintainer-name'
     )
-    expect(field.text()).toBe(maintainer.userId?.toString())
+    expect(field.text()).toBe(maintainer.user?.name)
   })
 
   it('repository field', () => {
     const field = wrapper.find(
       '#repository-maintainer-repository'
     )
-    expect(field.text()).toBe(
-      maintainer.repositoryId?.toString()
-    )
+    expect(field.text()).toBe(maintainer.repository?.name)
   })
 
   it('delete button is visiable', () => {

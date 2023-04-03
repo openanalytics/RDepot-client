@@ -1,4 +1,7 @@
-import { EntityModelSubmissionDto } from '@/openapi'
+import {
+  EntityModelRepositoryDto,
+  EntityModelSubmissionDto
+} from '@/openapi'
 import { defineStore } from 'pinia'
 import { SubmissionsFiltration } from '@/models/Filtration'
 import { notify } from '@kyvg/vue3-notification'
@@ -11,6 +14,7 @@ import {
 
 interface State {
   packages: File[]
+  repository?: EntityModelRepositoryDto
   submissions: EntityModelSubmissionDto[]
   filtration: SubmissionsFiltration
   page?: number
@@ -25,6 +29,7 @@ export const useSubmissionStore = defineStore(
       return {
         packages: [],
         submissions: [],
+        repository: undefined,
         filtration: {
           packageId: undefined,
           state: undefined,
@@ -36,11 +41,6 @@ export const useSubmissionStore = defineStore(
       }
     },
     actions: {
-      timeout(ms: number) {
-        return new Promise((resolve) =>
-          setTimeout(resolve, ms)
-        )
-      },
       async fetchSubmissions() {
         const logged_user = useLoggedUserStore()
         fetchRSubmissions(
@@ -94,10 +94,14 @@ export const useSubmissionStore = defineStore(
           this.packages = [...this.packages, packageBag]
         })
       },
+      async setRepository(
+        payload: EntityModelRepositoryDto
+      ) {
+        this.repository = payload
+      },
       async setFiltration(payload: SubmissionsFiltration) {
         this.filtration = payload
         await this.fetchSubmissions()
-        await this.timeout(5000)
         notify({
           text: i18n.t('notifications.successFiltration'),
           type: 'success'
@@ -120,7 +124,6 @@ export const useSubmissionStore = defineStore(
       async clearFiltrationAndFetch() {
         this.clearFiltration()
         await this.fetchSubmissions()
-        await this.timeout(5000)
         notify({
           text: i18n.t(
             'notifications.successFiltrationReset'

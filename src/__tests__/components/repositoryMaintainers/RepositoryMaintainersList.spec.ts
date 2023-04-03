@@ -34,6 +34,9 @@ beforeEach(async () => {
   wrapper = mount(RepositoryMaintainersListVue, {
     global: globalConfig
   })
+
+  repository_maintainers__store.maintainers =
+    maintainers.data
 })
 
 describe('Repository Maintainers - list', () => {

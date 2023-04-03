@@ -31,6 +31,7 @@ import { useSubmissionStore } from '@/store/submission'
 import { EntityModelSubmissionDto } from '@/openapi'
 import router from '@/router'
 import SubmissionRow from './SubmissionRow.vue'
+import EmptyListing from '@/components/common/EmptyListing.vue'
 
 const submission_store = useSubmissionStore()
 

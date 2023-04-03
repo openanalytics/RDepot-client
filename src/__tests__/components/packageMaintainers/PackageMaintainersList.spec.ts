@@ -33,6 +33,8 @@ beforeEach(async () => {
   wrapper = mount(PackageMaintainersListVue, {
     global: globalConfig
   })
+
+  package_maintainers_store.maintainers = maintainers.data
 })
 
 describe('Package Maintainers - list', () => {

@@ -14,7 +14,7 @@ import { createPinia, setActivePinia } from 'pinia'
 import { useSubmissionStore } from '@/store/submission'
 import SubmissionsListVue from '@/components/submissions/SubmissionList.vue'
 import SubmissionRowVue from '@/components/submissions/SubmissionRow.vue'
-import submissions from '@/tmpLists/rSubmissions.json'
+import submissions from '@/__tests__/config/mockData/rSubmissions.json'
 
 let wrapper: any
 let submission_store: any
@@ -32,6 +32,7 @@ beforeEach(async () => {
   wrapper = mount(SubmissionsListVue, {
     global: globalConfig
   })
+  submission_store.submissions = submissions.data.content
 })
 
 describe('Submissions - list', () => {
@@ -45,7 +46,7 @@ describe('Submissions - list', () => {
     )
 
     expect(packagesFromWrapper.length).toEqual(
-      submissions.content.length + 1
+      submissions.data.content.length + 1
     )
   })
 })

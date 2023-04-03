@@ -52,11 +52,6 @@ describe('Repositories - repository row (repository)', () => {
     expect(field.text()).toBe(repository.name)
   })
 
-  it('maintainer field', () => {
-    const field = wrapper.find('#repository-maintainer')
-    expect(field.text()).toBe('maintainer')
-  })
-
   it('publication uri field', () => {
     const field = wrapper.find(
       '#repository-publication-uri'
@@ -133,11 +128,6 @@ describe('Repositories - repository row (empty repository)', () => {
     expect(field.text()).toBe('')
   })
 
-  it('maintainer field', () => {
-    const field = wrapper.find('#repository-maintainer')
-    expect(field.text()).toBe('')
-  })
-
   it('publication uri field', () => {
     const field = wrapper.find(
       '#repository-publication-uri'
@@ -197,11 +187,6 @@ describe('Repositories - repository row (title)', () => {
   it('name field', () => {
     const field = wrapper.find('#repository-name')
     expect(field.text()).toBe('Repositories.name')
-  })
-
-  it('maintainer title', () => {
-    const field = wrapper.find('#repository-maintainer')
-    expect(field.text()).toBe('Repositories.maintainer')
   })
 
   it('publication uri title', () => {

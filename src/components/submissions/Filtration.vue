@@ -72,7 +72,6 @@
 
 <script setup lang="ts">
 import { EntityModelSubmissionDtoStateEnum } from '@/openapi'
-import { fetchPackagesServices } from '@/services'
 import { useCommonStore } from '@/store/common'
 import { usePackagesStore } from '@/store/packages'
 import { useSubmissionStore } from '@/store/submission'
@@ -114,9 +113,7 @@ function changeDialogOptions() {
 
 onMounted(async () => {
   updateFiltration()
-  fetchPackagesServices(package_store.filtration).then(
-    (res) => (packageSelect.value = res.data.data?.content)
-  )
+  await package_store.fetchPackages()
 })
 
 function clearFiltration() {

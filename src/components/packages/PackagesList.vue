@@ -32,7 +32,7 @@
 import { usePackagesStore } from '@/store/packages'
 import { computed, onMounted } from 'vue'
 import PackageRow from './PackageRow.vue'
-import EmptyListing from '../common/EmptyListing.vue'
+import EmptyListing from '@/components/common/EmptyListing.vue'
 
 const packages_store = usePackagesStore()
 

@@ -118,13 +118,21 @@ describe('Packages - filtration', () => {
 })
 
 function checkIfFiltrationIsEmpty() {
-  expect(wrapper.vm.localFiltration.name).toBe('')
-  expect(wrapper.vm.localFiltration.technology).toBe('')
+  expect(wrapper.vm.localFiltration.name).toBe(undefined)
+  expect(wrapper.vm.localFiltration.technology).toBe(
+    undefined
+  )
+  expect(wrapper.vm.localFiltration.deleted).toBe(undefined)
 }
 
 function checkIfPiniaFiltrationIsEmpty() {
-  expect(repositories_store.filtration.name).toBe('')
-  expect(repositories_store.filtration.technology).toBe('')
+  expect(repositories_store.filtration.name).toBe(undefined)
+  expect(repositories_store.filtration.technology).toBe(
+    undefined
+  )
+  expect(repositories_store.filtration.deleted).toBe(
+    undefined
+  )
 }
 
 function checkIfPiniaFiltrationIsFilledWithData() {
@@ -132,20 +140,23 @@ function checkIfPiniaFiltrationIsFilledWithData() {
     'testrepo1'
   )
   expect(repositories_store.filtration.technology).toBe('R')
+  expect(repositories_store.filtration.deleted).toBe(true)
 }
 
 function fillPiniaFiltrationWithRandomData() {
   repositories_store.filtration.name = 'testrepo1'
   repositories_store.filtration.technology = 'R'
+  repositories_store.filtration.deleted = true
 }
 
 function fillTheFormWithRandomData() {
   wrapper.vm.localFiltration.name = 'testrepo1'
   wrapper.vm.localFiltration.technology = 'R'
+  wrapper.vm.localFiltration.deleted = true
 }
 
 async function clickButton(id: string) {
-  const cancel_button = wrapper.find(id)
-  expect(cancel_button.isVisible()).toBe(true)
-  await cancel_button.trigger('click')
+  const button = wrapper.find(id)
+  expect(button.isVisible()).toBe(true)
+  await button.trigger('click')
 }

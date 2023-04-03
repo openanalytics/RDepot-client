@@ -12,7 +12,7 @@
         title == true
           ? prepareString($t('maintainers.name'))
           : repositoryMaintainer
-          ? repositoryMaintainer.user?.login
+          ? repositoryMaintainer.user?.name
           : ''
       }}</v-col
     >
@@ -102,7 +102,7 @@ function prepareString(value: string): string {
   return value.charAt(0).toUpperCase() + value.slice(1)
 }
 function edit() {
-  maintainers_store.setChoosenMaintainer(
+  maintainers_store.setChosenMaintainer(
     props.repositoryMaintainer || {}
   )
   common_store.setOverlayText(
@@ -116,7 +116,7 @@ function edit() {
 }
 
 function deleteDialog() {
-  maintainers_store.setChoosenMaintainer(
+  maintainers_store.setChosenMaintainer(
     props.repositoryMaintainer || {}
   )
   common_store.setOverlayText(
