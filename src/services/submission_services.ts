@@ -7,6 +7,7 @@ import { useLoggedUserStore } from '@/store/logged_user'
 import { AxiosResponse } from 'axios'
 import { getConfiguration } from './api_config'
 import { openApiRequest } from './open_api_access'
+import { Blob } from 'buffer'
 
 export function fetchRSubmissions(
   filtration: SubmissionsFiltration,
@@ -49,5 +50,18 @@ export function updateSubmission(
       patch_body,
       submission_id
     )
+  )
+}
+
+export function addSumbission(
+  repository: string,
+  file: File
+) {
+  const r_submission_api = RSubmissionControllerApiFactory(
+    getConfiguration()
+  )
+
+  return openApiRequest<AxiosResponse<any>>(() =>
+    r_submission_api.submitPackageForm(repository, file)
   )
 }

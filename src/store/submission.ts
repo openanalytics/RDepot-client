@@ -8,6 +8,7 @@ import { notify } from '@kyvg/vue3-notification'
 import { i18n } from '@/plugins/i18n'
 import { useLoggedUserStore } from './logged_user'
 import {
+  addSumbission,
   fetchRSubmissions,
   updateSubmission
 } from '@/services/submission_services'
@@ -137,6 +138,12 @@ export const useSubmissionStore = defineStore(
           ),
           type: 'success'
         })
+      },
+      async addSumbissionRequest() {
+        addSumbission(
+          this.repository?.name!,
+          this.packages[0]
+        )
       }
     }
   }

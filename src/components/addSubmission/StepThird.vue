@@ -43,7 +43,7 @@ const choosenPackages = computed(() => {
 function backStep() {
   emits('next', 2)
 }
-function submit() {
+async function submit() {
   var approved_packages = [] as File[]
   choosenPackages.value.forEach((element, index) => {
     if (accepted_packages.value.includes(index)) {
@@ -51,5 +51,6 @@ function submit() {
     }
   })
   submissions_store.setPackages(approved_packages)
+  await submissions_store.addSumbissionRequest()
 }
 </script>
