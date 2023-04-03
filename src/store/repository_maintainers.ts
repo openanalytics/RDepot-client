@@ -12,9 +12,10 @@ import {
 } from '@/services/repository_maintainers_services'
 import { notify } from '@kyvg/vue3-notification'
 import { usePaginationStore } from './pagination'
+import { useObjectActions } from '@/composable/objectActions'
 
 interface State {
-  maintainers?: EntityModelRepositoryMaintainerDto[]
+  maintainers: EntityModelRepositoryMaintainerDto[]
   filtration: RepositoryMaintainersFiltration
   repositories: EntityModelRepositoryMaintainerDto[]
   chosenMaintainer: EntityModelPackageMaintainerDto
@@ -49,7 +50,7 @@ export const useRepositoryMaintainersStore = defineStore(
             pagination.setTotalNumber(
               res.data.data?.page?.totalElements || 0
             )
-            this.maintainers = res.data.data?.content
+            this.maintainers = res.data.data?.content || []
           },
           (msg) => {
             notify({ text: msg, type: 'error' })
@@ -102,6 +103,11 @@ export const useRepositoryMaintainersStore = defineStore(
             }
           )
         }
+      },
+      async setPage(payload: number) {
+        const pagination = usePaginationStore()
+        pagination.setPage(payload)
+        this.fetchMaintainers()
       },
       async setFiltration(
         payload: RepositoryMaintainersFiltration

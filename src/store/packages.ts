@@ -14,9 +14,10 @@ import {
   updateRPackage
 } from '@/services/package_services'
 import { usePaginationStore } from './pagination'
+import { useObjectActions } from '@/composable/objectActions'
 
 interface State {
-  packages?: EntityModelPackageDto[]
+  packages: EntityModelPackageDto[]
   package?: EntityModelPackageDto
   vignettes: ResponseDtoListVignette
   filtration: PackagesFiltration
@@ -49,7 +50,7 @@ export const usePackagesStore = defineStore(
           pagination.pageSize
         ).then(
           (res) => {
-            this.packages = res.data.data?.content
+            this.packages = res.data.data?.content || []
             pagination.setPage(
               res.data.data?.page?.number || 0
             )
@@ -75,7 +76,6 @@ export const usePackagesStore = defineStore(
         )
           .then(
             (res) => {
-              console.log(ifNext(res.data.data?.links))
               this.next = ifNext(res.data.data?.links)
               if (res.data.data?.content) {
                 this.packages = this.packages?.concat(
@@ -113,6 +113,11 @@ export const usePackagesStore = defineStore(
           }
         )
       },
+      async setPage(payload: number) {
+        const pagination = usePaginationStore()
+        pagination.setPage(payload)
+        this.fetchPackages()
+      },
       async downloadManual() {
         const rPackageApi = RPackageControllerApiFactory()
         if (this.package?.id) {
@@ -126,6 +131,10 @@ export const usePackagesStore = defineStore(
         pagination.setPage(0)
         this.filtration = payload
         this.fetchPackages()
+      },
+      async setFiltrationByRepositoryOnly(payload: string) {
+        this.clearFiltration()
+        this.filtration.repository = payload
       },
       clearFiltration() {
         const { setAllFields } = useObjectActions()

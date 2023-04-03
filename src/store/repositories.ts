@@ -9,13 +9,14 @@ import { RepositoriesFiltration } from '@/models/Filtration'
 import { fetchRepositoriesServices } from '@/services'
 import { notify } from '@kyvg/vue3-notification'
 import { usePaginationStore } from './pagination'
+import { useObjectActions } from '@/composable/objectActions'
 
 interface State {
-  repositories?: EntityModelRepositoryDto[]
+  repositories: EntityModelRepositoryDto[]
   filtration: RepositoriesFiltration
   chosenRepository: number
   chosenRepositoryName: string
-  repositoryPackages?: EntityModelPackageDto[]
+  repositoryPackages: EntityModelPackageDto[]
 }
 
 const packages_api = ApiV2PackageControllerApiFactory()
@@ -51,9 +52,10 @@ export const useRepositoryStore = defineStore(
             pagination.setPage(
               res.data.data?.page?.number || 0
             )
-            this.repositories = res.data.data?.content
+            this.repositories = res.data.data?.content || []
           },
           (msg) => {
+            pagination.setPage(0)
             notify({ text: msg, type: 'error' })
           }
         )
@@ -64,7 +66,7 @@ export const useRepositoryStore = defineStore(
           .then(
             (res) => {
               this.repositoryPackages =
-                res.data.data?.content
+                res.data.data?.content || []
             },
             (msg) => notify({ text: msg, type: 'error' })
           )
@@ -76,6 +78,11 @@ export const useRepositoryStore = defineStore(
         const pagination = usePaginationStore()
         pagination.setPage(0)
         this.filtration = payload
+        this.fetchRepositories()
+      },
+      async setPage(payload: number) {
+        const pagination = usePaginationStore()
+        pagination.setPage(payload)
         this.fetchRepositories()
       },
       clearFiltration() {
