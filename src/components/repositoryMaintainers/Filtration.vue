@@ -5,13 +5,13 @@
     v-on:set-filtration="setFiltration()"
     v-on:change-dialog-options="changeDialogOptions()"
   >
-        <v-select
-          multiple
-          id="filtration-technology"
-          v-model="localFiltration.technologies"
-          :items="technologySelect"
-          :label="$t('maintainers.filtration.technology')"
-        ></v-select>
+    <v-select
+      multiple
+      id="filtration-technology"
+      v-model="localFiltration.technologies"
+      :items="technologySelect"
+      :label="$t('maintainers.filtration.technology')"
+    ></v-select>
 
     <v-checkbox
       id="filtration-deleted"
@@ -28,9 +28,10 @@
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
 import { ref, onMounted } from 'vue'
 import FiltrationCard from '../common/FiltrationCard.vue'
+import { useObjectActions } from '@/composable/objectActions'
 
+const { setAllFields } = useObjectActions()
 const maintainers_store = useRepositoryMaintainersStore()
-
 const technologySelect = ref(['R', 'Python'])
 let filtration = maintainers_store.filtration
 const localFiltration = ref(filtration)
@@ -60,7 +61,6 @@ onMounted(() => {
 })
 
 function clearFiltration() {
-  localFiltration!.value.technologies = undefined
-  localFiltration!.value.deleted = undefined
+  setAllFields(localFiltration.value, undefined)
 }
 </script>

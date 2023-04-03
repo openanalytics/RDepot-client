@@ -26,11 +26,13 @@
 
 <script setup lang="ts">
 import FiltrationCard from '@/components/common/FiltrationCard.vue'
+import { useObjectActions } from '@/composable/objectActions'
 import { usePackageMaintainersStore } from '@/store/package_maintainers'
 import { ref, onMounted } from 'vue'
 
 const maintainers_store = usePackageMaintainersStore()
 
+const { setAllFields } = useObjectActions()
 const technologySelect = ref(['R', 'Python'])
 let filtration = maintainers_store.filtration
 const localFiltration = ref(filtration)
@@ -60,7 +62,6 @@ onMounted(() => {
 })
 
 function clearFiltration() {
-  localFiltration!.value.technologies = undefined
-  localFiltration!.value.deleted = undefined
+  setAllFields(localFiltration.value, undefined)
 }
 </script>

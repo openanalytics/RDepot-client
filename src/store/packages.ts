@@ -128,10 +128,8 @@ export const usePackagesStore = defineStore(
         this.fetchPackages()
       },
       clearFiltration() {
-        this.filtration.state = undefined
-        this.filtration.repository = undefined
-        this.filtration.technology = undefined
-        this.filtration.deleted = undefined
+        const { setAllFields } = useObjectActions()
+        setAllFields(this.filtration, undefined)
       },
       async clearFiltrationAndFetch() {
         this.clearFiltration()

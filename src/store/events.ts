@@ -5,6 +5,7 @@ import {
 import { defineStore } from 'pinia'
 import { EventsFiltration } from '@/models/Filtration'
 import { fetchEventsServices } from '@/services/events_services'
+import { useObjectActions } from '@/composable/objectActions'
 import { notify } from '@kyvg/vue3-notification'
 
 interface State {
@@ -100,14 +101,12 @@ export const useEventsStore = defineStore('events_store', {
       this.fetchEvents()
     },
     clearFiltration() {
-      this.filtration.eventType = undefined
-      this.filtration.resourceId = undefined
-      this.filtration.resourceType = undefined
-      this.filtration.technology = undefined
-      this.filtration.userId = undefined
+      const { setAllFields } = useObjectActions()
+      setAllFields(this.filtration, undefined)
     },
     async clearFiltrationAndFetch() {
-      this.clearFiltration()
+      const { setAllFields } = useObjectActions()
+      setAllFields(this.filtration, undefined)
       this.fetchEvents()
     }
   }

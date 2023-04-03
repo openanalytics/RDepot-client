@@ -11,11 +11,10 @@
       :items="stateSelect"
       :label="$t('submissions.filtration.state')"
     ></v-select>
-
+    {{ localFiltration.package }}
     <v-combobox
       id="filtration-repository"
       v-model="localFiltration.package"
-      v-model:search="search"
       :items="package_store.packages"
       item-title="name"
       filter-keys="name"
@@ -47,8 +46,10 @@ import { EntityModelSubmissionDtoStateEnum } from '@/openapi'
 import { usePackagesStore } from '@/store/packages'
 import { useSubmissionStore } from '@/store/submission'
 import { ref, onMounted } from 'vue'
+import { useObjectActions } from '@/composable/objectActions'
 import FiltrationCard from '../common/FiltrationCard.vue'
 
+const { setAllFields } = useObjectActions()
 const submissions_store = useSubmissionStore()
 const package_store = usePackagesStore()
 
@@ -71,7 +72,6 @@ function updateSearch(value: string) {
   // alert(value)
   // package_store.fetchAllPackages()
   // }
-  placeholder.value = value
 }
 
 async function setFiltration() {
@@ -92,8 +92,6 @@ onMounted(async () => {
 })
 
 function clearFiltration() {
-  localFiltration!.value.state = undefined
-  localFiltration!.value.package = undefined
-  localFiltration!.value.assignedToMe = false
+  setAllFields(localFiltration.value, undefined)
 }
 </script>

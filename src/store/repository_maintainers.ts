@@ -112,8 +112,8 @@ export const useRepositoryMaintainersStore = defineStore(
         this.fetchMaintainers()
       },
       clearFiltration() {
-        this.filtration.technologies = undefined
-        this.filtration.deleted = undefined
+        const { setAllFields } = useObjectActions()
+        setAllFields(this.filtration, undefined)
       },
       async clearFiltrationAndFetch() {
         this.clearFiltration()

@@ -104,9 +104,8 @@ export const useSubmissionStore = defineStore(
         })
       },
       clearFiltration() {
-        this.filtration.state = undefined
-        this.filtration.assignedToMe = false
-        this.filtration.package = undefined
+        const { setAllFields } = useObjectActions()
+        setAllFields(this.filtration, undefined)
       },
       async setPage(payload: number) {
         this.page = payload

@@ -39,11 +39,13 @@
 
 <script setup lang="ts">
 import FiltrationCard from '@/components/common/FiltrationCard.vue'
+import { useObjectActions } from '@/composable/objectActions'
 import { usePackagesStore } from '@/store/packages'
 import { ref, onMounted } from 'vue'
 
 const emit = defineEmits(['closeModal'])
 
+const { setAllFields } = useObjectActions()
 const package_store = usePackagesStore()
 
 const submissionStateSelect = ref([
@@ -78,9 +80,6 @@ onMounted(() => {
 })
 
 function clearFiltration() {
-  localFiltration.value.state = undefined
-  localFiltration.value.repository = undefined
-  localFiltration.value.deleted = undefined
-  localFiltration.value.technology = undefined
+  setAllFields(localFiltration.value, undefined)
 }
 </script>

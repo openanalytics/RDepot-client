@@ -35,7 +35,9 @@
 import { useRepositoryStore } from '@/store/repositories'
 import { ref, onMounted } from 'vue'
 import FiltrationCard from '@/components/common/FiltrationCard.vue'
+import { useObjectActions } from '@/composable/objectActions'
 
+const { setAllFields } = useObjectActions()
 const repository_store = useRepositoryStore()
 
 const technologySelect = ref(['R', 'Python'])
@@ -68,8 +70,6 @@ onMounted(() => {
 })
 
 function clearFiltration() {
-  localFiltration!.value.technology = undefined
-  localFiltration!.value.name = undefined
-  localFiltration!.value.deleted = undefined
+  setAllFields(localFiltration.value, undefined)
 }
 </script>

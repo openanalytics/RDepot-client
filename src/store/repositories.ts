@@ -79,9 +79,8 @@ export const useRepositoryStore = defineStore(
         this.fetchRepositories()
       },
       clearFiltration() {
-        this.filtration.technology = undefined
-        this.filtration.name = undefined
-        this.filtration.deleted = undefined
+        const { setAllFields } = useObjectActions()
+        setAllFields(this.filtration, undefined)
       },
       async clearFiltrationAndFetch() {
         this.clearFiltration()
