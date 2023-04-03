@@ -18,6 +18,7 @@ import {
 } from '@/services/package_maintainers_service'
 import { i18n } from '@/plugins/i18n'
 import { usePaginationStore } from '@/store/pagination'
+import { useObjectActions } from '@/composable/objectActions'
 
 interface State {
   maintainers: EntityModelPackageMaintainerDto[]
@@ -84,7 +85,11 @@ export const usePackageMaintainersStore = defineStore(
           }
         )
       },
-
+      async setPage(payload: number) {
+        const pagination = usePaginationStore()
+        pagination.setPage(payload)
+        this.fetchMaintainers()
+      },
       async setChosenMaintainer(
         payload: EntityModelPackageMaintainerDto
       ) {
@@ -110,14 +115,14 @@ export const usePackageMaintainersStore = defineStore(
         this.fetchMaintainers()
       },
       clearFiltration() {
-        this.filtration.technologies = undefined
-        this.filtration.deleted = undefined
+        const { setAllFields } = useObjectActions()
+        setAllFields(this.filtration, undefined)
       },
       async clearFiltrationAndFetch() {
         this.clearFiltration()
         this.fetchMaintainers()
       },
-      async deleteChoosenMaintainer() {
+      async deleteChosenMaintainer() {
         deletePackageMaintainerService(
           this.chosenMaintainer.id || -1
         ).then(
