@@ -151,10 +151,9 @@
 <script setup lang="ts">
 import router from '@/router'
 import { EntityModelRRepositoryDto } from '@/openapi'
-import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
-import { useCommonStore } from '@/store/common'
-import { OverlayEnum } from '@/enum/Overlay'
-import { i18n } from '@/plugins/i18n'
+import { usePackagesStore } from '@/store/packages'
+
+const package_store = usePackagesStore()
 
 const props = defineProps({
   title: {
@@ -166,15 +165,15 @@ const props = defineProps({
     | undefined
 })
 
-const common_store = useCommonStore()
-const maintainers_store = useRepositoryMaintainersStore()
-
 function prepareString(value: string): string {
   return value.charAt(0).toUpperCase() + value.slice(1)
 }
 
 function navigate() {
-  if (props.repository) {
+  if (props.repository && props.repository.name) {
+    package_store.setFiltrationByRepositoryOnly(
+      props.repository.name
+    )
     router.replace({
       name: 'repositoryDetails',
       params: {
