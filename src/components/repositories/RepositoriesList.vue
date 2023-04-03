@@ -1,47 +1,28 @@
 <template>
-  <v-expansion-panels
-    variant="inset"
-    class="v-expansion mx-5"
+  <ResourcesList
+    :resources="repository_store.repositories"
+    :onClickAction="navigate"
   >
-    <v-expansion-panel class="py-3">
-      <repository-row :title="true" />
-    </v-expansion-panel>
-    <EmptyListing
-      v-show="
-        repositories === undefined || !repositories.length
-      "
-    />
-    <v-expansion-panel
-      class="px-5"
-      v-for="(item, index) in repositories"
-      :key="index"
-    >
-      <v-expansion-panel-title
-        @click="navigate(item)"
-        readonly
-        id="expansion-panel-title"
-        class="no-icon"
-      >
-        <RepositoryRow :repository="item" />
-      </v-expansion-panel-title>
-    </v-expansion-panel>
-  </v-expansion-panels>
+    <template #title>
+      <RepositoryRow title />
+    </template>
+    <template #expansion-row="slotProps">
+      <RepositoryRow :repository="slotProps.resource" />
+    </template>
+  </ResourcesList>
 </template>
 
 <script setup lang="ts">
 import { EntityModelRRepositoryDto } from '@/openapi'
 import router from '@/router'
 import { useRepositoryStore } from '@/store/repositories'
-import { computed, onMounted, onBeforeMount } from 'vue'
+import { onBeforeMount } from 'vue'
 import RepositoryRow from './RepositoryRow.vue'
+import ResourcesList from '../common/ResourcesList.vue'
 
 const repository_store = useRepositoryStore()
 
-const repositories = computed(function () {
-  return repository_store.repositories
-})
-
-function updateState(): void {
+function updateData(): void {
   repository_store.fetchRepositories()
 }
 function navigate(repository: EntityModelRRepositoryDto) {
@@ -54,37 +35,15 @@ function navigate(repository: EntityModelRRepositoryDto) {
 }
 
 onBeforeMount(() => {
-  updateState()
+  updateData()
 })
 </script>
 
-<style lang="scss">
-.v-expansion {
-  max-width: 96% !important;
+<script lang="ts">
+export default {
+  beforeRouteEnter: async function (to) {
+    const repository_store = useRepositoryStore()
+    await repository_store.setPage(0)
+  }
 }
-.v-expansion {
-  max-width: 96% !important;
-}
-
-.content {
-  text-align: justify;
-  font-size: 14px;
-  padding: 0 40px 0 0;
-}
-
-.v-expansion-panel-title__icon {
-  display: none !important;
-}
-
-.v-expansion-panel-title {
-  padding: 0 !important;
-}
-
-.v-col {
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
-}
-.v-input__details {
-  display: none !important;
-}
-</style>
+</script>

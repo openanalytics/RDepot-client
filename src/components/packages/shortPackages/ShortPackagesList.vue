@@ -1,55 +1,43 @@
 <template>
-  <div>
-    <v-expansion-panels
-      variant="inset"
-      class="v-expansion mx-5"
-    >
-      <v-expansion-panel>
-        <ShortPackageRow :title="true" />
-      </v-expansion-panel>
-      <v-expansion-panel
-        v-for="(item, index) in packages"
-        :key="index"
-        id="shortpackagelist"
-      >
-        <v-expansion-panel-title
-          id="expansionpaneltitle"
-          class="no-icon"
-        >
-          <ShortPackageRow :packageBag="item" />
-        </v-expansion-panel-title>
-        <v-expansion-panel-text>
-          <div class="content mt-2">
-            {{ item.description }}
-          </div>
-        </v-expansion-panel-text>
-      </v-expansion-panel>
-    </v-expansion-panels>
-  </div>
+  <ResourcesList
+    :resources="repository_store.repositoryPackages"
+    expand
+  >
+    <template #title>
+      <ShortPackageRow title />
+    </template>
+    <template #expansion-row="slotProps">
+      <ShortPackageRow :packageBag="slotProps.resource" />
+    </template>
+    <template #expansion-text="slotProps">
+      {{ getDescription(slotProps.resource) }}
+    </template>
+  </ResourcesList>
 </template>
 
 <script setup lang="ts">
-import { useRepositoryStore } from '@/store/repositories'
-import { computed, onMounted } from 'vue'
+import { onBeforeMount } from 'vue'
 import ShortPackageRow from './ShortPackageRow.vue'
+import ResourcesList from '@/components/common/ResourcesList.vue'
+import { useRepositoryStore } from '@/store/repositories'
+import { usePaginationStore } from '@/store/pagination'
 
 const repository_store = useRepositoryStore()
+const pagination = usePaginationStore()
+pagination.setPage(0)
 
-const packages = computed(function () {
-  return repository_store.repositoryPackages
-})
+function getDescription(item: any) {
+  if (item.hasOwnProperty('description')) {
+    return item['description']
+  }
+  return null
+}
 
-function updateState(): void {
+function getFirstPage(): void {
   repository_store.fetchPackages()
 }
 
-onMounted(() => {
-  updateState()
+onBeforeMount(() => {
+  getFirstPage()
 })
 </script>
-
-<style>
-.v-expansion {
-  max-width: 96% !important;
-}
-</style>

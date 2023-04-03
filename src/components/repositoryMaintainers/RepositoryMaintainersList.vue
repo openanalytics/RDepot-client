@@ -1,63 +1,32 @@
 <template>
-  <div>
-    <v-expansion-panels
-      variant="inset"
-      class="v-expansion mx-5"
-    >
-      <v-expansion-panel class="py-3">
-        <RepositoryMaintainerRow title />
-      </v-expansion-panel>
-      <EmptyListing
-        v-show="
-          repository_maintainers === undefined ||
-          !repository_maintainers.length
-        "
+  <ResourcesList
+    :resources="repository_maintainers_store.maintainers"
+  >
+    <template #title>
+      <RepositoryMaintainerRow title />
+    </template>
+    <template #expansion-row="slotProps">
+      <RepositoryMaintainerRow
+        :repositoryMaintainer="slotProps.resource"
       />
-      <v-expansion-panel
-        v-for="(item, index) in repository_maintainers"
-        :key="index"
-      >
-        <v-expansion-panel-title
-          readonly
-          id="expansion-panel-title"
-          class="no-icon"
-        >
-          <RepositoryMaintainerRow
-            :repositoryMaintainer="item"
-          />
-        </v-expansion-panel-title>
-      </v-expansion-panel>
-    </v-expansion-panels>
-  </div>
+    </template>
+  </ResourcesList>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
+import { onBeforeMount } from 'vue'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
 import RepositoryMaintainerRow from '@/components/repositoryMaintainers/RepositoryMaintainerRow.vue'
+import ResourcesList from '../common/ResourcesList.vue'
 
 const repository_maintainers_store =
   useRepositoryMaintainersStore()
 
-const repository_maintainers = computed(function () {
-  return repository_maintainers_store.maintainers
-})
-
-function updateState(): void {
+function updateData(): void {
   repository_maintainers_store.fetchMaintainers()
-  repository_maintainers_store.fetchRepositories()
 }
 
-onMounted(() => {
-  updateState()
+onBeforeMount(() => {
+  updateData()
 })
 </script>
-
-<style>
-.v-expansion {
-  max-width: 96% !important;
-}
-.v-expansion-panel-title__icon {
-  display: none !important;
-}
-</style>

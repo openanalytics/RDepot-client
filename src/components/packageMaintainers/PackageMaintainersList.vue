@@ -1,63 +1,32 @@
 <template>
-  <div>
-    <v-expansion-panels
-      variant="inset"
-      class="v-expansion mx-5"
-    >
-      <v-expansion-panel class="py-3">
-        <PackageMaintainerRow title />
-      </v-expansion-panel>
-      <EmptyListing
-        v-show="
-          package_maintainers === undefined ||
-          !package_maintainers.length
-        "
+  <ResourcesList
+    :resources="package_maintainers_store.maintainers"
+  >
+    <template #title>
+      <PackageMaintainerRow title />
+    </template>
+    <template #expansion-row="slotProps">
+      <PackageMaintainerRow
+        :packageMaintainer="slotProps.resource"
       />
-      <v-expansion-panel
-        v-for="(item, index) in package_maintainers"
-        :key="index"
-      >
-        <v-expansion-panel-title
-          readonly
-          id="expansion-panel-title"
-          class="no-icon"
-        >
-          <PackageMaintainerRow :packageMaintainer="item" />
-        </v-expansion-panel-title>
-      </v-expansion-panel>
-    </v-expansion-panels>
-  </div>
+    </template>
+  </ResourcesList>
 </template>
 
 <script setup lang="ts">
 import { usePackageMaintainersStore } from '@/store/package_maintainers'
-import { computed, onMounted } from 'vue'
+import { onBeforeMount } from 'vue'
 import PackageMaintainerRow from '@/components/packageMaintainers/PackageMaintainerRow.vue'
-import EmptyListing from '@/common/EmptyListing.vue'
+import ResourcesList from '../common/ResourcesList.vue'
 
 const package_maintainers_store =
   usePackageMaintainersStore()
 
-const package_maintainers = computed(function () {
-  return package_maintainers_store.maintainers
-})
-
-function updateState(): void {
+function updateData(): void {
   package_maintainers_store.fetchMaintainers()
-  package_maintainers_store.fetchRepositories()
-  package_maintainers_store.fetchPackages()
 }
 
-onMounted(() => {
-  updateState()
+onBeforeMount(() => {
+  updateData()
 })
 </script>
-
-<style>
-.v-expansion {
-  max-width: 96% !important;
-}
-.v-expansion-panel-title__icon {
-  display: none !important;
-}
-</style>
