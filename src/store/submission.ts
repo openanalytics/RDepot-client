@@ -8,6 +8,8 @@ import {
   fetchRSubmissions,
   updateSubmission
 } from '@/services/submission_services'
+import { usePaginationStore } from '@/store/pagination'
+import { useObjectActions } from '@/composable/objectActions'
 
 interface State {
   packages: File[]
@@ -43,21 +45,25 @@ export const useSubmissionStore = defineStore(
       },
       async fetchSubmissions() {
         const logged_user = useLoggedUserStore()
-        fetchRSubmissions(
+        const pagination = usePaginationStore()
+        await fetchRSubmissions(
           this.filtration,
           logged_user.userId,
-          this.page,
-          this.pageSize
+          pagination.page,
+          pagination.pageSize
         ).then(
           (res) => {
-            this.totalNumber =
-              res.data.data?.page?.totalElements
-            this.page = res.data.data?.page?.number
             this.submissions = res.data.data?.content || []
+            pagination.setTotalNumber(
+              res.data.data?.page?.totalElements || 0
+            )
+            pagination.setPage(
+              res.data.data?.page?.number || 0
+            )
           },
           (msg) => {
             this.submissions = []
-            this.page = 0
+            pagination.setPage(0)
             notify({ text: msg, type: 'error' })
           }
         )
@@ -95,6 +101,8 @@ export const useSubmissionStore = defineStore(
         })
       },
       async setFiltration(payload: SubmissionsFiltration) {
+        const pagination = usePaginationStore()
+        pagination.setPageSize(0)
         this.filtration = payload
         await this.fetchSubmissions()
         await this.timeout(5000)
@@ -108,13 +116,13 @@ export const useSubmissionStore = defineStore(
         setAllFields(this.filtration, undefined)
       },
       async setPage(payload: number) {
-        this.page = payload
+        const pagination = usePaginationStore()
+        pagination.setPage(payload)
         this.fetchSubmissions()
       },
       async setPageSize(payload: number) {
-        if (payload > 0) {
-          this.pageSize = payload
-        }
+        const pagination = usePaginationStore()
+        pagination.setPageSize(payload)
       },
       async clearFiltrationAndFetch() {
         this.clearFiltration()
