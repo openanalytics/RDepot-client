@@ -1,7 +1,7 @@
 <template>
-  <v-row :class="{ title: title }" id="packagerow">
+  <v-row :class="{ title: title }" id="package-row">
     <v-col
-      id="packagerowname"
+      id="package-name"
       cols="lg-1 sm-2"
       class="d-flex align-center"
       >{{
@@ -13,7 +13,7 @@
       }}</v-col
     >
     <v-col
-      id="packagerowversion"
+      id="package-version"
       cols="1"
       class="d-flex align-center"
       >{{
@@ -25,7 +25,7 @@
       }}</v-col
     >
     <v-col
-      id="packagerowdescription"
+      id="package-description"
       cols="lg-8\7 sm-2"
       class="d-flex align-center"
     >
@@ -41,7 +41,7 @@
       }}</v-col
     >
     <v-col
-      id="packagerowmaintainer"
+      id="package-maintainer"
       cols="lg-2 sm-2"
       class="d-flex align-center justify-center"
     >
@@ -51,12 +51,12 @@
               $t('packages.maintainer').toString()
             ) + ' userId'
           : packageBag
-          ? packageBag.userId
+          ? packageBag.user?.id
           : ''
       }}</v-col
     >
     <v-col
-      id="packagerowactions"
+      id="package-actions"
       cols="lg-1"
       class="d-flex justify-center"
     >
@@ -72,7 +72,7 @@
         <v-tooltip top>
           <template v-slot:activator="{ props }">
             <v-icon
-              id="navigateicon"
+              id="navigate-icon"
               @click.stop
               @click="navigate"
               v-bind="props"
@@ -80,7 +80,7 @@
               >mdi-forward</v-icon
             >
           </template>
-          <span id="actiondetails">{{
+          <span id="action-details">{{
             $t('common.details')
           }}</span>
         </v-tooltip>
@@ -92,7 +92,7 @@
 <script setup lang="ts">
 import { ref } from '@vue/reactivity'
 import router from '@/router'
-import { EntityModelPackageDtoObjectObject } from '@/openapi'
+import { EntityModelPackageDto } from '@/openapi'
 
 const props = defineProps({
   title: {
@@ -100,7 +100,7 @@ const props = defineProps({
     default: false
   },
   packageBag: Object as () =>
-    | EntityModelPackageDtoObjectObject
+    | EntityModelPackageDto
     | undefined
 })
 const descMaxLength = ref(110)
@@ -114,7 +114,7 @@ function navigate() {
     router.replace({
       name: 'packageDetails',
       params: {
-        name: props.packageBag.name
+        name: props.packageBag.id
       }
     })
   }

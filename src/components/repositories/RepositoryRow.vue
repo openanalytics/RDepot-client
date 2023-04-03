@@ -1,5 +1,9 @@
 <template>
-  <v-row :class="{ title: title }" id="repository-row">
+  <v-row
+    class="px-5"
+    :class="{ title: title }"
+    id="repository-row"
+  >
     <v-col
       id="repository-name"
       cols="lg-1 sm-2"

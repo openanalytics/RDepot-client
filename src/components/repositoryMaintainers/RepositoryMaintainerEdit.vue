@@ -28,7 +28,7 @@
     <v-card-actions>
       <v-row justify="space-between" class="mt-1">
         <v-btn
-          id="cancelbutton"
+          id="cancel-button"
           color="blue darken-1"
           @click="changeDialogOptions"
           class="mx-1"
@@ -39,7 +39,7 @@
         </v-btn>
         <v-row class="my-0" justify="end">
           <v-btn
-            id="setfiltration"
+            id="set-filtration"
             color="blue darken-1"
             class="mx-1"
             @click="setMaintainer()"
@@ -78,12 +78,6 @@ let maintainer = maintainers_store.chosenMaintainer
 const localMaintainer = ref(maintainer)
 
 const emit = defineEmits(['closeModal'])
-
-function updateMaintainer() {
-  localMaintainer.value = JSON.parse(
-    JSON.stringify(maintainers_store.chosenMaintainer)
-  )
-}
 
 async function setMaintainer() {
   await maintainers_store.setChosenMaintainer(

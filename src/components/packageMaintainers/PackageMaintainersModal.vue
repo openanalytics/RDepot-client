@@ -31,7 +31,7 @@ async function overlayEvent() {
   } else if (
     common_store.overlayComponent == OverlayEnum.Delete
   ) {
-    maintainers_store.deleteChoosenMaintainer()
+    maintainers_store.deleteChosenMaintainer()
   }
 }
 
