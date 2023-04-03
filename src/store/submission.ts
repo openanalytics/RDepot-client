@@ -41,11 +41,6 @@ export const useSubmissionStore = defineStore(
       }
     },
     actions: {
-      timeout(ms: number) {
-        return new Promise((resolve) =>
-          setTimeout(resolve, ms)
-        )
-      },
       async fetchSubmissions() {
         const logged_user = useLoggedUserStore()
         fetchRSubmissions(
@@ -107,7 +102,6 @@ export const useSubmissionStore = defineStore(
       async setFiltration(payload: SubmissionsFiltration) {
         this.filtration = payload
         await this.fetchSubmissions()
-        await this.timeout(5000)
         notify({
           text: i18n.t('notifications.successFiltration'),
           type: 'success'
@@ -130,7 +124,6 @@ export const useSubmissionStore = defineStore(
       async clearFiltrationAndFetch() {
         this.clearFiltration()
         await this.fetchSubmissions()
-        await this.timeout(5000)
         notify({
           text: i18n.t(
             'notifications.successFiltrationReset'
