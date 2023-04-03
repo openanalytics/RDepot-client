@@ -19,28 +19,26 @@
 </template>
 
 <script setup lang="ts">
-import { Repository } from '@/models/repositories/Repository'
+import { EntityModelRepositoryDto } from '@/openapi'
+import { useRepositoryStore } from '@/store/repositories'
 import { useSubmissionStore } from '@/store/submission'
 import { useNotification } from '@kyvg/vue3-notification'
+import { computed } from 'vue'
+
 const emits = defineEmits(['next'])
 const submissions_store = useSubmissionStore()
+const repository_store = useRepositoryStore()
 const nofications = useNotification()
 
-const repositories = [
-  {
-    id: 1,
-    name: 'repository1'
-  },
-  {
-    id: 2,
-    name: 'repository2'
-  }
-] as Repository[]
+const repositories = computed(function () {
+  return repository_store.repositories
+})
 
-function changeRepository(value: Repository) {
+function changeRepository(value: EntityModelRepositoryDto) {
   console.log('repository')
   submissions_store.setRepository(value)
 }
+
 function nextStep() {
   if (submissions_store.repository != null) {
     emits('next', 2)

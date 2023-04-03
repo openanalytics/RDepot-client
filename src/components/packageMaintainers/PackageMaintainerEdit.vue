@@ -63,6 +63,7 @@
 </template>
 
 <script setup lang="ts">
+import { EntityModelPackageDto } from '@/openapi'
 import { usePackageMaintainersStore } from '@/store/package_maintainers'
 import { ref, onMounted, computed } from 'vue'
 
@@ -73,21 +74,19 @@ const repositories = computed(() => {
 })
 
 const packages = computed(() => {
-  return maintainers_store.packages.filter((packageBag) => {
-    return (
-      packageBag.repository?.id ==
-      localMaintainer.value.repository?.id
+  return Array.from(
+    new Set(
+      maintainers_store.packages
+        .filter((packageBag) => {
+          return (
+            packageBag.repository?.id ==
+            localMaintainer.value.repository?.id
+          )
+        })
+        .map((packageBag) => packageBag.name)
     )
-  })
+  )
 })
-
-const packagesSelect = ref([
-  'accured',
-  'abc',
-  'A3',
-  'bea.R',
-  'AnaCoDa'
-])
 
 let maintainer = maintainers_store.chosenMaintainer
 const localMaintainer = ref(maintainer)

@@ -47,7 +47,7 @@ import { usePackagesStore } from '@/store/packages'
 import { useSubmissionStore } from '@/store/submission'
 import { ref, onMounted } from 'vue'
 import { useObjectActions } from '@/composable/objectActions'
-import FiltrationCard from '../common/FiltrationCard.vue'
+import FiltrationCard from '@/components/common/FiltrationCard.vue'
 
 const { setAllFields } = useObjectActions()
 const submissions_store = useSubmissionStore()
@@ -89,6 +89,7 @@ function changeDialogOptions() {
 onMounted(async () => {
   updateFiltration()
   package_store.fetchAllPackages()
+  await package_store.fetchPackages()
 })
 
 function clearFiltration() {

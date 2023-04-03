@@ -1,8 +1,8 @@
 import { Configuration } from '@/openapi'
 import { useLoggedUserStore } from '@/store/logged_user'
 
-const logged_user_store = useLoggedUserStore()
 export function getConfiguration() {
+  const logged_user_store = useLoggedUserStore()
   const configuration: Configuration = new Configuration()
   configuration.baseOptions = {
     headers: {

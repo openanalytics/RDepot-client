@@ -33,6 +33,8 @@ beforeEach(async () => {
   wrapper = mount(PackagesListVue, {
     global: globalConfig
   })
+
+  packages_store.packages = packages.page2
 })
 
 describe('Packages - list', () => {

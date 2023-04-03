@@ -17,7 +17,7 @@
 import { usePackageMaintainersStore } from '@/store/package_maintainers'
 import { onBeforeMount } from 'vue'
 import PackageMaintainerRow from '@/components/packageMaintainers/PackageMaintainerRow.vue'
-import ResourcesList from '../common/ResourcesList.vue'
+import EmptyListing from '@/components/common/EmptyListing.vue'
 
 const package_maintainers_store =
   usePackageMaintainersStore()

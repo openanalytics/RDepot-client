@@ -112,17 +112,25 @@ describe('Packages - filtration', () => {
 })
 
 function checkIfFiltrationIsEmpty() {
-  console.log(wrapper.vm.localFiltration.deleted)
-
-  expect(wrapper.vm.localFiltration.state).toBe('')
-  expect(wrapper.vm.localFiltration.repository).toBe('')
-  expect(wrapper.vm.localFiltration.deleted).toBe(false)
+  expect(wrapper.vm.localFiltration.state).toBe(undefined)
+  expect(wrapper.vm.localFiltration.repository).toBe(
+    undefined
+  )
+  expect(wrapper.vm.localFiltration.deleted).toBe(undefined)
+  expect(wrapper.vm.localFiltration.technology).toBe(
+    undefined
+  )
 }
 
 function checkIfPiniaFiltrationIsEmpty() {
-  expect(packages_store.filtration.state).toBe('')
-  expect(packages_store.filtration.repository).toBe('')
-  expect(packages_store.filtration.deleted).toBe(false)
+  expect(packages_store.filtration.state).toBe(undefined)
+  expect(packages_store.filtration.repository).toBe(
+    undefined
+  )
+  expect(packages_store.filtration.deleted).toBe(undefined)
+  expect(packages_store.filtration.technology).toBe(
+    undefined
+  )
 }
 
 function checkIfPiniaFiltrationIsFilledWithData() {
@@ -131,18 +139,21 @@ function checkIfPiniaFiltrationIsFilledWithData() {
     'repository1'
   )
   expect(packages_store.filtration.deleted).toBe(false)
+  expect(packages_store.filtration.technology).toBe('R')
 }
 
 function fillPiniaFiltrationWithRandomData() {
   packages_store.filtration.state = 'accepted'
   packages_store.filtration.repository = 'repository1'
   packages_store.filtration.deleted = false
+  packages_store.filtration.technology = 'R'
 }
 
 function fillTheFormWithRandomData() {
   wrapper.vm.localFiltration.state = 'accepted'
   wrapper.vm.localFiltration.repository = 'repository1'
   wrapper.vm.localFiltration.deleted = false
+  wrapper.vm.localFiltration.technology = 'R'
 }
 
 async function clickButton(id: string) {

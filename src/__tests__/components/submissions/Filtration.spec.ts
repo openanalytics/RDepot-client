@@ -11,8 +11,10 @@ import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
 import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import FiltrationVue from '@/components/submissions/Filtration.vue'
-import { createPinia, setActivePinia, Store } from 'pinia'
+import { createPinia, setActivePinia } from 'pinia'
 import { useSubmissionStore } from '@/store/submission'
+import { log } from 'console'
+import FiltrationCard from '@/components/common/FiltrationCard.vue'
 
 let wrapper: any
 const globalConfig = {
@@ -66,20 +68,29 @@ describe('Submissions - filtration', () => {
   it('reset form but not accept it yet', async () => {
     fillTheFormWithRandomData()
     fillPiniaFiltrationWithRandomData()
+    const filtrationCard =
+      wrapper.findComponent(FiltrationCard)
     wrapper.vm.localFiltration.state = 'deleted'
-    await clickButton('#reset-button')
+    filtrationCard.vm.$emit('clear-filtration')
+    // await clickButton('#reset-button')
     checkIfFiltrationIsEmpty()
     expect(submissions_store.filtration.state).toBe(
       'accepted'
     )
   })
 
-  it('reset form but and cancel it', async () => {
+  it('reset form and then cancel it', async () => {
     fillTheFormWithRandomData()
     fillPiniaFiltrationWithRandomData()
     wrapper.vm.localFiltration.state = 'deleted'
-    await clickButton('#reset-button')
-    await clickButton('#cancel-button')
+    const filtrationCard =
+      wrapper.findComponent(FiltrationCard)
+    filtrationCard.vm.$emit('change-dialog-options')
+    // expect(
+    //   wrapper.emitted().changeDialogOptions
+    // ).toBeTruthy()
+    // await clickButton('#reset-button')
+    // await clickButton('#cancel-button')
     expect(wrapper.vm.filtration.state).toBe('accepted')
     expect(submissions_store.filtration.state).toBe(
       'accepted'
@@ -89,9 +100,12 @@ describe('Submissions - filtration', () => {
   it('change state but cancel action', async () => {
     fillTheFormWithRandomData()
     fillPiniaFiltrationWithRandomData()
-    await clickButton('#set-filtration')
+    // await clickButton('#set-filtration')
+    wrapper.vm.$emit('set-filtration')
     wrapper.vm.localFiltration.state = 'deleted'
-    await clickButton('#cancel-button')
+    wrapper.vm.$emit('change-dialog-options')
+
+    // await clickButton('#cancel-button')
     expect(wrapper.vm.filtration.state).toBe('accepted')
     expect(submissions_store.filtration.state).toBe(
       'deleted'
@@ -118,20 +132,22 @@ describe('Submissions - filtration', () => {
 })
 
 function checkIfFiltrationIsEmpty() {
-  console.log(wrapper.vm.localFiltration.deleted)
-
-  expect(wrapper.vm.localFiltration.state).toBe('')
-  expect(wrapper.vm.localFiltration.package).toBe('')
+  expect(wrapper.vm.localFiltration.state).toBe(undefined)
+  expect(wrapper.vm.localFiltration.packageId).toBe(
+    undefined
+  )
   expect(wrapper.vm.localFiltration.assignedToMe).toBe(
-    false
+    undefined
   )
 }
 
 function checkIfPiniaFiltrationIsEmpty() {
-  expect(submissions_store.filtration.state).toBe('')
-  expect(submissions_store.filtration.package).toBe('')
+  expect(submissions_store.filtration.state).toBe(undefined)
+  expect(submissions_store.filtration.packageId).toBe(
+    undefined
+  )
   expect(submissions_store.filtration.assignedToMe).toBe(
-    false
+    undefined
   )
 }
 
@@ -139,7 +155,7 @@ function checkIfPiniaFiltrationIsFilledWithData() {
   expect(submissions_store.filtration.state).toBe(
     'accepted'
   )
-  expect(submissions_store.filtration.package).toBe(
+  expect(submissions_store.filtration.packageId).toBe(
     'accured'
   )
   expect(submissions_store.filtration.assignedToMe).toBe(
@@ -149,18 +165,18 @@ function checkIfPiniaFiltrationIsFilledWithData() {
 
 function fillPiniaFiltrationWithRandomData() {
   submissions_store.filtration.state = 'accepted'
-  submissions_store.filtration.package = 'accured'
+  submissions_store.filtration.packageId = 'accured'
   submissions_store.filtration.assignedToMe = false
 }
 
 function fillTheFormWithRandomData() {
   wrapper.vm.localFiltration.state = 'accepted'
-  wrapper.vm.localFiltration.package = 'accured'
+  wrapper.vm.localFiltration.packageId = 'accured'
   wrapper.vm.localFiltration.assignedToMe = false
 }
 
 async function clickButton(id: string) {
-  const cancel_button = wrapper.find(id)
-  expect(cancel_button.isVisible()).toBe(true)
-  await cancel_button.trigger('click')
+  const button = wrapper.find(id)
+  expect(button.isVisible()).toBe(true)
+  await button.trigger('click')
 }

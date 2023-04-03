@@ -11,7 +11,7 @@ import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
 import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import PackageRowVue from '@/components/packages/PackageRow.vue'
-import packages from '@/tmpLists/packages.json'
+import packages from '@/__tests__/config/mockData/packages.json'
 import { EntityModelRPackageDto } from '@/openapi'
 import { createPinia, setActivePinia } from 'pinia'
 import { useCommonStore } from '@/store/common'
@@ -31,7 +31,7 @@ beforeAll(() => {
 
 describe('Packages - package row (packagebag)', () => {
   const packagebag: EntityModelRPackageDto = JSON.parse(
-    JSON.stringify(packages.page1[0])
+    JSON.stringify(packages.data.content[0])
   )
   beforeEach(async () => {
     wrapper = mount(PackageRowVue, {
@@ -66,7 +66,9 @@ describe('Packages - package row (packagebag)', () => {
 
   it('maintainer field', () => {
     const field = wrapper.find('#package-row-maintainer')
-    expect(field.text()).toBe(packagebag.userId?.toString())
+    expect(field.text()).toBe(
+      packagebag.user?.name?.toString()
+    )
   })
 
   it('active field (checkbox)', () => {

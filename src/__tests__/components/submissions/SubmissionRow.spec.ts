@@ -6,18 +6,16 @@ import {
   beforeAll
 } from 'vitest'
 
-import { mount, config } from '@vue/test-utils'
+import { mount, config, VueWrapper } from '@vue/test-utils'
 import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
 import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import SubmissionRowVue from '@/components/submissions/SubmissionRow.vue'
-import submissions from '@/tmpLists/rSubmissions.json'
+import submissions from '@/__tests__/config/mockData/rSubmissions.json'
 import { EntityModelSubmissionDto } from '@/openapi'
 import { createPinia, setActivePinia } from 'pinia'
-import { useCommonStore } from '@/store/common'
 
 let wrapper: any
-let common_store: any
 const globalConfig = {
   mocks: mocks,
   plugins: plugins
@@ -26,12 +24,11 @@ beforeAll(() => {
   global.ResizeObserver = ResizeObserver
   config.global.renderStubDefaultSlot = true
   setActivePinia(createPinia())
-  common_store = useCommonStore()
 })
 
 describe('Submissions - submission row (ACCEPTED)', () => {
   const submission: EntityModelSubmissionDto = JSON.parse(
-    JSON.stringify(submissions.content[4])
+    JSON.stringify(submissions.data.content[4])
   )
   beforeEach(async () => {
     wrapper = mount(SubmissionRowVue, {
@@ -60,7 +57,7 @@ describe('Submissions - submission row (ACCEPTED)', () => {
   it('repository field', () => {
     const field = wrapper.find('#submission-repository')
     expect(field.text()).toBe(
-      submission.packageBag?.repositoryId?.toString()
+      submission.packageBag?.repository?.id!.toString()
     )
   })
 
@@ -78,7 +75,7 @@ describe('Submissions - submission row (ACCEPTED)', () => {
     const checkbox_active = wrapper.find(
       '#checkbox-accepted'
     )
-    expect(checkbox_active.element.checked).toEqual(
+    expect(checkbox_active.element.checked).toBe(
       submission.state == 'ACCEPTED'
     )
     expect(checkbox_active.element.disabled).toBe(true)
@@ -99,16 +96,19 @@ describe('Submissions - submission row (ACCEPTED)', () => {
 
 describe('Submissions - submission row (WAITING)', () => {
   const submission: EntityModelSubmissionDto = JSON.parse(
-    JSON.stringify(submissions.content[2])
+    JSON.stringify(submissions.data.content[2])
   )
   beforeEach(async () => {
-    wrapper = mount(SubmissionRowVue, {
-      global: globalConfig,
-      props: {
-        title: false,
-        submission: submission
+    wrapper = mount<typeof SubmissionRowVue>(
+      SubmissionRowVue,
+      {
+        global: globalConfig,
+        props: {
+          title: false,
+          submission: submission
+        }
       }
-    })
+    )
   })
 
   it('accepted field', () => {
@@ -128,7 +128,7 @@ describe('Submissions - submission row (WAITING)', () => {
   })
 
   it('cancel button is visible', () => {
-    expect(wrapper.find('#cancel-button').isVisible()).toBe(
+    expect(wrapper.find('#reject-button').isVisible()).toBe(
       true
     )
   })

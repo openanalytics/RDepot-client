@@ -1,8 +1,6 @@
 import { useCommonStore } from '@/store/common'
 import { AxiosResponse } from 'axios'
 
-let common_store = useCommonStore()
-
 var isPending = true
 
 export function openApiRequest<T>(
@@ -19,16 +17,19 @@ export function openApiRequest<T>(
 }
 
 function turnOnProgress() {
+  let common_store = useCommonStore()
   common_store.setProgressCircularActive(true)
 }
 
 async function resolved<T>(result: AxiosResponse<T>) {
   isPending = false
+  let common_store = useCommonStore()
   common_store.setProgressCircularActive(false)
   return result
 }
 
 function rejected(result: AxiosResponse<any, any>) {
+  let common_store = useCommonStore()
   common_store.setProgressCircularActive(false)
   isPending = false
   throw result
