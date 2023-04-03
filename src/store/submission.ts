@@ -35,7 +35,7 @@ export const useSubmissionStore = defineStore(
         filtration: {
           package: undefined,
           state: undefined,
-          assignedToMe: false
+          assignedToMe: undefined
         },
         page: 0,
         pageSize: 10,

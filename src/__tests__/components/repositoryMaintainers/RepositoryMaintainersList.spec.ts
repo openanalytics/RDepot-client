@@ -14,10 +14,10 @@ import { createPinia, setActivePinia } from 'pinia'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
 import RepositoryMaintainersListVue from '@/components/repositoryMaintainers/RepositoryMaintainersList.vue'
 import RepositoryMaintainerRow from '@/components/repositoryMaintainers/RepositoryMaintainerRow.vue'
-import maintainers from '@/tmpLists/repositoryMaintainers.json'
+import maintainers from '@/__tests__/config/mockData/repositoryMaintainers.json'
 
 let wrapper: any
-let repository_maintainers__store: any
+let repository_maintainers_store: any
 const globalConfig = {
   mocks: mocks,
   plugins: plugins
@@ -26,7 +26,7 @@ const globalConfig = {
 beforeAll(() => {
   global.ResizeObserver = ResizeObserver
   setActivePinia(createPinia())
-  repository_maintainers__store =
+  repository_maintainers_store =
     useRepositoryMaintainersStore()
 })
 
@@ -35,7 +35,7 @@ beforeEach(async () => {
     global: globalConfig
   })
 
-  repository_maintainers__store.maintainers =
+  repository_maintainers_store.maintainers =
     maintainers.data
 })
 

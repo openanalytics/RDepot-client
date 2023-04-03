@@ -52,7 +52,12 @@ describe('Submissions - filtration', () => {
   })
 
   it('reset clear form', async () => {
-    await clickButton('#reset-button')
+    const filtrationCard =
+      wrapper.findComponent(FiltrationCard)
+    expect(filtrationCard.exists()).toEqual(true)
+    await filtrationCard
+      .find('#reset-button')
+      .trigger('click')
     checkIfFiltrationIsEmpty()
     checkIfPiniaFiltrationIsEmpty()
   })
@@ -70,28 +75,30 @@ describe('Submissions - filtration', () => {
     fillPiniaFiltrationWithRandomData()
     const filtrationCard =
       wrapper.findComponent(FiltrationCard)
-    wrapper.vm.localFiltration.state = 'deleted'
-    filtrationCard.vm.$emit('clear-filtration')
-    // await clickButton('#reset-button')
-    checkIfFiltrationIsEmpty()
+    expect(filtrationCard.exists()).toEqual(true)
+    await filtrationCard
+      .find('#reset-button')
+      .trigger('click')
     expect(submissions_store.filtration.state).toBe(
       'accepted'
     )
   })
-
   it('reset form and then cancel it', async () => {
     fillTheFormWithRandomData()
     fillPiniaFiltrationWithRandomData()
     wrapper.vm.localFiltration.state = 'deleted'
     const filtrationCard =
       wrapper.findComponent(FiltrationCard)
-    filtrationCard.vm.$emit('change-dialog-options')
-    // expect(
-    //   wrapper.emitted().changeDialogOptions
-    // ).toBeTruthy()
-    // await clickButton('#reset-button')
-    // await clickButton('#cancel-button')
-    expect(wrapper.vm.filtration.state).toBe('accepted')
+    expect(filtrationCard.exists()).toEqual(true)
+    await filtrationCard
+      .find('#reset-button')
+      .trigger('click')
+    await filtrationCard
+      .find('#cancel-button')
+      .trigger('click')
+    expect(wrapper.vm.localFiltration.state).toBe(
+      'accepted'
+    )
     expect(submissions_store.filtration.state).toBe(
       'accepted'
     )
@@ -100,13 +107,18 @@ describe('Submissions - filtration', () => {
   it('change state but cancel action', async () => {
     fillTheFormWithRandomData()
     fillPiniaFiltrationWithRandomData()
-    // await clickButton('#set-filtration')
-    wrapper.vm.$emit('set-filtration')
+    const filtrationCard =
+      wrapper.findComponent(FiltrationCard)
+    expect(filtrationCard.exists()).toEqual(true)
+    await filtrationCard
+      .find('#set-filtration')
+      .trigger('click')
     wrapper.vm.localFiltration.state = 'deleted'
-    wrapper.vm.$emit('change-dialog-options')
 
-    // await clickButton('#cancel-button')
-    expect(wrapper.vm.filtration.state).toBe('accepted')
+    await filtrationCard
+      .find('#cancel-button')
+      .trigger('click')
+    expect(wrapper.vm.localFiltration.state).toBe('deleted')
     expect(submissions_store.filtration.state).toBe(
       'deleted'
     )

@@ -13,7 +13,7 @@ import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import { createPinia, setActivePinia } from 'pinia'
 import { usePackageMaintainersStore } from '@/store/package_maintainers'
 import PackageMaintainersListVue from '@/components/packageMaintainers/PackageMaintainersList.vue'
-import PackageMaintainersRow from '@/components/packageMaintainers/PackageMaintainerRow.vue'
+import PackageMaintainerRow from '@/components/packageMaintainers/PackageMaintainerRow.vue'
 import maintainers from '@/__tests__/config/mockData/packageMaintainers.json'
 
 let wrapper: any
@@ -43,12 +43,11 @@ describe('Package Maintainers - list', () => {
   })
 
   it('displays one row for each maintainer + one for title', async () => {
-    const packagesFromWrapper = wrapper.findAllComponents(
-      PackageMaintainersRow
-    )
+    const packageMaintainersFromWrapper =
+      wrapper.findAllComponents(PackageMaintainerRow)
 
-    expect(packagesFromWrapper.length).toEqual(
-      maintainers.data.content.length + 1
+    expect(packageMaintainersFromWrapper.length).toEqual(
+      maintainers.data.length + 1
     )
   })
 })
