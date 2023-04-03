@@ -112,8 +112,6 @@ describe('Packages - filtration', () => {
 })
 
 function checkIfFiltrationIsEmpty() {
-  console.log(wrapper.vm.localFiltration.deleted)
-
   expect(wrapper.vm.localFiltration.state).toBe(undefined)
   expect(wrapper.vm.localFiltration.repository).toBe(
     undefined

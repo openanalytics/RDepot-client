@@ -106,7 +106,6 @@ describe('Pagination', () => {
   })
 
   it('Change page size by typing', async () => {
-    console.log(wrapper.find(pageSizeSelector).html())
     expect(
       wrapper.find(pageSizeSelector).element.value
     ).toBe(pagination_store.pageSize.toString())
