@@ -1,6 +1,13 @@
 <template>
   <v-card class="mb-12 px-10 py-5 step" height="250px">
     <div class="ml-4">{{ choosenRepository }}</div>
+    <div class="ml-4">
+      Accepted packages index: {{ accepted_packages }}
+    </div>
+    <div class="ml-4">
+      Choosen packages index:
+      {{ choosenPackages.map((s, i) => i) }}
+    </div>
 
     <v-chip-group
       v-model="accepted_packages"
@@ -43,6 +50,7 @@ const choosenPackages = computed(() => {
 function backStep() {
   emits('next', 2)
 }
+
 async function submit() {
   var approved_packages = [] as File[]
   choosenPackages.value.forEach((element, index) => {
@@ -51,6 +59,6 @@ async function submit() {
     }
   })
   submissions_store.setPackages(approved_packages)
-  await submissions_store.addSumbissionRequest()
+  await submissions_store.addSumbissionRequests()
 }
 </script>

@@ -139,10 +139,9 @@ export const useSubmissionStore = defineStore(
           type: 'success'
         })
       },
-      async addSumbissionRequest() {
-        addSumbission(
-          this.repository?.name!,
-          this.packages[0]
+      async addSumbissionRequests() {
+        this.packages.forEach((packageBag) =>
+          addSumbission(this.repository?.name!, packageBag)
         )
       }
     }
