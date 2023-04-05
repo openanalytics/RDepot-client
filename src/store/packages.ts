@@ -10,7 +10,6 @@ import {
 } from '@/openapi'
 import {
   fetchPackageServices,
-  fetchPackagesWithoutProgressControl,
   updateRPackage
 } from '@/services/package_services'
 import { usePaginationStore } from './pagination'
@@ -64,35 +63,6 @@ export const usePackagesStore = defineStore(
             notify({ text: msg, type: 'error' })
           }
         )
-      },
-      async fetchAllPackages(page: number = 0) {
-        if (page == 0) {
-          this.packages = []
-        }
-        await fetchPackagesWithoutProgressControl(
-          undefined,
-          page ? page : 0,
-          10
-        )
-          .then(
-            (res) => {
-              this.next = ifNext(res.data.data?.links)
-              if (res.data.data?.content) {
-                this.packages = this.packages?.concat(
-                  res.data.data?.content
-                )
-              }
-            },
-            (msg) => {
-              this.packages = []
-              notify({ text: msg, type: 'error' })
-            }
-          )
-          .finally(() => {
-            if (this.next) {
-              this.fetchAllPackages(page + 1)
-            }
-          })
       },
       async fetchPackage(id: number) {
         fetchPackageServices(id).then(
