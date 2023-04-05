@@ -32,7 +32,11 @@
     "save": "save",
     "edit": "edit",
     "projectTitle": "RDepot",
-    "noListingResults": "No results where found"
+    "noListingResults": "No results where found",
+    "errors": {
+      "copyFailed": "Copy failed"
+    },
+    "copied": "code succesfully copied to clipboard"
   },
   "filtration": {
     "title": "filtration",
@@ -82,7 +86,7 @@
     "withinRdepot": "Within RDepot",
     "originalRPackageData": "As described in R package",
     "deleteQuestion": "Are you sure you want to delete {package_name}?",
-    "download-code": "install.packages(\"{0}\", repos = c(rdepot = \"repository publication id when there will be dto with short version of repository avaiable\"), getOption(\"repos\")))"
+    "download-code": "install.packages(\"{0}\", repos = c(rdepot = \"{1}\"), getOption(\"repos\")))"
   },
   "events": {
     "filtration": {
