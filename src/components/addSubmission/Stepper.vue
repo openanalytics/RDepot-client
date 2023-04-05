@@ -25,12 +25,20 @@ import StepFirst from './StepFirst.vue'
 import StepSecond from './StepSecond.vue'
 import StepThird from './StepThird.vue'
 import { ref } from 'vue'
+import { onMounted } from 'vue'
+import { useRepositoryStore } from '@/store/repositories'
+
+const repository_store = useRepositoryStore()
 
 const e1 = ref(1)
 
 function changeValue(event: number) {
   e1.value = event
 }
+
+onMounted(() => {
+  repository_store.fetchRepositories()
+})
 </script>
 
 <style scoped lang="scss">
