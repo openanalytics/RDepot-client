@@ -57,12 +57,22 @@
     <div class="text">
       {{ $t('packages.installInstruction') }}
     </div>
+
     <div class="code my-2">
-      <code>
+      <code class="d-flex justify-lg-space-between">
         <!--TODO-->
         {{
-          $t('packages.download-code', [packageBag.name])
+          $t('packages.download-code', [
+            packageBag.name,
+            packageBag.repository?.publicationUri
+          ])
         }}
+        <v-icon
+          @click="copyContent()"
+          icon="mdi-content-copy"
+          size="large"
+          start
+        />
       </code>
     </div>
     <div class="subtitle my-5">
@@ -192,12 +202,34 @@ import {
 } from '@/openapi'
 import { computed } from 'vue'
 import { usePackagesStore } from '@/store/packages'
-
+import { useClipboard } from '@vueuse/core'
+import { i18n } from '@/plugins/i18n'
+import { notify } from '@kyvg/vue3-notification'
+const { copy } = useClipboard()
 const package_store = usePackagesStore()
 
 const packageBag = computed<EntityModelRPackageDto>(() => {
   return package_store.package
 })
+
+function copyContent() {
+  try {
+    copy(
+      i18n.t('packages.download-code', [
+        packageBag.value.name
+      ])
+    )
+    notify({
+      text: i18n.t('common.copied'),
+      type: 'success'
+    })
+  } catch (error) {
+    notify({
+      text: i18n.t('common.errors.copyFailed'),
+      type: 'error'
+    })
+  }
+}
 
 const vignettes = computed<ResponseDtoListVignette>(() => {
   return package_store.vignettes
