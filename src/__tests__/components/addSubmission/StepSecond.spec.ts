@@ -11,7 +11,6 @@ import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
 import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import { createPinia, setActivePinia } from 'pinia'
-import { useSubmissionStore } from '@/store/submission'
 import StepSecondVue from '@/components/addSubmission/StepSecond.vue'
 
 let wrapper: any
@@ -19,7 +18,6 @@ const globalConfig = {
   mocks: mocks,
   plugins: plugins
 }
-let submission_store: any
 
 beforeAll(() => {
   global.ResizeObserver = ResizeObserver
@@ -27,7 +25,6 @@ beforeAll(() => {
 
 beforeEach(async () => {
   setActivePinia(createPinia())
-  submission_store = useSubmissionStore()
   wrapper = mount(StepSecondVue, {
     global: globalConfig
   })

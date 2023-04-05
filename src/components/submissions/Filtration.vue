@@ -88,7 +88,7 @@ function changeDialogOptions() {
 
 onMounted(async () => {
   updateFiltration()
-  package_store.fetchAllPackages()
+  package_store.fetchPackages()
   await package_store.fetchPackages()
 })
 

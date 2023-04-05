@@ -109,7 +109,7 @@ const files_local = ref<File[]>([])
 function removeFile(file: File) {
   for (var i = 0; i < files_local.value.length; i++) {
     var flag = true
-    if (file == files_local.value[i] && true) {
+    if (file == files_local.value[i] && flag) {
       files_local.value.splice(i, 1)
       flag = false
     }
@@ -129,23 +129,6 @@ watch(files, (files) => {
   }
 })
 
-function getFileName(file: any): string {
-  console.log(file)
-  if (file['name']) {
-    return file['name']
-  }
-  return ''
-}
-function checkFilesExtentions(files: File[]): boolean {
-  var unsupportedFiles: File[] = files.filter(
-    (file: File) => {
-      return !file.type.match('application/gzip')
-    }
-  )
-  return unsupportedFiles.length == 0
-}
-
-function removePackage() {}
 function savePackagesInStore() {
   var local_files: File[] = []
   if (files.value) {

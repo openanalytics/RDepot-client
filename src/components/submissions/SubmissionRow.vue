@@ -9,11 +9,9 @@
       cols="lg-1 sm-2"
       class="d-flex align-center"
       >{{
-        title == true
+        title
           ? prepareString($t('submissions.date').toString())
-          : submission
-          ? 'DATE'
-          : ''
+          : 'DATE'
       }}</v-col
     >
     <v-col
@@ -21,13 +19,11 @@
       cols="lg-1"
       class="d-flex align-center"
       >{{
-        title == true
+        title
           ? prepareString(
               $t('submissions.package').toString()
             )
-          : submission
-          ? submission.packageBag?.name
-          : ''
+          : submission?.packageBag?.name
       }}</v-col
     >
     <v-col
@@ -36,13 +32,11 @@
       class="d-flex align-center"
     >
       {{
-        title == true
+        title
           ? prepareString(
               $t('submissions.repository').toString()
             )
-          : submission
-          ? submission.packageBag?.repository?.id
-          : ''
+          : submission?.packageBag?.repository?.id
       }}</v-col
     >
     <v-col
@@ -51,13 +45,11 @@
       class="d-flex align-center"
     >
       {{
-        title == true
+        title
           ? prepareString(
               $t('submissions.submitter').toString()
             )
-          : submission
-          ? submission.submitter?.name
-          : ''
+          : submission?.submitter?.name
       }}</v-col
     >
 
@@ -71,9 +63,7 @@
           ? prepareString(
               $t('submissions.approver').toString()
             )
-          : submission
-          ? submission.approver?.name
-          : ''
+          : submission?.approver?.name
       }}</v-col
     >
     <v-col
@@ -81,7 +71,7 @@
       cols="lg-1"
       class="d-flex justify-center"
     >
-      <span v-if="title == true">
+      <span v-if="title">
         {{
           prepareString(
             $t('submissions.accepted').toString()
@@ -103,7 +93,7 @@
       cols="lg-2"
       class="d-flex justify-center"
     >
-      <span v-if="title == true">
+      <span v-if="title">
         {{
           prepareString(
             $t('submissions.actions').toString()

@@ -14,10 +14,8 @@ import PackageRowVue from '@/components/packages/PackageRow.vue'
 import packages from '@/__tests__/config/mockData/packages.json'
 import { EntityModelRPackageDto } from '@/openapi'
 import { createPinia, setActivePinia } from 'pinia'
-import { useCommonStore } from '@/store/common'
 
 let wrapper: any
-let common_store: any
 const globalConfig = {
   mocks: mocks,
   plugins: plugins
@@ -26,7 +24,6 @@ beforeAll(() => {
   global.ResizeObserver = ResizeObserver
   config.global.renderStubDefaultSlot = true
   setActivePinia(createPinia())
-  common_store = useCommonStore()
 })
 
 describe('Packages - package row (packagebag)', () => {
@@ -105,7 +102,6 @@ describe('Packages - package row (packagebag)', () => {
 describe('Packages - package row (empty)', () => {
   beforeEach(async () => {
     setActivePinia(createPinia())
-    common_store = useCommonStore()
     wrapper = mount(PackageRowVue, {
       global: globalConfig,
       props: {

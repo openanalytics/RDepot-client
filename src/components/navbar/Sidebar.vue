@@ -7,7 +7,7 @@
     <v-list nav open-strategy="single">
       <v-list-item
         prepend-icon="mdi-account"
-        title="username"
+        :title="loggedUserStore.userLogin"
         subtitle="logged in"
       ></v-list-item>
       <v-divider class="pb-3"></v-divider>
@@ -86,9 +86,11 @@
 
 <script setup lang="ts">
 import { useCommonStore } from '@/store/common'
+import { useLoggedUserStore } from '@/store/logged_user'
 import { computed } from 'vue'
 import { useDisplay } from 'vuetify/lib/framework.mjs'
 const { xs, mobile } = useDisplay()
+const loggedUserStore = useLoggedUserStore()
 
 const common_store = useCommonStore()
 const drawer = computed({

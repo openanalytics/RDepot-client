@@ -169,10 +169,10 @@
       </div>
       <div class="d-flex align-center">
         <div class="col_title">
-          {{ $t('packages.windowsBineries') }}
+          {{ $t('packages.windowsBinaries') }}
         </div>
         <div class="col_desc">
-          {{ $t('common.notAvaiable') }}
+          {{ $t('common.notAvailable') }}
         </div>
       </div>
       <div class="d-flex align-center">
@@ -180,7 +180,7 @@
           {{ $t('packages.osxBinaries') }}
         </div>
         <div class="col_desc">
-          {{ $t('common.notAvaiable') }}
+          {{ $t('common.notAvailable') }}
         </div>
       </div>
       <div class="d-flex align-center">

@@ -7,9 +7,7 @@
       >{{
         title == true
           ? prepareString($t('packages.name').toString())
-          : packageBag
-          ? packageBag.name
-          : ''
+          : packageBag?.name
       }}</v-col
     >
     <v-col
@@ -17,11 +15,9 @@
       cols="1"
       class="d-flex align-center"
       >{{
-        title == true
+        title
           ? prepareString($t('packages.version').toString())
-          : packageBag
-          ? packageBag.version
-          : ''
+          : packageBag?.version
       }}</v-col
     >
     <v-col
@@ -30,7 +26,7 @@
       class="d-flex align-center"
     >
       {{
-        title == true
+        title
           ? prepareString($t('packages.title').toString())
           : packageBag && packageBag.title
           ? packageBag.title.length > descMaxLength
@@ -46,13 +42,11 @@
       class="d-flex align-center justify-center"
     >
       {{
-        title == true
+        title
           ? prepareString(
               $t('packages.maintainer').toString()
             ) + ' userId'
-          : packageBag
-          ? packageBag.user?.id
-          : ''
+          : packageBag?.user?.id
       }}</v-col
     >
     <v-col
@@ -60,7 +54,7 @@
       cols="lg-1"
       class="d-flex justify-center"
     >
-      <span v-if="title == true">
+      <span v-if="title">
         {{
           prepareString($t('packages.actions').toString())
         }}

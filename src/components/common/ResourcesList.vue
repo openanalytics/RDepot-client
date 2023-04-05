@@ -68,9 +68,6 @@ function handleClick(item: any) {
 .v-expansion {
   max-width: 96% !important;
 }
-.v-expansion {
-  max-width: 96% !important;
-}
 
 .content {
   text-align: justify;

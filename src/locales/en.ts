@@ -6,7 +6,7 @@ export const en = {
     passwordError: 'Password is required',
     login: 'login',
     clear: 'clear',
-    wrongCredentials: 'Wrong credential data, please try '
+    wrongCredentials: 'Wrong credentials, please try again'
   },
   addSubmission: {
     step1Title: 'Choose repository',
@@ -28,7 +28,7 @@ export const en = {
     addPackage: 'add package',
     events: 'events',
     delete: 'delete',
-    notAvaiable: 'Not avaiable'
+    notAvailable: 'Not available'
   },
   filtration: {
     title: 'filtration',
@@ -67,7 +67,7 @@ export const en = {
     url: 'URL',
     downloads: 'Downloads',
     sourceFile: 'Source file',
-    windowsBineries: 'Windows binaries',
+    windowsBinaries: 'Windows binaries',
     osxBinaries: 'OS X binaries',
     oldSources: 'Old sources',
     archive: 'Archive',

@@ -11,13 +11,11 @@ import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
 import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import { createPinia, setActivePinia } from 'pinia'
-import { useRepositoryStore } from '@/store/repositories'
 import ShortPackagesListVue from '@/components/packages/shortPackages/ShortPackagesList.vue'
 import ShortPackageRowVue from '@/components/packages/shortPackages/ShortPackageRow.vue'
 import packages from '@/tmpLists/packages.json'
 
 let wrapper: any
-let repository_store: any
 const globalConfig = {
   mocks: mocks,
   plugins: plugins
@@ -26,7 +24,6 @@ const globalConfig = {
 beforeAll(() => {
   global.ResizeObserver = ResizeObserver
   setActivePinia(createPinia())
-  repository_store = useRepositoryStore()
 })
 
 beforeEach(async () => {

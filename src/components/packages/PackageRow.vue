@@ -21,11 +21,9 @@
       cols="1"
       class="d-flex align-center"
       >{{
-        title == true
+        title
           ? prepareString($t('packages.version').toString())
-          : packageBag
-          ? packageBag.version
-          : ''
+          : packageBag?.version
       }}</v-col
     >
     <v-col
@@ -34,7 +32,7 @@
       class="d-flex align-center"
     >
       {{
-        title == true
+        title
           ? prepareString($t('packages.title').toString())
           : packageBag && packageBag.title
           ? packageBag.title.length > descMaxLength
@@ -50,13 +48,11 @@
       class="d-flex align-center justify-center"
     >
       {{
-        title == true
+        title
           ? prepareString(
               $t('packages.maintainer').toString()
             )
-          : packageBag
-          ? packageBag.user?.name
-          : ''
+          : packageBag?.user?.name
       }}</v-col
     >
     <v-col
@@ -65,13 +61,11 @@
       class="d-flex align-center justify-center"
     >
       {{
-        title == true
+        title
           ? prepareString(
               $t('packages.repository').toString()
             )
-          : packageBag
-          ? packageBag.repository?.id
-          : ''
+          : packageBag?.repository?.id
       }}</v-col
     >
     <v-col
@@ -79,7 +73,7 @@
       cols="lg-1"
       class="d-flex justify-center"
     >
-      <span v-if="title == true">
+      <span v-if="title">
         {{
           prepareString($t('packages.active').toString())
         }}</span

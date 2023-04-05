@@ -10,14 +10,12 @@ import { mount, config } from '@vue/test-utils'
 import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
 import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
-import ReposiotryRowVue from '@/components/repositories/RepositoryRow.vue'
+import RepositoryRowVue from '@/components/repositories/RepositoryRow.vue'
 import repositories from '@/tmpLists/repositories.json'
 import { EntityModelRRepositoryDto } from '@/openapi'
 import { createPinia, setActivePinia } from 'pinia'
-import { useCommonStore } from '@/store/common'
 
 let wrapper: any
-let common_store: any
 const globalConfig = {
   mocks: mocks,
   plugins: plugins
@@ -26,7 +24,6 @@ beforeAll(() => {
   global.ResizeObserver = ResizeObserver
   config.global.renderStubDefaultSlot = true
   setActivePinia(createPinia())
-  common_store = useCommonStore()
 })
 
 describe('Repositories - repository row (repository)', () => {
@@ -34,7 +31,7 @@ describe('Repositories - repository row (repository)', () => {
     JSON.stringify(repositories.data[0])
   )
   beforeEach(async () => {
-    wrapper = mount(ReposiotryRowVue, {
+    wrapper = mount(RepositoryRowVue, {
       global: globalConfig,
       props: {
         title: false,
@@ -111,7 +108,7 @@ describe('Repositories - repository row (repository)', () => {
 
 describe('Repositories - repository row (empty repository)', () => {
   beforeEach(async () => {
-    wrapper = mount(ReposiotryRowVue, {
+    wrapper = mount(RepositoryRowVue, {
       global: globalConfig,
       props: {
         title: false
@@ -172,7 +169,7 @@ describe('Repositories - repository row (empty repository)', () => {
 
 describe('Repositories - repository row (title)', () => {
   beforeEach(async () => {
-    wrapper = mount(ReposiotryRowVue, {
+    wrapper = mount(RepositoryRowVue, {
       global: globalConfig,
       props: {
         title: true

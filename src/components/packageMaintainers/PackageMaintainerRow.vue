@@ -11,9 +11,7 @@
       >{{
         title == true
           ? prepareString($t('maintainers.name'))
-          : packageMaintainer
-          ? packageMaintainer.user?.name
-          : ''
+          : packageMaintainer?.user?.name
       }}</v-col
     >
     <v-col
@@ -21,11 +19,9 @@
       cols="lg-9"
       class="d-flex align-center"
       >{{
-        title == true
+        title
           ? prepareString($t('maintainers.packageName'))
-          : packageMaintainer
-          ? packageMaintainer.packageName
-          : ''
+          : packageMaintainer?.packageName
       }}</v-col
     >
     <v-col
@@ -34,11 +30,9 @@
       class="d-flex align-center"
     >
       {{
-        title == true
+        title
           ? prepareString($t('maintainers.repository'))
-          : packageMaintainer
-          ? packageMaintainer.repository?.id
-          : ''
+          : packageMaintainer?.repository?.id
       }}</v-col
     >
     <v-col
@@ -46,7 +40,7 @@
       cols="lg-1"
       class="d-flex justify-center"
     >
-      <span v-if="title == true">
+      <span v-if="title">
         {{ prepareString($t('maintainers.actions')) }}
       </span>
       <span
