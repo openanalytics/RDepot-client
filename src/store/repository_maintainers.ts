@@ -1,9 +1,9 @@
 import {
   EntityModelPackageMaintainerDto,
+  EntityModelRepositoryDto,
   EntityModelRepositoryMaintainerDto
 } from '@/openapi'
 import { defineStore } from 'pinia'
-import repositories from '@/tmpLists/repositories.json'
 import { RepositoryMaintainersFiltration } from '@/models/Filtration'
 import {
   deletedRepositoryMaintainer,
@@ -13,11 +13,12 @@ import {
 import { notify } from '@kyvg/vue3-notification'
 import { usePaginationStore } from './pagination'
 import { useObjectActions } from '@/composable/objectActions'
+import { fetchRepositoriesServices } from '@/services'
 
 interface State {
   maintainers: EntityModelRepositoryMaintainerDto[]
   filtration: RepositoryMaintainersFiltration
-  repositories: EntityModelRepositoryMaintainerDto[]
+  repositories: EntityModelRepositoryDto[]
   chosenMaintainer: EntityModelPackageMaintainerDto
 }
 
@@ -58,8 +59,13 @@ export const useRepositoryMaintainersStore = defineStore(
         )
       },
       async fetchRepositories() {
-        this.repositories = JSON.parse(
-          JSON.stringify(repositories.data)
+        fetchRepositoriesServices().then(
+          (res) => {
+            this.repositories = res.data.data?.content || []
+          },
+          (msg) => {
+            notify({ text: msg, type: 'error' })
+          }
         )
       },
       async setChosenMaintainer(
