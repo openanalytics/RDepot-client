@@ -4,7 +4,6 @@ import {
   EntityModelRepositoryDto
 } from '@/openapi'
 import { defineStore } from 'pinia'
-import packages from '@/tmpLists/packages.json'
 import { RepositoriesFiltration } from '@/models/Filtration'
 import { fetchRepositoriesServices } from '@/services'
 import { notify } from '@kyvg/vue3-notification'
@@ -70,9 +69,6 @@ export const useRepositoryStore = defineStore(
             },
             (msg) => notify({ text: msg, type: 'error' })
           )
-        this.repositoryPackages = JSON.parse(
-          JSON.stringify(packages.page2)
-        )
       },
       async setFiltration(payload: RepositoriesFiltration) {
         const pagination = usePaginationStore()
