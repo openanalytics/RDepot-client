@@ -31,7 +31,12 @@
       go back
     </v-btn>
 
-    <v-btn id="submitbutton" color="oablue" @click="submit">
+    <v-btn
+      id="submitbutton"
+      color="oablue"
+      @click="submit"
+      :disabled="disableSubmit"
+    >
       submit
     </v-btn>
   </div>
@@ -42,8 +47,8 @@ import { useSubmissionStore } from '@/store/submission'
 import { computed, ref } from 'vue'
 
 const emits = defineEmits(['next'])
+const disableSubmit = ref(false)
 const submissions_store = useSubmissionStore()
-const accepted_packages = ref<number[]>([])
 const choosenRepository = computed(() => {
   return submissions_store.repository
 })
@@ -55,14 +60,8 @@ function backStep() {
 }
 
 async function submit() {
-  var approved_packages = [] as File[]
-  choosenPackages.value.forEach((element, index) => {
-    if (accepted_packages.value.includes(index)) {
-      approved_packages.push(element)
-    }
-  })
-  submissions_store.setPackages(approved_packages)
-  await submissions_store.addSumbissionRequests()
+  submissions_store.addSumbissionRequests()
+  disableSubmit.value = true
 }
 </script>
 
