@@ -103,6 +103,12 @@ export interface EntityModelRPackageDto {
      * @type {string}
      * @memberof EntityModelRPackageDto
      */
+    technology?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EntityModelRPackageDto
+     */
     depends?: string;
     /**
      * 

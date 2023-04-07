@@ -100,6 +100,12 @@ export interface EntityModelPackageDto {
     deleted?: boolean;
     /**
      * 
+     * @type {string}
+     * @memberof EntityModelPackageDto
+     */
+    technology?: string;
+    /**
+     * 
      * @type {Array<Link>}
      * @memberof EntityModelPackageDto
      */

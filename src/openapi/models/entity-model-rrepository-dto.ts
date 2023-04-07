@@ -68,6 +68,12 @@ export interface EntityModelRRepositoryDto {
     synchronizing?: boolean;
     /**
      * 
+     * @type {string}
+     * @memberof EntityModelRRepositoryDto
+     */
+    technology?: string;
+    /**
+     * 
      * @type {Array<Link>}
      * @memberof EntityModelRRepositoryDto
      */

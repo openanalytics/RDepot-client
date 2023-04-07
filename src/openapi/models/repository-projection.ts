@@ -35,4 +35,10 @@ export interface RepositoryProjection {
      * @memberof RepositoryProjection
      */
     publicationUri?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RepositoryProjection
+     */
+    technology?: string;
 }
