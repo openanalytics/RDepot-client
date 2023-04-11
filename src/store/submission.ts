@@ -74,7 +74,7 @@ export const useSubmissionStore = defineStore(
         state: string,
         textNotification: string
       ) {
-        updateSubmission(state, submission_id).then(
+        return updateSubmission(state, submission_id).then(
           () => {
             notify({
               type: 'success',
@@ -119,15 +119,6 @@ export const useSubmissionStore = defineStore(
       clearFiltration() {
         const { setAllFields } = useObjectActions()
         setAllFields(this.filtration, undefined)
-      },
-      async setPage(payload: number) {
-        const pagination = usePaginationStore()
-        pagination.setPage(payload)
-        this.fetchSubmissions()
-      },
-      async setPageSize(payload: number) {
-        const pagination = usePaginationStore()
-        pagination.setPageSize(payload)
       },
       async clearFiltrationAndFetch() {
         this.clearFiltration()
