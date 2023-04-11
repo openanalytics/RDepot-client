@@ -1,10 +1,10 @@
 <template>
-  <v-row
+  <VRow
     class="px-5"
     :class="{ title: title }"
     id="package-row"
   >
-    <v-col
+    <VCol
       id="package-row-name"
       cols="lg-1 sm-2"
       class="d-flex align-center"
@@ -14,9 +14,9 @@
           : packageBag
           ? packageBag.name
           : ''
-      }}</v-col
+      }}</VCol
     >
-    <v-col
+    <VCol
       id="package-row-version"
       cols="1"
       class="d-flex align-center"
@@ -24,9 +24,9 @@
         title
           ? prepareString($t('packages.version').toString())
           : packageBag?.version
-      }}</v-col
+      }}</VCol
     >
-    <v-col
+    <VCol
       id="package-row-title"
       cols="lg-6 sm-2"
       class="d-flex align-center"
@@ -40,9 +40,9 @@
               '...'
             : packageBag.title
           : ''
-      }}</v-col
+      }}</VCol
     >
-    <v-col
+    <VCol
       id="package-row-maintainer"
       cols="lg-1 sm-2"
       class="d-flex align-center justify-center"
@@ -53,9 +53,9 @@
               $t('packages.maintainer').toString()
             )
           : packageBag?.user?.name
-      }}</v-col
+      }}</VCol
     >
-    <v-col
+    <VCol
       id="package-row-repository"
       cols="lg-1 sm-2"
       class="d-flex align-center justify-center"
@@ -66,9 +66,9 @@
               $t('packages.repository').toString()
             )
           : packageBag?.repository?.id
-      }}</v-col
+      }}</VCol
     >
-    <v-col
+    <VCol
       id="package-row-active"
       cols="lg-1"
       class="d-flex justify-center"
@@ -78,7 +78,7 @@
           prepareString($t('packages.active').toString())
         }}</span
       >
-      <v-checkbox
+      <VCheckbox
         id="checkbox-active"
         color="oablue"
         @click.stop
@@ -86,8 +86,8 @@
         v-model="packageBag.active"
         @change="updatePackageActive"
       />
-    </v-col>
-    <v-col
+    </VCol>
+    <VCol
       id="package-row-actions"
       cols="lg-1"
       class="d-flex justify-center"
@@ -101,54 +101,38 @@
         v-else-if="packageBag && !packageBag.deleted"
         class="d-flex justify-center align-center"
       >
-        <v-tooltip top>
+        <VTooltip top>
           <template v-slot:activator="{ props }">
-            <v-icon
+            <VIcon
               id="navigate-icon"
               @click.stop
               @click="navigate"
               v-bind="props"
               color="oablue"
-              >mdi-forward</v-icon
+              >mdi-forward</VIcon
             >
           </template>
           <span id="action-details">{{
             $t('common.details')
           }}</span>
-        </v-tooltip>
-        <v-tooltip top>
-          <template v-slot:activator="{ props }">
-            <v-icon
-              id="delete-icon"
-              @click.stop
-              @click="deleteDialog"
-              v-bind="props"
-              color="oared"
-              class="ml-3"
-              >mdi-trash-can</v-icon
-            >
-          </template>
-          <span id="action-delete">{{
-            $t('common.delete')
-          }}</span>
-        </v-tooltip>
+        </VTooltip>
+        <DeleteIcon
+          :name="props.packageBag?.name"
+          :set-resource-id="choosePackage"
+        />
       </span>
-    </v-col>
-  </v-row>
+    </VCol>
+  </VRow>
 </template>
 
 <script setup lang="ts">
 import { ref } from '@vue/reactivity'
 import router from '@/router'
 import { EntityModelPackageDto } from '@/openapi'
-import { useCommonStore } from '@/store/common'
-import { useI18n } from 'vue-i18n'
-import { OverlayEnum } from '@/enum/Overlay'
 import { usePackagesStore } from '@/store/packages'
+import DeleteIcon from '../common/action_icons/DeleteIcon.vue'
 
-const common_store = useCommonStore()
 const package_store = usePackagesStore()
-const { t } = useI18n()
 
 const props = defineProps({
   title: {
@@ -165,16 +149,20 @@ function prepareString(value: string): string {
   return value.charAt(0).toUpperCase() + value.slice(1)
 }
 
+function choosePackage() {
+  package_store.setChosenPackage(props.packageBag?.id)
+}
+
 function updatePackageActive() {
   if (
     props.packageBag &&
     props.packageBag.id &&
     props.packageBag.active != undefined
   ) {
-    package_store.activatePackage(
-      props.packageBag?.id,
-      props.packageBag?.active
-    )
+    const fields: Map<string, any> = new Map<string, any>()
+    fields.set('active', props.packageBag?.active)
+    package_store.setChosenPackage(props.packageBag?.id)
+    package_store.updatePackage(fields)
   }
 }
 
@@ -187,17 +175,6 @@ function navigate() {
       }
     })
   }
-}
-
-function deleteDialog() {
-  common_store.setOverlayText(
-    t('packages.deleteQuestion', {
-      package_name: props.packageBag?.name
-    })
-  )
-  common_store.setOverlayModel(true)
-  common_store.setOverlayOpacity(0.8)
-  common_store.setOverlayComponent(OverlayEnum.Delete)
 }
 </script>
 

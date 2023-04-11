@@ -7,6 +7,7 @@ import {
 } from '@/openapi'
 import { getConfiguration } from './api_config'
 import { openApiRequest } from './open_api_access'
+import { preparePatchBody } from './patchBody'
 
 export function fetchPackagesServices(
   filtration?: PackagesFiltration,
@@ -59,19 +60,12 @@ export function fetchPackageServices(id: number) {
 
 export function updateRPackage(
   id: number,
-  fieldName: string,
-  value: any
+  fields: Map<string, any>
 ) {
   const packages_api = RPackageControllerApiFactory(
     getConfiguration()
   )
-  const patch = [
-    {
-      op: 'replace',
-      path: '/' + fieldName,
-      value: value
-    }
-  ]
+  const patch = preparePatchBody(fields)
   return openApiRequest<ResponseDtoEntityModelPackageDto>(
     packages_api.updatePackage,
     [patch, id]

@@ -38,25 +38,12 @@
         {{ prepareString($t('maintainers.actions')) }}
       </span>
       <span
-        v-else-if="repositoryMaintainer"
+        v-else-if="
+          repositoryMaintainer &&
+          !repositoryMaintainer.deleted
+        "
         class="d-flex justify-center align-center"
       >
-        <v-tooltip top>
-          <template v-slot:activator="{ props }">
-            <v-icon
-              id="delete-icon"
-              @click.stop
-              @click="deleteDialog()"
-              v-bind="props"
-              color="oared"
-              >mdi-trash-can</v-icon
-            >
-          </template>
-          <span id="action-delete">{{
-            $t('maintainers.delete')
-          }}</span>
-        </v-tooltip>
-
         <v-tooltip top>
           <template v-slot:activator="{ props }">
             <v-icon
@@ -73,6 +60,11 @@
             $t('maintainers.edit')
           }}</span>
         </v-tooltip>
+
+        <delete-icon
+          :name="props.repositoryMaintainer?.user?.name"
+          :set-resource-id="chooseMaintainer"
+        />
       </span>
     </v-col>
   </v-row>
@@ -84,6 +76,7 @@ import { EntityModelRepositoryMaintainerDto } from '@/openapi'
 import { i18n } from '@/plugins/i18n'
 import { useCommonStore } from '@/store/common'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
+import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
 
 const props = defineProps({
   title: {
@@ -102,9 +95,7 @@ function prepareString(value: string): string {
   return value.charAt(0).toUpperCase() + value.slice(1)
 }
 function edit() {
-  maintainers_store.setChosenMaintainer(
-    props.repositoryMaintainer || {}
-  )
+  chooseMaintainer()
   common_store.setOverlayText(
     i18n.t('maintainers.edit', {
       maintainerName: props.repositoryMaintainer?.user?.id
@@ -115,18 +106,10 @@ function edit() {
   common_store.setOverlayComponent(OverlayEnum.Edit)
 }
 
-function deleteDialog() {
+function chooseMaintainer() {
   maintainers_store.setChosenMaintainer(
-    props.repositoryMaintainer || {}
+    props.repositoryMaintainer?.id
   )
-  common_store.setOverlayText(
-    i18n.t('maintainers.deleteQuestion', {
-      maintainerName: props.repositoryMaintainer?.user?.id
-    })
-  )
-  common_store.setOverlayModel(true)
-  common_store.setOverlayOpacity(0.8)
-  common_store.setOverlayComponent(OverlayEnum.Delete)
 }
 </script>
 

@@ -21,7 +21,13 @@ const repositories_store = useRepositoryStore()
 const common_store = useCommonStore()
 
 async function clearFiltration() {
-  await repositories_store.clearFiltrationAndFetch()
+  if (getFiltration.value) {
+    await repositories_store.clearFiltrationAndFetch()
+  } else {
+    const fields: Map<string, any> = new Map<string, any>()
+    fields.set('deleted', true)
+    repositories_store.updateRepository(fields)
+  }
 }
 
 const getFiltration = computed(() => {

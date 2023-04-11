@@ -31,7 +31,9 @@ async function overlayEvent() {
   } else if (
     common_store.overlayComponent == OverlayEnum.Delete
   ) {
-    maintainers_store.deleteChosenMaintainer()
+    const fields: Map<string, any> = new Map<string, any>()
+    fields.set('deleted', true)
+    maintainers_store.updateMaintainer(fields)
   }
 }
 

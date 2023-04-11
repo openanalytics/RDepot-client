@@ -19,7 +19,7 @@ interface State {
   maintainers: EntityModelRepositoryMaintainerDto[]
   filtration: RepositoryMaintainersFiltration
   repositories: EntityModelRepositoryDto[]
-  chosenMaintainer: EntityModelPackageMaintainerDto
+  chosenMaintainer?: number
 }
 
 export const useRepositoryMaintainersStore = defineStore(
@@ -33,7 +33,7 @@ export const useRepositoryMaintainersStore = defineStore(
           technologies: undefined
         },
         repositories: [],
-        chosenMaintainer: {}
+        chosenMaintainer: undefined
       }
     },
     actions: {
@@ -68,20 +68,11 @@ export const useRepositoryMaintainersStore = defineStore(
           }
         )
       },
-      async setChosenMaintainer(
-        payload: EntityModelRepositoryMaintainerDto
-      ) {
-        this.chosenMaintainer = payload
-      },
-      async saveMaintainer() {
-        if (
-          this.chosenMaintainer.id &&
-          this.chosenMaintainer.repository &&
-          this.chosenMaintainer.repository.id
-        ) {
-          await updateRepositoryMaintainer(
-            this.chosenMaintainer.id,
-            this.chosenMaintainer.repository?.id
+      async updateMaintainer(fields: Map<string, any>) {
+        if (this.chosenMaintainer) {
+          updateRepositoryMaintainer(
+            this.chosenMaintainer,
+            fields
           ).then(
             () => {
               this.fetchMaintainers()
@@ -93,9 +84,9 @@ export const useRepositoryMaintainersStore = defineStore(
         }
       },
       async deleteMaintainer() {
-        if (this.chosenMaintainer.id) {
+        if (this.chosenMaintainer) {
           await deletedRepositoryMaintainer(
-            this.chosenMaintainer.id
+            this.chosenMaintainer
           ).then(
             () => {
               notify({
@@ -114,6 +105,9 @@ export const useRepositoryMaintainersStore = defineStore(
         const pagination = usePaginationStore()
         pagination.setPage(payload)
         this.fetchMaintainers()
+      },
+      async setChosenMaintainer(id?: number) {
+        this.chosenMaintainer = id
       },
       async setFiltration(
         payload: RepositoryMaintainersFiltration

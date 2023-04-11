@@ -36,6 +36,7 @@
     "errors": {
       "copyFailed": "Copy failed"
     },
+    "deleteQuestion": "Are you sure you want to delete {resource_name}?",
     "copied": "code succesfully copied to clipboard"
   },
   "filtration": {
@@ -85,7 +86,6 @@
     "installInstruction": "To install this package, start R and enter:",
     "withinRdepot": "Within RDepot",
     "originalRPackageData": "As described in R package",
-    "deleteQuestion": "Are you sure you want to delete {package_name}?",
     "download-code": "install.packages(\"{0}\", repos = c(rdepot = \"{1}\"), getOption(\"repos\")))"
   },
   "events": {

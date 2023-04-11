@@ -7,6 +7,7 @@ import {
 import { AxiosResponse } from 'axios'
 import { getConfiguration } from '@/services/api_config'
 import { openApiRequest } from '@/services/open_api_access'
+import { preparePatchBody } from './patchBody'
 
 export function fetchPackageMaintainersService(
   filtration?: PackageMaintainersFiltration,
@@ -41,6 +42,22 @@ export function deletePackageMaintainerService(
   )
 }
 
+export function updatePackageMaintainer(
+  maintainer_id: number,
+  fields: Map<string, any>
+) {
+  const repository_maintainers_api =
+    ApiV2PackageMaintainerControllerApiFactory(
+      getConfiguration()
+    )
+  const patch = preparePatchBody(fields)
+  return openApiRequest<AxiosResponse<any>>(
+    repository_maintainers_api.updatePackageMaintainer,
+    [patch, maintainer_id]
+  )
+}
+
+//to check - if we will update the maintainer, or maybe we will just upload new one and replace it with POST
 export function updatePackageMaintainerService(
   newMaintainer: PackageMaintainerDto,
   oldMaintainer: PackageMaintainerDto
@@ -79,7 +96,6 @@ export function updatePackageMaintainerService(
       value: newMaintainer.deleted
     })
   }
-  console.log(patch)
   return openApiRequest<AxiosResponse<any>>(
     package_maintainers_api.updatePackageMaintainer,
     [patch, oldMaintainer.id]

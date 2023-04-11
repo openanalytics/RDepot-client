@@ -44,25 +44,11 @@
         {{ prepareString($t('maintainers.actions')) }}
       </span>
       <span
-        v-else-if="packageMaintainer"
+        v-else-if="
+          packageMaintainer && !packageMaintainer.deleted
+        "
         class="d-flex justify-center align-center"
       >
-        <v-tooltip top>
-          <template v-slot:activator="{ props }">
-            <v-icon
-              id="delete-icon"
-              @click.stop
-              @click="deleteDialog()"
-              v-bind="props"
-              color="oared"
-              >mdi-trash-can</v-icon
-            >
-          </template>
-          <span id="action-edit">{{
-            $t('maintainers.delete')
-          }}</span>
-        </v-tooltip>
-
         <v-tooltip top>
           <template v-slot:activator="{ props }">
             <v-icon
@@ -79,17 +65,19 @@
             $t('maintainers.edit')
           }}</span>
         </v-tooltip>
+        <delete-icon
+          :name="props.packageMaintainer?.user?.name"
+          :set-resource-id="chooseMaintainer"
+        />
       </span>
     </v-col>
   </v-row>
 </template>
 
 <script setup lang="ts">
-import { OverlayEnum } from '@/enum/Overlay'
 import { EntityModelPackageMaintainerDto } from '@/openapi'
-import { i18n } from '@/plugins/i18n'
-import { useCommonStore } from '@/store/common'
 import { usePackageMaintainersStore } from '@/store/package_maintainers'
+import DeleteIcon from '../common/action_icons/DeleteIcon.vue'
 
 const props = defineProps({
   title: {
@@ -101,38 +89,29 @@ const props = defineProps({
     | undefined
 })
 
-const common_store = useCommonStore()
 const maintainers_store = usePackageMaintainersStore()
 
 function prepareString(value: string): string {
   return value.charAt(0).toUpperCase() + value.slice(1)
 }
 function edit() {
-  maintainers_store.setChosenMaintainer(
-    props.packageMaintainer || {}
-  )
-  common_store.setOverlayText(
-    i18n.t('maintainers.edit', {
-      maintainerName: props.packageMaintainer?.user?.id
-    })
-  )
-  common_store.setOverlayModel(true)
-  common_store.setOverlayOpacity(0.8)
-  common_store.setOverlayComponent(OverlayEnum.Edit)
+  //   maintainers_store.setChosenMaintainer(
+  //     props.packageMaintainer || {}
+  //   )
+  //   common_store.setOverlayText(
+  //     i18n.t('maintainers.edit', {
+  //       maintainerName: props.packageMaintainer?.user?.id
+  //     })
+  //   )
+  //   common_store.setOverlayModel(true)
+  //   common_store.setOverlayOpacity(0.8)
+  //   common_store.setOverlayComponent(OverlayEnum.Edit)
 }
 
-function deleteDialog() {
+function chooseMaintainer() {
   maintainers_store.setChosenMaintainer(
-    props.packageMaintainer || {}
+    props.packageMaintainer?.id
   )
-  common_store.setOverlayText(
-    i18n.t('maintainers.deleteQuestion', {
-      maintainerName: props.packageMaintainer?.user?.id
-    })
-  )
-  common_store.setOverlayModel(true)
-  common_store.setOverlayOpacity(0.8)
-  common_store.setOverlayComponent(OverlayEnum.Delete)
 }
 </script>
 

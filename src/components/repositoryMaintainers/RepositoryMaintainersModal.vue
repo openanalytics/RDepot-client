@@ -34,14 +34,13 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['delete'])
-
 async function performAction() {
   if (getFiltration.value) {
     await maintainers_store.clearFiltrationAndFetch()
-  } else if (getDelete.value) {
-    console.log('performAction')
-    await maintainers_store.deleteMaintainer()
+  } else if (getDelete) {
+    const fields: Map<string, any> = new Map<string, any>()
+    fields.set('deleted', true)
+    maintainers_store.updateMaintainer(fields)
   }
 }
 

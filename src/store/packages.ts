@@ -20,6 +20,7 @@ interface State {
   package?: EntityModelPackageDto
   vignettes: ResponseDtoListVignette
   filtration: PackagesFiltration
+  chosenPackageId?: number
   next?: boolean
 }
 
@@ -37,6 +38,7 @@ export const usePackagesStore = defineStore(
           repository: undefined,
           technology: undefined
         },
+        chosenPackageId: undefined,
         next: false
       }
     },
@@ -73,15 +75,17 @@ export const usePackagesStore = defineStore(
           }
         )
       },
-      async activatePackage(id: number, value: boolean) {
-        updateRPackage(id, 'active', value).then(
-          () => {
-            this.fetchPackages()
-          },
-          (msg) => {
-            notify({ text: msg, type: 'error' })
-          }
-        )
+      async updatePackage(fields: Map<string, any>) {
+        if (this.chosenPackageId) {
+          updateRPackage(this.chosenPackageId, fields).then(
+            () => {
+              this.fetchPackages()
+            },
+            (msg) => {
+              notify({ text: msg, type: 'error' })
+            }
+          )
+        }
       },
       async setPage(payload: number) {
         const pagination = usePaginationStore()
@@ -113,6 +117,9 @@ export const usePackagesStore = defineStore(
       async clearFiltrationAndFetch() {
         this.clearFiltration()
         this.fetchPackages()
+      },
+      setChosenPackage(id?: number) {
+        this.chosenPackageId = id
       }
     }
   }

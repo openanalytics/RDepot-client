@@ -96,6 +96,7 @@
         v-model="repository.published"
         color="oablue"
         @click.stop
+        @change="updateRepositoryPublish()"
       />
     </v-col>
     <v-col
@@ -127,22 +128,10 @@
             $t('common.details')
           }}</span>
         </v-tooltip>
-        <v-tooltip top>
-          <template v-slot:activator="{ props }">
-            <v-icon
-              id="delete-icon"
-              @click.stop
-              @click="navigate"
-              v-bind="props"
-              color="oared"
-              class="ml-3"
-              >mdi-trash-can</v-icon
-            >
-          </template>
-          <span id="action-delete">{{
-            $t('common.delete')
-          }}</span>
-        </v-tooltip>
+        <delete-icon
+          :name="props.repository?.name"
+          :set-resource-id="chooseRepository"
+        />
       </span>
     </v-col>
   </v-row>
@@ -152,8 +141,11 @@
 import router from '@/router'
 import { EntityModelRRepositoryDto } from '@/openapi'
 import { usePackagesStore } from '@/store/packages'
+import { useRepositoryStore } from '@/store/repositories'
+import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
 
 const package_store = usePackagesStore()
+const repository_store = useRepositoryStore()
 
 const props = defineProps({
   title: {
@@ -169,6 +161,21 @@ function prepareString(value: string): string {
   return value.charAt(0).toUpperCase() + value.slice(1)
 }
 
+function updateRepositoryPublish() {
+  if (
+    props.repository &&
+    props.repository.id &&
+    props.repository.published != undefined
+  ) {
+    const fields: Map<string, any> = new Map<string, any>()
+    fields.set('published', props.repository?.published)
+    repository_store.setChosenRepository(
+      props.repository?.id
+    )
+    repository_store.updateRepository(fields)
+  }
+}
+
 function navigate() {
   if (props.repository && props.repository.name) {
     package_store.setFiltrationByRepositoryOnly(
@@ -181,6 +188,10 @@ function navigate() {
       }
     })
   }
+}
+
+function chooseRepository() {
+  repository_store.setChosenRepository(props.repository?.id)
 }
 </script>
 

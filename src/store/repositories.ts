@@ -9,11 +9,12 @@ import { fetchRepositoriesServices } from '@/services'
 import { notify } from '@kyvg/vue3-notification'
 import { usePaginationStore } from './pagination'
 import { useObjectActions } from '@/composable/objectActions'
+import { updateRRepository } from '@/services/repository_services'
 
 interface State {
   repositories: EntityModelRepositoryDto[]
   filtration: RepositoriesFiltration
-  chosenRepository: number
+  chosenRepository?: number
   chosenRepositoryName: string
   repositoryPackages: EntityModelPackageDto[]
 }
@@ -69,6 +70,24 @@ export const useRepositoryStore = defineStore(
             },
             (msg) => notify({ text: msg, type: 'error' })
           )
+      },
+      setChosenRepository(id: number | undefined) {
+        this.chosenRepository = id
+      },
+      async updateRepository(fields: Map<string, any>) {
+        if (this.chosenRepository) {
+          updateRRepository(
+            this.chosenRepository,
+            fields
+          ).then(
+            () => {
+              this.fetchRepositories()
+            },
+            (msg) => {
+              notify({ text: msg, type: 'error' })
+            }
+          )
+        }
       },
       async setFiltration(payload: RepositoriesFiltration) {
         const pagination = usePaginationStore()
