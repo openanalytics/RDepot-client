@@ -46,7 +46,7 @@ export const usePackageMaintainersStore = defineStore(
     actions: {
       async fetchMaintainers() {
         const pagination = usePaginationStore()
-        fetchPackageMaintainersService(
+        return fetchPackageMaintainersService(
           this.filtration,
           pagination.page,
           pagination.pageSize
@@ -66,7 +66,7 @@ export const usePackageMaintainersStore = defineStore(
         )
       },
       async fetchRepositories() {
-        fetchRepositoriesServices().then(
+        return fetchRepositoriesServices().then(
           (res) => {
             this.repositories = res.data.data?.content || []
           },
@@ -76,7 +76,7 @@ export const usePackageMaintainersStore = defineStore(
         )
       },
       async fetchPackages() {
-        fetchPackagesServices().then(
+        return fetchPackagesServices().then(
           (res) => {
             this.packages = res.data.data?.content || []
           },
@@ -85,18 +85,13 @@ export const usePackageMaintainersStore = defineStore(
           }
         )
       },
-      async setPage(payload: number) {
-        const pagination = usePaginationStore()
-        pagination.setPage(payload)
-        this.fetchMaintainers()
-      },
-      async setChosenMaintainer(
+      setChosenMaintainer(
         payload: EntityModelPackageMaintainerDto
       ) {
         this.chosenMaintainer = payload
         this.saveMaintainer()
       },
-      async saveMaintainer() {
+      saveMaintainer() {
         this.maintainers = this.maintainers.map(
           (maintainer: EntityModelPackageMaintainerDto) => {
             if (maintainer.id == this.chosenMaintainer.id) {
@@ -112,7 +107,7 @@ export const usePackageMaintainersStore = defineStore(
         const pagination = usePaginationStore()
         pagination.setPage(0)
         this.filtration = payload
-        this.fetchMaintainers()
+        return this.fetchMaintainers()
       },
       clearFiltration() {
         const { setAllFields } = useObjectActions()
@@ -120,10 +115,10 @@ export const usePackageMaintainersStore = defineStore(
       },
       async clearFiltrationAndFetch() {
         this.clearFiltration()
-        this.fetchMaintainers()
+        return this.fetchMaintainers()
       },
       async deleteChosenMaintainer() {
-        deletePackageMaintainerService(
+        return deletePackageMaintainerService(
           this.chosenMaintainer.id || -1
         ).then(
           () => {
@@ -144,7 +139,7 @@ export const usePackageMaintainersStore = defineStore(
       async editMaintainer(
         maintainer: PackageMaintainerDto
       ) {
-        updatePackageMaintainerService(
+        return updatePackageMaintainerService(
           maintainer,
           this.chosenMaintainer
         ).then(
