@@ -20,7 +20,7 @@ export function fetchRepositoriesServices(
     [
       filtration?.deleted,
       filtration?.name,
-      filtration?.technology,
+      filtration?.technologies,
       page,
       pageSize
     ]

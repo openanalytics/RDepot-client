@@ -28,7 +28,7 @@ export const useRepositoryStore = defineStore(
         repositories: [],
         filtration: {
           name: undefined,
-          technology: undefined,
+          technologies: undefined,
           deleted: undefined
         },
         chosenRepository: -1,
@@ -60,7 +60,7 @@ export const useRepositoryStore = defineStore(
         )
       },
       async fetchPackages() {
-        packages_api
+        await packages_api
           .getAllPackages(this.chosenRepositoryName)
           .then(
             (res) => {
@@ -74,11 +74,6 @@ export const useRepositoryStore = defineStore(
         const pagination = usePaginationStore()
         pagination.setPage(0)
         this.filtration = payload
-        this.fetchRepositories()
-      },
-      async setPage(payload: number) {
-        const pagination = usePaginationStore()
-        pagination.setPage(payload)
         this.fetchRepositories()
       },
       clearFiltration() {

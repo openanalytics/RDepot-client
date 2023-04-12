@@ -8,7 +8,7 @@ interface PackagesFiltration {
 }
 
 interface RepositoriesFiltration {
-  technology: string[] | undefined
+  technologies: string[] | undefined
   name: string | undefined
   deleted: boolean | undefined
 }

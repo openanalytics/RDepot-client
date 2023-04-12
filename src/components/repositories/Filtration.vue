@@ -16,7 +16,7 @@
 
     <v-select
       id="filtration-technology"
-      v-model="localFiltration.technology"
+      v-model="localFiltration.technologies"
       :items="technologySelect"
       :label="$t('repositories.filtration.technology')"
       multiple
