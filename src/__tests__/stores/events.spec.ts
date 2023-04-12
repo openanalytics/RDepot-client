@@ -1,12 +1,17 @@
 import { useEventsStore } from '@/store/events'
 import { createPinia, setActivePinia } from 'pinia'
 import {
+  beforeAll,
   beforeEach,
+  afterAll,
   describe,
   expect,
   it,
   vi
 } from 'vitest'
+import { rest } from 'msw'
+import { setupServer } from 'msw/node'
+import events from '@/__tests__/config/mockData/events.json'
 
 const defaultFiltration = {
   eventType: undefined,
@@ -24,9 +29,27 @@ const randomFiltration = {
   userId: 44
 }
 
+const server = setupServer(
+  rest.get(
+    'http://localhost:8017/api/v2/manager/events',
+    (_, res, ctx) => {
+      return res(ctx.json(events))
+    }
+  )
+)
+
 describe('Event Store', () => {
+  beforeAll(() => {
+    server.listen()
+  })
+
   beforeEach(() => {
     setActivePinia(createPinia())
+    server.resetHandlers()
+  })
+
+  afterAll(() => {
+    server.close
   })
 
   it('Starting values', () => {
@@ -93,5 +116,46 @@ describe('Event Store', () => {
     expect(events_store.page).toBe(0)
     expect(events_store.events).toStrictEqual([])
     expect(spy).toHaveBeenCalledTimes(1)
+  })
+
+  it('Fetch events', async () => {
+    const events_store = useEventsStore()
+
+    expect(events_store.events).toStrictEqual([])
+    await events_store.fetchEvents()
+    expect(events_store.events).toStrictEqual(
+      events.data.content
+    )
+  })
+
+  it('Fetch next page with undefined next and page 0', async () => {
+    const events_store = useEventsStore()
+    const spy = vi.spyOn(events_store, 'fetchEvents')
+
+    expect(events_store.next).toBe(undefined)
+    expect(events_store.page).toBe(0)
+
+    await events_store.fetchNextPageEvents()
+
+    expect(events_store.next).toBe(undefined)
+    expect(events_store.page).toBe(0)
+    expect(spy).toBeCalledTimes(0)
+  })
+
+  it('Fetch next page with non-undefined next and page 0', async () => {
+    const events_store = useEventsStore()
+    const spy = vi.spyOn(events_store, 'fetchEvents')
+
+    await events_store.fetchEvents()
+
+    expect(events_store.next).toBeTruthy()
+    expect(events_store.page).toBe(events.data.page.number)
+    expect(spy).toBeCalledTimes(1)
+
+    await events_store.fetchNextPageEvents()
+
+    expect(events_store.next).toBeTruthy()
+    expect(events_store.page).toBe(events.data.page.number)
+    expect(spy).toBeCalledTimes(2)
   })
 })
