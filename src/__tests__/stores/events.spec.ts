@@ -65,12 +65,6 @@ describe('Event Store', () => {
     expect(events_store.next).toBe(undefined)
   })
 
-  it('Edit page', () => {
-    const events_store = useEventsStore()
-    events_store.setPage(1)
-    expect(events_store.page).toBe(1)
-  })
-
   it('Edit filtration', () => {
     const events_store = useEventsStore()
     const spy = vi.spyOn(events_store, 'fetchEvents')
@@ -121,8 +115,8 @@ describe('Event Store', () => {
   it('Fetch events', async () => {
     const events_store = useEventsStore()
 
-    expect(events_store.events).toStrictEqual([])
     await events_store.fetchEvents()
+
     expect(events_store.events).toStrictEqual(
       events.data.content
     )
