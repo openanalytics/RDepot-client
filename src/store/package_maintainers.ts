@@ -46,7 +46,7 @@ export const usePackageMaintainersStore = defineStore(
     actions: {
       async fetchMaintainers() {
         const pagination = usePaginationStore()
-        return fetchPackageMaintainersService(
+        await fetchPackageMaintainersService(
           this.filtration,
           pagination.page,
           pagination.pageSize
@@ -66,7 +66,7 @@ export const usePackageMaintainersStore = defineStore(
         )
       },
       async fetchRepositories() {
-        return fetchRepositoriesServices().then(
+        await fetchRepositoriesServices().then(
           (res) => {
             this.repositories = res.data.data?.content || []
           },
@@ -76,7 +76,7 @@ export const usePackageMaintainersStore = defineStore(
         )
       },
       async fetchPackages() {
-        return fetchPackagesServices().then(
+        await fetchPackagesServices().then(
           (res) => {
             this.packages = res.data.data?.content || []
           },
@@ -107,7 +107,7 @@ export const usePackageMaintainersStore = defineStore(
         const pagination = usePaginationStore()
         pagination.setPage(0)
         this.filtration = payload
-        return this.fetchMaintainers()
+        await this.fetchMaintainers()
       },
       clearFiltration() {
         const { setAllFields } = useObjectActions()
@@ -115,10 +115,10 @@ export const usePackageMaintainersStore = defineStore(
       },
       async clearFiltrationAndFetch() {
         this.clearFiltration()
-        return this.fetchMaintainers()
+        await this.fetchMaintainers()
       },
       async deleteChosenMaintainer() {
-        return deletePackageMaintainerService(
+        await deletePackageMaintainerService(
           this.chosenMaintainer.id || -1
         ).then(
           () => {
@@ -139,7 +139,7 @@ export const usePackageMaintainersStore = defineStore(
       async editMaintainer(
         maintainer: PackageMaintainerDto
       ) {
-        return updatePackageMaintainerService(
+        await updatePackageMaintainerService(
           maintainer,
           this.chosenMaintainer
         ).then(
