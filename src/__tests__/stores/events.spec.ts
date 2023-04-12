@@ -150,12 +150,19 @@ describe('Event Store', () => {
 
     expect(events_store.next).toBeTruthy()
     expect(events_store.page).toBe(events.data.page.number)
+    expect(events_store.events).toStrictEqual(
+      events.data.content
+    )
     expect(spy).toBeCalledTimes(1)
 
     await events_store.fetchNextPageEvents()
 
     expect(events_store.next).toBeTruthy()
     expect(events_store.page).toBe(events.data.page.number)
+    expect(events_store.events).toStrictEqual([
+      ...events.data.content,
+      ...events.data.content
+    ])
     expect(spy).toBeCalledTimes(2)
   })
 })
