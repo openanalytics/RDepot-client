@@ -12,7 +12,7 @@ interface State {
   page?: number
   pageSize: number
   totalNumber?: number
-  events?: EntityModelNewsfeedEventDto[]
+  events: EntityModelNewsfeedEventDto[]
   filtration: EventsFiltration
   pending: boolean
   next?: Link
@@ -60,7 +60,7 @@ export const useEventsStore = defineStore('events_store', {
             }
 
             this.events = [
-              ...(this.events || []),
+              ...this.events,
               ...(res.data.data?.content || [])
             ]
           },
