@@ -57,10 +57,6 @@ describe('Package Maintainers Store', () => {
     server.resetHandlers()
   })
 
-  afterEach(() => {
-    vi.restoreAllMocks()
-  })
-
   afterAll(() => {
     server.close()
   })
