@@ -14,6 +14,7 @@ import { notify } from '@kyvg/vue3-notification'
 import { usePaginationStore } from './pagination'
 import { useObjectActions } from '@/composable/objectActions'
 import { fetchRepositoriesServices } from '@/services'
+import { i18n } from '@/plugins/i18n'
 
 interface State {
   maintainers: EntityModelRepositoryMaintainerDto[]
@@ -59,7 +60,7 @@ export const useRepositoryMaintainersStore = defineStore(
         )
       },
       async fetchRepositories() {
-        fetchRepositoriesServices().then(
+        await fetchRepositoriesServices().then(
           (res) => {
             this.repositories = res.data.data?.content || []
           },
@@ -85,6 +86,13 @@ export const useRepositoryMaintainersStore = defineStore(
           ).then(
             () => {
               this.fetchMaintainers()
+              notify({
+                text: i18n.t(
+                  'notifications.successUpdateRepositoryManager',
+                  this.chosenMaintainer.user?.name || ''
+                ),
+                type: 'success'
+              })
             },
             (msg) => {
               notify({ text: msg, type: 'error' })
@@ -99,7 +107,10 @@ export const useRepositoryMaintainersStore = defineStore(
           ).then(
             () => {
               notify({
-                text: 'Repository maintainer deleted',
+                text: i18n.t(
+                  'notifications.successDeleteRepositoryManager',
+                  this.chosenMaintainer.user?.name || ''
+                ),
                 type: 'success'
               })
               this.fetchMaintainers()
@@ -110,12 +121,7 @@ export const useRepositoryMaintainersStore = defineStore(
           )
         }
       },
-      async setPage(payload: number) {
-        const pagination = usePaginationStore()
-        pagination.setPage(payload)
-        this.fetchMaintainers()
-      },
-      async setFiltration(
+      setFiltration(
         payload: RepositoryMaintainersFiltration
       ) {
         const pagination = usePaginationStore()
@@ -127,7 +133,7 @@ export const useRepositoryMaintainersStore = defineStore(
         const { setAllFields } = useObjectActions()
         setAllFields(this.filtration, undefined)
       },
-      async clearFiltrationAndFetch() {
+      clearFiltrationAndFetch() {
         this.clearFiltration()
         this.fetchMaintainers()
       }
