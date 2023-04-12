@@ -187,22 +187,31 @@ describe('Submissions Store', () => {
 })
 
 const failing_server = setupServer(
-  rest.get('', (_, res, ctx) => {
-    return res(ctx.status(403))
-  })
+  rest.get(
+    'http://localhost:8017/api/v2/manager/r/submissions',
+    (_, res, ctx) => {
+      return res(ctx.status(403))
+    }
+  ),
+  rest.patch(
+    'http://localhost:8017/api/v2/manager/r/submissions/:submission_id',
+    (_, res, ctx) => {
+      return res(ctx.status(403))
+    }
+  )
 )
 
 describe('Testing submissions store with failing backend', () => {
   beforeEach(() => {
     setActivePinia(createPinia())
-    server.listen()
+    failing_server.listen()
   })
 
   afterEach(() => {
     vi.clearAllMocks()
   })
 
-  afterAll(() => server.close())
+  afterAll(() => failing_server.close())
 
   it('Fetch submissiosn', async () => {
     const submission_store = useSubmissionStore()
