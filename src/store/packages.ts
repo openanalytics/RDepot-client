@@ -35,7 +35,7 @@ export const usePackagesStore = defineStore(
           state: undefined,
           deleted: undefined,
           repository: undefined,
-          technology: undefined
+          technologies: undefined
         },
         next: false
       }
@@ -43,7 +43,7 @@ export const usePackagesStore = defineStore(
     actions: {
       async fetchPackages() {
         const pagination = usePaginationStore()
-        fetchPackagesServices(
+        return fetchPackagesServices(
           this.filtration,
           pagination.page,
           pagination.pageSize
@@ -65,7 +65,7 @@ export const usePackagesStore = defineStore(
         )
       },
       async fetchPackage(id: number) {
-        fetchPackageServices(id).then(
+        return fetchPackageServices(id).then(
           (res) => (this.package = res.data.data),
           (msg) => {
             this.package = {}
@@ -74,7 +74,7 @@ export const usePackagesStore = defineStore(
         )
       },
       async activatePackage(id: number, value: boolean) {
-        updateRPackage(id, 'active', value).then(
+        return updateRPackage(id, 'active', value).then(
           () => {
             this.fetchPackages()
           },
@@ -82,11 +82,6 @@ export const usePackagesStore = defineStore(
             notify({ text: msg, type: 'error' })
           }
         )
-      },
-      async setPage(payload: number) {
-        const pagination = usePaginationStore()
-        pagination.setPage(payload)
-        this.fetchPackages()
       },
       async downloadManual() {
         const rPackageApi = RPackageControllerApiFactory()
@@ -102,7 +97,7 @@ export const usePackagesStore = defineStore(
         this.filtration = payload
         this.fetchPackages()
       },
-      async setFiltrationByRepositoryOnly(payload: string) {
+      setFiltrationByRepositoryOnly(payload: string) {
         this.clearFiltration()
         this.filtration.repository = payload
       },
