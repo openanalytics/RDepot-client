@@ -39,7 +39,7 @@ export const useEventsStore = defineStore('events_store', {
   actions: {
     async fetchEvents() {
       this.pending = true
-      fetchEventsServices(
+      return fetchEventsServices(
         this.filtration,
         this.page,
         this.pageSize
@@ -87,7 +87,7 @@ export const useEventsStore = defineStore('events_store', {
         !this.pending
       ) {
         this.page = this.page + 1
-        this.fetchEvents()
+        return this.fetchEvents()
       }
     },
     async setPage(payload: number) {
