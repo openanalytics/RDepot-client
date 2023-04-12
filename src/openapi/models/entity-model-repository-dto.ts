@@ -74,6 +74,12 @@ export interface EntityModelRepositoryDto {
     technology?: string;
     /**
      * 
+     * @type {number}
+     * @memberof EntityModelRepositoryDto
+     */
+    numberOfPackages?: number;
+    /**
+     * 
      * @type {Array<Link>}
      * @memberof EntityModelRepositoryDto
      */

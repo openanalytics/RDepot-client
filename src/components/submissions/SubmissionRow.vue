@@ -36,7 +36,7 @@
           ? prepareString(
               $t('submissions.repository').toString()
             )
-          : submission?.packageBag?.repository?.id
+          : submission?.packageBag?.repository?.name
       }}</v-col
     >
     <v-col

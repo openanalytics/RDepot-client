@@ -73,9 +73,7 @@
           ? prepareString(
               $t('repositories.packagesNo').toString()
             )
-          : repository
-          ? -1
-          : ''
+          : repository?.numberOfPackages
       }}</v-col
     >
     <v-col
@@ -139,7 +137,9 @@
 
 <script setup lang="ts">
 import router from '@/router'
-import { EntityModelRRepositoryDto } from '@/openapi'
+import {
+  EntityModelRepositoryDto
+} from '@/openapi'
 import { usePackagesStore } from '@/store/packages'
 import { useRepositoryStore } from '@/store/repositories'
 import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
@@ -153,7 +153,7 @@ const props = defineProps({
     default: false
   },
   repository: Object as () =>
-    | EntityModelRRepositoryDto
+    | EntityModelRepositoryDto
     | undefined
 })
 

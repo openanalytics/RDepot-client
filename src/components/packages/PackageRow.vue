@@ -65,7 +65,7 @@
           ? prepareString(
               $t('packages.repository').toString()
             )
-          : packageBag?.repository?.id
+          : packageBag?.repository?.name
       }}</VCol
     >
     <VCol

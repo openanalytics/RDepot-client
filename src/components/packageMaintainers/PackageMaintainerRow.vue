@@ -32,7 +32,7 @@
       {{
         title
           ? prepareString($t('maintainers.repository'))
-          : packageMaintainer?.repository?.id
+          : packageMaintainer?.repository?.name
       }}</v-col
     >
     <v-col
