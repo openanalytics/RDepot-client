@@ -1,10 +1,8 @@
-import { EntityModelSubmissionDtoStateEnum } from '@/openapi'
 import { usePackagesStore } from '@/store/packages'
 import { setupServer } from 'msw/node'
 import { createPinia, setActivePinia } from 'pinia'
 import {
   beforeEach,
-  afterEach,
   describe,
   expect,
   it,
@@ -12,6 +10,7 @@ import {
   afterAll
 } from 'vitest'
 import packages from '@/__tests__/config/mockData/packages.json'
+import repositories from '@/__tests__/config/mockData/repositories.json'
 import { rest } from 'msw'
 
 const defaultFiltration = {
@@ -146,5 +145,28 @@ describe('Package Store', () => {
       defaultFiltration
     )
     expect(spy).toHaveBeenCalled()
+  })
+
+  it('Set repository filtration only', () => {
+    const package_store = usePackagesStore()
+    const spy = vi.spyOn(package_store, 'fetchPackages')
+
+    package_store.filtration = randomFiltration
+    package_store.setFiltrationByRepositoryOnly(
+      repositories.data.content[0].name
+    )
+
+    expect(
+      package_store.filtration.repository
+    ).toStrictEqual(repositories.data.content[0].name)
+    expect(package_store.filtration.deleted).toBe(
+      defaultFiltration.deleted
+    )
+    expect(package_store.filtration.state).toBe(
+      defaultFiltration.state
+    )
+    expect(package_store.filtration.technologies).toBe(
+      defaultFiltration.technologies
+    )
   })
 })
