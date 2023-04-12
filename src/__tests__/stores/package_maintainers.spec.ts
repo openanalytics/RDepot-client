@@ -15,6 +15,7 @@ import repositories from '@/__tests__/config/mockData/repositories.json'
 import packages from '@/__tests__/config/mockData/packages.json'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
+import { i18n } from '@/plugins/i18n'
 
 const defaultFiltration = {
   deleted: undefined,
@@ -44,6 +45,18 @@ const server = setupServer(
     (_, res, ctx) => {
       return res(ctx.json(packages))
     }
+  ),
+  rest.delete(
+    'http://localhost:8017/api/v2/manager/package-maintainers/3',
+    (_, res, ctx) => {
+      return res(ctx.status(202))
+    }
+  ),
+  rest.patch(
+    'http://localhost:8017/api/v2/manager/package-maintainers/3',
+    (_, res, ctx) => {
+      return res(ctx.status(202))
+    }
   )
 )
 
@@ -55,6 +68,10 @@ describe('Package Maintainers Store', () => {
   beforeEach(() => {
     setActivePinia(createPinia())
     server.resetHandlers()
+  })
+
+  afterEach(() => {
+    vi.restoreAllMocks()
   })
 
   afterAll(() => {
@@ -206,12 +223,131 @@ describe('Package Maintainers Store', () => {
     ).toStrictEqual(packages.data.content)
   })
 
-  it('Delete chosen maintainer', () => {
+  it('Delete chosen maintainer', async () => {
     const package_maintainers_store =
       usePackageMaintainersStore()
+    vi.mock('@kyvg/vue3-notification')
+    const notify = await import('@kyvg/vue3-notification')
+    const spy = vi.spyOn(
+      package_maintainers_store,
+      'fetchMaintainers'
+    )
+
     package_maintainers_store.fetchMaintainers()
     package_maintainers_store.setChosenMaintainer(
       packageMaintainers.data.content[2]
     )
+
+    await package_maintainers_store.deleteChosenMaintainer()
+
+    expect(spy).toBeCalled()
+    expect(notify.notify).toBeCalledWith({
+      type: 'success',
+      text: i18n.t(
+        'notifications.successDeletePackageManager',
+        package_maintainers_store.chosenMaintainer.user
+          ?.name || ''
+      )
+    })
+  })
+
+  it('Edit chosen maintainer', async () => {
+    const package_maintainers_store =
+      usePackageMaintainersStore()
+    vi.mock('@kyvg/vue3-notification')
+    const notify = await import('@kyvg/vue3-notification')
+    const spy = vi.spyOn(
+      package_maintainers_store,
+      'fetchMaintainers'
+    )
+
+    package_maintainers_store.fetchMaintainers()
+    package_maintainers_store.setChosenMaintainer(
+      packageMaintainers.data.content[2]
+    )
+    const newMaintainer = packageMaintainers.data.content[3]
+    newMaintainer.id = packageMaintainers.data.content[2].id
+    await package_maintainers_store.editMaintainer(
+      newMaintainer
+    )
+
+    expect(spy).toBeCalled()
+    expect(notify.notify).toBeCalledWith({
+      type: 'success',
+      text: i18n.t(
+        'notifications.successUpdatePackageManager',
+        package_maintainers_store.chosenMaintainer.user
+          ?.name || ''
+      )
+    })
+  })
+})
+
+const failing_server = setupServer(
+  rest.get(
+    'http://localhost:8017/api/v2/manager/package-maintainers',
+    (_, res, ctx) => {
+      return res(ctx.status(403))
+    }
+  ),
+  rest.get(
+    'http://localhost:8017/api/v2/manager/repositories',
+    (_, res, ctx) => {
+      return res(ctx.status(403))
+    }
+  ),
+  rest.get(
+    'http://localhost:8017/api/v2/manager/packages',
+    (_, res, ctx) => {
+      return res(ctx.status(403))
+    }
+  )
+)
+
+describe('Package Maintainers Store requests with failing backend', () => {
+  beforeAll(() => {
+    failing_server.listen()
+  })
+
+  beforeEach(() => {
+    setActivePinia(createPinia())
+    failing_server.resetHandlers()
+  })
+
+  afterAll(() => {
+    failing_server.close()
+  })
+
+  it('Fetch maintainers', async () => {
+    const package_maintainers_store =
+      usePackageMaintainersStore()
+
+    await package_maintainers_store.fetchMaintainers()
+
+    expect(
+      package_maintainers_store.maintainers
+    ).toStrictEqual([])
+  })
+
+  it('Fetch repositories', async () => {
+    const package_maintainers_store =
+      usePackageMaintainersStore()
+
+    await package_maintainers_store.fetchRepositories()
+
+    expect(
+      package_maintainers_store.repositories
+    ).toStrictEqual([])
+  })
+
+  it('Fetch packages', async () => {
+    const package_maintainers_store =
+      usePackageMaintainersStore()
+
+    await package_maintainers_store.fetchPackages()
+
+    expect(
+      package_maintainers_store.packages
+    ).toStrictEqual([])
   })
 })
