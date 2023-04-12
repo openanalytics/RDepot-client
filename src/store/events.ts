@@ -59,16 +59,10 @@ export const useEventsStore = defineStore('events_store', {
               })
             }
 
-            if (
-              this.events != undefined &&
-              res.data.data?.content
-            ) {
-              this.events = this.events.concat(
-                res.data.data?.content
-              )
-            } else {
-              this.events = res.data.data?.content
-            }
+            this.events = [
+              ...(this.events || []),
+              ...(res.data.data?.content || [])
+            ]
           },
           (msg) => {
             this.events = []
