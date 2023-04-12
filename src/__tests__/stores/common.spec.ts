@@ -52,4 +52,15 @@ describe('Common Store', () => {
     common_store.updateKey()
     expect(common_store.key).toBe(1)
   })
+
+  it('Update key over 100 times', () => {
+    const common_store = useCommonStore()
+    for (let _ = 0; _ < 100; _++) {
+      common_store.updateKey()
+    }
+    expect(common_store.key).toBe(100)
+
+    common_store.updateKey()
+    expect(common_store.key).toBe(0)
+  })
 })
