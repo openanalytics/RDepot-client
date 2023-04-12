@@ -11,8 +11,7 @@ import {
 } from 'vitest'
 import {
   EntityModelPackageDto,
-  EntityModelRepositoryDto,
-  EntityModelSubmissionDtoStateEnum
+  EntityModelRepositoryDto
 } from '@/openapi'
 import packages from '@/__tests__/config/mockData/packages.json'
 import submissions from '@/__tests__/config/mockData/submissions.json'
