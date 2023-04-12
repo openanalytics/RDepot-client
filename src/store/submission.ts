@@ -20,9 +20,6 @@ interface State {
   repository?: EntityModelRepositoryDto
   submissions: EntityModelSubmissionDto[]
   filtration: SubmissionsFiltration
-  page?: number
-  pageSize: number
-  totalNumber?: number
 }
 
 export const useSubmissionStore = defineStore(
@@ -37,10 +34,7 @@ export const useSubmissionStore = defineStore(
           package: undefined,
           state: undefined,
           assignedToMe: undefined
-        },
-        page: 0,
-        pageSize: 10,
-        totalNumber: 0
+        }
       }
     },
     actions: {
@@ -74,13 +68,13 @@ export const useSubmissionStore = defineStore(
         state: string,
         textNotification: string
       ) {
-        return updateSubmission(state, submission_id).then(
-          () => {
+        await updateSubmission(state, submission_id).then(
+          async () => {
             notify({
               type: 'success',
               text: textNotification
             })
-            this.fetchSubmissions()
+            await this.fetchSubmissions()
           },
           (msg) => {
             notify({
