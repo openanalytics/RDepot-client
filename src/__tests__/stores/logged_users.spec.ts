@@ -27,5 +27,11 @@ describe('Logged user store tests', () => {
       'repository maintainer',
       5
     )
+
+    expect(logged_user_store.userLogin).toBe('tesla')
+    expect(logged_user_store.userRole).toBe(
+      'repository maintainer'
+    )
+    expect(logged_user_store.userId).toBe(5)
   })
 })
