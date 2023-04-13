@@ -69,7 +69,7 @@ async function submit() {
 .hoverable {
   transition: background-color 0.5s ease;
   &:hover {
-    background-color: darkslategray;
+    background-color: rgb(var(--v-theme-docsblue));
   }
 }
 </style>
