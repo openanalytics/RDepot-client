@@ -16,6 +16,7 @@ import packages from '@/__tests__/config/mockData/packages.json'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { i18n } from '@/plugins/i18n'
+import { usePaginationStore } from '@/store/pagination'
 
 const defaultFiltration = {
   deleted: undefined,
@@ -101,14 +102,19 @@ describe('Package Maintainers Store', () => {
   it('Edit filtration', () => {
     const package_maintainers_store =
       usePackageMaintainersStore()
+    const pagination_store = usePaginationStore()
+    pagination_store.page = 2
     const spy = vi.spyOn(
       package_maintainers_store,
       'fetchMaintainers'
     )
     expect(spy).toHaveBeenCalledTimes(0)
+
     package_maintainers_store.setFiltration(
       randomFiltration
     )
+
+    expect(pagination_store.page).toBe(0)
     expect(
       package_maintainers_store.filtration
     ).toStrictEqual(randomFiltration)
@@ -118,9 +124,13 @@ describe('Package Maintainers Store', () => {
   it('Clear filtration', () => {
     const package_maintainers_store =
       usePackageMaintainersStore()
-
+    const pagination_store = usePaginationStore()
+    pagination_store.page = 2
     package_maintainers_store.filtration = randomFiltration
+
     package_maintainers_store.clearFiltration()
+
+    expect(pagination_store.page).toBe(0)
     expect(
       package_maintainers_store.filtration
     ).toStrictEqual(defaultFiltration)
@@ -129,6 +139,8 @@ describe('Package Maintainers Store', () => {
   it('Clear filtration and fetch', async () => {
     const package_maintainers_store =
       usePackageMaintainersStore()
+    const pagination_store = usePaginationStore()
+    pagination_store.page = 2
     const spy = vi.spyOn(
       package_maintainers_store,
       'fetchMaintainers'
@@ -137,6 +149,7 @@ describe('Package Maintainers Store', () => {
     package_maintainers_store.filtration = randomFiltration
     await package_maintainers_store.clearFiltrationAndFetch()
 
+    expect(pagination_store.page).toBe(0)
     expect(
       package_maintainers_store.filtration
     ).toStrictEqual(defaultFiltration)
