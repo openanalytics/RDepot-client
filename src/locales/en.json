@@ -6,7 +6,7 @@
     "passwordError": "Password is required",
     "login": "login",
     "clear": "clear",
-    "wrongCredentials": "Wrong credential data, please try "
+    "wrongCredentials": "Wrong credentials, please try again"
   },
   "addSubmission": {
     "step1Title": "Choose repository",
