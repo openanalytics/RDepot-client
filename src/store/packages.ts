@@ -102,6 +102,8 @@ export const usePackagesStore = defineStore(
         this.filtration.repository = payload
       },
       clearFiltration() {
+        const pagination = usePaginationStore()
+        pagination.setPage(0)
         const { setAllFields } = useObjectActions()
         setAllFields(this.filtration, undefined)
       },
