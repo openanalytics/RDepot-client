@@ -121,21 +121,21 @@ export const useRepositoryMaintainersStore = defineStore(
           )
         }
       },
-      setFiltration(
+      async setFiltration(
         payload: RepositoryMaintainersFiltration
       ) {
         const pagination = usePaginationStore()
         pagination.setPage(0)
         this.filtration = payload
-        this.fetchMaintainers()
+        await this.fetchMaintainers()
       },
       clearFiltration() {
         const { setAllFields } = useObjectActions()
         setAllFields(this.filtration, undefined)
       },
-      clearFiltrationAndFetch() {
+      async clearFiltrationAndFetch() {
         this.clearFiltration()
-        this.fetchMaintainers()
+        await this.fetchMaintainers()
       }
     }
   }

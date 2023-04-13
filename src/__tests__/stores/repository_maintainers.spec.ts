@@ -127,7 +127,7 @@ describe('Repository Maintainers Store', () => {
     ).toStrictEqual(defaultFiltration)
   })
 
-  it('Clear filtration and fetch', () => {
+  it('Clear filtration and fetch', async () => {
     const repository_maintainers_store =
       useRepositoryMaintainersStore()
     const spy = vi.spyOn(
@@ -135,14 +135,18 @@ describe('Repository Maintainers Store', () => {
       'fetchMaintainers'
     )
 
-    expect(spy).toHaveBeenCalledTimes(0)
     repository_maintainers_store.filtration =
       randomFiltration
-    repository_maintainers_store.clearFiltrationAndFetch()
+
+    await repository_maintainers_store.clearFiltrationAndFetch()
+
     expect(
       repository_maintainers_store.filtration
     ).toStrictEqual(defaultFiltration)
     expect(spy).toHaveBeenCalledTimes(1)
+    expect(
+      repository_maintainers_store.maintainers
+    ).toStrictEqual(repositoryMaintainers.data.content)
   })
 
   it('Set chosen maintainer without changes', () => {
