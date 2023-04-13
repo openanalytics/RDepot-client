@@ -65,8 +65,8 @@ function updateFiltration() {
   )
 }
 
-async function setFiltration() {
-  await package_store.setFiltration(localFiltration.value)
+function setFiltration() {
+  package_store.setFiltration(localFiltration.value)
   cancelModal()
 }
 

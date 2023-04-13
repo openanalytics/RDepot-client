@@ -95,7 +95,7 @@ export const usePackagesStore = defineStore(
         const pagination = usePaginationStore()
         pagination.setPage(0)
         this.filtration = payload
-        this.fetchPackages()
+        await this.fetchPackages()
       },
       setFiltrationByRepositoryOnly(payload: string) {
         this.clearFiltration()
@@ -107,7 +107,7 @@ export const usePackagesStore = defineStore(
       },
       async clearFiltrationAndFetch() {
         this.clearFiltration()
-        this.fetchPackages()
+        await this.fetchPackages()
       }
     }
   }

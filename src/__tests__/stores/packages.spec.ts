@@ -134,22 +134,24 @@ describe('Package Store', () => {
     )
   })
 
-  it('Clear filtration and fetch events', () => {
+  it('Clear filtration and fetch events', async () => {
     const package_store = usePackagesStore()
     const spy = vi.spyOn(package_store, 'fetchPackages')
 
     package_store.filtration = randomFiltration
-    package_store.clearFiltrationAndFetch()
+    await package_store.clearFiltrationAndFetch()
 
     expect(package_store.filtration).toStrictEqual(
       defaultFiltration
     )
     expect(spy).toHaveBeenCalled()
+    expect(package_store.packages).toStrictEqual(
+      packages.data.content
+    )
   })
 
   it('Set repository filtration only', () => {
     const package_store = usePackagesStore()
-    const spy = vi.spyOn(package_store, 'fetchPackages')
 
     package_store.filtration = randomFiltration
     package_store.setFiltrationByRepositoryOnly(
