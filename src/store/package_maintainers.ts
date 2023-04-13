@@ -110,6 +110,8 @@ export const usePackageMaintainersStore = defineStore(
         await this.fetchMaintainers()
       },
       clearFiltration() {
+        const pagination = usePaginationStore()
+        pagination.setPage(0)
         const { setAllFields } = useObjectActions()
         setAllFields(this.filtration, undefined)
       },
