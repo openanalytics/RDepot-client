@@ -102,7 +102,7 @@ export const useSubmissionStore = defineStore(
       },
       async setFiltration(payload: SubmissionsFiltration) {
         const pagination = usePaginationStore()
-        pagination.setPageSize(0)
+        pagination.setPage(0)
         this.filtration = payload
         await this.fetchSubmissions()
         notify({
@@ -111,6 +111,8 @@ export const useSubmissionStore = defineStore(
         })
       },
       clearFiltration() {
+        const pagination = usePaginationStore()
+        pagination.setPage(0)
         const { setAllFields } = useObjectActions()
         setAllFields(this.filtration, undefined)
       },
