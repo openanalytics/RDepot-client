@@ -13,6 +13,7 @@ import packages from '@/__tests__/config/mockData/packages.json'
 import repositories from '@/__tests__/config/mockData/repositories.json'
 import { rest } from 'msw'
 import { useRepositoryStore } from '@/store/repositories'
+import { usePaginationStore } from '@/store/pagination'
 
 const defaultFiltration = {
   name: undefined,
@@ -90,13 +91,16 @@ describe('Repository Store', () => {
 
   it('Edit filtration', () => {
     const repositories_store = useRepositoryStore()
+    const pagination_store = usePaginationStore()
     const spy = vi.spyOn(
       repositories_store,
       'fetchRepositories'
     )
+    pagination_store.page = 2
 
     repositories_store.setFiltration(randomFiltration)
 
+    expect(pagination_store.page).toBe(0)
     expect(repositories_store.filtration).toStrictEqual(
       randomFiltration
     )
@@ -105,10 +109,13 @@ describe('Repository Store', () => {
 
   it('Clear filtration', () => {
     const repositories_store = useRepositoryStore()
-
+    const pagination_store = usePaginationStore()
     repositories_store.filtration = randomFiltration
+    pagination_store.page = 2
+
     repositories_store.clearFiltration()
 
+    expect(pagination_store.page).toBe(0)
     expect(repositories_store.filtration).toStrictEqual(
       defaultFiltration
     )
@@ -116,14 +123,17 @@ describe('Repository Store', () => {
 
   it('Clear filtration and fetch events', async () => {
     const repositories_store = useRepositoryStore()
+    const pagination_store = usePaginationStore()
     const spy = vi.spyOn(
       repositories_store,
       'fetchRepositories'
     )
-
     repositories_store.filtration = randomFiltration
+    pagination_store.page = 2
+
     await repositories_store.clearFiltrationAndFetch()
 
+    expect(pagination_store.page).toBe(0)
     expect(repositories_store.filtration).toStrictEqual(
       defaultFiltration
     )
