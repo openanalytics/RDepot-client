@@ -53,10 +53,8 @@ function updateFiltration() {
   console.log(localFiltration.value)
 }
 
-async function setFiltration() {
-  await repository_store.setFiltration(
-    localFiltration.value
-  )
+function setFiltration() {
+  repository_store.setFiltration(localFiltration.value)
   changeDialogOptions()
 }
 

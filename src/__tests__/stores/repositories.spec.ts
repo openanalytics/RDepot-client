@@ -114,7 +114,7 @@ describe('Repository Store', () => {
     )
   })
 
-  it('Clear filtration and fetch events', () => {
+  it('Clear filtration and fetch events', async () => {
     const repositories_store = useRepositoryStore()
     const spy = vi.spyOn(
       repositories_store,
@@ -122,11 +122,14 @@ describe('Repository Store', () => {
     )
 
     repositories_store.filtration = randomFiltration
-    repositories_store.clearFiltrationAndFetch()
+    await repositories_store.clearFiltrationAndFetch()
 
     expect(repositories_store.filtration).toStrictEqual(
       defaultFiltration
     )
     expect(spy).toHaveBeenCalled()
+    expect(repositories_store.repositories).toStrictEqual(
+      repositories.data.content
+    )
   })
 })

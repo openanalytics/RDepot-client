@@ -74,7 +74,7 @@ export const useRepositoryStore = defineStore(
         const pagination = usePaginationStore()
         pagination.setPage(0)
         this.filtration = payload
-        this.fetchRepositories()
+        await this.fetchRepositories()
       },
       clearFiltration() {
         const { setAllFields } = useObjectActions()
@@ -82,7 +82,7 @@ export const useRepositoryStore = defineStore(
       },
       async clearFiltrationAndFetch() {
         this.clearFiltration()
-        this.fetchRepositories()
+        await this.fetchRepositories()
       }
     }
   }
