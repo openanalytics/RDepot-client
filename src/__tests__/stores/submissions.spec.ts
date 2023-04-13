@@ -17,6 +17,8 @@ import packages from '@/__tests__/config/mockData/packages.json'
 import submissions from '@/__tests__/config/mockData/submissions.json'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
+import { usePagination } from '@/composable/pagination'
+import { usePaginationStore } from '@/store/pagination'
 
 var files = [
   {
@@ -82,10 +84,13 @@ describe('Submissions Store', () => {
 
   it('Clear filtration', () => {
     const submission_store = useSubmissionStore()
+    const pagination_store = usePaginationStore()
     submission_store.filtration = randomFiltration
+    pagination_store.page = 2
 
     submission_store.clearFiltration()
 
+    expect(pagination_store.page).toBe(0)
     expect(submission_store.filtration).toStrictEqual(
       defaultFiltration
     )
@@ -93,14 +98,17 @@ describe('Submissions Store', () => {
 
   it('Clear filtration and fetch', async () => {
     const submission_store = useSubmissionStore()
+    const pagination_store = usePaginationStore()
     const spy = vi.spyOn(
       submission_store,
       'fetchSubmissions'
     )
     submission_store.filtration = randomFiltration
+    pagination_store.page = 2
 
     await submission_store.clearFiltrationAndFetch()
 
+    expect(pagination_store.page).toBe(0)
     expect(submission_store.filtration).toStrictEqual(
       defaultFiltration
     )
@@ -112,9 +120,12 @@ describe('Submissions Store', () => {
 
   it('Set filtration', () => {
     const submission_store = useSubmissionStore()
+    const pagination_store = usePaginationStore()
+    pagination_store.page = 2
 
     submission_store.setFiltration(randomFiltration)
 
+    expect(pagination_store.page).toBe(0)
     expect(submission_store.filtration).toStrictEqual(
       randomFiltration
     )
