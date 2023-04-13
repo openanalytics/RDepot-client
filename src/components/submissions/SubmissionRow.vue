@@ -59,7 +59,7 @@
       class="d-flex align-center"
     >
       {{
-        title == true
+        title
           ? prepareString(
               $t('submissions.approver').toString()
             )

@@ -5,7 +5,7 @@
       cols="lg-1 sm-2"
       class="d-flex align-center"
       >{{
-        title == true
+        title
           ? prepareString($t('packages.name').toString())
           : packageBag?.name
       }}</v-col

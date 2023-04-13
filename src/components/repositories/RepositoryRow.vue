@@ -9,7 +9,7 @@
       cols="lg-1 sm-2"
       class="d-flex align-center"
       >{{
-        title == true
+        title
           ? prepareString(
               $t('repositories.name').toString()
             )
@@ -23,7 +23,7 @@
       cols="lg-2"
       class="d-flex align-center"
       >{{
-        title == true
+        title
           ? prepareString(
               $t('repositories.publicationUri').toString()
             )
@@ -38,7 +38,7 @@
       class="d-flex align-center"
     >
       {{
-        title == true
+        title
           ? prepareString(
               $t('repositories.serverAddress').toString()
             )
@@ -54,7 +54,7 @@
       class="d-flex align-center justify-center"
     >
       {{
-        title == true
+        title
           ? prepareString(
               $t('repositories.version').toString()
             )
@@ -69,7 +69,7 @@
       class="d-flex align-center justify-center"
     >
       {{
-        title == true
+        title
           ? prepareString(
               $t('repositories.packagesNo').toString()
             )
@@ -83,7 +83,7 @@
       cols="lg-1"
       class="d-flex justify-center"
     >
-      <span v-if="title == true">
+      <span v-if="title">
         {{
           prepareString(
             $t('repositories.published').toString()
@@ -103,7 +103,7 @@
       cols="lg-1"
       class="d-flex justify-center"
     >
-      <span v-if="title == true">
+      <span v-if="title">
         {{
           prepareString($t('packages.actions').toString())
         }}

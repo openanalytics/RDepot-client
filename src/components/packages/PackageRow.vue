@@ -9,7 +9,7 @@
       cols="lg-1 sm-2"
       class="d-flex align-center"
       >{{
-        title == true
+        title
           ? prepareString($t('packages.name').toString())
           : packageBag
           ? packageBag.name
@@ -92,7 +92,7 @@
       cols="lg-1"
       class="d-flex justify-center"
     >
-      <span v-if="title == true">
+      <span v-if="title">
         {{
           prepareString($t('packages.actions').toString())
         }}

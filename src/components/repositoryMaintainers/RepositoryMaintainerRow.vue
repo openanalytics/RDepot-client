@@ -9,7 +9,7 @@
       cols="lg-1 sm-2"
       class="d-flex align-center"
       >{{
-        title == true
+        title
           ? prepareString($t('maintainers.name'))
           : repositoryMaintainer
           ? repositoryMaintainer.user?.name
@@ -22,7 +22,7 @@
       class="d-flex align-center"
     >
       {{
-        title == true
+        title
           ? prepareString($t('maintainers.repository'))
           : repositoryMaintainer
           ? repositoryMaintainer.repository?.name
@@ -34,7 +34,7 @@
       cols="lg-1"
       class="d-flex justify-center"
     >
-      <span v-if="title == true">
+      <span v-if="title">
         {{ prepareString($t('maintainers.actions')) }}
       </span>
       <span
