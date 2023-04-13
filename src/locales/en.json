@@ -113,7 +113,8 @@
     "maintainer": "maintainer",
     "version": "version",
     "packagesNo": "number of packages",
-    "published": "published"
+    "published": "published",
+    "technology": "technology"
   },
   "submissions": {
     "filtration": {

@@ -65,7 +65,10 @@
           ? prepareString(
               $t('packages.repository').toString()
             )
-          : packageBag?.repository?.name
+          : packageBag?.repository?.name +
+            ' [ ' +
+            packageBag?.repository?.technology +
+            ' ]'
       }}</VCol
     >
     <VCol

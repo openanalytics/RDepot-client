@@ -11,24 +11,32 @@
       >{{
         title == true
           ? prepareString($t('maintainers.name'))
-          : repositoryMaintainer
-          ? repositoryMaintainer.user?.name
-          : ''
+          : repositoryMaintainer?.user?.name
       }}</v-col
     >
     <v-col
       id="repository-maintainer-repository"
-      cols="lg-10 sm-2"
+      cols="lg-9 sm-2"
       class="d-flex align-center"
     >
       {{
         title == true
           ? prepareString($t('maintainers.repository'))
-          : repositoryMaintainer
-          ? repositoryMaintainer.repository?.name
-          : ''
+          : repositoryMaintainer?.repository?.name
       }}</v-col
     >
+    <v-col
+      id="repository-maintainer-technology"
+      cols="lg-1 sm-2"
+      class="d-flex align-center justify-center"
+    >
+      {{
+        title == true
+          ? prepareString($t('repositories.technology'))
+          : repositoryMaintainer?.repository?.technology
+      }}</v-col
+    >
+
     <v-col
       id="repository-maintainer-actions"
       cols="lg-1"

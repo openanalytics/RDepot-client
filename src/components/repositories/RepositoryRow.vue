@@ -13,9 +13,7 @@
           ? prepareString(
               $t('repositories.name').toString()
             )
-          : repository
-          ? repository.name
-          : ''
+          : repository?.name
       }}</v-col
     >
     <v-col
@@ -34,7 +32,7 @@
     >
     <v-col
       id="repository-server-address"
-      cols="lg-5 sm-2"
+      cols="lg-4 sm-2"
       class="d-flex align-center"
     >
       {{
@@ -48,6 +46,19 @@
       }}</v-col
     >
 
+    <v-col
+      id="repository-technology"
+      cols="lg-1 sm-2"
+      class="d-flex align-center justify-center"
+    >
+      {{
+        title == true
+          ? prepareString(
+              $t('repositories.technology').toString()
+            )
+          : repository?.technology
+      }}</v-col
+    >
     <v-col
       id="repository-version"
       cols="lg-1 sm-2"
@@ -137,9 +148,7 @@
 
 <script setup lang="ts">
 import router from '@/router'
-import {
-  EntityModelRepositoryDto
-} from '@/openapi'
+import { EntityModelRepositoryDto } from '@/openapi'
 import { usePackagesStore } from '@/store/packages'
 import { useRepositoryStore } from '@/store/repositories'
 import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'

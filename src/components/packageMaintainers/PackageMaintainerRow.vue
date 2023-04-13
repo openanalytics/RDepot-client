@@ -16,12 +16,23 @@
     >
     <v-col
       id="package-maintainer-package"
-      cols="lg-9"
+      cols="lg-8"
       class="d-flex align-center"
       >{{
         title
           ? prepareString($t('maintainers.packageName'))
           : packageMaintainer?.packageName
+      }}</v-col
+    >
+    <v-col
+      id="package-maintainer-technology"
+      cols="lg-1 sm-2"
+      class="d-flex align-center justify-center"
+    >
+      {{
+        title
+          ? prepareString($t('repositories.technology'))
+          : packageMaintainer?.repository?.technology
       }}</v-col
     >
     <v-col
