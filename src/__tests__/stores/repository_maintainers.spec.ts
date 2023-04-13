@@ -16,6 +16,7 @@ import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { i18n } from '@/plugins/i18n'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
+import { usePaginationStore } from '@/store/pagination'
 
 const defaultFiltration = {
   deleted: undefined,
@@ -101,14 +102,19 @@ describe('Repository Maintainers Store', () => {
   it('Edit filtration', () => {
     const repository_maintainers_store =
       useRepositoryMaintainersStore()
+    const pagination_store = usePaginationStore()
     const spy = vi.spyOn(
       repository_maintainers_store,
       'fetchMaintainers'
     )
+    pagination_store.page = 2
+
     expect(spy).toHaveBeenCalledTimes(0)
     repository_maintainers_store.setFiltration(
       randomFiltration
     )
+
+    expect(pagination_store.page).toBe(0)
     expect(
       repository_maintainers_store.filtration
     ).toStrictEqual(randomFiltration)
@@ -118,10 +124,13 @@ describe('Repository Maintainers Store', () => {
   it('Clear filtration', () => {
     const repository_maintainers_store =
       useRepositoryMaintainersStore()
+    const pagination_store = usePaginationStore()
+    pagination_store.page = 2
 
     repository_maintainers_store.filtration =
       randomFiltration
     repository_maintainers_store.clearFiltration()
+    expect(pagination_store.page).toBe(0)
     expect(
       repository_maintainers_store.filtration
     ).toStrictEqual(defaultFiltration)
@@ -130,6 +139,7 @@ describe('Repository Maintainers Store', () => {
   it('Clear filtration and fetch', async () => {
     const repository_maintainers_store =
       useRepositoryMaintainersStore()
+    const pagination_store = usePaginationStore()
     const spy = vi.spyOn(
       repository_maintainers_store,
       'fetchMaintainers'
@@ -137,9 +147,11 @@ describe('Repository Maintainers Store', () => {
 
     repository_maintainers_store.filtration =
       randomFiltration
+    pagination_store.page = 2
 
     await repository_maintainers_store.clearFiltrationAndFetch()
 
+    expect(pagination_store.page).toBe(0)
     expect(
       repository_maintainers_store.filtration
     ).toStrictEqual(defaultFiltration)
