@@ -46,44 +46,24 @@ export const usePackageMaintainersStore = defineStore(
     actions: {
       async fetchMaintainers() {
         const pagination = usePaginationStore()
-        fetchPackageMaintainersService(
-          this.filtration,
-          pagination.page,
-          pagination.pageSize
-        ).then(
-          (res) => {
-            pagination.setPage(
-              res.data.data?.page?.number || 0
-            )
-            pagination.setTotalNumber(
-              res.data.data?.page?.totalElements || 0
-            )
-            this.maintainers = res.data.data?.content || []
-          },
-          (msg) => {
-            notify({ type: 'error', text: msg })
-          }
-        )
+        const [maintainers, pageData] =
+          await fetchPackageMaintainersService(
+            this.filtration,
+            pagination.page,
+            pagination.pageSize
+          )
+        pagination.setPage(pageData.page)
+        pagination.setTotalNumber(pageData.totalNumber)
+        this.maintainers = maintainers
       },
       async fetchRepositories() {
-        fetchRepositoriesServices().then(
-          (res) => {
-            this.repositories = res.data.data?.content || []
-          },
-          (msg) => {
-            notify({ type: 'error', text: msg })
-          }
-        )
+        const [repositories] =
+          await fetchRepositoriesServices()
+        this.repositories = repositories
       },
       async fetchPackages() {
-        fetchPackagesServices().then(
-          (res) => {
-            this.packages = res.data.data?.content || []
-          },
-          (msg) => {
-            notify({ type: 'error', text: msg })
-          }
-        )
+        const [packages] = await fetchPackagesServices()
+        this.packages = packages
       },
       async setPage(payload: number) {
         const pagination = usePaginationStore()
@@ -124,42 +104,20 @@ export const usePackageMaintainersStore = defineStore(
       },
       async deleteChosenMaintainer() {
         deletePackageMaintainerService(
-          this.chosenMaintainer.id || -1
-        ).then(
-          () => {
-            notify({
-              type: 'success',
-              text: i18n.t(
-                'notifications.successDeletePackageManager',
-                this.chosenMaintainer.user?.name || ''
-              )
-            })
-            this.fetchMaintainers()
-          },
-          (msg) => {
-            notify({ type: 'error', text: msg })
-          }
-        )
+          this.chosenMaintainer
+        ).then((success) => {
+          if (success) this.fetchMaintainers()
+        })
       },
       async editMaintainer(
         maintainer: PackageMaintainerDto
       ) {
         updatePackageMaintainerService(
-          maintainer,
-          this.chosenMaintainer
-        ).then(
-          () => {
-            notify({
-              type: 'success',
-              text: i18n.t(
-                'notifications.successUpdatePackageManager',
-                this.chosenMaintainer.user?.name || ''
-              )
-            })
-            this.fetchMaintainers()
-          },
-          (msg) => notify({ type: 'error', text: msg })
-        )
+          this.chosenMaintainer,
+          maintainer
+        ).then((success) => {
+          if (success) this.fetchMaintainers()
+        })
       }
     }
   }
