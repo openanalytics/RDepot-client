@@ -112,7 +112,7 @@
     "serverAddress": "server address",
     "maintainer": "maintainer",
     "version": "version",
-    "packagesNo": "number of packages",
+    "packagesNo": "# packages",
     "published": "published",
     "technology": "technology"
   },
