@@ -84,7 +84,7 @@
           ? prepareString(
               $t('repositories.packagesNo').toString()
             )
-          : repository?.numberOfPackages
+          : -1
       }}</v-col
     >
     <v-col
@@ -153,8 +153,8 @@ import { usePackagesStore } from '@/store/packages'
 import { useRepositoryStore } from '@/store/repositories'
 import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
 
-const package_store = usePackagesStore()
 const repository_store = useRepositoryStore()
+const package_store = usePackagesStore()
 
 const props = defineProps({
   title: {

@@ -55,7 +55,7 @@
 
     <v-col
       id="submission-approver"
-      cols="lg-5 sm-2"
+      cols="lg-4 sm-2"
       class="d-flex align-center"
     >
       {{
@@ -64,6 +64,20 @@
               $t('submissions.approver').toString()
             )
           : submission?.approver?.name
+      }}</v-col
+    >
+
+    <v-col
+      id="submission-technology"
+      cols="lg-1 sm-2"
+      class="d-flex align-center justify-center"
+    >
+      {{
+        title == true
+          ? prepareString(
+              $t('repositories.technology').toString()
+            )
+          : submission?.technology
       }}</v-col
     >
     <v-col

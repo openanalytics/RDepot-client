@@ -28,7 +28,7 @@
     >
     <VCol
       id="package-row-title"
-      cols="lg-6 sm-2"
+      cols="lg-5 sm-2"
       class="d-flex align-center"
     >
       {{
@@ -56,6 +56,19 @@
       }}</VCol
     >
     <VCol
+      id="package-row-technology"
+      cols="lg-1 sm-2"
+      class="d-flex align-center justify-center"
+    >
+      {{
+        title
+          ? prepareString(
+              $t('repositories.technology').toString()
+            )
+          : packageBag?.technology
+      }}</VCol
+    >
+    <VCol
       id="package-row-repository"
       cols="lg-1 sm-2"
       class="d-flex align-center justify-center"
@@ -65,10 +78,7 @@
           ? prepareString(
               $t('packages.repository').toString()
             )
-          : packageBag?.repository?.name +
-            ' [ ' +
-            packageBag?.repository?.technology +
-            ' ]'
+          : packageBag?.repository?.name
       }}</VCol
     >
     <VCol
