@@ -67,7 +67,6 @@ function handleClick(item: any) {
 <style lang="scss">
 .title {
   font-weight: 600 !important;
-  padding: 16px 24px;
 }
 .v-expansion {
   max-width: 96% !important;
