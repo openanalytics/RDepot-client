@@ -39,25 +39,15 @@ export const useRepositoryStore = defineStore(
     actions: {
       async fetchRepositories() {
         const pagination = usePaginationStore()
-        await fetchRepositoriesServices(
-          this.filtration,
-          pagination.page,
-          pagination.pageSize
-        ).then(
-          (res) => {
-            pagination.setTotalNumber(
-              res.data.data?.page?.totalElements || 0
-            )
-            pagination.setPage(
-              res.data.data?.page?.number || 0
-            )
-            this.repositories = res.data.data?.content || []
-          },
-          (msg) => {
-            pagination.setPage(0)
-            notify({ text: msg, type: 'error' })
-          }
-        )
+        const [repositories, pageData] =
+          await fetchRepositoriesServices(
+            this.filtration,
+            pagination.page,
+            pagination.pageSize
+          )
+        pagination.setTotalNumber(pageData.totalNumber)
+        pagination.setPage(pageData.page)
+        this.repositories = repositories
       },
       async fetchPackages() {
         packages_api
