@@ -203,34 +203,3 @@ async function rejectSubmission() {
   disabled.value = false
 }
 </script>
-
-<style lang="scss">
-.v-col {
-  padding: 10px !important;
-  font-size: 13px !important;
-}
-.col {
-  line-height: 1.3;
-}
-
-.title {
-  font-weight: 600 !important;
-  padding: 16px 24px;
-}
-
-.v-input__control {
-  justify-content: center !important;
-}
-
-#repository-row {
-  .v-input__details {
-    display: none !important;
-  }
-}
-
-#submission-row {
-  .v-input__details {
-    display: none !important;
-  }
-}
-</style>

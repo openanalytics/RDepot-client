@@ -65,6 +65,10 @@ function handleClick(item: any) {
 </script>
 
 <style lang="scss">
+.title {
+  font-weight: 600 !important;
+  padding: 16px 24px;
+}
 .v-expansion {
   max-width: 96% !important;
 }
@@ -83,11 +87,11 @@ function handleClick(item: any) {
   padding: 0 !important;
 }
 
-.v-col {
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
-}
 .v-input__details {
   display: none !important;
+}
+
+.v-input__control {
+  justify-content: center !important;
 }
 </style>
