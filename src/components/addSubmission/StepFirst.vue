@@ -4,15 +4,44 @@
       class="mt-5"
       :items="repositories"
       :label="$t('addSubmission.step1Title')"
-      @update:modelValue="changeRepository"
-      item-value="id"
-      item-title="name"
+      v-model="submissions_store.repository"
+      filled
+      dense
+      clearable
       persistent-hint
-      return-object
-    ></v-select>
+    >
+      <template v-slot:selection="{ item, index }">
+        {{ item.value.name }}
+      </template>
+      <template v-slot:item="{ item, index }">
+        <v-list-item @click="changeRepository(item.value)">
+          <v-list-item-content>
+            <v-list-item-title>
+              <v-row no-gutters align="center">
+                <span class="text-body-1">{{
+                  item.value.name
+                }}</span>
+                <v-spacer></v-spacer>
+                <v-chip
+                  text-color="white"
+                  :color="item.color"
+                  class="text-body-1"
+                  small
+                  >{{ item.value.technology }}</v-chip
+                >
+              </v-row>
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </template>
+    </v-select>
   </v-card>
   <div class="d-flex justify-end">
-    <v-btn id="nextbutton" color="oablue" @click="nextStep">
+    <v-btn
+      id="next-button"
+      color="oablue"
+      @click="nextStep"
+    >
       Continue
     </v-btn>
   </div>
@@ -28,7 +57,7 @@ import { computed } from 'vue'
 const emits = defineEmits(['next'])
 const submissions_store = useSubmissionStore()
 const repository_store = useRepositoryStore()
-const nofications = useNotification()
+const notifications = useNotification()
 
 const repositories = computed(function () {
   return repository_store.repositories
@@ -43,7 +72,7 @@ function nextStep() {
   if (submissions_store.repository != null) {
     emits('next', 2)
   } else {
-    nofications.notify({
+    notifications.notify({
       text: 'no repository choosen',
       type: 'warn'
     })
