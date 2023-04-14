@@ -1,5 +1,6 @@
 import { useCommonStore } from '@/store/common'
 import { AxiosResponse } from 'axios'
+import { PageMetadata } from '@/openapi'
 
 var isPending = true
 
@@ -33,4 +34,22 @@ function rejected(result: AxiosResponse<any, any>) {
   common_store.setProgressCircularActive(false)
   isPending = false
   throw result
+}
+
+interface Pagination {
+  totalNumber: number
+  page: number
+}
+
+export function validateRequest<T>(
+  content?: T[],
+  paginationData?: PageMetadata
+): [T[], Pagination] {
+  return [
+    content || [],
+    {
+      page: paginationData?.number || 0,
+      totalNumber: paginationData?.totalElements || 0
+    }
+  ]
 }
