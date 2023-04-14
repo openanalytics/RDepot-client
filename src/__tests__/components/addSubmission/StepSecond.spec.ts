@@ -12,7 +12,6 @@ import { mocks } from '@/__tests__/config/mocks'
 import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import { createPinia, setActivePinia } from 'pinia'
 import StepSecondVue from '@/components/addSubmission/StepSecond.vue'
-import { useSubmissionStore } from '@/store/submission'
 
 let wrapper: any
 const globalConfig = {
