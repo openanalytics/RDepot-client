@@ -10,6 +10,7 @@ interface State {
   overlayOpacity: number
   overlayComponent: number
   key: number
+  activeId: string
 }
 
 export const useCommonStore = defineStore('common_store', {
@@ -23,7 +24,8 @@ export const useCommonStore = defineStore('common_store', {
       overlayOpacity: 0.8,
       overlayModel: false,
       overlayComponent: 0,
-      key: 0
+      key: 0,
+      activeId: ''
     }
   },
   actions: {
@@ -50,6 +52,9 @@ export const useCommonStore = defineStore('common_store', {
       if (this.key > 100) {
         this.key = 0
       }
+    },
+    setActiveId(payload: string) {
+      this.activeId = payload
     }
   }
 })
