@@ -1,6 +1,6 @@
 import { useCommonStore } from '@/store/common'
 import { AxiosResponse } from 'axios'
-import { PageMetadata } from '@/openapi'
+import { Link, PageMetadata } from '@/openapi'
 
 var isPending = true
 
@@ -43,13 +43,15 @@ interface Pagination {
 
 export function validateRequest<T>(
   content?: T[],
-  paginationData?: PageMetadata
-): [T[], Pagination] {
+  paginationData?: PageMetadata,
+  links?: Array<Link>
+): [T[], Pagination, Array<Link>] {
   return [
     content || [],
     {
       page: paginationData?.number || 0,
       totalNumber: paginationData?.totalElements || 0
-    }
+    },
+    links || []
   ]
 }
