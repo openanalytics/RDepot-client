@@ -1,10 +1,15 @@
 import { EventsFiltration } from '@/models/Filtration'
 import {
   ApiV2NewsfeedEventControllerApiFactory,
+  EntityModelNewsfeedEventDto,
   ResponseDtoPagedModelEntityModelNewsfeedEventDto
 } from '@/openapi'
 import { getConfiguration } from './api_config'
-import { openApiRequest } from './open_api_access'
+import {
+  openApiRequest,
+  validateRequest
+} from './open_api_access'
+import { notify } from '@kyvg/vue3-notification'
 
 export function fetchEventsServices(
   filtration: EventsFiltration,
@@ -26,5 +31,16 @@ export function fetchEventsServices(
         page,
         pageSize
       )
+  ).then(
+    (res) =>
+      validateRequest(
+        res.data.data?.content,
+        res.data.data?.page,
+        res.data.data?.links
+      ),
+    (msg) => {
+      notify({ text: msg, type: 'error' })
+      return validateRequest<EntityModelNewsfeedEventDto>()
+    }
   )
 }
