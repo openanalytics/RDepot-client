@@ -1,12 +1,17 @@
 import { RepositoriesFiltration } from '@/models/Filtration'
 import {
   ApiV2RepositoryControllerApiFactory,
+  EntityModelRepositoryDto,
   ResponseDtoPagedModelEntityModelRepositoryDto,
   ResponseDtoPagedModelEntityModelRRepositoryDto,
   RRepositoryControllerApiFactory
 } from '@/openapi'
 import { getConfiguration } from './api_config'
-import { openApiRequest } from './open_api_access'
+import {
+  openApiRequest,
+  validateRequest
+} from './open_api_access'
+import { notify } from '@kyvg/vue3-notification'
 
 export function fetchRepositoriesServices(
   filtration?: RepositoriesFiltration,
@@ -24,6 +29,16 @@ export function fetchRepositoriesServices(
       page,
       pageSize
     ]
+  ).then(
+    (res) =>
+      validateRequest(
+        res.data.data?.content,
+        res.data.data?.page
+      ),
+    (msg) => {
+      notify({ type: 'error', text: msg })
+      return validateRequest<EntityModelRepositoryDto>()
+    }
   )
 }
 
