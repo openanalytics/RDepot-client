@@ -8,89 +8,80 @@
       id="package-row-name"
       cols="lg-1 sm-2"
       class="d-flex align-center"
-      >{{
-        title == true
-          ? prepareString($t('packages.name').toString())
-          : packageBag
-          ? packageBag.name
-          : ''
-      }}</VCol
     >
+      <SortTitle v-if="title" :text="$t('packages.name')" />
+      <TextRecord v-else :text="packageBag?.name" />
+    </VCol>
     <VCol
       id="package-row-version"
       cols="1"
       class="d-flex align-center"
-      >{{
-        title
-          ? prepareString($t('packages.version').toString())
-          : packageBag?.version
-      }}</VCol
     >
+      <SortTitle
+        v-if="title"
+        :text="$t('packages.version')"
+      />
+      <TextRecord v-else :text="packageBag?.version" />
+    </VCol>
     <VCol
       id="package-row-title"
       cols="lg-5 sm-2"
       class="d-flex align-center"
     >
-      {{
-        title
-          ? prepareString($t('packages.title').toString())
-          : packageBag && packageBag.title
-          ? packageBag.title.length > descMaxLength
-            ? packageBag.title.slice(0, descMaxLength) +
-              '...'
-            : packageBag.title
-          : ''
-      }}</VCol
-    >
+      <SortTitle
+        v-if="title"
+        :text="$t('packages.title')"
+      />
+      <TextRecord v-else :text="packageBag?.title" />
+    </VCol>
     <VCol
       id="package-row-maintainer"
       cols="lg-1 sm-2"
       class="d-flex align-center justify-center"
     >
-      {{
-        title
-          ? prepareString(
-              $t('packages.maintainer').toString()
-            )
-          : packageBag?.user?.name
-      }}</VCol
-    >
+      <SortTitle
+        v-if="title"
+        :text="$t('packages.maintainer')"
+      />
+      <TextRecord v-else :text="packageBag?.user?.name" />
+    </VCol>
     <VCol
       id="package-row-technology"
       cols="lg-1 sm-2"
       class="d-flex align-center justify-center"
     >
-      {{
-        title
-          ? prepareString(
-              $t('repositories.technology').toString()
-            )
-          : packageBag?.technology
-      }}</VCol
-    >
+      <SortTitle
+        v-if="title"
+        :text="$t('repositories.technology')"
+      />
+      <TextRecord v-else :text="packageBag?.technology" />
+    </VCol>
     <VCol
       id="package-row-repository"
       cols="lg-1 sm-2"
       class="d-flex align-center justify-center"
     >
-      {{
-        title
-          ? prepareString(
-              $t('packages.repository').toString()
-            )
-          : packageBag?.repository?.name
-      }}</VCol
-    >
+      <SortTitle
+        v-if="title"
+        :text="$t('packages.repository')"
+      />
+      <TextRecord
+        v-else
+        :text="packageBag?.repository?.name"
+      />
+    </VCol>
     <VCol
       id="package-row-active"
       cols="lg-1"
       class="d-flex justify-center"
     >
-      <span v-if="title">
-        {{
-          prepareString($t('packages.active').toString())
-        }}</span
-      >
+      <SortTitle
+        v-if="title"
+        :text="$t('packages.active')"
+        :center="true"
+        :sort="false"
+      />
+
       <VCheckbox
         id="checkbox-active"
         color="oablue"
@@ -105,11 +96,11 @@
       cols="lg-1"
       class="d-flex justify-center"
     >
-      <span v-if="title == true">
-        {{
-          prepareString($t('packages.actions').toString())
-        }}
-      </span>
+      <SortTitle
+        v-if="title"
+        :text="$t('packages.actions')"
+        :sort="false"
+      />
       <span
         v-else-if="packageBag && !packageBag.deleted"
         class="d-flex justify-center align-center"
@@ -143,7 +134,9 @@ import { ref } from '@vue/reactivity'
 import router from '@/router'
 import { EntityModelPackageDto } from '@/openapi'
 import { usePackagesStore } from '@/store/packages'
-import DeleteIcon from '../common/action_icons/DeleteIcon.vue'
+import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
+import SortTitle from '@/components/packages/SortTitle.vue'
+import TextRecord from '@/components/packages/TextRecord.vue'
 
 const package_store = usePackagesStore()
 
@@ -156,11 +149,8 @@ const props = defineProps({
     | EntityModelPackageDto
     | undefined
 })
-const descMaxLength = ref(110)
 
-function prepareString(value: string): string {
-  return value.charAt(0).toUpperCase() + value.slice(1)
-}
+const change = ref<boolean>(false)
 
 function choosePackage() {
   package_store.setChosenPackage(props.packageBag?.id)

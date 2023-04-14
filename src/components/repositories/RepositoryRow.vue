@@ -8,97 +8,92 @@
       id="repository-name"
       cols="lg-1 sm-2"
       class="d-flex align-center"
-      >{{
-        title == true
-          ? prepareString(
-              $t('repositories.name').toString()
-            )
-          : repository?.name
-      }}</v-col
     >
+      <SortTitle
+        v-if="title"
+        :text="$t('repositories.name')"
+      />
+      <TextRecord v-else :text="repository?.name" />
+    </v-col>
     <v-col
       id="repository-publication-uri"
       cols="lg-2"
       class="d-flex align-center"
-      >{{
-        title == true
-          ? prepareString(
-              $t('repositories.publicationUri').toString()
-            )
-          : repository
-          ? repository.publicationUri
-          : ''
-      }}</v-col
     >
+      <SortTitle
+        v-if="title"
+        :text="$t('repositories.publicationUri')"
+      />
+      <TextRecord
+        v-else
+        :text="repository?.publicationUri"
+      />
+    </v-col>
     <v-col
       id="repository-server-address"
       cols="lg-4 sm-2"
       class="d-flex align-center"
     >
-      {{
-        title == true
-          ? prepareString(
-              $t('repositories.serverAddress').toString()
-            )
-          : repository
-          ? repository.serverAddress
-          : ''
-      }}</v-col
-    >
+      <SortTitle
+        v-if="title"
+        :text="$t('repositories.serverAddress')"
+      />
+      <TextRecord
+        v-else
+        :text="repository?.serverAddress"
+      />
+    </v-col>
 
     <v-col
       id="repository-technology"
       cols="lg-1 sm-2"
       class="d-flex align-center justify-center"
     >
-      {{
-        title == true
-          ? prepareString(
-              $t('repositories.technology').toString()
-            )
-          : repository?.technology
-      }}</v-col
-    >
+      <SortTitle
+        v-if="title"
+        :center="true"
+        :text="$t('repositories.technology')"
+      />
+      <TextRecord v-else :text="repository?.technology" />
+    </v-col>
     <v-col
       id="repository-version"
       cols="lg-1 sm-2"
       class="d-flex align-center justify-center"
     >
-      {{
-        title == true
-          ? prepareString(
-              $t('repositories.version').toString()
-            )
-          : repository
-          ? repository.version
-          : ''
-      }}</v-col
-    >
+      <SortTitle
+        v-if="title"
+        :center="true"
+        :text="$t('repositories.version')"
+      />
+      <TextRecord
+        v-else
+        :text="repository?.version?.toString()"
+      />
+    </v-col>
     <v-col
       id="repository-packages-no"
       cols="lg-1 sm-2"
       class="d-flex align-center justify-center"
     >
-      {{
-        title == true
-          ? prepareString(
-              $t('repositories.packagesNo').toString()
-            )
-          : -1
-      }}</v-col
-    >
+      <SortTitle
+        v-if="title"
+        :center="true"
+        :text="$t('repositories.packagesNo')"
+      />
+      <TextRecord v-else text="none" />
+    </v-col>
     <v-col
       id="repository-published"
       cols="lg-1"
       class="d-flex justify-center"
     >
-      <span v-if="title == true">
-        {{
-          prepareString(
-            $t('repositories.published').toString()
-          )
-        }}</span
-      >
+      <SortTitle
+        v-if="title"
+        :sort="false"
+        :text="$t('repositories.published')"
+        :center="true"
+      />
       <v-checkbox
         v-else-if="repository"
         id="checkbox-published"
@@ -113,11 +108,12 @@
       cols="lg-1"
       class="d-flex justify-center"
     >
-      <span v-if="title == true">
-        {{
-          prepareString($t('packages.actions').toString())
-        }}
-      </span>
+      <SortTitle
+        v-if="title"
+        :sort="false"
+        :center="true"
+        :text="$t('packages.actions')"
+      />
       <span
         v-else-if="repository"
         class="d-flex justify-center align-center"
@@ -152,6 +148,8 @@ import { EntityModelRepositoryDto } from '@/openapi'
 import { usePackagesStore } from '@/store/packages'
 import { useRepositoryStore } from '@/store/repositories'
 import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
+import SortTitle from '../packages/SortTitle.vue'
+import TextRecord from '../packages/TextRecord.vue'
 
 const repository_store = useRepositoryStore()
 const package_store = usePackagesStore()
@@ -165,10 +163,6 @@ const props = defineProps({
     | EntityModelRepositoryDto
     | undefined
 })
-
-function prepareString(value: string): string {
-  return value.charAt(0).toUpperCase() + value.slice(1)
-}
 
 function updateRepositoryPublish() {
   if (
