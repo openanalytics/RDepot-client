@@ -1,6 +1,6 @@
 <template>
   <v-card class="mb-12 px-10 py-5 step" height="250px">
-    <div class="ml-4">{{ choosenRepository }}</div>
+    <div class="ml-4">{{ chosenRepository }}</div>
 
     <v-chip-group
       v-model="accepted_packages"
@@ -8,7 +8,7 @@
       multiple
     >
       <v-chip
-        v-for="(file, index) in choosenPackages"
+        v-for="(file, index) in chosenPackages"
         :key="index"
         filter
         variant="outlined"
@@ -34,10 +34,10 @@ import { computed, ref } from 'vue'
 const emits = defineEmits(['next'])
 const submissions_store = useSubmissionStore()
 const accepted_packages = ref<number[]>([])
-const choosenRepository = computed(() => {
+const chosenRepository = computed(() => {
   return submissions_store.repository
 })
-const choosenPackages = computed(() => {
+const chosenPackages = computed(() => {
   return submissions_store.packages
 })
 function backStep() {
@@ -45,7 +45,7 @@ function backStep() {
 }
 function submit() {
   var approved_packages = [] as File[]
-  choosenPackages.value.forEach((element, index) => {
+  chosenPackages.value.forEach((element, index) => {
     if (accepted_packages.value.includes(index)) {
       approved_packages.push(element)
     }

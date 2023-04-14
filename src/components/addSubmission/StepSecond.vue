@@ -50,7 +50,7 @@
         :style="
           files && files.length > 0
             ? ''
-            : 'min-height: 188px; align-items: flex-end'
+            : 'align-items: flex-end'
         "
       >
         <v-btn color="oablue" type="button" @click="open()">
@@ -94,6 +94,7 @@ import { useNotification } from '@kyvg/vue3-notification'
 import { ref } from 'vue'
 import { useFileDialog } from '@vueuse/core'
 import { watch } from 'vue'
+import { onMounted } from 'vue'
 
 const { files, open, reset } = useFileDialog({
   accept: 'application/gzip'
@@ -107,13 +108,13 @@ const valid = ref<boolean>(true)
 const files_local = ref<File[]>([])
 
 function removeFile(file: File) {
-  for (var i = 0; i < files_local.value.length; i++) {
-    var flag = true
-    if (file == files_local.value[i] && flag) {
-      files_local.value.splice(i, 1)
-      flag = false
+  files_local.value.forEach(
+    (file_local: File, i: number) => {
+      if (file_local == file) {
+        files_local.value.splice(i, 1)
+      }
     }
-  }
+  )
 }
 
 function resetPackages() {
@@ -131,20 +132,25 @@ watch(files, (files) => {
 
 function savePackagesInStore() {
   var local_files: File[] = []
-  if (files.value) {
-    for (var i = 0; i < files.value.length; i++) {
-      local_files.push(files.value[i])
-      if (files.value[i]['type'] !== 'application/gzip') {
-        valid.value = false
-      }
+  valid.value = true
+  files_local.value.forEach((file: File) => {
+    console.log(file)
+    local_files.push(file)
+    if (file['type'] !== 'application/gzip') {
+      valid.value = false
     }
-  }
-  if (valid.value == true) {
+  })
+  if (valid.value) {
     submissions_store.setPackages(Array.from(local_files))
   } else {
     submissions_store.setPackages([])
   }
 }
+
+onMounted(() => {
+  files_local.value = submissions_store.packages
+})
+
 function nextStep() {
   savePackagesInStore()
   if (
@@ -169,5 +175,9 @@ function nextStep() {
 <style>
 .v-list-item__prepend {
   align-self: center !important;
+}
+
+.v-card__underlay {
+  display: none;
 }
 </style>
