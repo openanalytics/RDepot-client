@@ -70,8 +70,8 @@ export const useRepositoryMaintainersStore = defineStore(
           await updateRepositoryMaintainer(
             this.chosenMaintainer,
             newMaintainer
-          ).then((success) => {
-            if (success) this.fetchMaintainers()
+          ).then(async (success) => {
+            if (success) await this.fetchMaintainers()
           })
         }
       },
@@ -79,8 +79,8 @@ export const useRepositoryMaintainersStore = defineStore(
         if (this.chosenMaintainer.id) {
           await deletedRepositoryMaintainer(
             this.chosenMaintainer
-          ).then((success) => {
-            if (success) this.fetchMaintainers()
+          ).then(async (success) => {
+            if (success) await this.fetchMaintainers()
           })
         }
       },

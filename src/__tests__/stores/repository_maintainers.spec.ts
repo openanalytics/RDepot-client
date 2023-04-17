@@ -263,7 +263,9 @@ describe('Repository Maintainers Store', () => {
       repositoryMaintainers.data.content[3]
     newMaintainer.id =
       repositoryMaintainers.data.content[2].id
-    await repository_maintainers_store.saveMaintainer()
+    await repository_maintainers_store.saveMaintainer(
+      newMaintainer
+    )
 
     expect(spy).toBeCalled()
   })
