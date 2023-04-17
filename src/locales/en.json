@@ -145,7 +145,7 @@
     "successDeleteRepositoryManager": "successful deleted {maintainer_name}",
     "successUpdateRepositoryManager": "successful update {maintainer_name}",
     "successDeleteRepositoryMaintainer": "successful deleted {maintainer_name}",
-    "successUpdateRepositoryMaintainer": "successful updated {maintainer_name}",
+    "successUpdateRepositoryMaintainer": "successful updated {maintainer_name}"
   },
   "maintainers": {
     "edit": "edit maintainer",
