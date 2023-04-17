@@ -32,7 +32,7 @@ beforeEach(async () => {
   })
 })
 
-describe('Packages - filtration', () => {
+describe('Repositories - filtration', () => {
   it('renders properly', () => {
     expect(wrapper.exists()).toBe(true)
   })

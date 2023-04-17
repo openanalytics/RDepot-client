@@ -35,7 +35,7 @@ export const usePackagesStore = defineStore(
           state: undefined,
           deleted: undefined,
           repository: undefined,
-          technology: undefined
+          technologies: undefined
         },
         next: false
       }
@@ -43,50 +43,31 @@ export const usePackagesStore = defineStore(
     actions: {
       async fetchPackages() {
         const pagination = usePaginationStore()
-        fetchPackagesServices(
-          this.filtration,
-          pagination.page,
-          pagination.pageSize
-        ).then(
-          (res) => {
-            this.packages = res.data.data?.content || []
-            pagination.setPage(
-              res.data.data?.page?.number || 0
-            )
-            pagination.setTotalNumber(
-              res.data.data?.page?.totalElements || 0
-            )
-          },
-          (msg) => {
-            this.packages = []
-            pagination.setPage(0)
-            notify({ text: msg, type: 'error' })
-          }
-        )
+        const [packages, pageData] =
+          await fetchPackagesServices(
+            this.filtration,
+            pagination.page,
+            pagination.pageSize
+          )
+        this.packages = packages
+        pagination.setPage(pageData.page)
+        pagination.setTotalNumber(pageData.totalNumber)
       },
       async fetchPackage(id: number) {
-        fetchPackageServices(id).then(
-          (res) => (this.package = res.data.data),
-          (msg) => {
-            this.package = {}
-            notify({ text: msg, type: 'error' })
+        this.package = await fetchPackageServices(id)
+      },
+      async activatePackage(
+        newPackage: EntityModelPackageDto
+      ) {
+        const oldPackage = JSON.parse(
+          JSON.stringify(newPackage)
+        ) as EntityModelPackageDto
+        oldPackage.active = !newPackage.active
+        await updateRPackage(oldPackage, newPackage).then(
+          async (success) => {
+            if (success) await this.fetchPackages()
           }
         )
-      },
-      async activatePackage(id: number, value: boolean) {
-        updateRPackage(id, 'active', value).then(
-          () => {
-            this.fetchPackages()
-          },
-          (msg) => {
-            notify({ text: msg, type: 'error' })
-          }
-        )
-      },
-      async setPage(payload: number) {
-        const pagination = usePaginationStore()
-        pagination.setPage(payload)
-        this.fetchPackages()
       },
       async downloadManual() {
         const rPackageApi = RPackageControllerApiFactory()
@@ -100,19 +81,21 @@ export const usePackagesStore = defineStore(
         const pagination = usePaginationStore()
         pagination.setPage(0)
         this.filtration = payload
-        this.fetchPackages()
+        await this.fetchPackages()
       },
-      async setFiltrationByRepositoryOnly(payload: string) {
+      setFiltrationByRepositoryOnly(payload: string) {
         this.clearFiltration()
         this.filtration.repository = payload
       },
       clearFiltration() {
+        const pagination = usePaginationStore()
+        pagination.setPage(0)
         const { setAllFields } = useObjectActions()
         setAllFields(this.filtration, undefined)
       },
       async clearFiltrationAndFetch() {
         this.clearFiltration()
-        this.fetchPackages()
+        await this.fetchPackages()
       }
     }
   }

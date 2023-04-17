@@ -1,6 +1,7 @@
 import {
   EntityModelRepositoryDto,
-  EntityModelSubmissionDto
+  EntityModelSubmissionDto,
+  EntityModelSubmissionDtoStateEnum
 } from '@/openapi'
 import { defineStore } from 'pinia'
 import { SubmissionsFiltration } from '@/models/Filtration'
@@ -10,7 +11,8 @@ import { useLoggedUserStore } from './logged_user'
 import {
   addSumbission,
   fetchRSubmissions,
-  updateSubmission
+  updateSubmission,
+  updateSubmissionState
 } from '@/services/submission_services'
 import { usePaginationStore } from '@/store/pagination'
 import { useObjectActions } from '@/composable/objectActions'
@@ -20,9 +22,6 @@ interface State {
   repository?: EntityModelRepositoryDto
   submissions: EntityModelSubmissionDto[]
   filtration: SubmissionsFiltration
-  page?: number
-  pageSize: number
-  totalNumber?: number
 }
 
 export const useSubmissionStore = defineStore(
@@ -37,58 +36,36 @@ export const useSubmissionStore = defineStore(
           package: undefined,
           state: undefined,
           assignedToMe: undefined
-        },
-        page: 0,
-        pageSize: 10,
-        totalNumber: 0
+        }
       }
     },
     actions: {
       async fetchSubmissions() {
         const logged_user = useLoggedUserStore()
         const pagination = usePaginationStore()
-        await fetchRSubmissions(
-          this.filtration,
-          logged_user.userId,
-          pagination.page,
-          pagination.pageSize
-        ).then(
-          (res) => {
-            this.submissions = res.data.data?.content || []
-            pagination.setTotalNumber(
-              res.data.data?.page?.totalElements || 0
-            )
-            pagination.setPage(
-              res.data.data?.page?.number || 0
-            )
-          },
-          (msg) => {
-            this.submissions = []
-            pagination.setPage(0)
-            notify({ text: msg, type: 'error' })
-          }
-        )
+        const [submission, pageData] =
+          await fetchRSubmissions(
+            this.filtration,
+            logged_user.userId,
+            pagination.page,
+            pagination.pageSize
+          )
+        this.submissions = submission
+        pagination.setTotalNumber(pageData.totalNumber)
+        pagination.setPage(pageData.page)
       },
-      async updateSubmission(
-        submission_id: number,
-        state: string,
+      async updateSubmissionState(
+        submission: EntityModelSubmissionDto,
+        state: EntityModelSubmissionDtoStateEnum,
         textNotification: string
       ) {
-        updateSubmission(state, submission_id).then(
-          () => {
-            notify({
-              type: 'success',
-              text: textNotification
-            })
-            this.fetchSubmissions()
-          },
-          (msg) => {
-            notify({
-              type: 'error',
-              text: msg
-            })
-          }
-        )
+        await updateSubmissionState(
+          submission,
+          state,
+          textNotification
+        ).then(async (success) => {
+          if (success) await this.fetchSubmissions()
+        })
       },
       setPackages(payload: File[]) {
         this.packages = payload
@@ -108,7 +85,7 @@ export const useSubmissionStore = defineStore(
       },
       async setFiltration(payload: SubmissionsFiltration) {
         const pagination = usePaginationStore()
-        pagination.setPageSize(0)
+        pagination.setPage(0)
         this.filtration = payload
         await this.fetchSubmissions()
         notify({
@@ -117,17 +94,10 @@ export const useSubmissionStore = defineStore(
         })
       },
       clearFiltration() {
+        const pagination = usePaginationStore()
+        pagination.setPage(0)
         const { setAllFields } = useObjectActions()
         setAllFields(this.filtration, undefined)
-      },
-      async setPage(payload: number) {
-        const pagination = usePaginationStore()
-        pagination.setPage(payload)
-        this.fetchSubmissions()
-      },
-      async setPageSize(payload: number) {
-        const pagination = usePaginationStore()
-        pagination.setPageSize(payload)
       },
       async clearFiltrationAndFetch() {
         this.clearFiltration()

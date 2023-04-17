@@ -21,7 +21,7 @@
 
     <v-select
       id="filtration-technology"
-      v-model="localFiltration.technology"
+      v-model="localFiltration.technologies"
       :items="technologySelect"
       multiple
       :label="$t('repositories.filtration.technology')"
@@ -65,8 +65,8 @@ function updateFiltration() {
   )
 }
 
-async function setFiltration() {
-  await package_store.setFiltration(localFiltration.value)
+function setFiltration() {
+  package_store.setFiltration(localFiltration.value)
   cancelModal()
 }
 

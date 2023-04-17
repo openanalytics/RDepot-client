@@ -149,10 +149,14 @@
     "successCancelSubmission": "cancel submission",
     "acceptSubmission": "accept submission",
     "successRejectSubmission": "reject submission",
+    "successCreateSubmissiom": "successfully created submissiom",
     "successDeletePackageManager": "successful deleted {maintainer_name}",
     "successUpdatePackageManager": "successful updated {maintainer_name}",
-    "successCreateSubmissiom": "successfully created submissiom",
-    "successCreateRepository": "successfully created {repository_name}"
+    "successCreateRepository": "successfully created {repository_name}",
+    "successDeleteRepositoryManager": "successful deleted {maintainer_name}",
+    "successUpdateRepositoryManager": "successful update {maintainer_name}",
+    "successDeleteRepositoryMaintainer": "successful deleted {maintainer_name}",
+    "successUpdateRepositoryMaintainer": "successful updated {maintainer_name}"
   },
   "maintainers": {
     "edit": "edit maintainer",

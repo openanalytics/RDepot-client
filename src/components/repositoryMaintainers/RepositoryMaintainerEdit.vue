@@ -15,10 +15,11 @@
         </v-text-field>
         <v-select
           id="edit-package-maintainer-repository"
-          v-model="localMaintainer.repository"
-          item-title="name"
-          return-object
+          :modelValue="localMaintainer.repository"
+          @update:modelValue="newValue => localMaintainer.repository!.id = newValue"
           :items="repositories"
+          item-title="name"
+          item-value="id"
           :label="$t('maintainers.editform.repository')"
           :disabled="blockedField == 'repository'"
         ></v-select>
@@ -55,8 +56,9 @@
 </template>
 
 <script setup lang="ts">
+import { EntityModelRepositoryMaintainerDto } from '@/openapi'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 
 const props = defineProps({
   blockedField: {
@@ -74,18 +76,21 @@ const repositories = computed(() => {
   return maintainers_store.repositories
 })
 
-let maintainer = maintainers_store.chosenMaintainer
+let maintainer: EntityModelRepositoryMaintainerDto =
+  JSON.parse(
+    JSON.stringify(maintainers_store.chosenMaintainer)
+  )
+
 const localMaintainer = ref(maintainer)
 
 const emit = defineEmits(['closeModal'])
 
-async function setMaintainer() {
-  await maintainers_store.setChosenMaintainer(
-    localMaintainer.value
-  )
-  await maintainers_store.saveMaintainer()
+function setMaintainer() {
+  maintainers_store.saveMaintainer(localMaintainer.value)
   changeDialogOptions()
 }
+
+onMounted(() => maintainers_store.fetchRepositories())
 
 function changeDialogOptions() {
   emit('closeModal')

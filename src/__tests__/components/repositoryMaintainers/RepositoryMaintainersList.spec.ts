@@ -36,7 +36,7 @@ beforeEach(async () => {
   })
 
   repository_maintainers_store.maintainers =
-    maintainers.data
+    maintainers.data.content
 })
 
 describe('Repository Maintainers - list', () => {
@@ -50,7 +50,7 @@ describe('Repository Maintainers - list', () => {
     )
 
     expect(packagesFromWrapper.length).toEqual(
-      maintainers.data.length + 1
+      maintainers.data.content.length + 1
     )
   })
 })

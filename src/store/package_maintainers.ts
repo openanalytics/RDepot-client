@@ -46,57 +46,32 @@ export const usePackageMaintainersStore = defineStore(
     actions: {
       async fetchMaintainers() {
         const pagination = usePaginationStore()
-        fetchPackageMaintainersService(
-          this.filtration,
-          pagination.page,
-          pagination.pageSize
-        ).then(
-          (res) => {
-            pagination.setPage(
-              res.data.data?.page?.number || 0
-            )
-            pagination.setTotalNumber(
-              res.data.data?.page?.totalElements || 0
-            )
-            this.maintainers = res.data.data?.content || []
-          },
-          (msg) => {
-            notify({ type: 'error', text: msg })
-          }
-        )
+        const [maintainers, pageData] =
+          await fetchPackageMaintainersService(
+            this.filtration,
+            pagination.page,
+            pagination.pageSize
+          )
+        pagination.setPage(pageData.page)
+        pagination.setTotalNumber(pageData.totalNumber)
+        this.maintainers = maintainers
       },
       async fetchRepositories() {
-        fetchRepositoriesServices().then(
-          (res) => {
-            this.repositories = res.data.data?.content || []
-          },
-          (msg) => {
-            notify({ type: 'error', text: msg })
-          }
-        )
+        const [repositories] =
+          await fetchRepositoriesServices()
+        this.repositories = repositories
       },
       async fetchPackages() {
-        fetchPackagesServices().then(
-          (res) => {
-            this.packages = res.data.data?.content || []
-          },
-          (msg) => {
-            notify({ type: 'error', text: msg })
-          }
-        )
+        const [packages] = await fetchPackagesServices()
+        this.packages = packages
       },
-      async setPage(payload: number) {
-        const pagination = usePaginationStore()
-        pagination.setPage(payload)
-        this.fetchMaintainers()
-      },
-      async setChosenMaintainer(
+      setChosenMaintainer(
         payload: EntityModelPackageMaintainerDto
       ) {
         this.chosenMaintainer = payload
         this.saveMaintainer()
       },
-      async saveMaintainer() {
+      saveMaintainer() {
         this.maintainers = this.maintainers.map(
           (maintainer: EntityModelPackageMaintainerDto) => {
             if (maintainer.id == this.chosenMaintainer.id) {
@@ -112,54 +87,34 @@ export const usePackageMaintainersStore = defineStore(
         const pagination = usePaginationStore()
         pagination.setPage(0)
         this.filtration = payload
-        this.fetchMaintainers()
+        await this.fetchMaintainers()
       },
       clearFiltration() {
+        const pagination = usePaginationStore()
+        pagination.setPage(0)
         const { setAllFields } = useObjectActions()
         setAllFields(this.filtration, undefined)
       },
       async clearFiltrationAndFetch() {
         this.clearFiltration()
-        this.fetchMaintainers()
+        await this.fetchMaintainers()
       },
       async deleteChosenMaintainer() {
         deletePackageMaintainerService(
-          this.chosenMaintainer.id || -1
-        ).then(
-          () => {
-            notify({
-              type: 'success',
-              text: i18n.t(
-                'notifications.successDeletePackageManager',
-                this.chosenMaintainer.user?.name || ''
-              )
-            })
-            this.fetchMaintainers()
-          },
-          (msg) => {
-            notify({ type: 'error', text: msg })
-          }
-        )
+          this.chosenMaintainer
+        ).then(async (success) => {
+          if (success) await this.fetchMaintainers()
+        })
       },
       async editMaintainer(
         maintainer: PackageMaintainerDto
       ) {
         updatePackageMaintainerService(
-          maintainer,
-          this.chosenMaintainer
-        ).then(
-          () => {
-            notify({
-              type: 'success',
-              text: i18n.t(
-                'notifications.successUpdatePackageManager',
-                this.chosenMaintainer.user?.name || ''
-              )
-            })
-            this.fetchMaintainers()
-          },
-          (msg) => notify({ type: 'error', text: msg })
-        )
+          this.chosenMaintainer,
+          maintainer
+        ).then(async (success) => {
+          if (success) await this.fetchMaintainers()
+        })
       }
     }
   }

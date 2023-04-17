@@ -6,14 +6,16 @@ import {
   PythonRepositoryDto,
   ResponseDtoPagedModelEntityModelRepositoryDto,
   ResponseDtoPagedModelEntityModelRRepositoryDto,
-  RRepositoryControllerApiFactory,
-  RRepositoryDto
+  RRepositoryControllerApiFactory
 } from '@/openapi'
 import { getConfiguration } from './api_config'
-import { openApiRequest } from './open_api_access'
 import { TechnologiesEnum } from '@/enum/Technologies'
 import { notify } from '@kyvg/vue3-notification'
 import { i18n } from '@/plugins/i18n'
+import {
+  openApiRequest,
+  validateRequest
+} from './open_api_access'
 
 export function fetchRepositoriesServices(
   filtration?: RepositoriesFiltration,
@@ -27,10 +29,20 @@ export function fetchRepositoriesServices(
     [
       filtration?.deleted,
       filtration?.name,
-      filtration?.technology,
+      filtration?.technologies,
       page,
       pageSize
     ]
+  ).then(
+    (res) =>
+      validateRequest(
+        res.data.data?.content,
+        res.data.data?.page
+      ),
+    (msg) => {
+      notify({ type: 'error', text: msg })
+      return validateRequest<EntityModelRepositoryDto>()
+    }
   )
 }
 
