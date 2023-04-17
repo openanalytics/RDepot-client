@@ -62,7 +62,8 @@ export function updateRepositoryMaintainer(
       notify({
         type: 'success',
         text: i18n.t(
-          'notifications.successUpdateRepositoryManager'
+          'notifications.successUpdateRepositoryMaintainer',
+          newMaintainer.user?.name || ''
         )
       })
       return true
@@ -78,7 +79,7 @@ export function updateRepositoryMaintainer(
 }
 
 export function deletedRepositoryMaintainer(
-  maintainer_id: number
+  maintainer: EntityModelRepositoryMaintainerDto
 ) {
   const repository_maintainers_api =
     ApiV2RepositoryMaintainerControllerApiFactory(
@@ -86,12 +87,13 @@ export function deletedRepositoryMaintainer(
     )
   return openApiRequest<AxiosResponse<any>>(
     repository_maintainers_api.deleteRepositoryMaintainer,
-    [maintainer_id]
+    [maintainer.id]
   ).then(
     () => {
       notify({
         text: i18n.t(
-          'notifications.successDeleteRepositoryMaintainer'
+          'notifications.successDeleteRepositoryMaintainer',
+          maintainer.user?.name || ''
         ),
         type: 'success'
       })

@@ -77,7 +77,7 @@ export const useRepositoryMaintainersStore = defineStore(
       async deleteMaintainer() {
         if (this.chosenMaintainer.id) {
           await deletedRepositoryMaintainer(
-            this.chosenMaintainer.id
+            this.chosenMaintainer
           ).then((success) => {
             if (success) this.fetchMaintainers()
           })
