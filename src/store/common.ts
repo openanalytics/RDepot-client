@@ -25,7 +25,7 @@ export const useCommonStore = defineStore('common_store', {
       overlayModel: false,
       overlayComponent: 0,
       key: 0,
-      activeId: ''
+      activeId: 'name'
     }
   },
   actions: {
