@@ -22,11 +22,10 @@
 </template>
 
 <script setup lang="ts">
-import { useUuid } from '@/composable/uuid'
 import { useCommonStore } from '@/store/common'
+import { useSortStore } from '@/store/sort'
 import { computed, ref } from 'vue'
-
-const { generateUUID } = useUuid()
+import { sort } from '@/maps/Sort'
 
 const props = defineProps({
   text: {
@@ -45,8 +44,9 @@ const props = defineProps({
   }
 })
 
-const id = ref<string>(generateUUID())
+const id = ref<string>(sort.get(props.text) || 'name')
 const common_store = useCommonStore()
+const sort_store = useSortStore()
 
 const active = computed(() => {
   return common_store.activeId == id.value
@@ -54,6 +54,7 @@ const active = computed(() => {
 
 function sortBy() {
   common_store.setActiveId(id.value)
+  sort_store.setField(id.value)
 }
 
 function prepareString(): string {
