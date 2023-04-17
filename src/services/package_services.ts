@@ -8,6 +8,7 @@ import {
 import { getConfiguration } from './api_config'
 import { openApiRequest } from './open_api_access'
 import { preparePatchBody } from './patchBody'
+import { useSortStore } from '@/store/sort'
 
 export function fetchPackagesServices(
   filtration?: PackagesFiltration,
@@ -17,6 +18,8 @@ export function fetchPackagesServices(
   const packages_api = ApiV2PackageControllerApiFactory(
     getConfiguration()
   )
+  const sort = useSortStore()
+  var sortBy = sort.field + ',' + sort.direction
   return openApiRequest<ResponseDtoPagedModelEntityModelPackageDto>(
     packages_api.getAllPackages,
     [
@@ -25,7 +28,8 @@ export function fetchPackagesServices(
       filtration?.state,
       filtration?.technology,
       page,
-      pageSize
+      pageSize,
+      sortBy
     ]
   )
 }
