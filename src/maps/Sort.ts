@@ -1,6 +1,6 @@
 import { i18n } from '@/plugins/i18n'
 
-export const sort: Map<string, string> = new Map<
+export const sort_params: Map<string, string> = new Map<
   string,
   string
 >([
@@ -21,7 +21,7 @@ export const sort: Map<string, string> = new Map<
   [i18n.t('columns.accepted'), 'accepted'],
   [i18n.t('columns.package'), 'package'],
   [i18n.t('columns.date'), 'date'],
-  [i18n.t('columns.packageName'), 'package']
+  [i18n.t('columns.packageName'), 'packageName']
 ])
 
 //TODO check sort by number of packages
