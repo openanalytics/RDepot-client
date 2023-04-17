@@ -14,11 +14,16 @@
         ></v-text-field>
 
         <v-text-field
-          class="my-2"
+          class="my-5"
           id="repository-technology"
           v-model="newRepository.publicationUri"
           :label="
             $t('repositories.creation.publicationUri')
+          "
+          :placeholder="
+            $t(
+              'repositories.creation.publicationUriPlaceholder'
+            )
           "
         ></v-text-field>
         <v-text-field
@@ -26,6 +31,11 @@
           id="filtration-deleted"
           v-model="newRepository.serverAddress"
           :label="$t('repositories.creation.serverAddress')"
+          :placeholder="
+            $t(
+              'repositories.creation.serverAddressPlaceholder'
+            )
+          "
         ></v-text-field>
         <v-select
           class="my-2"
