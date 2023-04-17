@@ -108,9 +108,11 @@
     },
     "creation": {
       "title": "New repository",
-      "name": "Repository name",
+      "name": "name",
       "publicationUri": "Publication URI",
+      "publicationUriPlaceholder": "http://localhost/repo/{'{name}'}",
       "serverAddress": "Server address",
+      "serverAddressPlaceholder": "http://oa-rdepot-repo:8080/{'{name}'}",
       "technology": "Technology"
     },
     "maintainers": "repository maintainers",
