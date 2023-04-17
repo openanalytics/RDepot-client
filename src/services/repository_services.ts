@@ -46,40 +46,29 @@ export function fetchRRepositories() {
 export function createRepository(
   newRepository: EntityModelRepositoryDto
 ) {
-  if (newRepository.technology === TechnologiesEnum.R) {
-    const repository_api = RRepositoryControllerApiFactory(
-      getConfiguration()
-    )
-    return openApiRequest<ResponseDtoPagedModelEntityModelRepositoryDto>(
-      repository_api.createRRepository,
-      [newRepository as RRepositoryDto]
-    ).then(
-      () => {
-        notify({
-          type: 'success',
-          text: i18n.t(
-            'notifications.successCreateRepository',
-            newRepository.name || ''
-          )
-        })
-        return true
-      },
-      (msg) => {
-        notify({ type: 'error', text: msg })
-        return false
-      }
-    )
-  } else if (
-    newRepository.technology === TechnologiesEnum.Python
-  ) {
-    const repository_api =
-      PythonRepositoryControllerApiFactory(
-        getConfiguration()
-      )
-    return openApiRequest<ResponseDtoPagedModelEntityModelRepositoryDto>(
-      repository_api.createPythonRepository,
-      [newRepository as PythonRepositoryDto]
-    ).then(
+  const { technology, ...repository } = newRepository
+  if (technology && technology in TechnologiesEnum) {
+    let request
+    if (technology === TechnologiesEnum.R) {
+      const repository_api =
+        RRepositoryControllerApiFactory(getConfiguration())
+      request =
+        openApiRequest<ResponseDtoPagedModelEntityModelRepositoryDto>(
+          repository_api.createRRepository,
+          [repository]
+        )
+    } else {
+      const repository_api =
+        PythonRepositoryControllerApiFactory(
+          getConfiguration()
+        )
+      request =
+        openApiRequest<ResponseDtoPagedModelEntityModelRepositoryDto>(
+          repository_api.createPythonRepository,
+          [repository as PythonRepositoryDto]
+        )
+    }
+    return request.then(
       () => {
         notify({
           type: 'success',
