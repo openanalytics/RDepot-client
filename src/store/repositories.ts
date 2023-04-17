@@ -9,6 +9,7 @@ import { fetchRepositoriesServices } from '@/services'
 import { notify } from '@kyvg/vue3-notification'
 import { usePaginationStore } from './pagination'
 import { useObjectActions } from '@/composable/objectActions'
+import { createRepository } from '@/services/repository_services'
 
 interface State {
   repositories: EntityModelRepositoryDto[]
@@ -88,6 +89,13 @@ export const useRepositoryStore = defineStore(
       async clearFiltrationAndFetch() {
         this.clearFiltration()
         this.fetchRepositories()
+      },
+      async createRepository(
+        newRepository: EntityModelRepositoryDto
+      ) {
+        createRepository(newRepository)?.then((success) => {
+          if (success) this.fetchRepositories()
+        })
       }
     }
   }
