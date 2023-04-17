@@ -2,7 +2,8 @@ enum OverlayEnum {
   Delete,
   Edit,
   Reset,
-  Filtration
+  Filtration,
+  Create
 }
 
 export { OverlayEnum }
