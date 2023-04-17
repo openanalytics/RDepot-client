@@ -13,7 +13,7 @@ import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import { createPinia, setActivePinia } from 'pinia'
 import { useSubmissionStore } from '@/store/submission'
 import StepThirdVue from '@/components/addSubmission/StepThird.vue'
-import packages from '@/tmpLists/packages.json'
+import packages from '@/__tests__/config/mockData/packages.json'
 
 let wrapper: any
 const globalConfig = {
@@ -29,7 +29,7 @@ beforeAll(() => {
 beforeEach(async () => {
   setActivePinia(createPinia())
   submission_store = useSubmissionStore()
-  submission_store.setPackages(packages.page1)
+  submission_store.setPackages(packages.data.content)
   submission_store.setRepository({
     id: 1,
     name: 'repository 1'

@@ -1,35 +1,15 @@
 <template>
-  <v-timeline direction="horizontal">
+  <v-timeline direction="horizontal" side="start">
     <v-timeline-item
-      :dot-color="e1 > 0 ? 'oablue' : 'oablue-darken-2'"
+      v-for="(t, index) in steps"
+      :dot-color="
+        e1 >= index + 1 ? 'oablue' : 'oablue-darken-2'
+      "
+      :size="e1 !== index + 1 ? 'small' : 'default'"
     >
       <div>
         <div class="text-h6" dot-color="oablue-darken-2">
-          {{ $t('addSubmission.step1Title') }}
-        </div>
-        <p></p>
-      </div>
-    </v-timeline-item>
-
-    <v-timeline-item
-      :dot-color="e1 > 1 ? 'oablue' : 'oablue-darken-2'"
-    >
-      <template v-slot:opposite>
-        <div>
-          <div class="text-h6">
-            {{ $t('addSubmission.step2Title') }}
-          </div>
-          <p></p>
-        </div>
-      </template>
-    </v-timeline-item>
-
-    <v-timeline-item
-      :dot-color="e1 > 2 ? 'oablue' : 'oablue-darken-2'"
-    >
-      <div>
-        <div class="text-h6">
-          {{ $t('addSubmission.step3Title') }}
+          {{ $t(t) }}
         </div>
         <p></p>
       </div>
@@ -44,6 +24,11 @@ const props = defineProps({
     required: true
   }
 })
+const steps = [
+  'addSubmission.step1Title',
+  'addSubmission.step2Title',
+  'addSubmission.step3Title'
+]
 </script>
 
 <style lang="scss">

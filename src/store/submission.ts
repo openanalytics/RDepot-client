@@ -9,6 +9,7 @@ import { notify } from '@kyvg/vue3-notification'
 import { i18n } from '@/plugins/i18n'
 import { useLoggedUserStore } from './logged_user'
 import {
+  addSumbission,
   fetchRSubmissions,
   updateSubmission,
   updateSubmissionState
@@ -119,6 +120,35 @@ export const useSubmissionStore = defineStore(
             'notifications.successFiltrationReset'
           ),
           type: 'success'
+        })
+      },
+      async addSumbissionRequests() {
+        const promises: Promise<[boolean, string]>[] =
+          this.packages.map((packageBag) =>
+            addSumbission(
+              this.repository?.name!,
+              packageBag
+            ).then(
+              () => [true, ''],
+              (msg) => [false, msg]
+            )
+          )
+        await Promise.all(promises)
+        var fulfilled = 0
+        promises.forEach(async (promise) => {
+          const [isFulfilled, msg] = await promise
+          if (fulfilled == 0 && isFulfilled) {
+            notify({
+              type: 'success',
+              text: i18n.t('notifications.success')
+            })
+            fulfilled += 1
+          } else if (!isFulfilled) {
+            notify({
+              type: 'error',
+              text: msg
+            })
+          }
         })
       }
     }

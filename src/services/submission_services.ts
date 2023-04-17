@@ -96,3 +96,16 @@ export function updateSubmissionState(
     textNotification
   )
 }
+
+export function addSumbission(
+  repository: string,
+  file: File
+) {
+  const r_submission_api = RSubmissionControllerApiFactory(
+    getConfiguration()
+  )
+
+  return openApiRequest<AxiosResponse<any>>(() =>
+    r_submission_api.submitPackageForm(repository, file)
+  )
+}
