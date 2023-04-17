@@ -5,6 +5,10 @@
         v-if="getFiltration"
         v-on:closeModal="closeModal"
       />
+      <Creation
+        v-if="getCreation"
+        v-on:closeModal="closeModal"
+      />
     </template>
   </Overlay>
 </template>
@@ -15,6 +19,7 @@ import { useCommonStore } from '@/store/common'
 import { computed } from 'vue'
 import Overlay from '@/components/common/Overlay.vue'
 import Filtration from '@/components/repositories/Filtration.vue'
+import Creation from '@/components/repositories/Creation.vue'
 import { useRepositoryStore } from '@/store/repositories'
 
 const repositories_store = useRepositoryStore()
@@ -29,4 +34,8 @@ const getFiltration = computed(() => {
     common_store.overlayComponent == OverlayEnum.Filtration
   )
 })
+
+const getCreation = computed(
+  () => common_store.overlayComponent === OverlayEnum.Create
+)
 </script>
