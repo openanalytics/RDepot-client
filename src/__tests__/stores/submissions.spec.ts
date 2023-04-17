@@ -11,7 +11,9 @@ import {
 } from 'vitest'
 import {
   EntityModelPackageDto,
-  EntityModelRepositoryDto
+  EntityModelRepositoryDto,
+  EntityModelSubmissionDto,
+  EntityModelSubmissionDtoStateEnum
 } from '@/openapi'
 import packages from '@/__tests__/config/mockData/packages.json'
 import submissions from '@/__tests__/config/mockData/submissions.json'
@@ -183,10 +185,13 @@ describe('Submissions Store', () => {
       submission_store,
       'fetchSubmissions'
     )
+    const submission = JSON.parse(
+      JSON.stringify(submissions.data.content[0])
+    )
 
-    await submission_store.updateSubmission(
-      submissions.data.content[0].id,
-      'CANCELED',
+    await submission_store.updateSubmissionState(
+      submission,
+      EntityModelSubmissionDtoStateEnum.CANCELLED,
       'Test'
     )
 
@@ -250,9 +255,13 @@ describe('Testing submissions store with failing backend', () => {
       '@kyvg/vue3-notification'
     )
 
-    await submission_store.updateSubmission(
-      submissions.data.content[0].id,
-      'CANCELED',
+    const submission = JSON.parse(
+      JSON.stringify(submissions.data.content[0])
+    )
+
+    await submission_store.updateSubmissionState(
+      submission,
+      EntityModelSubmissionDtoStateEnum.CANCELLED,
       'Test'
     )
 

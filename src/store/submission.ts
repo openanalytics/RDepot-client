@@ -63,8 +63,8 @@ export const useSubmissionStore = defineStore(
           submission,
           state,
           textNotification
-        ).then((success) => {
-          if (success) this.fetchSubmissions()
+        ).then(async (success) => {
+          if (success) await this.fetchSubmissions()
         })
       },
       setPackages(payload: File[]) {
