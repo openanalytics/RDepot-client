@@ -171,10 +171,7 @@ function updatePackageActive() {
     props.packageBag.id &&
     props.packageBag.active != undefined
   ) {
-    package_store.activatePackage(
-      props.packageBag?.id,
-      props.packageBag?.active
-    )
+    package_store.activatePackage(props.packageBag)
   }
 }
 

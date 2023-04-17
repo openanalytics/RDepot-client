@@ -22,6 +22,7 @@
     "lodash": "^4.17.21",
     "lodash.clonedeep": "^4.5.0",
     "pinia": "^2.0.23",
+    "rfc6902": "^5.0.1",
     "roboto-fontface": "*",
     "vue": "^3.2.38",
     "vue-i18n": "^9.2.2",

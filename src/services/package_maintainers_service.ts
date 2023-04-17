@@ -1,12 +1,19 @@
 import { PackageMaintainersFiltration } from '@/models/Filtration'
 import {
   ApiV2PackageMaintainerControllerApiFactory,
+  EntityModelPackageMaintainerDto,
   PackageMaintainerDto,
   ResponseDtoPagedModelEntityModelPackageMaintainerDto
 } from '@/openapi'
 import { AxiosResponse } from 'axios'
 import { getConfiguration } from '@/services/api_config'
-import { openApiRequest } from '@/services/open_api_access'
+import {
+  openApiRequest,
+  validateRequest
+} from '@/services/open_api_access'
+import { notify } from '@kyvg/vue3-notification'
+import { i18n } from '@/plugins/i18n'
+import { createPatch } from 'rfc6902'
 
 export function fetchPackageMaintainersService(
   filtration?: PackageMaintainersFiltration,
@@ -25,11 +32,21 @@ export function fetchPackageMaintainersService(
       page,
       pageSize
     ]
+  ).then(
+    (res) =>
+      validateRequest(
+        res.data.data?.content,
+        res.data.data?.page
+      ),
+    (msg) => {
+      notify({ type: 'error', text: msg })
+      return validateRequest<EntityModelPackageMaintainerDto>()
+    }
   )
 }
 
 export function deletePackageMaintainerService(
-  maintainer_id: number
+  maintainer: EntityModelPackageMaintainerDto
 ) {
   const package_maintainers_api =
     ApiV2PackageMaintainerControllerApiFactory(
@@ -37,51 +54,53 @@ export function deletePackageMaintainerService(
     )
   return openApiRequest<AxiosResponse<any>>(
     package_maintainers_api.deletePackageMaintainer,
-    [maintainer_id]
+    [maintainer.id]
+  ).then(
+    () => {
+      notify({
+        type: 'success',
+        text: i18n.t(
+          'notifications.successDeletePackageManager',
+          maintainer.user?.name || ''
+        )
+      })
+      return true
+    },
+    (msg) => {
+      notify({ type: 'error', text: msg })
+      return false
+    }
   )
 }
 
 export function updatePackageMaintainerService(
-  newMaintainer: PackageMaintainerDto,
-  oldMaintainer: PackageMaintainerDto
+  oldMaintainer: PackageMaintainerDto,
+  newMaintainer: PackageMaintainerDto
 ) {
   const package_maintainers_api =
     ApiV2PackageMaintainerControllerApiFactory(
       getConfiguration()
     )
 
-  let patch = []
-  if (
-    newMaintainer.packageName !== oldMaintainer.packageName
-  ) {
-    patch.push({
-      op: 'replace',
-      path: '/packageName',
-      value: newMaintainer.packageName
-    })
-  }
+  let patch = createPatch(oldMaintainer, newMaintainer)
 
-  if (
-    newMaintainer.repository?.id !==
-    oldMaintainer.repository?.id
-  ) {
-    patch.push({
-      op: 'replace',
-      path: '/repository/id',
-      value: newMaintainer.repository?.id
-    })
-  }
-
-  if (newMaintainer.deleted !== oldMaintainer.deleted) {
-    patch.push({
-      op: 'replace',
-      path: '/deleted',
-      value: newMaintainer.deleted
-    })
-  }
-  console.log(patch)
   return openApiRequest<AxiosResponse<any>>(
     package_maintainers_api.updatePackageMaintainer,
     [patch, oldMaintainer.id]
+  ).then(
+    () => {
+      notify({
+        type: 'success',
+        text: i18n.t(
+          'notifications.successUpdatePackageManager',
+          newMaintainer.user?.name || ''
+        )
+      })
+      return true
+    },
+    (msg) => {
+      notify({ type: 'error', text: msg })
+      return false
+    }
   )
 }
