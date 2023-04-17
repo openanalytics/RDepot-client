@@ -24,3 +24,9 @@ function prepareText(): string {
   return ''
 }
 </script>
+
+<style scoped>
+span {
+  line-height: 1.3;
+}
+</style>
