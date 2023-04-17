@@ -63,9 +63,9 @@ export const usePackagesStore = defineStore(
           JSON.stringify(newPackage)
         ) as EntityModelPackageDto
         oldPackage.active = !newPackage.active
-        updateRPackage(oldPackage, newPackage).then(
-          (success) => {
-            if (success) this.fetchPackages()
+        await updateRPackage(oldPackage, newPackage).then(
+          async (success) => {
+            if (success) await this.fetchPackages()
           }
         )
       },

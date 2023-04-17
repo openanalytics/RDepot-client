@@ -13,6 +13,7 @@ import packages from '@/__tests__/config/mockData/packages.json'
 import repositories from '@/__tests__/config/mockData/repositories.json'
 import { rest } from 'msw'
 import { usePaginationStore } from '@/store/pagination'
+import { c } from 'msw/lib/glossary-de6278a9'
 
 const defaultFiltration = {
   state: undefined,
@@ -103,11 +104,11 @@ describe('Package Store', () => {
   it('Activate package', async () => {
     const package_store = usePackagesStore()
     const spy = vi.spyOn(package_store, 'fetchPackages')
-
-    await package_store.activatePackage(
-      packages.data.content[2].id,
-      true
+    const newPackage = JSON.parse(
+      JSON.stringify(packages.data.content[2])
     )
+
+    await package_store.activatePackage(newPackage)
 
     expect(spy).toBeCalled()
   })
