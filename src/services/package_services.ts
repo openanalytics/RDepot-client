@@ -1,14 +1,19 @@
 import { PackagesFiltration } from '@/models/Filtration'
 import {
   ApiV2PackageControllerApiFactory,
+  EntityModelPackageDto,
   ResponseDtoEntityModelPackageDto,
   ResponseDtoPagedModelEntityModelPackageDto,
   RPackageControllerApiFactory
 } from '@/openapi'
-import { getConfiguration } from './api_config'
-import { openApiRequest } from './open_api_access'
-import { preparePatchBody } from './patchBody'
+import { getConfiguration } from '@/services/api_config'
+import {
+  openApiRequest,
+  validateRequest
+} from '@/services/open_api_access'
 import { useSortStore } from '@/store/sort'
+import { notify } from '@kyvg/vue3-notification'
+import { createPatch } from 'rfc6902'
 
 export function fetchPackagesServices(
   filtration?: PackagesFiltration,
@@ -31,6 +36,16 @@ export function fetchPackagesServices(
       pageSize,
       sortBy
     ]
+  ).then(
+    (res) =>
+      validateRequest(
+        res.data.data?.content,
+        res.data.data?.page
+      ),
+    (msg) => {
+      notify({ type: 'error', text: msg })
+      return validateRequest<EntityModelPackageDto>()
+    }
   )
 }
 
@@ -42,13 +57,15 @@ export function fetchPackagesWithoutProgressControl(
   const packages_api = ApiV2PackageControllerApiFactory(
     getConfiguration()
   )
+  const sort = ['name,asc']
   return packages_api.getAllPackages(
     filtration?.repository,
     filtration?.deleted,
     filtration?.state,
     filtration?.technology,
     page,
-    pageSize
+    pageSize,
+    sort
   )
 }
 
@@ -59,19 +76,32 @@ export function fetchPackageServices(id: number) {
   return openApiRequest<ResponseDtoEntityModelPackageDto>(
     packages_api.getPackageById,
     [id]
+  ).then(
+    (res) => res.data.data,
+    (msg) => {
+      notify({ text: msg, type: 'error' })
+      return {} as EntityModelPackageDto
+    }
   )
 }
 
 export function updateRPackage(
-  id: number,
-  fields: Map<string, any>
+  oldPackage: EntityModelPackageDto,
+  newPackage: EntityModelPackageDto
 ) {
   const packages_api = RPackageControllerApiFactory(
     getConfiguration()
   )
-  const patch = preparePatchBody(fields)
+  const patch = createPatch(oldPackage, newPackage)
+
   return openApiRequest<ResponseDtoEntityModelPackageDto>(
     packages_api.updatePackage,
-    [patch, id]
+    [patch, oldPackage.id]
+  ).then(
+    () => true,
+    (msg) => {
+      notify({ text: msg, type: 'error' })
+      return false
+    }
   )
 }

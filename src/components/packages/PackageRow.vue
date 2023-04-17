@@ -163,10 +163,7 @@ function updatePackageActive() {
     props.packageBag.id &&
     props.packageBag.active != undefined
   ) {
-    const fields: Map<string, any> = new Map<string, any>()
-    fields.set('active', props.packageBag?.active)
-    package_store.setChosenPackage(props.packageBag?.id)
-    package_store.updatePackage(fields)
+    package_store.activatePackage(props.packageBag)
   }
 }
 

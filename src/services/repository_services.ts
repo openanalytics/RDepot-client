@@ -1,14 +1,20 @@
 import { RepositoriesFiltration } from '@/models/Filtration'
 import {
   ApiV2RepositoryControllerApiFactory,
-  ResponseDtoEntityModelRepositoryDto,
+  EntityModelRepositoryDto,
   ResponseDtoPagedModelEntityModelRepositoryDto,
   ResponseDtoPagedModelEntityModelRRepositoryDto,
   RRepositoryControllerApiFactory
 } from '@/openapi'
 import { getConfiguration } from './api_config'
-import { openApiRequest } from './open_api_access'
-import { preparePatchBody } from './patchBody'
+import {
+  openApiRequest,
+  validateRequest
+} from './open_api_access'
+import { notify } from '@kyvg/vue3-notification'
+import { useSortStore } from '@/store/sort'
+import { createPatch } from 'rfc6902'
+import { AxiosResponse } from 'axios'
 
 export function fetchRepositoriesServices(
   filtration?: RepositoriesFiltration,
@@ -17,6 +23,9 @@ export function fetchRepositoriesServices(
 ) {
   const repository_api =
     ApiV2RepositoryControllerApiFactory(getConfiguration())
+  const sort = useSortStore()
+  var sortBy = sort.field + ',' + sort.direction
+
   return openApiRequest<ResponseDtoPagedModelEntityModelRepositoryDto>(
     repository_api.getAllRepositories,
     [
@@ -24,8 +33,19 @@ export function fetchRepositoriesServices(
       filtration?.name,
       filtration?.technology,
       page,
-      pageSize
+      pageSize,
+      sortBy
     ]
+  ).then(
+    (res) =>
+      validateRequest(
+        res.data.data?.content,
+        res.data.data?.page
+      ),
+    (msg) => {
+      notify({ type: 'error', text: msg })
+      return validateRequest<EntityModelRepositoryDto>()
+    }
   )
 }
 
@@ -38,16 +58,38 @@ export function fetchRRepositories() {
   )
 }
 
-export function updateRRepository(
-  id: number,
-  fields: Map<string, any>
+export function updateRepository(
+  oldRepository: EntityModelRepositoryDto,
+  newRepository: EntityModelRepositoryDto,
+  textNotification?: string
 ) {
   const r_repository_api = RRepositoryControllerApiFactory(
     getConfiguration()
   )
-  const patch = preparePatchBody(fields)
-  return openApiRequest<ResponseDtoEntityModelRepositoryDto>(
-    r_repository_api.updateRRepository,
-    [patch, id]
+  const patch_body = createPatch(
+    oldRepository,
+    newRepository
+  )
+
+  return openApiRequest<AxiosResponse<any>>(() =>
+    r_repository_api.updateRRepository(
+      patch_body,
+      oldRepository.id!
+    )
+  ).then(
+    () => {
+      notify({
+        type: 'success',
+        text: textNotification
+      })
+      return true
+    },
+    (msg) => {
+      notify({
+        type: 'error',
+        text: msg
+      })
+      return false
+    }
   )
 }

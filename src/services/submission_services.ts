@@ -1,12 +1,19 @@
 import { SubmissionsFiltration } from '@/models/Filtration'
 import {
+  EntityModelSubmissionDto,
+  EntityModelSubmissionDtoStateEnum,
   ResponseDtoPagedModelEntityModelSubmissionDto,
   RSubmissionControllerApiFactory
 } from '@/openapi'
-import { useLoggedUserStore } from '@/store/logged_user'
 import { AxiosResponse } from 'axios'
 import { getConfiguration } from './api_config'
-import { openApiRequest } from './open_api_access'
+import {
+  openApiRequest,
+  validateRequest
+} from './open_api_access'
+import { notify } from '@kyvg/vue3-notification'
+import { createPatch } from 'rfc6902'
+import { useSortStore } from '@/store/sort'
 
 export function fetchRSubmissions(
   filtration: SubmissionsFiltration,
@@ -17,6 +24,8 @@ export function fetchRSubmissions(
   const r_submission_api = RSubmissionControllerApiFactory(
     getConfiguration()
   )
+  const sort = useSortStore()
+  var sortBy = sort.field + ',' + sort.direction
   return openApiRequest<ResponseDtoPagedModelEntityModelSubmissionDto>(
     r_submission_api.getAllSubmissions,
     [
@@ -24,30 +33,83 @@ export function fetchRSubmissions(
       filtration.assignedToMe ? logged_user_id : undefined,
       filtration.package?.id,
       page,
-      pageSize
+      pageSize,
+      sortBy
     ]
+  ).then(
+    (res) =>
+      validateRequest(
+        res.data.data?.content,
+        res.data.data?.page
+      ),
+    (msg) => {
+      notify({ text: msg, type: 'error' })
+      return validateRequest<EntityModelSubmissionDto>()
+    }
   )
 }
 
 export function updateSubmission(
-  state: string,
-  submission_id: number
+  oldSubmission: EntityModelSubmissionDto,
+  newSubmission: EntityModelSubmissionDto,
+  textNotification?: string
 ) {
   const r_submission_api = RSubmissionControllerApiFactory(
     getConfiguration()
   )
-  const patch_body = [
-    {
-      op: 'replace',
-      path: '/state',
-      value: state
-    }
-  ]
+  const patch_body = createPatch(
+    oldSubmission,
+    newSubmission
+  )
 
   return openApiRequest<AxiosResponse<any>>(() =>
     r_submission_api.updateSubmission(
       patch_body,
-      submission_id
+      oldSubmission.id!
     )
+  ).then(
+    () => {
+      notify({
+        type: 'success',
+        text: textNotification
+      })
+      return true
+    },
+    (msg) => {
+      notify({
+        type: 'error',
+        text: msg
+      })
+      return false
+    }
+  )
+}
+
+export function updateSubmissionState(
+  submission: EntityModelSubmissionDto,
+  state: EntityModelSubmissionDtoStateEnum,
+  textNotification: string
+) {
+  const newSubmission = JSON.parse(
+    JSON.stringify(submission)
+  ) as EntityModelSubmissionDto
+  newSubmission.state = state
+  return updateSubmission(
+    submission,
+    newSubmission,
+    textNotification
+  )
+}
+
+export function addSubmission(
+  repository: string,
+  file: File
+) {
+  const r_submission_api = RSubmissionControllerApiFactory(
+    getConfiguration()
+  )
+
+  return openApiRequest<AxiosResponse<any>>(() =>
+    r_submission_api.submitPackageForm(repository, file)
   )
 }

@@ -1,18 +1,19 @@
 import {
   EntityModelPackageMaintainerDto,
   EntityModelPythonRepositoryDto,
-  EntityModelRPackageDto
+  EntityModelRPackageDto,
+  PackageMaintainerDto
 } from '@/openapi'
 import { defineStore } from 'pinia'
 import { PackageMaintainersFiltration } from '@/models/Filtration'
-import { notify } from '@kyvg/vue3-notification'
 import {
   fetchPackagesServices,
   fetchRepositoriesServices
 } from '@/services'
 import {
+  deletePackageMaintainerService,
   fetchPackageMaintainersService,
-  updatePackageMaintainer
+  updatePackageMaintainerService
 } from '@/services/package_maintainers_service'
 import { usePaginationStore } from '@/store/pagination'
 import { useObjectActions } from '@/composable/objectActions'
@@ -22,7 +23,7 @@ interface State {
   filtration: PackageMaintainersFiltration
   repositories: EntityModelPythonRepositoryDto[]
   packages: EntityModelRPackageDto[]
-  chosenMaintainer?: number
+  chosenMaintainer: EntityModelPackageMaintainerDto
 }
 
 export const usePackageMaintainersStore = defineStore(
@@ -37,73 +38,40 @@ export const usePackageMaintainersStore = defineStore(
         },
         repositories: [],
         packages: [],
-        chosenMaintainer: undefined
+        chosenMaintainer: {}
       }
     },
     actions: {
       async fetchMaintainers() {
         const pagination = usePaginationStore()
-        fetchPackageMaintainersService(
-          this.filtration,
-          pagination.page,
-          pagination.pageSize
-        ).then(
-          (res) => {
-            pagination.setPage(
-              res.data.data?.page?.number || 0
-            )
-            pagination.setTotalNumber(
-              res.data.data?.page?.totalElements || 0
-            )
-            this.maintainers = res.data.data?.content || []
-          },
-          (msg) => {
-            notify({ type: 'error', text: msg })
-          }
-        )
+        const [maintainers, pageData] =
+          await fetchPackageMaintainersService(
+            this.filtration,
+            pagination.page,
+            pagination.pageSize
+          )
+        pagination.setPage(pageData.page)
+        pagination.setTotalNumber(pageData.totalNumber)
+        this.maintainers = maintainers
       },
       async fetchRepositories() {
-        fetchRepositoriesServices().then(
-          (res) => {
-            this.repositories = res.data.data?.content || []
-          },
-          (msg) => {
-            notify({ type: 'error', text: msg })
-          }
-        )
+        const [repositories] =
+          await fetchRepositoriesServices()
+        this.repositories = repositories
       },
       async fetchPackages() {
-        fetchPackagesServices().then(
-          (res) => {
-            this.packages = res.data.data?.content || []
-          },
-          (msg) => {
-            notify({ type: 'error', text: msg })
-          }
-        )
+        const [packages] = await fetchPackagesServices()
+        this.packages = packages
       },
       async setPage(payload: number) {
         const pagination = usePaginationStore()
         pagination.setPage(payload)
         this.fetchMaintainers()
       },
-      async setChosenMaintainer(id?: number) {
-        this.chosenMaintainer = id
-      },
-      async updateMaintainer(fields: Map<string, any>) {
-        if (this.chosenMaintainer) {
-          updatePackageMaintainer(
-            this.chosenMaintainer,
-            fields
-          ).then(
-            () => {
-              this.fetchMaintainers()
-            },
-            (msg) => {
-              notify({ text: msg, type: 'error' })
-            }
-          )
-        }
+      async setChosenMaintainer(
+        payload: EntityModelPackageMaintainerDto
+      ) {
+        this.chosenMaintainer = payload
       },
       async setFiltration(
         payload: PackageMaintainersFiltration
@@ -120,27 +88,24 @@ export const usePackageMaintainersStore = defineStore(
       async clearFiltrationAndFetch() {
         this.clearFiltration()
         this.fetchMaintainers()
+      },
+      async deleteChosenMaintainer() {
+        deletePackageMaintainerService(
+          this.chosenMaintainer
+        ).then((success) => {
+          if (success) this.fetchMaintainers()
+        })
+      },
+      async editMaintainer(
+        maintainer: PackageMaintainerDto
+      ) {
+        updatePackageMaintainerService(
+          this.chosenMaintainer,
+          maintainer
+        ).then((success) => {
+          if (success) this.fetchMaintainers()
+        })
       }
-      // async editMaintainer(
-      //   maintainer: PackageMaintainerDto
-      // ) {
-      //   updatePackageMaintainerService(
-      //     maintainer,
-      //     this.chosenMaintainer
-      //   ).then(
-      //     () => {
-      //       notify({
-      //         type: 'success',
-      //         text: i18n.t(
-      //           'notifications.successUpdatePackageManager',
-      //           this.chosenMaintainer.user?.name || ''
-      //         )
-      //       })
-      //       this.fetchMaintainers()
-      //     },
-      //     (msg) => notify({ type: 'error', text: msg })
-      //   )
-      // }
     }
   }
 )

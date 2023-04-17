@@ -15,12 +15,13 @@
         >
         </v-text-field>
         <v-select
-          id="edit-package-maintainer-repository"
-          v-model="localMaintainer.repository"
-          item-title="name"
+          :modelValue="localMaintainer.repository"
+          @update:modelValue="newValue => localMaintainer.repository!.id = newValue"
           :items="repositories"
+          item-title="name"
+          item-value="id"
+          id="edit-package-maintainer-repository"
           :label="$t('maintainers.editform.repository')"
-          return-object
         ></v-select>
         <v-select
           id="edit-package-maintainer-package"
@@ -63,7 +64,6 @@
 </template>
 
 <script setup lang="ts">
-import { EntityModelPackageDto } from '@/openapi'
 import { usePackageMaintainersStore } from '@/store/package_maintainers'
 import { ref, onMounted, computed } from 'vue'
 
@@ -113,5 +113,7 @@ function changeDialogOptions() {
 
 onMounted(() => {
   updateMaintainer()
+  maintainers_store.fetchRepositories()
+  maintainers_store.fetchPackages()
 })
 </script>

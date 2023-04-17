@@ -59,7 +59,7 @@
       class="d-flex align-center"
     >
       {{
-        title == true
+        title
           ? prepareString(
               $t('submissions.approver').toString()
             )
@@ -189,31 +189,38 @@ function prepareString(value: string): string {
 
 async function acceptSubmission() {
   disabled.value = true
-  await submission_store.updateSubmission(
-    props.submission?.id || -1,
-    EntityModelSubmissionDtoStateEnum.ACCEPTED,
-    i18n.t('notifications.acceptSubmission')
-  )
+  if (props.submission) {
+    await submission_store.updateSubmissionState(
+      props.submission,
+      EntityModelSubmissionDtoStateEnum.ACCEPTED,
+      i18n.t('notifications.acceptSubmission')
+    )
+  }
+
   disabled.value = false
 }
 
 async function cancelSubmission() {
   disabled.value = true
-  await submission_store.updateSubmission(
-    props.submission?.id || -1,
-    EntityModelSubmissionDtoStateEnum.CANCELLED,
-    i18n.t('notifications.successCancelSubmission')
-  )
+  if (props.submission) {
+    await submission_store.updateSubmissionState(
+      props.submission,
+      EntityModelSubmissionDtoStateEnum.CANCELLED,
+      i18n.t('notifications.successCancelSubmission')
+    )
+  }
   disabled.value = false
 }
 
 async function rejectSubmission() {
   disabled.value = true
-  await submission_store.updateSubmission(
-    props.submission?.id || -1,
-    EntityModelSubmissionDtoStateEnum.REJECTED,
-    i18n.t('notifications.successRejectSubmission')
-  )
+  if (props.submission) {
+    await submission_store.updateSubmissionState(
+      props.submission,
+      EntityModelSubmissionDtoStateEnum.REJECTED,
+      i18n.t('notifications.successRejectSubmission')
+    )
+  }
   disabled.value = false
 }
 </script>

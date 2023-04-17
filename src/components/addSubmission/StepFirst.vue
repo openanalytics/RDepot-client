@@ -52,6 +52,7 @@ import { EntityModelRepositoryDto } from '@/openapi'
 import { useRepositoryStore } from '@/store/repositories'
 import { useSubmissionStore } from '@/store/submission'
 import { useNotification } from '@kyvg/vue3-notification'
+import { onMounted } from 'vue'
 import { computed } from 'vue'
 
 const emits = defineEmits(['next'])
@@ -78,6 +79,10 @@ function nextStep() {
     })
   }
 }
+
+onMounted(() => {
+  repository_store.fetchRepositories()
+})
 </script>
 
 <style lang="scss">

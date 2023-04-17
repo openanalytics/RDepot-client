@@ -45,47 +45,31 @@ export const usePackagesStore = defineStore(
     actions: {
       async fetchPackages() {
         const pagination = usePaginationStore()
-        fetchPackagesServices(
-          this.filtration,
-          pagination.page,
-          pagination.pageSize
-        ).then(
-          (res) => {
-            this.packages = res.data.data?.content || []
-            pagination.setPage(
-              res.data.data?.page?.number || 0
-            )
-            pagination.setTotalNumber(
-              res.data.data?.page?.totalElements || 0
-            )
-          },
-          (msg) => {
-            this.packages = []
-            pagination.setPage(0)
-            notify({ text: msg, type: 'error' })
-          }
-        )
+        const [packages, pageData] =
+          await fetchPackagesServices(
+            this.filtration,
+            pagination.page,
+            pagination.pageSize
+          )
+        this.packages = packages
+        pagination.setPage(pageData.page)
+        pagination.setTotalNumber(pageData.totalNumber)
       },
       async fetchPackage(id: number) {
-        fetchPackageServices(id).then(
-          (res) => (this.package = res.data.data),
-          (msg) => {
-            this.package = {}
-            notify({ text: msg, type: 'error' })
+        this.package = await fetchPackageServices(id)
+      },
+      async activatePackage(
+        newPackage: EntityModelPackageDto
+      ) {
+        const oldPackage = JSON.parse(
+          JSON.stringify(newPackage)
+        ) as EntityModelPackageDto
+        oldPackage.active = !newPackage.active
+        updateRPackage(oldPackage, newPackage).then(
+          (success) => {
+            if (success) this.fetchPackages()
           }
         )
-      },
-      async updatePackage(fields: Map<string, any>) {
-        if (this.chosenPackageId) {
-          updateRPackage(this.chosenPackageId, fields).then(
-            () => {
-              this.fetchPackages()
-            },
-            (msg) => {
-              notify({ text: msg, type: 'error' })
-            }
-          )
-        }
       },
       async setPage(payload: number) {
         const pagination = usePaginationStore()
@@ -124,17 +108,3 @@ export const usePackagesStore = defineStore(
     }
   }
 )
-
-function ifNext(links?: Link[]): boolean {
-  var flag: boolean = false
-  if (links != undefined) {
-    links.forEach((link: Link) => {
-      if (link.rel === 'next') {
-        console.log('here')
-        // return true
-        flag = true
-      }
-    })
-  }
-  return flag
-}

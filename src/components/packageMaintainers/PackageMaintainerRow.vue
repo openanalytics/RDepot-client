@@ -9,7 +9,7 @@
       cols="lg-1 sm-2"
       class="d-flex align-center"
       >{{
-        title == true
+        title
           ? prepareString($t('maintainers.name'))
           : packageMaintainer?.user?.name
       }}</v-col

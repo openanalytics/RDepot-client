@@ -6,7 +6,7 @@
     "passwordError": "Password is required",
     "login": "login",
     "clear": "clear",
-    "wrongCredentials": "Wrong credential data, please try "
+    "wrongCredentials": "Wrong credentials, please try again"
   },
   "addSubmission": {
     "step1Title": "Choose repository",
@@ -138,7 +138,10 @@
     "acceptSubmission": "accept submission",
     "successRejectSubmission": "reject submission",
     "successDeletePackageManager": "successful deleted {maintainer_name}",
-    "successUpdatePackageManager": "successful updated {maintainer_name}"
+    "successUpdatePackageManager": "successful updated {maintainer_name}",
+    "successDeleteRepositoryMaintainer": "successful deleted {maintainer_name}",
+    "successUpdateRepositoryMaintainer": "successful updated {maintainer_name}",
+    "successCreateSubmissiom": "successfully created submissiom"
   },
   "maintainers": {
     "edit": "edit maintainer",

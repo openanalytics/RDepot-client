@@ -1,6 +1,7 @@
 import {
   EntityModelRepositoryDto,
-  EntityModelSubmissionDto
+  EntityModelSubmissionDto,
+  EntityModelSubmissionDtoStateEnum
 } from '@/openapi'
 import { defineStore } from 'pinia'
 import { SubmissionsFiltration } from '@/models/Filtration'
@@ -8,8 +9,9 @@ import { notify } from '@kyvg/vue3-notification'
 import { i18n } from '@/plugins/i18n'
 import { useLoggedUserStore } from './logged_user'
 import {
+  addSubmission,
   fetchRSubmissions,
-  updateSubmission
+  updateSubmissionState
 } from '@/services/submission_services'
 import { usePaginationStore } from '@/store/pagination'
 import { useObjectActions } from '@/composable/objectActions'
@@ -46,48 +48,29 @@ export const useSubmissionStore = defineStore(
       async fetchSubmissions() {
         const logged_user = useLoggedUserStore()
         const pagination = usePaginationStore()
-        await fetchRSubmissions(
-          this.filtration,
-          logged_user.userId,
-          pagination.page,
-          pagination.pageSize
-        ).then(
-          (res) => {
-            this.submissions = res.data.data?.content || []
-            pagination.setTotalNumber(
-              res.data.data?.page?.totalElements || 0
-            )
-            pagination.setPage(
-              res.data.data?.page?.number || 0
-            )
-          },
-          (msg) => {
-            this.submissions = []
-            pagination.setPage(0)
-            notify({ text: msg, type: 'error' })
-          }
-        )
+        const [submission, pageData] =
+          await fetchRSubmissions(
+            this.filtration,
+            logged_user.userId,
+            pagination.page,
+            pagination.pageSize
+          )
+        this.submissions = submission
+        pagination.setTotalNumber(pageData.totalNumber)
+        pagination.setPage(pageData.page)
       },
-      async updateSubmission(
-        submission_id: number,
-        state: string,
+      async updateSubmissionState(
+        submission: EntityModelSubmissionDto,
+        state: EntityModelSubmissionDtoStateEnum,
         textNotification: string
       ) {
-        updateSubmission(state, submission_id).then(
-          () => {
-            notify({
-              type: 'success',
-              text: textNotification
-            })
-            this.fetchSubmissions()
-          },
-          (msg) => {
-            notify({
-              type: 'error',
-              text: msg
-            })
-          }
-        )
+        await updateSubmissionState(
+          submission,
+          state,
+          textNotification
+        ).then((success) => {
+          if (success) this.fetchSubmissions()
+        })
       },
       setPackages(payload: File[]) {
         this.packages = payload
@@ -136,6 +119,35 @@ export const useSubmissionStore = defineStore(
             'notifications.successFiltrationReset'
           ),
           type: 'success'
+        })
+      },
+      async addSubmissionRequests() {
+        const promises: Promise<[boolean, string]>[] =
+          this.packages.map((packageBag) =>
+            addSubmission(
+              this.repository?.name!,
+              packageBag
+            ).then(
+              () => [true, ''],
+              (msg) => [false, msg]
+            )
+          )
+        await Promise.all(promises)
+        var fulfilled = 0
+        promises.forEach(async (promise) => {
+          const [isFulfilled, msg] = await promise
+          if (fulfilled == 0 && isFulfilled) {
+            notify({
+              type: 'success',
+              text: i18n.t('notifications.success')
+            })
+            fulfilled += 1
+          } else if (!isFulfilled) {
+            notify({
+              type: 'error',
+              text: msg
+            })
+          }
         })
       }
     }

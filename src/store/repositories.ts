@@ -1,6 +1,7 @@
 import {
   ApiV2PackageControllerApiFactory,
   EntityModelPackageDto,
+  EntityModelRRepositoryDto,
   EntityModelRepositoryDto
 } from '@/openapi'
 import { defineStore } from 'pinia'
@@ -9,12 +10,12 @@ import { fetchRepositoriesServices } from '@/services'
 import { notify } from '@kyvg/vue3-notification'
 import { usePaginationStore } from './pagination'
 import { useObjectActions } from '@/composable/objectActions'
-import { updateRRepository } from '@/services/repository_services'
+import { updateRepository } from '@/services/repository_services'
 
 interface State {
   repositories: EntityModelRepositoryDto[]
   filtration: RepositoriesFiltration
-  chosenRepository?: number
+  chosenRepository: EntityModelRRepositoryDto
   chosenRepositoryName: string
   repositoryPackages: EntityModelPackageDto[]
 }
@@ -32,7 +33,7 @@ export const useRepositoryStore = defineStore(
           technology: undefined,
           deleted: undefined
         },
-        chosenRepository: -1,
+        chosenRepository: {},
         chosenRepositoryName: '',
         repositoryPackages: []
       }
@@ -40,25 +41,15 @@ export const useRepositoryStore = defineStore(
     actions: {
       async fetchRepositories() {
         const pagination = usePaginationStore()
-        await fetchRepositoriesServices(
-          this.filtration,
-          pagination.page,
-          pagination.pageSize
-        ).then(
-          (res) => {
-            pagination.setTotalNumber(
-              res.data.data?.page?.totalElements || 0
-            )
-            pagination.setPage(
-              res.data.data?.page?.number || 0
-            )
-            this.repositories = res.data.data?.content || []
-          },
-          (msg) => {
-            pagination.setPage(0)
-            notify({ text: msg, type: 'error' })
-          }
-        )
+        const [repositories, pageData] =
+          await fetchRepositoriesServices(
+            this.filtration,
+            pagination.page,
+            pagination.pageSize
+          )
+        pagination.setTotalNumber(pageData.totalNumber)
+        pagination.setPage(pageData.page)
+        this.repositories = repositories
       },
       async fetchPackages() {
         packages_api
@@ -71,22 +62,28 @@ export const useRepositoryStore = defineStore(
             (msg) => notify({ text: msg, type: 'error' })
           )
       },
-      setChosenRepository(id: number | undefined) {
-        this.chosenRepository = id
+      async updateRepository(
+        newRepository: EntityModelRRepositoryDto,
+        textNotification: string
+      ) {
+        await updateRepository(
+          this.chosenRepository,
+          newRepository,
+          textNotification
+        ).then((success) => {
+          if (success) this.fetchRepositories()
+        })
       },
-      async updateRepository(fields: Map<string, any>) {
-        if (this.chosenRepository) {
-          updateRRepository(
-            this.chosenRepository,
-            fields
-          ).then(
-            () => {
-              this.fetchRepositories()
-            },
-            (msg) => {
-              notify({ text: msg, type: 'error' })
-            }
-          )
+      setChosenRepository(id: number | undefined) {
+        var flag = true
+        this.repositories.forEach((repository) => {
+          if (repository.id == id) {
+            this.chosenRepository = repository
+            flag = false
+          }
+        })
+        if (flag) {
+          this.chosenRepository = {}
         }
       },
       async setFiltration(payload: RepositoriesFiltration) {

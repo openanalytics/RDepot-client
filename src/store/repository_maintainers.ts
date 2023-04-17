@@ -10,7 +10,6 @@ import {
   fetchRepositoryMaintainersServices,
   updateRepositoryMaintainer
 } from '@/services/repository_maintainers_services'
-import { notify } from '@kyvg/vue3-notification'
 import { usePaginationStore } from './pagination'
 import { useObjectActions } from '@/composable/objectActions'
 import { fetchRepositoriesServices } from '@/services'
@@ -19,7 +18,7 @@ interface State {
   maintainers: EntityModelRepositoryMaintainerDto[]
   filtration: RepositoryMaintainersFiltration
   repositories: EntityModelRepositoryDto[]
-  chosenMaintainer?: number
+  chosenMaintainer: EntityModelPackageMaintainerDto
 }
 
 export const useRepositoryMaintainersStore = defineStore(
@@ -33,72 +32,39 @@ export const useRepositoryMaintainersStore = defineStore(
           technologies: undefined
         },
         repositories: [],
-        chosenMaintainer: undefined
+        chosenMaintainer: {}
       }
     },
     actions: {
       async fetchMaintainers() {
         const pagination = usePaginationStore()
-        await fetchRepositoryMaintainersServices(
-          this.filtration,
-          pagination.page,
-          pagination.pageSize
-        ).then(
-          (res) => {
-            pagination.setPage(
-              res.data.data?.page?.number || 0
-            )
-            pagination.setTotalNumber(
-              res.data.data?.page?.totalElements || 0
-            )
-            this.maintainers = res.data.data?.content || []
-          },
-          (msg) => {
-            notify({ text: msg, type: 'error' })
-          }
-        )
+        const [maintainers, pageData] =
+          await fetchRepositoryMaintainersServices(
+            this.filtration,
+            pagination.page,
+            pagination.pageSize
+          )
+        pagination.setPage(pageData.page)
+        pagination.setTotalNumber(pageData.totalNumber)
+        this.maintainers = maintainers
       },
       async fetchRepositories() {
-        fetchRepositoriesServices().then(
-          (res) => {
-            this.repositories = res.data.data?.content || []
-          },
-          (msg) => {
-            notify({ text: msg, type: 'error' })
-          }
-        )
+        const [repositories] =
+          await fetchRepositoriesServices()
+        this.repositories = repositories
       },
-      async updateMaintainer(fields: Map<string, any>) {
-        if (this.chosenMaintainer) {
-          updateRepositoryMaintainer(
-            this.chosenMaintainer,
-            fields
-          ).then(
-            () => {
-              this.fetchMaintainers()
-            },
-            (msg) => {
-              notify({ text: msg, type: 'error' })
-            }
-          )
-        }
+      async setChosenMaintainer(
+        payload: EntityModelPackageMaintainerDto
+      ) {
+        this.chosenMaintainer = payload
       },
       async deleteMaintainer() {
         if (this.chosenMaintainer) {
           await deletedRepositoryMaintainer(
             this.chosenMaintainer
-          ).then(
-            () => {
-              notify({
-                text: 'Repository maintainer deleted',
-                type: 'success'
-              })
-              this.fetchMaintainers()
-            },
-            (msg) => {
-              notify({ text: msg, type: 'error' })
-            }
-          )
+          ).then((success) => {
+            if (success) this.fetchMaintainers()
+          })
         }
       },
       async setPage(payload: number) {
@@ -106,9 +72,7 @@ export const useRepositoryMaintainersStore = defineStore(
         pagination.setPage(payload)
         this.fetchMaintainers()
       },
-      async setChosenMaintainer(id?: number) {
-        this.chosenMaintainer = id
-      },
+
       async setFiltration(
         payload: RepositoryMaintainersFiltration
       ) {

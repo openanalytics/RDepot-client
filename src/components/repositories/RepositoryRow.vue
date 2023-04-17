@@ -167,12 +167,13 @@ function updateRepositoryPublish() {
     props.repository.id &&
     props.repository.published != undefined
   ) {
-    const fields: Map<string, any> = new Map<string, any>()
-    fields.set('published', props.repository?.published)
     repository_store.setChosenRepository(
       props.repository?.id
     )
-    repository_store.updateRepository(fields)
+    repository_store.updateRepository(
+      props.repository,
+      'updated succesfully'
+    )
   }
 }
 
