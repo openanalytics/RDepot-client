@@ -74,11 +74,9 @@ function updateSearch(value: string) {
   // }
 }
 
-async function setFiltration() {
+function setFiltration() {
   emit('closeModal')
-  await submissions_store.setFiltration(
-    localFiltration.value
-  )
+  submissions_store.setFiltration(localFiltration.value)
 }
 
 function changeDialogOptions() {

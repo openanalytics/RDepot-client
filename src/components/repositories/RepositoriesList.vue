@@ -38,12 +38,3 @@ onBeforeMount(() => {
   updateData()
 })
 </script>
-
-<script lang="ts">
-export default {
-  beforeRouteEnter: async function (to) {
-    const repository_store = useRepositoryStore()
-    await repository_store.setPage(0)
-  }
-}
-</script>

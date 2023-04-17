@@ -28,7 +28,7 @@ export function fetchPackagesServices(
       filtration?.repository,
       filtration?.deleted,
       filtration?.state,
-      filtration?.technology,
+      filtration?.technologies,
       page,
       pageSize
     ]
@@ -57,7 +57,7 @@ export function fetchPackagesWithoutProgressControl(
     filtration?.repository,
     filtration?.deleted,
     filtration?.state,
-    filtration?.technology,
+    filtration?.technologies,
     page,
     pageSize
   )

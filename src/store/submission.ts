@@ -22,9 +22,6 @@ interface State {
   repository?: EntityModelRepositoryDto
   submissions: EntityModelSubmissionDto[]
   filtration: SubmissionsFiltration
-  page?: number
-  pageSize: number
-  totalNumber?: number
 }
 
 export const useSubmissionStore = defineStore(
@@ -39,10 +36,7 @@ export const useSubmissionStore = defineStore(
           package: undefined,
           state: undefined,
           assignedToMe: undefined
-        },
-        page: 0,
-        pageSize: 10,
-        totalNumber: 0
+        }
       }
     },
     actions: {
@@ -69,8 +63,8 @@ export const useSubmissionStore = defineStore(
           submission,
           state,
           textNotification
-        ).then((success) => {
-          if (success) this.fetchSubmissions()
+        ).then(async (success) => {
+          if (success) await this.fetchSubmissions()
         })
       },
       setPackages(payload: File[]) {
@@ -91,7 +85,7 @@ export const useSubmissionStore = defineStore(
       },
       async setFiltration(payload: SubmissionsFiltration) {
         const pagination = usePaginationStore()
-        pagination.setPageSize(0)
+        pagination.setPage(0)
         this.filtration = payload
         await this.fetchSubmissions()
         notify({
@@ -100,17 +94,10 @@ export const useSubmissionStore = defineStore(
         })
       },
       clearFiltration() {
+        const pagination = usePaginationStore()
+        pagination.setPage(0)
         const { setAllFields } = useObjectActions()
         setAllFields(this.filtration, undefined)
-      },
-      async setPage(payload: number) {
-        const pagination = usePaginationStore()
-        pagination.setPage(payload)
-        this.fetchSubmissions()
-      },
-      async setPageSize(payload: number) {
-        const pagination = usePaginationStore()
-        pagination.setPageSize(payload)
       },
       async clearFiltrationAndFetch() {
         this.clearFiltration()

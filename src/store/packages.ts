@@ -35,7 +35,7 @@ export const usePackagesStore = defineStore(
           state: undefined,
           deleted: undefined,
           repository: undefined,
-          technology: undefined
+          technologies: undefined
         },
         next: false
       }
@@ -63,16 +63,11 @@ export const usePackagesStore = defineStore(
           JSON.stringify(newPackage)
         ) as EntityModelPackageDto
         oldPackage.active = !newPackage.active
-        updateRPackage(oldPackage, newPackage).then(
-          (success) => {
-            if (success) this.fetchPackages()
+        await updateRPackage(oldPackage, newPackage).then(
+          async (success) => {
+            if (success) await this.fetchPackages()
           }
         )
-      },
-      async setPage(payload: number) {
-        const pagination = usePaginationStore()
-        pagination.setPage(payload)
-        this.fetchPackages()
       },
       async downloadManual() {
         const rPackageApi = RPackageControllerApiFactory()
@@ -86,19 +81,21 @@ export const usePackagesStore = defineStore(
         const pagination = usePaginationStore()
         pagination.setPage(0)
         this.filtration = payload
-        this.fetchPackages()
+        await this.fetchPackages()
       },
-      async setFiltrationByRepositoryOnly(payload: string) {
+      setFiltrationByRepositoryOnly(payload: string) {
         this.clearFiltration()
         this.filtration.repository = payload
       },
       clearFiltration() {
+        const pagination = usePaginationStore()
+        pagination.setPage(0)
         const { setAllFields } = useObjectActions()
         setAllFields(this.filtration, undefined)
       },
       async clearFiltrationAndFetch() {
         this.clearFiltration()
-        this.fetchPackages()
+        await this.fetchPackages()
       }
     }
   }

@@ -65,18 +65,13 @@ export const usePackageMaintainersStore = defineStore(
         const [packages] = await fetchPackagesServices()
         this.packages = packages
       },
-      async setPage(payload: number) {
-        const pagination = usePaginationStore()
-        pagination.setPage(payload)
-        this.fetchMaintainers()
-      },
-      async setChosenMaintainer(
+      setChosenMaintainer(
         payload: EntityModelPackageMaintainerDto
       ) {
         this.chosenMaintainer = payload
         this.saveMaintainer()
       },
-      async saveMaintainer() {
+      saveMaintainer() {
         this.maintainers = this.maintainers.map(
           (maintainer: EntityModelPackageMaintainerDto) => {
             if (maintainer.id == this.chosenMaintainer.id) {
@@ -92,21 +87,23 @@ export const usePackageMaintainersStore = defineStore(
         const pagination = usePaginationStore()
         pagination.setPage(0)
         this.filtration = payload
-        this.fetchMaintainers()
+        await this.fetchMaintainers()
       },
       clearFiltration() {
+        const pagination = usePaginationStore()
+        pagination.setPage(0)
         const { setAllFields } = useObjectActions()
         setAllFields(this.filtration, undefined)
       },
       async clearFiltrationAndFetch() {
         this.clearFiltration()
-        this.fetchMaintainers()
+        await this.fetchMaintainers()
       },
       async deleteChosenMaintainer() {
         deletePackageMaintainerService(
           this.chosenMaintainer
-        ).then((success) => {
-          if (success) this.fetchMaintainers()
+        ).then(async (success) => {
+          if (success) await this.fetchMaintainers()
         })
       },
       async editMaintainer(
@@ -115,8 +112,8 @@ export const usePackageMaintainersStore = defineStore(
         updatePackageMaintainerService(
           this.chosenMaintainer,
           maintainer
-        ).then((success) => {
-          if (success) this.fetchMaintainers()
+        ).then(async (success) => {
+          if (success) await this.fetchMaintainers()
         })
       }
     }

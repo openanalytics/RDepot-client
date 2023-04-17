@@ -14,7 +14,7 @@ import { createPinia, setActivePinia } from 'pinia'
 import { usePackagesStore } from '@/store/packages'
 import PackagesListVue from '@/components/packages/PackagesList.vue'
 import PackageRowVue from '@/components/packages/PackageRow.vue'
-import packages from '@/tmpLists/packages.json'
+import packages from '@/__tests__/config/mockData/packages.json'
 
 let wrapper: any
 let packages_store: any
@@ -34,7 +34,7 @@ beforeEach(async () => {
     global: globalConfig
   })
 
-  packages_store.packages = packages.page2
+  packages_store.packages = packages.data.content
 })
 
 describe('Packages - list', () => {
@@ -47,7 +47,7 @@ describe('Packages - list', () => {
       wrapper.findAllComponents(PackageRowVue)
 
     expect(packagesFromWrapper.length).toEqual(
-      packages.page2.length + 1
+      packages.data.content.length + 1
     )
   })
 })

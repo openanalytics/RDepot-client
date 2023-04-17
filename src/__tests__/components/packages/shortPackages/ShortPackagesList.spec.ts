@@ -3,7 +3,8 @@ import {
   it,
   expect,
   beforeEach,
-  beforeAll
+  beforeAll,
+  afterAll
 } from 'vitest'
 
 import { mount } from '@vue/test-utils'
@@ -13,7 +14,9 @@ import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import { createPinia, setActivePinia } from 'pinia'
 import ShortPackagesListVue from '@/components/packages/shortPackages/ShortPackagesList.vue'
 import ShortPackageRowVue from '@/components/packages/shortPackages/ShortPackageRow.vue'
-import packages from '@/tmpLists/packages.json'
+import packages from '@/__tests__/config/mockData/packages.json'
+import { rest } from 'msw'
+import { setupServer } from 'msw/node'
 
 let wrapper: any
 const globalConfig = {
@@ -21,15 +24,29 @@ const globalConfig = {
   plugins: plugins
 }
 
+const server = setupServer(
+  rest.get(
+    'http://localhost:8017/api/v2/manager/packages',
+    (_, res, ctx) => {
+      return res(ctx.json(packages))
+    }
+  )
+)
+
 beforeAll(() => {
   global.ResizeObserver = ResizeObserver
   setActivePinia(createPinia())
+  server.listen()
 })
 
 beforeEach(async () => {
   wrapper = mount(ShortPackagesListVue, {
     global: globalConfig
   })
+})
+
+afterAll(() => {
+  server.close()
 })
 
 describe('Short Packages - list', () => {
@@ -43,7 +60,7 @@ describe('Short Packages - list', () => {
     )
 
     expect(packagesFromWrapper.length).toEqual(
-      packages.page2.length + 1
+      packages.data.content.length + 1
     )
   })
 })

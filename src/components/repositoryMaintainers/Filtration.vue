@@ -44,10 +44,8 @@ function updateFiltration() {
   )
 }
 
-async function setFiltration() {
-  await maintainers_store.setFiltration(
-    localFiltration.value
-  )
+function setFiltration() {
+  maintainers_store.setFiltration(localFiltration.value)
   changeDialogOptions()
 }
 

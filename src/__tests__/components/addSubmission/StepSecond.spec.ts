@@ -60,10 +60,16 @@ describe('Add submission - step first', () => {
   })
 
   it('go next allowed if reposiotry is choosen', async () => {
-    var files = [new File([''], 'filename')]
+    const files = [
+      {
+        name: 'A3_1.0.0.tar.gz',
+        type: 'application/gzip'
+      } as File
+    ]
     const button = wrapper.find('#next-button')
     wrapper.vm.valid = true
     wrapper.vm.files = files
+    wrapper.vm.files_local = files
     expect(button.isVisible()).toBeTruthy()
     await button.trigger('click')
     expect(wrapper.emitted().next).toBeTruthy()

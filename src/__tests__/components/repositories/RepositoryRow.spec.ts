@@ -11,7 +11,7 @@ import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
 import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import RepositoryRowVue from '@/components/repositories/RepositoryRow.vue'
-import repositories from '@/tmpLists/repositories.json'
+import repositories from '@/__tests__/config/mockData/repositories.json'
 import { EntityModelRRepositoryDto } from '@/openapi'
 import { createPinia, setActivePinia } from 'pinia'
 
@@ -28,7 +28,7 @@ beforeAll(() => {
 
 describe('Repositories - repository row (repository)', () => {
   const repository: EntityModelRRepositoryDto = JSON.parse(
-    JSON.stringify(repositories.data[0])
+    JSON.stringify(repositories.data.content[0])
   )
   beforeEach(async () => {
     wrapper = mount(RepositoryRowVue, {

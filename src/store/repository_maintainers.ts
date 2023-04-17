@@ -13,6 +13,7 @@ import {
 import { usePaginationStore } from './pagination'
 import { useObjectActions } from '@/composable/objectActions'
 import { fetchRepositoriesServices } from '@/services'
+import { i18n } from '@/plugins/i18n'
 
 interface State {
   maintainers: EntityModelRepositoryMaintainerDto[]
@@ -69,8 +70,8 @@ export const useRepositoryMaintainersStore = defineStore(
           await updateRepositoryMaintainer(
             this.chosenMaintainer,
             newMaintainer
-          ).then((success) => {
-            if (success) this.fetchMaintainers()
+          ).then(async (success) => {
+            if (success) await this.fetchMaintainers()
           })
         }
       },
@@ -78,15 +79,10 @@ export const useRepositoryMaintainersStore = defineStore(
         if (this.chosenMaintainer.id) {
           await deletedRepositoryMaintainer(
             this.chosenMaintainer
-          ).then((success) => {
-            if (success) this.fetchMaintainers()
+          ).then(async (success) => {
+            if (success) await this.fetchMaintainers()
           })
         }
-      },
-      async setPage(payload: number) {
-        const pagination = usePaginationStore()
-        pagination.setPage(payload)
-        this.fetchMaintainers()
       },
       async setFiltration(
         payload: RepositoryMaintainersFiltration
@@ -94,15 +90,17 @@ export const useRepositoryMaintainersStore = defineStore(
         const pagination = usePaginationStore()
         pagination.setPage(0)
         this.filtration = payload
-        this.fetchMaintainers()
+        await this.fetchMaintainers()
       },
       clearFiltration() {
+        const pagination = usePaginationStore()
+        pagination.setPage(0)
         const { setAllFields } = useObjectActions()
         setAllFields(this.filtration, undefined)
       },
       async clearFiltrationAndFetch() {
         this.clearFiltration()
-        this.fetchMaintainers()
+        await this.fetchMaintainers()
       }
     }
   }
