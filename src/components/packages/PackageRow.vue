@@ -9,7 +9,7 @@
       cols="lg-1 sm-2"
       class="d-flex align-center"
     >
-      <SortTitle v-if="title" :text="$t('packages.name')" />
+      <SortTitle v-if="title" :text="$t('columns.name')" />
       <TextRecord v-else :text="packageBag?.name" />
     </VCol>
     <VCol
@@ -19,7 +19,7 @@
     >
       <SortTitle
         v-if="title"
-        :text="$t('packages.version')"
+        :text="$t('columns.version')"
       />
       <TextRecord v-else :text="packageBag?.version" />
     </VCol>
@@ -38,10 +38,11 @@
       id="package-row-maintainer"
       cols="lg-1 sm-2"
       class="d-flex align-center justify-center"
+      align="center"
     >
       <SortTitle
         v-if="title"
-        :text="$t('packages.maintainer')"
+        :text="$t('columns.maintainer')"
       />
       <TextRecord v-else :text="packageBag?.user?.name" />
     </VCol>
@@ -52,7 +53,7 @@
     >
       <SortTitle
         v-if="title"
-        :text="$t('repositories.technology')"
+        :text="$t('columns.technology')"
       />
       <TextRecord v-else :text="packageBag?.technology" />
     </VCol>
@@ -63,7 +64,7 @@
     >
       <SortTitle
         v-if="title"
-        :text="$t('packages.repository')"
+        :text="$t('columns.repository')"
       />
       <TextRecord
         v-else
@@ -77,13 +78,13 @@
     >
       <SortTitle
         v-if="title"
-        :text="$t('packages.active')"
+        :text="$t('columns.active')"
         :center="true"
-        :sort="false"
       />
 
       <VCheckbox
         id="checkbox-active"
+        class="mr-8"
         color="oablue"
         @click.stop
         v-else-if="packageBag"
@@ -94,16 +95,18 @@
     <VCol
       id="package-row-actions"
       cols="lg-1"
-      class="d-flex justify-center"
+      class="d-flex justify-center align-center"
+      align="center"
     >
       <SortTitle
         v-if="title"
-        :text="$t('packages.actions')"
+        :text="$t('columns.actions')"
         :sort="false"
+        justify="center"
       />
       <span
         v-else-if="packageBag && !packageBag.deleted"
-        class="d-flex justify-center align-center"
+        class="d-flex"
       >
         <VTooltip top>
           <template v-slot:activator="{ props }">
@@ -149,8 +152,6 @@ const props = defineProps({
     | EntityModelPackageDto
     | undefined
 })
-
-const change = ref<boolean>(false)
 
 function choosePackage() {
   package_store.setChosenPackage(props.packageBag?.id)
