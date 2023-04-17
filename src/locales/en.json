@@ -141,6 +141,8 @@
     "successRejectSubmission": "reject submission",
     "successDeletePackageManager": "successful deleted {maintainer_name}",
     "successUpdatePackageManager": "successful updated {maintainer_name}",
+    "successDeleteRepositoryMaintainer": "successful deleted {maintainer_name}",
+    "successUpdateRepositoryMaintainer": "successful updated {maintainer_name}",
     "successCreateSubmissiom": "successfully created submissiom"
   },
   "maintainers": {

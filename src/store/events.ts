@@ -12,7 +12,7 @@ interface State {
   page?: number
   pageSize: number
   totalNumber?: number
-  events?: EntityModelNewsfeedEventDto[]
+  events: EntityModelNewsfeedEventDto[]
   filtration: EventsFiltration
   pending: boolean
   next?: Link
@@ -39,46 +39,27 @@ export const useEventsStore = defineStore('events_store', {
   actions: {
     async fetchEvents() {
       this.pending = true
-      fetchEventsServices(
-        this.filtration,
-        this.page,
-        this.pageSize
-      )
-        .then(
-          (res) => {
-            this.page = res.data.data?.page?.number
-            this.totalNumber =
-              res.data.data?.page?.totalElements
-
-            if (res.data.data?.links != undefined) {
-              this.next = undefined
-              res.data.data?.links.forEach((link) => {
-                if (link.rel === 'next') {
-                  this.next = link
-                }
-              })
-            }
-
-            if (
-              this.events != undefined &&
-              res.data.data?.content
-            ) {
-              this.events = this.events.concat(
-                res.data.data?.content
-              )
-            } else {
-              this.events = res.data.data?.content
-            }
-          },
-          (msg) => {
-            this.events = []
-            this.page = 0
-            notify({ text: msg, type: 'error' })
-          }
-        )
-        .finally(() => {
+      const [newEvents, pageData, links] =
+        await fetchEventsServices(
+          this.filtration,
+          this.page,
+          this.pageSize
+        ).finally(() => {
           this.pending = false
         })
+      this.page = pageData.page
+      this.totalNumber = pageData.totalNumber
+
+      if (links) {
+        this.next = undefined
+        links.forEach((link) => {
+          if (link.rel === 'next') {
+            this.next = link
+          }
+        })
+      }
+
+      this.events = this.events.concat(newEvents)
     },
     async fetchNextPageEvents() {
       if (
