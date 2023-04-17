@@ -13,7 +13,7 @@
       @click="sortBy()"
       variant="text"
       size="x-small"
-      icon="mdi-sort"
+      :icon="getIcon"
       :color="active ? 'oablue' : ''"
       :class="{ opacity: !active }"
       :id="id"
@@ -25,7 +25,7 @@
 import { useCommonStore } from '@/store/common'
 import { useSortStore } from '@/store/sort'
 import { computed, ref } from 'vue'
-import { sort } from '@/maps/Sort'
+import { sort_params } from '@/maps/Sort'
 
 const props = defineProps({
   text: {
@@ -44,12 +44,26 @@ const props = defineProps({
   }
 })
 
-const id = ref<string>(sort.get(props.text) || 'name')
+const id = ref<string>(
+  sort_params.get(props.text) || 'name'
+)
 const common_store = useCommonStore()
 const sort_store = useSortStore()
 
 const active = computed(() => {
   return common_store.activeId == id.value
+})
+
+const getIcon = computed(() => {
+  if (active.value) {
+    if (sort_store.direction == 'asc') {
+      return 'mdi-sort-ascending'
+    } else {
+      return 'mdi-sort-descending'
+    }
+  } else {
+    return 'mdi-sort'
+  }
 })
 
 function sortBy() {
