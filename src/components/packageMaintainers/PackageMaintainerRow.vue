@@ -6,54 +6,69 @@
   >
     <v-col
       id="package-maintainer-name"
-      cols="lg-1 sm-2"
+      cols="lg-2 sm-2"
       class="d-flex align-center"
-      >{{
-        title
-          ? prepareString($t('maintainers.name'))
-          : packageMaintainer?.user?.name
-      }}</v-col
     >
+      <SortTitle v-if="title" :text="$t('columns.name')" />
+      <TextRecord
+        v-else
+        :text="packageMaintainer?.user?.name"
+      />
+    </v-col>
     <v-col
       id="package-maintainer-package"
-      cols="lg-8"
+      cols="lg-7"
       class="d-flex align-center"
-      >{{
-        title
-          ? prepareString($t('maintainers.packageName'))
-          : packageMaintainer?.packageName
-      }}</v-col
     >
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.packageName')"
+      />
+      <TextRecord
+        v-else
+        :text="packageMaintainer?.packageName"
+      />
+    </v-col>
     <v-col
       id="package-maintainer-technology"
       cols="lg-1 sm-2"
       class="d-flex align-center justify-center"
     >
-      {{
-        title
-          ? prepareString($t('repositories.technology'))
-          : packageMaintainer?.repository?.technology
-      }}</v-col
-    >
+      <SortTitle
+        v-if="title"
+        :center="true"
+        :text="$t('columns.technology')"
+      />
+      <TextRecord
+        v-else
+        :text="packageMaintainer?.repository?.technology"
+      />
+    </v-col>
     <v-col
       id="package-maintainer-repository"
       cols="lg-1 sm-2"
       class="d-flex align-center"
     >
-      {{
-        title
-          ? prepareString($t('maintainers.repository'))
-          : packageMaintainer?.repository?.name
-      }}</v-col
-    >
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.repository')"
+      />
+      <TextRecord
+        v-else
+        :text="packageMaintainer?.repository?.name"
+      />
+    </v-col>
     <v-col
       id="package-maintainer-actions"
       cols="lg-1"
       class="d-flex justify-center"
     >
-      <span v-if="title">
-        {{ prepareString($t('maintainers.actions')) }}
-      </span>
+      <SortTitle
+        v-if="title"
+        :center="true"
+        :sort="false"
+        :text="$t('columns.actions')"
+      />
       <span
         v-else-if="
           packageMaintainer && !packageMaintainer.deleted
@@ -89,6 +104,8 @@
 import { EntityModelPackageMaintainerDto } from '@/openapi'
 import { usePackageMaintainersStore } from '@/store/package_maintainers'
 import DeleteIcon from '../common/action_icons/DeleteIcon.vue'
+import SortTitle from '../packages/SortTitle.vue'
+import TextRecord from '../packages/TextRecord.vue'
 
 const props = defineProps({
   title: {
@@ -102,26 +119,13 @@ const props = defineProps({
 
 const maintainers_store = usePackageMaintainersStore()
 
-function prepareString(value: string): string {
-  return value.charAt(0).toUpperCase() + value.slice(1)
-}
-function edit() {
-  //   maintainers_store.setChosenMaintainer(
-  //     props.packageMaintainer || {}
-  //   )
-  //   common_store.setOverlayText(
-  //     i18n.t('maintainers.edit', {
-  //       maintainerName: props.packageMaintainer?.user?.id
-  //     })
-  //   )
-  //   common_store.setOverlayModel(true)
-  //   common_store.setOverlayOpacity(0.8)
-  //   common_store.setOverlayComponent(OverlayEnum.Edit)
-}
+function edit() {}
 
 function chooseMaintainer() {
-  maintainers_store.setChosenMaintainer(
-    props.packageMaintainer?.id
-  )
+  if (props.packageMaintainer) {
+    maintainers_store.setChosenMaintainer(
+      props.packageMaintainer
+    )
+  }
 }
 </script>

@@ -27,6 +27,9 @@ export function fetchRepositoryMaintainersServices(
     )
   const sort = useSortStore()
   var sortBy = sort.field + ',' + sort.direction
+  if (sort.field == 'name') {
+    sortBy = 'user,' + sort.direction
+  }
   return openApiRequest<ResponseDtoPagedModelEntityModelRepositoryMaintainerDto>(
     repository_maintainers_api.getAllRepositoryMaintainers,
     [

@@ -8,43 +8,53 @@
       id="repository-maintainer-name"
       cols="lg-1 sm-2"
       class="d-flex align-center"
-      >{{
-        title
-          ? prepareString($t('maintainers.name'))
-          : repositoryMaintainer?.user?.name
-      }}</v-col
     >
+      <SortTitle v-if="title" :text="$t('columns.name')" />
+      <TextRecord
+        v-else
+        :text="repositoryMaintainer?.user?.name"
+      />
+    </v-col>
     <v-col
       id="repository-maintainer-repository"
       cols="lg-9 sm-2"
       class="d-flex align-center"
     >
-      {{
-        title
-          ? prepareString($t('maintainers.repository'))
-          : repositoryMaintainer?.repository?.name
-      }}</v-col
-    >
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.repository')"
+      />
+      <TextRecord
+        v-else
+        :text="repositoryMaintainer?.repository?.name"
+      />
+    </v-col>
     <v-col
       id="repository-maintainer-technology"
       cols="lg-1 sm-2"
       class="d-flex align-center justify-center"
     >
-      {{
-        title == true
-          ? prepareString($t('repositories.technology'))
-          : repositoryMaintainer?.repository?.technology
-      }}</v-col
-    >
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.technology')"
+      />
+      <TextRecord
+        v-else
+        :text="repositoryMaintainer?.repository?.technology"
+      />
+    </v-col>
 
     <v-col
       id="repository-maintainer-actions"
       cols="lg-1"
       class="d-flex justify-center"
     >
-      <span v-if="title">
-        {{ prepareString($t('maintainers.actions')) }}
-      </span>
+      <SortTitle
+        v-if="title"
+        :center="true"
+        :sort="false"
+        :text="$t('columns.actions')"
+      />
       <span
         v-else-if="
           repositoryMaintainer &&
@@ -85,6 +95,8 @@ import { i18n } from '@/plugins/i18n'
 import { useCommonStore } from '@/store/common'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
 import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
+import SortTitle from '../packages/SortTitle.vue'
+import TextRecord from '../packages/TextRecord.vue'
 
 const props = defineProps({
   title: {
@@ -115,8 +127,10 @@ function edit() {
 }
 
 function chooseMaintainer() {
-  maintainers_store.setChosenMaintainer(
-    props.repositoryMaintainer?.id
-  )
+  if (props.repositoryMaintainer) {
+    maintainers_store.setChosenMaintainer(
+      props.repositoryMaintainer
+    )
+  }
 }
 </script>
