@@ -9,10 +9,7 @@
       cols="lg-1 sm-2"
       class="d-flex align-center"
     >
-      <SortTitle
-        v-if="title"
-        :text="$t('repositories.name')"
-      />
+      <SortTitle v-if="title" :text="$t('columns.name')" />
       <TextRecord v-else :text="repository?.name" />
     </v-col>
     <v-col
@@ -22,7 +19,7 @@
     >
       <SortTitle
         v-if="title"
-        :text="$t('repositories.publicationUri')"
+        :text="$t('columns.publicationUri')"
       />
       <TextRecord
         v-else
@@ -36,7 +33,7 @@
     >
       <SortTitle
         v-if="title"
-        :text="$t('repositories.serverAddress')"
+        :text="$t('columns.serverAddress')"
       />
       <TextRecord
         v-else
@@ -52,7 +49,7 @@
       <SortTitle
         v-if="title"
         :center="true"
-        :text="$t('repositories.technology')"
+        :text="$t('columns.technology')"
       />
       <TextRecord v-else :text="repository?.technology" />
     </v-col>
@@ -64,7 +61,7 @@
       <SortTitle
         v-if="title"
         :center="true"
-        :text="$t('repositories.version')"
+        :text="$t('columns.version')"
       />
       <TextRecord
         v-else
@@ -79,7 +76,7 @@
       <SortTitle
         v-if="title"
         :center="true"
-        :text="$t('repositories.packagesNo')"
+        :text="$t('columns.packagesNo')"
       />
       <TextRecord v-else text="none" />
     </v-col>
@@ -91,7 +88,7 @@
       <SortTitle
         v-if="title"
         :sort="false"
-        :text="$t('repositories.published')"
+        :text="$t('columns.published')"
         :center="true"
       />
       <v-checkbox
@@ -112,7 +109,7 @@
         v-if="title"
         :sort="false"
         :center="true"
-        :text="$t('packages.actions')"
+        :text="$t('columns.actions')"
       />
       <span
         v-else-if="repository"
