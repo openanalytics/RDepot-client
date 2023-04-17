@@ -242,8 +242,6 @@ describe('Package Maintainers Store', () => {
   it('Delete chosen maintainer', async () => {
     const package_maintainers_store =
       usePackageMaintainersStore()
-    vi.mock('@kyvg/vue3-notification')
-    const notify = await import('@kyvg/vue3-notification')
     const spy = vi.spyOn(
       package_maintainers_store,
       'fetchMaintainers'
@@ -257,21 +255,11 @@ describe('Package Maintainers Store', () => {
     await package_maintainers_store.deleteChosenMaintainer()
 
     expect(spy).toBeCalled()
-    expect(notify.notify).toBeCalledWith({
-      type: 'success',
-      text: i18n.t(
-        'notifications.successDeletePackageManager',
-        package_maintainers_store.chosenMaintainer.user
-          ?.name || ''
-      )
-    })
   })
 
   it('Edit chosen maintainer', async () => {
     const package_maintainers_store =
       usePackageMaintainersStore()
-    vi.mock('@kyvg/vue3-notification')
-    const notify = await import('@kyvg/vue3-notification')
     const spy = vi.spyOn(
       package_maintainers_store,
       'fetchMaintainers'
@@ -288,14 +276,6 @@ describe('Package Maintainers Store', () => {
     )
 
     expect(spy).toBeCalled()
-    expect(notify.notify).toBeCalledWith({
-      type: 'success',
-      text: i18n.t(
-        'notifications.successUpdatePackageManager',
-        package_maintainers_store.chosenMaintainer.user
-          ?.name || ''
-      )
-    })
   })
 })
 

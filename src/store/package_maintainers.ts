@@ -102,8 +102,8 @@ export const usePackageMaintainersStore = defineStore(
       async deleteChosenMaintainer() {
         deletePackageMaintainerService(
           this.chosenMaintainer
-        ).then((success) => {
-          if (success) this.fetchMaintainers()
+        ).then(async (success) => {
+          if (success) await this.fetchMaintainers()
         })
       },
       async editMaintainer(
@@ -112,8 +112,8 @@ export const usePackageMaintainersStore = defineStore(
         updatePackageMaintainerService(
           this.chosenMaintainer,
           maintainer
-        ).then((success) => {
-          if (success) this.fetchMaintainers()
+        ).then(async (success) => {
+          if (success) await this.fetchMaintainers()
         })
       }
     }
