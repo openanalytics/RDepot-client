@@ -201,10 +201,4 @@ function navigate() {
 .v-input__control {
   justify-content: center !important;
 }
-
-#repository-row {
-  .v-input__details {
-    display: none !important;
-  }
-}
 </style>
