@@ -13,8 +13,7 @@
   "dependencies": {
     "@kyvg/vue3-notification": "^2.7.0",
     "@mdi/font": "7.0.96",
-    "@vuelidate/core": "^2.0.0",
-    "@vuelidate/validators": "^2.0.0",
+    "@vee-validate/zod": "^4.8.6",
     "@vueuse/components": "^9.13.0",
     "@vueuse/core": "^9.13.0",
     "axios": "^1.2.2",
@@ -24,11 +23,13 @@
     "pinia": "^2.0.23",
     "rfc6902": "^5.0.1",
     "roboto-fontface": "*",
+    "vee-validate": "^4.8.6",
     "vue": "^3.2.38",
     "vue-i18n": "^9.2.2",
     "vue-router": "^4.0.0",
     "vuetify": "^3.0.0",
-    "webfontloader": "^1.0.0"
+    "webfontloader": "^1.0.0",
+    "zod": "^3.21.4"
   },
   "devDependencies": {
     "@pinia/testing": "^0.0.16",
