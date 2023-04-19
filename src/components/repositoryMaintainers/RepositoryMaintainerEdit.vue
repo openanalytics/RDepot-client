@@ -1,19 +1,27 @@
 <template>
-  <v-card class="pa-5" width="400">
-    <v-card-title>
-      {{ $t('maintainers.editform.title') }}
-    </v-card-title>
-    <v-divider></v-divider>
-    <v-card-text style="height: 300px">
-      <v-form ref="form" lazy-validation>
-        <v-text-field
+  <Form
+    as="v-form"
+    ref="form"
+    :validation-schema="validationSchema"
+    lazy-validation
+  >
+    <v-card class="pa-5" width="400">
+      <v-card-title>
+        {{ $t('maintainers.editform.title') }}
+      </v-card-title>
+      <v-divider></v-divider>
+      <v-card-text style="height: 300px">
+        <validated-input-field
+          name="user.login"
+          type="v-text-field"
           id="edit-package-maintainer-user"
           :value="localMaintainer.user?.login"
           :label="$t('maintainers.editform.user')"
           :disabled="blockedField == 'user'"
-        >
-        </v-text-field>
-        <v-select
+        />
+        <validated-input-field
+          name="repository.id"
+          type="v-select"
           id="edit-package-maintainer-repository"
           :modelValue="localMaintainer.repository"
           @update:modelValue="newValue => localMaintainer.repository!.id = newValue"
@@ -22,43 +30,64 @@
           item-value="id"
           :label="$t('maintainers.editform.repository')"
           :disabled="blockedField == 'repository'"
-        ></v-select>
-      </v-form>
-    </v-card-text>
-    <v-divider></v-divider>
-    <v-card-actions>
-      <v-row justify="space-between" class="mt-1">
-        <v-btn
-          id="cancel-button"
-          color="blue darken-1"
-          @click="changeDialogOptions"
-          class="mx-1"
-        >
-          <small>
-            {{ $t('common.cancel') }}
-          </small>
-        </v-btn>
-        <v-row class="my-0" justify="end">
+        />
+      </v-card-text>
+      <v-divider></v-divider>
+      <v-card-actions>
+        <v-row justify="space-between" class="mt-1">
           <v-btn
-            id="set-filtration"
+            id="cancel-button"
             color="blue darken-1"
+            @click="changeDialogOptions"
             class="mx-1"
-            @click="setMaintainer()"
           >
             <small>
-              {{ $t('common.save') }}
+              {{ $t('common.cancel') }}
             </small>
           </v-btn>
+          <v-row class="my-0" justify="end">
+            <v-btn
+              id="set-filtration"
+              color="blue darken-1"
+              class="mx-1"
+              @click="setMaintainer()"
+            >
+              <small>
+                {{ $t('common.save') }}
+              </small>
+            </v-btn>
+          </v-row>
         </v-row>
-      </v-row>
-    </v-card-actions>
-  </v-card>
+      </v-card-actions>
+    </v-card>
+  </Form>
 </template>
 
 <script setup lang="ts">
-import { EntityModelRepositoryMaintainerDto } from '@/openapi'
+import {
+  EntityModelRepositoryMaintainerDto,
+  RepositoryMaintainerDto
+} from '@/openapi'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
 import { ref, computed, onMounted } from 'vue'
+import { Form } from 'vee-validate'
+import ValidatedInputField from '../common/ValidatedInputField.vue'
+import { toTypedSchema } from '@vee-validate/zod'
+import { z } from 'zod'
+import {
+  nonEmptyString,
+  repositoryMaintainerSchema
+} from '@/models/Schamas'
+
+const validationSchema = toTypedSchema(
+  repositoryMaintainerSchema
+)
+// const validationSchema = toTypedSchema(
+//   z.object({
+//     login: nonEmptyString,
+//     id: z.number()
+//   })
+// )
 
 const props = defineProps({
   blockedField: {
