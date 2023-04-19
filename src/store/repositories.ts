@@ -80,12 +80,6 @@ export const useRepositoryStore = defineStore(
       async createRepository(
         newRepository: EntityModelRepositoryDto
       ) {
-        newRepository.id = 0
-        newRepository.version = 0
-        newRepository.deleted = false
-        newRepository.published = false
-        newRepository.synchronizing = false
-
         await createRepository(newRepository)?.then(
           async (success) => {
             if (success) await this.fetchRepositories()
