@@ -2,7 +2,7 @@
   <Form
     as="v-form"
     :validation-schema="validationSchema"
-    v-slot="{ values }"
+    v-slot="{ values, meta }"
   >
     <v-card class="pa-5" width="400">
       <v-card-title>
@@ -52,7 +52,7 @@
               id="set-filtration"
               color="blue darken-1"
               class="mx-1"
-              @click="onSubmit(values)"
+              @click="onSubmit(values, meta.valid)"
             >
               <small>
                 {{ $t('common.create') }}
@@ -74,6 +74,8 @@ import { repositorySchema } from '@/models/Schamas'
 import { toTypedSchema } from '@vee-validate/zod/dist/vee-validate-zod'
 import { Form } from 'vee-validate'
 import ValidatedInputField from '../common/ValidatedInputField.vue'
+import { notify } from '@kyvg/vue3-notification'
+import { i18n } from '@/plugins/i18n'
 
 const validationSchema = toTypedSchema(
   repositorySchema.pick({
@@ -90,10 +92,19 @@ const technologySelect = ref(Technologies.options)
 
 const emit = defineEmits(['closeModal'])
 
-function onSubmit(values: EntityModelRepositoryDto) {
-  // console.log('Submited with ', values)
-  repository_store.createRepository(values)
-  changeDialogOptions()
+function onSubmit(
+  values: EntityModelRepositoryDto,
+  valid: boolean
+) {
+  if (valid) {
+    repository_store.createRepository(values)
+    changeDialogOptions()
+  } else {
+    notify({
+      type: 'warn',
+      text: 'The submitted form is not valid'
+    })
+  }
 }
 
 function changeDialogOptions() {
