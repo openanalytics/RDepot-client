@@ -3,6 +3,7 @@
     as="v-form"
     ref="form"
     :validation-schema="validationSchema"
+    v-slot="{ meta }"
     lazy-validation
   >
     <v-card class="pa-5" width="400">
@@ -50,7 +51,7 @@
               id="set-filtration"
               color="blue darken-1"
               class="mx-1"
-              @click="setMaintainer()"
+              @click="setMaintainer(meta.valid)"
             >
               <small>
                 {{ $t('common.save') }}
@@ -64,30 +65,19 @@
 </template>
 
 <script setup lang="ts">
-import {
-  EntityModelRepositoryMaintainerDto,
-  RepositoryMaintainerDto
-} from '@/openapi'
+import { EntityModelRepositoryMaintainerDto } from '@/openapi'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
 import { ref, computed, onMounted } from 'vue'
 import { Form } from 'vee-validate'
 import ValidatedInputField from '../common/ValidatedInputField.vue'
 import { toTypedSchema } from '@vee-validate/zod'
-import { z } from 'zod'
-import {
-  nonEmptyString,
-  repositoryMaintainerSchema
-} from '@/models/Schamas'
+import { repositoryMaintainerSchema } from '@/models/Schamas'
+import { notify } from '@kyvg/vue3-notification'
+import { i18n } from '@/plugins/i18n'
 
 const validationSchema = toTypedSchema(
   repositoryMaintainerSchema
 )
-// const validationSchema = toTypedSchema(
-//   z.object({
-//     login: nonEmptyString,
-//     id: z.number()
-//   })
-// )
 
 const props = defineProps({
   blockedField: {
@@ -114,12 +104,19 @@ const localMaintainer = ref(maintainer)
 
 const emit = defineEmits(['closeModal'])
 
-function setMaintainer() {
-  maintainers_store.saveMaintainer(localMaintainer.value)
-  changeDialogOptions()
+function setMaintainer(valid: boolean) {
+  if (valid) {
+    maintainers_store.saveMaintainer(localMaintainer.value)
+    changeDialogOptions()
+  } else {
+    notify({
+      type: 'warn',
+      text: i18n.t('notifications.invalidform')
+    })
+  }
 }
 
-onMounted(() => maintainers_store.fetchRepositories())
+onMounted(maintainers_store.fetchRepositories)
 
 function changeDialogOptions() {
   emit('closeModal')
