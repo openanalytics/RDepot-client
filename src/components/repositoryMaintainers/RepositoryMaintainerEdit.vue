@@ -13,7 +13,7 @@
       <v-card-text style="height: 300px">
         <validated-input-field
           name="user.login"
-          type="v-text-field"
+          as="v-text-field"
           id="edit-package-maintainer-user"
           :value="localMaintainer.user?.login"
           :label="$t('maintainers.editform.user')"
@@ -21,7 +21,7 @@
         />
         <validated-input-field
           name="repository.id"
-          type="v-select"
+          as="v-select"
           id="edit-package-maintainer-repository"
           :modelValue="localMaintainer.repository"
           @update:modelValue="newValue => localMaintainer.repository!.id = newValue"

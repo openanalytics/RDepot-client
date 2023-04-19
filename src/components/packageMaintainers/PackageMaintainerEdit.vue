@@ -12,7 +12,7 @@
       <v-divider></v-divider>
       <v-card-text style="height: 300px">
         <validated-input-field
-          type="v-text-field"
+          as="v-text-field"
           name="user.name"
           id="edit-package-maintainer-user"
           v-model="localMaintainer.user"
@@ -21,7 +21,7 @@
           disabled
         />
         <validated-input-field
-          type="v-select"
+          as="v-select"
           name="repository.id"
           :modelValue="localMaintainer.repository"
           @update:modelValue="newValue => localMaintainer.repository!.id = newValue"
@@ -32,7 +32,7 @@
           :label="$t('maintainers.editform.repository')"
         />
         <validated-input-field
-          type="v-select"
+          as="v-select"
           name="packageName"
           id="edit-package-maintainer-package"
           v-model="localMaintainer.packageName"

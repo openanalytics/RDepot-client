@@ -12,25 +12,25 @@
       <v-card-text>
         <validated-input-field
           name="name"
-          type="v-text-field"
+          as="v-text-field"
           :label="$t('repositories.creation.name')"
         ></validated-input-field>
         <validated-input-field
           name="publicationUri"
-          type="v-text-field"
+          as="v-text-field"
           :label="
             $t('repositories.creation.publicationUri')
           "
         ></validated-input-field>
         <validated-input-field
           name="serverAddress"
-          type="v-text-field"
+          as="v-text-field"
           :label="$t('repositories.creation.serverAddress')"
         ></validated-input-field>
         <validated-input-field
           :items="technologySelect"
           name="technology"
-          type="v-select"
+          as="v-select"
           :label="$t('repositories.creation.technology')"
         ></validated-input-field>
       </v-card-text>

@@ -15,7 +15,7 @@ import { z } from 'zod'
 
 const props = defineProps<{
   name: string
-  type: Component
+  as: Component
 }>()
 
 const component = z.enum(['v-text-field', 'v-select'])
@@ -26,7 +26,7 @@ const toComponent = new Map<Component, any>([
   [component.enum['v-select'], VSelect]
 ])
 
-const as = toComponent.get(props.type)
+const as = toComponent.get(props.as)
 const { value, handleBlur, errors } = useField(
   toRef(props, 'name'),
   undefined
