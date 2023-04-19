@@ -102,7 +102,7 @@ function onSubmit(
   } else {
     notify({
       type: 'warn',
-      text: 'The submitted form is not valid'
+      text: i18n.t('notifications.invalidform')
     })
   }
 }
