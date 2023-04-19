@@ -35,7 +35,9 @@
     "projectTitle": "RDepot",
     "noListingResults": "No results where found",
     "errors": {
-      "copyFailed": "Copy failed"
+      "copyFailed": "Copy failed",
+      "required": "This field is required",
+      "url": "This should be a url"
     },
     "copied": "code succesfully copied to clipboard"
   },
