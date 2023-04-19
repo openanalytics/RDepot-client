@@ -14,7 +14,6 @@
 </template>
 
 <script setup lang="ts">
-import { OverlayEnum } from '@/enum/Overlay'
 import { useCommonStore } from '@/store/common'
 import { computed } from 'vue'
 import Overlay from '@/components/common/Overlay.vue'
@@ -26,22 +25,14 @@ const maintainers_store = usePackageMaintainersStore()
 const common_store = useCommonStore()
 
 async function overlayEvent() {
-  if (common_store.overlayComponent == OverlayEnum.Reset) {
+  if (common_store.isReset()) {
     await maintainers_store.clearFiltrationAndFetch()
-  } else if (
-    common_store.overlayComponent == OverlayEnum.Delete
-  ) {
+  } else if (common_store.isDelete()) {
     maintainers_store.deleteChosenMaintainer()
   }
 }
 
-const getFiltration = computed(() => {
-  return (
-    common_store.overlayComponent == OverlayEnum.Filtration
-  )
-})
+const getFiltration = computed(common_store.isFiltration)
 
-const getEdit = computed(() => {
-  return common_store.overlayComponent == OverlayEnum.Edit
-})
+const getEdit = computed(common_store.isEdit)
 </script>

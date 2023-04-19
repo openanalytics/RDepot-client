@@ -15,7 +15,6 @@
 </template>
 
 <script setup lang="ts">
-import { OverlayEnum } from '@/enum/Overlay'
 import { useCommonStore } from '@/store/common'
 import { computed } from 'vue'
 import Overlay from '@/components/common/Overlay.vue'
@@ -45,17 +44,9 @@ async function performAction() {
   }
 }
 
-const getFiltration = computed(() => {
-  return (
-    common_store.overlayComponent == OverlayEnum.Filtration
-  )
-})
+const getFiltration = computed(common_store.isFiltration)
 
-const getEdit = computed(() => {
-  return common_store.overlayComponent == OverlayEnum.Edit
-})
+const getEdit = computed(common_store.isEdit)
 
-const getDelete = computed(() => {
-  return common_store.overlayComponent == OverlayEnum.Delete
-})
+const getDelete = computed(common_store.isDelete)
 </script>

@@ -29,13 +29,7 @@ async function clearFiltration() {
   await repositories_store.clearFiltrationAndFetch()
 }
 
-const getFiltration = computed(() => {
-  return (
-    common_store.overlayComponent == OverlayEnum.Filtration
-  )
-})
+const getFiltration = computed(common_store.isFiltration)
 
-const getCreation = computed(
-  () => common_store.overlayComponent === OverlayEnum.Create
-)
+const getCreation = computed(common_store.isCreate)
 </script>

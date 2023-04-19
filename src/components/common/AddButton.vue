@@ -1,7 +1,7 @@
 <template>
   <CommonButton
     id="add-maintainer"
-    :component="OverlayEnum.Create"
+    :component="OverlayEnum.enum.Create"
     ><v-icon icon="mdi-plus"
   /></CommonButton>
   <v-spacer></v-spacer>
