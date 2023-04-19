@@ -59,10 +59,8 @@ export function fetchRRepositories() {
 export function createRepository(
   newRepository: EntityModelRepositoryDto
 ) {
-  console.log(JSON.stringify(newRepository))
-  const validatedRepository = repositorySchema.safeParse(
-    JSON.parse(JSON.stringify(newRepository))
-  )
+  const validatedRepository =
+    repositorySchema.safeParse(newRepository)
   if (validatedRepository.success) {
     const { technology, ...repository } =
       validatedRepository.data
