@@ -3,6 +3,7 @@
     as="v-form"
     :validation-schema="validationSchema"
     ref="form"
+    v-slot="{ meta }"
     lazy-validation
   >
     <v-card class="pa-5" width="400">
@@ -60,7 +61,7 @@
               id="setfiltration"
               color="blue darken-1"
               class="mx-1"
-              @click="editMaintainer()"
+              @click="editMaintainer(meta.valid)"
             >
               <small>
                 {{ $t('common.save') }}
@@ -80,6 +81,8 @@ import { Form } from 'vee-validate'
 import ValidatedInputField from '../common/ValidatedInputField.vue'
 import { ref, onMounted, computed } from 'vue'
 import { packageMaintainerSchema } from '@/models/Schamas'
+import { notify } from '@kyvg/vue3-notification'
+import { i18n } from '@/plugins/i18n'
 
 const validationSchema = toTypedSchema(
   packageMaintainerSchema
@@ -117,11 +120,18 @@ function updateMaintainer() {
   )
 }
 
-async function editMaintainer() {
-  await maintainers_store.editMaintainer(
-    localMaintainer.value
-  )
-  changeDialogOptions()
+async function editMaintainer(valid: boolean) {
+  if (valid) {
+    await maintainers_store.editMaintainer(
+      localMaintainer.value
+    )
+    changeDialogOptions()
+  } else {
+    notify({
+      type: 'warn',
+      text: i18n.t('notifications.invalidform')
+    })
+  }
 }
 
 function changeDialogOptions() {
