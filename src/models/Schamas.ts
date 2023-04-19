@@ -15,21 +15,57 @@ const linkSchema = z.object({
 })
 
 export const nonEmptyString = z.string().nonempty()
-export const validUrl = nonEmptyString.url({
+export const url = nonEmptyString.url({
   message: i18n.t('common.errors.url')
+})
+export const email = nonEmptyString.email({
+  message: i18n.t('common.errors.email')
 })
 
 export const repositorySchema = z.object({
   id: z.number().default(0),
   version: z.number().default(0),
-  publicationUri: validUrl,
+  publicationUri: url,
   name: nonEmptyString,
-  serverAddress: validUrl,
+  serverAddress: url,
   deleted: z.boolean().default(false),
   published: z.boolean().default(false),
   synchronizing: z.boolean().default(false),
   technology: Technologies,
   links: z.array(linkSchema).optional()
+})
+
+const repositoryProjectionSchema = z.object({
+  id: z.number(),
+  name: nonEmptyString,
+  publicationUri: url,
+  technology: Technologies
+})
+
+const userProjectionSchema = z.object({
+  id: z.number(),
+  name: nonEmptyString,
+  login: nonEmptyString,
+  email: email
+})
+
+export const repositoryMaintainerSchema = z.object({
+  id: z.number(),
+  user: userProjectionSchema,
+  repository: repositoryProjectionSchema,
+  deleted: z.boolean().default(false),
+  description: z.string(),
+  links: z.array(linkSchema).optional()
+})
+
+export const packageMaintainerSchema = z.object({
+  id: z.number(),
+  user: userProjectionSchema,
+  packageName: nonEmptyString,
+  repository: repositoryProjectionSchema,
+  deleted: z.boolean().default(false),
+  description: z.string(),
+  links: z.array(linkSchema)
 })
 
 export function formValidation<T extends z.ZodTypeAny>(
