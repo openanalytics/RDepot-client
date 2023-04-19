@@ -37,7 +37,8 @@
     "errors": {
       "copyFailed": "Copy failed",
       "required": "This field is required",
-      "url": "This should be a url"
+      "url": "This should be a url",
+      "email": "This should be an email"
     },
     "copied": "code succesfully copied to clipboard"
   },
