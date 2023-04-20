@@ -3,13 +3,13 @@
     <v-card-text class="mb-1">
       <div class="text-overline">repository</div>
       <div class="text-h4 mb-2">
-        {{ choosenRepository?.name }}
+        {{ chosenRepository?.name }}
       </div>
       <v-divider></v-divider>
       <div class="text-overline">packages</div>
       <v-list class="text-left">
         <v-list-item
-          v-for="(file, i) in choosenPackages"
+          v-for="(file, i) in chosenPackages"
           :key="i"
           class="justify-start hoverable"
         >
@@ -28,7 +28,7 @@
   </v-card>
   <div class="d-flex justify-space-between">
     <v-btn id="backbutton" color="oablue" @click="backStep">
-      go back
+      {{ $t('common.goBack') }}
     </v-btn>
 
     <v-btn
@@ -49,7 +49,7 @@ import { computed, ref } from 'vue'
 const emits = defineEmits(['next'])
 const disableSubmit = ref(false)
 const submissions_store = useSubmissionStore()
-const choosenRepository = computed(() => {
+const chosenRepository = computed(() => {
   return submissions_store.repository
 })
 const chosenPackages = computed(() => {
@@ -60,7 +60,7 @@ function backStep() {
 }
 
 async function submit() {
-  submissions_store.addSumbissionRequests()
+  submissions_store.addSubmissionRequests()
   disableSubmit.value = true
 }
 </script>

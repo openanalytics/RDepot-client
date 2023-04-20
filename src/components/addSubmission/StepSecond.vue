@@ -64,7 +64,7 @@
         "
       >
         <v-btn color="oablue" type="button" @click="open()">
-          Choose files
+          {{ $t('submissions.choseFiles') }}
         </v-btn>
 
         <v-btn
@@ -75,7 +75,7 @@
           color="oared"
           @click="resetPackages()"
         >
-          Reset
+          {{ $t('common.reset') }}
         </v-btn>
       </div>
     </v-form>
@@ -86,7 +86,7 @@
       color="oablue"
       @click="$emit('next', 1)"
     >
-      go back
+      {{ $t('common.goBack') }}
     </v-btn>
     <v-btn
       id="next-button"
@@ -105,6 +105,7 @@ import { ref } from 'vue'
 import { useFileDialog } from '@vueuse/core'
 import { watch } from 'vue'
 import { onMounted } from 'vue'
+import { i18n } from '@/plugins/i18n'
 
 const { files, open, reset } = useFileDialog({
   accept: 'application/gzip'
@@ -177,12 +178,12 @@ function nextStep() {
     emits('next', 3)
   } else if (!valid.value) {
     notifications.notify({
-      text: 'choose packages that have correct extention (.tar.gz)',
+      text: i18n.t('submissions.wrongExtension'),
       type: 'error'
     })
   } else {
     notifications.notify({
-      text: 'no packages choosen',
+      text: i18n.t('submissions.noPackageChosen'),
       type: 'warn'
     })
   }

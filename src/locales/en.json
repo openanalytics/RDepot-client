@@ -37,7 +37,8 @@
       "copyFailed": "Copy failed"
     },
     "deleteQuestion": "Are you sure you want to delete {resource_name}?",
-    "copied": "code succesfully copied to clipboard"
+    "copied": "code succesfully copied to clipboard",
+    "goBack": "go back"
   },
   "columns": {
     "name": "name",
@@ -126,7 +127,10 @@
       "assigned": "assigned to me",
       "state": "State",
       "package": "Package"
-    }
+    },
+    "choseFiles": "Choose files",
+    "wrongExtension": "choose packages that have correct extention (.tar.gz)",
+    "noPackageChosen": "no packages choosen"
   },
   "pagination": {
     "size": "page size"
