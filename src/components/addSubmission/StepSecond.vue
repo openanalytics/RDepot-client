@@ -23,14 +23,24 @@
         v-for="file in files_local"
         :key="file.name"
         :title="file.name"
+        @click=""
       >
         <template v-slot:prepend>
-          <v-icon color="white" icon="mdi-file" />
+          <v-icon
+            :color="
+              check_validity(file) ? 'white' : 'oared'
+            "
+            icon="mdi-file"
+          />
         </template>
 
         <template v-slot:append>
           <v-btn
-            color="grey-lighten-1"
+            :color="
+              check_validity(file)
+                ? 'grey-lighten-1'
+                : 'oared'
+            "
             icon="mdi-delete"
             variant="text"
             @click="removeFile(file)"
@@ -129,6 +139,13 @@ watch(files, (files) => {
     files_local.value = []
   }
 })
+
+function check_validity(file: File) {
+  if (file['type'] !== 'application/gzip') {
+    return false
+  }
+  return true
+}
 
 function savePackagesInStore() {
   var local_files: File[] = []
