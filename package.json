@@ -11,6 +11,8 @@
     "test:coverage": "vitest  run --coverage"
   },
   "dependencies": {
+    "@casl/ability": "^6.4.0",
+    "@casl/vue": "^2.2.1",
     "@kyvg/vue3-notification": "^2.7.0",
     "@mdi/font": "7.0.96",
     "@vee-validate/zod": "^4.8.6",
