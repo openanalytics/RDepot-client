@@ -2,7 +2,6 @@ import { RepositoryMaintainersFiltration } from '@/models/Filtration'
 import {
   ApiV2RepositoryMaintainerControllerApiFactory,
   EntityModelRepositoryMaintainerDto,
-  ResponseDtoPagedModelEntityModelRepositoryDto,
   ResponseDtoPagedModelEntityModelRepositoryMaintainerDto
 } from '@/openapi'
 import { AxiosResponse } from 'axios'
@@ -26,10 +25,11 @@ export function fetchRepositoryMaintainersServices(
       getConfiguration()
     )
   const sort = useSortStore()
-  var sortBy = sort.field + ',' + sort.direction
   if (sort.field == 'name') {
-    sortBy = 'user,' + sort.direction
+    sort.setField('user')
   }
+  var sortBy = sort.field + ',' + sort.direction
+
   return openApiRequest<ResponseDtoPagedModelEntityModelRepositoryMaintainerDto>(
     repository_maintainers_api.getAllRepositoryMaintainers,
     [

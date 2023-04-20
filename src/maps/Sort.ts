@@ -18,8 +18,8 @@ export const sort_params: Map<string, string> = new Map<
   [i18n.t('columns.published'), 'published'],
   [i18n.t('columns.technology'), 'resourceTechnology'],
   [i18n.t('columns.repository'), 'repository'],
-  [i18n.t('columns.accepted'), 'accepted'],
-  [i18n.t('columns.package'), 'package'],
+  [i18n.t('columns.accepted'), 'state'],
+  [i18n.t('columns.package'), 'packageName'],
   [i18n.t('columns.date'), 'date'],
   [i18n.t('columns.packageName'), 'packageName']
 ])

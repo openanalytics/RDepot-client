@@ -9,7 +9,11 @@
       cols="lg-1 sm-2"
       class="d-flex align-center"
     >
-      <SortTitle v-if="title" :text="$t('columns.name')" />
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.name')"
+        sortField="user"
+      />
       <TextRecord
         v-else
         :text="repositoryMaintainer?.user?.name"

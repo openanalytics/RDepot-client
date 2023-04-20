@@ -25,6 +25,9 @@ export function fetchRSubmissions(
     getConfiguration()
   )
   const sort = useSortStore()
+  if (sort.field == 'name') {
+    sort.setField('packageBag')
+  }
   var sortBy = sort.field + ',' + sort.direction
   return openApiRequest<ResponseDtoPagedModelEntityModelSubmissionDto>(
     r_submission_api.getAllSubmissions,

@@ -8,91 +8,91 @@
       id="submission-date"
       cols="lg-1 sm-2"
       class="d-flex align-center"
-      >{{
-        title
-          ? prepareString($t('submissions.date').toString())
-          : 'DATE'
-      }}</v-col
     >
+      <SortTitle v-if="title" :text="$t('columns.date')" />
+      <TextRecord v-else text="DATE" />
+    </v-col>
     <v-col
       id="submission-package"
       cols="lg-1"
       class="d-flex align-center"
-      >{{
-        title
-          ? prepareString(
-              $t('submissions.package').toString()
-            )
-          : submission?.packageBag?.name
-      }}</v-col
     >
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.package')"
+        sortField="packageBag"
+      />
+      <TextRecord
+        v-else
+        :text="submission?.packageBag?.name"
+      />
+    </v-col>
     <v-col
       id="submission-repository"
       cols="lg-1 sm-2"
       class="d-flex align-center"
     >
-      {{
-        title
-          ? prepareString(
-              $t('submissions.repository').toString()
-            )
-          : submission?.packageBag?.repository?.name
-      }}</v-col
-    >
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.repository')"
+      />
+      <TextRecord
+        v-else
+        :text="submission?.packageBag?.repository?.name"
+      />
+    </v-col>
     <v-col
       id="submission-submitter"
       cols="lg-1 sm-2"
       class="d-flex align-center"
     >
-      {{
-        title
-          ? prepareString(
-              $t('submissions.submitter').toString()
-            )
-          : submission?.submitter?.name
-      }}</v-col
-    >
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.submitter')"
+      />
+      <TextRecord
+        v-else
+        :text="submission?.submitter?.name"
+      />
+    </v-col>
 
     <v-col
       id="submission-approver"
       cols="lg-4 sm-2"
       class="d-flex align-center"
     >
-      {{
-        title
-          ? prepareString(
-              $t('submissions.approver').toString()
-            )
-          : submission?.approver?.name
-      }}</v-col
-    >
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.approver')"
+      />
+      <TextRecord
+        v-else
+        :text="submission?.approver?.name"
+      />
+    </v-col>
 
     <v-col
       id="submission-technology"
       cols="lg-1 sm-2"
       class="d-flex align-center justify-center"
     >
-      {{
-        title == true
-          ? prepareString(
-              $t('repositories.technology').toString()
-            )
-          : submission?.technology
-      }}</v-col
-    >
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.technology')"
+        :center="true"
+      />
+      <TextRecord v-else :text="submission?.technology" />
+    </v-col>
     <v-col
       id="submission-accepted"
       cols="lg-1"
       class="d-flex justify-center"
     >
-      <span v-if="title">
-        {{
-          prepareString(
-            $t('submissions.accepted').toString()
-          )
-        }}</span
-      >
-
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.accepted')"
+        :center="true"
+      />
       <v-checkbox
         id="checkbox-accepted"
         color="oablue"
@@ -107,13 +107,12 @@
       cols="lg-2"
       class="d-flex justify-center"
     >
-      <span v-if="title">
-        {{
-          prepareString(
-            $t('submissions.actions').toString()
-          )
-        }}
-      </span>
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.actions')"
+        :center="true"
+        :sort="false"
+      />
       <span
         v-else-if="getWaiting && submission"
         class="d-flex justify-center align-center"
@@ -156,6 +155,8 @@ import {
 import { i18n } from '@/plugins/i18n'
 import { useSubmissionStore } from '@/store/submission'
 import { useLoggedUserStore } from '@/store/logged_user'
+import SortTitle from '../packages/SortTitle.vue'
+import TextRecord from '../packages/TextRecord.vue'
 
 const props = defineProps({
   title: {
