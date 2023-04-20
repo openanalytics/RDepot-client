@@ -10,8 +10,11 @@
         :title="loggedUserStore.userLogin"
         subtitle="logged in"
       ></v-list-item>
+      {{ $ability.can('GET', 'events') }}
+      {{ $ability.can('POST', 'r submissions') }}
       <v-divider class="pb-3"></v-divider>
       <v-list-item
+        v-if="$ability.can('GET', 'events')"
         prepend-icon="mdi-timetable"
         :title="$t('common.events')"
         :value="$t('common.events')"
@@ -19,6 +22,7 @@
       ></v-list-item>
 
       <v-list-item
+        v-if="$ability.can('POST', 'r submissions')"
         prepend-icon="mdi-upload"
         :title="$t('common.addPackage')"
         :value="$t('common.addPackage')"
@@ -26,13 +30,21 @@
       ></v-list-item>
 
       <v-list-item
+        v-if="$ability.can('GET', 'r submissions')"
         prepend-icon="mdi-email"
         :title="$t('common.submissions')"
         :value="$t('common.submissions')"
         @click="$router.replace({ name: 'submissions' })"
       ></v-list-item>
 
-      <v-list-group value="Packages" tag="Packages">
+      <v-list-group
+        v-if="
+          $ability.can('GET', 'package maintainers') ||
+          $ability.can('GET', 'packages')
+        "
+        value="Packages"
+        tag="Packages"
+      >
         <template v-slot:activator="{ props }">
           <v-list-item
             v-bind="props"
@@ -42,12 +54,14 @@
         </template>
 
         <v-list-item
+          v-if="$ability.can('GET', 'packages')"
           :title="$t('common.list')"
           :value="$t('packages.list')"
           id="sidebarpackageslist"
           @click="$router.replace({ name: 'packages' })"
         ></v-list-item>
         <v-list-item
+          v-if="$ability.can('GET', 'package maintainers')"
           :title="$t('common.maintainers')"
           :value="$t('packages.maintainers')"
           @click="
@@ -89,6 +103,7 @@ import { useCommonStore } from '@/store/common'
 import { useLoggedUserStore } from '@/store/logged_user'
 import { computed } from 'vue'
 import { useDisplay } from 'vuetify/lib/framework.mjs'
+
 const { xs, mobile } = useDisplay()
 const loggedUserStore = useLoggedUserStore()
 
