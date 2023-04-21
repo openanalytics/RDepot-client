@@ -23,6 +23,8 @@ router.beforeEach((to, from) => {
   return logged_user.ability.can(
     ...nameToActionAndSubject(to.name)
   )
+    ? true
+    : '/' // redirect to home page
 })
 
 export default router
