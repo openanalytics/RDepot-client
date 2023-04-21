@@ -43,14 +43,14 @@ const BackendRoute = z.enum([
   'submissions'
 ])
 
-const Subjects = z.union([FrontendRoute, BackendRoute])
-type Subjects = z.infer<typeof Subjects>
+const Subject = z.union([FrontendRoute, BackendRoute])
+export type Subject = z.infer<typeof Subject>
 
-const Actions = z.enum(['GET', 'POST', 'PATCH', 'DELETE'])
-type Actions = z.infer<typeof Actions>
+const Action = z.enum(['GET', 'POST', 'PATCH', 'DELETE'])
+export type Action = z.infer<typeof Action>
 
 export type Ability = PureAbility<
-  [Actions, Subjects],
+  [Action, Subject],
   MongoQuery
 >
 export const Ability = PureAbility as AbilityClass<Ability>
@@ -112,8 +112,8 @@ export function defineAbilityFor(role: Role) {
 
 export function nameToActionAndSubject(
   name: RouteRecordName | null | undefined
-): [Actions, Subjects] {
-  const parsedSubject = Subjects.safeParse(name)
+): [Action, Subject] {
+  const parsedSubject = Subject.safeParse(name)
   if (parsedSubject.success) {
     return ['GET', parsedSubject.data]
   } else {
