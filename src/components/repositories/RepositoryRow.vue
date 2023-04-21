@@ -96,9 +96,14 @@
         v-model="repository.published"
         color="oablue"
         @click.stop
+        disabled
       />
     </v-col>
     <v-col
+      v-if="
+        logged_user_store.can('GET', 'repositoryDetails') ||
+        logged_user_store.can('DELETE', 'r repository')
+      "
       id="repository-actions"
       cols="lg-1"
       class="d-flex justify-center"
@@ -115,6 +120,12 @@
         <v-tooltip top>
           <template v-slot:activator="{ props }">
             <v-icon
+              v-if="
+                logged_user_store.can(
+                  'GET',
+                  'repositoryDetails'
+                )
+              "
               id="navigate-icon"
               @click.stop
               @click="navigate"
@@ -130,6 +141,12 @@
         <v-tooltip top>
           <template v-slot:activator="{ props }">
             <v-icon
+              v-if="
+                logged_user_store.can(
+                  'DELETE',
+                  'r repository'
+                )
+              "
               id="delete-icon"
               @click.stop
               @click="navigate"
@@ -152,8 +169,10 @@
 import router from '@/router'
 import { EntityModelRRepositoryDto } from '@/openapi'
 import { usePackagesStore } from '@/store/packages'
+import { useLoggedUserStore } from '@/store/logged_user'
 
 const package_store = usePackagesStore()
+const logged_user_store = useLoggedUserStore()
 
 const props = defineProps({
   title: {
