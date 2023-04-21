@@ -94,9 +94,12 @@
         v-else-if="repository"
         id="checkbox-published"
         v-model="repository.published"
+        @change="updateRepositoryPublished()"
         color="oablue"
         @click.stop
-        disabled
+        :disabled="
+          !logged_user_store.can('PATCH', 'r repository')
+        "
       />
     </v-col>
     <v-col
@@ -170,22 +173,33 @@ import router from '@/router'
 import { EntityModelRRepositoryDto } from '@/openapi'
 import { usePackagesStore } from '@/store/packages'
 import { useLoggedUserStore } from '@/store/logged_user'
+import { updateRepository } from '@/services/repository_services'
 
 const package_store = usePackagesStore()
 const logged_user_store = useLoggedUserStore()
 
-const props = defineProps({
-  title: {
-    type: Boolean,
-    default: false
-  },
-  repository: Object as () =>
-    | EntityModelRRepositoryDto
-    | undefined
-})
+const props = defineProps<{
+  title?: boolean
+  repository?: EntityModelRRepositoryDto
+}>()
 
 function prepareString(value: string): string {
   return value.charAt(0).toUpperCase() + value.slice(1)
+}
+
+function updateRepositoryPublished(): void {
+  const oldRepository = JSON.parse(
+    JSON.stringify(props.repository)
+  )
+  oldRepository.published = !oldRepository.published
+  updateRepository(
+    oldRepository,
+    props.repository || {}
+  ).then((success) => {
+    if (!success)
+      // revert change if request was not successful
+      props.repository!.published = oldRepository.published
+  })
 }
 
 function navigate() {
