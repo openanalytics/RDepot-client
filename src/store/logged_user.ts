@@ -1,8 +1,8 @@
 import { Role } from '@/enum/UserRoles'
-import defineAbilityFor, {
+import {
+  defineAbilityFor,
   Ability
 } from '@/services/abilities'
-import { useAbility } from '@casl/vue'
 import { defineStore } from 'pinia'
 
 interface State {
@@ -10,6 +10,7 @@ interface State {
   userLogin: string
   userRole: Role
   userId: number
+  ability: Ability
 }
 
 export const useLoggedUserStore = defineStore(
@@ -20,7 +21,8 @@ export const useLoggedUserStore = defineStore(
         userToken: import.meta.env.VITE_ADMIN_TOKEN,
         userLogin: 'einstein',
         userRole: Role.enum.admin,
-        userId: 8
+        userId: 8,
+        ability: defineAbilityFor(Role.enum.admin)
       }
     },
     actions: {
@@ -34,10 +36,8 @@ export const useLoggedUserStore = defineStore(
         this.userLogin = login
         this.userRole = role
         this.userId = id
-
-        const { can } = useAbility<Ability>()
-        // const { rules } = defineAbilityFor(this.userRole)
-        // ability.update(rules)
+        const { rules } = defineAbilityFor(this.userRole)
+        this.ability.update(rules)
       }
     }
   }
