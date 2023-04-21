@@ -12,12 +12,27 @@ import {
   isAtLeastUser
 } from '@/enum/UserRoles'
 import { z } from 'zod'
+import { RouteRecordName } from 'vue-router'
 
-const Subjects = z.enum([
+const FrontendRoute = z.enum([
+  'Home',
+  'login',
+  'repositories',
+  'repositoryDetails',
+  'repositoryMaintainers',
+  'submissions',
+  'packages',
+  'packageDetails',
+  'packageMaintainers',
+  'addSubmission',
+  'events'
+])
+
+const BackendRoute = z.enum([
   'events',
   'login',
   'Home',
-  'user',
+  'users',
   'packages',
   'packageMaintainers',
   'repositories',
@@ -27,6 +42,8 @@ const Subjects = z.enum([
   'r repository',
   'submissions'
 ])
+
+const Subjects = z.union([FrontendRoute, BackendRoute])
 type Subjects = z.infer<typeof Subjects>
 
 const Actions = z.enum(['GET', 'POST', 'PATCH', 'DELETE'])
@@ -47,8 +64,10 @@ export function defineAbilityFor(role: Role) {
       'login',
       'Home',
       'packages',
+      'packageDetails',
       'packageMaintainers',
       'repositories',
+      'repositoryDetails',
       'python repository',
       'r package',
       'r repository'
@@ -59,6 +78,7 @@ export function defineAbilityFor(role: Role) {
 
   if (isAtLeastPackageMaintainer(role)) {
     can('PATCH', 'r package')
+    can('GET', 'addSubmission')
   }
 
   if (isAtLeastRepositoryMaintainer(role)) {
@@ -68,7 +88,7 @@ export function defineAbilityFor(role: Role) {
   }
 
   if (isAtLeastAdmin(role)) {
-    can(['GET', 'POST', 'PATCH', 'DELETE'], 'user')
+    can(['GET', 'POST', 'PATCH', 'DELETE'], 'users')
 
     can(
       ['GET', 'POST', 'PATCH', 'DELETE'],
@@ -88,4 +108,15 @@ export function defineAbilityFor(role: Role) {
   }
 
   return build()
+}
+
+export function nameToActionAndSubject(
+  name: RouteRecordName | null | undefined
+): [Actions, Subjects] {
+  const parsedSubject = Subjects.safeParse(name)
+  if (parsedSubject.success) {
+    return ['GET', parsedSubject.data]
+  } else {
+    throw Error(parsedSubject.error.message)
+  }
 }
