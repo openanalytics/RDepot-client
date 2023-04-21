@@ -31,10 +31,7 @@
 
       <v-list-item
         v-if="
-          loggedUserStore.ability.can(
-            'GET',
-            'r submissions'
-          )
+          loggedUserStore.ability.can('GET', 'submissions')
         "
         prepend-icon="mdi-email"
         :title="$t('common.submissions')"
