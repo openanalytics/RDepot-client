@@ -36,6 +36,16 @@
       }}</v-col
     >
     <v-col
+      v-if="
+        logged_user_store.can(
+          'PATCH',
+          'packageMaintainers'
+        ) ||
+        logged_user_store.can(
+          'DELETE',
+          'packageMaintainers'
+        )
+      "
       id="package-maintainer-actions"
       cols="lg-1"
       class="d-flex justify-center"
@@ -50,6 +60,12 @@
         <v-tooltip top>
           <template v-slot:activator="{ props }">
             <v-icon
+              v-if="
+                logged_user_store.can(
+                  'DELETE',
+                  'packageMaintainers'
+                )
+              "
               id="delete-icon"
               @click.stop
               @click="deleteDialog()"
@@ -66,6 +82,12 @@
         <v-tooltip top>
           <template v-slot:activator="{ props }">
             <v-icon
+              v-if="
+                logged_user_store.can(
+                  'PATCH',
+                  'packageMaintainers'
+                )
+              "
               id="pencil-icon"
               @click.stop
               @click="edit"
@@ -89,6 +111,7 @@ import { OverlayEnum } from '@/enum/Overlay'
 import { EntityModelPackageMaintainerDto } from '@/openapi'
 import { i18n } from '@/plugins/i18n'
 import { useCommonStore } from '@/store/common'
+import { useLoggedUserStore } from '@/store/logged_user'
 import { usePackageMaintainersStore } from '@/store/package_maintainers'
 
 const props = defineProps({
@@ -101,6 +124,7 @@ const props = defineProps({
     | undefined
 })
 
+const logged_user_store = useLoggedUserStore()
 const common_store = useCommonStore()
 const maintainers_store = usePackageMaintainersStore()
 
