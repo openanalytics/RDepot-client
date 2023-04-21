@@ -12,20 +12,20 @@ import {
   isAtLeastUser
 } from '@/enum/UserRoles'
 import { z } from 'zod'
-import { InjectionKey } from 'vue'
-import { ABILITY_TOKEN } from '@casl/vue'
 
 const Subjects = z.enum([
   'events',
+  'login',
+  'Home',
   'user',
   'packages',
-  'package maintainers',
-  'repository',
-  'repository maintainers',
+  'packageMaintainers',
+  'repositories',
+  'repositoryMaintainers',
   'python repository',
   'r package',
   'r repository',
-  'r submissions'
+  'submissions'
 ])
 type Subjects = z.infer<typeof Subjects>
 
@@ -38,21 +38,23 @@ export type Ability = PureAbility<
 >
 export const Ability = PureAbility as AbilityClass<Ability>
 
-export default function defineAbilityFor(role: Role) {
+export function defineAbilityFor(role: Role) {
   const { can, build } = new AbilityBuilder(Ability)
 
   if (isAtLeastUser(role)) {
     can('GET', [
       'events',
+      'login',
+      'Home',
       'packages',
-      'package maintainers',
-      'repository',
+      'packageMaintainers',
+      'repositories',
       'python repository',
       'r package',
       'r repository'
     ])
 
-    can(['GET', 'PATCH', 'POST'], 'r submissions')
+    can(['GET', 'PATCH', 'POST'], 'submissions')
   }
 
   if (isAtLeastPackageMaintainer(role)) {
@@ -60,7 +62,7 @@ export default function defineAbilityFor(role: Role) {
   }
 
   if (isAtLeastRepositoryMaintainer(role)) {
-    can(['POST', 'PATCH'], 'package maintainers')
+    can(['POST', 'PATCH'], 'packageMaintainers')
 
     can('PATCH', ['python repository', 'r repository'])
   }
@@ -70,7 +72,7 @@ export default function defineAbilityFor(role: Role) {
 
     can(
       ['GET', 'POST', 'PATCH', 'DELETE'],
-      'repository maintainers'
+      'repositoryMaintainers'
     )
 
     can(
@@ -79,13 +81,11 @@ export default function defineAbilityFor(role: Role) {
     )
 
     can('DELETE', [
-      'package maintainers',
+      'packageMaintainers',
       'r package',
-      'r submissions'
+      'submissions'
     ])
   }
 
   return build()
 }
-
-export const TOKEN = ABILITY_TOKEN as InjectionKey<Ability>
