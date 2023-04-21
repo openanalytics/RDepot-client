@@ -85,6 +85,9 @@
         v-else-if="packageBag"
         v-model="packageBag.active"
         @change="updatePackageActive"
+        :disabled="
+          !logged_user_store.can('PATCH', 'r package')
+        "
       />
     </v-col>
     <v-col
