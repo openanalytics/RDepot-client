@@ -17,6 +17,7 @@ import {
   validateRequest
 } from './open_api_access'
 import { repositorySchema } from '@/models/Schamas'
+import { createPatch } from 'rfc6902'
 
 export function fetchRepositoriesServices(
   filtration?: RepositoriesFiltration,
@@ -107,4 +108,27 @@ export function createRepository(
     })
     return new Promise<boolean>(() => false)
   }
+}
+
+export function updateRepository(
+  oldRepository: EntityModelRepositoryDto,
+  newRepository: EntityModelRepositoryDto
+) {
+  const patchBody = createPatch(
+    oldRepository,
+    newRepository
+  )
+  const repository_api = RRepositoryControllerApiFactory(
+    getConfiguration()
+  )
+  return openApiRequest<ResponseDtoPagedModelEntityModelRepositoryDto>(
+    repository_api.updateRRepository,
+    [patchBody, newRepository]
+  ).then(
+    () => true,
+    (msg) => {
+      notify({ text: msg, type: 'error' })
+      return false
+    }
+  )
 }
