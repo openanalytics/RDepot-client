@@ -1,7 +1,9 @@
 import { Role } from '@/enum/UserRoles'
 import {
   defineAbilityFor,
-  Ability
+  Ability,
+  Action,
+  Subject
 } from '@/services/abilities'
 import { defineStore } from 'pinia'
 
@@ -38,6 +40,9 @@ export const useLoggedUserStore = defineStore(
         this.userId = id
         const { rules } = defineAbilityFor(this.userRole)
         this.ability.update(rules)
+      },
+      can(action: Action, subject: Subject): boolean {
+        return this.ability.can(action, subject)
       }
     }
   }
