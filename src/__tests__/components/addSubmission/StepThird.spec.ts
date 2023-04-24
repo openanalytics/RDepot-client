@@ -13,7 +13,6 @@ import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import { createPinia, setActivePinia } from 'pinia'
 import { useSubmissionStore } from '@/store/submission'
 import StepThirdVue from '@/components/addSubmission/StepThird.vue'
-import packages from '@/__tests__/config/mockData/packages.json'
 
 let wrapper: any
 const globalConfig = {
