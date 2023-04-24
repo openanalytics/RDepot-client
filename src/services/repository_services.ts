@@ -14,17 +14,25 @@ import { notify } from '@kyvg/vue3-notification'
 import { i18n } from '@/plugins/i18n'
 import {
   openApiRequest,
+  validatedData,
   validateRequest
 } from './open_api_access'
 import { repositorySchema } from '@/models/Schamas'
 import { createPatch } from 'rfc6902'
-import { z } from 'zod'
+import { checkIfAuthorized } from '@/plugins/casl'
 
 export function fetchRepositoriesServices(
   filtration?: RepositoriesFiltration,
   page?: number,
   pageSize?: number
-) {
+): Promise<validatedData<EntityModelRepositoryDto>> {
+  const authorized = checkIfAuthorized(
+    'GET',
+    'repositories'
+  )
+  if (!authorized) {
+    return new Promise(() => validateRequest)
+  }
   const repository_api =
     ApiV2RepositoryControllerApiFactory(getConfiguration())
   return openApiRequest<ResponseDtoPagedModelEntityModelRepositoryDto>(
@@ -44,23 +52,49 @@ export function fetchRepositoriesServices(
       ),
     (msg) => {
       notify({ type: 'error', text: msg })
-      return validateRequest<EntityModelRepositoryDto>()
+      return validateRequest()
     }
   )
 }
 
-export function fetchRRepositories() {
+export function fetchRRepositories(): Promise<
+  validatedData<EntityModelRepositoryDto>
+> {
+  const authorized = checkIfAuthorized(
+    'GET',
+    'repositories'
+  )
+  if (!authorized) {
+    return new Promise(() => validateRequest)
+  }
   const r_repository_api = RRepositoryControllerApiFactory(
     getConfiguration()
   )
   return openApiRequest<ResponseDtoPagedModelEntityModelRRepositoryDto>(
     r_repository_api.getAllRRepositories
+  ).then(
+    (res) =>
+      validateRequest(
+        res.data.data?.content,
+        res.data.data?.page
+      ),
+    (msg) => {
+      notify({ type: 'error', text: msg })
+      return validateRequest()
+    }
   )
 }
 
 export function createRepository(
   newRepository: EntityModelRepositoryDto
-) {
+): Promise<boolean> {
+  const authorized = checkIfAuthorized(
+    'POST',
+    'repositories'
+  )
+  if (!authorized) {
+    return new Promise(() => false)
+  }
   const validatedRepository =
     repositorySchema.safeParse(newRepository)
   if (validatedRepository.success) {
@@ -107,7 +141,7 @@ export function createRepository(
       type: 'error',
       text: validatedRepository.error.message
     })
-    return new Promise<boolean>(() => false)
+    return new Promise(() => false)
   }
 }
 
@@ -115,6 +149,14 @@ export function updateRepository(
   oldRepository: EntityModelRepositoryDto,
   newRepository: EntityModelRepositoryDto
 ) {
+  const authorized = checkIfAuthorized(
+    'PATCH',
+    'repositories'
+  )
+  if (!authorized) {
+    return new Promise(() => false)
+  }
+
   const patchBody = createPatch(
     oldRepository,
     newRepository
