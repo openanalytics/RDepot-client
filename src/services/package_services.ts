@@ -2,13 +2,16 @@ import { PackagesFiltration } from '@/models/Filtration'
 import {
   ApiV2PackageControllerApiFactory,
   EntityModelPackageDto,
+  Link,
   ResponseDtoEntityModelPackageDto,
   ResponseDtoPagedModelEntityModelPackageDto,
   RPackageControllerApiFactory
 } from '@/openapi'
+import { checkIfAuthorized } from '@/plugins/casl'
 import { getConfiguration } from '@/services/api_config'
 import {
   openApiRequest,
+  Pagination,
   validateRequest
 } from '@/services/open_api_access'
 import { notify } from '@kyvg/vue3-notification'
@@ -18,7 +21,13 @@ export function fetchPackagesServices(
   filtration?: PackagesFiltration,
   page?: number,
   pageSize?: number
-) {
+): Promise<[EntityModelPackageDto[], Pagination, Link[]]> {
+  const authorized = checkIfAuthorized('GET', 'packages')
+  if (!authorized) {
+    return new Promise(() =>
+      validateRequest<EntityModelPackageDto>()
+    )
+  }
   const packages_api = ApiV2PackageControllerApiFactory(
     getConfiguration()
   )
@@ -40,7 +49,7 @@ export function fetchPackagesServices(
       ),
     (msg) => {
       notify({ type: 'error', text: msg })
-      return validateRequest<EntityModelPackageDto>()
+      return validateRequest()
     }
   )
 }
@@ -63,7 +72,13 @@ export function fetchPackagesWithoutProgressControl(
   )
 }
 
-export function fetchPackageServices(id: number) {
+export function fetchPackageServices(
+  id: number
+): Promise<EntityModelPackageDto | undefined> {
+  const authorized = checkIfAuthorized('GET', 'packages')
+  if (!authorized) {
+    return new Promise(() => {})
+  }
   const packages_api = ApiV2PackageControllerApiFactory(
     getConfiguration()
   )
@@ -74,7 +89,7 @@ export function fetchPackageServices(id: number) {
     (res) => res.data.data,
     (msg) => {
       notify({ text: msg, type: 'error' })
-      return {} as EntityModelPackageDto
+      return {}
     }
   )
 }
@@ -82,7 +97,11 @@ export function fetchPackageServices(id: number) {
 export function updateRPackage(
   oldPackage: EntityModelPackageDto,
   newPackage: EntityModelPackageDto
-) {
+): Promise<boolean> {
+  const authorized = checkIfAuthorized('PATCH', 'r package')
+  if (!authorized) {
+    return new Promise(() => false)
+  }
   const packages_api = RPackageControllerApiFactory(
     getConfiguration()
   )
