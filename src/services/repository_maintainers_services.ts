@@ -54,7 +54,7 @@ export function updateRepositoryMaintainer(
   oldmaintainer: EntityModelRepositoryMaintainerDto,
   newMaintainer: EntityModelRepositoryMaintainerDto
 ): Promise<boolean> {
-  if (isAuthorized('PATCH', 'repositoryMaintainers'))
+  if (!isAuthorized('PATCH', 'repositoryMaintainers'))
     return new Promise(() => false)
   const repository_maintainers_api =
     ApiV2RepositoryMaintainerControllerApiFactory(
@@ -89,7 +89,7 @@ export function updateRepositoryMaintainer(
 export function deletedRepositoryMaintainer(
   maintainer: EntityModelRepositoryMaintainerDto
 ): Promise<boolean> {
-  if (isAuthorized('DELETE', 'repositoryMaintainers')) {
+  if (!isAuthorized('DELETE', 'repositoryMaintainers')) {
     return new Promise(() => false)
   }
   const repository_maintainers_api =
