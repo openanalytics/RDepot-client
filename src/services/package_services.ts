@@ -21,8 +21,7 @@ export function fetchPackagesServices(
   page?: number,
   pageSize?: number
 ): Promise<validatedData<EntityModelPackageDto>> {
-  const authorized = isAuthorized('GET', 'packages')
-  if (!authorized) {
+  if (!isAuthorized('GET', 'packages')) {
     return new Promise(() =>
       validateRequest<EntityModelPackageDto>()
     )
@@ -57,7 +56,10 @@ export function fetchPackagesWithoutProgressControl(
   filtration?: PackagesFiltration,
   page?: number,
   pageSize?: number
-) {
+): Promise<validatedData<EntityModelPackageDto>> {
+  if (!isAuthorized('GET', 'packages')) {
+    return new Promise(() => validateRequest())
+  }
   const packages_api = ApiV2PackageControllerApiFactory(
     getConfiguration()
   )
@@ -68,14 +70,24 @@ export function fetchPackagesWithoutProgressControl(
     filtration?.technologies,
     page,
     pageSize
+  ).then(
+    (res) => {
+      return validateRequest(
+        res.data.data?.content,
+        res.data.data?.page
+      )
+    },
+    (msg) => {
+      notify({ type: 'error', text: msg })
+      return validateRequest()
+    }
   )
 }
 
 export function fetchPackageServices(
   id: number
 ): Promise<EntityModelPackageDto | undefined> {
-  const authorized = isAuthorized('GET', 'packages')
-  if (!authorized) {
+  if (!isAuthorized('GET', 'packages')) {
     return new Promise(() => {})
   }
   const packages_api = ApiV2PackageControllerApiFactory(
@@ -97,8 +109,7 @@ export function updateRPackage(
   oldPackage: EntityModelPackageDto,
   newPackage: EntityModelPackageDto
 ): Promise<boolean> {
-  const authorized = isAuthorized('PATCH', 'r package')
-  if (!authorized) {
+  if (!isAuthorized('PATCH', 'r package')) {
     return new Promise(() => false)
   }
   const packages_api = RPackageControllerApiFactory(
