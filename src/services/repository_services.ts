@@ -19,18 +19,14 @@ import {
 } from './open_api_access'
 import { repositorySchema } from '@/models/Schamas'
 import { createPatch } from 'rfc6902'
-import { checkIfAuthorized } from '@/plugins/casl'
+import { isAuthorized } from '@/plugins/casl'
 
 export function fetchRepositoriesServices(
   filtration?: RepositoriesFiltration,
   page?: number,
   pageSize?: number
 ): Promise<validatedData<EntityModelRepositoryDto>> {
-  const authorized = checkIfAuthorized(
-    'GET',
-    'repositories'
-  )
-  if (!authorized) {
+  if (!isAuthorized('GET', 'repositories')) {
     return new Promise(() => validateRequest)
   }
   const repository_api =
@@ -60,11 +56,7 @@ export function fetchRepositoriesServices(
 export function fetchRRepositories(): Promise<
   validatedData<EntityModelRepositoryDto>
 > {
-  const authorized = checkIfAuthorized(
-    'GET',
-    'repositories'
-  )
-  if (!authorized) {
+  if (!isAuthorized('GET', 'repositories')) {
     return new Promise(() => validateRequest)
   }
   const r_repository_api = RRepositoryControllerApiFactory(
@@ -88,11 +80,7 @@ export function fetchRRepositories(): Promise<
 export function createRepository(
   newRepository: EntityModelRepositoryDto
 ): Promise<boolean> {
-  const authorized = checkIfAuthorized(
-    'POST',
-    'repositories'
-  )
-  if (!authorized) {
+  if (!isAuthorized('POST', 'repositories')) {
     return new Promise(() => false)
   }
   const validatedRepository =
@@ -149,11 +137,7 @@ export function updateRepository(
   oldRepository: EntityModelRepositoryDto,
   newRepository: EntityModelRepositoryDto
 ) {
-  const authorized = checkIfAuthorized(
-    'PATCH',
-    'repositories'
-  )
-  if (!authorized) {
+  if (!isAuthorized('PATCH', 'repositories')) {
     return new Promise(() => false)
   }
 
