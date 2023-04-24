@@ -9,17 +9,22 @@ import { AxiosResponse } from 'axios'
 import { getConfiguration } from '@/services/api_config'
 import {
   openApiRequest,
-  validateRequest
+  validateRequest,
+  validatedData
 } from '@/services/open_api_access'
 import { notify } from '@kyvg/vue3-notification'
 import { i18n } from '@/plugins/i18n'
 import { createPatch } from 'rfc6902'
+import { isAuthorized } from '@/plugins/casl'
 
 export function fetchPackageMaintainersService(
   filtration?: PackageMaintainersFiltration,
   page?: number,
   pageSize?: number
-) {
+): Promise<validatedData<EntityModelPackageMaintainerDto>> {
+  if (!isAuthorized('GET', 'packageMaintainers')) {
+    return new Promise(() => validateRequest())
+  }
   const package_maintainers_api =
     ApiV2PackageMaintainerControllerApiFactory(
       getConfiguration()
@@ -40,14 +45,17 @@ export function fetchPackageMaintainersService(
       ),
     (msg) => {
       notify({ type: 'error', text: msg })
-      return validateRequest<EntityModelPackageMaintainerDto>()
+      return validateRequest()
     }
   )
 }
 
 export function deletePackageMaintainerService(
   maintainer: EntityModelPackageMaintainerDto
-) {
+): Promise<boolean> {
+  if (!isAuthorized('DELETE', 'packageMaintainers')) {
+    return new Promise(() => false)
+  }
   const package_maintainers_api =
     ApiV2PackageMaintainerControllerApiFactory(
       getConfiguration()
@@ -76,7 +84,10 @@ export function deletePackageMaintainerService(
 export function updatePackageMaintainerService(
   oldMaintainer: PackageMaintainerDto,
   newMaintainer: PackageMaintainerDto
-) {
+): Promise<boolean> {
+  if (!isAuthorized('PATCH', 'packageMaintainers')) {
+    return new Promise(() => false)
+  }
   const package_maintainers_api =
     ApiV2PackageMaintainerControllerApiFactory(
       getConfiguration()
