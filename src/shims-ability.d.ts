@@ -1,4 +1,4 @@
-import { Ability } from '@/services/abilities'
+import { Ability } from '@/plugins/casl'
 
 declare module 'vue' {
   interface ComponentCustomProperties {
