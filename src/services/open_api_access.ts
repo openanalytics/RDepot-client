@@ -36,16 +36,22 @@ function rejected(result: AxiosResponse<any, any>) {
   throw result
 }
 
-export interface Pagination {
+interface Pagination {
   totalNumber: number
   page: number
 }
+
+export type validatedData<T> = [
+  T[],
+  Pagination,
+  Array<Link>
+]
 
 export function validateRequest<T>(
   content?: T[],
   paginationData?: PageMetadata,
   links?: Array<Link>
-): [T[], Pagination, Array<Link>] {
+): validatedData<T> {
   return [
     content || [],
     {
