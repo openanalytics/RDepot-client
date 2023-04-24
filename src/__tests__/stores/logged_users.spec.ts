@@ -1,3 +1,4 @@
+import { Role } from '@/enum/UserRoles'
 import { useLoggedUserStore } from '@/store/logged_user'
 import { createPinia, setActivePinia } from 'pinia'
 import { describe, expect, it, beforeEach } from 'vitest'
@@ -14,7 +15,7 @@ describe('Logged user store tests', () => {
       import.meta.env.VITE_ADMIN_TOKEN
     )
     expect(logged_user_store.userLogin).toBe('einstein')
-    expect(logged_user_store.userRole).toBe('admin')
+    expect(logged_user_store.userRole).toBe(Role.enum.admin)
     expect(logged_user_store.userId).toBe(8)
   })
 
@@ -24,13 +25,13 @@ describe('Logged user store tests', () => {
     logged_user_store.change_user(
       import.meta.env.VITE_REPOSITORY_MAINTAINER_TOKEN,
       'tesla',
-      'repository maintainer',
+      Role.enum.repositoryMaintainer,
       5
     )
 
     expect(logged_user_store.userLogin).toBe('tesla')
     expect(logged_user_store.userRole).toBe(
-      'repository maintainer'
+      Role.enum.repositoryMaintainer
     )
     expect(logged_user_store.userId).toBe(5)
   })
