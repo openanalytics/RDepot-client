@@ -40,14 +40,14 @@
 </template>
 
 <script setup lang="ts">
-import CardActions from '../common/CardActions.vue'
+import CardActions from '@/components/common/CardActions.vue'
 import { EntityModelRepositoryMaintainerDto } from '@/openapi'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
 import { ref, computed, onMounted } from 'vue'
 import { Form, useIsFormValid } from 'vee-validate'
-import ValidatedInputField from '../common/ValidatedInputField.vue'
+import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
 import { toTypedSchema } from '@vee-validate/zod'
-import { repositoryMaintainerSchema } from '@/models/Schamas'
+import { repositoryMaintainerSchema } from '@/models/Schemas'
 import { notify } from '@kyvg/vue3-notification'
 import { i18n } from '@/plugins/i18n'
 

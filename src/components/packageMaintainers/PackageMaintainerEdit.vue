@@ -58,7 +58,7 @@ import { toTypedSchema } from '@vee-validate/zod'
 import { Form, useIsFormValid } from 'vee-validate'
 import ValidatedInputField from '../common/ValidatedInputField.vue'
 import { ref, onMounted, computed } from 'vue'
-import { packageMaintainerSchema } from '@/models/Schamas'
+import { packageMaintainerSchema } from '@/models/Schemas'
 import { notify } from '@kyvg/vue3-notification'
 
 const validationSchema = toTypedSchema(

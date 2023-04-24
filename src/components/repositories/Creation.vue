@@ -1,9 +1,5 @@
 <template>
-  <Form
-    as="v-form"
-    :validation-schema="validationSchema"
-    v-slot="{ values, meta }"
-  >
+  <Form as="v-form" :validation-schema="validationSchema">
     <v-card class="pa-5" width="400">
       <v-card-title>
         {{ $t('repositories.creation.title') }}
@@ -45,16 +41,16 @@ import { useRepositoryStore } from '@/store/repositories'
 import { ref, onMounted } from 'vue'
 import { EntityModelRepositoryDto } from '@/openapi'
 import { Technologies } from '@/enum/Technologies'
-import { repositorySchema } from '@/models/Schamas'
+import { repositorySchema } from '@/models/Schemas'
 import { toTypedSchema } from '@vee-validate/zod/dist/vee-validate-zod'
 import {
   Form,
   useFormValues,
   useIsFormValid
 } from 'vee-validate'
-import ValidatedInputField from '../common/ValidatedInputField.vue'
+import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
 import { notify } from '@kyvg/vue3-notification'
-import CardActions from '../common/CardActions.vue'
+import CardActions from '@/components/common/CardActions.vue'
 import { i18n } from '@/plugins/i18n'
 
 const validationSchema = toTypedSchema(
@@ -81,8 +77,6 @@ const buttons = [
   }
 ]
 
-const newRepository = ref({} as EntityModelRepositoryDto)
-
 const emit = defineEmits(['closeModal'])
 
 function createRepository() {
@@ -105,9 +99,3 @@ function changeDialogOptions() {
 
 onMounted(() => {})
 </script>
-
-<style>
-.v-input__details {
-  display: flex;
-}
-</style>

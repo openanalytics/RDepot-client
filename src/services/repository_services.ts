@@ -16,7 +16,7 @@ import {
   openApiRequest,
   validateRequest
 } from './open_api_access'
-import { repositorySchema } from '@/models/Schamas'
+import { repositorySchema } from '@/models/Schemas'
 
 export function fetchRepositoriesServices(
   filtration?: RepositoriesFiltration,
