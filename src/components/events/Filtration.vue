@@ -54,7 +54,7 @@
 
 <script setup lang="ts">
 import { i18n } from '@/plugins/i18n'
-import CardActions from '../common/CardActions.vue'
+import CardActions from '@/components/common/CardActions.vue'
 import { useEventsStore } from '@/store/events'
 import { ref, onMounted } from 'vue'
 

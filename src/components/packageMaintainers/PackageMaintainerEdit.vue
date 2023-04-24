@@ -52,11 +52,11 @@
 
 <script setup lang="ts">
 import { i18n } from '@/plugins/i18n'
-import CardActions from '../common/CardActions.vue'
+import CardActions from '@/components/common/CardActions.vue'
 import { usePackageMaintainersStore } from '@/store/package_maintainers'
 import { toTypedSchema } from '@vee-validate/zod'
 import { Form, useIsFormValid } from 'vee-validate'
-import ValidatedInputField from '../common/ValidatedInputField.vue'
+import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
 import { ref, onMounted, computed } from 'vue'
 import { packageMaintainerSchema } from '@/models/Schemas'
 import { notify } from '@kyvg/vue3-notification'
