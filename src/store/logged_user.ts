@@ -4,7 +4,7 @@ import {
   Ability,
   Action,
   Subject
-} from '@/services/abilities'
+} from '@/plugins/casl'
 import { defineStore } from 'pinia'
 
 interface State {
