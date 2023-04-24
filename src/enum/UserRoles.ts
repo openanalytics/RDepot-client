@@ -31,7 +31,7 @@ export const roleToString = Role.transform(
     } else if (arg === 3) {
       return 'admin'
     } else {
-      return z.NEVER
+      throw Error('Undefined role: ' + arg)
     }
   }
 )
