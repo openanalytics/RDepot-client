@@ -13,7 +13,7 @@ describe('Common Store', () => {
     expect(common_store.drawer).toBeTruthy()
     expect(common_store.overlayText).toBe('')
     expect(common_store.overlayOpacity).toBe(0.8)
-    expect(common_store.overlayComponent).toBe(0)
+    expect(common_store.overlayComponent).toBe('Delete')
     expect(common_store.key).toBe(0)
   })
 
@@ -43,8 +43,8 @@ describe('Common Store', () => {
 
   it('Edit overlay component', () => {
     const common_store = useCommonStore()
-    common_store.setOverlayComponent(3)
-    expect(common_store.overlayComponent).toBe(3)
+    common_store.setOverlayComponent('Edit')
+    expect(common_store.overlayComponent).toBe('Edit')
   })
 
   it('Update key', () => {
