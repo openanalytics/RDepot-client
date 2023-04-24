@@ -4,7 +4,6 @@
     :component="OverlayEnum.Create"
     ><v-icon icon="mdi-plus"
   /></CommonButton>
-  <v-spacer></v-spacer>
 </template>
 
 <script setup lang="ts">
