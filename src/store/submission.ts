@@ -15,6 +15,7 @@ import {
 } from '@/services/submission_services'
 import { usePaginationStore } from '@/store/pagination'
 import { useObjectActions } from '@/composable/objectActions'
+import { identity } from '@vueuse/core'
 
 interface State {
   packages: File[]
@@ -109,20 +110,17 @@ export const useSubmissionStore = defineStore(
         })
       },
       async addSumbissionRequests() {
-        const promises: Promise<[boolean, string]>[] =
+        const promises: Promise<boolean>[] =
           this.packages.map((packageBag) =>
             addSumbission(
               this.repository?.name!,
               packageBag
-            ).then(
-              () => [true, ''],
-              (msg) => [false, msg]
             )
           )
         await Promise.all(promises)
         var fulfilled = 0
         promises.forEach(async (promise) => {
-          const [isFulfilled, msg] = await promise
+          const isFulfilled = await promise
           if (fulfilled == 0 && isFulfilled) {
             notify({
               type: 'success',
@@ -131,11 +129,6 @@ export const useSubmissionStore = defineStore(
               )
             })
             fulfilled += 1
-          } else if (!isFulfilled) {
-            notify({
-              type: 'error',
-              text: msg
-            })
           }
         })
       }
