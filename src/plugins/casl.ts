@@ -13,6 +13,9 @@ import {
 } from '@/enum/UserRoles'
 import { z } from 'zod'
 import { RouteRecordName } from 'vue-router'
+import { useLoggedUserStore } from '@/store/logged_user'
+import { notify } from '@kyvg/vue3-notification'
+import { i18n } from './i18n'
 
 const FrontendRoute = z.enum([
   'Home',
@@ -122,3 +125,18 @@ export function nameToActionAndSubject(
 }
 
 export const caslAbility = defineAbilityFor(Role.enum.user)
+
+export function checkIfAuthorized(
+  action: Action,
+  subject: Subject
+): boolean {
+  const logged_user_store = useLoggedUserStore()
+  if (!logged_user_store.can('GET', 'packages')) {
+    notify({
+      type: 'error',
+      text: i18n.t('common.errors.unauthorized')
+    })
+    return false
+  }
+  return true
+}
