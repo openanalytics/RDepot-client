@@ -14,7 +14,7 @@ import {
 } from './open_api_access'
 import { notify } from '@kyvg/vue3-notification'
 import { createPatch } from 'rfc6902'
-import { checkIfAuthorized } from '@/plugins/casl'
+import { isAuthorized } from '@/plugins/casl'
 
 export function fetchRSubmissions(
   filtration: SubmissionsFiltration,
@@ -22,8 +22,7 @@ export function fetchRSubmissions(
   page?: number,
   pageSize?: number
 ): Promise<validatedData<EntityModelSubmissionDto>> {
-  const authorized = checkIfAuthorized('GET', 'submissions')
-  if (!authorized) {
+  if (!isAuthorized('GET', 'submissions')) {
     return new Promise(() => validateRequest())
   }
   const r_submission_api = RSubmissionControllerApiFactory(
@@ -56,11 +55,7 @@ export function updateSubmission(
   newSubmission: EntityModelSubmissionDto,
   textNotification?: string
 ): Promise<boolean> {
-  const authorized = checkIfAuthorized(
-    'PATCH',
-    'submissions'
-  )
-  if (!authorized) {
+  if (!isAuthorized('PATCH', 'submissions')) {
     return new Promise(() => false)
   }
   const r_submission_api = RSubmissionControllerApiFactory(
@@ -114,11 +109,7 @@ export function addSumbission(
   repository: string,
   file: File
 ): Promise<boolean> {
-  const authorized = checkIfAuthorized(
-    'POST',
-    'submissions'
-  )
-  if (!authorized) {
+  if (!isAuthorized('POST', 'submissions')) {
     return new Promise(() => false)
   }
   const r_submission_api = RSubmissionControllerApiFactory(
