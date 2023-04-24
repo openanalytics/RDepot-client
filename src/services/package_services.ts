@@ -2,7 +2,6 @@ import { PackagesFiltration } from '@/models/Filtration'
 import {
   ApiV2PackageControllerApiFactory,
   EntityModelPackageDto,
-  Link,
   ResponseDtoEntityModelPackageDto,
   ResponseDtoPagedModelEntityModelPackageDto,
   RPackageControllerApiFactory
@@ -11,7 +10,7 @@ import { checkIfAuthorized } from '@/plugins/casl'
 import { getConfiguration } from '@/services/api_config'
 import {
   openApiRequest,
-  Pagination,
+  validatedData,
   validateRequest
 } from '@/services/open_api_access'
 import { notify } from '@kyvg/vue3-notification'
@@ -21,7 +20,7 @@ export function fetchPackagesServices(
   filtration?: PackagesFiltration,
   page?: number,
   pageSize?: number
-): Promise<[EntityModelPackageDto[], Pagination, Link[]]> {
+): Promise<validatedData<EntityModelPackageDto>> {
   const authorized = checkIfAuthorized('GET', 'packages')
   if (!authorized) {
     return new Promise(() =>
