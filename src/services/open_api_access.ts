@@ -36,7 +36,7 @@ function rejected(result: AxiosResponse<any, any>) {
   throw result
 }
 
-interface Pagination {
+export interface Pagination {
   totalNumber: number
   page: number
 }
