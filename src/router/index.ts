@@ -4,7 +4,7 @@ import { routes } from '@/router/routes'
 import { i18n } from '@/plugins/i18n'
 import { usePaginationStore } from '@/store/pagination'
 import { useLoggedUserStore } from '@/store/logged_user'
-import { nameToActionAndSubject } from '@/services/abilities'
+import { nameToActionAndSubject } from '@/plugins/casl'
 
 const DEFAULT_TITLE = i18n.t('common.projectTitle')
 
