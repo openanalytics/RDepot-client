@@ -48,51 +48,34 @@
       </v-form>
     </v-card-text>
     <v-divider></v-divider>
-    <v-card-actions>
-      <v-row justify="space-between" class="mt-1">
-        <v-btn
-          id="cancel-button"
-          color="blue darken-1"
-          @click="changeDialogOptions"
-          class="mx-1"
-        >
-          <small>
-            {{ $t('common.cancel') }}
-          </small>
-        </v-btn>
-        <v-row class="my-0" justify="end">
-          <v-btn
-            id="reset-button"
-            color="blue darken-1"
-            class="mx-1"
-            @click="clearFiltration"
-          >
-            <small>
-              {{ $t('common.clearForm') }}
-            </small>
-          </v-btn>
-          <v-btn
-            id="set-filtration"
-            color="blue darken-1"
-            class="mx-1"
-            @click="setFiltration"
-          >
-            <small>
-              {{ $t('common.apply') }}
-            </small>
-          </v-btn>
-        </v-row>
-      </v-row>
-    </v-card-actions>
+    <card-actions :buttons="buttons" />
   </v-card>
 </template>
 
 <script setup lang="ts">
+import { i18n } from '@/plugins/i18n'
+import CardActions from '../common/CardActions.vue'
 import { useEventsStore } from '@/store/events'
 import { ref, onMounted } from 'vue'
 
 const emit = defineEmits(['closeModal'])
 const event_store = useEventsStore()
+
+const buttons = [
+  {
+    text: i18n.t('common.cancel'),
+    handler: () => emit('closeModal')
+  },
+  {
+    spacer: true,
+    text: i18n.t('common.clearForm'),
+    handler: clearFiltration
+  },
+  {
+    text: i18n.t('common.apply'),
+    handler: setFiltration
+  }
+]
 
 const eventTypeSelect = ref(['create', 'update', 'delete'])
 const technologySelect = ref(['R', 'Python'])
@@ -114,8 +97,8 @@ function updateFiltration() {
   )
 }
 
-async function setFiltration() {
-  await event_store.setFiltration(localFiltration.value)
+function setFiltration() {
+  event_store.setFiltration(localFiltration.value)
   changeDialogOptions()
 }
 

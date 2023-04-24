@@ -35,32 +35,7 @@
         ></validated-input-field>
       </v-card-text>
       <v-divider></v-divider>
-      <v-card-actions>
-        <v-row justify="space-between" class="mt-1">
-          <v-btn
-            id="cancel-button"
-            color="blue darken-1"
-            @click="changeDialogOptions()"
-            class="mx-1"
-          >
-            <small>
-              {{ $t('common.cancel') }}
-            </small>
-          </v-btn>
-          <v-row class="my-0" justify="end">
-            <v-btn
-              id="set-filtration"
-              color="blue darken-1"
-              class="mx-1"
-              @click="onSubmit(values, meta.valid)"
-            >
-              <small>
-                {{ $t('common.create') }}
-              </small>
-            </v-btn>
-          </v-row>
-        </v-row>
-      </v-card-actions>
+      <card-actions :buttons="buttons" />
     </v-card>
   </Form>
 </template>
@@ -72,9 +47,14 @@ import { EntityModelRepositoryDto } from '@/openapi'
 import { Technologies } from '@/enum/Technologies'
 import { repositorySchema } from '@/models/Schamas'
 import { toTypedSchema } from '@vee-validate/zod/dist/vee-validate-zod'
-import { Form } from 'vee-validate'
+import {
+  Form,
+  useFormValues,
+  useIsFormValid
+} from 'vee-validate'
 import ValidatedInputField from '../common/ValidatedInputField.vue'
 import { notify } from '@kyvg/vue3-notification'
+import CardActions from '../common/CardActions.vue'
 import { i18n } from '@/plugins/i18n'
 
 const validationSchema = toTypedSchema(
@@ -90,14 +70,26 @@ const repository_store = useRepositoryStore()
 
 const technologySelect = ref(Technologies.options)
 
+const buttons = [
+  {
+    text: i18n.t('common.cancel'),
+    handler: changeDialogOptions
+  },
+  {
+    text: i18n.t('common.create'),
+    handler: createRepository
+  }
+]
+
+const newRepository = ref({} as EntityModelRepositoryDto)
+
 const emit = defineEmits(['closeModal'])
 
-function onSubmit(
-  values: EntityModelRepositoryDto,
-  valid: boolean
-) {
+function createRepository() {
+  const { value: valid } = useIsFormValid()
+  const { value } = useFormValues()
   if (valid) {
-    repository_store.createRepository(values)
+    repository_store.createRepository(value)
     changeDialogOptions()
   } else {
     notify({

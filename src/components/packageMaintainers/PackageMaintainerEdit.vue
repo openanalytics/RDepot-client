@@ -44,52 +44,42 @@
         />
       </v-card-text>
       <v-divider></v-divider>
-      <v-card-actions>
-        <v-row justify="space-between" class="mt-1">
-          <v-btn
-            id="cancelbutton"
-            color="blue darken-1"
-            @click="changeDialogOptions"
-            class="mx-1"
-          >
-            <small>
-              {{ $t('common.cancel') }}
-            </small>
-          </v-btn>
-          <v-row class="my-0" justify="end">
-            <v-btn
-              id="setfiltration"
-              color="blue darken-1"
-              class="mx-1"
-              @click="editMaintainer(meta.valid)"
-            >
-              <small>
-                {{ $t('common.save') }}
-              </small>
-            </v-btn>
-          </v-row>
-        </v-row>
-      </v-card-actions>
+      <v-divider></v-divider>
+      <card-actions :buttons="buttons" />
     </v-card>
   </Form>
 </template>
 
 <script setup lang="ts">
+import { i18n } from '@/plugins/i18n'
+import CardActions from '../common/CardActions.vue'
 import { usePackageMaintainersStore } from '@/store/package_maintainers'
 import { toTypedSchema } from '@vee-validate/zod'
-import { Form } from 'vee-validate'
+import { Form, useIsFormValid } from 'vee-validate'
 import ValidatedInputField from '../common/ValidatedInputField.vue'
 import { ref, onMounted, computed } from 'vue'
 import { packageMaintainerSchema } from '@/models/Schamas'
 import { notify } from '@kyvg/vue3-notification'
-import { i18n } from '@/plugins/i18n'
 
 const validationSchema = toTypedSchema(
   packageMaintainerSchema
 )
 
 const maintainers_store = usePackageMaintainersStore()
-
+const buttons = [
+  {
+    text: i18n.t('common.cancel'),
+    handler: () => {
+      changeDialogOptions()
+    }
+  },
+  {
+    text: i18n.t('common.save'),
+    handler: () => {
+      editMaintainer()
+    }
+  }
+]
 const repositories = computed(() => {
   return maintainers_store.repositories
 })
@@ -120,7 +110,8 @@ function updateMaintainer() {
   )
 }
 
-async function editMaintainer(valid: boolean) {
+async function editMaintainer() {
+  const { value: valid } = useIsFormValid()
   if (valid) {
     await maintainers_store.editMaintainer(
       localMaintainer.value
