@@ -18,6 +18,7 @@ import {
 } from './open_api_access'
 import { repositorySchema } from '@/models/Schamas'
 import { createPatch } from 'rfc6902'
+import { z } from 'zod'
 
 export function fetchRepositoriesServices(
   filtration?: RepositoriesFiltration,
@@ -118,17 +119,42 @@ export function updateRepository(
     oldRepository,
     newRepository
   )
-  const repository_api = RRepositoryControllerApiFactory(
-    getConfiguration()
-  )
-  return openApiRequest<ResponseDtoPagedModelEntityModelRepositoryDto>(
-    repository_api.updateRRepository,
-    [patchBody, newRepository]
-  ).then(
-    () => true,
-    (msg) => {
-      notify({ text: msg, type: 'error' })
-      return false
-    }
-  )
+
+  if (oldRepository.technology === Technologies.enum.R) {
+    const repository_api = RRepositoryControllerApiFactory(
+      getConfiguration()
+    )
+    return openApiRequest<ResponseDtoPagedModelEntityModelRepositoryDto>(
+      repository_api.updateRRepository,
+      [patchBody, newRepository]
+    ).then(
+      () => true,
+      (msg) => {
+        notify({ text: msg, type: 'error' })
+        return false
+      }
+    )
+  } else if (
+    oldRepository.technology === Technologies.enum.Python
+  ) {
+    const repository_api =
+      PythonRepositoryControllerApiFactory(
+        getConfiguration()
+      )
+    return openApiRequest<ResponseDtoPagedModelEntityModelRepositoryDto>(
+      repository_api.updatePythonRepository,
+      [patchBody, newRepository]
+    ).then(
+      () => true,
+      (msg) => {
+        notify({ text: msg, type: 'error' })
+        return false
+      }
+    )
+  } else {
+    throw new Error(
+      'Technologies not supported ' +
+        oldRepository.technology
+    )
+  }
 }
