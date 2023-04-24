@@ -20,6 +20,18 @@ const globalConfig = {
   mocks: mocks,
   plugins: plugins
 }
+
+var files: File[] = [
+  {
+    name: 'A3_1.0.0.tar.gz',
+    type: 'application/gzip'
+  } as File,
+  {
+    name: 'abind_1.4-5.tar.gz',
+    type: 'application/gzip'
+  } as File
+]
+
 let submission_store: any
 
 beforeAll(() => {
@@ -29,7 +41,7 @@ beforeAll(() => {
 beforeEach(async () => {
   setActivePinia(createPinia())
   submission_store = useSubmissionStore()
-  submission_store.setPackages(packages.data.content)
+  submission_store.setPackages(files)
   submission_store.setRepository({
     id: 1,
     name: 'repository 1'
