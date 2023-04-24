@@ -126,7 +126,7 @@ export function nameToActionAndSubject(
 
 export const caslAbility = defineAbilityFor(Role.enum.user)
 
-export function checkIfAuthorized(
+export function isAuthorized(
   action: Action,
   subject: Subject
 ): boolean {
