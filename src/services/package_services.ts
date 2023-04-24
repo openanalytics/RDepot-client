@@ -6,7 +6,7 @@ import {
   ResponseDtoPagedModelEntityModelPackageDto,
   RPackageControllerApiFactory
 } from '@/openapi'
-import { checkIfAuthorized } from '@/plugins/casl'
+import { isAuthorized } from '@/plugins/casl'
 import { getConfiguration } from '@/services/api_config'
 import {
   openApiRequest,
@@ -21,7 +21,7 @@ export function fetchPackagesServices(
   page?: number,
   pageSize?: number
 ): Promise<validatedData<EntityModelPackageDto>> {
-  const authorized = checkIfAuthorized('GET', 'packages')
+  const authorized = isAuthorized('GET', 'packages')
   if (!authorized) {
     return new Promise(() =>
       validateRequest<EntityModelPackageDto>()
@@ -74,7 +74,7 @@ export function fetchPackagesWithoutProgressControl(
 export function fetchPackageServices(
   id: number
 ): Promise<EntityModelPackageDto | undefined> {
-  const authorized = checkIfAuthorized('GET', 'packages')
+  const authorized = isAuthorized('GET', 'packages')
   if (!authorized) {
     return new Promise(() => {})
   }
@@ -97,7 +97,7 @@ export function updateRPackage(
   oldPackage: EntityModelPackageDto,
   newPackage: EntityModelPackageDto
 ): Promise<boolean> {
-  const authorized = checkIfAuthorized('PATCH', 'r package')
+  const authorized = isAuthorized('PATCH', 'r package')
   if (!authorized) {
     return new Promise(() => false)
   }
