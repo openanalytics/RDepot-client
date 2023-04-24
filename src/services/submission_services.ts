@@ -9,17 +9,23 @@ import { AxiosResponse } from 'axios'
 import { getConfiguration } from './api_config'
 import {
   openApiRequest,
+  validatedData,
   validateRequest
 } from './open_api_access'
 import { notify } from '@kyvg/vue3-notification'
 import { createPatch } from 'rfc6902'
+import { checkIfAuthorized } from '@/plugins/casl'
 
 export function fetchRSubmissions(
   filtration: SubmissionsFiltration,
   logged_user_id: number,
   page?: number,
   pageSize?: number
-) {
+): Promise<validatedData<EntityModelSubmissionDto>> {
+  const authorized = checkIfAuthorized('GET', 'submissions')
+  if (!authorized) {
+    return new Promise(() => validateRequest())
+  }
   const r_submission_api = RSubmissionControllerApiFactory(
     getConfiguration()
   )
@@ -40,7 +46,7 @@ export function fetchRSubmissions(
       ),
     (msg) => {
       notify({ text: msg, type: 'error' })
-      return validateRequest<EntityModelSubmissionDto>()
+      return validateRequest()
     }
   )
 }
@@ -49,7 +55,14 @@ export function updateSubmission(
   oldSubmission: EntityModelSubmissionDto,
   newSubmission: EntityModelSubmissionDto,
   textNotification?: string
-) {
+): Promise<boolean> {
+  const authorized = checkIfAuthorized(
+    'PATCH',
+    'submissions'
+  )
+  if (!authorized) {
+    return new Promise(() => false)
+  }
   const r_submission_api = RSubmissionControllerApiFactory(
     getConfiguration()
   )
@@ -85,7 +98,7 @@ export function updateSubmissionState(
   submission: EntityModelSubmissionDto,
   state: EntityModelSubmissionDtoStateEnum,
   textNotification: string
-) {
+): Promise<boolean> {
   const newSubmission = JSON.parse(
     JSON.stringify(submission)
   ) as EntityModelSubmissionDto
@@ -100,12 +113,30 @@ export function updateSubmissionState(
 export function addSumbission(
   repository: string,
   file: File
-) {
+): Promise<boolean> {
+  const authorized = checkIfAuthorized(
+    'POST',
+    'submissions'
+  )
+  if (!authorized) {
+    return new Promise(() => false)
+  }
   const r_submission_api = RSubmissionControllerApiFactory(
     getConfiguration()
   )
-
-  return openApiRequest<AxiosResponse<any>>(() =>
-    r_submission_api.submitPackageForm(repository, file)
+  return openApiRequest<AxiosResponse<any>>(
+    r_submission_api.submitPackageForm,
+    [repository, file]
+  ).then(
+    () => {
+      return true
+    },
+    (msg) => {
+      notify({
+        type: 'error',
+        text: msg
+      })
+      return false
+    }
   )
 }
