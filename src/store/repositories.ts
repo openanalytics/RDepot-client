@@ -16,7 +16,6 @@ interface State {
   repositories: EntityModelRepositoryDto[]
   filtration: RepositoriesFiltration
   chosenRepository: EntityModelRRepositoryDto
-  chosenRepositoryName: string
   repositoryPackages: EntityModelPackageDto[]
 }
 
@@ -34,7 +33,6 @@ export const useRepositoryStore = defineStore(
           deleted: undefined
         },
         chosenRepository: {},
-        chosenRepositoryName: '',
         repositoryPackages: []
       }
     },
@@ -53,7 +51,7 @@ export const useRepositoryStore = defineStore(
       },
       async fetchPackages() {
         packages_api
-          .getAllPackages(this.chosenRepositoryName)
+          .getAllPackages(this.chosenRepository.name)
           .then(
             (res) => {
               this.repositoryPackages =
