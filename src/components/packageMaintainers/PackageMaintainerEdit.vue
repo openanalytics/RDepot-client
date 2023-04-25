@@ -68,12 +68,14 @@ const validationSchema = toTypedSchema(
 const maintainers_store = usePackageMaintainersStore()
 const buttons = [
   {
+    id: 'cancelbutton',
     text: i18n.t('common.cancel'),
     handler: () => {
       changeDialogOptions()
     }
   },
   {
+    id: 'setfiltration',
     text: i18n.t('common.save'),
     handler: () => {
       editMaintainer()

@@ -90,9 +90,16 @@
         v-else-if="packageBag"
         v-model="packageBag.active"
         @change="updatePackageActive"
+        :disabled="
+          !logged_user_store.can('PATCH', 'package')
+        "
       />
     </VCol>
     <VCol
+      v-if="
+        logged_user_store.can('GET', 'packageDetails') ||
+        logged_user_store.can('DELETE', 'package')
+      "
       id="package-row-actions"
       cols="lg-1"
       class="d-flex justify-center align-center"
@@ -111,6 +118,12 @@
         <VTooltip top>
           <template v-slot:activator="{ props }">
             <VIcon
+              v-if="
+                logged_user_store.can(
+                  'GET',
+                  'packageDetails'
+                )
+              "
               id="navigate-icon"
               @click.stop
               @click="navigate"
@@ -124,9 +137,29 @@
           }}</span>
         </VTooltip>
         <DeleteIcon
+          v-if="logged_user_store.can('DELETE', 'package')"
           :name="props.packageBag?.name"
           :set-resource-id="choosePackage"
         />
+        <v-tooltip top>
+          <template v-slot:activator="{ props }">
+            <v-icon
+              v-if="
+                logged_user_store.can('DELETE', 'package')
+              "
+              id="delete-icon"
+              @click.stop
+              @click="deleteDialog"
+              v-bind="props"
+              color="oared"
+              class="ml-3"
+              >mdi-trash-can</v-icon
+            >
+          </template>
+          <span id="action-delete">{{
+            $t('common.delete')
+          }}</span>
+        </v-tooltip>
       </span>
     </VCol>
   </VRow>
@@ -142,6 +175,15 @@ import SortTitle from '@/components/packages/SortTitle.vue'
 import TextRecord from '@/components/packages/TextRecord.vue'
 
 const package_store = usePackagesStore()
+import { useCommonStore } from '@/store/common'
+import { useI18n } from 'vue-i18n'
+import { useLoggedUserStore } from '@/store/logged_user'
+import { OverlayEnum } from '@/enum/Overlay'
+
+const common_store = useCommonStore()
+const logged_user_store = useLoggedUserStore()
+// const can = ref(logged_user_store.can)
+const { t } = useI18n()
 
 const props = defineProps({
   title: {
@@ -186,6 +228,6 @@ function deleteDialog() {
   )
   common_store.setOverlayModel(true)
   common_store.setOverlayOpacity(0.8)
-  common_store.setOverlayComponent('Delete')
+  common_store.setOverlayComponent(OverlayEnum.enum.Delete)
 }
 </script>

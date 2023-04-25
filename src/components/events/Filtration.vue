@@ -57,28 +57,35 @@ import { i18n } from '@/plugins/i18n'
 import CardActions from '@/components/common/CardActions.vue'
 import { useEventsStore } from '@/store/events'
 import { ref, onMounted } from 'vue'
+import { Technologies } from '@/enum/Technologies'
 
 const emit = defineEmits(['closeModal'])
 const event_store = useEventsStore()
 
 const buttons = [
   {
+    id: 'cancel-button',
     text: i18n.t('common.cancel'),
     handler: () => emit('closeModal')
   },
   {
+    id: 'reset-button',
     spacer: true,
     text: i18n.t('common.clearForm'),
     handler: clearFiltration
   },
   {
+    id: 'set-filtration',
     text: i18n.t('common.apply'),
     handler: setFiltration
   }
 ]
 
 const eventTypeSelect = ref(['create', 'update', 'delete'])
-const technologySelect = ref(['R', 'Python'])
+const technologySelect = ref([
+  Technologies.enum.R,
+  Technologies.enum.Python
+])
 const resourceTypeSelect = ref([
   'package',
   'repository',

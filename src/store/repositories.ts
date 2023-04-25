@@ -67,8 +67,7 @@ export const useRepositoryStore = defineStore(
       ) {
         await updateRepository(
           this.chosenRepository,
-          newRepository,
-          textNotification
+          newRepository
         ).then((success) => {
           if (success) this.fetchRepositories()
         })
@@ -99,7 +98,7 @@ export const useRepositoryStore = defineStore(
       },
       async clearFiltrationAndFetch() {
         this.clearFiltration()
-        this.fetchRepositories()
+        await this.fetchRepositories()
       },
       async createRepository(
         newRepository: EntityModelRepositoryDto

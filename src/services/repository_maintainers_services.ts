@@ -8,18 +8,24 @@ import { AxiosResponse } from 'axios'
 import { getConfiguration } from './api_config'
 import {
   openApiRequest,
-  validateRequest
+  validateRequest,
+  validatedData
 } from './open_api_access'
 import { notify } from '@kyvg/vue3-notification'
 import { i18n } from '@/plugins/i18n'
 import { createPatch } from 'rfc6902'
 import { useSortStore } from '@/store/sort'
+import { isAuthorized } from '@/plugins/casl'
 
 export function fetchRepositoryMaintainersServices(
   filtration: RepositoryMaintainersFiltration,
   page?: number,
   pageSize?: number
-) {
+): Promise<
+  validatedData<EntityModelRepositoryMaintainerDto>
+> {
+  if (!isAuthorized('GET', 'repositoryMaintainers'))
+    return new Promise(() => validateRequest())
   const repository_maintainers_api =
     ApiV2RepositoryMaintainerControllerApiFactory(
       getConfiguration()
@@ -45,7 +51,7 @@ export function fetchRepositoryMaintainersServices(
       ),
     (msg) => {
       notify({ text: msg, type: 'error' })
-      return validateRequest<EntityModelRepositoryMaintainerDto>()
+      return validateRequest()
     }
   )
 }
@@ -53,7 +59,9 @@ export function fetchRepositoryMaintainersServices(
 export function updateRepositoryMaintainer(
   oldMaintainer: EntityModelRepositoryMaintainerDto,
   newMaintainer: EntityModelRepositoryMaintainerDto
-) {
+): Promise<boolean> {
+  if (!isAuthorized('PATCH', 'repositoryMaintainers'))
+    return new Promise(() => false)
   const repository_maintainers_api =
     ApiV2RepositoryMaintainerControllerApiFactory(
       getConfiguration()
@@ -86,7 +94,10 @@ export function updateRepositoryMaintainer(
 
 export function deletedRepositoryMaintainer(
   maintainer: EntityModelRepositoryMaintainerDto
-) {
+): Promise<boolean> {
+  if (!isAuthorized('DELETE', 'repositoryMaintainers')) {
+    return new Promise(() => false)
+  }
   const repository_maintainers_api =
     ApiV2RepositoryMaintainerControllerApiFactory(
       getConfiguration()

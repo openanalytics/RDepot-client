@@ -13,19 +13,24 @@ import { Technologies } from '@/enum/Technologies'
 import { i18n } from '@/plugins/i18n'
 import {
   openApiRequest,
+  validatedData,
   validateRequest
 } from './open_api_access'
 import { notify } from '@kyvg/vue3-notification'
 import { useSortStore } from '@/store/sort'
-import { createPatch } from 'rfc6902'
 import { AxiosResponse } from 'axios'
 import { repositorySchema } from '@/models/Schemas'
+import { createPatch } from 'rfc6902'
+import { isAuthorized } from '@/plugins/casl'
 
 export function fetchRepositoriesServices(
   filtration?: RepositoriesFiltration,
   page?: number,
   pageSize?: number
-) {
+): Promise<validatedData<EntityModelRepositoryDto>> {
+  if (!isAuthorized('GET', 'repositories')) {
+    return new Promise(() => validateRequest)
+  }
   const repository_api =
     ApiV2RepositoryControllerApiFactory(getConfiguration())
   const sort = useSortStore()
@@ -48,58 +53,41 @@ export function fetchRepositoriesServices(
       ),
     (msg) => {
       notify({ type: 'error', text: msg })
-      return validateRequest<EntityModelRepositoryDto>()
+      return validateRequest()
     }
   )
 }
 
-export function fetchRRepositories() {
+export function fetchRRepositories(): Promise<
+  validatedData<EntityModelRepositoryDto>
+> {
+  if (!isAuthorized('GET', 'repositories')) {
+    return new Promise(() => validateRequest)
+  }
   const r_repository_api = RRepositoryControllerApiFactory(
     getConfiguration()
   )
   return openApiRequest<ResponseDtoPagedModelEntityModelRRepositoryDto>(
     r_repository_api.getAllRRepositories
-  )
-}
-
-export function updateRepository(
-  oldRepository: EntityModelRepositoryDto,
-  newRepository: EntityModelRepositoryDto,
-  textNotification?: string
-) {
-  const r_repository_api = RRepositoryControllerApiFactory(
-    getConfiguration()
-  )
-  const patch_body = createPatch(
-    oldRepository,
-    newRepository
-  )
-
-  return openApiRequest<AxiosResponse<any>>(() =>
-    r_repository_api.updateRRepository(
-      patch_body,
-      oldRepository.id!
-    )
   ).then(
-    () => {
-      notify({
-        type: 'success',
-        text: textNotification
-      })
-      return true
-    },
+    (res) =>
+      validateRequest(
+        res.data.data?.content,
+        res.data.data?.page
+      ),
     (msg) => {
-      notify({
-        type: 'error',
-        text: msg
-      })
-      return false
+      notify({ type: 'error', text: msg })
+      return validateRequest()
     }
   )
 }
+
 export function createRepository(
   newRepository: EntityModelRepositoryDto
-) {
+): Promise<boolean> {
+  if (!isAuthorized('POST', 'repositories')) {
+    return new Promise(() => false)
+  }
   const validatedRepository =
     repositorySchema.safeParse(newRepository)
   if (validatedRepository.success) {
@@ -146,6 +134,58 @@ export function createRepository(
       type: 'error',
       text: validatedRepository.error.message
     })
-    return new Promise<boolean>(() => false)
+    return new Promise(() => false)
+  }
+}
+
+export function updateRepository(
+  oldRepository: EntityModelRepositoryDto,
+  newRepository: EntityModelRepositoryDto
+) {
+  if (!isAuthorized('PATCH', 'repositories')) {
+    return new Promise(() => false)
+  }
+
+  const patchBody = createPatch(
+    oldRepository,
+    newRepository
+  )
+
+  if (oldRepository.technology === Technologies.enum.R) {
+    const repository_api = RRepositoryControllerApiFactory(
+      getConfiguration()
+    )
+    return openApiRequest<ResponseDtoPagedModelEntityModelRepositoryDto>(
+      repository_api.updateRRepository,
+      [patchBody, newRepository]
+    ).then(
+      () => true,
+      (msg) => {
+        notify({ text: msg, type: 'error' })
+        return false
+      }
+    )
+  } else if (
+    oldRepository.technology === Technologies.enum.Python
+  ) {
+    const repository_api =
+      PythonRepositoryControllerApiFactory(
+        getConfiguration()
+      )
+    return openApiRequest<ResponseDtoPagedModelEntityModelRepositoryDto>(
+      repository_api.updatePythonRepository,
+      [patchBody, newRepository]
+    ).then(
+      () => true,
+      (msg) => {
+        notify({ text: msg, type: 'error' })
+        return false
+      }
+    )
+  } else {
+    throw new Error(
+      'Technologies not supported ' +
+        oldRepository.technology
+    )
   }
 }

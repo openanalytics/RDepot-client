@@ -13,6 +13,7 @@ import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import FiltrationVue from '@/components/packages/Filtration.vue'
 import { createPinia, setActivePinia, Store } from 'pinia'
 import { usePackagesStore } from '@/store/packages'
+import { Technologies } from '@/enum/Technologies'
 
 let wrapper: any
 const globalConfig = {
@@ -139,21 +140,24 @@ function checkIfPiniaFiltrationIsFilledWithData() {
     'repository1'
   )
   expect(packages_store.filtration.deleted).toBe(false)
-  expect(packages_store.filtration.technology).toBe('R')
+  expect(packages_store.filtration.technology).toBe(
+    Technologies.enum.R
+  )
 }
 
 function fillPiniaFiltrationWithRandomData() {
   packages_store.filtration.state = 'accepted'
   packages_store.filtration.repository = 'repository1'
   packages_store.filtration.deleted = false
-  packages_store.filtration.technology = 'R'
+  packages_store.filtration.technology = Technologies.enum.R
 }
 
 function fillTheFormWithRandomData() {
   wrapper.vm.localFiltration.state = 'accepted'
   wrapper.vm.localFiltration.repository = 'repository1'
   wrapper.vm.localFiltration.deleted = false
-  wrapper.vm.localFiltration.technology = 'R'
+  wrapper.vm.localFiltration.technology =
+    Technologies.enum.R
 }
 
 async function clickButton(id: string) {

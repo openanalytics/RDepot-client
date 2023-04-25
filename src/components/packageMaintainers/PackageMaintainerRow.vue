@@ -61,6 +61,16 @@
       />
     </v-col>
     <v-col
+      v-if="
+        logged_user_store.can(
+          'PATCH',
+          'packageMaintainers'
+        ) ||
+        logged_user_store.can(
+          'DELETE',
+          'packageMaintainers'
+        )
+      "
       id="package-maintainer-actions"
       cols="lg-1"
       class="d-flex justify-center"
@@ -80,6 +90,34 @@
         <v-tooltip top>
           <template v-slot:activator="{ props }">
             <v-icon
+              v-if="
+                logged_user_store.can(
+                  'DELETE',
+                  'packageMaintainers'
+                )
+              "
+              id="delete-icon"
+              @click.stop
+              @click="deleteDialog()"
+              v-bind="props"
+              color="oared"
+              >mdi-trash-can</v-icon
+            >
+          </template>
+          <span id="action-edit">{{
+            $t('maintainers.delete')
+          }}</span>
+        </v-tooltip>
+
+        <v-tooltip top>
+          <template v-slot:activator="{ props }">
+            <v-icon
+              v-if="
+                logged_user_store.can(
+                  'PATCH',
+                  'packageMaintainers'
+                )
+              "
               id="pencil-icon"
               @click.stop
               @click="edit"
@@ -96,6 +134,12 @@
         <delete-icon
           :name="props.packageMaintainer?.user?.name"
           :set-resource-id="chooseMaintainer"
+          v-if="
+            logged_user_store.can(
+              'DELETE',
+              'packageMaintainers'
+            )
+          "
         />
       </span>
     </v-col>
@@ -104,10 +148,14 @@
 
 <script setup lang="ts">
 import { EntityModelPackageMaintainerDto } from '@/openapi'
+import { i18n } from '@/plugins/i18n'
+import { useCommonStore } from '@/store/common'
+import { useLoggedUserStore } from '@/store/logged_user'
 import { usePackageMaintainersStore } from '@/store/package_maintainers'
 import DeleteIcon from '../common/action_icons/DeleteIcon.vue'
 import SortTitle from '../packages/SortTitle.vue'
 import TextRecord from '../packages/TextRecord.vue'
+import { OverlayEnum } from '@/enum/Overlay'
 
 const props = defineProps({
   title: {
@@ -119,11 +167,16 @@ const props = defineProps({
     | undefined
 })
 
+const logged_user_store = useLoggedUserStore()
+const common_store = useCommonStore()
 const maintainers_store = usePackageMaintainersStore()
 
-function prepareString(value: string): string {
-  return value.charAt(0).toUpperCase() + value.slice(1)
+function chooseMaintainer() {
+  maintainers_store.setChosenMaintainer(
+    props.packageMaintainer || {}
+  )
 }
+
 function edit() {
   maintainers_store.setChosenMaintainer(
     props.packageMaintainer || {}

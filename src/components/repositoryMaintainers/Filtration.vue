@@ -29,10 +29,11 @@ import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
 import { ref, onMounted } from 'vue'
 import FiltrationCard from '@/components/common/FiltrationCard.vue'
 import { useObjectActions } from '@/composable/objectActions'
+import { Technologies } from '@/enum/Technologies'
 
 const { setAllFields } = useObjectActions()
 const maintainers_store = useRepositoryMaintainersStore()
-const technologySelect = ref(['R', 'Python'])
+const technologySelect = ref(Technologies.options)
 let filtration = maintainers_store.filtration
 const localFiltration = ref(filtration)
 

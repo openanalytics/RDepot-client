@@ -27,13 +27,14 @@
 <script setup lang="ts">
 import FiltrationCard from '@/components/common/FiltrationCard.vue'
 import { useObjectActions } from '@/composable/objectActions'
+import { Technologies } from '@/enum/Technologies'
 import { usePackageMaintainersStore } from '@/store/package_maintainers'
 import { ref, onMounted } from 'vue'
 
 const maintainers_store = usePackageMaintainersStore()
 
 const { setAllFields } = useObjectActions()
-const technologySelect = ref(['R', 'Python'])
+const technologySelect = ref(Technologies.options)
 let filtration = maintainers_store.filtration
 const localFiltration = ref(filtration)
 

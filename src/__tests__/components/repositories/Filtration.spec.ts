@@ -13,6 +13,7 @@ import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import FiltrationVue from '@/components/repositories/Filtration.vue'
 import { createPinia, setActivePinia } from 'pinia'
 import { useRepositoryStore } from '@/store/repositories'
+import { Technologies } from '@/enum/Technologies'
 
 let wrapper: any
 const globalConfig = {
@@ -66,23 +67,27 @@ describe('Repositories - filtration', () => {
   it('reset form but not accept it yet', async () => {
     fillTheFormWithRandomData()
     fillPiniaFiltrationWithRandomData()
-    wrapper.vm.localFiltration.technology = 'Python'
+    wrapper.vm.localFiltration.technology =
+      Technologies.enum.Python
     await clickButton('#reset-button')
     checkIfFiltrationIsEmpty()
     expect(repositories_store.filtration.technology).toBe(
-      'R'
+      Technologies.enum.R
     )
   })
 
   it('reset form but and cancel it', async () => {
     fillTheFormWithRandomData()
     fillPiniaFiltrationWithRandomData()
-    wrapper.vm.localFiltration.technology = 'Python'
+    wrapper.vm.localFiltration.technology =
+      Technologies.enum.Python
     await clickButton('#reset-button')
     await clickButton('#cancel-button')
-    expect(wrapper.vm.filtration.technology).toBe('R')
+    expect(wrapper.vm.filtration.technology).toBe(
+      Technologies.enum.R
+    )
     expect(repositories_store.filtration.technology).toBe(
-      'R'
+      Technologies.enum.R
     )
   })
 
@@ -90,11 +95,14 @@ describe('Repositories - filtration', () => {
     fillTheFormWithRandomData()
     fillPiniaFiltrationWithRandomData()
     await clickButton('#set-filtration')
-    wrapper.vm.localFiltration.technology = 'Python'
+    wrapper.vm.localFiltration.technology =
+      Technologies.enum.Python
     await clickButton('#cancel-button')
-    expect(wrapper.vm.filtration.technology).toBe('R')
+    expect(wrapper.vm.filtration.technology).toBe(
+      Technologies.enum.R
+    )
     expect(repositories_store.filtration.technology).toBe(
-      'R'
+      Technologies.enum.R
     )
   })
 
@@ -139,19 +147,23 @@ function checkIfPiniaFiltrationIsFilledWithData() {
   expect(repositories_store.filtration.name).toBe(
     'testrepo1'
   )
-  expect(repositories_store.filtration.technology).toBe('R')
+  expect(repositories_store.filtration.technology).toBe(
+    Technologies.enum.R
+  )
   expect(repositories_store.filtration.deleted).toBe(true)
 }
 
 function fillPiniaFiltrationWithRandomData() {
   repositories_store.filtration.name = 'testrepo1'
-  repositories_store.filtration.technology = 'R'
+  repositories_store.filtration.technology =
+    Technologies.enum.R
   repositories_store.filtration.deleted = true
 }
 
 function fillTheFormWithRandomData() {
   wrapper.vm.localFiltration.name = 'testrepo1'
-  wrapper.vm.localFiltration.technology = 'R'
+  wrapper.vm.localFiltration.technology =
+    Technologies.enum.R
   wrapper.vm.localFiltration.deleted = true
 }
 

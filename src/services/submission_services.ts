@@ -9,18 +9,23 @@ import { AxiosResponse } from 'axios'
 import { getConfiguration } from './api_config'
 import {
   openApiRequest,
+  validatedData,
   validateRequest
 } from './open_api_access'
 import { notify } from '@kyvg/vue3-notification'
 import { createPatch } from 'rfc6902'
 import { useSortStore } from '@/store/sort'
+import { isAuthorized } from '@/plugins/casl'
 
 export function fetchRSubmissions(
   filtration: SubmissionsFiltration,
   logged_user_id: number,
   page?: number,
   pageSize?: number
-) {
+): Promise<validatedData<EntityModelSubmissionDto>> {
+  if (!isAuthorized('GET', 'submissions')) {
+    return new Promise(() => validateRequest())
+  }
   const r_submission_api = RSubmissionControllerApiFactory(
     getConfiguration()
   )
@@ -46,7 +51,7 @@ export function fetchRSubmissions(
       ),
     (msg) => {
       notify({ text: msg, type: 'error' })
-      return validateRequest<EntityModelSubmissionDto>()
+      return validateRequest()
     }
   )
 }
@@ -55,7 +60,10 @@ export function updateSubmission(
   oldSubmission: EntityModelSubmissionDto,
   newSubmission: EntityModelSubmissionDto,
   textNotification?: string
-) {
+): Promise<boolean> {
+  if (!isAuthorized('PATCH', 'submissions')) {
+    return new Promise(() => false)
+  }
   const r_submission_api = RSubmissionControllerApiFactory(
     getConfiguration()
   )
@@ -91,7 +99,7 @@ export function updateSubmissionState(
   submission: EntityModelSubmissionDto,
   state: EntityModelSubmissionDtoStateEnum,
   textNotification: string
-) {
+): Promise<boolean> {
   const newSubmission = JSON.parse(
     JSON.stringify(submission)
   ) as EntityModelSubmissionDto
@@ -106,12 +114,26 @@ export function updateSubmissionState(
 export function addSubmission(
   repository: string,
   file: File
-) {
+): Promise<boolean> {
+  if (!isAuthorized('POST', 'submissions')) {
+    return new Promise(() => false)
+  }
   const r_submission_api = RSubmissionControllerApiFactory(
     getConfiguration()
   )
-
-  return openApiRequest<AxiosResponse<any>>(() =>
-    r_submission_api.submitPackageForm(repository, file)
+  return openApiRequest<AxiosResponse<any>>(
+    r_submission_api.submitPackageForm,
+    [repository, file]
+  ).then(
+    () => {
+      return true
+    },
+    (msg) => {
+      notify({
+        type: 'error',
+        text: msg
+      })
+      return false
+    }
   )
 }
