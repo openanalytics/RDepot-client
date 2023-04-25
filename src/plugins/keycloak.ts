@@ -50,7 +50,7 @@ export async function initKeycloak() {
     .then((auth: any) => {
       localStorage.setItem(
         'authorizationType',
-        LoginType.KEYCLOAK.toString()
+        LoginType.enum.KEYCLOAK
       )
       if (!auth) {
         window.location.reload()

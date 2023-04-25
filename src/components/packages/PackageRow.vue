@@ -194,7 +194,7 @@ function deleteDialog() {
   )
   common_store.setOverlayModel(true)
   common_store.setOverlayOpacity(0.8)
-  common_store.setOverlayComponent(OverlayEnum.Delete)
+  common_store.setOverlayComponent('Delete')
 }
 </script>
 
