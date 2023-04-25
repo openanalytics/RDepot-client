@@ -1,5 +1,7 @@
 <template>
-  <span class="mr-8"> {{ prepareText() }} </span>
+  <span :class="[{ 'mr-8': !noMargin }]">
+    {{ prepareText() }}
+  </span>
 </template>
 
 <script setup lang="ts">
@@ -8,6 +10,11 @@ import { ref } from '@vue/reactivity'
 const props = defineProps({
   text: {
     type: String
+  },
+  noMargin: {
+    type: Boolean,
+    required: false,
+    default: false
   }
 })
 
