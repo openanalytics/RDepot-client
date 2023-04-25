@@ -76,9 +76,10 @@
       <SortTitle
         v-if="title"
         center
+        no-sort
         :text="$t('columns.packagesNo')"
       />
-      <TextRecord v-else text="none" />
+      <TextRecord v-else text="none" no-margin />
     </v-col>
     <v-col
       id="repository-published"
@@ -87,7 +88,6 @@
     >
       <SortTitle
         v-if="title"
-        :sort="false"
         :text="$t('columns.published')"
         center
       />
@@ -108,7 +108,7 @@
     >
       <SortTitle
         v-if="title"
-        :sort="false"
+        no-sort
         center
         :text="$t('columns.actions')"
       />

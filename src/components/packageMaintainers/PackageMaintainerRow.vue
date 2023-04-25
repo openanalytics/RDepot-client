@@ -37,17 +37,19 @@
       <SortTitle
         v-if="title"
         center
+        no-sort
         :text="$t('columns.technology')"
       />
       <TextRecord
         v-else
         :text="packageMaintainer?.repository?.technology"
+        no-margin
       />
     </v-col>
     <v-col
       id="package-maintainer-repository"
       cols="lg-1 sm-2"
-      class="d-flex align-center"
+      class="d-flex align-center justify-center"
     >
       <SortTitle
         v-if="title"
@@ -65,8 +67,8 @@
     >
       <SortTitle
         v-if="title"
-        :sort="false"
         true
+        no-sort
         :text="$t('columns.actions')"
       />
       <span

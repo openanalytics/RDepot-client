@@ -110,8 +110,8 @@
       <SortTitle
         v-if="title"
         :text="$t('columns.actions')"
-        :sort="false"
         center
+        no-sort
       />
       <span
         v-else-if="getWaiting && submission"

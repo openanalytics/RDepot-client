@@ -40,11 +40,13 @@
     >
       <SortTitle
         v-if="title"
+        no-sort
         center
         :text="$t('columns.technology')"
       />
       <TextRecord
         v-else
+        no-margin
         :text="repositoryMaintainer?.repository?.technology"
       />
     </v-col>
@@ -56,9 +58,8 @@
     >
       <SortTitle
         v-if="title"
-        :center="true"
-        :sort="false"
         center
+        no-sort
         :text="$t('columns.actions')"
       />
       <span
