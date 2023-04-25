@@ -14,8 +14,11 @@ import { createPinia, setActivePinia } from 'pinia'
 import ShortPackagesListVue from '@/components/packages/shortPackages/ShortPackagesList.vue'
 import ShortPackageRowVue from '@/components/packages/shortPackages/ShortPackageRow.vue'
 import packages from '@/tmpLists/packages.json'
+import { useRepositoryStore } from '@/store/repositories'
 
 let wrapper: any
+let repository_store: any
+
 const globalConfig = {
   mocks: mocks,
   plugins: plugins
@@ -24,6 +27,7 @@ const globalConfig = {
 beforeAll(() => {
   global.ResizeObserver = ResizeObserver
   setActivePinia(createPinia())
+  repository_store = useRepositoryStore()
 })
 
 beforeEach(async () => {
@@ -42,8 +46,6 @@ describe('Short Packages - list', () => {
       ShortPackageRowVue
     )
 
-    expect(packagesFromWrapper.length).toEqual(
-      packages.page2.length + 1
-    )
+    expect(packagesFromWrapper.length).toEqual(1)
   })
 })

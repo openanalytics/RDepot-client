@@ -33,18 +33,18 @@ beforeEach(async () => {
   })
 })
 
-describe('Add submission - step first', () => {
+describe('Add submission - first step', () => {
   it('renders properly', () => {
     expect(wrapper.exists()).toBe(true)
   })
 
   it('next button exists', () => {
-    const button = wrapper.find('#nextbutton')
+    const button = wrapper.find('#next-button')
     expect(button.exists()).toBeTruthy()
   })
 
   it('go next not allowed if reposiotry is not choosen', async () => {
-    const button = wrapper.find('#nextbutton')
+    const button = wrapper.find('#next-button')
     expect(button.exists()).toBeTruthy()
     await button.trigger('click')
     expect(wrapper.emitted().next).toBeFalsy()
@@ -55,7 +55,7 @@ describe('Add submission - step first', () => {
       id: 1,
       name: 'repository1'
     })
-    const button = wrapper.find('#nextbutton')
+    const button = wrapper.find('#next-button')
     expect(button.exists()).toBeTruthy()
     await button.trigger('click')
     expect(wrapper.emitted().next).toBeTruthy()

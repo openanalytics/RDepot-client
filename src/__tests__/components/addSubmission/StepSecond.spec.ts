@@ -30,7 +30,7 @@ beforeEach(async () => {
   })
 })
 
-describe('Add submission - step first', () => {
+describe('Add submission - second step', () => {
   it('renders properly', () => {
     expect(wrapper.exists()).toBe(true)
   })
@@ -52,18 +52,33 @@ describe('Add submission - step first', () => {
     expect(button.exists()).toBeTruthy()
   })
 
-  it('go next not allowed if repository is not choosen', async () => {
+  it('go next not allowed if repository is not chosen', async () => {
     const button = wrapper.find('#next-button')
     expect(button.exists()).toBeTruthy()
     await button.trigger('click')
     expect(wrapper.emitted().next).toBeFalsy()
   })
 
-  it('go next allowed if reposiotry is choosen', async () => {
-    var files = [new File([''], 'filename')]
+  it('go next allowed if reposiotry is chosen', async () => {
+    // var files = [
+    //   new File([''], 'filename', {
+    //     type: 'application/gzip'
+    //   })
+    // ]
+    var files: File[] = [
+      {
+        name: 'A3_1.0.0.tar.gz',
+        type: 'application/gzip'
+      } as File,
+      {
+        name: 'abind_1.4-5.tar.gz',
+        type: 'application/gzip'
+      } as File
+    ]
+
     const button = wrapper.find('#next-button')
     wrapper.vm.valid = true
-    wrapper.vm.files = files
+    wrapper.vm.files_local = files
     expect(button.isVisible()).toBeTruthy()
     await button.trigger('click')
     expect(wrapper.emitted().next).toBeTruthy()

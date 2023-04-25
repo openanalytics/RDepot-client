@@ -59,9 +59,7 @@ describe('Repository Maintainers - maintainers row (maintainer)', () => {
     const field = wrapper.find(
       '#package-maintainer-repository'
     )
-    expect(field.text()).toBe(
-      maintainer.repository?.id!.toString()
-    )
+    expect(field.text()).toBe(maintainer.repository?.name)
   })
 
   it('delete button is visiable', () => {
@@ -139,28 +137,35 @@ describe('Repository Maintainers - maintainers row (title)', () => {
 
   it('name title', () => {
     const field = wrapper.find('#package-maintainer-name')
-    expect(field.text()).toBe('Maintainers.name')
+    expect(field.text()).toBe('Columns.name')
   })
 
   it('package title', () => {
     const field = wrapper.find(
       '#package-maintainer-package'
     )
-    expect(field.text()).toBe('Maintainers.packageName')
+    expect(field.text()).toBe('Columns.packageName')
+  })
+
+  it('technology title', () => {
+    const field = wrapper.find(
+      '#package-maintainer-technology'
+    )
+    expect(field.text()).toBe('Columns.technology')
   })
 
   it('repository title', () => {
     const field = wrapper.find(
       '#package-maintainer-repository'
     )
-    expect(field.text()).toBe('Maintainers.repository')
+    expect(field.text()).toBe('Columns.repository')
   })
 
   it('actions title', () => {
     const field = wrapper.find(
       '#package-maintainer-actions'
     )
-    expect(field.text()).toBe('Maintainers.actions')
+    expect(field.text()).toBe('Columns.actions')
   })
 
   it('delete button bnot exists', () => {
