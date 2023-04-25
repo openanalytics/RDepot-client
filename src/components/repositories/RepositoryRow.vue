@@ -191,11 +191,12 @@ function updateRepositoryPublished(): void {
   oldRepository.published = !oldRepository.published
   updateRepository(
     oldRepository,
-    props.repository || {}
+    repositoryLocal.value
   ).then((success) => {
     if (!success)
       // revert change if request was not successful
-      props.repository!.published = oldRepository.published
+      repositoryLocal.value.published =
+        oldRepository.published
   })
 }
 
