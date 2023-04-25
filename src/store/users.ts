@@ -14,7 +14,7 @@ export const useUserStore = defineStore('user_store', {
     return {
       userToken: '',
       userName: '',
-      loginType: LoginType.DEFAULT
+      loginType: 'DEFAULT'
     }
   },
   actions: {

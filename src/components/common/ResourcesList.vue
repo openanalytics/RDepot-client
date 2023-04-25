@@ -87,7 +87,10 @@ function handleClick(item: any) {
   padding-top: 0 !important;
   padding-bottom: 0 !important;
 }
-.v-input__details {
-  display: none !important;
+
+.no-icon {
+  .v-input__details {
+    display: none !important;
+  }
 }
 </style>

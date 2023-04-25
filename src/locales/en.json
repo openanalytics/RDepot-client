@@ -35,7 +35,10 @@
     "projectTitle": "RDepot",
     "noListingResults": "No results where found",
     "errors": {
-      "copyFailed": "Copy failed"
+      "copyFailed": "Copy failed",
+      "required": "This field is required",
+      "url": "This should be a url",
+      "email": "This should be an email"
     },
     "copied": "code succesfully copied to clipboard"
   },
@@ -156,7 +159,8 @@
     "successDeleteRepositoryManager": "successful deleted {maintainer_name}",
     "successUpdateRepositoryManager": "successful update {maintainer_name}",
     "successDeleteRepositoryMaintainer": "successful deleted {maintainer_name}",
-    "successUpdateRepositoryMaintainer": "successful updated {maintainer_name}"
+    "successUpdateRepositoryMaintainer": "successful updated {maintainer_name}",
+    "invalidform": "The submitted form is not valid"
   },
   "maintainers": {
     "edit": "edit maintainer",

@@ -1,19 +1,28 @@
 <template>
-  <v-card class="pa-5" width="400">
-    <v-card-title>
-      {{ $t('maintainers.editform.title') }}
-    </v-card-title>
-    <v-divider></v-divider>
-    <v-card-text style="height: 300px">
-      <v-form ref="form" lazy-validation>
-        <v-text-field
+  <Form
+    as="v-form"
+    ref="form"
+    :validation-schema="validationSchema"
+    v-slot="{ meta }"
+    lazy-validation
+  >
+    <v-card class="pa-5" width="400">
+      <v-card-title>
+        {{ $t('maintainers.editform.title') }}
+      </v-card-title>
+      <v-divider></v-divider>
+      <v-card-text style="height: 300px">
+        <validated-input-field
+          name="user.login"
+          as="v-text-field"
           id="edit-package-maintainer-user"
           :value="localMaintainer.user?.login"
           :label="$t('maintainers.editform.user')"
           :disabled="blockedField == 'user'"
-        >
-        </v-text-field>
-        <v-select
+        />
+        <validated-input-field
+          name="repository.id"
+          as="v-select"
           id="edit-package-maintainer-repository"
           :modelValue="localMaintainer.repository"
           @update:modelValue="newValue => localMaintainer.repository!.id = newValue"
@@ -22,20 +31,29 @@
           item-value="id"
           :label="$t('maintainers.editform.repository')"
           :disabled="blockedField == 'repository'"
-        ></v-select>
-      </v-form>
-    </v-card-text>
-    <v-divider></v-divider>
-    <card-actions :buttons="buttons" />
-  </v-card>
+        />
+      </v-card-text>
+      <v-divider></v-divider>
+      <card-actions :buttons="buttons" />
+    </v-card>
+  </Form>
 </template>
 
 <script setup lang="ts">
-import CardActions from '../common/CardActions.vue'
+import CardActions from '@/components/common/CardActions.vue'
 import { EntityModelRepositoryMaintainerDto } from '@/openapi'
-import { i18n } from '@/plugins/i18n'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
 import { ref, computed, onMounted } from 'vue'
+import { Form, useIsFormValid } from 'vee-validate'
+import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
+import { toTypedSchema } from '@vee-validate/zod'
+import { repositoryMaintainerSchema } from '@/models/Schemas'
+import { notify } from '@kyvg/vue3-notification'
+import { i18n } from '@/plugins/i18n'
+
+const validationSchema = toTypedSchema(
+  repositoryMaintainerSchema
+)
 
 const props = defineProps({
   blockedField: {
@@ -74,11 +92,19 @@ const localMaintainer = ref(maintainer)
 const emit = defineEmits(['closeModal'])
 
 function setMaintainer() {
-  maintainers_store.saveMaintainer(localMaintainer.value)
-  changeDialogOptions()
+  const { value: valid } = useIsFormValid()
+  if (valid) {
+    maintainers_store.saveMaintainer(localMaintainer.value)
+    changeDialogOptions()
+  } else {
+    notify({
+      type: 'warn',
+      text: i18n.t('notifications.invalidform')
+    })
+  }
 }
 
-onMounted(() => maintainers_store.fetchRepositories())
+onMounted(maintainers_store.fetchRepositories)
 
 function changeDialogOptions() {
   emit('closeModal')

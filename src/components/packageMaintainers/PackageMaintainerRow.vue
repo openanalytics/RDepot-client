@@ -118,7 +118,7 @@ function edit() {
   )
   common_store.setOverlayModel(true)
   common_store.setOverlayOpacity(0.8)
-  common_store.setOverlayComponent(OverlayEnum.Edit)
+  common_store.setOverlayComponent(OverlayEnum.enum.Edit)
 }
 
 function deleteDialog() {
@@ -132,7 +132,7 @@ function deleteDialog() {
   )
   common_store.setOverlayModel(true)
   common_store.setOverlayOpacity(0.8)
-  common_store.setOverlayComponent(OverlayEnum.Delete)
+  common_store.setOverlayComponent(OverlayEnum.enum.Delete)
 }
 </script>
 

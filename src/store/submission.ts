@@ -11,7 +11,6 @@ import { useLoggedUserStore } from './logged_user'
 import {
   addSumbission,
   fetchRSubmissions,
-  updateSubmission,
   updateSubmissionState
 } from '@/services/submission_services'
 import { usePaginationStore } from '@/store/pagination'
@@ -127,7 +126,9 @@ export const useSubmissionStore = defineStore(
           if (fulfilled == 0 && isFulfilled) {
             notify({
               type: 'success',
-              text: i18n.t('notifications.success')
+              text: i18n.t(
+                'notifications.successCreateSubmissiom'
+              )
             })
             fulfilled += 1
           } else if (!isFulfilled) {

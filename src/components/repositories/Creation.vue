@@ -1,70 +1,70 @@
 <template>
-  <v-card class="pa-5" width="400">
-    <v-card-title>
-      {{ $t('repositories.creation.title') }}
-    </v-card-title>
-    <v-divider></v-divider>
-    <v-card-text style="height: 300px">
-      <v-form ref="form">
-        <v-text-field
-          class="my-2"
-          id="repository-name"
-          v-model="newRepository.name"
+  <Form as="v-form" :validation-schema="validationSchema">
+    <v-card class="pa-5" width="400">
+      <v-card-title>
+        {{ $t('repositories.creation.title') }}
+      </v-card-title>
+      <v-divider></v-divider>
+      <v-card-text>
+        <validated-input-field
+          name="name"
+          as="v-text-field"
           :label="$t('repositories.creation.name')"
-        ></v-text-field>
-
-        <v-text-field
-          class="my-5"
-          id="repository-technology"
-          v-model="newRepository.publicationUri"
+        ></validated-input-field>
+        <validated-input-field
+          name="publicationUri"
+          as="v-text-field"
           :label="
             $t('repositories.creation.publicationUri')
           "
-          :placeholder="
-            $t(
-              'repositories.creation.publicationUriPlaceholder'
-            )
-          "
-        ></v-text-field>
-        <v-text-field
-          class="my-2"
-          id="filtration-deleted"
-          v-model="newRepository.serverAddress"
+        ></validated-input-field>
+        <validated-input-field
+          name="serverAddress"
+          as="v-text-field"
           :label="$t('repositories.creation.serverAddress')"
-          :placeholder="
-            $t(
-              'repositories.creation.serverAddressPlaceholder'
-            )
-          "
-        ></v-text-field>
-        <v-select
-          class="my-2"
-          id="repository-technology"
-          v-model="newRepository.technology"
+        ></validated-input-field>
+        <validated-input-field
           :items="technologySelect"
+          name="technology"
+          as="v-select"
           :label="$t('repositories.creation.technology')"
-        >
-        </v-select>
-      </v-form>
-    </v-card-text>
-    <v-divider></v-divider>
-    <card-actions :buttons="buttons" />
-  </v-card>
+        ></validated-input-field>
+      </v-card-text>
+      <v-divider></v-divider>
+      <card-actions :buttons="buttons" />
+    </v-card>
+  </Form>
 </template>
 
 <script setup lang="ts">
 import { useRepositoryStore } from '@/store/repositories'
 import { ref, onMounted } from 'vue'
 import { EntityModelRepositoryDto } from '@/openapi'
-import { TechnologiesEnum } from '@/enum/Technologies'
-import CardActions from '../common/CardActions.vue'
+import { Technologies } from '@/enum/Technologies'
+import { repositorySchema } from '@/models/Schemas'
+import { toTypedSchema } from '@vee-validate/zod/dist/vee-validate-zod'
+import {
+  Form,
+  useFormValues,
+  useIsFormValid
+} from 'vee-validate'
+import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
+import { notify } from '@kyvg/vue3-notification'
+import CardActions from '@/components/common/CardActions.vue'
 import { i18n } from '@/plugins/i18n'
+
+const validationSchema = toTypedSchema(
+  repositorySchema.pick({
+    name: true,
+    publicationUri: true,
+    serverAddress: true,
+    technology: true
+  })
+)
 
 const repository_store = useRepositoryStore()
 
-const technologySelect = ref(
-  Object.values(TechnologiesEnum)
-)
+const technologySelect = ref(Technologies.options)
 
 const buttons = [
   {
@@ -77,15 +77,20 @@ const buttons = [
   }
 ]
 
-const newRepository = ref({} as EntityModelRepositoryDto)
-
 const emit = defineEmits(['closeModal'])
 
-async function createRepository() {
-  await repository_store.createRepository(
-    newRepository.value
-  )
-  changeDialogOptions()
+function createRepository() {
+  const { value: valid } = useIsFormValid()
+  const { value } = useFormValues()
+  if (valid) {
+    repository_store.createRepository(value)
+    changeDialogOptions()
+  } else {
+    notify({
+      type: 'warn',
+      text: i18n.t('notifications.invalidform')
+    })
+  }
 }
 
 function changeDialogOptions() {

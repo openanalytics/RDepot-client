@@ -9,13 +9,14 @@ import {
   RRepositoryControllerApiFactory
 } from '@/openapi'
 import { getConfiguration } from './api_config'
-import { TechnologiesEnum } from '@/enum/Technologies'
+import { Technologies } from '@/enum/Technologies'
 import { notify } from '@kyvg/vue3-notification'
 import { i18n } from '@/plugins/i18n'
 import {
   openApiRequest,
   validateRequest
 } from './open_api_access'
+import { repositorySchema } from '@/models/Schemas'
 
 export function fetchRepositoriesServices(
   filtration?: RepositoriesFiltration,
@@ -58,10 +59,13 @@ export function fetchRRepositories() {
 export function createRepository(
   newRepository: EntityModelRepositoryDto
 ) {
-  const { technology, ...repository } = newRepository
-  if (technology && technology in TechnologiesEnum) {
+  const validatedRepository =
+    repositorySchema.safeParse(newRepository)
+  if (validatedRepository.success) {
+    const { technology, ...repository } =
+      validatedRepository.data
     let request
-    if (technology === TechnologiesEnum.R) {
+    if (technology === Technologies.enum.R) {
       const repository_api =
         RRepositoryControllerApiFactory(getConfiguration())
       request =
@@ -99,7 +103,7 @@ export function createRepository(
   } else {
     notify({
       type: 'error',
-      text: `Invalid technology '${newRepository.technology}'`
+      text: validatedRepository.error.message
     })
     return new Promise<boolean>(() => false)
   }
