@@ -211,7 +211,7 @@ function updatePackageActive() {
 
 function navigate() {
   if (props.packageBag?.name) {
-    router.replace({
+    router.push({
       name: 'packageDetails',
       params: {
         name: props.packageBag.id

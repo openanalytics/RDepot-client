@@ -27,7 +27,7 @@ function updateData(): void {
 }
 function navigate(repository: EntityModelRRepositoryDto) {
   repository_store.setChosenRepository(repository.id)
-  router.replace({
+  router.push({
     name: 'repositoryDetails',
     params: {
       name: repository.name

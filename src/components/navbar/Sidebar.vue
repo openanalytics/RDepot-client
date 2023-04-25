@@ -16,7 +16,7 @@
         prepend-icon="mdi-timetable"
         :title="$t('common.events')"
         :value="$t('common.events')"
-        @click="$router.replace({ name: 'events' })"
+        @click="$router.push({ name: 'events' })"
       ></v-list-item>
 
       <v-list-item
@@ -24,7 +24,7 @@
         prepend-icon="mdi-upload"
         :title="$t('common.addPackage')"
         :value="$t('common.addPackage')"
-        @click="$router.replace({ name: 'addSubmission' })"
+        @click="$router.push({ name: 'addSubmission' })"
       ></v-list-item>
 
       <v-list-item
@@ -32,7 +32,7 @@
         prepend-icon="mdi-email"
         :title="$t('common.submissions')"
         :value="$t('common.submissions')"
-        @click="$router.replace({ name: 'submissions' })"
+        @click="$router.push({ name: 'submissions' })"
       ></v-list-item>
 
       <v-list-group
@@ -58,7 +58,7 @@
           :title="$t('common.list')"
           :value="$t('packages.list')"
           id="sidebarpackageslist"
-          @click="$router.replace({ name: 'packages' })"
+          @click="$router.push({ name: 'packages' })"
         ></v-list-item>
         <v-list-item
           v-if="
@@ -67,7 +67,7 @@
           :title="$t('common.maintainers')"
           :value="$t('packages.maintainers')"
           @click="
-            $router.replace({ name: 'packageMaintainers' })
+            $router.push({ name: 'packageMaintainers' })
           "
         ></v-list-item>
       </v-list-group>
@@ -94,7 +94,7 @@
           v-if="loggedUserStore.can('GET', 'repositories')"
           :title="$t('common.list')"
           :value="$t('repositories.list')"
-          @click="$router.replace({ name: 'repositories' })"
+          @click="$router.push({ name: 'repositories' })"
         ></v-list-item>
         <v-list-item
           v-if="
@@ -107,7 +107,7 @@
           :value="$t('repositories.maintainers')"
           id="sidebarrepositorymintainers"
           @click="
-            $router.replace({
+            $router.push({
               name: 'repositoryMaintainers'
             })
           "

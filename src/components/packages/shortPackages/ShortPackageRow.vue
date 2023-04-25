@@ -105,7 +105,7 @@ function prepareString(value: string): string {
 
 function navigate() {
   if (props.packageBag) {
-    router.replace({
+    router.push({
       name: 'packageDetails',
       params: {
         name: props.packageBag.id

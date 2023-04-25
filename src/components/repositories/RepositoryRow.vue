@@ -214,7 +214,7 @@ function navigate() {
     package_store.setFiltrationByRepositoryOnly(
       props.repository.name
     )
-    router.replace({
+    router.push({
       name: 'repositoryDetails',
       params: {
         name: props.repository.name
