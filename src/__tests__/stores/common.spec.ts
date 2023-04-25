@@ -1,3 +1,4 @@
+import { OverlayEnum } from '@/enum/Overlay'
 import { useCommonStore } from '@/store/common'
 import { createPinia, setActivePinia } from 'pinia'
 import { beforeEach, describe, expect, it } from 'vitest'
@@ -13,7 +14,9 @@ describe('Common Store', () => {
     expect(common_store.drawer).toBeTruthy()
     expect(common_store.overlayText).toBe('')
     expect(common_store.overlayOpacity).toBe(0.8)
-    expect(common_store.overlayComponent).toBe(0)
+    expect(common_store.overlayComponent).toBe(
+      OverlayEnum.enum.Delete
+    )
     expect(common_store.key).toBe(0)
   })
 
@@ -43,8 +46,10 @@ describe('Common Store', () => {
 
   it('Edit overlay component', () => {
     const common_store = useCommonStore()
-    common_store.setOverlayComponent(3)
-    expect(common_store.overlayComponent).toBe(3)
+    common_store.setOverlayComponent(OverlayEnum.enum.Edit)
+    expect(common_store.overlayComponent).toBe(
+      OverlayEnum.enum.Edit
+    )
   })
 
   it('Update key', () => {

@@ -89,6 +89,7 @@
       />
     </v-col>
     <v-col
+      v-if="logged_store.can('PATCH', 'submissions')"
       id="submission-actions"
       cols="lg-2"
       class="d-flex justify-center"

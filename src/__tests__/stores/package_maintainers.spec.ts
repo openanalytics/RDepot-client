@@ -15,8 +15,8 @@ import repositories from '@/__tests__/config/mockData/repositories.json'
 import packages from '@/__tests__/config/mockData/packages.json'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
-import { i18n } from '@/plugins/i18n'
 import { usePaginationStore } from '@/store/pagination'
+import { Technologies } from '@/enum/Technologies'
 
 const defaultFiltration = {
   deleted: undefined,
@@ -25,7 +25,10 @@ const defaultFiltration = {
 
 const randomFiltration = {
   deleted: true,
-  technologies: ['Python', 'R']
+  technologies: [
+    Technologies.enum.Python,
+    Technologies.enum.R
+  ]
 }
 
 const server = setupServer(

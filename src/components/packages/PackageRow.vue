@@ -85,9 +85,16 @@
         v-else-if="packageBag"
         v-model="packageBag.active"
         @change="updatePackageActive"
+        :disabled="
+          !logged_user_store.can('PATCH', 'package')
+        "
       />
     </v-col>
     <v-col
+      v-if="
+        logged_user_store.can('GET', 'packageDetails') ||
+        logged_user_store.can('DELETE', 'package')
+      "
       id="package-row-actions"
       cols="lg-1"
       class="d-flex justify-center"
@@ -104,6 +111,12 @@
         <v-tooltip top>
           <template v-slot:activator="{ props }">
             <v-icon
+              v-if="
+                logged_user_store.can(
+                  'GET',
+                  'packageDetails'
+                )
+              "
               id="navigate-icon"
               @click.stop
               @click="navigate"
@@ -119,6 +132,9 @@
         <v-tooltip top>
           <template v-slot:activator="{ props }">
             <v-icon
+              v-if="
+                logged_user_store.can('DELETE', 'package')
+              "
               id="delete-icon"
               @click.stop
               @click="deleteDialog"
@@ -143,11 +159,14 @@ import router from '@/router'
 import { EntityModelPackageDto } from '@/openapi'
 import { useCommonStore } from '@/store/common'
 import { useI18n } from 'vue-i18n'
-import { OverlayEnum } from '@/enum/Overlay'
 import { usePackagesStore } from '@/store/packages'
+import { useLoggedUserStore } from '@/store/logged_user'
+import { OverlayEnum } from '@/enum/Overlay'
 
 const common_store = useCommonStore()
+const logged_user_store = useLoggedUserStore()
 const package_store = usePackagesStore()
+// const can = ref(logged_user_store.can)
 const { t } = useI18n()
 
 const props = defineProps({
@@ -194,7 +213,7 @@ function deleteDialog() {
   )
   common_store.setOverlayModel(true)
   common_store.setOverlayOpacity(0.8)
-  common_store.setOverlayComponent('Delete')
+  common_store.setOverlayComponent(OverlayEnum.enum.Delete)
 }
 </script>
 

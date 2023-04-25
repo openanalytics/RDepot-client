@@ -9,7 +9,9 @@
         class="px-3 custom-button mx-3"
         depressed
       >
-        {{ user.login }} ({{ user.role }})
+        {{ user.login }} ({{
+          roleToString.parse(user.role)
+        }})
       </v-btn>
     </template>
     <v-list>
@@ -20,7 +22,12 @@
         link
       >
         <v-list-item-title
-          v-text="item.login + ' (' + item.role + ')'"
+          v-text="
+            item.login +
+            ' (' +
+            roleToString.parse(item.role) +
+            ')'
+          "
         ></v-list-item-title>
       </v-list-item>
     </v-list>
@@ -30,29 +37,30 @@
 import { ref } from 'vue'
 import { useLoggedUserStore } from '@/store/logged_user'
 import { useCommonStore } from '@/store/common'
+import { Role, roleToString } from '@/enum/UserRoles'
 const users = [
   {
     token: import.meta.env.VITE_ADMIN_TOKEN,
     login: 'einstein',
-    role: 'admin',
+    role: Role.enum.admin,
     id: 8
   },
   {
     token: import.meta.env.VITE_REPOSITORY_MAINTAINER_TOKEN,
     login: 'tesla',
-    role: 'repository maintainer',
+    role: Role.enum.repositoryMaintainer,
     id: 5
   },
   {
     token: import.meta.env.VITE_PACKAGE_MAINTAINER_TOKEN,
     login: 'galileo',
-    role: 'package maintainer',
+    role: Role.enum.packageMaintainer,
     id: 6
   },
   {
     token: import.meta.env.VITE_USER_TOKEN,
     login: 'newton',
-    role: 'user',
+    role: Role.enum.user,
     id: 7
   }
 ]

@@ -38,7 +38,8 @@
       "copyFailed": "Copy failed",
       "required": "This field is required",
       "url": "This should be a url",
-      "email": "This should be an email"
+      "email": "This should be an email",
+      "unauthorized": "You are not authorized to perform this action"
     },
     "copied": "code succesfully copied to clipboard"
   },

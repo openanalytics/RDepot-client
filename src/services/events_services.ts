@@ -7,15 +7,20 @@ import {
 import { getConfiguration } from './api_config'
 import {
   openApiRequest,
-  validateRequest
+  validateRequest,
+  validatedData
 } from './open_api_access'
 import { notify } from '@kyvg/vue3-notification'
+import { isAuthorized } from '@/plugins/casl'
 
 export function fetchEventsServices(
   filtration: EventsFiltration,
   page?: number,
   pageSize?: number
-) {
+): Promise<validatedData<EntityModelNewsfeedEventDto>> {
+  if (!isAuthorized('GET', 'events')) {
+    return new Promise(() => validateRequest())
+  }
   const packages_api =
     ApiV2NewsfeedEventControllerApiFactory(
       getConfiguration()
@@ -40,7 +45,7 @@ export function fetchEventsServices(
       ),
     (msg) => {
       notify({ text: msg, type: 'error' })
-      return validateRequest<EntityModelNewsfeedEventDto>()
+      return validateRequest()
     }
   )
 }

@@ -30,6 +30,16 @@
       }}</v-col
     >
     <v-col
+      v-if="
+        logged_user_store.can(
+          'PATCH',
+          'repositoryMaintainers'
+        ) ||
+        logged_user_store.can(
+          'DELETE',
+          'repositoryMaintainers'
+        )
+      "
       id="repository-maintainer-actions"
       cols="lg-1"
       class="d-flex justify-center"
@@ -83,6 +93,7 @@ import { OverlayEnum } from '@/enum/Overlay'
 import { EntityModelRepositoryMaintainerDto } from '@/openapi'
 import { i18n } from '@/plugins/i18n'
 import { useCommonStore } from '@/store/common'
+import { useLoggedUserStore } from '@/store/logged_user'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
 
 const props = defineProps({
@@ -96,6 +107,7 @@ const props = defineProps({
 })
 
 const common_store = useCommonStore()
+const logged_user_store = useLoggedUserStore()
 const maintainers_store = useRepositoryMaintainersStore()
 
 function prepareString(value: string): string {
@@ -112,7 +124,7 @@ function edit() {
   )
   common_store.setOverlayModel(true)
   common_store.setOverlayOpacity(0.8)
-  common_store.setOverlayComponent('Edit')
+  common_store.setOverlayComponent(OverlayEnum.enum.Edit)
 }
 
 function deleteDialog() {
@@ -126,7 +138,7 @@ function deleteDialog() {
   )
   common_store.setOverlayModel(true)
   common_store.setOverlayOpacity(0.8)
-  common_store.setOverlayComponent('Delete')
+  common_store.setOverlayComponent(OverlayEnum.enum.Delete)
 }
 </script>
 

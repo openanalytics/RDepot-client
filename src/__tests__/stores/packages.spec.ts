@@ -14,6 +14,7 @@ import repositories from '@/__tests__/config/mockData/repositories.json'
 import { rest } from 'msw'
 import { usePaginationStore } from '@/store/pagination'
 import { c } from 'msw/lib/glossary-de6278a9'
+import { Technologies } from '@/enum/Technologies'
 
 const defaultFiltration = {
   state: undefined,
@@ -26,7 +27,7 @@ const randomFiltration = {
   state: 'ACCEPTED',
   deleted: true,
   repository: 'testrepo1',
-  technologies: ['R']
+  technologies: [Technologies.enum.R]
 }
 
 const server = setupServer(

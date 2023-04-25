@@ -14,6 +14,7 @@ import repositories from '@/__tests__/config/mockData/repositories.json'
 import { rest } from 'msw'
 import { useRepositoryStore } from '@/store/repositories'
 import { usePaginationStore } from '@/store/pagination'
+import { Technologies } from '@/enum/Technologies'
 
 const defaultFiltration = {
   name: undefined,
@@ -23,7 +24,7 @@ const defaultFiltration = {
 
 const randomFiltration = {
   name: 'Test',
-  technologies: ['R'],
+  technologies: [Technologies.enum.R],
   deleted: true
 }
 

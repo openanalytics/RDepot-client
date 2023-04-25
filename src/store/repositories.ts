@@ -75,7 +75,7 @@ export const useRepositoryStore = defineStore(
       },
       async clearFiltrationAndFetch() {
         this.clearFiltration()
-        this.fetchRepositories()
+        await this.fetchRepositories()
       },
       async createRepository(
         newRepository: EntityModelRepositoryDto

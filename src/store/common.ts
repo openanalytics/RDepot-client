@@ -23,7 +23,7 @@ export const useCommonStore = defineStore('common_store', {
       overlayText: '',
       overlayOpacity: 0.8,
       overlayModel: false,
-      overlayComponent: 'Delete',
+      overlayComponent: OverlayEnum.enum.Delete,
       key: 0
     }
   },
@@ -53,19 +53,25 @@ export const useCommonStore = defineStore('common_store', {
       }
     },
     isFiltration() {
-      return this.overlayComponent == 'Filtration'
+      return (
+        this.overlayComponent == OverlayEnum.enum.Filtration
+      )
     },
     isCreate() {
-      return this.overlayComponent == 'Create'
+      return (
+        this.overlayComponent == OverlayEnum.enum.Create
+      )
     },
     isReset() {
-      return this.overlayComponent == 'Reset'
+      return this.overlayComponent == OverlayEnum.enum.Reset
     },
     isEdit() {
-      return this.overlayComponent == 'Edit'
+      return this.overlayComponent == OverlayEnum.enum.Edit
     },
     isDelete() {
-      return this.overlayComponent == 'Delete'
+      return (
+        this.overlayComponent == OverlayEnum.enum.Delete
+      )
     }
   }
 })

@@ -6,9 +6,11 @@ import {
   ResponseDtoPagedModelEntityModelPackageDto,
   RPackageControllerApiFactory
 } from '@/openapi'
+import { isAuthorized } from '@/plugins/casl'
 import { getConfiguration } from '@/services/api_config'
 import {
   openApiRequest,
+  validatedData,
   validateRequest
 } from '@/services/open_api_access'
 import { notify } from '@kyvg/vue3-notification'
@@ -18,7 +20,12 @@ export function fetchPackagesServices(
   filtration?: PackagesFiltration,
   page?: number,
   pageSize?: number
-) {
+): Promise<validatedData<EntityModelPackageDto>> {
+  if (!isAuthorized('GET', 'packages')) {
+    return new Promise(() =>
+      validateRequest<EntityModelPackageDto>()
+    )
+  }
   const packages_api = ApiV2PackageControllerApiFactory(
     getConfiguration()
   )
@@ -40,7 +47,7 @@ export function fetchPackagesServices(
       ),
     (msg) => {
       notify({ type: 'error', text: msg })
-      return validateRequest<EntityModelPackageDto>()
+      return validateRequest()
     }
   )
 }
@@ -49,7 +56,10 @@ export function fetchPackagesWithoutProgressControl(
   filtration?: PackagesFiltration,
   page?: number,
   pageSize?: number
-) {
+): Promise<validatedData<EntityModelPackageDto>> {
+  if (!isAuthorized('GET', 'packages')) {
+    return new Promise(() => validateRequest())
+  }
   const packages_api = ApiV2PackageControllerApiFactory(
     getConfiguration()
   )
@@ -60,10 +70,26 @@ export function fetchPackagesWithoutProgressControl(
     filtration?.technologies,
     page,
     pageSize
+  ).then(
+    (res) => {
+      return validateRequest(
+        res.data.data?.content,
+        res.data.data?.page
+      )
+    },
+    (msg) => {
+      notify({ type: 'error', text: msg })
+      return validateRequest()
+    }
   )
 }
 
-export function fetchPackageServices(id: number) {
+export function fetchPackageServices(
+  id: number
+): Promise<EntityModelPackageDto | undefined> {
+  if (!isAuthorized('GET', 'packages')) {
+    return new Promise(() => {})
+  }
   const packages_api = ApiV2PackageControllerApiFactory(
     getConfiguration()
   )
@@ -74,7 +100,7 @@ export function fetchPackageServices(id: number) {
     (res) => res.data.data,
     (msg) => {
       notify({ text: msg, type: 'error' })
-      return {} as EntityModelPackageDto
+      return {}
     }
   )
 }
@@ -82,7 +108,10 @@ export function fetchPackageServices(id: number) {
 export function updateRPackage(
   oldPackage: EntityModelPackageDto,
   newPackage: EntityModelPackageDto
-) {
+): Promise<boolean> {
+  if (!isAuthorized('PATCH', 'package')) {
+    return new Promise(() => false)
+  }
   const packages_api = RPackageControllerApiFactory(
     getConfiguration()
   )

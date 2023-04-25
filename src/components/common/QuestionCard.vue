@@ -18,10 +18,12 @@ const props = defineProps({
 
 const buttons = [
   {
+    id: 'cancel-action',
     text: i18n.t('common.cancel'),
     handler: cancel
   },
   {
+    id: 'apply-action',
     text: i18n.t('common.apply'),
     handler: reset
   }

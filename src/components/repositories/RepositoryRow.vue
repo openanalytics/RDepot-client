@@ -13,9 +13,7 @@
           ? prepareString(
               $t('repositories.name').toString()
             )
-          : repository
-          ? repository.name
-          : ''
+          : repositoryLocal.name
       }}</v-col
     >
     <v-col
@@ -27,9 +25,7 @@
           ? prepareString(
               $t('repositories.publicationUri').toString()
             )
-          : repository
-          ? repository.publicationUri
-          : ''
+          : repositoryLocal.publicationUri
       }}</v-col
     >
     <v-col
@@ -42,9 +38,7 @@
           ? prepareString(
               $t('repositories.serverAddress').toString()
             )
-          : repository
-          ? repository.serverAddress
-          : ''
+          : repositoryLocal.serverAddress
       }}</v-col
     >
 
@@ -58,9 +52,7 @@
           ? prepareString(
               $t('repositories.version').toString()
             )
-          : repository
-          ? repository.version
-          : ''
+          : repositoryLocal.version
       }}</v-col
     >
     <v-col
@@ -73,7 +65,7 @@
           ? prepareString(
               $t('repositories.packagesNo').toString()
             )
-          : repository
+          : repositoryLocal
           ? -1
           : ''
       }}</v-col
@@ -91,14 +83,22 @@
         }}</span
       >
       <v-checkbox
-        v-else-if="repository"
+        v-else-if="repositoryLocal"
         id="checkbox-published"
-        v-model="repository.published"
+        v-model="repositoryLocal.published"
+        @change="updateRepositoryPublished()"
         color="oablue"
         @click.stop
+        :disabled="
+          !logged_user_store.can('PATCH', 'repository')
+        "
       />
     </v-col>
     <v-col
+      v-if="
+        logged_user_store.can('GET', 'repositoryDetails') ||
+        logged_user_store.can('DELETE', 'repository')
+      "
       id="repository-actions"
       cols="lg-1"
       class="d-flex justify-center"
@@ -109,12 +109,18 @@
         }}
       </span>
       <span
-        v-else-if="repository"
+        v-else-if="repositoryLocal"
         class="d-flex justify-center align-center"
       >
         <v-tooltip top>
           <template v-slot:activator="{ props }">
             <v-icon
+              v-if="
+                logged_user_store.can(
+                  'GET',
+                  'repositoryDetails'
+                )
+              "
               id="navigate-icon"
               @click.stop
               @click="navigate"
@@ -130,6 +136,12 @@
         <v-tooltip top>
           <template v-slot:activator="{ props }">
             <v-icon
+              v-if="
+                logged_user_store.can(
+                  'DELETE',
+                  'repository'
+                )
+              "
               id="delete-icon"
               @click.stop
               @click="navigate"
@@ -152,21 +164,40 @@
 import router from '@/router'
 import { EntityModelRRepositoryDto } from '@/openapi'
 import { usePackagesStore } from '@/store/packages'
+import { useLoggedUserStore } from '@/store/logged_user'
+import { updateRepository } from '@/services/repository_services'
+import { ref } from 'vue'
 
 const package_store = usePackagesStore()
+const logged_user_store = useLoggedUserStore()
 
-const props = defineProps({
-  title: {
-    type: Boolean,
-    default: false
-  },
-  repository: Object as () =>
-    | EntityModelRRepositoryDto
-    | undefined
-})
+const props = defineProps<{
+  title?: boolean
+  repository?: EntityModelRRepositoryDto
+}>()
+
+const repositoryLocal = ref<EntityModelRRepositoryDto>(
+  props.repository || {}
+)
 
 function prepareString(value: string): string {
   return value.charAt(0).toUpperCase() + value.slice(1)
+}
+
+function updateRepositoryPublished(): void {
+  const oldRepository = JSON.parse(
+    JSON.stringify(repositoryLocal.value)
+  )
+  oldRepository.published = !oldRepository.published
+  updateRepository(
+    oldRepository,
+    repositoryLocal.value
+  ).then((success) => {
+    if (!success)
+      // revert change if request was not successful
+      repositoryLocal.value.published =
+        oldRepository.published
+  })
 }
 
 function navigate() {

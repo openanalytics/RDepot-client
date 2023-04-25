@@ -25,15 +25,18 @@ const props = defineProps({
 
 const buttons = [
   {
+    id: 'cancel-button',
     text: i18n.t('common.cancel'),
     handler: () => changeDialogOptions()
   },
   {
+    id: 'reset-button',
     spacer: true,
     text: i18n.t('common.clearForm'),
     handler: () => clearFiltration()
   },
   {
+    id: 'set-filtration',
     text: i18n.t('common.apply'),
     handler: () => setFiltration()
   }
