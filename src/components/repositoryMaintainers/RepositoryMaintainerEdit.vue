@@ -34,44 +34,20 @@
         />
       </v-card-text>
       <v-divider></v-divider>
-      <v-card-actions>
-        <v-row justify="space-between" class="mt-1">
-          <v-btn
-            id="cancel-button"
-            color="blue darken-1"
-            @click="changeDialogOptions"
-            class="mx-1"
-          >
-            <small>
-              {{ $t('common.cancel') }}
-            </small>
-          </v-btn>
-          <v-row class="my-0" justify="end">
-            <v-btn
-              id="set-filtration"
-              color="blue darken-1"
-              class="mx-1"
-              @click="setMaintainer(meta.valid)"
-            >
-              <small>
-                {{ $t('common.save') }}
-              </small>
-            </v-btn>
-          </v-row>
-        </v-row>
-      </v-card-actions>
+      <card-actions :buttons="buttons" />
     </v-card>
   </Form>
 </template>
 
 <script setup lang="ts">
+import CardActions from '@/components/common/CardActions.vue'
 import { EntityModelRepositoryMaintainerDto } from '@/openapi'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
 import { ref, computed, onMounted } from 'vue'
-import { Form } from 'vee-validate'
-import ValidatedInputField from '../common/ValidatedInputField.vue'
+import { Form, useIsFormValid } from 'vee-validate'
+import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
 import { toTypedSchema } from '@vee-validate/zod'
-import { repositoryMaintainerSchema } from '@/models/Schamas'
+import { repositoryMaintainerSchema } from '@/models/Schemas'
 import { notify } from '@kyvg/vue3-notification'
 import { i18n } from '@/plugins/i18n'
 
@@ -89,6 +65,17 @@ const props = defineProps({
   }
 })
 
+const buttons = [
+  {
+    text: i18n.t('common.cancel'),
+    handler: changeDialogOptions
+  },
+  {
+    text: i18n.t('common.save'),
+    handler: setMaintainer
+  }
+]
+
 const maintainers_store = useRepositoryMaintainersStore()
 
 const repositories = computed(() => {
@@ -104,7 +91,8 @@ const localMaintainer = ref(maintainer)
 
 const emit = defineEmits(['closeModal'])
 
-function setMaintainer(valid: boolean) {
+function setMaintainer() {
+  const { value: valid } = useIsFormValid()
   if (valid) {
     maintainers_store.saveMaintainer(localMaintainer.value)
     changeDialogOptions()

@@ -1,9 +1,5 @@
 <template>
-  <Form
-    as="v-form"
-    :validation-schema="validationSchema"
-    v-slot="{ values, meta }"
-  >
+  <Form as="v-form" :validation-schema="validationSchema">
     <v-card class="pa-5" width="400">
       <v-card-title>
         {{ $t('repositories.creation.title') }}
@@ -35,32 +31,7 @@
         ></validated-input-field>
       </v-card-text>
       <v-divider></v-divider>
-      <v-card-actions>
-        <v-row justify="space-between" class="mt-1">
-          <v-btn
-            id="cancel-button"
-            color="blue darken-1"
-            @click="changeDialogOptions()"
-            class="mx-1"
-          >
-            <small>
-              {{ $t('common.cancel') }}
-            </small>
-          </v-btn>
-          <v-row class="my-0" justify="end">
-            <v-btn
-              id="set-filtration"
-              color="blue darken-1"
-              class="mx-1"
-              @click="onSubmit(values, meta.valid)"
-            >
-              <small>
-                {{ $t('common.create') }}
-              </small>
-            </v-btn>
-          </v-row>
-        </v-row>
-      </v-card-actions>
+      <card-actions :buttons="buttons" />
     </v-card>
   </Form>
 </template>
@@ -70,11 +41,16 @@ import { useRepositoryStore } from '@/store/repositories'
 import { ref, onMounted } from 'vue'
 import { EntityModelRepositoryDto } from '@/openapi'
 import { Technologies } from '@/enum/Technologies'
-import { repositorySchema } from '@/models/Schamas'
+import { repositorySchema } from '@/models/Schemas'
 import { toTypedSchema } from '@vee-validate/zod/dist/vee-validate-zod'
-import { Form } from 'vee-validate'
-import ValidatedInputField from '../common/ValidatedInputField.vue'
+import {
+  Form,
+  useFormValues,
+  useIsFormValid
+} from 'vee-validate'
+import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
 import { notify } from '@kyvg/vue3-notification'
+import CardActions from '@/components/common/CardActions.vue'
 import { i18n } from '@/plugins/i18n'
 
 const validationSchema = toTypedSchema(
@@ -90,14 +66,24 @@ const repository_store = useRepositoryStore()
 
 const technologySelect = ref(Technologies.options)
 
+const buttons = [
+  {
+    text: i18n.t('common.cancel'),
+    handler: changeDialogOptions
+  },
+  {
+    text: i18n.t('common.create'),
+    handler: createRepository
+  }
+]
+
 const emit = defineEmits(['closeModal'])
 
-function onSubmit(
-  values: EntityModelRepositoryDto,
-  valid: boolean
-) {
+function createRepository() {
+  const { value: valid } = useIsFormValid()
+  const { value } = useFormValues()
   if (valid) {
-    repository_store.createRepository(values)
+    repository_store.createRepository(value)
     changeDialogOptions()
   } else {
     notify({
@@ -113,9 +99,3 @@ function changeDialogOptions() {
 
 onMounted(() => {})
 </script>
-
-<style>
-.v-input__details {
-  display: flex;
-}
-</style>

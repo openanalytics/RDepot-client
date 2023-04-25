@@ -2,11 +2,11 @@
   <Overlay v-on:action="performAction()">
     <template v-slot:props="{ closeModal }">
       <Filtration
-        v-if="getFiltration"
+        v-if="common_store.isFiltration()"
         v-on:closeModal="closeModal"
       />
       <RepositoryMaintainerEdit
-        v-if="getEdit"
+        v-if="common_store.isEdit()"
         :blocked-field="editBlockedField"
         v-on:closeModal="closeModal"
       />
@@ -16,7 +16,6 @@
 
 <script setup lang="ts">
 import { useCommonStore } from '@/store/common'
-import { computed } from 'vue'
 import Overlay from '@/components/common/Overlay.vue'
 import Filtration from '@/components/repositoryMaintainers/Filtration.vue'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
@@ -36,17 +35,11 @@ const props = defineProps({
 const emit = defineEmits(['delete'])
 
 async function performAction() {
-  if (getFiltration.value) {
+  if (common_store.isFiltration()) {
     await maintainers_store.clearFiltrationAndFetch()
-  } else if (getDelete.value) {
+  } else if (common_store.isDelete()) {
     console.log('performAction')
     await maintainers_store.deleteMaintainer()
   }
 }
-
-const getFiltration = computed(common_store.isFiltration)
-
-const getEdit = computed(common_store.isEdit)
-
-const getDelete = computed(common_store.isDelete)
 </script>

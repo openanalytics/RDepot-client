@@ -17,7 +17,7 @@ import {
   validatedData,
   validateRequest
 } from './open_api_access'
-import { repositorySchema } from '@/models/Schamas'
+import { repositorySchema } from '@/models/Schemas'
 import { createPatch } from 'rfc6902'
 import { isAuthorized } from '@/plugins/casl'
 

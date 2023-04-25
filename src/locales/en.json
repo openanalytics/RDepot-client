@@ -161,7 +161,7 @@
     "successUpdateRepositoryManager": "successful update {maintainer_name}",
     "successDeleteRepositoryMaintainer": "successful deleted {maintainer_name}",
     "successUpdateRepositoryMaintainer": "successful updated {maintainer_name}",
-    "invalidform": "'The submitted form is not valid'"
+    "invalidform": "The submitted form is not valid"
   },
   "maintainers": {
     "edit": "edit maintainer",
