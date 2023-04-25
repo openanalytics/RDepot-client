@@ -129,7 +129,7 @@ export function isAuthorized(
   subject: Subject
 ): boolean {
   const logged_user_store = useLoggedUserStore()
-  if (!logged_user_store.can('GET', 'packages')) {
+  if (!logged_user_store.can(action, subject)) {
     notify({
       type: 'error',
       text: i18n.t('common.errors.unauthorized')
