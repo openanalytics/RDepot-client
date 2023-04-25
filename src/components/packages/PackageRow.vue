@@ -79,7 +79,7 @@
       <SortTitle
         v-if="title"
         :text="$t('columns.active')"
-        :center="true"
+        center
       />
 
       <VCheckbox
@@ -101,7 +101,7 @@
       <SortTitle
         v-if="title"
         :text="$t('columns.actions')"
-        :sort="false"
+        no-sort
         justify="center"
       />
       <span

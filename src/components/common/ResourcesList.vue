@@ -4,7 +4,7 @@
     class="v-expansion mx-5"
   >
     <v-expansion-panel class="py-3">
-      <slot name="title" :title="true"></slot>
+      <slot name="title" title></slot>
     </v-expansion-panel>
     <EmptyListing
       v-show="resources === undefined || !resources.length"

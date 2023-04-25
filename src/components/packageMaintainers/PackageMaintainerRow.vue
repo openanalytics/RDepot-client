@@ -36,7 +36,7 @@
     >
       <SortTitle
         v-if="title"
-        :center="true"
+        center
         :text="$t('columns.technology')"
       />
       <TextRecord
@@ -65,8 +65,8 @@
     >
       <SortTitle
         v-if="title"
-        :center="true"
         :sort="false"
+        true
         :text="$t('columns.actions')"
       />
       <span

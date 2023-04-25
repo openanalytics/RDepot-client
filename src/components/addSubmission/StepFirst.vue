@@ -74,7 +74,7 @@ function nextStep() {
     emits('next', 2)
   } else {
     notifications.notify({
-      text: 'no repository choosen',
+      text: 'no repository chosen',
       type: 'warn'
     })
   }
@@ -94,7 +94,6 @@ onMounted(() => {
   .v-file-input__text {
     .v-chip {
       font-size: 1.125em !important;
-      // padding: 15px 5px !important;
       margin-bottom: 10px !important;
     }
   }

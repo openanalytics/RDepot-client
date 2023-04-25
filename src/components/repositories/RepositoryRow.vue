@@ -48,7 +48,7 @@
     >
       <SortTitle
         v-if="title"
-        :center="true"
+        center
         :text="$t('columns.technology')"
       />
       <TextRecord v-else :text="repository?.technology" />
@@ -60,7 +60,7 @@
     >
       <SortTitle
         v-if="title"
-        :center="true"
+        center
         :text="$t('columns.version')"
       />
       <TextRecord
@@ -75,7 +75,7 @@
     >
       <SortTitle
         v-if="title"
-        :center="true"
+        center
         :text="$t('columns.packagesNo')"
       />
       <TextRecord v-else text="none" />
@@ -89,13 +89,14 @@
         v-if="title"
         :sort="false"
         :text="$t('columns.published')"
-        :center="true"
+        center
       />
       <v-checkbox
         v-else-if="repository"
         id="checkbox-published"
         v-model="repository.published"
         color="oablue"
+        class="mr-8"
         @click.stop
         @change="updateRepositoryPublish()"
       />
@@ -108,7 +109,7 @@
       <SortTitle
         v-if="title"
         :sort="false"
-        :center="true"
+        center
         :text="$t('columns.actions')"
       />
       <span

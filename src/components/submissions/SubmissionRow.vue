@@ -79,7 +79,7 @@
       <SortTitle
         v-if="title"
         :text="$t('columns.technology')"
-        :center="true"
+        center
       />
       <TextRecord v-else :text="submission?.technology" />
     </v-col>
@@ -91,7 +91,7 @@
       <SortTitle
         v-if="title"
         :text="$t('columns.accepted')"
-        :center="true"
+        center
       />
       <v-checkbox
         id="checkbox-accepted"
@@ -110,8 +110,8 @@
       <SortTitle
         v-if="title"
         :text="$t('columns.actions')"
-        :center="true"
         :sort="false"
+        center
       />
       <span
         v-else-if="getWaiting && submission"

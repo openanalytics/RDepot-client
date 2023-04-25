@@ -2,14 +2,15 @@
   <v-card class="mb-12 px-10 py-3 step text-center">
     <v-card-text class="mb-1">
       <div class="text-overline">repository</div>
-      <div class="text-h4 mb-2">
+      <div id="repository-name" class="text-h4 mb-2">
         {{ chosenRepository?.name }}
       </div>
       <v-divider></v-divider>
       <div class="text-overline">packages</div>
       <v-list class="text-left">
         <v-list-item
-          v-for="(file, i) in chosenPackages"
+          id="submission-package"
+          v-for="(file, i) in submissions_store.packages"
           :key="i"
           class="justify-start hoverable"
         >
@@ -27,12 +28,16 @@
     </v-card-text>
   </v-card>
   <div class="d-flex justify-space-between">
-    <v-btn id="backbutton" color="oablue" @click="backStep">
+    <v-btn
+      id="back-button"
+      color="oablue"
+      @click="backStep"
+    >
       {{ $t('common.goBack') }}
     </v-btn>
 
     <v-btn
-      id="submitbutton"
+      id="submit-button"
       color="oablue"
       @click="submit"
       :disabled="disableSubmit"
@@ -51,9 +56,6 @@ const disableSubmit = ref(false)
 const submissions_store = useSubmissionStore()
 const chosenRepository = computed(() => {
   return submissions_store.repository
-})
-const chosenPackages = computed(() => {
-  return submissions_store.packages
 })
 function backStep() {
   emits('next', 2)
