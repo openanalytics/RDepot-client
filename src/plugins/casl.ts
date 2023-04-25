@@ -46,7 +46,10 @@ const BackendRoute = z.enum([
   'submissions'
 ])
 
-const Subject = z.union([FrontendRoute, BackendRoute])
+const Subject = z.enum([
+  ...FrontendRoute.options,
+  ...BackendRoute.options
+])
 export type Subject = z.infer<typeof Subject>
 
 const Action = z.enum(['GET', 'POST', 'PATCH', 'DELETE'])
