@@ -9,7 +9,7 @@
       >{{ prepareString() }}
     </span>
     <v-btn
-      v-if="sort"
+      v-if="!noSort"
       @click="sortBy()"
       variant="text"
       size="x-small"
@@ -32,10 +32,10 @@ const props = defineProps({
     type: String,
     required: true
   },
-  sort: {
+  noSort: {
     type: Boolean,
     required: false,
-    default: true
+    default: false
   },
   center: {
     type: Boolean,
