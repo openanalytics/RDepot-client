@@ -24,7 +24,6 @@ export function fetchPackagesServices(
     getConfiguration()
   )
   const sort = useSortStore()
-  var sortBy = sort.field + ',' + sort.direction
   return openApiRequest<ResponseDtoPagedModelEntityModelPackageDto>(
     packages_api.getAllPackages,
     [
@@ -34,7 +33,7 @@ export function fetchPackagesServices(
       filtration?.technologies,
       page,
       pageSize,
-      sortBy
+      sort.getSortBy()
     ]
   ).then(
     (res) =>

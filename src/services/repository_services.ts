@@ -29,7 +29,6 @@ export function fetchRepositoriesServices(
   const repository_api =
     ApiV2RepositoryControllerApiFactory(getConfiguration())
   const sort = useSortStore()
-  var sortBy = sort.field + ',' + sort.direction
 
   return openApiRequest<ResponseDtoPagedModelEntityModelRepositoryDto>(
     repository_api.getAllRepositories,
@@ -39,7 +38,7 @@ export function fetchRepositoriesServices(
       filtration?.technologies,
       page,
       pageSize,
-      sortBy
+      sort.getSortBy()
     ]
   ).then(
     (res) =>

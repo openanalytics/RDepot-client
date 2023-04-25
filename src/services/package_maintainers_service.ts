@@ -26,7 +26,7 @@ export function fetchPackageMaintainersService(
       getConfiguration()
     )
   const sort = useSortStore()
-  var sortBy = sort.field + ',' + sort.direction
+  var sortBy = sort.getSortBy()
   if (sort.field == 'name') {
     sortBy = 'user,' + sort.direction
   }

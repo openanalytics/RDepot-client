@@ -146,8 +146,8 @@ import { EntityModelRepositoryDto } from '@/openapi'
 import { usePackagesStore } from '@/store/packages'
 import { useRepositoryStore } from '@/store/repositories'
 import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
-import SortTitle from '../packages/SortTitle.vue'
-import TextRecord from '../packages/TextRecord.vue'
+import SortTitle from '@/components/packages/SortTitle.vue'
+import TextRecord from '@/components/packages/TextRecord.vue'
 
 const repository_store = useRepositoryStore()
 const package_store = usePackagesStore()

@@ -28,8 +28,6 @@ export function fetchRepositoryMaintainersServices(
   if (sort.field == 'name') {
     sort.setField('user')
   }
-  var sortBy = sort.field + ',' + sort.direction
-
   return openApiRequest<ResponseDtoPagedModelEntityModelRepositoryMaintainerDto>(
     repository_maintainers_api.getAllRepositoryMaintainers,
     [
@@ -37,7 +35,7 @@ export function fetchRepositoryMaintainersServices(
       filtration.technologies,
       page,
       pageSize,
-      sortBy
+      sort.getSortBy()
     ]
   ).then(
     (res) =>

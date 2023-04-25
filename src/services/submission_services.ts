@@ -28,7 +28,6 @@ export function fetchRSubmissions(
   if (sort.field == 'name') {
     sort.setField('packageBag')
   }
-  var sortBy = sort.field + ',' + sort.direction
   return openApiRequest<ResponseDtoPagedModelEntityModelSubmissionDto>(
     r_submission_api.getAllSubmissions,
     [
@@ -37,7 +36,7 @@ export function fetchRSubmissions(
       filtration.package?.id,
       page,
       pageSize,
-      sortBy
+      sort.getSortBy()
     ]
   ).then(
     (res) =>

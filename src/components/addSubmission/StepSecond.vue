@@ -142,24 +142,16 @@ watch(files, (files) => {
 })
 
 function check_validity(file: File) {
-  if (file['type'] !== 'application/gzip') {
-    return false
+  if (file['type'] === 'application/gzip') {
+    return true
   }
-  return true
+  return false
 }
 
 function savePackagesInStore() {
-  var local_files: File[] = []
-  valid.value = true
-  files_local.value.forEach((file: File) => {
-    console.log(file)
-    local_files.push(file)
-    if (file['type'] !== 'application/gzip') {
-      valid.value = false
-    }
-  })
+  valid.value = files_local.value.every(check_validity)
   if (valid.value) {
-    submissions_store.setPackages(Array.from(local_files))
+    submissions_store.setPackages(files_local.value)
   } else {
     submissions_store.setPackages([])
   }
