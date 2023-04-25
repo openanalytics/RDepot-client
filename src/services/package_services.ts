@@ -109,7 +109,7 @@ export function updateRPackage(
   oldPackage: EntityModelPackageDto,
   newPackage: EntityModelPackageDto
 ): Promise<boolean> {
-  if (!isAuthorized('PATCH', 'r package')) {
+  if (!isAuthorized('PATCH', 'package')) {
     return new Promise(() => false)
   }
   const packages_api = RPackageControllerApiFactory(

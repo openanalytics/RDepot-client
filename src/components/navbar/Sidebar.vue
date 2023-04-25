@@ -12,7 +12,7 @@
       ></v-list-item>
       <v-divider class="pb-3"></v-divider>
       <v-list-item
-        v-if="loggedUserStore.ability.can('GET', 'events')"
+        v-if="loggedUserStore.can('GET', 'events')"
         prepend-icon="mdi-timetable"
         :title="$t('common.events')"
         :value="$t('common.events')"
@@ -20,9 +20,7 @@
       ></v-list-item>
 
       <v-list-item
-        v-if="
-          loggedUserStore.ability.can('PATCH', 'r package')
-        "
+        v-if="loggedUserStore.can('POST', 'submissions')"
         prepend-icon="mdi-upload"
         :title="$t('common.addPackage')"
         :value="$t('common.addPackage')"
@@ -30,9 +28,7 @@
       ></v-list-item>
 
       <v-list-item
-        v-if="
-          loggedUserStore.ability.can('GET', 'submissions')
-        "
+        v-if="loggedUserStore.can('GET', 'submissions')"
         prepend-icon="mdi-email"
         :title="$t('common.submissions')"
         :value="$t('common.submissions')"
@@ -41,11 +37,10 @@
 
       <v-list-group
         v-if="
-          loggedUserStore.ability.can(
+          loggedUserStore.can(
             'GET',
             'packageMaintainers'
-          ) ||
-          loggedUserStore.ability.can('GET', 'packages')
+          ) || loggedUserStore.can('GET', 'packages')
         "
         value="Packages"
         tag="Packages"
@@ -59,9 +54,7 @@
         </template>
 
         <v-list-item
-          v-if="
-            loggedUserStore.ability.can('GET', 'packages')
-          "
+          v-if="loggedUserStore.can('GET', 'packages')"
           :title="$t('common.list')"
           :value="$t('packages.list')"
           id="sidebarpackageslist"
@@ -69,10 +62,7 @@
         ></v-list-item>
         <v-list-item
           v-if="
-            loggedUserStore.ability.can(
-              'GET',
-              'packageMaintainers'
-            )
+            loggedUserStore.can('GET', 'packageMaintainers')
           "
           :title="$t('common.maintainers')"
           :value="$t('packages.maintainers')"
@@ -83,11 +73,8 @@
       </v-list-group>
       <v-list-group
         v-if="
-          loggedUserStore.ability.can(
-            'GET',
-            'repositories'
-          ) ||
-          loggedUserStore.ability.can(
+          loggedUserStore.can('GET', 'repositories') ||
+          loggedUserStore.can(
             'GET',
             'repositoryMaintainers'
           )
@@ -104,19 +91,14 @@
         </template>
 
         <v-list-item
-          v-if="
-            loggedUserStore.ability.can(
-              'GET',
-              'repositories'
-            )
-          "
+          v-if="loggedUserStore.can('GET', 'repositories')"
           :title="$t('common.list')"
           :value="$t('repositories.list')"
           @click="$router.replace({ name: 'repositories' })"
         ></v-list-item>
         <v-list-item
           v-if="
-            loggedUserStore.ability.can(
+            loggedUserStore.can(
               'GET',
               'repositoryMaintainers'
             )

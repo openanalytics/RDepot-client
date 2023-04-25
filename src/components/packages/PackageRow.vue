@@ -86,14 +86,14 @@
         v-model="packageBag.active"
         @change="updatePackageActive"
         :disabled="
-          !logged_user_store.can('PATCH', 'r package')
+          !logged_user_store.can('PATCH', 'package')
         "
       />
     </v-col>
     <v-col
       v-if="
         logged_user_store.can('GET', 'packageDetails') ||
-        logged_user_store.can('DELETE', 'r package')
+        logged_user_store.can('DELETE', 'package')
       "
       id="package-row-actions"
       cols="lg-1"
@@ -133,7 +133,7 @@
           <template v-slot:activator="{ props }">
             <v-icon
               v-if="
-                logged_user_store.can('DELETE', 'r package')
+                logged_user_store.can('DELETE', 'package')
               "
               id="delete-icon"
               @click.stop

@@ -40,9 +40,8 @@ const BackendRoute = z.enum([
   'packageMaintainers',
   'repositories',
   'repositoryMaintainers',
-  'python repository',
-  'r package',
-  'r repository',
+  'package',
+  'repository',
   'submissions'
 ])
 
@@ -74,23 +73,22 @@ export function defineAbilityFor(role: Role) {
       'packageMaintainers',
       'repositories',
       'repositoryDetails',
-      'python repository',
-      'r package',
-      'r repository'
+      'package',
+      'repository'
     ])
 
     can(['GET', 'PATCH', 'POST'], 'submissions')
   }
 
   if (isAtLeastPackageMaintainer(role)) {
-    can('PATCH', 'r package')
+    can('PATCH', 'package')
     can('GET', 'addSubmission')
   }
 
   if (isAtLeastRepositoryMaintainer(role)) {
     can(['POST', 'PATCH'], 'packageMaintainers')
 
-    can('PATCH', ['python repository', 'r repository'])
+    can('PATCH', 'repository')
   }
 
   if (isAtLeastAdmin(role)) {
@@ -101,14 +99,11 @@ export function defineAbilityFor(role: Role) {
       'repositoryMaintainers'
     )
 
-    can(
-      ['POST', 'DELETE'],
-      ['python repository', 'r repository']
-    )
+    can(['POST', 'DELETE'], 'repository')
 
     can('DELETE', [
       'packageMaintainers',
-      'r package',
+      'package',
       'submissions'
     ])
   }

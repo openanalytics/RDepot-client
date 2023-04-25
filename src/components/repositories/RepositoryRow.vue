@@ -98,14 +98,14 @@
         color="oablue"
         @click.stop
         :disabled="
-          !logged_user_store.can('PATCH', 'r repository')
+          !logged_user_store.can('PATCH', 'repository')
         "
       />
     </v-col>
     <v-col
       v-if="
         logged_user_store.can('GET', 'repositoryDetails') ||
-        logged_user_store.can('DELETE', 'r repository')
+        logged_user_store.can('DELETE', 'repository')
       "
       id="repository-actions"
       cols="lg-1"
@@ -147,7 +147,7 @@
               v-if="
                 logged_user_store.can(
                   'DELETE',
-                  'r repository'
+                  'repository'
                 )
               "
               id="delete-icon"
