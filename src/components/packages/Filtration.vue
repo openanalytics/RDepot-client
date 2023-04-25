@@ -21,7 +21,7 @@
 
     <v-select
       id="filtration-technology"
-      v-model="localFiltration.technology"
+      v-model="localFiltration.technologies"
       :items="technologySelect"
       multiple
       :label="$t('repositories.filtration.technology')"
@@ -39,7 +39,7 @@
 <script setup lang="ts">
 import FiltrationCard from '@/components/common/FiltrationCard.vue'
 import { useObjectActions } from '@/composable/objectActions'
-import { TechnologiesEnum } from '@/enum/Technologies'
+import { Technologies } from '@/enum/Technologies'
 import { EntityModelSubmissionDtoStateEnum } from '@/openapi'
 import { usePackagesStore } from '@/store/packages'
 import { ref, onMounted } from 'vue'
@@ -52,9 +52,7 @@ const package_store = usePackagesStore()
 const submissionStateSelect = ref(
   Object.values(EntityModelSubmissionDtoStateEnum)
 )
-const technologySelect = ref(
-  Object.values(TechnologiesEnum)
-)
+const technologySelect = ref(Technologies.options)
 const repositoryNameSelect = ref(['repo1', 'repo2'])
 let filtration = package_store.filtration
 const localFiltration = ref(filtration)
@@ -65,8 +63,8 @@ function updateFiltration() {
   )
 }
 
-async function setFiltration() {
-  await package_store.setFiltration(localFiltration.value)
+function setFiltration() {
+  package_store.setFiltration(localFiltration.value)
   cancelModal()
 }
 

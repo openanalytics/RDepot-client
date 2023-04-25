@@ -16,7 +16,7 @@
 
     <v-select
       id="filtration-technology"
-      v-model="localFiltration.technology"
+      v-model="localFiltration.technologies"
       :items="technologySelect"
       :label="$t('repositories.filtration.technology')"
       multiple
@@ -53,10 +53,8 @@ function updateFiltration() {
   console.log(localFiltration.value)
 }
 
-async function setFiltration() {
-  await repository_store.setFiltration(
-    localFiltration.value
-  )
+function setFiltration() {
+  repository_store.setFiltration(localFiltration.value)
   changeDialogOptions()
 }
 

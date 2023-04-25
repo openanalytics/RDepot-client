@@ -15,6 +15,7 @@
   },
   "common": {
     "apply": "apply",
+    "create": "create",
     "clearForm": "clear form",
     "search": "search",
     "reset": "reset",
@@ -34,7 +35,10 @@
     "projectTitle": "RDepot",
     "noListingResults": "No results where found",
     "errors": {
-      "copyFailed": "Copy failed"
+      "copyFailed": "Copy failed",
+      "required": "This field is required",
+      "url": "This should be a url",
+      "email": "This should be an email"
     },
     "deleteQuestion": "Are you sure you want to delete {resource_name}?",
     "copied": "code succesfully copied to clipboard",
@@ -118,6 +122,15 @@
       "name": "Name",
       "technology": "Technology"
     },
+    "creation": {
+      "title": "New repository",
+      "name": "name",
+      "publicationUri": "Publication URI",
+      "publicationUriPlaceholder": "http://localhost/repo/{'{name}'}",
+      "serverAddress": "Server address",
+      "serverAddressPlaceholder": "http://oa-rdepot-repo:8080/{'{name}'}",
+      "technology": "Technology"
+    },
     "maintainers": "repository maintainers",
     "list": "repositories"
   },
@@ -141,11 +154,15 @@
     "successCancelSubmission": "cancel submission",
     "acceptSubmission": "accept submission",
     "successRejectSubmission": "reject submission",
+    "successCreateSubmissiom": "successfully created submissiom",
     "successDeletePackageManager": "successful deleted {maintainer_name}",
     "successUpdatePackageManager": "successful updated {maintainer_name}",
+    "successCreateRepository": "successfully created {repository_name}",
+    "successDeleteRepositoryManager": "successful deleted {maintainer_name}",
+    "successUpdateRepositoryManager": "successful update {maintainer_name}",
     "successDeleteRepositoryMaintainer": "successful deleted {maintainer_name}",
     "successUpdateRepositoryMaintainer": "successful updated {maintainer_name}",
-    "successCreateSubmissiom": "successfully created submissiom"
+    "invalidform": "The submitted form is not valid"
   },
   "maintainers": {
     "edit": "edit maintainer",

@@ -130,7 +130,7 @@ function edit() {
   )
   common_store.setOverlayModel(true)
   common_store.setOverlayOpacity(0.8)
-  common_store.setOverlayComponent(OverlayEnum.Edit)
+  common_store.setOverlayComponent('Edit')
 }
 
 function chooseMaintainer() {
@@ -139,5 +139,18 @@ function chooseMaintainer() {
       props.repositoryMaintainer
     )
   }
+}
+function deleteDialog() {
+  maintainers_store.setChosenMaintainer(
+    props.repositoryMaintainer || {}
+  )
+  common_store.setOverlayText(
+    i18n.t('maintainers.deleteQuestion', {
+      maintainerName: props.repositoryMaintainer?.user?.id
+    })
+  )
+  common_store.setOverlayModel(true)
+  common_store.setOverlayOpacity(0.8)
+  common_store.setOverlayComponent('Delete')
 }
 </script>

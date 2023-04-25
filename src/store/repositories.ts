@@ -11,6 +11,7 @@ import { notify } from '@kyvg/vue3-notification'
 import { usePaginationStore } from './pagination'
 import { useObjectActions } from '@/composable/objectActions'
 import { updateRepository } from '@/services/repository_services'
+import { createRepository } from '@/services/repository_services'
 
 interface State {
   repositories: EntityModelRepositoryDto[]
@@ -29,7 +30,7 @@ export const useRepositoryStore = defineStore(
         repositories: [],
         filtration: {
           name: undefined,
-          technology: undefined,
+          technologies: undefined,
           deleted: undefined
         },
         chosenRepository: {},
@@ -88,20 +89,26 @@ export const useRepositoryStore = defineStore(
         const pagination = usePaginationStore()
         pagination.setPage(0)
         this.filtration = payload
-        this.fetchRepositories()
-      },
-      async setPage(payload: number) {
-        const pagination = usePaginationStore()
-        pagination.setPage(payload)
-        this.fetchRepositories()
+        await this.fetchRepositories()
       },
       clearFiltration() {
+        const pagination = usePaginationStore()
+        pagination.setPage(0)
         const { setAllFields } = useObjectActions()
         setAllFields(this.filtration, undefined)
       },
       async clearFiltrationAndFetch() {
         this.clearFiltration()
         this.fetchRepositories()
+      },
+      async createRepository(
+        newRepository: EntityModelRepositoryDto
+      ) {
+        await createRepository(newRepository)?.then(
+          async (success) => {
+            if (success) await this.fetchRepositories()
+          }
+        )
       }
     }
   }

@@ -1,7 +1,7 @@
 <template>
   <v-expansion-panels
     variant="inset"
-    class="v-expansion mx-5"
+    class="v-expansion mx-8"
   >
     <v-expansion-panel class="py-3">
       <slot name="title" title></slot>
@@ -92,7 +92,9 @@ function handleClick(item: any) {
   }
 }
 
-.v-input__control {
-  justify-content: center !important;
+.no-icon {
+  .v-input__details {
+    display: none !important;
+  }
 }
 </style>

@@ -28,7 +28,7 @@ beforeAll(() => {
 
 describe('Repository Maintainers - maintainers row (maintainer)', () => {
   const maintainer: EntityModelRepositoryMaintainerDto =
-    JSON.parse(JSON.stringify(maintainers.data[0]))
+    JSON.parse(JSON.stringify(maintainers.data.content[0]))
   beforeEach(async () => {
     wrapper = mount(RepositoryMaintainerVue, {
       global: globalConfig,

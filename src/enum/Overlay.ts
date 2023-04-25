@@ -1,8 +1,10 @@
-enum OverlayEnum {
-  Delete,
-  Edit,
-  Reset,
-  Filtration
-}
+import { z } from 'zod'
 
-export { OverlayEnum }
+export const OverlayEnum = z.enum([
+  'Delete',
+  'Edit',
+  'Reset',
+  'Filtration',
+  'Create'
+])
+export type OverlayEnum = z.infer<typeof OverlayEnum>

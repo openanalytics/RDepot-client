@@ -68,18 +68,14 @@ export const useEventsStore = defineStore('events_store', {
         !this.pending
       ) {
         this.page = this.page + 1
-        this.fetchEvents()
+        await this.fetchEvents()
       }
-    },
-    async setPage(payload: number) {
-      this.page = payload
-      this.fetchEvents()
     },
     async setFiltration(payload: EventsFiltration) {
       this.filtration = payload
       this.page = 0
       this.events = []
-      this.fetchEvents()
+      await this.fetchEvents()
     },
     clearFiltration() {
       const { setAllFields } = useObjectActions()
@@ -88,7 +84,7 @@ export const useEventsStore = defineStore('events_store', {
     async clearFiltrationAndFetch() {
       const { setAllFields } = useObjectActions()
       setAllFields(this.filtration, undefined)
-      this.fetchEvents()
+      await this.fetchEvents()
     }
   }
 })

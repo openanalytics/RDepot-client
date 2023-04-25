@@ -59,25 +59,16 @@ describe('Add submission - second step', () => {
     expect(wrapper.emitted().next).toBeFalsy()
   })
 
-  it('go next allowed if reposiotry is chosen', async () => {
-    // var files = [
-    //   new File([''], 'filename', {
-    //     type: 'application/gzip'
-    //   })
-    // ]
-    var files: File[] = [
+  it('go next allowed if reposiotry is choosen', async () => {
+    const files = [
       {
         name: 'A3_1.0.0.tar.gz',
         type: 'application/gzip'
-      } as File,
-      {
-        name: 'abind_1.4-5.tar.gz',
-        type: 'application/gzip'
       } as File
     ]
-
     const button = wrapper.find('#next-button')
     wrapper.vm.valid = true
+    wrapper.vm.files = files
     wrapper.vm.files_local = files
     expect(button.isVisible()).toBeTruthy()
     await button.trigger('click')

@@ -177,4 +177,15 @@ function navigate() {
     })
   }
 }
+
+function deleteDialog() {
+  common_store.setOverlayText(
+    t('packages.deleteQuestion', {
+      package_name: props.packageBag?.name
+    })
+  )
+  common_store.setOverlayModel(true)
+  common_store.setOverlayOpacity(0.8)
+  common_store.setOverlayComponent('Delete')
+}
 </script>

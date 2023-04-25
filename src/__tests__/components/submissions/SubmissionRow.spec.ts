@@ -6,7 +6,7 @@ import {
   beforeAll
 } from 'vitest'
 
-import { mount, config, VueWrapper } from '@vue/test-utils'
+import { mount, config } from '@vue/test-utils'
 import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
 import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
@@ -99,16 +99,13 @@ describe('Submissions - submission row (WAITING)', () => {
     JSON.stringify(submissions.data.content[2])
   )
   beforeEach(async () => {
-    wrapper = mount<typeof SubmissionRowVue>(
-      SubmissionRowVue,
-      {
-        global: globalConfig,
-        props: {
-          title: false,
-          submission: submission
-        }
+    wrapper = mount(SubmissionRowVue, {
+      global: globalConfig,
+      props: {
+        title: false,
+        submission: submission
       }
-    )
+    })
   })
 
   it('accepted field', () => {

@@ -2,11 +2,15 @@ import { RepositoriesFiltration } from '@/models/Filtration'
 import {
   ApiV2RepositoryControllerApiFactory,
   EntityModelRepositoryDto,
+  PythonRepositoryControllerApiFactory,
+  PythonRepositoryDto,
   ResponseDtoPagedModelEntityModelRepositoryDto,
   ResponseDtoPagedModelEntityModelRRepositoryDto,
   RRepositoryControllerApiFactory
 } from '@/openapi'
 import { getConfiguration } from './api_config'
+import { Technologies } from '@/enum/Technologies'
+import { i18n } from '@/plugins/i18n'
 import {
   openApiRequest,
   validateRequest
@@ -15,6 +19,7 @@ import { notify } from '@kyvg/vue3-notification'
 import { useSortStore } from '@/store/sort'
 import { createPatch } from 'rfc6902'
 import { AxiosResponse } from 'axios'
+import { repositorySchema } from '@/models/Schemas'
 
 export function fetchRepositoriesServices(
   filtration?: RepositoriesFiltration,
@@ -31,7 +36,7 @@ export function fetchRepositoriesServices(
     [
       filtration?.deleted,
       filtration?.name,
-      filtration?.technology,
+      filtration?.technologies,
       page,
       pageSize,
       sortBy
@@ -92,4 +97,56 @@ export function updateRepository(
       return false
     }
   )
+}
+export function createRepository(
+  newRepository: EntityModelRepositoryDto
+) {
+  const validatedRepository =
+    repositorySchema.safeParse(newRepository)
+  if (validatedRepository.success) {
+    const { technology, ...repository } =
+      validatedRepository.data
+    let request
+    if (technology === Technologies.enum.R) {
+      const repository_api =
+        RRepositoryControllerApiFactory(getConfiguration())
+      request =
+        openApiRequest<ResponseDtoPagedModelEntityModelRepositoryDto>(
+          repository_api.createRRepository,
+          [repository]
+        )
+    } else {
+      const repository_api =
+        PythonRepositoryControllerApiFactory(
+          getConfiguration()
+        )
+      request =
+        openApiRequest<ResponseDtoPagedModelEntityModelRepositoryDto>(
+          repository_api.createPythonRepository,
+          [repository as PythonRepositoryDto]
+        )
+    }
+    return request.then(
+      () => {
+        notify({
+          type: 'success',
+          text: i18n.t(
+            'notifications.successCreateRepository',
+            newRepository.name || ''
+          )
+        })
+        return true
+      },
+      (msg) => {
+        notify({ type: 'error', text: msg })
+        return false
+      }
+    )
+  } else {
+    notify({
+      type: 'error',
+      text: validatedRepository.error.message
+    })
+    return new Promise<boolean>(() => false)
+  }
 }

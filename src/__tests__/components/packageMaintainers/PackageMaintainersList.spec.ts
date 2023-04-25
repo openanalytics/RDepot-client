@@ -14,7 +14,7 @@ import { createPinia, setActivePinia } from 'pinia'
 import { usePackageMaintainersStore } from '@/store/package_maintainers'
 import PackageMaintainersListVue from '@/components/packageMaintainers/PackageMaintainersList.vue'
 import PackageMaintainerRow from '@/components/packageMaintainers/PackageMaintainerRow.vue'
-import maintainers from '@/__tests__/config/mockData/packageMaintainers.json'
+import packageMaintainers from '@/__tests__/config/mockData/packageMaintainers.json'
 
 let wrapper: any
 let package_maintainers_store: any
@@ -34,7 +34,8 @@ beforeEach(async () => {
     global: globalConfig
   })
 
-  package_maintainers_store.maintainers = maintainers.data
+  package_maintainers_store.maintainers =
+    packageMaintainers.data.content
 })
 
 describe('Package Maintainers - list', () => {
@@ -47,7 +48,7 @@ describe('Package Maintainers - list', () => {
       wrapper.findAllComponents(PackageMaintainerRow)
 
     expect(packageMaintainersFromWrapper.length).toEqual(
-      maintainers.data.length + 1
+      packageMaintainers.data.content.length + 1
     )
   })
 })

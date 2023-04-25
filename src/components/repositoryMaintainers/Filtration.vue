@@ -27,7 +27,7 @@
 <script setup lang="ts">
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
 import { ref, onMounted } from 'vue'
-import FiltrationCard from '../common/FiltrationCard.vue'
+import FiltrationCard from '@/components/common/FiltrationCard.vue'
 import { useObjectActions } from '@/composable/objectActions'
 
 const { setAllFields } = useObjectActions()
@@ -44,10 +44,8 @@ function updateFiltration() {
   )
 }
 
-async function setFiltration() {
-  await maintainers_store.setFiltration(
-    localFiltration.value
-  )
+function setFiltration() {
+  maintainers_store.setFiltration(localFiltration.value)
   changeDialogOptions()
 }
 

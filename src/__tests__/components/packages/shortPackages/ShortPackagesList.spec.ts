@@ -3,7 +3,8 @@ import {
   it,
   expect,
   beforeEach,
-  beforeAll
+  beforeAll,
+  afterAll
 } from 'vitest'
 
 import { mount } from '@vue/test-utils'
@@ -13,8 +14,9 @@ import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import { createPinia, setActivePinia } from 'pinia'
 import ShortPackagesListVue from '@/components/packages/shortPackages/ShortPackagesList.vue'
 import ShortPackageRowVue from '@/components/packages/shortPackages/ShortPackageRow.vue'
-import packages from '@/tmpLists/packages.json'
-import { useRepositoryStore } from '@/store/repositories'
+import packages from '@/__tests__/config/mockData/packages.json'
+import { rest } from 'msw'
+import { setupServer } from 'msw/node'
 
 let wrapper: any
 let repository_store: any
@@ -24,16 +26,29 @@ const globalConfig = {
   plugins: plugins
 }
 
+const server = setupServer(
+  rest.get(
+    'http://localhost:8017/api/v2/manager/packages',
+    (_, res, ctx) => {
+      return res(ctx.json(packages))
+    }
+  )
+)
+
 beforeAll(() => {
   global.ResizeObserver = ResizeObserver
   setActivePinia(createPinia())
-  repository_store = useRepositoryStore()
+  server.listen()
 })
 
 beforeEach(async () => {
   wrapper = mount(ShortPackagesListVue, {
     global: globalConfig
   })
+})
+
+afterAll(() => {
+  server.close()
 })
 
 describe('Short Packages - list', () => {
@@ -46,6 +61,8 @@ describe('Short Packages - list', () => {
       ShortPackageRowVue
     )
 
-    expect(packagesFromWrapper.length).toEqual(1)
+    expect(packagesFromWrapper.length).toEqual(
+      packages.data.content.length + 1
+    )
   })
 })

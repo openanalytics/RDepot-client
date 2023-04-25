@@ -121,13 +121,34 @@ const props = defineProps({
 
 const maintainers_store = usePackageMaintainersStore()
 
-function edit() {}
+function prepareString(value: string): string {
+  return value.charAt(0).toUpperCase() + value.slice(1)
+}
+function edit() {
+  maintainers_store.setChosenMaintainer(
+    props.packageMaintainer || {}
+  )
+  common_store.setOverlayText(
+    i18n.t('maintainers.edit', {
+      maintainerName: props.packageMaintainer?.user?.id
+    })
+  )
+  common_store.setOverlayModel(true)
+  common_store.setOverlayOpacity(0.8)
+  common_store.setOverlayComponent(OverlayEnum.enum.Edit)
+}
 
-function chooseMaintainer() {
-  if (props.packageMaintainer) {
-    maintainers_store.setChosenMaintainer(
-      props.packageMaintainer
-    )
-  }
+function deleteDialog() {
+  maintainers_store.setChosenMaintainer(
+    props.packageMaintainer || {}
+  )
+  common_store.setOverlayText(
+    i18n.t('maintainers.deleteQuestion', {
+      maintainerName: props.packageMaintainer?.user?.id
+    })
+  )
+  common_store.setOverlayModel(true)
+  common_store.setOverlayOpacity(0.8)
+  common_store.setOverlayComponent(OverlayEnum.enum.Delete)
 }
 </script>

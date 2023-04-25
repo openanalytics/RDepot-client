@@ -31,7 +31,7 @@ export function fetchPackagesServices(
       filtration?.repository,
       filtration?.deleted,
       filtration?.state,
-      filtration?.technology,
+      filtration?.technologies,
       page,
       pageSize,
       sortBy
@@ -62,7 +62,7 @@ export function fetchPackagesWithoutProgressControl(
     filtration?.repository,
     filtration?.deleted,
     filtration?.state,
-    filtration?.technology,
+    filtration?.technologies,
     page,
     pageSize,
     sort

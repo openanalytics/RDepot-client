@@ -12,15 +12,11 @@
 </template>
 
 <script setup lang="ts">
+import { OverlayEnum } from '@/enum/Overlay'
 import { i18n } from '@/plugins/i18n'
 import { useCommonStore } from '@/store/common'
 
-var props = defineProps({
-  component: {
-    type: Number,
-    required: true
-  }
-})
+var props = defineProps<{ component: OverlayEnum }>()
 
 const common_store = useCommonStore()
 
