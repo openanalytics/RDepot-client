@@ -64,15 +64,18 @@ const event_store = useEventsStore()
 
 const buttons = [
   {
+    id: 'cancel-button',
     text: i18n.t('common.cancel'),
     handler: () => emit('closeModal')
   },
   {
+    id: 'reset-button',
     spacer: true,
     text: i18n.t('common.clearForm'),
     handler: clearFiltration
   },
   {
+    id: 'set-filtration',
     text: i18n.t('common.apply'),
     handler: setFiltration
   }

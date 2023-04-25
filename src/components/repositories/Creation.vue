@@ -68,10 +68,12 @@ const technologySelect = ref(Technologies.options)
 
 const buttons = [
   {
+    id: 'cancel-button',
     text: i18n.t('common.cancel'),
     handler: changeDialogOptions
   },
   {
+    id: 'set-filtration',
     text: i18n.t('common.create'),
     handler: createRepository
   }

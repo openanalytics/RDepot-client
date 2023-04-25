@@ -4,6 +4,7 @@
       <template v-for="button in buttons">
         <v-spacer v-if="button.spacer" />
         <v-btn
+          :id="button.id"
           :color="color + ' darken-2'"
           @click="button.handler"
           class="mx-1"
@@ -30,6 +31,7 @@ const props = withDefaults(
     justify?: Justify
     color?: string
     buttons: {
+      id?: string
       spacer?: boolean
       text: string
       handler: Function
