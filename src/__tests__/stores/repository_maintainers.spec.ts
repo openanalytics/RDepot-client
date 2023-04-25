@@ -17,6 +17,7 @@ import { setupServer } from 'msw/node'
 import { i18n } from '@/plugins/i18n'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
 import { usePaginationStore } from '@/store/pagination'
+import { Technologies } from '@/enum/Technologies'
 
 const defaultFiltration = {
   deleted: undefined,
@@ -25,7 +26,10 @@ const defaultFiltration = {
 
 const randomFiltration = {
   deleted: true,
-  technologies: ['Python', 'R']
+  technologies: [
+    Technologies.enum.Python,
+    Technologies.enum.R
+  ]
 }
 
 const server = setupServer(

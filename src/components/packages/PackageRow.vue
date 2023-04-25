@@ -161,6 +161,7 @@ import { useCommonStore } from '@/store/common'
 import { useI18n } from 'vue-i18n'
 import { usePackagesStore } from '@/store/packages'
 import { useLoggedUserStore } from '@/store/logged_user'
+import { OverlayEnum } from '@/enum/Overlay'
 
 const common_store = useCommonStore()
 const logged_user_store = useLoggedUserStore()
@@ -212,7 +213,7 @@ function deleteDialog() {
   )
   common_store.setOverlayModel(true)
   common_store.setOverlayOpacity(0.8)
-  common_store.setOverlayComponent('Delete')
+  common_store.setOverlayComponent(OverlayEnum.enum.Delete)
 }
 </script>
 

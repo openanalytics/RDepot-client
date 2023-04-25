@@ -13,6 +13,7 @@ import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import FiltrationVue from '@/components/packageMaintainers/Filtration.vue'
 import { createPinia, setActivePinia } from 'pinia'
 import { usePackageMaintainersStore } from '@/store/package_maintainers'
+import { Technologies } from '@/enum/Technologies'
 
 let wrapper: any
 const globalConfig = {
@@ -66,40 +67,46 @@ describe('Packages Maintainers - filtration', () => {
   it('reset form but not accept it yet', async () => {
     fillTheFormWithRandomData()
     fillPiniaFiltrationWithRandomData()
-    wrapper.vm.localFiltration.technologies = ['Python']
+    wrapper.vm.localFiltration.technologies = [
+      Technologies.enum.Python
+    ]
     await clickButton('#reset-button')
     checkIfFiltrationIsEmpty()
     expect(
       package_maintainers_store.filtration.technologies
-    ).toStrictEqual(['R'])
+    ).toStrictEqual([Technologies.enum.R])
   })
 
   it('reset form but and cancel it', async () => {
     fillTheFormWithRandomData()
     fillPiniaFiltrationWithRandomData()
-    wrapper.vm.localFiltration.technologies = ['Python']
+    wrapper.vm.localFiltration.technologies = [
+      Technologies.enum.Python
+    ]
     await clickButton('#reset-button')
     await clickButton('#cancel-button')
     expect(
       wrapper.vm.filtration.technologies
-    ).toStrictEqual(['R'])
+    ).toStrictEqual([Technologies.enum.R])
     expect(
       package_maintainers_store.filtration.technologies
-    ).toStrictEqual(['R'])
+    ).toStrictEqual([Technologies.enum.R])
   })
 
   it('change state but cancel action', async () => {
     fillTheFormWithRandomData()
     fillPiniaFiltrationWithRandomData()
     await clickButton('#set-filtration')
-    wrapper.vm.localFiltration.technologies = ['Python']
+    wrapper.vm.localFiltration.technologies = [
+      Technologies.enum.Python
+    ]
     await clickButton('#cancel-button')
     expect(
       wrapper.vm.filtration.technologies
-    ).toStrictEqual(['R'])
+    ).toStrictEqual([Technologies.enum.R])
     expect(
       package_maintainers_store.filtration.technologies
-    ).toStrictEqual(['R'])
+    ).toStrictEqual([Technologies.enum.R])
   })
 
   it('clear form and accept it', async () => {
@@ -140,19 +147,23 @@ function checkIfPiniaFiltrationIsEmpty() {
 function checkIfPiniaFiltrationIsFilledWithData() {
   expect(
     package_maintainers_store.filtration.technologies
-  ).toStrictEqual(['R'])
+  ).toStrictEqual([Technologies.enum.R])
   expect(package_maintainers_store.filtration.deleted).toBe(
     false
   )
 }
 
 function fillPiniaFiltrationWithRandomData() {
-  package_maintainers_store.filtration.technologies = ['R']
+  package_maintainers_store.filtration.technologies = [
+    Technologies.enum.R
+  ]
   package_maintainers_store.filtration.deleted = false
 }
 
 function fillTheFormWithRandomData() {
-  wrapper.vm.localFiltration.technologies = ['R']
+  wrapper.vm.localFiltration.technologies = [
+    Technologies.enum.R
+  ]
   wrapper.vm.localFiltration.deleted = false
 }
 

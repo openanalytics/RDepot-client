@@ -12,6 +12,7 @@ import {
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import events from '@/__tests__/config/mockData/events.json'
+import { Technologies } from '@/enum/Technologies'
 
 const defaultFiltration = {
   eventType: undefined,
@@ -25,7 +26,7 @@ const randomFiltration = {
   eventType: 'some event type',
   resourceId: 4,
   resourceType: 'four',
-  technology: 'R',
+  technology: Technologies.enum.R,
   userId: 44
 }
 
