@@ -113,6 +113,13 @@
           "
         ></v-list-item>
       </v-list-group>
+      <v-list-item
+        v-if="loggedUserStore.can('GET', 'users')"
+        prepend-icon="mdi-account-multiple"
+        :title="$t('common.users')"
+        :value="$t('common.users')"
+        @click="$router.replace({ name: 'users' })"
+      ></v-list-item>
     </v-list>
   </v-navigation-drawer>
 </template>
