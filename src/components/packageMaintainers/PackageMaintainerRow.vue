@@ -81,6 +81,7 @@
         center
         no-sort
         :text="$t('columns.actions')"
+        justify="center"
       />
       <span
         v-else-if="
