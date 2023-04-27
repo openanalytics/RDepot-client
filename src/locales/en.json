@@ -14,6 +14,7 @@
     "step3Title": "Summary"
   },
   "common": {
+    "users": "users",
     "apply": "apply",
     "create": "create",
     "clearForm": "clear form",
@@ -63,7 +64,10 @@
     "accepted": "accepted",
     "package": "package",
     "date": "date",
-    "packageName": "package"
+    "packageName": "package",
+    "email": "email",
+    "username": "user name",
+    "role": "role"
   },
   "filtration": {
     "title": "filtration",
@@ -182,5 +186,19 @@
       "user": "User",
       "packageNotFound": "Package not in repository"
     }
+  },
+  "user": {
+    "editform": {
+      "role": "role"
+    },
+    "edit": {
+      "title": "Edit user"
+    }
+  },
+  "users": {
+    "edit": "Edit user role of {user_login}"
+  },
+  "notification": {
+    "successUpdateUser": "Successfully updated user"
   }
 }
