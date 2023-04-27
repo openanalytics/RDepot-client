@@ -78,6 +78,7 @@
       <SortTitle
         v-if="title"
         true
+        center
         no-sort
         :text="$t('columns.actions')"
       />
@@ -87,28 +88,6 @@
         "
         class="d-flex justify-center align-center"
       >
-        <v-tooltip top>
-          <template v-slot:activator="{ props }">
-            <v-icon
-              v-if="
-                logged_user_store.can(
-                  'DELETE',
-                  'packageMaintainers'
-                )
-              "
-              id="delete-icon"
-              @click.stop
-              @click="deleteDialog()"
-              v-bind="props"
-              color="oared"
-              >mdi-trash-can</v-icon
-            >
-          </template>
-          <span id="action-edit">{{
-            $t('maintainers.delete')
-          }}</span>
-        </v-tooltip>
-
         <v-tooltip top>
           <template v-slot:activator="{ props }">
             <v-icon
