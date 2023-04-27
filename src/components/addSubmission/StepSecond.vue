@@ -142,10 +142,7 @@ watch(files, (files) => {
 })
 
 function check_validity(file: File) {
-  if (file['type'] === 'application/gzip') {
-    return true
-  }
-  return false
+  return file['type'] === 'application/gzip'
 }
 
 function savePackagesInStore() {
