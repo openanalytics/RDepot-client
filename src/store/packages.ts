@@ -20,6 +20,7 @@ interface State {
   package?: EntityModelPackageDto
   vignettes: ResponseDtoListVignette
   filtration: PackagesFiltration
+  chosenPackageId?: number
   next?: boolean
 }
 
@@ -37,6 +38,7 @@ export const usePackagesStore = defineStore(
           repository: undefined,
           technologies: undefined
         },
+        chosenPackageId: undefined,
         next: false
       }
     },
@@ -96,21 +98,10 @@ export const usePackagesStore = defineStore(
       async clearFiltrationAndFetch() {
         this.clearFiltration()
         await this.fetchPackages()
+      },
+      setChosenPackage(id?: number) {
+        this.chosenPackageId = id
       }
     }
   }
 )
-
-function ifNext(links?: Link[]): boolean {
-  var flag: boolean = false
-  if (links != undefined) {
-    links.forEach((link: Link) => {
-      if (link.rel === 'next') {
-        console.log('here')
-        // return true
-        flag = true
-      }
-    })
-  }
-  return flag
-}

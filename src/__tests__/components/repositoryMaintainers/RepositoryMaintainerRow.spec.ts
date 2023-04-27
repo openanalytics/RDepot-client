@@ -129,21 +129,28 @@ describe('Repository Maintainers - maintainers row (title)', () => {
     const field = wrapper.find(
       '#repository-maintainer-name'
     )
-    expect(field.text()).toBe('Maintainers.name')
+    expect(field.text()).toBe('Columns.name')
   })
 
   it('repository field', () => {
     const field = wrapper.find(
       '#repository-maintainer-repository'
     )
-    expect(field.text()).toBe('Maintainers.repository')
+    expect(field.text()).toBe('Columns.repository')
+  })
+
+  it('technology field', () => {
+    const field = wrapper.find(
+      '#repository-maintainer-technology'
+    )
+    expect(field.text()).toBe('Columns.technology')
   })
 
   it('actions field', () => {
     const field = wrapper.find(
       '#repository-maintainer-actions'
     )
-    expect(field.text()).toBe('Maintainers.actions')
+    expect(field.text()).toBe('Columns.actions')
   })
 
   it('delete button not exists', () => {

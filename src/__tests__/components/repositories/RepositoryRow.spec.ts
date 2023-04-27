@@ -70,7 +70,7 @@ describe('Repositories - repository row (repository)', () => {
 
   it('packages number field', () => {
     const field = wrapper.find('#repository-packages-no')
-    expect(field.text()).toBe('-1')
+    expect(field.text()).toBe('none')
   })
 
   it('published field (checkbox)', () => {
@@ -144,7 +144,7 @@ describe('Repositories - repository row (empty repository)', () => {
 
   it('packages number field', () => {
     const field = wrapper.find('#repository-packages-no')
-    expect(field.text()).toBe('')
+    expect(field.text()).toBe('none')
   })
 
   it('published field (checkbox)', () => {
@@ -183,35 +183,40 @@ describe('Repositories - repository row (title)', () => {
 
   it('name field', () => {
     const field = wrapper.find('#repository-name')
-    expect(field.text()).toBe('Repositories.name')
+    expect(field.text()).toBe('Columns.name')
   })
 
   it('publication uri title', () => {
     const field = wrapper.find(
       '#repository-publication-uri'
     )
-    expect(field.text()).toBe('Repositories.publicationUri')
+    expect(field.text()).toBe('Columns.publicationUri')
   })
 
   it('server address title', () => {
     const field = wrapper.find('#repository-server-address')
-    expect(field.text()).toBe('Repositories.serverAddress')
+    expect(field.text()).toBe('Columns.serverAddress')
   })
 
   it('version title', () => {
     const field = wrapper.find('#repository-version')
-    expect(field.text()).toBe('Repositories.version')
+    expect(field.text()).toBe('Columns.version')
+  })
+
+  it('technology title', () => {
+    const field = wrapper.find('#repository-technology')
+    expect(field.text()).toBe('Columns.technology')
   })
 
   it('packages number title', () => {
     const field = wrapper.find('#repository-packages-no')
-    expect(field.text()).toBe('Repositories.packagesNo')
+    expect(field.text()).toBe('Columns.packagesNo')
   })
 
   it('published title', () => {
     const field = wrapper.find('#repository-published')
     const checkbox = wrapper.find('#checkbox-published')
-    expect(field.text()).toEqual('Repositories.published')
+    expect(field.text()).toEqual('Columns.published')
     expect(checkbox.exists()).toEqual(false)
   })
 

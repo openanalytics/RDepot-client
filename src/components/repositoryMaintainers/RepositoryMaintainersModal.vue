@@ -32,13 +32,10 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['delete'])
-
 async function performAction() {
   if (common_store.isFiltration()) {
     await maintainers_store.clearFiltrationAndFetch()
   } else if (common_store.isDelete()) {
-    console.log('performAction')
     await maintainers_store.deleteMaintainer()
   }
 }

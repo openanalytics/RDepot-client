@@ -57,7 +57,7 @@ describe('Submissions - submission row (ACCEPTED)', () => {
   it('repository field', () => {
     const field = wrapper.find('#submission-repository')
     expect(field.text()).toBe(
-      submission.packageBag?.repository?.id!.toString()
+      submission.packageBag?.repository?.name
     )
   })
 
@@ -147,7 +147,7 @@ describe('Submissions - submission row (empty)', () => {
 
   it('date field', () => {
     const field = wrapper.find('#submission-date')
-    expect(field.text()).toBe('')
+    expect(field.text()).toBe('DATE')
   })
 
   it('package field', () => {
@@ -206,39 +206,44 @@ describe('Submissions - submission row (title)', () => {
 
   it('date title', () => {
     const field = wrapper.find('#submission-date')
-    expect(field.text()).toBe('Submissions.date')
+    expect(field.text()).toBe('Columns.date')
   })
 
   it('package title', () => {
     const field = wrapper.find('#submission-package')
-    expect(field.text()).toBe('Submissions.package')
+    expect(field.text()).toBe('Columns.package')
   })
 
   it('repository title', () => {
     const field = wrapper.find('#submission-repository')
-    expect(field.text()).toBe('Submissions.repository')
+    expect(field.text()).toBe('Columns.repository')
   })
 
   it('submitter title', () => {
     const field = wrapper.find('#submission-submitter')
-    expect(field.text()).toBe('Submissions.submitter')
+    expect(field.text()).toBe('Columns.submitter')
   })
 
   it('approver title', () => {
     const field = wrapper.find('#submission-approver')
-    expect(field.text()).toBe('Submissions.approver')
+    expect(field.text()).toBe('Columns.approver')
+  })
+
+  it('technology title', () => {
+    const field = wrapper.find('#submission-technology')
+    expect(field.text()).toBe('Columns.technology')
   })
 
   it('accepted title', () => {
     const field = wrapper.find('#submission-accepted')
     const checkbox = wrapper.find('#checkbox-accepted')
-    expect(field.text()).toBe('Submissions.accepted')
+    expect(field.text()).toBe('Columns.accepted')
     expect(checkbox.exists()).toBe(false)
   })
 
   it('actions title', () => {
     const field = wrapper.find('#submission-actions')
-    expect(field.text()).toBe('Submissions.actions')
+    expect(field.text()).toBe('Columns.actions')
   })
 
   it('accept button not exists', () => {

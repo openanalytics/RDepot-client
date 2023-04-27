@@ -15,6 +15,7 @@ import {
 import { notify } from '@kyvg/vue3-notification'
 import { i18n } from '@/plugins/i18n'
 import { createPatch } from 'rfc6902'
+import { useSortStore } from '@/store/sort'
 import { isAuthorized } from '@/plugins/casl'
 
 export function fetchPackageMaintainersService(
@@ -29,13 +30,19 @@ export function fetchPackageMaintainersService(
     ApiV2PackageMaintainerControllerApiFactory(
       getConfiguration()
     )
+  const sort = useSortStore()
+  var sortBy = sort.getSortBy()
+  if (sort.field == 'name') {
+    sortBy = 'user,' + sort.direction
+  }
   return openApiRequest<ResponseDtoPagedModelEntityModelPackageMaintainerDto>(
     package_maintainers_api.getAllPackageMaintainers,
     [
       filtration?.deleted,
       filtration?.technologies,
       page,
-      pageSize
+      pageSize,
+      sortBy
     ]
   ).then(
     (res) =>

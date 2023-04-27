@@ -1,85 +1,90 @@
 <template>
-  <v-row
+  <VRow
     class="px-5"
     :class="{ title: title }"
     id="package-row"
   >
-    <v-col
+    <VCol
       id="package-row-name"
       cols="lg-1 sm-2"
       class="d-flex align-center"
-      >{{
-        title
-          ? prepareString($t('packages.name').toString())
-          : packageBag
-          ? packageBag.name
-          : ''
-      }}</v-col
     >
-    <v-col
+      <SortTitle v-if="title" :text="$t('columns.name')" />
+      <TextRecord v-else :text="packageBag?.name" />
+    </VCol>
+    <VCol
       id="package-row-version"
       cols="1"
       class="d-flex align-center"
-      >{{
-        title
-          ? prepareString($t('packages.version').toString())
-          : packageBag?.version
-      }}</v-col
     >
-    <v-col
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.version')"
+      />
+      <TextRecord v-else :text="packageBag?.version" />
+    </VCol>
+    <VCol
       id="package-row-title"
-      cols="lg-6 sm-2"
+      cols="lg-5 sm-2"
       class="d-flex align-center"
     >
-      {{
-        title
-          ? prepareString($t('packages.title').toString())
-          : packageBag && packageBag.title
-          ? packageBag.title.length > descMaxLength
-            ? packageBag.title.slice(0, descMaxLength) +
-              '...'
-            : packageBag.title
-          : ''
-      }}</v-col
-    >
-    <v-col
+      <SortTitle
+        v-if="title"
+        :text="$t('packages.title')"
+      />
+      <TextRecord v-else :text="packageBag?.title" />
+    </VCol>
+    <VCol
       id="package-row-maintainer"
       cols="lg-1 sm-2"
       class="d-flex align-center justify-center"
+      align="center"
     >
-      {{
-        title
-          ? prepareString(
-              $t('packages.maintainer').toString()
-            )
-          : packageBag?.user?.name
-      }}</v-col
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.maintainer')"
+      />
+      <TextRecord v-else :text="packageBag?.user?.name" />
+    </VCol>
+    <VCol
+      id="package-row-technology"
+      cols="lg-1 sm-2"
+      class="d-flex align-center justify-center"
     >
-    <v-col
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.technology')"
+      />
+      <TextRecord v-else :text="packageBag?.technology" />
+    </VCol>
+    <VCol
       id="package-row-repository"
       cols="lg-1 sm-2"
       class="d-flex align-center justify-center"
     >
-      {{
-        title
-          ? prepareString(
-              $t('packages.repository').toString()
-            )
-          : packageBag?.repository?.id
-      }}</v-col
-    >
-    <v-col
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.repository')"
+      />
+      <TextRecord
+        v-else
+        :text="packageBag?.repository?.name"
+      />
+    </VCol>
+    <VCol
       id="package-row-active"
       cols="lg-1"
       class="d-flex justify-center"
     >
-      <span v-if="title">
-        {{
-          prepareString($t('packages.active').toString())
-        }}</span
-      >
-      <v-checkbox
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.active')"
+        center
+      />
+
+      <VCheckbox
         id="checkbox-active"
+        class="mr-8"
         color="oablue"
         @click.stop
         v-else-if="packageBag"
@@ -89,28 +94,30 @@
           !logged_user_store.can('PATCH', 'package')
         "
       />
-    </v-col>
-    <v-col
+    </VCol>
+    <VCol
       v-if="
         logged_user_store.can('GET', 'packageDetails') ||
         logged_user_store.can('DELETE', 'package')
       "
       id="package-row-actions"
       cols="lg-1"
-      class="d-flex justify-center"
+      class="d-flex justify-center align-center"
+      align="center"
     >
-      <span v-if="title">
-        {{
-          prepareString($t('packages.actions').toString())
-        }}
-      </span>
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.actions')"
+        no-sort
+        justify="center"
+      />
       <span
         v-else-if="packageBag && !packageBag.deleted"
-        class="d-flex justify-center align-center"
+        class="d-flex"
       >
-        <v-tooltip top>
+        <VTooltip top>
           <template v-slot:activator="{ props }">
-            <v-icon
+            <VIcon
               v-if="
                 logged_user_store.can(
                   'GET',
@@ -122,13 +129,18 @@
               @click="navigate"
               v-bind="props"
               color="oablue"
-              >mdi-forward</v-icon
+              >mdi-forward</VIcon
             >
           </template>
           <span id="action-details">{{
             $t('common.details')
           }}</span>
-        </v-tooltip>
+        </VTooltip>
+        <DeleteIcon
+          v-if="logged_user_store.can('DELETE', 'package')"
+          :name="props.packageBag?.name"
+          :set-resource-id="choosePackage"
+        />
         <v-tooltip top>
           <template v-slot:activator="{ props }">
             <v-icon
@@ -149,23 +161,27 @@
           }}</span>
         </v-tooltip>
       </span>
-    </v-col>
-  </v-row>
+    </VCol>
+  </VRow>
 </template>
 
 <script setup lang="ts">
 import { ref } from '@vue/reactivity'
 import router from '@/router'
 import { EntityModelPackageDto } from '@/openapi'
+import { usePackagesStore } from '@/store/packages'
+import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
+import SortTitle from '@/components/packages/SortTitle.vue'
+import TextRecord from '@/components/packages/TextRecord.vue'
+
+const package_store = usePackagesStore()
 import { useCommonStore } from '@/store/common'
 import { useI18n } from 'vue-i18n'
-import { usePackagesStore } from '@/store/packages'
 import { useLoggedUserStore } from '@/store/logged_user'
 import { OverlayEnum } from '@/enum/Overlay'
 
 const common_store = useCommonStore()
 const logged_user_store = useLoggedUserStore()
-const package_store = usePackagesStore()
 // const can = ref(logged_user_store.can)
 const { t } = useI18n()
 
@@ -178,10 +194,9 @@ const props = defineProps({
     | EntityModelPackageDto
     | undefined
 })
-const descMaxLength = ref(110)
 
-function prepareString(value: string): string {
-  return value.charAt(0).toUpperCase() + value.slice(1)
+function choosePackage() {
+  package_store.setChosenPackage(props.packageBag?.id)
 }
 
 function updatePackageActive() {
@@ -216,27 +231,3 @@ function deleteDialog() {
   common_store.setOverlayComponent(OverlayEnum.enum.Delete)
 }
 </script>
-
-<style lang="scss">
-.v-col {
-  padding: 10px !important;
-  font-size: 13px !important;
-}
-.col {
-  line-height: 1.3;
-}
-.title {
-  font-weight: 600 !important;
-  padding: 16px 24px;
-}
-
-.v-input__control {
-  justify-content: center !important;
-}
-
-#packagerow {
-  .v-input__details {
-    display: none !important;
-  }
-}
-</style>

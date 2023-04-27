@@ -6,35 +6,60 @@
   >
     <v-col
       id="package-maintainer-name"
-      cols="lg-1 sm-2"
+      cols="lg-2 sm-2"
       class="d-flex align-center"
-      >{{
-        title
-          ? prepareString($t('maintainers.name'))
-          : packageMaintainer?.user?.name
-      }}</v-col
     >
+      <SortTitle v-if="title" :text="$t('columns.name')" />
+      <TextRecord
+        v-else
+        :text="packageMaintainer?.user?.name"
+      />
+    </v-col>
     <v-col
       id="package-maintainer-package"
-      cols="lg-9"
+      cols="lg-7"
       class="d-flex align-center"
-      >{{
-        title
-          ? prepareString($t('maintainers.packageName'))
-          : packageMaintainer?.packageName
-      }}</v-col
     >
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.packageName')"
+      />
+      <TextRecord
+        v-else
+        :text="packageMaintainer?.packageName"
+      />
+    </v-col>
+    <v-col
+      id="package-maintainer-technology"
+      cols="lg-1 sm-2"
+      class="d-flex align-center justify-center"
+    >
+      <SortTitle
+        v-if="title"
+        center
+        no-sort
+        :text="$t('columns.technology')"
+      />
+      <TextRecord
+        v-else
+        :text="packageMaintainer?.repository?.technology"
+        no-margin
+      />
+    </v-col>
     <v-col
       id="package-maintainer-repository"
       cols="lg-1 sm-2"
-      class="d-flex align-center"
+      class="d-flex align-center justify-center"
     >
-      {{
-        title
-          ? prepareString($t('maintainers.repository'))
-          : packageMaintainer?.repository?.id
-      }}</v-col
-    >
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.repository')"
+      />
+      <TextRecord
+        v-else
+        :text="packageMaintainer?.repository?.name"
+      />
+    </v-col>
     <v-col
       v-if="
         logged_user_store.can(
@@ -50,35 +75,19 @@
       cols="lg-1"
       class="d-flex justify-center"
     >
-      <span v-if="title">
-        {{ prepareString($t('maintainers.actions')) }}
-      </span>
+      <SortTitle
+        v-if="title"
+        true
+        center
+        no-sort
+        :text="$t('columns.actions')"
+      />
       <span
-        v-else-if="packageMaintainer"
+        v-else-if="
+          packageMaintainer && !packageMaintainer.deleted
+        "
         class="d-flex justify-center align-center"
       >
-        <v-tooltip top>
-          <template v-slot:activator="{ props }">
-            <v-icon
-              v-if="
-                logged_user_store.can(
-                  'DELETE',
-                  'packageMaintainers'
-                )
-              "
-              id="delete-icon"
-              @click.stop
-              @click="deleteDialog()"
-              v-bind="props"
-              color="oared"
-              >mdi-trash-can</v-icon
-            >
-          </template>
-          <span id="action-edit">{{
-            $t('maintainers.delete')
-          }}</span>
-        </v-tooltip>
-
         <v-tooltip top>
           <template v-slot:activator="{ props }">
             <v-icon
@@ -101,18 +110,31 @@
             $t('maintainers.edit')
           }}</span>
         </v-tooltip>
+        <delete-icon
+          :name="props.packageMaintainer?.user?.name"
+          :set-resource-id="chooseMaintainer"
+          v-if="
+            logged_user_store.can(
+              'DELETE',
+              'packageMaintainers'
+            )
+          "
+        />
       </span>
     </v-col>
   </v-row>
 </template>
 
 <script setup lang="ts">
-import { OverlayEnum } from '@/enum/Overlay'
 import { EntityModelPackageMaintainerDto } from '@/openapi'
 import { i18n } from '@/plugins/i18n'
 import { useCommonStore } from '@/store/common'
 import { useLoggedUserStore } from '@/store/logged_user'
 import { usePackageMaintainersStore } from '@/store/package_maintainers'
+import DeleteIcon from '../common/action_icons/DeleteIcon.vue'
+import SortTitle from '../packages/SortTitle.vue'
+import TextRecord from '../packages/TextRecord.vue'
+import { OverlayEnum } from '@/enum/Overlay'
 
 const props = defineProps({
   title: {
@@ -128,9 +150,12 @@ const logged_user_store = useLoggedUserStore()
 const common_store = useCommonStore()
 const maintainers_store = usePackageMaintainersStore()
 
-function prepareString(value: string): string {
-  return value.charAt(0).toUpperCase() + value.slice(1)
+function chooseMaintainer() {
+  maintainers_store.setChosenMaintainer(
+    props.packageMaintainer || {}
+  )
 }
+
 function edit() {
   maintainers_store.setChosenMaintainer(
     props.packageMaintainer || {}
@@ -159,17 +184,3 @@ function deleteDialog() {
   common_store.setOverlayComponent(OverlayEnum.enum.Delete)
 }
 </script>
-
-<style lang="scss">
-.v-col {
-  padding: 10px !important;
-  font-size: 13px !important;
-}
-.col {
-  line-height: 1.3;
-}
-.title {
-  font-weight: 600 !important;
-  padding: 16px 24px;
-}
-</style>

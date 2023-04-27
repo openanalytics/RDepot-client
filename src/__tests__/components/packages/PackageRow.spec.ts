@@ -168,12 +168,12 @@ describe('Packages - package row (title)', () => {
 
   it('name title', () => {
     const field = wrapper.find('#package-row-name')
-    expect(field.text()).toEqual('Packages.name')
+    expect(field.text()).toEqual('Columns.name')
   })
 
   it('version title', () => {
     const field = wrapper.find('#package-row-version')
-    expect(field.text()).toBe('Packages.version')
+    expect(field.text()).toBe('Columns.version')
   })
 
   it('title title', () => {
@@ -181,15 +181,20 @@ describe('Packages - package row (title)', () => {
     expect(field.text()).toBe('Packages.title')
   })
 
+  it('technology title', () => {
+    const field = wrapper.find('#package-row-technology')
+    expect(field.text()).toBe('Columns.technology')
+  })
+
   it('maintainer title', () => {
     const field = wrapper.find('#package-row-maintainer')
-    expect(field.text()).toBe('Packages.maintainer')
+    expect(field.text()).toBe('Columns.maintainer')
   })
 
   it('active title', () => {
     const field = wrapper.find('#package-row-active')
     const checkbox_active = wrapper.find('#checkbox-active')
-    expect(field.text()).toBe('Packages.active')
+    expect(field.text()).toBe('Columns.active')
     expect(checkbox_active.exists()).toBeFalsy()
   })
 

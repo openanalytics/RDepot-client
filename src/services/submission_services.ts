@@ -14,6 +14,7 @@ import {
 } from './open_api_access'
 import { notify } from '@kyvg/vue3-notification'
 import { createPatch } from 'rfc6902'
+import { useSortStore } from '@/store/sort'
 import { isAuthorized } from '@/plugins/casl'
 
 export function fetchRSubmissions(
@@ -28,6 +29,10 @@ export function fetchRSubmissions(
   const r_submission_api = RSubmissionControllerApiFactory(
     getConfiguration()
   )
+  const sort = useSortStore()
+  if (sort.field == 'name') {
+    sort.setField('packageBag')
+  }
   return openApiRequest<ResponseDtoPagedModelEntityModelSubmissionDto>(
     r_submission_api.getAllSubmissions,
     [
@@ -35,7 +40,8 @@ export function fetchRSubmissions(
       filtration.assignedToMe ? logged_user_id : undefined,
       filtration.package?.id,
       page,
-      pageSize
+      pageSize,
+      sort.getSortBy()
     ]
   ).then(
     (res) =>
@@ -105,7 +111,7 @@ export function updateSubmissionState(
   )
 }
 
-export function addSumbission(
+export function addSubmission(
   repository: string,
   file: File
 ): Promise<boolean> {

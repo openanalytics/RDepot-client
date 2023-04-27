@@ -19,6 +19,8 @@ import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 
 let wrapper: any
+let repository_store: any
+
 const globalConfig = {
   mocks: mocks,
   plugins: plugins

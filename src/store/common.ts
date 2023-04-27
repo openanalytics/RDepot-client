@@ -11,6 +11,7 @@ interface State {
   overlayOpacity: number
   overlayComponent: OverlayEnum
   key: number
+  activeId: string
 }
 
 export const useCommonStore = defineStore('common_store', {
@@ -23,6 +24,7 @@ export const useCommonStore = defineStore('common_store', {
       overlayText: '',
       overlayOpacity: 0.8,
       overlayModel: false,
+      activeId: 'name',
       overlayComponent: OverlayEnum.enum.Delete,
       key: 0
     }
@@ -51,6 +53,9 @@ export const useCommonStore = defineStore('common_store', {
       if (this.key > 100) {
         this.key = 0
       }
+    },
+    setActiveId(payload: string) {
+      this.activeId = payload
     },
     isFiltration() {
       return (

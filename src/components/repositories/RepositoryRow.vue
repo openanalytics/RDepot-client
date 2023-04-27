@@ -8,90 +8,97 @@
       id="repository-name"
       cols="lg-1 sm-2"
       class="d-flex align-center"
-      >{{
-        title
-          ? prepareString(
-              $t('repositories.name').toString()
-            )
-          : repositoryLocal.name
-      }}</v-col
     >
+      <SortTitle v-if="title" :text="$t('columns.name')" />
+      <TextRecord v-else :text="repository?.name" />
+    </v-col>
     <v-col
       id="repository-publication-uri"
       cols="lg-2"
       class="d-flex align-center"
-      >{{
-        title
-          ? prepareString(
-              $t('repositories.publicationUri').toString()
-            )
-          : repositoryLocal.publicationUri
-      }}</v-col
     >
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.publicationUri')"
+      />
+      <TextRecord
+        v-else
+        :text="repository?.publicationUri"
+      />
+    </v-col>
     <v-col
       id="repository-server-address"
-      cols="lg-5 sm-2"
+      cols="lg-4 sm-2"
       class="d-flex align-center"
     >
-      {{
-        title
-          ? prepareString(
-              $t('repositories.serverAddress').toString()
-            )
-          : repositoryLocal.serverAddress
-      }}</v-col
-    >
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.serverAddress')"
+      />
+      <TextRecord
+        v-else
+        :text="repository?.serverAddress"
+      />
+    </v-col>
 
+    <v-col
+      id="repository-technology"
+      cols="lg-1 sm-2"
+      class="d-flex align-center justify-center"
+    >
+      <SortTitle
+        v-if="title"
+        center
+        :text="$t('columns.technology')"
+      />
+      <TextRecord v-else :text="repository?.technology" />
+    </v-col>
     <v-col
       id="repository-version"
       cols="lg-1 sm-2"
       class="d-flex align-center justify-center"
     >
-      {{
-        title
-          ? prepareString(
-              $t('repositories.version').toString()
-            )
-          : repositoryLocal.version
-      }}</v-col
-    >
+      <SortTitle
+        v-if="title"
+        center
+        :text="$t('columns.version')"
+      />
+      <TextRecord
+        v-else
+        :text="repository?.version?.toString()"
+      />
+    </v-col>
     <v-col
       id="repository-packages-no"
       cols="lg-1 sm-2"
       class="d-flex align-center justify-center"
     >
-      {{
-        title
-          ? prepareString(
-              $t('repositories.packagesNo').toString()
-            )
-          : repositoryLocal
-          ? -1
-          : ''
-      }}</v-col
-    >
+      <SortTitle
+        v-if="title"
+        center
+        no-sort
+        :text="$t('columns.packagesNo')"
+      />
+      <TextRecord v-else text="none" no-margin />
+    </v-col>
     <v-col
       id="repository-published"
       cols="lg-1"
       class="d-flex justify-center"
     >
-      <span v-if="title">
-        {{
-          prepareString(
-            $t('repositories.published').toString()
-          )
-        }}</span
-      >
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.published')"
+        center
+      />
       <v-checkbox
         v-else-if="repositoryLocal"
         id="checkbox-published"
         v-model="repositoryLocal.published"
         @change="updateRepositoryPublished()"
         color="oablue"
+        class="mr-8"
         @click.stop
-        :disabled="
-          !logged_user_store.can('PATCH', 'repository')
-        "
       />
     </v-col>
     <v-col
@@ -103,11 +110,12 @@
       cols="lg-1"
       class="d-flex justify-center"
     >
-      <span v-if="title">
-        {{
-          prepareString($t('packages.actions').toString())
-        }}
-      </span>
+      <SortTitle
+        v-if="title"
+        no-sort
+        center
+        :text="$t('columns.actions')"
+      />
       <span
         v-else-if="repositoryLocal"
         class="d-flex justify-center align-center"
@@ -133,28 +141,13 @@
             $t('common.details')
           }}</span>
         </v-tooltip>
-        <v-tooltip top>
-          <template v-slot:activator="{ props }">
-            <v-icon
-              v-if="
-                logged_user_store.can(
-                  'DELETE',
-                  'repository'
-                )
-              "
-              id="delete-icon"
-              @click.stop
-              @click="navigate"
-              v-bind="props"
-              color="oared"
-              class="ml-3"
-              >mdi-trash-can</v-icon
-            >
-          </template>
-          <span id="action-delete">{{
-            $t('common.delete')
-          }}</span>
-        </v-tooltip>
+        <delete-icon
+          v-if="
+            logged_user_store.can('DELETE', 'repository')
+          "
+          :name="props.repository?.name"
+          :set-resource-id="chooseRepository"
+        />
       </span>
     </v-col>
   </v-row>
@@ -162,26 +155,42 @@
 
 <script setup lang="ts">
 import router from '@/router'
-import { EntityModelRRepositoryDto } from '@/openapi'
+import { EntityModelRepositoryDto } from '@/openapi'
 import { usePackagesStore } from '@/store/packages'
+import { useRepositoryStore } from '@/store/repositories'
+import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
+import SortTitle from '@/components/packages/SortTitle.vue'
+import TextRecord from '@/components/packages/TextRecord.vue'
 import { useLoggedUserStore } from '@/store/logged_user'
 import { updateRepository } from '@/services/repository_services'
 import { ref } from 'vue'
 
+const repository_store = useRepositoryStore()
 const package_store = usePackagesStore()
 const logged_user_store = useLoggedUserStore()
 
 const props = defineProps<{
   title?: boolean
-  repository?: EntityModelRRepositoryDto
+  repository?: EntityModelRepositoryDto
 }>()
-
-const repositoryLocal = ref<EntityModelRRepositoryDto>(
+const repositoryLocal = ref<EntityModelRepositoryDto>(
   props.repository || {}
 )
 
-function prepareString(value: string): string {
-  return value.charAt(0).toUpperCase() + value.slice(1)
+function updateRepositoryPublish() {
+  if (
+    props.repository &&
+    props.repository.id &&
+    props.repository.published != undefined
+  ) {
+    repository_store.setChosenRepository(
+      props.repository?.id
+    )
+    repository_store.updateRepository(
+      props.repository,
+      'updated succesfully'
+    )
+  }
 }
 
 function updateRepositoryPublished(): void {
@@ -213,23 +222,8 @@ function navigate() {
     })
   }
 }
+
+function chooseRepository() {
+  repository_store.setChosenRepository(props.repository?.id)
+}
 </script>
-
-<style lang="scss">
-.v-col {
-  padding: 10px !important;
-  font-size: 13px !important;
-}
-.col {
-  line-height: 1.3;
-}
-
-.title {
-  font-weight: 600 !important;
-  padding: 16px 24px;
-}
-
-.v-input__control {
-  justify-content: center !important;
-}
-</style>

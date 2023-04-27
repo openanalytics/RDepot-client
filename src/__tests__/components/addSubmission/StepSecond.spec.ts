@@ -30,7 +30,7 @@ beforeEach(async () => {
   })
 })
 
-describe('Add submission - step first', () => {
+describe('Add submission - second step', () => {
   it('renders properly', () => {
     expect(wrapper.exists()).toBe(true)
   })
@@ -52,7 +52,7 @@ describe('Add submission - step first', () => {
     expect(button.exists()).toBeTruthy()
   })
 
-  it('go next not allowed if repository is not choosen', async () => {
+  it('go next not allowed if repository is not chosen', async () => {
     const button = wrapper.find('#next-button')
     expect(button.exists()).toBeTruthy()
     await button.trigger('click')

@@ -2,7 +2,7 @@ import { RepositoryMaintainersFiltration } from '@/models/Filtration'
 import {
   ApiV2RepositoryMaintainerControllerApiFactory,
   EntityModelRepositoryMaintainerDto,
-  ResponseDtoPagedModelEntityModelRepositoryDto
+  ResponseDtoPagedModelEntityModelRepositoryMaintainerDto
 } from '@/openapi'
 import { AxiosResponse } from 'axios'
 import { getConfiguration } from './api_config'
@@ -14,6 +14,7 @@ import {
 import { notify } from '@kyvg/vue3-notification'
 import { i18n } from '@/plugins/i18n'
 import { createPatch } from 'rfc6902'
+import { useSortStore } from '@/store/sort'
 import { isAuthorized } from '@/plugins/casl'
 
 export function fetchRepositoryMaintainersServices(
@@ -29,13 +30,18 @@ export function fetchRepositoryMaintainersServices(
     ApiV2RepositoryMaintainerControllerApiFactory(
       getConfiguration()
     )
-  return openApiRequest<ResponseDtoPagedModelEntityModelRepositoryDto>(
+  const sort = useSortStore()
+  if (sort.field == 'name') {
+    sort.setField('user')
+  }
+  return openApiRequest<ResponseDtoPagedModelEntityModelRepositoryMaintainerDto>(
     repository_maintainers_api.getAllRepositoryMaintainers,
     [
       filtration.deleted,
       filtration.technologies,
       page,
-      pageSize
+      pageSize,
+      sort.getSortBy()
     ]
   ).then(
     (res) =>
@@ -51,7 +57,7 @@ export function fetchRepositoryMaintainersServices(
 }
 
 export function updateRepositoryMaintainer(
-  oldmaintainer: EntityModelRepositoryMaintainerDto,
+  oldMaintainer: EntityModelRepositoryMaintainerDto,
   newMaintainer: EntityModelRepositoryMaintainerDto
 ): Promise<boolean> {
   if (!isAuthorized('PATCH', 'repositoryMaintainers'))
@@ -60,11 +66,11 @@ export function updateRepositoryMaintainer(
     ApiV2RepositoryMaintainerControllerApiFactory(
       getConfiguration()
     )
-  const patch = createPatch(oldmaintainer, newMaintainer)
+  const patch = createPatch(oldMaintainer, newMaintainer)
 
   return openApiRequest<AxiosResponse<any>>(
     repository_maintainers_api.updateRepositoryMaintainer,
-    [patch, oldmaintainer.id]
+    [patch, oldMaintainer.id]
   ).then(
     () => {
       notify({

@@ -4,7 +4,7 @@
     class="v-expansion mx-8"
   >
     <v-expansion-panel class="py-3">
-      <slot name="title" :title="true"></slot>
+      <slot name="title" title></slot>
     </v-expansion-panel>
     <EmptyListing
       v-show="resources === undefined || !resources.length"
@@ -65,6 +65,9 @@ function handleClick(item: any) {
 </script>
 
 <style lang="scss">
+.title {
+  font-weight: 600 !important;
+}
 .v-expansion {
   max-width: 96% !important;
 }
@@ -83,9 +86,10 @@ function handleClick(item: any) {
   padding: 0 !important;
 }
 
-.v-col {
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
+.no-icon {
+  .v-input__details {
+    display: none !important;
+  }
 }
 
 .no-icon {

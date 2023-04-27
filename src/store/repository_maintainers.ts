@@ -55,7 +55,7 @@ export const useRepositoryMaintainersStore = defineStore(
         this.repositories = repositories
       },
       async setChosenMaintainer(
-        payload: EntityModelRepositoryMaintainerDto
+        payload: EntityModelPackageMaintainerDto
       ) {
         this.chosenMaintainer = payload
       },
@@ -76,7 +76,7 @@ export const useRepositoryMaintainersStore = defineStore(
         }
       },
       async deleteMaintainer() {
-        if (this.chosenMaintainer.id) {
+        if (this.chosenMaintainer) {
           await deletedRepositoryMaintainer(
             this.chosenMaintainer
           ).then(async (success) => {
@@ -84,6 +84,12 @@ export const useRepositoryMaintainersStore = defineStore(
           })
         }
       },
+      async setPage(payload: number) {
+        const pagination = usePaginationStore()
+        pagination.setPage(payload)
+        this.fetchMaintainers()
+      },
+
       async setFiltration(
         payload: RepositoryMaintainersFiltration
       ) {

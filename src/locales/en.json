@@ -41,7 +41,29 @@
       "email": "This should be an email",
       "unauthorized": "You are not authorized to perform this action"
     },
-    "copied": "code succesfully copied to clipboard"
+    "deleteQuestion": "Are you sure you want to delete {resource_name}?",
+    "copied": "code succesfully copied to clipboard",
+    "goBack": "go back"
+  },
+  "columns": {
+    "name": "name",
+    "version": "version",
+    "title": "title",
+    "maintainer": "maintainer",
+    "approver": "approver",
+    "submitter": "submitter",
+    "repository": "repository",
+    "active": "active",
+    "actions": "actions",
+    "publicationUri": "publication uri",
+    "serverAddress": "server address",
+    "packagesNo": "# packages",
+    "published": "published",
+    "technology": "technology",
+    "accepted": "accepted",
+    "package": "package",
+    "date": "date",
+    "packageName": "package"
   },
   "filtration": {
     "title": "filtration",
@@ -57,16 +79,8 @@
       "repository": "Repository",
       "deleted": "Deleted"
     },
-    "name": "name",
-    "version": "version",
-    "description": "descritpion",
     "author": "author",
-    "maintainer": "maintainer",
-    "approver": "approver",
-    "submitter": "submitter",
-    "repository": "repository",
-    "active": "active",
-    "actions": "actions",
+    "description": "description",
     "maintainers": "package maintainers",
     "list": "packages",
     "title": "title",
@@ -85,12 +99,11 @@
     "oldSources": "Old sources",
     "archive": "Archive",
     "referenceManual": "Reference Manual",
-    "noVignette": "No vignettes avaiable",
+    "noVignette": "No vignettes available",
     "install": "Install",
     "installInstruction": "To install this package, start R and enter:",
     "withinRdepot": "Within RDepot",
     "originalRPackageData": "As described in R package",
-    "deleteQuestion": "Are you sure you want to delete {package_name}?",
     "download-code": "install.packages(\"{0}\", repos = c(rdepot = \"{1}\"), getOption(\"repos\")))"
   },
   "events": {
@@ -120,14 +133,7 @@
       "technology": "Technology"
     },
     "maintainers": "repository maintainers",
-    "list": "repositories",
-    "name": "name",
-    "publicationUri": "publication uri",
-    "serverAddress": "server address",
-    "maintainer": "maintainer",
-    "version": "version",
-    "packagesNo": "number of packages",
-    "published": "published"
+    "list": "repositories"
   },
   "submissions": {
     "filtration": {
@@ -136,13 +142,9 @@
       "state": "State",
       "package": "Package"
     },
-    "actions": "actions",
-    "accepted": "accepted",
-    "submitter": "submitter",
-    "approver": "approver",
-    "repository": "repository",
-    "package": "package",
-    "date": "date"
+    "choseFiles": "Choose files",
+    "wrongExtension": "choose packages that have correct extention (.tar.gz)",
+    "noPackageChosen": "no packages choosen"
   },
   "pagination": {
     "size": "page size"
@@ -165,10 +167,6 @@
   },
   "maintainers": {
     "edit": "edit maintainer",
-    "packageName": "package",
-    "repository": "repository",
-    "actions": "actions",
-    "name": "name",
     "delete": "delete maintainer",
     "filtration": {
       "title": "Maintainers filtration",

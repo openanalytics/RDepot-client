@@ -6,7 +6,6 @@ import {
 } from '@/openapi'
 import { defineStore } from 'pinia'
 import { PackageMaintainersFiltration } from '@/models/Filtration'
-import { notify } from '@kyvg/vue3-notification'
 import {
   fetchPackagesServices,
   fetchRepositoriesServices
@@ -16,7 +15,6 @@ import {
   fetchPackageMaintainersService,
   updatePackageMaintainerService
 } from '@/services/package_maintainers_service'
-import { i18n } from '@/plugins/i18n'
 import { usePaginationStore } from '@/store/pagination'
 import { useObjectActions } from '@/composable/objectActions'
 

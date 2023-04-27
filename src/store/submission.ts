@@ -9,7 +9,7 @@ import { notify } from '@kyvg/vue3-notification'
 import { i18n } from '@/plugins/i18n'
 import { useLoggedUserStore } from './logged_user'
 import {
-  addSumbission,
+  addSubmission,
   fetchRSubmissions,
   updateSubmissionState
 } from '@/services/submission_services'
@@ -109,10 +109,10 @@ export const useSubmissionStore = defineStore(
           type: 'success'
         })
       },
-      async addSumbissionRequests() {
+      async addSubmissionRequests() {
         const promises: Promise<boolean>[] =
           this.packages.map((packageBag) =>
-            addSumbission(
+            addSubmission(
               this.repository?.name!,
               packageBag
             )

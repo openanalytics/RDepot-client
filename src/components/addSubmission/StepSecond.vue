@@ -23,14 +23,24 @@
         v-for="file in files_local"
         :key="file.name"
         :title="file.name"
+        @click=""
       >
         <template v-slot:prepend>
-          <v-icon color="white" icon="mdi-file" />
+          <v-icon
+            :color="
+              check_validity(file) ? 'white' : 'oared'
+            "
+            icon="mdi-file"
+          />
         </template>
 
         <template v-slot:append>
           <v-btn
-            color="grey-lighten-1"
+            :color="
+              check_validity(file)
+                ? 'grey-lighten-1'
+                : 'oared'
+            "
             icon="mdi-delete"
             variant="text"
             @click="removeFile(file)"
@@ -50,11 +60,11 @@
         :style="
           files && files.length > 0
             ? ''
-            : 'min-height: 188px; align-items: flex-end'
+            : 'align-items: flex-end'
         "
       >
         <v-btn color="oablue" type="button" @click="open()">
-          Choose files
+          {{ $t('submissions.choseFiles') }}
         </v-btn>
 
         <v-btn
@@ -65,7 +75,7 @@
           color="oared"
           @click="resetPackages()"
         >
-          Reset
+          {{ $t('common.reset') }}
         </v-btn>
       </div>
     </v-form>
@@ -76,7 +86,7 @@
       color="oablue"
       @click="$emit('next', 1)"
     >
-      go back
+      {{ $t('common.goBack') }}
     </v-btn>
     <v-btn
       id="next-button"
@@ -94,6 +104,8 @@ import { useNotification } from '@kyvg/vue3-notification'
 import { ref } from 'vue'
 import { useFileDialog } from '@vueuse/core'
 import { watch } from 'vue'
+import { onMounted } from 'vue'
+import { i18n } from '@/plugins/i18n'
 
 const { files, open, reset } = useFileDialog({
   accept: 'application/gzip'
@@ -107,13 +119,13 @@ const valid = ref<boolean>(true)
 const files_local = ref<File[]>([])
 
 function removeFile(file: File) {
-  for (var i = 0; i < files_local.value.length; i++) {
-    var flag = true
-    if (file == files_local.value[i] && flag) {
-      files_local.value.splice(i, 1)
-      flag = false
+  files_local.value.forEach(
+    (file_local: File, i: number) => {
+      if (file_local == file) {
+        files_local.value.splice(i, 1)
+      }
     }
-  }
+  )
 }
 
 function resetPackages() {
@@ -129,22 +141,23 @@ watch(files, (files) => {
   }
 })
 
+function check_validity(file: File) {
+  return file['type'] === 'application/gzip'
+}
+
 function savePackagesInStore() {
-  var local_files: File[] = []
-  if (files.value) {
-    for (var i = 0; i < files.value.length; i++) {
-      local_files.push(files.value[i])
-      if (files.value[i]['type'] !== 'application/gzip') {
-        valid.value = false
-      }
-    }
-  }
-  if (valid.value == true) {
-    submissions_store.setPackages(Array.from(local_files))
+  valid.value = files_local.value.every(check_validity)
+  if (valid.value) {
+    submissions_store.setPackages(files_local.value)
   } else {
     submissions_store.setPackages([])
   }
 }
+
+onMounted(() => {
+  files_local.value = submissions_store.packages
+})
+
 function nextStep() {
   savePackagesInStore()
   if (
@@ -154,12 +167,12 @@ function nextStep() {
     emits('next', 3)
   } else if (!valid.value) {
     notifications.notify({
-      text: 'choose packages that have correct extention (.tar.gz)',
+      text: i18n.t('submissions.wrongExtension'),
       type: 'error'
     })
   } else {
     notifications.notify({
-      text: 'no packages choosen',
+      text: i18n.t('submissions.noPackageChosen'),
       type: 'warn'
     })
   }
@@ -169,5 +182,9 @@ function nextStep() {
 <style>
 .v-list-item__prepend {
   align-self: center !important;
+}
+
+.v-card__underlay {
+  display: none;
 }
 </style>

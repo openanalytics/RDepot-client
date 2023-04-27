@@ -61,6 +61,12 @@ export interface EntityModelSubmissionDto {
      * @type {string}
      * @memberof EntityModelSubmissionDto
      */
+    technology?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EntityModelSubmissionDto
+     */
     description?: string;
     /**
      * 

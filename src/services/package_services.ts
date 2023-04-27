@@ -13,6 +13,7 @@ import {
   validatedData,
   validateRequest
 } from '@/services/open_api_access'
+import { useSortStore } from '@/store/sort'
 import { notify } from '@kyvg/vue3-notification'
 import { createPatch } from 'rfc6902'
 
@@ -29,6 +30,7 @@ export function fetchPackagesServices(
   const packages_api = ApiV2PackageControllerApiFactory(
     getConfiguration()
   )
+  const sort = useSortStore()
   return openApiRequest<ResponseDtoPagedModelEntityModelPackageDto>(
     packages_api.getAllPackages,
     [
@@ -37,7 +39,8 @@ export function fetchPackagesServices(
       filtration?.state,
       filtration?.technologies,
       page,
-      pageSize
+      pageSize,
+      sort.getSortBy()
     ]
   ).then(
     (res) =>
@@ -63,13 +66,15 @@ export function fetchPackagesWithoutProgressControl(
   const packages_api = ApiV2PackageControllerApiFactory(
     getConfiguration()
   )
+  const sort = ['name,asc']
   return packages_api.getAllPackages(
     filtration?.repository,
     filtration?.deleted,
     filtration?.state,
     filtration?.technologies,
     page,
-    pageSize
+    pageSize,
+    sort
   ).then(
     (res) => {
       return validateRequest(

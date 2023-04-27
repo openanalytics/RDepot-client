@@ -1,6 +1,7 @@
 import {
   ApiV2PackageControllerApiFactory,
   EntityModelPackageDto,
+  EntityModelRRepositoryDto,
   EntityModelRepositoryDto
 } from '@/openapi'
 import { defineStore } from 'pinia'
@@ -9,13 +10,13 @@ import { fetchRepositoriesServices } from '@/services'
 import { notify } from '@kyvg/vue3-notification'
 import { usePaginationStore } from './pagination'
 import { useObjectActions } from '@/composable/objectActions'
+import { updateRepository } from '@/services/repository_services'
 import { createRepository } from '@/services/repository_services'
 
 interface State {
   repositories: EntityModelRepositoryDto[]
   filtration: RepositoriesFiltration
-  chosenRepository: number
-  chosenRepositoryName: string
+  chosenRepository: EntityModelRRepositoryDto
   repositoryPackages: EntityModelPackageDto[]
 }
 
@@ -32,8 +33,7 @@ export const useRepositoryStore = defineStore(
           technologies: undefined,
           deleted: undefined
         },
-        chosenRepository: -1,
-        chosenRepositoryName: '',
+        chosenRepository: {},
         repositoryPackages: []
       }
     },
@@ -51,8 +51,8 @@ export const useRepositoryStore = defineStore(
         this.repositories = repositories
       },
       async fetchPackages() {
-        await packages_api
-          .getAllPackages(this.chosenRepositoryName)
+        packages_api
+          .getAllPackages(this.chosenRepository.name)
           .then(
             (res) => {
               this.repositoryPackages =
@@ -60,6 +60,29 @@ export const useRepositoryStore = defineStore(
             },
             (msg) => notify({ text: msg, type: 'error' })
           )
+      },
+      async updateRepository(
+        newRepository: EntityModelRRepositoryDto,
+        textNotification: string
+      ) {
+        await updateRepository(
+          this.chosenRepository,
+          newRepository
+        ).then((success) => {
+          if (success) this.fetchRepositories()
+        })
+      },
+      setChosenRepository(id: number | undefined) {
+        var flag = true
+        this.repositories.forEach((repository) => {
+          if (repository.id == id) {
+            this.chosenRepository = repository
+            flag = false
+          }
+        })
+        if (flag) {
+          this.chosenRepository = {}
+        }
       },
       async setFiltration(payload: RepositoriesFiltration) {
         const pagination = usePaginationStore()

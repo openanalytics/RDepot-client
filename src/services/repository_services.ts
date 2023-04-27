@@ -10,13 +10,15 @@ import {
 } from '@/openapi'
 import { getConfiguration } from './api_config'
 import { Technologies } from '@/enum/Technologies'
-import { notify } from '@kyvg/vue3-notification'
 import { i18n } from '@/plugins/i18n'
 import {
   openApiRequest,
   validatedData,
   validateRequest
 } from './open_api_access'
+import { notify } from '@kyvg/vue3-notification'
+import { useSortStore } from '@/store/sort'
+import { AxiosResponse } from 'axios'
 import { repositorySchema } from '@/models/Schemas'
 import { createPatch } from 'rfc6902'
 import { isAuthorized } from '@/plugins/casl'
@@ -31,6 +33,8 @@ export function fetchRepositoriesServices(
   }
   const repository_api =
     ApiV2RepositoryControllerApiFactory(getConfiguration())
+  const sort = useSortStore()
+
   return openApiRequest<ResponseDtoPagedModelEntityModelRepositoryDto>(
     repository_api.getAllRepositories,
     [
@@ -38,7 +42,8 @@ export function fetchRepositoriesServices(
       filtration?.name,
       filtration?.technologies,
       page,
-      pageSize
+      pageSize,
+      sort.getSortBy()
     ]
   ).then(
     (res) =>

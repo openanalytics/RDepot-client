@@ -8,27 +8,49 @@
       id="repository-maintainer-name"
       cols="lg-1 sm-2"
       class="d-flex align-center"
-      >{{
-        title
-          ? prepareString($t('maintainers.name'))
-          : repositoryMaintainer
-          ? repositoryMaintainer.user?.name
-          : ''
-      }}</v-col
     >
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.name')"
+        sortField="user"
+      />
+      <TextRecord
+        v-else
+        :text="repositoryMaintainer?.user?.name"
+      />
+    </v-col>
     <v-col
       id="repository-maintainer-repository"
-      cols="lg-10 sm-2"
+      cols="lg-9 sm-2"
       class="d-flex align-center"
     >
-      {{
-        title
-          ? prepareString($t('maintainers.repository'))
-          : repositoryMaintainer
-          ? repositoryMaintainer.repository?.name
-          : ''
-      }}</v-col
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.repository')"
+      />
+      <TextRecord
+        v-else
+        :text="repositoryMaintainer?.repository?.name"
+      />
+    </v-col>
+    <v-col
+      id="repository-maintainer-technology"
+      cols="lg-1 sm-2"
+      class="d-flex align-center justify-center"
     >
+      <SortTitle
+        v-if="title"
+        no-sort
+        center
+        :text="$t('columns.technology')"
+      />
+      <TextRecord
+        v-else
+        no-margin
+        :text="repositoryMaintainer?.repository?.technology"
+      />
+    </v-col>
+
     <v-col
       v-if="
         logged_user_store.can(
@@ -44,29 +66,19 @@
       cols="lg-1"
       class="d-flex justify-center"
     >
-      <span v-if="title">
-        {{ prepareString($t('maintainers.actions')) }}
-      </span>
+      <SortTitle
+        v-if="title"
+        center
+        no-sort
+        :text="$t('columns.actions')"
+      />
       <span
-        v-else-if="repositoryMaintainer"
+        v-else-if="
+          repositoryMaintainer &&
+          !repositoryMaintainer.deleted
+        "
         class="d-flex justify-center align-center"
       >
-        <v-tooltip top>
-          <template v-slot:activator="{ props }">
-            <v-icon
-              id="delete-icon"
-              @click.stop
-              @click="deleteDialog()"
-              v-bind="props"
-              color="oared"
-              >mdi-trash-can</v-icon
-            >
-          </template>
-          <span id="action-delete">{{
-            $t('maintainers.delete')
-          }}</span>
-        </v-tooltip>
-
         <v-tooltip top>
           <template v-slot:activator="{ props }">
             <v-icon
@@ -83,6 +95,17 @@
             $t('maintainers.edit')
           }}</span>
         </v-tooltip>
+
+        <delete-icon
+          v-if="
+            logged_user_store.can(
+              'DELETE',
+              'repositoryMaintainers'
+            )
+          "
+          :name="props.repositoryMaintainer?.user?.name"
+          :set-resource-id="chooseMaintainer"
+        />
       </span>
     </v-col>
   </v-row>
@@ -95,6 +118,9 @@ import { i18n } from '@/plugins/i18n'
 import { useCommonStore } from '@/store/common'
 import { useLoggedUserStore } from '@/store/logged_user'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
+import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
+import SortTitle from '../packages/SortTitle.vue'
+import TextRecord from '../packages/TextRecord.vue'
 
 const props = defineProps({
   title: {
@@ -114,9 +140,7 @@ function prepareString(value: string): string {
   return value.charAt(0).toUpperCase() + value.slice(1)
 }
 function edit() {
-  maintainers_store.setChosenMaintainer(
-    props.repositoryMaintainer || {}
-  )
+  chooseMaintainer()
   common_store.setOverlayText(
     i18n.t('maintainers.edit', {
       maintainerName: props.repositoryMaintainer?.user?.id
@@ -127,6 +151,13 @@ function edit() {
   common_store.setOverlayComponent(OverlayEnum.enum.Edit)
 }
 
+function chooseMaintainer() {
+  if (props.repositoryMaintainer) {
+    maintainers_store.setChosenMaintainer(
+      props.repositoryMaintainer
+    )
+  }
+}
 function deleteDialog() {
   maintainers_store.setChosenMaintainer(
     props.repositoryMaintainer || {}
@@ -141,17 +172,3 @@ function deleteDialog() {
   common_store.setOverlayComponent(OverlayEnum.enum.Delete)
 }
 </script>
-
-<style lang="scss">
-.v-col {
-  padding: 10px !important;
-  font-size: 13px !important;
-}
-.col {
-  line-height: 1.3;
-}
-.title {
-  font-weight: 600 !important;
-  padding: 16px 24px;
-}
-</style>
