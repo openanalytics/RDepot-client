@@ -49,6 +49,13 @@ const userProjectionSchema = z.object({
   email: email
 })
 
+export const UserRoleSchema = z.object({
+  id: z.number().min(1).max(5),
+  value: z.number().min(0).max(4),
+  description: nonEmptyString,
+  name: nonEmptyString
+})
+
 export const repositoryMaintainerSchema = z.object({
   id: z.number(),
   user: userProjectionSchema,
