@@ -1,11 +1,5 @@
 <template>
-  <Form
-    as="v-form"
-    ref="form"
-    :validation-schema="validationSchema"
-    v-slot="{ meta }"
-    lazy-validation
-  >
+  <form as="v-form" ref="form" lazy-validation>
     <v-card class="pa-5" width="400">
       <v-card-title>
         {{ $t('maintainers.editform.title') }}
@@ -13,7 +7,7 @@
       <v-divider></v-divider>
       <v-card-text style="height: 300px">
         <validated-input-field
-          name="user.login"
+          name="userlogin"
           as="v-text-field"
           id="edit-package-maintainer-user"
           :value="localMaintainer.user?.login"
@@ -21,7 +15,7 @@
           :disabled="blockedField == 'user'"
         />
         <validated-input-field
-          name="repository.id"
+          name="repositoryId"
           as="v-select"
           id="edit-package-maintainer-repository"
           :modelValue="localMaintainer.repository"
@@ -36,7 +30,7 @@
       <v-divider></v-divider>
       <card-actions :buttons="buttons" />
     </v-card>
-  </Form>
+  </form>
 </template>
 
 <script setup lang="ts">
@@ -44,16 +38,13 @@ import CardActions from '@/components/common/CardActions.vue'
 import { EntityModelRepositoryMaintainerDto } from '@/openapi'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
 import { ref, computed, onMounted } from 'vue'
-import { Form, useIsFormValid } from 'vee-validate'
+import { Form, useForm } from 'vee-validate'
 import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
 import { toTypedSchema } from '@vee-validate/zod'
 import { repositoryMaintainerSchema } from '@/models/Schemas'
 import { notify } from '@kyvg/vue3-notification'
 import { i18n } from '@/plugins/i18n'
-
-const validationSchema = toTypedSchema(
-  repositoryMaintainerSchema
-)
+import { z } from 'zod'
 
 const props = defineProps({
   blockedField: {
@@ -93,9 +84,23 @@ const localMaintainer = ref(maintainer)
 
 const emit = defineEmits(['closeModal'])
 
+const { meta } = useForm({
+  validationSchema: toTypedSchema(
+    z.object({
+      userlogin:
+        repositoryMaintainerSchema.shape.user.shape.login,
+      repositoryId:
+        repositoryMaintainerSchema.shape.repository.shape.id
+    })
+  ),
+  initialValues: {
+    userlogin: maintainer.user?.login,
+    repositoryId: maintainer.repository?.id
+  }
+})
+
 function setMaintainer() {
-  const { value: valid } = useIsFormValid()
-  if (valid) {
+  if (meta.value.valid) {
     maintainers_store.saveMaintainer(localMaintainer.value)
     changeDialogOptions()
   } else {
