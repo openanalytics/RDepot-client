@@ -16,6 +16,12 @@ export const routes = [
         meta: { title: 'RDepot - login' }
       },
       {
+        path: '/users',
+        name: 'users',
+        component: () => import('@/views/users/Users.vue'),
+        meta: { title: 'RDepot - users' }
+      },
+      {
         path: '/repositories',
         name: 'repositories',
         component: () =>
