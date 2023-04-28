@@ -100,7 +100,7 @@ export async function updateUser(
   ).then(
     () => {
       notify({
-        text: i18n.t('notification.successUpdateUser'),
+        text: i18n.t('notifications.successUpdateUser'),
         type: 'success'
       })
       return true
