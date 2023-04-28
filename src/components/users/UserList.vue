@@ -24,6 +24,5 @@ function updateData(): void {
 
 onBeforeMount(() => {
   updateData()
-  user_store.fetchRoles()
 })
 </script>
