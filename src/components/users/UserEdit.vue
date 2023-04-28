@@ -11,7 +11,7 @@
           as="v-select"
           id="edit-user-role"
           v-model="localRole"
-          :items="roles"
+          :items="user_store.roles"
           item-title="description"
           :label="$t('users.edit.role')"
           return-object
@@ -60,7 +60,6 @@ const buttons = [
 
 const user_store = useUserStore()
 
-const roles = computed(() => user_store.roles)
 const localRole = ref(
   user_store.roleIdToRole(user_store.chosenUser.roleId || 1)
 )
