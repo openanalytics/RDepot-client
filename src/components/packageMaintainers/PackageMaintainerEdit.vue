@@ -1,11 +1,5 @@
 <template>
-  <Form
-    as="v-form"
-    :validation-schema="validationSchema"
-    ref="form"
-    v-slot="{ meta }"
-    lazy-validation
-  >
+  <form as="v-form" ref="form">
     <v-card class="pa-5" width="400">
       <v-card-title>
         {{ $t('maintainers.editform.title') }}
@@ -14,18 +8,19 @@
       <v-card-text style="height: 300px">
         <validated-input-field
           as="v-text-field"
-          name="user.name"
+          name="username"
           id="edit-package-maintainer-user"
-          v-model="localMaintainer.user"
-          :value="localMaintainer.user?.name"
           :label="$t('maintainers.editform.user')"
           disabled
         />
         <validated-input-field
           as="v-select"
-          name="repository.id"
+          name="repositoryId"
           :modelValue="localMaintainer.repository"
-          @update:modelValue="newValue => localMaintainer.repository!.id = newValue"
+          @update:modelValue="newValue => {
+            localMaintainer.repository!.id = newValue
+            validateField('packageName')
+          }"
           :items="repositories"
           item-title="name"
           item-value="id"
@@ -47,7 +42,7 @@
       <v-divider></v-divider>
       <card-actions :buttons="buttons" />
     </v-card>
-  </Form>
+  </form>
 </template>
 
 <script setup lang="ts">
@@ -55,15 +50,12 @@ import { i18n } from '@/plugins/i18n'
 import CardActions from '@/components/common/CardActions.vue'
 import { usePackageMaintainersStore } from '@/store/package_maintainers'
 import { toTypedSchema } from '@vee-validate/zod'
-import { Form, useIsFormValid } from 'vee-validate'
+import { Form, useForm } from 'vee-validate'
 import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
 import { ref, onMounted, computed } from 'vue'
 import { packageMaintainerSchema } from '@/models/Schemas'
 import { notify } from '@kyvg/vue3-notification'
-
-const validationSchema = toTypedSchema(
-  packageMaintainerSchema
-)
+import { z } from 'zod'
 
 const maintainers_store = usePackageMaintainersStore()
 const buttons = [
@@ -106,6 +98,40 @@ const localMaintainer = ref(maintainer)
 
 const emit = defineEmits(['closeModal'])
 
+const { meta, validateField } = useForm({
+  validationSchema: toTypedSchema(
+    z.object({
+      username:
+        packageMaintainerSchema.shape.user.shape.name,
+      repositoryId:
+        packageMaintainerSchema.shape.repository.shape.id,
+      packageName:
+        packageMaintainerSchema.shape.packageName.refine(
+          (val) => {
+            if (packages.value) {
+              return packages.value.includes(val)
+            } else {
+              return false
+            }
+          },
+          i18n.t(
+            'package_maintainers.editform.packageNotFound'
+          )
+        )
+    })
+  ),
+  initialValues: {
+    username: maintainer?.user?.name,
+    repositoryId: maintainer?.repository?.id,
+    packageName: maintainer?.packageName
+  },
+  initialTouched: {
+    username: false,
+    repositoryId: false,
+    packageName: true
+  }
+})
+
 function updateMaintainer() {
   localMaintainer.value = JSON.parse(
     JSON.stringify(maintainers_store.chosenMaintainer)
@@ -113,8 +139,7 @@ function updateMaintainer() {
 }
 
 async function editMaintainer() {
-  const { value: valid } = useIsFormValid()
-  if (valid) {
+  if (meta.value.valid) {
     await maintainers_store.editMaintainer(
       localMaintainer.value
     )
