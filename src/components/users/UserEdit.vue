@@ -78,13 +78,14 @@ const { meta } = useForm({
   }
 })
 
-function setRole() {
+async function setRole() {
   if (meta.value.valid) {
     const newUser = JSON.parse(
       JSON.stringify(user_store.chosenUser)
     )
-    newUser.roleId = localRole.value.value || 0
-    user_store.saveUser(newUser)
+    newUser.roleId = (localRole.value.value || 0) + 1
+    await user_store.saveUser(newUser)
+    await user_store.fetchUsers()
     changeDialogOptions()
   } else {
     notify({
