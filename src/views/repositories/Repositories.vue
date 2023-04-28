@@ -3,9 +3,7 @@
   <FiltrationButtons>
     <template v-slot:prepend
       ><AddButton
-        v-if="
-          logged_user_store.can('POST', 'repositories')
-        "
+        v-if="logged_user_store.can('POST', 'repository')"
     /></template>
   </FiltrationButtons>
   <RepositoriesList />
