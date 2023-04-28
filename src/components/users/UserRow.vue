@@ -2,7 +2,7 @@
   <v-row
     class="px-5"
     :class="{ title: title }"
-    id="submission-row"
+    id="user-row"
   >
     <v-col
       id="user-name"
@@ -55,7 +55,7 @@
         center
       />
       <v-checkbox
-        id="checkbox-accepted"
+        id="checkbox-active"
         color="oablue"
         @click.stop
         disabled
