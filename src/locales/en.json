@@ -130,7 +130,8 @@
       "publicationUriPlaceholder": "http://localhost/repo/{'{name}'}",
       "serverAddress": "Server address",
       "serverAddressPlaceholder": "http://oa-rdepot-repo:8080/{'{name}'}",
-      "technology": "Technology"
+      "technology": "Technology",
+      "duplicateName": "Repository name already exists"
     },
     "maintainers": "repository maintainers",
     "list": "repositories"
@@ -178,7 +179,8 @@
       "title": "Edit maintainer",
       "repository": "Repository",
       "package": "Package",
-      "user": "User"
+      "user": "User",
+      "packageNotFound": "Package not in repository"
     }
   }
 }

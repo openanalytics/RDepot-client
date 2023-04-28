@@ -89,7 +89,7 @@ const { meta, values } = useForm({
             repositoryWithSameName.length === 0
           return previousReturn
         },
-        'Repository name already exists'
+        i18n.t('repositories.creation.duplicateName')
       ),
       publicationUri: repositorySchema.shape.publicationUri,
       serverAddress: repositorySchema.shape.serverAddress,
