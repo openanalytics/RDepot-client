@@ -1,12 +1,10 @@
 <template>
   <v-container class="login">
-    <Form
+    <form
       as="v-form"
-      :validation-schema="validationSchema"
       ref="form_id"
       lazy-validation
       class="form-login"
-      v-slot="{ handleReset, values, meta }"
     >
       <v-img
         src="@/assets/logo.png"
@@ -20,9 +18,7 @@
         as="v-text-field"
         class="mt-10"
         :label="$t('authorization.username')"
-        required
         color="oablue"
-        validate-on-blur
       />
 
       <validated-input-field
@@ -31,14 +27,12 @@
         :label="$t('authorization.password')"
         type="password"
         color="oablue"
-        required
-        validate-on-blur
       />
 
       <v-row class="form-buttons my-10">
         <v-btn
           class="btn mx-2"
-          @click="login(values, meta.valid)"
+          @click="login"
           color="oablue"
         >
           {{ $t('authorization.login') }}
@@ -62,41 +56,45 @@
           <div class="loginType">Keycloak</div>
         </v-btn>
       </v-row>
-    </Form>
+    </form>
   </v-container>
 </template>
 
 <script setup lang="ts">
 import Keycloak from 'keycloak-js'
 import { initKeycloak } from '@/plugins/keycloak'
-import { LoginType } from '@/enum/LoginType'
 import { useUserStore } from '@/store/users'
 import { useI18n } from 'vue-i18n'
-import { Form } from 'vee-validate'
+import { Form, useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { z } from 'zod'
 import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
+import { LoginApiData } from '@/models/users/Login'
 
 const { t } = useI18n()
 const user_store = useUserStore()
 
-const validationSchema = toTypedSchema(
-  z.object({
-    username: z
-      .string()
-      .nonempty(t('authorization.usernameError')),
-    password: z
-      .string()
-      .nonempty(t('authorization.passwordError'))
-  })
-)
 const props = defineProps({
   keycloak: Object as () => Keycloak
 })
 
-async function login(values: any, valid: boolean) {
+const { handleReset, values, meta } = useForm({
+  validationSchema: toTypedSchema(
+    z.object({
+      username: z
+        .string()
+        .nonempty(t('authorization.usernameError')),
+      password: z
+        .string()
+        .nonempty(t('authorization.passwordError'))
+    })
+  )
+})
+
+async function login() {
   user_store.chooseLoginType('DEFAULT')
-  if (valid) user_store.login(values)
+  if (meta.value.valid)
+    user_store.login(values as LoginApiData)
 }
 function keyloackMethod() {
   initKeycloak()
