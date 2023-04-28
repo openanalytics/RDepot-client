@@ -1,5 +1,5 @@
 <template>
-  <Form as="v-form" :validation-schema="validationSchema">
+  <form as="v-form" lazy-validation>
     <v-card class="pa-5" width="400">
       <v-card-title>
         {{ $t('repositories.creation.title') }}
@@ -10,6 +10,8 @@
           name="name"
           as="v-text-field"
           :label="$t('repositories.creation.name')"
+          :loading="loading"
+          lazy-validation
         ></validated-input-field>
         <validated-input-field
           name="publicationUri"
@@ -33,34 +35,21 @@
       <v-divider></v-divider>
       <card-actions :buttons="buttons" />
     </v-card>
-  </Form>
+  </form>
 </template>
 
 <script setup lang="ts">
 import { useRepositoryStore } from '@/store/repositories'
 import { ref, onMounted } from 'vue'
-import { EntityModelRepositoryDto } from '@/openapi'
 import { Technologies } from '@/enum/Technologies'
 import { repositorySchema } from '@/models/Schemas'
 import { toTypedSchema } from '@vee-validate/zod/dist/vee-validate-zod'
-import {
-  Form,
-  useFormValues,
-  useIsFormValid
-} from 'vee-validate'
+import { Form, useForm } from 'vee-validate'
 import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
 import { notify } from '@kyvg/vue3-notification'
 import CardActions from '@/components/common/CardActions.vue'
 import { i18n } from '@/plugins/i18n'
-
-const validationSchema = toTypedSchema(
-  repositorySchema.pick({
-    name: true,
-    publicationUri: true,
-    serverAddress: true,
-    technology: true
-  })
-)
+import { z } from 'zod'
 
 const repository_store = useRepositoryStore()
 
@@ -79,13 +68,41 @@ const buttons = [
   }
 ]
 
+const loading = ref(false)
+let previousVal = ''
+let previousReturn = true
+
+const { meta, values } = useForm({
+  validationSchema: toTypedSchema(
+    z.object({
+      name: repositorySchema.shape.name.refine(
+        async (value) => {
+          if (previousVal === value) {
+            return previousReturn
+          }
+          previousVal = value
+          loading.value = true
+          const repositoryWithSameName =
+            await repository_store.fetchRepository(value)
+          loading.value = false
+          previousReturn =
+            repositoryWithSameName.length === 0
+          return previousReturn
+        },
+        'Repository name already exists'
+      ),
+      publicationUri: repositorySchema.shape.publicationUri,
+      serverAddress: repositorySchema.shape.serverAddress,
+      technology: repositorySchema.shape.technology
+    })
+  )
+})
+
 const emit = defineEmits(['closeModal'])
 
 function createRepository() {
-  const { value: valid } = useIsFormValid()
-  const { value } = useFormValues()
-  if (valid) {
-    repository_store.createRepository(value)
+  if (meta.value.valid) {
+    repository_store.createRepository(values)
     changeDialogOptions()
   } else {
     notify({
