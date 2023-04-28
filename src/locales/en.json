@@ -151,6 +151,14 @@
     "wrongExtension": "choose packages that have correct extention (.tar.gz)",
     "noPackageChosen": "no packages choosen"
   },
+  "users": {
+    "edit": {
+      "tooltip": "Edit user",
+      "overlay": "Edit user role of {user_login}",
+      "role": "role",
+      "title": "Edit user"
+    }
+  },
   "pagination": {
     "size": "page size"
   },
@@ -168,7 +176,8 @@
     "successUpdateRepositoryManager": "successful update {maintainer_name}",
     "successDeleteRepositoryMaintainer": "successful deleted {maintainer_name}",
     "successUpdateRepositoryMaintainer": "successful updated {maintainer_name}",
-    "invalidform": "The submitted form is not valid"
+    "invalidform": "The submitted form is not valid",
+    "successUpdateUser": "Successfully updated user"
   },
   "maintainers": {
     "edit": "edit maintainer",
@@ -186,19 +195,5 @@
       "user": "User",
       "packageNotFound": "Package not in repository"
     }
-  },
-  "user": {
-    "editform": {
-      "role": "role"
-    },
-    "edit": {
-      "title": "Edit user"
-    }
-  },
-  "users": {
-    "edit": "Edit user role of {user_login}"
-  },
-  "notification": {
-    "successUpdateUser": "Successfully updated user"
   }
 }

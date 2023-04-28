@@ -94,7 +94,7 @@
             >
           </template>
           <span id="action-edit">{{
-            $t('maintainers.edit')
+            $t('users.edit.tooltip')
           }}</span>
         </v-tooltip>
       </span>
@@ -133,7 +133,7 @@ const getRole = computed(() => {
 function edit() {
   chosenUser()
   common_store.setOverlayText(
-    i18n.t('users.edit', {
+    i18n.t('users.edit.overlay', {
       user_login: user_store.chosenUser.login
     })
   )

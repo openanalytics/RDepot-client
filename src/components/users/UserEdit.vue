@@ -2,7 +2,7 @@
   <form as="v-form" ref="form" lazy-validation>
     <v-card class="pa-5" width="400">
       <v-card-title>
-        {{ $t('user.edit.title') }}
+        {{ $t('users.edit.title') }}
       </v-card-title>
       <v-divider></v-divider>
       <v-card-text style="height: 300px">
@@ -13,7 +13,7 @@
           v-model="localRole"
           :items="roles"
           item-title="description"
-          :label="$t('user.editform.role')"
+          :label="$t('users.edit.role')"
           return-object
         />
       </v-card-text>
