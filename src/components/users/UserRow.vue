@@ -64,7 +64,7 @@
       />
     </v-col>
     <v-col
-      id="submission-actions"
+      id="user-actions"
       cols="lg-1"
       class="d-flex justify-center"
     >
