@@ -10,9 +10,8 @@ const api = axios.create({
   timeout: 6000
 })
 
-const common_store = useCommonStore()
-
 function showProgress(active: boolean) {
+  const common_store = useCommonStore()
   common_store.setProgressCircularActive(active)
 }
 
