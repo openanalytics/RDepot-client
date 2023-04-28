@@ -10,7 +10,10 @@ import { fetchRepositoriesServices } from '@/services'
 import { notify } from '@kyvg/vue3-notification'
 import { usePaginationStore } from './pagination'
 import { useObjectActions } from '@/composable/objectActions'
-import { updateRepository } from '@/services/repository_services'
+import {
+  fetchRepositoriesServicesNoLoading,
+  updateRepository
+} from '@/services/repository_services'
 import { createRepository } from '@/services/repository_services'
 
 interface State {
@@ -49,6 +52,13 @@ export const useRepositoryStore = defineStore(
         pagination.setTotalNumber(pageData.totalNumber)
         pagination.setPage(pageData.page)
         this.repositories = repositories
+      },
+      async fetchRepository(name: string) {
+        const [repository] =
+          await fetchRepositoriesServicesNoLoading({
+            name: name
+          } as RepositoriesFiltration)
+        return repository
       },
       async fetchPackages() {
         packages_api
