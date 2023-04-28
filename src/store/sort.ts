@@ -35,7 +35,7 @@ export const useSortStore = defineStore('sort_store', {
       common_store.updateKey()
     },
     getSortBy() {
-      return this.field + ',' + this.direction
+      return [this.field + ',' + this.direction]
     }
   }
 })
