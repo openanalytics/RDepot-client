@@ -92,7 +92,7 @@
         center
       />
       <v-checkbox
-        v-else-if="repositoryLocal"
+        v-else-if="repository"
         id="checkbox-published"
         v-model="repositoryLocal.published"
         @change="updateRepositoryPublished()"
@@ -117,7 +117,7 @@
         :text="$t('columns.actions')"
       />
       <span
-        v-else-if="repositoryLocal"
+        v-else-if="repository"
         class="d-flex justify-center align-center"
       >
         <v-tooltip top>
