@@ -119,8 +119,8 @@ import { useCommonStore } from '@/store/common'
 import { useLoggedUserStore } from '@/store/logged_user'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
 import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
-import SortTitle from '../packages/SortTitle.vue'
-import TextRecord from '../packages/TextRecord.vue'
+import SortTitle from '@/components/common/resources//SortTitle.vue'
+import TextRecord from '@/components/common/resources//TextRecord.vue'
 
 const props = defineProps({
   title: {

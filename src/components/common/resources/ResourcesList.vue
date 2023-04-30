@@ -39,7 +39,7 @@
 </template>
 
 <script setup lang="ts">
-import EmptyListing from './EmptyListing.vue'
+import EmptyListing from '@/components/common/resources/EmptyListing.vue'
 
 const props = defineProps({
   resources: {

@@ -17,7 +17,7 @@
 
 <script setup lang="ts">
 import { onBeforeMount } from 'vue'
-import ShortPackageRow from './ShortPackageRow.vue'
+import ShortPackageRow from '@/components/packages/shortPackages/ShortPackageRow.vue'
 import ResourcesList from '@/components/common/ResourcesList.vue'
 import { useRepositoryStore } from '@/store/repositories'
 import { usePaginationStore } from '@/store/pagination'

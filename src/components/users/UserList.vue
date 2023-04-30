@@ -13,7 +13,7 @@
 <script setup lang="ts">
 import { onBeforeMount } from 'vue'
 import UserRow from '@/components/users/UserRow.vue'
-import ResourcesList from '../common/ResourcesList.vue'
+import ResourcesList from '@/components/common/resources/ResourcesList.vue'
 import { useUserStore } from '@/store/users'
 
 const user_store = useUserStore()

@@ -132,9 +132,9 @@ import { i18n } from '@/plugins/i18n'
 import { useCommonStore } from '@/store/common'
 import { useLoggedUserStore } from '@/store/logged_user'
 import { usePackageMaintainersStore } from '@/store/package_maintainers'
-import DeleteIcon from '../common/action_icons/DeleteIcon.vue'
-import SortTitle from '../packages/SortTitle.vue'
-import TextRecord from '../packages/TextRecord.vue'
+import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
+import SortTitle from '@/components/common/resources/SortTitle.vue'
+import TextRecord from '@/components/common/resources//TextRecord.vue'
 import { OverlayEnum } from '@/enum/Overlay'
 
 const props = defineProps({

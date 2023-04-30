@@ -17,7 +17,7 @@
 import { onBeforeMount } from 'vue'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
 import RepositoryMaintainerRow from '@/components/repositoryMaintainers/RepositoryMaintainerRow.vue'
-import ResourcesList from '../common/ResourcesList.vue'
+import ResourcesList from '@/components/common/resources//ResourcesList.vue'
 
 const repository_maintainers_store =
   useRepositoryMaintainersStore()

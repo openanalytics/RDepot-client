@@ -17,8 +17,8 @@ import { EntityModelRRepositoryDto } from '@/openapi'
 import router from '@/router'
 import { useRepositoryStore } from '@/store/repositories'
 import { onBeforeMount } from 'vue'
-import RepositoryRow from './RepositoryRow.vue'
-import ResourcesList from '../common/ResourcesList.vue'
+import RepositoryRow from '@/components/repositories/RepositoryRow.vue'
+import ResourcesList from '@/components/common/resources/ResourcesList.vue'
 
 const repository_store = useRepositoryStore()
 

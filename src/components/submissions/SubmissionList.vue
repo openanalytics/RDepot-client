@@ -12,8 +12,8 @@
 <script setup lang="ts">
 import { onBeforeMount } from 'vue'
 import { useSubmissionStore } from '@/store/submission'
-import SubmissionRow from './SubmissionRow.vue'
-import ResourcesList from '../common/ResourcesList.vue'
+import SubmissionRow from '@/components/submissions/SubmissionRow.vue'
+import ResourcesList from '@/components/common/resources/ResourcesList.vue'
 
 const submission_store = useSubmissionStore()
 

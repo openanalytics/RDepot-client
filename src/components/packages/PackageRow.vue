@@ -166,13 +166,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from '@vue/reactivity'
 import router from '@/router'
 import { EntityModelPackageDto } from '@/openapi'
 import { usePackagesStore } from '@/store/packages'
 import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
-import SortTitle from '@/components/packages/SortTitle.vue'
-import TextRecord from '@/components/packages/TextRecord.vue'
+import SortTitle from '@/components/common/resources/SortTitle.vue'
+import TextRecord from '@/components/common/resources/TextRecord.vue'
 
 const package_store = usePackagesStore()
 import { useCommonStore } from '@/store/common'
@@ -182,7 +181,6 @@ import { OverlayEnum } from '@/enum/Overlay'
 
 const common_store = useCommonStore()
 const logged_user_store = useLoggedUserStore()
-// const can = ref(logged_user_store.can)
 const { t } = useI18n()
 
 const props = defineProps({

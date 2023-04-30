@@ -105,8 +105,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { EntityModelUserDto } from '@/openapi'
-import SortTitle from '../packages/SortTitle.vue'
-import TextRecord from '../packages/TextRecord.vue'
+import SortTitle from '@/components/common/resources/SortTitle.vue'
+import TextRecord from '@/components/common/resources/TextRecord.vue'
 import { roleToString } from '@/enum/UserRoles'
 import { useLoggedUserStore } from '@/store/logged_user'
 import { useUserStore } from '@/store/users'

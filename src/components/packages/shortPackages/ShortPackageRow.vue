@@ -72,11 +72,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from '@vue/reactivity'
 import router from '@/router'
 import { EntityModelPackageDto } from '@/openapi'
-import SortTitle from '../SortTitle.vue'
-import TextRecord from '../TextRecord.vue'
+import SortTitle from '@/components/common/resources/SortTitle.vue'
+import TextRecord from '@/components/common/resources/TextRecord.vue'
 
 const props = defineProps({
   title: {

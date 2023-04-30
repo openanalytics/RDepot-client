@@ -18,7 +18,7 @@
 <script setup lang="ts">
 import { usePackagesStore } from '@/store/packages'
 import PackageRow from '@/components/packages/PackageRow.vue'
-import ResourcesList from '@/components/common/ResourcesList.vue'
+import ResourcesList from '@/components/common/resources/ResourcesList.vue'
 import { onBeforeMount } from 'vue'
 
 const packages_store = usePackagesStore()
