@@ -79,6 +79,16 @@ export const usePackageMaintainersStore = defineStore(
           }
         )
       },
+      async softDelete() {
+        if (this.chosenMaintainer) {
+          let newRepositoryMaintainer: EntityModelPackageMaintainerDto =
+            JSON.parse(
+              JSON.stringify(this.chosenMaintainer)
+            )
+          newRepositoryMaintainer.deleted = true
+          this.editMaintainer(newRepositoryMaintainer)
+        }
+      },
       async setFiltration(
         payload: PackageMaintainersFiltration
       ) {

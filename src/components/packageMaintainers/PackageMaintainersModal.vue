@@ -27,7 +27,7 @@ async function overlayEvent() {
   if (common_store.isReset()) {
     await maintainers_store.clearFiltrationAndFetch()
   } else if (common_store.isDelete()) {
-    maintainers_store.deleteChosenMaintainer()
+    maintainers_store.softDelete()
   }
 }
 </script>

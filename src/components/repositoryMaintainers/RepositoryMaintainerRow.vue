@@ -99,7 +99,7 @@
         <delete-icon
           v-if="
             logged_user_store.can(
-              'DELETE',
+              'PATCH',
               'repositoryMaintainers'
             )
           "
@@ -136,9 +136,6 @@ const common_store = useCommonStore()
 const logged_user_store = useLoggedUserStore()
 const maintainers_store = useRepositoryMaintainersStore()
 
-function prepareString(value: string): string {
-  return value.charAt(0).toUpperCase() + value.slice(1)
-}
 function edit() {
   chooseMaintainer()
   common_store.setOverlayText(
@@ -157,18 +154,5 @@ function chooseMaintainer() {
       props.repositoryMaintainer
     )
   }
-}
-function deleteDialog() {
-  maintainers_store.setChosenMaintainer(
-    props.repositoryMaintainer || {}
-  )
-  common_store.setOverlayText(
-    i18n.t('maintainers.deleteQuestion', {
-      maintainerName: props.repositoryMaintainer?.user?.id
-    })
-  )
-  common_store.setOverlayModel(true)
-  common_store.setOverlayOpacity(0.8)
-  common_store.setOverlayComponent(OverlayEnum.enum.Delete)
 }
 </script>

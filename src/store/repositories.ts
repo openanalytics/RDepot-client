@@ -71,9 +71,18 @@ export const useRepositoryStore = defineStore(
             (msg) => notify({ text: msg, type: 'error' })
           )
       },
+      async softDelete() {
+        if (this.chosenRepository) {
+          let newRepository: EntityModelRRepositoryDto =
+            JSON.parse(
+              JSON.stringify(this.chosenRepository)
+            )
+          newRepository.deleted = true
+          this.updateRepository(newRepository)
+        }
+      },
       async updateRepository(
-        newRepository: EntityModelRRepositoryDto,
-        textNotification: string
+        newRepository: EntityModelRRepositoryDto
       ) {
         await updateRepository(
           this.chosenRepository,

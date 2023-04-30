@@ -36,7 +36,7 @@ async function performAction() {
   if (common_store.isFiltration()) {
     await maintainers_store.clearFiltrationAndFetch()
   } else if (common_store.isDelete()) {
-    await maintainers_store.deleteMaintainer()
+    await maintainers_store.softDelete()
   }
 }
 </script>

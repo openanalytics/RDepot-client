@@ -131,7 +131,6 @@
               "
               id="navigate-icon"
               @click.stop
-              @click="navigate"
               v-bind="props"
               color="oablue"
               >mdi-forward</v-icon
@@ -177,22 +176,6 @@ const repositoryLocal = ref<EntityModelRepositoryDto>(
   props.repository || {}
 )
 
-function updateRepositoryPublish() {
-  if (
-    props.repository &&
-    props.repository.id &&
-    props.repository.published != undefined
-  ) {
-    repository_store.setChosenRepository(
-      props.repository?.id
-    )
-    repository_store.updateRepository(
-      props.repository,
-      'updated succesfully'
-    )
-  }
-}
-
 function updateRepositoryPublished(): void {
   const oldRepository = JSON.parse(
     JSON.stringify(repositoryLocal.value)
@@ -203,7 +186,6 @@ function updateRepositoryPublished(): void {
     repositoryLocal.value
   ).then((success) => {
     if (!success)
-      // revert change if request was not successful
       repositoryLocal.value.published =
         oldRepository.published
   })

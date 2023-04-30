@@ -1,5 +1,5 @@
 <template>
-  <Overlay v-on:action="clearFiltration()">
+  <Overlay v-on:action="performAction()">
     <template v-slot:props="{ closeModal }">
       <Filtration
         v-if="common_store.isFiltration()"
@@ -23,7 +23,11 @@ import { useRepositoryStore } from '@/store/repositories'
 const repositories_store = useRepositoryStore()
 const common_store = useCommonStore()
 
-async function clearFiltration() {
-  await repositories_store.clearFiltrationAndFetch()
+async function performAction() {
+  if (common_store.isFiltration()) {
+    await repositories_store.clearFiltrationAndFetch()
+  } else if (common_store.isDelete()) {
+    await repositories_store.softDelete()
+  }
 }
 </script>

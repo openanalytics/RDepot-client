@@ -16,6 +16,7 @@ import { i18n } from '@/plugins/i18n'
 import { createPatch } from 'rfc6902'
 import { useSortStore } from '@/store/sort'
 import { isAuthorized } from '@/plugins/casl'
+import { log } from 'console'
 
 export function fetchRepositoryMaintainersServices(
   filtration: RepositoryMaintainersFiltration,
@@ -66,6 +67,9 @@ export function updateRepositoryMaintainer(
     ApiV2RepositoryMaintainerControllerApiFactory(
       getConfiguration()
     )
+
+  console.log(oldMaintainer)
+  console.log(newMaintainer)
   const patch = createPatch(oldMaintainer, newMaintainer)
 
   return openApiRequest<AxiosResponse<any>>(

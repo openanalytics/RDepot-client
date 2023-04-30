@@ -13,7 +13,6 @@ import {
 import { usePaginationStore } from './pagination'
 import { useObjectActions } from '@/composable/objectActions'
 import { fetchRepositoriesServices } from '@/services'
-import { i18n } from '@/plugins/i18n'
 
 interface State {
   maintainers: EntityModelRepositoryMaintainerDto[]
@@ -82,6 +81,16 @@ export const useRepositoryMaintainersStore = defineStore(
           ).then(async (success) => {
             if (success) await this.fetchMaintainers()
           })
+        }
+      },
+      async softDelete() {
+        if (this.chosenMaintainer) {
+          let newRepositoryMaintainer: EntityModelPackageMaintainerDto =
+            JSON.parse(
+              JSON.stringify(this.chosenMaintainer)
+            )
+          newRepositoryMaintainer.deleted = true
+          this.saveMaintainer(newRepositoryMaintainer)
         }
       },
       async setPage(payload: number) {
