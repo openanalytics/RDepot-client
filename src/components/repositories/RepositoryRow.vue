@@ -131,6 +131,7 @@
               "
               id="navigate-icon"
               @click.stop
+              @click="navigate"
               v-bind="props"
               color="oablue"
               >mdi-forward</v-icon
