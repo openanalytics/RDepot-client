@@ -1,13 +1,12 @@
 <template>
   <v-row
+    id="title-row"
     no-gutters
     align="center"
     class="flex-nowrap"
     :justify="center ? 'center' : 'start'"
   >
-    <span class="font-weight-bold"
-      >{{ prepareString() }}
-    </span>
+    <span class="font-weight-bold">{{ title }} </span>
     <v-btn
       v-if="!noSort"
       @click="sortBy()"
@@ -83,11 +82,11 @@ function sortBy() {
   )
 }
 
-function prepareString(): string {
-  var title =
+const title = computed(() => {
+  return (
     props.text.charAt(0).toUpperCase() + props.text.slice(1)
-  return title
-}
+  )
+})
 </script>
 
 <style lang="scss">
