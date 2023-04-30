@@ -4,61 +4,49 @@
       id="package-name"
       cols="lg-1 sm-2"
       class="d-flex align-center"
-      >{{
-        title
-          ? prepareString($t('packages.name').toString())
-          : packageBag?.name
-      }}</v-col
     >
+      <SortTitle v-if="title" :text="$t('columns.name')" />
+      <TextRecord v-else :text="packageBag?.name" />
+    </v-col>
     <v-col
       id="package-version"
       cols="1"
       class="d-flex align-center"
-      >{{
-        title
-          ? prepareString($t('packages.version').toString())
-          : packageBag?.version
-      }}</v-col
     >
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.version')"
+      />
+      <TextRecord v-else :text="packageBag?.version" />
+    </v-col>
     <v-col
       id="package-description"
       cols="lg-8\7 sm-2"
       class="d-flex align-center"
     >
-      {{
-        title
-          ? prepareString($t('packages.title').toString())
-          : packageBag && packageBag.title
-          ? packageBag.title.length > descMaxLength
-            ? packageBag.title.slice(0, descMaxLength) +
-              '...'
-            : packageBag.title
-          : ''
-      }}</v-col
-    >
+      <SortTitle v-if="title" :text="$t('columns.title')" />
+      <TextRecord v-else :text="packageBag?.title" />
+    </v-col>
     <v-col
       id="package-maintainer"
       cols="lg-2 sm-2"
       class="d-flex align-center justify-center"
     >
-      {{
-        title
-          ? prepareString(
-              $t('packages.maintainer').toString()
-            ) + ' userId'
-          : packageBag?.user?.id
-      }}</v-col
-    >
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.maintainer')" />
+      <TextRecord v-else :text="packageBag?.user?.name"
+    /></v-col>
     <v-col
       id="package-actions"
       cols="lg-1"
       class="d-flex justify-center"
     >
-      <span v-if="title">
-        {{
-          prepareString($t('packages.actions').toString())
-        }}
-      </span>
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.actions')"
+        no-sort
+      />
       <span
         v-else
         class="d-flex justify-center align-center"
@@ -87,6 +75,8 @@
 import { ref } from '@vue/reactivity'
 import router from '@/router'
 import { EntityModelPackageDto } from '@/openapi'
+import SortTitle from '../SortTitle.vue'
+import TextRecord from '../TextRecord.vue'
 
 const props = defineProps({
   title: {
@@ -97,11 +87,6 @@ const props = defineProps({
     | EntityModelPackageDto
     | undefined
 })
-const descMaxLength = ref(110)
-
-function prepareString(value: string): string {
-  return value.charAt(0).toUpperCase() + value.slice(1)
-}
 
 function navigate() {
   if (props.packageBag) {
