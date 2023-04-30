@@ -118,7 +118,7 @@
         prepend-icon="mdi-account-multiple"
         :title="$t('common.users')"
         :value="$t('common.users')"
-        @click="$router.replace({ name: 'users' })"
+        @click="$router.push({ name: 'users' })"
       ></v-list-item>
     </v-list>
   </v-navigation-drawer>
