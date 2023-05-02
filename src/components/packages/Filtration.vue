@@ -1,90 +1,61 @@
 <template>
-  <v-card class="pa-5" width="400">
-    <v-card-title>
-      {{ $t('packages.filtration') }}
-    </v-card-title>
-    <v-divider></v-divider>
-    <v-card-text style="height: 300px">
-      <v-form ref="form" lazy-validation>
-        <v-select
-          id="filtrationstate"
-          v-model="localFiltration.state.value"
-          :items="submissionStateSelect"
-          :label="localFiltration.state.label"
-          color="text"
-          data-test="filtrationstate"
-        ></v-select>
+  <filtration-card
+    :title="$t('packages.filtration.title')"
+    v-on:clear-filtration="clearFiltration()"
+    v-on:set-filtration="setFiltration()"
+    v-on:change-dialog-options="cancelModal()"
+  >
+    <v-select
+      id="filtration-state"
+      v-model="localFiltration.state"
+      :items="submissionStateSelect"
+      :label="$t('packages.filtration.state')"
+      data-test="filtration-state"
+    ></v-select>
+    <v-combobox
+      v-model="localFiltration.repository"
+      :items="repositoryNameSelect"
+      :label="$t('packages.filtration.repository')"
+    >
+    </v-combobox>
 
-        <v-select
-          id="filtrationrepository"
-          v-model="localFiltration.repository.value"
-          :items="repositoryNameSelect"
-          :label="localFiltration.repository.label"
-          color="text"
-        ></v-select>
-
-        <v-checkbox
-          id="filtrationdeleter"
-          :label="
-            localFiltration && localFiltration.deleted.label
-          "
-          v-model="localFiltration.deleted.value"
-          color="text"
-        ></v-checkbox>
-      </v-form>
-    </v-card-text>
-    <v-divider></v-divider>
-    <v-card-actions>
-      <v-row justify="space-between" class="mt-1">
-        <v-btn
-          id="cancelbutton"
-          color="blue darken-1"
-          @click="changeDialogOptions"
-          class="mx-1"
-        >
-          <small>
-            {{ $t('common.cancel') }}
-          </small>
-        </v-btn>
-        <v-row class="my-0" justify="end">
-          <v-btn
-            id="resetbutton"
-            color="blue darken-1"
-            class="mx-1"
-            @click="clearFiltration"
-          >
-            <small>
-              {{ $t('common.clearForm') }}
-            </small>
-          </v-btn>
-          <v-btn
-            id="setfiltration"
-            color="blue darken-1"
-            class="mx-1"
-            @click="setFiltration"
-          >
-            <small>
-              {{ $t('common.apply') }}
-            </small>
-          </v-btn>
-        </v-row>
-      </v-row>
-    </v-card-actions>
-  </v-card>
+    <v-select
+      id="filtration-technology"
+      v-model="localFiltration.technologies"
+      :items="technologySelect"
+      multiple
+      :label="$t('repositories.filtration.technology')"
+    ></v-select>
+    <v-checkbox
+      id="filtration-deleted"
+      :label="
+        localFiltration && $t('packages.filtration.deleted')
+      "
+      v-model="localFiltration.deleted"
+    ></v-checkbox>
+  </filtration-card>
 </template>
 
 <script setup lang="ts">
+import FiltrationCard from '@/components/common/FiltrationCard.vue'
+import { useObjectActions } from '@/composable/objectActions'
+import { Technologies } from '@/enum/Technologies'
+import { EntityModelSubmissionDtoStateEnum } from '@/openapi'
 import { usePackagesStore } from '@/store/packages'
 import { ref, onMounted } from 'vue'
 
+const emit = defineEmits(['closeModal'])
+
+const { setAllFields } = useObjectActions()
 const package_store = usePackagesStore()
 
-const submissionStateSelect = ref(['ACCEPTED', 'CANCELLED'])
+const submissionStateSelect = ref(
+  Object.values(EntityModelSubmissionDtoStateEnum)
+)
+const technologySelect = ref(Technologies.options)
 const repositoryNameSelect = ref(['repo1', 'repo2'])
 let filtration = package_store.filtration
 const localFiltration = ref(filtration)
-
-const emit = defineEmits(['changeOptions'])
 
 function updateFiltration() {
   localFiltration.value = JSON.parse(
@@ -92,14 +63,14 @@ function updateFiltration() {
   )
 }
 
-async function setFiltration() {
-  await package_store.setFiltration(localFiltration.value)
-  changeDialogOptions()
+function setFiltration() {
+  package_store.setFiltration(localFiltration.value)
+  cancelModal()
 }
 
-function changeDialogOptions() {
+function cancelModal() {
   updateFiltration()
-  emit('changeOptions')
+  emit('closeModal')
 }
 
 onMounted(() => {
@@ -107,8 +78,6 @@ onMounted(() => {
 })
 
 function clearFiltration() {
-  localFiltration!.value.state.value = ''
-  localFiltration!.value.repository.value = ''
-  localFiltration!.value.deleted.value = false
+  setAllFields(localFiltration.value, undefined)
 }
 </script>

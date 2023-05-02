@@ -12,6 +12,8 @@
  * Do not edit the class manually.
  */
 import { Link } from './link';
+import { RepositoryProjection } from './repository-projection';
+import { UserProjection } from './user-projection';
 /**
  * 
  * @export
@@ -26,22 +28,16 @@ export interface EntityModelRPackageDto {
     id?: number;
     /**
      * 
-     * @type {number}
+     * @type {UserProjection}
      * @memberof EntityModelRPackageDto
      */
-    userId?: number;
+    user?: UserProjection;
     /**
      * 
-     * @type {string}
+     * @type {RepositoryProjection}
      * @memberof EntityModelRPackageDto
      */
-    version?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof EntityModelRPackageDto
-     */
-    repositoryId?: number;
+    repository?: RepositoryProjection;
     /**
      * 
      * @type {number}
@@ -54,6 +50,12 @@ export interface EntityModelRPackageDto {
      * @memberof EntityModelRPackageDto
      */
     name?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EntityModelRPackageDto
+     */
+    version?: string;
     /**
      * 
      * @type {string}
@@ -96,6 +98,12 @@ export interface EntityModelRPackageDto {
      * @memberof EntityModelRPackageDto
      */
     deleted?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof EntityModelRPackageDto
+     */
+    technology?: string;
     /**
      * 
      * @type {string}

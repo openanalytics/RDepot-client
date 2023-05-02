@@ -11,7 +11,7 @@ import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
 import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import { createPinia, setActivePinia } from 'pinia'
-import { useSubmissionState } from '@/store/submission'
+import { useSubmissionStore } from '@/store/submission'
 import StepFirstVue from '@/components/addSubmission/StepFirst.vue'
 
 let wrapper: any
@@ -27,35 +27,35 @@ beforeAll(() => {
 
 beforeEach(async () => {
   setActivePinia(createPinia())
-  submission_store = useSubmissionState()
+  submission_store = useSubmissionStore()
   wrapper = mount(StepFirstVue, {
     global: globalConfig
   })
 })
 
-describe('Add submission - step first', () => {
+describe('Add submission - first step', () => {
   it('renders properly', () => {
     expect(wrapper.exists()).toBe(true)
   })
 
   it('next button exists', () => {
-    const button = wrapper.find('#nextbutton')
+    const button = wrapper.find('#next-button')
     expect(button.exists()).toBeTruthy()
   })
 
   it('go next not allowed if reposiotry is not choosen', async () => {
-    const button = wrapper.find('#nextbutton')
+    const button = wrapper.find('#next-button')
     expect(button.exists()).toBeTruthy()
     await button.trigger('click')
     expect(wrapper.emitted().next).toBeFalsy()
   })
 
-  it('go next allowedif reposiotry is choosen', async () => {
+  it('go next allowed if reposiotry is choosen', async () => {
     await submission_store.setRepository({
       id: 1,
       name: 'repository1'
     })
-    const button = wrapper.find('#nextbutton')
+    const button = wrapper.find('#next-button')
     expect(button.exists()).toBeTruthy()
     await button.trigger('click')
     expect(wrapper.emitted().next).toBeTruthy()

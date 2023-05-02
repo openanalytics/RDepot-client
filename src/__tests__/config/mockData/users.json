@@ -1,0 +1,176 @@
+{
+    "status": "SUCCESS",
+    "code": 200,
+    "message": "Your request has been processed successfully.",
+    "messageCode": "success.request.processed",
+    "data": {
+      "links": [
+        {
+          "rel": "self",
+          "href": "http://localhost:8017/api/v2/manager/users?page=0&size=20"
+        }
+      ],
+      "content": [
+        {
+          "id": 8,
+          "name": "Local Admin User",
+          "email": "admin@localhost",
+          "login": "admin",
+          "active": false,
+          "lastLoggedInOn": "",
+          "createdOn": "1970-01-01",
+          "deleted": false,
+          "roleId": 4,
+          "description": "User [id: 8, name: Local Admin User, login: admin, email: admin@localhost]",
+          "links": [
+            {
+              "rel": "self",
+              "href": "http://localhost:8017/api/v2/manager/users/8"
+            },
+            {
+              "rel": "userList",
+              "href": "http://localhost:8017/api/v2/manager/users"
+            }
+          ]
+        },
+        {
+          "id": 7,
+          "name": "Isaac Newton",
+          "email": "newton@ldap.forumsys.com",
+          "login": "newton",
+          "active": true,
+          "lastLoggedInOn": "2020-03-28",
+          "createdOn": "1970-01-01",
+          "deleted": false,
+          "roleId": 1,
+          "description": "User [id: 7, name: Isaac Newton, login: newton, email: newton@ldap.forumsys.com]",
+          "links": [
+            {
+              "rel": "self",
+              "href": "http://localhost:8017/api/v2/manager/users/7"
+            },
+            {
+              "rel": "userList",
+              "href": "http://localhost:8017/api/v2/manager/users"
+            }
+          ]
+        },
+        {
+          "id": 6,
+          "name": "Galileo Galilei",
+          "email": "galieleo@ldap.forumsys.com",
+          "login": "galieleo",
+          "active": true,
+          "lastLoggedInOn": "2020-03-28",
+          "createdOn": "1970-01-01",
+          "deleted": false,
+          "roleId": 2,
+          "description": "User [id: 6, name: Galileo Galilei, login: galieleo, email: galieleo@ldap.forumsys.com]",
+          "links": [
+            {
+              "rel": "self",
+              "href": "http://localhost:8017/api/v2/manager/users/6"
+            },
+            {
+              "rel": "userList",
+              "href": "http://localhost:8017/api/v2/manager/users"
+            }
+          ]
+        },
+        {
+          "id": 5,
+          "name": "Nikola Tesla",
+          "email": "tesla@ldap.forumsys.com",
+          "login": "tesla",
+          "active": true,
+          "lastLoggedInOn": "2020-03-29",
+          "createdOn": "1970-01-01",
+          "deleted": false,
+          "roleId": 3,
+          "description": "User [id: 5, name: Nikola Tesla, login: tesla, email: tesla@ldap.forumsys.com]",
+          "links": [
+            {
+              "rel": "self",
+              "href": "http://localhost:8017/api/v2/manager/users/5"
+            },
+            {
+              "rel": "userList",
+              "href": "http://localhost:8017/api/v2/manager/users"
+            }
+          ]
+        },
+        {
+          "id": 9,
+          "name": "John Doe",
+          "email": "doe@localhost",
+          "login": "doe",
+          "active": false,
+          "lastLoggedInOn": "2020-08-20",
+          "createdOn": "1970-01-01",
+          "deleted": false,
+          "roleId": 1,
+          "description": "User [id: 9, name: John Doe, login: doe, email: doe@localhost]",
+          "links": [
+            {
+              "rel": "self",
+              "href": "http://localhost:8017/api/v2/manager/users/9"
+            },
+            {
+              "rel": "userList",
+              "href": "http://localhost:8017/api/v2/manager/users"
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "name": "Albert Einstein",
+          "email": "einstein@ldap.forumsys.com",
+          "login": "einstein",
+          "active": true,
+          "lastLoggedInOn": "2023-04-26",
+          "createdOn": "1970-01-01",
+          "deleted": false,
+          "roleId": 4,
+          "description": "User [id: 4, name: Albert Einstein, login: einstein, email: einstein@ldap.forumsys.com]",
+          "links": [
+            {
+              "rel": "self",
+              "href": "http://localhost:8017/api/v2/manager/users/4"
+            },
+            {
+              "rel": "userList",
+              "href": "http://localhost:8017/api/v2/manager/users"
+            }
+          ]
+        },
+        {
+          "id": 10,
+          "name": "Alfred Tarski",
+          "email": "tarski@localhost",
+          "login": "tarski",
+          "active": true,
+          "lastLoggedInOn": "2020-08-25",
+          "createdOn": "1970-01-01",
+          "deleted": false,
+          "roleId": 2,
+          "description": "User [id: 10, name: Alfred Tarski, login: tarski, email: tarski@localhost]",
+          "links": [
+            {
+              "rel": "self",
+              "href": "http://localhost:8017/api/v2/manager/users/10"
+            },
+            {
+              "rel": "userList",
+              "href": "http://localhost:8017/api/v2/manager/users"
+            }
+          ]
+        }
+      ],
+      "page": {
+        "size": 20,
+        "totalElements": 7,
+        "totalPages": 1,
+        "number": 0
+      }
+    }
+  }

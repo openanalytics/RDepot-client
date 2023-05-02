@@ -33,10 +33,10 @@ export const RRepositoryControllerApiAxiosParamCreator = function (configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createRepository: async (body: RRepositoryDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        createRRepository: async (body: RRepositoryDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'body' is not null or undefined
             if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling createRepository.');
+                throw new RequiredError('body','Required parameter body was null or undefined when calling createRRepository.');
             }
             const localVarPath = `/api/v2/manager/r/repositories`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -63,7 +63,7 @@ export const RRepositoryControllerApiAxiosParamCreator = function (configuration
             localVarUrlObj.search = (new URLSearchParams(query)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers!['Content-Type'] === 'application/json';
+            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
             localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
 
             return {
@@ -77,10 +77,10 @@ export const RRepositoryControllerApiAxiosParamCreator = function (configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteRepository: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        deleteRRepository: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling deleteRepository.');
+                throw new RequiredError('id','Required parameter id was null or undefined when calling deleteRRepository.');
             }
             const localVarPath = `/api/v2/manager/r/repositories/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
@@ -122,7 +122,7 @@ export const RRepositoryControllerApiAxiosParamCreator = function (configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllRepositories: async (deleted?: boolean, name?: string, page?: number, size?: number, sort?: Array<string>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getAllRRepositories: async (deleted?: boolean, name?: string, page?: number, size?: number, sort?: Array<string>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/v2/manager/r/repositories`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -178,10 +178,10 @@ export const RRepositoryControllerApiAxiosParamCreator = function (configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getRepositoryById: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getRRepositoryById: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling getRepositoryById.');
+                throw new RequiredError('id','Required parameter id was null or undefined when calling getRRepositoryById.');
             }
             const localVarPath = `/api/v2/manager/r/repositories/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
@@ -302,14 +302,14 @@ export const RRepositoryControllerApiAxiosParamCreator = function (configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateRepository: async (body: JsonPatch, id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateRRepository: async (body: JsonPatch, id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'body' is not null or undefined
             if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling updateRepository.');
+                throw new RequiredError('body','Required parameter body was null or undefined when calling updateRRepository.');
             }
             // verify required parameter 'id' is not null or undefined
             if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling updateRepository.');
+                throw new RequiredError('id','Required parameter id was null or undefined when calling updateRRepository.');
             }
             const localVarPath = `/api/v2/manager/r/repositories/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
@@ -337,7 +337,7 @@ export const RRepositoryControllerApiAxiosParamCreator = function (configuration
             localVarUrlObj.search = (new URLSearchParams(query)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers!['Content-Type'] === 'application/json';
+            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
             localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
 
             return {
@@ -360,8 +360,8 @@ export const RRepositoryControllerApiFp = function(configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createRepository(body: RRepositoryDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<any>>> {
-            const localVarAxiosArgs = await RRepositoryControllerApiAxiosParamCreator(configuration).createRepository(body, options);
+        async createRRepository(body: RRepositoryDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<any>>> {
+            const localVarAxiosArgs = await RRepositoryControllerApiAxiosParamCreator(configuration).createRRepository(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -373,8 +373,8 @@ export const RRepositoryControllerApiFp = function(configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteRepository(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await RRepositoryControllerApiAxiosParamCreator(configuration).deleteRepository(id, options);
+        async deleteRRepository(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await RRepositoryControllerApiAxiosParamCreator(configuration).deleteRRepository(id, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -390,8 +390,8 @@ export const RRepositoryControllerApiFp = function(configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getAllRepositories(deleted?: boolean, name?: string, page?: number, size?: number, sort?: Array<string>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<ResponseDtoPagedModelEntityModelRRepositoryDto>>> {
-            const localVarAxiosArgs = await RRepositoryControllerApiAxiosParamCreator(configuration).getAllRepositories(deleted, name, page, size, sort, options);
+        async getAllRRepositories(deleted?: boolean, name?: string, page?: number, size?: number, sort?: Array<string>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<ResponseDtoPagedModelEntityModelRRepositoryDto>>> {
+            const localVarAxiosArgs = await RRepositoryControllerApiAxiosParamCreator(configuration).getAllRRepositories(deleted, name, page, size, sort, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -403,8 +403,8 @@ export const RRepositoryControllerApiFp = function(configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getRepositoryById(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<ResponseDtoEntityModelRRepositoryDto>>> {
-            const localVarAxiosArgs = await RRepositoryControllerApiAxiosParamCreator(configuration).getRepositoryById(id, options);
+        async getRRepositoryById(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<ResponseDtoEntityModelRRepositoryDto>>> {
+            const localVarAxiosArgs = await RRepositoryControllerApiAxiosParamCreator(configuration).getRRepositoryById(id, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -443,8 +443,8 @@ export const RRepositoryControllerApiFp = function(configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateRepository(body: JsonPatch, id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<any>>> {
-            const localVarAxiosArgs = await RRepositoryControllerApiAxiosParamCreator(configuration).updateRepository(body, id, options);
+        async updateRRepository(body: JsonPatch, id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<any>>> {
+            const localVarAxiosArgs = await RRepositoryControllerApiAxiosParamCreator(configuration).updateRRepository(body, id, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -465,8 +465,8 @@ export const RRepositoryControllerApiFactory = function (configuration?: Configu
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createRepository(body: RRepositoryDto, options?: AxiosRequestConfig): Promise<AxiosResponse<any>> {
-            return RRepositoryControllerApiFp(configuration).createRepository(body, options).then((request) => request(axios, basePath));
+        async createRRepository(body: RRepositoryDto, options?: AxiosRequestConfig): Promise<AxiosResponse<any>> {
+            return RRepositoryControllerApiFp(configuration).createRRepository(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -474,8 +474,8 @@ export const RRepositoryControllerApiFactory = function (configuration?: Configu
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteRepository(id: number, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return RRepositoryControllerApiFp(configuration).deleteRepository(id, options).then((request) => request(axios, basePath));
+        async deleteRRepository(id: number, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return RRepositoryControllerApiFp(configuration).deleteRRepository(id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -487,8 +487,8 @@ export const RRepositoryControllerApiFactory = function (configuration?: Configu
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getAllRepositories(deleted?: boolean, name?: string, page?: number, size?: number, sort?: Array<string>, options?: AxiosRequestConfig): Promise<AxiosResponse<ResponseDtoPagedModelEntityModelRRepositoryDto>> {
-            return RRepositoryControllerApiFp(configuration).getAllRepositories(deleted, name, page, size, sort, options).then((request) => request(axios, basePath));
+        async getAllRRepositories(deleted?: boolean, name?: string, page?: number, size?: number, sort?: Array<string>, options?: AxiosRequestConfig): Promise<AxiosResponse<ResponseDtoPagedModelEntityModelRRepositoryDto>> {
+            return RRepositoryControllerApiFp(configuration).getAllRRepositories(deleted, name, page, size, sort, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -496,8 +496,8 @@ export const RRepositoryControllerApiFactory = function (configuration?: Configu
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getRepositoryById(id: number, options?: AxiosRequestConfig): Promise<AxiosResponse<ResponseDtoEntityModelRRepositoryDto>> {
-            return RRepositoryControllerApiFp(configuration).getRepositoryById(id, options).then((request) => request(axios, basePath));
+        async getRRepositoryById(id: number, options?: AxiosRequestConfig): Promise<AxiosResponse<ResponseDtoEntityModelRRepositoryDto>> {
+            return RRepositoryControllerApiFp(configuration).getRRepositoryById(id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -524,8 +524,8 @@ export const RRepositoryControllerApiFactory = function (configuration?: Configu
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateRepository(body: JsonPatch, id: number, options?: AxiosRequestConfig): Promise<AxiosResponse<any>> {
-            return RRepositoryControllerApiFp(configuration).updateRepository(body, id, options).then((request) => request(axios, basePath));
+        async updateRRepository(body: JsonPatch, id: number, options?: AxiosRequestConfig): Promise<AxiosResponse<any>> {
+            return RRepositoryControllerApiFp(configuration).updateRRepository(body, id, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -544,8 +544,8 @@ export class RRepositoryControllerApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof RRepositoryControllerApi
      */
-    public async createRepository(body: RRepositoryDto, options?: AxiosRequestConfig) : Promise<AxiosResponse<any>> {
-        return RRepositoryControllerApiFp(this.configuration).createRepository(body, options).then((request) => request(this.axios, this.basePath));
+    public async createRRepository(body: RRepositoryDto, options?: AxiosRequestConfig) : Promise<AxiosResponse<any>> {
+        return RRepositoryControllerApiFp(this.configuration).createRRepository(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -554,8 +554,8 @@ export class RRepositoryControllerApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof RRepositoryControllerApi
      */
-    public async deleteRepository(id: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return RRepositoryControllerApiFp(this.configuration).deleteRepository(id, options).then((request) => request(this.axios, this.basePath));
+    public async deleteRRepository(id: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return RRepositoryControllerApiFp(this.configuration).deleteRRepository(id, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -568,8 +568,8 @@ export class RRepositoryControllerApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof RRepositoryControllerApi
      */
-    public async getAllRepositories(deleted?: boolean, name?: string, page?: number, size?: number, sort?: Array<string>, options?: AxiosRequestConfig) : Promise<AxiosResponse<ResponseDtoPagedModelEntityModelRRepositoryDto>> {
-        return RRepositoryControllerApiFp(this.configuration).getAllRepositories(deleted, name, page, size, sort, options).then((request) => request(this.axios, this.basePath));
+    public async getAllRRepositories(deleted?: boolean, name?: string, page?: number, size?: number, sort?: Array<string>, options?: AxiosRequestConfig) : Promise<AxiosResponse<ResponseDtoPagedModelEntityModelRRepositoryDto>> {
+        return RRepositoryControllerApiFp(this.configuration).getAllRRepositories(deleted, name, page, size, sort, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -578,8 +578,8 @@ export class RRepositoryControllerApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof RRepositoryControllerApi
      */
-    public async getRepositoryById(id: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<ResponseDtoEntityModelRRepositoryDto>> {
-        return RRepositoryControllerApiFp(this.configuration).getRepositoryById(id, options).then((request) => request(this.axios, this.basePath));
+    public async getRRepositoryById(id: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<ResponseDtoEntityModelRRepositoryDto>> {
+        return RRepositoryControllerApiFp(this.configuration).getRRepositoryById(id, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -609,7 +609,7 @@ export class RRepositoryControllerApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof RRepositoryControllerApi
      */
-    public async updateRepository(body: JsonPatch, id: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<any>> {
-        return RRepositoryControllerApiFp(this.configuration).updateRepository(body, id, options).then((request) => request(this.axios, this.basePath));
+    public async updateRRepository(body: JsonPatch, id: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<any>> {
+        return RRepositoryControllerApiFp(this.configuration).updateRRepository(body, id, options).then((request) => request(this.axios, this.basePath));
     }
 }

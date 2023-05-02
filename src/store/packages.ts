@@ -1,13 +1,27 @@
-import { Package } from '@/models/packages/Package'
+import { notify } from '@kyvg/vue3-notification'
 import { PackagesFiltration } from '@/models/Filtration'
-import packages from '@/tmpLists/packages.json'
+import { fetchPackagesServices } from '@/services'
 import { defineStore } from 'pinia'
+import {
+  EntityModelPackageDto,
+  Link,
+  ResponseDtoListVignette,
+  RPackageControllerApiFactory
+} from '@/openapi'
+import {
+  fetchPackageServices,
+  updateRPackage
+} from '@/services/package_services'
+import { usePaginationStore } from './pagination'
+import { useObjectActions } from '@/composable/objectActions'
 
 interface State {
-  packages: Package[]
-  page: number
-  pageSize: number
+  packages: EntityModelPackageDto[]
+  package?: EntityModelPackageDto
+  vignettes: ResponseDtoListVignette
   filtration: PackagesFiltration
+  chosenPackageId?: number
+  next?: boolean
 }
 
 export const usePackagesStore = defineStore(
@@ -16,57 +30,77 @@ export const usePackagesStore = defineStore(
     state: (): State => {
       return {
         packages: [],
-        page: 1,
-        pageSize: 10,
+        package: {},
+        vignettes: {},
         filtration: {
-          state: {
-            label: 'Submission State',
-            requestName: 'submissionState',
-            value: ''
-          },
-          deleted: {
-            label: 'Deleted',
-            requestName: 'deleted',
-            value: false
-          },
-          repository: {
-            label: 'Repository Name',
-            requestName: 'repositoryName',
-            value: ''
-          }
-        }
+          state: undefined,
+          deleted: undefined,
+          repository: undefined,
+          technologies: undefined
+        },
+        chosenPackageId: undefined,
+        next: false
       }
     },
     actions: {
       async fetchPackages() {
-        //dummy page fetch - in real you need to fertch packages from servcice and set page to 1
-        if (this.page % 2 == 0) {
-          this.packages = packages.page1
-        } else {
-          this.packages = packages.page2
+        const pagination = usePaginationStore()
+        const [packages, pageData] =
+          await fetchPackagesServices(
+            this.filtration,
+            pagination.page,
+            pagination.pageSize
+          )
+        this.packages = packages
+        pagination.setPage(pageData.page)
+        pagination.setTotalNumber(pageData.totalNumber)
+      },
+      async fetchPackage(id: number) {
+        this.package = await fetchPackageServices(id)
+      },
+      async activatePackage(
+        newPackage: EntityModelPackageDto
+      ) {
+        const oldPackage = JSON.parse(
+          JSON.stringify(newPackage)
+        ) as EntityModelPackageDto
+        oldPackage.active = !newPackage.active
+        await updateRPackage(oldPackage, newPackage).then(
+          async (success) => {
+            if (success) await this.fetchPackages()
+          }
+        )
+      },
+      async downloadManual() {
+        const rPackageApi = RPackageControllerApiFactory()
+        if (this.package?.id) {
+          return rPackageApi.downloadReferenceManual(
+            this.package.id
+          )
         }
       },
-      async setPage(payload: number) {
-        this.page = payload
-        this.fetchPackages()
-      },
-      async setPageSize(payload: number) {
-        this.pageSize = payload
-      },
       async setFiltration(payload: PackagesFiltration) {
+        const pagination = usePaginationStore()
+        pagination.setPage(0)
         this.filtration = payload
-        this.page = 1
-        this.fetchPackages()
+        await this.fetchPackages()
+      },
+      setFiltrationByRepositoryOnly(payload: string) {
+        this.clearFiltration()
+        this.filtration.repository = payload
       },
       clearFiltration() {
-        this.filtration.state.value = ''
-        this.filtration.repository.value = ''
-        this.filtration.deleted.value = false
-        console.log('clera filtration')
+        const pagination = usePaginationStore()
+        pagination.setPage(0)
+        const { setAllFields } = useObjectActions()
+        setAllFields(this.filtration, undefined)
       },
       async clearFiltrationAndFetch() {
         this.clearFiltration()
-        this.fetchPackages()
+        await this.fetchPackages()
+      },
+      setChosenPackage(id?: number) {
+        this.chosenPackageId = id
       }
     }
   }

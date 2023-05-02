@@ -3,40 +3,39 @@
     <v-card-title>
       {{ props.text }}
     </v-card-title>
-    <v-card-text>
-      <v-divider />
-      <v-row
-        align="center"
-        justify="space-between"
-        class="mx-3 mt-4"
-      >
-        <v-btn
-          id="cancelaction"
-          color="oablue darken-2"
-          @click="sendEvent(false)"
-        >
-          {{ $t('common.cancel') }}
-        </v-btn>
-        <v-btn
-          id="applyaction"
-          color="oablue darken-2"
-          @click="sendEvent(true)"
-        >
-          {{ $t('common.apply') }}
-        </v-btn>
-      </v-row>
-    </v-card-text>
+    <v-divider />
+    <card-actions :buttons="buttons"> </card-actions>
   </v-card>
 </template>
 
 <script setup lang="ts">
+import CardActions from '@/components/common/CardActions.vue'
+import { i18n } from '@/plugins/i18n'
+
 const props = defineProps({
   text: String
 })
 
-const emits = defineEmits(['sendEvent'])
+const buttons = [
+  {
+    id: 'cancel-action',
+    text: i18n.t('common.cancel'),
+    handler: cancel
+  },
+  {
+    id: 'apply-action',
+    text: i18n.t('common.apply'),
+    handler: reset
+  }
+]
 
-function sendEvent(value: boolean) {
-  emits('sendEvent', value)
+const emits = defineEmits(['cancel', 'reset'])
+
+function cancel() {
+  emits('cancel')
+}
+
+function reset() {
+  emits('reset')
 }
 </script>

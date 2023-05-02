@@ -11,7 +11,9 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */export * from './apis/api-v2-newsfeed-event-controller-api';
+export * from './apis/api-v2-package-controller-api';
 export * from './apis/api-v2-package-maintainer-controller-api';
+export * from './apis/api-v2-repository-controller-api';
 export * from './apis/api-v2-repository-maintainer-controller-api';
 export * from './apis/api-v2-user-controller-api';
 export * from './apis/python-repository-controller-api';

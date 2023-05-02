@@ -65,4 +65,10 @@ export interface PythonRepositoryDto {
      * @memberof PythonRepositoryDto
      */
     synchronizing?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof PythonRepositoryDto
+     */
+    technology?: string;
 }

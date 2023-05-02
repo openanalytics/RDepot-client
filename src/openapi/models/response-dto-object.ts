@@ -22,7 +22,7 @@ export interface ResponseDtoObject {
      * @type {string}
      * @memberof ResponseDtoObject
      */
-    status?: string;
+    status?: ResponseDtoObjectStatusEnum;
     /**
      * 
      * @type {number}
@@ -48,3 +48,13 @@ export interface ResponseDtoObject {
      */
     data?: any;
 }
+
+/**
+    * @export
+    * @enum {string}
+    */
+export enum ResponseDtoObjectStatusEnum {
+    SUCCESS = 'SUCCESS',
+    ERROR = 'ERROR'
+}
+

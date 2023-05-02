@@ -1,56 +1,72 @@
 <template>
   <v-overlay
     :absolute="absolute"
-    v-model="parentOverlay"
-    :opacity="parentOpacity"
+    v-model="getOverlayModel"
+    :opacity="getOpacity"
+    @click:outside="closeModal"
+    location-strategy="connected"
+    scroll-strategy="none"
     class="d-flex justify-center align-center"
   >
-    <Filtration
-      v-if="packagesFiltration"
-      v-on:changeOptions="sendEvent(false)"
-    />
-    <QuestionCard
-      v-else-if="resetPackagesFiltration"
-      :text="parentText"
-      v-on:sendEvent="sendEvent"
-    />
+    <slot name="props" :closeModal="closeModal">
+      <QuestionCard
+        :text="getText"
+        v-on:reset="reset"
+        v-on:cancel="closeModal"
+      />
+    </slot>
   </v-overlay>
 </template>
 
 <script setup lang="ts">
-import { computed, toRef } from 'vue'
-import Filtration from '@/components/packages/Filtration.vue'
-import { OverlayEnum } from '@/enum/Overlay'
 import QuestionCard from '@/components/common/QuestionCard.vue'
+import { computed, onMounted } from 'vue'
+import { useCommonStore } from '@/store/common'
 
-const props = defineProps({
-  text: String,
-  overlay: Boolean,
-  opacity: Number,
-  component: Number
+const common_store = useCommonStore()
+
+const absolute = false
+
+const emits = defineEmits(['action'])
+
+const getOpacity = computed<number>(() => {
+  return common_store.overlayOpacity
 })
 
-const parentText = toRef(props, 'text')
-const parentOverlay = toRef(props, 'overlay')
-const parentOpacity = toRef(props, 'opacity')
-const parentComponent = toRef(props, 'component')
-
-const emits = defineEmits(['overlayClicked'])
-const absolute = true
-
-const packagesFiltration = computed(function () {
-  return (
-    parentComponent.value == OverlayEnum.PackagesFiltration
-  )
-})
-const resetPackagesFiltration = computed(function () {
-  return (
-    parentComponent.value ==
-    OverlayEnum.PackagesFiltrationReset
-  )
+const getOverlayModel = computed<boolean>(() => {
+  return common_store.overlayModel
 })
 
-function sendEvent(value: boolean) {
-  emits('overlayClicked', value)
+const getText = computed<string>(() => {
+  return common_store.overlayText
+})
+
+onMounted(() => {
+  document.addEventListener('keyup', (e) => {
+    if (e.code == 'Escape') {
+      onKeyup()
+    }
+  })
+})
+
+function onKeyup() {
+  reset()
+}
+
+async function reset() {
+  closeModal()
+  emits('action')
+}
+
+function closeModal() {
+  common_store.setOverlayModel(false)
 }
 </script>
+
+<style>
+.v-overlay--absolute,
+.v-overlay--contained .v-overlay__scrim {
+  position: fixed !important;
+  width: 100%;
+}
+</style>

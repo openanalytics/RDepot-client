@@ -6,13 +6,14 @@ import {
   beforeAll
 } from 'vitest'
 
-import { mount } from '@vue/test-utils'
+import { mount, config } from '@vue/test-utils'
 import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
 import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import PackageRowVue from '@/components/packages/PackageRow.vue'
-import { Package } from '@/models/packages/Package'
-import packages from '@/tmpLists/packages.json'
+import packages from '@/__tests__/config/mockData/packages.json'
+import { EntityModelRPackageDto } from '@/openapi'
+import { createPinia, setActivePinia } from 'pinia'
 
 let wrapper: any
 const globalConfig = {
@@ -21,10 +22,14 @@ const globalConfig = {
 }
 beforeAll(() => {
   global.ResizeObserver = ResizeObserver
+  config.global.renderStubDefaultSlot = true
+  setActivePinia(createPinia())
 })
 
 describe('Packages - package row (packagebag)', () => {
-  const packagebag = packages.page1[0]
+  const packagebag: EntityModelRPackageDto = JSON.parse(
+    JSON.stringify(packages.data.content[0])
+  )
   beforeEach(async () => {
     wrapper = mount(PackageRowVue, {
       global: globalConfig,
@@ -39,65 +44,68 @@ describe('Packages - package row (packagebag)', () => {
     expect(wrapper.exists()).toBe(true)
   })
 
-  it('package name is correctly displayed', () => {
-    const name_column = wrapper.find('#packagerowname')
-    expect(name_column.text()).toBe(packagebag.name)
+  it('name field', () => {
+    const field = wrapper.find('#package-row-name')
+    expect(field.text()).toBe(packagebag.name)
   })
 
-  it('package version is correctly displayed', () => {
-    const name_column = wrapper.find('#packagerowversion')
-    expect(name_column.text()).toBe(packagebag.version)
+  it('version field', () => {
+    const field = wrapper.find('#package-row-version')
+    expect(field.text()).toBe(packagebag.version)
   })
 
-  it('package description is correctly displayed', () => {
-    const name_column = wrapper.find(
-      '#packagerowdescription'
-    )
-    expect(name_column.text()).toBe(
-      packagebag.desc.slice(0, wrapper.vm.descMaxLength) +
-        '...'
+  it('title field', () => {
+    const field = wrapper.find('#package-row-title')
+    expect(field.text()).toBe(
+      packagebag.title?.slice(0, wrapper.vm.descMaxLength)
     )
   })
 
-  it('package maintainer is correctly displayed', () => {
-    const name_column = wrapper.find(
-      '#packagerowmaintainer'
+  it('maintainer field', () => {
+    const field = wrapper.find('#package-row-maintainer')
+    expect(field.text()).toBe(
+      packagebag.user?.name?.toString()
     )
-    expect(name_column.text()).toBe(packagebag.maintainer)
   })
 
-  it('package active value is correctly displayed', () => {
-    const checkbox_active = wrapper.find('#checkboxactive')
+  it('active field (checkbox)', () => {
+    const checkbox_active = wrapper.find('#checkbox-active')
     expect(checkbox_active.element.checked).toEqual(
       packagebag.active
     )
   })
 
-  it('package active change value after click', async () => {
-    const checkbox_active = wrapper.find('#checkboxactive')
+  it('click active field (checkbox)', async () => {
+    const checkbox_active = wrapper.find('#checkbox-active')
     expect(checkbox_active.element.checked).toEqual(
       packagebag.active
     )
-    await checkbox_active.setChecked(false)
+    await checkbox_active.trigger('click')
     expect(checkbox_active.element.checked).toEqual(
       !packagebag.active
     )
   })
 
-  it('package actions is correctly displayed', () => {
-    const action = wrapper.find('#navigateicon')
-    expect(action.exists()).toBeTruthy()
+  it('navigate button is visiable', () => {
+    expect(wrapper.find('#navigate-icon').isVisible()).toBe(
+      true
+    )
+  })
+
+  it('delete package button is visible', () => {
+    expect(wrapper.find('#delete-icon').isVisible()).toBe(
+      true
+    )
   })
 })
 
-describe('Packages - package row (empty packagebag)', () => {
-  const packagebag: Package | null = null
+describe('Packages - package row (empty)', () => {
   beforeEach(async () => {
+    setActivePinia(createPinia())
     wrapper = mount(PackageRowVue, {
       global: globalConfig,
       props: {
-        title: false,
-        packageBag: packagebag!
+        title: false
       }
     })
   })
@@ -106,37 +114,45 @@ describe('Packages - package row (empty packagebag)', () => {
     expect(wrapper.exists()).toBe(true)
   })
 
-  it('package name is correctly displayed', () => {
-    const name_column = wrapper.find('#packagerowname')
-    expect(name_column.text()).toBe('')
+  it('name field', () => {
+    const field = wrapper.find('#package-row-name')
+    expect(field.text()).toBe('')
   })
 
-  it('package version is correctly displayed', () => {
-    const name_column = wrapper.find('#packagerowversion')
-    expect(name_column.text()).toBe('')
+  it('version field', () => {
+    const field = wrapper.find('#package-row-version')
+    expect(field.text()).toBe('')
   })
 
-  it('package description is correctly displayed', () => {
-    const name_column = wrapper.find(
-      '#packagerowdescription'
-    )
-    expect(name_column.text()).toBe('')
+  it('title field', () => {
+    const field = wrapper.find('#package-row-title')
+    expect(field.text()).toBe('')
   })
 
-  it('package maintainer is correctly displayed', () => {
-    const name_column = wrapper.find(
-      '#packagerowmaintainer'
-    )
-    expect(name_column.text()).toBe('')
+  it('maintainer field', () => {
+    const field = wrapper.find('#package-row-maintainer')
+    expect(field.text()).toBe('')
   })
 
-  it('package active value is correctly displayed', () => {
-    const checkbox_active = wrapper.find('#checkboxactive')
+  it('active field (checkbox)', () => {
+    const checkbox_active = wrapper.find('#checkbox-active')
     expect(checkbox_active.exists()).toBeFalsy()
+  })
+
+  it('navigate button not exists', () => {
+    expect(wrapper.find('#navigate-icon').exists()).toBe(
+      false
+    )
+  })
+
+  it('delete package button not exists', () => {
+    expect(wrapper.find('#delete-icon').exists()).toBe(
+      false
+    )
   })
 })
 
-describe('Packages - package row (title row)', () => {
+describe('Packages - package row (title)', () => {
   beforeEach(async () => {
     wrapper = mount(PackageRowVue, {
       global: globalConfig,
@@ -150,32 +166,47 @@ describe('Packages - package row (title row)', () => {
     expect(wrapper.exists()).toBe(true)
   })
 
-  it('package name is correctly displayed', () => {
-    const name_column = wrapper.find('#packagerowname')
-    expect(name_column.text()).toEqual('Packages.name')
+  it('name title', () => {
+    const field = wrapper.find('#package-row-name')
+    expect(field.text()).toEqual('Columns.name')
   })
 
-  it('package version is correctly displayed', () => {
-    const name_column = wrapper.find('#packagerowversion')
-    expect(name_column.text()).toBe('Packages.version')
+  it('version title', () => {
+    const field = wrapper.find('#package-row-version')
+    expect(field.text()).toBe('Columns.version')
   })
 
-  it('package description is correctly displayed', () => {
-    const name_column = wrapper.find(
-      '#packagerowdescription'
-    )
-    expect(name_column.text()).toBe('Packages.description')
+  it('title title', () => {
+    const field = wrapper.find('#package-row-title')
+    expect(field.text()).toBe('Packages.title')
   })
 
-  it('package maintainer is correctly displayed', () => {
-    const name_column = wrapper.find(
-      '#packagerowmaintainer'
-    )
-    expect(name_column.text()).toBe('Packages.maintainer')
+  it('technology title', () => {
+    const field = wrapper.find('#package-row-technology')
+    expect(field.text()).toBe('Columns.technology')
   })
 
-  it('package active value is correctly displayed', () => {
-    const checkbox_active = wrapper.find('#checkboxactive')
+  it('maintainer title', () => {
+    const field = wrapper.find('#package-row-maintainer')
+    expect(field.text()).toBe('Columns.maintainer')
+  })
+
+  it('active title', () => {
+    const field = wrapper.find('#package-row-active')
+    const checkbox_active = wrapper.find('#checkbox-active')
+    expect(field.text()).toBe('Columns.active')
     expect(checkbox_active.exists()).toBeFalsy()
+  })
+
+  it('navigate button not exists', () => {
+    expect(wrapper.find('#navigate-icon').exists()).toBe(
+      false
+    )
+  })
+
+  it('delete package button not exists', () => {
+    expect(wrapper.find('#delete-icon').exists()).toBe(
+      false
+    )
   })
 })

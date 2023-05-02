@@ -68,6 +68,12 @@ export interface EntityModelPythonRepositoryDto {
     synchronizing?: boolean;
     /**
      * 
+     * @type {string}
+     * @memberof EntityModelPythonRepositoryDto
+     */
+    technology?: string;
+    /**
+     * 
      * @type {Array<Link>}
      * @memberof EntityModelPythonRepositoryDto
      */

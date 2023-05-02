@@ -3,6 +3,7 @@
     <v-row justify="space-around" align="center">
       <v-row justify="start" align="center" class="ml-4">
         <v-app-bar-nav-icon
+          v-show="mobile"
           color="oablue-darken-2"
           @click.stop="showSidebar"
         ></v-app-bar-nav-icon>
@@ -17,6 +18,7 @@
         <p class="logotext">RDepot</p>
       </v-row>
       <v-row align="center" justify="end" class="my-0 mx-3">
+        <User />
         <ChangeLanguage class="mr-4" />
         <ChangeTheme class="mr-2 ml-3" />
       </v-row>
@@ -28,8 +30,11 @@
 import ChangeLanguage from '@/components/navbar/ChangeLanguage.vue'
 import ChangeTheme from '@/components/navbar/ChangeTheme.vue'
 import { useCommonStore } from '@/store/common'
+import { useDisplay } from 'vuetify/lib/framework.mjs'
+import User from './User.vue'
 
 const common_store = useCommonStore()
+const { width, mobile } = useDisplay()
 
 function showSidebar() {
   common_store.setDrawer(!common_store.drawer)

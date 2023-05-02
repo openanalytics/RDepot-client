@@ -1,68 +1,190 @@
 <template>
-  <v-card class="mb-12 px-10 py-5 step" min-height="250px">
-    <v-file-input
-      multiple
-      v-model="files"
-      counter
-      placeholder="Choose packages"
-      prepend-icon="mdi-paperclip"
-      v-on:change="addPackages"
-    >
-      <template v-slot:selection="{ fileNames }">
-        <template
-          v-for="fileName in fileNames"
-          :key="fileName"
-        >
-          <v-chip
-            size="x-small"
-            label
-            color="oablue"
-            class="mt-3 p-2"
-            @click="removePackage"
-          >
-            {{ fileName }}
-          </v-chip>
+  <v-card
+    class="mb-12 step pb-5 d-flex flex-column justify-space-between"
+    :class="
+      files && files.length > 0
+        ? 'align-items-end'
+        : 'align-items-start'
+    "
+    min-height="250px"
+    height="100%"
+  >
+    <v-toolbar color="secondary">
+      <v-toolbar-title
+        >Chosen files ({{
+          files_local?.length ? files_local.length : 0
+        }})</v-toolbar-title
+      >
+      <v-spacer></v-spacer>
+    </v-toolbar>
+
+    <v-list lines="two">
+      <v-list-item
+        v-for="file in files_local"
+        :key="file.name"
+        :title="file.name"
+        @click=""
+      >
+        <template v-slot:prepend>
+          <v-icon
+            :color="
+              check_validity(file) ? 'white' : 'oared'
+            "
+            icon="mdi-file"
+          />
         </template>
-      </template>
-    </v-file-input>
+
+        <template v-slot:append>
+          <v-btn
+            :color="
+              check_validity(file)
+                ? 'grey-lighten-1'
+                : 'oared'
+            "
+            icon="mdi-delete"
+            variant="text"
+            @click="removeFile(file)"
+          ></v-btn>
+        </template>
+      </v-list-item>
+    </v-list>
+
+    <v-form v-model="valid">
+      <div
+        class="d-flex mt-5 px-5"
+        :class="
+          files && files.length > 0
+            ? 'justify-space-between'
+            : ''
+        "
+        :style="
+          files && files.length > 0
+            ? ''
+            : 'align-items: flex-end'
+        "
+      >
+        <v-btn color="oablue" type="button" @click="open()">
+          {{ $t('submissions.choseFiles') }}
+        </v-btn>
+
+        <v-btn
+          class="mx-3"
+          type="button"
+          :disabled="!files"
+          v-if="files && files?.length > 0"
+          color="oared"
+          @click="resetPackages()"
+        >
+          {{ $t('common.reset') }}
+        </v-btn>
+      </div>
+    </v-form>
   </v-card>
   <div class="d-flex justify-space-between">
     <v-btn
-      id="backbutton"
+      id="back-button"
       color="oablue"
       @click="$emit('next', 1)"
     >
-      go back
+      {{ $t('common.goBack') }}
     </v-btn>
-    <v-btn id="nextbutton" color="oablue" @click="nextStep">
+    <v-btn
+      id="next-button"
+      color="oablue"
+      @click="nextStep"
+    >
       Continue
     </v-btn>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useSubmissionState } from '@/store/submission'
+import { useSubmissionStore } from '@/store/submission'
 import { useNotification } from '@kyvg/vue3-notification'
 import { ref } from 'vue'
+import { useFileDialog } from '@vueuse/core'
+import { watch } from 'vue'
+import { onMounted } from 'vue'
+import { i18n } from '@/plugins/i18n'
+
+const { files, open, reset } = useFileDialog({
+  accept: 'application/gzip'
+})
 
 const emits = defineEmits(['next'])
-const submissions_store = useSubmissionState()
+const submissions_store = useSubmissionStore()
 const notifications = useNotification()
-const files = ref([])
+const valid = ref<boolean>(true)
 
-function removePackage() {}
-function addPackages(value: File[]) {
-  console.log(value)
-  submissions_store.setPackages(files.value)
+const files_local = ref<File[]>([])
+
+function removeFile(file: File) {
+  files_local.value.forEach(
+    (file_local: File, i: number) => {
+      if (file_local == file) {
+        files_local.value.splice(i, 1)
+      }
+    }
+  )
 }
+
+function resetPackages() {
+  submissions_store.setPackages([])
+  reset()
+}
+
+watch(files, (files) => {
+  if (files != null) {
+    files_local.value = Array.from(files)
+  } else {
+    files_local.value = []
+  }
+})
+
+function check_validity(file: File) {
+  return file['type'] === 'application/gzip'
+}
+
+function savePackagesInStore() {
+  valid.value = files_local.value.every(check_validity)
+  if (valid.value) {
+    submissions_store.setPackages(files_local.value)
+  } else {
+    submissions_store.setPackages([])
+  }
+}
+
+onMounted(() => {
+  files_local.value = submissions_store.packages
+})
+
 function nextStep() {
-  if (submissions_store.packages.length > 0) {
+  savePackagesInStore()
+  if (
+    submissions_store.packages.length > 0 &&
+    valid.value
+  ) {
     emits('next', 3)
+  } else if (!valid.value) {
+    notifications.notify({
+      text: i18n.t('submissions.wrongExtension'),
+      type: 'error'
+    })
   } else {
     notifications.notify({
-      text: 'no packages choosen',
+      text: i18n.t('submissions.noPackageChosen'),
       type: 'warn'
     })
   }
 }
 </script>
+
+<style>
+.v-list-item__prepend {
+  align-self: center !important;
+}
+
+.v-card__underlay {
+  display: none;
+}
+</style>

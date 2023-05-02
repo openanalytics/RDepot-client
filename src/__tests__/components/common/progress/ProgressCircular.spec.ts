@@ -10,7 +10,6 @@ import { mount } from '@vue/test-utils'
 import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
 import ProgressCircularVue from '@/components/common/progress/ProgressCircular.vue'
-import { wrap } from 'module'
 import { createPinia, setActivePinia } from 'pinia'
 import { useCommonStore } from '@/store/common'
 import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
@@ -41,13 +40,13 @@ describe('Progress Circular', () => {
 
   it('is not showing if nothing is loading', async () => {
     await common_store.setProgressCircularActive(false)
-    const content = wrapper.find('#progresscircular')
-    expect(content.exists()).toBeFalsy()
+    const content = wrapper.find('#progress-circular')
+    expect(content.isVisible()).toBeFalsy()
   })
 
   it('is showing progress if something is loading', async () => {
     await common_store.setProgressCircularActive(true)
-    const content = wrapper.find('#progresscircular')
-    expect(content.exists()).toBeTruthy()
+    const content = wrapper.find('#progress-circular')
+    expect(content.isVisible()).toBeTruthy()
   })
 })

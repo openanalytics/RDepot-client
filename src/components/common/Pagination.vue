@@ -13,16 +13,22 @@
               <v-pagination
                 v-model="page"
                 class="my-4"
+                :total-visible="
+                  pagination.totalVisiblePages
+                "
                 :length="howManyPages"
               ></v-pagination>
               <v-row class="pageSize">
                 <v-text-field
+                  id="page-size-input"
                   style="flex: 1"
                   width="40"
-                  v-model="pageSize"
+                  v-model="localPageSize"
                   type="number"
                   color="text"
+                  aria-valuemin="1"
                   :label="$t('pagination.size')"
+                  @blur="setPageSize()"
                 ></v-text-field>
               </v-row>
             </v-row>
@@ -34,36 +40,17 @@
 </template>
 
 <script setup lang="ts">
-import { usePackagesStore } from '@/store/packages'
+import { usePagination } from '@/composable/pagination'
+import { usePaginationStore } from '@/store/pagination'
 import { ref } from 'vue'
-import { computed } from '@vue/runtime-core'
 
-var props = defineProps({
-  howMany: Number,
-  page: Number
-})
+const { howManyPages, page, newPageSize } = usePagination()
+const pagination = usePaginationStore()
+const localPageSize = ref(pagination.pageSize)
 
-const emit = defineEmits(['newPage'])
-const allPackages = ref(100)
-const package_store = usePackagesStore()
-
-const howManyPages = computed(function () {
-  return allPackages.value / package_store.pageSize
-})
-
-const pageSize = computed({
-  get() {
-    return package_store.pageSize
-  },
-  set(value: number) {
-    package_store.setPageSize(value)
-  }
-})
-
-const page = computed({
-  get: () => props.page,
-  set: (value) => emit('newPage', value)
-})
+function setPageSize() {
+  newPageSize(localPageSize.value || 10)
+}
 </script>
 
 <style lang="scss" scoped>

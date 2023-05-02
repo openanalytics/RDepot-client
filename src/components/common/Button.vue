@@ -1,23 +1,28 @@
 <template>
   <v-btn
-    id="commonbutton"
+    id="common-button"
     color="oablue"
     dark
     dense
-    @click="sendEvent"
+    @click="openModal"
+    class="mx-3"
   >
-    {{ props.title }}
+    <slot>{{ $t('filtration.title') }}</slot>
   </v-btn>
 </template>
 
 <script setup lang="ts">
-var props = defineProps({
-  title: String
-})
+import { OverlayEnum } from '@/enum/Overlay'
+import { i18n } from '@/plugins/i18n'
+import { useCommonStore } from '@/store/common'
 
-const emits = defineEmits(['buttonClicked'])
+var props = defineProps<{ component: OverlayEnum }>()
 
-function sendEvent() {
-  emits('buttonClicked')
+const common_store = useCommonStore()
+
+function openModal() {
+  common_store.setOverlayText(i18n.t('filtration.makeSure'))
+  common_store.setOverlayModel(true)
+  common_store.setOverlayComponent(props.component)
 }
 </script>

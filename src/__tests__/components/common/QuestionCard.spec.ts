@@ -26,16 +26,16 @@ describe('QuestionCard', () => {
   })
 
   it('emit fasle on cancel action', async () => {
-    const content = wrapper.find('#cancelaction')
+    const content = wrapper.find('#cancel-action')
     expect(content.exists()).toBeTruthy()
     await content.trigger('click')
-    expect(wrapper.emitted().sendEvent[0]).toEqual([false])
+    expect(wrapper.emitted().cancel).toBeTruthy()
   })
 
   it('emit true on apply action', async () => {
-    const content = wrapper.find('#applyaction')
+    const content = wrapper.find('#apply-action')
     expect(content.exists()).toBeTruthy()
     await content.trigger('click')
-    expect(wrapper.emitted().sendEvent[0]).toEqual([true])
+    expect(wrapper.emitted().reset).toBeTruthy()
   })
 })

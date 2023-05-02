@@ -4,72 +4,88 @@
       class="mt-5"
       :items="repositories"
       :label="$t('addSubmission.step1Title')"
-      @update:modelValue="changeRepository"
-      item-value="id"
-      item-title="name"
-      color="black"
+      v-model="submissions_store.repository"
+      filled
+      dense
+      clearable
       persistent-hint
-      return-object
-    ></v-select>
+    >
+      <template v-slot:selection="{ item, index }">
+        {{ item.value.name }}
+      </template>
+      <template v-slot:item="{ item, index }">
+        <v-list-item @click="changeRepository(item.value)">
+          <v-list-item-content>
+            <v-list-item-title>
+              <v-row no-gutters align="center">
+                <span class="text-body-1">{{
+                  item.value.name
+                }}</span>
+                <v-spacer></v-spacer>
+                <v-chip
+                  text-color="white"
+                  :color="item.color"
+                  class="text-body-1"
+                  small
+                  >{{ item.value.technology }}</v-chip
+                >
+              </v-row>
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </template>
+    </v-select>
   </v-card>
   <div class="d-flex justify-end">
-    <v-btn id="nextbutton" color="oablue" @click="nextStep">
+    <v-btn
+      id="next-button"
+      color="oablue"
+      @click="nextStep"
+    >
       Continue
     </v-btn>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Repository } from '@/models'
-import { useSubmissionState } from '@/store/submission'
+import { EntityModelRepositoryDto } from '@/openapi'
+import { useRepositoryStore } from '@/store/repositories'
+import { useSubmissionStore } from '@/store/submission'
 import { useNotification } from '@kyvg/vue3-notification'
+import { onMounted } from 'vue'
+import { computed } from 'vue'
+
 const emits = defineEmits(['next'])
-const submissions_store = useSubmissionState()
-const nofications = useNotification()
+const submissions_store = useSubmissionStore()
+const repository_store = useRepositoryStore()
+const notifications = useNotification()
 
-const repositories = [
-  {
-    id: 1,
-    name: 'repository1'
-  },
-  {
-    id: 2,
-    name: 'repository2'
-  }
-] as Repository[]
+const repositories = computed(function () {
+  return repository_store.repositories
+})
 
-function changeRepository(value: Repository) {
+function changeRepository(value: EntityModelRepositoryDto) {
   console.log('repository')
   submissions_store.setRepository(value)
 }
+
 function nextStep() {
   if (submissions_store.repository != null) {
     emits('next', 2)
   } else {
-    nofications.notify({
-      text: 'no repository choosen',
+    notifications.notify({
+      text: 'no repository chosen',
       type: 'warn'
     })
   }
 }
+
+onMounted(() => {
+  repository_store.fetchRepositories()
+})
 </script>
 
 <style lang="scss">
-.v-select__selection,
-label.v-label.theme--dark {
-  font-size: 1.125em;
-}
-
-.v-select__selection.v-select__selection--comma {
-  padding: 10px 0;
-}
-
-.v-list-item__title {
-  font-size: 1.125em !important;
-  line-height: 1.5;
-  padding: 10px 0;
-}
-
 .v-input {
   align-items: center !important;
 }
@@ -78,7 +94,6 @@ label.v-label.theme--dark {
   .v-file-input__text {
     .v-chip {
       font-size: 1.125em !important;
-      padding: 15px 5px !important;
       margin-bottom: 10px !important;
     }
   }

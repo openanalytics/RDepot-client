@@ -23,7 +23,7 @@ export interface ResponseDtoPagedModelEntityModelRepositoryMaintainerDto {
      * @type {string}
      * @memberof ResponseDtoPagedModelEntityModelRepositoryMaintainerDto
      */
-    status?: string;
+    status?: ResponseDtoPagedModelEntityModelRepositoryMaintainerDtoStatusEnum;
     /**
      * 
      * @type {number}
@@ -49,3 +49,13 @@ export interface ResponseDtoPagedModelEntityModelRepositoryMaintainerDto {
      */
     data?: PagedModelEntityModelRepositoryMaintainerDto;
 }
+
+/**
+    * @export
+    * @enum {string}
+    */
+export enum ResponseDtoPagedModelEntityModelRepositoryMaintainerDtoStatusEnum {
+    SUCCESS = 'SUCCESS',
+    ERROR = 'ERROR'
+}
+

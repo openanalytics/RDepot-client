@@ -1,88 +1,139 @@
 <template>
-  <v-layout style="position: inherit">
-    <v-navigation-drawer
-      v-model="drawer"
-      style="z-index: 1000"
-      temporary
-      absolute
-      height="100%"
-    >
-      <v-list nav class="sidebar">
+  <v-navigation-drawer
+    v-model="drawer"
+    :location="xs ? 'start' : 'left'"
+    :touchless="mobile ? false : true"
+  >
+    <v-list nav open-strategy="single">
+      <v-list-item
+        prepend-icon="mdi-account"
+        :title="loggedUserStore.userLogin"
+        subtitle="logged in"
+      ></v-list-item>
+      <v-divider class="pb-3"></v-divider>
+      <v-list-item
+        v-if="loggedUserStore.can('GET', 'events')"
+        prepend-icon="mdi-timetable"
+        :title="$t('common.events')"
+        :value="$t('common.events')"
+        @click="$router.push({ name: 'events' })"
+      ></v-list-item>
+
+      <v-list-item
+        v-if="loggedUserStore.can('POST', 'submissions')"
+        prepend-icon="mdi-upload"
+        :title="$t('common.addPackage')"
+        :value="$t('common.addPackage')"
+        @click="$router.push({ name: 'addSubmission' })"
+      ></v-list-item>
+
+      <v-list-item
+        v-if="loggedUserStore.can('GET', 'submissions')"
+        prepend-icon="mdi-email"
+        :title="$t('common.submissions')"
+        :value="$t('common.submissions')"
+        @click="$router.push({ name: 'submissions' })"
+      ></v-list-item>
+
+      <v-list-group
+        v-if="
+          loggedUserStore.can(
+            'GET',
+            'packageMaintainers'
+          ) || loggedUserStore.can('GET', 'packages')
+        "
+        value="Packages"
+        tag="Packages"
+      >
+        <template v-slot:activator="{ props }">
+          <v-list-item
+            v-bind="props"
+            prepend-icon="mdi-package"
+            :title="$t('common.packages')"
+          ></v-list-item>
+        </template>
+
         <v-list-item
-          prepend-icon="mdi-account"
-          title="username"
-          subtitle="logged in"
+          v-if="loggedUserStore.can('GET', 'packages')"
+          :title="$t('common.list')"
+          :value="$t('packages.list')"
+          id="sidebarpackageslist"
+          @click="$router.push({ name: 'packages' })"
         ></v-list-item>
-        <v-divider class="pb-3"></v-divider>
         <v-list-item
-          prepend-icon="mdi-upload"
-          :title="$t('common.addPackage')"
-          :value="$t('common.addPackage')"
+          v-if="
+            loggedUserStore.can('GET', 'packageMaintainers')
+          "
+          :title="$t('common.maintainers')"
+          :value="$t('packages.maintainers')"
           @click="
-            $router.replace({ name: 'addSubmission' })
+            $router.push({ name: 'packageMaintainers' })
           "
         ></v-list-item>
-
-        <v-list-group
-          prepend-icon="mdi-package"
-          value="packages"
-        >
-          <template v-slot:activator="{ props }">
-            <v-list-item
-              v-bind="props"
-              :title="$t('common.packages')"
-            ></v-list-item>
-          </template>
-
+      </v-list-group>
+      <v-list-group
+        v-if="
+          loggedUserStore.can('GET', 'repositories') ||
+          loggedUserStore.can(
+            'GET',
+            'repositoryMaintainers'
+          )
+        "
+        value="Repositories"
+        tag="Repositories"
+      >
+        <template v-slot:activator="{ props }">
           <v-list-item
-            :title="$t('common.list')"
-            :value="$t('common.list')"
-            @click="$router.replace({ name: 'packages' })"
+            prepend-icon="mdi-source-repository"
+            v-bind="props"
+            :title="$t('common.repositories')"
           ></v-list-item>
-          <v-list-item
-            :title="$t('common.maintainers')"
-            :value="$t('common.maintainers')"
-            @click="$router.replace({ name: 'packages' })"
-          ></v-list-item>
-        </v-list-group>
+        </template>
 
-        <v-list-group
-          prepend-icon="mdi-source-repository"
-          value="repositories"
-        >
-          <template v-slot:activator="{ props }">
-            <v-list-item
-              v-bind="props"
-              :title="$t('common.repositories')"
-            ></v-list-item>
-          </template>
-
-          <v-list-item
-            :title="$t('common.list')"
-            :value="$t('common.list')"
-            @click="
-              $router.replace({ name: 'repositories' })
-            "
-          ></v-list-item>
-          <v-list-item
-            :title="$t('common.maintainers')"
-            :value="$t('common.maintainers')"
-            @click="
-              $router.replace({ name: 'repositories' })
-            "
-          ></v-list-item>
-        </v-list-group>
-      </v-list>
-    </v-navigation-drawer>
-  </v-layout>
+        <v-list-item
+          v-if="loggedUserStore.can('GET', 'repositories')"
+          :title="$t('common.list')"
+          :value="$t('repositories.list')"
+          @click="$router.push({ name: 'repositories' })"
+        ></v-list-item>
+        <v-list-item
+          v-if="
+            loggedUserStore.can(
+              'GET',
+              'repositoryMaintainers'
+            )
+          "
+          :title="$t('common.maintainers')"
+          :value="$t('repositories.maintainers')"
+          id="sidebarrepositorymintainers"
+          @click="
+            $router.push({
+              name: 'repositoryMaintainers'
+            })
+          "
+        ></v-list-item>
+      </v-list-group>
+      <v-list-item
+        v-if="loggedUserStore.can('GET', 'users')"
+        prepend-icon="mdi-account-multiple"
+        :title="$t('common.users')"
+        :value="$t('common.users')"
+        @click="$router.push({ name: 'users' })"
+      ></v-list-item>
+    </v-list>
+  </v-navigation-drawer>
 </template>
 
 <script setup lang="ts">
 import { useCommonStore } from '@/store/common'
+import { useLoggedUserStore } from '@/store/logged_user'
 import { computed } from 'vue'
+import { useDisplay } from 'vuetify/lib/framework.mjs'
+
+const { xs, mobile } = useDisplay()
+const loggedUserStore = useLoggedUserStore()
 
 const common_store = useCommonStore()
-
 const drawer = computed({
   get() {
     return common_store.drawer
@@ -92,32 +143,3 @@ const drawer = computed({
   }
 })
 </script>
-
-<style lang="scss" scoped>
-.sidebar {
-  max-height: 100%;
-  width: 100%;
-  margin-top: 80px !important;
-  .itemsList {
-    margin-top: 80px;
-  }
-}
-
-.sidebar-show {
-  min-width: 350px;
-}
-div .v-list a {
-  text-decoration: none;
-  color: unset;
-}
-.v-application--is-ltr
-  .v-list-item__icon:last-of-type:not(:only-child) {
-  margin-left: 0 !important;
-}
-
-.v-list-item__content {
-  display: flex !important;
-  justify-content: flex-start;
-  align-items: center;
-}
-</style>

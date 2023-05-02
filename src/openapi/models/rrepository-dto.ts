@@ -65,4 +65,10 @@ export interface RRepositoryDto {
      * @memberof RRepositoryDto
      */
     synchronizing?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof RRepositoryDto
+     */
+    technology?: string;
 }

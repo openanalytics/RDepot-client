@@ -38,7 +38,7 @@ beforeEach(async () => {
 
 describe('App router', () => {
   it('renders package details list via router', async () => {
-    await getRouterPath('/package-details/some-package')
+    await getRouterPath('/packages/abc')
     findComponentInWrapper(wrapper, 'packageDetails')
   })
 

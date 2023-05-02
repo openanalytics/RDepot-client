@@ -74,6 +74,12 @@ export interface EntityModelUserDto {
     roleId?: number;
     /**
      * 
+     * @type {string}
+     * @memberof EntityModelUserDto
+     */
+    description?: string;
+    /**
+     * 
      * @type {Array<Link>}
      * @memberof EntityModelUserDto
      */

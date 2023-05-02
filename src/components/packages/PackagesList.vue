@@ -1,42 +1,40 @@
 <template>
-  <div>
-    <v-expansion-panels
-      inset
-      class="v-expansion mt-8 mx-10"
-    >
-      <PackagesListTitle />
-      <PackageItem
-        v-for="(item, index) in packages"
-        :key="index"
-        :packageBag="item"
-      />
-    </v-expansion-panels>
-  </div>
+  <ResourcesList
+    :resources="packages_store.packages"
+    expand
+  >
+    <template #title>
+      <PackageRow title />
+    </template>
+    <template #expansion-row="slotProps">
+      <PackageRow :packageBag="slotProps.resource" />
+    </template>
+    <template #expansion-text="slotProps">
+      {{ getDescription(slotProps.resource) }}
+    </template>
+  </ResourcesList>
 </template>
 
 <script setup lang="ts">
 import { usePackagesStore } from '@/store/packages'
-import { computed, onMounted } from 'vue'
-import PackageItem from '@/components/packages/PackageItem.vue'
-import PackagesListTitle from '@/components/packages/PackagesListTitle.vue'
+import PackageRow from '@/components/packages/PackageRow.vue'
+import ResourcesList from '@/components/common/resources/ResourcesList.vue'
+import { onBeforeMount } from 'vue'
 
 const packages_store = usePackagesStore()
 
-const packages = computed(function () {
-  return packages_store.packages
-})
-
-function updateState(): void {
+function updateData(): void {
   packages_store.fetchPackages()
 }
 
-onMounted(() => {
-  updateState()
+function getDescription(item: any) {
+  if (item.hasOwnProperty('description')) {
+    return item['description']
+  }
+  return null
+}
+
+onBeforeMount(() => {
+  updateData()
 })
 </script>
-
-<style scoped>
-.v-expansion {
-  max-width: 96% !important;
-}
-</style>

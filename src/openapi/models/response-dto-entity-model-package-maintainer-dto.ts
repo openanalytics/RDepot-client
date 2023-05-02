@@ -23,7 +23,7 @@ export interface ResponseDtoEntityModelPackageMaintainerDto {
      * @type {string}
      * @memberof ResponseDtoEntityModelPackageMaintainerDto
      */
-    status?: string;
+    status?: ResponseDtoEntityModelPackageMaintainerDtoStatusEnum;
     /**
      * 
      * @type {number}
@@ -49,3 +49,13 @@ export interface ResponseDtoEntityModelPackageMaintainerDto {
      */
     data?: EntityModelPackageMaintainerDto;
 }
+
+/**
+    * @export
+    * @enum {string}
+    */
+export enum ResponseDtoEntityModelPackageMaintainerDtoStatusEnum {
+    SUCCESS = 'SUCCESS',
+    ERROR = 'ERROR'
+}
+

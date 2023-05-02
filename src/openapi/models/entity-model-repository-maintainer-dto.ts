@@ -12,6 +12,8 @@
  * Do not edit the class manually.
  */
 import { Link } from './link';
+import { RepositoryProjection } from './repository-projection';
+import { UserProjection } from './user-projection';
 /**
  * 
  * @export
@@ -26,22 +28,28 @@ export interface EntityModelRepositoryMaintainerDto {
     id?: number;
     /**
      * 
-     * @type {number}
+     * @type {UserProjection}
      * @memberof EntityModelRepositoryMaintainerDto
      */
-    userId?: number;
+    user?: UserProjection;
     /**
      * 
-     * @type {number}
+     * @type {RepositoryProjection}
      * @memberof EntityModelRepositoryMaintainerDto
      */
-    repositoryId?: number;
+    repository?: RepositoryProjection;
     /**
      * 
      * @type {boolean}
      * @memberof EntityModelRepositoryMaintainerDto
      */
     deleted?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof EntityModelRepositoryMaintainerDto
+     */
+    description?: string;
     /**
      * 
      * @type {Array<Link>}
