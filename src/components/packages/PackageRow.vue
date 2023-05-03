@@ -141,25 +141,6 @@
           :name="props.packageBag?.name"
           :set-resource-id="choosePackage"
         />
-        <v-tooltip top>
-          <template v-slot:activator="{ props }">
-            <v-icon
-              v-if="
-                logged_user_store.can('DELETE', 'package')
-              "
-              id="delete-icon"
-              @click.stop
-              @click="deleteDialog"
-              v-bind="props"
-              color="oared"
-              class="ml-3"
-              >mdi-trash-can</v-icon
-            >
-          </template>
-          <span id="action-delete">{{
-            $t('common.delete')
-          }}</span>
-        </v-tooltip>
       </span>
     </VCol>
   </VRow>
@@ -174,12 +155,9 @@ import SortTitle from '@/components/common/resources/SortTitle.vue'
 import TextRecord from '@/components/common/resources/TextRecord.vue'
 
 const package_store = usePackagesStore()
-import { useCommonStore } from '@/store/common'
 import { useI18n } from 'vue-i18n'
 import { useLoggedUserStore } from '@/store/logged_user'
-import { OverlayEnum } from '@/enum/Overlay'
 
-const common_store = useCommonStore()
 const logged_user_store = useLoggedUserStore()
 const { t } = useI18n()
 
@@ -216,16 +194,5 @@ function navigate() {
       }
     })
   }
-}
-
-function deleteDialog() {
-  common_store.setOverlayText(
-    t('packages.deleteQuestion', {
-      package_name: props.packageBag?.name
-    })
-  )
-  common_store.setOverlayModel(true)
-  common_store.setOverlayOpacity(0.8)
-  common_store.setOverlayComponent(OverlayEnum.enum.Delete)
 }
 </script>
