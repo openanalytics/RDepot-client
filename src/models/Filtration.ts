@@ -1,47 +1,103 @@
-import { EntityModelPackageDto } from '@/openapi'
+import { z } from 'zod'
+import { PackageSchema } from './Schemas'
 
-interface PackagesFiltration {
-  state: string | undefined
-  deleted: boolean | undefined
-  repository: string | undefined
-  technologies: string[] | undefined
+export function defaultValues<T extends z.ZodType<S>>(
+  type: T
+) {
+  return type.parse(undefined)
 }
 
-interface RepositoriesFiltration {
-  technologies: string[] | undefined
-  name: string | undefined
-  deleted: boolean | undefined
-}
+const PackagesFiltration = z
+  .object({
+    state: z.string().optional(),
+    deleted: z.boolean(),
+    repository: z.string().optional(),
+    technologies: z.array(z.string()).optional()
+  })
+  .default({
+    state: undefined,
+    repository: undefined,
+    technologies: undefined,
+    deleted: false
+  })
 
-interface SubmissionsFiltration {
-  assignedToMe: boolean | undefined
-  state: string | undefined
-  package: EntityModelPackageDto | undefined
-}
+type PackagesFiltration = z.infer<typeof PackagesFiltration>
 
-interface EventsFiltration {
-  technology: string | undefined
-  userId: number | undefined
-  resourceId: number | undefined
-  eventType: string | undefined
-  resourceType: string | undefined
-}
+const RepositoriesFiltration = z
+  .object({
+    technologies: z.array(z.string()).optional(),
+    name: z.string().optional(),
+    deleted: z.boolean()
+  })
+  .default({
+    technologies: undefined,
+    name: undefined,
+    deleted: false
+  })
 
-interface PackageMaintainersFiltration {
-  deleted: boolean | undefined
-  technologies: string[] | undefined
-}
+type RepositoriesFiltration = z.infer<
+  typeof RepositoriesFiltration
+>
 
-interface RepositoryMaintainersFiltration {
-  deleted: boolean | undefined
-  technologies: string[] | undefined
-}
+const SubmissionsFiltration = z
+  .object({
+    assignedToMe: z.boolean().optional(),
+    state: z.string().optional(),
+    package: PackageSchema.optional()
+  })
+  .default({
+    assignedToMe: undefined,
+    state: undefined,
+    package: undefined
+  })
 
-export type {
+type SubmissionsFiltration = z.infer<
+  typeof SubmissionsFiltration
+>
+
+const EventsFiltration = z
+  .object({
+    technology: z.string().optional(),
+    userId: z.string().optional(),
+    resourceId: z.string().optional(),
+    eventType: z.string().optional(),
+    resourceType: z.string().optional()
+  })
+  .default({
+    technology: undefined,
+    userId: undefined,
+    resourceId: undefined,
+    eventType: undefined,
+    resourceType: undefined
+  })
+
+type EventsFiltration = z.infer<typeof EventsFiltration>
+const PackageMaintainersFiltration = z
+  .object({
+    deleted: z.boolean(),
+    technologies: z.array(z.string()).optional()
+  })
+  .default({
+    deleted: false,
+    technologies: undefined
+  })
+
+type PackageMaintainersFiltration = z.infer<
+  typeof PackageMaintainersFiltration
+>
+
+const RepositoryMaintainersFiltration =
+  PackageMaintainersFiltration
+
+type RepositoryMaintainersFiltration = z.infer<
+  typeof RepositoryMaintainersFiltration
+>
+
+export {
+  RepositoriesFiltration,
   PackagesFiltration,
   SubmissionsFiltration,
   EventsFiltration,
-  RepositoriesFiltration,
   PackageMaintainersFiltration,
   RepositoryMaintainersFiltration
 }
