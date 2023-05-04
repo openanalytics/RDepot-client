@@ -9,8 +9,18 @@
 
 <script setup lang="ts">
 import ShortPackagesList from '@/components/packages/shortPackages/ShortPackagesList.vue'
+import { usePackagesStore } from '@/store/packages'
+import { onBeforeMount } from 'vue'
 
 const props = defineProps({ name: String })
+
+const package_store = usePackagesStore()
+
+onBeforeMount(() => {
+  if (props.name) {
+    package_store.setFiltrationByRepositoryOnly(props.name)
+  }
+})
 </script>
 
 <style>

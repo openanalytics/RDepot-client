@@ -1,8 +1,5 @@
 <template>
-  <ResourcesList
-    :resources="repository_store.repositoryPackages"
-    expand
-  >
+  <ResourcesList :resources="package_store.packages" expand>
     <template #title>
       <ShortPackageRow title />
     </template>
@@ -19,10 +16,10 @@
 import { onBeforeMount } from 'vue'
 import ShortPackageRow from '@/components/packages/shortPackages/ShortPackageRow.vue'
 import ResourcesList from '@/components/common/resources/ResourcesList.vue'
-import { useRepositoryStore } from '@/store/repositories'
 import { usePaginationStore } from '@/store/pagination'
+import { usePackagesStore } from '@/store/packages'
 
-const repository_store = useRepositoryStore()
+const package_store = usePackagesStore()
 const pagination = usePaginationStore()
 pagination.setPage(0)
 
@@ -34,7 +31,7 @@ function getDescription(item: any) {
 }
 
 function getFirstPage(): void {
-  repository_store.fetchPackages()
+  package_store.fetchPackages()
 }
 
 onBeforeMount(() => {
