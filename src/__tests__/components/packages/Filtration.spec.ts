@@ -14,6 +14,10 @@ import FiltrationVue from '@/components/packages/Filtration.vue'
 import { createPinia, setActivePinia, Store } from 'pinia'
 import { usePackagesStore } from '@/store/packages'
 import { Technologies } from '@/enum/Technologies'
+import {
+  defaultValues,
+  PackagesFiltration
+} from '@/models/Filtration'
 
 let wrapper: any
 const globalConfig = {
@@ -113,24 +117,14 @@ describe('Packages - filtration', () => {
 })
 
 function checkIfFiltrationIsEmpty() {
-  expect(wrapper.vm.localFiltration.state).toBe(undefined)
-  expect(wrapper.vm.localFiltration.repository).toBe(
-    undefined
-  )
-  expect(wrapper.vm.localFiltration.deleted).toBe(undefined)
-  expect(wrapper.vm.localFiltration.technology).toBe(
-    undefined
+  expect(wrapper.vm.localFiltration).toEqual(
+    defaultValues(PackagesFiltration)
   )
 }
 
 function checkIfPiniaFiltrationIsEmpty() {
-  expect(packages_store.filtration.state).toBe(undefined)
-  expect(packages_store.filtration.repository).toBe(
-    undefined
-  )
-  expect(packages_store.filtration.deleted).toBe(undefined)
-  expect(packages_store.filtration.technology).toBe(
-    undefined
+  expect(packages_store.filtration).toEqual(
+    defaultValues(PackagesFiltration)
   )
 }
 
