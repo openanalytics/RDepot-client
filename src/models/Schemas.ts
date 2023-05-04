@@ -56,6 +56,24 @@ export const UserRoleSchema = z.object({
   name: nonEmptyString
 })
 
+export const PackageSchema = z.object({
+  id: z.number().optional(),
+  user: userProjectionSchema.optional(),
+  repository: repositoryProjectionSchema.optional(),
+  submissionId: z.number().optional(),
+  name: z.string().optional(),
+  version: z.string().optional(),
+  description: z.string().optional(),
+  author: z.string().optional(),
+  title: z.string().optional(),
+  url: z.string().optional(),
+  source: z.string().optional(),
+  active: z.boolean().optional(),
+  deleted: z.boolean().optional(),
+  technology: z.string().optional(),
+  links: z.array(linkSchema).optional()
+})
+
 export const repositoryMaintainerSchema = z.object({
   id: z.number(),
   user: userProjectionSchema,
