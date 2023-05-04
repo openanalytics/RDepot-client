@@ -30,7 +30,7 @@ import { ref, onMounted } from 'vue'
 import FiltrationCard from '@/components/common/FiltrationCard.vue'
 import { Technologies } from '@/enum/Technologies'
 import {
-  RepositoriesFiltration,
+  RepositoryMaintainersFiltration,
   defaultValues
 } from '@/models/Filtration'
 
@@ -63,7 +63,7 @@ onMounted(() => {
 
 function clearFiltration() {
   localFiltration.value = defaultValues(
-    RepositoriesFiltration
+    RepositoryMaintainersFiltration
   )
 }
 </script>
