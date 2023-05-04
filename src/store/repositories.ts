@@ -61,17 +61,6 @@ export const useRepositoryStore = defineStore(
           } as RepositoriesFiltration)
         return repository
       },
-      async fetchPackages() {
-        packages_api
-          .getAllPackages(this.chosenRepository.name)
-          .then(
-            (res) => {
-              this.repositoryPackages =
-                res.data.data?.content || []
-            },
-            (msg) => notify({ text: msg, type: 'error' })
-          )
-      },
       async softDelete() {
         if (this.chosenRepository) {
           this.updateRepository({ deleted: true })
