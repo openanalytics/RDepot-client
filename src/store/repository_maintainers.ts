@@ -4,7 +4,10 @@ import {
   EntityModelRepositoryMaintainerDto
 } from '@/openapi'
 import { defineStore } from 'pinia'
-import { RepositoryMaintainersFiltration } from '@/models/Filtration'
+import {
+  RepositoryMaintainersFiltration,
+  defaultValues
+} from '@/models/Filtration'
 import {
   deletedRepositoryMaintainer,
   fetchRepositoryMaintainersServices,
@@ -27,10 +30,9 @@ export const useRepositoryMaintainersStore = defineStore(
     state: (): State => {
       return {
         maintainers: [],
-        filtration: {
-          deleted: undefined,
-          technologies: undefined
-        },
+        filtration: defaultValues(
+          RepositoryMaintainersFiltration
+        ),
         repositories: [],
         chosenMaintainer: {}
       }
@@ -110,8 +112,9 @@ export const useRepositoryMaintainersStore = defineStore(
       clearFiltration() {
         const pagination = usePaginationStore()
         pagination.setPage(0)
-        const { setAllFields } = useObjectActions()
-        setAllFields(this.filtration, undefined)
+        this.filtration = defaultValues(
+          RepositoryMaintainersFiltration
+        )
       },
       async clearFiltrationAndFetch() {
         this.clearFiltration()

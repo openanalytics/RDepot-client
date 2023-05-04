@@ -20,7 +20,7 @@ import { usePaginationStore } from '@/store/pagination'
 import { Technologies } from '@/enum/Technologies'
 
 const defaultFiltration = {
-  deleted: undefined,
+  deleted: false,
   technologies: undefined
 }
 
