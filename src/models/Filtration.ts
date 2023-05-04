@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { PackageSchema } from './Schemas'
 
-export function defaultValues<T extends z.ZodType<S>>(
+export function defaultValues<S, T extends z.ZodType<S>>(
   type: T
 ) {
   return type.parse(undefined)
