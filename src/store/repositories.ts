@@ -5,11 +5,13 @@ import {
   EntityModelRepositoryDto
 } from '@/openapi'
 import { defineStore } from 'pinia'
-import { RepositoriesFiltration } from '@/models/Filtration'
+import {
+  RepositoriesFiltration,
+  defaultValues
+} from '@/models/Filtration'
 import { fetchRepositoriesServices } from '@/services'
 import { notify } from '@kyvg/vue3-notification'
 import { usePaginationStore } from './pagination'
-import { useObjectActions } from '@/composable/objectActions'
 import {
   fetchRepositoriesServicesNoLoading,
   updateRepository
@@ -31,11 +33,7 @@ export const useRepositoryStore = defineStore(
     state: (): State => {
       return {
         repositories: [],
-        filtration: {
-          name: undefined,
-          technologies: undefined,
-          deleted: undefined
-        },
+        filtration: defaultValues(RepositoriesFiltration),
         chosenRepository: {},
         repositoryPackages: []
       }
@@ -112,8 +110,9 @@ export const useRepositoryStore = defineStore(
       clearFiltration() {
         const pagination = usePaginationStore()
         pagination.setPage(0)
-        const { setAllFields } = useObjectActions()
-        setAllFields(this.filtration, undefined)
+        this.filtration = defaultValues(
+          RepositoriesFiltration
+        )
       },
       async clearFiltrationAndFetch() {
         this.clearFiltration()

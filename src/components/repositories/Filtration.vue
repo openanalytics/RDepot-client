@@ -37,6 +37,10 @@ import { ref, onMounted } from 'vue'
 import FiltrationCard from '@/components/common/FiltrationCard.vue'
 import { useObjectActions } from '@/composable/objectActions'
 import { Technologies } from '@/enum/Technologies'
+import {
+  RepositoriesFiltration,
+  defaultValues
+} from '@/models/Filtration'
 
 const { setAllFields } = useObjectActions()
 const repository_store = useRepositoryStore()
@@ -69,6 +73,8 @@ onMounted(() => {
 })
 
 function clearFiltration() {
-  setAllFields(localFiltration.value, undefined)
+  localFiltration.value = defaultValues(
+    RepositoriesFiltration
+  )
 }
 </script>

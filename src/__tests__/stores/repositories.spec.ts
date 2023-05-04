@@ -19,7 +19,7 @@ import { Technologies } from '@/enum/Technologies'
 const defaultFiltration = {
   name: undefined,
   technologies: undefined,
-  deleted: undefined
+  deleted: false
 }
 
 const randomFiltration = {
