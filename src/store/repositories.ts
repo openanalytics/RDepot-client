@@ -1,6 +1,4 @@
 import {
-  ApiV2PackageControllerApiFactory,
-  EntityModelPackageDto,
   EntityModelRRepositoryDto,
   EntityModelRepositoryDto
 } from '@/openapi'
@@ -10,7 +8,6 @@ import {
   defaultValues
 } from '@/models/Filtration'
 import { fetchRepositoriesServices } from '@/services'
-import { notify } from '@kyvg/vue3-notification'
 import { usePaginationStore } from './pagination'
 import {
   fetchRepositoriesServicesNoLoading,
@@ -25,10 +22,7 @@ interface State {
   repositories: EntityModelRepositoryDto[]
   filtration: RepositoriesFiltration
   chosenRepository: EntityModelRRepositoryDto
-  repositoryPackages: EntityModelPackageDto[]
 }
-
-const packages_api = ApiV2PackageControllerApiFactory()
 
 export const useRepositoryStore = defineStore(
   'repository_store',
@@ -37,8 +31,7 @@ export const useRepositoryStore = defineStore(
       return {
         repositories: [],
         filtration: defaultValues(RepositoriesFiltration),
-        chosenRepository: {},
-        repositoryPackages: []
+        chosenRepository: {}
       }
     },
     actions: {
