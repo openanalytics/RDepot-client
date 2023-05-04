@@ -1,5 +1,9 @@
 <template>
-  <v-row :class="{ title: title }" id="package-row">
+  <VRow
+    class="px-5"
+    :class="{ title: title }"
+    id="short-package-row"
+  >
     <v-col
       id="package-name"
       cols="lg-1 sm-2"
@@ -30,7 +34,7 @@
     <v-col
       id="package-maintainer"
       cols="lg-2 sm-2"
-      class="d-flex align-center justify-center"
+      class="d-flex align-center"
     >
       <SortTitle
         v-if="title"
@@ -68,7 +72,7 @@
         </v-tooltip>
       </span>
     </v-col>
-  </v-row>
+  </VRow>
 </template>
 
 <script setup lang="ts">
