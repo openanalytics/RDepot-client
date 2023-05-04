@@ -17,11 +17,14 @@ import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { usePaginationStore } from '@/store/pagination'
 import { Technologies } from '@/enum/Technologies'
+import {
+  PackageMaintainersFiltration,
+  defaultValues
+} from '@/models/Filtration'
 
-const defaultFiltration = {
-  deleted: undefined,
-  technologies: undefined
-}
+const defaultFiltration = defaultValues(
+  PackageMaintainersFiltration
+)
 
 const randomFiltration = {
   deleted: true,

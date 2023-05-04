@@ -5,7 +5,10 @@ import {
   PackageMaintainerDto
 } from '@/openapi'
 import { defineStore } from 'pinia'
-import { PackageMaintainersFiltration } from '@/models/Filtration'
+import {
+  PackageMaintainersFiltration,
+  defaultValues
+} from '@/models/Filtration'
 import {
   fetchPackagesServices,
   fetchRepositoriesServices
@@ -32,10 +35,9 @@ export const usePackageMaintainersStore = defineStore(
     state: (): State => {
       return {
         maintainers: [],
-        filtration: {
-          deleted: undefined,
-          technologies: undefined
-        },
+        filtration: defaultValues(
+          PackageMaintainersFiltration
+        ),
         repositories: [],
         packages: [],
         chosenMaintainer: {}
@@ -100,8 +102,9 @@ export const usePackageMaintainersStore = defineStore(
       clearFiltration() {
         const pagination = usePaginationStore()
         pagination.setPage(0)
-        const { setAllFields } = useObjectActions()
-        setAllFields(this.filtration, undefined)
+        this.filtration = defaultValues(
+          PackageMaintainersFiltration
+        )
       },
       async clearFiltrationAndFetch() {
         this.clearFiltration()
