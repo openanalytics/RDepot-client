@@ -13,15 +13,13 @@ import packages from '@/__tests__/config/mockData/packages.json'
 import repositories from '@/__tests__/config/mockData/repositories.json'
 import { rest } from 'msw'
 import { usePaginationStore } from '@/store/pagination'
-import { c } from 'msw/lib/glossary-de6278a9'
 import { Technologies } from '@/enum/Technologies'
+import {
+  PackagesFiltration,
+  defaultValues
+} from '@/models/Filtration'
 
-const defaultFiltration = {
-  state: undefined,
-  deleted: undefined,
-  repository: undefined,
-  technologies: undefined
-}
+const defaultFiltration = defaultValues(PackagesFiltration)
 
 const randomFiltration = {
   state: 'ACCEPTED',

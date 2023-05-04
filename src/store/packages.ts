@@ -1,10 +1,11 @@
-import { notify } from '@kyvg/vue3-notification'
-import { PackagesFiltration } from '@/models/Filtration'
+import {
+  defaultValues,
+  PackagesFiltration
+} from '@/models/Filtration'
 import { fetchPackagesServices } from '@/services'
 import { defineStore } from 'pinia'
 import {
   EntityModelPackageDto,
-  Link,
   ResponseDtoListVignette,
   RPackageControllerApiFactory
 } from '@/openapi'
@@ -32,12 +33,7 @@ export const usePackagesStore = defineStore(
         packages: [],
         package: {},
         vignettes: {},
-        filtration: {
-          state: undefined,
-          deleted: undefined,
-          repository: undefined,
-          technologies: undefined
-        },
+        filtration: defaultValues(PackagesFiltration),
         chosenPackageId: undefined,
         next: false
       }
@@ -92,8 +88,7 @@ export const usePackagesStore = defineStore(
       clearFiltration() {
         const pagination = usePaginationStore()
         pagination.setPage(0)
-        const { setAllFields } = useObjectActions()
-        setAllFields(this.filtration, undefined)
+        this.filtration = defaultValues(PackagesFiltration)
       },
       async clearFiltrationAndFetch() {
         this.clearFiltration()

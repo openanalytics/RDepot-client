@@ -40,6 +40,10 @@
 import FiltrationCard from '@/components/common/FiltrationCard.vue'
 import { useObjectActions } from '@/composable/objectActions'
 import { Technologies } from '@/enum/Technologies'
+import {
+  PackagesFiltration,
+  defaultValues
+} from '@/models/Filtration'
 import { EntityModelSubmissionDtoStateEnum } from '@/openapi'
 import { usePackagesStore } from '@/store/packages'
 import { ref, onMounted } from 'vue'
@@ -78,6 +82,6 @@ onMounted(() => {
 })
 
 function clearFiltration() {
-  setAllFields(localFiltration.value, undefined)
+  localFiltration.value = defaultValues(PackagesFiltration)
 }
 </script>
