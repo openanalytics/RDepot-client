@@ -5,6 +5,8 @@ export const sort_params: Map<string, string> = new Map<
   string
 >([
   [i18n.t('columns.name'), 'name'],
+  [i18n.t('columns.email'), 'email'],
+  [i18n.t('columns.username'), 'login'],
   [i18n.t('columns.version'), 'version'],
   [i18n.t('columns.title'), 'title'],
   [i18n.t('columns.maintainer'), 'user'],
