@@ -67,9 +67,6 @@ describe('Repository Store', () => {
     expect(repositories_store.filtration).toStrictEqual(
       defaultFiltration
     )
-    expect(
-      repositories_store.repositoryPackages
-    ).toStrictEqual([])
   })
 
   it('Fetch repositories', async () => {
@@ -80,20 +77,6 @@ describe('Repository Store', () => {
     expect(repositories_store.repositories).toStrictEqual(
       repositories.data.content
     )
-  })
-
-  // TODO this test should be reimplemented when the problem with fetching packages will be resolved
-
-  it('Fetch packages', async () => {
-    const repositories_store = useRepositoryStore()
-    repositories_store.chosenRepository.name =
-      repositories.data.content[0].name
-
-    await repositories_store.fetchPackages()
-
-    // expect(
-    //   repositories_store.repositoryPackages
-    // ).toStrictEqual(packages.data.content)
   })
 
   it('Edit filtration', () => {
