@@ -1,8 +1,8 @@
 <template>
   <v-overlay
     :absolute="absolute"
-    v-model="getOverlayModel"
-    :opacity="getOpacity"
+    v-model="common_store.overlayModel"
+    :opacity="common_store.overlayOpacity"
     @click:outside="closeModal"
     location-strategy="connected"
     scroll-strategy="none"
@@ -10,7 +10,7 @@
   >
     <slot name="props" :closeModal="closeModal">
       <QuestionCard
-        :text="getText"
+        :text="common_store.overlayText"
         v-on:reset="reset"
         v-on:cancel="closeModal"
       />
@@ -20,26 +20,14 @@
 
 <script setup lang="ts">
 import QuestionCard from '@/components/common/QuestionCard.vue'
-import { computed, onMounted } from 'vue'
+import { onMounted } from 'vue'
 import { useCommonStore } from '@/store/common'
+
+const emits = defineEmits(['action'])
 
 const common_store = useCommonStore()
 
 const absolute = false
-
-const emits = defineEmits(['action'])
-
-const getOpacity = computed<number>(() => {
-  return common_store.overlayOpacity
-})
-
-const getOverlayModel = computed<boolean>(() => {
-  return common_store.overlayModel
-})
-
-const getText = computed<string>(() => {
-  return common_store.overlayText
-})
 
 onMounted(() => {
   document.addEventListener('keyup', (e) => {
