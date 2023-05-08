@@ -43,7 +43,7 @@ const SubmissionsFiltration = z
   .object({
     assignedToMe: z.boolean().optional(),
     state: z.string().optional(),
-    package: PackageSchema.optional()
+    package: z.string().optional()
   })
   .default({
     assignedToMe: undefined,
