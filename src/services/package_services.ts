@@ -20,7 +20,8 @@ import { createPatch } from 'rfc6902'
 export function fetchPackagesServices(
   filtration?: PackagesFiltration,
   page?: number,
-  pageSize?: number
+  pageSize?: number,
+  showProgress: boolean = true
 ): Promise<validatedData<EntityModelPackageDto>> {
   if (!isAuthorized('GET', 'packages')) {
     return new Promise(() =>
@@ -41,7 +42,8 @@ export function fetchPackagesServices(
       page,
       pageSize,
       sort.getSortBy()
-    ]
+    ],
+    showProgress
   ).then(
     (res) =>
       validateRequest(
@@ -67,26 +69,28 @@ export function fetchPackagesWithoutProgressControl(
     getConfiguration()
   )
   const sort = ['name,asc']
-  return packages_api.getAllPackages(
-    filtration?.repository,
-    filtration?.deleted,
-    filtration?.state,
-    filtration?.technologies,
-    page,
-    pageSize,
-    sort
-  ).then(
-    (res) => {
-      return validateRequest(
-        res.data.data?.content,
-        res.data.data?.page
-      )
-    },
-    (msg) => {
-      notify({ type: 'error', text: msg })
-      return validateRequest()
-    }
-  )
+  return packages_api
+    .getAllPackages(
+      filtration?.repository,
+      filtration?.deleted,
+      filtration?.state,
+      filtration?.technologies,
+      page,
+      pageSize,
+      sort
+    )
+    .then(
+      (res) => {
+        return validateRequest(
+          res.data.data?.content,
+          res.data.data?.page
+        )
+      },
+      (msg) => {
+        notify({ type: 'error', text: msg })
+        return validateRequest()
+      }
+    )
 }
 
 export function fetchPackageServices(
