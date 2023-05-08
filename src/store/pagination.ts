@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia'
 
 interface State {
-  page?: number
-  pageSize?: number
+  page: number
+  pageSize: number
   totalNumber?: number
   totalVisiblePages: number
 }
