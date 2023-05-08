@@ -6,9 +6,14 @@ var isPending = true
 
 export function openApiRequest<T>(
   callback: Function,
-  parameters?: any[]
+  parameters?: any[],
+  showProgress: boolean = true
 ): Promise<AxiosResponse<T>> {
-  turnOnProgress()
+  if (showProgress) {
+    turnOnProgress()
+  }
+  console.log('showProgress: ', showProgress)
+
   isPending = true
   if (parameters) {
     return callback(...parameters).then(resolved, rejected)
@@ -36,7 +41,7 @@ function rejected(result: AxiosResponse<any, any>) {
   throw result
 }
 
-interface Pagination {
+export interface Pagination {
   totalNumber: number
   page: number
 }
