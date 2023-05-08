@@ -5,45 +5,36 @@
     v-on:set-filtration="setFiltration()"
     v-on:change-dialog-options="changeDialogOptions()"
   >
-    <v-select
-      id="filtration-state"
-      v-model="localFiltration.state"
-      :items="stateSelect"
-      :label="$t('submissions.filtration.state')"
-    ></v-select>
-    {{ localFiltration.package }}
-    <v-combobox
-      id="filtration-repository"
-      v-model="localFiltration.package"
-      :items="package_store.packages"
-      item-title="name"
-      filter-keys="name"
-      :placeholder="placeholder"
-      :hide-no-data="false"
-      persistent-hint
-      :menu-props="{
-        location: 'bottom center',
-        height: '200px'
-      }"
-      :label="$t('submissions.filtration.package')"
-      autofocus
-      @update:search="updateSearch($event)"
-      return-object
-    >
-    </v-combobox>
-
-    <v-switch
-      v-model="localFiltration.assignedToMe"
-      color="oablue"
-      :label="$t('submissions.filtration.assigned')"
-    >
-    </v-switch>
+    <form as="v-form" lazy-validation>
+      <validated-input-field
+        id="filtration-state"
+        :items="stateSelect"
+        name="state"
+        as="v-select"
+        :label="$t('submissions.filtration.state')"
+      ></validated-input-field>
+      <SelectField
+        name="package"
+        :label="$t('submissions.filtration.package')"
+        v-on:loadItems="loadPackages"
+        v-on:filtrate="filtratePackages"
+        store_id="packages"
+      />
+      <validated-input-field
+        name="assignedToMe"
+        :label="$t('submissions.filtration.assigned')"
+        :items="stateSelect"
+        as="v-switch"
+      ></validated-input-field>
+    </form>
   </filtration-card>
 </template>
 
 <script setup lang="ts">
-import { EntityModelSubmissionDtoStateEnum } from '@/openapi'
-import { usePackagesStore } from '@/store/packages'
+import {
+  EntityModelPackageDto,
+  EntityModelSubmissionDtoStateEnum
+} from '@/openapi'
 import { useSubmissionStore } from '@/store/submission'
 import { ref, onMounted } from 'vue'
 import FiltrationCard from '@/components/common/FiltrationCard.vue'
@@ -54,17 +45,23 @@ import {
 import { useUtilities } from '@/composable/utilities'
 
 const submissions_store = useSubmissionStore()
-const package_store = usePackagesStore()
+const packages_store = usePackagesStore()
+const select_store = useSelectStore('packages')
 
 const stateSelect = ref(
   Object.values(EntityModelSubmissionDtoStateEnum)
 )
+
 const localFiltration = ref(submissions_store.filtration)
-const search = ref('')
-const placeholder = ref('')
 const emit = defineEmits(['closeModal'])
 
-const { deepCopy } = useUtilities()
+const { meta, values } = useForm({
+    state: EntityModelSubmissionDtoStateEnum,
+  validationSchema: {
+})
+  }
+    assignedToMe: Boolean
+    package: String,
 
 function updateFiltration() {
   localFiltration.value = deepCopy(
@@ -72,16 +69,15 @@ function updateFiltration() {
   )
 }
 
-function updateSearch(value: string) {
-  // if (value.length > 2) {
-  // alert(value)
-  // package_store.fetchAllPackages()
-  // }
-}
-
 function setFiltration() {
+  var submissionFiltration: SubmissionsFiltration = {
+    state: values.state,
+    package: values.package,
+    assignedToMe: values.assignedToMe
+  }
+  console.log(values)
   emit('closeModal')
-  submissions_store.setFiltration(localFiltration.value)
+  submissions_store.setFiltration(submissionFiltration)
 }
 
 function changeDialogOptions() {
@@ -91,8 +87,6 @@ function changeDialogOptions() {
 
 onMounted(async () => {
   updateFiltration()
-  package_store.fetchPackages()
-  await package_store.fetchPackages()
 })
 
 function clearFiltration() {
