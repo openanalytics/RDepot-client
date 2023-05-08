@@ -14,7 +14,6 @@ import {
   updateRPackage
 } from '@/services/package_services'
 import { usePaginationStore } from './pagination'
-import { useObjectActions } from '@/composable/objectActions'
 
 interface State {
   packages: EntityModelPackageDto[]
@@ -39,17 +38,42 @@ export const usePackagesStore = defineStore(
       }
     },
     actions: {
+      async fetchPageOfPackages(
+        page: number,
+        pageSize: number = 8
+      ) {
+        const pageData = await this.fetchData(
+          page,
+          pageSize,
+          false
+        )
+        return pageData
+      },
       async fetchPackages() {
         const pagination = usePaginationStore()
+        const pageData = await this.fetchData(
+          pagination.page,
+          pagination.pageSize
+        )
+        pagination.setPage(pageData.page)
+        pagination.setTotalNumber(pageData.totalNumber)
+      },
+      async fetchData(
+        page: number,
+        pageSize: number,
+        showProgress: boolean = true
+      ) {
+        console.log(showProgress)
+
         const [packages, pageData] =
           await fetchPackagesServices(
             this.filtration,
-            pagination.page,
-            pagination.pageSize
+            page,
+            pageSize,
+            showProgress
           )
         this.packages = packages
-        pagination.setPage(pageData.page)
-        pagination.setTotalNumber(pageData.totalNumber)
+        return pageData
       },
       async fetchPackage(id: number) {
         this.package = await fetchPackageServices(id)
@@ -81,8 +105,8 @@ export const usePackagesStore = defineStore(
         this.filtration = payload
         await this.fetchPackages()
       },
-      setFiltrationByRepositoryOnly(payload: string) {
-        this.clearFiltration()
+      setFiltrationByRepositoryOnly(payload?: string) {
+        this.filtration = defaultValues(PackagesFiltration)
         this.filtration.repository = payload
       },
       clearFiltration() {
