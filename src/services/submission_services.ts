@@ -38,7 +38,7 @@ export function fetchRSubmissions(
     [
       filtration.state,
       filtration.assignedToMe ? logged_user_id : undefined,
-      filtration.package?.id,
+      filtration.package,
       page,
       pageSize,
       sort.getSortBy()
