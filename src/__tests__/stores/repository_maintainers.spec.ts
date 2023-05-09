@@ -263,13 +263,9 @@ describe('Repository Maintainers Store', () => {
     repository_maintainers_store.setChosenMaintainer(
       repositoryMaintainers.data.content[2]
     )
-    const newMaintainer =
-      repositoryMaintainers.data.content[3]
-    newMaintainer.id =
-      repositoryMaintainers.data.content[2].id
-    await repository_maintainers_store.saveMaintainer(
-      newMaintainer
-    )
+    await repository_maintainers_store.updateMaintainer({
+      id: repositoryMaintainers.data.content[2].id
+    })
 
     expect(spy).toBeCalled()
   })

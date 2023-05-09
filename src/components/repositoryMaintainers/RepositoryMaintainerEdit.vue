@@ -100,7 +100,9 @@ const { meta } = useForm({
 
 function setMaintainer() {
   if (meta.value.valid) {
-    maintainers_store.saveMaintainer(localMaintainer.value)
+    maintainers_store.updateMaintainer(
+      localMaintainer.value
+    )
     changeDialogOptions()
   } else {
     notify({
