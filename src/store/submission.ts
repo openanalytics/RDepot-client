@@ -4,7 +4,10 @@ import {
   EntityModelSubmissionDtoStateEnum
 } from '@/openapi'
 import { defineStore } from 'pinia'
-import { SubmissionsFiltration } from '@/models/Filtration'
+import {
+  defaultValues,
+  SubmissionsFiltration
+} from '@/models/Filtration'
 import { notify } from '@kyvg/vue3-notification'
 import { i18n } from '@/plugins/i18n'
 import { useLoggedUserStore } from './logged_user'
@@ -14,8 +17,6 @@ import {
   updateSubmissionState
 } from '@/services/submission_services'
 import { usePaginationStore } from '@/store/pagination'
-import { useObjectActions } from '@/composable/objectActions'
-import { identity } from '@vueuse/core'
 
 interface State {
   packages: File[]
@@ -32,11 +33,7 @@ export const useSubmissionStore = defineStore(
         packages: [],
         submissions: [],
         repository: undefined,
-        filtration: {
-          package: undefined,
-          state: undefined,
-          assignedToMe: undefined
-        }
+        filtration: defaultValues(SubmissionsFiltration)
       }
     },
     actions: {
@@ -96,8 +93,9 @@ export const useSubmissionStore = defineStore(
       clearFiltration() {
         const pagination = usePaginationStore()
         pagination.setPage(0)
-        const { setAllFields } = useObjectActions()
-        setAllFields(this.filtration, undefined)
+        this.filtration = defaultValues(
+          SubmissionsFiltration
+        )
       },
       async clearFiltrationAndFetch() {
         this.clearFiltration()

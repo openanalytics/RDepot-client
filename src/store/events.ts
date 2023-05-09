@@ -3,10 +3,11 @@ import {
   Link
 } from '@/openapi'
 import { defineStore } from 'pinia'
-import { EventsFiltration } from '@/models/Filtration'
+import {
+  EventsFiltration,
+  defaultValues
+} from '@/models/Filtration'
 import { fetchEventsServices } from '@/services/events_services'
-import { useObjectActions } from '@/composable/objectActions'
-import { notify } from '@kyvg/vue3-notification'
 
 interface State {
   page?: number
@@ -25,13 +26,7 @@ export const useEventsStore = defineStore('events_store', {
       pageSize: 10,
       totalNumber: 0,
       events: [],
-      filtration: {
-        eventType: undefined,
-        resourceId: undefined,
-        resourceType: undefined,
-        technology: undefined,
-        userId: undefined
-      },
+      filtration: defaultValues(EventsFiltration),
       pending: false,
       next: undefined
     }
@@ -78,12 +73,10 @@ export const useEventsStore = defineStore('events_store', {
       await this.fetchEvents()
     },
     clearFiltration() {
-      const { setAllFields } = useObjectActions()
-      setAllFields(this.filtration, undefined)
+      this.filtration = defaultValues(EventsFiltration)
     },
     async clearFiltrationAndFetch() {
-      const { setAllFields } = useObjectActions()
-      setAllFields(this.filtration, undefined)
+      this.clearFiltration()
       await this.fetchEvents()
     }
   }

@@ -19,7 +19,6 @@ import {
   updatePackageMaintainerService
 } from '@/services/package_maintainers_service'
 import { usePaginationStore } from '@/store/pagination'
-import { useObjectActions } from '@/composable/objectActions'
 
 interface State {
   maintainers: EntityModelPackageMaintainerDto[]

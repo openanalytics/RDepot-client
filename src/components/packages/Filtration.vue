@@ -38,7 +38,6 @@
 
 <script setup lang="ts">
 import FiltrationCard from '@/components/common/FiltrationCard.vue'
-import { useObjectActions } from '@/composable/objectActions'
 import { Technologies } from '@/enum/Technologies'
 import {
   PackagesFiltration,
@@ -50,7 +49,6 @@ import { ref, onMounted } from 'vue'
 
 const emit = defineEmits(['closeModal'])
 
-const { setAllFields } = useObjectActions()
 const package_store = usePackagesStore()
 
 const submissionStateSelect = ref(

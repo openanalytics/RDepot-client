@@ -14,7 +14,6 @@ import {
   updateRepositoryMaintainer
 } from '@/services/repository_maintainers_services'
 import { usePaginationStore } from './pagination'
-import { useObjectActions } from '@/composable/objectActions'
 import { fetchRepositoriesServices } from '@/services'
 
 interface State {

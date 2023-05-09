@@ -12,15 +12,17 @@ import {
 import {
   EntityModelPackageDto,
   EntityModelRepositoryDto,
-  EntityModelSubmissionDto,
   EntityModelSubmissionDtoStateEnum
 } from '@/openapi'
 import packages from '@/__tests__/config/mockData/packages.json'
 import submissions from '@/__tests__/config/mockData/submissions.json'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
-import { usePagination } from '@/composable/pagination'
 import { usePaginationStore } from '@/store/pagination'
+import {
+  SubmissionsFiltration,
+  defaultValues
+} from '@/models/Filtration'
 
 var files = [
   {
@@ -29,18 +31,16 @@ var files = [
   } as File
 ]
 
-const defaultFiltration = {
-  package: undefined,
-  state: undefined,
-  assignedToMe: undefined
-}
+const defaultFiltration = defaultValues(
+  SubmissionsFiltration
+)
 
 const randomFiltration = {
   package: packages.data
     .content[0] as EntityModelPackageDto,
   state: 'ACCEPTED',
   assignedToMe: true
-}
+} as SubmissionsFiltration
 
 const server = setupServer(
   rest.get(

@@ -48,6 +48,10 @@ import { useSubmissionStore } from '@/store/submission'
 import { ref, onMounted } from 'vue'
 import { useObjectActions } from '@/composable/objectActions'
 import FiltrationCard from '@/components/common/FiltrationCard.vue'
+import {
+  defaultValues,
+  SubmissionsFiltration
+} from '@/models/Filtration'
 
 const { setAllFields } = useObjectActions()
 const submissions_store = useSubmissionStore()
@@ -91,6 +95,8 @@ onMounted(async () => {
 })
 
 function clearFiltration() {
-  setAllFields(localFiltration.value, undefined)
+  localFiltration.value = defaultValues(
+    SubmissionsFiltration
+  )
 }
 </script>
