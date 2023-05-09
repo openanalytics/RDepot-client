@@ -63,8 +63,6 @@ export const usePackagesStore = defineStore(
         pageSize: number,
         showProgress: boolean = true
       ) {
-        console.log(showProgress)
-
         const [packages, pageData] =
           await fetchPackagesServices(
             this.filtration,
@@ -102,7 +100,7 @@ export const usePackagesStore = defineStore(
       async setFiltration(payload: PackagesFiltration) {
         const pagination = usePaginationStore()
         pagination.setPage(0)
-        this.filtration = payload
+        this.filtration = PackagesFiltration.parse(payload)
         await this.fetchPackages()
       },
       setFiltrationByRepositoryOnly(payload?: string) {
@@ -110,6 +108,8 @@ export const usePackagesStore = defineStore(
         this.filtration.repository = payload
       },
       clearFiltration() {
+        console.log('clear filtration')
+
         const pagination = usePaginationStore()
         pagination.setPage(0)
         this.filtration = defaultValues(PackagesFiltration)

@@ -39,17 +39,40 @@ export const useRepositoryStore = defineStore(
       }
     },
     actions: {
+      async fetchPageOfRepositories(
+        page: number,
+        pageSize: number = 8
+      ) {
+        const pageData = await this.fetchData(
+          page,
+          pageSize,
+          false
+        )
+        return pageData
+      },
       async fetchRepositories() {
         const pagination = usePaginationStore()
+        const pageData = await this.fetchData(
+          pagination.page,
+          pagination.pageSize
+        )
+        pagination.setPage(pageData.page)
+        pagination.setTotalNumber(pageData.totalNumber)
+      },
+      async fetchData(
+        page: number,
+        pageSize: number,
+        showProgress: boolean = true
+      ) {
         const [repositories, pageData] =
           await fetchRepositoriesServices(
             this.filtration,
-            pagination.page,
-            pagination.pageSize
+            page,
+            pageSize,
+            showProgress
           )
-        pagination.setTotalNumber(pageData.totalNumber)
-        pagination.setPage(pageData.page)
         this.repositories = repositories
+        return pageData
       },
       async fetchRepository(name: string) {
         const [repository] =
@@ -104,8 +127,13 @@ export const useRepositoryStore = defineStore(
       async setFiltration(payload: RepositoriesFiltration) {
         const pagination = usePaginationStore()
         pagination.setPage(0)
-        this.filtration = payload
+        this.filtration =
+          RepositoriesFiltration.parse(payload)
         await this.fetchRepositories()
+      },
+      setFiltrationByName(payload: string | undefined) {
+        this.clearFiltration()
+        this.filtration.name = payload
       },
       clearFiltration() {
         const pagination = usePaginationStore()

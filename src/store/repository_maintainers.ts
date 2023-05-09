@@ -14,7 +14,6 @@ import {
   updateRepositoryMaintainer
 } from '@/services/repository_maintainers_services'
 import { usePaginationStore } from './pagination'
-import { useObjectActions } from '@/composable/objectActions'
 import { fetchRepositoriesServices } from '@/services'
 
 interface State {
@@ -106,7 +105,8 @@ export const useRepositoryMaintainersStore = defineStore(
       ) {
         const pagination = usePaginationStore()
         pagination.setPage(0)
-        this.filtration = payload
+        this.filtration =
+          RepositoryMaintainersFiltration.parse(payload)
         await this.fetchMaintainers()
       },
       clearFiltration() {
