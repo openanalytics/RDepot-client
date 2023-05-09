@@ -46,14 +46,13 @@ import { EntityModelSubmissionDtoStateEnum } from '@/openapi'
 import { usePackagesStore } from '@/store/packages'
 import { useSubmissionStore } from '@/store/submission'
 import { ref, onMounted } from 'vue'
-import { useObjectActions } from '@/composable/objectActions'
 import FiltrationCard from '@/components/common/FiltrationCard.vue'
 import {
   defaultValues,
   SubmissionsFiltration
 } from '@/models/Filtration'
+import { useUtilities } from '@/composable/utilities'
 
-const { setAllFields } = useObjectActions()
 const submissions_store = useSubmissionStore()
 const package_store = usePackagesStore()
 
@@ -65,9 +64,11 @@ const search = ref('')
 const placeholder = ref('')
 const emit = defineEmits(['closeModal'])
 
+const { deepCopy } = useUtilities()
+
 function updateFiltration() {
-  localFiltration.value = JSON.parse(
-    JSON.stringify(submissions_store.filtration)
+  localFiltration.value = deepCopy(
+    submissions_store.filtration
   )
 }
 

@@ -46,6 +46,7 @@ import {
 import { EntityModelSubmissionDtoStateEnum } from '@/openapi'
 import { usePackagesStore } from '@/store/packages'
 import { ref, onMounted } from 'vue'
+import { useUtilities } from '@/composable/utilities'
 
 const emit = defineEmits(['closeModal'])
 
@@ -59,10 +60,9 @@ const repositoryNameSelect = ref(['repo1', 'repo2'])
 let filtration = package_store.filtration
 const localFiltration = ref(filtration)
 
+const { deepCopy } = useUtilities()
 function updateFiltration() {
-  localFiltration.value = JSON.parse(
-    JSON.stringify(package_store.filtration)
-  )
+  localFiltration.value = deepCopy(package_store.filtration)
 }
 
 function setFiltration() {

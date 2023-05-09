@@ -58,6 +58,7 @@ import CardActions from '@/components/common/CardActions.vue'
 import { useEventsStore } from '@/store/events'
 import { ref, onMounted } from 'vue'
 import { Technologies } from '@/enum/Technologies'
+import { useUtilities } from '@/composable/utilities'
 
 const emit = defineEmits(['closeModal'])
 const event_store = useEventsStore()
@@ -97,11 +98,10 @@ const resourceTypeSelect = ref([
 
 let filtration = event_store.filtration
 const localFiltration = ref(filtration)
+const { deepCopy } = useUtilities()
 
 function updateFiltration() {
-  localFiltration.value = JSON.parse(
-    JSON.stringify(event_store.filtration)
-  )
+  localFiltration.value = deepCopy(event_store.filtration)
 }
 
 function setFiltration() {

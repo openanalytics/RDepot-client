@@ -33,6 +33,7 @@ import {
   RepositoryMaintainersFiltration,
   defaultValues
 } from '@/models/Filtration'
+import { useUtilities } from '@/composable/utilities'
 
 const maintainers_store = useRepositoryMaintainersStore()
 const technologySelect = ref(Technologies.options)
@@ -40,10 +41,11 @@ let filtration = maintainers_store.filtration
 const localFiltration = ref(filtration)
 
 const emit = defineEmits(['closeModal'])
+const { deepCopy } = useUtilities()
 
 function updateFiltration() {
-  localFiltration.value = JSON.parse(
-    JSON.stringify(maintainers_store.filtration)
+  localFiltration.value = deepCopy(
+    maintainers_store.filtration
   )
 }
 

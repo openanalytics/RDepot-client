@@ -16,6 +16,7 @@ import { notify } from '@kyvg/vue3-notification'
 import { createPatch } from 'rfc6902'
 import { useSortStore } from '@/store/sort'
 import { isAuthorized } from '@/plugins/casl'
+import { useUtilities } from '@/composable/utilities'
 
 export function fetchRSubmissions(
   filtration: SubmissionsFiltration,
@@ -95,14 +96,14 @@ export function updateSubmission(
   )
 }
 
+const { deepCopy } = useUtilities()
+
 export function updateSubmissionState(
   submission: EntityModelSubmissionDto,
   state: EntityModelSubmissionDtoStateEnum,
   textNotification: string
 ): Promise<boolean> {
-  const newSubmission = JSON.parse(
-    JSON.stringify(submission)
-  ) as EntityModelSubmissionDto
+  const newSubmission = deepCopy(submission)
   newSubmission.state = state
   return updateSubmission(
     submission,

@@ -14,8 +14,10 @@ import SubmissionRowVue from '@/components/submissions/SubmissionRow.vue'
 import submissions from '@/__tests__/config/mockData/rSubmissions.json'
 import { EntityModelSubmissionDto } from '@/openapi'
 import { createPinia, setActivePinia } from 'pinia'
+import { useUtilities } from '@/composable/utilities'
 
 let wrapper: any
+const { deepCopyAny } = useUtilities()
 const globalConfig = {
   mocks: mocks,
   plugins: plugins
@@ -27,8 +29,8 @@ beforeAll(() => {
 })
 
 describe('Submissions - submission row (ACCEPTED)', () => {
-  const submission: EntityModelSubmissionDto = JSON.parse(
-    JSON.stringify(submissions.data.content[4])
+  const submission: EntityModelSubmissionDto = deepCopyAny(
+    submissions.data.content[4]
   )
   beforeEach(async () => {
     wrapper = mount(SubmissionRowVue, {
@@ -95,8 +97,8 @@ describe('Submissions - submission row (ACCEPTED)', () => {
 })
 
 describe('Submissions - submission row (WAITING)', () => {
-  const submission: EntityModelSubmissionDto = JSON.parse(
-    JSON.stringify(submissions.data.content[2])
+  const submission: EntityModelSubmissionDto = deepCopyAny(
+    submissions.data.content[2]
   )
   beforeEach(async () => {
     wrapper = mount(SubmissionRowVue, {

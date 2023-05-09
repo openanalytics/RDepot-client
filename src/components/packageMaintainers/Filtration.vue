@@ -26,6 +26,7 @@
 
 <script setup lang="ts">
 import FiltrationCard from '@/components/common/FiltrationCard.vue'
+import { useUtilities } from '@/composable/utilities'
 import { Technologies } from '@/enum/Technologies'
 import {
   PackageMaintainersFiltration,
@@ -42,9 +43,10 @@ const localFiltration = ref(filtration)
 
 const emit = defineEmits(['closeModal'])
 
+const { deepCopy } = useUtilities()
 function updateFiltration() {
-  localFiltration.value = JSON.parse(
-    JSON.stringify(maintainers_store.filtration)
+  localFiltration.value = deepCopy(
+    maintainers_store.filtration
   )
 }
 

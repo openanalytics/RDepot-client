@@ -14,8 +14,10 @@ import RepositoryRowVue from '@/components/repositories/RepositoryRow.vue'
 import repositories from '@/__tests__/config/mockData/repositories.json'
 import { EntityModelRRepositoryDto } from '@/openapi'
 import { createPinia, setActivePinia } from 'pinia'
+import { useUtilities } from '@/composable/utilities'
 
 let wrapper: any
+const { deepCopyAny } = useUtilities()
 const globalConfig = {
   mocks: mocks,
   plugins: plugins
@@ -27,8 +29,8 @@ beforeAll(() => {
 })
 
 describe('Repositories - repository row (repository)', () => {
-  const repository: EntityModelRRepositoryDto = JSON.parse(
-    JSON.stringify(repositories.data.content[0])
+  const repository: EntityModelRRepositoryDto = deepCopyAny(
+    repositories.data.content[0]
   )
   beforeEach(async () => {
     wrapper = mount(RepositoryRowVue, {

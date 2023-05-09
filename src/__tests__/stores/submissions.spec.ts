@@ -19,11 +19,13 @@ import submissions from '@/__tests__/config/mockData/submissions.json'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { usePaginationStore } from '@/store/pagination'
+import { useUtilities } from '@/composable/utilities'
 import {
   SubmissionsFiltration,
   defaultValues
 } from '@/models/Filtration'
 
+const { deepCopyAny } = useUtilities()
 var files = [
   {
     name: 'A3_1.0.0.tar.gz',
@@ -185,8 +187,8 @@ describe('Submissions Store', () => {
       submission_store,
       'fetchSubmissions'
     )
-    const submission = JSON.parse(
-      JSON.stringify(submissions.data.content[0])
+    const submission = deepCopyAny(
+      submissions.data.content[0]
     )
 
     await submission_store.updateSubmissionState(
@@ -255,8 +257,8 @@ describe('Testing submissions store with failing backend', () => {
       '@kyvg/vue3-notification'
     )
 
-    const submission = JSON.parse(
-      JSON.stringify(submissions.data.content[0])
+    const submission = deepCopyAny(
+      submissions.data.content[0]
     )
 
     await submission_store.updateSubmissionState(

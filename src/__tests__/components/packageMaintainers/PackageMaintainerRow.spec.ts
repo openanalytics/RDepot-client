@@ -14,8 +14,10 @@ import PackageMaintainersRow from '@/components/packageMaintainers/PackageMainta
 import maintainers from '@/__tests__/config/mockData/packageMaintainers.json'
 import { createPinia, setActivePinia } from 'pinia'
 import { EntityModelPackageMaintainerDto } from '@/openapi'
+import { useUtilities } from '@/composable/utilities'
 
 let wrapper: any
+const { deepCopy } = useUtilities()
 const globalConfig = {
   mocks: mocks,
   plugins: plugins
@@ -28,7 +30,7 @@ beforeAll(() => {
 
 describe('Repository Maintainers - maintainers row (maintainer)', () => {
   const maintainer: EntityModelPackageMaintainerDto =
-    JSON.parse(JSON.stringify(maintainers.data.content[0]))
+    deepCopy(maintainers.data.content[0])
   beforeEach(async () => {
     wrapper = mount(PackageMaintainersRow, {
       global: globalConfig,

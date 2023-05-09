@@ -40,6 +40,7 @@ import {
   RepositoriesFiltration,
   defaultValues
 } from '@/models/Filtration'
+import { useUtilities } from '@/composable/utilities'
 
 const repository_store = useRepositoryStore()
 
@@ -49,9 +50,11 @@ const localFiltration = ref(filtration)
 
 const emit = defineEmits(['closeModal'])
 
+const { deepCopy } = useUtilities()
+
 function updateFiltration() {
-  localFiltration.value = JSON.parse(
-    JSON.stringify(repository_store.filtration)
+  localFiltration.value = deepCopy(
+    repository_store.filtration
   )
   console.log(localFiltration.value)
 }

@@ -164,10 +164,12 @@ import TextRecord from '@/components/common/resources/TextRecord.vue'
 import { useLoggedUserStore } from '@/store/logged_user'
 import { updateRepository } from '@/services/repository_services'
 import { ref } from 'vue'
+import { useUtilities } from '@/composable/utilities'
 
 const repository_store = useRepositoryStore()
 const package_store = usePackagesStore()
 const logged_user_store = useLoggedUserStore()
+const { deepCopy } = useUtilities()
 
 const props = defineProps<{
   title?: boolean
@@ -178,9 +180,7 @@ const repositoryLocal = ref<EntityModelRepositoryDto>(
 )
 
 function updateRepositoryPublished(): void {
-  const oldRepository = JSON.parse(
-    JSON.stringify(repositoryLocal.value)
-  )
+  const oldRepository = deepCopy(repositoryLocal.value)
   oldRepository.published = !oldRepository.published
   updateRepository(
     oldRepository,
