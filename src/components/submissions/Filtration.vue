@@ -1,29 +1,31 @@
 <template>
   <filtration-card
     :title="$t('submissions.filtration.title')"
-    v-on:clear-filtration="clearFiltration()"
+    v-on:clear-filtration="resetForm()"
     v-on:set-filtration="setFiltration()"
-    v-on:change-dialog-options="changeDialogOptions()"
+    v-on:change-dialog-options="cancelModal()"
   >
     <form as="v-form" lazy-validation>
       <validated-input-field
         id="filtration-state"
-        :items="stateSelect"
+        :items="states"
         name="state"
         as="v-select"
         :label="$t('submissions.filtration.state')"
       ></validated-input-field>
-      <SelectField
+
+      <validated-input-field
         name="package"
+        as="autocomplete"
         :label="$t('submissions.filtration.package')"
         v-on:loadItems="loadPackages"
         v-on:filtrate="filtratePackages"
-        store_id="packages"
-      />
+        :storeId="storeId"
+      ></validated-input-field>
+
       <validated-input-field
         name="assignedToMe"
         :label="$t('submissions.filtration.assigned')"
-        :items="stateSelect"
         as="v-switch"
       ></validated-input-field>
     </form>
@@ -31,67 +33,34 @@
 </template>
 
 <script setup lang="ts">
-import {
-  EntityModelPackageDto,
-  EntityModelSubmissionDtoStateEnum
-} from '@/openapi'
-import { useSubmissionStore } from '@/store/submission'
-import { ref, onMounted } from 'vue'
 import FiltrationCard from '@/components/common/FiltrationCard.vue'
-import {
-  defaultValues,
-  SubmissionsFiltration
-} from '@/models/Filtration'
-import { useUtilities } from '@/composable/utilities'
+import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
+import { useSubmissionStore } from '@/store/submission'
+import { useForm } from 'vee-validate'
+import { SubmissionsFiltration } from '@/models/Filtration'
+import { usePackagesFiltration } from '@/composable/filtration/packagesFiltration'
+import { useEnumFiltration } from '@/composable/filtration/enumFiltration'
+import { toTypedSchema } from '@vee-validate/zod'
 
-const submissions_store = useSubmissionStore()
-const packages_store = usePackagesStore()
-const select_store = useSelectStore('packages')
-
-const stateSelect = ref(
-  Object.values(EntityModelSubmissionDtoStateEnum)
-)
-
-const localFiltration = ref(submissions_store.filtration)
 const emit = defineEmits(['closeModal'])
 
-const { meta, values } = useForm({
-    state: EntityModelSubmissionDtoStateEnum,
-  validationSchema: {
-})
-  }
-    assignedToMe: Boolean
-    package: String,
+const submissions_store = useSubmissionStore()
 
-function updateFiltration() {
-  localFiltration.value = deepCopy(
-    submissions_store.filtration
-  )
-}
+const { states } = useEnumFiltration()
+const { storeId, loadPackages, filtratePackages } =
+  usePackagesFiltration()
+
+const { resetForm, values } = useForm({
+  validationSchema: toTypedSchema(SubmissionsFiltration),
+  initialValues: submissions_store.filtration
+})
 
 function setFiltration() {
-  var submissionFiltration: SubmissionsFiltration = {
-    state: values.state,
-    package: values.package,
-    assignedToMe: values.assignedToMe
-  }
-  console.log(values)
-  emit('closeModal')
-  submissions_store.setFiltration(submissionFiltration)
+  submissions_store.setFiltration(values)
+  cancelModal()
 }
 
-function changeDialogOptions() {
-  updateFiltration()
+function cancelModal() {
   emit('closeModal')
-}
-
-onMounted(async () => {
-  updateFiltration()
-})
-
-function clearFiltration() {
-  localFiltration.value = defaultValues(
-    SubmissionsFiltration
-  )
 }
 </script>

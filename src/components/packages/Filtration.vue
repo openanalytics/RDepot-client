@@ -1,85 +1,74 @@
 <template>
   <filtration-card
     :title="$t('packages.filtration.title')"
-    v-on:clear-filtration="clearFiltration()"
+    v-on:clear-filtration="resetForm()"
     v-on:set-filtration="setFiltration()"
     v-on:change-dialog-options="cancelModal()"
   >
-    <v-select
+    <validated-input-field
       id="filtration-state"
-      v-model="localFiltration.state"
-      :items="submissionStateSelect"
+      :items="states"
+      name="state"
+      as="v-select"
       :label="$t('packages.filtration.state')"
-      data-test="filtration-state"
-    ></v-select>
-    <v-combobox
-      v-model="localFiltration.repository"
-      :items="repositoryNameSelect"
-      :label="$t('packages.filtration.repository')"
-    >
-    </v-combobox>
+    ></validated-input-field>
 
-    <v-select
+    <validated-input-field
+      name="repository"
+      as="autocomplete"
+      :label="$t('packages.filtration.repository')"
+      v-on:loadItems="loadRepositories"
+      v-on:filtrate="filtrateRepositories"
+      :storeId="storeId"
+    ></validated-input-field>
+
+    <validated-input-field
       id="filtration-technology"
-      v-model="localFiltration.technologies"
-      :items="technologySelect"
+      :items="technologies"
+      name="technologies"
       multiple
+      as="v-select"
       :label="$t('repositories.filtration.technology')"
-    ></v-select>
-    <v-checkbox
+    ></validated-input-field>
+
+    <validated-input-field
       id="filtration-deleted"
-      :label="
-        localFiltration && $t('packages.filtration.deleted')
-      "
-      v-model="localFiltration.deleted"
-    ></v-checkbox>
+      name="deleted"
+      :label="$t('packages.filtration.deleted')"
+      as="v-switch"
+    ></validated-input-field>
   </filtration-card>
 </template>
 
 <script setup lang="ts">
 import FiltrationCard from '@/components/common/FiltrationCard.vue'
-import { Technologies } from '@/enum/Technologies'
-import {
-  PackagesFiltration,
-  defaultValues
-} from '@/models/Filtration'
-import { EntityModelSubmissionDtoStateEnum } from '@/openapi'
+import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
+import { PackagesFiltration } from '@/models/Filtration'
 import { usePackagesStore } from '@/store/packages'
-import { ref, onMounted } from 'vue'
-import { useUtilities } from '@/composable/utilities'
+import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesFiltration'
+import { useEnumFiltration } from '@/composable/filtration/enumFiltration'
+import { useForm } from 'vee-validate'
+import { toTypedSchema } from '@vee-validate/zod'
 
 const emit = defineEmits(['closeModal'])
 
+const { storeId, filtrateRepositories, loadRepositories } =
+  useRepositoriesFiltration()
 const package_store = usePackagesStore()
 
-const submissionStateSelect = ref(
-  Object.values(EntityModelSubmissionDtoStateEnum)
-)
-const technologySelect = ref(Technologies.options)
-const repositoryNameSelect = ref(['repo1', 'repo2'])
-let filtration = package_store.filtration
-const localFiltration = ref(filtration)
+const { states, technologies } = useEnumFiltration()
 
-const { deepCopy } = useUtilities()
-function updateFiltration() {
-  localFiltration.value = deepCopy(package_store.filtration)
-}
+const { resetForm, values } = useForm({
+  validationSchema: toTypedSchema(PackagesFiltration),
+  initialValues: package_store.filtration
+})
 
 function setFiltration() {
-  package_store.setFiltration(localFiltration.value)
+  package_store.setFiltration(values as PackagesFiltration)
   cancelModal()
 }
 
 function cancelModal() {
-  updateFiltration()
   emit('closeModal')
-}
-
-onMounted(() => {
-  updateFiltration()
-})
-
-function clearFiltration() {
-  localFiltration.value = defaultValues(PackagesFiltration)
 }
 </script>
