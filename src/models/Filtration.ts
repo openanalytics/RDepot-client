@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import { PackageSchema } from './Schemas'
+import { EntityModelSubmissionDtoStateEnum } from '@/openapi'
 
 export function defaultValues<T extends z.ZodType>(
   type: T
@@ -42,7 +43,9 @@ type RepositoriesFiltration = z.infer<
 const SubmissionsFiltration = z
   .object({
     assignedToMe: z.boolean().optional(),
-    state: z.string().optional(),
+    state: z
+      .nativeEnum(EntityModelSubmissionDtoStateEnum)
+      .optional(),
     package: z.string().optional()
   })
   .default({
@@ -57,14 +60,14 @@ type SubmissionsFiltration = z.infer<
 
 const EventsFiltration = z
   .object({
-    technology: z.string().optional(),
+    technologies: z.array(z.string()).optional(),
     userId: z.string().optional(),
     resourceId: z.string().optional(),
     eventType: z.string().optional(),
     resourceType: z.string().optional()
   })
   .default({
-    technology: undefined,
+    technologies: undefined,
     userId: undefined,
     resourceId: undefined,
     eventType: undefined,
