@@ -4,10 +4,12 @@
       {{ props.name }}
     </div>
     <ShortPackagesList class="mt-10"></ShortPackagesList>
+    <Pagination />
   </div>
 </template>
 
 <script setup lang="ts">
+import Pagination from '@/components/common/Pagination.vue'
 import ShortPackagesList from '@/components/packages/shortPackages/ShortPackagesList.vue'
 import { usePackagesStore } from '@/store/packages'
 import { onBeforeMount } from 'vue'

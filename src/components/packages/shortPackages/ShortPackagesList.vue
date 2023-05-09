@@ -16,12 +16,9 @@
 import { onBeforeMount } from 'vue'
 import ShortPackageRow from '@/components/packages/shortPackages/ShortPackageRow.vue'
 import ResourcesList from '@/components/common/resources/ResourcesList.vue'
-import { usePaginationStore } from '@/store/pagination'
 import { usePackagesStore } from '@/store/packages'
 
 const package_store = usePackagesStore()
-const pagination = usePaginationStore()
-pagination.setPage(0)
 
 function getDescription(item: any) {
   if (item.hasOwnProperty('description')) {
@@ -30,11 +27,11 @@ function getDescription(item: any) {
   return null
 }
 
-function getFirstPage(): void {
+function updateData(): void {
   package_store.fetchPackages()
 }
 
 onBeforeMount(() => {
-  getFirstPage()
+  updateData()
 })
 </script>
