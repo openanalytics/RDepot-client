@@ -26,7 +26,8 @@ import { isAuthorized } from '@/plugins/casl'
 export function fetchRepositoriesServices(
   filtration?: RepositoriesFiltration,
   page?: number,
-  pageSize?: number
+  pageSize?: number,
+  showProgress: boolean = true
 ): Promise<validatedData<EntityModelRepositoryDto>> {
   if (!isAuthorized('GET', 'repositories')) {
     return new Promise(() => validateRequest)
@@ -44,7 +45,8 @@ export function fetchRepositoriesServices(
       page,
       pageSize,
       sort.getSortBy()
-    ]
+    ],
+    showProgress
   ).then(
     (res) =>
       validateRequest(
