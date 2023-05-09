@@ -2,10 +2,8 @@
   <v-card class="pa-5" width="400">
     <v-card-title> {{ props.title }} </v-card-title>
     <v-divider></v-divider>
-    <v-card-text style="height: 300px">
-      <v-form ref="form" lazy-validation>
-        <slot> </slot>
-      </v-form>
+    <v-card-text :class="{ customHeight: !long }">
+      <slot> </slot>
     </v-card-text>
     <v-divider></v-divider>
     <card-actions :buttons="buttons"></card-actions>
@@ -20,6 +18,11 @@ const props = defineProps({
   title: {
     type: String,
     required: true
+  },
+  long: {
+    type: Boolean,
+    required: false,
+    default: false
   }
 })
 
@@ -61,3 +64,9 @@ function changeDialogOptions() {
   emit('changeDialogOptions')
 }
 </script>
+
+<style>
+.customHeight {
+  height: 300px;
+}
+</style>
