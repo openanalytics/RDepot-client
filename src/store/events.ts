@@ -67,7 +67,7 @@ export const useEventsStore = defineStore('events_store', {
       }
     },
     async setFiltration(payload: EventsFiltration) {
-      this.filtration = payload
+      this.filtration = EventsFiltration.parse(payload)
       this.page = 0
       this.events = []
       await this.fetchEvents()

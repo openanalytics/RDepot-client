@@ -17,6 +17,7 @@ import {
 } from '@/services/submission_services'
 import { usePaginationStore } from '@/store/pagination'
 import { useUtilities } from '@/composable/utilities'
+import { z } from 'zod'
 
 interface State {
   packages: File[]
@@ -89,7 +90,8 @@ export const useSubmissionStore = defineStore(
       async setFiltration(payload: SubmissionsFiltration) {
         const pagination = usePaginationStore()
         pagination.setPage(0)
-        this.filtration = payload
+        this.filtration =
+          SubmissionsFiltration.parse(payload)
         await this.fetchSubmissions()
         notify({
           text: i18n.t('notifications.successFiltration'),
