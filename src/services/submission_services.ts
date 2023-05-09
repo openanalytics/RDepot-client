@@ -96,22 +96,6 @@ export function updateSubmission(
   )
 }
 
-const { deepCopy } = useUtilities()
-
-export function updateSubmissionState(
-  submission: EntityModelSubmissionDto,
-  state: EntityModelSubmissionDtoStateEnum,
-  textNotification: string
-): Promise<boolean> {
-  const newSubmission = deepCopy(submission)
-  newSubmission.state = state
-  return updateSubmission(
-    submission,
-    newSubmission,
-    textNotification
-  )
-}
-
 export function addSubmission(
   repository: string,
   file: File

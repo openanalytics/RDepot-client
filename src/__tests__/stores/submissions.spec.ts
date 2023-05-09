@@ -191,9 +191,11 @@ describe('Submissions Store', () => {
       submissions.data.content[0]
     )
 
-    await submission_store.updateSubmissionState(
+    await submission_store.updateSubmission(
       submission,
-      EntityModelSubmissionDtoStateEnum.CANCELLED,
+      {
+        state: EntityModelSubmissionDtoStateEnum.CANCELLED
+      },
       'Test'
     )
 
@@ -261,9 +263,11 @@ describe('Testing submissions store with failing backend', () => {
       submissions.data.content[0]
     )
 
-    await submission_store.updateSubmissionState(
+    await submission_store.updateSubmission(
       submission,
-      EntityModelSubmissionDtoStateEnum.CANCELLED,
+      {
+        state: EntityModelSubmissionDtoStateEnum.CANCELLED
+      },
       'Test'
     )
 

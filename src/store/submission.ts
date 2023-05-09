@@ -1,7 +1,6 @@
 import {
   EntityModelRepositoryDto,
-  EntityModelSubmissionDto,
-  EntityModelSubmissionDtoStateEnum
+  EntityModelSubmissionDto
 } from '@/openapi'
 import { defineStore } from 'pinia'
 import {
@@ -14,9 +13,10 @@ import { useLoggedUserStore } from './logged_user'
 import {
   addSubmission,
   fetchRSubmissions,
-  updateSubmissionState
+  updateSubmission
 } from '@/services/submission_services'
 import { usePaginationStore } from '@/store/pagination'
+import { useUtilities } from '@/composable/utilities'
 
 interface State {
   packages: File[]
@@ -24,6 +24,8 @@ interface State {
   submissions: EntityModelSubmissionDto[]
   filtration: SubmissionsFiltration
 }
+
+const { deepCopy } = useUtilities()
 
 export const useSubmissionStore = defineStore(
   'submission_store',
@@ -51,14 +53,18 @@ export const useSubmissionStore = defineStore(
         pagination.setTotalNumber(pageData.totalNumber)
         pagination.setPage(pageData.page)
       },
-      async updateSubmissionState(
-        submission: EntityModelSubmissionDto,
-        state: EntityModelSubmissionDtoStateEnum,
+      async updateSubmission(
+        oldSubmission: EntityModelSubmissionDto,
+        newValues: Partial<EntityModelSubmissionDto>,
         textNotification: string
       ) {
-        await updateSubmissionState(
-          submission,
-          state,
+        const newSubmission = {
+          ...deepCopy(oldSubmission),
+          ...newValues
+        }
+        await updateSubmission(
+          oldSubmission,
+          newSubmission,
           textNotification
         ).then(async (success) => {
           if (success) await this.fetchSubmissions()
