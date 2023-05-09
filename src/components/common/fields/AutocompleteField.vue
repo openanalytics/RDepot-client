@@ -1,17 +1,15 @@
 <template>
   <v-autocomplete
-    v-model="value"
+    :label="label"
     :items="select_store.items"
-    item-title="name"
+    :custom-filter="customFiltrate"
+    :loading="select_store.pending"
     :menu-props="{
       location: 'bottom center',
       height: '200px',
       width: '300px'
     }"
-    :custom-filter="customFiltrate"
     @update:search="search"
-    :loading="select_store.pending"
-    :label="label"
     ><template v-slot:append-item>
       <div
         v-intersect="loadItems"
@@ -29,17 +27,14 @@
 import { ref, onMounted } from 'vue'
 import { useSortStore } from '@/store/sort'
 import { watchDebounced } from '@vueuse/core'
-import { useField } from 'vee-validate'
-import { toRef } from 'vue'
 import {
   SelectState,
   useSelectStore
 } from '@/store/select_pagination'
 
 const props = defineProps<{
-  name: string
   label: string
-  store_id: SelectState
+  storeId: SelectState
 }>()
 
 const emits = defineEmits<{
@@ -47,10 +42,9 @@ const emits = defineEmits<{
   (event: 'filtrate', value: string | undefined): void
 }>()
 
-const select_store = useSelectStore(props.store_id)
+const select_store = useSelectStore(props.storeId)
 const sort_store = useSortStore()
 
-const reload = ref<boolean>(false)
 const queryTerm = ref<string | undefined>('')
 
 function search(value: string) {
@@ -79,13 +73,8 @@ async function loadItems() {
     select_store.paginationData.totalNumber < 0 ||
     !select_store.ifAllFetched
   ) {
-    if (reload) {
-      select_store.resetPagination
-    }
-
     select_store.pending = true
     await emits('loadItems')
-    reload.value = false
     select_store.pending = false
   }
 }
@@ -96,8 +85,8 @@ watchDebounced(
     if (!select_store.ifAllFetched) {
       emits('filtrate', queryTerm.value)
       select_store.resetItems()
-      reload.value = true
-      emits('loadItems')
+      select_store.resetPagination()
+      loadItems()
     }
   },
   { debounce: 500, maxWait: 1000 }
@@ -107,9 +96,4 @@ onMounted(async () => {
   sort_store.reset()
   await loadItems()
 })
-
-const { value, handleBlur, errors } = useField(
-  toRef(props, 'name'),
-  undefined
-)
 </script>
