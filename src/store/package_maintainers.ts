@@ -19,6 +19,7 @@ import {
   updatePackageMaintainerService
 } from '@/services/package_maintainers_service'
 import { usePaginationStore } from '@/store/pagination'
+import { useUtilities } from '@/composable/utilities'
 
 interface State {
   maintainers: EntityModelPackageMaintainerDto[]
@@ -27,6 +28,8 @@ interface State {
   packages: EntityModelRPackageDto[]
   chosenMaintainer: EntityModelPackageMaintainerDto
 }
+
+const { deepCopy } = useUtilities()
 
 export const usePackageMaintainersStore = defineStore(
   'package_maintainers_store',
@@ -82,12 +85,7 @@ export const usePackageMaintainersStore = defineStore(
       },
       async softDelete() {
         if (this.chosenMaintainer) {
-          let newRepositoryMaintainer: EntityModelPackageMaintainerDto =
-            JSON.parse(
-              JSON.stringify(this.chosenMaintainer)
-            )
-          newRepositoryMaintainer.deleted = true
-          this.editMaintainer(newRepositoryMaintainer)
+          this.updateMaintainer({ deleted: true })
         }
       },
       async setFiltration(
@@ -116,12 +114,16 @@ export const usePackageMaintainersStore = defineStore(
           if (success) await this.fetchMaintainers()
         })
       },
-      async editMaintainer(
-        maintainer: PackageMaintainerDto
+      async updateMaintainer(
+        newValues: Partial<PackageMaintainerDto>
       ) {
+        const newMaintainer = {
+          ...deepCopy(this.chosenMaintainer),
+          ...newValues
+        }
         updatePackageMaintainerService(
           this.chosenMaintainer,
-          maintainer
+          newMaintainer
         ).then(async (success) => {
           if (success) await this.fetchMaintainers()
         })

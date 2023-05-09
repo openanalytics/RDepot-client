@@ -277,7 +277,7 @@ describe('Package Maintainers Store', () => {
     )
     const newMaintainer = packageMaintainers.data.content[3]
     newMaintainer.id = packageMaintainers.data.content[2].id
-    await package_maintainers_store.editMaintainer(
+    await package_maintainers_store.updateMaintainer(
       newMaintainer
     )
 

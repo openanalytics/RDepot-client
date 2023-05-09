@@ -142,7 +142,7 @@ function updateMaintainer() {
 
 async function editMaintainer() {
   if (meta.value.valid) {
-    await maintainers_store.editMaintainer(
+    await maintainers_store.updateMaintainer(
       localMaintainer.value
     )
     changeDialogOptions()
