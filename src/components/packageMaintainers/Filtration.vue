@@ -1,70 +1,57 @@
 <template>
   <filtration-card
     :title="$t('maintainers.filtration.title')"
-    v-on:clear-filtration="clearFiltration()"
+    v-on:clear-filtration="resetForm()"
     v-on:set-filtration="setFiltration()"
-    v-on:change-dialog-options="changeDialogOptions()"
+    v-on:change-dialog-options="cancelModal()"
   >
-    <v-select
-      multiple
+    <validated-input-field
       id="filtration-technology"
-      v-model="localFiltration.technologies"
-      :items="technologySelect"
-      :label="$t('maintainers.filtration.technology')"
-    ></v-select>
+      :items="technologies"
+      name="technologies"
+      multiple
+      as="v-select"
+      :label="$t('repositories.filtration.technology')"
+    ></validated-input-field>
 
-    <v-checkbox
+    <validated-input-field
       id="filtration-deleted"
-      :label="
-        localFiltration &&
-        $t('maintainers.filtration.deleted')
-      "
-      v-model="localFiltration.deleted"
-    ></v-checkbox>
+      name="deleted"
+      :label="$t('packages.filtration.deleted')"
+      as="v-switch"
+    ></validated-input-field>
   </filtration-card>
 </template>
 
 <script setup lang="ts">
 import FiltrationCard from '@/components/common/FiltrationCard.vue'
-import { Technologies } from '@/enum/Technologies'
-import {
-  PackageMaintainersFiltration,
-  defaultValues
-} from '@/models/Filtration'
+import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
+import { useEnumFiltration } from '@/composable/filtration/enumFiltration'
+import { PackageMaintainersFiltration } from '@/models/Filtration'
 import { usePackageMaintainersStore } from '@/store/package_maintainers'
-import { ref, onMounted } from 'vue'
-
-const maintainers_store = usePackageMaintainersStore()
-
-const technologySelect = ref(Technologies.options)
-let filtration = maintainers_store.filtration
-const localFiltration = ref(filtration)
+import { toTypedSchema } from '@vee-validate/zod'
+import { useForm } from 'vee-validate'
 
 const emit = defineEmits(['closeModal'])
 
-function updateFiltration() {
-  localFiltration.value = JSON.parse(
-    JSON.stringify(maintainers_store.filtration)
-  )
-}
+const maintainers_store = usePackageMaintainersStore()
 
-function setFiltration() {
-  maintainers_store.setFiltration(localFiltration.value)
-  changeDialogOptions()
-}
-
-function changeDialogOptions() {
-  updateFiltration()
-  emit('closeModal')
-}
-
-onMounted(() => {
-  updateFiltration()
+const { technologies } = useEnumFiltration()
+const { values, resetForm } = useForm({
+  validationSchema: toTypedSchema(
+    PackageMaintainersFiltration
+  ),
+  initialValues: maintainers_store.filtration
 })
 
-function clearFiltration() {
-  localFiltration.value = defaultValues(
-    PackageMaintainersFiltration
+function setFiltration() {
+  maintainers_store.setFiltration(
+    values as PackageMaintainersFiltration
   )
+  cancelModal()
+}
+
+function cancelModal() {
+  emit('closeModal')
 }
 </script>

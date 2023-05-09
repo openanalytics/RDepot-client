@@ -1,128 +1,84 @@
 <template>
-  <v-card class="pa-5" width="400">
-    <v-card-title>
-      {{ $t('events.filtration.title') }}
-    </v-card-title>
-    <v-divider></v-divider>
-    <v-card-text style="height: 400px">
-      <v-form ref="form" lazy-validation>
-        <v-select
-          id="filtration-event-type"
-          v-model="localFiltration.eventType"
-          :items="eventTypeSelect"
-          :label="$t('events.filtration.eventType')"
-          data-test="filtration-event-type"
-        ></v-select>
+  <filtration-card
+    :title="$t('events.filtration.title')"
+    long
+    v-on:clear-filtration="resetForm()"
+    v-on:set-filtration="setFiltration()"
+    v-on:change-dialog-options="cancelModal()"
+  >
+    <validated-input-field
+      id="filtration-event-type"
+      :items="eventTypes"
+      name="eventType"
+      as="v-select"
+      :label="$t('events.filtration.eventType')"
+    ></validated-input-field>
 
-        <v-select
-          id="filtration-resource-type"
-          v-model="localFiltration.resourceType"
-          :items="resourceTypeSelect"
-          :label="$t('events.filtration.resourceType')"
-          data-test="filtration-resource-type"
-        ></v-select>
+    <validated-input-field
+      id="filtration-resource-type"
+      :items="resourceTypes"
+      name="resourceType"
+      as="v-select"
+      :label="$t('events.filtration.resourceType')"
+    ></validated-input-field>
 
-        <v-select
-          id="filtration-technology"
-          v-model="localFiltration.technology"
-          :items="technologySelect"
-          :label="$t('events.filtration.technology')"
-          data-test="filtration-technology"
-        ></v-select>
+    <validated-input-field
+      id="filtration-technology"
+      :items="technologies"
+      name="technologies"
+      multiple
+      as="v-select"
+      :label="$t('repositories.filtration.technology')"
+    ></validated-input-field>
 
-        <v-text-field
-          id="filtration-resource-id"
-          type="number"
-          v-model="localFiltration.resourceId"
-          :label="$t('events.filtration.resourceId')"
-          min="0"
-        ></v-text-field>
+    <validated-input-field
+      id="filtration-resource-id"
+      type="number"
+      name="resourceId"
+      min="0"
+      :label="$t('events.filtration.resourceId')"
+      as="v-text-field"
+    ></validated-input-field>
 
-        <v-text-field
-          id="filtration-user-id"
-          type="number"
-          v-model="localFiltration.userId"
-          :label="$t('events.filtration.userId')"
-          min="0"
-        ></v-text-field>
-      </v-form>
-    </v-card-text>
-    <v-divider></v-divider>
-    <card-actions :buttons="buttons" />
-  </v-card>
+    <validated-input-field
+      id="filtration-user-id"
+      type="number"
+      name="userId"
+      min="0"
+      :label="$t('events.filtration.userId')"
+      as="v-text-field"
+    ></validated-input-field>
+  </filtration-card>
 </template>
 
 <script setup lang="ts">
-import { i18n } from '@/plugins/i18n'
+import FiltrationCard from '@/components/common/FiltrationCard.vue'
 import CardActions from '@/components/common/CardActions.vue'
+import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
+import { i18n } from '@/plugins/i18n'
 import { useEventsStore } from '@/store/events'
-import { ref, onMounted } from 'vue'
-import { Technologies } from '@/enum/Technologies'
+import { useEnumFiltration } from '@/composable/filtration/enumFiltration'
+import { useForm } from 'vee-validate'
+import { toTypedSchema } from '@vee-validate/zod'
+import { EventsFiltration } from '@/models/Filtration'
 
 const emit = defineEmits(['closeModal'])
 const event_store = useEventsStore()
 
-const buttons = [
-  {
-    id: 'cancel-button',
-    text: i18n.t('common.cancel'),
-    handler: () => emit('closeModal')
-  },
-  {
-    id: 'reset-button',
-    spacer: true,
-    text: i18n.t('common.clearForm'),
-    handler: clearFiltration
-  },
-  {
-    id: 'set-filtration',
-    text: i18n.t('common.apply'),
-    handler: setFiltration
-  }
-]
+const { technologies, resourceTypes, eventTypes } =
+  useEnumFiltration()
 
-const eventTypeSelect = ref(['create', 'update', 'delete'])
-const technologySelect = ref([
-  Technologies.enum.R,
-  Technologies.enum.Python
-])
-const resourceTypeSelect = ref([
-  'package',
-  'repository',
-  'user',
-  'submission',
-  'packageMaintainer',
-  'repositoryMaintainer'
-])
-
-let filtration = event_store.filtration
-const localFiltration = ref(filtration)
-
-function updateFiltration() {
-  localFiltration.value = JSON.parse(
-    JSON.stringify(event_store.filtration)
-  )
-}
-
-function setFiltration() {
-  event_store.setFiltration(localFiltration.value)
-  changeDialogOptions()
-}
-
-function changeDialogOptions() {
-  updateFiltration()
-  emit('closeModal')
-}
-
-onMounted(() => {
-  updateFiltration()
+const { resetForm, values } = useForm({
+  validationSchema: toTypedSchema(EventsFiltration),
+  initialValues: event_store.filtration
 })
 
-function clearFiltration() {
-  localFiltration!.value.eventType = undefined
-  localFiltration!.value.resourceId = undefined
-  localFiltration!.value.resourceType = undefined
-  localFiltration!.value.technology = undefined
-  localFiltration!.value.userId = undefined
+function setFiltration() {
+  event_store.setFiltration(values as EventsFiltration)
+  cancelModal()
+}
+
+function cancelModal() {
+  emit('closeModal')
 }
 </script>
