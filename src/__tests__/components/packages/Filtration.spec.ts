@@ -29,6 +29,14 @@ beforeAll(() => {
   global.ResizeObserver = ResizeObserver
 })
 
+const example_packages_filtration =
+  PackagesFiltration.parse({
+    state: 'ACCEPTED',
+    repository: 'repository1',
+    deleted: false,
+    technology: Technologies.enum.R
+  })
+
 beforeEach(async () => {
   setActivePinia(createPinia())
   packages_store = usePackagesStore()
@@ -71,30 +79,30 @@ describe('Packages - filtration', () => {
   it('reset form but not accept it yet', async () => {
     fillTheFormWithRandomData()
     fillPiniaFiltrationWithRandomData()
-    wrapper.vm.localFiltration.state = 'deleted'
+    wrapper.vm.values.state = 'deleted'
     await clickButton('#reset-button')
     checkIfFiltrationIsEmpty()
-    expect(packages_store.filtration.state).toBe('accepted')
+    expect(packages_store.filtration.state).toBe('ACCEPTED')
   })
 
   it('reset form but and cancel it', async () => {
     fillTheFormWithRandomData()
     fillPiniaFiltrationWithRandomData()
-    wrapper.vm.localFiltration.state = 'deleted'
+    wrapper.vm.values.setValue('state', 'DELETED')
     await clickButton('#reset-button')
     await clickButton('#cancel-button')
-    expect(wrapper.vm.filtration.state).toBe('accepted')
-    expect(packages_store.filtration.state).toBe('accepted')
+    expect(wrapper.vm.filtration.state).toBe('ACCEPTED')
+    expect(packages_store.filtration.state).toBe('ACCEPTED')
   })
 
   it('change state but cancel action', async () => {
     fillTheFormWithRandomData()
     fillPiniaFiltrationWithRandomData()
     await clickButton('#set-filtration')
-    wrapper.vm.localFiltration.state = 'deleted'
+    wrapper.vm.values.state = 'deleted'
     await clickButton('#cancel-button')
-    expect(wrapper.vm.filtration.state).toBe('accepted')
-    expect(packages_store.filtration.state).toBe('accepted')
+    expect(wrapper.vm.filtration.state).toBe('ACCEPTED')
+    expect(packages_store.filtration.state).toBe('ACCEPTED')
   })
 
   it('clear form and accept it', async () => {
@@ -103,6 +111,8 @@ describe('Packages - filtration', () => {
     await clickButton('#set-filtration')
     expect(wrapper.emitted().closeModal).toBeTruthy()
     await clickButton('#reset-button')
+    console.log('in test: ', wrapper.vm.values)
+
     await clickButton('#set-filtration')
     checkIfFiltrationIsEmpty()
     checkIfPiniaFiltrationIsEmpty()
@@ -117,7 +127,7 @@ describe('Packages - filtration', () => {
 })
 
 function checkIfFiltrationIsEmpty() {
-  expect(wrapper.vm.localFiltration).toEqual(
+  expect(wrapper.vm.values).toEqual(
     defaultValues(PackagesFiltration)
   )
 }
@@ -129,10 +139,10 @@ function checkIfPiniaFiltrationIsEmpty() {
 }
 
 function checkIfPiniaFiltrationIsFilledWithData() {
-  expect(packages_store.filtration.state).toBe('accepted')
   expect(packages_store.filtration.repository).toBe(
     'repository1'
   )
+  expect(packages_store.filtration.state).toBe('ACCEPTED')
   expect(packages_store.filtration.deleted).toBe(false)
   expect(packages_store.filtration.technology).toBe(
     Technologies.enum.R
@@ -140,18 +150,19 @@ function checkIfPiniaFiltrationIsFilledWithData() {
 }
 
 function fillPiniaFiltrationWithRandomData() {
-  packages_store.filtration.state = 'accepted'
-  packages_store.filtration.repository = 'repository1'
-  packages_store.filtration.deleted = false
-  packages_store.filtration.technology = Technologies.enum.R
+  packages_store.filtration = PackagesFiltration.parse(
+    example_packages_filtration
+  )
 }
 
 function fillTheFormWithRandomData() {
-  wrapper.vm.localFiltration.state = 'accepted'
-  wrapper.vm.localFiltration.repository = 'repository1'
-  wrapper.vm.localFiltration.deleted = false
-  wrapper.vm.localFiltration.technology =
-    Technologies.enum.R
+  console.log(wrapper.vm.values)
+  console.log('should be: ', example_packages_filtration)
+  wrapper.vm.values = PackagesFiltration.parse(
+    example_packages_filtration
+  )
+  console.log(wrapper.vm.values)
+  console.log(wrapper.vm.values.state)
 }
 
 async function clickButton(id: string) {
