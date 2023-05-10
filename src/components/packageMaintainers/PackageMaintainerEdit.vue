@@ -56,6 +56,7 @@ import { ref, onMounted, computed } from 'vue'
 import { packageMaintainerSchema } from '@/models/Schemas'
 import { notify } from '@kyvg/vue3-notification'
 import { z } from 'zod'
+import { useUtilities } from '@/composable/utilities'
 
 const maintainers_store = usePackageMaintainersStore()
 const buttons = [
@@ -131,16 +132,17 @@ const { meta, validateField } = useForm({
     packageName: true
   }
 })
+const { deepCopy } = useUtilities()
 
 function updateMaintainer() {
-  localMaintainer.value = JSON.parse(
-    JSON.stringify(maintainers_store.chosenMaintainer)
+  localMaintainer.value = deepCopy(
+    maintainers_store.chosenMaintainer
   )
 }
 
 async function editMaintainer() {
   if (meta.value.valid) {
-    await maintainers_store.editMaintainer(
+    await maintainers_store.updateMaintainer(
       localMaintainer.value
     )
     changeDialogOptions()

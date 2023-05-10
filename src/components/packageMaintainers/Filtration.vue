@@ -1,7 +1,7 @@
 <template>
   <filtration-card
     :title="$t('maintainers.filtration.title')"
-    v-on:clear-filtration="resetForm()"
+    v-on:clear-filtration="resetValues()"
     v-on:set-filtration="setFiltration()"
     v-on:change-dialog-options="cancelModal()"
   >
@@ -27,7 +27,10 @@
 import FiltrationCard from '@/components/common/FiltrationCard.vue'
 import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
 import { useEnumFiltration } from '@/composable/filtration/enumFiltration'
-import { PackageMaintainersFiltration } from '@/models/Filtration'
+import {
+  PackageMaintainersFiltration,
+  defaultValues
+} from '@/models/Filtration'
 import { usePackageMaintainersStore } from '@/store/package_maintainers'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useForm } from 'vee-validate'
@@ -37,7 +40,7 @@ const emit = defineEmits(['closeModal'])
 const maintainers_store = usePackageMaintainersStore()
 
 const { technologies } = useEnumFiltration()
-const { values, resetForm } = useForm({
+const { values, setValues } = useForm({
   validationSchema: toTypedSchema(
     PackageMaintainersFiltration
   ),
@@ -49,6 +52,10 @@ function setFiltration() {
     values as PackageMaintainersFiltration
   )
   cancelModal()
+}
+
+function resetValues() {
+  setValues(defaultValues(PackageMaintainersFiltration))
 }
 
 function cancelModal() {

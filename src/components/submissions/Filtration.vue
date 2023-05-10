@@ -1,7 +1,7 @@
 <template>
   <filtration-card
     :title="$t('submissions.filtration.title')"
-    v-on:clear-filtration="resetForm()"
+    v-on:clear-filtration="resetValues()"
     v-on:set-filtration="setFiltration()"
     v-on:change-dialog-options="cancelModal()"
   >
@@ -37,7 +37,10 @@ import FiltrationCard from '@/components/common/FiltrationCard.vue'
 import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
 import { useSubmissionStore } from '@/store/submission'
 import { useForm } from 'vee-validate'
-import { SubmissionsFiltration } from '@/models/Filtration'
+import {
+  SubmissionsFiltration,
+  defaultValues
+} from '@/models/Filtration'
 import { usePackagesFiltration } from '@/composable/filtration/packagesFiltration'
 import { useEnumFiltration } from '@/composable/filtration/enumFiltration'
 import { toTypedSchema } from '@vee-validate/zod'
@@ -50,7 +53,7 @@ const { states } = useEnumFiltration()
 const { storeId, loadPackages, filtratePackages } =
   usePackagesFiltration()
 
-const { resetForm, values } = useForm({
+const { setValues, values } = useForm({
   validationSchema: toTypedSchema(SubmissionsFiltration),
   initialValues: submissions_store.filtration
 })
@@ -58,6 +61,10 @@ const { resetForm, values } = useForm({
 function setFiltration() {
   submissions_store.setFiltration(values)
   cancelModal()
+}
+
+function resetValues() {
+  setValues(defaultValues(SubmissionsFiltration))
 }
 
 function cancelModal() {
