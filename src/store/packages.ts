@@ -109,8 +109,6 @@ export const usePackagesStore = defineStore(
         this.filtration.repository = payload
       },
       clearFiltration() {
-        console.log('clear filtration')
-
         const pagination = usePaginationStore()
         pagination.setPage(0)
         this.filtration = defaultValues(PackagesFiltration)

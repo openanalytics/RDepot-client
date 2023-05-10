@@ -12,8 +12,6 @@ export function openApiRequest<T>(
   if (showProgress) {
     turnOnProgress()
   }
-  console.log('showProgress: ', showProgress)
-
   isPending = true
   if (parameters) {
     return callback(...parameters).then(resolved, rejected)
