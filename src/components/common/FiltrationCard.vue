@@ -45,19 +45,19 @@ const buttons = [
   }
 ]
 
-const emit = defineEmits([
-  'closeModal',
-  'changeDialogOptions',
-  'setFiltration',
-  'clearFiltration'
-])
+const emit = defineEmits<{
+  (event: 'closeModal'): Promise<void>
+  (event: 'changeDialogOptions'): void
+  (event: 'setFiltration'): Promise<void>
+  (event: 'clearFiltration'): Promise<void>
+}>()
 
 async function setFiltration() {
-  emit('setFiltration')
+  await emit('setFiltration')
 }
 
 async function clearFiltration() {
-  emit('clearFiltration')
+  await emit('clearFiltration')
 }
 
 function changeDialogOptions() {
