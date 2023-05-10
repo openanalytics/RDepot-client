@@ -1,7 +1,7 @@
 <template>
   <filtration-card
     :title="$t('repositories.filtration.title')"
-    v-on:clear-filtration="resetForm()"
+    v-on:clear-filtration="resetValues()"
     v-on:set-filtration="setFiltration()"
     v-on:change-dialog-options="cancelModal()"
   >
@@ -35,12 +35,15 @@
 <script setup lang="ts">
 import FiltrationCard from '@/components/common/FiltrationCard.vue'
 import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
-import { RepositoriesFiltration } from '@/models/Filtration'
 import { useRepositoryStore } from '@/store/repositories'
 import { useEnumFiltration } from '@/composable/filtration/enumFiltration'
 import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesFiltration'
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
+import {
+  RepositoriesFiltration,
+  defaultValues
+} from '@/models/Filtration'
 
 const emit = defineEmits(['closeModal'])
 
@@ -50,7 +53,7 @@ const { storeId, filtrateRepositories, loadRepositories } =
   useRepositoriesFiltration()
 const { technologies } = useEnumFiltration()
 
-const { resetForm, values } = useForm({
+const { setValues, values } = useForm({
   validationSchema: toTypedSchema(RepositoriesFiltration),
   initialValues: repository_store.filtration
 })
@@ -62,7 +65,12 @@ function setFiltration() {
   cancelModal()
 }
 
+function resetValues() {
+  setValues(defaultValues(RepositoriesFiltration))
+}
+
 function cancelModal() {
   emit('closeModal')
+  console.log(values)
 }
 </script>

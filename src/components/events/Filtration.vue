@@ -2,7 +2,7 @@
   <filtration-card
     :title="$t('events.filtration.title')"
     long
-    v-on:clear-filtration="resetForm()"
+    v-on:clear-filtration="resetValues()"
     v-on:set-filtration="setFiltration()"
     v-on:change-dialog-options="cancelModal()"
   >
@@ -53,14 +53,15 @@
 
 <script setup lang="ts">
 import FiltrationCard from '@/components/common/FiltrationCard.vue'
-import CardActions from '@/components/common/CardActions.vue'
 import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
-import { i18n } from '@/plugins/i18n'
 import { useEventsStore } from '@/store/events'
 import { useEnumFiltration } from '@/composable/filtration/enumFiltration'
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
-import { EventsFiltration } from '@/models/Filtration'
+import {
+  EventsFiltration,
+  defaultValues
+} from '@/models/Filtration'
 
 const emit = defineEmits(['closeModal'])
 const event_store = useEventsStore()
@@ -68,7 +69,7 @@ const event_store = useEventsStore()
 const { technologies, resourceTypes, eventTypes } =
   useEnumFiltration()
 
-const { resetForm, values } = useForm({
+const { setValues, values } = useForm({
   validationSchema: toTypedSchema(EventsFiltration),
   initialValues: event_store.filtration
 })
@@ -76,6 +77,10 @@ const { resetForm, values } = useForm({
 function setFiltration() {
   event_store.setFiltration(values as EventsFiltration)
   cancelModal()
+}
+
+function resetValues() {
+  setValues(defaultValues(EventsFiltration))
 }
 
 function cancelModal() {

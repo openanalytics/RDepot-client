@@ -1,9 +1,7 @@
 <template>
   <filtration-card
     :title="$t('packages.filtration.title')"
-    v-on:clear-filtration="
-      setValues(defaultValues(PackagesFiltration))
-    "
+    v-on:clear-filtration="resetValues()"
     v-on:set-filtration="setFiltration()"
     v-on:change-dialog-options="cancelModal()"
   >
@@ -71,7 +69,12 @@ const { setValues, values } = useForm({
 function setFiltration() {
   console.log('setting', values)
   package_store.setFiltration(values as PackagesFiltration)
+  console.log('setted', values)
   cancelModal()
+}
+
+function resetValues() {
+  setValues(defaultValues(PackagesFiltration))
 }
 
 function cancelModal() {
