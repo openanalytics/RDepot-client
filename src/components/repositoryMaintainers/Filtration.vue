@@ -36,6 +36,7 @@ import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 
 const emit = defineEmits(['closeModal'])
+const { deepCopy } = useUtilities()
 
 const maintainers_store = useRepositoryMaintainersStore()
 
