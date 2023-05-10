@@ -18,6 +18,7 @@ import {
   RepositoriesFiltration,
   defaultValues
 } from '@/models/Filtration'
+import flushPromises from 'flush-promises'
 
 let wrapper: any
 const globalConfig = {
@@ -25,6 +26,14 @@ const globalConfig = {
   plugins: plugins
 }
 let repositories_store: any
+
+const example_repository_filtration =
+  RepositoriesFiltration.parse({
+    name: 'testrepo1',
+    deleted: true,
+    technologies: [Technologies.enum.R]
+  })
+
 beforeAll(() => {
   global.ResizeObserver = ResizeObserver
 })
@@ -71,47 +80,43 @@ describe('Repositories - filtration', () => {
   it('reset form but not accept it yet', async () => {
     fillTheFormWithRandomData()
     fillPiniaFiltrationWithRandomData()
-    wrapper.vm.localFiltration.technology =
+    wrapper.vm.values.technologies = [
       Technologies.enum.Python
+    ]
     await clickButton('#reset-button')
     checkIfFiltrationIsEmpty()
-    expect(repositories_store.filtration.technology).toBe(
-      Technologies.enum.R
-    )
+    expect(
+      repositories_store.filtration.technologies
+    ).toStrictEqual([Technologies.enum.R])
   })
 
   it('reset form but and cancel it', async () => {
-    fillTheFormWithRandomData()
+    await fillTheFormWithRandomData()
     fillPiniaFiltrationWithRandomData()
-    wrapper.vm.localFiltration.technology =
+    wrapper.vm.values.technologies = [
       Technologies.enum.Python
+    ]
     await clickButton('#reset-button')
     await clickButton('#cancel-button')
-    expect(wrapper.vm.filtration.technology).toBe(
-      Technologies.enum.R
-    )
-    expect(repositories_store.filtration.technology).toBe(
-      Technologies.enum.R
-    )
+    expect(
+      repositories_store.filtration.technologies
+    ).toStrictEqual([Technologies.enum.R])
   })
 
   it('change state but cancel action', async () => {
-    fillTheFormWithRandomData()
+    await fillTheFormWithRandomData()
     fillPiniaFiltrationWithRandomData()
     await clickButton('#set-filtration')
-    wrapper.vm.localFiltration.technology =
+    wrapper.vm.values.technologies =
       Technologies.enum.Python
     await clickButton('#cancel-button')
-    expect(wrapper.vm.filtration.technology).toBe(
-      Technologies.enum.R
-    )
-    expect(repositories_store.filtration.technology).toBe(
-      Technologies.enum.R
-    )
+    expect(
+      repositories_store.filtration.technologies
+    ).toStrictEqual([Technologies.enum.R])
   })
 
   it('clear form and accept it', async () => {
-    fillTheFormWithRandomData()
+    await fillTheFormWithRandomData()
     fillPiniaFiltrationWithRandomData()
     await clickButton('#set-filtration')
     expect(wrapper.emitted().closeModal).toBeTruthy()
@@ -130,7 +135,7 @@ describe('Repositories - filtration', () => {
 })
 
 function checkIfFiltrationIsEmpty() {
-  expect(wrapper.vm.localFiltration).toEqual(
+  expect(wrapper.vm.values).toEqual(
     defaultValues(RepositoriesFiltration)
   )
 }
@@ -145,24 +150,22 @@ function checkIfPiniaFiltrationIsFilledWithData() {
   expect(repositories_store.filtration.name).toBe(
     'testrepo1'
   )
-  expect(repositories_store.filtration.technology).toBe(
-    Technologies.enum.R
-  )
+  expect(
+    repositories_store.filtration.technologies
+  ).toStrictEqual([Technologies.enum.R])
   expect(repositories_store.filtration.deleted).toBe(true)
 }
 
 function fillPiniaFiltrationWithRandomData() {
-  repositories_store.filtration.name = 'testrepo1'
-  repositories_store.filtration.technology =
-    Technologies.enum.R
-  repositories_store.filtration.deleted = true
+  repositories_store.filtration =
+    RepositoriesFiltration.parse(
+      example_repository_filtration
+    )
 }
 
-function fillTheFormWithRandomData() {
-  wrapper.vm.localFiltration.name = 'testrepo1'
-  wrapper.vm.localFiltration.technology =
-    Technologies.enum.R
-  wrapper.vm.localFiltration.deleted = true
+async function fillTheFormWithRandomData() {
+  wrapper.vm.setValues(example_repository_filtration)
+  await flushPromises()
 }
 
 async function clickButton(id: string) {

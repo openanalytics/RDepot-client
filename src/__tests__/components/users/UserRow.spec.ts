@@ -15,8 +15,10 @@ import users from '@/__tests__/config/mockData/users.json'
 import { EntityModelUserDto } from '@/openapi'
 import { createPinia, setActivePinia } from 'pinia'
 import { roleToString } from '@/enum/UserRoles'
+import { useUtilities } from '@/composable/utilities'
 
 let wrapper: any
+const { deepCopyAny } = useUtilities()
 const globalConfig = {
   mocks: mocks,
   plugins: plugins
@@ -28,8 +30,8 @@ beforeAll(() => {
 })
 
 describe('User list - user row', () => {
-  const user: EntityModelUserDto = JSON.parse(
-    JSON.stringify(users.data.content[4])
+  const user: EntityModelUserDto = deepCopyAny(
+    users.data.content[4]
   )
   beforeEach(async () => {
     wrapper = mount(UserRow, {

@@ -18,9 +18,11 @@ import {
   PackagesFiltration,
   defaultValues
 } from '@/models/Filtration'
+import { useUtilities } from '@/composable/utilities'
 
 const defaultFiltration = defaultValues(PackagesFiltration)
 
+const { deepCopyAny } = useUtilities()
 const randomFiltration = {
   state: 'ACCEPTED',
   deleted: true,
@@ -103,9 +105,7 @@ describe('Package Store', () => {
   it('Activate package', async () => {
     const package_store = usePackagesStore()
     const spy = vi.spyOn(package_store, 'fetchPackages')
-    const newPackage = JSON.parse(
-      JSON.stringify(packages.data.content[2])
-    )
+    const newPackage = deepCopyAny(packages.data.content[2])
 
     await package_store.activatePackage(newPackage)
 

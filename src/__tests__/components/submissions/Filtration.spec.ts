@@ -13,8 +13,12 @@ import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import FiltrationVue from '@/components/submissions/Filtration.vue'
 import { createPinia, setActivePinia } from 'pinia'
 import { useSubmissionStore } from '@/store/submission'
-import { log } from 'console'
 import FiltrationCard from '@/components/common/FiltrationCard.vue'
+import {
+  SubmissionsFiltration,
+  defaultValues
+} from '@/models/Filtration'
+import flushPromises from 'flush-promises'
 
 let wrapper: any
 const globalConfig = {
@@ -22,6 +26,14 @@ const globalConfig = {
   plugins: plugins
 }
 let submissions_store: any
+
+const example_submission_filtration =
+  SubmissionsFiltration.parse({
+    state: 'ACCEPTED',
+    package: 'accured',
+    assignedToMe: false
+  })
+
 beforeAll(() => {
   global.ResizeObserver = ResizeObserver
 })
@@ -80,13 +92,13 @@ describe('Submissions - filtration', () => {
       .find('#reset-button')
       .trigger('click')
     expect(submissions_store.filtration.state).toBe(
-      'accepted'
+      'ACCEPTED'
     )
   })
   it('reset form and then cancel it', async () => {
     fillTheFormWithRandomData()
     fillPiniaFiltrationWithRandomData()
-    wrapper.vm.localFiltration.state = 'deleted'
+    wrapper.vm.values.state = 'DELETED'
     const filtrationCard =
       wrapper.findComponent(FiltrationCard)
     expect(filtrationCard.exists()).toEqual(true)
@@ -96,11 +108,8 @@ describe('Submissions - filtration', () => {
     await filtrationCard
       .find('#cancel-button')
       .trigger('click')
-    expect(wrapper.vm.localFiltration.state).toBe(
-      'accepted'
-    )
     expect(submissions_store.filtration.state).toBe(
-      'accepted'
+      'ACCEPTED'
     )
   })
 
@@ -113,14 +122,13 @@ describe('Submissions - filtration', () => {
     await filtrationCard
       .find('#set-filtration')
       .trigger('click')
-    wrapper.vm.localFiltration.state = 'deleted'
+    wrapper.vm.values.state = 'DELETED'
 
     await filtrationCard
       .find('#cancel-button')
       .trigger('click')
-    expect(wrapper.vm.localFiltration.state).toBe('deleted')
     expect(submissions_store.filtration.state).toBe(
-      'deleted'
+      'ACCEPTED'
     )
   })
 
@@ -136,7 +144,7 @@ describe('Submissions - filtration', () => {
   })
 
   it('save filtration', async () => {
-    fillTheFormWithRandomData()
+    await fillTheFormWithRandomData()
     await clickButton('#set-filtration')
     expect(wrapper.emitted().closeModal).toBeTruthy()
     checkIfPiniaFiltrationIsFilledWithData()
@@ -144,30 +152,22 @@ describe('Submissions - filtration', () => {
 })
 
 function checkIfFiltrationIsEmpty() {
-  expect(wrapper.vm.localFiltration.state).toBe(undefined)
-  expect(wrapper.vm.localFiltration.packageId).toBe(
-    undefined
-  )
-  expect(wrapper.vm.localFiltration.assignedToMe).toBe(
-    undefined
+  expect(wrapper.vm.values).toEqual(
+    defaultValues(SubmissionsFiltration)
   )
 }
 
 function checkIfPiniaFiltrationIsEmpty() {
-  expect(submissions_store.filtration.state).toBe(undefined)
-  expect(submissions_store.filtration.packageId).toBe(
-    undefined
-  )
-  expect(submissions_store.filtration.assignedToMe).toBe(
-    undefined
+  expect(submissions_store.filtration).toEqual(
+    defaultValues(SubmissionsFiltration)
   )
 }
 
 function checkIfPiniaFiltrationIsFilledWithData() {
   expect(submissions_store.filtration.state).toBe(
-    'accepted'
+    'ACCEPTED'
   )
-  expect(submissions_store.filtration.packageId).toBe(
+  expect(submissions_store.filtration.package).toBe(
     'accured'
   )
   expect(submissions_store.filtration.assignedToMe).toBe(
@@ -176,15 +176,15 @@ function checkIfPiniaFiltrationIsFilledWithData() {
 }
 
 function fillPiniaFiltrationWithRandomData() {
-  submissions_store.filtration.state = 'accepted'
-  submissions_store.filtration.packageId = 'accured'
-  submissions_store.filtration.assignedToMe = false
+  submissions_store.filtration =
+    SubmissionsFiltration.parse(
+      example_submission_filtration
+    )
 }
 
-function fillTheFormWithRandomData() {
-  wrapper.vm.localFiltration.state = 'accepted'
-  wrapper.vm.localFiltration.packageId = 'accured'
-  wrapper.vm.localFiltration.assignedToMe = false
+async function fillTheFormWithRandomData() {
+  wrapper.vm.setValues(example_submission_filtration)
+  await flushPromises()
 }
 
 async function clickButton(id: string) {

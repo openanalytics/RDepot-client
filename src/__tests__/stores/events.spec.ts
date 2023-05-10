@@ -13,21 +13,22 @@ import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import events from '@/__tests__/config/mockData/events.json'
 import { Technologies } from '@/enum/Technologies'
+import { EventsFiltration } from '@/models/Filtration'
 
 const defaultFiltration = {
   eventType: undefined,
   resourceId: undefined,
   resourceType: undefined,
-  technology: undefined,
+  technologies: undefined,
   userId: undefined
 }
 
 const randomFiltration = {
   eventType: 'some event type',
-  resourceId: 4,
+  resourceId: '4',
   resourceType: 'four',
-  technology: Technologies.enum.R,
-  userId: 44
+  technologies: [Technologies.enum.R],
+  userId: '44'
 }
 
 const server = setupServer(
@@ -73,7 +74,9 @@ describe('Event Store', () => {
 
     expect(spy).toHaveBeenCalledTimes(0)
 
-    events_store.setFiltration(filtration)
+    events_store.setFiltration(
+      EventsFiltration.parse(filtration)
+    )
 
     expect(events_store.filtration).toStrictEqual(
       filtration

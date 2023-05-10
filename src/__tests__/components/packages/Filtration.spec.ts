@@ -6,12 +6,13 @@ import {
   beforeAll
 } from 'vitest'
 
+import flushPromises from 'flush-promises'
 import { mount } from '@vue/test-utils'
 import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
 import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import FiltrationVue from '@/components/packages/Filtration.vue'
-import { createPinia, setActivePinia, Store } from 'pinia'
+import { createPinia, setActivePinia } from 'pinia'
 import { usePackagesStore } from '@/store/packages'
 import { Technologies } from '@/enum/Technologies'
 import {
@@ -25,17 +26,18 @@ const globalConfig = {
   plugins: plugins
 }
 let packages_store: any
-beforeAll(() => {
-  global.ResizeObserver = ResizeObserver
-})
 
 const example_packages_filtration =
   PackagesFiltration.parse({
     state: 'ACCEPTED',
     repository: 'repository1',
     deleted: false,
-    technology: Technologies.enum.R
+    technologies: [Technologies.enum.R]
   })
+
+beforeAll(() => {
+  global.ResizeObserver = ResizeObserver
+})
 
 beforeEach(async () => {
   setActivePinia(createPinia())
@@ -69,7 +71,7 @@ describe('Packages - filtration', () => {
   })
 
   it('reset filled form', async () => {
-    fillTheFormWithRandomData()
+    await fillTheFormWithRandomData()
     fillPiniaFiltrationWithRandomData()
     await clickButton('#reset-button')
     checkIfFiltrationIsEmpty()
@@ -77,49 +79,46 @@ describe('Packages - filtration', () => {
   })
 
   it('reset form but not accept it yet', async () => {
-    fillTheFormWithRandomData()
+    await fillTheFormWithRandomData()
     fillPiniaFiltrationWithRandomData()
-    wrapper.vm.values.state = 'deleted'
+    wrapper.vm.values.state = 'DELETED'
     await clickButton('#reset-button')
     checkIfFiltrationIsEmpty()
     expect(packages_store.filtration.state).toBe('ACCEPTED')
   })
 
-  it('reset form but and cancel it', async () => {
-    fillTheFormWithRandomData()
+  it('reset form and cancel it', async () => {
+    await fillTheFormWithRandomData()
     fillPiniaFiltrationWithRandomData()
-    wrapper.vm.values.setValue('state', 'DELETED')
+    wrapper.vm.values.state = 'DELETED'
     await clickButton('#reset-button')
     await clickButton('#cancel-button')
-    expect(wrapper.vm.filtration.state).toBe('ACCEPTED')
     expect(packages_store.filtration.state).toBe('ACCEPTED')
   })
 
   it('change state but cancel action', async () => {
-    fillTheFormWithRandomData()
-    fillPiniaFiltrationWithRandomData()
+    await fillTheFormWithRandomData()
     await clickButton('#set-filtration')
-    wrapper.vm.values.state = 'deleted'
+    wrapper.vm.values.state = 'DELETED'
     await clickButton('#cancel-button')
-    expect(wrapper.vm.filtration.state).toBe('ACCEPTED')
     expect(packages_store.filtration.state).toBe('ACCEPTED')
   })
 
-  it('clear form and accept it', async () => {
-    fillTheFormWithRandomData()
+  it('clear form and accept it ', async () => {
+    await fillTheFormWithRandomData()
     fillPiniaFiltrationWithRandomData()
+
     await clickButton('#set-filtration')
     expect(wrapper.emitted().closeModal).toBeTruthy()
     await clickButton('#reset-button')
-    console.log('in test: ', wrapper.vm.values)
-
     await clickButton('#set-filtration')
+
     checkIfFiltrationIsEmpty()
     checkIfPiniaFiltrationIsEmpty()
   })
 
   it('save filtration', async () => {
-    fillTheFormWithRandomData()
+    await fillTheFormWithRandomData()
     await clickButton('#set-filtration')
     expect(wrapper.emitted().closeModal).toBeTruthy()
     checkIfPiniaFiltrationIsFilledWithData()
@@ -144,9 +143,9 @@ function checkIfPiniaFiltrationIsFilledWithData() {
   )
   expect(packages_store.filtration.state).toBe('ACCEPTED')
   expect(packages_store.filtration.deleted).toBe(false)
-  expect(packages_store.filtration.technology).toBe(
-    Technologies.enum.R
-  )
+  expect(
+    packages_store.filtration.technologies
+  ).toStrictEqual([Technologies.enum.R])
 }
 
 function fillPiniaFiltrationWithRandomData() {
@@ -155,18 +154,13 @@ function fillPiniaFiltrationWithRandomData() {
   )
 }
 
-function fillTheFormWithRandomData() {
-  console.log(wrapper.vm.values)
-  console.log('should be: ', example_packages_filtration)
-  wrapper.vm.values = PackagesFiltration.parse(
-    example_packages_filtration
-  )
-  console.log(wrapper.vm.values)
-  console.log(wrapper.vm.values.state)
+async function fillTheFormWithRandomData() {
+  wrapper.vm.setValues(example_packages_filtration)
+  await flushPromises()
 }
 
 async function clickButton(id: string) {
-  const cancel_button = wrapper.find(id)
-  expect(cancel_button.isVisible()).toBe(true)
-  await cancel_button.trigger('click')
+  const button = wrapper.find(id)
+  expect(button.isVisible()).toBe(true)
+  await button.trigger('click')
 }

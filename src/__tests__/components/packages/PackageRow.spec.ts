@@ -14,6 +14,7 @@ import PackageRowVue from '@/components/packages/PackageRow.vue'
 import packages from '@/__tests__/config/mockData/packages.json'
 import { EntityModelRPackageDto } from '@/openapi'
 import { createPinia, setActivePinia } from 'pinia'
+import { useUtilities } from '@/composable/utilities'
 
 let wrapper: any
 const globalConfig = {
@@ -26,10 +27,13 @@ beforeAll(() => {
   setActivePinia(createPinia())
 })
 
+const { deepCopyAny } = useUtilities()
+
 describe('Packages - package row (packagebag)', () => {
-  const packagebag: EntityModelRPackageDto = JSON.parse(
-    JSON.stringify(packages.data.content[0])
+  const packagebag: EntityModelRPackageDto = deepCopyAny(
+    packages.data.content[0]
   )
+
   beforeEach(async () => {
     wrapper = mount(PackageRowVue, {
       global: globalConfig,
