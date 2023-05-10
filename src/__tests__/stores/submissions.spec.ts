@@ -38,8 +38,7 @@ const defaultFiltration = defaultValues(
 )
 
 const randomFiltration = {
-  package: packages.data
-    .content[0] as EntityModelPackageDto,
+  package: packages.data.content[0].name,
   state: 'ACCEPTED',
   assignedToMe: true
 } as SubmissionsFiltration

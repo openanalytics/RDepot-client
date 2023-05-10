@@ -25,6 +25,13 @@ const globalConfig = {
   plugins: plugins
 }
 let repository_maintainers_store: any
+
+const example_repository_maintainer_filtration =
+  RepositoryMaintainersFiltration.parse({
+    deleted: false,
+    technologies: [Technologies.enum.Python]
+  })
+
 beforeAll(() => {
   global.ResizeObserver = ResizeObserver
 })
@@ -70,11 +77,9 @@ describe('Repository Maintainers - filtration', () => {
   })
 
   it('reset form but not accept it yet', async () => {
-    fillTheFormWithRandomData()
+    await fillTheFormWithRandomData()
     fillPiniaFiltrationWithRandomData()
-    wrapper.vm.localFiltration.technologies = [
-      Technologies.enum.R
-    ]
+    wrapper.vm.technologies = [Technologies.enum.Python]
     await clickButton('#reset-button')
     checkIfFiltrationIsEmpty()
     expect(
@@ -85,14 +90,9 @@ describe('Repository Maintainers - filtration', () => {
   it('reset form but and cancel it', async () => {
     fillTheFormWithRandomData()
     fillPiniaFiltrationWithRandomData()
-    wrapper.vm.localFiltration.technologies = [
-      Technologies.enum.R
-    ]
+    wrapper.vm.values.technologies = [Technologies.enum.R]
     await clickButton('#reset-button')
     await clickButton('#cancel-button')
-    expect(
-      wrapper.vm.filtration.technologies
-    ).toStrictEqual([Technologies.enum.Python])
     expect(
       repository_maintainers_store.filtration.technologies
     ).toStrictEqual([Technologies.enum.Python])
@@ -102,13 +102,8 @@ describe('Repository Maintainers - filtration', () => {
     fillTheFormWithRandomData()
     fillPiniaFiltrationWithRandomData()
     await clickButton('#set-filtration')
-    wrapper.vm.localFiltration.technologies = [
-      Technologies.enum.R
-    ]
+    wrapper.vm.values.technologies = [Technologies.enum.R]
     await clickButton('#cancel-button')
-    expect(
-      wrapper.vm.filtration.technologies
-    ).toStrictEqual([Technologies.enum.Python])
     expect(
       repository_maintainers_store.filtration.technologies
     ).toStrictEqual([Technologies.enum.Python])
@@ -134,7 +129,7 @@ describe('Repository Maintainers - filtration', () => {
 })
 
 function checkIfFiltrationIsEmpty() {
-  expect(wrapper.vm.localFiltration).toEqual(
+  expect(wrapper.vm.values).toEqual(
     defaultValues(RepositoryMaintainersFiltration)
   )
 }
@@ -155,17 +150,16 @@ function checkIfPiniaFiltrationIsFilledWithData() {
 }
 
 function fillPiniaFiltrationWithRandomData() {
-  repository_maintainers_store.filtration.technologies = [
-    Technologies.enum.Python
-  ]
-  repository_maintainers_store.filtration.deleted = false
+  repository_maintainers_store.filtration =
+    RepositoryMaintainersFiltration.parse(
+      example_repository_maintainer_filtration
+    )
 }
 
 function fillTheFormWithRandomData() {
-  wrapper.vm.localFiltration.technologies = [
-    Technologies.enum.Python
-  ]
-  wrapper.vm.localFiltration.deleted = false
+  wrapper.vm.setValues(
+    example_repository_maintainer_filtration
+  )
 }
 
 async function clickButton(id: string) {

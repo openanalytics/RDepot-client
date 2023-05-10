@@ -18,6 +18,7 @@ import {
   PackageMaintainersFiltration,
   defaultValues
 } from '@/models/Filtration'
+import flushPromises from 'flush-promises'
 
 let wrapper: any
 const globalConfig = {
@@ -25,6 +26,13 @@ const globalConfig = {
   plugins: plugins
 }
 let package_maintainers_store: any
+
+const example_package_maintainer_filtration =
+  PackageMaintainersFiltration.parse({
+    deleted: false,
+    technologies: [Technologies.enum.R]
+  })
+
 beforeAll(() => {
   global.ResizeObserver = ResizeObserver
 })
@@ -71,7 +79,7 @@ describe('Packages Maintainers - filtration', () => {
   it('reset form but not accept it yet', async () => {
     fillTheFormWithRandomData()
     fillPiniaFiltrationWithRandomData()
-    wrapper.vm.localFiltration.technologies = [
+    wrapper.vm.values.technologies = [
       Technologies.enum.Python
     ]
     await clickButton('#reset-button')
@@ -81,17 +89,14 @@ describe('Packages Maintainers - filtration', () => {
     ).toStrictEqual([Technologies.enum.R])
   })
 
-  it('reset form but and cancel it', async () => {
+  it('reset form and cancel it', async () => {
     fillTheFormWithRandomData()
     fillPiniaFiltrationWithRandomData()
-    wrapper.vm.localFiltration.technologies = [
+    wrapper.vm.values.technologies = [
       Technologies.enum.Python
     ]
     await clickButton('#reset-button')
     await clickButton('#cancel-button')
-    expect(
-      wrapper.vm.filtration.technologies
-    ).toStrictEqual([Technologies.enum.R])
     expect(
       package_maintainers_store.filtration.technologies
     ).toStrictEqual([Technologies.enum.R])
@@ -101,13 +106,10 @@ describe('Packages Maintainers - filtration', () => {
     fillTheFormWithRandomData()
     fillPiniaFiltrationWithRandomData()
     await clickButton('#set-filtration')
-    wrapper.vm.localFiltration.technologies = [
+    wrapper.vm.values.technologies = [
       Technologies.enum.Python
     ]
     await clickButton('#cancel-button')
-    expect(
-      wrapper.vm.filtration.technologies
-    ).toStrictEqual([Technologies.enum.R])
     expect(
       package_maintainers_store.filtration.technologies
     ).toStrictEqual([Technologies.enum.R])
@@ -133,7 +135,7 @@ describe('Packages Maintainers - filtration', () => {
 })
 
 function checkIfFiltrationIsEmpty() {
-  expect(wrapper.vm.localFiltration).toEqual(
+  expect(wrapper.vm.values).toEqual(
     defaultValues(PackageMaintainersFiltration)
   )
 }
@@ -154,17 +156,17 @@ function checkIfPiniaFiltrationIsFilledWithData() {
 }
 
 function fillPiniaFiltrationWithRandomData() {
-  package_maintainers_store.filtration.technologies = [
-    Technologies.enum.R
-  ]
-  package_maintainers_store.filtration.deleted = false
+  package_maintainers_store.filtration =
+    PackageMaintainersFiltration.parse(
+      example_package_maintainer_filtration
+    )
 }
 
-function fillTheFormWithRandomData() {
-  wrapper.vm.localFiltration.technologies = [
-    Technologies.enum.R
-  ]
-  wrapper.vm.localFiltration.deleted = false
+async function fillTheFormWithRandomData() {
+  wrapper.vm.setValues(
+    example_package_maintainer_filtration
+  )
+  await flushPromises()
 }
 
 async function clickButton(id: string) {
