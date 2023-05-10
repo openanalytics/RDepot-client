@@ -178,7 +178,7 @@ export function updateRepository(
   oldRepository: EntityModelRepositoryDto,
   newRepository: EntityModelRepositoryDto
 ) {
-  if (!isAuthorized('PATCH', 'repositories')) {
+  if (!isAuthorized('PATCH', 'repository')) {
     return new Promise(() => false)
   }
 
