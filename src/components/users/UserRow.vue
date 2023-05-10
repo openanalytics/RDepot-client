@@ -28,7 +28,6 @@
       <SortTitle
         v-if="title"
         :text="$t('columns.username')"
-        sortField="login"
       />
       <TextRecord v-else :text="user?.login" />
     </v-col>
@@ -40,7 +39,7 @@
       <SortTitle
         v-if="title"
         :text="$t('columns.role')"
-        sortField="roleId"
+        noSort
       />
       <TextRecord v-else :text="getRole" />
     </v-col>

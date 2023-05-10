@@ -45,6 +45,7 @@ import { repositoryMaintainerSchema } from '@/models/Schemas'
 import { notify } from '@kyvg/vue3-notification'
 import { i18n } from '@/plugins/i18n'
 import { z } from 'zod'
+import { useUtilities } from '@/composable/utilities'
 
 const props = defineProps({
   blockedField: {
@@ -74,11 +75,9 @@ const maintainers_store = useRepositoryMaintainersStore()
 const repositories = computed(() => {
   return maintainers_store.repositories
 })
-
+const { deepCopy } = useUtilities()
 let maintainer: EntityModelRepositoryMaintainerDto =
-  JSON.parse(
-    JSON.stringify(maintainers_store.chosenMaintainer)
-  )
+  deepCopy(maintainers_store.chosenMaintainer)
 
 const localMaintainer = ref(maintainer)
 
@@ -101,7 +100,9 @@ const { meta } = useForm({
 
 function setMaintainer() {
   if (meta.value.valid) {
-    maintainers_store.saveMaintainer(localMaintainer.value)
+    maintainers_store.updateMaintainer(
+      localMaintainer.value
+    )
     changeDialogOptions()
   } else {
     notify({

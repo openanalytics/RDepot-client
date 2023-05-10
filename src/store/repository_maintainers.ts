@@ -15,7 +15,9 @@ import {
 } from '@/services/repository_maintainers_services'
 import { usePaginationStore } from './pagination'
 import { fetchRepositoriesServices } from '@/services'
+import { useUtilities } from '@/composable/utilities'
 
+const { deepCopy } = useUtilities()
 interface State {
   maintainers: EntityModelRepositoryMaintainerDto[]
   filtration: RepositoryMaintainersFiltration
@@ -59,14 +61,18 @@ export const useRepositoryMaintainersStore = defineStore(
       ) {
         this.chosenMaintainer = payload
       },
-      async saveMaintainer(
-        newMaintainer: EntityModelPackageMaintainerDto
+      async updateMaintainer(
+        newValues: Partial<EntityModelPackageMaintainerDto>
       ) {
         if (
           this.chosenMaintainer.id &&
           this.chosenMaintainer.repository &&
           this.chosenMaintainer.repository.id
         ) {
+          const newMaintainer = {
+            ...deepCopy(this.chosenMaintainer),
+            ...newValues
+          }
           await updateRepositoryMaintainer(
             this.chosenMaintainer,
             newMaintainer
@@ -86,12 +92,7 @@ export const useRepositoryMaintainersStore = defineStore(
       },
       async softDelete() {
         if (this.chosenMaintainer) {
-          let newRepositoryMaintainer: EntityModelPackageMaintainerDto =
-            JSON.parse(
-              JSON.stringify(this.chosenMaintainer)
-            )
-          newRepositoryMaintainer.deleted = true
-          this.saveMaintainer(newRepositoryMaintainer)
+          this.updateMaintainer({ deleted: true })
         }
       },
       async setPage(payload: number) {

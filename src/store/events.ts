@@ -8,7 +8,6 @@ import {
   defaultValues
 } from '@/models/Filtration'
 import { fetchEventsServices } from '@/services/events_services'
-import { useObjectActions } from '@/composable/objectActions'
 
 interface State {
   page?: number
@@ -74,12 +73,10 @@ export const useEventsStore = defineStore('events_store', {
       await this.fetchEvents()
     },
     clearFiltration() {
-      const { setAllFields } = useObjectActions()
-      setAllFields(this.filtration, undefined)
+      this.filtration = defaultValues(EventsFiltration)
     },
     async clearFiltrationAndFetch() {
-      const { setAllFields } = useObjectActions()
-      setAllFields(this.filtration, undefined)
+      this.clearFiltration()
       await this.fetchEvents()
     }
   }

@@ -17,6 +17,9 @@ import {
   updateRepository
 } from '@/services/repository_services'
 import { createRepository } from '@/services/repository_services'
+import { useUtilities } from '@/composable/utilities'
+
+const { deepCopy } = useUtilities()
 
 interface State {
   repositories: EntityModelRepositoryDto[]
@@ -94,17 +97,16 @@ export const useRepositoryStore = defineStore(
       },
       async softDelete() {
         if (this.chosenRepository) {
-          let newRepository: EntityModelRRepositoryDto =
-            JSON.parse(
-              JSON.stringify(this.chosenRepository)
-            )
-          newRepository.deleted = true
-          this.updateRepository(newRepository)
+          this.updateRepository({ deleted: true })
         }
       },
       async updateRepository(
-        newRepository: EntityModelRRepositoryDto
+        newValues: Partial<EntityModelRRepositoryDto>
       ) {
+        const newRepository = {
+          ...deepCopy(this.chosenRepository),
+          ...newValues
+        }
         await updateRepository(
           this.chosenRepository,
           newRepository

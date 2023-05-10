@@ -25,7 +25,7 @@
 
 <script setup lang="ts">
 import CardActions from '@/components/common/CardActions.vue'
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import { Form, useForm } from 'vee-validate'
 import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
 import { toTypedSchema } from '@vee-validate/zod'
@@ -34,6 +34,7 @@ import { i18n } from '@/plugins/i18n'
 import { useUserStore } from '@/store/users'
 import { UserRoleSchema } from '@/models/Schemas'
 import { z } from 'zod'
+import { useUtilities } from '@/composable/utilities'
 
 const props = defineProps({
   blockedField: {
@@ -77,11 +78,12 @@ const { meta } = useForm({
   }
 })
 
+const { deepCopy } = useUtilities()
+
 async function setRole() {
   if (meta.value.valid) {
-    const newUser = JSON.parse(
-      JSON.stringify(user_store.chosenUser)
-    )
+    const newUser = deepCopy(user_store.chosenUser)
+
     newUser.roleId = (localRole.value.value || 0) + 1
     await user_store.saveUser(newUser)
     await user_store.fetchUsers()

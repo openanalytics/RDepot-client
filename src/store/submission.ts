@@ -1,21 +1,22 @@
 import {
   EntityModelRepositoryDto,
-  EntityModelSubmissionDto,
-  EntityModelSubmissionDtoStateEnum
+  EntityModelSubmissionDto
 } from '@/openapi'
 import { defineStore } from 'pinia'
-import { SubmissionsFiltration } from '@/models/Filtration'
+import {
+  defaultValues,
+  SubmissionsFiltration
+} from '@/models/Filtration'
 import { notify } from '@kyvg/vue3-notification'
 import { i18n } from '@/plugins/i18n'
 import { useLoggedUserStore } from './logged_user'
 import {
   addSubmission,
   fetchRSubmissions,
-  updateSubmissionState
+  updateSubmission
 } from '@/services/submission_services'
 import { usePaginationStore } from '@/store/pagination'
-import { useObjectActions } from '@/composable/objectActions'
-import { z } from 'zod'
+import { useUtilities } from '@/composable/utilities'
 
 interface State {
   packages: File[]
@@ -23,6 +24,8 @@ interface State {
   submissions: EntityModelSubmissionDto[]
   filtration: SubmissionsFiltration
 }
+
+const { deepCopy } = useUtilities()
 
 export const useSubmissionStore = defineStore(
   'submission_store',
@@ -32,11 +35,7 @@ export const useSubmissionStore = defineStore(
         packages: [],
         submissions: [],
         repository: undefined,
-        filtration: {
-          package: undefined,
-          state: undefined,
-          assignedToMe: undefined
-        }
+        filtration: defaultValues(SubmissionsFiltration)
       }
     },
     actions: {
@@ -54,14 +53,18 @@ export const useSubmissionStore = defineStore(
         pagination.setTotalNumber(pageData.totalNumber)
         pagination.setPage(pageData.page)
       },
-      async updateSubmissionState(
-        submission: EntityModelSubmissionDto,
-        state: EntityModelSubmissionDtoStateEnum,
+      async updateSubmission(
+        oldSubmission: EntityModelSubmissionDto,
+        newValues: Partial<EntityModelSubmissionDto>,
         textNotification: string
       ) {
-        await updateSubmissionState(
-          submission,
-          state,
+        const newSubmission = {
+          ...deepCopy(oldSubmission),
+          ...newValues
+        }
+        await updateSubmission(
+          oldSubmission,
+          newSubmission,
           textNotification
         ).then(async (success) => {
           if (success) await this.fetchSubmissions()
@@ -97,8 +100,9 @@ export const useSubmissionStore = defineStore(
       clearFiltration() {
         const pagination = usePaginationStore()
         pagination.setPage(0)
-        const { setAllFields } = useObjectActions()
-        setAllFields(this.filtration, undefined)
+        this.filtration = defaultValues(
+          SubmissionsFiltration
+        )
       },
       async clearFiltrationAndFetch() {
         this.clearFiltration()

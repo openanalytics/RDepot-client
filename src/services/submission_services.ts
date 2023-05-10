@@ -95,22 +95,6 @@ export function updateSubmission(
   )
 }
 
-export function updateSubmissionState(
-  submission: EntityModelSubmissionDto,
-  state: EntityModelSubmissionDtoStateEnum,
-  textNotification: string
-): Promise<boolean> {
-  const newSubmission = JSON.parse(
-    JSON.stringify(submission)
-  ) as EntityModelSubmissionDto
-  newSubmission.state = state
-  return updateSubmission(
-    submission,
-    newSubmission,
-    textNotification
-  )
-}
-
 export function addSubmission(
   repository: string,
   file: File

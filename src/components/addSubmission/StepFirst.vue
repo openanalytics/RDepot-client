@@ -24,7 +24,6 @@
                 <v-spacer></v-spacer>
                 <v-chip
                   text-color="white"
-                  :color="item.color"
                   class="text-body-1"
                   small
                   >{{ item.value.technology }}</v-chip
@@ -65,7 +64,6 @@ const repositories = computed(function () {
 })
 
 function changeRepository(value: EntityModelRepositoryDto) {
-  console.log('repository')
   submissions_store.setRepository(value)
 }
 

@@ -192,9 +192,9 @@ function prepareString(value: string): string {
 async function acceptSubmission() {
   disabled.value = true
   if (props.submission) {
-    await submission_store.updateSubmissionState(
+    await submission_store.updateSubmission(
       props.submission,
-      EntityModelSubmissionDtoStateEnum.ACCEPTED,
+      { state: EntityModelSubmissionDtoStateEnum.ACCEPTED },
       i18n.t('notifications.acceptSubmission')
     )
   }
@@ -205,9 +205,11 @@ async function acceptSubmission() {
 async function cancelSubmission() {
   disabled.value = true
   if (props.submission) {
-    await submission_store.updateSubmissionState(
+    await submission_store.updateSubmission(
       props.submission,
-      EntityModelSubmissionDtoStateEnum.CANCELLED,
+      {
+        state: EntityModelSubmissionDtoStateEnum.CANCELLED
+      },
       i18n.t('notifications.successCancelSubmission')
     )
   }
@@ -217,9 +219,9 @@ async function cancelSubmission() {
 async function rejectSubmission() {
   disabled.value = true
   if (props.submission) {
-    await submission_store.updateSubmissionState(
+    await submission_store.updateSubmission(
       props.submission,
-      EntityModelSubmissionDtoStateEnum.REJECTED,
+      { state: EntityModelSubmissionDtoStateEnum.REJECTED },
       i18n.t('notifications.successRejectSubmission')
     )
   }

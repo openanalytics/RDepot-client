@@ -13,6 +13,7 @@ import {
   fetchPackageServices,
   updateRPackage
 } from '@/services/package_services'
+import { useUtilities } from '@/composable/utilities'
 import { usePaginationStore } from './pagination'
 
 interface State {
@@ -23,6 +24,8 @@ interface State {
   chosenPackageId?: number
   next?: boolean
 }
+
+const { deepCopy } = useUtilities()
 
 export const usePackagesStore = defineStore(
   'packages_store',
@@ -79,9 +82,7 @@ export const usePackagesStore = defineStore(
       async activatePackage(
         newPackage: EntityModelPackageDto
       ) {
-        const oldPackage = JSON.parse(
-          JSON.stringify(newPackage)
-        ) as EntityModelPackageDto
+        const oldPackage = deepCopy(newPackage)
         oldPackage.active = !newPackage.active
         await updateRPackage(oldPackage, newPackage).then(
           async (success) => {
@@ -108,8 +109,6 @@ export const usePackagesStore = defineStore(
         this.filtration.repository = payload
       },
       clearFiltration() {
-        console.log('clear filtration')
-
         const pagination = usePaginationStore()
         pagination.setPage(0)
         this.filtration = defaultValues(PackagesFiltration)
