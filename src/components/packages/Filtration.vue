@@ -1,7 +1,9 @@
 <template>
   <filtration-card
     :title="$t('packages.filtration.title')"
-    v-on:clear-filtration="resetForm()"
+    v-on:clear-filtration="
+      setValues(defaultValues(PackagesFiltration))
+    "
     v-on:set-filtration="setFiltration()"
     v-on:change-dialog-options="cancelModal()"
   >
@@ -43,7 +45,10 @@
 <script setup lang="ts">
 import FiltrationCard from '@/components/common/FiltrationCard.vue'
 import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
-import { PackagesFiltration } from '@/models/Filtration'
+import {
+  defaultValues,
+  PackagesFiltration
+} from '@/models/Filtration'
 import { usePackagesStore } from '@/store/packages'
 import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesFiltration'
 import { useEnumFiltration } from '@/composable/filtration/enumFiltration'
@@ -58,12 +63,13 @@ const package_store = usePackagesStore()
 
 const { states, technologies } = useEnumFiltration()
 
-const { resetForm, values } = useForm({
+const { setValues, values } = useForm({
   validationSchema: toTypedSchema(PackagesFiltration),
   initialValues: package_store.filtration
 })
 
 function setFiltration() {
+  console.log('setting', values)
   package_store.setFiltration(values as PackagesFiltration)
   cancelModal()
 }
