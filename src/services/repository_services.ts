@@ -18,7 +18,6 @@ import {
 } from './open_api_access'
 import { notify } from '@kyvg/vue3-notification'
 import { useSortStore } from '@/store/sort'
-import { AxiosResponse } from 'axios'
 import { repositorySchema } from '@/models/Schemas'
 import { createPatch } from 'rfc6902'
 import { isAuthorized } from '@/plugins/casl'
