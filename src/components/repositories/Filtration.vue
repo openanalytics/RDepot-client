@@ -44,7 +44,6 @@ import {
   RepositoriesFiltration,
   defaultValues
 } from '@/models/Filtration'
-import { useUtilities } from '@/composable/utilities'
 
 const emit = defineEmits(['closeModal'])
 
