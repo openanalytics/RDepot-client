@@ -83,10 +83,6 @@ describe('Pagination', () => {
       .find('button[arialabel="Previous page"]')
       .trigger('click')
 
-    console.log(
-      wrapper.find('button[arialabel="Goto Page 1"]')
-    )
-
     currentPage -= 1
     expect(wrapper.find(currentPageSelector).text()).toBe(
       pageToString(currentPage)
@@ -94,11 +90,6 @@ describe('Pagination', () => {
   })
 
   it('Select page 3', async () => {
-    let currentPage = 0
-    pagination_store.page = currentPage
-
-    await flushPromises()
-
     expect(wrapper.find(currentPageSelector).text()).toBe(
       '1'
     )
