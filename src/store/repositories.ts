@@ -9,10 +9,7 @@ import {
 } from '@/models/Filtration'
 import { fetchRepositoriesServices } from '@/services'
 import { usePaginationStore } from './pagination'
-import {
-  fetchRepositoriesServicesNoLoading,
-  updateRepository
-} from '@/services/repository_services'
+import { updateRepository } from '@/services/repository_services'
 import { createRepository } from '@/services/repository_services'
 import { useUtilities } from '@/composable/utilities'
 
@@ -72,9 +69,14 @@ export const useRepositoryStore = defineStore(
       },
       async fetchRepository(name: string) {
         const [repository] =
-          await fetchRepositoriesServicesNoLoading({
-            name: name
-          } as RepositoriesFiltration)
+          await fetchRepositoriesServices(
+            {
+              name: name
+            } as RepositoriesFiltration,
+            undefined,
+            undefined,
+            true
+          )
         return repository
       },
       async softDelete() {

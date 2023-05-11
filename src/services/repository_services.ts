@@ -60,40 +60,6 @@ export function fetchRepositoriesServices(
   )
 }
 
-export function fetchRepositoriesServicesNoLoading(
-  filtration?: RepositoriesFiltration,
-  page?: number,
-  pageSize?: number
-): Promise<validatedData<EntityModelRepositoryDto>> {
-  if (!isAuthorized('GET', 'repositories')) {
-    return new Promise(() => validateRequest)
-  }
-  const repository_api =
-    ApiV2RepositoryControllerApiFactory(getConfiguration())
-  const sort = useSortStore()
-
-  return repository_api
-    .getAllRepositories(
-      filtration?.deleted,
-      filtration?.name,
-      filtration?.technologies,
-      page,
-      pageSize,
-      sort.getSortBy()
-    )
-    .then(
-      (res) =>
-        validateRequest(
-          res.data.data?.content,
-          res.data.data?.page
-        ),
-      (msg) => {
-        notify({ type: 'error', text: msg })
-        return validateRequest()
-      }
-    )
-}
-
 export function fetchRRepositories(): Promise<
   validatedData<EntityModelRepositoryDto>
 > {

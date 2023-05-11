@@ -57,42 +57,6 @@ export function fetchPackagesServices(
   )
 }
 
-export function fetchPackagesWithoutProgressControl(
-  filtration?: PackagesFiltration,
-  page?: number,
-  pageSize?: number
-): Promise<validatedData<EntityModelPackageDto>> {
-  if (!isAuthorized('GET', 'packages')) {
-    return new Promise(() => validateRequest())
-  }
-  const packages_api = ApiV2PackageControllerApiFactory(
-    getConfiguration()
-  )
-  const sort = ['name,asc']
-  return packages_api
-    .getAllPackages(
-      filtration?.repository,
-      filtration?.deleted,
-      filtration?.state,
-      filtration?.technologies,
-      page,
-      pageSize,
-      sort
-    )
-    .then(
-      (res) => {
-        return validateRequest(
-          res.data.data?.content,
-          res.data.data?.page
-        )
-      },
-      (msg) => {
-        notify({ type: 'error', text: msg })
-        return validateRequest()
-      }
-    )
-}
-
 export function fetchPackageServices(
   id: number
 ): Promise<EntityModelPackageDto | undefined> {
