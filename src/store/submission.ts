@@ -89,8 +89,12 @@ export const useSubmissionStore = defineStore(
       async setFiltration(payload: SubmissionsFiltration) {
         const pagination = usePaginationStore()
         pagination.setPage(0)
-        this.filtration =
-          SubmissionsFiltration.parse(payload)
+        if (
+          SubmissionsFiltration.safeParse(payload).success
+        ) {
+          this.filtration =
+            SubmissionsFiltration.parse(payload)
+        }
         await this.fetchSubmissions()
         notify({
           text: i18n.t('notifications.successFiltration'),

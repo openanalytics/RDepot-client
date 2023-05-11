@@ -101,7 +101,10 @@ export const usePackagesStore = defineStore(
       async setFiltration(payload: PackagesFiltration) {
         const pagination = usePaginationStore()
         pagination.setPage(0)
-        this.filtration = PackagesFiltration.parse(payload)
+        if (PackagesFiltration.safeParse(payload).success) {
+          this.filtration =
+            PackagesFiltration.parse(payload)
+        }
         await this.fetchPackages()
       },
       setFiltrationByRepositoryOnly(payload?: string) {
