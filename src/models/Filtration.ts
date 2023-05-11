@@ -1,5 +1,4 @@
 import { z } from 'zod'
-import { PackageSchema } from './Schemas'
 import { EntityModelSubmissionDtoStateEnum } from '@/openapi'
 
 export function defaultValues<T extends z.ZodType>(
@@ -13,7 +12,15 @@ const PackagesFiltration = z
     state: z.string().optional(),
     deleted: z.boolean(),
     repository: z.string().optional(),
-    technologies: z.array(z.string()).optional()
+    technologies: z
+      .array(z.string())
+      .optional()
+      .transform((val) => {
+        if (val?.length == 0) {
+          return undefined
+        }
+        return val
+      })
   })
   .default({
     state: undefined,
@@ -26,7 +33,15 @@ type PackagesFiltration = z.infer<typeof PackagesFiltration>
 
 const RepositoriesFiltration = z
   .object({
-    technologies: z.array(z.string()).optional(),
+    technologies: z
+      .array(z.string())
+      .optional()
+      .transform((val) => {
+        if (val?.length == 0) {
+          return undefined
+        }
+        return val
+      }),
     name: z.string().optional(),
     deleted: z.boolean()
   })
@@ -60,7 +75,15 @@ type SubmissionsFiltration = z.infer<
 
 const EventsFiltration = z
   .object({
-    technologies: z.array(z.string()).optional(),
+    technologies: z
+      .array(z.string())
+      .optional()
+      .transform((val) => {
+        if (val?.length == 0) {
+          return undefined
+        }
+        return val
+      }),
     userId: z.string().optional(),
     resourceId: z.string().optional(),
     eventType: z.string().optional(),
@@ -78,7 +101,15 @@ type EventsFiltration = z.infer<typeof EventsFiltration>
 const PackageMaintainersFiltration = z
   .object({
     deleted: z.boolean(),
-    technologies: z.array(z.string()).optional()
+    technologies: z
+      .array(z.string())
+      .optional()
+      .transform((val) => {
+        if (val?.length == 0) {
+          return undefined
+        }
+        return val
+      })
   })
   .default({
     deleted: false,
