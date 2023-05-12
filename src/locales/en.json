@@ -69,10 +69,6 @@
     "username": "user name",
     "role": "role"
   },
-  "filtration": {
-    "title": "filtration",
-    "makeSure": "this action will clear all filtration"
-  },
   "navbar": {
     "changeLanguage": "lang"
   },
@@ -195,5 +191,19 @@
       "user": "User",
       "packageNotFound": "Package not in repository"
     }
+  },
+  "filtration": {
+    "title": "filtration",
+    "makeSure": "this action will clear all filtration",
+    "state": "state",
+    "packageName": "package name",
+    "repositoryName": "repository name",
+    "deleted": "deleted",
+    "technologies": "technologies",
+    "assignedToMe": "assigned to me",
+    "eventType": "event type",
+    "resourceType": "resourceType",
+    "resourceId": "resource id",
+    "userId": "user id"
   }
 }
