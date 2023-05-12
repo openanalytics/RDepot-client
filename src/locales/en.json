@@ -202,7 +202,7 @@
     "technologies": "technologies",
     "assignedToMe": "assigned to me",
     "eventType": "event type",
-    "resourceType": "resourceType",
+    "resourceType": "resource type",
     "resourceId": "resource id",
     "userId": "user id"
   }

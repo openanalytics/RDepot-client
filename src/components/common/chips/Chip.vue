@@ -1,24 +1,33 @@
 <template>
-  <span class="chip-section">
-    <v-chip class="pa-4 mr-3" @click="$emit('update')" link>
+  <span
+    :id="getId"
+    class="chip-section"
+    @click="$emit('update')"
+  >
+    <v-chip class="pa-4 mr-3" link>
       {{ label }} <span v-if="value">: {{ value }}</span>
     </v-chip>
     <v-icon
       icon="mdi-close-circle"
       size="s"
-      @click="$emit('update')"
       class="icon"
     ></v-icon>
   </span>
 </template>
 
 <script lang="ts" setup>
+import { computed } from 'vue'
+
 const props = defineProps({
   label: String,
   value: {
-    type: Object as () => String | Boolean | String[],
+    type: String,
     required: false
   }
+})
+
+const getId = computed(() => {
+  return props.label?.split(' ').join('_')
 })
 </script>
 
@@ -31,6 +40,10 @@ const props = defineProps({
     position: absolute;
     right: 8px;
     top: -8px;
+
+    &:hover {
+      cursor: pointer;
+    }
   }
 
   &:hover {
