@@ -1,7 +1,7 @@
 <template>
   <PackagesModal />
   <v-row class="my-3">
-    <FiltrationChips :values="packages_store.filtration" />
+    <PackagesFiltrationChips />
     <FiltrationButtons />
   </v-row>
   <PackagesList />
@@ -13,8 +13,5 @@ import PackagesList from '@/components/packages/PackagesList.vue'
 import Pagination from '@/components/common/Pagination.vue'
 import PackagesModal from '@/components/packages/PackagesModal.vue'
 import FiltrationButtons from '@/components/common/FiltrationButtons.vue'
-import FiltrationChips from '@/components/packages/FiltrationChips.vue'
-import { usePackagesStore } from '@/store/packages'
-
-const packages_store = usePackagesStore()
+import PackagesFiltrationChips from '@/components/packages/PackagesFiltrationChips.vue'
 </script>

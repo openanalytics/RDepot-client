@@ -1,9 +1,7 @@
 <template>
   <RepositoriesModal />
   <v-row class="my-3">
-    <FiltrationChips
-      :values="repositories_store.filtration"
-    />
+    <RepositoriesFiltrationChips />
     <FiltrationButtons>
       <template v-slot:prepend
         ><AddButton
@@ -24,9 +22,7 @@ import FiltrationButtons from '@/components/common/FiltrationButtons.vue'
 import AddButton from '@/components/common/AddButton.vue'
 import Pagination from '@/components/common/Pagination.vue'
 import { useLoggedUserStore } from '@/store/logged_user'
-import { useRepositoryStore } from '@/store/repositories'
-import FiltrationChips from '@/components/packages/FiltrationChips.vue'
+import RepositoriesFiltrationChips from '@/components/repositories/RepositoriesFiltrationChips.vue'
 
 const logged_user_store = useLoggedUserStore()
-const repositories_store = useRepositoryStore()
 </script>
