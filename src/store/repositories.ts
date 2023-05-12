@@ -1,6 +1,4 @@
 import {
-  ApiV2PackageControllerApiFactory,
-  EntityModelPackageDto,
   EntityModelRRepositoryDto,
   EntityModelRepositoryDto
 } from '@/openapi'
@@ -10,12 +8,8 @@ import {
   defaultValues
 } from '@/models/Filtration'
 import { fetchRepositoriesServices } from '@/services'
-import { notify } from '@kyvg/vue3-notification'
 import { usePaginationStore } from './pagination'
-import {
-  fetchRepositoriesServicesNoLoading,
-  updateRepository
-} from '@/services/repository_services'
+import { updateRepository } from '@/services/repository_services'
 import { createRepository } from '@/services/repository_services'
 import { useUtilities } from '@/composable/utilities'
 
@@ -25,10 +19,7 @@ interface State {
   repositories: EntityModelRepositoryDto[]
   filtration: RepositoriesFiltration
   chosenRepository: EntityModelRRepositoryDto
-  repositoryPackages: EntityModelPackageDto[]
 }
-
-const packages_api = ApiV2PackageControllerApiFactory()
 
 export const useRepositoryStore = defineStore(
   'repository_store',
@@ -37,8 +28,7 @@ export const useRepositoryStore = defineStore(
       return {
         repositories: [],
         filtration: defaultValues(RepositoriesFiltration),
-        chosenRepository: {},
-        repositoryPackages: []
+        chosenRepository: {}
       }
     },
     actions: {
@@ -79,21 +69,15 @@ export const useRepositoryStore = defineStore(
       },
       async fetchRepository(name: string) {
         const [repository] =
-          await fetchRepositoriesServicesNoLoading({
-            name: name
-          } as RepositoriesFiltration)
-        return repository
-      },
-      async fetchPackages() {
-        packages_api
-          .getAllPackages(this.chosenRepository.name)
-          .then(
-            (res) => {
-              this.repositoryPackages =
-                res.data.data?.content || []
-            },
-            (msg) => notify({ text: msg, type: 'error' })
+          await fetchRepositoriesServices(
+            {
+              name: name
+            } as RepositoriesFiltration,
+            undefined,
+            undefined,
+            true
           )
+        return repository
       },
       async softDelete() {
         if (this.chosenRepository) {
@@ -129,8 +113,12 @@ export const useRepositoryStore = defineStore(
       async setFiltration(payload: RepositoriesFiltration) {
         const pagination = usePaginationStore()
         pagination.setPage(0)
-        this.filtration =
-          RepositoriesFiltration.parse(payload)
+        if (
+          RepositoriesFiltration.safeParse(payload).success
+        ) {
+          this.filtration =
+            RepositoriesFiltration.parse(payload)
+        }
         await this.fetchRepositories()
       },
       setFiltrationByName(payload: string | undefined) {

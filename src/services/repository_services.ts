@@ -18,7 +18,6 @@ import {
 } from './open_api_access'
 import { notify } from '@kyvg/vue3-notification'
 import { useSortStore } from '@/store/sort'
-import { AxiosResponse } from 'axios'
 import { repositorySchema } from '@/models/Schemas'
 import { createPatch } from 'rfc6902'
 import { isAuthorized } from '@/plugins/casl'
@@ -58,40 +57,6 @@ export function fetchRepositoriesServices(
       return validateRequest()
     }
   )
-}
-
-export function fetchRepositoriesServicesNoLoading(
-  filtration?: RepositoriesFiltration,
-  page?: number,
-  pageSize?: number
-): Promise<validatedData<EntityModelRepositoryDto>> {
-  if (!isAuthorized('GET', 'repositories')) {
-    return new Promise(() => validateRequest)
-  }
-  const repository_api =
-    ApiV2RepositoryControllerApiFactory(getConfiguration())
-  const sort = useSortStore()
-
-  return repository_api
-    .getAllRepositories(
-      filtration?.deleted,
-      filtration?.name,
-      filtration?.technologies,
-      page,
-      pageSize,
-      sort.getSortBy()
-    )
-    .then(
-      (res) =>
-        validateRequest(
-          res.data.data?.content,
-          res.data.data?.page
-        ),
-      (msg) => {
-        notify({ type: 'error', text: msg })
-        return validateRequest()
-      }
-    )
 }
 
 export function fetchRRepositories(): Promise<

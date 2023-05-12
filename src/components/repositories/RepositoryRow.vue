@@ -193,17 +193,12 @@ function updateRepositoryPublished(): void {
 }
 
 function navigate() {
-  if (props.repository && props.repository.name) {
-    package_store.setFiltrationByRepositoryOnly(
-      props.repository.name
-    )
-    router.push({
-      name: 'repositoryDetails',
-      params: {
-        name: props.repository.name
-      }
-    })
-  }
+  router.push({
+    name: 'repositoryDetails',
+    params: {
+      name: props.repository?.name
+    }
+  })
 }
 
 function chooseRepository() {

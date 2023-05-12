@@ -106,8 +106,13 @@ export const useRepositoryMaintainersStore = defineStore(
       ) {
         const pagination = usePaginationStore()
         pagination.setPage(0)
-        this.filtration =
-          RepositoryMaintainersFiltration.parse(payload)
+        if (
+          RepositoryMaintainersFiltration.safeParse(payload)
+            .success
+        ) {
+          this.filtration =
+            RepositoryMaintainersFiltration.parse(payload)
+        }
         await this.fetchMaintainers()
       },
       clearFiltration() {
