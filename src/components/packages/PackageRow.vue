@@ -153,13 +153,10 @@ import { usePackagesStore } from '@/store/packages'
 import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
 import SortTitle from '@/components/common/resources/SortTitle.vue'
 import TextRecord from '@/components/common/resources/TextRecord.vue'
-
-const package_store = usePackagesStore()
-import { useI18n } from 'vue-i18n'
 import { useLoggedUserStore } from '@/store/logged_user'
 
+const package_store = usePackagesStore()
 const logged_user_store = useLoggedUserStore()
-const { t } = useI18n()
 
 const props = defineProps({
   title: {
@@ -190,7 +187,7 @@ function navigate() {
     router.push({
       name: 'packageDetails',
       params: {
-        name: props.packageBag.id
+        id: props.packageBag.id
       }
     })
   }
