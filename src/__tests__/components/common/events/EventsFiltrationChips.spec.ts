@@ -29,8 +29,8 @@ const example_events_filtration = EventsFiltration.parse({
     Technologies.enum.R,
     Technologies.enum.Python
   ],
-  userId: '3',
-  resourceId: '4',
+  userId: 3,
+  resourceId: 4,
   eventType: 'update',
   resourceType: 'repository'
 })

@@ -25,10 +25,10 @@ const defaultFiltration = {
 
 const randomFiltration = {
   eventType: 'some event type',
-  resourceId: '4',
+  resourceId: 4,
   resourceType: 'four',
   technologies: [Technologies.enum.R],
-  userId: '44'
+  userId: 44
 }
 
 const server = setupServer(

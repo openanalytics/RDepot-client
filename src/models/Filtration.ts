@@ -84,8 +84,8 @@ const EventsFiltration = z
         }
         return val
       }),
-    userId: z.string().optional(),
-    resourceId: z.string().optional(),
+    userId: z.number().optional(),
+    resourceId: z.number().optional(),
     eventType: z.string().optional(),
     resourceType: z.string().optional()
   })
