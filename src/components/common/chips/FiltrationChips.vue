@@ -7,7 +7,7 @@
     >
       <chip
         v-if="typeof field == 'boolean' && field != false"
-        :label="store.labels?.get(i)"
+        :label="labels.get(i)"
         v-on:update="updateFiltration(i, !field)"
       />
       <chip
@@ -15,7 +15,7 @@
           typeof field == 'string' ||
           typeof field == 'number'
         "
-        :label="store.labels?.get(i)"
+        :label="labels.get(i)"
         v-on:update="updateFiltration(i)"
         :value="field"
       />
@@ -25,7 +25,7 @@
         :key="index"
       >
         <chip
-          :label="store.labels?.get(i)"
+          :label="labels.get(i)"
           :value="value.toString()"
           v-on:update="updateFiltration(i, value, field)"
         />
@@ -44,12 +44,14 @@ const props = defineProps<{
       string,
       string | boolean | string[] | number | undefined
     >
-    labels: Map<string, string>
+    getLabels: Function
     setFiltration: Function
   }
 }>()
 
 const { deepCopy } = useUtilities()
+const labels: Map<string, string> = props.store.getLabels()
+
 function updateFiltration(
   fieldName: string,
   value?: string | boolean,

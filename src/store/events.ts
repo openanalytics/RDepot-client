@@ -16,7 +16,6 @@ interface State {
   totalNumber?: number
   events: EntityModelNewsfeedEventDto[]
   filtration: EventsFiltration
-  labels: Map<string, string>
   pending: boolean
   next?: Link
 }
@@ -29,7 +28,6 @@ export const useEventsStore = defineStore('events_store', {
       totalNumber: 0,
       events: [],
       filtration: defaultValues(EventsFiltration),
-      labels: eventsFiltrationLabels,
       pending: false,
       next: undefined
     }
@@ -83,6 +81,9 @@ export const useEventsStore = defineStore('events_store', {
     async clearFiltrationAndFetch() {
       this.clearFiltration()
       await this.fetchEvents()
+    },
+    getLabels() {
+      return eventsFiltrationLabels
     }
   }
 })

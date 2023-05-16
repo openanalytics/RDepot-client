@@ -22,7 +22,6 @@ interface State {
   package?: EntityModelPackageDto
   vignettes: ResponseDtoListVignette
   filtration: PackagesFiltration
-  labels: Map<string, string>
   chosenPackageId?: number
   next?: boolean
 }
@@ -38,7 +37,6 @@ export const usePackagesStore = defineStore(
         package: {},
         vignettes: {},
         filtration: defaultValues(PackagesFiltration),
-        labels: packagesFiltrationLabels,
         chosenPackageId: undefined,
         next: false
       }
@@ -125,6 +123,9 @@ export const usePackagesStore = defineStore(
       },
       setChosenPackage(id?: number) {
         this.chosenPackageId = id
+      },
+      getLabels() {
+        return packagesFiltrationLabels
       }
     }
   }
