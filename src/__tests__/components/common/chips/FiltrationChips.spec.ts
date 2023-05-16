@@ -1,4 +1,10 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  beforeAll
+} from 'vitest'
 
 import { mount } from '@vue/test-utils'
 import Chip from '@/components/common/chips/Chip.vue'
@@ -6,28 +12,44 @@ import FiltrationChips from '@/components/common/chips/FiltrationChips.vue'
 import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
 import { packagesFiltrationLabels } from '@/maps/Filtration'
+import { PackagesFiltration } from '@/models/Filtration'
+import { Technologies } from '@/enum/Technologies'
+import { createPinia, setActivePinia } from 'pinia'
+import { usePackagesStore } from '@/store/packages'
 
 let wrapper: any
+let packages_store: any
 
-const VALUES = {
-  state: 'ACCEPTED',
-  technologies: ['R', 'Python'],
-  deleted: true,
-  repository: undefined
-}
+const example_packages_filtration =
+  PackagesFiltration.parse({
+    state: 'ACCEPTED',
+    repository: 'repository1',
+    deleted: true,
+    technologies: [
+      Technologies.enum.R,
+      Technologies.enum.Python
+    ]
+  })
 
 const globalConfig = {
   mocks: mocks,
   plugins: plugins
 }
 
+beforeAll(() => {
+  setActivePinia(createPinia())
+  packages_store = usePackagesStore()
+})
+
 describe('FiltrationChips', () => {
   beforeEach(async () => {
+    packages_store.setFiltration(
+      example_packages_filtration
+    )
     wrapper = mount(FiltrationChips, {
       global: globalConfig,
       props: {
-        values: VALUES,
-        labels: packagesFiltrationLabels
+        store: packages_store
       }
     })
   })
@@ -36,46 +58,36 @@ describe('FiltrationChips', () => {
     expect(wrapper.exists()).toBe(true)
   })
 
-  it('render 4 chips (2 for technologies, 0 for undefined)', () => {
-    expect(wrapper.findAllComponents(Chip).length).toBe(4)
+  it('render 5 chips (2 for technologies, 0 for undefined)', () => {
+    expect(wrapper.findAllComponents(Chip).length).toBe(5)
   })
 
-  it('emit update with field name (string)', async () => {
+  it('update string field', async () => {
     expect(wrapper.find('#state').exists()).toBeTruthy()
     const chip = wrapper.find('#state')
     await chip.trigger('click')
-    console.log(wrapper.emitted())
-    expect(wrapper.emitted().update).toBeTruthy()
-    expect(wrapper.emitted().update[0]).toStrictEqual([
-      'state'
-    ])
-    expect(wrapper.emitted().update[1]).toBe(undefined)
+    expect(wrapper.vm.props.store.filtration.state).toEqual(
+      undefined
+    )
   })
 
-  it('emit update with field name and value (boolean)', async () => {
+  it('update boolean field', async () => {
     expect(wrapper.find('#deleted').exists()).toBeTruthy()
     const chip = wrapper.find('#deleted')
     await chip.trigger('click')
-    console.log(wrapper.emitted())
-    expect(wrapper.emitted().update).toBeTruthy()
-    expect(wrapper.emitted().update[0][0]).toBe('deleted')
-    expect(wrapper.emitted().update[0][1]).toBe(false)
+    expect(
+      wrapper.vm.props.store.filtration.deleted
+    ).toEqual(false)
   })
 
-  it('emit update with field name and values (string[])', async () => {
+  it('update string[] field', async () => {
     expect(
       wrapper.find('#technologies').exists()
     ).toBeTruthy()
     const chip = wrapper.find('#technologies')
     await chip.trigger('click')
-    console.log(wrapper.emitted())
-    expect(wrapper.emitted().update).toBeTruthy()
-    console.log(wrapper.emitted().update)
-    expect(wrapper.emitted().update[0][0]).toBe(
-      'technologies'
-    )
-    expect(wrapper.emitted().update[0][1]).toStrictEqual([
-      'Python'
-    ])
+    expect(
+      wrapper.vm.props.store.filtration.technologies
+    ).toStrictEqual(['Python'])
   })
 })
