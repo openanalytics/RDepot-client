@@ -21,7 +21,7 @@ import { computed } from 'vue'
 const props = defineProps({
   label: String,
   value: {
-    type: String,
+    type: Object as () => String | Number,
     required: false
   }
 })

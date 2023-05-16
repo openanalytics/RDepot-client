@@ -11,7 +11,10 @@
         v-on:update="updateFiltration(i, !field)"
       />
       <chip
-        v-else-if="typeof field == 'string'"
+        v-else-if="
+          typeof field == 'string' ||
+          typeof field == 'number'
+        "
         :label="labels?.get(i)"
         v-on:update="updateFiltration(i)"
         :value="field"
