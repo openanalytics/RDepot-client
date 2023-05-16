@@ -17,12 +17,14 @@ import {
 } from '@/services/submission_services'
 import { usePaginationStore } from '@/store/pagination'
 import { useUtilities } from '@/composable/utilities'
+import { submissionsFiltrationLabels } from '@/maps/Filtration'
 
 interface State {
   packages: File[]
   repository?: EntityModelRepositoryDto
   submissions: EntityModelSubmissionDto[]
   filtration: SubmissionsFiltration
+  labels: Map<string, string>
 }
 
 const { deepCopy } = useUtilities()
@@ -35,7 +37,8 @@ export const useSubmissionStore = defineStore(
         packages: [],
         submissions: [],
         repository: undefined,
-        filtration: defaultValues(SubmissionsFiltration)
+        filtration: defaultValues(SubmissionsFiltration),
+        labels: submissionsFiltrationLabels
       }
     },
     actions: {

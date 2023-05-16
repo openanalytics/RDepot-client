@@ -8,6 +8,7 @@ import {
   defaultValues
 } from '@/models/Filtration'
 import { fetchEventsServices } from '@/services/events_services'
+import { eventsFiltrationLabels } from '@/maps/Filtration'
 
 interface State {
   page?: number
@@ -15,6 +16,7 @@ interface State {
   totalNumber?: number
   events: EntityModelNewsfeedEventDto[]
   filtration: EventsFiltration
+  labels: Map<string, string>
   pending: boolean
   next?: Link
 }
@@ -27,6 +29,7 @@ export const useEventsStore = defineStore('events_store', {
       totalNumber: 0,
       events: [],
       filtration: defaultValues(EventsFiltration),
+      labels: eventsFiltrationLabels,
       pending: false,
       next: undefined
     }

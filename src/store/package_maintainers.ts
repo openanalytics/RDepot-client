@@ -20,10 +20,12 @@ import {
 } from '@/services/package_maintainers_service'
 import { usePaginationStore } from '@/store/pagination'
 import { useUtilities } from '@/composable/utilities'
+import { packageMaintainersFiltrationLabels } from '@/maps/Filtration'
 
 interface State {
   maintainers: EntityModelPackageMaintainerDto[]
   filtration: PackageMaintainersFiltration
+  labels: Map<string, string>
   repositories: EntityModelPythonRepositoryDto[]
   packages: EntityModelRPackageDto[]
   chosenMaintainer: EntityModelPackageMaintainerDto
@@ -40,6 +42,7 @@ export const usePackageMaintainersStore = defineStore(
         filtration: defaultValues(
           PackageMaintainersFiltration
         ),
+        labels: packageMaintainersFiltrationLabels,
         repositories: [],
         packages: [],
         chosenMaintainer: {}

@@ -15,12 +15,14 @@ import {
 } from '@/services/package_services'
 import { useUtilities } from '@/composable/utilities'
 import { usePaginationStore } from './pagination'
+import { packagesFiltrationLabels } from '@/maps/Filtration'
 
 interface State {
   packages: EntityModelPackageDto[]
   package?: EntityModelPackageDto
   vignettes: ResponseDtoListVignette
   filtration: PackagesFiltration
+  labels: Map<string, string>
   chosenPackageId?: number
   next?: boolean
 }
@@ -36,6 +38,7 @@ export const usePackagesStore = defineStore(
         package: {},
         vignettes: {},
         filtration: defaultValues(PackagesFiltration),
+        labels: packagesFiltrationLabels,
         chosenPackageId: undefined,
         next: false
       }
