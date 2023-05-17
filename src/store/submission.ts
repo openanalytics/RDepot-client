@@ -17,6 +17,7 @@ import {
 } from '@/services/submission_services'
 import { usePaginationStore } from '@/store/pagination'
 import { useUtilities } from '@/composable/utilities'
+import { submissionsFiltrationLabels } from '@/maps/Filtration'
 
 interface State {
   packages: File[]
@@ -140,6 +141,9 @@ export const useSubmissionStore = defineStore(
             fulfilled += 1
           }
         })
+      },
+      getLabels() {
+        return submissionsFiltrationLabels
       }
     }
   }

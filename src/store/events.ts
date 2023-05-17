@@ -8,6 +8,7 @@ import {
   defaultValues
 } from '@/models/Filtration'
 import { fetchEventsServices } from '@/services/events_services'
+import { eventsFiltrationLabels } from '@/maps/Filtration'
 
 interface State {
   page?: number
@@ -80,6 +81,9 @@ export const useEventsStore = defineStore('events_store', {
     async clearFiltrationAndFetch() {
       this.clearFiltration()
       await this.fetchEvents()
+    },
+    getLabels() {
+      return eventsFiltrationLabels
     }
   }
 })

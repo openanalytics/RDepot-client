@@ -209,7 +209,7 @@ const { copy } = useClipboard()
 const package_store = usePackagesStore()
 
 const packageBag = computed<EntityModelRPackageDto>(() => {
-  return package_store.package
+  return package_store.package as EntityModelRPackageDto
 })
 
 function copyContent() {
@@ -243,9 +243,7 @@ async function getManual() {
 export default {
   beforeRouteEnter: async function (to) {
     const package_store = usePackagesStore()
-    await package_store.fetchPackage(
-      to.params.name as string
-    )
+    await package_store.fetchPackage(Number(to.params.id))
   }
 }
 </script>

@@ -236,7 +236,19 @@ export const ApiV2UserControllerApiAxiosParamCreator = function (configuration?:
             localVarUrlObj.search = (new URLSearchParams(query)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            const needsSerialization =
+            typeof body !== 'string' ||
+            Object.entries(
+              localVarRequestOptions.headers!
+            ).find(([key, value]) => {
+              if (
+                value === 'application/json' &&
+                key == 'Content-Type'
+              ) {
+                return true
+              }
+              return false
+            })
             localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
 
             return {

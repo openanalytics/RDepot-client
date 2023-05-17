@@ -20,6 +20,7 @@ import {
 } from '@/services/package_maintainers_service'
 import { usePaginationStore } from '@/store/pagination'
 import { useUtilities } from '@/composable/utilities'
+import { packageMaintainersFiltrationLabels } from '@/maps/Filtration'
 
 interface State {
   maintainers: EntityModelPackageMaintainerDto[]
@@ -133,6 +134,9 @@ export const usePackageMaintainersStore = defineStore(
         ).then(async (success) => {
           if (success) await this.fetchMaintainers()
         })
+      },
+      getLabels() {
+        return packageMaintainersFiltrationLabels
       }
     }
   }

@@ -21,21 +21,27 @@ export function fetchEventsServices(
   if (!isAuthorized('GET', 'events')) {
     return new Promise(() => validateRequest())
   }
-  const packages_api =
-    ApiV2NewsfeedEventControllerApiFactory(
-      getConfiguration()
-    )
+  const events_api = ApiV2NewsfeedEventControllerApiFactory(
+    getConfiguration()
+  )
+  var localFiltration = undefined
+  if (
+    filtration.technologies &&
+    filtration.technologies.length > 0
+  ) {
+    localFiltration = filtration.technologies[0]
+  }
   return openApiRequest<ResponseDtoPagedModelEntityModelNewsfeedEventDto>(
-    () =>
-      packages_api.getAllEvents(
-        filtration.technology,
-        filtration.userId,
-        filtration.resourceId,
-        filtration.eventType,
-        filtration.resourceType,
-        page,
-        pageSize
-      )
+    events_api.getAllEvents,
+    [
+      localFiltration,
+      filtration.userId,
+      filtration.resourceId,
+      filtration.eventType,
+      filtration.resourceType,
+      page,
+      pageSize
+    ]
   ).then(
     (res) =>
       validateRequest(

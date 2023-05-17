@@ -16,6 +16,7 @@ import {
 import { usePaginationStore } from './pagination'
 import { fetchRepositoriesServices } from '@/services'
 import { useUtilities } from '@/composable/utilities'
+import { repositoryMaintainersFiltrationLabels } from '@/maps/Filtration'
 
 const { deepCopy } = useUtilities()
 interface State {
@@ -125,6 +126,9 @@ export const useRepositoryMaintainersStore = defineStore(
       async clearFiltrationAndFetch() {
         this.clearFiltration()
         await this.fetchMaintainers()
+      },
+      getLabels() {
+        return repositoryMaintainersFiltrationLabels
       }
     }
   }

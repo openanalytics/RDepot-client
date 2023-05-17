@@ -15,6 +15,7 @@ import {
 } from '@/services/package_services'
 import { useUtilities } from '@/composable/utilities'
 import { usePaginationStore } from './pagination'
+import { packagesFiltrationLabels } from '@/maps/Filtration'
 
 interface State {
   packages: EntityModelPackageDto[]
@@ -122,6 +123,9 @@ export const usePackagesStore = defineStore(
       },
       setChosenPackage(id?: number) {
         this.chosenPackageId = id
+      },
+      getLabels() {
+        return packagesFiltrationLabels
       }
     }
   }

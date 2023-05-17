@@ -33,7 +33,7 @@ export function fetchPackageMaintainersService(
   const sort = useSortStore()
   var sortBy = sort.getSortBy()
   if (sort.field == 'name') {
-    sortBy = 'user,' + sort.direction
+    sortBy = ['user,' + sort.direction]
   }
   return openApiRequest<ResponseDtoPagedModelEntityModelPackageMaintainerDto>(
     package_maintainers_api.getAllPackageMaintainers,

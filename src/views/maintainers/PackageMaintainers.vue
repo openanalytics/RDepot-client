@@ -1,6 +1,9 @@
 <template>
   <MaintainersModal />
-  <FiltrationButtons />
+  <v-row class="my-3">
+    <FiltrationChips :store="package_maintainers_store" />
+    <FiltrationButtons />
+  </v-row>
   <PackageMaintainersList />
   <Pagination />
 </template>
@@ -10,4 +13,9 @@ import FiltrationButtons from '@/components/common/FiltrationButtons.vue'
 import PackageMaintainersList from '@/components/packageMaintainers/PackageMaintainersList.vue'
 import MaintainersModal from '@/components/packageMaintainers/PackageMaintainersModal.vue'
 import Pagination from '@/components/common/Pagination.vue'
+import FiltrationChips from '@/components/common/chips/FiltrationChips.vue'
+import { usePackageMaintainersStore } from '@/store/package_maintainers'
+
+const package_maintainers_store =
+  usePackageMaintainersStore()
 </script>
