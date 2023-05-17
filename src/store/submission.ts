@@ -46,7 +46,6 @@ interface State {
   repository?: EntityModelRepositoryDto
   submissions: EntityModelSubmissionDto[]
   filtration: SubmissionsFiltration
-  labels: Map<string, string>
 }
 
 const { deepCopy } = useUtilities()
@@ -59,8 +58,7 @@ export const useSubmissionStore = defineStore(
         packages: [],
         submissions: [],
         repository: undefined,
-        filtration: defaultValues(SubmissionsFiltration),
-        labels: submissionsFiltrationLabels
+        filtration: defaultValues(SubmissionsFiltration)
       }
     },
     actions: {
@@ -165,6 +163,9 @@ export const useSubmissionStore = defineStore(
             fulfilled += 1
           }
         })
+      },
+      getLabels() {
+        return submissionsFiltrationLabels
       }
     }
   }

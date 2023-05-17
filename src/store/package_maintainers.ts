@@ -47,7 +47,6 @@ import { packageMaintainersFiltrationLabels } from '@/maps/Filtration'
 interface State {
   maintainers: EntityModelPackageMaintainerDto[]
   filtration: PackageMaintainersFiltration
-  labels: Map<string, string>
   repositories: EntityModelPythonRepositoryDto[]
   packages: EntityModelRPackageDto[]
   chosenMaintainer: EntityModelPackageMaintainerDto
@@ -64,7 +63,6 @@ export const usePackageMaintainersStore = defineStore(
         filtration: defaultValues(
           PackageMaintainersFiltration
         ),
-        labels: packageMaintainersFiltrationLabels,
         repositories: [],
         packages: [],
         chosenMaintainer: {}
@@ -158,6 +156,9 @@ export const usePackageMaintainersStore = defineStore(
         ).then(async (success) => {
           if (success) await this.fetchMaintainers()
         })
+      },
+      getLabels() {
+        return packageMaintainersFiltrationLabels
       }
     }
   }

@@ -34,7 +34,6 @@ import { usePaginationStore } from './pagination'
 import { updateRepository } from '@/services/repository_services'
 import { createRepository } from '@/services/repository_services'
 import { useUtilities } from '@/composable/utilities'
-import { repositoryMaintainersFiltrationLabels } from '@/maps/Filtration'
 import { repositoriesFiltrationLabels } from '@/maps/Filtration'
 
 const { deepCopy } = useUtilities()
@@ -42,7 +41,6 @@ const { deepCopy } = useUtilities()
 interface State {
   repositories: EntityModelRepositoryDto[]
   filtration: RepositoriesFiltration
-  labels: Map<string, string>
   chosenRepository: EntityModelRRepositoryDto
 }
 
@@ -53,7 +51,6 @@ export const useRepositoryStore = defineStore(
       return {
         repositories: [],
         filtration: defaultValues(RepositoriesFiltration),
-        labels: repositoriesFiltrationLabels,
         chosenRepository: {}
       }
     },
@@ -170,6 +167,9 @@ export const useRepositoryStore = defineStore(
             if (success) await this.fetchRepositories()
           }
         )
+      },
+      getLabels() {
+        return repositoriesFiltrationLabels
       }
     }
   }

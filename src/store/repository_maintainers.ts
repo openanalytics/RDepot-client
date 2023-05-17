@@ -44,7 +44,6 @@ const { deepCopy } = useUtilities()
 interface State {
   maintainers: EntityModelRepositoryMaintainerDto[]
   filtration: RepositoryMaintainersFiltration
-  labels: Map<string, string>
   repositories: EntityModelRepositoryDto[]
   chosenMaintainer: EntityModelPackageMaintainerDto
 }
@@ -58,7 +57,6 @@ export const useRepositoryMaintainersStore = defineStore(
         filtration: defaultValues(
           RepositoryMaintainersFiltration
         ),
-        labels: repositoryMaintainersFiltrationLabels,
         repositories: [],
         chosenMaintainer: {}
       }
@@ -150,6 +148,9 @@ export const useRepositoryMaintainersStore = defineStore(
       async clearFiltrationAndFetch() {
         this.clearFiltration()
         await this.fetchMaintainers()
+      },
+      getLabels() {
+        return repositoryMaintainersFiltrationLabels
       }
     }
   }
