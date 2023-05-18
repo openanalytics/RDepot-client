@@ -40,6 +40,7 @@ export const useRepositoryStore = defineStore(
         const pageData = await this.fetchData(
           page,
           pageSize,
+          defaultValues(RepositoriesFiltration),
           false
         )
         return pageData
@@ -48,7 +49,8 @@ export const useRepositoryStore = defineStore(
         const pagination = usePaginationStore()
         const pageData = await this.fetchData(
           pagination.page,
-          pagination.pageSize
+          pagination.pageSize,
+          this.filtration
         )
         pagination.setPage(pageData.page)
         pagination.setTotalNumber(pageData.totalNumber)
@@ -56,11 +58,12 @@ export const useRepositoryStore = defineStore(
       async fetchData(
         page: number,
         pageSize: number,
+        filtration: RepositoriesFiltration,
         showProgress: boolean = true
       ) {
         const [repositories, pageData] =
           await fetchRepositoriesServices(
-            this.filtration,
+            filtration,
             page,
             pageSize,
             showProgress
