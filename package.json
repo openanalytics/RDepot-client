@@ -12,7 +12,6 @@
     "test:unit:once": "vitest run",
     "test:unit:ui": "vitest --ui --environment jsdom",
     "test:coverage": "vitest  run --coverage",
-    "execute": "npm run license:check && npm run test:unit:once && npm run build"
     "execute": "npm run license:check && npm run test:unit:once && npm run build",
     "prepare": "husky install"
   },
@@ -50,8 +49,6 @@
     "@vitest/coverage-c8": "^0.27.3",
     "@vitest/ui": "^0.29.8",
     "@vue/eslint-config-typescript": "^11.0.0",
-    "eslint": "^8.22.0",
-    "eslint-plugin-vue": "^9.3.0",
     "eslint": "^8.40.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
