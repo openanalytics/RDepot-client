@@ -24,18 +24,69 @@ const path = require('path')
 const fs = require('fs')
 
 var re_get_extension = /(?:\.([^.]+))?$/
-const allowed_extensions = [
+const extensions_with_license = [
   'html',
   'vue',
   'ts',
   'js',
   'css'
 ]
+const extensions_without_license = [
+  'md',
+  'env',
+  'ico',
+  'json',
+  'local',
+  'eslintrc',
+  'gitignore',
+  'properties',
+  'prettierrc',
+  'browserslistrc'
+]
 
-var new_extension = []
+const directories_without_license_checking = [
+  'node_modules',
+  'dist',
+  '.vscode',
+  '.git',
+  'mockData'
+]
+license_header = fs.readFileSync('LICENSE').toString()
+
+new_extension = []
 wrong_license = []
 
-license_header = fs.readFileSync('LICENSE').toString()
+checkLicenseInAllFiles()
+printLicenseResults()
+printNewExtensions()
+
+function checkLicenseInAllFiles() {
+  for (const file of readAllFiles('./')) {
+    var filename = file.toString()
+    const content = fs.readFileSync(file.toString())
+    var comment
+    if (
+      filename.includes('.vue') ||
+      filename.includes('.html')
+    ) {
+      comment = get_first_comment(
+        content,
+        '<!--',
+        '-->',
+        ''
+      )
+    } else if (
+      filename.includes('.ts') ||
+      filename.includes('.js') ||
+      filename.includes('.css')
+    ) {
+      comment = get_first_comment(content, '/*', '*/', '*')
+    }
+    if (!check_if_license_is_correct(comment)) {
+      wrong_license.push(filename)
+    }
+  }
+}
 
 function* readAllFiles(dir) {
   const files = fs.readdirSync(dir, { withFileTypes: true })
@@ -43,17 +94,23 @@ function* readAllFiles(dir) {
   for (const file of files) {
     if (file.isDirectory()) {
       if (
-        file.name != 'node_modules' &&
-        file.name != 'dist'
+        directories_without_license_checking.includes(
+          file.name
+        )
       ) {
         yield* readAllFiles(path.join(dir, file.name))
       }
     } else {
       var extension = re_get_extension.exec(file.name)[1]
-      if (allowed_extensions.includes(extension)) {
+      if (extensions_with_license.includes(extension)) {
         yield path.join(dir, file.name)
       } else {
-        new_extension.push(extension)
+        if (
+          extension &&
+          !extensions_without_license.includes(extension)
+        ) {
+          new_extension.push(extension)
+        }
       }
     }
   }
@@ -90,35 +147,26 @@ function check_if_license_is_correct(file_header) {
   return false
 }
 
-for (const file of readAllFiles('./')) {
-  var filename = file.toString()
-  const content = fs.readFileSync(file.toString())
-  var comment
-  if (
-    filename.includes('.vue') ||
-    filename.includes('.html')
-  ) {
-    comment = get_first_comment(content, '<!--', '-->', '')
-  } else if (
-    filename.includes('.ts') ||
-    filename.includes('.js') ||
-    filename.includes('.css')
-  ) {
-    comment = get_first_comment(content, '/*', '*/', '*')
-  }
-  if (!check_if_license_is_correct(comment)) {
-    wrong_license.push(filename)
+function printLicenseResults() {
+  if (wrong_license.length > 0) {
+    throw (
+      '--------------------------------\n\nno license / not actual license in files:  \n\n' +
+      wrong_license.toString().replaceAll(',', '\n') +
+      '\n\n--------------------------------\n'
+    )
+  } else {
+    console.log(
+      '--------------------------------\n\nall files contain the license\n\n--------------------------------'
+    )
   }
 }
 
-if (wrong_license.length > 0) {
-  throw (
-    '--------------------------------\n\nno license / not actual license in files:  \n\n' +
-    wrong_license.toString().replaceAll(',', '\n') +
-    '\n\n--------------------------------\n'
-  )
-} else {
-  console.log(
-    '--------------------------------\n\nall files contain the license\n\n--------------------------------'
-  )
+function printNewExtensions() {
+  if (new_extension.length > 0) {
+    console.log('\n\nnew not supported extensions:\n\n')
+    new Set(new_extension).forEach((extension) => {
+      console.log(extension + '\n')
+    })
+    console.log('--------------------------------\n\n')
+  }
 }
