@@ -6,12 +6,15 @@
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
     "lint": "eslint . --fix --ignore-path .gitignore",
+    "lint:staged": "eslint --fix $(git diff --diff-filter=d --cached --name-only)",
     "license:check": "node ./license_checker.js",
     "test:unit": "vitest --environment jsdom",
     "test:unit:once": "vitest run",
     "test:unit:ui": "vitest --ui --environment jsdom",
     "test:coverage": "vitest  run --coverage",
     "execute": "npm run license:check && npm run test:unit:once && npm run build"
+    "execute": "npm run license:check && npm run test:unit:once && npm run build",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@casl/ability": "^6.4.0",
