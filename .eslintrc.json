@@ -38,6 +38,7 @@
     "@typescript-eslint/no-empty-function": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
     "@typescript-eslint/no-explicit-any": ["off"],
+    "@typescript-eslint/ban-types": "warn",
     "brace-style": [
       "warn",
       "1tbs",
@@ -45,10 +46,5 @@
     ],
     "no-undef": "off",
     "no-empty": "warn"
-    // "jsonc/quotes": [
-    //   "error",
-    //   "double",
-    //   { "avoidEscape": false }
-    // ]
   }
 }
