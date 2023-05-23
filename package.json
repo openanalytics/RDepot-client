@@ -14,12 +14,13 @@
     "test:coverage": "vitest  run --coverage",
     "execute": "npm run license:check && npm run test:unit:once && npm run build",
     "prettier": "npx prettier --write .",
-    "prettier:changes": "npx prettier --write $(git diff --diff-filter=d --cached --name-only)"
+    "prettier:changes": "npx prettier --write $(git diff --diff-filter=d --cached --name-only)",
+    "git:fix:hooks": "git config --unset core.hookspath"
   },
-  "precommit": [
-    "prettier"
+  "pre-commit": [
+    "prettier:changes"
   ],
-  "prepush": [
+  "pre-push": [
     "license:check, lint"
   ],
   "dependencies": {
