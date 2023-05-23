@@ -41,15 +41,14 @@ import { useRepositoryStore } from '@/store/repositories'
 import { onBeforeMount } from 'vue'
 import RepositoryRow from '@/components/repositories/RepositoryRow.vue'
 import ResourcesList from '@/components/common/resources/ResourcesList.vue'
-import { usePackagesStore } from '@/store/packages'
 
-const package_store = usePackagesStore()
 const repository_store = useRepositoryStore()
 
 function updateData(): void {
   repository_store.fetchRepositories()
 }
 function navigate(repository: EntityModelRRepositoryDto) {
+  repository_store.setChosenRepository(repository.id)
   router.push({
     name: 'repositoryDetails',
     params: {

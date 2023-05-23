@@ -178,7 +178,6 @@
 <script setup lang="ts">
 import router from '@/router'
 import { EntityModelRepositoryDto } from '@/openapi'
-import { usePackagesStore } from '@/store/packages'
 import { useRepositoryStore } from '@/store/repositories'
 import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
 import SortTitle from '@/components/common/resources/SortTitle.vue'
@@ -189,7 +188,6 @@ import { ref } from 'vue'
 import { useUtilities } from '@/composable/utilities'
 
 const repository_store = useRepositoryStore()
-const package_store = usePackagesStore()
 const logged_user_store = useLoggedUserStore()
 const { deepCopy } = useUtilities()
 
@@ -215,6 +213,7 @@ function updateRepositoryPublished(): void {
 }
 
 function navigate() {
+  chooseRepository()
   router.push({
     name: 'repositoryDetails',
     params: {

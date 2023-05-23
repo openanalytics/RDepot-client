@@ -57,7 +57,6 @@ describe('Chip - with value', () => {
     ).toBeTruthy()
     const chip = wrapper.find('.chip-section')
     await chip.trigger('click')
-    console.log(wrapper.emitted())
     expect(wrapper.emitted().update).toBeTruthy()
   })
 })

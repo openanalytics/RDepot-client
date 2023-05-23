@@ -39,8 +39,10 @@ import { onBeforeMount } from 'vue'
 import ShortPackageRow from '@/components/packages/shortPackages/ShortPackageRow.vue'
 import ResourcesList from '@/components/common/resources/ResourcesList.vue'
 import { usePackagesStore } from '@/store/packages'
+import { useRepositoryStore } from '@/store/repositories'
 
 const package_store = usePackagesStore()
+const repositories_store = useRepositoryStore()
 
 function getDescription(item: any) {
   if (item.hasOwnProperty('description')) {
@@ -50,7 +52,7 @@ function getDescription(item: any) {
 }
 
 function updateData(): void {
-  package_store.fetchPackages()
+  package_store.fetchPackages({repository: repositories_store.chosenRepository.name, deleted: false })
 }
 
 onBeforeMount(() => {

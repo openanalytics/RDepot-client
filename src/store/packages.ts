@@ -71,15 +71,17 @@ export const usePackagesStore = defineStore(
         const pageData = await this.fetchData(
           page,
           pageSize,
+          defaultValues(PackagesFiltration),
           false
         )
         return pageData
       },
-      async fetchPackages() {
+      async fetchPackages(filtration?: PackagesFiltration) {
         const pagination = usePaginationStore()
         const pageData = await this.fetchData(
           pagination.page,
-          pagination.pageSize
+          pagination.pageSize,
+          filtration || this.filtration
         )
         pagination.setPage(pageData.page)
         pagination.setTotalNumber(pageData.totalNumber)
@@ -87,11 +89,13 @@ export const usePackagesStore = defineStore(
       async fetchData(
         page: number,
         pageSize: number,
+        filtration: PackagesFiltration,
         showProgress: boolean = true
       ) {
+        this.packages = []
         const [packages, pageData] =
           await fetchPackagesServices(
-            this.filtration,
+            filtration,
             page,
             pageSize,
             showProgress
