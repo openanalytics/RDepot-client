@@ -35,13 +35,15 @@ const extensions_without_license = [
   'md',
   'env',
   'ico',
+  'yaml',
   'json',
   'local',
   'eslintrc',
   'gitignore',
   'properties',
   'prettierrc',
-  'browserslistrc'
+  'browserslistrc',
+  'prettierignore'
 ]
 
 const directories_without_license_checking = [
