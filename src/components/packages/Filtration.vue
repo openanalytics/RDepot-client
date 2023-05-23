@@ -67,9 +67,7 @@ const { setValues, values } = useForm({
 })
 
 function setFiltration() {
-  console.log('setting', values)
   package_store.setFiltration(values as PackagesFiltration)
-  console.log('setted', values)
   cancelModal()
 }
 

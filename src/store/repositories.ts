@@ -104,11 +104,9 @@ export const useRepositoryStore = defineStore(
       },
       setChosenRepository(id: number | undefined) {
         var flag = true
-        console.log(id)
         this.repositories.forEach((repository) => {
           if (repository.id == id) {
             this.chosenRepository = repository
-            console.log(repository)
             flag = false
           }
         })

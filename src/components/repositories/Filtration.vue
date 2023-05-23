@@ -71,6 +71,5 @@ function resetValues() {
 
 function cancelModal() {
   emit('closeModal')
-  console.log(values)
 }
 </script>

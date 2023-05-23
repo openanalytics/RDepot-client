@@ -26,13 +26,10 @@ export async function loginApi(data: LoginApiData) {
       password: data.password,
       username: data.username
     }
-    console.log('user data ', credentials)
-
     let response = await api.post(
       `/api/auth/login`,
       credentials
     )
-    console.log('response: ', response)
 
     if (response.status == 200) {
       notify({
@@ -42,7 +39,6 @@ export async function loginApi(data: LoginApiData) {
     }
     return response
   } catch (error) {
-    console.log('response: ', error)
     notify({
       text: 'Wrong credential data, please try again',
       type: 'warn'
@@ -124,12 +120,10 @@ export async function fetchRoles(): Promise<
   const user_api = ApiV2UserControllerApiFactory(
     getConfiguration()
   )
-  console.log('user_api: ')
   return openApiRequest<ResponseDtoCollectionModelRoleDto>(
     user_api.getRoles
   ).then(
     (res) => {
-      console.log('res: ', res)
       return validateRequest(res.data.data?.content)
     },
     (msg) => {
