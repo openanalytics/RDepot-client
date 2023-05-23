@@ -20,7 +20,7 @@ const package_store = usePackagesStore()
 
 onBeforeMount(() => {
   if (props.name) {
-    package_store.setFiltrationByRepositoryOnly(props.name)
+    package_store.fetchPackages({repository: props.name,deleted: false})
   }
 })
 </script>
