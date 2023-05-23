@@ -14,7 +14,8 @@
     "test:coverage": "vitest  run --coverage",
     "execute": "npm run license:check && npm run test:unit:once && npm run build",
     "prepare": "husky install",
-    "prettier": "npx prettier --write ."
+    "prettier": "npx prettier --write .",
+    "prettier:changes": "npx prettier --write $(git diff --diff-filter=d --cached --name-only)"
   },
   "dependencies": {
     "@casl/ability": "^6.4.0",

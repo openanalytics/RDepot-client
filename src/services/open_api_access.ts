@@ -1,30 +1,28 @@
 /*
- *  R Depot
+ * R Depot
  *
- *  Copyright (C) 2012-2023 Open Analytics NV
+ * Copyright (C) 2012-2023 Open Analytics NV
  *
- *  ===========================================================================
+ * ===========================================================================
  *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the Apache License as published by
- *  The Apache Software Foundation, either version 2 of the License, or
- *  (at your option) any later version.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the Apache License as published by
+ * The Apache Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  Apache License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * Apache License for more details.
  *
- *  You should have received a copy of the Apache License
- *  along with this program. If not, see <http://www.apache.org/licenses/>
+ * You should have received a copy of the Apache License
+ * along with this program. If not, see <http://www.apache.org/licenses/>
  *
  */
 
 import { useCommonStore } from '@/store/common'
 import { AxiosResponse } from 'axios'
 import { Link, PageMetadata } from '@/openapi'
-
-let isPending = true
 
 export function openApiRequest<T>(
   callback: Function,
@@ -34,7 +32,6 @@ export function openApiRequest<T>(
   if (showProgress) {
     turnOnProgress()
   }
-  isPending = true
   if (parameters) {
     return callback(...parameters).then(resolved, rejected)
   } else {
@@ -48,7 +45,6 @@ function turnOnProgress() {
 }
 
 async function resolved<T>(result: AxiosResponse<T>) {
-  isPending = false
   const common_store = useCommonStore()
   common_store.setProgressCircularActive(false)
   return result
@@ -57,7 +53,6 @@ async function resolved<T>(result: AxiosResponse<T>) {
 function rejected(result: AxiosResponse<any, any>) {
   const common_store = useCommonStore()
   common_store.setProgressCircularActive(false)
-  isPending = false
   throw result
 }
 
