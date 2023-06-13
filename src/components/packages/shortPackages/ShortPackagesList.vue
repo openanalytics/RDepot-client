@@ -52,7 +52,10 @@ function getDescription(item: any) {
 }
 
 function updateData(): void {
-  package_store.fetchPackages({repository: repositories_store.chosenRepository.name, deleted: false })
+  package_store.fetchPackages({
+    repository: repositories_store.chosenRepository.name,
+    deleted: false
+  })
 }
 
 onBeforeMount(() => {
