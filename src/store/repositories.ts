@@ -81,7 +81,7 @@ export const useRepositoryStore = defineStore(
         page: number,
         pageSize: number,
         filtration: RepositoriesFiltration,
-        showProgress: boolean = true
+        showProgress = true
       ) {
         const [repositories, pageData] =
           await fetchRepositoriesServices(

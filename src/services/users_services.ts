@@ -48,8 +48,8 @@ export async function loginApi(data: LoginApiData) {
       password: data.password,
       username: data.username
     }
-    let response = await api.post(
-      `/api/auth/login`,
+    const response = await api.post(
+      '/api/auth/login',
       credentials
     )
 
