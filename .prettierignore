@@ -1,2 +1,4 @@
 .husky/
 .prettierignore
+.vscode
+.gitignore

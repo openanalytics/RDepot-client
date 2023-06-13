@@ -33,7 +33,9 @@
 <style lang="scss">
 .v-col {
   padding: 10px !important;
-  font-size: 13px !important;
+  span {
+    font-size: 13px !important;
+  }
 }
 .col {
   line-height: 1.3;

@@ -89,8 +89,6 @@ export function updateRepositoryMaintainer(
       getConfiguration()
     )
 
-  console.log(oldMaintainer)
-  console.log(newMaintainer)
   const patch = createPatch(oldMaintainer, newMaintainer)
 
   return openApiRequest<AxiosResponse<any>>(
