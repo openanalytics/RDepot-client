@@ -90,7 +90,7 @@ export const usePackagesStore = defineStore(
         page: number,
         pageSize: number,
         filtration: PackagesFiltration,
-        showProgress = true
+        showProgress: boolean = true
       ) {
         this.packages = []
         const [packages, pageData] =
