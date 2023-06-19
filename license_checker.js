@@ -62,6 +62,15 @@ checkLicenseInAllFiles()
 printLicenseResults()
 printNewExtensions()
 
+if (
+  wrong_license.length !== 0 ||
+  new_extension.length !== 0
+) {
+  process.exit(1)
+}
+
+process.exit()
+
 function checkLicenseInAllFiles() {
   for (const file of readAllFiles('./')) {
     var filename = file.toString()
