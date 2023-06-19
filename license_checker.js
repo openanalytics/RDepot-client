@@ -118,7 +118,6 @@ function* readAllFiles(dir) {
           file.name
         )
       ) {
-        console.log(file)
         yield* readAllFiles(path.join(dir, file.name))
       }
     } else {
