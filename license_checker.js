@@ -35,13 +35,17 @@ const extensions_without_license = [
   'md',
   'env',
   'ico',
+  'yaml',
   'json',
+  'png',
+  'svg',
   'local',
   'eslintrc',
   'gitignore',
   'properties',
   'prettierrc',
-  'browserslistrc'
+  'browserslistrc',
+  'prettierignore'
 ]
 
 const directories_without_license_checking = [
@@ -49,6 +53,8 @@ const directories_without_license_checking = [
   'dist',
   '.vscode',
   '.git',
+  '.husky',
+  '.scannerwork',
   'mockData'
 ]
 license_header = fs.readFileSync('LICENSE').toString()
@@ -56,11 +62,21 @@ license_header = fs.readFileSync('LICENSE').toString()
 new_extension = []
 wrong_license = []
 
-checkLicenseInAllFiles()
-printLicenseResults()
+let number_of_files_checked = checkLicenseInAllFiles()
+printLicenseResults(number_of_files_checked)
 printNewExtensions()
 
+if (
+  wrong_license.length !== 0 ||
+  new_extension.length !== 0
+) {
+  process.exit(1)
+}
+
+process.exit()
+
 function checkLicenseInAllFiles() {
+  let number_of_files_checked = 0
   for (const file of readAllFiles('./')) {
     var filename = file.toString()
     const content = fs.readFileSync(file.toString())
@@ -75,17 +91,21 @@ function checkLicenseInAllFiles() {
         '-->',
         ''
       )
+      number_of_files_checked += 1
     } else if (
       filename.includes('.ts') ||
       filename.includes('.js') ||
       filename.includes('.css')
     ) {
       comment = get_first_comment(content, '/*', '*/', '*')
+      number_of_files_checked += 1
     }
+
     if (!check_if_license_is_correct(comment)) {
       wrong_license.push(filename)
     }
   }
+  return number_of_files_checked
 }
 
 function* readAllFiles(dir) {
@@ -94,7 +114,7 @@ function* readAllFiles(dir) {
   for (const file of files) {
     if (file.isDirectory()) {
       if (
-        directories_without_license_checking.includes(
+        !directories_without_license_checking.includes(
           file.name
         )
       ) {
@@ -147,16 +167,19 @@ function check_if_license_is_correct(file_header) {
   return false
 }
 
-function printLicenseResults() {
+function printLicenseResults(number_of_files_checked) {
+  console.log(
+    `--------------------------------\n\n🎯 ${number_of_files_checked} files were checked`
+  )
   if (wrong_license.length > 0) {
-    throw (
-      '--------------------------------\n\nno license / not actual license in files:  \n\n' +
-      wrong_license.toString().replaceAll(',', '\n') +
-      '\n\n--------------------------------\n'
+    console.error(
+      '❗ no license / not actual license in files:  \n\n\t- ' +
+        wrong_license.toString().replaceAll(',', '\n\t- ') +
+        '\n\n--------------------------------\n'
     )
   } else {
     console.log(
-      '--------------------------------\n\nall files contain the license\n\n--------------------------------'
+      '✅ all files contain the license\n\n--------------------------------'
     )
   }
 }

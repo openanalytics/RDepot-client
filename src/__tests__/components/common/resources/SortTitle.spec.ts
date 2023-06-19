@@ -1,23 +1,23 @@
-/* 
- *  R Depot
- *  
- *  Copyright (C) 2012-2023 Open Analytics NV
- *  
- *  ===========================================================================
- *  
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the Apache License as published by
- *  The Apache Software Foundation, either version 2 of the License, or
- *  (at your option) any later version.
- *  
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  Apache License for more details.
- *  
- *  You should have received a copy of the Apache License
- *  along with this program. If not, see <http://www.apache.org/licenses/>
- *  
+/*
+ * R Depot
+ *
+ * Copyright (C) 2012-2023 Open Analytics NV
+ *
+ * ===========================================================================
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the Apache License as published by
+ * The Apache Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * Apache License for more details.
+ *
+ * You should have received a copy of the Apache License
+ * along with this program. If not, see <http://www.apache.org/licenses/>
+ *
  */
 
 import { describe, it, expect, beforeEach } from 'vitest'
@@ -31,8 +31,8 @@ import { useCommonStore } from '@/store/common'
 import { useSortStore } from '@/store/sort'
 
 let wrapper: any
-const TEXT: string = 'name'
-const TEXT_MODIFIED: string = 'Name'
+const TEXT = 'name'
+const TEXT_MODIFIED = 'Name'
 
 const globalConfig = {
   mocks: mocks,
@@ -152,7 +152,6 @@ describe('SortTitle - nonactive field', () => {
   it('sort icon is gray and non active', async () => {
     const common_store = useCommonStore()
     common_store.activeId = 'user'
-    const sortButton = wrapper.find('#name')
     expect(wrapper.vm.getIcon).toEqual('mdi-sort')
   })
 
