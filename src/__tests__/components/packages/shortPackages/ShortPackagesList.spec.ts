@@ -56,7 +56,7 @@ beforeEach(async () => {
   wrapper = mount(ShortPackagesListVue, {
     global: globalConfig
   })
-  let package_store = usePackagesStore()
+  const package_store = usePackagesStore()
   package_store.packages = deepCopyAny(
     packages.data.content
   )
