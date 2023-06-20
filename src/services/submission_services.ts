@@ -50,18 +50,19 @@ export function fetchSubmissions(
   if (!isAuthorized('GET', 'submissions')) {
     return new Promise(() => validateRequest())
   }
-  const r_submission_api =
+  const submission_api =
     ApiV2SubmissionControllerApiFactory(getConfiguration())
   const sort = useSortStore()
   if (sort.field == 'name') {
     sort.setField('packageBag')
   }
   return openApiRequest<ResponseDtoPagedModelEntityModelSubmissionDto>(
-    r_submission_api.getAllSubmissions,
+    submission_api.getAllSubmissions,
     [
       filtration.state,
       filtration.assignedToMe ? logged_user_id : undefined,
       filtration.package,
+      undefined, // TODO: add technology filtering
       page,
       pageSize,
       sort.getSortBy()
