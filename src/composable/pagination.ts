@@ -30,11 +30,10 @@ export function usePagination() {
 
   const page = computed({
     get: () => {
-      if (pagination.page) return pagination.page + 1
-      return 0
+      return pagination.page + 1
     },
     set: (value) => {
-      if (value) nextPage(value - 1)
+      nextPage(value - 1)
     }
   })
 
