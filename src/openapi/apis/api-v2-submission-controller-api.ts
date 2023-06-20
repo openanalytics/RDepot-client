@@ -26,20 +26,20 @@ import {
   BaseAPI,
   RequiredError
 } from '../base'
-import { ResponseDtoEntityModelPackageDto } from '../models'
-import { ResponseDtoPagedModelEntityModelPackageDto } from '../models'
+import { ResponseDtoEntityModelSubmissionDto } from '../models'
+import { ResponseDtoPagedModelEntityModelSubmissionDto } from '../models'
 /**
- * ApiV2PackageControllerApi - axios parameter creator
+ * ApiV2SubmissionControllerApi - axios parameter creator
  * @export
  */
-export const ApiV2PackageControllerApiAxiosParamCreator =
+export const ApiV2SubmissionControllerApiAxiosParamCreator =
   function (configuration?: Configuration) {
     return {
       /**
        *
-       * @param {string} [repositoryName]
-       * @param {boolean} [deleted]
-       * @param {string} [submissionState]
+       * @param {string} [state]
+       * @param {number} [submitterId]
+       * @param {number} [packageId]
        * @param {Array<string>} [technology]
        * @param {number} [page] Zero-based page index (0..N)
        * @param {number} [size] The size of the page to be returned
@@ -47,17 +47,17 @@ export const ApiV2PackageControllerApiAxiosParamCreator =
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
-      getAllPackages: async (
-        repositoryName?: string,
-        deleted?: boolean,
-        submissionState?: string,
+      getAllSubmissions: async (
+        state?: string,
+        submitterId?: number,
+        packageId?: number,
         technology?: Array<string>,
         page?: number,
         size?: number,
         sort?: Array<string>,
         options: AxiosRequestConfig = {}
       ): Promise<RequestArgs> => {
-        const localVarPath = `/api/v2/manager/packages`
+        const localVarPath = `/api/v2/manager/submissions`
         // use dummy base URL string because the URL constructor only accepts absolute URLs.
         const localVarUrlObj = new URL(
           localVarPath,
@@ -86,18 +86,17 @@ export const ApiV2PackageControllerApiAxiosParamCreator =
             'Bearer ' + accessToken
         }
 
-        if (repositoryName !== undefined) {
-          localVarQueryParameter['repositoryName'] =
-            repositoryName
+        if (state !== undefined) {
+          localVarQueryParameter['state'] = state
         }
 
-        if (deleted !== undefined) {
-          localVarQueryParameter['deleted'] = deleted
+        if (submitterId !== undefined) {
+          localVarQueryParameter['submitterId'] =
+            submitterId
         }
 
-        if (submissionState !== undefined) {
-          localVarQueryParameter['submissionState'] =
-            submissionState
+        if (packageId !== undefined) {
+          localVarQueryParameter['packageId'] = packageId
         }
 
         if (technology) {
@@ -152,7 +151,7 @@ export const ApiV2PackageControllerApiAxiosParamCreator =
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
-      getPackageById: async (
+      getSubmissionById: async (
         id: number,
         options: AxiosRequestConfig = {}
       ): Promise<RequestArgs> => {
@@ -160,11 +159,11 @@ export const ApiV2PackageControllerApiAxiosParamCreator =
         if (id === null || id === undefined) {
           throw new RequiredError(
             'id',
-            'Required parameter id was null or undefined when calling getPackageById.'
+            'Required parameter id was null or undefined when calling getSubmissionById.'
           )
         }
         const localVarPath =
-          `/api/v2/manager/packages/{id}`.replace(
+          `/api/v2/manager/submissions/{id}`.replace(
             `{${'id'}}`,
             encodeURIComponent(String(id))
           )
@@ -230,18 +229,18 @@ export const ApiV2PackageControllerApiAxiosParamCreator =
   }
 
 /**
- * ApiV2PackageControllerApi - functional programming interface
+ * ApiV2SubmissionControllerApi - functional programming interface
  * @export
  */
-export const ApiV2PackageControllerApiFp = function (
+export const ApiV2SubmissionControllerApiFp = function (
   configuration?: Configuration
 ) {
   return {
     /**
      *
-     * @param {string} [repositoryName]
-     * @param {boolean} [deleted]
-     * @param {string} [submissionState]
+     * @param {string} [state]
+     * @param {number} [submitterId]
+     * @param {number} [packageId]
      * @param {Array<string>} [technology]
      * @param {number} [page] Zero-based page index (0..N)
      * @param {number} [size] The size of the page to be returned
@@ -249,10 +248,10 @@ export const ApiV2PackageControllerApiFp = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getAllPackages(
-      repositoryName?: string,
-      deleted?: boolean,
-      submissionState?: string,
+    async getAllSubmissions(
+      state?: string,
+      submitterId?: number,
+      packageId?: number,
       technology?: Array<string>,
       page?: number,
       size?: number,
@@ -263,16 +262,16 @@ export const ApiV2PackageControllerApiFp = function (
         axios?: AxiosInstance,
         basePath?: string
       ) => Promise<
-        AxiosResponse<ResponseDtoPagedModelEntityModelPackageDto>
+        AxiosResponse<ResponseDtoPagedModelEntityModelSubmissionDto>
       >
     > {
       const localVarAxiosArgs =
-        await ApiV2PackageControllerApiAxiosParamCreator(
+        await ApiV2SubmissionControllerApiAxiosParamCreator(
           configuration
-        ).getAllPackages(
-          repositoryName,
-          deleted,
-          submissionState,
+        ).getAllSubmissions(
+          state,
+          submitterId,
+          packageId,
           technology,
           page,
           size,
@@ -296,7 +295,7 @@ export const ApiV2PackageControllerApiFp = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getPackageById(
+    async getSubmissionById(
       id: number,
       options?: AxiosRequestConfig
     ): Promise<
@@ -304,13 +303,13 @@ export const ApiV2PackageControllerApiFp = function (
         axios?: AxiosInstance,
         basePath?: string
       ) => Promise<
-        AxiosResponse<ResponseDtoEntityModelPackageDto>
+        AxiosResponse<ResponseDtoEntityModelSubmissionDto>
       >
     > {
       const localVarAxiosArgs =
-        await ApiV2PackageControllerApiAxiosParamCreator(
+        await ApiV2SubmissionControllerApiAxiosParamCreator(
           configuration
-        ).getPackageById(id, options)
+        ).getSubmissionById(id, options)
       return (
         axios: AxiosInstance = globalAxios,
         basePath: string = BASE_PATH
@@ -326,108 +325,111 @@ export const ApiV2PackageControllerApiFp = function (
 }
 
 /**
- * ApiV2PackageControllerApi - factory interface
+ * ApiV2SubmissionControllerApi - factory interface
  * @export
  */
-export const ApiV2PackageControllerApiFactory = function (
-  configuration?: Configuration,
-  basePath?: string,
-  axios?: AxiosInstance
-) {
-  return {
-    /**
-     *
-     * @param {string} [repositoryName]
-     * @param {boolean} [deleted]
-     * @param {string} [submissionState]
-     * @param {Array<string>} [technology]
-     * @param {number} [page] Zero-based page index (0..N)
-     * @param {number} [size] The size of the page to be returned
-     * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async getAllPackages(
-      repositoryName?: string,
-      deleted?: boolean,
-      submissionState?: string,
-      technology?: Array<string>,
-      page?: number,
-      size?: number,
-      sort?: Array<string>,
-      options?: AxiosRequestConfig
-    ): Promise<
-      AxiosResponse<ResponseDtoPagedModelEntityModelPackageDto>
-    > {
-      return ApiV2PackageControllerApiFp(configuration)
-        .getAllPackages(
-          repositoryName,
-          deleted,
-          submissionState,
-          technology,
-          page,
-          size,
-          sort,
-          options
-        )
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     *
-     * @param {number} id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async getPackageById(
-      id: number,
-      options?: AxiosRequestConfig
-    ): Promise<
-      AxiosResponse<ResponseDtoEntityModelPackageDto>
-    > {
-      return ApiV2PackageControllerApiFp(configuration)
-        .getPackageById(id, options)
-        .then((request) => request(axios, basePath))
+export const ApiV2SubmissionControllerApiFactory =
+  function (
+    configuration?: Configuration,
+    basePath?: string,
+    axios?: AxiosInstance
+  ) {
+    return {
+      /**
+       *
+       * @param {string} [state]
+       * @param {number} [submitterId]
+       * @param {number} [packageId]
+       * @param {Array<string>} [technology]
+       * @param {number} [page] Zero-based page index (0..N)
+       * @param {number} [size] The size of the page to be returned
+       * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+       * @param {*} [options] Override http request option.
+       * @throws {RequiredError}
+       */
+      async getAllSubmissions(
+        state?: string,
+        submitterId?: number,
+        packageId?: number,
+        technology?: Array<string>,
+        page?: number,
+        size?: number,
+        sort?: Array<string>,
+        options?: AxiosRequestConfig
+      ): Promise<
+        AxiosResponse<ResponseDtoPagedModelEntityModelSubmissionDto>
+      > {
+        return ApiV2SubmissionControllerApiFp(configuration)
+          .getAllSubmissions(
+            state,
+            submitterId,
+            packageId,
+            technology,
+            page,
+            size,
+            sort,
+            options
+          )
+          .then((request) => request(axios, basePath))
+      },
+      /**
+       *
+       * @param {number} id
+       * @param {*} [options] Override http request option.
+       * @throws {RequiredError}
+       */
+      async getSubmissionById(
+        id: number,
+        options?: AxiosRequestConfig
+      ): Promise<
+        AxiosResponse<ResponseDtoEntityModelSubmissionDto>
+      > {
+        return ApiV2SubmissionControllerApiFp(configuration)
+          .getSubmissionById(id, options)
+          .then((request) => request(axios, basePath))
+      }
     }
   }
-}
 
 /**
- * ApiV2PackageControllerApi - object-oriented interface
+ * ApiV2SubmissionControllerApi - object-oriented interface
  * @export
- * @class ApiV2PackageControllerApi
+ * @class ApiV2SubmissionControllerApi
  * @extends {BaseAPI}
  */
-export class ApiV2PackageControllerApi extends BaseAPI {
+export class ApiV2SubmissionControllerApi extends BaseAPI {
   /**
    *
-   * @param {string} [repositoryName]
-   * @param {boolean} [deleted]
-   * @param {string} [submissionState]
+   * @param {string} [state]
+   * @param {number} [submitterId]
+   * @param {number} [packageId]
    * @param {Array<string>} [technology]
    * @param {number} [page] Zero-based page index (0..N)
    * @param {number} [size] The size of the page to be returned
    * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof ApiV2PackageControllerApi
+   * @memberof ApiV2SubmissionControllerApi
    */
-  public async getAllPackages(
-    repositoryName?: string,
-    deleted?: boolean,
-    submissionState?: string,
+  public async getAllSubmissions(
+    state?: string,
+    submitterId?: number,
+    packageId?: number,
     technology?: Array<string>,
     page?: number,
     size?: number,
     sort?: Array<string>,
     options?: AxiosRequestConfig
   ): Promise<
-    AxiosResponse<ResponseDtoPagedModelEntityModelPackageDto>
+    AxiosResponse<ResponseDtoPagedModelEntityModelSubmissionDto>
   > {
-    return ApiV2PackageControllerApiFp(this.configuration)
-      .getAllPackages(
-        repositoryName,
-        deleted,
-        submissionState,
+    return ApiV2SubmissionControllerApiFp(
+      this.configuration
+    )
+      .getAllSubmissions(
+        state,
+        submitterId,
+        packageId,
         technology,
         page,
         size,
@@ -441,16 +443,18 @@ export class ApiV2PackageControllerApi extends BaseAPI {
    * @param {number} id
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof ApiV2PackageControllerApi
+   * @memberof ApiV2SubmissionControllerApi
    */
-  public async getPackageById(
+  public async getSubmissionById(
     id: number,
     options?: AxiosRequestConfig
   ): Promise<
-    AxiosResponse<ResponseDtoEntityModelPackageDto>
+    AxiosResponse<ResponseDtoEntityModelSubmissionDto>
   > {
-    return ApiV2PackageControllerApiFp(this.configuration)
-      .getPackageById(id, options)
+    return ApiV2SubmissionControllerApiFp(
+      this.configuration
+    )
+      .getSubmissionById(id, options)
       .then((request) => request(this.axios, this.basePath))
   }
 }

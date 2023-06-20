@@ -17,97 +17,103 @@ import { UserProjection } from './user-projection'
 /**
  *
  * @export
- * @interface EntityModelPackageDto
+ * @interface EntityModelPythonPackageDto
  */
-export interface EntityModelPackageDto {
+export interface EntityModelPythonPackageDto {
   /**
    *
    * @type {number}
-   * @memberof EntityModelPackageDto
+   * @memberof EntityModelPythonPackageDto
    */
   id?: number
   /**
    *
    * @type {UserProjection}
-   * @memberof EntityModelPackageDto
+   * @memberof EntityModelPythonPackageDto
    */
   user?: UserProjection
   /**
    *
    * @type {RepositoryProjection}
-   * @memberof EntityModelPackageDto
+   * @memberof EntityModelPythonPackageDto
    */
   repository?: RepositoryProjection
   /**
    *
    * @type {number}
-   * @memberof EntityModelPackageDto
+   * @memberof EntityModelPythonPackageDto
    */
   submissionId?: number
   /**
    *
    * @type {string}
-   * @memberof EntityModelPackageDto
+   * @memberof EntityModelPythonPackageDto
    */
   name?: string
   /**
    *
    * @type {string}
-   * @memberof EntityModelPackageDto
+   * @memberof EntityModelPythonPackageDto
    */
   version?: string
   /**
    *
    * @type {string}
-   * @memberof EntityModelPackageDto
+   * @memberof EntityModelPythonPackageDto
    */
   description?: string
   /**
    *
    * @type {string}
-   * @memberof EntityModelPackageDto
+   * @memberof EntityModelPythonPackageDto
    */
   author?: string
   /**
    *
    * @type {string}
-   * @memberof EntityModelPackageDto
+   * @memberof EntityModelPythonPackageDto
    */
   title?: string
   /**
    *
    * @type {string}
-   * @memberof EntityModelPackageDto
+   * @memberof EntityModelPythonPackageDto
    */
   url?: string
   /**
    *
    * @type {string}
-   * @memberof EntityModelPackageDto
+   * @memberof EntityModelPythonPackageDto
    */
   source?: string
   /**
    *
    * @type {boolean}
-   * @memberof EntityModelPackageDto
+   * @memberof EntityModelPythonPackageDto
    */
   active?: boolean
   /**
    *
    * @type {boolean}
-   * @memberof EntityModelPackageDto
+   * @memberof EntityModelPythonPackageDto
    */
   deleted?: boolean
   /**
    *
    * @type {string}
-   * @memberof EntityModelPackageDto
+   * @memberof EntityModelPythonPackageDto
    */
   technology?: string
   /**
    *
+   * @type {string}
+   * @memberof EntityModelPythonPackageDto
+   */
+  hash?: string
+  /**
+   *
    * @type {Array<Link>}
-   * @memberof EntityModelPackageDto
+   * @memberof EntityModelPythonPackageDto
    */
   links?: Array<Link>
 }

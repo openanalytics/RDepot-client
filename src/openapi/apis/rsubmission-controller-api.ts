@@ -1,25 +1,4 @@
-/*
- * R Depot
- *
- * Copyright (C) 2012-2023 Open Analytics NV
- *
- * ===========================================================================
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the Apache License as published by
- * The Apache Software Foundation, either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * Apache License for more details.
- *
- * You should have received a copy of the Apache License
- * along with this program. If not, see <http://www.apache.org/licenses/>
- *
- */
-
+/* tslint:disable */
 /* eslint-disable */
 /**
  * RDEPOT API
@@ -63,7 +42,7 @@ export const RSubmissionControllerApiAxiosParamCreator =
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
-      deleteSubmission: async (
+      deleteRSubmission: async (
         id: number,
         options: AxiosRequestConfig = {}
       ): Promise<RequestArgs> => {
@@ -71,7 +50,7 @@ export const RSubmissionControllerApiAxiosParamCreator =
         if (id === null || id === undefined) {
           throw new RequiredError(
             'id',
-            'Required parameter id was null or undefined when calling deleteSubmission.'
+            'Required parameter id was null or undefined when calling deleteRSubmission.'
           )
         }
         const localVarPath =
@@ -97,6 +76,15 @@ export const RSubmissionControllerApiAxiosParamCreator =
         const localVarQueryParameter = {} as any
 
         // authentication Bearer required
+        // http bearer authentication required
+        if (configuration && configuration.accessToken) {
+          const accessToken =
+            typeof configuration.accessToken === 'function'
+              ? await configuration.accessToken()
+              : await configuration.accessToken
+          localVarHeaderParameter['Authorization'] =
+            'Bearer ' + accessToken
+        }
 
         const query = new URLSearchParams(
           localVarUrlObj.search
@@ -139,7 +127,7 @@ export const RSubmissionControllerApiAxiosParamCreator =
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
-      getAllSubmissions: async (
+      getAllRSubmissions: async (
         state?: string,
         submitterId?: number,
         packageId?: number,
@@ -167,6 +155,15 @@ export const RSubmissionControllerApiAxiosParamCreator =
         const localVarQueryParameter = {} as any
 
         // authentication Bearer required
+        // http bearer authentication required
+        if (configuration && configuration.accessToken) {
+          const accessToken =
+            typeof configuration.accessToken === 'function'
+              ? await configuration.accessToken()
+              : await configuration.accessToken
+          localVarHeaderParameter['Authorization'] =
+            'Bearer ' + accessToken
+        }
 
         if (state !== undefined) {
           localVarQueryParameter['state'] = state
@@ -229,7 +226,7 @@ export const RSubmissionControllerApiAxiosParamCreator =
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
-      getSubmissionById: async (
+      getRSubmissionById: async (
         id: number,
         options: AxiosRequestConfig = {}
       ): Promise<RequestArgs> => {
@@ -237,7 +234,7 @@ export const RSubmissionControllerApiAxiosParamCreator =
         if (id === null || id === undefined) {
           throw new RequiredError(
             'id',
-            'Required parameter id was null or undefined when calling getSubmissionById.'
+            'Required parameter id was null or undefined when calling getRSubmissionById.'
           )
         }
         const localVarPath =
@@ -263,6 +260,15 @@ export const RSubmissionControllerApiAxiosParamCreator =
         const localVarQueryParameter = {} as any
 
         // authentication Bearer required
+        // http bearer authentication required
+        if (configuration && configuration.accessToken) {
+          const accessToken =
+            typeof configuration.accessToken === 'function'
+              ? await configuration.accessToken()
+              : await configuration.accessToken
+          localVarHeaderParameter['Authorization'] =
+            'Bearer ' + accessToken
+        }
 
         const query = new URLSearchParams(
           localVarUrlObj.search
@@ -303,7 +309,7 @@ export const RSubmissionControllerApiAxiosParamCreator =
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
-      submitPackageForm: async (
+      submitRPacakgeForm: async (
         repository: string,
         file?: Blob,
         generateManual?: boolean,
@@ -317,7 +323,7 @@ export const RSubmissionControllerApiAxiosParamCreator =
         ) {
           throw new RequiredError(
             'repository',
-            'Required parameter repository was null or undefined when calling submitPackageForm.'
+            'Required parameter repository was null or undefined when calling submitRPacakgeForm.'
           )
         }
         const localVarPath = `/api/v2/manager/r/submissions`
@@ -340,6 +346,15 @@ export const RSubmissionControllerApiAxiosParamCreator =
         const localVarFormParams = new FormData()
 
         // authentication Bearer required
+        // http bearer authentication required
+        if (configuration && configuration.accessToken) {
+          const accessToken =
+            typeof configuration.accessToken === 'function'
+              ? await configuration.accessToken()
+              : await configuration.accessToken
+          localVarHeaderParameter['Authorization'] =
+            'Bearer ' + accessToken
+        }
 
         if (repository !== undefined) {
           localVarQueryParameter['repository'] = repository
@@ -398,7 +413,7 @@ export const RSubmissionControllerApiAxiosParamCreator =
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
-      updateSubmission: async (
+      updateRSubmission: async (
         body: JsonPatch,
         id: number,
         options: AxiosRequestConfig = {}
@@ -407,14 +422,14 @@ export const RSubmissionControllerApiAxiosParamCreator =
         if (body === null || body === undefined) {
           throw new RequiredError(
             'body',
-            'Required parameter body was null or undefined when calling updateSubmission.'
+            'Required parameter body was null or undefined when calling updateRSubmission.'
           )
         }
         // verify required parameter 'id' is not null or undefined
         if (id === null || id === undefined) {
           throw new RequiredError(
             'id',
-            'Required parameter id was null or undefined when calling updateSubmission.'
+            'Required parameter id was null or undefined when calling updateRSubmission.'
           )
         }
         const localVarPath =
@@ -440,6 +455,15 @@ export const RSubmissionControllerApiAxiosParamCreator =
         const localVarQueryParameter = {} as any
 
         // authentication Bearer required
+        // http bearer authentication required
+        if (configuration && configuration.accessToken) {
+          const accessToken =
+            typeof configuration.accessToken === 'function'
+              ? await configuration.accessToken()
+              : await configuration.accessToken
+          localVarHeaderParameter['Authorization'] =
+            'Bearer ' + accessToken
+        }
 
         localVarHeaderParameter['Content-Type'] =
           'application/json-patch+json'
@@ -467,17 +491,8 @@ export const RSubmissionControllerApiAxiosParamCreator =
         }
         const needsSerialization =
           typeof body !== 'string' ||
-          Object.entries(
-            localVarRequestOptions.headers!
-          ).find(([key, value]) => {
-            if (
-              value === 'application/json' &&
-              key == 'Content-Type'
-            ) {
-              return true
-            }
-            return false
-          })
+          localVarRequestOptions.headers['Content-Type'] ===
+            'application/json'
         localVarRequestOptions.data = needsSerialization
           ? JSON.stringify(body !== undefined ? body : {})
           : body || ''
@@ -507,7 +522,7 @@ export const RSubmissionControllerApiFp = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async deleteSubmission(
+    async deleteRSubmission(
       id: number,
       options?: AxiosRequestConfig
     ): Promise<
@@ -519,7 +534,7 @@ export const RSubmissionControllerApiFp = function (
       const localVarAxiosArgs =
         await RSubmissionControllerApiAxiosParamCreator(
           configuration
-        ).deleteSubmission(id, options)
+        ).deleteRSubmission(id, options)
       return (
         axios: AxiosInstance = globalAxios,
         basePath: string = BASE_PATH
@@ -542,7 +557,7 @@ export const RSubmissionControllerApiFp = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getAllSubmissions(
+    async getAllRSubmissions(
       state?: string,
       submitterId?: number,
       packageId?: number,
@@ -561,7 +576,7 @@ export const RSubmissionControllerApiFp = function (
       const localVarAxiosArgs =
         await RSubmissionControllerApiAxiosParamCreator(
           configuration
-        ).getAllSubmissions(
+        ).getAllRSubmissions(
           state,
           submitterId,
           packageId,
@@ -587,7 +602,7 @@ export const RSubmissionControllerApiFp = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getSubmissionById(
+    async getRSubmissionById(
       id: number,
       options?: AxiosRequestConfig
     ): Promise<
@@ -601,7 +616,7 @@ export const RSubmissionControllerApiFp = function (
       const localVarAxiosArgs =
         await RSubmissionControllerApiAxiosParamCreator(
           configuration
-        ).getSubmissionById(id, options)
+        ).getRSubmissionById(id, options)
       return (
         axios: AxiosInstance = globalAxios,
         basePath: string = BASE_PATH
@@ -622,7 +637,7 @@ export const RSubmissionControllerApiFp = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async submitPackageForm(
+    async submitRPacakgeForm(
       repository: string,
       file?: Blob,
       generateManual?: boolean,
@@ -637,7 +652,7 @@ export const RSubmissionControllerApiFp = function (
       const localVarAxiosArgs =
         await RSubmissionControllerApiAxiosParamCreator(
           configuration
-        ).submitPackageForm(
+        ).submitRPacakgeForm(
           repository,
           file,
           generateManual,
@@ -662,7 +677,7 @@ export const RSubmissionControllerApiFp = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async updateSubmission(
+    async updateRSubmission(
       body: JsonPatch,
       id: number,
       options?: AxiosRequestConfig
@@ -675,7 +690,7 @@ export const RSubmissionControllerApiFp = function (
       const localVarAxiosArgs =
         await RSubmissionControllerApiAxiosParamCreator(
           configuration
-        ).updateSubmission(body, id, options)
+        ).updateRSubmission(body, id, options)
       return (
         axios: AxiosInstance = globalAxios,
         basePath: string = BASE_PATH
@@ -706,12 +721,12 @@ export const RSubmissionControllerApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async deleteSubmission(
+    async deleteRSubmission(
       id: number,
       options?: AxiosRequestConfig
     ): Promise<AxiosResponse<void>> {
       return RSubmissionControllerApiFp(configuration)
-        .deleteSubmission(id, options)
+        .deleteRSubmission(id, options)
         .then((request) => request(axios, basePath))
     },
     /**
@@ -725,7 +740,7 @@ export const RSubmissionControllerApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getAllSubmissions(
+    async getAllRSubmissions(
       state?: string,
       submitterId?: number,
       packageId?: number,
@@ -737,7 +752,7 @@ export const RSubmissionControllerApiFactory = function (
       AxiosResponse<ResponseDtoPagedModelEntityModelSubmissionDto>
     > {
       return RSubmissionControllerApiFp(configuration)
-        .getAllSubmissions(
+        .getAllRSubmissions(
           state,
           submitterId,
           packageId,
@@ -754,14 +769,14 @@ export const RSubmissionControllerApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getSubmissionById(
+    async getRSubmissionById(
       id: number,
       options?: AxiosRequestConfig
     ): Promise<
       AxiosResponse<ResponseDtoEntityModelSubmissionDto>
     > {
       return RSubmissionControllerApiFp(configuration)
-        .getSubmissionById(id, options)
+        .getRSubmissionById(id, options)
         .then((request) => request(axios, basePath))
     },
     /**
@@ -773,7 +788,7 @@ export const RSubmissionControllerApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async submitPackageForm(
+    async submitRPacakgeForm(
       repository: string,
       file?: Blob,
       generateManual?: boolean,
@@ -781,7 +796,7 @@ export const RSubmissionControllerApiFactory = function (
       options?: AxiosRequestConfig
     ): Promise<AxiosResponse<any>> {
       return RSubmissionControllerApiFp(configuration)
-        .submitPackageForm(
+        .submitRPacakgeForm(
           repository,
           file,
           generateManual,
@@ -797,13 +812,13 @@ export const RSubmissionControllerApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async updateSubmission(
+    async updateRSubmission(
       body: JsonPatch,
       id: number,
       options?: AxiosRequestConfig
     ): Promise<AxiosResponse<any>> {
       return RSubmissionControllerApiFp(configuration)
-        .updateSubmission(body, id, options)
+        .updateRSubmission(body, id, options)
         .then((request) => request(axios, basePath))
     }
   }
@@ -823,12 +838,12 @@ export class RSubmissionControllerApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof RSubmissionControllerApi
    */
-  public async deleteSubmission(
+  public async deleteRSubmission(
     id: number,
     options?: AxiosRequestConfig
   ): Promise<AxiosResponse<void>> {
     return RSubmissionControllerApiFp(this.configuration)
-      .deleteSubmission(id, options)
+      .deleteRSubmission(id, options)
       .then((request) => request(this.axios, this.basePath))
   }
   /**
@@ -843,7 +858,7 @@ export class RSubmissionControllerApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof RSubmissionControllerApi
    */
-  public async getAllSubmissions(
+  public async getAllRSubmissions(
     state?: string,
     submitterId?: number,
     packageId?: number,
@@ -855,7 +870,7 @@ export class RSubmissionControllerApi extends BaseAPI {
     AxiosResponse<ResponseDtoPagedModelEntityModelSubmissionDto>
   > {
     return RSubmissionControllerApiFp(this.configuration)
-      .getAllSubmissions(
+      .getAllRSubmissions(
         state,
         submitterId,
         packageId,
@@ -873,14 +888,14 @@ export class RSubmissionControllerApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof RSubmissionControllerApi
    */
-  public async getSubmissionById(
+  public async getRSubmissionById(
     id: number,
     options?: AxiosRequestConfig
   ): Promise<
     AxiosResponse<ResponseDtoEntityModelSubmissionDto>
   > {
     return RSubmissionControllerApiFp(this.configuration)
-      .getSubmissionById(id, options)
+      .getRSubmissionById(id, options)
       .then((request) => request(this.axios, this.basePath))
   }
   /**
@@ -893,7 +908,7 @@ export class RSubmissionControllerApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof RSubmissionControllerApi
    */
-  public async submitPackageForm(
+  public async submitRPacakgeForm(
     repository: string,
     file?: Blob,
     generateManual?: boolean,
@@ -901,7 +916,7 @@ export class RSubmissionControllerApi extends BaseAPI {
     options?: AxiosRequestConfig
   ): Promise<AxiosResponse<any>> {
     return RSubmissionControllerApiFp(this.configuration)
-      .submitPackageForm(
+      .submitRPacakgeForm(
         repository,
         file,
         generateManual,
@@ -918,13 +933,13 @@ export class RSubmissionControllerApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof RSubmissionControllerApi
    */
-  public async updateSubmission(
+  public async updateRSubmission(
     body: JsonPatch,
     id: number,
     options?: AxiosRequestConfig
   ): Promise<AxiosResponse<any>> {
     return RSubmissionControllerApiFp(this.configuration)
-      .updateSubmission(body, id, options)
+      .updateRSubmission(body, id, options)
       .then((request) => request(this.axios, this.basePath))
   }
 }

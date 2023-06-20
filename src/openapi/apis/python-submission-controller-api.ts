@@ -27,109 +27,22 @@ import {
   RequiredError
 } from '../base'
 import { JsonPatch } from '../models'
-import { PackageMaintainerDto } from '../models'
-import { ResponseDtoEntityModelPackageMaintainerDto } from '../models'
-import { ResponseDtoPagedModelEntityModelPackageMaintainerDto } from '../models'
+import { ResponseDtoEntityModelSubmissionDto } from '../models'
+import { ResponseDtoPagedModelEntityModelSubmissionDto } from '../models'
 /**
- * ApiV2PackageMaintainerControllerApi - axios parameter creator
+ * PythonSubmissionControllerApi - axios parameter creator
  * @export
  */
-export const ApiV2PackageMaintainerControllerApiAxiosParamCreator =
+export const PythonSubmissionControllerApiAxiosParamCreator =
   function (configuration?: Configuration) {
     return {
-      /**
-       *
-       * @param {PackageMaintainerDto} body
-       * @param {*} [options] Override http request option.
-       * @throws {RequiredError}
-       */
-      createPackageMaintainer: async (
-        body: PackageMaintainerDto,
-        options: AxiosRequestConfig = {}
-      ): Promise<RequestArgs> => {
-        // verify required parameter 'body' is not null or undefined
-        if (body === null || body === undefined) {
-          throw new RequiredError(
-            'body',
-            'Required parameter body was null or undefined when calling createPackageMaintainer.'
-          )
-        }
-        const localVarPath = `/api/v2/manager/package-maintainers`
-        // use dummy base URL string because the URL constructor only accepts absolute URLs.
-        const localVarUrlObj = new URL(
-          localVarPath,
-          'https://example.com'
-        )
-        let baseOptions
-        if (configuration) {
-          baseOptions = configuration.baseOptions
-        }
-        const localVarRequestOptions: AxiosRequestConfig = {
-          method: 'POST',
-          ...baseOptions,
-          ...options
-        }
-        const localVarHeaderParameter = {} as any
-        const localVarQueryParameter = {} as any
-
-        // authentication Bearer required
-        // http bearer authentication required
-        if (configuration && configuration.accessToken) {
-          const accessToken =
-            typeof configuration.accessToken === 'function'
-              ? await configuration.accessToken()
-              : await configuration.accessToken
-          localVarHeaderParameter['Authorization'] =
-            'Bearer ' + accessToken
-        }
-
-        localVarHeaderParameter['Content-Type'] =
-          'application/json'
-
-        const query = new URLSearchParams(
-          localVarUrlObj.search
-        )
-        for (const key in localVarQueryParameter) {
-          query.set(key, localVarQueryParameter[key])
-        }
-        for (const key in options.params) {
-          query.set(key, options.params[key])
-        }
-        localVarUrlObj.search = new URLSearchParams(
-          query
-        ).toString()
-        let headersFromBaseOptions =
-          baseOptions && baseOptions.headers
-            ? baseOptions.headers
-            : {}
-        localVarRequestOptions.headers = {
-          ...localVarHeaderParameter,
-          ...headersFromBaseOptions,
-          ...options.headers
-        }
-        const needsSerialization =
-          typeof body !== 'string' ||
-          localVarRequestOptions.headers['Content-Type'] ===
-            'application/json'
-        localVarRequestOptions.data = needsSerialization
-          ? JSON.stringify(body !== undefined ? body : {})
-          : body || ''
-
-        return {
-          url:
-            localVarUrlObj.pathname +
-            localVarUrlObj.search +
-            localVarUrlObj.hash,
-          options: localVarRequestOptions
-        }
-      },
       /**
        *
        * @param {number} id
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
-      deletePackageMaintainer: async (
+      deletePythonSubmission: async (
         id: number,
         options: AxiosRequestConfig = {}
       ): Promise<RequestArgs> => {
@@ -137,11 +50,11 @@ export const ApiV2PackageMaintainerControllerApiAxiosParamCreator =
         if (id === null || id === undefined) {
           throw new RequiredError(
             'id',
-            'Required parameter id was null or undefined when calling deletePackageMaintainer.'
+            'Required parameter id was null or undefined when calling deletePythonSubmission.'
           )
         }
         const localVarPath =
-          `/api/v2/manager/package-maintainers/{id}`.replace(
+          `/api/v2/manager/python/submissions/{id}`.replace(
             `{${'id'}}`,
             encodeURIComponent(String(id))
           )
@@ -205,23 +118,25 @@ export const ApiV2PackageMaintainerControllerApiAxiosParamCreator =
       },
       /**
        *
-       * @param {boolean} [deleted]
-       * @param {Array<string>} [resourceTechnology]
+       * @param {string} [state]
+       * @param {number} [submitterId]
+       * @param {number} [packageId]
        * @param {number} [page] Zero-based page index (0..N)
        * @param {number} [size] The size of the page to be returned
        * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
-      getAllPackageMaintainers: async (
-        deleted?: boolean,
-        resourceTechnology?: Array<string>,
+      getAllPythonSubmissions: async (
+        state?: string,
+        submitterId?: number,
+        packageId?: number,
         page?: number,
         size?: number,
         sort?: Array<string>,
         options: AxiosRequestConfig = {}
       ): Promise<RequestArgs> => {
-        const localVarPath = `/api/v2/manager/package-maintainers`
+        const localVarPath = `/api/v2/manager/python/submissions`
         // use dummy base URL string because the URL constructor only accepts absolute URLs.
         const localVarUrlObj = new URL(
           localVarPath,
@@ -250,13 +165,17 @@ export const ApiV2PackageMaintainerControllerApiAxiosParamCreator =
             'Bearer ' + accessToken
         }
 
-        if (deleted !== undefined) {
-          localVarQueryParameter['deleted'] = deleted
+        if (state !== undefined) {
+          localVarQueryParameter['state'] = state
         }
 
-        if (resourceTechnology) {
-          localVarQueryParameter['resourceTechnology'] =
-            resourceTechnology
+        if (submitterId !== undefined) {
+          localVarQueryParameter['submitterId'] =
+            submitterId
+        }
+
+        if (packageId !== undefined) {
+          localVarQueryParameter['packageId'] = packageId
         }
 
         if (page !== undefined) {
@@ -307,7 +226,7 @@ export const ApiV2PackageMaintainerControllerApiAxiosParamCreator =
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
-      getPackageMaintainerById: async (
+      getPythonSubmissionById: async (
         id: number,
         options: AxiosRequestConfig = {}
       ): Promise<RequestArgs> => {
@@ -315,11 +234,11 @@ export const ApiV2PackageMaintainerControllerApiAxiosParamCreator =
         if (id === null || id === undefined) {
           throw new RequiredError(
             'id',
-            'Required parameter id was null or undefined when calling getPackageMaintainerById.'
+            'Required parameter id was null or undefined when calling getPythonSubmissionById.'
           )
         }
         const localVarPath =
-          `/api/v2/manager/package-maintainers/{id}`.replace(
+          `/api/v2/manager/python/submissions/{id}`.replace(
             `{${'id'}}`,
             encodeURIComponent(String(id))
           )
@@ -383,12 +302,118 @@ export const ApiV2PackageMaintainerControllerApiAxiosParamCreator =
       },
       /**
        *
+       * @param {string} repository
+       * @param {Blob} [file]
+       * @param {boolean} [generateManual]
+       * @param {boolean} [replace]
+       * @param {*} [options] Override http request option.
+       * @throws {RequiredError}
+       */
+      submitPythonPacakgeForm: async (
+        repository: string,
+        file?: Blob,
+        generateManual?: boolean,
+        replace?: boolean,
+        options: AxiosRequestConfig = {}
+      ): Promise<RequestArgs> => {
+        // verify required parameter 'repository' is not null or undefined
+        if (
+          repository === null ||
+          repository === undefined
+        ) {
+          throw new RequiredError(
+            'repository',
+            'Required parameter repository was null or undefined when calling submitPythonPacakgeForm.'
+          )
+        }
+        const localVarPath = `/api/v2/manager/python/submissions`
+        // use dummy base URL string because the URL constructor only accepts absolute URLs.
+        const localVarUrlObj = new URL(
+          localVarPath,
+          'https://example.com'
+        )
+        let baseOptions
+        if (configuration) {
+          baseOptions = configuration.baseOptions
+        }
+        const localVarRequestOptions: AxiosRequestConfig = {
+          method: 'POST',
+          ...baseOptions,
+          ...options
+        }
+        const localVarHeaderParameter = {} as any
+        const localVarQueryParameter = {} as any
+        const localVarFormParams = new FormData()
+
+        // authentication Bearer required
+        // http bearer authentication required
+        if (configuration && configuration.accessToken) {
+          const accessToken =
+            typeof configuration.accessToken === 'function'
+              ? await configuration.accessToken()
+              : await configuration.accessToken
+          localVarHeaderParameter['Authorization'] =
+            'Bearer ' + accessToken
+        }
+
+        if (repository !== undefined) {
+          localVarQueryParameter['repository'] = repository
+        }
+
+        if (generateManual !== undefined) {
+          localVarQueryParameter['generateManual'] =
+            generateManual
+        }
+
+        if (replace !== undefined) {
+          localVarQueryParameter['replace'] = replace
+        }
+
+        if (file !== undefined) {
+          localVarFormParams.append('file', file as any)
+        }
+
+        localVarHeaderParameter['Content-Type'] =
+          'multipart/form-data'
+        const query = new URLSearchParams(
+          localVarUrlObj.search
+        )
+        for (const key in localVarQueryParameter) {
+          query.set(key, localVarQueryParameter[key])
+        }
+        for (const key in options.params) {
+          query.set(key, options.params[key])
+        }
+        localVarUrlObj.search = new URLSearchParams(
+          query
+        ).toString()
+        let headersFromBaseOptions =
+          baseOptions && baseOptions.headers
+            ? baseOptions.headers
+            : {}
+        localVarRequestOptions.headers = {
+          ...localVarHeaderParameter,
+          ...headersFromBaseOptions,
+          ...options.headers
+        }
+        localVarRequestOptions.data = localVarFormParams
+
+        return {
+          url:
+            localVarUrlObj.pathname +
+            localVarUrlObj.search +
+            localVarUrlObj.hash,
+          options: localVarRequestOptions
+        }
+      },
+      /**
+       *
        * @param {JsonPatch} body
        * @param {number} id
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
-      updatePackageMaintainer: async (
+      updatePythonSubmission: async (
         body: JsonPatch,
         id: number,
         options: AxiosRequestConfig = {}
@@ -397,18 +422,18 @@ export const ApiV2PackageMaintainerControllerApiAxiosParamCreator =
         if (body === null || body === undefined) {
           throw new RequiredError(
             'body',
-            'Required parameter body was null or undefined when calling updatePackageMaintainer.'
+            'Required parameter body was null or undefined when calling updatePythonSubmission.'
           )
         }
         // verify required parameter 'id' is not null or undefined
         if (id === null || id === undefined) {
           throw new RequiredError(
             'id',
-            'Required parameter id was null or undefined when calling updatePackageMaintainer.'
+            'Required parameter id was null or undefined when calling updatePythonSubmission.'
           )
         }
         const localVarPath =
-          `/api/v2/manager/package-maintainers/{id}`.replace(
+          `/api/v2/manager/python/submissions/{id}`.replace(
             `{${'id'}}`,
             encodeURIComponent(String(id))
           )
@@ -484,191 +509,207 @@ export const ApiV2PackageMaintainerControllerApiAxiosParamCreator =
   }
 
 /**
- * ApiV2PackageMaintainerControllerApi - functional programming interface
+ * PythonSubmissionControllerApi - functional programming interface
  * @export
  */
-export const ApiV2PackageMaintainerControllerApiFp =
-  function (configuration?: Configuration) {
-    return {
-      /**
-       *
-       * @param {PackageMaintainerDto} body
-       * @param {*} [options] Override http request option.
-       * @throws {RequiredError}
-       */
-      async createPackageMaintainer(
-        body: PackageMaintainerDto,
-        options?: AxiosRequestConfig
-      ): Promise<
-        (
-          axios?: AxiosInstance,
-          basePath?: string
-        ) => Promise<AxiosResponse<any>>
-      > {
-        const localVarAxiosArgs =
-          await ApiV2PackageMaintainerControllerApiAxiosParamCreator(
-            configuration
-          ).createPackageMaintainer(body, options)
-        return (
-          axios: AxiosInstance = globalAxios,
-          basePath: string = BASE_PATH
-        ) => {
-          const axiosRequestArgs: AxiosRequestConfig = {
-            ...localVarAxiosArgs.options,
-            url: basePath + localVarAxiosArgs.url
-          }
-          return axios.request(axiosRequestArgs)
+export const PythonSubmissionControllerApiFp = function (
+  configuration?: Configuration
+) {
+  return {
+    /**
+     *
+     * @param {number} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async deletePythonSubmission(
+      id: number,
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => Promise<AxiosResponse<void>>
+    > {
+      const localVarAxiosArgs =
+        await PythonSubmissionControllerApiAxiosParamCreator(
+          configuration
+        ).deletePythonSubmission(id, options)
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH
+      ) => {
+        const axiosRequestArgs: AxiosRequestConfig = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url
         }
-      },
-      /**
-       *
-       * @param {number} id
-       * @param {*} [options] Override http request option.
-       * @throws {RequiredError}
-       */
-      async deletePackageMaintainer(
-        id: number,
-        options?: AxiosRequestConfig
-      ): Promise<
-        (
-          axios?: AxiosInstance,
-          basePath?: string
-        ) => Promise<AxiosResponse<void>>
-      > {
-        const localVarAxiosArgs =
-          await ApiV2PackageMaintainerControllerApiAxiosParamCreator(
-            configuration
-          ).deletePackageMaintainer(id, options)
-        return (
-          axios: AxiosInstance = globalAxios,
-          basePath: string = BASE_PATH
-        ) => {
-          const axiosRequestArgs: AxiosRequestConfig = {
-            ...localVarAxiosArgs.options,
-            url: basePath + localVarAxiosArgs.url
-          }
-          return axios.request(axiosRequestArgs)
+        return axios.request(axiosRequestArgs)
+      }
+    },
+    /**
+     *
+     * @param {string} [state]
+     * @param {number} [submitterId]
+     * @param {number} [packageId]
+     * @param {number} [page] Zero-based page index (0..N)
+     * @param {number} [size] The size of the page to be returned
+     * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getAllPythonSubmissions(
+      state?: string,
+      submitterId?: number,
+      packageId?: number,
+      page?: number,
+      size?: number,
+      sort?: Array<string>,
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => Promise<
+        AxiosResponse<ResponseDtoPagedModelEntityModelSubmissionDto>
+      >
+    > {
+      const localVarAxiosArgs =
+        await PythonSubmissionControllerApiAxiosParamCreator(
+          configuration
+        ).getAllPythonSubmissions(
+          state,
+          submitterId,
+          packageId,
+          page,
+          size,
+          sort,
+          options
+        )
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH
+      ) => {
+        const axiosRequestArgs: AxiosRequestConfig = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url
         }
-      },
-      /**
-       *
-       * @param {boolean} [deleted]
-       * @param {Array<string>} [resourceTechnology]
-       * @param {number} [page] Zero-based page index (0..N)
-       * @param {number} [size] The size of the page to be returned
-       * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-       * @param {*} [options] Override http request option.
-       * @throws {RequiredError}
-       */
-      async getAllPackageMaintainers(
-        deleted?: boolean,
-        resourceTechnology?: Array<string>,
-        page?: number,
-        size?: number,
-        sort?: Array<string>,
-        options?: AxiosRequestConfig
-      ): Promise<
-        (
-          axios?: AxiosInstance,
-          basePath?: string
-        ) => Promise<
-          AxiosResponse<ResponseDtoPagedModelEntityModelPackageMaintainerDto>
-        >
-      > {
-        const localVarAxiosArgs =
-          await ApiV2PackageMaintainerControllerApiAxiosParamCreator(
-            configuration
-          ).getAllPackageMaintainers(
-            deleted,
-            resourceTechnology,
-            page,
-            size,
-            sort,
-            options
-          )
-        return (
-          axios: AxiosInstance = globalAxios,
-          basePath: string = BASE_PATH
-        ) => {
-          const axiosRequestArgs: AxiosRequestConfig = {
-            ...localVarAxiosArgs.options,
-            url: basePath + localVarAxiosArgs.url
-          }
-          return axios.request(axiosRequestArgs)
+        return axios.request(axiosRequestArgs)
+      }
+    },
+    /**
+     *
+     * @param {number} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getPythonSubmissionById(
+      id: number,
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => Promise<
+        AxiosResponse<ResponseDtoEntityModelSubmissionDto>
+      >
+    > {
+      const localVarAxiosArgs =
+        await PythonSubmissionControllerApiAxiosParamCreator(
+          configuration
+        ).getPythonSubmissionById(id, options)
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH
+      ) => {
+        const axiosRequestArgs: AxiosRequestConfig = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url
         }
-      },
-      /**
-       *
-       * @param {number} id
-       * @param {*} [options] Override http request option.
-       * @throws {RequiredError}
-       */
-      async getPackageMaintainerById(
-        id: number,
-        options?: AxiosRequestConfig
-      ): Promise<
-        (
-          axios?: AxiosInstance,
-          basePath?: string
-        ) => Promise<
-          AxiosResponse<ResponseDtoEntityModelPackageMaintainerDto>
-        >
-      > {
-        const localVarAxiosArgs =
-          await ApiV2PackageMaintainerControllerApiAxiosParamCreator(
-            configuration
-          ).getPackageMaintainerById(id, options)
-        return (
-          axios: AxiosInstance = globalAxios,
-          basePath: string = BASE_PATH
-        ) => {
-          const axiosRequestArgs: AxiosRequestConfig = {
-            ...localVarAxiosArgs.options,
-            url: basePath + localVarAxiosArgs.url
-          }
-          return axios.request(axiosRequestArgs)
+        return axios.request(axiosRequestArgs)
+      }
+    },
+    /**
+     *
+     * @param {string} repository
+     * @param {Blob} [file]
+     * @param {boolean} [generateManual]
+     * @param {boolean} [replace]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async submitPythonPacakgeForm(
+      repository: string,
+      file?: Blob,
+      generateManual?: boolean,
+      replace?: boolean,
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => Promise<AxiosResponse<any>>
+    > {
+      const localVarAxiosArgs =
+        await PythonSubmissionControllerApiAxiosParamCreator(
+          configuration
+        ).submitPythonPacakgeForm(
+          repository,
+          file,
+          generateManual,
+          replace,
+          options
+        )
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH
+      ) => {
+        const axiosRequestArgs: AxiosRequestConfig = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url
         }
-      },
-      /**
-       *
-       * @param {JsonPatch} body
-       * @param {number} id
-       * @param {*} [options] Override http request option.
-       * @throws {RequiredError}
-       */
-      async updatePackageMaintainer(
-        body: JsonPatch,
-        id: number,
-        options?: AxiosRequestConfig
-      ): Promise<
-        (
-          axios?: AxiosInstance,
-          basePath?: string
-        ) => Promise<AxiosResponse<any>>
-      > {
-        const localVarAxiosArgs =
-          await ApiV2PackageMaintainerControllerApiAxiosParamCreator(
-            configuration
-          ).updatePackageMaintainer(body, id, options)
-        return (
-          axios: AxiosInstance = globalAxios,
-          basePath: string = BASE_PATH
-        ) => {
-          const axiosRequestArgs: AxiosRequestConfig = {
-            ...localVarAxiosArgs.options,
-            url: basePath + localVarAxiosArgs.url
-          }
-          return axios.request(axiosRequestArgs)
+        return axios.request(axiosRequestArgs)
+      }
+    },
+    /**
+     *
+     * @param {JsonPatch} body
+     * @param {number} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async updatePythonSubmission(
+      body: JsonPatch,
+      id: number,
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => Promise<AxiosResponse<any>>
+    > {
+      const localVarAxiosArgs =
+        await PythonSubmissionControllerApiAxiosParamCreator(
+          configuration
+        ).updatePythonSubmission(body, id, options)
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH
+      ) => {
+        const axiosRequestArgs: AxiosRequestConfig = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url
         }
+        return axios.request(axiosRequestArgs)
       }
     }
   }
+}
 
 /**
- * ApiV2PackageMaintainerControllerApi - factory interface
+ * PythonSubmissionControllerApi - factory interface
  * @export
  */
-export const ApiV2PackageMaintainerControllerApiFactory =
+export const PythonSubmissionControllerApiFactory =
   function (
     configuration?: Configuration,
     basePath?: string,
@@ -677,62 +718,49 @@ export const ApiV2PackageMaintainerControllerApiFactory =
     return {
       /**
        *
-       * @param {PackageMaintainerDto} body
-       * @param {*} [options] Override http request option.
-       * @throws {RequiredError}
-       */
-      async createPackageMaintainer(
-        body: PackageMaintainerDto,
-        options?: AxiosRequestConfig
-      ): Promise<AxiosResponse<any>> {
-        return ApiV2PackageMaintainerControllerApiFp(
-          configuration
-        )
-          .createPackageMaintainer(body, options)
-          .then((request) => request(axios, basePath))
-      },
-      /**
-       *
        * @param {number} id
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
-      async deletePackageMaintainer(
+      async deletePythonSubmission(
         id: number,
         options?: AxiosRequestConfig
       ): Promise<AxiosResponse<void>> {
-        return ApiV2PackageMaintainerControllerApiFp(
+        return PythonSubmissionControllerApiFp(
           configuration
         )
-          .deletePackageMaintainer(id, options)
+          .deletePythonSubmission(id, options)
           .then((request) => request(axios, basePath))
       },
       /**
        *
-       * @param {boolean} [deleted]
-       * @param {Array<string>} [resourceTechnology]
+       * @param {string} [state]
+       * @param {number} [submitterId]
+       * @param {number} [packageId]
        * @param {number} [page] Zero-based page index (0..N)
        * @param {number} [size] The size of the page to be returned
        * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
-      async getAllPackageMaintainers(
-        deleted?: boolean,
-        resourceTechnology?: Array<string>,
+      async getAllPythonSubmissions(
+        state?: string,
+        submitterId?: number,
+        packageId?: number,
         page?: number,
         size?: number,
         sort?: Array<string>,
         options?: AxiosRequestConfig
       ): Promise<
-        AxiosResponse<ResponseDtoPagedModelEntityModelPackageMaintainerDto>
+        AxiosResponse<ResponseDtoPagedModelEntityModelSubmissionDto>
       > {
-        return ApiV2PackageMaintainerControllerApiFp(
+        return PythonSubmissionControllerApiFp(
           configuration
         )
-          .getAllPackageMaintainers(
-            deleted,
-            resourceTechnology,
+          .getAllPythonSubmissions(
+            state,
+            submitterId,
+            packageId,
             page,
             size,
             sort,
@@ -746,16 +774,44 @@ export const ApiV2PackageMaintainerControllerApiFactory =
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
-      async getPackageMaintainerById(
+      async getPythonSubmissionById(
         id: number,
         options?: AxiosRequestConfig
       ): Promise<
-        AxiosResponse<ResponseDtoEntityModelPackageMaintainerDto>
+        AxiosResponse<ResponseDtoEntityModelSubmissionDto>
       > {
-        return ApiV2PackageMaintainerControllerApiFp(
+        return PythonSubmissionControllerApiFp(
           configuration
         )
-          .getPackageMaintainerById(id, options)
+          .getPythonSubmissionById(id, options)
+          .then((request) => request(axios, basePath))
+      },
+      /**
+       *
+       * @param {string} repository
+       * @param {Blob} [file]
+       * @param {boolean} [generateManual]
+       * @param {boolean} [replace]
+       * @param {*} [options] Override http request option.
+       * @throws {RequiredError}
+       */
+      async submitPythonPacakgeForm(
+        repository: string,
+        file?: Blob,
+        generateManual?: boolean,
+        replace?: boolean,
+        options?: AxiosRequestConfig
+      ): Promise<AxiosResponse<any>> {
+        return PythonSubmissionControllerApiFp(
+          configuration
+        )
+          .submitPythonPacakgeForm(
+            repository,
+            file,
+            generateManual,
+            replace,
+            options
+          )
           .then((request) => request(axios, basePath))
       },
       /**
@@ -765,88 +821,74 @@ export const ApiV2PackageMaintainerControllerApiFactory =
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
-      async updatePackageMaintainer(
+      async updatePythonSubmission(
         body: JsonPatch,
         id: number,
         options?: AxiosRequestConfig
       ): Promise<AxiosResponse<any>> {
-        return ApiV2PackageMaintainerControllerApiFp(
+        return PythonSubmissionControllerApiFp(
           configuration
         )
-          .updatePackageMaintainer(body, id, options)
+          .updatePythonSubmission(body, id, options)
           .then((request) => request(axios, basePath))
       }
     }
   }
 
 /**
- * ApiV2PackageMaintainerControllerApi - object-oriented interface
+ * PythonSubmissionControllerApi - object-oriented interface
  * @export
- * @class ApiV2PackageMaintainerControllerApi
+ * @class PythonSubmissionControllerApi
  * @extends {BaseAPI}
  */
-export class ApiV2PackageMaintainerControllerApi extends BaseAPI {
-  /**
-   *
-   * @param {PackageMaintainerDto} body
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof ApiV2PackageMaintainerControllerApi
-   */
-  public async createPackageMaintainer(
-    body: PackageMaintainerDto,
-    options?: AxiosRequestConfig
-  ): Promise<AxiosResponse<any>> {
-    return ApiV2PackageMaintainerControllerApiFp(
-      this.configuration
-    )
-      .createPackageMaintainer(body, options)
-      .then((request) => request(this.axios, this.basePath))
-  }
+export class PythonSubmissionControllerApi extends BaseAPI {
   /**
    *
    * @param {number} id
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof ApiV2PackageMaintainerControllerApi
+   * @memberof PythonSubmissionControllerApi
    */
-  public async deletePackageMaintainer(
+  public async deletePythonSubmission(
     id: number,
     options?: AxiosRequestConfig
   ): Promise<AxiosResponse<void>> {
-    return ApiV2PackageMaintainerControllerApiFp(
+    return PythonSubmissionControllerApiFp(
       this.configuration
     )
-      .deletePackageMaintainer(id, options)
+      .deletePythonSubmission(id, options)
       .then((request) => request(this.axios, this.basePath))
   }
   /**
    *
-   * @param {boolean} [deleted]
-   * @param {Array<string>} [resourceTechnology]
+   * @param {string} [state]
+   * @param {number} [submitterId]
+   * @param {number} [packageId]
    * @param {number} [page] Zero-based page index (0..N)
    * @param {number} [size] The size of the page to be returned
    * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof ApiV2PackageMaintainerControllerApi
+   * @memberof PythonSubmissionControllerApi
    */
-  public async getAllPackageMaintainers(
-    deleted?: boolean,
-    resourceTechnology?: Array<string>,
+  public async getAllPythonSubmissions(
+    state?: string,
+    submitterId?: number,
+    packageId?: number,
     page?: number,
     size?: number,
     sort?: Array<string>,
     options?: AxiosRequestConfig
   ): Promise<
-    AxiosResponse<ResponseDtoPagedModelEntityModelPackageMaintainerDto>
+    AxiosResponse<ResponseDtoPagedModelEntityModelSubmissionDto>
   > {
-    return ApiV2PackageMaintainerControllerApiFp(
+    return PythonSubmissionControllerApiFp(
       this.configuration
     )
-      .getAllPackageMaintainers(
-        deleted,
-        resourceTechnology,
+      .getAllPythonSubmissions(
+        state,
+        submitterId,
+        packageId,
         page,
         size,
         sort,
@@ -859,18 +901,47 @@ export class ApiV2PackageMaintainerControllerApi extends BaseAPI {
    * @param {number} id
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof ApiV2PackageMaintainerControllerApi
+   * @memberof PythonSubmissionControllerApi
    */
-  public async getPackageMaintainerById(
+  public async getPythonSubmissionById(
     id: number,
     options?: AxiosRequestConfig
   ): Promise<
-    AxiosResponse<ResponseDtoEntityModelPackageMaintainerDto>
+    AxiosResponse<ResponseDtoEntityModelSubmissionDto>
   > {
-    return ApiV2PackageMaintainerControllerApiFp(
+    return PythonSubmissionControllerApiFp(
       this.configuration
     )
-      .getPackageMaintainerById(id, options)
+      .getPythonSubmissionById(id, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+  /**
+   *
+   * @param {string} repository
+   * @param {Blob} [file]
+   * @param {boolean} [generateManual]
+   * @param {boolean} [replace]
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PythonSubmissionControllerApi
+   */
+  public async submitPythonPacakgeForm(
+    repository: string,
+    file?: Blob,
+    generateManual?: boolean,
+    replace?: boolean,
+    options?: AxiosRequestConfig
+  ): Promise<AxiosResponse<any>> {
+    return PythonSubmissionControllerApiFp(
+      this.configuration
+    )
+      .submitPythonPacakgeForm(
+        repository,
+        file,
+        generateManual,
+        replace,
+        options
+      )
       .then((request) => request(this.axios, this.basePath))
   }
   /**
@@ -879,17 +950,17 @@ export class ApiV2PackageMaintainerControllerApi extends BaseAPI {
    * @param {number} id
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof ApiV2PackageMaintainerControllerApi
+   * @memberof PythonSubmissionControllerApi
    */
-  public async updatePackageMaintainer(
+  public async updatePythonSubmission(
     body: JsonPatch,
     id: number,
     options?: AxiosRequestConfig
   ): Promise<AxiosResponse<any>> {
-    return ApiV2PackageMaintainerControllerApiFp(
+    return PythonSubmissionControllerApiFp(
       this.configuration
     )
-      .updatePackageMaintainer(body, id, options)
+      .updatePythonSubmission(body, id, options)
       .then((request) => request(this.axios, this.basePath))
   }
 }

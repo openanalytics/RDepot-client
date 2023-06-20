@@ -11,49 +11,50 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { EntityModelPythonPackageDto } from './entity-model-python-package-dto'
 /**
  *
  * @export
- * @interface ResponseDtoObject
+ * @interface ResponseDtoEntityModelPythonPackageDto
  */
-export interface ResponseDtoObject {
+export interface ResponseDtoEntityModelPythonPackageDto {
   /**
    *
    * @type {string}
-   * @memberof ResponseDtoObject
+   * @memberof ResponseDtoEntityModelPythonPackageDto
    */
-  status?: ResponseDtoObjectStatusEnum
+  status?: ResponseDtoEntityModelPythonPackageDtoStatusEnum
   /**
    *
    * @type {number}
-   * @memberof ResponseDtoObject
+   * @memberof ResponseDtoEntityModelPythonPackageDto
    */
   code?: number
   /**
    *
    * @type {string}
-   * @memberof ResponseDtoObject
+   * @memberof ResponseDtoEntityModelPythonPackageDto
    */
   message?: string
   /**
    *
    * @type {string}
-   * @memberof ResponseDtoObject
+   * @memberof ResponseDtoEntityModelPythonPackageDto
    */
   messageCode?: string
   /**
    *
-   * @type {any}
-   * @memberof ResponseDtoObject
+   * @type {EntityModelPythonPackageDto}
+   * @memberof ResponseDtoEntityModelPythonPackageDto
    */
-  data?: any
+  data?: EntityModelPythonPackageDto
 }
 
 /**
  * @export
  * @enum {string}
  */
-export enum ResponseDtoObjectStatusEnum {
+export enum ResponseDtoEntityModelPythonPackageDtoStatusEnum {
   SUCCESS = 'SUCCESS',
   ERROR = 'ERROR'
 }
