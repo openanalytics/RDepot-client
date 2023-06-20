@@ -22,7 +22,9 @@
 
 import { SubmissionsFiltration } from '@/models/Filtration'
 import {
+  ApiV2SubmissionControllerApiFactory,
   EntityModelSubmissionDto,
+  PythonSubmissionControllerApiFactory,
   ResponseDtoPagedModelEntityModelSubmissionDto,
   RSubmissionControllerApiFactory
 } from '@/openapi'
@@ -37,8 +39,9 @@ import { notify } from '@kyvg/vue3-notification'
 import { createPatch } from 'rfc6902'
 import { useSortStore } from '@/store/sort'
 import { isAuthorized } from '@/plugins/casl'
+import { Technologies } from '@/enum/Technologies'
 
-export function fetchRSubmissions(
+export function fetchSubmissions(
   filtration: SubmissionsFiltration,
   logged_user_id: number,
   page?: number,
@@ -47,9 +50,8 @@ export function fetchRSubmissions(
   if (!isAuthorized('GET', 'submissions')) {
     return new Promise(() => validateRequest())
   }
-  const r_submission_api = RSubmissionControllerApiFactory(
-    getConfiguration()
-  )
+  const r_submission_api =
+    ApiV2SubmissionControllerApiFactory(getConfiguration())
   const sort = useSortStore()
   if (sort.field == 'name') {
     sort.setField('packageBag')
@@ -94,7 +96,7 @@ export function updateSubmission(
   )
 
   return openApiRequest<AxiosResponse<any>>(() =>
-    r_submission_api.updateSubmission(
+    r_submission_api.updateRSubmission(
       patch_body,
       oldSubmission.id!
     )
@@ -118,16 +120,29 @@ export function updateSubmission(
 
 export function addSubmission(
   repository: string,
+  technology: string,
   file: File
 ): Promise<boolean> {
   if (!isAuthorized('POST', 'submissions')) {
     return new Promise(() => false)
   }
-  const r_submission_api = RSubmissionControllerApiFactory(
-    getConfiguration()
-  )
+
+  let submission_api
+
+  if (technology === Technologies.enum.R) {
+    submission_api = RSubmissionControllerApiFactory(
+      getConfiguration()
+    ).submitRPacakgeForm
+  } else if (technology === Technologies.enum.Python) {
+    submission_api = PythonSubmissionControllerApiFactory(
+      getConfiguration()
+    ).submitPythonPacakgeForm
+  } else {
+    return new Promise(() => false)
+  }
+
   return openApiRequest<AxiosResponse<any>>(
-    r_submission_api.submitPackageForm,
+    submission_api,
     [repository, file]
   ).then(
     () => {

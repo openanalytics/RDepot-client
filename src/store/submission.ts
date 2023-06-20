@@ -34,7 +34,7 @@ import { i18n } from '@/plugins/i18n'
 import { useLoggedUserStore } from './logged_user'
 import {
   addSubmission,
-  fetchRSubmissions,
+  fetchSubmissions,
   updateSubmission
 } from '@/services/submission_services'
 import { usePaginationStore } from '@/store/pagination'
@@ -66,7 +66,7 @@ export const useSubmissionStore = defineStore(
         const logged_user = useLoggedUserStore()
         const pagination = usePaginationStore()
         const [submission, pageData] =
-          await fetchRSubmissions(
+          await fetchSubmissions(
             this.filtration,
             logged_user.userId,
             pagination.page,
@@ -146,6 +146,7 @@ export const useSubmissionStore = defineStore(
           this.packages.map((packageBag) =>
             addSubmission(
               this.repository?.name!,
+              this.repository?.technology!,
               packageBag
             )
           )
