@@ -23,38 +23,15 @@
 <template>
   <v-timeline direction="horizontal" side="start">
     <v-timeline-item
-      :dot-color="e1 >= 1 ? 'oablue' : 'oablue-darken-2'"
-      :size="e1 !== 1 ? 'small' : 'default'"
+      v-for="(t, index) in steps"
+      :dot-color="
+        e1 >= index + 1 ? 'oablue' : 'oablue-darken-2'
+      "
+      :size="e1 !== index + 1 ? 'small' : 'default'"
     >
       <div>
         <div class="text-h6" dot-color="oablue-darken-2">
-          {{ $t('addSubmission.step1Title') }}
-        </div>
-        <p></p>
-      </div>
-    </v-timeline-item>
-    <v-timeline-item
-      :dot-color="e1 >= 2 ? 'oablue' : 'oablue-darken-2'"
-      :size="e1 !== 2 ? 'small' : 'default'"
-    >
-      <div>
-        <div class="text-h6" dot-color="oablue-darken-2">
-          {{
-            $t('addSubmission.step2Title', [
-              submissions_store.repository?.technology
-            ])
-          }}
-        </div>
-        <p></p>
-      </div>
-    </v-timeline-item>
-    <v-timeline-item
-      :dot-color="e1 >= 3 ? 'oablue' : 'oablue-darken-2'"
-      :size="e1 !== 3 ? 'small' : 'default'"
-    >
-      <div>
-        <div class="text-h6" dot-color="oablue-darken-2">
-          {{ $t('addSubmission.step3Title') }}
+          {{ t }}
         </div>
         <p></p>
       </div>
@@ -63,14 +40,28 @@
 </template>
 
 <script setup lang="ts">
+import { i18n } from '@/plugins/i18n'
 import { useSubmissionStore } from '@/store/submission'
+import { computed } from 'vue'
+
 defineProps({
   e1: {
     type: Number,
     required: true
   }
 })
+
 const submissions_store = useSubmissionStore()
+
+const steps = computed(() => {
+  return [
+    i18n.t('addSubmission.step1Title'),
+    i18n.t('addSubmission.step2Title', [
+      submissions_store.repository?.technology
+    ]),
+    i18n.t('addSubmission.step3Title')
+  ]
+})
 </script>
 
 <style lang="scss">
