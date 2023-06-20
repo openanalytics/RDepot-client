@@ -10,7 +10,7 @@
   },
   "addSubmission": {
     "step1Title": "Choose repository",
-    "step2Title": "Choose packages you want to upload",
+    "step2Title": "Upload {0} packages",
     "step3Title": "Summary"
   },
   "common": {

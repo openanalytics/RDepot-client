@@ -23,15 +23,38 @@
 <template>
   <v-timeline direction="horizontal" side="start">
     <v-timeline-item
-      v-for="(t, index) in steps"
-      :dot-color="
-        e1 >= index + 1 ? 'oablue' : 'oablue-darken-2'
-      "
-      :size="e1 !== index + 1 ? 'small' : 'default'"
+      :dot-color="e1 >= 1 ? 'oablue' : 'oablue-darken-2'"
+      :size="e1 !== 1 ? 'small' : 'default'"
     >
       <div>
         <div class="text-h6" dot-color="oablue-darken-2">
-          {{ $t(t) }}
+          {{ $t('addSubmission.step1Title') }}
+        </div>
+        <p></p>
+      </div>
+    </v-timeline-item>
+    <v-timeline-item
+      :dot-color="e1 >= 2 ? 'oablue' : 'oablue-darken-2'"
+      :size="e1 !== 2 ? 'small' : 'default'"
+    >
+      <div>
+        <div class="text-h6" dot-color="oablue-darken-2">
+          {{
+            $t('addSubmission.step2Title', [
+              submissions_store.repository?.technology
+            ])
+          }}
+        </div>
+        <p></p>
+      </div>
+    </v-timeline-item>
+    <v-timeline-item
+      :dot-color="e1 >= 3 ? 'oablue' : 'oablue-darken-2'"
+      :size="e1 !== 3 ? 'small' : 'default'"
+    >
+      <div>
+        <div class="text-h6" dot-color="oablue-darken-2">
+          {{ $t('addSubmission.step3Title') }}
         </div>
         <p></p>
       </div>
@@ -40,17 +63,14 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
+import { useSubmissionStore } from '@/store/submission'
+defineProps({
   e1: {
     type: Number,
     required: true
   }
 })
-const steps = [
-  'addSubmission.step1Title',
-  'addSubmission.step2Title',
-  'addSubmission.step3Title'
-]
+const submissions_store = useSubmissionStore()
 </script>
 
 <style lang="scss">
