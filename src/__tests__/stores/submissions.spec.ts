@@ -66,7 +66,7 @@ const randomFiltration = {
 
 const server = setupServer(
   rest.get(
-    'http://localhost:8017/api/v2/manager/r/submissions',
+    'http://localhost:8017/api/v2/manager/submissions',
     (_, res, ctx) => {
       return res(ctx.json(submissions))
     }

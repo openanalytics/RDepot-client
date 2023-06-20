@@ -25,8 +25,7 @@ import {
   it,
   expect,
   beforeEach,
-  beforeAll,
-  afterAll
+  beforeAll
 } from 'vitest'
 
 import { mount } from '@vue/test-utils'
@@ -37,39 +36,30 @@ import { createPinia, setActivePinia } from 'pinia'
 import ShortPackagesListVue from '@/components/packages/shortPackages/ShortPackagesList.vue'
 import ShortPackageRowVue from '@/components/packages/shortPackages/ShortPackageRow.vue'
 import packages from '@/__tests__/config/mockData/packages.json'
-import { rest } from 'msw'
-import { setupServer } from 'msw/node'
+import { usePackagesStore } from '@/store/packages'
+import { useUtilities } from '@/composable/utilities'
 
 let wrapper: any
+const { deepCopyAny } = useUtilities()
 
 const globalConfig = {
   mocks: mocks,
   plugins: plugins
 }
 
-const server = setupServer(
-  rest.get(
-    'http://localhost:8017/api/v2/manager/packages',
-    (_, res, ctx) => {
-      return res(ctx.json(packages))
-    }
-  )
-)
-
 beforeAll(() => {
   global.ResizeObserver = ResizeObserver
   setActivePinia(createPinia())
-  server.listen()
 })
 
 beforeEach(async () => {
   wrapper = mount(ShortPackagesListVue, {
     global: globalConfig
   })
-})
-
-afterAll(() => {
-  server.close()
+  let package_store = usePackagesStore()
+  package_store.packages = deepCopyAny(
+    packages.data.content
+  )
 })
 
 describe('Short Packages - list', () => {
