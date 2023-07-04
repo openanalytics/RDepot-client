@@ -40,6 +40,7 @@ import { createPatch } from 'rfc6902'
 import { useSortStore } from '@/store/sort'
 import { isAuthorized } from '@/plugins/casl'
 import { Technologies } from '@/enum/Technologies'
+import { z } from 'zod'
 
 export function fetchSubmissions(
   filtration: SubmissionsFiltration,
@@ -88,20 +89,48 @@ export function updateSubmission(
   if (!isAuthorized('PATCH', 'submissions')) {
     return new Promise(() => false)
   }
-  const r_submission_api = RSubmissionControllerApiFactory(
-    getConfiguration()
-  )
+
   const patch_body = createPatch(
     oldSubmission,
     newSubmission
   )
+  let request: Promise<AxiosResponse<any>>
+  if (oldSubmission.technology === Technologies.enum.R) {
+    const r_submission_api =
+      RSubmissionControllerApiFactory(getConfiguration())
 
-  return openApiRequest<AxiosResponse<any>>(() =>
-    r_submission_api.updateRSubmission(
-      patch_body,
-      oldSubmission.id!
+    request = openApiRequest<AxiosResponse<any>>(() =>
+      r_submission_api.updateRSubmission(
+        patch_body,
+        oldSubmission.id!
+      )
     )
-  ).then(
+  } else if (
+    oldSubmission.technology === Technologies.enum.Python
+  ) {
+    const python_submission_api =
+      PythonSubmissionControllerApiFactory(
+        getConfiguration()
+      )
+
+    request = openApiRequest<AxiosResponse<any>>(() =>
+      python_submission_api.updatePythonSubmission(
+        patch_body,
+        oldSubmission.id!
+      )
+    )
+  } else {
+    // Should never happen expect if a new technology is added
+    request = z.NEVER
+    throw {
+      name: 'NotImplemetedError',
+      message:
+        "Updating of '" +
+        oldSubmission.technology +
+        "' not implemented!"
+    }
+  }
+  return request.then(
     () => {
       notify({
         type: 'success',
