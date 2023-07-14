@@ -28,7 +28,8 @@ import { usePaginationStore } from '@/store/pagination'
 import { useSortStore } from '@/store/sort'
 import { useLoggedUserStore } from '@/store/logged_user'
 import { nameToActionAndSubject } from '@/plugins/casl'
-
+import { authService } from '@/plugins/oauth'
+import { inject } from 'vue'
 const DEFAULT_TITLE = i18n.t('common.projectTitle')
 
 const router = createRouter({
@@ -37,6 +38,21 @@ const router = createRouter({
 })
 
 router.beforeEach((to) => {
+  if (authService)
+    authService
+      .handleLoginRedirect()
+      .then(() => {
+        window.history.replaceState(
+          {},
+          window.document.title,
+          window.location.origin + window.location.pathname
+        )
+        to.name
+      })
+      .catch((error) => {
+        console.log(error)
+        to.name
+      })
   const logged_user = useLoggedUserStore()
   const pagination = usePaginationStore()
   const sort = useSortStore()

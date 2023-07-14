@@ -80,11 +80,29 @@
       </v-row>
     </form>
   </v-container>
+  {{ profile }}
+  <button @click="getProfile">Get Profile</button>
+  <div v-if="profile">
+    <h2>Profile</h2>
+    <template v-if="profile !== null">
+      <p>User: {{ profile.preferred_username }}</p>
+      Roles:
+      <ul v-if="profile.realm_access">
+        <li
+          v-for="role in profile.realm_access.roles"
+          :key="role"
+        >
+          {{ role }}
+        </li>
+      </ul>
+    </template>
+  </div>
+  <v-btn v-else @click="onLogout()">Logout</v-btn>
+  <v-btn v-else @click="getToken()">Get token</v-btn>
+  {{ token }}
 </template>
 
 <script setup lang="ts">
-import Keycloak from 'keycloak-js'
-import { initKeycloak } from '@/plugins/keycloak'
 import { useUserStore } from '@/store/users'
 import { useI18n } from 'vue-i18n'
 import { Form, useForm } from 'vee-validate'
@@ -92,13 +110,21 @@ import { toTypedSchema } from '@vee-validate/zod'
 import { z } from 'zod'
 import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
 import { LoginApiData } from '@/models/users/Login'
+import { onMounted } from 'vue'
+import { ref } from 'vue'
+import { Profile } from 'oidc-client'
+import {
+  registerUserLoggedInEventListener,
+  registerUserLoggedOutEventListener
+} from '@/plugins/eventsBus'
+import { authService as oauthService } from '@/plugins/oauth'
 
 const { t } = useI18n()
 const user_store = useUserStore()
 
-const props = defineProps({
-  keycloak: Object as () => Keycloak
-})
+const isUserLoggedIn = ref<boolean>(false)
+const token = ref<string>('')
+const profile = ref<Profile | undefined>()
 
 const { handleReset, values, meta } = useForm({
   validationSchema: toTypedSchema(
@@ -118,9 +144,56 @@ async function login() {
   if (meta.value.valid)
     user_store.login(values as LoginApiData)
 }
-function keyloackMethod() {
-  initKeycloak()
+
+function onLogout() {
+  if (oauthService) {
+    oauthService.logout()
+  }
 }
+
+async function keyloackMethod() {
+  if (oauthService) {
+    oauthService.login()
+  }
+}
+
+async function getToken() {
+  if (oauthService) {
+    token.value = await oauthService.getAccessToken()
+  }
+}
+
+function getProfile() {
+  console.log(oauthService)
+  if (oauthService) {
+    oauthService.getProfile().then((value) => {
+      console.log(value)
+      if (value) {
+        profile.value = value
+      }
+    })
+  }
+}
+
+onMounted(() => {
+  if (oauthService) {
+    oauthService
+      .isUserLoggedIn()
+      .then((isLoggedIn) => {
+        isUserLoggedIn.value = isLoggedIn
+      })
+      .catch((error) => {
+        alert('error with oauth')
+      })
+
+    registerUserLoggedInEventListener(() => {
+      isUserLoggedIn.value = true
+    })
+    registerUserLoggedOutEventListener(() => {
+      isUserLoggedIn.value = false
+    })
+  }
+})
 </script>
 
 <style scoped lang="scss">
