@@ -20,19 +20,29 @@
  *
  */
 
-import { Configuration } from '@/openapi'
-import { authService } from '@/plugins/oauth'
-import { useLoggedUserStore } from '@/store/logged_user'
+import mitt, { Handler } from 'mitt'
 
-export async function getConfiguration() {
-  const logged_user_store = useLoggedUserStore()
-  const configuration: Configuration = new Configuration()
-  const accessToken = await authService.getAccessToken()
-  console.log(accessToken)
-  configuration.baseOptions = {
-    headers: {
-      Authorization: 'Bearer ' + accessToken
-    }
-  }
-  return configuration
+const eventBus = mitt()
+
+const USER_LOGGED_IN_EVENT = 'USER_LOGGED_IN_EVENT'
+const USER_LOGGED_OUT_EVENT = 'USER_LOGGED_OUT_EVENT'
+
+export function fireUserLoggedInEvent() {
+  eventBus.emit(USER_LOGGED_IN_EVENT)
+}
+
+export function fireUserLoggedOutEvent() {
+  eventBus.emit(USER_LOGGED_OUT_EVENT)
+}
+
+export let registerUserLoggedInEventListener = (
+  callback: Handler
+) => {
+  eventBus.on(USER_LOGGED_IN_EVENT, callback)
+}
+
+export let registerUserLoggedOutEventListener = (
+  callback: Handler
+) => {
+  eventBus.on(USER_LOGGED_OUT_EVENT, callback)
 }

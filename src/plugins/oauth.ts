@@ -46,7 +46,7 @@ const settings = {
   // accessTokenExpiringNotificationTime: 10
 }
 
-let userManager = new UserManager(settings)
+const userManager = new UserManager(settings)
 
 export class AuthService {
   getUserManager() {
