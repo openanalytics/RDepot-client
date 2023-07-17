@@ -1,25 +1,4 @@
-/*
- * R Depot
- *
- * Copyright (C) 2012-2023 Open Analytics NV
- *
- * ===========================================================================
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the Apache License as published by
- * The Apache Software Foundation, either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * Apache License for more details.
- *
- * You should have received a copy of the Apache License
- * along with this program. If not, see <http://www.apache.org/licenses/>
- *
- */
-
+/* tslint:disable */
 /* eslint-disable */
 /**
  * RDEPOT API
@@ -125,6 +104,96 @@ export interface EntityModelPythonPackageDto {
    * @memberof EntityModelPythonPackageDto
    */
   technology?: string
+  /**
+   *
+   * @type {string}
+   * @memberof EntityModelPythonPackageDto
+   */
+  authorEmail?: string
+  /**
+   *
+   * @type {string}
+   * @memberof EntityModelPythonPackageDto
+   */
+  classifiers?: string
+  /**
+   *
+   * @type {string}
+   * @memberof EntityModelPythonPackageDto
+   */
+  descriptionContentType?: string
+  /**
+   *
+   * @type {string}
+   * @memberof EntityModelPythonPackageDto
+   */
+  homePage?: string
+  /**
+   *
+   * @type {string}
+   * @memberof EntityModelPythonPackageDto
+   */
+  keywords?: string
+  /**
+   *
+   * @type {string}
+   * @memberof EntityModelPythonPackageDto
+   */
+  license?: string
+  /**
+   *
+   * @type {string}
+   * @memberof EntityModelPythonPackageDto
+   */
+  maintainer?: string
+  /**
+   *
+   * @type {string}
+   * @memberof EntityModelPythonPackageDto
+   */
+  maintainerEmail?: string
+  /**
+   *
+   * @type {string}
+   * @memberof EntityModelPythonPackageDto
+   */
+  platform?: string
+  /**
+   *
+   * @type {string}
+   * @memberof EntityModelPythonPackageDto
+   */
+  projectUrl?: string
+  /**
+   *
+   * @type {string}
+   * @memberof EntityModelPythonPackageDto
+   */
+  providesExtra?: string
+  /**
+   *
+   * @type {string}
+   * @memberof EntityModelPythonPackageDto
+   */
+  requiresDist?: string
+  /**
+   *
+   * @type {string}
+   * @memberof EntityModelPythonPackageDto
+   */
+  requiresExternal?: string
+  /**
+   *
+   * @type {string}
+   * @memberof EntityModelPythonPackageDto
+   */
+  requiresPython?: string
+  /**
+   *
+   * @type {string}
+   * @memberof EntityModelPythonPackageDto
+   */
+  summary?: string
   /**
    *
    * @type {string}

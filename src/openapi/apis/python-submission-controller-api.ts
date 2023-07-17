@@ -1,25 +1,4 @@
-/*
- * R Depot
- *
- * Copyright (C) 2012-2023 Open Analytics NV
- *
- * ===========================================================================
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the Apache License as published by
- * The Apache Software Foundation, either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * Apache License for more details.
- *
- * You should have received a copy of the Apache License
- * along with this program. If not, see <http://www.apache.org/licenses/>
- *
- */
-
+/* tslint:disable */
 /* eslint-disable */
 /**
  * RDEPOT API
@@ -330,7 +309,7 @@ export const PythonSubmissionControllerApiAxiosParamCreator =
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
-      submitPythonPacakgeForm: async (
+      submitPythonPackageForm: async (
         repository: string,
         file?: Blob,
         generateManual?: boolean,
@@ -344,7 +323,7 @@ export const PythonSubmissionControllerApiAxiosParamCreator =
         ) {
           throw new RequiredError(
             'repository',
-            'Required parameter repository was null or undefined when calling submitPythonPacakgeForm.'
+            'Required parameter repository was null or undefined when calling submitPythonPackageForm.'
           )
         }
         const localVarPath = `/api/v2/manager/python/submissions`
@@ -512,17 +491,8 @@ export const PythonSubmissionControllerApiAxiosParamCreator =
         }
         const needsSerialization =
           typeof body !== 'string' ||
-          Object.entries(
-            localVarRequestOptions.headers!
-          ).find(([key, value]) => {
-            if (
-              value === 'application/json' &&
-              key == 'Content-Type'
-            ) {
-              return true
-            }
-            return false
-          })
+          localVarRequestOptions.headers['Content-Type'] ===
+            'application/json'
         localVarRequestOptions.data = needsSerialization
           ? JSON.stringify(body !== undefined ? body : {})
           : body || ''
@@ -667,7 +637,7 @@ export const PythonSubmissionControllerApiFp = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async submitPythonPacakgeForm(
+    async submitPythonPackageForm(
       repository: string,
       file?: Blob,
       generateManual?: boolean,
@@ -682,7 +652,7 @@ export const PythonSubmissionControllerApiFp = function (
       const localVarAxiosArgs =
         await PythonSubmissionControllerApiAxiosParamCreator(
           configuration
-        ).submitPythonPacakgeForm(
+        ).submitPythonPackageForm(
           repository,
           file,
           generateManual,
@@ -825,7 +795,7 @@ export const PythonSubmissionControllerApiFactory =
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
-      async submitPythonPacakgeForm(
+      async submitPythonPackageForm(
         repository: string,
         file?: Blob,
         generateManual?: boolean,
@@ -835,7 +805,7 @@ export const PythonSubmissionControllerApiFactory =
         return PythonSubmissionControllerApiFp(
           configuration
         )
-          .submitPythonPacakgeForm(
+          .submitPythonPackageForm(
             repository,
             file,
             generateManual,
@@ -955,7 +925,7 @@ export class PythonSubmissionControllerApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof PythonSubmissionControllerApi
    */
-  public async submitPythonPacakgeForm(
+  public async submitPythonPackageForm(
     repository: string,
     file?: Blob,
     generateManual?: boolean,
@@ -965,7 +935,7 @@ export class PythonSubmissionControllerApi extends BaseAPI {
     return PythonSubmissionControllerApiFp(
       this.configuration
     )
-      .submitPythonPacakgeForm(
+      .submitPythonPackageForm(
         repository,
         file,
         generateManual,
