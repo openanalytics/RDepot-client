@@ -34,6 +34,7 @@ import {
 } from '@/openapi'
 import {
   fetchPackageServices,
+  fetchPythonPackageServices,
   fetchRPackageServices,
   updateRPackage
 } from '@/services/package_services'
@@ -121,6 +122,16 @@ export const usePackagesStore = defineStore(
           this.package = {
             ...this.package,
             ...(await fetchRPackageServices(
+              this.package.id
+            ))
+          }
+        }
+      },
+      async fetchPythonPackageFields() {
+        if (this.package?.id) {
+          this.package = {
+            ...this.package,
+            ...(await fetchPythonPackageServices(
               this.package.id
             ))
           }
