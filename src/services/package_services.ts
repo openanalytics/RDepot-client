@@ -24,8 +24,11 @@ import { PackagesFiltration } from '@/models/Filtration'
 import {
   ApiV2PackageControllerApiFactory,
   EntityModelPackageDto,
+  EntityModelPythonPackageDto,
   EntityModelRPackageDto,
+  PythonPackageControllerApiFactory,
   ResponseDtoEntityModelPackageDto,
+  ResponseDtoEntityModelPythonPackageDto,
   ResponseDtoEntityModelRPackageDto,
   ResponseDtoPagedModelEntityModelPackageDto,
   RPackageControllerApiFactory
@@ -122,6 +125,21 @@ export function fetchRPackageServices(
     }
   )
 }
+
+export function fetchPythonPackageServices(
+  id: number
+): Promise<EntityModelPythonPackageDto> {
+  if (!isAuthorized('GET', 'packages')) {
+    return new Promise(() => {})
+  }
+  const packages_api = PythonPackageControllerApiFactory(
+    getConfiguration()
+  )
+  return openApiRequest<ResponseDtoEntityModelPythonPackageDto>(
+    packages_api.getAllPythonPackageById,
+    [id]
+  ).then(
+    (res) => res.data.data || {},
     (msg) => {
       notify({ text: msg, type: 'error' })
       return {}
