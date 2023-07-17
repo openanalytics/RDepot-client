@@ -39,7 +39,7 @@ import { createPatch } from 'rfc6902'
 import { useSortStore } from '@/store/sort'
 import { isAuthorized } from '@/plugins/casl'
 
-export function fetchRepositoryMaintainersServices(
+export async function fetchRepositoryMaintainersServices(
   filtration: RepositoryMaintainersFiltration,
   page?: number,
   pageSize?: number
@@ -50,7 +50,7 @@ export function fetchRepositoryMaintainersServices(
     return new Promise(() => validateRequest())
   const repository_maintainers_api =
     ApiV2RepositoryMaintainerControllerApiFactory(
-      getConfiguration()
+      await getConfiguration()
     )
   const sort = useSortStore()
   if (sort.field == 'name') {
@@ -78,7 +78,7 @@ export function fetchRepositoryMaintainersServices(
   )
 }
 
-export function updateRepositoryMaintainer(
+export async function updateRepositoryMaintainer(
   oldMaintainer: EntityModelRepositoryMaintainerDto,
   newMaintainer: EntityModelRepositoryMaintainerDto
 ): Promise<boolean> {
@@ -86,7 +86,7 @@ export function updateRepositoryMaintainer(
     return new Promise(() => false)
   const repository_maintainers_api =
     ApiV2RepositoryMaintainerControllerApiFactory(
-      getConfiguration()
+      await getConfiguration()
     )
 
   const patch = createPatch(oldMaintainer, newMaintainer)
@@ -115,7 +115,7 @@ export function updateRepositoryMaintainer(
   )
 }
 
-export function deletedRepositoryMaintainer(
+export async function deletedRepositoryMaintainer(
   maintainer: EntityModelRepositoryMaintainerDto
 ): Promise<boolean> {
   if (!isAuthorized('DELETE', 'repositoryMaintainers')) {
@@ -123,7 +123,7 @@ export function deletedRepositoryMaintainer(
   }
   const repository_maintainers_api =
     ApiV2RepositoryMaintainerControllerApiFactory(
-      getConfiguration()
+      await getConfiguration()
     )
   return openApiRequest<AxiosResponse<any>>(
     repository_maintainers_api.deleteRepositoryMaintainer,

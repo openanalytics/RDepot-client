@@ -41,7 +41,7 @@ import { useSortStore } from '@/store/sort'
 import { isAuthorized } from '@/plugins/casl'
 import { Technologies } from '@/enum/Technologies'
 
-export function fetchSubmissions(
+export async function fetchSubmissions(
   filtration: SubmissionsFiltration,
   logged_user_id: number,
   page?: number,
@@ -51,7 +51,9 @@ export function fetchSubmissions(
     return new Promise(() => validateRequest())
   }
   const submission_api =
-    ApiV2SubmissionControllerApiFactory(getConfiguration())
+    ApiV2SubmissionControllerApiFactory(
+      await getConfiguration()
+    )
   const sort = useSortStore()
   if (sort.field == 'name') {
     sort.setField('packageBag')
@@ -80,7 +82,7 @@ export function fetchSubmissions(
   )
 }
 
-export function updateSubmission(
+export async function updateSubmission(
   oldSubmission: EntityModelSubmissionDto,
   newSubmission: EntityModelSubmissionDto,
   textNotification?: string
@@ -89,7 +91,7 @@ export function updateSubmission(
     return new Promise(() => false)
   }
   const r_submission_api = RSubmissionControllerApiFactory(
-    getConfiguration()
+    await getConfiguration()
   )
   const patch_body = createPatch(
     oldSubmission,
@@ -119,7 +121,7 @@ export function updateSubmission(
   )
 }
 
-export function addSubmission(
+export async function addSubmission(
   repository: string,
   technology: string,
   file: File
@@ -132,11 +134,11 @@ export function addSubmission(
 
   if (technology === Technologies.enum.R) {
     submission_api = RSubmissionControllerApiFactory(
-      getConfiguration()
+      await getConfiguration()
     ).submitRPacakgeForm
   } else if (technology === Technologies.enum.Python) {
     submission_api = PythonSubmissionControllerApiFactory(
-      getConfiguration()
+      await getConfiguration()
     ).submitPythonPacakgeForm
   } else {
     return new Promise(() => false)

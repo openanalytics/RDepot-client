@@ -35,13 +35,13 @@ export function fireUserLoggedOutEvent() {
   eventBus.emit(USER_LOGGED_OUT_EVENT)
 }
 
-export let registerUserLoggedInEventListener = (
+export const registerUserLoggedInEventListener = (
   callback: Handler
 ) => {
   eventBus.on(USER_LOGGED_IN_EVENT, callback)
 }
 
-export let registerUserLoggedOutEventListener = (
+export const registerUserLoggedOutEventListener = (
   callback: Handler
 ) => {
   eventBus.on(USER_LOGGED_OUT_EVENT, callback)

@@ -44,7 +44,7 @@ import { repositorySchema } from '@/models/Schemas'
 import { createPatch } from 'rfc6902'
 import { isAuthorized } from '@/plugins/casl'
 
-export function fetchRepositoriesServices(
+export async function fetchRepositoriesServices(
   filtration?: RepositoriesFiltration,
   page?: number,
   pageSize?: number,
@@ -54,7 +54,9 @@ export function fetchRepositoriesServices(
     return new Promise(() => validateRequest)
   }
   const repository_api =
-    ApiV2RepositoryControllerApiFactory(getConfiguration())
+    ApiV2RepositoryControllerApiFactory(
+      await getConfiguration()
+    )
   const sort = useSortStore()
 
   return openApiRequest<ResponseDtoPagedModelEntityModelRepositoryDto>(
@@ -85,12 +87,12 @@ type ValidatedRRepositories = Promise<
   validatedData<EntityModelRepositoryDto>
 >
 
-export function fetchRRepositories(): ValidatedRRepositories {
+export async function fetchRRepositories(): ValidatedRRepositories {
   if (!isAuthorized('GET', 'repositories')) {
     return new Promise(() => validateRequest)
   }
   const r_repository_api = RRepositoryControllerApiFactory(
-    getConfiguration()
+    await getConfiguration()
   )
   return openApiRequest<ResponseDtoPagedModelEntityModelRRepositoryDto>(
     r_repository_api.getAllRRepositories
@@ -107,7 +109,7 @@ export function fetchRRepositories(): ValidatedRRepositories {
   )
 }
 
-export function createRepository(
+export async function createRepository(
   newRepository: EntityModelRepositoryDto
 ): Promise<boolean> {
   if (!isAuthorized('POST', 'repository')) {
@@ -121,7 +123,9 @@ export function createRepository(
     let request
     if (technology === Technologies.enum.R) {
       const repository_api =
-        RRepositoryControllerApiFactory(getConfiguration())
+        RRepositoryControllerApiFactory(
+          await getConfiguration()
+        )
       request =
         openApiRequest<ResponseDtoPagedModelEntityModelRepositoryDto>(
           repository_api.createRRepository,
@@ -130,7 +134,7 @@ export function createRepository(
     } else {
       const repository_api =
         PythonRepositoryControllerApiFactory(
-          getConfiguration()
+          await getConfiguration()
         )
       request =
         openApiRequest<ResponseDtoPagedModelEntityModelRepositoryDto>(
@@ -163,7 +167,7 @@ export function createRepository(
   }
 }
 
-export function updateRepository(
+export async function updateRepository(
   oldRepository: EntityModelRepositoryDto,
   newRepository: EntityModelRepositoryDto
 ) {
@@ -178,7 +182,7 @@ export function updateRepository(
 
   if (oldRepository.technology === Technologies.enum.R) {
     const repository_api = RRepositoryControllerApiFactory(
-      getConfiguration()
+      await getConfiguration()
     )
     return openApiRequest<ResponseDtoPagedModelEntityModelRepositoryDto>(
       repository_api.updateRRepository,
@@ -195,7 +199,7 @@ export function updateRepository(
   ) {
     const repository_api =
       PythonRepositoryControllerApiFactory(
-        getConfiguration()
+        await getConfiguration()
       )
     return openApiRequest<ResponseDtoPagedModelEntityModelRepositoryDto>(
       repository_api.updatePythonRepository,

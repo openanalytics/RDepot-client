@@ -40,7 +40,7 @@ import { createPatch } from 'rfc6902'
 import { useSortStore } from '@/store/sort'
 import { isAuthorized } from '@/plugins/casl'
 
-export function fetchPackageMaintainersService(
+export async function fetchPackageMaintainersService(
   filtration?: PackageMaintainersFiltration,
   page?: number,
   pageSize?: number
@@ -48,10 +48,12 @@ export function fetchPackageMaintainersService(
   if (!isAuthorized('GET', 'packageMaintainers')) {
     return new Promise(() => validateRequest())
   }
+
   const package_maintainers_api =
     ApiV2PackageMaintainerControllerApiFactory(
-      getConfiguration()
+      await getConfiguration()
     )
+
   const sort = useSortStore()
   let sortBy = sort.getSortBy()
   if (sort.field == 'name') {
@@ -79,15 +81,16 @@ export function fetchPackageMaintainersService(
   )
 }
 
-export function deletePackageMaintainerService(
+export async function deletePackageMaintainerService(
   maintainer: EntityModelPackageMaintainerDto
 ): Promise<boolean> {
   if (!isAuthorized('DELETE', 'packageMaintainers')) {
     return new Promise(() => false)
   }
+
   const package_maintainers_api =
     ApiV2PackageMaintainerControllerApiFactory(
-      getConfiguration()
+      await getConfiguration()
     )
   return openApiRequest<AxiosResponse<any>>(
     package_maintainers_api.deletePackageMaintainer,
@@ -110,17 +113,16 @@ export function deletePackageMaintainerService(
   )
 }
 
-export function updatePackageMaintainerService(
+export async function updatePackageMaintainerService(
   oldMaintainer: PackageMaintainerDto,
   newMaintainer: PackageMaintainerDto
 ): Promise<boolean> {
   if (!isAuthorized('PATCH', 'packageMaintainers')) {
     return new Promise(() => false)
   }
+  const config = await getConfiguration()
   const package_maintainers_api =
-    ApiV2PackageMaintainerControllerApiFactory(
-      getConfiguration()
-    )
+    ApiV2PackageMaintainerControllerApiFactory(config)
 
   const patch = createPatch(oldMaintainer, newMaintainer)
 

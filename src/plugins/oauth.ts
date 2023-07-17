@@ -20,7 +20,11 @@
  *
  */
 
-import { Profile, User, UserManager } from 'oidc-client'
+import {
+  User,
+  UserManager,
+  WebStorageStateStore
+} from 'oidc-client-ts'
 import {
   fireUserLoggedInEvent,
   fireUserLoggedOutEvent
@@ -30,20 +34,16 @@ import {
  * Config for the oidc client.
  */
 const settings = {
-  // userStore: new WebStorageStateStore({
-  //   store: window.sessionStorage
-  // }),
+  userStore: new WebStorageStateStore({
+    store: window.localStorage
+  }),
   authority: 'http://192.168.49.17:8080/auth/realms/RDepot',
   client_id: 'oa-rdepot-app',
-  redirect_uri: 'http://localhost:3001/',
-  post_logout_redirect_uri: 'http://localhost:3001',
+  redirect_uri: 'http://localhost:3001/auth',
+  post_logout_redirect_uri: 'http://localhost:3001/logout',
   response_type: 'code',
-  response_mode: 'query',
   scope: 'openid',
-  automaticSilentRenew: true,
   filterProtocolClaims: true
-  // loadUserInfo: true,
-  // accessTokenExpiringNotificationTime: 10
 }
 
 const userManager = new UserManager(settings)
@@ -67,28 +67,19 @@ export class AuthService {
   }
 
   handleLoginRedirect() {
-    alert('redirect')
     return userManager.signinRedirectCallback()
   }
 
   handleLogoutRedirect() {
-    userManager
-      .signinRedirectCallback()
-      .then((user) => {
-        alert(user)
-      })
-      .catch((error) => {
-        console.error(error)
-      })
+    userManager.signinRedirectCallback()
   }
 
   isUserLoggedIn() {
     return new Promise<boolean>((resolve, reject) => {
-      console.log(userManager.metadataService)
       userManager
         .getUser()
         .then((user: User | null) => {
-          console.log(user)
+          // console.log(user)
           if (user === null) {
             resolve(false)
           }
@@ -98,32 +89,29 @@ export class AuthService {
     })
   }
 
-  getProfile() {
-    return new Promise<Profile | null>(
-      (resolve, reject) => {
-        userManager
-          .getUser()
-          .then((user: User | null) => {
-            console.log(user)
-            if (user === null) {
-              resolve(null)
-            } else {
-              resolve(user.profile)
-            }
-          })
-          .catch((error) => reject(error))
-      }
-    )
-  }
+  // getProfile() {
+  //   return new Promise<Profile | null>(
+  //     (resolve, reject) => {
+  //       userManager
+  //         .getUser()
+  //         .then((user: User | null) => {
+  //           if (user === null) {
+  //             resolve(null)
+  //           } else {
+  //             resolve(user.profile)
+  //           }
+  //         })
+  //         .catch((error) => reject(error))
+  //     }
+  //   )
+  // }
 
   getAccessToken() {
     return new Promise<string>((resolve, reject) => {
-      console.log('Get access token from user')
       userManager
         .getUser()
         .then((user: User | null) => {
           if (user != null) {
-            console.log('Got access token from user')
             resolve(user.access_token)
           }
         })

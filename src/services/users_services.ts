@@ -77,7 +77,7 @@ export async function fetchUsers(
     return new Promise(() => validateRequest())
   }
   const user_api = ApiV2UserControllerApiFactory(
-    getConfiguration()
+    await getConfiguration()
   )
   const sort = useSortStore()
 
@@ -108,7 +108,7 @@ export async function updateUser(
     return new Promise(() => false)
   }
   const user_api = ApiV2UserControllerApiFactory(
-    getConfiguration()
+    await getConfiguration()
   )
   const patch = createPatch(oldUser, newUser)
 
@@ -140,7 +140,7 @@ export async function fetchRoles(): ValidatedRRoles {
     return new Promise(() => validateRequest())
   }
   const user_api = ApiV2UserControllerApiFactory(
-    getConfiguration()
+    await getConfiguration()
   )
   return openApiRequest<ResponseDtoCollectionModelRoleDto>(
     user_api.getRoles

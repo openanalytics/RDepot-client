@@ -39,7 +39,7 @@ import { useSortStore } from '@/store/sort'
 import { notify } from '@kyvg/vue3-notification'
 import { createPatch } from 'rfc6902'
 
-export function fetchPackagesServices(
+export async function fetchPackagesServices(
   filtration?: PackagesFiltration,
   page?: number,
   pageSize?: number,
@@ -51,7 +51,7 @@ export function fetchPackagesServices(
     )
   }
   const packages_api = ApiV2PackageControllerApiFactory(
-    getConfiguration()
+    await getConfiguration()
   )
   const sort = useSortStore()
   return openApiRequest<ResponseDtoPagedModelEntityModelPackageDto>(
@@ -79,14 +79,14 @@ export function fetchPackagesServices(
   )
 }
 
-export function fetchPackageServices(
+export async function fetchPackageServices(
   id: number
 ): Promise<EntityModelPackageDto | undefined> {
   if (!isAuthorized('GET', 'packages')) {
     return new Promise(() => {})
   }
   const packages_api = ApiV2PackageControllerApiFactory(
-    getConfiguration()
+    await getConfiguration()
   )
   return openApiRequest<ResponseDtoEntityModelPackageDto>(
     packages_api.getPackageById,
@@ -100,7 +100,7 @@ export function fetchPackageServices(
   )
 }
 
-export function updateRPackage(
+export async function updateRPackage(
   oldPackage: EntityModelPackageDto,
   newPackage: EntityModelPackageDto
 ): Promise<boolean> {
@@ -108,7 +108,7 @@ export function updateRPackage(
     return new Promise(() => false)
   }
   const packages_api = RPackageControllerApiFactory(
-    getConfiguration()
+    await getConfiguration()
   )
   const patch = createPatch(oldPackage, newPackage)
 

@@ -22,13 +22,10 @@
 
 import { Configuration } from '@/openapi'
 import { authService } from '@/plugins/oauth'
-import { useLoggedUserStore } from '@/store/logged_user'
 
 export async function getConfiguration() {
-  const logged_user_store = useLoggedUserStore()
   const configuration: Configuration = new Configuration()
   const accessToken = await authService.getAccessToken()
-  console.log(accessToken)
   configuration.baseOptions = {
     headers: {
       Authorization: 'Bearer ' + accessToken

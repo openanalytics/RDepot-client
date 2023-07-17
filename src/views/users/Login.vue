@@ -80,26 +80,9 @@
       </v-row>
     </form>
   </v-container>
-  {{ profile }}
-  <button @click="getProfile">Get Profile</button>
-  <div v-if="profile">
-    <h2>Profile</h2>
-    <template v-if="profile !== null">
-      <p>User: {{ profile.preferred_username }}</p>
-      Roles:
-      <ul v-if="profile.realm_access">
-        <li
-          v-for="role in profile.realm_access.roles"
-          :key="role"
-        >
-          {{ role }}
-        </li>
-      </ul>
-    </template>
-  </div>
-  <v-btn v-else @click="onLogout()">Logout</v-btn>
-  <v-btn v-else @click="getToken()">Get token</v-btn>
-  {{ token }}
+  <v-btn @click="getToken()">Get token</v-btn>
+  <v-btn @click="onLogout()" class="mx-5">Logout</v-btn>
+  <br />
 </template>
 
 <script setup lang="ts">
@@ -112,7 +95,6 @@ import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
 import { LoginApiData } from '@/models/users/Login'
 import { onMounted } from 'vue'
 import { ref } from 'vue'
-import { Profile } from 'oidc-client'
 import {
   registerUserLoggedInEventListener,
   registerUserLoggedOutEventListener
@@ -124,7 +106,6 @@ const user_store = useUserStore()
 
 const isUserLoggedIn = ref<boolean>(false)
 const token = ref<string>('')
-const profile = ref<Profile | undefined>()
 
 const { handleReset, values, meta } = useForm({
   validationSchema: toTypedSchema(
@@ -161,18 +142,7 @@ async function getToken() {
   if (oauthService) {
     token.value = await oauthService.getAccessToken()
   }
-}
-
-function getProfile() {
-  console.log(oauthService)
-  if (oauthService) {
-    oauthService.getProfile().then((value) => {
-      console.log(value)
-      if (value) {
-        profile.value = value
-      }
-    })
-  }
+  alert(token.value)
 }
 
 onMounted(() => {

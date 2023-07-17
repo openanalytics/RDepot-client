@@ -35,7 +35,7 @@ import {
 import { notify } from '@kyvg/vue3-notification'
 import { isAuthorized } from '@/plugins/casl'
 
-export function fetchEventsServices(
+export async function fetchEventsServices(
   filtration: EventsFiltration,
   page?: number,
   pageSize?: number
@@ -43,9 +43,11 @@ export function fetchEventsServices(
   if (!isAuthorized('GET', 'events')) {
     return new Promise(() => validateRequest())
   }
+
   const events_api = ApiV2NewsfeedEventControllerApiFactory(
-    getConfiguration()
+    await getConfiguration()
   )
+
   let localFiltration = undefined
   if (
     filtration.technologies &&
