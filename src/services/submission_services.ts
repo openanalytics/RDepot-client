@@ -25,6 +25,7 @@ import {
   ApiV2SubmissionControllerApiFactory,
   EntityModelSubmissionDto,
   PythonSubmissionControllerApiFactory,
+  ResponseDtoEntityModelSubmissionDto,
   ResponseDtoPagedModelEntityModelSubmissionDto,
   RSubmissionControllerApiFactory
 } from '@/openapi'
@@ -166,7 +167,7 @@ export function addSubmission(
   } else if (technology === Technologies.enum.Python) {
     submission_api = PythonSubmissionControllerApiFactory(
       getConfiguration()
-    ).submitPythonPacakgeForm
+    ).submitPythonPackageForm
   } else {
     return new Promise(() => false)
   }
@@ -184,6 +185,33 @@ export function addSubmission(
         text: msg
       })
       return false
+    }
+  )
+}
+
+export function fetchSubmission(
+  id: number
+): Promise<EntityModelSubmissionDto> {
+  if (!isAuthorized('GET', 'submissions')) {
+    return new Promise(() => {})
+  }
+
+  const submission_api =
+    ApiV2SubmissionControllerApiFactory(getConfiguration())
+
+  return openApiRequest<ResponseDtoEntityModelSubmissionDto>(
+    submission_api.getSubmissionById,
+    [id]
+  ).then(
+    (res) => {
+      return res.data.data || {}
+    },
+    (msg) => {
+      notify({
+        type: 'error',
+        text: msg
+      })
+      return {}
     }
   )
 }
