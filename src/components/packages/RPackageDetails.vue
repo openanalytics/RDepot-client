@@ -169,6 +169,7 @@ import { notify } from '@kyvg/vue3-notification'
 const { copy } = useClipboard()
 const package_store = usePackagesStore()
 
+package_store.fetchRPackageFields()
 
 const packageBag = computed<EntityModelRPackageDto>(
   () => package_store.package as EntityModelRPackageDto

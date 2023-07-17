@@ -24,7 +24,9 @@ import { PackagesFiltration } from '@/models/Filtration'
 import {
   ApiV2PackageControllerApiFactory,
   EntityModelPackageDto,
+  EntityModelRPackageDto,
   ResponseDtoEntityModelPackageDto,
+  ResponseDtoEntityModelRPackageDto,
   ResponseDtoPagedModelEntityModelPackageDto,
   RPackageControllerApiFactory
 } from '@/openapi'
@@ -81,7 +83,7 @@ export function fetchPackagesServices(
 
 export function fetchPackageServices(
   id: number
-): Promise<EntityModelPackageDto | undefined> {
+): Promise<EntityModelPackageDto> {
   if (!isAuthorized('GET', 'packages')) {
     return new Promise(() => {})
   }
@@ -92,7 +94,34 @@ export function fetchPackageServices(
     packages_api.getPackageById,
     [id]
   ).then(
-    (res) => res.data.data,
+    (res) => res.data.data || {},
+    (msg) => {
+      notify({ text: msg, type: 'error' })
+      return {}
+    }
+  )
+}
+
+export function fetchRPackageServices(
+  id: number
+): Promise<EntityModelRPackageDto> {
+  if (!isAuthorized('GET', 'packages')) {
+    return new Promise(() => {})
+  }
+  const packages_api = RPackageControllerApiFactory(
+    getConfiguration()
+  )
+  return openApiRequest<ResponseDtoEntityModelRPackageDto>(
+    packages_api.getRPackageById,
+    [id]
+  ).then(
+    (res) => res.data.data || {},
+    (msg) => {
+      notify({ text: msg, type: 'error' })
+      return {}
+    }
+  )
+}
     (msg) => {
       notify({ text: msg, type: 'error' })
       return {}
