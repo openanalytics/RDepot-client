@@ -175,6 +175,7 @@ const packageBag = computed<EntityModelRPackageDto>(
   () => package_store.package as EntityModelRPackageDto
 )
 
+const submission = ref(package_store.submission)
 
 function copyContent() {
   try {
