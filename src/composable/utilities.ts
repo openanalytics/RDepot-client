@@ -29,8 +29,42 @@ export function useUtilities() {
     return JSON.parse(JSON.stringify(object)) as any
   }
 
+  const renderer = {
+    code(code: string, _: string, escaped: boolean) {
+      return `<div class="code my-2">
+        <code class="d-flex justify-lg-space-between">
+          ${escaped ? code : escape(code)}
+        </code>
+      </div>`
+    }
+  }
+
+  // copied from marked helpers
+  const escapeTest = /[&<>"']/
+  const escapeReplace = new RegExp(escapeTest.source, 'g')
+  const escapeReplacements: Record<string, string> = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  }
+  const getEscapeReplacement = (ch: string) =>
+    escapeReplacements[ch]
+  function escape(html: string) {
+    if (escapeTest.test(html)) {
+      return html.replace(
+        escapeReplace,
+        getEscapeReplacement
+      )
+    }
+
+    return html
+  }
+
   return {
     deepCopy,
-    deepCopyAny
+    deepCopyAny,
+    renderer
   }
 }
