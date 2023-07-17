@@ -28,6 +28,7 @@ import { fetchPackagesServices } from '@/services'
 import { defineStore } from 'pinia'
 import {
   EntityModelPackageDto,
+  EntityModelSubmissionDto,
   ResponseDtoListVignette,
   RPackageControllerApiFactory
 } from '@/openapi'
@@ -38,10 +39,12 @@ import {
 import { useUtilities } from '@/composable/utilities'
 import { usePaginationStore } from './pagination'
 import { packagesFiltrationLabels } from '@/maps/Filtration'
+import { fetchSubmission } from '@/services/submission_services'
 
 interface State {
   packages: EntityModelPackageDto[]
   package?: EntityModelPackageDto
+  submission?: EntityModelSubmissionDto
   vignettes: ResponseDtoListVignette
   filtration: PackagesFiltration
   chosenPackageId?: number
@@ -57,6 +60,7 @@ export const usePackagesStore = defineStore(
       return {
         packages: [],
         package: {},
+        submission: {},
         vignettes: {},
         filtration: defaultValues(PackagesFiltration),
         chosenPackageId: undefined,
@@ -105,6 +109,11 @@ export const usePackagesStore = defineStore(
       },
       async fetchPackage(id: number) {
         this.package = await fetchPackageServices(id)
+        if (this.package?.submissionId) {
+          this.submission = await fetchSubmission(
+            this.package.submissionId
+          )
+        }
       },
       async activatePackage(
         newPackage: EntityModelPackageDto
