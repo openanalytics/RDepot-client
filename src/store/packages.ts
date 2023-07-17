@@ -34,6 +34,7 @@ import {
 } from '@/openapi'
 import {
   fetchPackageServices,
+  fetchRPackageServices,
   updateRPackage
 } from '@/services/package_services'
 import { useUtilities } from '@/composable/utilities'
@@ -113,6 +114,16 @@ export const usePackagesStore = defineStore(
           this.submission = await fetchSubmission(
             this.package.submissionId
           )
+        }
+      },
+      async fetchRPackageFields() {
+        if (this.package?.id) {
+          this.package = {
+            ...this.package,
+            ...(await fetchRPackageServices(
+              this.package.id
+            ))
+          }
         }
       },
       async activatePackage(
