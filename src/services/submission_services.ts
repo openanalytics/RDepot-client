@@ -126,9 +126,9 @@ export function updateSubmission(
     throw {
       name: 'NotImplemetedError',
       message:
-        "Updating of '" +
+        'Updating of "' +
         oldSubmission.technology +
-        "' not implemented!"
+        '" not implemented!'
     }
   }
   return request.then(

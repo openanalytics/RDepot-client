@@ -76,12 +76,7 @@ export const useUserStore = defineStore('user_store', {
       }
     },
     async saveUser(newUser: EntityModelUserDto) {
-      await updateUser(this.chosenUser, newUser).then(
-        (success: boolean) => {
-          if (success) {
-          }
-        }
-      )
+      await updateUser(this.chosenUser, newUser)
     },
     roleIdToRole(roleId: number) {
       return this.roles.length !== 0
