@@ -23,21 +23,34 @@
 <template>
   <v-app-bar app color="oablue" dark class="navbar">
     <v-row justify="space-around" align="center">
-      <v-row justify="start" align="center" class="ml-4">
+      <v-row
+        justify="start"
+        align="center"
+        class="ml-4"
+        @click="$router.push({ name: 'Home' })"
+      >
         <v-app-bar-nav-icon
           v-show="mobile"
           color="oablue-darken-2"
           @click.stop="showSidebar"
         ></v-app-bar-nav-icon>
 
-        <v-img
-          src="@/assets/logo.png"
-          class="ml-2 logo"
-          contain
-          height="40"
-          width="40"
-        />
-        <p class="logotext">RDepot</p>
+        <v-row
+          justify="start"
+          align="center"
+          class="ml-2 logo-container"
+          @click="$router.push({ name: 'Home' })"
+          v-ripple
+        >
+          <v-img
+            src="@/assets/logo.png"
+            class="ml-2 logo"
+            contain
+            height="40"
+            width="40"
+          />
+          <p class="logotext">RDepot</p>
+        </v-row>
       </v-row>
       <v-row align="center" justify="end" class="my-0 mx-3">
         <User />
@@ -79,5 +92,10 @@ function showSidebar() {
     font-size: 1.25em;
     font-weight: 400;
   }
+}
+
+.logo-container {
+  cursor: pointer;
+  max-width: 160px;
 }
 </style>

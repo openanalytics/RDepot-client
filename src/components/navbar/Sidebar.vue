@@ -142,6 +142,12 @@
         :value="$t('common.users')"
         @click="$router.push({ name: 'users' })"
       ></v-list-item>
+      <v-list-item
+        prepend-icon="mdi-logout"
+        :title="$t('common.logout')"
+        :value="$t('common.logout')"
+        @click="logout"
+      ></v-list-item>
     </v-list>
   </v-navigation-drawer>
 </template>
@@ -151,6 +157,7 @@ import { useCommonStore } from '@/store/common'
 import { useLoggedUserStore } from '@/store/logged_user'
 import { computed } from 'vue'
 import { useDisplay } from 'vuetify/lib/framework.mjs'
+import { authService } from '@/plugins/oauth'
 
 const { xs, mobile } = useDisplay()
 const loggedUserStore = useLoggedUserStore()
@@ -164,4 +171,10 @@ const drawer = computed({
     common_store.setDrawer(value)
   }
 })
+
+function logout() {
+  if (authService) {
+    authService.logout()
+  }
+}
 </script>

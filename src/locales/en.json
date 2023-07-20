@@ -44,7 +44,8 @@
     },
     "deleteQuestion": "Are you sure you want to delete {resource_name}?",
     "copied": "code succesfully copied to clipboard",
-    "goBack": "go back"
+    "goBack": "go back",
+    "logout": "logout"
   },
   "columns": {
     "name": "name",

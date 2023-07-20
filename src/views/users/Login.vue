@@ -127,42 +127,36 @@ async function login() {
 }
 
 function onLogout() {
-  if (oauthService) {
-    oauthService.logout()
-  }
+  user_store.chooseLoginType('DEFAULT')
+  oauthService.logout().catch((err) => console.log(err))
 }
 
 async function keyloackMethod() {
-  if (oauthService) {
-    oauthService.login()
-  }
+  user_store.chooseLoginType('KEYCLOAK')
+  oauthService.login()
 }
 
 async function getToken() {
-  if (oauthService) {
-    token.value = await oauthService.getAccessToken()
-  }
+  token.value = await oauthService.getAccessToken()
   alert(token.value)
 }
 
 onMounted(() => {
-  if (oauthService) {
-    oauthService
-      .isUserLoggedIn()
-      .then((isLoggedIn) => {
-        isUserLoggedIn.value = isLoggedIn
-      })
-      .catch((error) => {
-        alert('error with oauth')
-      })
+  oauthService
+    .isUserLoggedIn()
+    .then((isLoggedIn) => {
+      isUserLoggedIn.value = isLoggedIn
+    })
+    .catch((error) => {
+      alert('error with oauth')
+    })
 
-    registerUserLoggedInEventListener(() => {
-      isUserLoggedIn.value = true
-    })
-    registerUserLoggedOutEventListener(() => {
-      isUserLoggedIn.value = false
-    })
-  }
+  registerUserLoggedInEventListener(() => {
+    isUserLoggedIn.value = true
+  })
+  registerUserLoggedOutEventListener(() => {
+    isUserLoggedIn.value = false
+  })
 })
 </script>
 

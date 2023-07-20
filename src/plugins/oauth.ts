@@ -21,6 +21,8 @@
  */
 
 import {
+  SigninState,
+  SignoutRedirectArgs,
   User,
   UserManager,
   WebStorageStateStore
@@ -34,36 +36,30 @@ import {
  * Config for the oidc client.
  */
 const settings = {
-  userStore: new WebStorageStateStore({
-    store: window.localStorage
-  }),
-  authority: 'http://192.168.49.17:8080/auth/realms/RDepot',
-  client_id: 'oa-rdepot-app',
-  redirect_uri: 'http://localhost:3001/auth',
-  post_logout_redirect_uri: 'http://localhost:3001/logout',
-  response_type: 'code',
-  scope: 'openid',
-  filterProtocolClaims: true
+  authority: import.meta.env.VITE_KEYCLOAK_REALM_URI,
+  client_id: import.meta.env.VITE_KEYCLOAK_CLIENT_ID,
+  redirect_uri: import.meta.env.VITE_KEYCLOAK_REDIRECT_URI,
+  post_logout_redirect_uri: import.meta.env
+    .VITE_KEYCLOAK_POST_LOGOUT_REDIRECT_URI,
+  response_type: import.meta.env
+    .VITE_KEYCLOAK_REPOSNSE_TYPE,
+  scope: import.meta.env.VITE_KEYCLOAK_SCOPE,
+  automaticSilentRenew: true
 }
 
 const userManager = new UserManager(settings)
 
 export class AuthService {
-  getUserManager() {
-    console.log(userManager)
+  login(): Promise<void> {
+    return userManager.signinRedirect()
   }
 
-  login() {
-    userManager
-      .signinRedirect()
-      .catch((error) => console.log(error))
+  logout(): Promise<void> {
+    return userManager.signoutRedirect()
   }
 
-  logout() {
-    userManager
-      .signoutRedirect()
-      .then(() => console.log('User logged out'))
-      .catch((error) => console.log(error))
+  getUser(): Promise<User | null> {
+    return userManager.getUser()
   }
 
   handleLoginRedirect() {
@@ -71,7 +67,7 @@ export class AuthService {
   }
 
   handleLogoutRedirect() {
-    userManager.signinRedirectCallback()
+    return userManager.signoutRedirectCallback()
   }
 
   isUserLoggedIn() {
@@ -79,7 +75,6 @@ export class AuthService {
       userManager
         .getUser()
         .then((user: User | null) => {
-          // console.log(user)
           if (user === null) {
             resolve(false)
           }
@@ -88,23 +83,6 @@ export class AuthService {
         .catch((error) => reject(error))
     })
   }
-
-  // getProfile() {
-  //   return new Promise<Profile | null>(
-  //     (resolve, reject) => {
-  //       userManager
-  //         .getUser()
-  //         .then((user: User | null) => {
-  //           if (user === null) {
-  //             resolve(null)
-  //           } else {
-  //             resolve(user.profile)
-  //           }
-  //         })
-  //         .catch((error) => reject(error))
-  //     }
-  //   )
-  // }
 
   getAccessToken() {
     return new Promise<string>((resolve, reject) => {
@@ -120,12 +98,16 @@ export class AuthService {
   }
 }
 
-userManager.events.addUserLoaded((user) => {
+userManager.events.addUserLoaded(() => {
   fireUserLoggedInEvent()
 })
 
-userManager.events.addUserSignedOut(() =>
+userManager.events.addUserSignedOut(() => {
   fireUserLoggedOutEvent()
-)
+})
+
+userManager.events.addAccessTokenExpired(() => {
+  fireUserLoggedOutEvent()
+})
 
 export const authService = new AuthService()

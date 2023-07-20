@@ -75,9 +75,19 @@ function handleAuthorization() {
         console.log(error)
       })
 }
-
-function handleLogout() {
-  if (authService) authService.handleLogoutRedirect()
+async function handleLogout() {
+  authService
+    .handleLogoutRedirect()
+    .then(() => {
+      window.history.replaceState(
+        {},
+        window.document.title,
+        window.location.origin + window.location.pathname
+      )
+    })
+    .catch((error) => {
+      console.log(error)
+    })
 }
 
 export default router
