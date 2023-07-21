@@ -8,6 +8,10 @@
     "clear": "clear",
     "wrongCredentials": "Wrong credentials, please try again"
   },
+  "errors": {
+    "401": "Cannot perform this request because user is not authenticated.",
+    "403": "Cannot perform this request because user is not authorized"
+  },
   "addSubmission": {
     "step1Title": "Choose repository",
     "step2Title": "Upload {0} packages",

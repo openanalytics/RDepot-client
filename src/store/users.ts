@@ -21,12 +21,10 @@
  */
 
 import { defineStore } from 'pinia'
-import { LoginApiData } from '@/models/users/Login'
 import { LoginType } from '@/enum/LoginType'
 import {
   fetchRoles,
   fetchUsers,
-  loginApi,
   updateUser
 } from '@/services/users_services'
 import { EntityModelUserDto, RoleDto } from '@/openapi'
@@ -54,11 +52,6 @@ export const useUserStore = defineStore('user_store', {
     }
   },
   actions: {
-    async login(payload: LoginApiData) {
-      // let response = await login(data)
-      // this.userToken = response.userToken
-      loginApi(payload)
-    },
     chooseLoginType(payload: LoginType) {
       this.loginType = payload
     },
@@ -75,13 +68,12 @@ export const useUserStore = defineStore('user_store', {
         this.roles = roles
       }
     },
+    async getUserInfo() {
+      //TODO send request for user roles (make sure nothing has changed)
+      //TODO here also we should handle notificiation message - if roles has changed or not, and then redirect user to home page if the role has changed
+    },
     async saveUser(newUser: EntityModelUserDto) {
-      await updateUser(this.chosenUser, newUser).then(
-        (success: boolean) => {
-          if (success) {
-          }
-        }
-      )
+      await updateUser(this.chosenUser, newUser)
     },
     roleIdToRole(roleId: number) {
       return this.roles.length !== 0

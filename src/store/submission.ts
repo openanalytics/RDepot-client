@@ -40,6 +40,7 @@ import {
 import { usePaginationStore } from '@/store/pagination'
 import { useUtilities } from '@/composable/utilities'
 import { submissionsFiltrationLabels } from '@/maps/Filtration'
+import { validatedData } from '@/services/open_api_access'
 
 interface State {
   packages: File[]
@@ -78,8 +79,7 @@ export const useSubmissionStore = defineStore(
       },
       async updateSubmission(
         oldSubmission: EntityModelSubmissionDto,
-        newValues: Partial<EntityModelSubmissionDto>,
-        textNotification: string
+        newValues: Partial<EntityModelSubmissionDto>
       ) {
         const newSubmission = {
           ...deepCopy(oldSubmission),
@@ -87,10 +87,9 @@ export const useSubmissionStore = defineStore(
         }
         await updateSubmission(
           oldSubmission,
-          newSubmission,
-          textNotification
-        ).then(async (success) => {
-          if (success) await this.fetchSubmissions()
+          newSubmission
+        ).then(async () => {
+          await this.fetchSubmissions()
         })
       },
       setPackages(payload: File[]) {
@@ -142,14 +141,15 @@ export const useSubmissionStore = defineStore(
         })
       },
       async addSubmissionRequests() {
-        const promises: Promise<boolean>[] =
-          this.packages.map((packageBag) =>
-            addSubmission(
-              this.repository?.name!,
-              this.repository?.technology!,
-              packageBag
-            )
+        const promises: Promise<
+          validatedData<EntityModelSubmissionDto>
+        >[] = this.packages.map((packageBag) =>
+          addSubmission(
+            this.repository?.name!,
+            this.repository?.technology!,
+            packageBag
           )
+        )
         await Promise.all(promises)
         let fulfilled = 0
         promises.forEach(async (promise) => {

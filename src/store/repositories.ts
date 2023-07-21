@@ -120,8 +120,8 @@ export const useRepositoryStore = defineStore(
         await updateRepository(
           this.chosenRepository,
           newRepository
-        ).then((success) => {
-          if (success) this.fetchRepositories()
+        ).then(() => {
+          this.fetchRepositories()
         })
       },
       setChosenRepository(id: number | undefined) {
