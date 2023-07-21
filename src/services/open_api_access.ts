@@ -21,21 +21,30 @@
  */
 
 import { useCommonStore } from '@/store/common'
-import { AxiosResponse } from 'axios'
+import { AxiosError, AxiosResponse } from 'axios'
 import { Link, PageMetadata } from '@/openapi'
+import { notify } from '@kyvg/vue3-notification'
+import { getHeaders } from './api_config'
+import { i18n } from '@/plugins/i18n'
+import { ResponseDtoObject } from '@/openapi/models'
+import { useUserStore } from '@/store/users'
 
 export function openApiRequest<T>(
   callback: Function,
   parameters?: any[],
   showProgress = true
-): Promise<AxiosResponse<T>> {
+): Promise<validatedData<T>> {
   if (showProgress) {
     turnOnProgress()
   }
+  console.log(parameters)
   if (parameters) {
-    return callback(...parameters).then(resolved, rejected)
+    return callback(...parameters, getHeaders()).then(
+      resolved,
+      rejected
+    )
   } else {
-    return callback().then(resolved, rejected)
+    return callback(getHeaders()).then(resolved, rejected)
   }
 }
 
@@ -44,16 +53,42 @@ function turnOnProgress() {
   common_store.setProgressCircularActive(true)
 }
 
-async function resolved<T>(result: AxiosResponse<T>) {
+async function resolved(
+  result: AxiosResponse<ResponseDtoObject>
+): Promise<validatedData<any>> {
   const common_store = useCommonStore()
   common_store.setProgressCircularActive(false)
-  return result
+  notify('success')
+  return validateRequest(
+    result.data.data?.content,
+    result.data.data?.page,
+    result.data.data?.links
+  )
 }
 
-function rejected(result: AxiosResponse<any, any>) {
+function rejected(result: AxiosError) {
   const common_store = useCommonStore()
   common_store.setProgressCircularActive(false)
+  errorsHandler(result)
   throw result
+}
+
+function errorsHandler(error: AxiosError) {
+  switch (error.response?.status) {
+    case 401: {
+      notify({
+        title: '401',
+        type: 'error',
+        text: i18n.t('errors.401')
+      })
+      break
+    }
+    case 403: {
+      const user_store = useUserStore()
+      user_store.getUserInfo()
+      break
+    }
+  }
 }
 
 export interface Pagination {
