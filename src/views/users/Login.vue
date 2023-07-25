@@ -80,6 +80,7 @@
       </v-row>
     </form>
   </v-container>
+  <v-btn @click="getUserInfo"> user info </v-btn>
 </template>
 
 <script setup lang="ts">
@@ -118,6 +119,11 @@ async function login() {
   if (meta.value.valid)
     user_store.login(values as LoginApiData)
 }
+
+async function getUserInfo() {
+  user_store.getUserInfo()
+}
+
 function keyloackMethod() {
   initKeycloak()
 }

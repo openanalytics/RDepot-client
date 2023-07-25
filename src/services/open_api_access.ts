@@ -59,8 +59,11 @@ async function resolved(
   const common_store = useCommonStore()
   common_store.setProgressCircularActive(false)
   notify('success')
+  const data = result.data.data?.content
+    ? result.data.data?.content
+    : result.data.data
   return validateRequest(
-    result.data.data?.content,
+    data,
     result.data.data?.page,
     result.data.data?.links
   )
@@ -96,19 +99,15 @@ export interface Pagination {
   page: number
 }
 
-export type validatedData<T> = [
-  T[],
-  Pagination,
-  Array<Link>
-]
+export type validatedData<T> = [T, Pagination, Array<Link>]
 
 export function validateRequest<T>(
-  content?: T[],
+  content: T,
   paginationData?: PageMetadata,
   links?: Array<Link>
 ): validatedData<T> {
   return [
-    content || [],
+    content,
     {
       page: paginationData?.number || 0,
       totalNumber: paginationData?.totalElements || 0

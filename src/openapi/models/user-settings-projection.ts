@@ -19,6 +19,7 @@
  * along with this program. If not, see <http://www.apache.org/licenses/>
  *
  */
+
 /* tslint:disable */
 /* eslint-disable */
 /**
@@ -32,50 +33,28 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { EntityModelUserDto } from './entity-model-user-dto'
 /**
  *
  * @export
- * @interface ResponseDtoEntityModelUserDto
+ * @interface UserSettingsProjection
  */
-export interface ResponseDtoEntityModelUserDto {
+export interface UserSettingsProjection {
   /**
    *
    * @type {string}
-   * @memberof ResponseDtoEntityModelUserDto
+   * @memberof UserSettingsProjection
    */
-  status?: ResponseDtoEntityModelUserDtoStatusEnum
+  language?: string
+  /**
+   *
+   * @type {string}
+   * @memberof UserSettingsProjection
+   */
+  theme?: string
   /**
    *
    * @type {number}
-   * @memberof ResponseDtoEntityModelUserDto
+   * @memberof UserSettingsProjection
    */
-  code?: number
-  /**
-   *
-   * @type {string}
-   * @memberof ResponseDtoEntityModelUserDto
-   */
-  message?: string
-  /**
-   *
-   * @type {string}
-   * @memberof ResponseDtoEntityModelUserDto
-   */
-  messageCode?: string
-  /**
-   *
-   * @type {EntityModelUserDto}
-   * @memberof ResponseDtoEntityModelUserDto
-   */
-  data?: EntityModelUserDto
-}
-
-/**
- * @export
- * @enum {string}
- */
-export enum ResponseDtoEntityModelUserDtoStatusEnum {
-  SUCCESS = 'SUCCESS',
-  ERROR = 'ERROR'
+  pageSize?: number
 }

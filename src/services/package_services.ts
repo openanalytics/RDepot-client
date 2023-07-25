@@ -40,14 +40,12 @@ export function fetchPackagesServices(
   page?: number,
   pageSize?: number,
   showProgress = true
-): Promise<validatedData<EntityModelPackageDto>> {
+): Promise<validatedData<EntityModelPackageDto[]>> {
   if (!isAuthorized('GET', 'packages')) {
-    return new Promise(() =>
-      validateRequest<EntityModelPackageDto>()
-    )
+    return new Promise(() => validateRequest)
   }
   const sort = useSortStore()
-  return openApiRequest<EntityModelPackageDto>(
+  return openApiRequest<EntityModelPackageDto[]>(
     ApiV2PackageControllerApiFactory().getAllPackages,
     [
       filtration?.repository,

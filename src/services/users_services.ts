@@ -34,16 +34,26 @@ import { useSortStore } from '@/store/sort'
 import { isAuthorized } from '@/plugins/casl'
 import { createPatch } from 'rfc6902'
 
+type ValidatedUserType = Promise<
+  validatedData<EntityModelUserDto>
+>
+
+export async function getMyData(): ValidatedUserType {
+  return openApiRequest<EntityModelUserDto>(
+    ApiV2UserControllerApiFactory().getUserInfo
+  )
+}
+
 export async function fetchUsers(
   page?: number,
   pageSize?: number
-): Promise<validatedData<EntityModelUserDto>> {
+): Promise<validatedData<EntityModelUserDto[]>> {
   if (!isAuthorized('GET', 'users')) {
-    return new Promise(() => validateRequest())
+    return new Promise(() => validateRequest)
   }
   const sort = useSortStore()
 
-  return openApiRequest<EntityModelUserDto>(
+  return openApiRequest<EntityModelUserDto[]>(
     ApiV2UserControllerApiFactory().getAllUsers,
     [page, pageSize, sort.getSortBy()]
   )
@@ -63,13 +73,13 @@ export async function updateUser(
   )
 }
 
-type ValidatedRRoles = Promise<validatedData<RoleDto>>
+type ValidatedRRoles = Promise<validatedData<RoleDto[]>>
 
 export async function fetchRoles(): ValidatedRRoles {
   if (!isAuthorized('GET', 'users')) {
-    return new Promise(() => validateRequest())
+    return new Promise(() => validateRequest)
   }
-  return openApiRequest<RoleDto>(
+  return openApiRequest<RoleDto[]>(
     ApiV2UserControllerApiFactory().getRoles
   )
 }

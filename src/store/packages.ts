@@ -104,7 +104,8 @@ export const usePackagesStore = defineStore(
         return pageData
       },
       async fetchPackage(id: number) {
-        this.package = await fetchPackageServices(id)
+        const [packageBag] = await fetchPackageServices(id)
+        this.package = packageBag
       },
       async activatePackage(
         newPackage: EntityModelPackageDto

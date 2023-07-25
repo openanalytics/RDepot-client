@@ -25,6 +25,7 @@ import { LoginType } from '@/enum/LoginType'
 import {
   fetchRoles,
   fetchUsers,
+  getMyData,
   updateUser
 } from '@/services/users_services'
 import { EntityModelUserDto, RoleDto } from '@/openapi'
@@ -38,6 +39,7 @@ interface State {
   userList: EntityModelUserDto[]
   chosenUser: EntityModelUserDto
   roles: RoleDto[]
+  me: EntityModelUserDto
 }
 
 export const useUserStore = defineStore('user_store', {
@@ -48,7 +50,8 @@ export const useUserStore = defineStore('user_store', {
       loginType: 'DEFAULT',
       userList: [],
       chosenUser: {},
-      roles: []
+      roles: [],
+      me: {}
     }
   },
   actions: {
@@ -68,10 +71,29 @@ export const useUserStore = defineStore('user_store', {
         this.roles = roles
       }
     },
-    async getUserInfo() {
-      //TODO send request for user roles (make sure nothing has changed)
-      //TODO here also we should handle notificiation message - if roles has changed or not, and then redirect user to home page if the role has changed
+
+    checkRoles(role: string | undefined) {
+      if (
+        this.me.role != role &&
+        this.me.role != undefined
+      ) {
+        alert('change role ' + role)
+        return false
+      }
+      return true
     },
+
+    async getUserInfo() {
+      const [me] = await getMyData()
+      if (me) {
+        if (this.checkRoles(me.role)) {
+          this.me = me
+        } else {
+          alert('logout!')
+        }
+      }
+    },
+
     async saveUser(newUser: EntityModelUserDto) {
       await updateUser(this.chosenUser, newUser)
     },

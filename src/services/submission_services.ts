@@ -44,7 +44,7 @@ export function fetchSubmissions(
   pageSize?: number
 ): Promise<validatedData<EntityModelSubmissionDto>> {
   if (!isAuthorized('GET', 'submissions')) {
-    return new Promise(() => validateRequest())
+    return new Promise(() => validateRequest)
   }
   const sort = useSortStore()
   if (sort.field == 'name') {

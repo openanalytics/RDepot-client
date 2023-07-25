@@ -47,7 +47,7 @@ export function fetchRepositoriesServices(
   page?: number,
   pageSize?: number,
   showProgress = true
-): Promise<validatedData<EntityModelRepositoryDto>> {
+): Promise<validatedData<EntityModelRepositoryDto[]>> {
   if (!isAuthorized('GET', 'repositories')) {
     return new Promise(() => validateRequest)
   }
@@ -56,7 +56,7 @@ export function fetchRepositoriesServices(
   const sort = useSortStore()
   sort.field = 'name'
 
-  return openApiRequest<EntityModelRepositoryDto>(
+  return openApiRequest<EntityModelRepositoryDto[]>(
     repository_api.getAllRepositories,
     [
       filtration?.deleted,

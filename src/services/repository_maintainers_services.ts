@@ -39,16 +39,18 @@ export function fetchRepositoryMaintainersServices(
   page?: number,
   pageSize?: number
 ): Promise<
-  validatedData<EntityModelRepositoryMaintainerDto>
+  validatedData<EntityModelRepositoryMaintainerDto[]>
 > {
   if (!isAuthorized('GET', 'repositoryMaintainers'))
-    return new Promise(() => validateRequest())
+    return new Promise(() => validateRequest)
 
   const sort = useSortStore()
   if (sort.field == 'name') {
     sort.setField('user')
   }
-  return openApiRequest<EntityModelRepositoryMaintainerDto>(
+  return openApiRequest<
+    EntityModelRepositoryMaintainerDto[]
+  >(
     ApiV2RepositoryMaintainerControllerApiFactory()
       .getAllRepositoryMaintainers,
     [
