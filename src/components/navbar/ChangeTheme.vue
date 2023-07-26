@@ -27,15 +27,25 @@
 </template>
 
 <script setup lang="ts">
+import { useUtilities } from '@/composable/utilities'
+import { useLoggedUserStore } from '@/store/logged_user'
 import { useTheme } from 'vuetify/lib/framework.mjs'
+
 const theme = useTheme()
-function changeTheme() {
-  theme.global.name.value = theme.global.current.value.dark
+const logged_user_store = useLoggedUserStore()
+const { deepCopy } = useUtilities()
+
+const changeTheme = () => {
+  const new_theme = theme.global.current.value.dark
     ? 'light'
     : 'dark'
-  localStorage.setItem(
-    'theme',
-    theme.global.current.value.dark.toString()
+
+  theme.global.name.value = new_theme
+  var new_settings = logged_user_store.getCurrentSettings()
+  new_settings.theme = new_theme
+  logged_user_store.updateSettings(
+    logged_user_store.getCurrentSettings(),
+    new_settings
   )
 }
 </script>

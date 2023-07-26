@@ -20,13 +20,20 @@
  *
  */
 
+import { useUtilities } from '@/composable/utilities'
 import { Role } from '@/enum/UserRoles'
+import { EntityModelUserDto } from '@/openapi'
+import { UserSettingsProjection } from '@/openapi/models/user-settings-projection'
 import {
   defineAbilityFor,
   Ability,
   Action,
   Subject
 } from '@/plugins/casl'
+import {
+  getMyData,
+  updateUserSettings
+} from '@/services/logged_user_service'
 import { defineStore } from 'pinia'
 
 interface State {
@@ -35,6 +42,7 @@ interface State {
   userRole: Role
   userId: number
   ability: Ability
+  me: EntityModelUserDto
 }
 
 export const useLoggedUserStore = defineStore(
@@ -46,10 +54,63 @@ export const useLoggedUserStore = defineStore(
         userLogin: 'einstein',
         userRole: Role.enum.admin,
         userId: 8,
-        ability: defineAbilityFor(Role.enum.admin)
+        ability: defineAbilityFor(Role.enum.admin),
+        me: {}
       }
     },
+
     actions: {
+      async updateSettings(
+        old_settings: UserSettingsProjection,
+        new_settings: UserSettingsProjection
+      ) {
+        console.log(old_settings)
+        console.log(new_settings)
+        await updateUserSettings(
+          old_settings,
+          new_settings,
+          this.me
+        )
+        await getMyData()
+      },
+
+      getDefaultSettings(): UserSettingsProjection {
+        return {
+          language: 'en',
+          theme: 'dark',
+          pageSize: 10
+        } as UserSettingsProjection
+      },
+
+      getCurrentSettings(): UserSettingsProjection {
+        const { deepCopy } = useUtilities()
+        return deepCopy(
+          this.me.userSettings || this.getDefaultSettings()
+        )
+      },
+
+      checkRoles(role: string | undefined) {
+        if (
+          this.me.role != role &&
+          this.me.role != undefined
+        ) {
+          alert('change role ' + role)
+          return false
+        }
+        return true
+      },
+
+      async getUserInfo() {
+        const [me] = await getMyData()
+        if (me) {
+          if (this.checkRoles(me.role)) {
+            this.me = me
+          } else {
+            alert('logout!')
+          }
+        }
+      },
+
       change_user(
         token: string,
         login: string,
