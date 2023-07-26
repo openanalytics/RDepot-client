@@ -64,8 +64,6 @@ export const useLoggedUserStore = defineStore(
         old_settings: UserSettingsProjection,
         new_settings: UserSettingsProjection
       ) {
-        console.log(old_settings)
-        console.log(new_settings)
         await updateUserSettings(
           old_settings,
           new_settings,

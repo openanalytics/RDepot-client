@@ -27,13 +27,11 @@
 </template>
 
 <script setup lang="ts">
-import { useUtilities } from '@/composable/utilities'
 import { useLoggedUserStore } from '@/store/logged_user'
 import { useTheme } from 'vuetify/lib/framework.mjs'
 
 const theme = useTheme()
 const logged_user_store = useLoggedUserStore()
-const { deepCopy } = useUtilities()
 
 const changeTheme = () => {
   const new_theme = theme.global.current.value.dark
