@@ -69,7 +69,8 @@ export const useLoggedUserStore = defineStore(
           new_settings,
           this.me
         )
-        await getMyData()
+        const [me] = await getMyData()
+        this.me = me
       },
 
       getDefaultSettings(): UserSettingsProjection {

@@ -56,6 +56,10 @@ export function usePagination() {
     common_store.updateKey()
   }
 
+  function newPageSizeWithoutRefresh(value: number) {
+    pagination.pageSize = value
+  }
+
   function newPage(value: number) {
     pagination.page = value
     common_store.updateKey()
@@ -66,6 +70,7 @@ export function usePagination() {
     howManyPages,
     nextPage,
     newPageSize,
-    newPage
+    newPage,
+    newPageSizeWithoutRefresh
   }
 }

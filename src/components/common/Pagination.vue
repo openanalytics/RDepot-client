@@ -63,15 +63,23 @@
 
 <script setup lang="ts">
 import { usePagination } from '@/composable/pagination'
+import { useLoggedUserStore } from '@/store/logged_user'
 import { usePaginationStore } from '@/store/pagination'
 import { ref } from 'vue'
 
 const { howManyPages, page, newPageSize } = usePagination()
 const pagination = usePaginationStore()
 const localPageSize = ref(pagination.pageSize)
+const logged_user_store = useLoggedUserStore()
 
 function setPageSize() {
   newPageSize(localPageSize.value || 10)
+  var new_settings = logged_user_store.getCurrentSettings()
+  new_settings.pageSize = pagination.pageSize
+  logged_user_store.updateSettings(
+    logged_user_store.getCurrentSettings(),
+    new_settings
+  )
 }
 </script>
 

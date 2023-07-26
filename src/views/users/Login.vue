@@ -92,10 +92,17 @@ import { Form, useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { z } from 'zod'
 import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
-import { LoginApiData } from '@/models/users/Login'
+import { useLoggedUserStore } from '@/store/logged_user'
+import { onMounted } from 'vue'
+import { useTheme } from 'vuetify/lib/framework.mjs'
+import { i18n, i18nInstance } from '@/plugins/i18n'
+import { usePagination } from '@/composable/pagination'
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const user_store = useUserStore()
+const logged_user_store = useLoggedUserStore()
+const theme = useTheme()
+const { newPageSizeWithoutRefresh } = usePagination()
 
 const props = defineProps({
   keycloak: Object as () => Keycloak
@@ -116,17 +123,56 @@ const { handleReset, values, meta } = useForm({
 
 async function login() {
   user_store.chooseLoginType('DEFAULT')
-  if (meta.value.valid)
-    user_store.login(values as LoginApiData)
 }
 
 async function getUserInfo() {
-  user_store.getUserInfo()
+  await logged_user_store.getUserInfo()
+  setTheme()
+  setLanguage()
+  setPageSize()
 }
 
 function keyloackMethod() {
   initKeycloak()
 }
+
+function setTheme() {
+  if (logged_user_store.me.userSettings?.theme)
+    theme.global.name.value =
+      logged_user_store.me.userSettings.theme
+}
+
+function setLanguage() {
+  if (logged_user_store.me.userSettings?.language) {
+    switch (logged_user_store.me.userSettings.language) {
+      case 'en-EN': {
+        i18n.locale.value = 'en'
+        break
+      }
+      case 'pl-PL': {
+        i18n.locale.value = 'pl'
+        break
+      }
+      default: {
+        break
+      }
+    }
+  }
+}
+
+function setPageSize() {
+  if (logged_user_store.me.userSettings?.pageSize) {
+    newPageSizeWithoutRefresh(
+      logged_user_store.me.userSettings.pageSize
+    )
+  }
+}
+
+onMounted(() => {
+  setTheme()
+  setLanguage()
+  setPageSize()
+})
 </script>
 
 <style scoped lang="scss">
