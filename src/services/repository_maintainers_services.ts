@@ -45,8 +45,9 @@ export function fetchRepositoryMaintainersServices(
     return new Promise(() => validateRequest)
 
   const sort = useSortStore()
+  let sortBy = sort.getSortBy()
   if (sort.field == 'name') {
-    sort.setField('user')
+    sortBy = ['user,' + sort.direction]
   }
   return openApiRequest<
     EntityModelRepositoryMaintainerDto[]
@@ -58,7 +59,7 @@ export function fetchRepositoryMaintainersServices(
       filtration.technologies,
       page,
       pageSize,
-      sort.getSortBy()
+      sortBy
     ]
   )
 }

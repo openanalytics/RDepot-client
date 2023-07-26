@@ -47,8 +47,9 @@ export function fetchSubmissions(
     return new Promise(() => validateRequest)
   }
   const sort = useSortStore()
+  let sortBy = sort.getSortBy()
   if (sort.field == 'name') {
-    sort.setField('packageBag')
+    sortBy = ['packageBag,' + sort.direction]
   }
   return openApiRequest<EntityModelSubmissionDto>(
     ApiV2SubmissionControllerApiFactory().getAllSubmissions,
@@ -59,8 +60,8 @@ export function fetchSubmissions(
       undefined, // TODO: add technology filtering
       page,
       pageSize,
-      sort.getSortBy()
-    ]
+      sortBy
+    ],
   )
 }
 
