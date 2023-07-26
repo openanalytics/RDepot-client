@@ -55,8 +55,8 @@ export function fetchRepositoryMaintainersServices(
     ApiV2RepositoryMaintainerControllerApiFactory()
       .getAllRepositoryMaintainers,
     [
-      filtration.deleted,
-      filtration.technologies,
+      filtration?.deleted,
+      filtration?.technologies,
       page,
       pageSize,
       sortBy

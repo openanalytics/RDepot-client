@@ -25,7 +25,6 @@ import { LoginType } from '@/enum/LoginType'
 import {
   fetchRoles,
   fetchUsers,
-  getMyData,
   updateUser
 } from '@/services/users_services'
 import { EntityModelUserDto, RoleDto } from '@/openapi'
@@ -39,7 +38,6 @@ interface State {
   userList: EntityModelUserDto[]
   chosenUser: EntityModelUserDto
   roles: RoleDto[]
-  me: EntityModelUserDto
 }
 
 export const useUserStore = defineStore('user_store', {
@@ -50,12 +48,12 @@ export const useUserStore = defineStore('user_store', {
       loginType: 'DEFAULT',
       userList: [],
       chosenUser: {},
-      roles: [],
-      me: {}
+      roles: []
     }
   },
   actions: {
     chooseLoginType(payload: LoginType) {
+      this.$reset()
       this.loginType = payload
     },
     async fetchUsers() {
@@ -69,28 +67,6 @@ export const useUserStore = defineStore('user_store', {
       if (this.roles.length === 0) {
         const [roles] = await fetchRoles()
         this.roles = roles
-      }
-    },
-
-    checkRoles(role: string | undefined) {
-      if (
-        this.me.role != role &&
-        this.me.role != undefined
-      ) {
-        alert('change role ' + role)
-        return false
-      }
-      return true
-    },
-
-    async getUserInfo() {
-      const [me] = await getMyData()
-      if (me) {
-        if (this.checkRoles(me.role)) {
-          this.me = me
-        } else {
-          alert('logout!')
-        }
       }
     },
 

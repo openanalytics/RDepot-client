@@ -39,10 +39,11 @@ import { Technologies } from '@/enum/Technologies'
 
 export function fetchSubmissions(
   filtration: SubmissionsFiltration,
-  logged_user_id: number,
+  logged_user_id?: number,
   page?: number,
-  pageSize?: number
-): Promise<validatedData<EntityModelSubmissionDto>> {
+  pageSize?: number,
+  showProgress = true
+): Promise<validatedData<EntityModelSubmissionDto[]>> {
   if (!isAuthorized('GET', 'submissions')) {
     return new Promise(() => validateRequest)
   }
@@ -51,17 +52,18 @@ export function fetchSubmissions(
   if (sort.field == 'name') {
     sortBy = ['packageBag,' + sort.direction]
   }
-  return openApiRequest<EntityModelSubmissionDto>(
+  return openApiRequest<EntityModelSubmissionDto[]>(
     ApiV2SubmissionControllerApiFactory().getAllSubmissions,
     [
-      filtration.state,
+      filtration?.state,
       filtration.assignedToMe ? logged_user_id : undefined,
-      filtration.package,
+      filtration?.package,
       undefined, // TODO: add technology filtering
       page,
       pageSize,
       sortBy
     ],
+    showProgress
   )
 }
 

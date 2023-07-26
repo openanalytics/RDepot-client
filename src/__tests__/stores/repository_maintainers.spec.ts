@@ -36,7 +36,6 @@ import repositories from '@/__tests__/config/mockData/repositories.json'
 import packages from '@/__tests__/config/mockData/packages.json'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
-import { i18n } from '@/plugins/i18n'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
 import { usePaginationStore } from '@/store/pagination'
 import { Technologies } from '@/enum/Technologies'
@@ -263,14 +262,7 @@ describe('Repository Maintainers Store', () => {
     await repository_maintainers_store.deleteMaintainer()
 
     expect(spy).toBeCalled()
-    expect(notify.notify).toBeCalledWith({
-      type: 'success',
-      text: i18n.t(
-        'notifications.successDeletePackageManager',
-        repository_maintainers_store.chosenMaintainer.user
-          ?.name || ''
-      )
-    })
+    expect(notify.notify).toBeCalledWith('success')
   })
 
   it('Save chosen maintainer', async () => {

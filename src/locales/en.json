@@ -209,5 +209,12 @@
     "resourceType": "resource type",
     "resourceId": "resource id",
     "userId": "user id"
+  },
+  "user": {
+    "not-logged-in": "not logged in",
+    "logged-in": "logged in"
+  },
+  "loginType": {
+    "keycloak": "Keycloak"
   }
 }

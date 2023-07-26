@@ -117,7 +117,7 @@ describe('Pagination', () => {
     )
 
     await wrapper
-      .find('button[arialabel="Goto Page 3"]')
+      .find('button[arialabel="Go to page 3"]')
       .trigger('click')
 
     expect(wrapper.find(currentPageSelector).text()).toBe(

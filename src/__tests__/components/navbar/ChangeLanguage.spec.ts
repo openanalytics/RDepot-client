@@ -33,6 +33,7 @@ import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
 import ChangeLanguageVue from '@/components/navbar/ChangeLanguage.vue'
 import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
+import { createPinia, setActivePinia } from 'pinia'
 
 let wrapper: any
 const globalConfig = {
@@ -41,6 +42,7 @@ const globalConfig = {
 }
 
 beforeAll(() => {
+  setActivePinia(createPinia())
   global.ResizeObserver = ResizeObserver
 })
 

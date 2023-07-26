@@ -34,16 +34,6 @@ import { useSortStore } from '@/store/sort'
 import { isAuthorized } from '@/plugins/casl'
 import { createPatch } from 'rfc6902'
 
-type ValidatedUserType = Promise<
-  validatedData<EntityModelUserDto>
->
-
-export async function getMyData(): ValidatedUserType {
-  return openApiRequest<EntityModelUserDto>(
-    ApiV2UserControllerApiFactory().getUserInfo
-  )
-}
-
 export async function fetchUsers(
   page?: number,
   pageSize?: number

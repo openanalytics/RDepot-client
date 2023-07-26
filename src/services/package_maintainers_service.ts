@@ -39,16 +39,18 @@ export function fetchPackageMaintainersService(
   filtration?: PackageMaintainersFiltration,
   page?: number,
   pageSize?: number
-): Promise<validatedData<EntityModelPackageMaintainerDto>> {
+): Promise<
+  validatedData<EntityModelPackageMaintainerDto[]>
+> {
   if (!isAuthorized('GET', 'packageMaintainers')) {
-    return new Promise(() => validateRequest())
+    return new Promise(() => validateRequest)
   }
   const sort = useSortStore()
   let sortBy = sort.getSortBy()
   if (sort.field == 'name') {
     sortBy = ['user,' + sort.direction]
   }
-  return openApiRequest<EntityModelPackageMaintainerDto>(
+  return openApiRequest<EntityModelPackageMaintainerDto[]>(
     ApiV2PackageMaintainerControllerApiFactory()
       .getAllPackageMaintainers,
     [

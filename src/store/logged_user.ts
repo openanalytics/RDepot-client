@@ -105,7 +105,7 @@ export const useLoggedUserStore = defineStore(
           if (this.checkRoles(me.role)) {
             this.me = me
           } else {
-            alert('logout!')
+            // alert('logout!')
           }
         }
       },

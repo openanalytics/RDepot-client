@@ -63,20 +63,51 @@ export const useSubmissionStore = defineStore(
       }
     },
     actions: {
-      async fetchSubmissions() {
-        const logged_user = useLoggedUserStore()
-        const pagination = usePaginationStore()
-        const [submission, pageData] =
-          await fetchSubmissions(
-            this.filtration,
-            logged_user.userId,
-            pagination.page,
-            pagination.pageSize
-          )
-        this.submissions = submission
-        pagination.setTotalNumber(pageData.totalNumber)
-        pagination.setPage(pageData.page)
+      async fetchPageOfSubmissions(
+        page: number,
+        pageSize = 8
+      ) {
+        const logged_user_store = useLoggedUserStore()
+        const pageData = await this.fetchData(
+          page,
+          pageSize,
+          defaultValues(SubmissionsFiltration),
+          logged_user_store.me.id,
+          false
+        )
+        return pageData
       },
+      async fetchSubmissions() {
+        const logged_user_store = useLoggedUserStore()
+        const pagination = usePaginationStore()
+        const pageData = await this.fetchData(
+          pagination.page,
+          pagination.pageSize,
+          this.filtration,
+          logged_user_store.me.id
+        )
+        pagination.setPage(pageData.page)
+        pagination.setTotalNumber(pageData.totalNumber)
+      },
+      async fetchData(
+        page: number,
+        pageSize: number,
+        filtration: SubmissionsFiltration,
+        user_id?: number,
+        showProgress = true
+      ) {
+        const [submissions, pageData] =
+          await fetchSubmissions(
+            filtration,
+            user_id,
+            page,
+            pageSize,
+            showProgress
+          )
+        this.submissions = submissions
+        return pageData
+      },
+
       async updateSubmission(
         oldSubmission: EntityModelSubmissionDto,
         newValues: Partial<EntityModelSubmissionDto>

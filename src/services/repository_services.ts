@@ -29,7 +29,6 @@ import {
   RRepositoryControllerApiFactory,
   RRepositoryDto
 } from '@/openapi'
-import { getConfiguration } from './api_config'
 import { Technologies } from '@/enum/Technologies'
 import {
   openApiRequest,
@@ -51,13 +50,12 @@ export function fetchRepositoriesServices(
   if (!isAuthorized('GET', 'repositories')) {
     return new Promise(() => validateRequest)
   }
-  const repository_api =
-    ApiV2RepositoryControllerApiFactory(getConfiguration())
   const sort = useSortStore()
   sort.field = 'name'
 
   return openApiRequest<EntityModelRepositoryDto[]>(
-    repository_api.getAllRepositories,
+    ApiV2RepositoryControllerApiFactory()
+      .getAllRepositories,
     [
       filtration?.deleted,
       filtration?.name,

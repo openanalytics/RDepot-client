@@ -75,7 +75,9 @@
           @click="keyloackMethod"
           class="loginTypeButton"
         >
-          <div class="loginType">Keycloak</div>
+          <div class="loginType">
+            {{ $t('loginType.keycloak') }}
+          </div>
         </v-btn>
       </v-row>
     </form>
@@ -95,7 +97,7 @@ import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
 import { useLoggedUserStore } from '@/store/logged_user'
 import { onMounted } from 'vue'
 import { useTheme } from 'vuetify/lib/framework.mjs'
-import { i18n, i18nInstance } from '@/plugins/i18n'
+import { i18n } from '@/plugins/i18n'
 import { usePagination } from '@/composable/pagination'
 
 const { t, locale } = useI18n()
