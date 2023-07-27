@@ -93,7 +93,12 @@ export const useLoggedUserStore = defineStore(
           this.me.role != role &&
           this.me.role != undefined
         ) {
-          alert('change role ' + role)
+          alert(
+            'role has changed from ' +
+              this.me.role +
+              'to ' +
+              role
+          )
           return false
         }
         return true
@@ -105,9 +110,15 @@ export const useLoggedUserStore = defineStore(
           if (this.checkRoles(me.role)) {
             this.me = me
           } else {
-            // alert('logout!')
+            this.logout()
           }
         }
+      },
+
+      async logout() {
+        this.$reset()
+        //perform logout action
+        alert('logout!')
       },
 
       change_user(

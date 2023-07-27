@@ -27,7 +27,14 @@ import { rest } from 'msw'
 import me from '@/__tests__/config/mockData/me.json'
 import { setupServer } from 'msw/node'
 import { createPinia, setActivePinia } from 'pinia'
-import { describe, expect, it, beforeEach } from 'vitest'
+import {
+  describe,
+  expect,
+  it,
+  beforeEach,
+  vi
+} from 'vitest'
+import { log } from 'console'
 
 const server = setupServer(
   rest.get(
@@ -125,5 +132,24 @@ describe('Logged user store tests', () => {
       data_about_user
     )
     server.close()
+  })
+
+  it('call logout if user role has changed', async () => {
+    server.listen()
+    const logged_user_store = useLoggedUserStore()
+    logged_user_store.me.role = 'admin'
+    const spy = vi.spyOn(logged_user_store, 'logout')
+    const data_about_user = me.data
+    data_about_user.role = 'packagemaintainer'
+    await logged_user_store.getUserInfo()
+    expect(spy).toBeCalledTimes(1)
+    server.close()
+  })
+
+  it('logout action should reset the state', async () => {
+    const logged_user_store = useLoggedUserStore()
+    logged_user_store.me = me.data
+    await logged_user_store.logout()
+    expect(logged_user_store.me).toEqual({})
   })
 })
