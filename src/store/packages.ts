@@ -36,8 +36,8 @@ import {
   updateRPackage
 } from '@/services/package_services'
 import { useUtilities } from '@/composable/utilities'
-import { usePaginationStore } from './pagination'
 import { packagesFiltrationLabels } from '@/maps/Filtration'
+import { usePagination } from '@/store/pagination'
 
 interface State {
   packages: EntityModelPackageDto[]
@@ -77,14 +77,14 @@ export const usePackagesStore = defineStore(
         return pageData
       },
       async fetchPackages(filtration?: PackagesFiltration) {
-        const pagination = usePaginationStore()
+        const pagination = usePagination()
         const pageData = await this.fetchData(
-          pagination.page,
+          pagination.fetchPage,
           pagination.pageSize,
           filtration || this.filtration
         )
-        pagination.setPage(pageData.page)
-        pagination.setTotalNumber(pageData.totalNumber)
+        pagination.newPageWithoutRefresh(pageData.page)
+        pagination.totalNumber = pageData.totalNumber
       },
       async fetchData(
         page: number,
@@ -127,8 +127,8 @@ export const usePackagesStore = defineStore(
         }
       },
       async setFiltration(payload: PackagesFiltration) {
-        const pagination = usePaginationStore()
-        pagination.setPage(0)
+        const pagination = usePagination()
+        pagination.resetPage()
         if (PackagesFiltration.safeParse(payload).success) {
           this.filtration =
             PackagesFiltration.parse(payload)
@@ -140,8 +140,8 @@ export const usePackagesStore = defineStore(
         this.filtration.repository = payload
       },
       clearFiltration() {
-        const pagination = usePaginationStore()
-        pagination.setPage(0)
+        const pagination = usePagination()
+        pagination.resetPage()
         this.filtration = defaultValues(PackagesFiltration)
       },
       async clearFiltrationAndFetch() {

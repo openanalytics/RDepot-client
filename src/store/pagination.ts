@@ -20,38 +20,104 @@
  *
  */
 
+import { useCommonStore } from '@/store/common'
 import { defineStore } from 'pinia'
+import { computed, ref } from 'vue'
 
-interface State {
-  page: number
-  pageSize: number
-  totalNumber?: number
-  totalVisiblePages: number
-}
+export const usePagination = defineStore(
+  'pagination',
+  () => {
+    const common_store = useCommonStore()
+    const totalVisiblePages = ref<number>(10)
+    const local_page = ref<number>(1)
+    const local_page_size = ref<number>(10)
+    const local_total_number = ref<number>(0)
 
-export const usePaginationStore = defineStore(
-  'pagination_store',
-  {
-    state: (): State => {
-      return {
-        page: 0,
-        pageSize: 10,
-        totalNumber: 0,
-        totalVisiblePages: 10
-      }
-    },
-    actions: {
-      setPage(page: number): void {
-        this.page = page
+    const page = computed({
+      get: () => {
+        return local_page.value
       },
-      setPageSize(pageSize: number): void {
-        if (pageSize > 0) {
-          this.pageSize = pageSize
+      set: (value) => {
+        nextPage(value)
+      }
+    })
+
+    const fetchPage = computed(() => {
+      return local_page.value - 1
+    })
+
+    const totalNumber = computed({
+      get() {
+        return local_total_number.value
+      },
+      set(value) {
+        local_total_number.value = value
+      }
+    })
+
+    const pageSize = computed({
+      get: () => {
+        return local_page_size.value
+      },
+      set: (value) => {
+        if (local_page_size.value > 0) {
+          local_page_size.value = value
         }
-      },
-      setTotalNumber(totalNumber: number): void {
-        this.totalNumber = totalNumber
       }
+    })
+
+    const howManyPages = computed(function () {
+      if (
+        local_total_number.value > 0 &&
+        local_page_size.value > 0
+      ) {
+        return Math.ceil(
+          local_total_number.value / local_page_size.value
+        )
+      }
+      return 0
+    })
+
+    function nextPage(value: number) {
+      local_page.value = value
+      common_store.updateKey()
+    }
+
+    function newPageSize(value: number) {
+      pageSize.value = value
+      common_store.updateKey()
+    }
+
+    function newPageSizeWithoutRefresh(value: number) {
+      pageSize.value = value
+    }
+
+    let newPageWithoutRefresh = (value: number) => {
+      local_page.value = value + 1
+    }
+
+    let resetPage = () => {
+      local_page.value = 1
+    }
+
+    function newPage(value: number) {
+      local_page.value = value
+      common_store.updateKey()
+    }
+
+    return {
+      page,
+      newPage,
+      nextPage,
+      pageSize,
+      resetPage,
+      fetchPage,
+      newPageSize,
+      totalNumber,
+      howManyPages,
+      totalVisiblePages,
+      newPageWithoutRefresh,
+      newPageSizeWithoutRefresh
     }
   }
 )

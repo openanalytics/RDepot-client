@@ -32,9 +32,10 @@ import {
   expect,
   it,
   beforeEach,
-  vi
+  vi,
+  beforeAll,
+  afterAll
 } from 'vitest'
-import { log } from 'console'
 
 const server = setupServer(
   rest.get(
@@ -46,8 +47,17 @@ const server = setupServer(
 )
 
 describe('Logged user store tests', () => {
+  beforeAll(() => {
+    server.listen()
+  })
+
   beforeEach(() => {
     setActivePinia(createPinia())
+    server.resetHandlers()
+  })
+
+  afterAll(() => {
+    server.close
   })
 
   it('Default state', () => {
@@ -123,7 +133,6 @@ describe('Logged user store tests', () => {
   })
 
   it('fetch information about logged in user', async () => {
-    server.listen()
     const logged_user_store = useLoggedUserStore()
     const data_about_user = me.data
 
@@ -131,19 +140,15 @@ describe('Logged user store tests', () => {
     expect(logged_user_store.me).toStrictEqual(
       data_about_user
     )
-    server.close()
   })
 
   it('call logout if user role has changed', async () => {
-    server.listen()
     const logged_user_store = useLoggedUserStore()
-    logged_user_store.me.role = 'admin'
+    logged_user_store.me.role = 'packagemaintainer'
+
     const spy = vi.spyOn(logged_user_store, 'logout')
-    const data_about_user = me.data
-    data_about_user.role = 'packagemaintainer'
     await logged_user_store.getUserInfo()
     expect(spy).toBeCalledTimes(1)
-    server.close()
   })
 
   it('logout action should reset the state', async () => {

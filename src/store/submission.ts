@@ -37,10 +37,10 @@ import {
   fetchSubmissions,
   updateSubmission
 } from '@/services/submission_services'
-import { usePaginationStore } from '@/store/pagination'
 import { useUtilities } from '@/composable/utilities'
 import { submissionsFiltrationLabels } from '@/maps/Filtration'
 import { validatedData } from '@/services/open_api_access'
+import { usePagination } from '@/store/pagination'
 
 interface State {
   packages: File[]
@@ -78,16 +78,16 @@ export const useSubmissionStore = defineStore(
         return pageData
       },
       async fetchSubmissions() {
+        const pagination = usePagination()
         const logged_user_store = useLoggedUserStore()
-        const pagination = usePaginationStore()
         const pageData = await this.fetchData(
           pagination.page,
           pagination.pageSize,
           this.filtration,
           logged_user_store.me.id
         )
-        pagination.setPage(pageData.page)
-        pagination.setTotalNumber(pageData.totalNumber)
+        pagination.newPageWithoutRefresh(pageData.page)
+        pagination.totalNumber = pageData.totalNumber
       },
       async fetchData(
         page: number,
@@ -140,8 +140,8 @@ export const useSubmissionStore = defineStore(
         this.repository = payload
       },
       async setFiltration(payload: SubmissionsFiltration) {
-        const pagination = usePaginationStore()
-        pagination.setPage(0)
+        const pagination = usePagination()
+        pagination.resetPage()
         if (
           SubmissionsFiltration.safeParse(payload).success
         ) {
@@ -155,8 +155,8 @@ export const useSubmissionStore = defineStore(
         })
       },
       clearFiltration() {
-        const pagination = usePaginationStore()
-        pagination.setPage(0)
+        const pagination = usePagination()
+        pagination.resetPage()
         this.filtration = defaultValues(
           SubmissionsFiltration
         )

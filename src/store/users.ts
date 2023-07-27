@@ -28,8 +28,8 @@ import {
   updateUser
 } from '@/services/users_services'
 import { EntityModelUserDto, RoleDto } from '@/openapi'
-import { usePaginationStore } from './pagination'
 import { Role } from '@/enum/UserRoles'
+import { usePagination } from '@/store/pagination'
 
 interface State {
   userToken: string
@@ -57,11 +57,11 @@ export const useUserStore = defineStore('user_store', {
       this.loginType = payload
     },
     async fetchUsers() {
-      const pagination = usePaginationStore()
-      const [users, pageInfo] = await fetchUsers()
+      const pagination = usePagination()
+      const [users, pageData] = await fetchUsers()
       this.userList = users
-      pagination.setPage(pageInfo.page)
-      pagination.setTotalNumber(pageInfo.totalNumber)
+      pagination.newPageWithoutRefresh(pageData.page)
+      pagination.totalNumber = pageData.totalNumber
     },
     async fetchRoles() {
       if (this.roles.length === 0) {

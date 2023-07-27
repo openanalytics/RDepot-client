@@ -86,7 +86,6 @@
 </template>
 
 <script setup lang="ts">
-import Keycloak from 'keycloak-js'
 import { initKeycloak } from '@/plugins/keycloak'
 import { useUserStore } from '@/store/users'
 import { useI18n } from 'vue-i18n'
@@ -98,17 +97,13 @@ import { useLoggedUserStore } from '@/store/logged_user'
 import { onMounted } from 'vue'
 import { useTheme } from 'vuetify/lib/framework.mjs'
 import { i18n } from '@/plugins/i18n'
-import { usePagination } from '@/composable/pagination'
+import { usePagination } from '@/store/pagination'
 
-const { t, locale } = useI18n()
+const { t } = useI18n()
 const user_store = useUserStore()
 const logged_user_store = useLoggedUserStore()
 const theme = useTheme()
 const { newPageSizeWithoutRefresh } = usePagination()
-
-const props = defineProps({
-  keycloak: Object as () => Keycloak
-})
 
 const { handleReset, values, meta } = useForm({
   validationSchema: toTypedSchema(

@@ -22,13 +22,17 @@
 
 import { LoginType } from '@/enum/LoginType'
 import { EntityModelUserDto, RoleDto } from '@/openapi'
+import { usePagination } from '@/store/pagination'
 import { useUserStore } from '@/store/users'
 import { createPinia, setActivePinia } from 'pinia'
 import { beforeEach, describe, expect, it } from 'vitest'
 
+let pagination
+
 describe('User Store', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     setActivePinia(createPinia())
+    pagination = usePagination()
   })
 
   it('Starting values', () => {
