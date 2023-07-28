@@ -45,7 +45,7 @@ interface State {
 }
 
 export const useRepositoryStore = defineStore(
-  'repository_store',
+  'repositoryStore',
   {
     state: (): State => {
       return {

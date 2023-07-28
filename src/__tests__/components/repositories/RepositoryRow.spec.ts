@@ -105,14 +105,14 @@ describe('Repositories - repository row (repository)', () => {
   })
 
   it('click published field (checkbox)', async () => {
-    const checkbox_published = wrapper.find(
+    const checkboxPublished = wrapper.find(
       '#checkbox-published'
     )
-    expect(checkbox_published.element.checked).toEqual(
+    expect(checkboxPublished.element.checked).toEqual(
       repository.published
     )
-    await checkbox_published.trigger('click')
-    expect(checkbox_published.element.checked).toEqual(
+    await checkboxPublished.trigger('click')
+    expect(checkboxPublished.element.checked).toEqual(
       !repository.published
     )
   })
@@ -172,10 +172,10 @@ describe('Repositories - repository row (empty repository)', () => {
   })
 
   it('published field (checkbox)', () => {
-    const checkbox_active = wrapper.find(
+    const checkboxActive = wrapper.find(
       '#checkbox-published'
     )
-    expect(checkbox_active.exists()).toEqual(false)
+    expect(checkboxActive.exists()).toEqual(false)
   })
 
   it('navigate button is visible', () => {

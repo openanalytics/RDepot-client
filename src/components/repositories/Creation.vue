@@ -73,7 +73,7 @@ import CardActions from '@/components/common/CardActions.vue'
 import { i18n } from '@/plugins/i18n'
 import { z } from 'zod'
 
-const repository_store = useRepositoryStore()
+const repositoryStore = useRepositoryStore()
 
 const technologySelect = ref(Technologies.options)
 
@@ -105,7 +105,7 @@ const { meta, values } = useForm({
           previousVal = value
           loading.value = true
           const repositoryWithSameName =
-            await repository_store.fetchRepository(value)
+            await repositoryStore.fetchRepository(value)
           loading.value = false
           previousReturn =
             repositoryWithSameName.length === 0
@@ -124,7 +124,7 @@ const emit = defineEmits(['closeModal'])
 
 function createRepository() {
   if (meta.value.valid) {
-    repository_store.createRepository(values)
+    repositoryStore.createRepository(values)
     changeDialogOptions()
   } else {
     notify({

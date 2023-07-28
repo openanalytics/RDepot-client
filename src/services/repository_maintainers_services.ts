@@ -48,7 +48,7 @@ export function fetchRepositoryMaintainersServices(
 > {
   if (!isAuthorized('GET', 'repositoryMaintainers'))
     return new Promise(() => validateRequest())
-  const repository_maintainers_api =
+  const repositoryMaintainersApi =
     ApiV2RepositoryMaintainerControllerApiFactory(
       getConfiguration()
     )
@@ -57,7 +57,7 @@ export function fetchRepositoryMaintainersServices(
     sort.setField('user')
   }
   return openApiRequest<ResponseDtoPagedModelEntityModelRepositoryMaintainerDto>(
-    repository_maintainers_api.getAllRepositoryMaintainers,
+    repositoryMaintainersApi.getAllRepositoryMaintainers,
     [
       filtration.deleted,
       filtration.technologies,
@@ -84,7 +84,7 @@ export function updateRepositoryMaintainer(
 ): Promise<boolean> {
   if (!isAuthorized('PATCH', 'repositoryMaintainers'))
     return new Promise(() => false)
-  const repository_maintainers_api =
+  const repositoryMaintainersApi =
     ApiV2RepositoryMaintainerControllerApiFactory(
       getConfiguration()
     )
@@ -92,7 +92,7 @@ export function updateRepositoryMaintainer(
   const patch = createPatch(oldMaintainer, newMaintainer)
 
   return openApiRequest<AxiosResponse<any>>(
-    repository_maintainers_api.updateRepositoryMaintainer,
+    repositoryMaintainersApi.updateRepositoryMaintainer,
     [patch, oldMaintainer.id]
   ).then(
     () => {
@@ -121,12 +121,12 @@ export function deletedRepositoryMaintainer(
   if (!isAuthorized('DELETE', 'repositoryMaintainers')) {
     return new Promise(() => false)
   }
-  const repository_maintainers_api =
+  const repositoryMaintainersApi =
     ApiV2RepositoryMaintainerControllerApiFactory(
       getConfiguration()
     )
   return openApiRequest<AxiosResponse<any>>(
-    repository_maintainers_api.deleteRepositoryMaintainer,
+    repositoryMaintainersApi.deleteRepositoryMaintainer,
     [maintainer.id]
   ).then(
     () => {

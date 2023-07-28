@@ -34,24 +34,22 @@
     <v-toolbar color="secondary">
       <v-toolbar-title
         >Chosen files ({{
-          files_local?.length ? files_local.length : 0
+          filesLocal?.length ? filesLocal.length : 0
         }})</v-toolbar-title
       >
       <v-spacer></v-spacer>
     </v-toolbar>
 
-    <v-list lines="two">
+    <v-list class="px-10 py-3 text-overline">
       <v-list-item
-        v-for="file in files_local"
+        v-for="file in filesLocal"
         :key="file.name"
         :title="file.name"
-        @click=""
+        class="hoverable"
       >
         <template v-slot:prepend>
           <v-icon
-            :color="
-              check_validity(file) ? 'white' : 'oared'
-            "
+            :color="checkValidity(file) ? 'white' : 'oared'"
             icon="mdi-file"
           />
         </template>
@@ -59,7 +57,7 @@
         <template v-slot:append>
           <v-btn
             :color="
-              check_validity(file)
+              checkValidity(file)
                 ? 'grey-lighten-1'
                 : 'oared'
             "
@@ -134,58 +132,49 @@ const { files, open, reset } = useFileDialog({
 })
 
 const emits = defineEmits(['next'])
-const submissions_store = useSubmissionStore()
+const submissionsStore = useSubmissionStore()
 const notifications = useNotification()
 const valid = ref<boolean>(true)
 
-const files_local = ref<File[]>([])
+const filesLocal = ref<File[]>([])
 
 function removeFile(file: File) {
-  files_local.value.forEach(
-    (file_local: File, i: number) => {
-      if (file_local == file) {
-        files_local.value.splice(i, 1)
-      }
+  filesLocal.value.forEach((fileLocal: File, i: number) => {
+    if (fileLocal == file) {
+      filesLocal.value.splice(i, 1)
     }
-  )
+  })
 }
 
 function resetPackages() {
-  submissions_store.setPackages([])
+  submissionsStore.setPackages([])
   reset()
 }
 
 watch(files, (files) => {
-  if (files != null) {
-    files_local.value = Array.from(files)
-  } else {
-    files_local.value = []
-  }
+  filesLocal.value = Array.from(files || [])
 })
 
-function check_validity(file: File) {
+function checkValidity(file: File) {
   return file['type'] === 'application/gzip'
 }
 
 function savePackagesInStore() {
-  valid.value = files_local.value.every(check_validity)
+  valid.value = filesLocal.value.every(checkValidity)
   if (valid.value) {
-    submissions_store.setPackages(files_local.value)
+    submissionsStore.setPackages(filesLocal.value)
   } else {
-    submissions_store.setPackages([])
+    submissionsStore.setPackages([])
   }
 }
 
 onMounted(() => {
-  files_local.value = submissions_store.packages
+  filesLocal.value = submissionsStore.packages
 })
 
 function nextStep() {
   savePackagesInStore()
-  if (
-    submissions_store.packages.length > 0 &&
-    valid.value
-  ) {
+  if (submissionsStore.packages.length > 0 && valid.value) {
     emits('next', 3)
   } else if (!valid.value) {
     notifications.notify({

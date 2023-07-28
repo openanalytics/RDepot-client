@@ -155,13 +155,13 @@ import { useDisplay } from 'vuetify/lib/framework.mjs'
 const { xs, mobile } = useDisplay()
 const loggedUserStore = useLoggedUserStore()
 
-const common_store = useCommonStore()
+const commonStore = useCommonStore()
 const drawer = computed({
   get() {
-    return common_store.drawer
+    return commonStore.drawer
   },
   set(value: boolean) {
-    common_store.setDrawer(value)
+    commonStore.setDrawer(value)
   }
 })
 </script>

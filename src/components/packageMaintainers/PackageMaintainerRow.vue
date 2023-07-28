@@ -84,14 +84,11 @@
     </v-col>
     <v-col
       v-if="
-        logged_user_store.can(
+        loggedUserStore.can(
           'PATCH',
           'packageMaintainers'
         ) ||
-        logged_user_store.can(
-          'DELETE',
-          'packageMaintainers'
-        )
+        loggedUserStore.can('DELETE', 'packageMaintainers')
       "
       id="package-maintainer-actions"
       cols="lg-1"
@@ -115,7 +112,7 @@
           <template v-slot:activator="{ props }">
             <v-icon
               v-if="
-                logged_user_store.can(
+                loggedUserStore.can(
                   'PATCH',
                   'packageMaintainers'
                 )
@@ -137,7 +134,7 @@
           :name="props.packageMaintainer?.user?.name"
           :set-resource-id="chooseMaintainer"
           v-if="
-            logged_user_store.can(
+            loggedUserStore.can(
               'DELETE',
               'packageMaintainers'
             )
@@ -169,41 +166,41 @@ const props = defineProps({
     | undefined
 })
 
-const logged_user_store = useLoggedUserStore()
-const common_store = useCommonStore()
-const maintainers_store = usePackageMaintainersStore()
+const loggedUserStore = useLoggedUserStore()
+const commonStore = useCommonStore()
+const maintainersStore = usePackageMaintainersStore()
 
 function chooseMaintainer() {
-  maintainers_store.setChosenMaintainer(
+  maintainersStore.setChosenMaintainer(
     props.packageMaintainer || {}
   )
 }
 
 function edit() {
-  maintainers_store.setChosenMaintainer(
+  maintainersStore.setChosenMaintainer(
     props.packageMaintainer || {}
   )
-  common_store.setOverlayText(
+  commonStore.setOverlayText(
     i18n.t('maintainers.edit', {
       maintainerName: props.packageMaintainer?.user?.id
     })
   )
-  common_store.setOverlayModel(true)
-  common_store.setOverlayOpacity(0.8)
-  common_store.setOverlayComponent(OverlayEnum.enum.Edit)
+  commonStore.setOverlayModel(true)
+  commonStore.setOverlayOpacity(0.8)
+  commonStore.setOverlayComponent(OverlayEnum.enum.Edit)
 }
 
 function deleteDialog() {
-  maintainers_store.setChosenMaintainer(
+  maintainersStore.setChosenMaintainer(
     props.packageMaintainer || {}
   )
-  common_store.setOverlayText(
+  commonStore.setOverlayText(
     i18n.t('maintainers.deleteQuestion', {
       maintainerName: props.packageMaintainer?.user?.id
     })
   )
-  common_store.setOverlayModel(true)
-  common_store.setOverlayOpacity(0.8)
-  common_store.setOverlayComponent(OverlayEnum.enum.Delete)
+  commonStore.setOverlayModel(true)
+  commonStore.setOverlayOpacity(0.8)
+  commonStore.setOverlayComponent(OverlayEnum.enum.Delete)
 }
 </script>

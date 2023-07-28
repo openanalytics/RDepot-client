@@ -112,15 +112,13 @@
         v-else-if="packageBag"
         v-model="packageBag.active"
         @change="updatePackageActive"
-        :disabled="
-          !logged_user_store.can('PATCH', 'package')
-        "
+        :disabled="!loggedUserStore.can('PATCH', 'package')"
       />
     </VCol>
     <VCol
       v-if="
-        logged_user_store.can('GET', 'packageDetails') ||
-        logged_user_store.can('DELETE', 'package')
+        loggedUserStore.can('GET', 'packageDetails') ||
+        loggedUserStore.can('DELETE', 'package')
       "
       id="package-row-actions"
       cols="lg-1"
@@ -141,10 +139,7 @@
           <template v-slot:activator="{ props }">
             <VIcon
               v-if="
-                logged_user_store.can(
-                  'GET',
-                  'packageDetails'
-                )
+                loggedUserStore.can('GET', 'packageDetails')
               "
               id="navigate-icon"
               @click.stop
@@ -159,7 +154,7 @@
           }}</span>
         </VTooltip>
         <DeleteIcon
-          v-if="logged_user_store.can('DELETE', 'package')"
+          v-if="loggedUserStore.can('DELETE', 'package')"
           :name="props.packageBag?.name"
           :set-resource-id="choosePackage"
         />
@@ -177,8 +172,8 @@ import SortTitle from '@/components/common/resources/SortTitle.vue'
 import TextRecord from '@/components/common/resources/TextRecord.vue'
 import { useLoggedUserStore } from '@/store/logged_user'
 
-const package_store = usePackagesStore()
-const logged_user_store = useLoggedUserStore()
+const packageStore = usePackagesStore()
+const loggedUserStore = useLoggedUserStore()
 
 const props = defineProps({
   title: {
@@ -191,7 +186,7 @@ const props = defineProps({
 })
 
 function choosePackage() {
-  package_store.setChosenPackage(props.packageBag?.id)
+  packageStore.setChosenPackage(props.packageBag?.id)
 }
 
 function updatePackageActive() {
@@ -200,7 +195,7 @@ function updatePackageActive() {
     props.packageBag.id &&
     props.packageBag.active != undefined
   ) {
-    package_store.activatePackage(props.packageBag)
+    packageStore.activatePackage(props.packageBag)
   }
 }
 

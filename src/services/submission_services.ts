@@ -43,24 +43,25 @@ import { Technologies } from '@/enum/Technologies'
 
 export function fetchSubmissions(
   filtration: SubmissionsFiltration,
-  logged_user_id: number,
+  loggedUserId: number,
   page?: number,
   pageSize?: number
 ): Promise<validatedData<EntityModelSubmissionDto>> {
   if (!isAuthorized('GET', 'submissions')) {
     return new Promise(() => validateRequest())
   }
-  const submission_api =
-    ApiV2SubmissionControllerApiFactory(getConfiguration())
+  const submissionApi = ApiV2SubmissionControllerApiFactory(
+    getConfiguration()
+  )
   const sort = useSortStore()
   if (sort.field == 'name') {
     sort.setField('packageBag')
   }
   return openApiRequest<ResponseDtoPagedModelEntityModelSubmissionDto>(
-    submission_api.getAllSubmissions,
+    submissionApi.getAllSubmissions,
     [
       filtration.state,
-      filtration.assignedToMe ? logged_user_id : undefined,
+      filtration.assignedToMe ? loggedUserId : undefined,
       filtration.package,
       undefined, // TODO: add technology filtering
       page,
@@ -88,17 +89,17 @@ export function updateSubmission(
   if (!isAuthorized('PATCH', 'submissions')) {
     return new Promise(() => false)
   }
-  const r_submission_api = RSubmissionControllerApiFactory(
+  const rSubmissionApi = RSubmissionControllerApiFactory(
     getConfiguration()
   )
-  const patch_body = createPatch(
+  const patchBody = createPatch(
     oldSubmission,
     newSubmission
   )
 
   return openApiRequest<AxiosResponse<any>>(() =>
-    r_submission_api.updateRSubmission(
-      patch_body,
+    rSubmissionApi.updateRSubmission(
+      patchBody,
       oldSubmission.id!
     )
   ).then(
@@ -122,30 +123,34 @@ export function updateSubmission(
 export function addSubmission(
   repository: string,
   technology: string,
-  file: File
+  file: File,
+  generateManual?: boolean
 ): Promise<boolean> {
   if (!isAuthorized('POST', 'submissions')) {
     return new Promise(() => false)
   }
 
-  let submission_api
+  let submissionApi
 
   if (technology === Technologies.enum.R) {
-    submission_api = RSubmissionControllerApiFactory(
+    submissionApi = RSubmissionControllerApiFactory(
       getConfiguration()
     ).submitRPacakgeForm
   } else if (technology === Technologies.enum.Python) {
-    submission_api = PythonSubmissionControllerApiFactory(
+    submissionApi = PythonSubmissionControllerApiFactory(
       getConfiguration()
     ).submitPythonPacakgeForm
   } else {
     return new Promise(() => false)
   }
 
-  return openApiRequest<AxiosResponse<any>>(
-    submission_api,
-    [repository, file]
-  ).then(
+  alert(generateManual)
+
+  return openApiRequest<AxiosResponse<any>>(submissionApi, [
+    repository,
+    file,
+    generateManual
+  ]).then(
     () => {
       return true
     },

@@ -31,7 +31,7 @@ import { createPinia, setActivePinia } from 'pinia'
 import { usePaginationStore } from '@/store/pagination'
 
 let wrapper: any
-let pagination_store: any
+let pagination: any
 let numberOfPages: number
 const pageButtonsSelector = 'li.v-pagination__item'
 const currentPageSelector =
@@ -45,10 +45,10 @@ const globalConfig = {
 beforeEach(async () => {
   setActivePinia(createPinia())
   global.ResizeObserver = ResizeObserver
-  pagination_store = usePaginationStore()
+  pagination = usePaginationStore()
   numberOfPages = 5
-  pagination_store.totalNumber =
-    pagination_store.pageSize * numberOfPages
+  pagination.totalNumber =
+    pagination.pageSize * numberOfPages
 
   wrapper = mount(PaginationVue, {
     global: globalConfig
@@ -74,7 +74,7 @@ describe('Pagination', () => {
   })
 
   it('Next page', async () => {
-    let currentPage = pagination_store.page
+    let currentPage = pagination.page
 
     expect(wrapper.find(currentPageSelector).text()).toBe(
       pageToString(currentPage)
@@ -93,7 +93,7 @@ describe('Pagination', () => {
 
   it('Previous page', async () => {
     let currentPage = 2
-    pagination_store.page = currentPage
+    pagination.page = currentPage
 
     await flushPromises()
 
@@ -124,13 +124,13 @@ describe('Pagination', () => {
       '3'
     )
 
-    expect(pagination_store.page).toBe(2)
+    expect(pagination.page).toBe(2)
   })
 
   it('Change page size by typing', async () => {
     expect(
       wrapper.find(pageSizeSelector).element.value
-    ).toBe(pagination_store.pageSize.toString())
+    ).toBe(pagination.pageSize.toString())
 
     const newPageSize = 5
     await wrapper
@@ -145,9 +145,7 @@ describe('Pagination', () => {
 
     expect(
       wrapper.findAll(pageButtonsSelector).length
-    ).toBe(
-      Math.ceil(pagination_store.totalNumber / newPageSize)
-    )
+    ).toBe(Math.ceil(pagination.totalNumber / newPageSize))
   })
 })
 

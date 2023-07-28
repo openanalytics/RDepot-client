@@ -75,17 +75,18 @@ import { computed, ref } from 'vue'
 
 const emits = defineEmits(['next'])
 const disableSubmit = ref(false)
-const submissions_store = useSubmissionStore()
+const submissionsStore = useSubmissionStore()
 const chosenRepository = computed(() => {
-  return submissions_store.repository
+  return submissionsStore.repository
 })
 function backStep() {
   emits('next', 2)
 }
 
 async function submit() {
-  submissions_store.addSubmissionRequests()
-  disableSubmit.value = true
+  await submissionsStore.addSubmissionRequests()
+  // disableSubmit.value = true
+  emits('next', 1)
 }
 </script>
 

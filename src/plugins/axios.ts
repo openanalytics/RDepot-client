@@ -33,8 +33,8 @@ const api = axios.create({
 })
 
 function showProgress(active: boolean) {
-  const common_store = useCommonStore()
-  common_store.setProgressCircularActive(active)
+  const commonStore = useCommonStore()
+  commonStore.setProgressCircularActive(active)
 }
 
 api.interceptors.request.use(

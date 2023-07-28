@@ -53,7 +53,7 @@ const files: File[] = [
   } as File
 ]
 
-let submission_store: any
+let submissionStore: any
 
 beforeAll(() => {
   global.ResizeObserver = ResizeObserver
@@ -61,9 +61,9 @@ beforeAll(() => {
 
 beforeEach(async () => {
   setActivePinia(createPinia())
-  submission_store = useSubmissionStore()
-  submission_store.setPackages(files)
-  submission_store.setRepository({
+  submissionStore = useSubmissionStore()
+  submissionStore.setPackages(files)
+  submissionStore.setRepository({
     id: 1,
     name: 'repository 1'
   })
@@ -99,14 +99,14 @@ describe('Add submission - step third', () => {
       '#submission-package'
     )
     expect(packagesList.length).toEqual(
-      submission_store.packages.length
+      submissionStore.packages.length
     )
   })
 
   it('summary should contain repository name', () => {
     const repositoryName = wrapper.find('#repository-name')
     expect(repositoryName.text()).toEqual(
-      submission_store.repository.name
+      submissionStore.repository.name
     )
   })
 })

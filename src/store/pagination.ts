@@ -30,7 +30,7 @@ interface State {
 }
 
 export const usePaginationStore = defineStore(
-  'pagination_store',
+  'paginationStore',
   {
     state: (): State => {
       return {

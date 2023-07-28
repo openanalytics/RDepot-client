@@ -55,7 +55,7 @@ interface State {
 const { deepCopy } = useUtilities()
 
 export const usePackageMaintainersStore = defineStore(
-  'package_maintainers_store',
+  'packageMaintainersStore',
   {
     state: (): State => {
       return {

@@ -22,7 +22,7 @@
 
 <template>
   <v-row justify="end" class="my-10 mx-10" align="center" />
-  <ResourcesList :resources="user_store.userList">
+  <ResourcesList :resources="userStore.userList">
     <template #title>
       <UserRow title />
     </template>
@@ -38,14 +38,14 @@ import UserRow from '@/components/users/UserRow.vue'
 import ResourcesList from '@/components/common/resources/ResourcesList.vue'
 import { useUserStore } from '@/store/users'
 
-const user_store = useUserStore()
+const userStore = useUserStore()
 
 function updateData(): void {
-  user_store.fetchUsers()
+  userStore.fetchUsers()
 }
 
 onBeforeMount(() => {
   updateData()
-  user_store.fetchRoles()
+  userStore.fetchRoles()
 })
 </script>

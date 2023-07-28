@@ -24,11 +24,11 @@
   <Overlay v-on:action="performAction()">
     <template v-slot:props="{ closeModal }">
       <Filtration
-        v-if="common_store.isFiltration()"
+        v-if="commonStore.isFiltration()"
         v-on:closeModal="closeModal"
       />
       <RepositoryMaintainerEdit
-        v-if="common_store.isEdit()"
+        v-if="commonStore.isEdit()"
         :blocked-field="editBlockedField"
         v-on:closeModal="closeModal"
       />
@@ -43,8 +43,8 @@ import Filtration from '@/components/repositoryMaintainers/Filtration.vue'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
 import RepositoryMaintainerEdit from '@/components/repositoryMaintainers/RepositoryMaintainerEdit.vue'
 
-const maintainers_store = useRepositoryMaintainersStore()
-const common_store = useCommonStore()
+const maintainersStore = useRepositoryMaintainersStore()
+const commonStore = useCommonStore()
 
 const props = defineProps({
   editBlockedField: {
@@ -55,10 +55,10 @@ const props = defineProps({
 })
 
 async function performAction() {
-  if (common_store.isFiltration()) {
-    await maintainers_store.clearFiltrationAndFetch()
-  } else if (common_store.isDelete()) {
-    await maintainers_store.softDelete()
+  if (commonStore.isFiltration()) {
+    await maintainersStore.clearFiltrationAndFetch()
+  } else if (commonStore.isDelete()) {
+    await maintainersStore.softDelete()
   }
 }
 </script>

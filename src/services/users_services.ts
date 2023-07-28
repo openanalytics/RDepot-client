@@ -76,13 +76,13 @@ export async function fetchUsers(
   if (!isAuthorized('GET', 'users')) {
     return new Promise(() => validateRequest())
   }
-  const user_api = ApiV2UserControllerApiFactory(
+  const userApi = ApiV2UserControllerApiFactory(
     getConfiguration()
   )
   const sort = useSortStore()
 
   return openApiRequest<ResponseDtoPagedModelEntityModelUserDto>(
-    user_api.getAllUsers,
+    userApi.getAllUsers,
     [page, pageSize, sort.getSortBy()]
   ).then(
     (res) =>
@@ -107,13 +107,13 @@ export async function updateUser(
   if (!isAuthorized('PATCH', 'users')) {
     return new Promise(() => false)
   }
-  const user_api = ApiV2UserControllerApiFactory(
+  const userApi = ApiV2UserControllerApiFactory(
     getConfiguration()
   )
   const patch = createPatch(oldUser, newUser)
 
   return openApiRequest<AxiosResponse<any>>(
-    user_api.patchUser,
+    userApi.patchUser,
     [patch, oldUser.id]
   ).then(
     () => {
@@ -139,11 +139,11 @@ export async function fetchRoles(): ValidatedRRoles {
   if (!isAuthorized('GET', 'users')) {
     return new Promise(() => validateRequest())
   }
-  const user_api = ApiV2UserControllerApiFactory(
+  const userApi = ApiV2UserControllerApiFactory(
     getConfiguration()
   )
   return openApiRequest<ResponseDtoCollectionModelRoleDto>(
-    user_api.getRoles
+    userApi.getRoles
   ).then(
     (res) => {
       return validateRequest(res.data.data?.content)

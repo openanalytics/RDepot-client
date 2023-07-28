@@ -43,6 +43,7 @@ import { submissionsFiltrationLabels } from '@/maps/Filtration'
 
 interface State {
   packages: File[]
+  generateManual: File[]
   repository?: EntityModelRepositoryDto
   submissions: EntityModelSubmissionDto[]
   filtration: SubmissionsFiltration
@@ -51,11 +52,12 @@ interface State {
 const { deepCopy } = useUtilities()
 
 export const useSubmissionStore = defineStore(
-  'submission_store',
+  'submissionStore',
   {
     state: (): State => {
       return {
         packages: [],
+        generateManual: [],
         submissions: [],
         repository: undefined,
         filtration: defaultValues(SubmissionsFiltration)
@@ -63,12 +65,12 @@ export const useSubmissionStore = defineStore(
     },
     actions: {
       async fetchSubmissions() {
-        const logged_user = useLoggedUserStore()
+        const loggedUserStore = useLoggedUserStore()
         const pagination = usePaginationStore()
         const [submission, pageData] =
           await fetchSubmissions(
             this.filtration,
-            logged_user.userId,
+            loggedUserStore.userId,
             pagination.page,
             pagination.pageSize
           )
@@ -92,6 +94,19 @@ export const useSubmissionStore = defineStore(
         ).then(async (success) => {
           if (success) await this.fetchSubmissions()
         })
+      },
+      addGenerateManualOptionForPackage(file: File) {
+        this.generateManual.push(file)
+      },
+      removeGenerateManualOptionForPackage(file: File) {
+        this.generateManual = this.generateManual.filter(
+          (item) => item !== file
+        )
+      },
+      getGenerateManualForPackage(file: File) {
+        return !!this.generateManual.find(
+          (item) => item == file
+        )
       },
       setPackages(payload: File[]) {
         this.packages = payload
@@ -147,10 +162,14 @@ export const useSubmissionStore = defineStore(
             addSubmission(
               this.repository?.name!,
               this.repository?.technology!,
-              packageBag
+              packageBag,
+              this.getGenerateManualForPackage(packageBag)
             )
           )
         await Promise.all(promises)
+        this.generateManual = []
+        this.packages = []
+        this.repository = undefined
         let fulfilled = 0
         promises.forEach(async (promise) => {
           const isFulfilled = await promise

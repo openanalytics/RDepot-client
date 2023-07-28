@@ -49,7 +49,7 @@ interface State {
 }
 
 export const useRepositoryMaintainersStore = defineStore(
-  'repository_maintainers_store',
+  'repositoryMaintainersStore',
   {
     state: (): State => {
       return {

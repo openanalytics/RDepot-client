@@ -31,7 +31,7 @@ import { createPinia, setActivePinia } from 'pinia'
 import { i18n } from '@/plugins/i18n'
 
 let wrapper: any
-let common_store: any
+let commonStore: any
 const globalConfig = {
   mocks: mocks,
   plugins: plugins
@@ -39,7 +39,7 @@ const globalConfig = {
 
 beforeEach(async () => {
   setActivePinia(createPinia())
-  common_store = useCommonStore()
+  commonStore = useCommonStore()
   wrapper = shallowMount(CommonButton, {
     global: globalConfig
   })
@@ -54,9 +54,9 @@ describe('Button', () => {
     const content = wrapper.find('#common-button')
     expect(content.exists()).toBeTruthy()
     await content.trigger('click')
-    expect(common_store.overlayText).toEqual(
+    expect(commonStore.overlayText).toEqual(
       i18n.t('filtration.makeSure')
     )
-    expect(common_store.overlayModel).toBe(true)
+    expect(commonStore.overlayModel).toBe(true)
   })
 })

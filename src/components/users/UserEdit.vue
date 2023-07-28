@@ -33,7 +33,7 @@
           as="v-select"
           id="edit-user-role"
           v-model="localRole"
-          :items="user_store.roles"
+          :items="userStore.roles"
           item-title="description"
           :label="$t('users.edit.role')"
           return-object
@@ -81,10 +81,10 @@ const buttons = [
   }
 ]
 
-const user_store = useUserStore()
+const userStore = useUserStore()
 
 const localRole = ref(
-  user_store.roleIdToRole(user_store.chosenUser.roleId || 1)
+  userStore.roleIdToRole(userStore.chosenUser.roleId || 1)
 )
 
 const emit = defineEmits(['closeModal'])
@@ -104,11 +104,11 @@ const { deepCopy } = useUtilities()
 
 async function setRole() {
   if (meta.value.valid) {
-    const newUser = deepCopy(user_store.chosenUser)
+    const newUser = deepCopy(userStore.chosenUser)
 
     newUser.roleId = (localRole.value.value || 0) + 1
-    await user_store.saveUser(newUser)
-    await user_store.fetchUsers()
+    await userStore.saveUser(newUser)
+    await userStore.fetchUsers()
     changeDialogOptions()
   } else {
     notify({

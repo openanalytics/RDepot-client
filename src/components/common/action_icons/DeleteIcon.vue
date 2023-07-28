@@ -54,17 +54,17 @@ const props = defineProps({
   }
 })
 
-const common_store = useCommonStore()
+const commonStore = useCommonStore()
 
 function deleteDialog() {
   props.setResourceId()
-  common_store.setOverlayText(
+  commonStore.setOverlayText(
     i18n.t('common.deleteQuestion', {
       resource_name: props.name
     })
   )
-  common_store.setOverlayModel(true)
-  common_store.setOverlayOpacity(0.8)
-  common_store.setOverlayComponent(OverlayEnum.enum.Delete)
+  commonStore.setOverlayModel(true)
+  commonStore.setOverlayOpacity(0.8)
+  commonStore.setOverlayComponent(OverlayEnum.enum.Delete)
 }
 </script>

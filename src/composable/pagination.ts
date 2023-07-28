@@ -25,7 +25,7 @@ import { usePaginationStore } from '@/store/pagination'
 import { computed } from 'vue'
 
 export function usePagination() {
-  const common_store = useCommonStore()
+  const commonStore = useCommonStore()
   const pagination = usePaginationStore()
 
   const page = computed({
@@ -48,17 +48,17 @@ export function usePagination() {
 
   function nextPage(value: number) {
     pagination.page = value
-    common_store.updateKey()
+    commonStore.updateKey()
   }
 
   function newPageSize(value: number) {
     pagination.pageSize = value
-    common_store.updateKey()
+    commonStore.updateKey()
   }
 
   function newPage(value: number) {
     pagination.page = value
-    common_store.updateKey()
+    commonStore.updateKey()
   }
 
   return {

@@ -91,7 +91,7 @@ describe('Add submission - second step', () => {
     const button = wrapper.find('#next-button')
     wrapper.vm.valid = true
     wrapper.vm.files = files
-    wrapper.vm.files_local = files
+    wrapper.vm.filesLocal = files
     expect(button.isVisible()).toBeTruthy()
     await button.trigger('click')
     expect(wrapper.emitted().next).toBeTruthy()

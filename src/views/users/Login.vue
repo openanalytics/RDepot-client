@@ -94,7 +94,7 @@ import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
 import { LoginApiData } from '@/models/users/Login'
 
 const { t } = useI18n()
-const user_store = useUserStore()
+const userStore = useUserStore()
 
 const props = defineProps({
   keycloak: Object as () => Keycloak
@@ -114,9 +114,9 @@ const { handleReset, values, meta } = useForm({
 })
 
 async function login() {
-  user_store.chooseLoginType('DEFAULT')
+  userStore.chooseLoginType('DEFAULT')
   if (meta.value.valid)
-    user_store.login(values as LoginApiData)
+    userStore.login(values as LoginApiData)
 }
 function keyloackMethod() {
   initKeycloak()

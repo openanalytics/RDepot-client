@@ -86,22 +86,22 @@ const users = [
     id: 7
   }
 ]
-const common_store = useCommonStore()
-const logged_user_store = useLoggedUserStore()
+const commonStore = useCommonStore()
+const loggedUserStore = useLoggedUserStore()
 const user = ref({
-  token: logged_user_store.userToken,
-  login: logged_user_store.userLogin,
-  role: logged_user_store.userRole,
-  id: logged_user_store.userId
+  token: loggedUserStore.userToken,
+  login: loggedUserStore.userLogin,
+  role: loggedUserStore.userRole,
+  id: loggedUserStore.userId
 })
-function changeUser(new_user: any) {
-  user.value = new_user
-  logged_user_store.change_user(
+function changeUser(newUser: any) {
+  user.value = newUser
+  loggedUserStore.changeUser(
     user.value.token,
     user.value.login,
     user.value.role,
     user.value.id
   )
-  common_store.updateKey()
+  commonStore.updateKey()
 }
 </script>

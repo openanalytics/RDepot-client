@@ -59,18 +59,18 @@ import { useForm } from 'vee-validate'
 
 const emit = defineEmits(['closeModal'])
 
-const maintainers_store = usePackageMaintainersStore()
+const maintainersStore = usePackageMaintainersStore()
 
 const { technologies } = useEnumFiltration()
 const { values, setValues } = useForm({
   validationSchema: toTypedSchema(
     PackageMaintainersFiltration
   ),
-  initialValues: maintainers_store.filtration
+  initialValues: maintainersStore.filtration
 })
 
 function setFiltration() {
-  maintainers_store.setFiltration(
+  maintainersStore.setFiltration(
     values as PackageMaintainersFiltration
   )
   cancelModal()

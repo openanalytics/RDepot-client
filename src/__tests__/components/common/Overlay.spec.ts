@@ -29,12 +29,12 @@ import { shallowMount } from '@vue/test-utils'
 import { useCommonStore } from '@/store/common'
 
 let wrapper: any
-let common_store: any
+let commonStore: any
 
 describe('Overlay - chosen component', () => {
   beforeEach(async () => {
     setActivePinia(createPinia())
-    common_store = useCommonStore()
+    commonStore = useCommonStore()
     wrapper = shallowMount(Overlay, {
       data() {
         return {}
@@ -63,7 +63,7 @@ describe('Overlay - chosen component', () => {
       code: 'Escape'
     })
     await document.dispatchEvent(event)
-    expect(common_store.overlayModel).toBe(false)
+    expect(commonStore.overlayModel).toBe(false)
     expect(wrapper.emitted().action).toBeTruthy()
   })
 })

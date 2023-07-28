@@ -50,7 +50,7 @@ export const useLoggedUserStore = defineStore(
       }
     },
     actions: {
-      change_user(
+      changeUser(
         token: string,
         login: string,
         role: Role,

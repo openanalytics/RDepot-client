@@ -47,7 +47,7 @@ import { ref } from 'vue'
 import { onMounted } from 'vue'
 import { useRepositoryStore } from '@/store/repositories'
 
-const repository_store = useRepositoryStore()
+const repositoryStore = useRepositoryStore()
 const components = [StepFirst, StepSecond, StepThird]
 
 const e1 = ref(1)
@@ -57,7 +57,7 @@ function changeValue(event: number) {
 }
 
 onMounted(() => {
-  repository_store.fetchRepositories()
+  repositoryStore.fetchRepositories()
 })
 </script>
 

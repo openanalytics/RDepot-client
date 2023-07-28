@@ -51,13 +51,13 @@ defineProps({
   }
 })
 
-const submissions_store = useSubmissionStore()
+const submissionsStore = useSubmissionStore()
 
 const steps = computed(() => {
   return [
     i18n.t('addSubmission.step1Title'),
     i18n.t('addSubmission.step2Title', [
-      submissions_store.repository?.technology
+      submissionsStore.repository?.technology
     ]),
     i18n.t('addSubmission.step3Title')
   ]

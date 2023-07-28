@@ -57,16 +57,14 @@ beforeEach(async () => {
 
 describe('Repositories - list', () => {
   it('renders properly', () => {
-    const repository_store = useRepositoryStore()
-    repository_store.repositories =
-      repositories.data.content
+    const repositoryStore = useRepositoryStore()
+    repositoryStore.repositories = repositories.data.content
     expect(wrapper.exists()).toBe(true)
   })
 
   it('displays one row for each repository + one for title', async () => {
-    const repository_store = useRepositoryStore()
-    repository_store.repositories =
-      repositories.data.content
+    const repositoryStore = useRepositoryStore()
+    repositoryStore.repositories = repositories.data.content
     const packagesFromWrapper = wrapper.findAllComponents(
       RepositoryRowVue
     )
