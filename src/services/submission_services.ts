@@ -144,8 +144,6 @@ export function addSubmission(
     return new Promise(() => false)
   }
 
-  alert(generateManual)
-
   return openApiRequest<AxiosResponse<any>>(submissionApi, [
     repository,
     file,

@@ -48,7 +48,7 @@ export function fetchPackageMaintainersService(
   if (!isAuthorized('GET', 'packageMaintainers')) {
     return new Promise(() => validateRequest())
   }
-  const package_maintainers_api =
+  const packageMaintainersApi =
     ApiV2PackageMaintainerControllerApiFactory(
       getConfiguration()
     )
@@ -58,7 +58,7 @@ export function fetchPackageMaintainersService(
     sortBy = ['user,' + sort.direction]
   }
   return openApiRequest<ResponseDtoPagedModelEntityModelPackageMaintainerDto>(
-    package_maintainers_api.getAllPackageMaintainers,
+    packageMaintainersApi.getAllPackageMaintainers,
     [
       filtration?.deleted,
       filtration?.technologies,
@@ -85,12 +85,12 @@ export function deletePackageMaintainerService(
   if (!isAuthorized('DELETE', 'packageMaintainers')) {
     return new Promise(() => false)
   }
-  const package_maintainers_api =
+  const packageMaintainersApi =
     ApiV2PackageMaintainerControllerApiFactory(
       getConfiguration()
     )
   return openApiRequest<AxiosResponse<any>>(
-    package_maintainers_api.deletePackageMaintainer,
+    packageMaintainersApi.deletePackageMaintainer,
     [maintainer.id]
   ).then(
     () => {
@@ -117,7 +117,7 @@ export function updatePackageMaintainerService(
   if (!isAuthorized('PATCH', 'packageMaintainers')) {
     return new Promise(() => false)
   }
-  const package_maintainers_api =
+  const packageMaintainersApi =
     ApiV2PackageMaintainerControllerApiFactory(
       getConfiguration()
     )
@@ -125,7 +125,7 @@ export function updatePackageMaintainerService(
   const patch = createPatch(oldMaintainer, newMaintainer)
 
   return openApiRequest<AxiosResponse<any>>(
-    package_maintainers_api.updatePackageMaintainer,
+    packageMaintainersApi.updatePackageMaintainer,
     [patch, oldMaintainer.id]
   ).then(
     () => {

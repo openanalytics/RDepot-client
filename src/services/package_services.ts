@@ -50,12 +50,12 @@ export function fetchPackagesServices(
       validateRequest<EntityModelPackageDto>()
     )
   }
-  const packages_api = ApiV2PackageControllerApiFactory(
+  const packagesApi = ApiV2PackageControllerApiFactory(
     getConfiguration()
   )
   const sort = useSortStore()
   return openApiRequest<ResponseDtoPagedModelEntityModelPackageDto>(
-    packages_api.getAllPackages,
+    packagesApi.getAllPackages,
     [
       filtration?.repository,
       filtration?.deleted,
@@ -85,11 +85,11 @@ export function fetchPackageServices(
   if (!isAuthorized('GET', 'packages')) {
     return new Promise(() => {})
   }
-  const packages_api = ApiV2PackageControllerApiFactory(
+  const packagesApi = ApiV2PackageControllerApiFactory(
     getConfiguration()
   )
   return openApiRequest<ResponseDtoEntityModelPackageDto>(
-    packages_api.getPackageById,
+    packagesApi.getPackageById,
     [id]
   ).then(
     (res) => res.data.data,
@@ -107,13 +107,13 @@ export function updateRPackage(
   if (!isAuthorized('PATCH', 'package')) {
     return new Promise(() => false)
   }
-  const packages_api = RPackageControllerApiFactory(
+  const packagesApi = RPackageControllerApiFactory(
     getConfiguration()
   )
   const patch = createPatch(oldPackage, newPackage)
 
   return openApiRequest<ResponseDtoEntityModelPackageDto>(
-    packages_api.updatePackage,
+    packagesApi.updatePackage,
     [patch, oldPackage.id]
   ).then(
     () => true,

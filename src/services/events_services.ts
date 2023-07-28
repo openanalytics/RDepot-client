@@ -43,7 +43,7 @@ export function fetchEventsServices(
   if (!isAuthorized('GET', 'events')) {
     return new Promise(() => validateRequest())
   }
-  const events_api = ApiV2NewsfeedEventControllerApiFactory(
+  const eventsApi = ApiV2NewsfeedEventControllerApiFactory(
     getConfiguration()
   )
   let localFiltration = undefined
@@ -54,7 +54,7 @@ export function fetchEventsServices(
     localFiltration = filtration.technologies[0]
   }
   return openApiRequest<ResponseDtoPagedModelEntityModelNewsfeedEventDto>(
-    events_api.getAllEvents,
+    eventsApi.getAllEvents,
     [
       localFiltration,
       filtration.userId,

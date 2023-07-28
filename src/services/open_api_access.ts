@@ -40,19 +40,19 @@ export function openApiRequest<T>(
 }
 
 function turnOnProgress() {
-  const common_store = useCommonStore()
-  common_store.setProgressCircularActive(true)
+  const commonStore = useCommonStore()
+  commonStore.setProgressCircularActive(true)
 }
 
 async function resolved<T>(result: AxiosResponse<T>) {
-  const common_store = useCommonStore()
-  common_store.setProgressCircularActive(false)
+  const commonStore = useCommonStore()
+  commonStore.setProgressCircularActive(false)
   return result
 }
 
 function rejected(result: AxiosResponse<any, any>) {
-  const common_store = useCommonStore()
-  common_store.setProgressCircularActive(false)
+  const commonStore = useCommonStore()
+  commonStore.setProgressCircularActive(false)
   throw result
 }
 

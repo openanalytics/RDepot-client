@@ -22,7 +22,7 @@
 
 <template>
   <v-card
-    class="mb-12 step pb-5 d-flex flex-column justify-space-between"
+    class="mb-12 px-10 py-3 step d-flex flex-column text-center justify-space-between"
     :class="
       files && files.length > 0
         ? 'align-items-end'
@@ -31,47 +31,77 @@
     min-height="250px"
     height="100%"
   >
-    <v-toolbar color="secondary">
-      <v-toolbar-title
-        >Chosen files ({{
-          filesLocal?.length ? filesLocal.length : 0
-        }})</v-toolbar-title
-      >
-      <v-spacer></v-spacer>
-    </v-toolbar>
+    <v-card-text class="mb-1">
+      <div class="text-overline">repository</div>
+      <div id="repository-name" class="text-h4 mb-2">
+        {{ chosenRepository?.name }}
+      </div>
 
-    <v-list class="px-10 py-3 text-overline">
-      <v-list-item
-        v-for="file in filesLocal"
-        :key="file.name"
-        :title="file.name"
-        class="hoverable"
-      >
-        <template v-slot:prepend>
-          <v-icon
-            :color="checkValidity(file) ? 'white' : 'oared'"
-            icon="mdi-file"
-          />
-        </template>
+      <v-divider></v-divider>
 
-        <template v-slot:append>
-          <v-btn
-            :color="
-              checkValidity(file)
-                ? 'grey-lighten-1'
-                : 'oared'
-            "
-            icon="mdi-delete"
-            variant="text"
-            @click="removeFile(file)"
-          ></v-btn>
-        </template>
-      </v-list-item>
-    </v-list>
+      <v-list class="text-left">
+        <v-list-item
+          v-if="!!filesLocal.length"
+          class="text-overline"
+        >
+          <template v-slot:append>
+            generate manual
+          </template>
+        </v-list-item>
+        <v-list-item
+          v-for="file in filesLocal"
+          :key="file.name"
+          :title="file.name"
+          class="hoverable"
+        >
+          <template v-slot:prepend>
+            <v-btn
+              @click="removeFile(file)"
+              variant="plain"
+              icon="mdi-delete"
+              width="20"
+              class="mr-8"
+              :color="
+                checkValidity(file) ? 'oared' : 'oared'
+              "
+            >
+            </v-btn>
+          </template>
+
+          <template v-slot:append>
+            <v-btn
+              v-if="
+                !submissionsStore.getGenerateManualForPackage(
+                  file
+                )
+              "
+              icon="mdi-checkbox-blank-outline"
+              variant="text"
+              @click="
+                submissionsStore.addGenerateManualOptionForPackage(
+                  file
+                )
+              "
+            ></v-btn>
+            <v-btn
+              v-else
+              icon="mdi-checkbox-marked-outline"
+              variant="text"
+              @click="
+                submissionsStore.removeGenerateManualOptionForPackage(
+                  file
+                )
+              "
+            >
+            </v-btn>
+          </template>
+        </v-list-item>
+      </v-list>
+    </v-card-text>
 
     <v-form v-model="valid">
       <div
-        class="d-flex mt-5 px-5"
+        class="d-flex my-5 px-5"
         :class="
           files && files.length > 0
             ? 'justify-space-between'
@@ -83,7 +113,10 @@
             : 'align-items: flex-end'
         "
       >
-        <v-btn color="oablue" type="button" @click="open()">
+        <v-btn color="" type="button" @click="open()">
+          <template #prepend>
+            <v-icon icon="mdi-plus"></v-icon>
+          </template>
           {{ $t('submissions.choseFiles') }}
         </v-btn>
 
@@ -91,7 +124,7 @@
           class="mx-3"
           type="button"
           :disabled="!files"
-          v-if="files && files?.length > 0"
+          v-if="files && !!files.length"
           color="oared"
           @click="resetPackages()"
         >
@@ -121,7 +154,7 @@
 <script setup lang="ts">
 import { useSubmissionStore } from '@/store/submission'
 import { useNotification } from '@kyvg/vue3-notification'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useFileDialog } from '@vueuse/core'
 import { watch } from 'vue'
 import { onMounted } from 'vue'
@@ -129,6 +162,10 @@ import { i18n } from '@/plugins/i18n'
 
 const { files, open, reset } = useFileDialog({
   accept: 'application/gzip'
+})
+
+const chosenRepository = computed(() => {
+  return submissionsStore.repository
 })
 
 const emits = defineEmits(['next'])

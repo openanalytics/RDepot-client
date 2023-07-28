@@ -28,22 +28,50 @@
         {{ chosenRepository?.name }}
       </div>
       <v-divider></v-divider>
-      <div class="text-overline">packages</div>
       <v-list class="text-left">
+        <v-list-item class="text-overline">
+          <template v-slot:prepend> packages </template>
+          <template v-slot:append>
+            generate manual
+          </template>
+        </v-list-item>
         <v-list-item
           id="submission-package"
-          v-for="(file, i) in submissions_store.packages"
+          v-for="(file, i) in submissionsStore.packages"
           :key="i"
-          class="justify-start hoverable"
+          class="hoverable"
+          :title="file.name"
         >
           <template v-slot:prepend>
             <v-icon color="white" icon="mdi-file" />
           </template>
 
           <template v-slot:append>
-            <v-list-item-title>
-              {{ file.name }}
-            </v-list-item-title>
+            <v-btn
+              v-if="
+                !submissionsStore.getGenerateManualForPackage(
+                  file
+                )
+              "
+              icon="mdi-checkbox-blank-outline"
+              variant="text"
+              @click="
+                submissionsStore.addGenerateManualOptionForPackage(
+                  file
+                )
+              "
+            ></v-btn>
+            <v-btn
+              v-else
+              icon="mdi-checkbox-marked-outline"
+              variant="text"
+              @click="
+                submissionsStore.removeGenerateManualOptionForPackage(
+                  file
+                )
+              "
+            >
+            </v-btn>
           </template>
         </v-list-item>
       </v-list>
