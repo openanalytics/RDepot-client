@@ -35,71 +35,25 @@
             generate manual
           </template>
         </v-list-item>
-        <v-list-item
-          id="submission-package"
-          v-for="(file, i) in submissionsStore.packages"
+        <UploadSummary
+          v-for="(promise, i) in submissionsStore.promises"
           :key="i"
-          class="hoverable"
-          :title="file.name"
-        >
-          <template v-slot:prepend>
-            <v-icon color="white" icon="mdi-file" />
-          </template>
-
-          <template v-slot:append>
-            <v-btn
-              v-if="
-                !submissionsStore.getGenerateManualForPackage(
-                  file
-                )
-              "
-              icon="mdi-checkbox-blank-outline"
-              variant="text"
-              @click="
-                submissionsStore.addGenerateManualOptionForPackage(
-                  file
-                )
-              "
-            ></v-btn>
-            <v-btn
-              v-else
-              icon="mdi-checkbox-marked-outline"
-              variant="text"
-              @click="
-                submissionsStore.removeGenerateManualOptionForPackage(
-                  file
-                )
-              "
-            >
-            </v-btn>
-          </template>
-        </v-list-item>
+          :promise="promise"
+          :generateManual="
+            submissionsStore.getGenerateManualForPackage(
+              promise.packageBag
+            )
+          "
+        />
       </v-list>
     </v-card-text>
   </v-card>
-  <div class="d-flex justify-space-between">
-    <v-btn
-      id="back-button"
-      color="oablue"
-      @click="backStep"
-    >
-      {{ $t('common.goBack') }}
-    </v-btn>
-
-    <v-btn
-      id="submit-button"
-      color="oablue"
-      @click="submit"
-      :disabled="disableSubmit"
-    >
-      submit
-    </v-btn>
-  </div>
 </template>
 
 <script setup lang="ts">
 import { useSubmissionStore } from '@/store/submission'
 import { computed, ref } from 'vue'
+import UploadSummary from '@/components/addSubmission/UploadSummary.vue'
 
 const emits = defineEmits(['next'])
 const disableSubmit = ref(false)

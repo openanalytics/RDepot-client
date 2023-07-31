@@ -75,7 +75,7 @@
                   file
                 )
               "
-              icon="mdi-checkbox-blank-outline"
+              icon="mdi-checkbox-marked-outline"
               variant="text"
               @click="
                 submissionsStore.addGenerateManualOptionForPackage(
@@ -85,7 +85,7 @@
             ></v-btn>
             <v-btn
               v-else
-              icon="mdi-checkbox-marked-outline"
+              icon="mdi-checkbox-blank-outline"
               variant="text"
               @click="
                 submissionsStore.removeGenerateManualOptionForPackage(
@@ -146,7 +146,7 @@
       color="oablue"
       @click="nextStep"
     >
-      Continue
+      submit
     </v-btn>
   </div>
 </template>
@@ -212,6 +212,7 @@ onMounted(() => {
 function nextStep() {
   savePackagesInStore()
   if (submissionsStore.packages.length > 0 && valid.value) {
+    submissionsStore.addSubmissionRequests()
     emits('next', 3)
   } else if (!valid.value) {
     notifications.notify({

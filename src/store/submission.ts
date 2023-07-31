@@ -41,9 +41,17 @@ import { usePaginationStore } from '@/store/pagination'
 import { useUtilities } from '@/composable/utilities'
 import { submissionsFiltrationLabels } from '@/maps/Filtration'
 
+export type PackagePromise = {
+  promise: Promise<string[]>
+  packageBag: File
+  state: string
+  message: string[]
+}
+
 interface State {
   packages: File[]
   generateManual: File[]
+  promises: PackagePromise[]
   repository?: EntityModelRepositoryDto
   submissions: EntityModelSubmissionDto[]
   filtration: SubmissionsFiltration
@@ -58,6 +66,7 @@ export const useSubmissionStore = defineStore(
       return {
         packages: [],
         generateManual: [],
+        promises: [],
         submissions: [],
         repository: undefined,
         filtration: defaultValues(SubmissionsFiltration)
@@ -157,30 +166,40 @@ export const useSubmissionStore = defineStore(
         })
       },
       async addSubmissionRequests() {
-        const promises: Promise<boolean>[] =
-          this.packages.map((packageBag) =>
-            addSubmission(
+        this.promises = this.packages.map((packageBag) => {
+          return {
+            promise: addSubmission(
               this.repository?.name!,
               this.repository?.technology!,
               packageBag,
-              this.getGenerateManualForPackage(packageBag)
-            )
-          )
-        await Promise.all(promises)
-        this.generateManual = []
-        this.packages = []
-        this.repository = undefined
+              !this.getGenerateManualForPackage(packageBag)
+            ),
+            packageBag: packageBag,
+            state: 'pending',
+            message: []
+          }
+        })
         let fulfilled = 0
-        promises.forEach(async (promise) => {
-          const isFulfilled = await promise
-          if (fulfilled == 0 && isFulfilled) {
+        this.promises.forEach(async (promise) => {
+          const isFulfilled = await promise.promise
+          promise.message = isFulfilled
+          if (
+            fulfilled == 0 &&
+            isFulfilled[0] == 'success'
+          ) {
+            promise.state = 'success'
             notify({
               type: 'success',
               text: i18n.t(
                 'notifications.successCreateSubmissiom'
               )
             })
+
             fulfilled += 1
+          } else if (isFulfilled[0] == 'success') {
+            promise.state = 'success'
+          } else {
+            promise.state = 'error'
           }
         })
       },

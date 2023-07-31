@@ -32,12 +32,14 @@ import {
   RPackageControllerApiFactory
 } from '@/openapi'
 import {
+  downloadReferenceManual,
   fetchPackageServices,
   updateRPackage
 } from '@/services/package_services'
 import { useUtilities } from '@/composable/utilities'
 import { usePaginationStore } from './pagination'
 import { packagesFiltrationLabels } from '@/maps/Filtration'
+import { notify } from '@kyvg/vue3-notification'
 
 interface State {
   packages: EntityModelPackageDto[]
@@ -117,13 +119,20 @@ export const usePackagesStore = defineStore(
           }
         )
       },
-      async downloadManual() {
-        const rPackageApi = RPackageControllerApiFactory()
-        if (this.package?.id) {
-          return rPackageApi.downloadReferenceManual(
-            this.package.id
-          )
-        }
+      async downloadManual(id: string) {
+        await downloadReferenceManual(id)
+          .then(() => {
+            notify({
+              type: 'success',
+              text: 'Succesfully downloaded'
+            })
+          })
+          .catch(() => {
+            notify({
+              type: 'error',
+              text: 'Error downloading'
+            })
+          })
       },
       async setFiltration(payload: PackagesFiltration) {
         const pagination = usePaginationStore()

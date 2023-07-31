@@ -76,7 +76,7 @@ export function fetchSubmissions(
       ),
     (msg) => {
       notify({ text: msg, type: 'error' })
-      return validateRequest()
+      return validateRequest(msg)
     }
   )
 }
@@ -125,7 +125,7 @@ export function addSubmission(
   technology: string,
   file: File,
   generateManual?: boolean
-): Promise<boolean> {
+): Promise<string[]> {
   if (!isAuthorized('POST', 'submissions')) {
     return new Promise(() => false)
   }
@@ -144,20 +144,21 @@ export function addSubmission(
     return new Promise(() => false)
   }
 
-  return openApiRequest<AxiosResponse<any>>(submissionApi, [
-    repository,
-    file,
-    generateManual
-  ]).then(
-    () => {
-      return true
+  return openApiRequest<
+    AxiosResponse<EntityModelSubmissionDto>
+  >(
+    submissionApi,
+    [repository, file, generateManual],
+    false
+  ).then(
+    (submission) => {
+      return [
+        'success',
+        submission.data.data.packageBag?.id
+      ]
     },
     (msg) => {
-      notify({
-        type: 'error',
-        text: msg
-      })
-      return false
+      return msg.response.data.data
     }
   )
 }

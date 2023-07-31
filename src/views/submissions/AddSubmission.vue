@@ -28,4 +28,12 @@
 
 <script setup lang="ts">
 import Stepper from '@/components/addSubmission/Stepper.vue'
+import { useSubmissionStore } from '@/store/submission'
+import { onMounted } from 'vue'
+
+const submissionStore = useSubmissionStore()
+
+onMounted(() => {
+  submissionStore.$reset()
+})
 </script>
