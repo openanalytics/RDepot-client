@@ -33,7 +33,13 @@ export function useUtilities() {
     code(code: string, _: string, escaped: boolean) {
       return `<div class="code my-2">
         <code class="d-flex justify-lg-space-between">
-          ${escaped ? code : escape(code)}
+          ${escaped ? escape(code) : code}
+          <i  class="mdi-content-copy mdi v-icon notranslate v-theme--dark v-icon--size-large v-icon--clickable v-icon--start"
+              role="button" 
+              onclick="navigator.clipboard.writeText('${escape(
+                code
+              )}')">
+          </i>
         </code>
       </div>`
     }

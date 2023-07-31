@@ -118,6 +118,7 @@
     "windowsBinaries": "Windows binaries",
     "submitter": "Submitter",
     "approver": "Approver",
+    "classifiers": "Classifiers",
     "maintainer": "Maintainer"
   },
   "events": {

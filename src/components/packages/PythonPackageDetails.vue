@@ -30,7 +30,7 @@
       }}
     </div>
     <div
-      v-dompurify-html="packageBagDescription"
+      v-html="packageBagDescription"
       class="text my-5"
     ></div>
     <div class="text my-3">
@@ -212,6 +212,10 @@ const details = [
   {
     translation: 'packages.url',
     value: packageBag.value.url
+  },
+  {
+    translation: 'packages.classifiers',
+    value: packageBag.value.classifiers
   }
 ]
 
