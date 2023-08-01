@@ -33,8 +33,14 @@ import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
 import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import { createPinia, setActivePinia } from 'pinia'
-import { useSubmissionStore } from '@/store/submission'
+import {
+  PackagePromise,
+  useSubmissionStore
+} from '@/store/submission'
 import StepThirdVue from '@/components/addSubmission/StepThird.vue'
+import UploadSummary from '@/components/addSubmission/UploadSummary.vue'
+
+import { nextTick } from 'process'
 
 let wrapper: any
 const globalConfig = {
@@ -55,6 +61,21 @@ const files: File[] = [
 
 let submissionStore: any
 
+const promises: PackagePromise[] = [
+  {
+    packageBag: files[0],
+    promise: new Promise(() => {}),
+    state: 'pending',
+    message: []
+  },
+  {
+    packageBag: files[1],
+    promise: new Promise(() => {}),
+    state: 'pending',
+    message: []
+  }
+]
+
 beforeAll(() => {
   global.ResizeObserver = ResizeObserver
 })
@@ -67,6 +88,9 @@ beforeEach(async () => {
     id: 1,
     name: 'repository 1'
   })
+  submissionStore.generateManual = [files[0]]
+  submissionStore.promises = promises
+  submissionStore.resolved = false
   wrapper = mount(StepThirdVue, {
     global: globalConfig
   })
@@ -77,35 +101,67 @@ describe('Add submission - step third', () => {
     expect(wrapper.exists()).toBe(true)
   })
 
-  it('back button exists', () => {
-    const button = wrapper.find('#back-button')
+  it('disabled action button exists', () => {
+    const button = wrapper.find('#back-button-disabled')
     expect(button.exists()).toBeTruthy()
+    expect(button.element.disabled).toBeTruthy()
   })
 
-  it('go back if back button is clicked', async () => {
+  it('action button does not exists', () => {
+    const button = wrapper.find('#back-button')
+    expect(button.exists()).toBeFalsy()
+  })
+
+  it('action button exists when all requests has ended', async () => {
+    submissionStore.resolved = true
+    await nextTick(() => {})
+    const button = wrapper.find('#back-button')
+    expect(button.exists()).toBeTruthy()
+    expect(button.element.disabled).toBeFalsy()
+  })
+
+  it('send event if button was clicked ', async () => {
+    submissionStore.resolved = true
+    await nextTick(() => {})
     const button = wrapper.find('#back-button')
     expect(button.exists()).toBeTruthy()
     await button.trigger('click')
-    expect(wrapper.emitted().next[0]).toEqual([2])
+    expect(wrapper.emitted().next[0]).toEqual([1])
   })
 
-  it('submit button exists', () => {
-    const button = wrapper.find('#submit-button')
-    expect(button.exists()).toBeTruthy()
-  })
-
-  it('summary list should display each package', () => {
-    const packagesList = wrapper.findAll(
-      '#submission-package'
+  it('disabled action button does not exists when all requests has ended ', async () => {
+    submissionStore.resolved = true
+    await nextTick(() => {})
+    const buttonDisabled = wrapper.find(
+      '#back-button-disabled'
     )
-    expect(packagesList.length).toEqual(
-      submissionStore.packages.length
-    )
+    expect(buttonDisabled.exists()).toBeFalsy()
   })
 
-  it('summary should contain repository name', () => {
-    const repositoryName = wrapper.find('#repository-name')
-    expect(repositoryName.text()).toEqual(
+  it('disabled action button shows tooltip on hover', async (done: CallableFunction) => {
+    const tooltipActivator = wrapper.find(
+      '#tooltip-activator'
+    )
+    expect(tooltipActivator.exists()).toBeTruthy()
+    await tooltipActivator.trigger('mousenter')
+    await wrapper.vm.$nextTick()
+    requestAnimationFrame(() => {
+      const tooltip = wrapper.find('#tooltip-wait')
+      expect(tooltip.exist()).toBeTruthy()
+      // assert
+      done() // <- here
+    })
+  })
+
+  it('each submission is listed', () => {
+    const submissionRecords =
+      wrapper.findAllComponents(UploadSummary)
+    expect(submissionRecords).toHaveLength(2)
+  })
+
+  it('the list title contains repo name', () => {
+    const listTitle = wrapper.find('#repository-name')
+    expect(listTitle.text()).toContain(
       submissionStore.repository.name
     )
   })

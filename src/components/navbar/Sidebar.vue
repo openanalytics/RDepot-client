@@ -46,7 +46,7 @@
         prepend-icon="mdi-upload"
         :title="$t('common.addPackage')"
         :value="$t('common.addPackage')"
-        @click="$router.push({ name: 'addSubmission' })"
+        @click="redirectAddPackage"
       ></v-list-item>
 
       <v-list-item
@@ -147,14 +147,16 @@
 </template>
 
 <script setup lang="ts">
+import router from '@/router'
 import { useCommonStore } from '@/store/common'
 import { useLoggedUserStore } from '@/store/logged_user'
+import { useSubmissionStore } from '@/store/submission'
 import { computed } from 'vue'
 import { useDisplay } from 'vuetify/lib/framework.mjs'
 
 const { xs, mobile } = useDisplay()
 const loggedUserStore = useLoggedUserStore()
-
+const submissionsStore = useSubmissionStore()
 const commonStore = useCommonStore()
 const drawer = computed({
   get() {
@@ -164,4 +166,10 @@ const drawer = computed({
     commonStore.setDrawer(value)
   }
 })
+
+const redirectAddPackage = () => {
+  submissionsStore.updateStepperKey()
+  submissionsStore.repository = undefined
+  router.push({ name: 'addSubmission' })
+}
 </script>

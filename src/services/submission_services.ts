@@ -76,7 +76,7 @@ export function fetchSubmissions(
       ),
     (msg) => {
       notify({ text: msg, type: 'error' })
-      return validateRequest(msg)
+      return validateRequest()
     }
   )
 }

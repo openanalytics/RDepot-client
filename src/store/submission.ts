@@ -55,6 +55,8 @@ interface State {
   repository?: EntityModelRepositoryDto
   submissions: EntityModelSubmissionDto[]
   filtration: SubmissionsFiltration
+  resolved: boolean
+  stepperKey: number
 }
 
 const { deepCopy } = useUtilities()
@@ -69,21 +71,23 @@ export const useSubmissionStore = defineStore(
         promises: [],
         submissions: [],
         repository: undefined,
-        filtration: defaultValues(SubmissionsFiltration)
+        filtration: defaultValues(SubmissionsFiltration),
+        resolved: false,
+        stepperKey: 0
       }
     },
     actions: {
       async fetchSubmissions() {
         const loggedUserStore = useLoggedUserStore()
         const pagination = usePaginationStore()
-        const [submission, pageData] =
+        const [submissions, pageData] =
           await fetchSubmissions(
             this.filtration,
             loggedUserStore.userId,
             pagination.page,
             pagination.pageSize
           )
-        this.submissions = submission
+        this.submissions = submissions
         pagination.setTotalNumber(pageData.totalNumber)
         pagination.setPage(pageData.page)
       },
@@ -165,6 +169,12 @@ export const useSubmissionStore = defineStore(
           type: 'success'
         })
       },
+      updateStepperKey() {
+        this.stepperKey += 1
+        if (this.stepperKey > 100) {
+          this.stepperKey = 0
+        }
+      },
       async addSubmissionRequests() {
         this.promises = this.packages.map((packageBag) => {
           return {
@@ -194,12 +204,13 @@ export const useSubmissionStore = defineStore(
                 'notifications.successCreateSubmissiom'
               )
             })
-
-            fulfilled += 1
           } else if (isFulfilled[0] == 'success') {
             promise.state = 'success'
           } else {
             promise.state = 'error'
+          }
+          if (++fulfilled == this.promises.length) {
+            this.resolved = true
           }
         })
       },

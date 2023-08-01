@@ -22,15 +22,16 @@
 
 <template>
   <div style="max-width: 800px !important; width: 100%">
-    <StepTitle :e1="e1" />
+    <StepTitle :e1="el" />
     <v-window
-      v-model="e1"
+      v-model="el"
       class="stepper mx-10"
       :touch="{ left: () => {}, right: () => {} }"
     >
-      <v-window-item :value="e1">
+      <v-window-item :value="el">
         <component
-          :is="components[e1 - 1]"
+          :key="submissionStore.stepperKey"
+          :is="components[el - 1]"
           v-on:next="changeValue"
         ></component>
       </v-window-item>
@@ -46,14 +47,19 @@ import StepThird from './StepThird.vue'
 import { ref } from 'vue'
 import { onMounted } from 'vue'
 import { useRepositoryStore } from '@/store/repositories'
+import { useSubmissionStore } from '@/store/submission'
 
 const repositoryStore = useRepositoryStore()
+const submissionStore = useSubmissionStore()
 const components = [StepFirst, StepSecond, StepThird]
 
-const e1 = ref(1)
+const el = ref(1)
 
 function changeValue(event: number) {
-  e1.value = event
+  el.value = event
+  if (el.value == 1) {
+    submissionStore.$reset()
+  }
 }
 
 onMounted(() => {

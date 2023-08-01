@@ -48,28 +48,47 @@
       </v-list>
     </v-card-text>
   </v-card>
+  <div class="d-flex justify-center">
+    <v-tooltip
+      location="center"
+      v-if="!submissionsStore.resolved"
+    >
+      <template v-slot:activator="{ props }">
+        <div id="tooltip-activator" v-bind="props">
+          <v-btn
+            id="back-button-disabled"
+            color="oablue"
+            style="pointer-events: none"
+            disabled
+          >
+            {{ $t('submissions.addAnotherSubmission') }}
+          </v-btn>
+        </div>
+      </template>
+      <span id="tooltip-wait">{{
+        $t('submissions.waitForAllRequestsToFulfill')
+      }}</span>
+    </v-tooltip>
+    <v-btn
+      v-else
+      id="back-button"
+      color="oablue"
+      @click="$emit('next', 1)"
+    >
+      {{ $t('submissions.addAnotherSubmission') }}
+    </v-btn>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { useSubmissionStore } from '@/store/submission'
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import UploadSummary from '@/components/addSubmission/UploadSummary.vue'
 
-const emits = defineEmits(['next'])
-const disableSubmit = ref(false)
 const submissionsStore = useSubmissionStore()
 const chosenRepository = computed(() => {
   return submissionsStore.repository
 })
-function backStep() {
-  emits('next', 2)
-}
-
-async function submit() {
-  await submissionsStore.addSubmissionRequests()
-  // disableSubmit.value = true
-  emits('next', 1)
-}
 </script>
 
 <style lang="scss">

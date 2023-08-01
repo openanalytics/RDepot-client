@@ -144,6 +144,7 @@
     <v-btn
       id="next-button"
       color="oablue"
+      :disabled="!!!filesLocal.length"
       @click="nextStep"
     >
       submit
@@ -212,8 +213,8 @@ onMounted(() => {
 function nextStep() {
   savePackagesInStore()
   if (submissionsStore.packages.length > 0 && valid.value) {
-    submissionsStore.addSubmissionRequests()
     emits('next', 3)
+    submissionsStore.addSubmissionRequests()
   } else if (!valid.value) {
     notifications.notify({
       text: i18n.t('submissions.wrongExtension'),

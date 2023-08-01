@@ -76,6 +76,7 @@ export const useCommonStore = defineStore('commonStore', {
         this.key = 0
       }
     },
+
     setActiveId(payload: string) {
       this.activeId = payload
     },

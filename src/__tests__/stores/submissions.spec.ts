@@ -191,7 +191,7 @@ describe('Submissions Store', () => {
     )
   })
 
-  it('Fetch submissiosn', async () => {
+  it('Fetch submissions', async () => {
     const submissionStore = useSubmissionStore()
 
     await submissionStore.fetchSubmissions()
@@ -201,7 +201,7 @@ describe('Submissions Store', () => {
     )
   })
 
-  it('Update submissiosn', async () => {
+  it('Update submissions', async () => {
     const submissionStore = useSubmissionStore()
     const spy = vi.spyOn(
       submissionStore,
@@ -228,7 +228,7 @@ describe('Submissions Store', () => {
 
 const failingServer = setupServer(
   rest.get(
-    'http://localhost:8017/api/v2/manager/r/submissions',
+    'http://localhost:8017/api/v2/manager/submissions',
     (_, res, ctx) => {
       return res(ctx.status(403))
     }
@@ -253,7 +253,7 @@ describe('Testing submissions store with failing backend', () => {
 
   afterAll(() => failingServer.close())
 
-  it('Fetch submissiosn', async () => {
+  it('Fetch submissions', async () => {
     const submissionStore = useSubmissionStore()
 
     vi.mock('@kyvg/vue3-notification')
@@ -267,7 +267,7 @@ describe('Testing submissions store with failing backend', () => {
     expect(notify).toBeCalled()
   })
 
-  it('Update submissiosn', async () => {
+  it('Update submissions', async () => {
     const submissionStore = useSubmissionStore()
     const spy = vi.spyOn(
       submissionStore,
