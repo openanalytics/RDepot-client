@@ -30,14 +30,30 @@ export function useUtilities() {
   }
 
   const renderer = {
-    code(code: string, _: string, escaped: boolean) {
-      return `<div class="code my-2">
-        <code class="d-flex justify-lg-space-between">
-          ${escaped ? escape(code) : code}
-          <i  class="mdi-content-copy mdi v-icon notranslate v-theme--dark v-icon--size-large v-icon--clickable v-icon--start" role="button"  onclick="navigator.clipboard.writeText('${code}')">
-          </i>
+    code(
+      code: string,
+      _infostring: string | undefined,
+      escaped: boolean
+    ) {
+      code = code.trim()
+      const copy = code.replaceAll('\n', '\\n')
+      return `
+        <pre class="code d-flex justify-lg-space-between my-2">
+        <code>
+          ${escaped ? code : escape(code)}
         </code>
-      </div>`
+        <i class="mdi-content-copy mdi v-icon notranslate v-theme--dark v-icon--size-large v-icon--clickable v-icon--start" role="button" onclick="navigator.clipboard.writeText('${copy}')">
+        </i>
+        </pre>`
+    },
+    heading(
+      text: string,
+      level: number,
+      _raw: string,
+      _slugger: any
+    ) {
+      level += 2
+      return `<h${level}>${text}</h${level}>\n`
     }
   }
 

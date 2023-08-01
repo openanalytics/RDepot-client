@@ -253,7 +253,7 @@ const details = [
 ]
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 $text_color: rgba(var(--v-theme-about-package));
 $background_color: rgba(var(--v-theme-about-background));
 $code_color: rgba(var(--v-theme-code));

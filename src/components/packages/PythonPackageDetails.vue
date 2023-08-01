@@ -30,7 +30,7 @@
       }}
     </div>
     <div
-      v-html="packageBagDescription"
+      v-dompurify-html="packageBagDescription"
       class="text my-5"
     ></div>
     <div class="text my-3">
@@ -222,7 +222,7 @@ const details = [
 const submission = ref(package_store.submission)
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 $text_color: rgba(var(--v-theme-about-package));
 $background_color: rgba(var(--v-theme-about-background));
 $code_color: rgba(var(--v-theme-code));
@@ -275,7 +275,15 @@ p,
   color: $text_color;
 }
 
-.code {
+code {
+  margin-top: -25px; // removes weird extra newline at the beginning of code block
+}
+
+i {
+  align-self: center;
+}
+
+pre {
   background-color: $code_color;
   padding: 20px;
   line-height: 1.5;
@@ -285,6 +293,18 @@ p,
   box-shadow: 2px 2px 6px 0px rgba(66, 68, 90, 1);
   max-width: 1200px;
   font-size: 0.9em;
+  white-space: pre-line;
+}
+
+th,
+td {
+  border: 1px solid;
+  padding: 10px;
+}
+
+table {
+  border: 1px solid;
+  border-collapse: collapse;
 }
 
 .document {
