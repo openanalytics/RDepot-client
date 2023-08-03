@@ -103,9 +103,104 @@ describe('Add submission - second step', () => {
     expect(button.isVisible()).toBeTruthy()
     await nextTick(() => {})
     await button.trigger('click')
-    console.log(button.element.disabled)
     expect(spy).toHaveBeenCalledTimes(1)
     expect(wrapper.emitted().next).toBeTruthy()
     expect(wrapper.emitted().next[0]).toEqual([3])
+  })
+
+  it('generate manual exists if package is not Python', async () => {
+    const submissionsStore = useSubmissionStore()
+    const files = [
+      {
+        name: 'A3_1.0.0.tar.gz',
+        type: 'application/gzip'
+      } as File
+    ]
+    wrapper.vm.valid = true
+    wrapper.vm.files = files
+    wrapper.vm.filesLocal = files
+
+    submissionsStore.repository = {
+      technology: 'R'
+    }
+    await nextTick(() => {})
+
+    const checkboxMarked = wrapper.find(
+      '.mdi-checkbox-marked-outline'
+    )
+    const checkboxUnmarked = wrapper.find(
+      '.mdi-checkbox-blank-outline'
+    )
+
+    expect(checkboxMarked.isVisible()).toBeTruthy()
+    expect(checkboxUnmarked.exists()).toBeFalsy()
+    console.log(wrapper.text())
+    expect(wrapper.text()).toContain('generate manual')
+  })
+
+  it('generate manual change on click', async () => {
+    const submissionsStore = useSubmissionStore()
+    const files = [
+      {
+        name: 'A3_1.0.0.tar.gz',
+        type: 'application/gzip'
+      } as File
+    ]
+    wrapper.vm.valid = true
+    wrapper.vm.files = files
+    wrapper.vm.filesLocal = files
+
+    submissionsStore.repository = {
+      technology: 'R'
+    }
+
+    await nextTick(() => {})
+    let checkboxMarked = wrapper.find(
+      '.mdi-checkbox-marked-outline'
+    )
+    expect(checkboxMarked.isVisible()).toBeTruthy()
+    let checkboxUnmarked = wrapper.find(
+      '.mdi-checkbox-blank-outline'
+    )
+    expect(checkboxUnmarked.exists()).toBeFalsy()
+
+    await checkboxMarked.trigger('click')
+    checkboxMarked = wrapper.find(
+      '.mdi-checkbox-marked-outline'
+    )
+    checkboxUnmarked = wrapper.find(
+      '.mdi-checkbox-blank-outline'
+    )
+    expect(checkboxUnmarked.isVisible()).toBeTruthy()
+    expect(checkboxMarked.exists()).toBeFalsy()
+  })
+
+  it('generate manual exists if package is not Python', async () => {
+    const submissionsStore = useSubmissionStore()
+    const files = [
+      {
+        name: 'A3_1.0.0.tar.gz',
+        type: 'application/gzip'
+      } as File
+    ]
+    wrapper.vm.valid = true
+    wrapper.vm.files = files
+    wrapper.vm.filesLocal = files
+
+    submissionsStore.repository = {
+      technology: 'Python'
+    }
+
+    await nextTick(() => {})
+    console.log(wrapper.html())
+    const checkboxMarked = wrapper.find(
+      '.mdi-checkbox-marked-outline'
+    )
+    expect(checkboxMarked.exists()).toBeFalsy()
+    const checkboxUnmarked = wrapper.find(
+      '.mdi-checkbox-blank-outline'
+    )
+    expect(checkboxUnmarked.exists()).toBeFalsy()
+    expect(wrapper.text()).not.toContain('generate manual')
   })
 })

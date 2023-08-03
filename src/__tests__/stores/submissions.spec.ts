@@ -201,6 +201,22 @@ describe('Submissions Store', () => {
     )
   })
 
+  it('Get generate manual for Python', () => {
+    const submissionStore = useSubmissionStore()
+    submissionStore.repository = { technology: 'Python' }
+    expect(
+      submissionStore.getGenerateManualForPackage(files[0])
+    ).toBeTruthy()
+  })
+
+  it('Get generate manual for random R', () => {
+    const submissionStore = useSubmissionStore()
+    submissionStore.repository = { technology: 'R' }
+    expect(
+      submissionStore.getGenerateManualForPackage(files[0])
+    ).toBeFalsy()
+  })
+
   it('Update submissions', async () => {
     const submissionStore = useSubmissionStore()
     const spy = vi.spyOn(

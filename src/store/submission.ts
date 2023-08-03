@@ -117,6 +117,8 @@ export const useSubmissionStore = defineStore(
         )
       },
       getGenerateManualForPackage(file: File) {
+        if (this.repository?.technology == 'Python')
+          return true
         return !!this.generateManual.find(
           (item) => item == file
         )

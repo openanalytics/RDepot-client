@@ -31,7 +31,13 @@
       <v-list class="text-left">
         <v-list-item class="text-overline">
           <template v-slot:prepend> packages </template>
-          <template v-slot:append>
+          <template
+            v-slot:append
+            v-if="
+              submissionsStore.repository?.technology !=
+              'Python'
+            "
+          >
             generate manual
           </template>
         </v-list-item>
@@ -43,6 +49,9 @@
             submissionsStore.getGenerateManualForPackage(
               promise.packageBag
             )
+          "
+          :technology="
+            submissionsStore.repository?.technology
           "
         />
       </v-list>

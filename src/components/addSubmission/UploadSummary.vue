@@ -37,6 +37,7 @@
         v-if="promise.state == 'success'"
         size="large"
         color="green"
+        id="submission-success-icon"
         icon="mdi-check-circle-outline"
       />
       <v-tooltip
@@ -51,6 +52,7 @@
             v-bind="props"
             class="hover"
             size="large"
+            id="submission-error-icon"
             icon="mdi-close-circle-outline"
           ></v-icon>
         </template>
@@ -60,11 +62,12 @@
       </v-tooltip>
     </template>
 
-    <template v-slot:append>
+    <template v-slot:append v-if="technology != 'Python'">
       <v-btn
         v-if="!generateManual && promise.message.length > 1"
         icon="mdi-download"
         variant="text"
+        id="download-manual-icon"
         @click="downloadManual(promise.message[1])"
       ></v-btn>
       <v-btn
@@ -72,10 +75,12 @@
         disabled
         icon="mdi-checkbox-marked-outline"
         variant="text"
+        id="generate-manual-icon-marked"
       ></v-btn>
       <v-btn
         v-else
         icon="mdi-checkbox-blank-outline"
+        id="generate-manual-icon-blank"
         variant="text"
         disabled
       >
@@ -92,6 +97,7 @@ import { usePackagesStore } from '@/store/packages'
 var props = defineProps<{
   promise: PackagePromise
   generateManual: boolean
+  technology?: string
 }>()
 
 const packagesStore = usePackagesStore()

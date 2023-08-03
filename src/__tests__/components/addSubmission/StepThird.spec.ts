@@ -148,8 +148,8 @@ describe('Add submission - step third', () => {
     requestAnimationFrame(() => {
       const tooltip = wrapper.find('#tooltip-wait')
       expect(tooltip.exist()).toBeTruthy()
-      // assert
-      done() // <- here
+
+      done()
     })
   })
 

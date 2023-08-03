@@ -44,7 +44,13 @@
           v-if="!!filesLocal.length"
           class="text-overline"
         >
-          <template v-slot:append>
+          <template
+            v-slot:append
+            v-if="
+              submissionsStore.repository?.technology !=
+              'Python'
+            "
+          >
             generate manual
           </template>
         </v-list-item>
@@ -68,7 +74,13 @@
             </v-btn>
           </template>
 
-          <template v-slot:append>
+          <template
+            v-slot:append
+            v-if="
+              submissionsStore.repository?.technology !=
+              'Python'
+            "
+          >
             <v-btn
               v-if="
                 !submissionsStore.getGenerateManualForPackage(
