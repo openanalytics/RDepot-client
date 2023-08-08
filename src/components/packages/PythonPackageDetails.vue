@@ -85,21 +85,6 @@
       </div>
     </div>
     <div class="subtitle my-5">
-      {{ $t('packages.details') }}
-    </div>
-    <div class="d-flex" style="flex-direction: column">
-      <template v-for="{ translation, value } in details">
-        <div v-if="value" class="d-flex">
-          <div class="col_title">
-            {{ $t(translation) }}
-          </div>
-          <div class="col_desc">
-            {{ value }}
-          </div>
-        </div>
-      </template>
-    </div>
-    <div class="subtitle my-5">
       {{ $t('packages.downloads') }}
     </div>
     <div class="d-flex" style="flex-direction: column">
@@ -148,6 +133,42 @@
           {{ $t('packages.archive') }}
         </div>
       </div>
+    </div>
+    <div class="subtitle my-5">
+      {{ $t('packages.details') }}
+    </div>
+    <div class="d-flex" style="flex-direction: column">
+      <template v-for="{ translation, value } in details">
+        <div v-if="value" class="d-flex">
+          <div class="col_title">
+            {{ $t(translation) }}
+          </div>
+          <div class="col_desc">
+            {{ value }}
+          </div>
+        </div>
+      </template>
+    </div>
+    <div class="subtitle my-5">
+      {{ $t('packages.classifiers') }}
+    </div>
+    <div class="d-flex" style="flex-direction: column">
+      <ul>
+        <li
+          class="classifier-key"
+          v-for="key in Object.keys(categories)"
+        >
+          <strong>{{ key }}</strong>
+          <ul>
+            <li
+              class="classifier-value"
+              v-for="value in categories[key]"
+            >
+              {{ value }}
+            </li>
+          </ul>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -212,20 +233,47 @@ const details = [
   {
     translation: 'packages.url',
     value: packageBag.value.url
-  },
-  {
-    translation: 'packages.classifiers',
-    value: packageBag.value.classifiers
   }
 ]
+
+const categories = computed(() => {
+  let classifiers: string =
+    packageBag.value.classifiers || ''
+  let categories: Record<string, Array<string>> = {}
+  classifiers
+    ?.split(',')
+    .forEach((classifierAndVal: string) => {
+      let splitIndex = classifierAndVal.indexOf('::')
+      let classifier = classifierAndVal.substring(
+        0,
+        splitIndex
+      )
+      let value = classifierAndVal.substring(
+        splitIndex + 2,
+        classifierAndVal.length
+      )
+      if (categories[classifier]) {
+        categories[classifier].push(value)
+      } else {
+        categories[classifier] = [value]
+      }
+    })
+  return categories
+})
 
 const submission = ref(package_store.submission)
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 $text_color: rgba(var(--v-theme-about-package));
 $background_color: rgba(var(--v-theme-about-background));
-$code_color: rgba(var(--v-theme-code));
+
+.classifier-value {
+  display: list-item;
+  list-style-type: disc;
+  padding-left: 10px;
+  margin-left: 20px;
+}
 
 h1,
 .package_title {
