@@ -29,12 +29,12 @@
     <v-list nav open-strategy="single">
       <v-list-item
         prepend-icon="mdi-account"
-        :title="loggedUserStore.userLogin"
-        subtitle="logged in"
+        :title="getUserLogin"
+        :subtitle="getSubtitle"
       ></v-list-item>
       <v-divider class="pb-3"></v-divider>
       <v-list-item
-        v-if="loggedUserStore.can('GET', 'events')"
+        v-if="logged_user_store.can('GET', 'events')"
         prepend-icon="mdi-timetable"
         :title="$t('common.events')"
         :value="$t('common.events')"
@@ -42,7 +42,7 @@
       ></v-list-item>
 
       <v-list-item
-        v-if="loggedUserStore.can('POST', 'submissions')"
+        v-if="logged_user_store.can('POST', 'submissions')"
         prepend-icon="mdi-upload"
         :title="$t('common.addPackage')"
         :value="$t('common.addPackage')"
@@ -50,7 +50,7 @@
       ></v-list-item>
 
       <v-list-item
-        v-if="loggedUserStore.can('GET', 'submissions')"
+        v-if="logged_user_store.can('GET', 'submissions')"
         prepend-icon="mdi-email"
         :title="$t('common.submissions')"
         :value="$t('common.submissions')"
@@ -59,10 +59,10 @@
 
       <v-list-group
         v-if="
-          loggedUserStore.can(
+          logged_user_store.can(
             'GET',
             'packageMaintainers'
-          ) || loggedUserStore.can('GET', 'packages')
+          ) || logged_user_store.can('GET', 'packages')
         "
         value="Packages"
         tag="Packages"
@@ -76,7 +76,7 @@
         </template>
 
         <v-list-item
-          v-if="loggedUserStore.can('GET', 'packages')"
+          v-if="logged_user_store.can('GET', 'packages')"
           :title="$t('common.list')"
           :value="$t('packages.list')"
           id="sidebarpackageslist"
@@ -84,7 +84,10 @@
         ></v-list-item>
         <v-list-item
           v-if="
-            loggedUserStore.can('GET', 'packageMaintainers')
+            logged_user_store.can(
+              'GET',
+              'packageMaintainers'
+            )
           "
           :title="$t('common.maintainers')"
           :value="$t('packages.maintainers')"
@@ -95,8 +98,8 @@
       </v-list-group>
       <v-list-group
         v-if="
-          loggedUserStore.can('GET', 'repositories') ||
-          loggedUserStore.can(
+          logged_user_store.can('GET', 'repositories') ||
+          logged_user_store.can(
             'GET',
             'repositoryMaintainers'
           )
@@ -113,14 +116,16 @@
         </template>
 
         <v-list-item
-          v-if="loggedUserStore.can('GET', 'repositories')"
+          v-if="
+            logged_user_store.can('GET', 'repositories')
+          "
           :title="$t('common.list')"
           :value="$t('repositories.list')"
           @click="$router.push({ name: 'repositories' })"
         ></v-list-item>
         <v-list-item
           v-if="
-            loggedUserStore.can(
+            logged_user_store.can(
               'GET',
               'repositoryMaintainers'
             )
@@ -136,7 +141,7 @@
         ></v-list-item>
       </v-list-group>
       <v-list-item
-        v-if="loggedUserStore.can('GET', 'users')"
+        v-if="logged_user_store.can('GET', 'users')"
         prepend-icon="mdi-account-multiple"
         :title="$t('common.users')"
         :value="$t('common.users')"
@@ -147,15 +152,27 @@
 </template>
 
 <script setup lang="ts">
+import { i18n } from '@/plugins/i18n'
 import { useCommonStore } from '@/store/common'
 import { useLoggedUserStore } from '@/store/logged_user'
 import { computed } from 'vue'
 import { useDisplay } from 'vuetify/lib/framework.mjs'
 
 const { xs, mobile } = useDisplay()
-const loggedUserStore = useLoggedUserStore()
+const logged_user_store = useLoggedUserStore()
 
 const common_store = useCommonStore()
+
+const getUserLogin = computed(() => {
+  return logged_user_store.me.name
+})
+
+const getSubtitle = computed(() => {
+  return logged_user_store.me.name
+    ? i18n.t('user.logged-in')
+    : i18n.t('user.not-logged-in')
+})
+
 const drawer = computed({
   get() {
     return common_store.drawer

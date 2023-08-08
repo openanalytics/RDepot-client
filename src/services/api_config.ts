@@ -22,6 +22,7 @@
 
 import { Configuration } from '@/openapi'
 import { useLoggedUserStore } from '@/store/logged_user'
+import { AxiosRequestConfig } from 'axios'
 
 export function getConfiguration() {
   const logged_user_store = useLoggedUserStore()
@@ -32,4 +33,14 @@ export function getConfiguration() {
     }
   }
   return configuration
+}
+
+export function getHeaders() {
+  const logged_user_store = useLoggedUserStore()
+  const axiosRequestConfig: AxiosRequestConfig = {
+    headers: {
+      Authorization: 'Bearer ' + logged_user_store.userToken
+    }
+  }
+  return axiosRequestConfig
 }

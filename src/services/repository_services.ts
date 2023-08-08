@@ -26,13 +26,10 @@ import {
   EntityModelRepositoryDto,
   PythonRepositoryControllerApiFactory,
   PythonRepositoryDto,
-  ResponseDtoPagedModelEntityModelRepositoryDto,
-  ResponseDtoPagedModelEntityModelRRepositoryDto,
-  RRepositoryControllerApiFactory
+  RRepositoryControllerApiFactory,
+  RRepositoryDto
 } from '@/openapi'
-import { getConfiguration } from './api_config'
 import { Technologies } from '@/enum/Technologies'
-import { i18n } from '@/plugins/i18n'
 import {
   openApiRequest,
   validatedData,
@@ -49,16 +46,16 @@ export function fetchRepositoriesServices(
   page?: number,
   pageSize?: number,
   showProgress = true
-): Promise<validatedData<EntityModelRepositoryDto>> {
+): Promise<validatedData<EntityModelRepositoryDto[]>> {
   if (!isAuthorized('GET', 'repositories')) {
     return new Promise(() => validateRequest)
   }
-  const repository_api =
-    ApiV2RepositoryControllerApiFactory(getConfiguration())
   const sort = useSortStore()
+  sort.field = 'name'
 
-  return openApiRequest<ResponseDtoPagedModelEntityModelRepositoryDto>(
-    repository_api.getAllRepositories,
+  return openApiRequest<EntityModelRepositoryDto[]>(
+    ApiV2RepositoryControllerApiFactory()
+      .getAllRepositories,
     [
       filtration?.deleted,
       filtration?.name,
@@ -68,92 +65,33 @@ export function fetchRepositoriesServices(
       sort.getSortBy()
     ],
     showProgress
-  ).then(
-    (res) =>
-      validateRequest(
-        res.data.data?.content,
-        res.data.data?.page
-      ),
-    (msg) => {
-      notify({ type: 'error', text: msg })
-      return validateRequest()
-    }
-  )
-}
-
-type ValidatedRRepositories = Promise<
-  validatedData<EntityModelRepositoryDto>
->
-
-export function fetchRRepositories(): ValidatedRRepositories {
-  if (!isAuthorized('GET', 'repositories')) {
-    return new Promise(() => validateRequest)
-  }
-  const r_repository_api = RRepositoryControllerApiFactory(
-    getConfiguration()
-  )
-  return openApiRequest<ResponseDtoPagedModelEntityModelRRepositoryDto>(
-    r_repository_api.getAllRRepositories
-  ).then(
-    (res) =>
-      validateRequest(
-        res.data.data?.content,
-        res.data.data?.page
-      ),
-    (msg) => {
-      notify({ type: 'error', text: msg })
-      return validateRequest()
-    }
   )
 }
 
 export function createRepository(
   newRepository: EntityModelRepositoryDto
-): Promise<boolean> {
+): Promise<validatedData<EntityModelRepositoryDto>> {
   if (!isAuthorized('POST', 'repository')) {
     return new Promise(() => false)
   }
   const validatedRepository =
     repositorySchema.safeParse(newRepository)
+
   if (validatedRepository.success) {
     const { technology, ...repository } =
       validatedRepository.data
-    let request
     if (technology === Technologies.enum.R) {
-      const repository_api =
-        RRepositoryControllerApiFactory(getConfiguration())
-      request =
-        openApiRequest<ResponseDtoPagedModelEntityModelRepositoryDto>(
-          repository_api.createRRepository,
-          [repository]
-        )
+      return openApiRequest<RRepositoryDto>(
+        RRepositoryControllerApiFactory().createRRepository,
+        [repository as RRepositoryDto]
+      )
     } else {
-      const repository_api =
-        PythonRepositoryControllerApiFactory(
-          getConfiguration()
-        )
-      request =
-        openApiRequest<ResponseDtoPagedModelEntityModelRepositoryDto>(
-          repository_api.createPythonRepository,
-          [repository as PythonRepositoryDto]
-        )
+      return openApiRequest<PythonRepositoryDto>(
+        PythonRepositoryControllerApiFactory()
+          .createPythonRepository,
+        [repository as PythonRepositoryDto]
+      )
     }
-    return request.then(
-      () => {
-        notify({
-          type: 'success',
-          text: i18n.t(
-            'notifications.successCreateRepository',
-            newRepository.name || ''
-          )
-        })
-        return true
-      },
-      (msg) => {
-        notify({ type: 'error', text: msg })
-        return false
-      }
-    )
   } else {
     notify({
       type: 'error',
@@ -166,7 +104,7 @@ export function createRepository(
 export function updateRepository(
   oldRepository: EntityModelRepositoryDto,
   newRepository: EntityModelRepositoryDto
-) {
+): Promise<validatedData<EntityModelRepositoryDto>> {
   if (!isAuthorized('PATCH', 'repository')) {
     return new Promise(() => false)
   }
@@ -177,35 +115,17 @@ export function updateRepository(
   )
 
   if (oldRepository.technology === Technologies.enum.R) {
-    const repository_api = RRepositoryControllerApiFactory(
-      getConfiguration()
-    )
-    return openApiRequest<ResponseDtoPagedModelEntityModelRepositoryDto>(
-      repository_api.updateRRepository,
-      [patchBody, newRepository]
-    ).then(
-      () => true,
-      (msg) => {
-        notify({ text: msg, type: 'error' })
-        return false
-      }
+    return openApiRequest<RRepositoryDto>(
+      RRepositoryControllerApiFactory().updateRRepository,
+      [patchBody, newRepository.id]
     )
   } else if (
     oldRepository.technology === Technologies.enum.Python
   ) {
-    const repository_api =
-      PythonRepositoryControllerApiFactory(
-        getConfiguration()
-      )
-    return openApiRequest<ResponseDtoPagedModelEntityModelRepositoryDto>(
-      repository_api.updatePythonRepository,
-      [patchBody, newRepository]
-    ).then(
-      () => true,
-      (msg) => {
-        notify({ text: msg, type: 'error' })
-        return false
-      }
+    return openApiRequest<PythonRepositoryDto>(
+      PythonRepositoryControllerApiFactory()
+        .updatePythonRepository,
+      [patchBody, newRepository.id]
     )
   } else {
     throw new Error(

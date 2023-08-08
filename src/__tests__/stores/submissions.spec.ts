@@ -39,12 +39,12 @@ import packages from '@/__tests__/config/mockData/packages.json'
 import submissions from '@/__tests__/config/mockData/submissions.json'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
-import { usePaginationStore } from '@/store/pagination'
 import { useUtilities } from '@/composable/utilities'
 import {
   SubmissionsFiltration,
   defaultValues
 } from '@/models/Filtration'
+import { usePagination } from '@/store/pagination'
 
 const { deepCopyAny } = useUtilities()
 const files = [
@@ -108,13 +108,14 @@ describe('Submissions Store', () => {
 
   it('Clear filtration', () => {
     const submission_store = useSubmissionStore()
-    const pagination_store = usePaginationStore()
+    const pagination = usePagination()
     submission_store.filtration = randomFiltration
-    pagination_store.page = 2
+    pagination.page = 2
 
     submission_store.clearFiltration()
 
-    expect(pagination_store.page).toBe(0)
+    expect(pagination.page).toBe(1)
+    expect(pagination.fetchPage).toBe(0)
     expect(submission_store.filtration).toStrictEqual(
       defaultFiltration
     )
@@ -122,17 +123,18 @@ describe('Submissions Store', () => {
 
   it('Clear filtration and fetch', async () => {
     const submission_store = useSubmissionStore()
-    const pagination_store = usePaginationStore()
+    const pagination = usePagination()
     const spy = vi.spyOn(
       submission_store,
       'fetchSubmissions'
     )
     submission_store.filtration = randomFiltration
-    pagination_store.page = 2
+    pagination.page = 2
 
     await submission_store.clearFiltrationAndFetch()
 
-    expect(pagination_store.page).toBe(0)
+    expect(pagination.page).toBe(1)
+    expect(pagination.fetchPage).toBe(0)
     expect(submission_store.filtration).toStrictEqual(
       defaultFiltration
     )
@@ -144,12 +146,13 @@ describe('Submissions Store', () => {
 
   it('Set filtration', () => {
     const submission_store = useSubmissionStore()
-    const pagination_store = usePaginationStore()
-    pagination_store.page = 2
+    const pagination = usePagination()
+    pagination.page = 2
 
     submission_store.setFiltration(randomFiltration)
 
-    expect(pagination_store.page).toBe(0)
+    expect(pagination.page).toBe(1)
+    expect(pagination.fetchPage).toBe(0)
     expect(submission_store.filtration).toStrictEqual(
       randomFiltration
     )
@@ -211,13 +214,9 @@ describe('Submissions Store', () => {
       submissions.data.content[0]
     )
 
-    await submission_store.updateSubmission(
-      submission,
-      {
-        state: EntityModelSubmissionDtoStateEnum.CANCELLED
-      },
-      'Test'
-    )
+    await submission_store.updateSubmission(submission, {
+      state: EntityModelSubmissionDtoStateEnum.CANCELLED
+    })
 
     expect(spy).toBeCalled()
     expect(submission_store.submissions).toStrictEqual(
@@ -283,13 +282,9 @@ describe('Testing submissions store with failing backend', () => {
       submissions.data.content[0]
     )
 
-    await submission_store.updateSubmission(
-      submission,
-      {
-        state: EntityModelSubmissionDtoStateEnum.CANCELLED
-      },
-      'Test'
-    )
+    await submission_store.updateSubmission(submission, {
+      state: EntityModelSubmissionDtoStateEnum.CANCELLED
+    })
 
     expect(spy).toBeCalledTimes(0)
     expect(notify).toBeCalled()

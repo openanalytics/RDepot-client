@@ -19,7 +19,7 @@
  * along with this program. If not, see <http://www.apache.org/licenses/>
  *
  */
-
+/* tslint:disable */
 /* eslint-disable */
 /**
  * RDEPOT API
@@ -33,6 +33,7 @@
  * Do not edit the class manually.
  */
 import { Link } from './link'
+import { UserSettingsProjection } from './user-settings-projection'
 /**
  *
  * @export
@@ -93,6 +94,18 @@ export interface EntityModelUserDto {
    * @memberof EntityModelUserDto
    */
   roleId?: number
+  /**
+   *
+   * @type {string}
+   * @memberof EntityModelUserDto
+   */
+  role?: string
+  /**
+   *
+   * @type {UserSettingsProjection}
+   * @memberof EntityModelUserDto
+   */
+  userSettings?: UserSettingsProjection
   /**
    *
    * @type {string}

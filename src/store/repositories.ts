@@ -30,11 +30,11 @@ import {
   defaultValues
 } from '@/models/Filtration'
 import { fetchRepositoriesServices } from '@/services'
-import { usePaginationStore } from './pagination'
 import { updateRepository } from '@/services/repository_services'
 import { createRepository } from '@/services/repository_services'
 import { useUtilities } from '@/composable/utilities'
 import { repositoriesFiltrationLabels } from '@/maps/Filtration'
+import { usePagination } from '@/store/pagination'
 
 const { deepCopy } = useUtilities()
 
@@ -68,14 +68,14 @@ export const useRepositoryStore = defineStore(
         return pageData
       },
       async fetchRepositories() {
-        const pagination = usePaginationStore()
+        const pagination = usePagination()
         const pageData = await this.fetchData(
           pagination.page,
           pagination.pageSize,
           this.filtration
         )
-        pagination.setPage(pageData.page)
-        pagination.setTotalNumber(pageData.totalNumber)
+        pagination.newPageWithoutRefresh(pageData.page)
+        pagination.totalNumber = pageData.totalNumber
       },
       async fetchData(
         page: number,
@@ -120,8 +120,8 @@ export const useRepositoryStore = defineStore(
         await updateRepository(
           this.chosenRepository,
           newRepository
-        ).then((success) => {
-          if (success) this.fetchRepositories()
+        ).then(() => {
+          this.fetchRepositories()
         })
       },
       setChosenRepository(id: number | undefined) {
@@ -137,8 +137,8 @@ export const useRepositoryStore = defineStore(
         }
       },
       async setFiltration(payload: RepositoriesFiltration) {
-        const pagination = usePaginationStore()
-        pagination.setPage(0)
+        const pagination = usePagination()
+        pagination.resetPage()
         if (
           RepositoriesFiltration.safeParse(payload).success
         ) {
@@ -152,8 +152,8 @@ export const useRepositoryStore = defineStore(
         this.filtration.name = payload
       },
       clearFiltration() {
-        const pagination = usePaginationStore()
-        pagination.setPage(0)
+        const pagination = usePagination()
+        pagination.resetPage()
         this.filtration = defaultValues(
           RepositoriesFiltration
         )

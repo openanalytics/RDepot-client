@@ -59,14 +59,14 @@ beforeEach(async () => {
 })
 
 describe('App router', () => {
-  it('renders package details list via router', async () => {
-    await getRouterPath('/packages/abc')
-    findComponentInWrapper(wrapper, 'packageDetails')
+  it('renders login page via router', async () => {
+    await getRouterPath('/login')
+    findComponentInWrapper(wrapper, 'login')
   })
 
-  it('renders packages list via router', async () => {
-    await getRouterPath('/packages')
-    findComponentInWrapper(wrapper, 'packages')
+  it('renders users list via router', async () => {
+    await getRouterPath('/users')
+    findComponentInWrapper(wrapper, 'users')
   })
 
   it('renders repositories list via router', async () => {
@@ -74,9 +74,39 @@ describe('App router', () => {
     findComponentInWrapper(wrapper, 'repositories')
   })
 
+  it('renders repository details via router', async () => {
+    await getRouterPath('/repositories/testrepo1')
+    findComponentInWrapper(wrapper, 'repositoryDetails')
+  })
+
+  it('renders repository maintainers list via router', async () => {
+    await getRouterPath('/repository-maintainers')
+    findComponentInWrapper(wrapper, 'repositoryMaintainers')
+  })
+
+  it('renders submissions via router', async () => {
+    await getRouterPath('/submissions')
+    findComponentInWrapper(wrapper, 'submissions')
+  })
+
+  it('renders packages list via router', async () => {
+    await getRouterPath('/packages')
+    findComponentInWrapper(wrapper, 'packages')
+  })
+
+  it('renders packages maintainers list via router', async () => {
+    await getRouterPath('/package-maintainers')
+    findComponentInWrapper(wrapper, 'packageMaintainers')
+  })
+
   it('renders add package view list via router', async () => {
     await getRouterPath('/add-packages')
     findComponentInWrapper(wrapper, 'addSubmission')
+  })
+
+  it('renders events list via router', async () => {
+    await getRouterPath('/events')
+    findComponentInWrapper(wrapper, 'events')
   })
 })
 
