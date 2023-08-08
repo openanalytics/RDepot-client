@@ -57,6 +57,56 @@ export function useUtilities() {
     }
   }
 
+  const short_renderer = {
+    heading(
+      text: string,
+      level: number,
+      _raw: string,
+      _slugger: any
+    ) {
+      level += 2
+      return `<h${level}>${text}</h${level}>\n`
+    },
+    code(
+      _code: string,
+      _infostring: string | undefined,
+      _escaped: boolean
+    ) {
+      return ''
+    },
+    blockquote(_quote: string) {
+      return ''
+    },
+    html(_html: string, _block: boolean) {
+      return ''
+    },
+    hr() {
+      return ''
+    },
+    list(_body: string, _ordered: boolean, _start: number) {
+      return ''
+    },
+    listitem(
+      _text: boolean,
+      _task: boolean,
+      _checked: boolean
+    ) {
+      return ''
+    },
+    checkbox(_checked: boolean) {
+      return ''
+    },
+    table(_header: string, _body: string) {
+      return ''
+    },
+    tablerow(_content: string) {
+      return ''
+    },
+    tablecell(_content: string, _flags: any) {
+      return ''
+    }
+  }
+
   // copied from marked helpers
   const escapeTest = /[&<>"']/
   const escapeReplace = new RegExp(escapeTest.source, 'g')
@@ -83,6 +133,7 @@ export function useUtilities() {
   return {
     deepCopy,
     deepCopyAny,
-    renderer
+    renderer,
+    short_renderer
   }
 }

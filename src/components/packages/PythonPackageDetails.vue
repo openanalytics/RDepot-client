@@ -29,10 +29,9 @@
         packageBag.name
       }}
     </div>
-    <div
-      v-dompurify-html="packageBagDescription"
-      class="text my-5"
-    ></div>
+    <MarkdownDescription
+      :description="packageBag.description || ''"
+    ></MarkdownDescription>
     <div class="text my-3">
       {{ $t('packages.originalPythonPackageData') }}:
     </div>
@@ -177,8 +176,7 @@
 import { EntityModelPythonPackageDto } from '@/openapi'
 import { computed, ref } from 'vue'
 import { usePackagesStore } from '@/store/packages'
-import { marked } from 'marked'
-import { useUtilities } from '@/composable/utilities'
+import MarkdownDescription from '@/components/common/MarkdownDescription.vue'
 
 const package_store = usePackagesStore()
 
@@ -187,19 +185,6 @@ package_store.fetchPythonPackageFields()
 const packageBag = computed<EntityModelPythonPackageDto>(
   () => package_store.package as EntityModelPythonPackageDto
 )
-
-const { renderer } = useUtilities()
-
-const packageBagDescription = computed(() => {
-  marked.use({ renderer })
-  return marked.parse(
-    package_store.package?.description?.replaceAll(
-      '\\n',
-      '\n'
-    ) || '',
-    { breaks: true, gfm: true }
-  )
-})
 
 const details = [
   {
@@ -321,38 +306,6 @@ p,
   padding: 3px;
   margin: 1px;
   color: $text_color;
-}
-
-code {
-  margin-top: -25px; // removes weird extra newline at the beginning of code block
-}
-
-i {
-  align-self: center;
-}
-
-pre {
-  background-color: $code_color;
-  padding: 20px;
-  line-height: 1.5;
-  border-radius: 8px;
-  -webkit-box-shadow: 4px 4px 12px 0px #42445a;
-  -moz-box-shadow: 4px 4px 12px 0px rgba(66, 68, 90, 1);
-  box-shadow: 2px 2px 6px 0px rgba(66, 68, 90, 1);
-  max-width: 1200px;
-  font-size: 0.9em;
-  white-space: pre-line;
-}
-
-th,
-td {
-  border: 1px solid;
-  padding: 10px;
-}
-
-table {
-  border: 1px solid;
-  border-collapse: collapse;
 }
 
 .document {
