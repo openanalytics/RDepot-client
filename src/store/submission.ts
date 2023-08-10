@@ -37,9 +37,10 @@ import {
   fetchSubmissions,
   updateSubmission
 } from '@/services/submission_services'
-import { usePaginationStore } from '@/store/pagination'
 import { useUtilities } from '@/composable/utilities'
 import { submissionsFiltrationLabels } from '@/maps/Filtration'
+import { validatedData } from '@/services/open_api_access'
+import { usePagination } from '@/store/pagination'
 
 export type PackagePromise = {
   promise: Promise<string[]>
@@ -77,24 +78,54 @@ export const useSubmissionStore = defineStore(
       }
     },
     actions: {
+      async fetchPageOfSubmissions(
+        page: number,
+        pageSize = 8
+      ) {
+        const logged_user_store = useLoggedUserStore()
+        const pageData = await this.fetchData(
+          page,
+          pageSize,
+          defaultValues(SubmissionsFiltration),
+          logged_user_store.me.id,
+          false
+        )
+        return pageData
+      },
       async fetchSubmissions() {
-        const loggedUserStore = useLoggedUserStore()
-        const pagination = usePaginationStore()
+        const pagination = usePagination()
+        const logged_user_store = useLoggedUserStore()
+        const pageData = await this.fetchData(
+          pagination.fetchPage,
+          pagination.pageSize,
+          this.filtration,
+          logged_user_store.me.id
+        )
+        pagination.newPageWithoutRefresh(pageData.page)
+        pagination.totalNumber = pageData.totalNumber
+      },
+      async fetchData(
+        page: number,
+        pageSize: number,
+        filtration: SubmissionsFiltration,
+        user_id?: number,
+        showProgress = true
+      ) {
         const [submissions, pageData] =
           await fetchSubmissions(
-            this.filtration,
-            loggedUserStore.userId,
-            pagination.page,
-            pagination.pageSize
+            filtration,
+            user_id,
+            page,
+            pageSize,
+            showProgress
           )
         this.submissions = submissions
-        pagination.setTotalNumber(pageData.totalNumber)
-        pagination.setPage(pageData.page)
+        return pageData
       },
+
       async updateSubmission(
         oldSubmission: EntityModelSubmissionDto,
-        newValues: Partial<EntityModelSubmissionDto>,
-        textNotification: string
+        newValues: Partial<EntityModelSubmissionDto>
       ) {
         const newSubmission = {
           ...deepCopy(oldSubmission),
@@ -102,10 +133,9 @@ export const useSubmissionStore = defineStore(
         }
         await updateSubmission(
           oldSubmission,
-          newSubmission,
-          textNotification
-        ).then(async (success) => {
-          if (success) await this.fetchSubmissions()
+          newSubmission
+        ).then(async () => {
+          await this.fetchSubmissions()
         })
       },
       addGenerateManualOptionForPackage(file: File) {
@@ -140,8 +170,8 @@ export const useSubmissionStore = defineStore(
         this.repository = payload
       },
       async setFiltration(payload: SubmissionsFiltration) {
-        const pagination = usePaginationStore()
-        pagination.setPage(0)
+        const pagination = usePagination()
+        pagination.resetPage()
         if (
           SubmissionsFiltration.safeParse(payload).success
         ) {
@@ -155,8 +185,8 @@ export const useSubmissionStore = defineStore(
         })
       },
       clearFiltration() {
-        const pagination = usePaginationStore()
-        pagination.setPage(0)
+        const pagination = usePagination()
+        pagination.resetPage()
         this.filtration = defaultValues(
           SubmissionsFiltration
         )

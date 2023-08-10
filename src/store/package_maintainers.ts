@@ -40,9 +40,9 @@ import {
   fetchPackageMaintainersService,
   updatePackageMaintainerService
 } from '@/services/package_maintainers_service'
-import { usePaginationStore } from '@/store/pagination'
 import { useUtilities } from '@/composable/utilities'
 import { packageMaintainersFiltrationLabels } from '@/maps/Filtration'
+import { usePagination } from '@/store/pagination'
 
 interface State {
   maintainers: EntityModelPackageMaintainerDto[]
@@ -70,15 +70,15 @@ export const usePackageMaintainersStore = defineStore(
     },
     actions: {
       async fetchMaintainers() {
-        const pagination = usePaginationStore()
+        const pagination = usePagination()
         const [maintainers, pageData] =
           await fetchPackageMaintainersService(
             this.filtration,
-            pagination.page,
+            pagination.fetchPage,
             pagination.pageSize
           )
-        pagination.setPage(pageData.page)
-        pagination.setTotalNumber(pageData.totalNumber)
+        pagination.newPageWithoutRefresh(pageData.page)
+        pagination.totalNumber = pageData.totalNumber
         this.maintainers = maintainers
       },
       async fetchRepositories() {
@@ -114,8 +114,8 @@ export const usePackageMaintainersStore = defineStore(
       async setFiltration(
         payload: PackageMaintainersFiltration
       ) {
-        const pagination = usePaginationStore()
-        pagination.setPage(0)
+        const pagination = usePagination()
+        pagination.resetPage()
         if (
           PackageMaintainersFiltration.safeParse(payload)
             .success
@@ -126,8 +126,8 @@ export const usePackageMaintainersStore = defineStore(
         await this.fetchMaintainers()
       },
       clearFiltration() {
-        const pagination = usePaginationStore()
-        pagination.setPage(0)
+        const pagination = usePagination()
+        pagination.resetPage()
         this.filtration = defaultValues(
           PackageMaintainersFiltration
         )

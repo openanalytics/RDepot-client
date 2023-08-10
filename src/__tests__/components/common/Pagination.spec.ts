@@ -28,7 +28,7 @@ import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
 import { createPinia, setActivePinia } from 'pinia'
-import { usePaginationStore } from '@/store/pagination'
+import { usePagination } from '@/store/pagination'
 
 let wrapper: any
 let pagination: any
@@ -45,7 +45,7 @@ const globalConfig = {
 beforeEach(async () => {
   setActivePinia(createPinia())
   global.ResizeObserver = ResizeObserver
-  pagination = usePaginationStore()
+  pagination = usePagination()
   numberOfPages = 5
   pagination.totalNumber =
     pagination.pageSize * numberOfPages
@@ -77,7 +77,7 @@ describe('Pagination', () => {
     let currentPage = pagination.page
 
     expect(wrapper.find(currentPageSelector).text()).toBe(
-      pageToString(currentPage)
+      currentPage.toString()
     )
 
     await wrapper
@@ -87,7 +87,7 @@ describe('Pagination', () => {
     currentPage += 1
 
     expect(wrapper.find(currentPageSelector).text()).toBe(
-      pageToString(currentPage)
+      currentPage.toString()
     )
   })
 
@@ -98,7 +98,7 @@ describe('Pagination', () => {
     await flushPromises()
 
     expect(wrapper.find(currentPageSelector).text()).toBe(
-      pageToString(currentPage)
+      pageToString(pagination.fetchPage)
     )
 
     await wrapper
@@ -107,7 +107,7 @@ describe('Pagination', () => {
 
     currentPage -= 1
     expect(wrapper.find(currentPageSelector).text()).toBe(
-      pageToString(currentPage)
+      pageToString(pagination.fetchPage)
     )
   })
 
@@ -124,7 +124,7 @@ describe('Pagination', () => {
       '3'
     )
 
-    expect(pagination.page).toBe(2)
+    expect(pagination.page).toBe(3)
   })
 
   it('Change page size by typing', async () => {

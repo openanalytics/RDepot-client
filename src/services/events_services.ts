@@ -23,16 +23,13 @@
 import { EventsFiltration } from '@/models/Filtration'
 import {
   ApiV2NewsfeedEventControllerApiFactory,
-  EntityModelNewsfeedEventDto,
-  ResponseDtoPagedModelEntityModelNewsfeedEventDto
+  EntityModelNewsfeedEventDto
 } from '@/openapi'
-import { getConfiguration } from './api_config'
 import {
   openApiRequest,
   validateRequest,
   validatedData
 } from './open_api_access'
-import { notify } from '@kyvg/vue3-notification'
 import { isAuthorized } from '@/plugins/casl'
 
 export function fetchEventsServices(
@@ -43,9 +40,6 @@ export function fetchEventsServices(
   if (!isAuthorized('GET', 'events')) {
     return new Promise(() => validateRequest())
   }
-  const eventsApi = ApiV2NewsfeedEventControllerApiFactory(
-    getConfiguration()
-  )
   let localFiltration = undefined
   if (
     filtration.technologies &&
@@ -53,8 +47,8 @@ export function fetchEventsServices(
   ) {
     localFiltration = filtration.technologies[0]
   }
-  return openApiRequest<ResponseDtoPagedModelEntityModelNewsfeedEventDto>(
-    eventsApi.getAllEvents,
+  return openApiRequest<EntityModelNewsfeedEventDto>(
+    ApiV2NewsfeedEventControllerApiFactory().getAllEvents,
     [
       localFiltration,
       filtration.userId,
@@ -62,18 +56,8 @@ export function fetchEventsServices(
       filtration.eventType,
       filtration.resourceType,
       page,
-      pageSize
+      pageSize,
+      undefined
     ]
-  ).then(
-    (res) =>
-      validateRequest(
-        res.data.data?.content,
-        res.data.data?.page,
-        res.data.data?.links
-      ),
-    (msg) => {
-      notify({ text: msg, type: 'error' })
-      return validateRequest()
-    }
   )
 }

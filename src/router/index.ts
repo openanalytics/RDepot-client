@@ -24,10 +24,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { routes } from '@/router/routes'
 import { i18n } from '@/plugins/i18n'
-import { usePaginationStore } from '@/store/pagination'
 import { useSortStore } from '@/store/sort'
 import { useLoggedUserStore } from '@/store/logged_user'
 import { nameToActionAndSubject } from '@/plugins/casl'
+import { usePagination } from '@/store/pagination'
 
 const DEFAULT_TITLE = i18n.t('common.projectTitle')
 
@@ -38,9 +38,9 @@ const router = createRouter({
 
 router.beforeEach((to) => {
   const loggedUserStore = useLoggedUserStore()
-  const pagination = usePaginationStore()
+  const pagination = usePagination()
   const sort = useSortStore()
-  pagination.setPage(0)
+  pagination.resetPage()
   sort.reset()
   document.title = to.meta.title
     ? (to.meta.title as string)

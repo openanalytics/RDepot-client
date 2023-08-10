@@ -38,11 +38,16 @@
       <v-list-item
         v-for="(item, index) in langs"
         :key="index"
-        @click="$i18n.locale = item"
+        @click="
+          () => {
+            $i18n.locale = item.display
+            changeLanguage(item.name)
+          }
+        "
         link
       >
         <v-list-item-title
-          v-text="item"
+          v-text="item.display"
         ></v-list-item-title>
       </v-list-item>
     </v-list>
@@ -51,6 +56,18 @@
 
 <script setup lang="ts">
 import langs from '@/locales/index'
+import { useLoggedUserStore } from '@/store/logged_user'
+
+const logged_user_store = useLoggedUserStore()
+
+const changeLanguage = (new_language: string) => {
+  var new_settings = logged_user_store.getCurrentSettings()
+  new_settings.language = new_language
+  logged_user_store.updateSettings(
+    logged_user_store.getCurrentSettings(),
+    new_settings
+  )
+}
 </script>
 
 <style lang="scss">

@@ -34,7 +34,7 @@ import packages from '@/__tests__/config/mockData/packages.json'
 import repositories from '@/__tests__/config/mockData/repositories.json'
 import { rest } from 'msw'
 import { useRepositoryStore } from '@/store/repositories'
-import { usePaginationStore } from '@/store/pagination'
+import { usePagination } from '@/store/pagination'
 import { Technologies } from '@/enum/Technologies'
 
 const defaultFiltration = {
@@ -100,7 +100,7 @@ describe('Repository Store', () => {
 
   it('Edit filtration', () => {
     const repositoriesStore = useRepositoryStore()
-    const paginationStore = usePaginationStore()
+    const paginationStore = usePagination()
     const spy = vi.spyOn(
       repositoriesStore,
       'fetchRepositories'
@@ -109,7 +109,7 @@ describe('Repository Store', () => {
 
     repositoriesStore.setFiltration(randomFiltration)
 
-    expect(paginationStore.page).toBe(0)
+    expect(paginationStore.page).toBe(1)
     expect(repositoriesStore.filtration).toStrictEqual(
       randomFiltration
     )
@@ -118,13 +118,13 @@ describe('Repository Store', () => {
 
   it('Clear filtration', () => {
     const repositoriesStore = useRepositoryStore()
-    const paginationStore = usePaginationStore()
+    const paginationStore = usePagination()
     repositoriesStore.filtration = randomFiltration
     paginationStore.page = 2
 
     repositoriesStore.clearFiltration()
 
-    expect(paginationStore.page).toBe(0)
+    expect(paginationStore.page).toBe(1)
     expect(repositoriesStore.filtration).toStrictEqual(
       defaultFiltration
     )
@@ -132,7 +132,7 @@ describe('Repository Store', () => {
 
   it('Clear filtration and fetch events', async () => {
     const repositoriesStore = useRepositoryStore()
-    const paginationStore = usePaginationStore()
+    const paginationStore = usePagination()
     const spy = vi.spyOn(
       repositoriesStore,
       'fetchRepositories'
@@ -142,7 +142,7 @@ describe('Repository Store', () => {
 
     await repositoriesStore.clearFiltrationAndFetch()
 
-    expect(paginationStore.page).toBe(0)
+    expect(paginationStore.page).toBe(1)
     expect(repositoriesStore.filtration).toStrictEqual(
       defaultFiltration
     )

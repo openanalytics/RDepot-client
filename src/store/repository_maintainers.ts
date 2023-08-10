@@ -35,12 +35,13 @@ import {
   fetchRepositoryMaintainersServices,
   updateRepositoryMaintainer
 } from '@/services/repository_maintainers_services'
-import { usePaginationStore } from './pagination'
 import { fetchRepositoriesServices } from '@/services'
 import { useUtilities } from '@/composable/utilities'
 import { repositoryMaintainersFiltrationLabels } from '@/maps/Filtration'
+import { usePagination } from '@/store/pagination'
 
 const { deepCopy } = useUtilities()
+
 interface State {
   maintainers: EntityModelRepositoryMaintainerDto[]
   filtration: RepositoryMaintainersFiltration
@@ -63,15 +64,15 @@ export const useRepositoryMaintainersStore = defineStore(
     },
     actions: {
       async fetchMaintainers() {
-        const pagination = usePaginationStore()
+        const pagination = usePagination()
         const [maintainers, pageData] =
           await fetchRepositoryMaintainersServices(
             this.filtration,
-            pagination.page,
+            pagination.fetchPage,
             pagination.pageSize
           )
-        pagination.setPage(pageData.page)
-        pagination.setTotalNumber(pageData.totalNumber)
+        pagination.newPageWithoutRefresh(pageData.page)
+        pagination.totalNumber = pageData.totalNumber
         this.maintainers = maintainers
       },
       async fetchRepositories() {
@@ -119,16 +120,16 @@ export const useRepositoryMaintainersStore = defineStore(
         }
       },
       async setPage(payload: number) {
-        const pagination = usePaginationStore()
-        pagination.setPage(payload)
+        const pagination = usePagination()
+        pagination.page = payload
         this.fetchMaintainers()
       },
 
       async setFiltration(
         payload: RepositoryMaintainersFiltration
       ) {
-        const pagination = usePaginationStore()
-        pagination.setPage(0)
+        const pagination = usePagination()
+        pagination.resetPage()
         if (
           RepositoryMaintainersFiltration.safeParse(payload)
             .success
@@ -139,8 +140,8 @@ export const useRepositoryMaintainersStore = defineStore(
         await this.fetchMaintainers()
       },
       clearFiltration() {
-        const pagination = usePaginationStore()
-        pagination.setPage(0)
+        const pagination = usePagination()
+        pagination.resetPage()
         this.filtration = defaultValues(
           RepositoryMaintainersFiltration
         )

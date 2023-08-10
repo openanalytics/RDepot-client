@@ -36,10 +36,10 @@ import repositories from '@/__tests__/config/mockData/repositories.json'
 import packages from '@/__tests__/config/mockData/packages.json'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
-import { i18n } from '@/plugins/i18n'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
-import { usePaginationStore } from '@/store/pagination'
+import { usePagination } from '@/store/pagination'
 import { Technologies } from '@/enum/Technologies'
+import { i18n } from '@/plugins/i18n'
 
 const defaultFiltration = {
   deleted: false,
@@ -128,7 +128,7 @@ describe('Repository Maintainers Store', () => {
   it('Edit filtration', () => {
     const repositoryMaintainersStore =
       useRepositoryMaintainersStore()
-    const paginationStore = usePaginationStore()
+    const paginationStore = usePagination()
     const spy = vi.spyOn(
       repositoryMaintainersStore,
       'fetchMaintainers'
@@ -140,7 +140,7 @@ describe('Repository Maintainers Store', () => {
       randomFiltration
     )
 
-    expect(paginationStore.page).toBe(0)
+    expect(paginationStore.page).toBe(1)
     expect(
       repositoryMaintainersStore.filtration
     ).toStrictEqual(randomFiltration)
@@ -150,12 +150,12 @@ describe('Repository Maintainers Store', () => {
   it('Clear filtration', () => {
     const repositoryMaintainersStore =
       useRepositoryMaintainersStore()
-    const paginationStore = usePaginationStore()
+    const paginationStore = usePagination()
     paginationStore.page = 2
 
     repositoryMaintainersStore.filtration = randomFiltration
     repositoryMaintainersStore.clearFiltration()
-    expect(paginationStore.page).toBe(0)
+    expect(paginationStore.page).toBe(1)
     expect(
       repositoryMaintainersStore.filtration
     ).toStrictEqual(defaultFiltration)
@@ -164,7 +164,7 @@ describe('Repository Maintainers Store', () => {
   it('Clear filtration and fetch', async () => {
     const repositoryMaintainersStore =
       useRepositoryMaintainersStore()
-    const paginationStore = usePaginationStore()
+    const paginationStore = usePagination()
     const spy = vi.spyOn(
       repositoryMaintainersStore,
       'fetchMaintainers'
@@ -175,7 +175,7 @@ describe('Repository Maintainers Store', () => {
 
     await repositoryMaintainersStore.clearFiltrationAndFetch()
 
-    expect(paginationStore.page).toBe(0)
+    expect(paginationStore.page).toBe(1)
     expect(
       repositoryMaintainersStore.filtration
     ).toStrictEqual(defaultFiltration)
@@ -261,14 +261,7 @@ describe('Repository Maintainers Store', () => {
     await repositoryMaintainersStore.deleteMaintainer()
 
     expect(spy).toBeCalled()
-    expect(notify.notify).toBeCalledWith({
-      type: 'success',
-      text: i18n.t(
-        'notifications.successDeletePackageManager',
-        repositoryMaintainersStore.chosenMaintainer.user
-          ?.name || ''
-      )
-    })
+    expect(notify.notify).toBeCalledWith('success')
   })
 
   it('Save chosen maintainer', async () => {

@@ -29,8 +29,8 @@
     <v-list nav open-strategy="single">
       <v-list-item
         prepend-icon="mdi-account"
-        :title="loggedUserStore.userLogin"
-        subtitle="logged in"
+        :title="getUserLogin"
+        :subtitle="getSubtitle"
       ></v-list-item>
       <v-divider class="pb-3"></v-divider>
       <v-list-item
@@ -148,6 +148,7 @@
 
 <script setup lang="ts">
 import router from '@/router'
+import { i18n } from '@/plugins/i18n'
 import { useCommonStore } from '@/store/common'
 import { useLoggedUserStore } from '@/store/logged_user'
 import { useSubmissionStore } from '@/store/submission'
@@ -158,6 +159,16 @@ const { xs, mobile } = useDisplay()
 const loggedUserStore = useLoggedUserStore()
 const submissionsStore = useSubmissionStore()
 const commonStore = useCommonStore()
+const getUserLogin = computed(() => {
+  return loggedUserStore.me.name
+})
+
+const getSubtitle = computed(() => {
+  return loggedUserStore.me.name
+    ? i18n.t('user.logged-in')
+    : i18n.t('user.not-logged-in')
+})
+
 const drawer = computed({
   get() {
     return commonStore.drawer

@@ -37,7 +37,7 @@ import repositories from '@/__tests__/config/mockData/repositories.json'
 import packages from '@/__tests__/config/mockData/packages.json'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
-import { usePaginationStore } from '@/store/pagination'
+import { usePagination } from '@/store/pagination'
 import { Technologies } from '@/enum/Technologies'
 import {
   PackageMaintainersFiltration,
@@ -130,7 +130,7 @@ describe('Package Maintainers Store', () => {
   it('Edit filtration', () => {
     const packageMaintainersStore =
       usePackageMaintainersStore()
-    const paginationStore = usePaginationStore()
+    const paginationStore = usePagination()
     paginationStore.page = 2
     const spy = vi.spyOn(
       packageMaintainersStore,
@@ -140,7 +140,7 @@ describe('Package Maintainers Store', () => {
 
     packageMaintainersStore.setFiltration(randomFiltration)
 
-    expect(paginationStore.page).toBe(0)
+    expect(paginationStore.page).toBe(1)
     expect(
       packageMaintainersStore.filtration
     ).toStrictEqual(randomFiltration)
@@ -150,13 +150,13 @@ describe('Package Maintainers Store', () => {
   it('Clear filtration', () => {
     const packageMaintainersStore =
       usePackageMaintainersStore()
-    const paginationStore = usePaginationStore()
+    const paginationStore = usePagination()
     paginationStore.page = 2
     packageMaintainersStore.filtration = randomFiltration
 
     packageMaintainersStore.clearFiltration()
 
-    expect(paginationStore.page).toBe(0)
+    expect(paginationStore.page).toBe(1)
     expect(
       packageMaintainersStore.filtration
     ).toStrictEqual(defaultFiltration)
@@ -165,7 +165,7 @@ describe('Package Maintainers Store', () => {
   it('Clear filtration and fetch', async () => {
     const packageMaintainersStore =
       usePackageMaintainersStore()
-    const paginationStore = usePaginationStore()
+    const paginationStore = usePagination()
     paginationStore.page = 2
     const spy = vi.spyOn(
       packageMaintainersStore,
@@ -175,7 +175,7 @@ describe('Package Maintainers Store', () => {
     packageMaintainersStore.filtration = randomFiltration
     await packageMaintainersStore.clearFiltrationAndFetch()
 
-    expect(paginationStore.page).toBe(0)
+    expect(paginationStore.page).toBe(1)
     expect(
       packageMaintainersStore.filtration
     ).toStrictEqual(defaultFiltration)

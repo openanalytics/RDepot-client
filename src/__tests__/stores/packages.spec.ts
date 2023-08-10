@@ -34,7 +34,7 @@ import {
 import packages from '@/__tests__/config/mockData/packages.json'
 import repositories from '@/__tests__/config/mockData/repositories.json'
 import { rest } from 'msw'
-import { usePaginationStore } from '@/store/pagination'
+import { usePagination } from '@/store/pagination'
 import { Technologies } from '@/enum/Technologies'
 import {
   PackagesFiltration,
@@ -137,12 +137,12 @@ describe('Package Store', () => {
   it('Edit filtration', () => {
     const packageStore = usePackagesStore()
     const spy = vi.spyOn(packageStore, 'fetchPackages')
-    const pagination = usePaginationStore()
+    const pagination = usePagination()
     pagination.page = 2
 
     packageStore.setFiltration(randomFiltration)
 
-    expect(pagination.page).toBe(0)
+    expect(pagination.page).toBe(1)
     expect(packageStore.filtration).toStrictEqual(
       randomFiltration
     )
@@ -151,13 +151,13 @@ describe('Package Store', () => {
 
   it('Clear filtration', () => {
     const packageStore = usePackagesStore()
-    const pagination = usePaginationStore()
+    const pagination = usePagination()
     pagination.page = 2
 
     packageStore.filtration = randomFiltration
     packageStore.clearFiltration()
 
-    expect(pagination.page).toBe(0)
+    expect(pagination.page).toBe(1)
     expect(packageStore.filtration).toStrictEqual(
       defaultFiltration
     )
@@ -166,13 +166,13 @@ describe('Package Store', () => {
   it('Clear filtration and fetch events', async () => {
     const packageStore = usePackagesStore()
     const spy = vi.spyOn(packageStore, 'fetchPackages')
-    const pagination = usePaginationStore()
+    const pagination = usePagination()
     pagination.page = 2
 
     packageStore.filtration = randomFiltration
     await packageStore.clearFiltrationAndFetch()
 
-    expect(pagination.page).toBe(0)
+    expect(pagination.page).toBe(1)
     expect(packageStore.filtration).toStrictEqual(
       defaultFiltration
     )

@@ -20,13 +20,22 @@
  *
  */
 
-import { describe, it, expect, beforeEach } from 'vitest'
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  vi
+} from 'vitest'
 
 import { mount } from '@vue/test-utils'
 import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
 import ChangeThemeVue from '@/components/navbar/ChangeTheme.vue'
+import { createPinia, setActivePinia } from 'pinia'
+import { useLoggedUserStore } from '@/store/logged_user'
 
+let logged_user_store: any
 let wrapper: any
 const globalConfig = {
   mocks: mocks,
@@ -34,6 +43,8 @@ const globalConfig = {
 }
 
 beforeEach(async () => {
+  setActivePinia(createPinia())
+  logged_user_store = useLoggedUserStore()
   wrapper = mount(ChangeThemeVue, {
     global: globalConfig
   })
@@ -55,11 +66,18 @@ describe('Change Theme', () => {
   })
 
   it('change theme two times after two clicks', async () => {
+    const spy = vi.spyOn(
+      logged_user_store,
+      'updateSettings'
+    )
+    wrapper.vm.theme.global.name.value = 'dark'
     await wrapper.trigger('click')
+    expect(spy).toHaveBeenCalledTimes(1)
     expect(wrapper.vm.theme.global.name.value).toEqual(
       'light'
     )
     await wrapper.trigger('click')
+    expect(spy).toHaveBeenCalledTimes(2)
     expect(wrapper.vm.theme.global.name.value).toEqual(
       'dark'
     )

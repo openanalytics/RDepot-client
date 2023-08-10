@@ -24,19 +24,15 @@ import { PackagesFiltration } from '@/models/Filtration'
 import {
   ApiV2PackageControllerApiFactory,
   EntityModelPackageDto,
-  ResponseDtoEntityModelPackageDto,
-  ResponseDtoPagedModelEntityModelPackageDto,
   RPackageControllerApiFactory
 } from '@/openapi'
 import { isAuthorized } from '@/plugins/casl'
-import { getConfiguration } from '@/services/api_config'
 import {
   openApiRequest,
   validatedData,
   validateRequest
 } from '@/services/open_api_access'
 import { useSortStore } from '@/store/sort'
-import { notify } from '@kyvg/vue3-notification'
 import { createPatch } from 'rfc6902'
 
 export function fetchPackagesServices(
@@ -44,18 +40,13 @@ export function fetchPackagesServices(
   page?: number,
   pageSize?: number,
   showProgress = true
-): Promise<validatedData<EntityModelPackageDto>> {
+): Promise<validatedData<EntityModelPackageDto[]>> {
   if (!isAuthorized('GET', 'packages')) {
-    return new Promise(() =>
-      validateRequest<EntityModelPackageDto>()
-    )
+    return new Promise(() => validateRequest)
   }
-  const packagesApi = ApiV2PackageControllerApiFactory(
-    getConfiguration()
-  )
   const sort = useSortStore()
-  return openApiRequest<ResponseDtoPagedModelEntityModelPackageDto>(
-    packagesApi.getAllPackages,
+  return openApiRequest<EntityModelPackageDto[]>(
+    ApiV2PackageControllerApiFactory().getAllPackages,
     [
       filtration?.repository,
       filtration?.deleted,
@@ -66,61 +57,33 @@ export function fetchPackagesServices(
       sort.getSortBy()
     ],
     showProgress
-  ).then(
-    (res) =>
-      validateRequest(
-        res.data.data?.content,
-        res.data.data?.page
-      ),
-    (msg) => {
-      notify({ type: 'error', text: msg })
-      return validateRequest()
-    }
   )
 }
 
 export function fetchPackageServices(
   id: number
-): Promise<EntityModelPackageDto | undefined> {
+): Promise<validatedData<EntityModelPackageDto>> {
   if (!isAuthorized('GET', 'packages')) {
     return new Promise(() => {})
   }
-  const packagesApi = ApiV2PackageControllerApiFactory(
-    getConfiguration()
-  )
-  return openApiRequest<ResponseDtoEntityModelPackageDto>(
-    packagesApi.getPackageById,
+  return openApiRequest<EntityModelPackageDto>(
+    ApiV2PackageControllerApiFactory().getPackageById,
     [id]
-  ).then(
-    (res) => res.data.data,
-    (msg) => {
-      notify({ text: msg, type: 'error' })
-      return {}
-    }
   )
 }
 
 export function updateRPackage(
   oldPackage: EntityModelPackageDto,
   newPackage: EntityModelPackageDto
-): Promise<boolean> {
+): Promise<validatedData<EntityModelPackageDto>> {
   if (!isAuthorized('PATCH', 'package')) {
     return new Promise(() => false)
   }
-  const packagesApi = RPackageControllerApiFactory(
-    getConfiguration()
-  )
   const patch = createPatch(oldPackage, newPackage)
 
-  return openApiRequest<ResponseDtoEntityModelPackageDto>(
-    packagesApi.updatePackage,
+  return openApiRequest<EntityModelPackageDto>(
+    RPackageControllerApiFactory().updatePackage,
     [patch, oldPackage.id]
-  ).then(
-    () => true,
-    (msg) => {
-      notify({ text: msg, type: 'error' })
-      return false
-    }
   )
 }
 

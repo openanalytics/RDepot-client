@@ -216,8 +216,7 @@ async function acceptSubmission() {
   if (props.submission) {
     await submissionStore.updateSubmission(
       props.submission,
-      { state: EntityModelSubmissionDtoStateEnum.ACCEPTED },
-      i18n.t('notifications.acceptSubmission')
+      { state: EntityModelSubmissionDtoStateEnum.ACCEPTED }
     )
   }
 
@@ -231,8 +230,7 @@ async function cancelSubmission() {
       props.submission,
       {
         state: EntityModelSubmissionDtoStateEnum.CANCELLED
-      },
-      i18n.t('notifications.successCancelSubmission')
+      }
     )
   }
   disabled.value = false
@@ -243,8 +241,7 @@ async function rejectSubmission() {
   if (props.submission) {
     await submissionStore.updateSubmission(
       props.submission,
-      { state: EntityModelSubmissionDtoStateEnum.REJECTED },
-      i18n.t('notifications.successRejectSubmission')
+      { state: EntityModelSubmissionDtoStateEnum.REJECTED }
     )
   }
   disabled.value = false
