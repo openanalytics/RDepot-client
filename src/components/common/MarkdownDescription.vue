@@ -22,8 +22,8 @@
 
 <template>
   <div
-    v-dompurify-html="md_description"
-    class="text my-5"
+    v-dompurify-html="mdDescription"
+    :class="['text my-5', short ? ' short' : '']"
   ></div>
 </template>
 
@@ -31,24 +31,24 @@
 import { marked } from 'marked'
 import { useUtilities } from '@/composable/utilities'
 import { computed } from 'vue'
-const props = defineProps({
-  description: {
-    type: String,
-    required: true
-  },
-  short_version: {
-    type: Boolean,
-    default: false
-  }
-})
+import router from '@/router'
 
-const { short_renderer, renderer } = useUtilities()
+const props = defineProps<{
+  description: string
+  packageId?: number
+}>()
 
+const { renderer } = useUtilities()
+
+const short = computed(() => props.packageId !== undefined)
+
+// Reset marked settings to use defaults
+marked.use(marked.getDefaults())
 marked.use({
-  renderer: props.short_version ? short_renderer : renderer
+  renderer: renderer
 })
 
-const md_description = computed(() => {
+const mdDescription = computed(() => {
   return marked.parse(
     props.description.replaceAll('\\n', '\n') || '',
     { breaks: true, gfm: true }
@@ -56,7 +56,7 @@ const md_description = computed(() => {
 })
 </script>
 
-<style lang="scss">
+<style local lang="scss">
 $code_color: rgba(var(--v-theme-code));
 
 code {

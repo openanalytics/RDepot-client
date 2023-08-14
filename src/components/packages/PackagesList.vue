@@ -32,19 +32,9 @@
       <PackageRow :packageBag="slotProps.resource" />
     </template>
     <template #expansion-text="slotProps">
-      <template
-        v-if="'R' == getTechnology(slotProps.resource)"
-      >
-        {{ getDescription(slotProps.resource) }}
-      </template>
-      <template
-        v-if="'Python' == getTechnology(slotProps.resource)"
-      >
-        <MarkdownDescription
-          :description="getDescription(slotProps.resource)"
-          short_version
-        ></MarkdownDescription>
-      </template>
+      <PackageDetails
+        :package="(slotProps.resource as EntityModelPackageDto)"
+      />
     </template>
   </ResourcesList>
 </template>
@@ -54,26 +44,13 @@ import { usePackagesStore } from '@/store/packages'
 import PackageRow from '@/components/packages/PackageRow.vue'
 import ResourcesList from '@/components/common/resources/ResourcesList.vue'
 import { onBeforeMount } from 'vue'
-import MarkdownDescription from '../common/MarkdownDescription.vue'
+import PackageDetails from '@/views/packages/PackageDetails.vue'
+import { EntityModelPackageDto } from '@/openapi'
 
 const packages_store = usePackagesStore()
 
 function updateData(): void {
   packages_store.fetchPackages()
-}
-
-function getDescription(item: any): string {
-  if (item.hasOwnProperty('description')) {
-    return item['description']
-  }
-  return ''
-}
-
-function getTechnology(item: any): string {
-  if (item.hasOwnProperty('technology')) {
-    return item['technology']
-  }
-  return ''
 }
 
 onBeforeMount(() => {

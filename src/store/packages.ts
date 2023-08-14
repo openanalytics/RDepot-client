@@ -117,25 +117,11 @@ export const usePackagesStore = defineStore(
           )
         }
       },
-      async fetchRPackageFields() {
-        if (this.package?.id) {
-          this.package = {
-            ...this.package,
-            ...(await fetchRPackageServices(
-              this.package.id
-            ))
-          }
-        }
+      async fetchRPackage(id: number) {
+        this.package = await fetchRPackageServices(id)
       },
-      async fetchPythonPackageFields() {
-        if (this.package?.id) {
-          this.package = {
-            ...this.package,
-            ...(await fetchPythonPackageServices(
-              this.package.id
-            ))
-          }
-        }
+      async fetchPythonPackage(id: number) {
+        this.package = await fetchPythonPackageServices(id)
       },
       async activatePackage(
         newPackage: EntityModelPackageDto

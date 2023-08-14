@@ -21,18 +21,29 @@
 -->
 
 <template>
-  <RPackageDetails
-    v-if="
-      package_store.package?.technology ===
-      Technologies.enum.R
-    "
-  />
-  <PythonPackageDetails
-    v-if="
-      package_store.package?.technology ===
-      Technologies.enum.Python
-    "
-  />
+  <div v-show="!loading">
+    <component
+      :is="
+        packageBag?.technology === Technologies.enum.R
+          ? RPackageDetails
+          : PythonPackageDetails
+      "
+      :class="{ short: package }"
+      @is-loaded="isLoaded"
+      :id="packageBag?.id || 0"
+    />
+    <div class="center" v-if="package">
+      <v-divider :thickness="3"></v-divider>
+      <v-btn
+        ref="button"
+        color="oablue"
+        class="button"
+        @click="goToDetailsPage(packageBag || {})"
+      >
+        {{ $t('common.details') }}</v-btn
+      >
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -40,13 +51,61 @@ import RPackageDetails from '@/components/packages/RPackageDetails.vue'
 import PythonPackageDetails from '@/components/packages/PythonPackageDetails.vue'
 import { usePackagesStore } from '@/store/packages'
 import { Technologies } from '@/enum/Technologies'
-import { onBeforeMount } from 'vue'
 import { useRoute } from 'vue-router'
+import { EntityModelPackageDto } from '@/openapi'
+import { onBeforeMount, computed, ref } from 'vue'
+import router from '@/router'
 
 const package_store = usePackagesStore()
 const route = useRoute()
 
-onBeforeMount(async () => {
-  await package_store.fetchPackage(Number(route.params.id))
+const props = defineProps<{
+  package?: EntityModelPackageDto
+}>()
+
+const packageBag = computed(
+  () => props.package || package_store.package
+)
+const loading = ref(true)
+
+function isLoaded() {
+  loading.value = false
+}
+
+function goToDetailsPage({ id }: EntityModelPackageDto) {
+  router.push({
+    name: 'packageDetails',
+    params: {
+      id: id
+    }
+  })
+}
+
+onBeforeMount(() => {
+  if (props.package) {
+    package_store.package = props.package
+  } else {
+    package_store.fetchPackage(Number(route.params.id))
+  }
 })
 </script>
+
+<style scoped lang="scss">
+.center {
+  text-align: center;
+}
+
+.button {
+  margin-top: 15px;
+}
+
+.short {
+  max-height: 250px;
+  overflow: hidden;
+  mask: linear-gradient(
+    to top,
+    rgba(255, 0, 0, 0),
+    rgb(255, 0, 0, 1) 50%
+  );
+}
+</style>

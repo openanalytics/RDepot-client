@@ -48,7 +48,7 @@ export function fetchPackagesServices(
   filtration?: PackagesFiltration,
   page?: number,
   pageSize?: number,
-  showProgress = true
+  showProgress = false
 ): Promise<validatedData<EntityModelPackageDto>> {
   if (!isAuthorized('GET', 'packages')) {
     return new Promise(() =>
@@ -85,7 +85,8 @@ export function fetchPackagesServices(
 }
 
 export function fetchPackageServices(
-  id: number
+  id: number,
+  showProgress = false
 ): Promise<EntityModelPackageDto> {
   if (!isAuthorized('GET', 'packages')) {
     return new Promise(() => {})
@@ -95,7 +96,8 @@ export function fetchPackageServices(
   )
   return openApiRequest<ResponseDtoEntityModelPackageDto>(
     packages_api.getPackageById,
-    [id]
+    [id],
+    showProgress
   ).then(
     (res) => res.data.data || {},
     (msg) => {
@@ -106,7 +108,8 @@ export function fetchPackageServices(
 }
 
 export function fetchRPackageServices(
-  id: number
+  id: number,
+  showProgress = false
 ): Promise<EntityModelRPackageDto> {
   if (!isAuthorized('GET', 'packages')) {
     return new Promise(() => {})
@@ -116,7 +119,8 @@ export function fetchRPackageServices(
   )
   return openApiRequest<ResponseDtoEntityModelRPackageDto>(
     packages_api.getRPackageById,
-    [id]
+    [id],
+    showProgress
   ).then(
     (res) => res.data.data || {},
     (msg) => {
@@ -127,7 +131,8 @@ export function fetchRPackageServices(
 }
 
 export function fetchPythonPackageServices(
-  id: number
+  id: number,
+  showProgress = false
 ): Promise<EntityModelPythonPackageDto> {
   if (!isAuthorized('GET', 'packages')) {
     return new Promise(() => {})
@@ -137,7 +142,8 @@ export function fetchPythonPackageServices(
   )
   return openApiRequest<ResponseDtoEntityModelPythonPackageDto>(
     packages_api.getAllPythonPackageById,
-    [id]
+    [id],
+    showProgress
   ).then(
     (res) => res.data.data || {},
     (msg) => {

@@ -148,41 +148,51 @@
         </div>
       </template>
     </div>
-    <div class="subtitle my-5">
-      {{ $t('packages.classifiers') }}
-    </div>
-    <div class="d-flex" style="flex-direction: column">
-      <ul>
-        <li
-          class="classifier-key"
-          v-for="key in Object.keys(categories)"
-        >
-          <strong>{{ key }}</strong>
-          <ul>
-            <li
-              class="classifier-value"
-              v-for="value in categories[key]"
-            >
-              {{ value }}
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </div>
+    <template v-if="packageBag.classifiers">
+      <div class="subtitle my-5">
+        {{ $t('packages.classifiers') }}
+      </div>
+      <div class="d-flex" style="flex-direction: column">
+        <ul>
+          <li
+            class="classifier-key"
+            v-for="key in Object.keys(categories)"
+          >
+            <strong>{{ key }}</strong>
+            <ul>
+              <li
+                class="classifier-value"
+                v-for="value in categories[key]"
+              >
+                {{ value }}
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </template>
   </div>
 </template>
 
 <script setup lang="ts">
 import { EntityModelPythonPackageDto } from '@/openapi'
-import { computed, ref } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import { usePackagesStore } from '@/store/packages'
 import MarkdownDescription from '@/components/common/MarkdownDescription.vue'
 
+const props = defineProps<{ id: number }>()
+
+const emit = defineEmits(['isLoaded'])
+
 const package_store = usePackagesStore()
 
-package_store.fetchPythonPackageFields()
+onMounted(async () => {
+  package_store
+    .fetchPythonPackage(props.id)
+    .then(() => emit('isLoaded'))
+})
 
-const packageBag = computed<EntityModelPythonPackageDto>(
+const packageBag = computed(
   () => package_store.package as EntityModelPythonPackageDto
 )
 

@@ -188,10 +188,21 @@ import { usePackagesStore } from '@/store/packages'
 import { useClipboard } from '@vueuse/core'
 import { i18n } from '@/plugins/i18n'
 import { notify } from '@kyvg/vue3-notification'
+import { onMounted } from 'vue'
+
+const props = defineProps<{ id: number }>()
+
+const emit = defineEmits(['isLoaded'])
+
 const { copy } = useClipboard()
+
 const package_store = usePackagesStore()
 
-package_store.fetchRPackageFields()
+onMounted(() => {
+  package_store
+    .fetchRPackage(props.id)
+    .then(() => emit('isLoaded'))
+})
 
 const packageBag = computed<EntityModelRPackageDto>(
   () => package_store.package as EntityModelRPackageDto
@@ -221,6 +232,7 @@ function copyContent() {
 const vignettes = computed<ResponseDtoListVignette>(() => {
   return package_store.vignettes
 })
+
 async function getManual() {
   await package_store.downloadManual()
 }
