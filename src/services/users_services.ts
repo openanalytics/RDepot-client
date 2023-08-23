@@ -20,7 +20,6 @@
  *
  */
 
-import { LoginApiData } from '@/models/users/Login'
 import {
   ApiV2UserControllerApiFactory,
   EntityModelUserDto,
@@ -28,7 +27,6 @@ import {
   ResponseDtoPagedModelEntityModelUserDto,
   RoleDto
 } from '@/openapi'
-import api from '@/plugins/axios'
 import { notify } from '@kyvg/vue3-notification'
 import { getConfiguration } from './api_config'
 import {
@@ -42,32 +40,32 @@ import { createPatch } from 'rfc6902'
 import { i18n } from '@/plugins/i18n'
 import { AxiosResponse } from 'axios'
 
-export async function loginApi(data: LoginApiData) {
-  try {
-    const credentials = {
-      password: data.password,
-      username: data.username
-    }
-    const response = await api.post(
-      '/api/auth/login',
-      credentials
-    )
+// export async function loginApi(data: LoginApiData) {
+//   try {
+//     const credentials = {
+//       password: data.password,
+//       username: data.username
+//     }
+//     const response = await api.post(
+//       '/api/auth/login',
+//       credentials
+//     )
 
-    if (response.status == 200) {
-      notify({
-        text: 'successfully logged in',
-        type: 'success'
-      })
-    }
-    return response
-  } catch (error) {
-    notify({
-      text: 'Wrong credential data, please try again',
-      type: 'warn'
-    })
-    return error
-  }
-}
+//     if (response.status == 200) {
+//       notify({
+//         text: 'successfully logged in',
+//         type: 'success'
+//       })
+//     }
+//     return response
+//   } catch (error) {
+//     notify({
+//       text: 'Wrong credential data, please try again',
+//       type: 'warn'
+//     })
+//     return error
+//   }
+// }
 
 export async function fetchUsers(
   page?: number,

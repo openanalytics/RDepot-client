@@ -26,7 +26,6 @@ import { LoginType } from '@/enum/LoginType'
 import {
   fetchRoles,
   fetchUsers,
-  loginApi,
   updateUser
 } from '@/services/users_services'
 import { EntityModelUserDto, RoleDto } from '@/openapi'
@@ -57,7 +56,7 @@ export const useUserStore = defineStore('user_store', {
     async login(payload: LoginApiData) {
       // let response = await login(data)
       // this.userToken = response.userToken
-      loginApi(payload)
+      // loginApi(payload)
     },
     chooseLoginType(payload: LoginType) {
       this.loginType = payload

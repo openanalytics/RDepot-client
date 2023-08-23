@@ -23,7 +23,8 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "src/locales/pl.json",
-    "src/locales/en.json"
+    "src/locales/en.json",
+    "src/utils/env.js"
   ],
   "references": [{ "path": "./tsconfig.node.json" }],
   "exclude": ["node_modules"]

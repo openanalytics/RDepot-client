@@ -83,9 +83,38 @@
   <v-btn @click="getToken()">Get token</v-btn>
   <v-btn @click="onLogout()" class="mx-5">Logout</v-btn>
   <br />
+  VITE_KEYCLOAK_REALM_URI:
+  <v-btn>
+    {{ getEnv('VITE_KEYCLOAK_REALM_URI') }}
+  </v-btn>
+  <br />
+  VITE_KEYCLOAK_CLIENT_ID:
+  <v-btn>
+    {{ getEnv('VITE_KEYCLOAK_CLIENT_ID') }}
+  </v-btn>
+  <br />
+  VITE_KEYCLOAK_REDIRECT_URI:
+  <v-btn>
+    {{ getEnv('VITE_KEYCLOAK_REDIRECT_URI') }}
+  </v-btn>
+  <br />
+  VITE_KEYCLOAK_POST_LOGOUT_REDIRECT_URI:
+  <v-btn>
+    {{ getEnv('VITE_KEYCLOAK_POST_LOGOUT_REDIRECT_URI') }}
+  </v-btn>
+  <br />
+  VITE_KEYCLOAK_REPOSNSE_TYPE:
+  <v-btn>
+    {{ getEnv('VITE_KEYCLOAK_REPOSNSE_TYPE') }}
+  </v-btn>
+  <br />
+  VITE_KEYCLOAK_SCOPE: {{ getEnv('VITE_KEYCLOAK_SCOPE') }}
+  <v-btn> </v-btn>
+  <br />
 </template>
 
 <script setup lang="ts">
+import getEnv from '@/utils/env'
 import { useUserStore } from '@/store/users'
 import { useI18n } from 'vue-i18n'
 import { Form, useForm } from 'vee-validate'
