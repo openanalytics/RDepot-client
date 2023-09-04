@@ -39,7 +39,7 @@ import PackageMaintainerRow from '@/components/packageMaintainers/PackageMaintai
 import packageMaintainers from '@/__tests__/config/mockData/packageMaintainers.json'
 
 let wrapper: any
-let package_maintainers_store: any
+let packageMaintainersStore: any
 const globalConfig = {
   mocks: mocks,
   plugins: plugins
@@ -48,7 +48,7 @@ const globalConfig = {
 beforeAll(() => {
   global.ResizeObserver = ResizeObserver
   setActivePinia(createPinia())
-  package_maintainers_store = usePackageMaintainersStore()
+  packageMaintainersStore = usePackageMaintainersStore()
 })
 
 beforeEach(async () => {
@@ -56,7 +56,7 @@ beforeEach(async () => {
     global: globalConfig
   })
 
-  package_maintainers_store.maintainers =
+  packageMaintainersStore.maintainers =
     packageMaintainers.data.content
 })
 

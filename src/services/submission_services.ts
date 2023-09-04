@@ -36,6 +36,8 @@ import { createPatch } from 'rfc6902'
 import { useSortStore } from '@/store/sort'
 import { isAuthorized } from '@/plugins/casl'
 import { Technologies } from '@/enum/Technologies'
+import { AxiosResponse } from 'axios'
+import { getConfiguration } from './api_config'
 
 export function fetchSubmissions(
   filtration: SubmissionsFiltration,
@@ -88,23 +90,39 @@ export function updateSubmission(
 export function addSubmission(
   repository: string,
   technology: string,
-  file: File
-): Promise<validatedData<EntityModelSubmissionDto>> {
+  file: File,
+  generateManual?: boolean
+): Promise<string[]> {
   if (!isAuthorized('POST', 'submissions')) {
     return new Promise(() => false)
   }
+
+  let submissionApi
+
   if (technology === Technologies.enum.R) {
-    return openApiRequest<EntityModelSubmissionDto>(
-      RSubmissionControllerApiFactory().submitRPacakgeForm,
-      [repository, file]
-    )
+    submissionApi = RSubmissionControllerApiFactory(
+      getConfiguration()
+    ).submitRPacakgeForm
   } else if (technology === Technologies.enum.Python) {
-    return openApiRequest<EntityModelSubmissionDto>(
-      PythonSubmissionControllerApiFactory()
-        .submitPythonPacakgeForm,
-      [repository, file]
-    )
+    submissionApi = PythonSubmissionControllerApiFactory(
+      getConfiguration()
+    ).submitPythonPacakgeForm
   } else {
     return new Promise(() => false)
   }
+
+  return openApiRequest<
+    AxiosResponse<EntityModelSubmissionDto>
+  >(
+    submissionApi,
+    [repository, file, generateManual, false],
+    false
+  ).then(
+    (submission) => {
+      return ['success', submission[0].data.packageBag?.id]
+    },
+    (msg) => {
+      return msg.response.data.data
+    }
+  )
 }

@@ -40,7 +40,7 @@ interface State {
   roles: RoleDto[]
 }
 
-export const useUserStore = defineStore('user_store', {
+export const useUserStore = defineStore('userStore', {
   state: (): State => {
     return {
       userToken: '',

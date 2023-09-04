@@ -75,11 +75,11 @@
 
     <v-col
       v-if="
-        logged_user_store.can(
+        loggedUserStore.can(
           'PATCH',
           'repositoryMaintainers'
         ) ||
-        logged_user_store.can(
+        loggedUserStore.can(
           'DELETE',
           'repositoryMaintainers'
         )
@@ -120,7 +120,7 @@
 
         <delete-icon
           v-if="
-            logged_user_store.can(
+            loggedUserStore.can(
               'PATCH',
               'repositoryMaintainers'
             )
@@ -154,25 +154,25 @@ const props = defineProps({
     | undefined
 })
 
-const common_store = useCommonStore()
-const logged_user_store = useLoggedUserStore()
-const maintainers_store = useRepositoryMaintainersStore()
+const commonStore = useCommonStore()
+const loggedUserStore = useLoggedUserStore()
+const maintainersStore = useRepositoryMaintainersStore()
 
 function edit() {
   chooseMaintainer()
-  common_store.setOverlayText(
+  commonStore.setOverlayText(
     i18n.t('maintainers.edit', {
       maintainerName: props.repositoryMaintainer?.user?.id
     })
   )
-  common_store.setOverlayModel(true)
-  common_store.setOverlayOpacity(0.8)
-  common_store.setOverlayComponent(OverlayEnum.enum.Edit)
+  commonStore.setOverlayModel(true)
+  commonStore.setOverlayOpacity(0.8)
+  commonStore.setOverlayComponent(OverlayEnum.enum.Edit)
 }
 
 function chooseMaintainer() {
   if (props.repositoryMaintainer) {
-    maintainers_store.setChosenMaintainer(
+    maintainersStore.setChosenMaintainer(
       props.repositoryMaintainer
     )
   }

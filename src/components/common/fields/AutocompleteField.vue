@@ -23,9 +23,9 @@
 <template>
   <v-autocomplete
     :label="label"
-    :items="select_store.items"
+    :items="selectStore.items"
     :custom-filter="customFiltrate"
-    :loading="select_store.pending"
+    :loading="selectStore.pending"
     :menu-props="{
       location: 'bottom center',
       height: '200px',
@@ -39,7 +39,7 @@
         justify="center"
         align="center"
       >
-        <span v-show="!select_store.ifAllFetched">...</span>
+        <span v-show="!selectStore.ifAllFetched">...</span>
       </div>
     </template>
   </v-autocomplete>
@@ -64,8 +64,8 @@ const emits = defineEmits<{
   (event: 'filtrate', value: string | undefined): void
 }>()
 
-const select_store = useSelectStore(props.storeId)
-const sort_store = useSortStore()
+const selectStore = useSelectStore(props.storeId)
+const sortStore = useSortStore()
 
 const queryTerm = ref<string | undefined>('')
 
@@ -85,29 +85,29 @@ function customFiltrate(
   itemText: string
 ) {
   return (
-    select_store.ifAllFetched &&
+    selectStore.ifAllFetched &&
     (itemText.includes(queryText) || false)
   )
 }
 
 async function loadItems() {
   if (
-    select_store.paginationData.totalNumber < 0 ||
-    !select_store.ifAllFetched
+    selectStore.paginationData.totalNumber < 0 ||
+    !selectStore.ifAllFetched
   ) {
-    select_store.pending = true
+    selectStore.pending = true
     await emits('loadItems')
-    select_store.pending = false
+    selectStore.pending = false
   }
 }
 
 watchDebounced(
   queryTerm,
   () => {
-    if (!select_store.ifAllFetched) {
+    if (!selectStore.ifAllFetched) {
       emits('filtrate', queryTerm.value)
-      select_store.resetItems()
-      select_store.resetPagination()
+      selectStore.resetItems()
+      selectStore.resetPagination()
       loadItems()
     }
   },
@@ -115,7 +115,7 @@ watchDebounced(
 )
 
 onMounted(async () => {
-  sort_store.reset()
+  sortStore.reset()
   await loadItems()
 })
 </script>

@@ -37,7 +37,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to) => {
-  const logged_user = useLoggedUserStore()
+  const loggedUserStore = useLoggedUserStore()
   const pagination = usePagination()
   const sort = useSortStore()
   pagination.resetPage()
@@ -45,7 +45,7 @@ router.beforeEach((to) => {
   document.title = to.meta.title
     ? (to.meta.title as string)
     : DEFAULT_TITLE
-  return logged_user.ability.can(
+  return loggedUserStore.ability.can(
     ...nameToActionAndSubject(to.name)
   )
     ? true

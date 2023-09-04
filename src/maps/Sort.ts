@@ -22,7 +22,7 @@
 
 import { i18n } from '@/plugins/i18n'
 
-export const sort_params: Map<string, string> = new Map<
+export const SORT_PARAMS: Map<string, string> = new Map<
   string,
   string
 >([

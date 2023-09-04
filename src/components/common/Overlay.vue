@@ -23,8 +23,8 @@
 <template>
   <v-overlay
     :absolute="absolute"
-    v-model="common_store.overlayModel"
-    :opacity="common_store.overlayOpacity"
+    v-model="commonStore.overlayModel"
+    :opacity="commonStore.overlayOpacity"
     @click:outside="closeModal"
     location-strategy="connected"
     scroll-strategy="none"
@@ -32,7 +32,7 @@
   >
     <slot name="props" :closeModal="closeModal">
       <QuestionCard
-        :text="common_store.overlayText"
+        :text="commonStore.overlayText"
         v-on:reset="reset"
         v-on:cancel="closeModal"
       />
@@ -47,7 +47,7 @@ import { useCommonStore } from '@/store/common'
 
 const emits = defineEmits(['action'])
 
-const common_store = useCommonStore()
+const commonStore = useCommonStore()
 
 const absolute = false
 
@@ -69,7 +69,7 @@ async function reset() {
 }
 
 function closeModal() {
-  common_store.setOverlayModel(false)
+  commonStore.setOverlayModel(false)
 }
 </script>
 

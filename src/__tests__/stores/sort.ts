@@ -30,28 +30,28 @@ describe('Sort Store', () => {
   })
 
   it('Starting values', () => {
-    const sort_store = useSortStore()
-    expect(sort_store.field).toEqual('name')
-    expect(sort_store.direction).toEqual('asc')
+    const sortStore = useSortStore()
+    expect(sortStore.field).toEqual('name')
+    expect(sortStore.direction).toEqual('asc')
   })
 
   it('Set new field', () => {
-    const sort_store = useSortStore()
-    sort_store.setField('user')
-    expect(sort_store.field).toEqual('user')
-    expect(sort_store.direction).toEqual('asc')
+    const sortStore = useSortStore()
+    sortStore.setField('user')
+    expect(sortStore.field).toEqual('user')
+    expect(sortStore.direction).toEqual('asc')
   })
 
   it('Set the same field', () => {
-    const sort_store = useSortStore()
-    sort_store.setField('name')
-    expect(sort_store.field).toEqual('name')
-    expect(sort_store.direction).toEqual('desc')
+    const sortStore = useSortStore()
+    sortStore.setField('name')
+    expect(sortStore.field).toEqual('name')
+    expect(sortStore.direction).toEqual('desc')
   })
 
   it('Reset store', () => {
-    const sort_store = useSortStore()
-    expect(sort_store.field).toEqual('name')
-    expect(sort_store.direction).toEqual('asc')
+    const sortStore = useSortStore()
+    expect(sortStore.field).toEqual('name')
+    expect(sortStore.direction).toEqual('asc')
   })
 })

@@ -23,8 +23,7 @@
 <template>
   <v-timeline
     v-if="
-      grouped_events != undefined &&
-      grouped_events.length > 0
+      groupedEvents != undefined && groupedEvents.length > 0
     "
     :side="smAndDown ? 'end' : undefined"
     ref="eventsTimeline"
@@ -34,7 +33,7 @@
     align="center"
   >
     <v-timeline-item
-      v-for="(item, i) in grouped_events"
+      v-for="(item, i) in groupedEvents"
       :key="i"
       :dot-color="getDotColor(item)"
       class="default"
@@ -61,7 +60,7 @@
     </v-timeline-item>
   </v-timeline>
   <NoEvents
-    v-else-if="!common_store.progressCircularActive"
+    v-else-if="!commonStore.progressCircularActive"
   />
 </template>
 
@@ -89,8 +88,8 @@ const { lgAndUp, mdAndUp, smAndUp, smAndDown } =
 const { isYearAndMonthDate, getMonthAndYear, getDate } =
   useDates()
 
-const common_store = useCommonStore()
-const events_store = useEventsStore()
+const commonStore = useCommonStore()
+const eventsStore = useEventsStore()
 const hiddenDays = ref<string[]>([])
 const hiddenMonths = ref<string[]>([])
 
@@ -146,47 +145,45 @@ function hideMonth(date: string) {
   }
 }
 
-const grouped_events = computed(function () {
+const groupedEvents = computed(function () {
   if (
-    events_store.events != undefined &&
-    events_store.events.length > 0
+    eventsStore.events != undefined &&
+    eventsStore.events.length > 0
   ) {
-    const local_events: any[] = []
-    const events_grouped_by_date = groupByDate(
-      events_store.events
+    const localEvents: any[] = []
+    const eventsGroupedByDate = groupByDate(
+      eventsStore.events
     )
 
-    var firstDate = events_grouped_by_date
-      .keys()
-      .next().value
+    var firstDate = eventsGroupedByDate.keys().next().value
     var dateTime = new Date(firstDate)
     var monthYear = getMonthAndYear(dateTime)
-    local_events.push(false)
-    local_events.push(monthYear)
-    local_events.push(null)
+    localEvents.push(false)
+    localEvents.push(monthYear)
+    localEvents.push(null)
 
-    events_grouped_by_date.forEach((events, date) => {
+    eventsGroupedByDate.forEach((events, date) => {
       if (monthYear != getMonthAndYear(new Date(date))) {
         monthYear = getMonthAndYear(new Date(date))
-        local_events.push(false)
-        local_events.push(monthYear)
-        local_events.push(false)
+        localEvents.push(false)
+        localEvents.push(monthYear)
+        localEvents.push(false)
       }
 
       if (hiddenMonths.value.indexOf(monthYear) == -1) {
-        local_events.push(false)
-        local_events.push(date)
-        local_events.push(false)
+        localEvents.push(false)
+        localEvents.push(date)
+        localEvents.push(false)
         if (hiddenDays.value.indexOf(date) == -1) {
           events.forEach(
             (event: EntityModelNewsfeedEventDto) => {
-              local_events.push(event)
+              localEvents.push(event)
             }
           )
         }
       }
     })
-    return local_events
+    return localEvents
   }
 })
 
@@ -216,14 +213,14 @@ async function loadMoreEvents() {
     element.getBoundingClientRect().bottom <
       window.innerHeight
   ) {
-    await events_store.fetchNextPageEvents()
+    await eventsStore.fetchNextPageEvents()
   }
 }
 
 var lastScrollTop = 0
 
 onMounted(async () => {
-  await events_store.fetchEvents()
+  await eventsStore.fetchEvents()
   nextTick(() => {
     window.addEventListener('scroll', () => {
       var st =

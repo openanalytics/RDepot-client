@@ -50,7 +50,7 @@ interface State {
 }
 
 export const useRepositoryMaintainersStore = defineStore(
-  'repository_maintainers_store',
+  'repositoryMaintainersStore',
   {
     state: (): State => {
       return {
@@ -68,7 +68,7 @@ export const useRepositoryMaintainersStore = defineStore(
         const [maintainers, pageData] =
           await fetchRepositoryMaintainersServices(
             this.filtration,
-            pagination.page,
+            pagination.fetchPage,
             pagination.pageSize
           )
         pagination.newPageWithoutRefresh(pageData.page)

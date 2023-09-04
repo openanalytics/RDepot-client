@@ -25,7 +25,8 @@ import {
   it,
   expect,
   beforeEach,
-  beforeAll
+  beforeAll,
+  vi
 } from 'vitest'
 
 import { mount } from '@vue/test-utils'
@@ -34,6 +35,8 @@ import { mocks } from '@/__tests__/config/mocks'
 import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import { createPinia, setActivePinia } from 'pinia'
 import StepSecondVue from '@/components/addSubmission/StepSecond.vue'
+import { useSubmissionStore } from '@/store/submission'
+import { nextTick } from 'process'
 
 let wrapper: any
 const globalConfig = {
@@ -74,14 +77,19 @@ describe('Add submission - second step', () => {
     expect(button.exists()).toBeTruthy()
   })
 
-  it('go next not allowed if repository is not chosen', async () => {
+  it('go next not allowed if packages list is empty', async () => {
     const button = wrapper.find('#next-button')
     expect(button.exists()).toBeTruthy()
     await button.trigger('click')
     expect(wrapper.emitted().next).toBeFalsy()
   })
 
-  it('go next allowed if reposiotry is choosen', async () => {
+  it('go next allowed if packages list is not empty', async () => {
+    const submissionsStore = useSubmissionStore()
+    const spy = vi.spyOn(
+      submissionsStore,
+      'addSubmissionRequests'
+    )
     const files = [
       {
         name: 'A3_1.0.0.tar.gz',
@@ -91,10 +99,108 @@ describe('Add submission - second step', () => {
     const button = wrapper.find('#next-button')
     wrapper.vm.valid = true
     wrapper.vm.files = files
-    wrapper.vm.files_local = files
+    wrapper.vm.filesLocal = files
     expect(button.isVisible()).toBeTruthy()
+    await nextTick(() => {})
     await button.trigger('click')
+    expect(spy).toHaveBeenCalledTimes(1)
     expect(wrapper.emitted().next).toBeTruthy()
     expect(wrapper.emitted().next[0]).toEqual([3])
+  })
+
+  it('generate manual exists if package is not Python', async () => {
+    const submissionsStore = useSubmissionStore()
+    const files = [
+      {
+        name: 'A3_1.0.0.tar.gz',
+        type: 'application/gzip'
+      } as File
+    ]
+    wrapper.vm.valid = true
+    wrapper.vm.files = files
+    wrapper.vm.filesLocal = files
+
+    submissionsStore.repository = {
+      technology: 'R'
+    }
+    await nextTick(() => {})
+
+    const checkboxMarked = wrapper.find(
+      '.mdi-checkbox-marked-outline'
+    )
+    const checkboxUnmarked = wrapper.find(
+      '.mdi-checkbox-blank-outline'
+    )
+
+    expect(checkboxMarked.isVisible()).toBeTruthy()
+    expect(checkboxUnmarked.exists()).toBeFalsy()
+    console.log(wrapper.text())
+    expect(wrapper.text()).toContain('generate manual')
+  })
+
+  it('generate manual change on click', async () => {
+    const submissionsStore = useSubmissionStore()
+    const files = [
+      {
+        name: 'A3_1.0.0.tar.gz',
+        type: 'application/gzip'
+      } as File
+    ]
+    wrapper.vm.valid = true
+    wrapper.vm.files = files
+    wrapper.vm.filesLocal = files
+
+    submissionsStore.repository = {
+      technology: 'R'
+    }
+
+    await nextTick(() => {})
+    let checkboxMarked = wrapper.find(
+      '.mdi-checkbox-marked-outline'
+    )
+    expect(checkboxMarked.isVisible()).toBeTruthy()
+    let checkboxUnmarked = wrapper.find(
+      '.mdi-checkbox-blank-outline'
+    )
+    expect(checkboxUnmarked.exists()).toBeFalsy()
+
+    await checkboxMarked.trigger('click')
+    checkboxMarked = wrapper.find(
+      '.mdi-checkbox-marked-outline'
+    )
+    checkboxUnmarked = wrapper.find(
+      '.mdi-checkbox-blank-outline'
+    )
+    expect(checkboxUnmarked.isVisible()).toBeTruthy()
+    expect(checkboxMarked.exists()).toBeFalsy()
+  })
+
+  it('generate manual exists if package is not Python', async () => {
+    const submissionsStore = useSubmissionStore()
+    const files = [
+      {
+        name: 'A3_1.0.0.tar.gz',
+        type: 'application/gzip'
+      } as File
+    ]
+    wrapper.vm.valid = true
+    wrapper.vm.files = files
+    wrapper.vm.filesLocal = files
+
+    submissionsStore.repository = {
+      technology: 'Python'
+    }
+
+    await nextTick(() => {})
+    console.log(wrapper.html())
+    const checkboxMarked = wrapper.find(
+      '.mdi-checkbox-marked-outline'
+    )
+    expect(checkboxMarked.exists()).toBeFalsy()
+    const checkboxUnmarked = wrapper.find(
+      '.mdi-checkbox-blank-outline'
+    )
+    expect(checkboxUnmarked.exists()).toBeFalsy()
+    expect(wrapper.text()).not.toContain('generate manual')
   })
 })

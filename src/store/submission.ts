@@ -42,24 +42,39 @@ import { submissionsFiltrationLabels } from '@/maps/Filtration'
 import { validatedData } from '@/services/open_api_access'
 import { usePagination } from '@/store/pagination'
 
+export type PackagePromise = {
+  promise: Promise<string[]>
+  packageBag: File
+  state: string
+  message: string[]
+}
+
 interface State {
   packages: File[]
+  generateManual: File[]
+  promises: PackagePromise[]
   repository?: EntityModelRepositoryDto
   submissions: EntityModelSubmissionDto[]
   filtration: SubmissionsFiltration
+  resolved: boolean
+  stepperKey: number
 }
 
 const { deepCopy } = useUtilities()
 
 export const useSubmissionStore = defineStore(
-  'submission_store',
+  'submissionStore',
   {
     state: (): State => {
       return {
         packages: [],
+        generateManual: [],
+        promises: [],
         submissions: [],
         repository: undefined,
-        filtration: defaultValues(SubmissionsFiltration)
+        filtration: defaultValues(SubmissionsFiltration),
+        resolved: false,
+        stepperKey: 0
       }
     },
     actions: {
@@ -81,7 +96,7 @@ export const useSubmissionStore = defineStore(
         const pagination = usePagination()
         const logged_user_store = useLoggedUserStore()
         const pageData = await this.fetchData(
-          pagination.page,
+          pagination.fetchPage,
           pagination.pageSize,
           this.filtration,
           logged_user_store.me.id
@@ -122,6 +137,21 @@ export const useSubmissionStore = defineStore(
         ).then(async () => {
           await this.fetchSubmissions()
         })
+      },
+      addGenerateManualOptionForPackage(file: File) {
+        this.generateManual.push(file)
+      },
+      removeGenerateManualOptionForPackage(file: File) {
+        this.generateManual = this.generateManual.filter(
+          (item) => item !== file
+        )
+      },
+      getGenerateManualForPackage(file: File) {
+        if (this.repository?.technology == 'Python')
+          return true
+        return !!this.generateManual.find(
+          (item) => item == file
+        )
       },
       setPackages(payload: File[]) {
         this.packages = payload
@@ -171,28 +201,48 @@ export const useSubmissionStore = defineStore(
           type: 'success'
         })
       },
+      updateStepperKey() {
+        this.stepperKey += 1
+        if (this.stepperKey > 100) {
+          this.stepperKey = 0
+        }
+      },
       async addSubmissionRequests() {
-        const promises: Promise<
-          validatedData<EntityModelSubmissionDto>
-        >[] = this.packages.map((packageBag) =>
-          addSubmission(
-            this.repository?.name!,
-            this.repository?.technology!,
-            packageBag
-          )
-        )
-        await Promise.all(promises)
+        this.promises = this.packages.map((packageBag) => {
+          return {
+            promise: addSubmission(
+              this.repository?.name!,
+              this.repository?.technology!,
+              packageBag,
+              !this.getGenerateManualForPackage(packageBag)
+            ),
+            packageBag: packageBag,
+            state: 'pending',
+            message: []
+          }
+        })
         let fulfilled = 0
-        promises.forEach(async (promise) => {
-          const isFulfilled = await promise
-          if (fulfilled == 0 && isFulfilled) {
+        this.promises.forEach(async (promise) => {
+          const isFulfilled = await promise.promise
+          promise.message = isFulfilled
+          if (
+            fulfilled == 0 &&
+            isFulfilled[0] == 'success'
+          ) {
+            promise.state = 'success'
             notify({
               type: 'success',
               text: i18n.t(
                 'notifications.successCreateSubmissiom'
               )
             })
-            fulfilled += 1
+          } else if (isFulfilled[0] == 'success') {
+            promise.state = 'success'
+          } else {
+            promise.state = 'error'
+          }
+          if (++fulfilled == this.promises.length) {
+            this.resolved = true
           }
         })
       },

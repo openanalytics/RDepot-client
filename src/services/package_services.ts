@@ -86,3 +86,13 @@ export function updateRPackage(
     [patch, oldPackage.id]
   )
 }
+
+export function downloadReferenceManual(id: string) {
+  const packagesApi = RPackageControllerApiFactory(
+    getConfiguration()
+  )
+  return openApiRequest<Promise<boolean>>(
+    packagesApi.downloadReferenceManual,
+    [id]
+  )
+}

@@ -39,6 +39,7 @@ import { setupServer } from 'msw/node'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
 import { usePagination } from '@/store/pagination'
 import { Technologies } from '@/enum/Technologies'
+import { i18n } from '@/plugins/i18n'
 
 const defaultFiltration = {
   deleted: false,
@@ -105,182 +106,177 @@ describe('Repository Maintainers Store', () => {
   })
 
   it('Starting values', () => {
-    const repository_maintainers_store =
+    const repositoryMaintainersStore =
       useRepositoryMaintainersStore()
     expect(
-      repository_maintainers_store.maintainers
+      repositoryMaintainersStore.maintainers
     ).toStrictEqual([])
     expect(
-      repository_maintainers_store.filtration
+      repositoryMaintainersStore.filtration
     ).toStrictEqual(defaultFiltration)
     expect(
-      repository_maintainers_store.repositories
+      repositoryMaintainersStore.repositories
     ).toStrictEqual([])
     expect(
-      repository_maintainers_store.repositories
+      repositoryMaintainersStore.repositories
     ).toStrictEqual([])
     expect(
-      repository_maintainers_store.chosenMaintainer
+      repositoryMaintainersStore.chosenMaintainer
     ).toStrictEqual({})
   })
 
   it('Edit filtration', () => {
-    const repository_maintainers_store =
+    const repositoryMaintainersStore =
       useRepositoryMaintainersStore()
-    const pagination = usePagination()
+    const paginationStore = usePagination()
     const spy = vi.spyOn(
-      repository_maintainers_store,
+      repositoryMaintainersStore,
       'fetchMaintainers'
     )
-    pagination.page = 2
+    paginationStore.page = 2
 
     expect(spy).toHaveBeenCalledTimes(0)
-    repository_maintainers_store.setFiltration(
+    repositoryMaintainersStore.setFiltration(
       randomFiltration
     )
 
-    expect(pagination.page).toBe(1)
-    expect(pagination.fetchPage).toBe(0)
+    expect(paginationStore.page).toBe(1)
     expect(
-      repository_maintainers_store.filtration
+      repositoryMaintainersStore.filtration
     ).toStrictEqual(randomFiltration)
     expect(spy).toHaveBeenCalledTimes(1)
   })
 
   it('Clear filtration', () => {
-    const repository_maintainers_store =
+    const repositoryMaintainersStore =
       useRepositoryMaintainersStore()
-    const pagination = usePagination()
-    pagination.page = 2
+    const paginationStore = usePagination()
+    paginationStore.page = 2
 
-    repository_maintainers_store.filtration =
-      randomFiltration
-    repository_maintainers_store.clearFiltration()
-    expect(pagination.page).toBe(1)
-    expect(pagination.fetchPage).toBe(0)
+    repositoryMaintainersStore.filtration = randomFiltration
+    repositoryMaintainersStore.clearFiltration()
+    expect(paginationStore.page).toBe(1)
     expect(
-      repository_maintainers_store.filtration
+      repositoryMaintainersStore.filtration
     ).toStrictEqual(defaultFiltration)
   })
 
   it('Clear filtration and fetch', async () => {
-    const repository_maintainers_store =
+    const repositoryMaintainersStore =
       useRepositoryMaintainersStore()
-    const pagination = usePagination()
+    const paginationStore = usePagination()
     const spy = vi.spyOn(
-      repository_maintainers_store,
+      repositoryMaintainersStore,
       'fetchMaintainers'
     )
 
-    repository_maintainers_store.filtration =
-      randomFiltration
-    pagination.page = 2
+    repositoryMaintainersStore.filtration = randomFiltration
+    paginationStore.page = 2
 
-    await repository_maintainers_store.clearFiltrationAndFetch()
+    await repositoryMaintainersStore.clearFiltrationAndFetch()
 
-    expect(pagination.page).toBe(1)
-    expect(pagination.fetchPage).toBe(0)
+    expect(paginationStore.page).toBe(1)
     expect(
-      repository_maintainers_store.filtration
+      repositoryMaintainersStore.filtration
     ).toStrictEqual(defaultFiltration)
     expect(spy).toHaveBeenCalledTimes(1)
     expect(
-      repository_maintainers_store.maintainers
+      repositoryMaintainersStore.maintainers
     ).toStrictEqual(repositoryMaintainers.data.content)
   })
 
   it('Set chosen maintainer without changes', () => {
-    const repository_maintainers_store =
+    const repositoryMaintainersStore =
       useRepositoryMaintainersStore()
 
-    repository_maintainers_store.maintainers =
+    repositoryMaintainersStore.maintainers =
       repositoryMaintainers.data.content
 
-    repository_maintainers_store.setChosenMaintainer(
+    repositoryMaintainersStore.setChosenMaintainer(
       repositoryMaintainers.data.content[3]
     )
 
     expect(
-      repository_maintainers_store.maintainers[3]
+      repositoryMaintainersStore.maintainers[3]
     ).toStrictEqual(repositoryMaintainers.data.content[3])
   })
 
   it('Set chosen maintainer with changes', () => {
-    const repository_maintainers_store =
+    const repositoryMaintainersStore =
       useRepositoryMaintainersStore()
 
-    repository_maintainers_store.maintainers =
+    repositoryMaintainersStore.maintainers =
       repositoryMaintainers.data.content
 
     const changedMaintainer =
       repositoryMaintainers.data.content[3]
     changedMaintainer.deleted = !changedMaintainer.deleted
 
-    repository_maintainers_store.setChosenMaintainer(
+    repositoryMaintainersStore.setChosenMaintainer(
       changedMaintainer
     )
 
     expect(
-      repository_maintainers_store.maintainers[3]
+      repositoryMaintainersStore.maintainers[3]
     ).toStrictEqual(changedMaintainer)
   })
 
   it('Fetch maintainers', async () => {
-    const repository_maintainers_store =
+    const repositoryMaintainersStore =
       useRepositoryMaintainersStore()
 
-    await repository_maintainers_store.fetchMaintainers()
+    await repositoryMaintainersStore.fetchMaintainers()
 
     expect(
-      repository_maintainers_store.maintainers
+      repositoryMaintainersStore.maintainers
     ).toStrictEqual(repositoryMaintainers.data.content)
   })
 
   it('Fetch repositories', async () => {
-    const repository_maintainers_store =
+    const repositoryMaintainersStore =
       useRepositoryMaintainersStore()
 
-    await repository_maintainers_store.fetchRepositories()
+    await repositoryMaintainersStore.fetchRepositories()
 
     expect(
-      repository_maintainers_store.repositories
+      repositoryMaintainersStore.repositories
     ).toStrictEqual(repositories.data.content)
   })
 
   it('Delete chosen maintainer', async () => {
-    const repository_maintainers_store =
+    const repositoryMaintainersStore =
       useRepositoryMaintainersStore()
     vi.mock('@kyvg/vue3-notification')
     const notify = await import('@kyvg/vue3-notification')
     const spy = vi.spyOn(
-      repository_maintainers_store,
+      repositoryMaintainersStore,
       'fetchMaintainers'
     )
 
-    repository_maintainers_store.fetchMaintainers()
-    repository_maintainers_store.setChosenMaintainer(
+    repositoryMaintainersStore.fetchMaintainers()
+    repositoryMaintainersStore.setChosenMaintainer(
       repositoryMaintainers.data.content[2]
     )
 
-    await repository_maintainers_store.deleteMaintainer()
+    await repositoryMaintainersStore.deleteMaintainer()
 
     expect(spy).toBeCalled()
     expect(notify.notify).toBeCalledWith('success')
   })
 
   it('Save chosen maintainer', async () => {
-    const repository_maintainers_store =
+    const repositoryMaintainersStore =
       useRepositoryMaintainersStore()
     const spy = vi.spyOn(
-      repository_maintainers_store,
+      repositoryMaintainersStore,
       'fetchMaintainers'
     )
 
-    repository_maintainers_store.fetchMaintainers()
-    repository_maintainers_store.setChosenMaintainer(
+    repositoryMaintainersStore.fetchMaintainers()
+    repositoryMaintainersStore.setChosenMaintainer(
       repositoryMaintainers.data.content[2]
     )
-    await repository_maintainers_store.updateMaintainer({
+    await repositoryMaintainersStore.updateMaintainer({
       id: repositoryMaintainers.data.content[2].id
     })
 
@@ -288,7 +284,7 @@ describe('Repository Maintainers Store', () => {
   })
 })
 
-const failing_server = setupServer(
+const failingServer = setupServer(
   rest.get(
     'http://localhost:8017/api/v2/manager/repository-maintainers',
     (_, res, ctx) => {
@@ -311,48 +307,48 @@ const failing_server = setupServer(
 
 describe('Repository Maintainers Store requests with failing backend', () => {
   beforeAll(() => {
-    failing_server.listen()
+    failingServer.listen()
   })
 
   beforeEach(() => {
     setActivePinia(createPinia())
-    failing_server.resetHandlers()
+    failingServer.resetHandlers()
   })
 
   afterAll(() => {
-    failing_server.close()
+    failingServer.close()
   })
 
   it('Fetch maintainers', async () => {
-    const repository_maintainers_store =
+    const repositoryMaintainersStore =
       useRepositoryMaintainersStore()
 
-    await repository_maintainers_store.fetchMaintainers()
+    await repositoryMaintainersStore.fetchMaintainers()
 
     expect(
-      repository_maintainers_store.maintainers
+      repositoryMaintainersStore.maintainers
     ).toStrictEqual([])
   })
 
   it('Fetch repositories', async () => {
-    const repository_maintainers_store =
+    const repositoryMaintainersStore =
       useRepositoryMaintainersStore()
 
-    await repository_maintainers_store.fetchRepositories()
+    await repositoryMaintainersStore.fetchRepositories()
 
     expect(
-      repository_maintainers_store.repositories
+      repositoryMaintainersStore.repositories
     ).toStrictEqual([])
   })
 
   it('Fetch packages', async () => {
-    const repository_maintainers_store =
+    const repositoryMaintainersStore =
       useRepositoryMaintainersStore()
 
-    await repository_maintainers_store.fetchRepositories()
+    await repositoryMaintainersStore.fetchRepositories()
 
     expect(
-      repository_maintainers_store.repositories
+      repositoryMaintainersStore.repositories
     ).toStrictEqual([])
   })
 })

@@ -45,8 +45,8 @@ const globalConfig = {
 beforeEach(async () => {
   setActivePinia(createPinia())
   global.ResizeObserver = ResizeObserver
-  numberOfPages = 5
   pagination = usePagination()
+  numberOfPages = 5
   pagination.totalNumber =
     pagination.pageSize * numberOfPages
 
@@ -74,10 +74,10 @@ describe('Pagination', () => {
   })
 
   it('Next page', async () => {
-    let currentPage = pagination.fetchPage
+    let currentPage = pagination.page
 
     expect(wrapper.find(currentPageSelector).text()).toBe(
-      pageToString(currentPage)
+      currentPage.toString()
     )
 
     await wrapper
@@ -87,7 +87,7 @@ describe('Pagination', () => {
     currentPage += 1
 
     expect(wrapper.find(currentPageSelector).text()).toBe(
-      pageToString(currentPage)
+      currentPage.toString()
     )
   })
 
@@ -117,14 +117,13 @@ describe('Pagination', () => {
     )
 
     await wrapper
-      .find('button[arialabel="Go to page 3"]')
+      .find('button[arialabel="Goto Page 3"]')
       .trigger('click')
 
     expect(wrapper.find(currentPageSelector).text()).toBe(
       '3'
     )
 
-    expect(pagination.fetchPage).toBe(2)
     expect(pagination.page).toBe(3)
   })
 

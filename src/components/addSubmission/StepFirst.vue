@@ -26,7 +26,7 @@
       class="mt-5"
       :items="repositories"
       :label="$t('addSubmission.step1Title')"
-      v-model="submissions_store.repository"
+      v-model="submissionsStore.repository"
       filled
       dense
       clearable
@@ -77,20 +77,20 @@ import { onMounted } from 'vue'
 import { computed } from 'vue'
 
 const emits = defineEmits(['next'])
-const submissions_store = useSubmissionStore()
-const repository_store = useRepositoryStore()
+const submissionsStore = useSubmissionStore()
+const repositoryStore = useRepositoryStore()
 const notifications = useNotification()
 
 const repositories = computed(function () {
-  return repository_store.repositories
+  return repositoryStore.repositories
 })
 
 function changeRepository(value: EntityModelRepositoryDto) {
-  submissions_store.setRepository(value)
+  submissionsStore.setRepository(value)
 }
 
 function nextStep() {
-  if (submissions_store.repository != null) {
+  if (submissionsStore.repository != null) {
     emits('next', 2)
   } else {
     notifications.notify({
@@ -101,7 +101,7 @@ function nextStep() {
 }
 
 onMounted(() => {
-  repository_store.fetchRepositories()
+  repositoryStore.fetchRepositories()
 })
 </script>
 

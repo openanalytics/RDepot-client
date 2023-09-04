@@ -56,10 +56,8 @@ beforeEach(async () => {
   wrapper = mount(ShortPackagesListVue, {
     global: globalConfig
   })
-  const package_store = usePackagesStore()
-  package_store.packages = deepCopyAny(
-    packages.data.content
-  )
+  const packageStore = usePackagesStore()
+  packageStore.packages = deepCopyAny(packages.data.content)
 })
 
 describe('Short Packages - list', () => {

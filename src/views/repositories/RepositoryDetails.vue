@@ -38,11 +38,11 @@ import { onBeforeMount } from 'vue'
 
 const props = defineProps({ name: String })
 
-const package_store = usePackagesStore()
+const packageStore = usePackagesStore()
 
 onBeforeMount(() => {
   if (props.name) {
-    package_store.fetchPackages({
+    packageStore.fetchPackages({
       repository: props.name,
       deleted: false
     })

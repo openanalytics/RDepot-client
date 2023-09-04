@@ -55,7 +55,7 @@ interface State {
 const { deepCopy } = useUtilities()
 
 export const usePackageMaintainersStore = defineStore(
-  'package_maintainers_store',
+  'packageMaintainersStore',
   {
     state: (): State => {
       return {
@@ -74,7 +74,7 @@ export const usePackageMaintainersStore = defineStore(
         const [maintainers, pageData] =
           await fetchPackageMaintainersService(
             this.filtration,
-            pagination.page,
+            pagination.fetchPage,
             pagination.pageSize
           )
         pagination.newPageWithoutRefresh(pageData.page)

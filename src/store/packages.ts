@@ -32,6 +32,7 @@ import {
   RPackageControllerApiFactory
 } from '@/openapi'
 import {
+  downloadReferenceManual,
   fetchPackageServices,
   updateRPackage
 } from '@/services/package_services'
@@ -51,7 +52,7 @@ interface State {
 const { deepCopy } = useUtilities()
 
 export const usePackagesStore = defineStore(
-  'packages_store',
+  'packagesStore',
   {
     state: (): State => {
       return {
@@ -118,13 +119,8 @@ export const usePackagesStore = defineStore(
           }
         )
       },
-      async downloadManual() {
-        const rPackageApi = RPackageControllerApiFactory()
-        if (this.package?.id) {
-          return rPackageApi.downloadReferenceManual(
-            this.package.id
-          )
-        }
+      async downloadManual(id: string) {
+        await downloadReferenceManual(id).then(() => {})
       },
       async setFiltration(payload: PackagesFiltration) {
         const pagination = usePagination()

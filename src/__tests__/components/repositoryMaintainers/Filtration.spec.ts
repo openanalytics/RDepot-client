@@ -46,9 +46,9 @@ const globalConfig = {
   mocks: mocks,
   plugins: plugins
 }
-let repository_maintainers_store: any
+let repositoryMaintainersStore: any
 
-const example_repository_maintainer_filtration =
+const EXAMPLE_REPOSITORY_MAINTAINER_FILTRATION =
   RepositoryMaintainersFiltration.parse({
     deleted: false,
     technologies: [Technologies.enum.Python]
@@ -60,7 +60,7 @@ beforeAll(() => {
 
 beforeEach(async () => {
   setActivePinia(createPinia())
-  repository_maintainers_store =
+  repositoryMaintainersStore =
     useRepositoryMaintainersStore()
   wrapper = mount(FiltrationVue, {
     global: globalConfig
@@ -105,7 +105,7 @@ describe('Repository Maintainers - filtration', () => {
     await clickButton('#reset-button')
     checkIfFiltrationIsEmpty()
     expect(
-      repository_maintainers_store.filtration.technologies
+      repositoryMaintainersStore.filtration.technologies
     ).toStrictEqual([Technologies.enum.Python])
   })
 
@@ -116,7 +116,7 @@ describe('Repository Maintainers - filtration', () => {
     await clickButton('#reset-button')
     await clickButton('#cancel-button')
     expect(
-      repository_maintainers_store.filtration.technologies
+      repositoryMaintainersStore.filtration.technologies
     ).toStrictEqual([Technologies.enum.Python])
   })
 
@@ -127,7 +127,7 @@ describe('Repository Maintainers - filtration', () => {
     wrapper.vm.values.technologies = [Technologies.enum.R]
     await clickButton('#cancel-button')
     expect(
-      repository_maintainers_store.filtration.technologies
+      repositoryMaintainersStore.filtration.technologies
     ).toStrictEqual([Technologies.enum.Python])
   })
 
@@ -157,35 +157,35 @@ function checkIfFiltrationIsEmpty() {
 }
 
 function checkIfPiniaFiltrationIsEmpty() {
-  expect(repository_maintainers_store.filtration).toEqual(
+  expect(repositoryMaintainersStore.filtration).toEqual(
     defaultValues(RepositoryMaintainersFiltration)
   )
 }
 
 function checkIfPiniaFiltrationIsFilledWithData() {
   expect(
-    repository_maintainers_store.filtration.technologies
+    repositoryMaintainersStore.filtration.technologies
   ).toStrictEqual([Technologies.enum.Python])
   expect(
-    repository_maintainers_store.filtration.deleted
+    repositoryMaintainersStore.filtration.deleted
   ).toBe(false)
 }
 
 function fillPiniaFiltrationWithRandomData() {
-  repository_maintainers_store.filtration =
+  repositoryMaintainersStore.filtration =
     RepositoryMaintainersFiltration.parse(
-      example_repository_maintainer_filtration
+      EXAMPLE_REPOSITORY_MAINTAINER_FILTRATION
     )
 }
 
 function fillTheFormWithRandomData() {
   wrapper.vm.setValues(
-    example_repository_maintainer_filtration
+    EXAMPLE_REPOSITORY_MAINTAINER_FILTRATION
   )
 }
 
 async function clickButton(id: string) {
-  const cancel_button = wrapper.find(id)
-  expect(cancel_button.isVisible()).toBe(true)
-  await cancel_button.trigger('click')
+  const cancelButton = wrapper.find(id)
+  expect(cancelButton.isVisible()).toBe(true)
+  await cancelButton.trigger('click')
 }

@@ -22,7 +22,7 @@
 
 <template>
   <ResourcesList
-    :resources="package_maintainers_store.maintainers"
+    :resources="packageMaintainersStore.maintainers"
   >
     <template #title>
       <PackageMaintainerRow title />
@@ -41,11 +41,10 @@ import { onBeforeMount } from 'vue'
 import PackageMaintainerRow from '@/components/packageMaintainers/PackageMaintainerRow.vue'
 import ResourcesList from '@/components/common/resources/ResourcesList.vue'
 
-const package_maintainers_store =
-  usePackageMaintainersStore()
+const packageMaintainersStore = usePackageMaintainersStore()
 
 function updateData(): void {
-  package_maintainers_store.fetchMaintainers()
+  packageMaintainersStore.fetchMaintainers()
 }
 
 onBeforeMount(() => {

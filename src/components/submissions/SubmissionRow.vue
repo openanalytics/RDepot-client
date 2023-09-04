@@ -125,7 +125,7 @@
       />
     </v-col>
     <v-col
-      v-if="logged_store.can('PATCH', 'submissions')"
+      v-if="loggedUserStore.can('PATCH', 'submissions')"
       id="submission-actions"
       cols="lg-2"
       class="d-flex justify-center"
@@ -191,11 +191,11 @@ const props = defineProps({
     | undefined
 })
 
-const logged_store = useLoggedUserStore()
-const submission_store = useSubmissionStore()
+const loggedUserStore = useLoggedUserStore()
+const submissionStore = useSubmissionStore()
 
 const check =
-  logged_store.userId === props.submission?.submitter?.id
+  loggedUserStore.userId === props.submission?.submitter?.id
 
 const getAccepted = computed<boolean>(() => {
   return props.submission?.state == 'ACCEPTED'
@@ -214,7 +214,7 @@ function prepareString(value: string): string {
 async function acceptSubmission() {
   disabled.value = true
   if (props.submission) {
-    await submission_store.updateSubmission(
+    await submissionStore.updateSubmission(
       props.submission,
       { state: EntityModelSubmissionDtoStateEnum.ACCEPTED }
     )
@@ -226,7 +226,7 @@ async function acceptSubmission() {
 async function cancelSubmission() {
   disabled.value = true
   if (props.submission) {
-    await submission_store.updateSubmission(
+    await submissionStore.updateSubmission(
       props.submission,
       {
         state: EntityModelSubmissionDtoStateEnum.CANCELLED
@@ -239,7 +239,7 @@ async function cancelSubmission() {
 async function rejectSubmission() {
   disabled.value = true
   if (props.submission) {
-    await submission_store.updateSubmission(
+    await submissionStore.updateSubmission(
       props.submission,
       { state: EntityModelSubmissionDtoStateEnum.REJECTED }
     )

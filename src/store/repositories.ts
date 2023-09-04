@@ -45,7 +45,7 @@ interface State {
 }
 
 export const useRepositoryStore = defineStore(
-  'repository_store',
+  'repositoryStore',
   {
     state: (): State => {
       return {
@@ -70,7 +70,7 @@ export const useRepositoryStore = defineStore(
       async fetchRepositories() {
         const pagination = usePagination()
         const pageData = await this.fetchData(
-          pagination.page,
+          pagination.fetchPage,
           pagination.pageSize,
           this.filtration
         )

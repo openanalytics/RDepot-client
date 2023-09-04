@@ -30,16 +30,16 @@ import {
 export function useRepositoriesFiltration() {
   const storeId: SelectState = 'repositories'
 
-  const select_store = useSelectStore(storeId)
-  const repositories_store = useRepositoryStore()
+  const selectStore = useSelectStore(storeId)
+  const repositoriesStore = useRepositoryStore()
 
   async function loadRepositories() {
-    select_store.paginationData =
-      await repositories_store.fetchPageOfRepositories(
-        select_store.paginationData.page
+    selectStore.paginationData =
+      await repositoriesStore.fetchPageOfRepositories(
+        selectStore.paginationData.page
       )
-    select_store.addItems(
-      repositories_store.repositories.map(
+    selectStore.addItems(
+      repositoriesStore.repositories.map(
         (repository: EntityModelRepositoryDto) =>
           repository.name
       )
@@ -47,8 +47,8 @@ export function useRepositoriesFiltration() {
   }
 
   function filtrateRepositories(value: string | undefined) {
-    if (repositories_store.filtration.name !== value) {
-      repositories_store.setFiltrationByName(value)
+    if (repositoriesStore.filtration.name !== value) {
+      repositoriesStore.setFiltrationByName(value)
     }
   }
 

@@ -25,11 +25,11 @@ import { useLoggedUserStore } from '@/store/logged_user'
 import { AxiosRequestConfig } from 'axios'
 
 export function getConfiguration() {
-  const logged_user_store = useLoggedUserStore()
+  const loggedUserStore = useLoggedUserStore()
   const configuration: Configuration = new Configuration()
   configuration.baseOptions = {
     headers: {
-      Authorization: 'Bearer ' + logged_user_store.userToken
+      Authorization: 'Bearer ' + loggedUserStore.userToken
     }
   }
   return configuration

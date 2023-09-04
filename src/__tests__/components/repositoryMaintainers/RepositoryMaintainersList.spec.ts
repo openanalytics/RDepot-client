@@ -39,7 +39,7 @@ import RepositoryMaintainerRow from '@/components/repositoryMaintainers/Reposito
 import maintainers from '@/__tests__/config/mockData/repositoryMaintainers.json'
 
 let wrapper: any
-let repository_maintainers_store: any
+let repositoryMaintainersStore: any
 const globalConfig = {
   mocks: mocks,
   plugins: plugins
@@ -48,7 +48,7 @@ const globalConfig = {
 beforeAll(() => {
   global.ResizeObserver = ResizeObserver
   setActivePinia(createPinia())
-  repository_maintainers_store =
+  repositoryMaintainersStore =
     useRepositoryMaintainersStore()
 })
 
@@ -57,7 +57,7 @@ beforeEach(async () => {
     global: globalConfig
   })
 
-  repository_maintainers_store.maintainers =
+  repositoryMaintainersStore.maintainers =
     maintainers.data.content
 })
 

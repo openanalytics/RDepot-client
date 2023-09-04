@@ -228,10 +228,10 @@ import { useClipboard } from '@vueuse/core'
 import { i18n } from '@/plugins/i18n'
 import { notify } from '@kyvg/vue3-notification'
 const { copy } = useClipboard()
-const package_store = usePackagesStore()
+const packageStore = usePackagesStore()
 
 const packageBag = computed<EntityModelRPackageDto>(() => {
-  return package_store.package as EntityModelRPackageDto
+  return packageStore.package as EntityModelRPackageDto
 })
 
 function copyContent() {
@@ -254,18 +254,18 @@ function copyContent() {
 }
 
 const vignettes = computed<ResponseDtoListVignette>(() => {
-  return package_store.vignettes
+  return packageStore.vignettes
 })
 async function getManual() {
-  await package_store.downloadManual()
+  await packageStore.downloadManual()
 }
 </script>
 
 <script lang="ts">
 export default {
   beforeRouteEnter: async function (to) {
-    const package_store = usePackagesStore()
-    await package_store.fetchPackage(Number(to.params.id))
+    const packageStore = usePackagesStore()
+    await packageStore.fetchPackage(Number(to.params.id))
   }
 }
 </script>

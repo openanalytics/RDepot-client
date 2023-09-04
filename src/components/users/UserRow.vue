@@ -109,7 +109,7 @@
               class="ml-3"
               color="oablue"
               :disabled="
-                !logged_user_store.can('PATCH', 'users')
+                !loggedUserStore.can('PATCH', 'users')
               "
               >mdi-pencil</v-icon
             >
@@ -135,9 +135,9 @@ import { useCommonStore } from '@/store/common'
 import { i18n } from '@/plugins/i18n'
 import { OverlayEnum } from '@/enum/Overlay'
 
-const logged_user_store = useLoggedUserStore()
-const user_store = useUserStore()
-const common_store = useCommonStore()
+const loggedUserStore = useLoggedUserStore()
+const userStore = useUserStore()
+const commonStore = useCommonStore()
 
 const props = defineProps({
   title: {
@@ -153,19 +153,19 @@ const getRole = computed(() => {
 
 function edit() {
   chosenUser()
-  common_store.setOverlayText(
+  commonStore.setOverlayText(
     i18n.t('users.edit.overlay', {
-      user_login: user_store.chosenUser.login
+      user_login: userStore.chosenUser.login
     })
   )
-  common_store.setOverlayModel(true)
-  common_store.setOverlayOpacity(0.8)
-  common_store.setOverlayComponent(OverlayEnum.enum.Edit)
+  commonStore.setOverlayModel(true)
+  commonStore.setOverlayOpacity(0.8)
+  commonStore.setOverlayComponent(OverlayEnum.enum.Edit)
 }
 
 function chosenUser() {
   if (props.user) {
-    user_store.chosenUser = props.user
+    userStore.chosenUser = props.user
   }
 }
 </script>

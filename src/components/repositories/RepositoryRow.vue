@@ -125,8 +125,8 @@
     </v-col>
     <v-col
       v-if="
-        logged_user_store.can('GET', 'repositoryDetails') ||
-        logged_user_store.can('DELETE', 'repository')
+        loggedUserStore.can('GET', 'repositoryDetails') ||
+        loggedUserStore.can('DELETE', 'repository')
       "
       id="repository-actions"
       cols="lg-1"
@@ -146,7 +146,7 @@
           <template v-slot:activator="{ props }">
             <v-icon
               v-if="
-                logged_user_store.can(
+                loggedUserStore.can(
                   'GET',
                   'repositoryDetails'
                 )
@@ -164,9 +164,7 @@
           }}</span>
         </v-tooltip>
         <delete-icon
-          v-if="
-            logged_user_store.can('DELETE', 'repository')
-          "
+          v-if="loggedUserStore.can('DELETE', 'repository')"
           :name="props.repository?.name"
           :set-resource-id="chooseRepository"
         />
@@ -187,8 +185,8 @@ import { updateRepository } from '@/services/repository_services'
 import { ref } from 'vue'
 import { useUtilities } from '@/composable/utilities'
 
-const repository_store = useRepositoryStore()
-const logged_user_store = useLoggedUserStore()
+const repositoryStore = useRepositoryStore()
+const loggedUserStore = useLoggedUserStore()
 const { deepCopy } = useUtilities()
 
 const props = defineProps<{
@@ -223,6 +221,6 @@ function navigate() {
 }
 
 function chooseRepository() {
-  repository_store.setChosenRepository(props.repository?.id)
+  repositoryStore.setChosenRepository(props.repository?.id)
 }
 </script>

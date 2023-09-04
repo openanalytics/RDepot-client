@@ -23,7 +23,7 @@
 <template>
   <PackagesModal />
   <v-row class="my-3">
-    <FiltrationChips :store="packages_store" />
+    <FiltrationChips :store="packagesStore" />
     <FiltrationButtons />
   </v-row>
   <PackagesList />
@@ -38,5 +38,5 @@ import FiltrationButtons from '@/components/common/FiltrationButtons.vue'
 import FiltrationChips from '@/components/common/chips/FiltrationChips.vue'
 import { usePackagesStore } from '@/store/packages'
 
-const packages_store = usePackagesStore()
+const packagesStore = usePackagesStore()
 </script>

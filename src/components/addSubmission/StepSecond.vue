@@ -22,7 +22,7 @@
 
 <template>
   <v-card
-    class="mb-12 step pb-5 d-flex flex-column justify-space-between"
+    class="mb-12 px-10 py-3 step d-flex flex-column text-center justify-space-between"
     :class="
       files && files.length > 0
         ? 'align-items-end'
@@ -31,49 +31,89 @@
     min-height="250px"
     height="100%"
   >
-    <v-toolbar color="secondary">
-      <v-toolbar-title
-        >Chosen files ({{
-          files_local?.length ? files_local.length : 0
-        }})</v-toolbar-title
-      >
-      <v-spacer></v-spacer>
-    </v-toolbar>
+    <v-card-text class="mb-1">
+      <div class="text-overline">repository</div>
+      <div id="repository-name" class="text-h4 mb-2">
+        {{ chosenRepository?.name }}
+      </div>
 
-    <v-list lines="two">
-      <v-list-item
-        v-for="file in files_local"
-        :key="file.name"
-        :title="file.name"
-        @click=""
-      >
-        <template v-slot:prepend>
-          <v-icon
-            :color="
-              check_validity(file) ? 'white' : 'oared'
-            "
-            icon="mdi-file"
-          />
-        </template>
+      <v-divider></v-divider>
 
-        <template v-slot:append>
-          <v-btn
-            :color="
-              check_validity(file)
-                ? 'grey-lighten-1'
-                : 'oared'
+      <v-list class="text-left">
+        <v-list-item
+          v-if="!!filesLocal.length"
+          class="text-overline"
+        >
+          <template
+            v-slot:append
+            v-if="
+              submissionsStore.repository?.technology !=
+              'Python'
             "
-            icon="mdi-delete"
-            variant="text"
-            @click="removeFile(file)"
-          ></v-btn>
-        </template>
-      </v-list-item>
-    </v-list>
+          >
+            generate manual
+          </template>
+        </v-list-item>
+        <v-list-item
+          v-for="file in filesLocal"
+          :key="file.name"
+          :title="file.name"
+          class="hoverable"
+        >
+          <template v-slot:prepend>
+            <v-btn
+              @click="removeFile(file)"
+              variant="plain"
+              icon="mdi-delete"
+              width="20"
+              class="mr-8"
+              :color="
+                checkValidity(file) ? 'oared' : 'oared'
+              "
+            >
+            </v-btn>
+          </template>
+
+          <template
+            v-slot:append
+            v-if="
+              submissionsStore.repository?.technology !=
+              'Python'
+            "
+          >
+            <v-btn
+              v-if="
+                !submissionsStore.getGenerateManualForPackage(
+                  file
+                )
+              "
+              icon="mdi-checkbox-marked-outline"
+              variant="text"
+              @click="
+                submissionsStore.addGenerateManualOptionForPackage(
+                  file
+                )
+              "
+            ></v-btn>
+            <v-btn
+              v-else
+              icon="mdi-checkbox-blank-outline"
+              variant="text"
+              @click="
+                submissionsStore.removeGenerateManualOptionForPackage(
+                  file
+                )
+              "
+            >
+            </v-btn>
+          </template>
+        </v-list-item>
+      </v-list>
+    </v-card-text>
 
     <v-form v-model="valid">
       <div
-        class="d-flex mt-5 px-5"
+        class="d-flex my-5 px-5"
         :class="
           files && files.length > 0
             ? 'justify-space-between'
@@ -85,7 +125,10 @@
             : 'align-items: flex-end'
         "
       >
-        <v-btn color="oablue" type="button" @click="open()">
+        <v-btn color="" type="button" @click="open()">
+          <template #prepend>
+            <v-icon icon="mdi-plus"></v-icon>
+          </template>
           {{ $t('submissions.choseFiles') }}
         </v-btn>
 
@@ -93,7 +136,7 @@
           class="mx-3"
           type="button"
           :disabled="!files"
-          v-if="files && files?.length > 0"
+          v-if="files && !!files.length"
           color="oared"
           @click="resetPackages()"
         >
@@ -113,9 +156,10 @@
     <v-btn
       id="next-button"
       color="oablue"
+      :disabled="!!!filesLocal.length"
       @click="nextStep"
     >
-      Continue
+      submit
     </v-btn>
   </div>
 </template>
@@ -123,7 +167,7 @@
 <script setup lang="ts">
 import { useSubmissionStore } from '@/store/submission'
 import { useNotification } from '@kyvg/vue3-notification'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useFileDialog } from '@vueuse/core'
 import { watch } from 'vue'
 import { onMounted } from 'vue'
@@ -133,60 +177,56 @@ const { files, open, reset } = useFileDialog({
   accept: 'application/gzip'
 })
 
+const chosenRepository = computed(() => {
+  return submissionsStore.repository
+})
+
 const emits = defineEmits(['next'])
-const submissions_store = useSubmissionStore()
+const submissionsStore = useSubmissionStore()
 const notifications = useNotification()
 const valid = ref<boolean>(true)
 
-const files_local = ref<File[]>([])
+const filesLocal = ref<File[]>([])
 
 function removeFile(file: File) {
-  files_local.value.forEach(
-    (file_local: File, i: number) => {
-      if (file_local == file) {
-        files_local.value.splice(i, 1)
-      }
+  filesLocal.value.forEach((fileLocal: File, i: number) => {
+    if (fileLocal == file) {
+      filesLocal.value.splice(i, 1)
     }
-  )
+  })
 }
 
 function resetPackages() {
-  submissions_store.setPackages([])
+  submissionsStore.setPackages([])
   reset()
 }
 
 watch(files, (files) => {
-  if (files != null) {
-    files_local.value = Array.from(files)
-  } else {
-    files_local.value = []
-  }
+  filesLocal.value = Array.from(files || [])
 })
 
-function check_validity(file: File) {
+function checkValidity(file: File) {
   return file['type'] === 'application/gzip'
 }
 
 function savePackagesInStore() {
-  valid.value = files_local.value.every(check_validity)
+  valid.value = filesLocal.value.every(checkValidity)
   if (valid.value) {
-    submissions_store.setPackages(files_local.value)
+    submissionsStore.setPackages(filesLocal.value)
   } else {
-    submissions_store.setPackages([])
+    submissionsStore.setPackages([])
   }
 }
 
 onMounted(() => {
-  files_local.value = submissions_store.packages
+  filesLocal.value = submissionsStore.packages
 })
 
 function nextStep() {
   savePackagesInStore()
-  if (
-    submissions_store.packages.length > 0 &&
-    valid.value
-  ) {
+  if (submissionsStore.packages.length > 0 && valid.value) {
     emits('next', 3)
+    submissionsStore.addSubmissionRequests()
   } else if (!valid.value) {
     notifications.notify({
       text: i18n.t('submissions.wrongExtension'),

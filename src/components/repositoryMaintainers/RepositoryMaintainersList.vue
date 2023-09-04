@@ -22,7 +22,7 @@
 
 <template>
   <ResourcesList
-    :resources="repository_maintainers_store.maintainers"
+    :resources="repositoryMaintainersStore.maintainers"
   >
     <template #title>
       <RepositoryMaintainerRow title />
@@ -41,11 +41,11 @@ import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
 import RepositoryMaintainerRow from '@/components/repositoryMaintainers/RepositoryMaintainerRow.vue'
 import ResourcesList from '@/components/common/resources//ResourcesList.vue'
 
-const repository_maintainers_store =
+const repositoryMaintainersStore =
   useRepositoryMaintainersStore()
 
 function updateData(): void {
-  repository_maintainers_store.fetchMaintainers()
+  repositoryMaintainersStore.fetchMaintainers()
 }
 
 onBeforeMount(() => {

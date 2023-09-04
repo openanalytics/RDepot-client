@@ -40,11 +40,11 @@ import { useCommonStore } from '@/store/common'
 
 var props = defineProps<{ component: OverlayEnum }>()
 
-const common_store = useCommonStore()
+const commonStore = useCommonStore()
 
 function openModal() {
-  common_store.setOverlayText(i18n.t('filtration.makeSure'))
-  common_store.setOverlayModel(true)
-  common_store.setOverlayComponent(props.component)
+  commonStore.setOverlayText(i18n.t('filtration.makeSure'))
+  commonStore.setOverlayModel(true)
+  commonStore.setOverlayComponent(props.component)
 }
 </script>

@@ -59,18 +59,18 @@ import { toTypedSchema } from '@vee-validate/zod'
 
 const emit = defineEmits(['closeModal'])
 
-const maintainers_store = useRepositoryMaintainersStore()
+const maintainersStore = useRepositoryMaintainersStore()
 
 const { technologies } = useEnumFiltration()
 const { values, setValues } = useForm({
   validationSchema: toTypedSchema(
     RepositoryMaintainersFiltration
   ),
-  initialValues: maintainers_store.filtration
+  initialValues: maintainersStore.filtration
 })
 
 function setFiltration() {
-  maintainers_store.setFiltration(
+  maintainersStore.setFiltration(
     values as RepositoryMaintainersFiltration
   )
   cancelModal()

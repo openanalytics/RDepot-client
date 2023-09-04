@@ -21,7 +21,7 @@
 -->
 
 <template>
-  <ResourcesList :resources="submission_store.submissions">
+  <ResourcesList :resources="submissionStore.submissions">
     <template #title>
       <SubmissionRow title />
     </template>
@@ -37,10 +37,10 @@ import { useSubmissionStore } from '@/store/submission'
 import SubmissionRow from '@/components/submissions/SubmissionRow.vue'
 import ResourcesList from '@/components/common/resources/ResourcesList.vue'
 
-const submission_store = useSubmissionStore()
+const submissionStore = useSubmissionStore()
 
 function updateData(): void {
-  submission_store.fetchSubmissions()
+  submissionStore.fetchSubmissions()
 }
 
 onBeforeMount(() => {

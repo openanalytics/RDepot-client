@@ -49,8 +49,8 @@ export function openApiRequest<T>(
 }
 
 function turnOnProgress() {
-  const common_store = useCommonStore()
-  common_store.setProgressCircularActive(true)
+  const commonStore = useCommonStore()
+  commonStore.setProgressCircularActive(true)
 }
 
 async function resolved(
@@ -89,6 +89,16 @@ function errorsHandler(error: AxiosError) {
     case 403: {
       const logged_user_store = useLoggedUserStore()
       logged_user_store.getUserInfo()
+      break
+    }
+
+    case 500: {
+      const logged_user_store = useLoggedUserStore()
+      logged_user_store.getUserInfo()
+      notify({
+        title: '500',
+        type: 'error'
+      })
       break
     }
   }

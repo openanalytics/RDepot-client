@@ -34,7 +34,7 @@
       ></v-list-item>
       <v-divider class="pb-3"></v-divider>
       <v-list-item
-        v-if="logged_user_store.can('GET', 'events')"
+        v-if="loggedUserStore.can('GET', 'events')"
         prepend-icon="mdi-timetable"
         :title="$t('common.events')"
         :value="$t('common.events')"
@@ -42,15 +42,15 @@
       ></v-list-item>
 
       <v-list-item
-        v-if="logged_user_store.can('POST', 'submissions')"
+        v-if="loggedUserStore.can('POST', 'submissions')"
         prepend-icon="mdi-upload"
         :title="$t('common.addPackage')"
         :value="$t('common.addPackage')"
-        @click="$router.push({ name: 'addSubmission' })"
+        @click="redirectAddPackage"
       ></v-list-item>
 
       <v-list-item
-        v-if="logged_user_store.can('GET', 'submissions')"
+        v-if="loggedUserStore.can('GET', 'submissions')"
         prepend-icon="mdi-email"
         :title="$t('common.submissions')"
         :value="$t('common.submissions')"
@@ -59,10 +59,10 @@
 
       <v-list-group
         v-if="
-          logged_user_store.can(
+          loggedUserStore.can(
             'GET',
             'packageMaintainers'
-          ) || logged_user_store.can('GET', 'packages')
+          ) || loggedUserStore.can('GET', 'packages')
         "
         value="Packages"
         tag="Packages"
@@ -76,7 +76,7 @@
         </template>
 
         <v-list-item
-          v-if="logged_user_store.can('GET', 'packages')"
+          v-if="loggedUserStore.can('GET', 'packages')"
           :title="$t('common.list')"
           :value="$t('packages.list')"
           id="sidebarpackageslist"
@@ -84,10 +84,7 @@
         ></v-list-item>
         <v-list-item
           v-if="
-            logged_user_store.can(
-              'GET',
-              'packageMaintainers'
-            )
+            loggedUserStore.can('GET', 'packageMaintainers')
           "
           :title="$t('common.maintainers')"
           :value="$t('packages.maintainers')"
@@ -98,8 +95,8 @@
       </v-list-group>
       <v-list-group
         v-if="
-          logged_user_store.can('GET', 'repositories') ||
-          logged_user_store.can(
+          loggedUserStore.can('GET', 'repositories') ||
+          loggedUserStore.can(
             'GET',
             'repositoryMaintainers'
           )
@@ -116,16 +113,14 @@
         </template>
 
         <v-list-item
-          v-if="
-            logged_user_store.can('GET', 'repositories')
-          "
+          v-if="loggedUserStore.can('GET', 'repositories')"
           :title="$t('common.list')"
           :value="$t('repositories.list')"
           @click="$router.push({ name: 'repositories' })"
         ></v-list-item>
         <v-list-item
           v-if="
-            logged_user_store.can(
+            loggedUserStore.can(
               'GET',
               'repositoryMaintainers'
             )
@@ -141,7 +136,7 @@
         ></v-list-item>
       </v-list-group>
       <v-list-item
-        v-if="logged_user_store.can('GET', 'users')"
+        v-if="loggedUserStore.can('GET', 'users')"
         prepend-icon="mdi-account-multiple"
         :title="$t('common.users')"
         :value="$t('common.users')"
@@ -152,33 +147,40 @@
 </template>
 
 <script setup lang="ts">
+import router from '@/router'
 import { i18n } from '@/plugins/i18n'
 import { useCommonStore } from '@/store/common'
 import { useLoggedUserStore } from '@/store/logged_user'
+import { useSubmissionStore } from '@/store/submission'
 import { computed } from 'vue'
 import { useDisplay } from 'vuetify/lib/framework.mjs'
 
 const { xs, mobile } = useDisplay()
-const logged_user_store = useLoggedUserStore()
-
-const common_store = useCommonStore()
-
+const loggedUserStore = useLoggedUserStore()
+const submissionsStore = useSubmissionStore()
+const commonStore = useCommonStore()
 const getUserLogin = computed(() => {
-  return logged_user_store.me.name
+  return loggedUserStore.me.name
 })
 
 const getSubtitle = computed(() => {
-  return logged_user_store.me.name
+  return loggedUserStore.me.name
     ? i18n.t('user.logged-in')
     : i18n.t('user.not-logged-in')
 })
 
 const drawer = computed({
   get() {
-    return common_store.drawer
+    return commonStore.drawer
   },
   set(value: boolean) {
-    common_store.setDrawer(value)
+    commonStore.setDrawer(value)
   }
 })
+
+const redirectAddPackage = () => {
+  submissionsStore.updateStepperKey()
+  submissionsStore.repository = undefined
+  router.push({ name: 'addSubmission' })
+}
 </script>

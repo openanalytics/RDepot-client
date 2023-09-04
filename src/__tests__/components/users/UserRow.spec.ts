@@ -92,11 +92,9 @@ describe('User list - user row', () => {
   })
 
   it('active field', () => {
-    const checkbox_active = wrapper.find('#checkbox-active')
-    expect(checkbox_active.element.checked).toBe(
-      user.active
-    )
-    expect(checkbox_active.element.disabled).toBe(true)
+    const checkboxActive = wrapper.find('#checkbox-active')
+    expect(checkboxActive.element.checked).toBe(user.active)
+    expect(checkboxActive.element.disabled).toBe(true)
   })
 
   it('edit button exists', () => {
@@ -139,8 +137,8 @@ describe('User - user row (empty)', () => {
   })
 
   it('active field', () => {
-    const checkbox_active = wrapper.find('#checkbox-active')
-    expect(checkbox_active.exists()).toBe(false)
+    const checkboxActive = wrapper.find('#checkbox-active')
+    expect(checkboxActive.exists()).toBe(false)
   })
 
   it('edit button exists', () => {

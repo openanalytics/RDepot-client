@@ -121,7 +121,7 @@ export const useLoggedUserStore = defineStore(
         alert('logout!')
       },
 
-      change_user(
+      changeUser(
         token: string,
         login: string,
         role: Role,

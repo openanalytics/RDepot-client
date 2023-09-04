@@ -149,7 +149,9 @@
     },
     "choseFiles": "Choose files",
     "wrongExtension": "choose packages that have correct extention (.tar.gz)",
-    "noPackageChosen": "no packages choosen"
+    "noPackageChosen": "no packages choosen",
+    "addAnotherSubmission": "upload another packages",
+    "waitForAllRequestsToFulfill": "wait untill all sumissions will end"
   },
   "users": {
     "edit": {
@@ -168,7 +170,7 @@
     "successCancelSubmission": "cancel submission",
     "acceptSubmission": "accept submission",
     "successRejectSubmission": "reject submission",
-    "successCreateSubmissiom": "successfully created submissiom",
+    "successCreateSubmissiom": "successfully created submission",
     "successDeletePackageManager": "successful deleted {maintainer_name}",
     "successUpdatePackageManager": "successful updated {maintainer_name}",
     "successCreateRepository": "successfully created {repository_name}",

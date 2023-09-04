@@ -21,10 +21,7 @@
 -->
 
 <template>
-  <ResourcesList
-    :resources="packages_store.packages"
-    expand
-  >
+  <ResourcesList :resources="packagesStore.packages" expand>
     <template #title>
       <PackageRow title />
     </template>
@@ -43,10 +40,10 @@ import PackageRow from '@/components/packages/PackageRow.vue'
 import ResourcesList from '@/components/common/resources/ResourcesList.vue'
 import { onBeforeMount } from 'vue'
 
-const packages_store = usePackagesStore()
+const packagesStore = usePackagesStore()
 
 function updateData(): void {
-  packages_store.fetchPackages()
+  packagesStore.fetchPackages()
 }
 
 function getDescription(item: any) {

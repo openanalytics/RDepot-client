@@ -92,14 +92,14 @@ const buttons = [
   }
 ]
 
-const maintainers_store = useRepositoryMaintainersStore()
+const maintainersStore = useRepositoryMaintainersStore()
 
 const repositories = computed(() => {
-  return maintainers_store.repositories
+  return maintainersStore.repositories
 })
 const { deepCopy } = useUtilities()
 let maintainer: EntityModelRepositoryMaintainerDto =
-  deepCopy(maintainers_store.chosenMaintainer)
+  deepCopy(maintainersStore.chosenMaintainer)
 
 const localMaintainer = ref(maintainer)
 
@@ -122,9 +122,7 @@ const { meta } = useForm({
 
 function setMaintainer() {
   if (meta.value.valid) {
-    maintainers_store.updateMaintainer(
-      localMaintainer.value
-    )
+    maintainersStore.updateMaintainer(localMaintainer.value)
     changeDialogOptions()
   } else {
     notify({
@@ -134,7 +132,7 @@ function setMaintainer() {
   }
 }
 
-onMounted(maintainers_store.fetchRepositories)
+onMounted(maintainersStore.fetchRepositories)
 
 function changeDialogOptions() {
   emit('closeModal')
