@@ -31,6 +31,10 @@ import {
 import { EntityModelUserDto, RoleDto } from '@/openapi'
 import { usePaginationStore } from './pagination'
 import { Role } from '@/enum/UserRoles'
+import { BASE_PATH } from '@/openapi/base'
+import axios from 'axios'
+import { notify } from '@kyvg/vue3-notification'
+import router from '@/router'
 
 interface State {
   userToken: string
@@ -54,9 +58,28 @@ export const useUserStore = defineStore('user_store', {
   },
   actions: {
     async login(payload: LoginApiData) {
-      // let response = await login(data)
-      // this.userToken = response.userToken
-      // loginApi(payload)
+      await axios
+        .post(BASE_PATH + '/login', {
+          login: payload.username,
+          password: payload.password
+        })
+        .then((res) => {
+          this.userToken = res.data.data.token
+          notify({
+            text: 'user succesfully logged in!',
+            type: 'success'
+          })
+          router.push('packages')
+        })
+        .catch((err) => {
+          notify({
+            text:
+              'login procedure failed, please try again (' +
+              err +
+              ' )',
+            type: 'error'
+          })
+        })
     },
     chooseLoginType(payload: LoginType) {
       this.loginType = payload

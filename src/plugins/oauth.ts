@@ -20,13 +20,7 @@
  *
  */
 
-import {
-  SigninState,
-  SignoutRedirectArgs,
-  User,
-  UserManager,
-  WebStorageStateStore
-} from 'oidc-client-ts'
+import { User, UserManager } from 'oidc-client-ts'
 import {
   fireUserLoggedInEvent,
   fireUserLoggedOutEvent

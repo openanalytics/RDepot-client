@@ -22,14 +22,40 @@
 
 import { Configuration } from '@/openapi'
 import { authService } from '@/plugins/oauth'
+import { useUserStore } from '@/store/users'
+import getEnv from '@/utils/env'
 
 export async function getConfiguration() {
   const configuration: Configuration = new Configuration()
-  const accessToken = await authService.getAccessToken()
+
   configuration.baseOptions = {
     headers: {
-      Authorization: 'Bearer ' + accessToken
+      Authorization: 'Bearer ' + (await getToken())
     }
   }
   return configuration
+}
+
+async function getToken() {
+  const userStore = useUserStore()
+  if (
+    getEnv('VITE_LOGIN_OIDC') == 'true' &&
+    getEnv('VITE_LOGIN_SIMPLE') == 'true'
+  ) {
+    var oauthToken = await authService.getAccessToken()
+    if (oauthToken != null) {
+      return oauthToken
+    }
+    return userStore.userToken
+  } else if (
+    getEnv('VITE_LOGIN_OIDC') == 'true' &&
+    getEnv('VITE_LOGIN_SIMPLE') == 'false'
+  ) {
+    return await authService.getAccessToken()
+  } else if (
+    getEnv('VITE_LOGIN_OIDC') == 'false' &&
+    getEnv('VITE_LOGIN_SIMPLE') == 'true'
+  ) {
+    return userStore.userToken
+  }
 }

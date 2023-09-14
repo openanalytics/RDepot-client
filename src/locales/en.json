@@ -6,7 +6,8 @@
     "passwordError": "Password is required",
     "login": "login",
     "clear": "clear",
-    "wrongCredentials": "Wrong credentials, please try again"
+    "wrongCredentials": "Wrong credentials, please try again",
+    "keycloak": "Keycloak"
   },
   "addSubmission": {
     "step1Title": "Choose repository",

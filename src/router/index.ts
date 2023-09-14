@@ -20,15 +20,15 @@
  *
  */
 
-// Composables
 import { createRouter, createWebHistory } from 'vue-router'
 import { routes } from '@/router/routes'
 import { i18n } from '@/plugins/i18n'
 import { usePaginationStore } from '@/store/pagination'
 import { useSortStore } from '@/store/sort'
-import { useLoggedUserStore } from '@/store/logged_user'
-import { nameToActionAndSubject } from '@/plugins/casl'
 import { authService } from '@/plugins/oauth'
+import { useAuthorization } from '@/composable/authorization'
+import { useUserStore } from '@/store/users'
+import getEnv from '@/utils/env'
 const DEFAULT_TITLE = i18n.t('common.projectTitle')
 
 const router = createRouter({
@@ -36,16 +36,30 @@ const router = createRouter({
   routes
 })
 
-router.beforeEach((to) => {
+router.beforeEach(async (to) => {
+  const { isUserLoggedIn } = useAuthorization()
+  const userStore = useUserStore()
+
   if (to.fullPath.startsWith('/auth')) {
     handleAuthorization()
-    return '/'
+    return '/packages'
   } else if (to.fullPath.startsWith('/logout')) {
     handleLogout()
     return '/'
+  } else if (to.name != 'login') {
+    var user: any = await isUserLoggedIn()
+
+    if (
+      !user &&
+      !(
+        userStore.userToken &&
+        getEnv('VITE_LOGIN_SIMPLE') == 'true'
+      )
+    ) {
+      return redirectToLoginPage()
+    }
   }
 
-  const logged_user = useLoggedUserStore()
   const pagination = usePaginationStore()
   const sort = useSortStore()
   pagination.setPage(0)
@@ -53,12 +67,18 @@ router.beforeEach((to) => {
   document.title = to.meta.title
     ? (to.meta.title as string)
     : DEFAULT_TITLE
-  return logged_user.ability.can(
-    ...nameToActionAndSubject(to.name)
-  )
-    ? true
-    : '/' // redirect to home page
 })
+
+async function redirectToLoginPage() {
+  const { isSimpleAuthAvailable, loginWithOICD } =
+    useAuthorization()
+  if (isSimpleAuthAvailable()) {
+    return '/login'
+  } else {
+    loginWithOICD()
+    return '/packages'
+  }
+}
 
 function handleAuthorization() {
   if (authService)
@@ -75,6 +95,7 @@ function handleAuthorization() {
         console.log(error)
       })
 }
+
 async function handleLogout() {
   authService
     .handleLogoutRedirect()

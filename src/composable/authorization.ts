@@ -20,19 +20,43 @@
  *
  */
 
-/// <reference types="vite/client" />
+import { authService } from '@/plugins/oauth'
 
-interface ImportMetaEnv {
-  readonly VITE_LOGIN_OIDC: string
-  readonly VITE_LOGIN_SIMPLE: string
-  readonly VITE_KEYCLOAK_REALM_URI: string
-  readonly VITE_KEYCLOAK_CLIENT_ID: string
-  readonly VITE_KEYCLOAK_REDIRECT_URI: string
-  readonly VITE_KEYCLOAK_POST_LOGOUT_REDIRECT_URI: string
-  readonly VITE_KEYCLOAK_REPOSNSE_TYPE: string
-  readonly VITE_KEYCLOAK_SCOPE: string
-}
+export function useAuthorization() {
+  function isOICDAvailable() {
+    return Boolean(
+      JSON.parse(import.meta.env.VITE_LOGIN_OIDC)
+    )
+  }
 
-interface ImportMeta {
-  readonly env: ImportMetaEnv
+  function isSimpleAuthAvailable() {
+    return Boolean(
+      JSON.parse(import.meta.env.VITE_LOGIN_SIMPLE)
+    )
+  }
+
+  function displayAllLoginMethods() {
+    return isOICDAvailable() && isSimpleAuthAvailable()
+  }
+
+  function isUserLoggedIn() {
+    return authService.getUser()
+  }
+
+  function loginWithOICD() {
+    authService.login()
+  }
+
+  function getOICDToken() {
+    return authService.getAccessToken()
+  }
+
+  return {
+    isOICDAvailable,
+    isSimpleAuthAvailable,
+    displayAllLoginMethods,
+    loginWithOICD,
+    isUserLoggedIn,
+    getOICDToken
+  }
 }

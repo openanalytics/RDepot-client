@@ -21,8 +21,6 @@
  */
 
 import Keycloak from 'keycloak-js'
-import { LoginType } from '@/enum/LoginType'
-import { getCurrentInstance } from 'vue'
 
 const options = {
   url: 'http://192.168.49.17:8080/auth',
@@ -75,7 +73,6 @@ export async function initKeycloak() {
       // enableLogging: true
     })
     .success(function (authenticated: any) {
-      alert(JSON.stringify(keycloak))
       alert(
         authenticated
           ? 'authenticated'
@@ -98,11 +95,8 @@ export async function initKeycloak() {
     })
     .catch((e: string) => {
       alert('Login Failure ' + e)
-      alert(keycloak.token)
     })
-    .finally(() => {
-      alert('finally')
-    })
+    .finally(() => {})
 }
 
 // export default keycloak

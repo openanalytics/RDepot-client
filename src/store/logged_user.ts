@@ -42,8 +42,8 @@ export const useLoggedUserStore = defineStore(
   {
     state: (): State => {
       return {
-        userToken: import.meta.env.VITE_ADMIN_TOKEN,
-        userLogin: 'einstein',
+        userToken: '',
+        userLogin: '',
         userRole: Role.enum.admin,
         userId: 8,
         ability: defineAbilityFor(Role.enum.admin)

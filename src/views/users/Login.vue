@@ -41,6 +41,7 @@
         class="mt-10"
         :label="$t('authorization.username')"
         color="oablue"
+        required
       />
 
       <validated-input-field
@@ -49,6 +50,7 @@
         :label="$t('authorization.password')"
         type="password"
         color="oablue"
+        required
       />
 
       <v-row class="form-buttons my-10">
@@ -68,53 +70,22 @@
           {{ $t('authorization.clear') }}
         </v-btn>
       </v-row>
-
-      <v-row>
+      <v-row v-show="getEnv('VITE_LOGIN_OIDC') == 'true'">
         <v-btn
           color="background"
           @click="keyloackMethod"
           class="loginTypeButton"
         >
-          <div class="loginType">Keycloak</div>
+          <div class="loginType">
+            {{ $t('authorization.keycloak') }}
+          </div>
         </v-btn>
       </v-row>
     </form>
   </v-container>
-  <v-btn @click="getToken()">Get token</v-btn>
-  <v-btn @click="onLogout()" class="mx-5">Logout</v-btn>
-  <br />
-  VITE_KEYCLOAK_REALM_URI:
-  <v-btn>
-    {{ getEnv('VITE_KEYCLOAK_REALM_URI') }}
-  </v-btn>
-  <br />
-  VITE_KEYCLOAK_CLIENT_ID:
-  <v-btn>
-    {{ getEnv('VITE_KEYCLOAK_CLIENT_ID') }}
-  </v-btn>
-  <br />
-  VITE_KEYCLOAK_REDIRECT_URI:
-  <v-btn>
-    {{ getEnv('VITE_KEYCLOAK_REDIRECT_URI') }}
-  </v-btn>
-  <br />
-  VITE_KEYCLOAK_POST_LOGOUT_REDIRECT_URI:
-  <v-btn>
-    {{ getEnv('VITE_KEYCLOAK_POST_LOGOUT_REDIRECT_URI') }}
-  </v-btn>
-  <br />
-  VITE_KEYCLOAK_REPOSNSE_TYPE:
-  <v-btn>
-    {{ getEnv('VITE_KEYCLOAK_REPOSNSE_TYPE') }}
-  </v-btn>
-  <br />
-  VITE_KEYCLOAK_SCOPE: {{ getEnv('VITE_KEYCLOAK_SCOPE') }}
-  <v-btn> </v-btn>
-  <br />
 </template>
 
 <script setup lang="ts">
-import getEnv from '@/utils/env'
 import { useUserStore } from '@/store/users'
 import { useI18n } from 'vue-i18n'
 import { Form, useForm } from 'vee-validate'
@@ -129,14 +100,15 @@ import {
   registerUserLoggedOutEventListener
 } from '@/plugins/eventsBus'
 import { authService as oauthService } from '@/plugins/oauth'
+import { useAuthorization } from '@/composable/authorization'
+import getEnv from '@/utils/env'
 
 const { t } = useI18n()
 const user_store = useUserStore()
 
 const isUserLoggedIn = ref<boolean>(false)
-const token = ref<string>('')
 
-const { handleReset, values, meta } = useForm({
+const { handleReset, values, meta, validate } = useForm({
   validationSchema: toTypedSchema(
     z.object({
       username: z
@@ -149,28 +121,19 @@ const { handleReset, values, meta } = useForm({
   )
 })
 
-async function login() {
-  user_store.chooseLoginType('DEFAULT')
-  if (meta.value.valid)
-    user_store.login(values as LoginApiData)
-}
-
-function onLogout() {
-  user_store.chooseLoginType('DEFAULT')
-  oauthService.logout().catch((err) => console.log(err))
-}
-
 async function keyloackMethod() {
   user_store.chooseLoginType('KEYCLOAK')
-  oauthService.login()
-}
-
-async function getToken() {
-  token.value = await oauthService.getAccessToken()
-  alert(token.value)
+  const { loginWithOICD } = useAuthorization()
+  loginWithOICD()
 }
 
 onMounted(() => {
+  document.addEventListener('keyup', (e) => {
+    if (e.code == 'Enter') {
+      onKeyup()
+    }
+  })
+
   oauthService
     .isUserLoggedIn()
     .then((isLoggedIn) => {
@@ -187,6 +150,17 @@ onMounted(() => {
     isUserLoggedIn.value = false
   })
 })
+
+function onKeyup() {
+  login()
+}
+
+async function login() {
+  user_store.chooseLoginType('DEFAULT')
+  validate()
+  if (meta.value.valid)
+    user_store.login(values as LoginApiData)
+}
 </script>
 
 <style scoped lang="scss">
