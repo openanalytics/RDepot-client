@@ -20,6 +20,7 @@
  *
  */
 
+/* tslint:disable */
 /* eslint-disable */
 /**
  * RDEPOT API
@@ -373,6 +374,73 @@ export const ApiV2UserControllerApiAxiosParamCreator =
       },
       /**
        *
+       * @param {*} [options] Override http request option.
+       * @throws {RequiredError}
+       */
+      getUserInfo: async (
+        options: AxiosRequestConfig = {}
+      ): Promise<RequestArgs> => {
+        const localVarPath = `/api/v2/manager/users/me`
+        // use dummy base URL string because the URL constructor only accepts absolute URLs.
+        const localVarUrlObj = new URL(
+          localVarPath,
+          'https://example.com'
+        )
+        let baseOptions
+        if (configuration) {
+          baseOptions = configuration.baseOptions
+        }
+        const localVarRequestOptions: AxiosRequestConfig = {
+          method: 'GET',
+          ...baseOptions,
+          ...options
+        }
+        const localVarHeaderParameter = {} as any
+        const localVarQueryParameter = {} as any
+
+        // authentication Bearer required
+        // http bearer authentication required
+        if (configuration && configuration.accessToken) {
+          const accessToken =
+            typeof configuration.accessToken === 'function'
+              ? await configuration.accessToken()
+              : await configuration.accessToken
+          localVarHeaderParameter['Authorization'] =
+            'Bearer ' + accessToken
+        }
+
+        const query = new URLSearchParams(
+          localVarUrlObj.search
+        )
+        for (const key in localVarQueryParameter) {
+          query.set(key, localVarQueryParameter[key])
+        }
+        for (const key in options.params) {
+          query.set(key, options.params[key])
+        }
+        localVarUrlObj.search = new URLSearchParams(
+          query
+        ).toString()
+        let headersFromBaseOptions =
+          baseOptions && baseOptions.headers
+            ? baseOptions.headers
+            : {}
+        localVarRequestOptions.headers = {
+          ...localVarHeaderParameter,
+          ...headersFromBaseOptions,
+          ...options.headers
+        }
+
+        return {
+          url:
+            localVarUrlObj.pathname +
+            localVarUrlObj.search +
+            localVarUrlObj.hash,
+          options: localVarRequestOptions
+        }
+      },
+      /**
+       *
        * @param {JsonPatch} body
        * @param {number} id
        * @param {*} [options] Override http request option.
@@ -622,6 +690,36 @@ export const ApiV2UserControllerApiFp = function (
     },
     /**
      *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getUserInfo(
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => Promise<
+        AxiosResponse<ResponseDtoEntityModelUserDto>
+      >
+    > {
+      const localVarAxiosArgs =
+        await ApiV2UserControllerApiAxiosParamCreator(
+          configuration
+        ).getUserInfo(options)
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH
+      ) => {
+        const axiosRequestArgs: AxiosRequestConfig = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url
+        }
+        return axios.request(axiosRequestArgs)
+      }
+    },
+    /**
+     *
      * @param {JsonPatch} body
      * @param {number} id
      * @param {*} [options] Override http request option.
@@ -733,6 +831,20 @@ export const ApiV2UserControllerApiFactory = function (
     },
     /**
      *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getUserInfo(
+      options?: AxiosRequestConfig
+    ): Promise<
+      AxiosResponse<ResponseDtoEntityModelUserDto>
+    > {
+      return ApiV2UserControllerApiFp(configuration)
+        .getUserInfo(options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     *
      * @param {JsonPatch} body
      * @param {number} id
      * @param {*} [options] Override http request option.
@@ -823,6 +935,19 @@ export class ApiV2UserControllerApi extends BaseAPI {
   ): Promise<AxiosResponse<ResponseDtoEntityModelUserDto>> {
     return ApiV2UserControllerApiFp(this.configuration)
       .getUser(id, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+  /**
+   *
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof ApiV2UserControllerApi
+   */
+  public async getUserInfo(
+    options?: AxiosRequestConfig
+  ): Promise<AxiosResponse<ResponseDtoEntityModelUserDto>> {
+    return ApiV2UserControllerApiFp(this.configuration)
+      .getUserInfo(options)
       .then((request) => request(this.axios, this.basePath))
   }
   /**

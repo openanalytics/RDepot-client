@@ -23,15 +23,15 @@
 const path = require('path')
 const fs = require('fs')
 
-var re_get_extension = /(?:\.([^.]+))?$/
-const extensions_with_license = [
+const RE_GET_EXTENSION = /(?:\.([^.]+))?$/
+const EXTENSIONS_WITH_LICENSE = [
   'html',
   'vue',
   'ts',
   'js',
   'css'
 ]
-const extensions_without_license = [
+const EXTENSION_WITHOUT_LICENSE = [
   'md',
   'env',
   'ico',
@@ -48,7 +48,7 @@ const extensions_without_license = [
   'prettierignore'
 ]
 
-const directories_without_license_checking = [
+const DIRS_WITHOUT_LICENSE_CHECKING = [
   'node_modules',
   'dist',
   '.vscode',
@@ -57,18 +57,19 @@ const directories_without_license_checking = [
   '.scannerwork',
   'mockData'
 ]
-license_header = fs.readFileSync('LICENSE').toString()
 
-new_extension = []
-wrong_license = []
+const license_header = fs.readFileSync('LICENSE').toString()
 
-let number_of_files_checked = checkLicenseInAllFiles()
-printLicenseResults(number_of_files_checked)
+var newExtensions = []
+var wrongLicense = []
+
+let numberOfFilesChecked = checkLicenseInAllFiles()
+printLicenseResults(numberOfFilesChecked)
 printNewExtensions()
 
 if (
-  wrong_license.length !== 0 ||
-  new_extension.length !== 0
+  wrongLicense.length !== 0 ||
+  newExtensions.length !== 0
 ) {
   process.exit(1)
 }
@@ -76,7 +77,7 @@ if (
 process.exit()
 
 function checkLicenseInAllFiles() {
-  let number_of_files_checked = 0
+  let numberOfFilesChecked = 0
   for (const file of readAllFiles('./')) {
     var filename = file.toString()
     const content = fs.readFileSync(file.toString())
@@ -85,27 +86,22 @@ function checkLicenseInAllFiles() {
       filename.includes('.vue') ||
       filename.includes('.html')
     ) {
-      comment = get_first_comment(
-        content,
-        '<!--',
-        '-->',
-        ''
-      )
-      number_of_files_checked += 1
+      comment = getFirstComment(content, '<!--', '-->', '')
+      numberOfFilesChecked += 1
     } else if (
       filename.includes('.ts') ||
       filename.includes('.js') ||
       filename.includes('.css')
     ) {
-      comment = get_first_comment(content, '/*', '*/', '*')
-      number_of_files_checked += 1
+      comment = getFirstComment(content, '/*', '*/', '*')
+      numberOfFilesChecked += 1
     }
 
-    if (!check_if_license_is_correct(comment)) {
-      wrong_license.push(filename)
+    if (!checkIfLicenseIsCorrect(comment)) {
+      wrongLicense.push(filename)
     }
   }
-  return number_of_files_checked
+  return numberOfFilesChecked
 }
 
 function* readAllFiles(dir) {
@@ -114,52 +110,50 @@ function* readAllFiles(dir) {
   for (const file of files) {
     if (file.isDirectory()) {
       if (
-        !directories_without_license_checking.includes(
-          file.name
-        )
+        !DIRS_WITHOUT_LICENSE_CHECKING.includes(file.name)
       ) {
         yield* readAllFiles(path.join(dir, file.name))
       }
     } else {
-      var extension = re_get_extension.exec(file.name)[1]
-      if (extensions_with_license.includes(extension)) {
+      var extension = RE_GET_EXTENSION.exec(file.name)[1]
+      if (EXTENSIONS_WITH_LICENSE.includes(extension)) {
         yield path.join(dir, file.name)
       } else {
         if (
           extension &&
-          !extensions_without_license.includes(extension)
+          !EXTENSION_WITHOUT_LICENSE.includes(extension)
         ) {
-          new_extension.push(extension)
+          newExtensions.push(extension)
         }
       }
     }
   }
 }
 
-function get_first_comment(
+function getFirstComment(
   content,
-  start_char,
-  end_char,
-  middle_char
+  startChar,
+  endChar,
+  middleChar
 ) {
-  const start_comment = content.indexOf(start_char)
-  const last_comment = content.indexOf(end_char)
-  if (start_comment !== -1 && last_comment !== -1) {
-    var comment_content = content
+  const startComment = content.indexOf(startChar)
+  const lastComment = content.indexOf(endChar)
+  if (startComment !== -1 && lastComment !== -1) {
+    var commentContent = content
       .toString()
-      .substring(start_comment + 4, last_comment)
-    comment_content = comment_content.replaceAll(
-      middle_char,
+      .substring(startComment + 4, lastComment)
+    commentContent = commentContent.replaceAll(
+      middleChar,
       ''
     )
-    return comment_content.toString().replace(/^ +/gm, '')
+    return commentContent.toString().replace(/^ +/gm, '')
   }
   return ''
 }
 
-function check_if_license_is_correct(file_header) {
+function checkIfLicenseIsCorrect(fileHeader) {
   if (
-    file_header.replace(/\s/g, '') ==
+    fileHeader.replace(/\s/g, '') ==
     license_header.replace(/\s/g, '')
   ) {
     return true
@@ -167,14 +161,14 @@ function check_if_license_is_correct(file_header) {
   return false
 }
 
-function printLicenseResults(number_of_files_checked) {
+function printLicenseResults(numberOfFilesChecked) {
   console.log(
-    `--------------------------------\n\n🎯 ${number_of_files_checked} files were checked`
+    `--------------------------------\n\n🎯 ${numberOfFilesChecked} files were checked`
   )
-  if (wrong_license.length > 0) {
+  if (wrongLicense.length > 0) {
     console.error(
       '❗ no license / not actual license in files:  \n\n\t- ' +
-        wrong_license.toString().replaceAll(',', '\n\t- ') +
+        wrongLicense.toString().replaceAll(',', '\n\t- ') +
         '\n\n--------------------------------\n'
     )
   } else {
@@ -185,9 +179,9 @@ function printLicenseResults(number_of_files_checked) {
 }
 
 function printNewExtensions() {
-  if (new_extension.length > 0) {
+  if (newExtensions.length > 0) {
     console.log('\n\nnew not supported extensions:\n\n')
-    new Set(new_extension).forEach((extension) => {
+    new Set(newExtensions).forEach((extension) => {
       console.log(extension + '\n')
     })
     console.log('--------------------------------\n\n')

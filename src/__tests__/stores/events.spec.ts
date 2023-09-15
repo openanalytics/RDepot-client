@@ -77,109 +77,107 @@ describe('Event Store', () => {
   })
 
   it('Starting values', () => {
-    const events_store = useEventsStore()
-    expect(events_store.page).toBe(0)
-    expect(events_store.pageSize).toBe(10)
-    expect(events_store.totalNumber).toBe(0)
-    expect(events_store.events).toStrictEqual([])
-    expect(events_store.filtration).toStrictEqual(
+    const eventsStore = useEventsStore()
+    expect(eventsStore.page).toBe(0)
+    expect(eventsStore.pageSize).toBe(10)
+    expect(eventsStore.totalNumber).toBe(0)
+    expect(eventsStore.events).toStrictEqual([])
+    expect(eventsStore.filtration).toStrictEqual(
       defaultFiltration
     )
-    expect(events_store.pending).toBe(false)
-    expect(events_store.next).toBe(undefined)
+    expect(eventsStore.pending).toBe(false)
+    expect(eventsStore.next).toBe(undefined)
   })
 
   it('Edit filtration', () => {
-    const events_store = useEventsStore()
-    const spy = vi.spyOn(events_store, 'fetchEvents')
+    const eventsStore = useEventsStore()
+    const spy = vi.spyOn(eventsStore, 'fetchEvents')
     const filtration = randomFiltration
 
     expect(spy).toHaveBeenCalledTimes(0)
 
-    events_store.setFiltration(
+    eventsStore.setFiltration(
       EventsFiltration.parse(filtration)
     )
 
-    expect(events_store.filtration).toStrictEqual(
-      filtration
-    )
-    expect(events_store.page).toBe(0)
-    expect(events_store.events).toStrictEqual([])
+    expect(eventsStore.filtration).toStrictEqual(filtration)
+    expect(eventsStore.page).toBe(0)
+    expect(eventsStore.events).toStrictEqual([])
     expect(spy).toHaveBeenCalledTimes(1)
   })
 
   it('Clear filtration', () => {
-    const events_store = useEventsStore()
-    events_store.filtration = randomFiltration
+    const eventsStore = useEventsStore()
+    eventsStore.filtration = randomFiltration
 
-    events_store.clearFiltration()
+    eventsStore.clearFiltration()
 
-    expect(events_store.filtration).toStrictEqual(
+    expect(eventsStore.filtration).toStrictEqual(
       defaultFiltration
     )
-    expect(events_store.page).toBe(0)
-    expect(events_store.events).toStrictEqual([])
+    expect(eventsStore.page).toBe(0)
+    expect(eventsStore.events).toStrictEqual([])
   })
 
   it('Clear filtration and fetch events', () => {
-    const events_store = useEventsStore()
-    const spy = vi.spyOn(events_store, 'fetchEvents')
-    events_store.filtration = randomFiltration
+    const eventsStore = useEventsStore()
+    const spy = vi.spyOn(eventsStore, 'fetchEvents')
+    eventsStore.filtration = randomFiltration
 
     expect(spy).toHaveBeenCalledTimes(0)
 
-    events_store.clearFiltrationAndFetch()
+    eventsStore.clearFiltrationAndFetch()
 
-    expect(events_store.filtration).toStrictEqual(
+    expect(eventsStore.filtration).toStrictEqual(
       defaultFiltration
     )
-    expect(events_store.page).toBe(0)
-    expect(events_store.events).toStrictEqual([])
+    expect(eventsStore.page).toBe(0)
+    expect(eventsStore.events).toStrictEqual([])
     expect(spy).toHaveBeenCalledTimes(1)
   })
 
   it('Fetch events', async () => {
-    const events_store = useEventsStore()
+    const eventsStore = useEventsStore()
 
-    await events_store.fetchEvents()
+    await eventsStore.fetchEvents()
 
-    expect(events_store.events).toStrictEqual(
+    expect(eventsStore.events).toStrictEqual(
       events.data.content
     )
   })
 
   it('Fetch next page with undefined next and page 0', async () => {
-    const events_store = useEventsStore()
-    const spy = vi.spyOn(events_store, 'fetchEvents')
+    const eventsStore = useEventsStore()
+    const spy = vi.spyOn(eventsStore, 'fetchEvents')
 
-    expect(events_store.next).toBe(undefined)
-    expect(events_store.page).toBe(0)
+    expect(eventsStore.next).toBe(undefined)
+    expect(eventsStore.page).toBe(0)
 
-    await events_store.fetchNextPageEvents()
+    await eventsStore.fetchNextPageEvents()
 
-    expect(events_store.next).toBe(undefined)
-    expect(events_store.page).toBe(0)
+    expect(eventsStore.next).toBe(undefined)
+    expect(eventsStore.page).toBe(0)
     expect(spy).toBeCalledTimes(0)
   })
 
   it('Fetch next page with non-undefined next and page 0', async () => {
-    const events_store = useEventsStore()
-    const spy = vi.spyOn(events_store, 'fetchEvents')
+    const eventsStore = useEventsStore()
+    const spy = vi.spyOn(eventsStore, 'fetchEvents')
 
-    await events_store.fetchEvents()
+    await eventsStore.fetchEvents()
 
-    expect(events_store.next).toBeTruthy()
-    expect(events_store.page).toBe(events.data.page.number)
-    expect(events_store.events).toStrictEqual(
+    expect(eventsStore.next).toBeTruthy()
+    expect(eventsStore.page).toBe(events.data.page.number)
+    expect(eventsStore.events).toStrictEqual(
       events.data.content
     )
     expect(spy).toBeCalledTimes(1)
 
-    await events_store.fetchNextPageEvents()
+    await eventsStore.fetchNextPageEvents()
 
-    expect(events_store.next).toBeTruthy()
-    expect(events_store.page).toBe(events.data.page.number)
-    expect(events_store.events).toStrictEqual([
+    expect(eventsStore.next).toBeTruthy()
+    expect(eventsStore.page).toBe(events.data.page.number)
+    expect(eventsStore.events).toStrictEqual([
       ...events.data.content,
       ...events.data.content
     ])

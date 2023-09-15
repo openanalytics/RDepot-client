@@ -37,49 +37,95 @@ import {
   fetchSubmissions,
   updateSubmission
 } from '@/services/submission_services'
-import { usePaginationStore } from '@/store/pagination'
 import { useUtilities } from '@/composable/utilities'
 import { submissionsFiltrationLabels } from '@/maps/Filtration'
+import { validatedData } from '@/services/open_api_access'
+import { usePagination } from '@/store/pagination'
+
+export type PackagePromise = {
+  promise: Promise<string[]>
+  packageBag: File
+  state: string
+  message: string[]
+}
 
 interface State {
   packages: File[]
+  generateManual: File[]
+  promises: PackagePromise[]
   repository?: EntityModelRepositoryDto
   submissions: EntityModelSubmissionDto[]
   filtration: SubmissionsFiltration
+  resolved: boolean
+  stepperKey: number
 }
 
 const { deepCopy } = useUtilities()
 
 export const useSubmissionStore = defineStore(
-  'submission_store',
+  'submissionStore',
   {
     state: (): State => {
       return {
         packages: [],
+        generateManual: [],
+        promises: [],
         submissions: [],
         repository: undefined,
-        filtration: defaultValues(SubmissionsFiltration)
+        filtration: defaultValues(SubmissionsFiltration),
+        resolved: false,
+        stepperKey: 0
       }
     },
     actions: {
-      async fetchSubmissions() {
-        const logged_user = useLoggedUserStore()
-        const pagination = usePaginationStore()
-        const [submission, pageData] =
-          await fetchSubmissions(
-            this.filtration,
-            logged_user.userId,
-            pagination.page,
-            pagination.pageSize
-          )
-        this.submissions = submission
-        pagination.setTotalNumber(pageData.totalNumber)
-        pagination.setPage(pageData.page)
+      async fetchPageOfSubmissions(
+        page: number,
+        pageSize = 8
+      ) {
+        const logged_user_store = useLoggedUserStore()
+        const pageData = await this.fetchData(
+          page,
+          pageSize,
+          defaultValues(SubmissionsFiltration),
+          logged_user_store.me.id,
+          false
+        )
+        return pageData
       },
+      async fetchSubmissions() {
+        const pagination = usePagination()
+        const logged_user_store = useLoggedUserStore()
+        const pageData = await this.fetchData(
+          pagination.fetchPage,
+          pagination.pageSize,
+          this.filtration,
+          logged_user_store.me.id
+        )
+        pagination.newPageWithoutRefresh(pageData.page)
+        pagination.totalNumber = pageData.totalNumber
+      },
+      async fetchData(
+        page: number,
+        pageSize: number,
+        filtration: SubmissionsFiltration,
+        user_id?: number,
+        showProgress = true
+      ) {
+        const [submissions, pageData] =
+          await fetchSubmissions(
+            filtration,
+            user_id,
+            page,
+            pageSize,
+            showProgress
+          )
+        this.submissions = submissions
+        return pageData
+      },
+
       async updateSubmission(
         oldSubmission: EntityModelSubmissionDto,
-        newValues: Partial<EntityModelSubmissionDto>,
-        textNotification: string
+        newValues: Partial<EntityModelSubmissionDto>
       ) {
         const newSubmission = {
           ...deepCopy(oldSubmission),
@@ -87,11 +133,25 @@ export const useSubmissionStore = defineStore(
         }
         await updateSubmission(
           oldSubmission,
-          newSubmission,
-          textNotification
-        ).then(async (success) => {
-          if (success) await this.fetchSubmissions()
+          newSubmission
+        ).then(async () => {
+          await this.fetchSubmissions()
         })
+      },
+      addGenerateManualOptionForPackage(file: File) {
+        this.generateManual.push(file)
+      },
+      removeGenerateManualOptionForPackage(file: File) {
+        this.generateManual = this.generateManual.filter(
+          (item) => item !== file
+        )
+      },
+      getGenerateManualForPackage(file: File) {
+        if (this.repository?.technology == 'Python')
+          return true
+        return !!this.generateManual.find(
+          (item) => item == file
+        )
       },
       setPackages(payload: File[]) {
         this.packages = payload
@@ -110,8 +170,8 @@ export const useSubmissionStore = defineStore(
         this.repository = payload
       },
       async setFiltration(payload: SubmissionsFiltration) {
-        const pagination = usePaginationStore()
-        pagination.setPage(0)
+        const pagination = usePagination()
+        pagination.resetPage()
         if (
           SubmissionsFiltration.safeParse(payload).success
         ) {
@@ -125,8 +185,8 @@ export const useSubmissionStore = defineStore(
         })
       },
       clearFiltration() {
-        const pagination = usePaginationStore()
-        pagination.setPage(0)
+        const pagination = usePagination()
+        pagination.resetPage()
         this.filtration = defaultValues(
           SubmissionsFiltration
         )
@@ -141,27 +201,48 @@ export const useSubmissionStore = defineStore(
           type: 'success'
         })
       },
+      updateStepperKey() {
+        this.stepperKey += 1
+        if (this.stepperKey > 100) {
+          this.stepperKey = 0
+        }
+      },
       async addSubmissionRequests() {
-        const promises: Promise<boolean>[] =
-          this.packages.map((packageBag) =>
-            addSubmission(
+        this.promises = this.packages.map((packageBag) => {
+          return {
+            promise: addSubmission(
               this.repository?.name!,
               this.repository?.technology!,
-              packageBag
-            )
-          )
-        await Promise.all(promises)
+              packageBag,
+              !this.getGenerateManualForPackage(packageBag)
+            ),
+            packageBag: packageBag,
+            state: 'pending',
+            message: []
+          }
+        })
         let fulfilled = 0
-        promises.forEach(async (promise) => {
-          const isFulfilled = await promise
-          if (fulfilled == 0 && isFulfilled) {
+        this.promises.forEach(async (promise) => {
+          const isFulfilled = await promise.promise
+          promise.message = isFulfilled
+          if (
+            fulfilled == 0 &&
+            isFulfilled[0] == 'success'
+          ) {
+            promise.state = 'success'
             notify({
               type: 'success',
               text: i18n.t(
                 'notifications.successCreateSubmissiom'
               )
             })
-            fulfilled += 1
+          } else if (isFulfilled[0] == 'success') {
+            promise.state = 'success'
+          } else {
+            promise.state = 'error'
+          }
+          if (++fulfilled == this.promises.length) {
+            this.resolved = true
           }
         })
       },

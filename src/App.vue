@@ -50,8 +50,8 @@ import ProgressCircular from './components/common/progress/ProgressCircular.vue'
 import { computed } from 'vue'
 import { useCommonStore } from './store/common'
 
-const common_store = useCommonStore()
+const commonStore = useCommonStore()
 const componentKey = computed(() => {
-  return common_store.key
+  return commonStore.key
 })
 </script>

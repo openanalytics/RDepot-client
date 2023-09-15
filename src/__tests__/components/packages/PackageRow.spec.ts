@@ -95,19 +95,19 @@ describe('Packages - package row (packagebag)', () => {
   })
 
   it('active field (checkbox)', () => {
-    const checkbox_active = wrapper.find('#checkbox-active')
-    expect(checkbox_active.element.checked).toEqual(
+    const checkboxActive = wrapper.find('#checkbox-active')
+    expect(checkboxActive.element.checked).toEqual(
       packagebag.active
     )
   })
 
   it('click active field (checkbox)', async () => {
-    const checkbox_active = wrapper.find('#checkbox-active')
-    expect(checkbox_active.element.checked).toEqual(
+    const checkboxActive = wrapper.find('#checkbox-active')
+    expect(checkboxActive.element.checked).toEqual(
       packagebag.active
     )
-    await checkbox_active.trigger('click')
-    expect(checkbox_active.element.checked).toEqual(
+    await checkboxActive.trigger('click')
+    expect(checkboxActive.element.checked).toEqual(
       !packagebag.active
     )
   })
@@ -161,8 +161,8 @@ describe('Packages - package row (empty)', () => {
   })
 
   it('active field (checkbox)', () => {
-    const checkbox_active = wrapper.find('#checkbox-active')
-    expect(checkbox_active.exists()).toBeFalsy()
+    const checkboxActive = wrapper.find('#checkbox-active')
+    expect(checkboxActive.exists()).toBeFalsy()
   })
 
   it('navigate button not exists', () => {
@@ -219,9 +219,9 @@ describe('Packages - package row (title)', () => {
 
   it('active title', () => {
     const field = wrapper.find('#package-row-active')
-    const checkbox_active = wrapper.find('#checkbox-active')
+    const checkboxActive = wrapper.find('#checkbox-active')
     expect(field.text()).toBe('Columns.active')
-    expect(checkbox_active.exists()).toBeFalsy()
+    expect(checkboxActive.exists()).toBeFalsy()
   })
 
   it('navigate button not exists', () => {

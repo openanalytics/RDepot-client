@@ -96,13 +96,13 @@ describe('Submissions - submission row (ACCEPTED)', () => {
   })
 
   it('accepted field', () => {
-    const checkbox_active = wrapper.find(
+    const checkboxActive = wrapper.find(
       '#checkbox-accepted'
     )
-    expect(checkbox_active.element.checked).toBe(
+    expect(checkboxActive.element.checked).toBe(
       submission.state == 'ACCEPTED'
     )
-    expect(checkbox_active.element.disabled).toBe(true)
+    expect(checkboxActive.element.disabled).toBe(true)
   })
 
   it('accept button not exists', () => {
@@ -133,13 +133,13 @@ describe('Submissions - submission row (WAITING)', () => {
   })
 
   it('accepted field', () => {
-    const checkbox_active = wrapper.find(
+    const checkboxActive = wrapper.find(
       '#checkbox-accepted'
     )
-    expect(checkbox_active.element.checked).toEqual(
+    expect(checkboxActive.element.checked).toEqual(
       submission.state == 'ACCEPTED'
     )
-    expect(checkbox_active.element.disabled).toBe(true)
+    expect(checkboxActive.element.disabled).toBe(true)
   })
 
   it('accept button is visible', () => {
@@ -195,10 +195,10 @@ describe('Submissions - submission row (empty)', () => {
   })
 
   it('accepted field (checkbox)', () => {
-    const checkbox_active = wrapper.find(
+    const checkboxActive = wrapper.find(
       '#checkbox-accepted'
     )
-    expect(checkbox_active.exists()).toBe(false)
+    expect(checkboxActive.exists()).toBe(false)
   })
 
   it('accept button not exists', () => {

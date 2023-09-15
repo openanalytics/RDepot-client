@@ -24,7 +24,7 @@
   <Overlay v-on:action="clearFiltration()">
     <template v-slot:props="{ closeModal }">
       <Filtration
-        v-if="common_store.isFiltration()"
+        v-if="commonStore.isFiltration()"
         v-on:closeModal="closeModal"
       />
     </template>
@@ -37,10 +37,10 @@ import Overlay from '@/components/common/Overlay.vue'
 import Filtration from '@/components/submissions/Filtration.vue'
 import { useSubmissionStore } from '@/store/submission'
 
-const submissions_store = useSubmissionStore()
-const common_store = useCommonStore()
+const submissionsStore = useSubmissionStore()
+const commonStore = useCommonStore()
 
 async function clearFiltration() {
-  await submissions_store.clearFiltrationAndFetch()
+  await submissionsStore.clearFiltrationAndFetch()
 }
 </script>

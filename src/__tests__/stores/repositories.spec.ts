@@ -34,7 +34,7 @@ import packages from '@/__tests__/config/mockData/packages.json'
 import repositories from '@/__tests__/config/mockData/repositories.json'
 import { rest } from 'msw'
 import { useRepositoryStore } from '@/store/repositories'
-import { usePaginationStore } from '@/store/pagination'
+import { usePagination } from '@/store/pagination'
 import { Technologies } from '@/enum/Technologies'
 
 const defaultFiltration = {
@@ -75,81 +75,79 @@ describe('Repository Store', () => {
   })
 
   it('Starting values', () => {
-    const repositories_store = useRepositoryStore()
-    expect(repositories_store.repositories).toStrictEqual(
-      []
-    )
+    const repositoriesStore = useRepositoryStore()
+    expect(repositoriesStore.repositories).toStrictEqual([])
     expect(
-      repositories_store.chosenRepository
+      repositoriesStore.chosenRepository
     ).toStrictEqual({})
-    expect(repositories_store.chosenRepository.name).toBe(
+    expect(repositoriesStore.chosenRepository.name).toBe(
       undefined
     )
-    expect(repositories_store.filtration).toStrictEqual(
+    expect(repositoriesStore.filtration).toStrictEqual(
       defaultFiltration
     )
   })
 
   it('Fetch repositories', async () => {
-    const repositories_store = useRepositoryStore()
+    const repositoriesStore = useRepositoryStore()
 
-    await repositories_store.fetchRepositories()
+    await repositoriesStore.fetchRepositories()
 
-    expect(repositories_store.repositories).toStrictEqual(
+    expect(repositoriesStore.repositories).toStrictEqual(
       repositories.data.content
     )
   })
 
   it('Edit filtration', () => {
-    const repositories_store = useRepositoryStore()
-    const pagination_store = usePaginationStore()
+    const repositoriesStore = useRepositoryStore()
+    const paginationStore = usePagination()
     const spy = vi.spyOn(
-      repositories_store,
+      repositoriesStore,
       'fetchRepositories'
     )
-    pagination_store.page = 2
+    paginationStore.page = 2
 
-    repositories_store.setFiltration(randomFiltration)
+    repositoriesStore.setFiltration(randomFiltration)
 
-    expect(pagination_store.page).toBe(0)
-    expect(repositories_store.filtration).toStrictEqual(
+    expect(paginationStore.page).toBe(1)
+    expect(repositoriesStore.filtration).toStrictEqual(
       randomFiltration
     )
     expect(spy).toHaveBeenCalled()
   })
 
   it('Clear filtration', () => {
-    const repositories_store = useRepositoryStore()
-    const pagination_store = usePaginationStore()
-    repositories_store.filtration = randomFiltration
-    pagination_store.page = 2
+    const repositoriesStore = useRepositoryStore()
+    const paginationStore = usePagination()
+    repositoriesStore.filtration = randomFiltration
+    paginationStore.page = 2
 
-    repositories_store.clearFiltration()
+    repositoriesStore.clearFiltration()
 
-    expect(pagination_store.page).toBe(0)
-    expect(repositories_store.filtration).toStrictEqual(
+    expect(paginationStore.page).toBe(1)
+    expect(repositoriesStore.filtration).toStrictEqual(
       defaultFiltration
     )
   })
 
   it('Clear filtration and fetch events', async () => {
-    const repositories_store = useRepositoryStore()
-    const pagination_store = usePaginationStore()
+    const repositoriesStore = useRepositoryStore()
+    const paginationStore = usePagination()
     const spy = vi.spyOn(
-      repositories_store,
+      repositoriesStore,
       'fetchRepositories'
     )
-    repositories_store.filtration = randomFiltration
-    pagination_store.page = 2
+    repositoriesStore.filtration = randomFiltration
+    paginationStore.page = 2
 
-    await repositories_store.clearFiltrationAndFetch()
+    await repositoriesStore.clearFiltrationAndFetch()
 
-    expect(pagination_store.page).toBe(0)
-    expect(repositories_store.filtration).toStrictEqual(
+    expect(paginationStore.page).toBe(1)
+    expect(repositoriesStore.filtration).toStrictEqual(
       defaultFiltration
     )
     expect(spy).toHaveBeenCalled()
-    expect(repositories_store.repositories).toStrictEqual(
+    expect(repositoriesStore.repositories).toStrictEqual(
       repositories.data.content
     )
   })

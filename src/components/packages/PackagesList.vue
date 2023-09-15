@@ -21,10 +21,7 @@
 -->
 
 <template>
-  <ResourcesList
-    :resources="packages_store.packages"
-    expand
-  >
+  <ResourcesList :resources="packagesStore.packages" expand>
     <template #title>
       <PackageRow title />
     </template>
@@ -47,10 +44,10 @@ import { onBeforeMount } from 'vue'
 import PackageDetails from '@/views/packages/PackageDetails.vue'
 import { EntityModelPackageDto } from '@/openapi'
 
-const packages_store = usePackagesStore()
+const packagesStore = usePackagesStore()
 
 function updateData(): void {
-  packages_store.fetchPackages()
+  packagesStore.fetchPackages()
 }
 
 onBeforeMount(() => {

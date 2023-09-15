@@ -23,9 +23,7 @@
 <template>
   <MaintainersModal />
   <v-row class="my-3">
-    <FiltrationChips
-      :store="repository_maintainers_store"
-    />
+    <FiltrationChips :store="repositoryMaintainersStore" />
     <FiltrationButtons />
   </v-row>
   <RepositoryMaintainersList />
@@ -40,6 +38,6 @@ import RepositoryMaintainersList from '@/components/repositoryMaintainers/Reposi
 import MaintainersModal from '@/components/repositoryMaintainers/RepositoryMaintainersModal.vue'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
 
-const repository_maintainers_store =
+const repositoryMaintainersStore =
   useRepositoryMaintainersStore()
 </script>

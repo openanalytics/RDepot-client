@@ -28,7 +28,7 @@ interface State {
   direction: string
 }
 
-export const useSortStore = defineStore('sort_store', {
+export const useSortStore = defineStore('sortStore', {
   state: (): State => {
     return {
       field: 'name',
@@ -53,8 +53,8 @@ export const useSortStore = defineStore('sort_store', {
       this.direction = 'asc'
     },
     updateKey() {
-      const common_store = useCommonStore()
-      common_store.updateKey()
+      const commonStore = useCommonStore()
+      commonStore.updateKey()
     },
     getSortBy() {
       return [this.field + ',' + this.direction]

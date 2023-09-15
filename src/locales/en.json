@@ -8,6 +8,10 @@
     "clear": "clear",
     "wrongCredentials": "Wrong credentials, please try again"
   },
+  "errors": {
+    "401": "Cannot perform this request because user is not authenticated.",
+    "403": "Cannot perform this request because user is not authorized"
+  },
   "addSubmission": {
     "step1Title": "Choose repository",
     "step2Title": "Upload {0} packages",
@@ -160,7 +164,9 @@
     },
     "choseFiles": "Choose files",
     "wrongExtension": "choose packages that have correct extention (.tar.gz)",
-    "noPackageChosen": "no packages choosen"
+    "noPackageChosen": "no packages choosen",
+    "addAnotherSubmission": "upload another packages",
+    "waitForAllRequestsToFulfill": "wait untill all sumissions will end"
   },
   "users": {
     "edit": {
@@ -179,7 +185,7 @@
     "successCancelSubmission": "cancel submission",
     "acceptSubmission": "accept submission",
     "successRejectSubmission": "reject submission",
-    "successCreateSubmissiom": "successfully created submissiom",
+    "successCreateSubmissiom": "successfully created submission",
     "successDeletePackageManager": "successful deleted {maintainer_name}",
     "successUpdatePackageManager": "successful updated {maintainer_name}",
     "successCreateRepository": "successfully created {repository_name}",
@@ -220,5 +226,12 @@
     "resourceType": "resource type",
     "resourceId": "resource id",
     "userId": "user id"
+  },
+  "user": {
+    "not-logged-in": "not logged in",
+    "logged-in": "logged in"
+  },
+  "loginType": {
+    "keycloak": "Keycloak"
   }
 }

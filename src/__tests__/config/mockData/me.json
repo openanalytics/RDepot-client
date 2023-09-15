@@ -1,0 +1,34 @@
+{
+  "status": "SUCCESS",
+  "code": 200,
+  "message": "Your request has been processed successfully.",
+  "messageCode": "success.request.processed",
+  "data": {
+    "id": 4,
+    "name": "Albert Einstein",
+    "email": "einstein@ldap.forumsys.com",
+    "login": "einstein",
+    "active": true,
+    "lastLoggedInOn": "",
+    "createdOn": "1970-01-01",
+    "deleted": false,
+    "roleId": 4,
+    "role": "admin",
+    "userSettings": {
+      "language": "en-US",
+      "theme": "dark",
+      "pageSize": 6
+    },
+    "description": "User [id: 4, name: Albert Einstein, login: einstein, email: einstein@ldap.forumsys.com]",
+    "links": [
+      {
+        "rel": "self",
+        "href": "http://localhost:8017/api/v2/manager/users/4"
+      },
+      {
+        "rel": "userList",
+        "href": "http://localhost:8017/api/v2/manager/users"
+      }
+    ]
+  }
+}

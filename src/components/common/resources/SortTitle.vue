@@ -46,7 +46,7 @@
 import { useCommonStore } from '@/store/common'
 import { useSortStore } from '@/store/sort'
 import { computed, ref } from 'vue'
-import { sort_params } from '@/maps/Sort'
+import { SORT_PARAMS } from '@/maps/Sort'
 
 const props = defineProps({
   text: {
@@ -70,24 +70,24 @@ const props = defineProps({
 })
 
 const id = ref<string>(
-  sort_params.get(props.text) || 'name'
+  SORT_PARAMS.get(props.text) || 'name'
 )
-const common_store = useCommonStore()
-const sort_store = useSortStore()
+const commonStore = useCommonStore()
+const sortStore = useSortStore()
 
 const active = computed(() => {
   if (props.sortField) {
     return (
-      common_store.activeId == props.sortField ||
-      common_store.activeId == id.value
+      commonStore.activeId == props.sortField ||
+      commonStore.activeId == id.value
     )
   }
-  return common_store.activeId == id.value
+  return commonStore.activeId == id.value
 })
 
 const getIcon = computed(() => {
   if (active.value) {
-    if (sort_store.direction == 'asc') {
+    if (sortStore.direction == 'asc') {
       return 'mdi-sort-ascending'
     } else {
       return 'mdi-sort-descending'
@@ -98,8 +98,8 @@ const getIcon = computed(() => {
 })
 
 function sortBy() {
-  common_store.setActiveId(id.value)
-  sort_store.setField(
+  commonStore.setActiveId(id.value)
+  sortStore.setField(
     props.sortField ? props.sortField : id.value
   )
 }

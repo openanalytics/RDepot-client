@@ -80,7 +80,7 @@ import { notify } from '@kyvg/vue3-notification'
 import { z } from 'zod'
 import { useUtilities } from '@/composable/utilities'
 
-const maintainers_store = usePackageMaintainersStore()
+const maintainersStore = usePackageMaintainersStore()
 const buttons = [
   {
     id: 'cancelbutton',
@@ -98,13 +98,13 @@ const buttons = [
   }
 ]
 const repositories = computed(() => {
-  return maintainers_store.repositories
+  return maintainersStore.repositories
 })
 
 const packages = computed(() => {
   return Array.from(
     new Set(
-      maintainers_store.packages
+      maintainersStore.packages
         .filter((packageBag) => {
           return (
             packageBag.repository?.id ==
@@ -116,7 +116,7 @@ const packages = computed(() => {
   )
 })
 
-let maintainer = maintainers_store.chosenMaintainer
+let maintainer = maintainersStore.chosenMaintainer
 const localMaintainer = ref(maintainer)
 
 const emit = defineEmits(['closeModal'])
@@ -158,13 +158,13 @@ const { deepCopy } = useUtilities()
 
 function updateMaintainer() {
   localMaintainer.value = deepCopy(
-    maintainers_store.chosenMaintainer
+    maintainersStore.chosenMaintainer
   )
 }
 
 async function editMaintainer() {
   if (meta.value.valid) {
-    await maintainers_store.updateMaintainer(
+    await maintainersStore.updateMaintainer(
       localMaintainer.value
     )
     changeDialogOptions()
@@ -183,7 +183,7 @@ function changeDialogOptions() {
 
 onMounted(() => {
   updateMaintainer()
-  maintainers_store.fetchRepositories()
-  maintainers_store.fetchPackages()
+  maintainersStore.fetchRepositories()
+  maintainersStore.fetchPackages()
 })
 </script>

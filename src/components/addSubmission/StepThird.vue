@@ -28,65 +28,76 @@
         {{ chosenRepository?.name }}
       </div>
       <v-divider></v-divider>
-      <div class="text-overline">packages</div>
       <v-list class="text-left">
-        <v-list-item
-          id="submission-package"
-          v-for="(file, i) in submissions_store.packages"
-          :key="i"
-          class="justify-start hoverable"
-        >
-          <template v-slot:prepend>
-            <v-icon color="white" icon="mdi-file" />
-          </template>
-
-          <template v-slot:append>
-            <v-list-item-title>
-              {{ file.name }}
-            </v-list-item-title>
+        <v-list-item class="text-overline">
+          <template v-slot:prepend> packages </template>
+          <template
+            v-slot:append
+            v-if="
+              submissionsStore.repository?.technology !=
+              'Python'
+            "
+          >
+            generate manual
           </template>
         </v-list-item>
+        <UploadSummary
+          v-for="(promise, i) in submissionsStore.promises"
+          :key="i"
+          :promise="promise"
+          :generateManual="
+            submissionsStore.getGenerateManualForPackage(
+              promise.packageBag
+            )
+          "
+          :technology="
+            submissionsStore.repository?.technology
+          "
+        />
       </v-list>
     </v-card-text>
   </v-card>
-  <div class="d-flex justify-space-between">
+  <div class="d-flex justify-center">
+    <v-tooltip
+      location="center"
+      v-if="!submissionsStore.resolved"
+    >
+      <template v-slot:activator="{ props }">
+        <div id="tooltip-activator" v-bind="props">
+          <v-btn
+            id="back-button-disabled"
+            color="oablue"
+            style="pointer-events: none"
+            disabled
+          >
+            {{ $t('submissions.addAnotherSubmission') }}
+          </v-btn>
+        </div>
+      </template>
+      <span id="tooltip-wait">{{
+        $t('submissions.waitForAllRequestsToFulfill')
+      }}</span>
+    </v-tooltip>
     <v-btn
+      v-else
       id="back-button"
       color="oablue"
-      @click="backStep"
+      @click="$emit('next', 1)"
     >
-      {{ $t('common.goBack') }}
-    </v-btn>
-
-    <v-btn
-      id="submit-button"
-      color="oablue"
-      @click="submit"
-      :disabled="disableSubmit"
-    >
-      submit
+      {{ $t('submissions.addAnotherSubmission') }}
     </v-btn>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useSubmissionStore } from '@/store/submission'
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
+import UploadSummary from '@/components/addSubmission/UploadSummary.vue'
 
-const emits = defineEmits(['next'])
-const disableSubmit = ref(false)
-const submissions_store = useSubmissionStore()
+const submissionsStore = useSubmissionStore()
 const chosenRepository = computed(() => {
-  return submissions_store.repository
+  return submissionsStore.repository
 })
-function backStep() {
-  emits('next', 2)
-}
-
-async function submit() {
-  submissions_store.addSubmissionRequests()
-  disableSubmit.value = true
-}
 </script>
 
 <style lang="scss">

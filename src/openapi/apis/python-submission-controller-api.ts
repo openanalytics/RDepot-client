@@ -387,6 +387,7 @@ export const PythonSubmissionControllerApiAxiosParamCreator =
         }
 
         if (replace !== undefined) {
+          console.log(replace)
           localVarQueryParameter['replace'] = replace
         }
 

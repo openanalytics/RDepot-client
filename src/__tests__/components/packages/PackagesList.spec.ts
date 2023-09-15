@@ -39,7 +39,7 @@ import PackageRowVue from '@/components/packages/PackageRow.vue'
 import packages from '@/__tests__/config/mockData/packages.json'
 
 let wrapper: any
-let packages_store: any
+let packagesStore: any
 const globalConfig = {
   mocks: mocks,
   plugins: plugins
@@ -48,7 +48,7 @@ const globalConfig = {
 beforeAll(() => {
   global.ResizeObserver = ResizeObserver
   setActivePinia(createPinia())
-  packages_store = usePackagesStore()
+  packagesStore = usePackagesStore()
 })
 
 beforeEach(async () => {
@@ -56,7 +56,7 @@ beforeEach(async () => {
     global: globalConfig
   })
 
-  packages_store.packages = packages.data.content
+  packagesStore.packages = packages.data.content
 })
 
 describe('Packages - list', () => {

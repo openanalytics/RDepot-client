@@ -20,6 +20,7 @@
  *
  */
 
+/* tslint:disable */
 /* eslint-disable */
 /**
  * RDEPOT API

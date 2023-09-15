@@ -30,37 +30,34 @@ describe('Select Pagination Store', () => {
   })
 
   it('Starting values', () => {
-    const select_pagination_store =
-      useSelectStore('packages')
-    expect(select_pagination_store.items).toEqual([])
-    expect(select_pagination_store.pending).toEqual(false)
-    expect(select_pagination_store.paginationData).toEqual({
+    const selectPaginationStore = useSelectStore('packages')
+    expect(selectPaginationStore.items).toEqual([])
+    expect(selectPaginationStore.pending).toEqual(false)
+    expect(selectPaginationStore.paginationData).toEqual({
       page: 0,
       totalNumber: -1
     })
   })
 
   it('Set pending', () => {
-    const select_pagination_store =
-      useSelectStore('packages')
-    select_pagination_store.pending = true
-    expect(select_pagination_store.pending).toEqual(true)
+    const selectPaginationStore = useSelectStore('packages')
+    selectPaginationStore.pending = true
+    expect(selectPaginationStore.pending).toEqual(true)
   })
 
   it('Add new items - display only unique values', () => {
-    const select_pagination_store =
-      useSelectStore('packages')
-    select_pagination_store.addItems([
+    const selectPaginationStore = useSelectStore('packages')
+    selectPaginationStore.addItems([
       'item1',
       'item2',
       'item3'
     ])
-    select_pagination_store.addItems([
+    selectPaginationStore.addItems([
       'item4',
       'item2',
       'item3'
     ])
-    expect(select_pagination_store.items).toEqual([
+    expect(selectPaginationStore.items).toEqual([
       'item1',
       'item2',
       'item3',
@@ -69,36 +66,32 @@ describe('Select Pagination Store', () => {
   })
 
   it('Reset items', () => {
-    const select_pagination_store =
-      useSelectStore('packages')
-    select_pagination_store.addItems([
+    const selectPaginationStore = useSelectStore('packages')
+    selectPaginationStore.addItems([
       'item1',
       'item2',
       'item3'
     ])
-    expect(select_pagination_store.items).toEqual([
+    expect(selectPaginationStore.items).toEqual([
       'item1',
       'item2',
       'item3'
     ])
-    select_pagination_store.resetItems()
-    expect(select_pagination_store.items).toEqual([])
+    selectPaginationStore.resetItems()
+    expect(selectPaginationStore.items).toEqual([])
   })
 
   it('Set pagination data which should change the fetched status', () => {
-    const select_pagination_store =
-      useSelectStore('packages')
-    select_pagination_store.paginationData = {
+    const selectPaginationStore = useSelectStore('packages')
+    selectPaginationStore.paginationData = {
       page: 2,
       totalNumber: 3
     }
-    select_pagination_store.addItems([
+    selectPaginationStore.addItems([
       'item1',
       'item2',
       'item3'
     ])
-    expect(select_pagination_store.ifAllFetched).toEqual(
-      true
-    )
+    expect(selectPaginationStore.ifAllFetched).toEqual(true)
   })
 })

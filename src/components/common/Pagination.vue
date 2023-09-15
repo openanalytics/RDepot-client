@@ -33,12 +33,12 @@
             >
               <div></div>
               <v-pagination
-                v-model="page"
+                v-model="pagination.page"
                 class="my-4"
                 :total-visible="
                   pagination.totalVisiblePages
                 "
-                :length="howManyPages"
+                :length="pagination.howManyPages"
               ></v-pagination>
               <v-row class="pageSize">
                 <v-text-field
@@ -62,16 +62,23 @@
 </template>
 
 <script setup lang="ts">
-import { usePagination } from '@/composable/pagination'
-import { usePaginationStore } from '@/store/pagination'
+import { usePagination } from '@/store/pagination'
+import { useLoggedUserStore } from '@/store/logged_user'
 import { ref } from 'vue'
 
-const { howManyPages, page, newPageSize } = usePagination()
-const pagination = usePaginationStore()
+const pagination = usePagination()
+
 const localPageSize = ref(pagination.pageSize)
+const logged_user_store = useLoggedUserStore()
 
 function setPageSize() {
-  newPageSize(localPageSize.value || 10)
+  pagination.newPageSize(localPageSize.value || 10)
+  var new_settings = logged_user_store.getCurrentSettings()
+  new_settings.pageSize = pagination.pageSize
+  logged_user_store.updateSettings(
+    logged_user_store.getCurrentSettings(),
+    new_settings
+  )
 }
 </script>
 
