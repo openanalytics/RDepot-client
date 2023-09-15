@@ -48,7 +48,8 @@
     },
     "deleteQuestion": "Are you sure you want to delete {resource_name}?",
     "copied": "code succesfully copied to clipboard",
-    "goBack": "go back"
+    "goBack": "go back",
+    "notAvailable": "Not available"
   },
   "columns": {
     "name": "name",
@@ -83,7 +84,15 @@
       "repository": "Repository",
       "deleted": "Deleted"
     },
-    "author": "author",
+    "authors": "Authors",
+    "emailAuthors": "Emails",
+    "platform": "Platform",
+    "version": "Version",
+    "projectUrl": "Project URL",
+    "providesExtra": "Provides extra",
+    "requiresDist": "Requires distribution",
+    "requiresExternal": "Requires external",
+    "requiresPython": "Requires python",
     "description": "description",
     "maintainers": "package maintainers",
     "list": "packages",
@@ -108,7 +117,13 @@
     "installInstruction": "To install this package, start R and enter:",
     "withinRdepot": "Within RDepot",
     "originalRPackageData": "As described in R package",
-    "download-code": "install.packages(\"{0}\", repos = c(rdepot = \"{1}\"), getOption(\"repos\")))"
+    "originalPythonPackageData": "As described in the Python package",
+    "download-code": "install.packages(\"{0}\", repos = c(rdepot = \"{1}\"), getOption(\"repos\")))",
+    "windowsBinaries": "Windows binaries",
+    "submitter": "Submitter",
+    "approver": "Approver",
+    "classifiers": "Classifiers",
+    "maintainer": "Maintainer"
   },
   "events": {
     "filtration": {

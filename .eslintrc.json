@@ -33,7 +33,7 @@
       }
     ],
     "linebreak-style": ["error", "unix"],
-    "quotes": ["error", "single"],
+    "quotes": ["error", "single", { "avoidEscape": true }],
     "semi": ["error", "never"],
     "no-mixed-spaces-and-tabs": ["warn"],
     "prettier/prettier": "warn",

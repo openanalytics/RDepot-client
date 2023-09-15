@@ -130,6 +130,96 @@ export interface EntityModelPythonPackageDto {
    * @type {string}
    * @memberof EntityModelPythonPackageDto
    */
+  authorEmail?: string
+  /**
+   *
+   * @type {string}
+   * @memberof EntityModelPythonPackageDto
+   */
+  classifiers?: string
+  /**
+   *
+   * @type {string}
+   * @memberof EntityModelPythonPackageDto
+   */
+  descriptionContentType?: string
+  /**
+   *
+   * @type {string}
+   * @memberof EntityModelPythonPackageDto
+   */
+  homePage?: string
+  /**
+   *
+   * @type {string}
+   * @memberof EntityModelPythonPackageDto
+   */
+  keywords?: string
+  /**
+   *
+   * @type {string}
+   * @memberof EntityModelPythonPackageDto
+   */
+  license?: string
+  /**
+   *
+   * @type {string}
+   * @memberof EntityModelPythonPackageDto
+   */
+  maintainer?: string
+  /**
+   *
+   * @type {string}
+   * @memberof EntityModelPythonPackageDto
+   */
+  maintainerEmail?: string
+  /**
+   *
+   * @type {string}
+   * @memberof EntityModelPythonPackageDto
+   */
+  platform?: string
+  /**
+   *
+   * @type {string}
+   * @memberof EntityModelPythonPackageDto
+   */
+  projectUrl?: string
+  /**
+   *
+   * @type {string}
+   * @memberof EntityModelPythonPackageDto
+   */
+  providesExtra?: string
+  /**
+   *
+   * @type {string}
+   * @memberof EntityModelPythonPackageDto
+   */
+  requiresDist?: string
+  /**
+   *
+   * @type {string}
+   * @memberof EntityModelPythonPackageDto
+   */
+  requiresExternal?: string
+  /**
+   *
+   * @type {string}
+   * @memberof EntityModelPythonPackageDto
+   */
+  requiresPython?: string
+  /**
+   *
+   * @type {string}
+   * @memberof EntityModelPythonPackageDto
+   */
+  summary?: string
+  /**
+   *
+   * @type {string}
+   * @memberof EntityModelPythonPackageDto
+   */
   hash?: string
   /**
    *

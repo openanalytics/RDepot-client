@@ -24,6 +24,13 @@ import { PackagesFiltration } from '@/models/Filtration'
 import {
   ApiV2PackageControllerApiFactory,
   EntityModelPackageDto,
+  EntityModelPythonPackageDto,
+  EntityModelRPackageDto,
+  PythonPackageControllerApiFactory,
+  ResponseDtoEntityModelPackageDto,
+  ResponseDtoEntityModelPythonPackageDto,
+  ResponseDtoEntityModelRPackageDto,
+  ResponseDtoPagedModelEntityModelPackageDto,
   RPackageControllerApiFactory
 } from '@/openapi'
 import { isAuthorized } from '@/plugins/casl'
@@ -39,8 +46,8 @@ export function fetchPackagesServices(
   filtration?: PackagesFiltration,
   page?: number,
   pageSize?: number,
-  showProgress = true
-): Promise<validatedData<EntityModelPackageDto[]>> {
+  showProgress = false
+): Promise<validatedData<EntityModelPackageDto>> {
   if (!isAuthorized('GET', 'packages')) {
     return new Promise(() => validateRequest)
   }
@@ -61,14 +68,71 @@ export function fetchPackagesServices(
 }
 
 export function fetchPackageServices(
-  id: number
-): Promise<validatedData<EntityModelPackageDto>> {
+  id: number,
+  showProgress = false
+): Promise<EntityModelPackageDto> {
   if (!isAuthorized('GET', 'packages')) {
     return new Promise(() => {})
   }
-  return openApiRequest<EntityModelPackageDto>(
-    ApiV2PackageControllerApiFactory().getPackageById,
-    [id]
+  const packages_api = ApiV2PackageControllerApiFactory(
+    getConfiguration()
+  )
+  return openApiRequest<ResponseDtoEntityModelPackageDto>(
+    packages_api.getPackageById,
+    [id],
+    showProgress
+  ).then(
+    (res) => res.data.data || {},
+    (msg) => {
+      notify({ text: msg, type: 'error' })
+      return {}
+    }
+  )
+}
+
+export function fetchRPackageServices(
+  id: number,
+  showProgress = false
+): Promise<EntityModelRPackageDto> {
+  if (!isAuthorized('GET', 'packages')) {
+    return new Promise(() => {})
+  }
+  const packages_api = RPackageControllerApiFactory(
+    getConfiguration()
+  )
+  return openApiRequest<ResponseDtoEntityModelRPackageDto>(
+    packages_api.getRPackageById,
+    [id],
+    showProgress
+  ).then(
+    (res) => res.data.data || {},
+    (msg) => {
+      notify({ text: msg, type: 'error' })
+      return {}
+    }
+  )
+}
+
+export function fetchPythonPackageServices(
+  id: number,
+  showProgress = false
+): Promise<EntityModelPythonPackageDto> {
+  if (!isAuthorized('GET', 'packages')) {
+    return new Promise(() => {})
+  }
+  const packages_api = PythonPackageControllerApiFactory(
+    getConfiguration()
+  )
+  return openApiRequest<ResponseDtoEntityModelPythonPackageDto>(
+    packages_api.getAllPythonPackageById,
+    [id],
+    showProgress
+  ).then(
+    (res) => res.data.data || {},
+    (msg) => {
+      notify({ text: msg, type: 'error' })
+      return {}
+    }
   )
 }
 

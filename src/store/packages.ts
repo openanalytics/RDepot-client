@@ -28,21 +28,25 @@ import { fetchPackagesServices } from '@/services'
 import { defineStore } from 'pinia'
 import {
   EntityModelPackageDto,
+  EntityModelSubmissionDto,
   ResponseDtoListVignette,
   RPackageControllerApiFactory
 } from '@/openapi'
 import {
   downloadReferenceManual,
   fetchPackageServices,
+  fetchPythonPackageServices,
+  fetchRPackageServices,
   updateRPackage
 } from '@/services/package_services'
 import { useUtilities } from '@/composable/utilities'
 import { packagesFiltrationLabels } from '@/maps/Filtration'
-import { usePagination } from '@/store/pagination'
+import { fetchSubmission } from '@/services/submission_services'
 
 interface State {
   packages: EntityModelPackageDto[]
   package?: EntityModelPackageDto
+  submission?: EntityModelSubmissionDto
   vignettes: ResponseDtoListVignette
   filtration: PackagesFiltration
   chosenPackageId?: number
@@ -58,6 +62,7 @@ export const usePackagesStore = defineStore(
       return {
         packages: [],
         package: {},
+        submission: {},
         vignettes: {},
         filtration: defaultValues(PackagesFiltration),
         chosenPackageId: undefined,
@@ -105,8 +110,18 @@ export const usePackagesStore = defineStore(
         return pageData
       },
       async fetchPackage(id: number) {
-        const [packageBag] = await fetchPackageServices(id)
-        this.package = packageBag
+        this.package = await fetchPackageServices(id)
+        if (this.package?.submissionId) {
+          this.submission = await fetchSubmission(
+            this.package.submissionId
+          )
+        }
+      },
+      async fetchRPackage(id: number) {
+        this.package = await fetchRPackageServices(id)
+      },
+      async fetchPythonPackage(id: number) {
+        this.package = await fetchPythonPackageServices(id)
       },
       async activatePackage(
         newPackage: EntityModelPackageDto
