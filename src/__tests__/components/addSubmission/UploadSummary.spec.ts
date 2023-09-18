@@ -35,7 +35,7 @@ import { mocks } from '@/__tests__/config/mocks'
 import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import { createPinia, setActivePinia } from 'pinia'
 import UploadSummary from '@/components/addSubmission/UploadSummary.vue'
-
+import submissions from '@/__tests__/config/mockData/submissions.json'
 import { PackagePromise } from '@/store/submission'
 import { usePackagesStore } from '@/store/packages'
 import { VProgressCircular } from 'vuetify/components'
@@ -57,7 +57,8 @@ const promise: PackagePromise = {
   packageBag: file,
   promise: new Promise(() => {}),
   state: 'pending',
-  message: []
+  error: [],
+  response: undefined
 }
 
 beforeAll(() => {
@@ -137,7 +138,7 @@ describe('Upload summary - pending', () => {
 describe('Upload summary - error', () => {
   beforeAll(() => {
     promise.state = 'error'
-    promise.message = ['Some error message']
+    promise.error = ['Some error message']
   })
 
   beforeEach(async () => {
@@ -218,7 +219,7 @@ describe('Upload summary - error', () => {
     await tooltipActivator.trigger('mousenter')
     await wrapper.vm.$nextTick()
     requestAnimationFrame(() => {
-      expect(wrapper.text()).toContain(promise.message[0])
+      expect(wrapper.text()).toContain(promise.error[0])
       done()
     })
   })
@@ -226,8 +227,21 @@ describe('Upload summary - error', () => {
 
 describe('Upload summary - success', () => {
   beforeAll(() => {
+    const pagination = {
+      totalElements: 20,
+      size: 5,
+      totalPages: 5,
+      number: 1,
+      totalNumber: 5,
+      page: 1
+    }
     promise.state = 'success'
-    promise.message = ['true', '1']
+    promise.response = [
+      { id: 1 },
+      pagination,
+      submissions.data.links
+    ]
+    promise.error = []
   })
 
   beforeEach(async () => {
@@ -315,7 +329,6 @@ describe('Upload summary - success', () => {
 describe('Upload summary - success, no manual', () => {
   beforeAll(() => {
     promise.state = 'success'
-    promise.message = ['true', '1']
   })
 
   beforeEach(async () => {
@@ -371,7 +384,6 @@ describe('Upload summary - success, no manual', () => {
 describe('Upload summary - no manual options', () => {
   beforeAll(() => {
     promise.state = 'success'
-    promise.message = ['true', '1']
   })
 
   beforeEach(async () => {

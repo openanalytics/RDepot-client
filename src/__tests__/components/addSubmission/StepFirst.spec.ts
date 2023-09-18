@@ -33,7 +33,7 @@ import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
 import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import { createPinia, setActivePinia } from 'pinia'
-import { useSubmissionStore } from '@/store/useSubmissionStore'
+import { useSubmissionStore } from '@/store/submission'
 import StepFirstVue from '@/components/addSubmission/StepFirst.vue'
 
 let wrapper: any

@@ -92,11 +92,11 @@ export const usePagination = defineStore(
       pageSize.value = value
     }
 
-    let newPageWithoutRefresh = (value: number) => {
+    const newPageWithoutRefresh = (value: number) => {
       localPage.value = value + 1
     }
 
-    let resetPage = () => {
+    const resetPage = () => {
       localPage.value = 1
     }
 
