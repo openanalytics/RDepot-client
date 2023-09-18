@@ -43,10 +43,11 @@ import { validatedData } from '@/services/open_api_access'
 import { usePagination } from '@/store/pagination'
 
 export type PackagePromise = {
-  promise: Promise<string[]>
+  promise: Promise<validatedData<EntityModelSubmissionDto>>
   packageBag: File
   state: string
-  message: string[]
+  error: string[]
+  response?: validatedData<EntityModelSubmissionDto>
 }
 
 interface State {
@@ -218,32 +219,26 @@ export const useSubmissionStore = defineStore(
             ),
             packageBag: packageBag,
             state: 'pending',
-            message: []
+            error: [],
+            response: undefined
           }
         })
         let fulfilled = 0
         this.promises.forEach(async (promise) => {
-          const isFulfilled = await promise.promise
-          promise.message = isFulfilled
-          if (
-            fulfilled == 0 &&
-            isFulfilled[0] == 'success'
-          ) {
-            promise.state = 'success'
-            notify({
-              type: 'success',
-              text: i18n.t(
-                'notifications.successCreateSubmissiom'
-              )
+          await promise.promise
+            .then((response) => {
+              promise.response = response
+              promise.state = 'success'
             })
-          } else if (isFulfilled[0] == 'success') {
-            promise.state = 'success'
-          } else {
-            promise.state = 'error'
-          }
-          if (++fulfilled == this.promises.length) {
-            this.resolved = true
-          }
+            .catch((err) => {
+              promise.state = 'error'
+              promise.error = err.response.data.data
+            })
+            .finally(() => {
+              if (++fulfilled == this.promises.length) {
+                this.resolved = true
+              }
+            })
         })
       },
       getLabels() {

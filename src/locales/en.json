@@ -10,7 +10,8 @@
   },
   "errors": {
     "401": "Cannot perform this request because user is not authenticated.",
-    "403": "Cannot perform this request because user is not authorized"
+    "403": "Cannot perform this request because user is not authorized",
+    "422": "validation failed"
   },
   "addSubmission": {
     "step1Title": "Choose repository",

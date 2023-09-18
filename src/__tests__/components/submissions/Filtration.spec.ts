@@ -34,7 +34,7 @@ import { mocks } from '@/__tests__/config/mocks'
 import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import FiltrationVue from '@/components/submissions/Filtration.vue'
 import { createPinia, setActivePinia } from 'pinia'
-import { useSubmissionStore } from '@/store/submission'
+import { useSubmissionStore } from '@/store/useSubmissionStore'
 import FiltrationCard from '@/components/common/FiltrationCard.vue'
 import {
   SubmissionsFiltration,

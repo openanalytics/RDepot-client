@@ -21,7 +21,7 @@
  */
 
 import { setActivePinia, createPinia } from 'pinia'
-import { useSubmissionStore } from '@/store/submission'
+import { useSubmissionStore } from '@/store/useSubmissionStore'
 import {
   describe,
   beforeEach,

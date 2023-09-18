@@ -35,7 +35,7 @@ import { mocks } from '@/__tests__/config/mocks'
 import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import { createPinia, setActivePinia } from 'pinia'
 import StepSecondVue from '@/components/addSubmission/StepSecond.vue'
-import { useSubmissionStore } from '@/store/submission'
+import { useSubmissionStore } from '@/store/useSubmissionStore'
 import { nextTick } from 'process'
 
 let wrapper: any

@@ -42,6 +42,7 @@ import {
 import { useUtilities } from '@/composable/utilities'
 import { packagesFiltrationLabels } from '@/maps/Filtration'
 import { fetchSubmission } from '@/services/submission_services'
+import { usePagination } from './pagination'
 
 interface State {
   packages: EntityModelPackageDto[]
@@ -110,18 +111,20 @@ export const usePackagesStore = defineStore(
         return pageData
       },
       async fetchPackage(id: number) {
-        this.package = await fetchPackageServices(id)
+        this.package = (await fetchPackageServices(id))[0]
         if (this.package?.submissionId) {
-          this.submission = await fetchSubmission(
-            this.package.submissionId
-          )
+          this.submission = (
+            await fetchSubmission(this.package.submissionId)
+          )[0]
         }
       },
       async fetchRPackage(id: number) {
-        this.package = await fetchRPackageServices(id)
+        this.package = (await fetchRPackageServices(id))[0]
       },
       async fetchPythonPackage(id: number) {
-        this.package = await fetchPythonPackageServices(id)
+        this.package = (
+          await fetchPythonPackageServices(id)
+        )[0]
       },
       async activatePackage(
         newPackage: EntityModelPackageDto

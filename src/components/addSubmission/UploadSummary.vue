@@ -56,19 +56,26 @@
             icon="mdi-close-circle-outline"
           ></v-icon>
         </template>
-        <div v-for="message in promise.message">
-          {{ message }}
+        <div v-for="error in promise.error">
+          {{ error }}
         </div>
       </v-tooltip>
     </template>
 
     <template v-slot:append v-if="technology != 'Python'">
       <v-btn
-        v-if="!generateManual && promise.message.length > 1"
+        v-if="
+          !generateManual &&
+          promise.error.length == 0 &&
+          promise.response &&
+          promise.response[0].id
+        "
         icon="mdi-download"
         variant="text"
         id="download-manual-icon"
-        @click="downloadManual(promise.message[1])"
+        @click="
+          downloadManual(promise.response[0].id.toString())
+        "
       ></v-btn>
       <v-btn
         v-if="!generateManual"
@@ -93,6 +100,7 @@
 import { PackagePromise } from '@/store/submission'
 import { computed } from 'vue'
 import { usePackagesStore } from '@/store/packages'
+import { response } from 'msw'
 
 var props = defineProps<{
   promise: PackagePromise
