@@ -33,10 +33,8 @@ import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
 import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import { createPinia, setActivePinia } from 'pinia'
-import {
-  PackagePromise,
-  useSubmissionStore
-} from '@/store/submission'
+import { PackagePromise } from '@/store/submission'
+import { useSubmissionStore } from '@/store/submission'
 import StepThirdVue from '@/components/addSubmission/StepThird.vue'
 import UploadSummary from '@/components/addSubmission/UploadSummary.vue'
 
@@ -66,13 +64,15 @@ const promises: PackagePromise[] = [
     packageBag: files[0],
     promise: new Promise(() => {}),
     state: 'pending',
-    message: []
+    error: [],
+    response: undefined
   },
   {
     packageBag: files[1],
     promise: new Promise(() => {}),
     state: 'pending',
-    message: []
+    error: [],
+    response: undefined
   }
 ]
 

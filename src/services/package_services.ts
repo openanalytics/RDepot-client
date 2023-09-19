@@ -27,10 +27,6 @@ import {
   EntityModelPythonPackageDto,
   EntityModelRPackageDto,
   PythonPackageControllerApiFactory,
-  ResponseDtoEntityModelPackageDto,
-  ResponseDtoEntityModelPythonPackageDto,
-  ResponseDtoEntityModelRPackageDto,
-  ResponseDtoPagedModelEntityModelPackageDto,
   RPackageControllerApiFactory
 } from '@/openapi'
 import { isAuthorized } from '@/plugins/casl'
@@ -47,7 +43,7 @@ export function fetchPackagesServices(
   page?: number,
   pageSize?: number,
   showProgress = false
-): Promise<validatedData<EntityModelPackageDto>> {
+): Promise<validatedData<EntityModelPackageDto[]>> {
   if (!isAuthorized('GET', 'packages')) {
     return new Promise(() => validateRequest)
   }
@@ -70,69 +66,43 @@ export function fetchPackagesServices(
 export function fetchPackageServices(
   id: number,
   showProgress = false
-): Promise<EntityModelPackageDto> {
+): Promise<validatedData<EntityModelPackageDto>> {
   if (!isAuthorized('GET', 'packages')) {
     return new Promise(() => {})
   }
-  const packages_api = ApiV2PackageControllerApiFactory(
-    getConfiguration()
-  )
-  return openApiRequest<ResponseDtoEntityModelPackageDto>(
-    packages_api.getPackageById,
+  return openApiRequest<EntityModelPackageDto>(
+    ApiV2PackageControllerApiFactory().getPackageById,
     [id],
     showProgress
-  ).then(
-    (res) => res.data.data || {},
-    (msg) => {
-      notify({ text: msg, type: 'error' })
-      return {}
-    }
   )
 }
 
 export function fetchRPackageServices(
   id: number,
   showProgress = false
-): Promise<EntityModelRPackageDto> {
+): Promise<validatedData<EntityModelRPackageDto>> {
   if (!isAuthorized('GET', 'packages')) {
     return new Promise(() => {})
   }
-  const packages_api = RPackageControllerApiFactory(
-    getConfiguration()
-  )
-  return openApiRequest<ResponseDtoEntityModelRPackageDto>(
-    packages_api.getRPackageById,
+  return openApiRequest<EntityModelRPackageDto>(
+    RPackageControllerApiFactory().getRPackageById,
     [id],
     showProgress
-  ).then(
-    (res) => res.data.data || {},
-    (msg) => {
-      notify({ text: msg, type: 'error' })
-      return {}
-    }
   )
 }
 
 export function fetchPythonPackageServices(
   id: number,
   showProgress = false
-): Promise<EntityModelPythonPackageDto> {
+): Promise<validatedData<EntityModelPythonPackageDto>> {
   if (!isAuthorized('GET', 'packages')) {
     return new Promise(() => {})
   }
-  const packages_api = PythonPackageControllerApiFactory(
-    getConfiguration()
-  )
-  return openApiRequest<ResponseDtoEntityModelPythonPackageDto>(
-    packages_api.getAllPythonPackageById,
+  return openApiRequest<EntityModelPythonPackageDto>(
+    PythonPackageControllerApiFactory()
+      .getAllPythonPackageById,
     [id],
     showProgress
-  ).then(
-    (res) => res.data.data || {},
-    (msg) => {
-      notify({ text: msg, type: 'error' })
-      return {}
-    }
   )
 }
 
@@ -150,13 +120,9 @@ export function updateRPackage(
     [patch, oldPackage.id]
   )
 }
-
 export function downloadReferenceManual(id: string) {
-  const packagesApi = RPackageControllerApiFactory(
-    getConfiguration()
-  )
   return openApiRequest<Promise<boolean>>(
-    packagesApi.downloadReferenceManual,
+    RPackageControllerApiFactory().downloadReferenceManual,
     [id]
   )
 }

@@ -92,9 +92,16 @@ function errorsHandler(error: AxiosError) {
       break
     }
 
+    case 422: {
+      notify({
+        title: '401',
+        type: 'error',
+        text: i18n.t('errors.422')
+      })
+      break
+    }
+
     case 500: {
-      const logged_user_store = useLoggedUserStore()
-      logged_user_store.getUserInfo()
       notify({
         title: '500',
         type: 'error'

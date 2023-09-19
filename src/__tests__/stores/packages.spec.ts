@@ -32,6 +32,7 @@ import {
   afterAll
 } from 'vitest'
 import packages from '@/__tests__/config/mockData/packages.json'
+import submissions from '@/__tests__/config/mockData/submissions.json'
 import repositories from '@/__tests__/config/mockData/repositories.json'
 import { rest } from 'msw'
 import { usePagination } from '@/store/pagination'
@@ -60,6 +61,12 @@ const server = setupServer(
     }
   ),
   rest.get(
+    'http://localhost:8017/api/v2/manager/submissions',
+    (_, res, ctx) => {
+      return res(ctx.json(submissions))
+    }
+  ),
+  rest.get(
     'http://localhost:8017/api/v2/manager/packages/:package_id',
     (req, res, ctx) => {
       return res(
@@ -68,6 +75,20 @@ const server = setupServer(
             (elem) =>
               elem.id.toString() ===
               req.params.package_id.toString()
+          )
+        })
+      )
+    }
+  ),
+  rest.get(
+    'http://localhost:8017/api/v2/manager/submissions/:submission_id',
+    (req, res, ctx) => {
+      return res(
+        ctx.json({
+          data: submissions.data.content.find(
+            (elem) =>
+              elem.id.toString() ===
+              req.params.submission_id.toString()
           )
         })
       )
@@ -114,7 +135,6 @@ describe('Package Store', () => {
 
   it('Fetch package', async () => {
     const packageStore = usePackagesStore()
-
     await packageStore.fetchPackage(
       packages.data.content[2].id
     )

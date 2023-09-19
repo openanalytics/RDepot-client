@@ -38,7 +38,7 @@ export function fetchEventsServices(
   pageSize?: number
 ): Promise<validatedData<EntityModelNewsfeedEventDto>> {
   if (!isAuthorized('GET', 'events')) {
-    return new Promise(() => validateRequest())
+    return new Promise(() => validateRequest)
   }
   let localFiltration = undefined
   if (

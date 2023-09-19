@@ -39,6 +39,8 @@ import { useSortStore } from '@/store/sort'
 import { isAuthorized } from '@/plugins/casl'
 import { Technologies } from '@/enum/Technologies'
 import { z } from 'zod'
+import { getConfiguration } from './api_config'
+import { AxiosResponse } from 'axios'
 
 export function fetchSubmissions(
   filtration: SubmissionsFiltration,
@@ -82,34 +84,21 @@ export function updateSubmission(
     oldSubmission,
     newSubmission
   )
-  let request: Promise<AxiosResponse<any>>
   if (oldSubmission.technology === Technologies.enum.R) {
-    const r_submission_api =
-      RSubmissionControllerApiFactory(getConfiguration())
-
-    request = openApiRequest<AxiosResponse<any>>(() =>
-      r_submission_api.updateRSubmission(
-        patch_body,
-        oldSubmission.id!
-      )
+    return openApiRequest<EntityModelSubmissionDto>(
+      RSubmissionControllerApiFactory().updateRSubmission,
+      [patch_body, oldSubmission.id!]
     )
   } else if (
     oldSubmission.technology === Technologies.enum.Python
   ) {
-    const python_submission_api =
-      PythonSubmissionControllerApiFactory(
-        getConfiguration()
-      )
-
-    request = openApiRequest<AxiosResponse<any>>(() =>
-      python_submission_api.updatePythonSubmission(
-        patch_body,
-        oldSubmission.id!
-      )
+    return openApiRequest<EntityModelSubmissionDto>(
+      PythonSubmissionControllerApiFactory()
+        .updatePythonSubmission,
+      [patch_body, oldSubmission.id!]
     )
   } else {
     // Should never happen expect if a new technology is added
-    request = z.NEVER
     throw {
       name: 'NotImplemetedError',
       message:
@@ -118,22 +107,6 @@ export function updateSubmission(
         '" not implemented!'
     }
   }
-  return request.then(
-    () => {
-      notify({
-        type: 'success',
-        text: textNotification
-      })
-      return true
-    },
-    (msg) => {
-      notify({
-        type: 'error',
-        text: msg
-      })
-      return false
-    }
-  )
 }
 
 export function addSubmission(
@@ -141,7 +114,7 @@ export function addSubmission(
   technology: string,
   file: File,
   generateManual?: boolean
-): Promise<string[]> {
+): Promise<validatedData<EntityModelSubmissionDto>> {
   if (!isAuthorized('POST', 'submissions')) {
     return new Promise(() => false)
   }
@@ -160,45 +133,30 @@ export function addSubmission(
     return new Promise(() => false)
   }
 
-  return openApiRequest<
-    AxiosResponse<EntityModelSubmissionDto>
-  >(
+  return openApiRequest<EntityModelSubmissionDto>(
     submissionApi,
     [repository, file, generateManual, false],
     false
-  ).then(
-    (submission) => {
-      return ['success', submission[0].data.packageBag?.id]
-    },
-    (msg) => {
-      return msg.response.data.data
-    }
   )
+  // .then(
+  //   (submission) => {
+  //     return ['success', submission[0].data.packageBag?.id]
+  //   },
+  //   (msg) => {
+  //     return msg.response.data.data
+  //   }
+  // )
 }
 
 export function fetchSubmission(
   id: number
-): Promise<EntityModelSubmissionDto> {
+): Promise<validatedData<EntityModelSubmissionDto>> {
   if (!isAuthorized('GET', 'submissions')) {
     return new Promise(() => {})
   }
 
-  const submission_api =
-    ApiV2SubmissionControllerApiFactory(getConfiguration())
-
-  return openApiRequest<ResponseDtoEntityModelSubmissionDto>(
-    submission_api.getSubmissionById,
+  return openApiRequest<EntityModelSubmissionDto>(
+    ApiV2SubmissionControllerApiFactory().getSubmissionById,
     [id]
-  ).then(
-    (res) => {
-      return res.data.data || {}
-    },
-    (msg) => {
-      notify({
-        type: 'error',
-        text: msg
-      })
-      return {}
-    }
   )
 }

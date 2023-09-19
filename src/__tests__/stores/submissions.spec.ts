@@ -37,6 +37,7 @@ import {
 } from '@/openapi'
 import packages from '@/__tests__/config/mockData/packages.json'
 import submissions from '@/__tests__/config/mockData/submissions.json'
+import me from '@/__tests__/config/mockData/me.json'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { useUtilities } from '@/composable/utilities'
@@ -71,6 +72,7 @@ const server = setupServer(
       return res(ctx.json(submissions))
     }
   ),
+
   rest.patch(
     'http://localhost:8017/api/v2/manager/r/submissions/:submission_id',
     (req, res, ctx) => {
@@ -249,6 +251,12 @@ const failingServer = setupServer(
     'http://localhost:8017/api/v2/manager/r/submissions/:submission_id',
     (_, res, ctx) => {
       return res(ctx.status(403))
+    }
+  ),
+  rest.get(
+    'http://localhost:8017/api/v2/manager/users/me',
+    (_, res, ctx) => {
+      return res(ctx.json(me))
     }
   )
 )
