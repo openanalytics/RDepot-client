@@ -39,7 +39,7 @@ import users from '@/__tests__/config/mockData/users.json'
 import { useUserStore } from '@/store/users'
 
 let wrapper: any
-let user_store: any
+let userStore: any
 const globalConfig = {
   mocks: mocks,
   plugins: plugins
@@ -47,14 +47,14 @@ const globalConfig = {
 beforeAll(() => {
   global.ResizeObserver = ResizeObserver
   setActivePinia(createPinia())
-  user_store = useUserStore()
+  userStore = useUserStore()
 })
 
 beforeEach(async () => {
   wrapper = mount(UserList, {
     global: globalConfig
   })
-  user_store.userList = users.data.content
+  userStore.userList = users.data.content
 })
 
 describe('User - list', () => {

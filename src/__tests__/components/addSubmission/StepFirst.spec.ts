@@ -41,7 +41,7 @@ const globalConfig = {
   mocks: mocks,
   plugins: plugins
 }
-let submission_store: any
+let submissionStore: any
 
 beforeAll(() => {
   global.ResizeObserver = ResizeObserver
@@ -49,7 +49,7 @@ beforeAll(() => {
 
 beforeEach(async () => {
   setActivePinia(createPinia())
-  submission_store = useSubmissionStore()
+  submissionStore = useSubmissionStore()
   wrapper = mount(StepFirstVue, {
     global: globalConfig
   })
@@ -73,7 +73,7 @@ describe('Add submission - first step', () => {
   })
 
   it('go next allowed if reposiotry is choosen', async () => {
-    await submission_store.setRepository({
+    await submissionStore.setRepository({
       id: 1,
       name: 'repository1'
     })

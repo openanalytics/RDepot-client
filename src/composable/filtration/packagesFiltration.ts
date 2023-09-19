@@ -30,16 +30,16 @@ import {
 export function usePackagesFiltration() {
   const storeId: SelectState = 'packages'
 
-  const select_store = useSelectStore(storeId)
-  const packages_store = usePackagesStore()
+  const selectStore = useSelectStore(storeId)
+  const packagesStore = usePackagesStore()
 
   async function loadPackages() {
-    select_store.paginationData =
-      await packages_store.fetchPageOfPackages(
-        select_store.paginationData.page
+    selectStore.paginationData =
+      await packagesStore.fetchPageOfPackages(
+        selectStore.paginationData.page
       )
-    select_store.addItems(
-      packages_store.packages.map(
+    selectStore.addItems(
+      packagesStore.packages.map(
         (packageBag: EntityModelPackageDto) =>
           packageBag.name
       )
@@ -47,8 +47,8 @@ export function usePackagesFiltration() {
   }
 
   function filtratePackages(value: string | undefined) {
-    if (packages_store.filtration.repository !== value) {
-      packages_store.setFiltrationByRepositoryOnly(value)
+    if (packagesStore.filtration.repository !== value) {
+      packagesStore.setFiltrationByRepositoryOnly(value)
     }
   }
 

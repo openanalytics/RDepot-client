@@ -24,6 +24,7 @@ import { Configuration } from '@/openapi'
 import { authService } from '@/plugins/oauth'
 import { useUserStore } from '@/store/users'
 import getEnv from '@/utils/env'
+import { AxiosRequestConfig } from 'axios'
 
 export async function getConfiguration() {
   const configuration: Configuration = new Configuration()
@@ -34,6 +35,15 @@ export async function getConfiguration() {
     }
   }
   return configuration
+}
+
+export async function getHeaders() {
+  const axiosRequestConfig: AxiosRequestConfig = {
+    headers: {
+      Authorization: 'Bearer ' + (await getToken())
+    }
+  }
+  return axiosRequestConfig
 }
 
 async function getToken() {

@@ -330,7 +330,7 @@ export const PythonSubmissionControllerApiAxiosParamCreator =
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
-      submitPythonPacakgeForm: async (
+      submitPythonPackageForm: async (
         repository: string,
         file?: Blob,
         generateManual?: boolean,
@@ -344,7 +344,7 @@ export const PythonSubmissionControllerApiAxiosParamCreator =
         ) {
           throw new RequiredError(
             'repository',
-            'Required parameter repository was null or undefined when calling submitPythonPacakgeForm.'
+            'Required parameter repository was null or undefined when calling submitPythonPackageForm.'
           )
         }
         const localVarPath = `/api/v2/manager/python/submissions`
@@ -387,6 +387,7 @@ export const PythonSubmissionControllerApiAxiosParamCreator =
         }
 
         if (replace !== undefined) {
+          console.log(replace)
           localVarQueryParameter['replace'] = replace
         }
 
@@ -667,7 +668,7 @@ export const PythonSubmissionControllerApiFp = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async submitPythonPacakgeForm(
+    async submitPythonPackageForm(
       repository: string,
       file?: Blob,
       generateManual?: boolean,
@@ -682,7 +683,7 @@ export const PythonSubmissionControllerApiFp = function (
       const localVarAxiosArgs =
         await PythonSubmissionControllerApiAxiosParamCreator(
           configuration
-        ).submitPythonPacakgeForm(
+        ).submitPythonPackageForm(
           repository,
           file,
           generateManual,
@@ -825,7 +826,7 @@ export const PythonSubmissionControllerApiFactory =
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
-      async submitPythonPacakgeForm(
+      async submitPythonPackageForm(
         repository: string,
         file?: Blob,
         generateManual?: boolean,
@@ -835,7 +836,7 @@ export const PythonSubmissionControllerApiFactory =
         return PythonSubmissionControllerApiFp(
           configuration
         )
-          .submitPythonPacakgeForm(
+          .submitPythonPackageForm(
             repository,
             file,
             generateManual,
@@ -955,7 +956,7 @@ export class PythonSubmissionControllerApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof PythonSubmissionControllerApi
    */
-  public async submitPythonPacakgeForm(
+  public async submitPythonPackageForm(
     repository: string,
     file?: Blob,
     generateManual?: boolean,
@@ -965,7 +966,7 @@ export class PythonSubmissionControllerApi extends BaseAPI {
     return PythonSubmissionControllerApiFp(
       this.configuration
     )
-      .submitPythonPacakgeForm(
+      .submitPythonPackageForm(
         repository,
         file,
         generateManual,

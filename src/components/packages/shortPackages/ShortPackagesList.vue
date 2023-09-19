@@ -21,7 +21,7 @@
 -->
 
 <template>
-  <ResourcesList :resources="package_store.packages" expand>
+  <ResourcesList :resources="packageStore.packages" expand>
     <template #title>
       <ShortPackageRow title />
     </template>
@@ -41,8 +41,8 @@ import ResourcesList from '@/components/common/resources/ResourcesList.vue'
 import { usePackagesStore } from '@/store/packages'
 import { useRepositoryStore } from '@/store/repositories'
 
-const package_store = usePackagesStore()
-const repositories_store = useRepositoryStore()
+const packageStore = usePackagesStore()
+const repositoriesStore = useRepositoryStore()
 
 function getDescription(item: any) {
   if (item.hasOwnProperty('description')) {
@@ -52,8 +52,8 @@ function getDescription(item: any) {
 }
 
 function updateData(): void {
-  package_store.fetchPackages({
-    repository: repositories_store.chosenRepository.name,
+  packageStore.fetchPackages({
+    repository: repositoriesStore.chosenRepository.name,
     deleted: false
   })
 }

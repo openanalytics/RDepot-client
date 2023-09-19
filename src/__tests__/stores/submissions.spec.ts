@@ -37,14 +37,15 @@ import {
 } from '@/openapi'
 import packages from '@/__tests__/config/mockData/packages.json'
 import submissions from '@/__tests__/config/mockData/submissions.json'
+import me from '@/__tests__/config/mockData/me.json'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
-import { usePaginationStore } from '@/store/pagination'
 import { useUtilities } from '@/composable/utilities'
 import {
   SubmissionsFiltration,
   defaultValues
 } from '@/models/Filtration'
+import { usePagination } from '@/store/pagination'
 
 const { deepCopyAny } = useUtilities()
 const files = [
@@ -71,6 +72,7 @@ const server = setupServer(
       return res(ctx.json(submissions))
     }
   ),
+
   rest.patch(
     'http://localhost:8017/api/v2/manager/r/submissions/:submission_id',
     (req, res, ctx) => {
@@ -96,139 +98,151 @@ describe('Submissions Store', () => {
   afterAll(() => server.close())
 
   it('Initial store state', () => {
-    const submission_store = useSubmissionStore()
+    const submissionStore = useSubmissionStore()
 
-    expect(submission_store.packages).toStrictEqual([])
-    expect(submission_store.submissions).toStrictEqual([])
-    expect(submission_store.repository).toBeUndefined()
-    expect(submission_store.filtration).toStrictEqual(
+    expect(submissionStore.packages).toStrictEqual([])
+    expect(submissionStore.submissions).toStrictEqual([])
+    expect(submissionStore.repository).toBeUndefined()
+    expect(submissionStore.filtration).toStrictEqual(
       defaultFiltration
     )
   })
 
   it('Clear filtration', () => {
-    const submission_store = useSubmissionStore()
-    const pagination_store = usePaginationStore()
-    submission_store.filtration = randomFiltration
-    pagination_store.page = 2
+    const submissionStore = useSubmissionStore()
+    const pagination = usePagination()
+    submissionStore.filtration = randomFiltration
+    pagination.page = 2
 
-    submission_store.clearFiltration()
+    submissionStore.clearFiltration()
 
-    expect(pagination_store.page).toBe(0)
-    expect(submission_store.filtration).toStrictEqual(
+    expect(pagination.page).toBe(1)
+    expect(submissionStore.filtration).toStrictEqual(
       defaultFiltration
     )
   })
 
   it('Clear filtration and fetch', async () => {
-    const submission_store = useSubmissionStore()
-    const pagination_store = usePaginationStore()
+    const submissionStore = useSubmissionStore()
+    const pagination = usePagination()
     const spy = vi.spyOn(
-      submission_store,
+      submissionStore,
       'fetchSubmissions'
     )
-    submission_store.filtration = randomFiltration
-    pagination_store.page = 2
+    submissionStore.filtration = randomFiltration
+    pagination.page = 2
 
-    await submission_store.clearFiltrationAndFetch()
+    await submissionStore.clearFiltrationAndFetch()
 
-    expect(pagination_store.page).toBe(0)
-    expect(submission_store.filtration).toStrictEqual(
+    expect(pagination.page).toBe(1)
+    expect(submissionStore.filtration).toStrictEqual(
       defaultFiltration
     )
     expect(spy).toBeCalled()
-    expect(submission_store.submissions).toStrictEqual(
+    expect(submissionStore.submissions).toStrictEqual(
       submissions.data.content
     )
   })
 
   it('Set filtration', () => {
-    const submission_store = useSubmissionStore()
-    const pagination_store = usePaginationStore()
-    pagination_store.page = 2
+    const submissionStore = useSubmissionStore()
+    const pagination = usePagination()
+    pagination.page = 2
 
-    submission_store.setFiltration(randomFiltration)
+    submissionStore.setFiltration(randomFiltration)
 
-    expect(pagination_store.page).toBe(0)
-    expect(submission_store.filtration).toStrictEqual(
+    expect(pagination.page).toBe(1)
+    expect(submissionStore.filtration).toStrictEqual(
       randomFiltration
     )
   })
 
   it('Set packages', () => {
-    const submission_store = useSubmissionStore()
+    const submissionStore = useSubmissionStore()
 
-    submission_store.setPackages(files)
+    submissionStore.setPackages(files)
 
-    expect(submission_store.packages).toStrictEqual(files)
+    expect(submissionStore.packages).toStrictEqual(files)
   })
 
   it('Add package', () => {
-    const submission_store = useSubmissionStore()
+    const submissionStore = useSubmissionStore()
 
-    submission_store.addPackage(files[0])
+    submissionStore.addPackage(files[0])
 
-    expect(submission_store.packages).toStrictEqual(files)
+    expect(submissionStore.packages).toStrictEqual(files)
   })
 
   it('Add packages', () => {
-    const submission_store = useSubmissionStore()
+    const submissionStore = useSubmissionStore()
 
-    submission_store.addPackages(files)
+    submissionStore.addPackages(files)
 
-    expect(submission_store.packages).toStrictEqual(files)
+    expect(submissionStore.packages).toStrictEqual(files)
   })
 
   it('Set a repository', () => {
-    const submission_store = useSubmissionStore()
+    const submissionStore = useSubmissionStore()
     const repository: EntityModelRepositoryDto =
       packages.data.content[0].repository
 
-    submission_store.setRepository(repository)
+    submissionStore.setRepository(repository)
 
-    expect(submission_store.repository).toMatchObject(
+    expect(submissionStore.repository).toMatchObject(
       repository
     )
   })
 
-  it('Fetch submissiosn', async () => {
-    const submission_store = useSubmissionStore()
+  it('Fetch submissions', async () => {
+    const submissionStore = useSubmissionStore()
 
-    await submission_store.fetchSubmissions()
+    await submissionStore.fetchSubmissions()
 
-    expect(submission_store.submissions).toStrictEqual(
+    expect(submissionStore.submissions).toStrictEqual(
       submissions.data.content
     )
   })
 
-  it('Update submissiosn', async () => {
-    const submission_store = useSubmissionStore()
+  it('Get generate manual for Python', () => {
+    const submissionStore = useSubmissionStore()
+    submissionStore.repository = { technology: 'Python' }
+    expect(
+      submissionStore.getGenerateManualForPackage(files[0])
+    ).toBeTruthy()
+  })
+
+  it('Get generate manual for random R', () => {
+    const submissionStore = useSubmissionStore()
+    submissionStore.repository = { technology: 'R' }
+    expect(
+      submissionStore.getGenerateManualForPackage(files[0])
+    ).toBeFalsy()
+  })
+
+  it('Update submissions', async () => {
+    const submissionStore = useSubmissionStore()
     const spy = vi.spyOn(
-      submission_store,
+      submissionStore,
       'fetchSubmissions'
     )
     const submission = deepCopyAny(
       submissions.data.content[0]
     )
 
-    await submission_store.updateSubmission(
-      submission,
-      {
-        state: EntityModelSubmissionDtoStateEnum.CANCELLED
-      },
-      'Test'
-    )
+    await submissionStore.updateSubmission(submission, {
+      state: EntityModelSubmissionDtoStateEnum.CANCELLED
+    })
 
     expect(spy).toBeCalled()
-    expect(submission_store.submissions).toStrictEqual(
+    expect(submissionStore.submissions).toStrictEqual(
       submissions.data.content
     )
   })
 })
 
-const failing_server = setupServer(
+const failingServer = setupServer(
   rest.get(
-    'http://localhost:8017/api/v2/manager/r/submissions',
+    'http://localhost:8017/api/v2/manager/submissions',
     (_, res, ctx) => {
       return res(ctx.status(403))
     }
@@ -238,39 +252,45 @@ const failing_server = setupServer(
     (_, res, ctx) => {
       return res(ctx.status(403))
     }
+  ),
+  rest.get(
+    'http://localhost:8017/api/v2/manager/users/me',
+    (_, res, ctx) => {
+      return res(ctx.json(me))
+    }
   )
 )
 
 describe('Testing submissions store with failing backend', () => {
   beforeEach(() => {
     setActivePinia(createPinia())
-    failing_server.listen()
+    failingServer.listen()
   })
 
   afterEach(() => {
     vi.clearAllMocks()
   })
 
-  afterAll(() => failing_server.close())
+  afterAll(() => failingServer.close())
 
-  it('Fetch submissiosn', async () => {
-    const submission_store = useSubmissionStore()
+  it('Fetch submissions', async () => {
+    const submissionStore = useSubmissionStore()
 
     vi.mock('@kyvg/vue3-notification')
     const { notify } = await import(
       '@kyvg/vue3-notification'
     )
 
-    await submission_store.fetchSubmissions()
+    await submissionStore.fetchSubmissions()
 
-    expect(submission_store.submissions).toStrictEqual([])
+    expect(submissionStore.submissions).toStrictEqual([])
     expect(notify).toBeCalled()
   })
 
-  it('Update submissiosn', async () => {
-    const submission_store = useSubmissionStore()
+  it('Update submissions', async () => {
+    const submissionStore = useSubmissionStore()
     const spy = vi.spyOn(
-      submission_store,
+      submissionStore,
       'fetchSubmissions'
     )
 
@@ -283,16 +303,12 @@ describe('Testing submissions store with failing backend', () => {
       submissions.data.content[0]
     )
 
-    await submission_store.updateSubmission(
-      submission,
-      {
-        state: EntityModelSubmissionDtoStateEnum.CANCELLED
-      },
-      'Test'
-    )
+    await submissionStore.updateSubmission(submission, {
+      state: EntityModelSubmissionDtoStateEnum.CANCELLED
+    })
 
     expect(spy).toBeCalledTimes(0)
     expect(notify).toBeCalled()
-    expect(submission_store.submissions).toStrictEqual([])
+    expect(submissionStore.submissions).toStrictEqual([])
   })
 })

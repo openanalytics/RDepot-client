@@ -22,7 +22,7 @@
 
 <template>
   <ResourcesList
-    :resources="repository_store.repositories"
+    :resources="repositoryStore.repositories"
     :onClickAction="navigate"
   >
     <template #title>
@@ -42,13 +42,13 @@ import { onBeforeMount } from 'vue'
 import RepositoryRow from '@/components/repositories/RepositoryRow.vue'
 import ResourcesList from '@/components/common/resources/ResourcesList.vue'
 
-const repository_store = useRepositoryStore()
+const repositoryStore = useRepositoryStore()
 
 function updateData(): void {
-  repository_store.fetchRepositories()
+  repositoryStore.fetchRepositories()
 }
 function navigate(repository: EntityModelRRepositoryDto) {
-  repository_store.setChosenRepository(repository.id)
+  repositoryStore.setChosenRepository(repository.id)
   router.push({
     name: 'repositoryDetails',
     params: {

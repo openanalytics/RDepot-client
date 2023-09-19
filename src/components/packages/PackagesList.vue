@@ -21,10 +21,7 @@
 -->
 
 <template>
-  <ResourcesList
-    :resources="packages_store.packages"
-    expand
-  >
+  <ResourcesList :resources="packagesStore.packages" expand>
     <template #title>
       <PackageRow title />
     </template>
@@ -32,7 +29,9 @@
       <PackageRow :packageBag="slotProps.resource" />
     </template>
     <template #expansion-text="slotProps">
-      {{ getDescription(slotProps.resource) }}
+      <PackageDetails
+        :package="(slotProps.resource as EntityModelPackageDto)"
+      />
     </template>
   </ResourcesList>
 </template>
@@ -42,18 +41,13 @@ import { usePackagesStore } from '@/store/packages'
 import PackageRow from '@/components/packages/PackageRow.vue'
 import ResourcesList from '@/components/common/resources/ResourcesList.vue'
 import { onBeforeMount } from 'vue'
+import PackageDetails from '@/views/packages/PackageDetails.vue'
+import { EntityModelPackageDto } from '@/openapi'
 
-const packages_store = usePackagesStore()
+const packagesStore = usePackagesStore()
 
 function updateData(): void {
-  packages_store.fetchPackages()
-}
-
-function getDescription(item: any) {
-  if (item.hasOwnProperty('description')) {
-    return item['description']
-  }
-  return null
+  packagesStore.fetchPackages()
 }
 
 onBeforeMount(() => {

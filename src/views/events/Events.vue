@@ -23,7 +23,7 @@
 <template>
   <EventsModal />
   <v-row class="my-3">
-    <FiltrationChips :store="events_store" />
+    <FiltrationChips :store="eventsStore" />
     <FiltrationButtons />
   </v-row>
   <EventsTimeLine />
@@ -36,5 +36,5 @@ import EventsModal from '@/components/events/EventsModal.vue'
 import EventsTimeLine from '@/components/events/EventsTimeLine.vue'
 import { useEventsStore } from '@/store/events'
 
-const events_store = useEventsStore()
+const eventsStore = useEventsStore()
 </script>

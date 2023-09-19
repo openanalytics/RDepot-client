@@ -24,11 +24,11 @@
   <Overlay v-on:action="overlayEvent()">
     <template v-slot:props="{ closeModal }">
       <Filtration
-        v-if="common_store.isFiltration()"
+        v-if="commonStore.isFiltration()"
         v-on:closeModal="closeModal"
       />
       <PackageMaintainerEdit
-        v-if="common_store.isEdit()"
+        v-if="commonStore.isEdit()"
         v-on:closeModal="closeModal"
       />
     </template>
@@ -42,14 +42,14 @@ import Filtration from '@/components/packageMaintainers/Filtration.vue'
 import { usePackageMaintainersStore } from '@/store/package_maintainers'
 import PackageMaintainerEdit from '@/components/packageMaintainers/PackageMaintainerEdit.vue'
 
-const maintainers_store = usePackageMaintainersStore()
-const common_store = useCommonStore()
+const maintainersStore = usePackageMaintainersStore()
+const commonStore = useCommonStore()
 
 async function overlayEvent() {
-  if (common_store.isReset()) {
-    await maintainers_store.clearFiltrationAndFetch()
-  } else if (common_store.isDelete()) {
-    maintainers_store.softDelete()
+  if (commonStore.isReset()) {
+    await maintainersStore.clearFiltrationAndFetch()
+  } else if (commonStore.isDelete()) {
+    maintainersStore.softDelete()
   }
 }
 </script>

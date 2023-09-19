@@ -36,7 +36,7 @@ interface State {
   activeId: string
 }
 
-export const useCommonStore = defineStore('common_store', {
+export const useCommonStore = defineStore('commonStore', {
   state: (): State => {
     return {
       drawer: true,
@@ -76,6 +76,7 @@ export const useCommonStore = defineStore('common_store', {
         this.key = 0
       }
     },
+
     setActiveId(payload: string) {
       this.activeId = payload
     },

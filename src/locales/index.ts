@@ -20,6 +20,14 @@
  *
  */
 
-const langs = ['en', 'pl']
+interface Lang {
+  display: string
+  name: string
+}
+
+const langs: Lang[] = [
+  { display: 'en', name: 'en-US' },
+  { display: 'pl', name: 'pl-PL' }
+]
 
 export default langs

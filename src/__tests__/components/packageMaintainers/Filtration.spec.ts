@@ -47,9 +47,9 @@ const globalConfig = {
   mocks: mocks,
   plugins: plugins
 }
-let package_maintainers_store: any
+let packageMaintainersStore: any
 
-const example_package_maintainer_filtration =
+const packageMaintainersStoreFiltration =
   PackageMaintainersFiltration.parse({
     deleted: false,
     technologies: [Technologies.enum.R]
@@ -61,7 +61,7 @@ beforeAll(() => {
 
 beforeEach(async () => {
   setActivePinia(createPinia())
-  package_maintainers_store = usePackageMaintainersStore()
+  packageMaintainersStore = usePackageMaintainersStore()
   wrapper = mount(FiltrationVue, {
     global: globalConfig
   })
@@ -107,7 +107,7 @@ describe('Packages Maintainers - filtration', () => {
     await clickButton('#reset-button')
     checkIfFiltrationIsEmpty()
     expect(
-      package_maintainers_store.filtration.technologies
+      packageMaintainersStore.filtration.technologies
     ).toStrictEqual([Technologies.enum.R])
   })
 
@@ -120,7 +120,7 @@ describe('Packages Maintainers - filtration', () => {
     await clickButton('#reset-button')
     await clickButton('#cancel-button')
     expect(
-      package_maintainers_store.filtration.technologies
+      packageMaintainersStore.filtration.technologies
     ).toStrictEqual([Technologies.enum.R])
   })
 
@@ -133,7 +133,7 @@ describe('Packages Maintainers - filtration', () => {
     ]
     await clickButton('#cancel-button')
     expect(
-      package_maintainers_store.filtration.technologies
+      packageMaintainersStore.filtration.technologies
     ).toStrictEqual([Technologies.enum.R])
   })
 
@@ -163,31 +163,29 @@ function checkIfFiltrationIsEmpty() {
 }
 
 function checkIfPiniaFiltrationIsEmpty() {
-  expect(package_maintainers_store.filtration).toEqual(
+  expect(packageMaintainersStore.filtration).toEqual(
     defaultValues(PackageMaintainersFiltration)
   )
 }
 
 function checkIfPiniaFiltrationIsFilledWithData() {
   expect(
-    package_maintainers_store.filtration.technologies
+    packageMaintainersStore.filtration.technologies
   ).toStrictEqual([Technologies.enum.R])
-  expect(package_maintainers_store.filtration.deleted).toBe(
+  expect(packageMaintainersStore.filtration.deleted).toBe(
     false
   )
 }
 
 function fillPiniaFiltrationWithRandomData() {
-  package_maintainers_store.filtration =
+  packageMaintainersStore.filtration =
     PackageMaintainersFiltration.parse(
-      example_package_maintainer_filtration
+      packageMaintainersStoreFiltration
     )
 }
 
 async function fillTheFormWithRandomData() {
-  wrapper.vm.setValues(
-    example_package_maintainer_filtration
-  )
+  wrapper.vm.setValues(packageMaintainersStoreFiltration)
   await flushPromises()
 }
 

@@ -86,18 +86,18 @@ import {
 } from '@/models/Filtration'
 
 const emit = defineEmits(['closeModal'])
-const event_store = useEventsStore()
+const eventStore = useEventsStore()
 
 const { technologies, resourceTypes, eventTypes } =
   useEnumFiltration()
 
 const { setValues, values } = useForm({
   validationSchema: toTypedSchema(EventsFiltration),
-  initialValues: event_store.filtration
+  initialValues: eventStore.filtration
 })
 
 function setFiltration() {
-  event_store.setFiltration(values as EventsFiltration)
+  eventStore.setFiltration(values as EventsFiltration)
   cancelModal()
 }
 

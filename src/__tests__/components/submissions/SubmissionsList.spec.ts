@@ -39,7 +39,7 @@ import SubmissionRowVue from '@/components/submissions/SubmissionRow.vue'
 import submissions from '@/__tests__/config/mockData/rSubmissions.json'
 
 let wrapper: any
-let submission_store: any
+let submissionStore: any
 const globalConfig = {
   mocks: mocks,
   plugins: plugins
@@ -47,14 +47,14 @@ const globalConfig = {
 beforeAll(() => {
   global.ResizeObserver = ResizeObserver
   setActivePinia(createPinia())
-  submission_store = useSubmissionStore()
+  submissionStore = useSubmissionStore()
 })
 
 beforeEach(async () => {
   wrapper = mount(SubmissionsListVue, {
     global: globalConfig
   })
-  submission_store.submissions = submissions.data.content
+  submissionStore.submissions = submissions.data.content
 })
 
 describe('Submissions - list', () => {

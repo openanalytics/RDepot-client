@@ -23,7 +23,7 @@
 <template>
   <SubmissionsModal />
   <v-row class="my-3">
-    <FiltrationChips :store="submissions_store" />
+    <FiltrationChips :store="submissionsStore" />
     <FiltrationButtons />
   </v-row>
   <submission-list />
@@ -38,5 +38,5 @@ import Pagination from '@/components/common/Pagination.vue'
 import FiltrationChips from '@/components/common/chips/FiltrationChips.vue'
 import { useSubmissionStore } from '@/store/submission'
 
-const submissions_store = useSubmissionStore()
+const submissionsStore = useSubmissionStore()
 </script>

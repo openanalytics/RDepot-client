@@ -25,138 +25,138 @@ import {
   ApiV2SubmissionControllerApiFactory,
   EntityModelSubmissionDto,
   PythonSubmissionControllerApiFactory,
+  ResponseDtoEntityModelSubmissionDto,
   ResponseDtoPagedModelEntityModelSubmissionDto,
   RSubmissionControllerApiFactory
 } from '@/openapi'
-import { AxiosResponse } from 'axios'
-import { getConfiguration } from './api_config'
 import {
   openApiRequest,
   validatedData,
   validateRequest
 } from './open_api_access'
-import { notify } from '@kyvg/vue3-notification'
 import { createPatch } from 'rfc6902'
 import { useSortStore } from '@/store/sort'
 import { isAuthorized } from '@/plugins/casl'
 import { Technologies } from '@/enum/Technologies'
+import { z } from 'zod'
+import { getConfiguration } from './api_config'
+import { AxiosResponse } from 'axios'
 
 export async function fetchSubmissions(
   filtration: SubmissionsFiltration,
-  logged_user_id: number,
+  logged_user_id?: number,
   page?: number,
-  pageSize?: number
-): Promise<validatedData<EntityModelSubmissionDto>> {
+  pageSize?: number,
+  showProgress = true
+): Promise<validatedData<EntityModelSubmissionDto[]>> {
   if (!isAuthorized('GET', 'submissions')) {
-    return new Promise(() => validateRequest())
+    return new Promise(() => validateRequest)
   }
-  const submission_api =
-    ApiV2SubmissionControllerApiFactory(
-      await getConfiguration()
-    )
   const sort = useSortStore()
+  let sortBy = sort.getSortBy()
   if (sort.field == 'name') {
-    sort.setField('packageBag')
+    sortBy = ['packageBag,' + sort.direction]
   }
-  return openApiRequest<ResponseDtoPagedModelEntityModelSubmissionDto>(
-    submission_api.getAllSubmissions,
+  return openApiRequest<EntityModelSubmissionDto[]>(
+    ApiV2SubmissionControllerApiFactory().getAllSubmissions,
     [
-      filtration.state,
+      filtration?.state,
       filtration.assignedToMe ? logged_user_id : undefined,
-      filtration.package,
+      filtration?.package,
       undefined, // TODO: add technology filtering
       page,
       pageSize,
-      sort.getSortBy()
-    ]
-  ).then(
-    (res) =>
-      validateRequest(
-        res.data.data?.content,
-        res.data.data?.page
-      ),
-    (msg) => {
-      notify({ text: msg, type: 'error' })
-      return validateRequest()
-    }
+      sortBy
+    ],
+    showProgress
   )
 }
 
 export async function updateSubmission(
   oldSubmission: EntityModelSubmissionDto,
-  newSubmission: EntityModelSubmissionDto,
-  textNotification?: string
-): Promise<boolean> {
+  newSubmission: EntityModelSubmissionDto
+): Promise<validatedData<EntityModelSubmissionDto>> {
   if (!isAuthorized('PATCH', 'submissions')) {
     return new Promise(() => false)
   }
-  const r_submission_api = RSubmissionControllerApiFactory(
-    await getConfiguration()
-  )
+
   const patch_body = createPatch(
     oldSubmission,
     newSubmission
   )
-
-  return openApiRequest<AxiosResponse<any>>(() =>
-    r_submission_api.updateRSubmission(
-      patch_body,
-      oldSubmission.id!
+  if (oldSubmission.technology === Technologies.enum.R) {
+    return openApiRequest<EntityModelSubmissionDto>(
+      RSubmissionControllerApiFactory().updateRSubmission,
+      [patch_body, oldSubmission.id!]
     )
-  ).then(
-    () => {
-      notify({
-        type: 'success',
-        text: textNotification
-      })
-      return true
-    },
-    (msg) => {
-      notify({
-        type: 'error',
-        text: msg
-      })
-      return false
+  } else if (
+    oldSubmission.technology === Technologies.enum.Python
+  ) {
+    return openApiRequest<EntityModelSubmissionDto>(
+      PythonSubmissionControllerApiFactory()
+        .updatePythonSubmission,
+      [patch_body, oldSubmission.id!]
+    )
+  } else {
+    // Should never happen expect if a new technology is added
+    throw {
+      name: 'NotImplemetedError',
+      message:
+        'Updating of "' +
+        oldSubmission.technology +
+        '" not implemented!'
     }
-  )
+  }
 }
 
 export async function addSubmission(
   repository: string,
   technology: string,
-  file: File
-): Promise<boolean> {
+  file: File,
+  generateManual?: boolean
+): Promise<validatedData<EntityModelSubmissionDto>> {
   if (!isAuthorized('POST', 'submissions')) {
     return new Promise(() => false)
   }
 
-  let submission_api
+  let submissionApi
 
   if (technology === Technologies.enum.R) {
-    submission_api = RSubmissionControllerApiFactory(
-      await getConfiguration()
+    submissionApi = RSubmissionControllerApiFactory(
+      getConfiguration()
     ).submitRPacakgeForm
   } else if (technology === Technologies.enum.Python) {
-    submission_api = PythonSubmissionControllerApiFactory(
-      await getConfiguration()
-    ).submitPythonPacakgeForm
+    submissionApi = PythonSubmissionControllerApiFactory(
+      getConfiguration()
+    ).submitPythonPackageForm
   } else {
     return new Promise(() => false)
   }
 
-  return openApiRequest<AxiosResponse<any>>(
-    submission_api,
-    [repository, file]
-  ).then(
-    () => {
-      return true
-    },
-    (msg) => {
-      notify({
-        type: 'error',
-        text: msg
-      })
-      return false
-    }
+  return openApiRequest<EntityModelSubmissionDto>(
+    submissionApi,
+    [repository, file, generateManual, false],
+    false
+  )
+  // .then(
+  //   (submission) => {
+  //     return ['success', submission[0].data.packageBag?.id]
+  //   },
+  //   (msg) => {
+  //     return msg.response.data.data
+  //   }
+  // )
+}
+
+export function fetchSubmission(
+  id: number
+): Promise<validatedData<EntityModelSubmissionDto>> {
+  if (!isAuthorized('GET', 'submissions')) {
+    return new Promise(() => {})
+  }
+
+  return openApiRequest<EntityModelSubmissionDto>(
+    ApiV2SubmissionControllerApiFactory().getSubmissionById,
+    [id]
   )
 }

@@ -39,12 +39,12 @@ import { computed } from 'vue'
 import Overlay from '@/components/common/Overlay.vue'
 import Filtration from '@/components/events/Filtration.vue'
 
-const event_store = useEventsStore()
-const common_store = useCommonStore()
+const eventStore = useEventsStore()
+const commonStore = useCommonStore()
 
 async function clearFiltration() {
-  await event_store.clearFiltrationAndFetch()
+  await eventStore.clearFiltrationAndFetch()
 }
 
-const getFiltration = computed(common_store.isFiltration)
+const getFiltration = computed(commonStore.isFiltration)
 </script>

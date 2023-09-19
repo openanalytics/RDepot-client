@@ -77,15 +77,17 @@
           class="loginTypeButton"
         >
           <div class="loginType">
-            {{ $t('authorization.keycloak') }}
+            {{ $t('loginType.keycloak') }}
           </div>
         </v-btn>
       </v-row>
     </form>
   </v-container>
+  <v-btn @click="getUserInfo"> user info </v-btn>
 </template>
 
 <script setup lang="ts">
+import { initKeycloak } from '@/plugins/keycloak'
 import { useUserStore } from '@/store/users'
 import { useI18n } from 'vue-i18n'
 import { Form, useForm } from 'vee-validate'
@@ -93,7 +95,6 @@ import { toTypedSchema } from '@vee-validate/zod'
 import { z } from 'zod'
 import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
 import { LoginApiData } from '@/models/users/Login'
-import { onMounted } from 'vue'
 import { ref } from 'vue'
 import {
   registerUserLoggedInEventListener,
@@ -102,11 +103,18 @@ import {
 import { authService as oauthService } from '@/plugins/oauth'
 import { useAuthorization } from '@/composable/authorization'
 import getEnv from '@/utils/env'
+const isUserLoggedIn = ref<boolean>(false)
+import { useLoggedUserStore } from '@/store/logged_user'
+import { useTheme } from 'vuetify/lib/framework.mjs'
+import { i18n } from '@/plugins/i18n'
+import { usePagination } from '@/store/pagination'
 
 const { t } = useI18n()
 const user_store = useUserStore()
-
-const isUserLoggedIn = ref<boolean>(false)
+const logged_user_store = useLoggedUserStore()
+const theme = useTheme()
+const { newPageSizeWithoutRefresh } = usePagination()
+import { onMounted } from 'vue'
 
 const { handleReset, values, meta, validate } = useForm({
   validationSchema: toTypedSchema(
@@ -127,7 +135,60 @@ async function keyloackMethod() {
   loginWithOICD()
 }
 
+function onKeyup() {
+  login()
+}
+
+async function login() {
+  user_store.chooseLoginType('DEFAULT')
+  validate()
+  if (meta.value.valid)
+    user_store.login(values as LoginApiData)
+}
+
+async function getUserInfo() {
+  await logged_user_store.getUserInfo()
+  setTheme()
+  setLanguage()
+  setPageSize()
+}
+
+function setTheme() {
+  if (logged_user_store.me.userSettings?.theme)
+    theme.global.name.value =
+      logged_user_store.me.userSettings.theme
+}
+
+function setLanguage() {
+  if (logged_user_store.me.userSettings?.language) {
+    switch (logged_user_store.me.userSettings.language) {
+      case 'en-EN': {
+        i18n.locale.value = 'en'
+        break
+      }
+      case 'pl-PL': {
+        i18n.locale.value = 'pl'
+        break
+      }
+      default: {
+        break
+      }
+    }
+  }
+}
+
+function setPageSize() {
+  if (logged_user_store.me.userSettings?.pageSize) {
+    newPageSizeWithoutRefresh(
+      logged_user_store.me.userSettings.pageSize
+    )
+  }
+}
+
 onMounted(() => {
+  setTheme()
+  setLanguage()
+  setPageSize()
   document.addEventListener('keyup', (e) => {
     if (e.code == 'Enter') {
       onKeyup()
@@ -150,17 +211,6 @@ onMounted(() => {
     isUserLoggedIn.value = false
   })
 })
-
-function onKeyup() {
-  login()
-}
-
-async function login() {
-  user_store.chooseLoginType('DEFAULT')
-  validate()
-  if (meta.value.valid)
-    user_store.login(values as LoginApiData)
-}
 </script>
 
 <style scoped lang="scss">

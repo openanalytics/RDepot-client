@@ -79,17 +79,17 @@ const emit = defineEmits(['closeModal'])
 
 const { storeId, filtrateRepositories, loadRepositories } =
   useRepositoriesFiltration()
-const package_store = usePackagesStore()
+const packageStore = usePackagesStore()
 
 const { states, technologies } = useEnumFiltration()
 
 const { setValues, values } = useForm({
   validationSchema: toTypedSchema(PackagesFiltration),
-  initialValues: package_store.filtration
+  initialValues: packageStore.filtration
 })
 
 function setFiltration() {
-  package_store.setFiltration(values as PackagesFiltration)
+  packageStore.setFiltration(values as PackagesFiltration)
   cancelModal()
 }
 

@@ -41,7 +41,7 @@ const globalConfig = {
   mocks: mocks,
   plugins: plugins
 }
-let common_store: any
+let commonStore: any
 
 beforeAll(() => {
   global.ResizeObserver = ResizeObserver
@@ -49,7 +49,7 @@ beforeAll(() => {
 
 beforeEach(async () => {
   setActivePinia(createPinia())
-  common_store = useCommonStore()
+  commonStore = useCommonStore()
   wrapper = mount(ProgressCircularVue, {
     global: globalConfig
   })
@@ -61,13 +61,13 @@ describe('Progress Circular', () => {
   })
 
   it('is not showing if nothing is loading', async () => {
-    await common_store.setProgressCircularActive(false)
+    await commonStore.setProgressCircularActive(false)
     const content = wrapper.find('#progress-circular')
     expect(content.isVisible()).toBeFalsy()
   })
 
   it('is showing progress if something is loading', async () => {
-    await common_store.setProgressCircularActive(true)
+    await commonStore.setProgressCircularActive(true)
     const content = wrapper.find('#progress-circular')
     expect(content.isVisible()).toBeTruthy()
   })

@@ -23,13 +23,11 @@
 <template>
   <RepositoriesModal />
   <v-row class="my-3">
-    <FiltrationChips :store="repositories_store" />
+    <FiltrationChips :store="repositoriesStore" />
     <FiltrationButtons>
       <template v-slot:prepend
         ><AddButton
-          v-if="
-            logged_user_store.can('POST', 'repository')
-          "
+          v-if="loggedUserStore.can('POST', 'repository')"
       /></template>
     </FiltrationButtons>
   </v-row>
@@ -47,6 +45,6 @@ import { useLoggedUserStore } from '@/store/logged_user'
 import { useRepositoryStore } from '@/store/repositories'
 import FiltrationChips from '@/components/common/chips/FiltrationChips.vue'
 
-const logged_user_store = useLoggedUserStore()
-const repositories_store = useRepositoryStore()
+const loggedUserStore = useLoggedUserStore()
+const repositoriesStore = useRepositoryStore()
 </script>

@@ -29,7 +29,8 @@ export const routes = [
       {
         path: '',
         name: 'Home',
-        component: () => import('@/views/users/Login.vue')
+        component: () => import('@/views/users/Login.vue'),
+        meta: { title: 'RDepot - login' }
       },
       {
         path: '/login',
@@ -88,8 +89,7 @@ export const routes = [
         name: 'packageDetails',
         component: () =>
           import('@/views/packages/PackageDetails.vue'),
-        meta: { title: 'RDepot - package details' },
-        props: true
+        meta: { title: 'RDepot - package details' }
       },
       {
         path: '/package-maintainers',

@@ -29,8 +29,8 @@
     <v-list nav open-strategy="single">
       <v-list-item
         prepend-icon="mdi-account"
-        :title="loggedUserStore.userLogin"
-        subtitle="logged in"
+        :title="getUserLogin"
+        :subtitle="getSubtitle"
       ></v-list-item>
       <v-divider class="pb-3"></v-divider>
       <v-list-item
@@ -46,7 +46,7 @@
         prepend-icon="mdi-upload"
         :title="$t('common.addPackage')"
         :value="$t('common.addPackage')"
-        @click="$router.push({ name: 'addSubmission' })"
+        @click="redirectAddPackage"
       ></v-list-item>
 
       <v-list-item
@@ -153,22 +153,35 @@
 </template>
 
 <script setup lang="ts">
+import router from '@/router'
+import { i18n } from '@/plugins/i18n'
 import { useCommonStore } from '@/store/common'
 import { useLoggedUserStore } from '@/store/logged_user'
+import { useSubmissionStore } from '@/store/submission'
 import { computed } from 'vue'
 import { useDisplay } from 'vuetify/lib/framework.mjs'
 import { authService } from '@/plugins/oauth'
 
 const { xs, mobile } = useDisplay()
 const loggedUserStore = useLoggedUserStore()
+const submissionsStore = useSubmissionStore()
+const commonStore = useCommonStore()
+const getUserLogin = computed(() => {
+  return loggedUserStore.me.name
+})
 
-const common_store = useCommonStore()
+const getSubtitle = computed(() => {
+  return loggedUserStore.me.name
+    ? i18n.t('user.logged-in')
+    : i18n.t('user.not-logged-in')
+})
+
 const drawer = computed({
   get() {
-    return common_store.drawer
+    return commonStore.drawer
   },
   set(value: boolean) {
-    common_store.setDrawer(value)
+    commonStore.setDrawer(value)
   }
 })
 
@@ -176,5 +189,11 @@ function logout() {
   if (authService) {
     authService.logout()
   }
+}
+
+const redirectAddPackage = () => {
+  submissionsStore.updateStepperKey()
+  submissionsStore.repository = undefined
+  router.push({ name: 'addSubmission' })
 }
 </script>

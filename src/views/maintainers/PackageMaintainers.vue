@@ -23,7 +23,7 @@
 <template>
   <MaintainersModal />
   <v-row class="my-3">
-    <FiltrationChips :store="package_maintainers_store" />
+    <FiltrationChips :store="packageMaintainersStore" />
     <FiltrationButtons />
   </v-row>
   <PackageMaintainersList />
@@ -38,6 +38,5 @@ import Pagination from '@/components/common/Pagination.vue'
 import FiltrationChips from '@/components/common/chips/FiltrationChips.vue'
 import { usePackageMaintainersStore } from '@/store/package_maintainers'
 
-const package_maintainers_store =
-  usePackageMaintainersStore()
+const packageMaintainersStore = usePackageMaintainersStore()
 </script>

@@ -35,10 +35,10 @@
 import { useCommonStore } from '@/store/common'
 import { computed } from 'vue'
 
-const common_store = useCommonStore()
+const commonStore = useCommonStore()
 
 const active = computed(() => {
-  return common_store.progressCircularActive
+  return commonStore.progressCircularActive
 })
 </script>
 

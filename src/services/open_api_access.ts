@@ -21,39 +21,97 @@
  */
 
 import { useCommonStore } from '@/store/common'
-import { AxiosResponse } from 'axios'
+import { AxiosError, AxiosResponse } from 'axios'
 import { Link, PageMetadata } from '@/openapi'
+import { notify } from '@kyvg/vue3-notification'
+import { getHeaders } from './api_config'
+import { i18n } from '@/plugins/i18n'
+import { ResponseDtoObject } from '@/openapi/models'
+import { useLoggedUserStore } from '@/store/logged_user'
 
-export function openApiRequest<T>(
+export async function openApiRequest<T>(
   callback: Function,
   parameters?: any[],
   showProgress = true
-): Promise<AxiosResponse<T>> {
+): Promise<validatedData<T>> {
   if (showProgress) {
     turnOnProgress()
   }
+  console.log(parameters)
   if (parameters) {
-    return callback(...parameters).then(resolved, rejected)
+    return callback(...parameters, await getHeaders()).then(
+      resolved,
+      rejected
+    )
   } else {
-    return callback().then(resolved, rejected)
+    return callback(await getHeaders()).then(
+      resolved,
+      rejected
+    )
   }
 }
 
 function turnOnProgress() {
-  const common_store = useCommonStore()
-  common_store.setProgressCircularActive(true)
+  const commonStore = useCommonStore()
+  commonStore.setProgressCircularActive(true)
 }
 
-async function resolved<T>(result: AxiosResponse<T>) {
+async function resolved(
+  result: AxiosResponse<ResponseDtoObject>
+): Promise<validatedData<any>> {
   const common_store = useCommonStore()
   common_store.setProgressCircularActive(false)
-  return result
+  notify('success')
+  const data = result.data.data?.content
+    ? result.data.data?.content
+    : result.data.data
+  return validateRequest(
+    data,
+    result.data.data?.page,
+    result.data.data?.links
+  )
 }
 
-function rejected(result: AxiosResponse<any, any>) {
+function rejected(result: AxiosError) {
   const common_store = useCommonStore()
   common_store.setProgressCircularActive(false)
+  errorsHandler(result)
   throw result
+}
+
+function errorsHandler(error: AxiosError) {
+  switch (error.response?.status) {
+    case 401: {
+      notify({
+        title: '401',
+        type: 'error',
+        text: i18n.t('errors.401')
+      })
+      break
+    }
+    case 403: {
+      const logged_user_store = useLoggedUserStore()
+      logged_user_store.getUserInfo()
+      break
+    }
+
+    case 422: {
+      notify({
+        title: '401',
+        type: 'error',
+        text: i18n.t('errors.422')
+      })
+      break
+    }
+
+    case 500: {
+      notify({
+        title: '500',
+        type: 'error'
+      })
+      break
+    }
+  }
 }
 
 export interface Pagination {
@@ -61,19 +119,15 @@ export interface Pagination {
   page: number
 }
 
-export type validatedData<T> = [
-  T[],
-  Pagination,
-  Array<Link>
-]
+export type validatedData<T> = [T, Pagination, Array<Link>]
 
 export function validateRequest<T>(
-  content?: T[],
+  content: T,
   paginationData?: PageMetadata,
   links?: Array<Link>
 ): validatedData<T> {
   return [
-    content || [],
+    content,
     {
       page: paginationData?.number || 0,
       totalNumber: paginationData?.totalElements || 0

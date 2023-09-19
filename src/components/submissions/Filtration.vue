@@ -69,7 +69,7 @@ import { toTypedSchema } from '@vee-validate/zod'
 
 const emit = defineEmits(['closeModal'])
 
-const submissions_store = useSubmissionStore()
+const submissionsStore = useSubmissionStore()
 
 const { states } = useEnumFiltration()
 const { storeId, loadPackages, filtratePackages } =
@@ -77,11 +77,11 @@ const { storeId, loadPackages, filtratePackages } =
 
 const { setValues, values } = useForm({
   validationSchema: toTypedSchema(SubmissionsFiltration),
-  initialValues: submissions_store.filtration
+  initialValues: submissionsStore.filtration
 })
 
 function setFiltration() {
-  submissions_store.setFiltration(values)
+  submissionsStore.setFiltration(values)
   cancelModal()
 }
 

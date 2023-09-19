@@ -32,9 +32,10 @@ import {
   afterAll
 } from 'vitest'
 import packages from '@/__tests__/config/mockData/packages.json'
+import submissions from '@/__tests__/config/mockData/submissions.json'
 import repositories from '@/__tests__/config/mockData/repositories.json'
 import { rest } from 'msw'
-import { usePaginationStore } from '@/store/pagination'
+import { usePagination } from '@/store/pagination'
 import { Technologies } from '@/enum/Technologies'
 import {
   PackagesFiltration,
@@ -60,6 +61,12 @@ const server = setupServer(
     }
   ),
   rest.get(
+    'http://localhost:8017/api/v2/manager/submissions',
+    (_, res, ctx) => {
+      return res(ctx.json(submissions))
+    }
+  ),
+  rest.get(
     'http://localhost:8017/api/v2/manager/packages/:package_id',
     (req, res, ctx) => {
       return res(
@@ -68,6 +75,20 @@ const server = setupServer(
             (elem) =>
               elem.id.toString() ===
               req.params.package_id.toString()
+          )
+        })
+      )
+    }
+  ),
+  rest.get(
+    'http://localhost:8017/api/v2/manager/submissions/:submission_id',
+    (req, res, ctx) => {
+      return res(
+        ctx.json({
+          data: submissions.data.content.find(
+            (elem) =>
+              elem.id.toString() ===
+              req.params.submission_id.toString()
           )
         })
       )
@@ -92,114 +113,113 @@ describe('Package Store', () => {
   })
 
   it('Starting values', () => {
-    const package_store = usePackagesStore()
-    expect(package_store.packages).toStrictEqual([])
-    expect(package_store.package).toStrictEqual({})
-    expect(package_store.vignettes).toStrictEqual({})
-    expect(package_store.filtration).toStrictEqual(
+    const packageStore = usePackagesStore()
+    expect(packageStore.packages).toStrictEqual([])
+    expect(packageStore.package).toStrictEqual({})
+    expect(packageStore.vignettes).toStrictEqual({})
+    expect(packageStore.filtration).toStrictEqual(
       defaultFiltration
     )
-    expect(package_store.next).toStrictEqual(false)
+    expect(packageStore.next).toStrictEqual(false)
   })
 
   it('Fetch packages', async () => {
-    const package_store = usePackagesStore()
+    const packageStore = usePackagesStore()
 
-    await package_store.fetchPackages()
+    await packageStore.fetchPackages()
 
-    expect(package_store.packages).toStrictEqual(
+    expect(packageStore.packages).toStrictEqual(
       packages.data.content
     )
   })
 
   it('Fetch package', async () => {
-    const package_store = usePackagesStore()
-
-    await package_store.fetchPackage(
+    const packageStore = usePackagesStore()
+    await packageStore.fetchPackage(
       packages.data.content[2].id
     )
 
-    expect(package_store.package).toStrictEqual(
+    expect(packageStore.package).toStrictEqual(
       packages.data.content[2]
     )
   })
 
   it('Activate package', async () => {
-    const package_store = usePackagesStore()
-    const spy = vi.spyOn(package_store, 'fetchPackages')
+    const packageStore = usePackagesStore()
+    const spy = vi.spyOn(packageStore, 'fetchPackages')
     const newPackage = deepCopyAny(packages.data.content[2])
 
-    await package_store.activatePackage(newPackage)
+    await packageStore.activatePackage(newPackage)
 
     expect(spy).toBeCalled()
   })
 
   it('Edit filtration', () => {
-    const package_store = usePackagesStore()
-    const spy = vi.spyOn(package_store, 'fetchPackages')
-    const pagination_store = usePaginationStore()
-    pagination_store.page = 2
+    const packageStore = usePackagesStore()
+    const spy = vi.spyOn(packageStore, 'fetchPackages')
+    const pagination = usePagination()
+    pagination.page = 2
 
-    package_store.setFiltration(randomFiltration)
+    packageStore.setFiltration(randomFiltration)
 
-    expect(pagination_store.page).toBe(0)
-    expect(package_store.filtration).toStrictEqual(
+    expect(pagination.page).toBe(1)
+    expect(packageStore.filtration).toStrictEqual(
       randomFiltration
     )
     expect(spy).toHaveBeenCalled()
   })
 
   it('Clear filtration', () => {
-    const package_store = usePackagesStore()
-    const pagination_store = usePaginationStore()
-    pagination_store.page = 2
+    const packageStore = usePackagesStore()
+    const pagination = usePagination()
+    pagination.page = 2
 
-    package_store.filtration = randomFiltration
-    package_store.clearFiltration()
+    packageStore.filtration = randomFiltration
+    packageStore.clearFiltration()
 
-    expect(pagination_store.page).toBe(0)
-    expect(package_store.filtration).toStrictEqual(
+    expect(pagination.page).toBe(1)
+    expect(packageStore.filtration).toStrictEqual(
       defaultFiltration
     )
   })
 
   it('Clear filtration and fetch events', async () => {
-    const package_store = usePackagesStore()
-    const spy = vi.spyOn(package_store, 'fetchPackages')
-    const pagination_store = usePaginationStore()
-    pagination_store.page = 2
+    const packageStore = usePackagesStore()
+    const spy = vi.spyOn(packageStore, 'fetchPackages')
+    const pagination = usePagination()
+    pagination.page = 2
 
-    package_store.filtration = randomFiltration
-    await package_store.clearFiltrationAndFetch()
+    packageStore.filtration = randomFiltration
+    await packageStore.clearFiltrationAndFetch()
 
-    expect(pagination_store.page).toBe(0)
-    expect(package_store.filtration).toStrictEqual(
+    expect(pagination.page).toBe(1)
+    expect(packageStore.filtration).toStrictEqual(
       defaultFiltration
     )
     expect(spy).toHaveBeenCalled()
-    expect(package_store.packages).toStrictEqual(
+    expect(packageStore.packages).toStrictEqual(
       packages.data.content
     )
   })
 
   it('Set repository filtration only', () => {
-    const package_store = usePackagesStore()
+    const packageStore = usePackagesStore()
 
-    package_store.filtration = randomFiltration
-    package_store.setFiltrationByRepositoryOnly(
+    packageStore.filtration = randomFiltration
+    packageStore.setFiltrationByRepositoryOnly(
       repositories.data.content[0].name
     )
 
     expect(
-      package_store.filtration.repository
+      packageStore.filtration.repository
     ).toStrictEqual(repositories.data.content[0].name)
-    expect(package_store.filtration.deleted).toBe(
+    expect(packageStore.filtration.deleted).toBe(
       defaultFiltration.deleted
     )
-    expect(package_store.filtration.state).toBe(
+    expect(packageStore.filtration.state).toBe(
       defaultFiltration.state
     )
-    expect(package_store.filtration.technologies).toBe(
+    expect(packageStore.filtration.technologies).toBe(
       defaultFiltration.technologies
     )
   })

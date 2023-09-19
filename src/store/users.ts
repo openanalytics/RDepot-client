@@ -21,7 +21,6 @@
  */
 
 import { defineStore } from 'pinia'
-import { LoginApiData } from '@/models/users/Login'
 import { LoginType } from '@/enum/LoginType'
 import {
   fetchRoles,
@@ -29,12 +28,12 @@ import {
   updateUser
 } from '@/services/users_services'
 import { EntityModelUserDto, RoleDto } from '@/openapi'
-import { usePaginationStore } from './pagination'
 import { Role } from '@/enum/UserRoles'
 import { BASE_PATH } from '@/openapi/base'
 import axios from 'axios'
 import { notify } from '@kyvg/vue3-notification'
 import router from '@/router'
+import { usePagination } from '@/store/pagination'
 
 interface State {
   userToken: string
@@ -45,7 +44,7 @@ interface State {
   roles: RoleDto[]
 }
 
-export const useUserStore = defineStore('user_store', {
+export const useUserStore = defineStore('userStore', {
   state: (): State => {
     return {
       userToken: '',
@@ -82,14 +81,15 @@ export const useUserStore = defineStore('user_store', {
         })
     },
     chooseLoginType(payload: LoginType) {
+      this.$reset()
       this.loginType = payload
     },
     async fetchUsers() {
-      const pagination = usePaginationStore()
-      const [users, pageInfo] = await fetchUsers()
+      const pagination = usePagination()
+      const [users, pageData] = await fetchUsers()
       this.userList = users
-      pagination.setPage(pageInfo.page)
-      pagination.setTotalNumber(pageInfo.totalNumber)
+      pagination.newPageWithoutRefresh(pageData.page)
+      pagination.totalNumber = pageData.totalNumber
     },
     async fetchRoles() {
       if (this.roles.length === 0) {
@@ -97,13 +97,9 @@ export const useUserStore = defineStore('user_store', {
         this.roles = roles
       }
     },
+
     async saveUser(newUser: EntityModelUserDto) {
-      await updateUser(this.chosenUser, newUser).then(
-        (success: boolean) => {
-          if (success) {
-          }
-        }
-      )
+      await updateUser(this.chosenUser, newUser)
     },
     roleIdToRole(roleId: number) {
       return this.roles.length !== 0

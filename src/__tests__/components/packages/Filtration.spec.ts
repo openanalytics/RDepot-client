@@ -47,9 +47,9 @@ const globalConfig = {
   mocks: mocks,
   plugins: plugins
 }
-let packages_store: any
+let packagesStore: any
 
-const example_packages_filtration =
+const EXAMPLE_PACKAGES_FILTRATION =
   PackagesFiltration.parse({
     state: 'ACCEPTED',
     repository: 'repository1',
@@ -63,7 +63,7 @@ beforeAll(() => {
 
 beforeEach(async () => {
   setActivePinia(createPinia())
-  packages_store = usePackagesStore()
+  packagesStore = usePackagesStore()
   wrapper = mount(FiltrationVue, {
     global: globalConfig
   })
@@ -106,7 +106,7 @@ describe('Packages - filtration', () => {
     wrapper.vm.values.state = 'DELETED'
     await clickButton('#reset-button')
     checkIfFiltrationIsEmpty()
-    expect(packages_store.filtration.state).toBe('ACCEPTED')
+    expect(packagesStore.filtration.state).toBe('ACCEPTED')
   })
 
   it('reset form and cancel it', async () => {
@@ -115,7 +115,7 @@ describe('Packages - filtration', () => {
     wrapper.vm.values.state = 'DELETED'
     await clickButton('#reset-button')
     await clickButton('#cancel-button')
-    expect(packages_store.filtration.state).toBe('ACCEPTED')
+    expect(packagesStore.filtration.state).toBe('ACCEPTED')
   })
 
   it('change state but cancel action', async () => {
@@ -123,7 +123,7 @@ describe('Packages - filtration', () => {
     await clickButton('#set-filtration')
     wrapper.vm.values.state = 'DELETED'
     await clickButton('#cancel-button')
-    expect(packages_store.filtration.state).toBe('ACCEPTED')
+    expect(packagesStore.filtration.state).toBe('ACCEPTED')
   })
 
   it('clear form and accept it ', async () => {
@@ -154,30 +154,30 @@ function checkIfFiltrationIsEmpty() {
 }
 
 function checkIfPiniaFiltrationIsEmpty() {
-  expect(packages_store.filtration).toEqual(
+  expect(packagesStore.filtration).toEqual(
     defaultValues(PackagesFiltration)
   )
 }
 
 function checkIfPiniaFiltrationIsFilledWithData() {
-  expect(packages_store.filtration.repository).toBe(
+  expect(packagesStore.filtration.repository).toBe(
     'repository1'
   )
-  expect(packages_store.filtration.state).toBe('ACCEPTED')
-  expect(packages_store.filtration.deleted).toBe(false)
+  expect(packagesStore.filtration.state).toBe('ACCEPTED')
+  expect(packagesStore.filtration.deleted).toBe(false)
   expect(
-    packages_store.filtration.technologies
+    packagesStore.filtration.technologies
   ).toStrictEqual([Technologies.enum.R])
 }
 
 function fillPiniaFiltrationWithRandomData() {
-  packages_store.filtration = PackagesFiltration.parse(
-    example_packages_filtration
+  packagesStore.filtration = PackagesFiltration.parse(
+    EXAMPLE_PACKAGES_FILTRATION
   )
 }
 
 async function fillTheFormWithRandomData() {
-  wrapper.vm.setValues(example_packages_filtration)
+  wrapper.vm.setValues(EXAMPLE_PACKAGES_FILTRATION)
   await flushPromises()
 }
 

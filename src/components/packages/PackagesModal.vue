@@ -38,12 +38,12 @@ import Overlay from '@/components/common/Overlay.vue'
 import Filtration from '@/components/packages/Filtration.vue'
 import { usePackagesStore } from '@/store/packages'
 
-const packages_store = usePackagesStore()
-const common_store = useCommonStore()
+const packagesStore = usePackagesStore()
+const commonStore = useCommonStore()
 
 async function clearFiltration() {
-  await packages_store.clearFiltrationAndFetch()
+  await packagesStore.clearFiltrationAndFetch()
 }
 
-const getFiltration = computed(common_store.isFiltration)
+const getFiltration = computed(commonStore.isFiltration)
 </script>

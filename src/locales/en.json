@@ -9,6 +9,11 @@
     "wrongCredentials": "Wrong credentials, please try again",
     "keycloak": "Keycloak"
   },
+  "errors": {
+    "401": "Cannot perform this request because user is not authenticated.",
+    "403": "Cannot perform this request because user is not authorized",
+    "422": "validation failed"
+  },
   "addSubmission": {
     "step1Title": "Choose repository",
     "step2Title": "Upload {0} packages",
@@ -46,7 +51,8 @@
     "deleteQuestion": "Are you sure you want to delete {resource_name}?",
     "copied": "code succesfully copied to clipboard",
     "goBack": "go back",
-    "logout": "logout"
+    "logout": "logout",
+    "notAvailable": "Not available"
   },
   "columns": {
     "name": "name",
@@ -81,7 +87,15 @@
       "repository": "Repository",
       "deleted": "Deleted"
     },
-    "author": "author",
+    "authors": "Authors",
+    "emailAuthors": "Emails",
+    "platform": "Platform",
+    "version": "Version",
+    "projectUrl": "Project URL",
+    "providesExtra": "Provides extra",
+    "requiresDist": "Requires distribution",
+    "requiresExternal": "Requires external",
+    "requiresPython": "Requires python",
     "description": "description",
     "maintainers": "package maintainers",
     "list": "packages",
@@ -106,7 +120,13 @@
     "installInstruction": "To install this package, start R and enter:",
     "withinRdepot": "Within RDepot",
     "originalRPackageData": "As described in R package",
-    "download-code": "install.packages(\"{0}\", repos = c(rdepot = \"{1}\"), getOption(\"repos\")))"
+    "originalPythonPackageData": "As described in the Python package",
+    "download-code": "install.packages(\"{0}\", repos = c(rdepot = \"{1}\"), getOption(\"repos\")))",
+    "windowsBinaries": "Windows binaries",
+    "submitter": "Submitter",
+    "approver": "Approver",
+    "classifiers": "Classifiers",
+    "maintainer": "Maintainer"
   },
   "events": {
     "filtration": {
@@ -147,7 +167,9 @@
     },
     "choseFiles": "Choose files",
     "wrongExtension": "choose packages that have correct extention (.tar.gz)",
-    "noPackageChosen": "no packages choosen"
+    "noPackageChosen": "no packages choosen",
+    "addAnotherSubmission": "upload another packages",
+    "waitForAllRequestsToFulfill": "wait untill all sumissions will end"
   },
   "users": {
     "edit": {
@@ -166,7 +188,7 @@
     "successCancelSubmission": "cancel submission",
     "acceptSubmission": "accept submission",
     "successRejectSubmission": "reject submission",
-    "successCreateSubmissiom": "successfully created submissiom",
+    "successCreateSubmissiom": "successfully created submission",
     "successDeletePackageManager": "successful deleted {maintainer_name}",
     "successUpdatePackageManager": "successful updated {maintainer_name}",
     "successCreateRepository": "successfully created {repository_name}",
@@ -207,5 +229,12 @@
     "resourceType": "resource type",
     "resourceId": "resource id",
     "userId": "user id"
+  },
+  "user": {
+    "not-logged-in": "not logged in",
+    "logged-in": "logged in"
+  },
+  "loginType": {
+    "keycloak": "Keycloak"
   }
 }

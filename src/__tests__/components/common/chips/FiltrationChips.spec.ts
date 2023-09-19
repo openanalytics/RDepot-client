@@ -39,9 +39,9 @@ import { createPinia, setActivePinia } from 'pinia'
 import { usePackagesStore } from '@/store/packages'
 
 let wrapper: any
-let packages_store: any
+let packagesStore: any
 
-const example_packages_filtration =
+const EXAMPLE_PACKAGES_FILTRATION =
   PackagesFiltration.parse({
     state: 'ACCEPTED',
     repository: 'repository1',
@@ -59,18 +59,16 @@ const globalConfig = {
 
 beforeAll(() => {
   setActivePinia(createPinia())
-  packages_store = usePackagesStore()
+  packagesStore = usePackagesStore()
 })
 
 describe('FiltrationChips', () => {
   beforeEach(async () => {
-    packages_store.setFiltration(
-      example_packages_filtration
-    )
+    packagesStore.setFiltration(EXAMPLE_PACKAGES_FILTRATION)
     wrapper = mount(FiltrationChips, {
       global: globalConfig,
       props: {
-        store: packages_store
+        store: packagesStore
       }
     })
   })

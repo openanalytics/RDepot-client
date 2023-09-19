@@ -47,9 +47,9 @@ const globalConfig = {
   mocks: mocks,
   plugins: plugins
 }
-let repositories_store: any
+let repositoriesStore: any
 
-const example_repository_filtration =
+const EXAMPLE_REPOSITORY_FILTRATION =
   RepositoriesFiltration.parse({
     name: 'testrepo1',
     deleted: true,
@@ -62,7 +62,7 @@ beforeAll(() => {
 
 beforeEach(async () => {
   setActivePinia(createPinia())
-  repositories_store = useRepositoryStore()
+  repositoriesStore = useRepositoryStore()
   wrapper = mount(FiltrationVue, {
     global: globalConfig
   })
@@ -108,7 +108,7 @@ describe('Repositories - filtration', () => {
     await clickButton('#reset-button')
     checkIfFiltrationIsEmpty()
     expect(
-      repositories_store.filtration.technologies
+      repositoriesStore.filtration.technologies
     ).toStrictEqual([Technologies.enum.R])
   })
 
@@ -121,7 +121,7 @@ describe('Repositories - filtration', () => {
     await clickButton('#reset-button')
     await clickButton('#cancel-button')
     expect(
-      repositories_store.filtration.technologies
+      repositoriesStore.filtration.technologies
     ).toStrictEqual([Technologies.enum.R])
   })
 
@@ -133,7 +133,7 @@ describe('Repositories - filtration', () => {
       Technologies.enum.Python
     await clickButton('#cancel-button')
     expect(
-      repositories_store.filtration.technologies
+      repositoriesStore.filtration.technologies
     ).toStrictEqual([Technologies.enum.R])
   })
 
@@ -163,30 +163,30 @@ function checkIfFiltrationIsEmpty() {
 }
 
 function checkIfPiniaFiltrationIsEmpty() {
-  expect(repositories_store.filtration).toEqual(
+  expect(repositoriesStore.filtration).toEqual(
     defaultValues(RepositoriesFiltration)
   )
 }
 
 function checkIfPiniaFiltrationIsFilledWithData() {
-  expect(repositories_store.filtration.name).toBe(
+  expect(repositoriesStore.filtration.name).toBe(
     'testrepo1'
   )
   expect(
-    repositories_store.filtration.technologies
+    repositoriesStore.filtration.technologies
   ).toStrictEqual([Technologies.enum.R])
-  expect(repositories_store.filtration.deleted).toBe(true)
+  expect(repositoriesStore.filtration.deleted).toBe(true)
 }
 
 function fillPiniaFiltrationWithRandomData() {
-  repositories_store.filtration =
+  repositoriesStore.filtration =
     RepositoriesFiltration.parse(
-      example_repository_filtration
+      EXAMPLE_REPOSITORY_FILTRATION
     )
 }
 
 async function fillTheFormWithRandomData() {
-  wrapper.vm.setValues(example_repository_filtration)
+  wrapper.vm.setValues(EXAMPLE_REPOSITORY_FILTRATION)
   await flushPromises()
 }
 

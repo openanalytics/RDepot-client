@@ -24,38 +24,32 @@ import { PackagesFiltration } from '@/models/Filtration'
 import {
   ApiV2PackageControllerApiFactory,
   EntityModelPackageDto,
-  ResponseDtoEntityModelPackageDto,
-  ResponseDtoPagedModelEntityModelPackageDto,
+  EntityModelPythonPackageDto,
+  EntityModelRPackageDto,
+  PythonPackageControllerApiFactory,
   RPackageControllerApiFactory
 } from '@/openapi'
 import { isAuthorized } from '@/plugins/casl'
-import { getConfiguration } from '@/services/api_config'
 import {
   openApiRequest,
   validatedData,
   validateRequest
 } from '@/services/open_api_access'
 import { useSortStore } from '@/store/sort'
-import { notify } from '@kyvg/vue3-notification'
 import { createPatch } from 'rfc6902'
 
 export async function fetchPackagesServices(
   filtration?: PackagesFiltration,
   page?: number,
   pageSize?: number,
-  showProgress = true
-): Promise<validatedData<EntityModelPackageDto>> {
+  showProgress = false
+): Promise<validatedData<EntityModelPackageDto[]>> {
   if (!isAuthorized('GET', 'packages')) {
-    return new Promise(() =>
-      validateRequest<EntityModelPackageDto>()
-    )
+    return new Promise(() => validateRequest)
   }
-  const packages_api = ApiV2PackageControllerApiFactory(
-    await getConfiguration()
-  )
   const sort = useSortStore()
-  return openApiRequest<ResponseDtoPagedModelEntityModelPackageDto>(
-    packages_api.getAllPackages,
+  return openApiRequest<EntityModelPackageDto[]>(
+    ApiV2PackageControllerApiFactory().getAllPackages,
     [
       filtration?.repository,
       filtration?.deleted,
@@ -66,60 +60,69 @@ export async function fetchPackagesServices(
       sort.getSortBy()
     ],
     showProgress
-  ).then(
-    (res) =>
-      validateRequest(
-        res.data.data?.content,
-        res.data.data?.page
-      ),
-    (msg) => {
-      notify({ type: 'error', text: msg })
-      return validateRequest()
-    }
   )
 }
 
-export async function fetchPackageServices(
-  id: number
-): Promise<EntityModelPackageDto | undefined> {
+export function fetchPackageServices(
+  id: number,
+  showProgress = false
+): Promise<validatedData<EntityModelPackageDto>> {
   if (!isAuthorized('GET', 'packages')) {
     return new Promise(() => {})
   }
-  const packages_api = ApiV2PackageControllerApiFactory(
-    await getConfiguration()
+  return openApiRequest<EntityModelPackageDto>(
+    ApiV2PackageControllerApiFactory().getPackageById,
+    [id],
+    showProgress
   )
-  return openApiRequest<ResponseDtoEntityModelPackageDto>(
-    packages_api.getPackageById,
-    [id]
-  ).then(
-    (res) => res.data.data,
-    (msg) => {
-      notify({ text: msg, type: 'error' })
-      return {}
-    }
+}
+
+export function fetchRPackageServices(
+  id: number,
+  showProgress = false
+): Promise<validatedData<EntityModelRPackageDto>> {
+  if (!isAuthorized('GET', 'packages')) {
+    return new Promise(() => {})
+  }
+  return openApiRequest<EntityModelRPackageDto>(
+    RPackageControllerApiFactory().getRPackageById,
+    [id],
+    showProgress
+  )
+}
+
+export function fetchPythonPackageServices(
+  id: number,
+  showProgress = false
+): Promise<validatedData<EntityModelPythonPackageDto>> {
+  if (!isAuthorized('GET', 'packages')) {
+    return new Promise(() => {})
+  }
+  return openApiRequest<EntityModelPythonPackageDto>(
+    PythonPackageControllerApiFactory()
+      .getAllPythonPackageById,
+    [id],
+    showProgress
   )
 }
 
 export async function updateRPackage(
   oldPackage: EntityModelPackageDto,
   newPackage: EntityModelPackageDto
-): Promise<boolean> {
+): Promise<validatedData<EntityModelPackageDto>> {
   if (!isAuthorized('PATCH', 'package')) {
     return new Promise(() => false)
   }
-  const packages_api = RPackageControllerApiFactory(
-    await getConfiguration()
-  )
   const patch = createPatch(oldPackage, newPackage)
 
-  return openApiRequest<ResponseDtoEntityModelPackageDto>(
-    packages_api.updatePackage,
+  return openApiRequest<EntityModelPackageDto>(
+    RPackageControllerApiFactory().updatePackage,
     [patch, oldPackage.id]
-  ).then(
-    () => true,
-    (msg) => {
-      notify({ text: msg, type: 'error' })
-      return false
-    }
+  )
+}
+export function downloadReferenceManual(id: string) {
+  return openApiRequest<Promise<boolean>>(
+    RPackageControllerApiFactory().downloadReferenceManual,
+    [id]
   )
 }

@@ -58,15 +58,15 @@ describe('SortTitle - default options', () => {
     expect(sortButton.classes()).not.toContain('oablue')
   })
   it('is highlighten if the sort option is active', () => {
-    const common_store = useCommonStore()
-    common_store.activeId = 'name'
+    const commonStore = useCommonStore()
+    commonStore.activeId = 'name'
     const sortButton = wrapper.find('#name')
     expect(sortButton.classes()).not.toContain('opacity')
     expect(sortButton.classes()).toContain('text-oablue')
   })
   it('asc sort icon change to desc sort icon after click', async () => {
-    const common_store = useCommonStore()
-    common_store.activeId = 'name'
+    const commonStore = useCommonStore()
+    commonStore.activeId = 'name'
     const sortButton = wrapper.find('#name')
     expect(wrapper.vm.getIcon).toEqual('mdi-sort-ascending')
     await sortButton.trigger('click')
@@ -99,8 +99,8 @@ describe('SortTitle - custom options', () => {
     expect(sortButton.classes()).not.toContain('oablue')
   })
   it('is transparent on hover if the sort option is not active', async () => {
-    const common_store = useCommonStore()
-    await common_store.setActiveId('name_sth')
+    const commonStore = useCommonStore()
+    await commonStore.setActiveId('name_sth')
     const sortButton = wrapper.find('#name')
     expect(sortButton.classes()).toContain('opacity')
     expect(sortButton.classes()).not.toContain(
@@ -150,24 +150,24 @@ describe('SortTitle - nonactive field', () => {
   })
 
   it('sort icon is gray and non active', async () => {
-    const common_store = useCommonStore()
-    common_store.activeId = 'user'
+    const commonStore = useCommonStore()
+    commonStore.activeId = 'user'
     expect(wrapper.vm.getIcon).toEqual('mdi-sort')
   })
 
   it('sort icon is become active after click', async () => {
-    const common_store = useCommonStore()
-    common_store.activeId = 'user'
-    const sort_store = useSortStore()
-    sort_store.field = 'user'
+    const commonStore = useCommonStore()
+    commonStore.activeId = 'user'
+    const sortStore = useSortStore()
+    sortStore.field = 'user'
     const sortButton = wrapper.find('#name')
-    expect(common_store.activeId).toEqual('user')
-    expect(sort_store.direction).toEqual('asc')
-    expect(sort_store.field).toEqual('user')
+    expect(commonStore.activeId).toEqual('user')
+    expect(sortStore.direction).toEqual('asc')
+    expect(sortStore.field).toEqual('user')
     await sortButton.trigger('click')
-    expect(sort_store.direction).toEqual('asc')
-    expect(common_store.activeId).toEqual('name')
-    expect(sort_store.field).toEqual('name')
+    expect(sortStore.direction).toEqual('asc')
+    expect(commonStore.activeId).toEqual('name')
+    expect(sortStore.field).toEqual('name')
     expect(wrapper.vm.getIcon).toEqual('mdi-sort-ascending')
   })
 })

@@ -23,16 +23,14 @@
 import { RepositoriesFiltration } from '@/models/Filtration'
 import {
   ApiV2RepositoryControllerApiFactory,
+  EntityModelRRepositoryDto,
   EntityModelRepositoryDto,
   PythonRepositoryControllerApiFactory,
   PythonRepositoryDto,
-  ResponseDtoPagedModelEntityModelRepositoryDto,
-  ResponseDtoPagedModelEntityModelRRepositoryDto,
-  RRepositoryControllerApiFactory
+  RRepositoryControllerApiFactory,
+  RRepositoryDto
 } from '@/openapi'
-import { getConfiguration } from './api_config'
 import { Technologies } from '@/enum/Technologies'
-import { i18n } from '@/plugins/i18n'
 import {
   openApiRequest,
   validatedData,
@@ -44,23 +42,21 @@ import { repositorySchema } from '@/models/Schemas'
 import { createPatch } from 'rfc6902'
 import { isAuthorized } from '@/plugins/casl'
 
-export async function fetchRepositoriesServices(
+export function fetchRepositoriesServices(
   filtration?: RepositoriesFiltration,
   page?: number,
   pageSize?: number,
   showProgress = true
-): Promise<validatedData<EntityModelRepositoryDto>> {
+): Promise<validatedData<EntityModelRepositoryDto[]>> {
   if (!isAuthorized('GET', 'repositories')) {
     return new Promise(() => validateRequest)
   }
-  const repository_api =
-    ApiV2RepositoryControllerApiFactory(
-      await getConfiguration()
-    )
   const sort = useSortStore()
+  sort.field = 'name'
 
-  return openApiRequest<ResponseDtoPagedModelEntityModelRepositoryDto>(
-    repository_api.getAllRepositories,
+  return openApiRequest<EntityModelRepositoryDto[]>(
+    ApiV2RepositoryControllerApiFactory()
+      .getAllRepositories,
     [
       filtration?.deleted,
       filtration?.name,
@@ -70,94 +66,33 @@ export async function fetchRepositoriesServices(
       sort.getSortBy()
     ],
     showProgress
-  ).then(
-    (res) =>
-      validateRequest(
-        res.data.data?.content,
-        res.data.data?.page
-      ),
-    (msg) => {
-      notify({ type: 'error', text: msg })
-      return validateRequest()
-    }
-  )
-}
-
-type ValidatedRRepositories = Promise<
-  validatedData<EntityModelRepositoryDto>
->
-
-export async function fetchRRepositories(): ValidatedRRepositories {
-  if (!isAuthorized('GET', 'repositories')) {
-    return new Promise(() => validateRequest)
-  }
-  const r_repository_api = RRepositoryControllerApiFactory(
-    await getConfiguration()
-  )
-  return openApiRequest<ResponseDtoPagedModelEntityModelRRepositoryDto>(
-    r_repository_api.getAllRRepositories
-  ).then(
-    (res) =>
-      validateRequest(
-        res.data.data?.content,
-        res.data.data?.page
-      ),
-    (msg) => {
-      notify({ type: 'error', text: msg })
-      return validateRequest()
-    }
   )
 }
 
 export async function createRepository(
   newRepository: EntityModelRepositoryDto
-): Promise<boolean> {
+): Promise<validatedData<EntityModelRepositoryDto>> {
   if (!isAuthorized('POST', 'repository')) {
     return new Promise(() => false)
   }
   const validatedRepository =
     repositorySchema.safeParse(newRepository)
+
   if (validatedRepository.success) {
     const { technology, ...repository } =
       validatedRepository.data
-    let request
     if (technology === Technologies.enum.R) {
-      const repository_api =
-        RRepositoryControllerApiFactory(
-          await getConfiguration()
-        )
-      request =
-        openApiRequest<ResponseDtoPagedModelEntityModelRepositoryDto>(
-          repository_api.createRRepository,
-          [repository]
-        )
+      return openApiRequest<RRepositoryDto>(
+        RRepositoryControllerApiFactory().createRRepository,
+        [repository as RRepositoryDto]
+      )
     } else {
-      const repository_api =
-        PythonRepositoryControllerApiFactory(
-          await getConfiguration()
-        )
-      request =
-        openApiRequest<ResponseDtoPagedModelEntityModelRepositoryDto>(
-          repository_api.createPythonRepository,
-          [repository as PythonRepositoryDto]
-        )
+      return openApiRequest<PythonRepositoryDto>(
+        PythonRepositoryControllerApiFactory()
+          .createPythonRepository,
+        [repository as PythonRepositoryDto]
+      )
     }
-    return request.then(
-      () => {
-        notify({
-          type: 'success',
-          text: i18n.t(
-            'notifications.successCreateRepository',
-            newRepository.name || ''
-          )
-        })
-        return true
-      },
-      (msg) => {
-        notify({ type: 'error', text: msg })
-        return false
-      }
-    )
   } else {
     notify({
       type: 'error',
@@ -170,7 +105,7 @@ export async function createRepository(
 export async function updateRepository(
   oldRepository: EntityModelRepositoryDto,
   newRepository: EntityModelRepositoryDto
-) {
+): Promise<validatedData<EntityModelRepositoryDto>> {
   if (!isAuthorized('PATCH', 'repository')) {
     return new Promise(() => false)
   }
@@ -181,35 +116,17 @@ export async function updateRepository(
   )
 
   if (oldRepository.technology === Technologies.enum.R) {
-    const repository_api = RRepositoryControllerApiFactory(
-      await getConfiguration()
-    )
-    return openApiRequest<ResponseDtoPagedModelEntityModelRepositoryDto>(
-      repository_api.updateRRepository,
-      [patchBody, newRepository]
-    ).then(
-      () => true,
-      (msg) => {
-        notify({ text: msg, type: 'error' })
-        return false
-      }
+    return openApiRequest<RRepositoryDto>(
+      RRepositoryControllerApiFactory().updateRRepository,
+      [patchBody, newRepository.id]
     )
   } else if (
     oldRepository.technology === Technologies.enum.Python
   ) {
-    const repository_api =
-      PythonRepositoryControllerApiFactory(
-        await getConfiguration()
-      )
-    return openApiRequest<ResponseDtoPagedModelEntityModelRepositoryDto>(
-      repository_api.updatePythonRepository,
-      [patchBody, newRepository]
-    ).then(
-      () => true,
-      (msg) => {
-        notify({ text: msg, type: 'error' })
-        return false
-      }
+    return openApiRequest<PythonRepositoryDto>(
+      PythonRepositoryControllerApiFactory()
+        .updatePythonRepository,
+      [patchBody, newRepository.id]
     )
   } else {
     throw new Error(

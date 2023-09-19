@@ -29,8 +29,60 @@ export function useUtilities() {
     return JSON.parse(JSON.stringify(object)) as any
   }
 
+  const renderer = {
+    code(
+      code: string,
+      _infostring: string | undefined,
+      escaped: boolean
+    ) {
+      code = code.trim()
+      const copy = code.replaceAll('\n', '\\n')
+      return `
+        <pre class="code d-flex justify-lg-space-between my-2">
+        <code>
+          ${escaped ? code : escape(code)}
+        </code>
+        <i class="mdi-content-copy mdi v-icon notranslate v-theme--dark v-icon--size-large v-icon--clickable v-icon--start" role="button" onclick="navigator.clipboard.writeText('${copy}')">
+        </i>
+        </pre>`
+    },
+    heading(
+      text: string,
+      level: number,
+      _raw: string,
+      _slugger: any
+    ) {
+      level += 2
+      return `<h${level}>${text}</h${level}>\n`
+    }
+  }
+
+  // copied from marked helpers
+  const escapeTest = /[&<>"']/
+  const escapeReplace = new RegExp(escapeTest.source, 'g')
+  const escapeReplacements: Record<string, string> = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  }
+  const getEscapeReplacement = (ch: string) =>
+    escapeReplacements[ch]
+  function escape(html: string) {
+    if (escapeTest.test(html)) {
+      return html.replace(
+        escapeReplace,
+        getEscapeReplacement
+      )
+    }
+
+    return html
+  }
+
   return {
     deepCopy,
-    deepCopyAny
+    deepCopyAny,
+    renderer
   }
 }

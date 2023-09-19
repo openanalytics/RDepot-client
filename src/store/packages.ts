@@ -28,20 +28,26 @@ import { fetchPackagesServices } from '@/services'
 import { defineStore } from 'pinia'
 import {
   EntityModelPackageDto,
+  EntityModelSubmissionDto,
   ResponseDtoListVignette,
   RPackageControllerApiFactory
 } from '@/openapi'
 import {
+  downloadReferenceManual,
   fetchPackageServices,
+  fetchPythonPackageServices,
+  fetchRPackageServices,
   updateRPackage
 } from '@/services/package_services'
 import { useUtilities } from '@/composable/utilities'
-import { usePaginationStore } from './pagination'
 import { packagesFiltrationLabels } from '@/maps/Filtration'
+import { fetchSubmission } from '@/services/submission_services'
+import { usePagination } from './pagination'
 
 interface State {
   packages: EntityModelPackageDto[]
   package?: EntityModelPackageDto
+  submission?: EntityModelSubmissionDto
   vignettes: ResponseDtoListVignette
   filtration: PackagesFiltration
   chosenPackageId?: number
@@ -51,12 +57,13 @@ interface State {
 const { deepCopy } = useUtilities()
 
 export const usePackagesStore = defineStore(
-  'packages_store',
+  'packagesStore',
   {
     state: (): State => {
       return {
         packages: [],
         package: {},
+        submission: {},
         vignettes: {},
         filtration: defaultValues(PackagesFiltration),
         chosenPackageId: undefined,
@@ -77,14 +84,14 @@ export const usePackagesStore = defineStore(
         return pageData
       },
       async fetchPackages(filtration?: PackagesFiltration) {
-        const pagination = usePaginationStore()
+        const pagination = usePagination()
         const pageData = await this.fetchData(
-          pagination.page,
+          pagination.fetchPage,
           pagination.pageSize,
           filtration || this.filtration
         )
-        pagination.setPage(pageData.page)
-        pagination.setTotalNumber(pageData.totalNumber)
+        pagination.newPageWithoutRefresh(pageData.page)
+        pagination.totalNumber = pageData.totalNumber
       },
       async fetchData(
         page: number,
@@ -104,7 +111,20 @@ export const usePackagesStore = defineStore(
         return pageData
       },
       async fetchPackage(id: number) {
-        this.package = await fetchPackageServices(id)
+        this.package = (await fetchPackageServices(id))[0]
+        if (this.package?.submissionId) {
+          this.submission = (
+            await fetchSubmission(this.package.submissionId)
+          )[0]
+        }
+      },
+      async fetchRPackage(id: number) {
+        this.package = (await fetchRPackageServices(id))[0]
+      },
+      async fetchPythonPackage(id: number) {
+        this.package = (
+          await fetchPythonPackageServices(id)
+        )[0]
       },
       async activatePackage(
         newPackage: EntityModelPackageDto
@@ -117,17 +137,12 @@ export const usePackagesStore = defineStore(
           }
         )
       },
-      async downloadManual() {
-        const rPackageApi = RPackageControllerApiFactory()
-        if (this.package?.id) {
-          return rPackageApi.downloadReferenceManual(
-            this.package.id
-          )
-        }
+      async downloadManual(id: string) {
+        await downloadReferenceManual(id).then(() => {})
       },
       async setFiltration(payload: PackagesFiltration) {
-        const pagination = usePaginationStore()
-        pagination.setPage(0)
+        const pagination = usePagination()
+        pagination.resetPage()
         if (PackagesFiltration.safeParse(payload).success) {
           this.filtration =
             PackagesFiltration.parse(payload)
@@ -139,8 +154,8 @@ export const usePackagesStore = defineStore(
         this.filtration.repository = payload
       },
       clearFiltration() {
-        const pagination = usePaginationStore()
-        pagination.setPage(0)
+        const pagination = usePagination()
+        pagination.resetPage()
         this.filtration = defaultValues(PackagesFiltration)
       },
       async clearFiltrationAndFetch() {

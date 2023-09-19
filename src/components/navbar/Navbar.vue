@@ -68,11 +68,11 @@ import { useCommonStore } from '@/store/common'
 import { useDisplay } from 'vuetify/lib/framework.mjs'
 import User from './User.vue'
 
-const common_store = useCommonStore()
+const commonStore = useCommonStore()
 const { width, mobile } = useDisplay()
 
 function showSidebar() {
-  common_store.setDrawer(!common_store.drawer)
+  commonStore.setDrawer(!commonStore.drawer)
 }
 </script>
 
