@@ -21,17 +21,24 @@
 -->
 
 <template>
-  <v-btn icon @click="changeTheme">
+  <v-btn
+    icon
+    @click="changeTheme"
+    :key="commonStore.themeKey"
+  >
     <v-icon color="text">mdi-theme-light-dark</v-icon>
   </v-btn>
 </template>
 
 <script setup lang="ts">
-import { useLoggedUserStore } from '@/store/logged_user'
+import { useAuthorizationStore } from '@/store/authorization'
+import { useCommonStore } from '@/store/common'
+import { onUpdated } from 'vue'
 import { useTheme } from 'vuetify/lib/framework.mjs'
 
 const theme = useTheme()
-const logged_user_store = useLoggedUserStore()
+const commonStore = useCommonStore()
+const authorizationStore = useAuthorizationStore()
 
 const changeTheme = () => {
   const new_theme = theme.global.current.value.dark
@@ -39,11 +46,17 @@ const changeTheme = () => {
     : 'dark'
 
   theme.global.name.value = new_theme
-  var new_settings = logged_user_store.getCurrentSettings()
+  var new_settings = authorizationStore.getCurrentSettings()
   new_settings.theme = new_theme
-  logged_user_store.updateSettings(
-    logged_user_store.getCurrentSettings(),
+  authorizationStore.updateSettings(
+    authorizationStore.getCurrentSettings(),
     new_settings
   )
 }
+
+onUpdated(() => {
+  if (authorizationStore.me.userSettings?.theme)
+    theme.global.name.value =
+      authorizationStore.me.userSettings.theme
+})
 </script>
