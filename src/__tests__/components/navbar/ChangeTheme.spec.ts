@@ -33,9 +33,9 @@ import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
 import ChangeThemeVue from '@/components/navbar/ChangeTheme.vue'
 import { createPinia, setActivePinia } from 'pinia'
-import { useLoggedUserStore } from '@/store/logged_user'
+import { useAuthorizationStore } from '@/store/authorization'
 
-let logged_user_store: any
+let authorizationStore: any
 let wrapper: any
 const globalConfig = {
   mocks: mocks,
@@ -44,7 +44,7 @@ const globalConfig = {
 
 beforeEach(async () => {
   setActivePinia(createPinia())
-  logged_user_store = useLoggedUserStore()
+  authorizationStore = useAuthorizationStore()
   wrapper = mount(ChangeThemeVue, {
     global: globalConfig
   })
@@ -67,7 +67,7 @@ describe('Change Theme', () => {
 
   it('change theme two times after two clicks', async () => {
     const spy = vi.spyOn(
-      logged_user_store,
+      authorizationStore,
       'updateSettings'
     )
     wrapper.vm.theme.global.name.value = 'dark'

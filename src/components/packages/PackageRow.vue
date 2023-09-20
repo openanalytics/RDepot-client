@@ -112,13 +112,15 @@
         v-else-if="packageBag"
         v-model="packageBag.active"
         @change="updatePackageActive"
-        :disabled="!loggedUserStore.can('PATCH', 'package')"
+        :disabled="
+          !authorizationStore.can('PATCH', 'package')
+        "
       />
     </VCol>
     <VCol
       v-if="
-        loggedUserStore.can('GET', 'packageDetails') ||
-        loggedUserStore.can('DELETE', 'package')
+        authorizationStore.can('GET', 'packageDetails') ||
+        authorizationStore.can('DELETE', 'package')
       "
       id="package-row-actions"
       cols="lg-1"
@@ -139,7 +141,10 @@
           <template v-slot:activator="{ props }">
             <VIcon
               v-if="
-                loggedUserStore.can('GET', 'packageDetails')
+                authorizationStore.can(
+                  'GET',
+                  'packageDetails'
+                )
               "
               id="navigate-icon"
               @click.stop
@@ -154,7 +159,7 @@
           }}</span>
         </VTooltip>
         <DeleteIcon
-          v-if="loggedUserStore.can('DELETE', 'package')"
+          v-if="authorizationStore.can('DELETE', 'package')"
           :name="props.packageBag?.name"
           :set-resource-id="choosePackage"
         />
@@ -170,10 +175,10 @@ import { usePackagesStore } from '@/store/packages'
 import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
 import SortTitle from '@/components/common/resources/SortTitle.vue'
 import TextRecord from '@/components/common/resources/TextRecord.vue'
-import { useLoggedUserStore } from '@/store/logged_user'
+import { useAuthorizationStore } from '@/store/authorization'
 
 const packageStore = usePackagesStore()
-const loggedUserStore = useLoggedUserStore()
+const authorizationStore = useAuthorizationStore()
 
 const props = defineProps({
   title: {

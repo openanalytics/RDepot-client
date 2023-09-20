@@ -29,16 +29,11 @@ import {
 } from '@/services/users_services'
 import { EntityModelUserDto, RoleDto } from '@/openapi'
 import { Role } from '@/enum/UserRoles'
-import { BASE_PATH } from '@/openapi/base'
-import axios from 'axios'
-import { notify } from '@kyvg/vue3-notification'
-import router from '@/router'
 import { usePagination } from '@/store/pagination'
 
 interface State {
   userToken: string
   userName: string
-  loginType: LoginType
   userList: EntityModelUserDto[]
   chosenUser: EntityModelUserDto
   roles: RoleDto[]
@@ -49,41 +44,12 @@ export const useUserStore = defineStore('userStore', {
     return {
       userToken: '',
       userName: '',
-      loginType: 'DEFAULT',
       userList: [],
       chosenUser: {},
       roles: []
     }
   },
   actions: {
-    async login(payload: LoginApiData) {
-      await axios
-        .post(BASE_PATH + '/login', {
-          login: payload.username,
-          password: payload.password
-        })
-        .then((res) => {
-          this.userToken = res.data.data.token
-          notify({
-            text: 'user succesfully logged in!',
-            type: 'success'
-          })
-          router.push('packages')
-        })
-        .catch((err) => {
-          notify({
-            text:
-              'login procedure failed, please try again (' +
-              err +
-              ' )',
-            type: 'error'
-          })
-        })
-    },
-    chooseLoginType(payload: LoginType) {
-      this.$reset()
-      this.loginType = payload
-    },
     async fetchUsers() {
       const pagination = usePagination()
       const [users, pageData] = await fetchUsers()

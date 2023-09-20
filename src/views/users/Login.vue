@@ -56,7 +56,7 @@
       <v-row class="form-buttons my-10">
         <v-btn
           class="btn mx-2"
-          @click="login"
+          @click="loginSimple"
           color="oablue"
         >
           {{ $t('authorization.login') }}
@@ -70,10 +70,10 @@
           {{ $t('authorization.clear') }}
         </v-btn>
       </v-row>
-      <v-row v-show="getEnv('VITE_LOGIN_OIDC') == 'true'">
+      <v-row v-show="isOICDAuthAvailable()">
         <v-btn
           color="background"
-          @click="keyloackMethod"
+          @click="loginOICD"
           class="loginTypeButton"
         >
           <div class="loginType">
@@ -83,38 +83,32 @@
       </v-row>
     </form>
   </v-container>
-  <v-btn @click="getUserInfo"> user info </v-btn>
 </template>
 
 <script setup lang="ts">
-import { initKeycloak } from '@/plugins/keycloak'
-import { useUserStore } from '@/store/users'
+import { onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { Form, useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { z } from 'zod'
 import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
-import { LoginApiData } from '@/models/users/Login'
+import { Login } from '@/models/users/Login'
 import { ref } from 'vue'
 import {
   registerUserLoggedInEventListener,
   registerUserLoggedOutEventListener
 } from '@/plugins/eventsBus'
 import { authService as oauthService } from '@/plugins/oauth'
-import { useAuthorization } from '@/composable/authorization'
-import getEnv from '@/utils/env'
+import { useAuthorizationStore } from '@/store/authorization'
+import { useOICDAuthorization } from '@/composable/auth/oicdAuthorization'
+import { onKeyStroke } from '@vueuse/core'
+
 const isUserLoggedIn = ref<boolean>(false)
-import { useLoggedUserStore } from '@/store/logged_user'
-import { useTheme } from 'vuetify/lib/framework.mjs'
-import { i18n } from '@/plugins/i18n'
-import { usePagination } from '@/store/pagination'
+
+const authorizationStore = useAuthorizationStore()
 
 const { t } = useI18n()
-const user_store = useUserStore()
-const logged_user_store = useLoggedUserStore()
-const theme = useTheme()
-const { newPageSizeWithoutRefresh } = usePagination()
-import { onMounted } from 'vue'
+const { isOICDAuthAvailable } = useOICDAuthorization()
 
 const { handleReset, values, meta, validate } = useForm({
   validationSchema: toTypedSchema(
@@ -129,72 +123,21 @@ const { handleReset, values, meta, validate } = useForm({
   )
 })
 
-async function keyloackMethod() {
-  user_store.chooseLoginType('KEYCLOAK')
-  const { loginWithOICD } = useAuthorization()
-  loginWithOICD()
+async function loginOICD() {
+  authorizationStore.login()
 }
 
-function onKeyup() {
-  login()
-}
+onKeyStroke('Enter', () => {
+  loginSimple()
+})
 
-async function login() {
-  user_store.chooseLoginType('DEFAULT')
+async function loginSimple() {
   validate()
   if (meta.value.valid)
-    user_store.login(values as LoginApiData)
-}
-
-async function getUserInfo() {
-  await logged_user_store.getUserInfo()
-  setTheme()
-  setLanguage()
-  setPageSize()
-}
-
-function setTheme() {
-  if (logged_user_store.me.userSettings?.theme)
-    theme.global.name.value =
-      logged_user_store.me.userSettings.theme
-}
-
-function setLanguage() {
-  if (logged_user_store.me.userSettings?.language) {
-    switch (logged_user_store.me.userSettings.language) {
-      case 'en-EN': {
-        i18n.locale.value = 'en'
-        break
-      }
-      case 'pl-PL': {
-        i18n.locale.value = 'pl'
-        break
-      }
-      default: {
-        break
-      }
-    }
-  }
-}
-
-function setPageSize() {
-  if (logged_user_store.me.userSettings?.pageSize) {
-    newPageSizeWithoutRefresh(
-      logged_user_store.me.userSettings.pageSize
-    )
-  }
+    authorizationStore.simpleLogin(values as Login)
 }
 
 onMounted(() => {
-  setTheme()
-  setLanguage()
-  setPageSize()
-  document.addEventListener('keyup', (e) => {
-    if (e.code == 'Enter') {
-      onKeyup()
-    }
-  })
-
   oauthService
     .isUserLoggedIn()
     .then((isLoggedIn) => {

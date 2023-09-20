@@ -31,7 +31,7 @@ import {
 } from '@/models/Filtration'
 import { notify } from '@kyvg/vue3-notification'
 import { i18n } from '@/plugins/i18n'
-import { useLoggedUserStore } from './logged_user'
+import { useAuthorizationStore } from '@/store/authorization'
 import {
   addSubmission,
   fetchSubmissions,
@@ -83,24 +83,24 @@ export const useSubmissionStore = defineStore(
         page: number,
         pageSize = 8
       ) {
-        const logged_user_store = useLoggedUserStore()
+        const authorizationStore = useAuthorizationStore()
         const pageData = await this.fetchData(
           page,
           pageSize,
           defaultValues(SubmissionsFiltration),
-          logged_user_store.me.id,
+          authorizationStore.me.id,
           false
         )
         return pageData
       },
       async fetchSubmissions() {
         const pagination = usePagination()
-        const logged_user_store = useLoggedUserStore()
+        const authorizationStore = useAuthorizationStore()
         const pageData = await this.fetchData(
           pagination.fetchPage,
           pagination.pageSize,
           this.filtration,
-          logged_user_store.me.id
+          authorizationStore.me.id
         )
         pagination.newPageWithoutRefresh(pageData.page)
         pagination.totalNumber = pageData.totalNumber

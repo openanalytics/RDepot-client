@@ -75,11 +75,11 @@
 
     <v-col
       v-if="
-        loggedUserStore.can(
+        authorizationStore.can(
           'PATCH',
           'repositoryMaintainers'
         ) ||
-        loggedUserStore.can(
+        authorizationStore.can(
           'DELETE',
           'repositoryMaintainers'
         )
@@ -120,7 +120,7 @@
 
         <delete-icon
           v-if="
-            loggedUserStore.can(
+            authorizationStore.can(
               'PATCH',
               'repositoryMaintainers'
             )
@@ -138,7 +138,7 @@ import { OverlayEnum } from '@/enum/Overlay'
 import { EntityModelRepositoryMaintainerDto } from '@/openapi'
 import { i18n } from '@/plugins/i18n'
 import { useCommonStore } from '@/store/common'
-import { useLoggedUserStore } from '@/store/logged_user'
+import { useAuthorizationStore } from '@/store/authorization'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
 import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
 import SortTitle from '@/components/common/resources//SortTitle.vue'
@@ -155,7 +155,7 @@ const props = defineProps({
 })
 
 const commonStore = useCommonStore()
-const loggedUserStore = useLoggedUserStore()
+const authorizationStore = useAuthorizationStore()
 const maintainersStore = useRepositoryMaintainersStore()
 
 function edit() {

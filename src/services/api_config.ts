@@ -22,7 +22,7 @@
 
 import { Configuration } from '@/openapi'
 import { authService } from '@/plugins/oauth'
-import { useUserStore } from '@/store/users'
+import { useAuthorizationStore } from '@/store/authorization'
 import getEnv from '@/utils/env'
 import { AxiosRequestConfig } from 'axios'
 
@@ -47,16 +47,16 @@ export async function getHeaders() {
 }
 
 async function getToken() {
-  const userStore = useUserStore()
+  const authorizationStore = useAuthorizationStore()
   if (
     getEnv('VITE_LOGIN_OIDC') == 'true' &&
     getEnv('VITE_LOGIN_SIMPLE') == 'true'
   ) {
-    var oauthToken = await authService.getAccessToken()
+    const oauthToken = await authService.getAccessToken()
     if (oauthToken != null) {
       return oauthToken
     }
-    return userStore.userToken
+    return authorizationStore.userToken
   } else if (
     getEnv('VITE_LOGIN_OIDC') == 'true' &&
     getEnv('VITE_LOGIN_SIMPLE') == 'false'
@@ -66,6 +66,6 @@ async function getToken() {
     getEnv('VITE_LOGIN_OIDC') == 'false' &&
     getEnv('VITE_LOGIN_SIMPLE') == 'true'
   ) {
-    return userStore.userToken
+    return authorizationStore.userToken
   }
 }

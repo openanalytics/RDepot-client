@@ -125,8 +125,10 @@
     </v-col>
     <v-col
       v-if="
-        loggedUserStore.can('GET', 'repositoryDetails') ||
-        loggedUserStore.can('DELETE', 'repository')
+        authorizationStore.can(
+          'GET',
+          'repositoryDetails'
+        ) || authorizationStore.can('DELETE', 'repository')
       "
       id="repository-actions"
       cols="lg-1"
@@ -146,7 +148,7 @@
           <template v-slot:activator="{ props }">
             <v-icon
               v-if="
-                loggedUserStore.can(
+                authorizationStore.can(
                   'GET',
                   'repositoryDetails'
                 )
@@ -164,7 +166,9 @@
           }}</span>
         </v-tooltip>
         <delete-icon
-          v-if="loggedUserStore.can('DELETE', 'repository')"
+          v-if="
+            authorizationStore.can('DELETE', 'repository')
+          "
           :name="props.repository?.name"
           :set-resource-id="chooseRepository"
         />
@@ -180,13 +184,13 @@ import { useRepositoryStore } from '@/store/repositories'
 import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
 import SortTitle from '@/components/common/resources/SortTitle.vue'
 import TextRecord from '@/components/common/resources/TextRecord.vue'
-import { useLoggedUserStore } from '@/store/logged_user'
+import { useAuthorizationStore } from '@/store/authorization'
 import { updateRepository } from '@/services/repository_services'
 import { ref } from 'vue'
 import { useUtilities } from '@/composable/utilities'
 
 const repositoryStore = useRepositoryStore()
-const loggedUserStore = useLoggedUserStore()
+const authorizationStore = useAuthorizationStore()
 const { deepCopy } = useUtilities()
 
 const props = defineProps<{

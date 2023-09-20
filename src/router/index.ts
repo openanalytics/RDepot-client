@@ -25,10 +25,10 @@ import { routes } from '@/router/routes'
 import { i18n } from '@/plugins/i18n'
 import { useSortStore } from '@/store/sort'
 import { authService } from '@/plugins/oauth'
-import { useAuthorization } from '@/composable/authorization'
-import { useUserStore } from '@/store/users'
-import getEnv from '@/utils/env'
 import { usePagination } from '@/store/pagination'
+import { useAuthorizationStore } from '@/store/authorization'
+import { useSimpleAuthorization } from '@/composable/auth/simpleAuthorization'
+import { useOICDAuthorization } from '@/composable/auth/oicdAuthorization'
 
 const DEFAULT_TITLE = i18n.t('common.projectTitle')
 
@@ -38,8 +38,7 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to) => {
-  const { isUserLoggedIn } = useAuthorization()
-  const userStore = useUserStore()
+  const authorizationStore = useAuthorizationStore()
 
   if (to.fullPath.startsWith('/auth')) {
     handleAuthorization()
@@ -48,15 +47,7 @@ router.beforeEach(async (to) => {
     handleLogout()
     return '/'
   } else if (to.name != 'login') {
-    var user: any = await isUserLoggedIn()
-
-    if (
-      !user &&
-      !(
-        userStore.userToken &&
-        getEnv('VITE_LOGIN_SIMPLE') == 'true'
-      )
-    ) {
+    if (!(await authorizationStore.isUserLoggedIn())) {
       return redirectToLoginPage()
     }
   }
@@ -71,12 +62,12 @@ router.beforeEach(async (to) => {
 })
 
 async function redirectToLoginPage() {
-  const { isSimpleAuthAvailable, loginWithOICD } =
-    useAuthorization()
+  const { isSimpleAuthAvailable } = useSimpleAuthorization()
+  const authorizationStore = useAuthorizationStore()
   if (isSimpleAuthAvailable()) {
     return '/login'
   } else {
-    loginWithOICD()
+    authorizationStore.login()
     return '/packages'
   }
 }
@@ -98,18 +89,21 @@ function handleAuthorization() {
 }
 
 async function handleLogout() {
-  authService
-    .handleLogoutRedirect()
-    .then(() => {
-      window.history.replaceState(
-        {},
-        window.document.title,
-        window.location.origin + window.location.pathname
-      )
-    })
-    .catch((error) => {
-      console.log(error)
-    })
+  const { isOICDAuthAvailable } = useOICDAuthorization()
+  if (isOICDAuthAvailable()) {
+    authService
+      .handleLogoutRedirect()
+      .then(() => {
+        window.history.replaceState(
+          {},
+          window.document.title,
+          window.location.origin + window.location.pathname
+        )
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
 }
 
 export default router

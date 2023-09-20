@@ -84,11 +84,14 @@
     </v-col>
     <v-col
       v-if="
-        loggedUserStore.can(
+        authorizationStore.can(
           'PATCH',
           'packageMaintainers'
         ) ||
-        loggedUserStore.can('DELETE', 'packageMaintainers')
+        authorizationStore.can(
+          'DELETE',
+          'packageMaintainers'
+        )
       "
       id="package-maintainer-actions"
       cols="lg-1"
@@ -112,7 +115,7 @@
           <template v-slot:activator="{ props }">
             <v-icon
               v-if="
-                loggedUserStore.can(
+                authorizationStore.can(
                   'PATCH',
                   'packageMaintainers'
                 )
@@ -134,7 +137,7 @@
           :name="props.packageMaintainer?.user?.name"
           :set-resource-id="chooseMaintainer"
           v-if="
-            loggedUserStore.can(
+            authorizationStore.can(
               'DELETE',
               'packageMaintainers'
             )
@@ -149,7 +152,7 @@
 import { EntityModelPackageMaintainerDto } from '@/openapi'
 import { i18n } from '@/plugins/i18n'
 import { useCommonStore } from '@/store/common'
-import { useLoggedUserStore } from '@/store/logged_user'
+import { useAuthorizationStore } from '@/store/authorization'
 import { usePackageMaintainersStore } from '@/store/package_maintainers'
 import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
 import SortTitle from '@/components/common/resources/SortTitle.vue'
@@ -166,7 +169,7 @@ const props = defineProps({
     | undefined
 })
 
-const loggedUserStore = useLoggedUserStore()
+const authorizationStore = useAuthorizationStore()
 const commonStore = useCommonStore()
 const maintainersStore = usePackageMaintainersStore()
 
