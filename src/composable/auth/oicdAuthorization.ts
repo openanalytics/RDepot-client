@@ -22,41 +22,31 @@
 
 import { authService } from '@/plugins/oauth'
 
-export function useAuthorization() {
-  function isOICDAvailable() {
+export function useOICDAuthorization() {
+  async function login() {
+    await authService.login()
+  }
+
+  async function logout() {
+    await authService.logout()
+  }
+
+  function isOICDAuthAvailable() {
     return Boolean(
       JSON.parse(import.meta.env.VITE_LOGIN_OIDC)
     )
   }
 
-  function isSimpleAuthAvailable() {
+  async function isUserLoggedInOICD() {
     return Boolean(
-      JSON.parse(import.meta.env.VITE_LOGIN_SIMPLE)
+      isOICDAuthAvailable() && (await authService.getUser())
     )
   }
 
-  function displayAllLoginMethods() {
-    return isOICDAvailable() && isSimpleAuthAvailable()
-  }
-
-  function isUserLoggedIn() {
-    return authService.getUser()
-  }
-
-  function loginWithOICD() {
-    authService.login()
-  }
-
-  function getOICDToken() {
-    return authService.getAccessToken()
-  }
-
   return {
-    isOICDAvailable,
-    isSimpleAuthAvailable,
-    displayAllLoginMethods,
-    loginWithOICD,
-    isUserLoggedIn,
-    getOICDToken
+    login,
+    logout,
+    isUserLoggedInOICD,
+    isOICDAuthAvailable
   }
 }
