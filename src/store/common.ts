@@ -34,6 +34,7 @@ interface State {
   overlayComponent: OverlayEnum
   key: number
   activeId: string
+  themeKey: number
 }
 
 export const useCommonStore = defineStore('commonStore', {
@@ -48,7 +49,8 @@ export const useCommonStore = defineStore('commonStore', {
       overlayModel: false,
       activeId: 'name',
       overlayComponent: OverlayEnum.enum.Delete,
-      key: 0
+      key: 0,
+      themeKey: 0
     }
   },
   actions: {
@@ -74,6 +76,13 @@ export const useCommonStore = defineStore('commonStore', {
       this.key += 1
       if (this.key > 100) {
         this.key = 0
+      }
+    },
+
+    updateThemeKey() {
+      this.themeKey += 1
+      if (this.themeKey > 100) {
+        this.themeKey = 0
       }
     },
 
