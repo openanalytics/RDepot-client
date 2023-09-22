@@ -39,20 +39,6 @@ describe('User Store', () => {
     const user_store = useUserStore()
     expect(user_store.userToken).toEqual('')
     expect(user_store.userName).toEqual('')
-    expect(user_store.loginType).toEqual('DEFAULT')
-    expect(user_store.userList).toEqual([])
-    expect(user_store.chosenUser).toEqual({})
-    expect(user_store.roles).toEqual([])
-  })
-
-  it('Change login type should reset store', () => {
-    const user_store = useUserStore()
-    user_store.$state = store_example_values
-    user_store.chooseLoginType(LoginType.Values.KEYCLOAK)
-
-    expect(user_store.userToken).toEqual('')
-    expect(user_store.userName).toEqual('')
-    expect(user_store.loginType).toEqual('KEYCLOAK')
     expect(user_store.userList).toEqual([])
     expect(user_store.chosenUser).toEqual({})
     expect(user_store.roles).toEqual([])

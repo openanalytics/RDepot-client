@@ -85,7 +85,7 @@ export const useAuthorizationStore = defineStore(
             router.push({ name: 'packages' })
           })
           .finally(() => {
-            // this.getUserInfo()
+            this.getUserInfo()
           })
       },
 

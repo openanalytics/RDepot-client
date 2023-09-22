@@ -104,7 +104,6 @@ import { useOICDAuthorization } from '@/composable/auth/oicdAuthorization'
 import { onKeyStroke } from '@vueuse/core'
 
 const isUserLoggedIn = ref<boolean>(false)
-
 const authorizationStore = useAuthorizationStore()
 
 const { t } = useI18n()
