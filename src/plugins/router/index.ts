@@ -21,7 +21,7 @@
  */
 
 import { createRouter, createWebHistory } from 'vue-router'
-import { routes } from '@/router/routes'
+import { routes } from '@/plugins/router/routes'
 import { i18n } from '@/plugins/i18n'
 import { useSortStore } from '@/store/sort'
 import { authService } from '@/plugins/oauth'

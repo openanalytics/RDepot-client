@@ -54,7 +54,7 @@ import { Technologies } from '@/enum/Technologies'
 import { useRoute } from 'vue-router'
 import { EntityModelPackageDto } from '@/openapi'
 import { onBeforeMount, computed, ref } from 'vue'
-import router from '@/router'
+import router from '@/plugins/router'
 
 const package_store = usePackagesStore()
 const route = useRoute()

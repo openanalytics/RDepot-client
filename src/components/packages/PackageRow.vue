@@ -151,25 +151,24 @@
           :name="props.packageBag?.name"
           :set-resource-id="choosePackage"
         />
+        <span v-else style="width: 30px"></span>
       </span>
     </VCol>
   </VRow>
 </template>
 
 <script setup lang="ts">
-import router from '@/router'
+import router from '@/plugins/router'
 import { EntityModelPackageDto } from '@/openapi'
 import { usePackagesStore } from '@/store/packages'
 import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
 import SortTitle from '@/components/common/resources/SortTitle.vue'
 import TextRecord from '@/components/common/resources/TextRecord.vue'
-import { useAuthorizationStore } from '@/store/authorization'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
 
 const { canDelete, canPatch } = useUserAuthorities()
 
 const packageStore = usePackagesStore()
-const authorizationStore = useAuthorizationStore()
 
 const props = defineProps({
   title: {

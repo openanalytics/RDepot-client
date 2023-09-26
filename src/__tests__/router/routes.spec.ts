@@ -29,7 +29,7 @@ import {
   createWebHistory,
   Router
 } from 'vue-router'
-import { routes } from '@/router/routes'
+import { routes } from '@/plugins/router/routes'
 import { createPinia, setActivePinia } from 'pinia'
 import { mocks } from '@/__tests__/config/mocks'
 import { plugins } from '@/__tests__/config/plugins'

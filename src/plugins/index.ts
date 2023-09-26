@@ -29,7 +29,7 @@
 import { loadFonts } from './webfontloader'
 import vuetify from './vuetify'
 import pinia from '../store'
-import router from '../router'
+import router from '@/plugins/router'
 import Notifications from '@kyvg/vue3-notification'
 import { abilitiesPlugin } from '@casl/vue'
 import type { App } from 'vue'
