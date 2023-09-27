@@ -1,4 +1,4 @@
-<!-- 
+<!--
  R Depot
  
  Copyright (C) 2012-2023 Open Analytics NV
@@ -21,37 +21,41 @@
 -->
 
 <template>
-  <v-container class="login">
-    <form
-      as="v-form"
-      ref="form_id"
-      lazy-validation
-      class="form-login"
+  <v-row v-show="isOICDAuthAvailable()">
+    <v-btn
+      color="background"
+      @click="loginOICD"
+      class="loginTypeButton"
     >
-      <Logo />
-      <LoginForm />
-    </form>
-  </v-container>
+      <div class="loginType">
+        {{ $t('loginType.keycloak') }}
+      </div>
+    </v-btn>
+  </v-row>
 </template>
 
 <script setup lang="ts">
-import Logo from '@/components/login/Logo.vue'
-import LoginForm from '@/components/login/LoginForm.vue'
+import { useI18n } from 'vue-i18n'
+import { useAuthorizationStore } from '@/store/authorization'
+import { useOICDAuthorization } from '@/composable/auth/oicdAuthorization'
+
+const { isOICDAuthAvailable } = useOICDAuthorization()
+
+const { t } = useI18n()
+
+const authorizationStore = useAuthorizationStore()
+
+async function loginOICD() {
+  authorizationStore.login()
+}
 </script>
 
-<style scoped lang="scss">
-.login {
-  max-width: 90%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  .form-login {
+<style lang="scss" scoped>
+.loginTypeButton {
+  border: rgb(var(--v-theme-surface)) solid 1px;
+  .loginType {
     max-width: 500px;
-    width: 80%;
-    margin: 150px auto 100px auto !important;
+    width: 500px;
   }
 }
 </style>

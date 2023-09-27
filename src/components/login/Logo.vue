@@ -1,4 +1,4 @@
-<!-- 
+<!--
  R Depot
  
  Copyright (C) 2012-2023 Open Analytics NV
@@ -21,37 +21,12 @@
 -->
 
 <template>
-  <v-container class="login">
-    <form
-      as="v-form"
-      ref="form_id"
-      lazy-validation
-      class="form-login"
-    >
-      <Logo />
-      <LoginForm />
-    </form>
-  </v-container>
+  <v-img
+    src="@/assets/logo.png"
+    class="my-3 mb-5"
+    contain
+    height="200"
+  />
 </template>
 
-<script setup lang="ts">
-import Logo from '@/components/login/Logo.vue'
-import LoginForm from '@/components/login/LoginForm.vue'
-</script>
-
-<style scoped lang="scss">
-.login {
-  max-width: 90%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  .form-login {
-    max-width: 500px;
-    width: 80%;
-    margin: 150px auto 100px auto !important;
-  }
-}
-</style>
+<script setup lang="ts"></script>
