@@ -20,7 +20,9 @@
  *
  */
 
-import { z } from 'zod'
-
-export const LoginType = z.enum(['SIMPLE', 'OICD'])
-export type LoginType = z.infer<typeof LoginType>
+export default function getEnv(name: string) {
+  return (
+    (window as any)?.configs?.[name] ||
+    import.meta.env[name]
+  )
+}

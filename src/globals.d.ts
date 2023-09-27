@@ -20,7 +20,10 @@
  *
  */
 
-import { z } from 'zod'
+declare global {
+  interface Window {
+    configs: Object
+  }
+}
 
-export const LoginType = z.enum(['SIMPLE', 'OICD'])
-export type LoginType = z.infer<typeof LoginType>
+export {}

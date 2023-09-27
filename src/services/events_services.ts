@@ -32,7 +32,7 @@ import {
 } from './open_api_access'
 import { isAuthorized } from '@/plugins/casl'
 
-export function fetchEventsServices(
+export async function fetchEventsServices(
   filtration: EventsFiltration,
   page?: number,
   pageSize?: number

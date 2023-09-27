@@ -23,6 +23,7 @@
 import { RepositoriesFiltration } from '@/models/Filtration'
 import {
   ApiV2RepositoryControllerApiFactory,
+  EntityModelRRepositoryDto,
   EntityModelRepositoryDto,
   PythonRepositoryControllerApiFactory,
   PythonRepositoryDto,
@@ -68,7 +69,7 @@ export function fetchRepositoriesServices(
   )
 }
 
-export function createRepository(
+export async function createRepository(
   newRepository: EntityModelRepositoryDto
 ): Promise<validatedData<EntityModelRepositoryDto>> {
   if (!isAuthorized('POST', 'repository')) {
@@ -101,7 +102,7 @@ export function createRepository(
   }
 }
 
-export function updateRepository(
+export async function updateRepository(
   oldRepository: EntityModelRepositoryDto,
   newRepository: EntityModelRepositoryDto
 ): Promise<validatedData<EntityModelRepositoryDto>> {

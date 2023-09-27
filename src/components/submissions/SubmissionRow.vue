@@ -125,7 +125,7 @@
       />
     </v-col>
     <v-col
-      v-if="loggedUserStore.can('PATCH', 'submissions')"
+      v-if="authorizationStore.can('PATCH', 'submissions')"
       id="submission-actions"
       cols="lg-2"
       class="d-flex justify-center"
@@ -177,7 +177,7 @@ import {
 } from '@/openapi'
 import { i18n } from '@/plugins/i18n'
 import { useSubmissionStore } from '@/store/submission'
-import { useLoggedUserStore } from '@/store/logged_user'
+import { useAuthorizationStore } from '@/store/authorization'
 import SortTitle from '@/components/common/resources/SortTitle.vue'
 import TextRecord from '@/components/common/resources/TextRecord.vue'
 
@@ -191,11 +191,12 @@ const props = defineProps({
     | undefined
 })
 
-const loggedUserStore = useLoggedUserStore()
+const authorizationStore = useAuthorizationStore()
 const submissionStore = useSubmissionStore()
 
 const check =
-  loggedUserStore.userId === props.submission?.submitter?.id
+  authorizationStore.userId ===
+  props.submission?.submitter?.id
 
 const getAccepted = computed<boolean>(() => {
   return props.submission?.state == 'ACCEPTED'

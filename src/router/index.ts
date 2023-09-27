@@ -20,14 +20,15 @@
  *
  */
 
-// Composables
 import { createRouter, createWebHistory } from 'vue-router'
 import { routes } from '@/router/routes'
 import { i18n } from '@/plugins/i18n'
 import { useSortStore } from '@/store/sort'
-import { useLoggedUserStore } from '@/store/logged_user'
-import { nameToActionAndSubject } from '@/plugins/casl'
+import { authService } from '@/plugins/oauth'
 import { usePagination } from '@/store/pagination'
+import { useAuthorizationStore } from '@/store/authorization'
+import { useSimpleAuthorization } from '@/composable/auth/simpleAuthorization'
+import { useOICDAuthorization } from '@/composable/auth/oicdAuthorization'
 
 const DEFAULT_TITLE = i18n.t('common.projectTitle')
 
@@ -36,8 +37,21 @@ const router = createRouter({
   routes
 })
 
-router.beforeEach((to) => {
-  const loggedUserStore = useLoggedUserStore()
+router.beforeEach(async (to) => {
+  const authorizationStore = useAuthorizationStore()
+
+  if (to.fullPath.startsWith('/auth')) {
+    handleAuthorization()
+    return '/packages'
+  } else if (to.fullPath.startsWith('/logout')) {
+    handleLogout()
+    return '/'
+  } else if (to.name != 'login') {
+    if (!(await authorizationStore.isUserLoggedIn())) {
+      return redirectToLoginPage()
+    }
+  }
+
   const pagination = usePagination()
   const sort = useSortStore()
   pagination.resetPage()
@@ -45,11 +59,51 @@ router.beforeEach((to) => {
   document.title = to.meta.title
     ? (to.meta.title as string)
     : DEFAULT_TITLE
-  return loggedUserStore.ability.can(
-    ...nameToActionAndSubject(to.name)
-  )
-    ? true
-    : '/' // redirect to home page
 })
+
+async function redirectToLoginPage() {
+  const { isSimpleAuthAvailable } = useSimpleAuthorization()
+  const authorizationStore = useAuthorizationStore()
+  if (isSimpleAuthAvailable()) {
+    return '/login'
+  } else {
+    authorizationStore.login()
+    return '/packages'
+  }
+}
+
+function handleAuthorization() {
+  if (authService)
+    authService
+      .handleLoginRedirect()
+      .then(() => {
+        window.history.replaceState(
+          {},
+          window.document.title,
+          window.location.origin + window.location.pathname
+        )
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+}
+
+async function handleLogout() {
+  const { isOICDAuthAvailable } = useOICDAuthorization()
+  if (isOICDAuthAvailable()) {
+    authService
+      .handleLogoutRedirect()
+      .then(() => {
+        window.history.replaceState(
+          {},
+          window.document.title,
+          window.location.origin + window.location.pathname
+        )
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
+}
 
 export default router

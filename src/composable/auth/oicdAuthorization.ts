@@ -20,7 +20,33 @@
  *
  */
 
-import { z } from 'zod'
+import { authService } from '@/plugins/oauth'
 
-export const LoginType = z.enum(['SIMPLE', 'OICD'])
-export type LoginType = z.infer<typeof LoginType>
+export function useOICDAuthorization() {
+  async function login() {
+    await authService.login()
+  }
+
+  async function logout() {
+    await authService.logout()
+  }
+
+  function isOICDAuthAvailable() {
+    return Boolean(
+      JSON.parse(import.meta.env.VITE_LOGIN_OIDC)
+    )
+  }
+
+  async function isUserLoggedInOICD() {
+    return Boolean(
+      isOICDAuthAvailable() && (await authService.getUser())
+    )
+  }
+
+  return {
+    login,
+    logout,
+    isUserLoggedInOICD,
+    isOICDAuthAvailable
+  }
+}

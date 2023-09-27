@@ -38,7 +38,7 @@ import {
 import { useSortStore } from '@/store/sort'
 import { createPatch } from 'rfc6902'
 
-export function fetchPackagesServices(
+export async function fetchPackagesServices(
   filtration?: PackagesFiltration,
   page?: number,
   pageSize?: number,
@@ -106,7 +106,7 @@ export function fetchPythonPackageServices(
   )
 }
 
-export function updateRPackage(
+export async function updateRPackage(
   oldPackage: EntityModelPackageDto,
   newPackage: EntityModelPackageDto
 ): Promise<validatedData<EntityModelPackageDto>> {

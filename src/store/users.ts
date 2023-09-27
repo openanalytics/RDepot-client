@@ -34,7 +34,6 @@ import { usePagination } from '@/store/pagination'
 interface State {
   userToken: string
   userName: string
-  loginType: LoginType
   userList: EntityModelUserDto[]
   chosenUser: EntityModelUserDto
   roles: RoleDto[]
@@ -45,17 +44,12 @@ export const useUserStore = defineStore('userStore', {
     return {
       userToken: '',
       userName: '',
-      loginType: 'DEFAULT',
       userList: [],
       chosenUser: {},
       roles: []
     }
   },
   actions: {
-    chooseLoginType(payload: LoginType) {
-      this.$reset()
-      this.loginType = payload
-    },
     async fetchUsers() {
       const pagination = usePagination()
       const [users, pageData] = await fetchUsers()

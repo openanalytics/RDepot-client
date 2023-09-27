@@ -21,26 +21,51 @@
  */
 
 import { Configuration } from '@/openapi'
-import { useLoggedUserStore } from '@/store/logged_user'
+import { authService } from '@/plugins/oauth'
+import { useAuthorizationStore } from '@/store/authorization'
+import getEnv from '@/utils/env'
 import { AxiosRequestConfig } from 'axios'
 
-export function getConfiguration() {
-  const loggedUserStore = useLoggedUserStore()
+export async function getConfiguration() {
   const configuration: Configuration = new Configuration()
+
   configuration.baseOptions = {
     headers: {
-      Authorization: 'Bearer ' + loggedUserStore.userToken
+      Authorization: 'Bearer ' + (await getToken())
     }
   }
   return configuration
 }
 
-export function getHeaders() {
-  const logged_user_store = useLoggedUserStore()
+export async function getHeaders() {
   const axiosRequestConfig: AxiosRequestConfig = {
     headers: {
-      Authorization: 'Bearer ' + logged_user_store.userToken
+      Authorization: 'Bearer ' + (await getToken())
     }
   }
   return axiosRequestConfig
+}
+
+async function getToken() {
+  const authorizationStore = useAuthorizationStore()
+  if (
+    getEnv('VITE_LOGIN_OIDC') == 'true' &&
+    getEnv('VITE_LOGIN_SIMPLE') == 'true'
+  ) {
+    const oauthToken = await authService.getAccessToken()
+    if (oauthToken != null) {
+      return oauthToken
+    }
+    return authorizationStore.userToken
+  } else if (
+    getEnv('VITE_LOGIN_OIDC') == 'true' &&
+    getEnv('VITE_LOGIN_SIMPLE') == 'false'
+  ) {
+    return await authService.getAccessToken()
+  } else if (
+    getEnv('VITE_LOGIN_OIDC') == 'false' &&
+    getEnv('VITE_LOGIN_SIMPLE') == 'true'
+  ) {
+    return authorizationStore.userToken
+  }
 }

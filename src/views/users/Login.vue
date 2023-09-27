@@ -41,6 +41,7 @@
         class="mt-10"
         :label="$t('authorization.username')"
         color="oablue"
+        required
       />
 
       <validated-input-field
@@ -49,12 +50,13 @@
         :label="$t('authorization.password')"
         type="password"
         color="oablue"
+        required
       />
 
       <v-row class="form-buttons my-10">
         <v-btn
           class="btn mx-2"
-          @click="login"
+          @click="loginSimple"
           color="oablue"
         >
           {{ $t('authorization.login') }}
@@ -68,11 +70,10 @@
           {{ $t('authorization.clear') }}
         </v-btn>
       </v-row>
-
-      <v-row>
+      <v-row v-show="isOICDAuthAvailable()">
         <v-btn
           color="background"
-          @click="keyloackMethod"
+          @click="loginOICD"
           class="loginTypeButton"
         >
           <div class="loginType">
@@ -82,30 +83,34 @@
       </v-row>
     </form>
   </v-container>
-  <v-btn @click="getUserInfo"> user info </v-btn>
 </template>
 
 <script setup lang="ts">
-import { initKeycloak } from '@/plugins/keycloak'
-import { useUserStore } from '@/store/users'
+import { onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { Form, useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { z } from 'zod'
 import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
-import { useLoggedUserStore } from '@/store/logged_user'
-import { onMounted } from 'vue'
-import { useTheme } from 'vuetify/lib/framework.mjs'
-import { i18n } from '@/plugins/i18n'
-import { usePagination } from '@/store/pagination'
+import { Login } from '@/models/users/Login'
+import { ref } from 'vue'
+import {
+  registerUserLoggedInEventListener,
+  registerUserLoggedOutEventListener
+} from '@/plugins/eventsBus'
+import { authService as oauthService } from '@/plugins/oauth'
+import { useAuthorizationStore } from '@/store/authorization'
+import { useOICDAuthorization } from '@/composable/auth/oicdAuthorization'
+import { onKeyStroke } from '@vueuse/core'
+
+const isUserLoggedIn = ref<boolean>(false)
+
+const authorizationStore = useAuthorizationStore()
 
 const { t } = useI18n()
-const user_store = useUserStore()
-const logged_user_store = useLoggedUserStore()
-const theme = useTheme()
-const { newPageSizeWithoutRefresh } = usePagination()
+const { isOICDAuthAvailable } = useOICDAuthorization()
 
-const { handleReset, values, meta } = useForm({
+const { handleReset, values, meta, validate } = useForm({
   validationSchema: toTypedSchema(
     z.object({
       username: z
@@ -118,57 +123,36 @@ const { handleReset, values, meta } = useForm({
   )
 })
 
-async function login() {
-  user_store.chooseLoginType('DEFAULT')
+async function loginOICD() {
+  authorizationStore.login()
 }
 
-async function getUserInfo() {
-  await logged_user_store.getUserInfo()
-  setTheme()
-  setLanguage()
-  setPageSize()
-}
+onKeyStroke('Enter', () => {
+  loginSimple()
+})
 
-function keyloackMethod() {
-  initKeycloak()
-}
-
-function setTheme() {
-  if (logged_user_store.me.userSettings?.theme)
-    theme.global.name.value =
-      logged_user_store.me.userSettings.theme
-}
-
-function setLanguage() {
-  if (logged_user_store.me.userSettings?.language) {
-    switch (logged_user_store.me.userSettings.language) {
-      case 'en-EN': {
-        i18n.locale.value = 'en'
-        break
-      }
-      case 'pl-PL': {
-        i18n.locale.value = 'pl'
-        break
-      }
-      default: {
-        break
-      }
-    }
-  }
-}
-
-function setPageSize() {
-  if (logged_user_store.me.userSettings?.pageSize) {
-    newPageSizeWithoutRefresh(
-      logged_user_store.me.userSettings.pageSize
-    )
-  }
+async function loginSimple() {
+  validate()
+  if (meta.value.valid)
+    authorizationStore.simpleLogin(values as Login)
 }
 
 onMounted(() => {
-  setTheme()
-  setLanguage()
-  setPageSize()
+  oauthService
+    .isUserLoggedIn()
+    .then((isLoggedIn) => {
+      isUserLoggedIn.value = isLoggedIn
+    })
+    .catch((error) => {
+      alert('error with oauth')
+    })
+
+  registerUserLoggedInEventListener(() => {
+    isUserLoggedIn.value = true
+  })
+  registerUserLoggedOutEventListener(() => {
+    isUserLoggedIn.value = false
+  })
 })
 </script>
 

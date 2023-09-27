@@ -33,6 +33,7 @@ const EXTENSIONS_WITH_LICENSE = [
 ]
 const EXTENSION_WITHOUT_LICENSE = [
   'md',
+  'sh',
   'env',
   'ico',
   'yaml',

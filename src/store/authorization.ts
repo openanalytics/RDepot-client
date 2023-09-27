@@ -20,8 +20,12 @@
  *
  */
 
+import { useSimpleAuthorization } from '@/composable/auth/simpleAuthorization'
+import { useUserSettings } from '@/composable/user/userSettings'
 import { useUtilities } from '@/composable/utilities'
+import { LoginType } from '@/enum/LoginType'
 import { Role } from '@/enum/UserRoles'
+import { Login } from '@/models/users/Login'
 import { EntityModelUserDto } from '@/openapi'
 import { UserSettingsProjection } from '@/openapi/models/user-settings-projection'
 import {
@@ -35,38 +39,105 @@ import {
   updateUserSettings
 } from '@/services/logged_user_service'
 import { defineStore } from 'pinia'
+import { authService } from '@/plugins/oauth'
+import router from '@/router'
+import { useOICDAuthorization } from '@/composable/auth/oicdAuthorization'
 
 interface State {
   userToken: string
   userLogin: string
-  userRole: Role
+  userRole?: Role
   userId: number
   ability: Ability
   me: EntityModelUserDto
+  loginType: LoginType
 }
 
-export const useLoggedUserStore = defineStore(
-  'logged_user',
+export const useAuthorizationStore = defineStore(
+  'authorizationStore',
   {
     state: (): State => {
       return {
-        userToken: import.meta.env.VITE_ADMIN_TOKEN,
-        userLogin: 'einstein',
-        userRole: Role.enum.admin,
+        me: {},
+        userToken: '',
+        userLogin: '',
+        userRole: undefined,
         userId: 8,
         ability: defineAbilityFor(Role.enum.admin),
-        me: {}
+        loginType: LoginType.Enum.OICD
       }
     },
 
     actions: {
+      async login() {
+        this.chooseLoginType(LoginType.Enum.OICD)
+        authService.login().finally(() => {
+          this.getUserInfo()
+        })
+      },
+
+      async simpleLogin(data: Login) {
+        const { login } = useSimpleAuthorization()
+        this.chooseLoginType(LoginType.Enum.SIMPLE)
+        login(data)
+          .then((token) => {
+            this.userToken = token
+            router.push({ name: 'packages' })
+          })
+          .finally(() => {
+            // this.getUserInfo()
+          })
+      },
+
+      async logout() {
+        if (this.loginType == LoginType.Enum.SIMPLE) {
+          const { logout } = useSimpleAuthorization()
+          logout()
+        } else if (this.loginType == LoginType.Enum.OICD) {
+          authService.logout()
+        }
+        this.$reset()
+        router.push({ name: 'login' })
+      },
+
+      async isUserLoggedIn(): Promise<boolean> {
+        this.getTokenFromLocalStorage()
+        const { isUserLoggedInOICD } =
+          useOICDAuthorization()
+        const { isSimpleAuthAvailable } =
+          useSimpleAuthorization()
+        return (
+          (await isUserLoggedInOICD()) ||
+          (isSimpleAuthAvailable() && this.userToken != '')
+        )
+      },
+
+      getTokenFromLocalStorage() {
+        const {
+          getTokenFromLocalStorage,
+          isSimpleAuthAvailable
+        } = useSimpleAuthorization()
+        if (isSimpleAuthAvailable()) {
+          this.userToken = getTokenFromLocalStorage()
+        }
+      },
+
+      getUserSettings() {
+        const { getUserSettings } = useUserSettings()
+        getUserSettings()
+      },
+
+      chooseLoginType(payload: LoginType) {
+        this.$reset()
+        this.loginType = payload
+      },
       async updateSettings(
-        old_settings: UserSettingsProjection,
-        new_settings: UserSettingsProjection
+        oldSettings: UserSettingsProjection,
+        newSettings: UserSettingsProjection
       ) {
         await updateUserSettings(
-          old_settings,
-          new_settings,
+          oldSettings,
+          newSettings,
           this.me
         )
         const [me] = await getMyData()
@@ -109,31 +180,13 @@ export const useLoggedUserStore = defineStore(
         if (me) {
           if (this.checkRoles(me.role)) {
             this.me = me
+            this.getUserSettings()
           } else {
             this.logout()
           }
         }
       },
 
-      async logout() {
-        this.$reset()
-        //perform logout action
-        alert('logout!')
-      },
-
-      changeUser(
-        token: string,
-        login: string,
-        role: Role,
-        id: number
-      ) {
-        this.userToken = token
-        this.userLogin = login
-        this.userRole = role
-        this.userId = id
-        const { rules } = defineAbilityFor(this.userRole)
-        this.ability.update(rules)
-      },
       can(action: Action, subject: Subject): boolean {
         return this.ability.can(action, subject)
       }

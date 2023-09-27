@@ -20,7 +20,29 @@
  *
  */
 
-import { z } from 'zod'
+import mitt, { Handler } from 'mitt'
 
-export const LoginType = z.enum(['SIMPLE', 'OICD'])
-export type LoginType = z.infer<typeof LoginType>
+const eventBus = mitt()
+
+const USER_LOGGED_IN_EVENT = 'USER_LOGGED_IN_EVENT'
+const USER_LOGGED_OUT_EVENT = 'USER_LOGGED_OUT_EVENT'
+
+export function fireUserLoggedInEvent() {
+  eventBus.emit(USER_LOGGED_IN_EVENT)
+}
+
+export function fireUserLoggedOutEvent() {
+  eventBus.emit(USER_LOGGED_OUT_EVENT)
+}
+
+export const registerUserLoggedInEventListener = (
+  callback: Handler
+) => {
+  eventBus.on(USER_LOGGED_IN_EVENT, callback)
+}
+
+export const registerUserLoggedOutEventListener = (
+  callback: Handler
+) => {
+  eventBus.on(USER_LOGGED_OUT_EVENT, callback)
+}

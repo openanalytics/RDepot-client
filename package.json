@@ -30,6 +30,8 @@
     "keycloak-js": "^20.0.2",
     "lodash": "^4.17.21",
     "lodash.clonedeep": "^4.5.0",
+    "mitt": "^3.0.1",
+    "oidc-client-ts": "^2.2.4",
     "marked": "^5.1.1",
     "pinia": "^2.0.23",
     "rfc6902": "^5.0.1",

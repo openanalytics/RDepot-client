@@ -63,20 +63,20 @@
 
 <script setup lang="ts">
 import { usePagination } from '@/store/pagination'
-import { useLoggedUserStore } from '@/store/logged_user'
+import { useAuthorizationStore } from '@/store/authorization'
 import { ref } from 'vue'
 
 const pagination = usePagination()
 
 const localPageSize = ref(pagination.pageSize)
-const logged_user_store = useLoggedUserStore()
+const authorizationStore = useAuthorizationStore()
 
 function setPageSize() {
   pagination.newPageSize(localPageSize.value || 10)
-  var new_settings = logged_user_store.getCurrentSettings()
+  var new_settings = authorizationStore.getCurrentSettings()
   new_settings.pageSize = pagination.pageSize
-  logged_user_store.updateSettings(
-    logged_user_store.getCurrentSettings(),
+  authorizationStore.updateSettings(
+    authorizationStore.getCurrentSettings(),
     new_settings
   )
 }

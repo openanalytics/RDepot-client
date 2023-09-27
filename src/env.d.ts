@@ -20,7 +20,19 @@
  *
  */
 
-import { z } from 'zod'
+/// <reference types="vite/client" />
 
-export const LoginType = z.enum(['SIMPLE', 'OICD'])
-export type LoginType = z.infer<typeof LoginType>
+interface ImportMetaEnv {
+  readonly VITE_LOGIN_OIDC: string
+  readonly VITE_LOGIN_SIMPLE: string
+  readonly VITE_KEYCLOAK_REALM_URI: string
+  readonly VITE_KEYCLOAK_CLIENT_ID: string
+  readonly VITE_KEYCLOAK_REDIRECT_URI: string
+  readonly VITE_KEYCLOAK_POST_LOGOUT_REDIRECT_URI: string
+  readonly VITE_KEYCLOAK_REPOSNSE_TYPE: string
+  readonly VITE_KEYCLOAK_SCOPE: string
+}
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv
+}

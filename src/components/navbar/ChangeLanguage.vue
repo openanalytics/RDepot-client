@@ -56,15 +56,15 @@
 
 <script setup lang="ts">
 import langs from '@/locales/index'
-import { useLoggedUserStore } from '@/store/logged_user'
+import { useAuthorizationStore } from '@/store/authorization'
 
-const logged_user_store = useLoggedUserStore()
+const authorizationStore = useAuthorizationStore()
 
 const changeLanguage = (new_language: string) => {
-  var new_settings = logged_user_store.getCurrentSettings()
+  var new_settings = authorizationStore.getCurrentSettings()
   new_settings.language = new_language
-  logged_user_store.updateSettings(
-    logged_user_store.getCurrentSettings(),
+  authorizationStore.updateSettings(
+    authorizationStore.getCurrentSettings(),
     new_settings
   )
 }

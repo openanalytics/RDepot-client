@@ -27,7 +27,9 @@
     <FiltrationButtons>
       <template v-slot:prepend
         ><AddButton
-          v-if="loggedUserStore.can('POST', 'repository')"
+          v-if="
+            authorizationStore.can('POST', 'repository')
+          "
       /></template>
     </FiltrationButtons>
   </v-row>
@@ -41,10 +43,10 @@ import RepositoriesList from '@/components/repositories/RepositoriesList.vue'
 import FiltrationButtons from '@/components/common/FiltrationButtons.vue'
 import AddButton from '@/components/common/AddButton.vue'
 import Pagination from '@/components/common/Pagination.vue'
-import { useLoggedUserStore } from '@/store/logged_user'
+import { useAuthorizationStore } from '@/store/authorization'
 import { useRepositoryStore } from '@/store/repositories'
 import FiltrationChips from '@/components/common/chips/FiltrationChips.vue'
 
-const loggedUserStore = useLoggedUserStore()
+const authorizationStore = useAuthorizationStore()
 const repositoriesStore = useRepositoryStore()
 </script>

@@ -35,7 +35,7 @@ import { createPatch } from 'rfc6902'
 import { useSortStore } from '@/store/sort'
 import { isAuthorized } from '@/plugins/casl'
 
-export function fetchPackageMaintainersService(
+export async function fetchPackageMaintainersService(
   filtration?: PackageMaintainersFiltration,
   page?: number,
   pageSize?: number
@@ -63,7 +63,7 @@ export function fetchPackageMaintainersService(
   )
 }
 
-export function deletePackageMaintainerService(
+export async function deletePackageMaintainerService(
   maintainer: EntityModelPackageMaintainerDto
 ): Promise<validatedData<EntityModelPackageMaintainerDto>> {
   if (!isAuthorized('DELETE', 'packageMaintainers')) {
@@ -76,7 +76,7 @@ export function deletePackageMaintainerService(
   )
 }
 
-export function updatePackageMaintainerService(
+export async function updatePackageMaintainerService(
   oldMaintainer: PackageMaintainerDto,
   newMaintainer: PackageMaintainerDto
 ): Promise<validatedData<EntityModelPackageMaintainerDto>> {

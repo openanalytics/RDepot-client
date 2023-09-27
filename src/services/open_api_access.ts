@@ -27,9 +27,9 @@ import { notify } from '@kyvg/vue3-notification'
 import { getHeaders } from './api_config'
 import { i18n } from '@/plugins/i18n'
 import { ResponseDtoObject } from '@/openapi/models'
-import { useLoggedUserStore } from '@/store/logged_user'
+import { useAuthorizationStore } from '@/store/authorization'
 
-export function openApiRequest<T>(
+export async function openApiRequest<T>(
   callback: Function,
   parameters?: any[],
   showProgress = true
@@ -39,12 +39,15 @@ export function openApiRequest<T>(
   }
   console.log(parameters)
   if (parameters) {
-    return callback(...parameters, getHeaders()).then(
+    return callback(...parameters, await getHeaders()).then(
       resolved,
       rejected
     )
   } else {
-    return callback(getHeaders()).then(resolved, rejected)
+    return callback(await getHeaders()).then(
+      resolved,
+      rejected
+    )
   }
 }
 
@@ -87,8 +90,8 @@ function errorsHandler(error: AxiosError) {
       break
     }
     case 403: {
-      const logged_user_store = useLoggedUserStore()
-      logged_user_store.getUserInfo()
+      const authorizationStore = useAuthorizationStore()
+      authorizationStore.getUserInfo()
       break
     }
 

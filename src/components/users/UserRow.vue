@@ -109,7 +109,7 @@
               class="ml-3"
               color="oablue"
               :disabled="
-                !loggedUserStore.can('PATCH', 'users')
+                !authorizationStore.can('PATCH', 'users')
               "
               >mdi-pencil</v-icon
             >
@@ -129,13 +129,13 @@ import { EntityModelUserDto } from '@/openapi'
 import SortTitle from '@/components/common/resources/SortTitle.vue'
 import TextRecord from '@/components/common/resources/TextRecord.vue'
 import { roleToString } from '@/enum/UserRoles'
-import { useLoggedUserStore } from '@/store/logged_user'
+import { useAuthorizationStore } from '@/store/authorization'
 import { useUserStore } from '@/store/users'
 import { useCommonStore } from '@/store/common'
 import { i18n } from '@/plugins/i18n'
 import { OverlayEnum } from '@/enum/Overlay'
 
-const loggedUserStore = useLoggedUserStore()
+const authorizationStore = useAuthorizationStore()
 const userStore = useUserStore()
 const commonStore = useCommonStore()
 

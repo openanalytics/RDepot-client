@@ -22,7 +22,7 @@
 
 import { Role } from '@/enum/UserRoles'
 import { UserSettingsProjection } from '@/openapi/models/user-settings-projection'
-import { useLoggedUserStore } from '@/store/logged_user'
+import { useAuthorizationStore } from '@/store/authorization'
 import { rest } from 'msw'
 import me from '@/__tests__/config/mockData/me.json'
 import { setupServer } from 'msw/node'
@@ -61,36 +61,19 @@ describe('Logged user store tests', () => {
   })
 
   it('Default state', () => {
-    const loggedUserStore = useLoggedUserStore()
+    const authorizationStore = useAuthorizationStore()
 
-    expect(loggedUserStore.userToken).toBe(
-      import.meta.env.VITE_ADMIN_TOKEN
+    expect(authorizationStore.userToken).toBe('')
+    expect(authorizationStore.userLogin).toBe('')
+    expect(authorizationStore.userRole).toBe(
+      Role.enum.admin
     )
-    expect(loggedUserStore.userLogin).toBe('einstein')
-    expect(loggedUserStore.userRole).toBe(Role.enum.admin)
-    expect(loggedUserStore.userId).toBe(8)
-  })
-
-  it('Change user', () => {
-    const loggedUserStore = useLoggedUserStore()
-
-    loggedUserStore.changeUser(
-      import.meta.env.VITE_REPOSITORY_MAINTAINER_TOKEN,
-      'tesla',
-      Role.enum.repositoryMaintainer,
-      5
-    )
-
-    expect(loggedUserStore.userLogin).toBe('tesla')
-    expect(loggedUserStore.userRole).toBe(
-      Role.enum.repositoryMaintainer
-    )
-    expect(loggedUserStore.userId).toBe(5)
+    expect(authorizationStore.userId).toBe(8)
   })
 
   it('get current settings', () => {
-    const logged_user_store = useLoggedUserStore()
-    logged_user_store.me = {
+    const authorizationStore = useAuthorizationStore()
+    authorizationStore.me = {
       userSettings: {
         language: 'pl',
         pageSize: 2,
@@ -99,7 +82,7 @@ describe('Logged user store tests', () => {
     }
 
     const current_settings =
-      logged_user_store.getCurrentSettings()
+      authorizationStore.getCurrentSettings()
 
     expect(current_settings.language).toBe('pl')
     expect(current_settings.pageSize).toBe(2)
@@ -107,53 +90,53 @@ describe('Logged user store tests', () => {
   })
 
   it('get current settings when settings are empty', () => {
-    const logged_user_store = useLoggedUserStore()
+    const authorizationStore = useAuthorizationStore()
     const new_settings: UserSettingsProjection =
-      logged_user_store.getCurrentSettings()
+      authorizationStore.getCurrentSettings()
     expect(new_settings.language).toBe('en')
     expect(new_settings.pageSize).toBe(10)
     expect(new_settings.theme).toBe('dark')
   })
 
   it('alert logout if role has changed', () => {
-    const logged_user_store = useLoggedUserStore()
-    logged_user_store.me.role = 'admin'
+    const authorizationStore = useAuthorizationStore()
+    authorizationStore.me.role = 'admin'
     expect(
-      logged_user_store.checkRoles('repositorymaintainer')
+      authorizationStore.checkRoles('repositorymaintainer')
     ).toBeFalsy()
   })
 
   it('do not alert logout if role has not changed', () => {
-    const logged_user_store = useLoggedUserStore()
-    logged_user_store.me.role = 'admin'
+    const authorizationStore = useAuthorizationStore()
+    authorizationStore.me.role = 'admin'
     expect(
-      logged_user_store.checkRoles('admin')
+      authorizationStore.checkRoles('admin')
     ).toBeTruthy()
   })
 
   it('fetch information about logged in user', async () => {
-    const logged_user_store = useLoggedUserStore()
+    const authorizationStore = useAuthorizationStore()
     const data_about_user = me.data
 
-    await logged_user_store.getUserInfo()
-    expect(logged_user_store.me).toStrictEqual(
+    await authorizationStore.getUserInfo()
+    expect(authorizationStore.me).toStrictEqual(
       data_about_user
     )
   })
 
   it('call logout if user role has changed', async () => {
-    const logged_user_store = useLoggedUserStore()
-    logged_user_store.me.role = 'packagemaintainer'
+    const authorizationStore = useAuthorizationStore()
+    authorizationStore.me.role = 'packagemaintainer'
 
-    const spy = vi.spyOn(logged_user_store, 'logout')
-    await logged_user_store.getUserInfo()
+    const spy = vi.spyOn(authorizationStore, 'logout')
+    await authorizationStore.getUserInfo()
     expect(spy).toBeCalledTimes(1)
   })
 
   it('logout action should reset the state', async () => {
-    const logged_user_store = useLoggedUserStore()
-    logged_user_store.me = me.data
-    await logged_user_store.logout()
-    expect(logged_user_store.me).toEqual({})
+    const authorizationStore = useAuthorizationStore()
+    authorizationStore.me = me.data
+    await authorizationStore.logout()
+    expect(authorizationStore.me).toEqual({})
   })
 })

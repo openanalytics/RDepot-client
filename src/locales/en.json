@@ -6,7 +6,8 @@
     "passwordError": "Password is required",
     "login": "login",
     "clear": "clear",
-    "wrongCredentials": "Wrong credentials, please try again"
+    "wrongCredentials": "Wrong credentials, please try again",
+    "keycloak": "Keycloak"
   },
   "errors": {
     "401": "Cannot perform this request because user is not authenticated.",
@@ -50,6 +51,7 @@
     "deleteQuestion": "Are you sure you want to delete {resource_name}?",
     "copied": "code succesfully copied to clipboard",
     "goBack": "go back",
+    "logout": "logout",
     "notAvailable": "Not available"
   },
   "columns": {

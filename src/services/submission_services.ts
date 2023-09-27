@@ -42,7 +42,7 @@ import { z } from 'zod'
 import { getConfiguration } from './api_config'
 import { AxiosResponse } from 'axios'
 
-export function fetchSubmissions(
+export async function fetchSubmissions(
   filtration: SubmissionsFiltration,
   logged_user_id?: number,
   page?: number,
@@ -72,7 +72,7 @@ export function fetchSubmissions(
   )
 }
 
-export function updateSubmission(
+export async function updateSubmission(
   oldSubmission: EntityModelSubmissionDto,
   newSubmission: EntityModelSubmissionDto
 ): Promise<validatedData<EntityModelSubmissionDto>> {
@@ -109,7 +109,7 @@ export function updateSubmission(
   }
 }
 
-export function addSubmission(
+export async function addSubmission(
   repository: string,
   technology: string,
   file: File,
