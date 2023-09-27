@@ -125,7 +125,6 @@
       />
     </v-col>
     <v-col
-      v-if="canPatch(submission?.links)"
       id="submission-actions"
       cols="lg-2"
       class="d-flex justify-center"
@@ -137,7 +136,12 @@
         no-sort
       />
       <span
-        v-else-if="getWaiting && submission"
+        v-else-if="
+          getWaiting &&
+          canPatch(submission?.links).fields.includes(
+            'state'
+          )
+        "
         class="d-flex justify-center align-center"
       >
         <v-btn

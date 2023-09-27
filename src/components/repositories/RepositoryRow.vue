@@ -118,7 +118,9 @@
         id="checkbox-published"
         v-model="repositoryLocal.published"
         @change="updateRepositoryPublished()"
-        :disabled="!canPatch(props.repository?.links)"
+        :disabled="
+          !canPatch(props.repository?.links).allowed
+        "
         color="oablue"
         class="mr-8"
         @click.stop
@@ -172,7 +174,6 @@ import SortTitle from '@/components/common/resources/SortTitle.vue'
 import TextRecord from '@/components/common/resources/TextRecord.vue'
 import { useRepositoryStore } from '@/store/repositories'
 import { EntityModelRepositoryDto } from '@/openapi'
-import { useAuthorizationStore } from '@/store/authorization'
 import { updateRepository } from '@/services/repository_services'
 import { ref } from 'vue'
 import { useUtilities } from '@/composable/utilities'

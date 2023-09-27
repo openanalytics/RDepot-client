@@ -100,7 +100,7 @@
         class="d-flex justify-center align-center"
       >
         <edit-icon
-          v-if="canPatch(user?.links)"
+          v-if="canPatch(user?.links).allowed"
           @set-entity="setEditUser"
           :text="$t('users.edit.tooltip')"
         >

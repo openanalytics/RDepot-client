@@ -75,7 +75,7 @@
 
     <v-col
       v-if="
-        canPatch(repositoryMaintainer?.links) ||
+        canPatch(repositoryMaintainer?.links).allowed ||
         canDelete(repositoryMaintainer?.links)
       "
       id="repository-maintainer-actions"
@@ -96,7 +96,9 @@
         class="d-flex justify-center align-center"
       >
         <edit-icon
-          v-if="canPatch(repositoryMaintainer.links)"
+          v-if="
+            canPatch(repositoryMaintainer.links).allowed
+          "
           :text="i18n.t('maintainers.edit')"
           @set-entity="setEditMaintainer"
         >

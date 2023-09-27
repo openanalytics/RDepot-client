@@ -22,6 +22,11 @@
 
 import { Link } from '@/openapi'
 
+type PatchOptions = {
+  allowed: boolean
+  fields: string[]
+}
+
 export function useUserAuthorities() {
   function canDelete(links?: Array<Link>) {
     return canPerformAction('delete', links)
@@ -32,20 +37,24 @@ export function useUserAuthorities() {
   }
 
   function canPerformAction(
-    action: String,
+    action: string,
     links?: Array<Link>
   ) {
-    var flag: boolean = false
+    let result: PatchOptions = {
+      allowed: false,
+      fields: []
+    }
+
     links?.forEach((link) => {
       if (
         link.rel === 'self' &&
         link.type?.toLowerCase() === action.toLowerCase()
       ) {
-        flag = true
+        result.allowed = true
+        result.fields = link.modifiableProperties
       }
     })
-    console.log(links?.length + ' ' + flag + ' ' + action)
-    return flag
+    return result
   }
 
   return {
