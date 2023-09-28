@@ -28,31 +28,4 @@
 <script setup lang="ts">
 import SimpleLogin from '@/components/login/SimpleLogin.vue'
 import OICDForm from '@/components/login/OICDForm.vue'
-import {
-  registerUserLoggedInEventListener,
-  registerUserLoggedOutEventListener
-} from '@/plugins/eventsBus'
-import { authService as oauthService } from '@/plugins/oauth'
-import { ref } from 'vue'
-import { onMounted } from 'vue'
-
-const isUserLoggedIn = ref<boolean>(false)
-
-onMounted(() => {
-  oauthService
-    .isUserLoggedIn()
-    .then((isLoggedIn) => {
-      isUserLoggedIn.value = isLoggedIn
-    })
-    .catch((error) => {
-      alert('error with oauth')
-    })
-
-  registerUserLoggedInEventListener(() => {
-    isUserLoggedIn.value = true
-  })
-  registerUserLoggedOutEventListener(() => {
-    isUserLoggedIn.value = false
-  })
-})
 </script>

@@ -1,0 +1,56 @@
+{
+  "content": [
+    {
+      "id": 1,
+      "name": "Local Admin User",
+      "email": "admin@localhost",
+      "login": "einstein",
+      "password": "testpassword",
+      "active": false,
+      "lastLoggedInOn": "",
+      "createdOn": "1970-01-01",
+      "deleted": false,
+      "roleId": 4,
+      "description": "User [id: 8, name: Local Admin User, login: admin, email: admin@localhost]"
+    },
+    {
+      "id": 2,
+      "name": "Isaac Newton",
+      "email": "newton@ldap.forumsys.com",
+      "login": "newton",
+      "password": "newton",
+      "active": true,
+      "lastLoggedInOn": "2020-03-28",
+      "createdOn": "1970-01-01",
+      "deleted": false,
+      "roleId": 1,
+      "description": "User [id: 7, name: Isaac Newton, login: newton, email: newton@ldap.forumsys.com]"
+    },
+    {
+      "id": 3,
+      "name": "Isaac Newton",
+      "email": "newton@ldap.forumsys.com",
+      "login": "tesla",
+      "password": "newton",
+      "active": true,
+      "lastLoggedInOn": "2020-03-28",
+      "createdOn": "1970-01-01",
+      "deleted": false,
+      "roleId": 1,
+      "description": "User [id: 7, name: Isaac Newton, login: newton, email: newton@ldap.forumsys.com]"
+    },
+    {
+      "id": 4,
+      "name": "Isaac Newton",
+      "email": "newton@ldap.forumsys.com",
+      "login": "newton",
+      "password": "testpassword",
+      "active": true,
+      "lastLoggedInOn": "2020-03-28",
+      "createdOn": "1970-01-01",
+      "deleted": false,
+      "roleId": 1,
+      "description": "User [id: 7, name: Isaac Newton, login: newton, email: newton@ldap.forumsys.com]"
+    }
+  ]
+}

@@ -38,6 +38,14 @@
 import { useI18n } from 'vue-i18n'
 import { useAuthorizationStore } from '@/store/authorization'
 import { useOICDAuthorization } from '@/composable/auth/oicdAuthorization'
+import { ref } from 'vue'
+import { onMounted } from 'vue'
+import { notify } from '@kyvg/vue3-notification'
+import { authService as oauthService } from '@/plugins/oauth'
+import {
+  registerUserLoggedInEventListener,
+  registerUserLoggedOutEventListener
+} from '@/plugins/eventsBus'
 
 const { isOICDAuthAvailable } = useOICDAuthorization()
 
@@ -45,9 +53,33 @@ const { t } = useI18n()
 
 const authorizationStore = useAuthorizationStore()
 
+const isUserLoggedIn = ref<boolean>(false)
+
 async function loginOICD() {
   authorizationStore.login()
 }
+
+onMounted(() => {
+  oauthService
+    .isUserLoggedIn()
+    .then((isLoggedIn) => {
+      isUserLoggedIn.value = isLoggedIn
+    })
+    .catch((error) => {
+      notify({
+        title: t('erros.oauthTitle'),
+        type: 'error',
+        text: t('errors.oauth')
+      })
+    })
+
+  registerUserLoggedInEventListener(() => {
+    isUserLoggedIn.value = true
+  })
+  registerUserLoggedOutEventListener(() => {
+    isUserLoggedIn.value = false
+  })
+})
 </script>
 
 <style lang="scss" scoped>

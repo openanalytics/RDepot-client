@@ -29,6 +29,7 @@
     color="oablue"
     required
     autofocus
+    id="username-input"
   />
 
   <validated-input-field
@@ -38,6 +39,7 @@
     type="password"
     color="oablue"
     required
+    id="password-input"
   />
 
   <v-row class="form-buttons my-10">
@@ -45,6 +47,7 @@
       class="btn mx-2"
       @click="loginSimple"
       color="oablue"
+      id="login-simple-button"
     >
       {{ $t('authorization.login') }}
     </v-btn>
@@ -53,6 +56,7 @@
       class="btn mx-2"
       @click="handleReset"
       color="oablue"
+      id="reset-button"
     >
       {{ $t('authorization.clear') }}
     </v-btn>

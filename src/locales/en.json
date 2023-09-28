@@ -12,7 +12,8 @@
   "errors": {
     "401": "Cannot perform this request because user is not authenticated.",
     "403": "Cannot perform this request because user is not authorized",
-    "422": "validation failed"
+    "422": "validation failed",
+    "oauth": "Error with oauth"
   },
   "addSubmission": {
     "step1Title": "Choose repository",
@@ -236,5 +237,8 @@
   },
   "loginType": {
     "keycloak": "Keycloak"
+  },
+  "erros": {
+    "oauthTitle": "Authorization"
   }
 }
