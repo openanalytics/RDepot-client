@@ -51,7 +51,7 @@ export function useUserAuthorities() {
         link.type?.toLowerCase() === action.toLowerCase()
       ) {
         result.allowed = true
-        result.fields = link.modifiableProperties
+        result.fields = link.modifiableProperties || []
       }
     })
     return result

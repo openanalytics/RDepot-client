@@ -191,6 +191,17 @@
           {
             "rel": "submissionList",
             "href": "http://localhost:8017/api/v2/manager/r/submissions"
+          },
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/submissions/1",
+            "type": "PATCH",
+            "modifiableProperties": ["state"]
+          },
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/submissions/1",
+            "type": "DELETE"
           }
         ]
       },

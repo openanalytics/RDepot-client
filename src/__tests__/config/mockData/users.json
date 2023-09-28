@@ -30,6 +30,16 @@
           {
             "rel": "userList",
             "href": "http://localhost:8017/api/v2/manager/users"
+          },
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/users/1",
+            "type": "PATCH"
+          },
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/users/1",
+            "type": "DELETE"
           }
         ]
       },
@@ -96,6 +106,16 @@
           {
             "rel": "userList",
             "href": "http://localhost:8017/api/v2/manager/users"
+          },
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/users/1",
+            "type": "PATCH"
+          },
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/users/1",
+            "type": "DELETE"
           }
         ]
       },
@@ -118,6 +138,16 @@
           {
             "rel": "userList",
             "href": "http://localhost:8017/api/v2/manager/users"
+          },
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/users/1",
+            "type": "PATCH"
+          },
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/users/1",
+            "type": "DELETE"
           }
         ]
       },
