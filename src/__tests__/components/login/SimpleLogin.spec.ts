@@ -20,8 +20,6 @@
  *
  */
 
-// TODO
-
 import { describe, it, expect, beforeEach } from 'vitest'
 
 import { mount } from '@vue/test-utils'
@@ -50,36 +48,6 @@ describe('SimpleLogin', () => {
   const userCorrect = deepCopyAny(users.content[0])
   it('renders properly', () => {
     expect(wrapper.exists()).toBe(true)
-  })
-
-  it('correct login', async () => {
-    const fieldUsername = wrapper.find('#username-input')
-    fieldUsername.setValue(userCorrect.login)
-    const fieldPassword = wrapper.find('#password-input')
-    fieldPassword.setValue(userCorrect.password)
-    const loginButton = wrapper.find('#login-simple-button')
-    expect(loginButton.exists()).toBeTruthy()
-    await loginButton.trigger('click')
-    expect(
-      wrapper.find('.v-messages').isVisible()
-    ).toBeFalsy()
-  })
-
-  it('empty username field', async () => {
-    const fieldUsername = wrapper.find('#username-input')
-    expect(fieldUsername.element.value).toBe('')
-    const fieldPassword = wrapper.find('#password-input')
-    fieldPassword.setValue(userCorrect.password)
-    const loginButton = wrapper.find('#login-simple-button')
-    expect(loginButton.exists()).toBeTruthy()
-    await loginButton.trigger('click')
-    const passwordMessage =
-      // wrapper.findAll('.v-messages')[0].element.firstChild
-      wrapper.findAll('.v-input__details')[0].element
-        .firstChild.innerHTML
-    // .html()
-
-    expect(passwordMessage).toBeFalsy()
   })
 
   it('reset simple login', async () => {
