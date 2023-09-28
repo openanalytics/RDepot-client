@@ -42,6 +42,7 @@ router.beforeEach(async (to) => {
 
   if (to.fullPath.startsWith('/auth')) {
     handleAuthorization()
+    await handleAuthorization()
     return '/packages'
   } else if (to.fullPath.startsWith('/logout')) {
     handleLogout()
@@ -73,7 +74,6 @@ async function redirectToLoginPage() {
 }
 
 function handleAuthorization() {
-  if (authService)
     authService
       .handleLoginRedirect()
       .then(() => {
@@ -86,6 +86,8 @@ function handleAuthorization() {
       .catch((error) => {
         console.log(error)
       })
+async function handleAuthorization() {
+  await authService
 }
 
 async function handleLogout() {
