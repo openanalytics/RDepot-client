@@ -29,6 +29,8 @@ import { mocks } from '@/__tests__/config/mocks'
 import users from '@/__tests__/config/mockData/loginUsers.json'
 import { useUtilities } from '@/composable/utilities'
 import { createPinia, setActivePinia } from 'pinia'
+import flushPromises from 'flush-promises'
+import waitForExpect from 'wait-for-expect'
 
 let wrapper: any
 const globalConfig = {
@@ -66,5 +68,39 @@ describe('SimpleLogin', () => {
     await resetButton.trigger('click')
     expect(fieldUsername.element.value).toBe('')
     expect(fieldPassword.element.value).toBe('')
+  })
+
+  it('check empty login', async () => {
+    const fieldPassword = wrapper.find('#password-input')
+    fieldPassword.setValue(userCorrect.password)
+    const loginButton = wrapper.find('#login-simple-button')
+    expect(loginButton.exists()).toBeTruthy()
+    expect(fieldPassword.element.value).toBe(
+      userCorrect.password
+    )
+    await loginButton.trigger('click')
+    await flushPromises()
+    await waitForExpect(() => {
+      expect(
+        wrapper.find('.v-messages__message').exists()
+      ).toBeTruthy()
+    })
+  })
+
+  it('check empty password', async () => {
+    const fieldUsername = wrapper.find('#username-input')
+    fieldUsername.setValue(userCorrect.login)
+    const loginButton = wrapper.find('#login-simple-button')
+    expect(loginButton.exists()).toBeTruthy()
+    expect(fieldUsername.element.value).toBe(
+      userCorrect.login
+    )
+    await loginButton.trigger('click')
+    await flushPromises()
+    await waitForExpect(() => {
+      expect(
+        wrapper.find('.v-messages__message').exists()
+      ).toBeTruthy()
+    })
   })
 })
