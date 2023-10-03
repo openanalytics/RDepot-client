@@ -138,7 +138,9 @@ export const usePackagesStore = defineStore(
         )
       },
       async downloadManual(id: string) {
-        await downloadReferenceManual(id).then(() => {})
+        await downloadReferenceManual(id).then((res) => {
+          console.log(res)
+        })
       },
       async setFiltration(payload: PackagesFiltration) {
         const pagination = usePagination()

@@ -20,7 +20,6 @@
  *
  */
 
-import { Role } from '@/enum/UserRoles'
 import { UserSettingsProjection } from '@/openapi/models/user-settings-projection'
 import { useAuthorizationStore } from '@/store/authorization'
 import { rest } from 'msw'
@@ -65,9 +64,7 @@ describe('Logged user store tests', () => {
 
     expect(authorizationStore.userToken).toBe('')
     expect(authorizationStore.userLogin).toBe('')
-    expect(authorizationStore.userRole).toBe(
-      Role.enum.admin
-    )
+    expect(authorizationStore.userRole).toBe(undefined)
     expect(authorizationStore.userId).toBe(8)
   })
 

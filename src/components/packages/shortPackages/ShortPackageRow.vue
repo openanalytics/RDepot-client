@@ -98,7 +98,7 @@
 </template>
 
 <script setup lang="ts">
-import router from '@/router'
+import router from '@/plugins/router'
 import { EntityModelPackageDto } from '@/openapi'
 import SortTitle from '@/components/common/resources/SortTitle.vue'
 import TextRecord from '@/components/common/resources/TextRecord.vue'

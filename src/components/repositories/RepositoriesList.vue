@@ -36,7 +36,7 @@
 
 <script setup lang="ts">
 import { EntityModelRRepositoryDto } from '@/openapi'
-import router from '@/router'
+import router from '@/plugins/router'
 import { useRepositoryStore } from '@/store/repositories'
 import { onBeforeMount } from 'vue'
 import RepositoryRow from '@/components/repositories/RepositoryRow.vue'

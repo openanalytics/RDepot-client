@@ -118,18 +118,16 @@
         id="checkbox-published"
         v-model="repositoryLocal.published"
         @change="updateRepositoryPublished()"
+        :disabled="
+          !canPatch(props.repository?.links).allowed
+        "
         color="oablue"
         class="mr-8"
         @click.stop
       />
     </v-col>
     <v-col
-      v-if="
-        authorizationStore.can(
-          'GET',
-          'repositoryDetails'
-        ) || authorizationStore.can('DELETE', 'repository')
-      "
+      v-if="canDelete(props.repository?.links)"
       id="repository-actions"
       cols="lg-1"
       class="d-flex justify-center"
@@ -147,12 +145,6 @@
         <v-tooltip top>
           <template v-slot:activator="{ props }">
             <v-icon
-              v-if="
-                authorizationStore.can(
-                  'GET',
-                  'repositoryDetails'
-                )
-              "
               id="navigate-icon"
               @click.stop
               @click="navigate"
@@ -166,9 +158,7 @@
           }}</span>
         </v-tooltip>
         <delete-icon
-          v-if="
-            authorizationStore.can('DELETE', 'repository')
-          "
+          v-if="canDelete(props.repository?.links)"
           :name="props.repository?.name"
           :set-resource-id="chooseRepository"
         />
@@ -178,20 +168,20 @@
 </template>
 
 <script setup lang="ts">
-import router from '@/router'
-import { EntityModelRepositoryDto } from '@/openapi'
-import { useRepositoryStore } from '@/store/repositories'
+import router from '@/plugins/router'
 import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
 import SortTitle from '@/components/common/resources/SortTitle.vue'
 import TextRecord from '@/components/common/resources/TextRecord.vue'
-import { useAuthorizationStore } from '@/store/authorization'
+import { useRepositoryStore } from '@/store/repositories'
+import { EntityModelRepositoryDto } from '@/openapi'
 import { updateRepository } from '@/services/repository_services'
 import { ref } from 'vue'
 import { useUtilities } from '@/composable/utilities'
+import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
 
 const repositoryStore = useRepositoryStore()
-const authorizationStore = useAuthorizationStore()
 const { deepCopy } = useUtilities()
+const { canDelete, canPatch } = useUserAuthorities()
 
 const props = defineProps<{
   title?: boolean

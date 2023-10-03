@@ -21,7 +21,7 @@
  */
 
 import { createRouter, createWebHistory } from 'vue-router'
-import { routes } from '@/router/routes'
+import { routes } from '@/plugins/router/routes'
 import { i18n } from '@/plugins/i18n'
 import { useSortStore } from '@/store/sort'
 import { authService } from '@/plugins/oauth'
@@ -41,7 +41,7 @@ router.beforeEach(async (to) => {
   const authorizationStore = useAuthorizationStore()
 
   if (to.fullPath.startsWith('/auth')) {
-    handleAuthorization()
+    await handleAuthorization()
     return '/packages'
   } else if (to.fullPath.startsWith('/logout')) {
     handleLogout()
@@ -72,20 +72,19 @@ async function redirectToLoginPage() {
   }
 }
 
-function handleAuthorization() {
-  if (authService)
-    authService
-      .handleLoginRedirect()
-      .then(() => {
-        window.history.replaceState(
-          {},
-          window.document.title,
-          window.location.origin + window.location.pathname
-        )
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+async function handleAuthorization() {
+  await authService
+    .handleLoginRedirect()
+    .then(() => {
+      window.history.replaceState(
+        {},
+        window.document.title,
+        window.location.origin + window.location.pathname
+      )
+    })
+    .catch((error) => {
+      console.log(error)
+    })
 }
 
 async function handleLogout() {
