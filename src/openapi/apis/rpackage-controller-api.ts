@@ -1,25 +1,4 @@
-/*
- * R Depot
- *
- * Copyright (C) 2012-2023 Open Analytics NV
- *
- * ===========================================================================
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the Apache License as published by
- * The Apache Software Foundation, either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * Apache License for more details.
- *
- * You should have received a copy of the Apache License
- * along with this program. If not, see <http://www.apache.org/licenses/>
- *
- */
-
+/* tslint:disable */
 /* eslint-disable */
 /**
  * RDEPOT API
@@ -58,6 +37,113 @@ import { ResponseDtoObject } from '../models'
 export const RPackageControllerApiAxiosParamCreator =
   function (configuration?: Configuration) {
     return {
+      /**
+       *
+       * @param {number} id
+       * @param {string} name
+       * @param {string} version
+       * @param {*} [options] Override http request option.
+       * @throws {RequiredError}
+       */
+      downloadPackage: async (
+        id: number,
+        name: string,
+        version: string,
+        options: AxiosRequestConfig = {}
+      ): Promise<RequestArgs> => {
+        // verify required parameter 'id' is not null or undefined
+        if (id === null || id === undefined) {
+          throw new RequiredError(
+            'id',
+            'Required parameter id was null or undefined when calling downloadPackage.'
+          )
+        }
+        // verify required parameter 'name' is not null or undefined
+        if (name === null || name === undefined) {
+          throw new RequiredError(
+            'name',
+            'Required parameter name was null or undefined when calling downloadPackage.'
+          )
+        }
+        // verify required parameter 'version' is not null or undefined
+        if (version === null || version === undefined) {
+          throw new RequiredError(
+            'version',
+            'Required parameter version was null or undefined when calling downloadPackage.'
+          )
+        }
+        const localVarPath =
+          `/api/v2/manager/r/packages/{id}/download/{name}_{version}.tar.gz`
+            .replace(
+              `{${'id'}}`,
+              encodeURIComponent(String(id))
+            )
+            .replace(
+              `{${'name'}}`,
+              encodeURIComponent(String(name))
+            )
+            .replace(
+              `{${'version'}}`,
+              encodeURIComponent(String(version))
+            )
+        // use dummy base URL string because the URL constructor only accepts absolute URLs.
+        const localVarUrlObj = new URL(
+          localVarPath,
+          'https://example.com'
+        )
+        let baseOptions
+        if (configuration) {
+          baseOptions = configuration.baseOptions
+        }
+        const localVarRequestOptions: AxiosRequestConfig = {
+          method: 'GET',
+          ...baseOptions,
+          ...options
+        }
+        const localVarHeaderParameter = {} as any
+        const localVarQueryParameter = {} as any
+
+        // authentication Bearer required
+        // http bearer authentication required
+        if (configuration && configuration.accessToken) {
+          const accessToken =
+            typeof configuration.accessToken === 'function'
+              ? await configuration.accessToken()
+              : await configuration.accessToken
+          localVarHeaderParameter['Authorization'] =
+            'Bearer ' + accessToken
+        }
+
+        const query = new URLSearchParams(
+          localVarUrlObj.search
+        )
+        for (const key in localVarQueryParameter) {
+          query.set(key, localVarQueryParameter[key])
+        }
+        for (const key in options.params) {
+          query.set(key, options.params[key])
+        }
+        localVarUrlObj.search = new URLSearchParams(
+          query
+        ).toString()
+        let headersFromBaseOptions =
+          baseOptions && baseOptions.headers
+            ? baseOptions.headers
+            : {}
+        localVarRequestOptions.headers = {
+          ...localVarHeaderParameter,
+          ...headersFromBaseOptions,
+          ...options.headers
+        }
+
+        return {
+          url:
+            localVarUrlObj.pathname +
+            localVarUrlObj.search +
+            localVarUrlObj.hash,
+          options: localVarRequestOptions
+        }
+      },
       /**
        *
        * @param {number} id
@@ -793,6 +879,40 @@ export const RPackageControllerApiFp = function (
     /**
      *
      * @param {number} id
+     * @param {string} name
+     * @param {string} version
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async downloadPackage(
+      id: number,
+      name: string,
+      version: string,
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => Promise<AxiosResponse<Array<string>>>
+    > {
+      const localVarAxiosArgs =
+        await RPackageControllerApiAxiosParamCreator(
+          configuration
+        ).downloadPackage(id, name, version, options)
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH
+      ) => {
+        const axiosRequestArgs: AxiosRequestConfig = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url
+        }
+        return axios.request(axiosRequestArgs)
+      }
+    },
+    /**
+     *
+     * @param {number} id
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -1072,6 +1192,24 @@ export const RPackageControllerApiFactory = function (
     /**
      *
      * @param {number} id
+     * @param {string} name
+     * @param {string} version
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async downloadPackage(
+      id: number,
+      name: string,
+      version: string,
+      options?: AxiosRequestConfig
+    ): Promise<AxiosResponse<Array<string>>> {
+      return RPackageControllerApiFp(configuration)
+        .downloadPackage(id, name, version, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     *
+     * @param {number} id
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -1217,6 +1355,25 @@ export const RPackageControllerApiFactory = function (
  * @extends {BaseAPI}
  */
 export class RPackageControllerApi extends BaseAPI {
+  /**
+   *
+   * @param {number} id
+   * @param {string} name
+   * @param {string} version
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof RPackageControllerApi
+   */
+  public async downloadPackage(
+    id: number,
+    name: string,
+    version: string,
+    options?: AxiosRequestConfig
+  ): Promise<AxiosResponse<Array<string>>> {
+    return RPackageControllerApiFp(this.configuration)
+      .downloadPackage(id, name, version, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
   /**
    *
    * @param {number} id
