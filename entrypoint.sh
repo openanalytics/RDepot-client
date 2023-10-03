@@ -1,3 +1,13 @@
+__='
+   This is the default license template.
+   
+   File: entrypoint.sh
+   Author: weronika
+   Copyright (c) 2023 weronika
+   
+   To edit this license information: Press Ctrl+Shift+P and press 'Create new License Template...'.
+'
+
 #!/bin/sh
 echo "ENTRYPOINT sie odpalil"
 JSON_STRING='window.configs = { \
