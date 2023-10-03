@@ -33,6 +33,7 @@ import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
 import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import UserRow from '@/components/users/UserRow.vue'
+import EditIcon from '@/components/common/action_icons/EditIcon.vue'
 import users from '@/__tests__/config/mockData/users.json'
 import { EntityModelUserDto } from '@/openapi'
 import { createPinia, setActivePinia } from 'pinia'
@@ -98,7 +99,9 @@ describe('User list - user row', () => {
   })
 
   it('edit button exists', () => {
-    expect(wrapper.find('#pencil-icon').exists()).toBe(true)
+    expect(
+      wrapper.findAllComponents(EditIcon).length
+    ).toEqual(1)
   })
 })
 

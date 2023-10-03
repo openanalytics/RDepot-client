@@ -158,14 +158,13 @@
 </template>
 
 <script setup lang="ts">
-import router from '@/router'
+import router from '@/plugins/router'
 import { i18n } from '@/plugins/i18n'
 import { useCommonStore } from '@/store/common'
 import { useAuthorizationStore } from '@/store/authorization'
 import { useSubmissionStore } from '@/store/submission'
 import { computed } from 'vue'
 import { useDisplay } from 'vuetify/lib/framework.mjs'
-import { authService } from '@/plugins/oauth'
 
 const { xs, mobile } = useDisplay()
 const authorizationStore = useAuthorizationStore()

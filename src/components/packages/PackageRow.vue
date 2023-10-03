@@ -113,15 +113,11 @@
         v-model="packageBag.active"
         @change="updatePackageActive"
         :disabled="
-          !authorizationStore.can('PATCH', 'package')
+          !canPatch(props.packageBag?.links).allowed
         "
       />
     </VCol>
     <VCol
-      v-if="
-        authorizationStore.can('GET', 'packageDetails') ||
-        authorizationStore.can('DELETE', 'package')
-      "
       id="package-row-actions"
       cols="lg-1"
       class="d-flex justify-center align-center"
@@ -140,12 +136,6 @@
         <VTooltip top>
           <template v-slot:activator="{ props }">
             <VIcon
-              v-if="
-                authorizationStore.can(
-                  'GET',
-                  'packageDetails'
-                )
-              "
               id="navigate-icon"
               @click.stop
               @click="navigate"
@@ -159,26 +149,28 @@
           }}</span>
         </VTooltip>
         <DeleteIcon
-          v-if="authorizationStore.can('DELETE', 'package')"
+          v-if="canDelete(props.packageBag?.links)"
           :name="props.packageBag?.name"
           :set-resource-id="choosePackage"
         />
+        <span v-else style="width: 30px"></span>
       </span>
     </VCol>
   </VRow>
 </template>
 
 <script setup lang="ts">
-import router from '@/router'
+import router from '@/plugins/router'
 import { EntityModelPackageDto } from '@/openapi'
 import { usePackagesStore } from '@/store/packages'
 import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
 import SortTitle from '@/components/common/resources/SortTitle.vue'
 import TextRecord from '@/components/common/resources/TextRecord.vue'
-import { useAuthorizationStore } from '@/store/authorization'
+import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
+
+const { canDelete, canPatch } = useUserAuthorities()
 
 const packageStore = usePackagesStore()
-const authorizationStore = useAuthorizationStore()
 
 const props = defineProps({
   title: {

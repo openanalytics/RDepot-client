@@ -99,45 +99,28 @@
         v-else-if="user"
         class="d-flex justify-center align-center"
       >
-        <v-tooltip top>
-          <template v-slot:activator="{ props }">
-            <v-icon
-              id="pencil-icon"
-              @click.stop
-              @click="edit"
-              v-bind="props"
-              class="ml-3"
-              color="oablue"
-              :disabled="
-                !authorizationStore.can('PATCH', 'users')
-              "
-              >mdi-pencil</v-icon
-            >
-          </template>
-          <span id="action-edit">{{
-            $t('users.edit.tooltip')
-          }}</span>
-        </v-tooltip>
+        <edit-icon
+          v-if="canPatch(user?.links).allowed"
+          @set-entity="setEditUser"
+          :text="$t('users.edit.tooltip')"
+        >
+        </edit-icon>
       </span>
     </v-col>
   </v-row>
 </template>
 
 <script setup lang="ts">
+import SortTitle from '@/components/common/resources/SortTitle.vue'
+import EditIcon from '@/components/common/action_icons/EditIcon.vue'
+import TextRecord from '@/components/common/resources/TextRecord.vue'
 import { computed } from 'vue'
 import { EntityModelUserDto } from '@/openapi'
-import SortTitle from '@/components/common/resources/SortTitle.vue'
-import TextRecord from '@/components/common/resources/TextRecord.vue'
 import { roleToString } from '@/enum/UserRoles'
-import { useAuthorizationStore } from '@/store/authorization'
 import { useUserStore } from '@/store/users'
-import { useCommonStore } from '@/store/common'
-import { i18n } from '@/plugins/i18n'
-import { OverlayEnum } from '@/enum/Overlay'
+import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
 
-const authorizationStore = useAuthorizationStore()
 const userStore = useUserStore()
-const commonStore = useCommonStore()
 
 const props = defineProps({
   title: {
@@ -147,23 +130,13 @@ const props = defineProps({
   user: Object as () => EntityModelUserDto | undefined
 })
 
+const { canPatch } = useUserAuthorities()
+
 const getRole = computed(() => {
   return roleToString.parse((props.user?.roleId || 1) - 1)
 })
 
-function edit() {
-  chosenUser()
-  commonStore.setOverlayText(
-    i18n.t('users.edit.overlay', {
-      user_login: userStore.chosenUser.login
-    })
-  )
-  commonStore.setOverlayModel(true)
-  commonStore.setOverlayOpacity(0.8)
-  commonStore.setOverlayComponent(OverlayEnum.enum.Edit)
-}
-
-function chosenUser() {
+function setEditUser() {
   if (props.user) {
     userStore.chosenUser = props.user
   }

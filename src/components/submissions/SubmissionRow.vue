@@ -125,7 +125,6 @@
       />
     </v-col>
     <v-col
-      v-if="authorizationStore.can('PATCH', 'submissions')"
       id="submission-actions"
       cols="lg-2"
       class="d-flex justify-center"
@@ -137,31 +136,33 @@
         no-sort
       />
       <span
-        v-else-if="getWaiting && submission"
+        v-else-if="
+          getWaiting &&
+          canPatch(submission?.links).fields.includes(
+            'state'
+          )
+        "
         class="d-flex justify-center align-center"
       >
         <v-btn
           id="accept-button"
           color="success"
           class="mx-1"
-          @click="acceptSubmission"
-          :disabled="disabled"
+          @click="acceptSubmission(submission)"
           >ACCEPT</v-btn
         >
         <v-btn
           v-if="check"
           id="cancel-button"
           color="oared"
-          @click="cancelSubmission"
-          :disabled="disabled"
+          @click="cancelSubmission(submission)"
           >CANCEL</v-btn
         >
         <v-btn
           v-else
           id="reject-button"
           color="oared"
-          @click="rejectSubmission"
-          :disabled="disabled"
+          @click="rejectSubmission(submission)"
           >REJECT</v-btn
         >
       </span>
@@ -170,16 +171,13 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import {
-  EntityModelSubmissionDto,
-  EntityModelSubmissionDtoStateEnum
-} from '@/openapi'
-import { i18n } from '@/plugins/i18n'
-import { useSubmissionStore } from '@/store/submission'
+import { computed } from 'vue'
+import { EntityModelSubmissionDto } from '@/openapi'
+import { useSubmissionActions } from '@/composable/submissions/submissionActions'
 import { useAuthorizationStore } from '@/store/authorization'
 import SortTitle from '@/components/common/resources/SortTitle.vue'
 import TextRecord from '@/components/common/resources/TextRecord.vue'
+import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
 
 const props = defineProps({
   title: {
@@ -192,11 +190,19 @@ const props = defineProps({
 })
 
 const authorizationStore = useAuthorizationStore()
-const submissionStore = useSubmissionStore()
+const { canPatch } = useUserAuthorities()
+const {
+  acceptSubmission,
+  cancelSubmission,
+  rejectSubmission
+} = useSubmissionActions()
 
-const check =
-  authorizationStore.userId ===
-  props.submission?.submitter?.id
+const check = computed(() => {
+  return (
+    authorizationStore.userId ===
+    props.submission?.submitter?.id
+  )
+})
 
 const getAccepted = computed<boolean>(() => {
   return props.submission?.state == 'ACCEPTED'
@@ -205,46 +211,4 @@ const getAccepted = computed<boolean>(() => {
 const getWaiting = computed<boolean>(() => {
   return props.submission?.state == 'WAITING'
 })
-
-const disabled = ref<boolean>(false)
-
-function prepareString(value: string): string {
-  return value.charAt(0).toUpperCase() + value.slice(1)
-}
-
-async function acceptSubmission() {
-  disabled.value = true
-  if (props.submission) {
-    await submissionStore.updateSubmission(
-      props.submission,
-      { state: EntityModelSubmissionDtoStateEnum.ACCEPTED }
-    )
-  }
-
-  disabled.value = false
-}
-
-async function cancelSubmission() {
-  disabled.value = true
-  if (props.submission) {
-    await submissionStore.updateSubmission(
-      props.submission,
-      {
-        state: EntityModelSubmissionDtoStateEnum.CANCELLED
-      }
-    )
-  }
-  disabled.value = false
-}
-
-async function rejectSubmission() {
-  disabled.value = true
-  if (props.submission) {
-    await submissionStore.updateSubmission(
-      props.submission,
-      { state: EntityModelSubmissionDtoStateEnum.REJECTED }
-    )
-  }
-  disabled.value = false
-}
 </script>

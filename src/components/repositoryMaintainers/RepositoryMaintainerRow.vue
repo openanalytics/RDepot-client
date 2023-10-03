@@ -75,14 +75,8 @@
 
     <v-col
       v-if="
-        authorizationStore.can(
-          'PATCH',
-          'repositoryMaintainers'
-        ) ||
-        authorizationStore.can(
-          'DELETE',
-          'repositoryMaintainers'
-        )
+        canPatch(repositoryMaintainer?.links).allowed ||
+        canDelete(repositoryMaintainer?.links)
       "
       id="repository-maintainer-actions"
       cols="lg-1"
@@ -101,32 +95,19 @@
         "
         class="d-flex justify-center align-center"
       >
-        <v-tooltip top>
-          <template v-slot:activator="{ props }">
-            <v-icon
-              id="pencil-icon"
-              @click.stop
-              @click="edit"
-              v-bind="props"
-              class="ml-3"
-              color="oablue"
-              >mdi-pencil</v-icon
-            >
-          </template>
-          <span id="action-edit">{{
-            $t('maintainers.edit')
-          }}</span>
-        </v-tooltip>
+        <edit-icon
+          v-if="
+            canPatch(repositoryMaintainer.links).allowed
+          "
+          :text="i18n.t('maintainers.edit')"
+          @set-entity="setEditMaintainer"
+        >
+        </edit-icon>
 
         <delete-icon
-          v-if="
-            authorizationStore.can(
-              'PATCH',
-              'repositoryMaintainers'
-            )
-          "
+          v-if="canDelete(repositoryMaintainer.links)"
           :name="props.repositoryMaintainer?.user?.name"
-          :set-resource-id="chooseMaintainer"
+          :set-resource-id="setEditMaintainer"
         />
       </span>
     </v-col>
@@ -134,15 +115,14 @@
 </template>
 
 <script setup lang="ts">
-import { OverlayEnum } from '@/enum/Overlay'
-import { EntityModelRepositoryMaintainerDto } from '@/openapi'
-import { i18n } from '@/plugins/i18n'
-import { useCommonStore } from '@/store/common'
-import { useAuthorizationStore } from '@/store/authorization'
-import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
 import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
+import EditIcon from '@/components/common/action_icons/EditIcon.vue'
 import SortTitle from '@/components/common/resources//SortTitle.vue'
 import TextRecord from '@/components/common/resources//TextRecord.vue'
+import { i18n } from '@/plugins/i18n'
+import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
+import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
+import { EntityModelRepositoryMaintainerDto } from '@/openapi'
 
 const props = defineProps({
   title: {
@@ -154,23 +134,10 @@ const props = defineProps({
     | undefined
 })
 
-const commonStore = useCommonStore()
-const authorizationStore = useAuthorizationStore()
 const maintainersStore = useRepositoryMaintainersStore()
+const { canPatch, canDelete } = useUserAuthorities()
 
-function edit() {
-  chooseMaintainer()
-  commonStore.setOverlayText(
-    i18n.t('maintainers.edit', {
-      maintainerName: props.repositoryMaintainer?.user?.id
-    })
-  )
-  commonStore.setOverlayModel(true)
-  commonStore.setOverlayOpacity(0.8)
-  commonStore.setOverlayComponent(OverlayEnum.enum.Edit)
-}
-
-function chooseMaintainer() {
+function setEditMaintainer() {
   if (props.repositoryMaintainer) {
     maintainersStore.setChosenMaintainer(
       props.repositoryMaintainer

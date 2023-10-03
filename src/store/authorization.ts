@@ -40,7 +40,7 @@ import {
 } from '@/services/logged_user_service'
 import { defineStore } from 'pinia'
 import { authService } from '@/plugins/oauth'
-import router from '@/router'
+import router from '@/plugins/router'
 import { useOICDAuthorization } from '@/composable/auth/oicdAuthorization'
 
 interface State {
@@ -85,7 +85,7 @@ export const useAuthorizationStore = defineStore(
             router.push({ name: 'packages' })
           })
           .finally(() => {
-            // this.getUserInfo()
+            this.getUserInfo()
           })
       },
 

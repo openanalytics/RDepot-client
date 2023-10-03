@@ -234,7 +234,11 @@ const vignettes = computed<ResponseDtoListVignette>(() => {
 })
 
 async function getManual() {
-  await package_store.downloadManual()
+  if (packageBag.value.id) {
+    await package_store.downloadManual(
+      packageBag.value.id.toString()
+    )
+  }
 }
 
 const details = [

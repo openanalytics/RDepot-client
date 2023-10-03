@@ -31,7 +31,6 @@
 import { marked } from 'marked'
 import { useUtilities } from '@/composable/utilities'
 import { computed } from 'vue'
-import router from '@/router'
 
 const props = defineProps<{
   description: string
