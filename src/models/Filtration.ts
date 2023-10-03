@@ -42,13 +42,15 @@ const PackagesFiltration = z
           return undefined
         }
         return val
-      })
+      }),
+    name: z.string().optional()
   })
   .default({
     state: undefined,
     repository: undefined,
     technologies: undefined,
-    deleted: false
+    deleted: false,
+    name: undefined
   })
 
 type PackagesFiltration = z.infer<typeof PackagesFiltration>
