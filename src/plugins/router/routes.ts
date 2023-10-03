@@ -52,16 +52,6 @@ export const routes = [
         meta: { title: 'RDepot - repositories' }
       },
       {
-        path: '/repositories/:name',
-        name: 'repositoryDetails',
-        component: () =>
-          import(
-            '@/views/repositories/RepositoryDetails.vue'
-          ),
-        meta: { title: 'RDepot - repository details' },
-        props: true
-      },
-      {
         path: '/repository-maintainers',
         name: 'repositoryMaintainers',
         component: () =>
