@@ -121,5 +121,6 @@ export enum EntityModelNewsfeedEventDtoResourceTypeEnum {
   PACKAGEMAINTAINER = 'PACKAGE_MAINTAINER',
   USER = 'USER',
   EVENT = 'EVENT',
-  ROLE = 'ROLE'
+  ROLE = 'ROLE',
+  USERSETTINGS = 'USER_SETTINGS'
 }

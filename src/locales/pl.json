@@ -14,7 +14,12 @@
   },
   "common": {
     "notAvaiable": "Niedostępne",
-    "logout": "wyloguj",
-    "users": "użytkownicy"
+    "logout": "wyloguj"
+  },
+  "errors": {
+    "oauth": "Błąd autoryzacji"
+  },
+  "erros": {
+    "oauthTitle": "Autoryzacja"
   }
 }

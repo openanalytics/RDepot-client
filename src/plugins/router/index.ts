@@ -41,7 +41,6 @@ router.beforeEach(async (to) => {
   const authorizationStore = useAuthorizationStore()
 
   if (to.fullPath.startsWith('/auth')) {
-    handleAuthorization()
     await handleAuthorization()
     return '/packages'
   } else if (to.fullPath.startsWith('/logout')) {
@@ -73,21 +72,19 @@ async function redirectToLoginPage() {
   }
 }
 
-function handleAuthorization() {
-    authService
-      .handleLoginRedirect()
-      .then(() => {
-        window.history.replaceState(
-          {},
-          window.document.title,
-          window.location.origin + window.location.pathname
-        )
-      })
-      .catch((error) => {
-        console.log(error)
-      })
 async function handleAuthorization() {
   await authService
+    .handleLoginRedirect()
+    .then(() => {
+      window.history.replaceState(
+        {},
+        window.document.title,
+        window.location.origin + window.location.pathname
+      )
+    })
+    .catch((error) => {
+      console.log(error)
+    })
 }
 
 async function handleLogout() {
