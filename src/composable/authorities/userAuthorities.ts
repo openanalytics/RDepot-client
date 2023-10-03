@@ -40,7 +40,7 @@ export function useUserAuthorities() {
     action: string,
     links?: Array<Link>
   ) {
-    let result: PatchOptions = {
+    const result: PatchOptions = {
       allowed: false,
       fields: []
     }

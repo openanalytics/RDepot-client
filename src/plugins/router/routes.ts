@@ -82,6 +82,13 @@ export const routes = [
         meta: { title: 'RDepot - package details' }
       },
       {
+        path: '/packages/:name/timeline',
+        name: 'packageTimeline',
+        component: () =>
+          import('@/views/packages/PackageTimeLine.vue'),
+        meta: { title: 'RDepot - package timeline' }
+      },
+      {
         path: '/package-maintainers',
         name: 'packageMaintainers',
         component: () =>

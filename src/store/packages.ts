@@ -155,6 +155,11 @@ export const usePackagesStore = defineStore(
         this.filtration = defaultValues(PackagesFiltration)
         this.filtration.repository = payload
       },
+      setFiltrationWithoutRefresh(
+        payload: PackagesFiltration
+      ) {
+        this.filtration = payload
+      },
       clearFiltration() {
         const pagination = usePagination()
         pagination.resetPage()

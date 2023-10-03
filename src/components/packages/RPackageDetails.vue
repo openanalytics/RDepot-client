@@ -125,7 +125,7 @@
         </div>
       </template>
     </div>
-    <div class="subtitle my-5">
+    <div class="subtitle my-5" @click="showPackageTimeline">
       {{ $t('packages.downloads') }}
     </div>
     <div class="d-flex" style="flex-direction: column">
@@ -189,6 +189,11 @@ import { useClipboard } from '@vueuse/core'
 import { i18n } from '@/plugins/i18n'
 import { notify } from '@kyvg/vue3-notification'
 import { onMounted } from 'vue'
+import {
+  PackagesFiltration,
+  defaultValues
+} from '@/models/Filtration'
+import router from '@/plugins/router'
 
 const props = defineProps<{ id: number }>()
 
@@ -196,19 +201,32 @@ const emit = defineEmits(['isLoaded'])
 
 const { copy } = useClipboard()
 
-const package_store = usePackagesStore()
+const packageStore = usePackagesStore()
 
 onMounted(() => {
-  package_store
+  packageStore
     .fetchRPackage(props.id)
     .then(() => emit('isLoaded'))
 })
 
 const packageBag = computed<EntityModelRPackageDto>(
-  () => package_store.package as EntityModelRPackageDto
+  () => packageStore.package as EntityModelRPackageDto
 )
 
-const submission = ref(package_store.submission)
+const submission = ref(packageStore.submission)
+
+function showPackageTimeline() {
+  var filtration: PackagesFiltration = defaultValues(
+    PackagesFiltration
+  )
+  filtration.name = packageBag.value.name
+  filtration.repository = packageBag.value.repository?.name
+  packageStore.setFiltrationWithoutRefresh(filtration)
+  router.push({
+    name: 'packageTimeline',
+    params: { name: packageBag.value.name }
+  })
+}
 
 function copyContent() {
   try {
@@ -230,12 +248,12 @@ function copyContent() {
 }
 
 const vignettes = computed<ResponseDtoListVignette>(() => {
-  return package_store.vignettes
+  return packageStore.vignettes
 })
 
 async function getManual() {
   if (packageBag.value.id) {
-    await package_store.downloadManual(
+    await packageStore.downloadManual(
       packageBag.value.id.toString()
     )
   }
