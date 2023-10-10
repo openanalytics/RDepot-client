@@ -187,9 +187,9 @@ const emit = defineEmits(['isLoaded'])
 const package_store = usePackagesStore()
 
 onMounted(async () => {
-  package_store
-    .fetchPythonPackage(props.id)
-    .then(() => emit('isLoaded'))
+  // package_store
+  //   .fetchPythonPackage(props.id)
+  //   .then(() => emit('isLoaded'))
 })
 
 const packageBag = computed(

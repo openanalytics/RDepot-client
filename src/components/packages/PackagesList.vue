@@ -29,9 +29,9 @@
       <PackageRow :packageBag="slotProps.resource" />
     </template>
     <template #expansion-text="slotProps">
-      <PackageDetails
+      <!-- <PackageDetails
         :package="(slotProps.resource as EntityModelPackageDto)"
-      />
+      /> -->
     </template>
   </ResourcesList>
 </template>

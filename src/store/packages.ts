@@ -29,20 +29,18 @@ import { defineStore } from 'pinia'
 import {
   EntityModelPackageDto,
   EntityModelSubmissionDto,
-  ResponseDtoListVignette,
-  RPackageControllerApiFactory
+  ResponseDtoListVignette
 } from '@/openapi'
 import {
   downloadReferenceManual,
   fetchPackageServices,
-  fetchPythonPackageServices,
-  fetchRPackageServices,
   updateRPackage
 } from '@/services/package_services'
 import { useUtilities } from '@/composable/utilities'
 import { packagesFiltrationLabels } from '@/maps/Filtration'
 import { fetchSubmission } from '@/services/submission_services'
 import { usePagination } from './pagination'
+import { Technologies } from '@/enum/Technologies'
 
 interface State {
   packages: EntityModelPackageDto[]
@@ -111,7 +109,12 @@ export const usePackagesStore = defineStore(
         return pageData
       },
       async fetchPackage(id: number) {
-        this.package = (await fetchPackageServices(id))[0]
+        this.package = (
+          await fetchPackageServices(
+            id,
+            Technologies.Enum.R
+          )
+        )[0]
         if (this.package?.submissionId) {
           this.submission = (
             await fetchSubmission(this.package.submissionId)
@@ -119,11 +122,19 @@ export const usePackagesStore = defineStore(
         }
       },
       async fetchRPackage(id: number) {
-        this.package = (await fetchRPackageServices(id))[0]
+        this.package = (
+          await fetchPackageServices(
+            id,
+            Technologies.Enum.R
+          )
+        )[0]
       },
       async fetchPythonPackage(id: number) {
         this.package = (
-          await fetchPythonPackageServices(id)
+          await fetchPackageServices(
+            id,
+            Technologies.Enum.Python
+          )
         )[0]
       },
       async activatePackage(

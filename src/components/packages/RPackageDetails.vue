@@ -21,6 +21,8 @@
 -->
 
 <template>
+  {{ technology }}
+  {{ id }}
   <div class="my-5 mx-1 mb-10">
     <div class="package_title my-5">
       {{ packageBag.title }}
@@ -97,16 +99,16 @@
     <div class="subtitle my-5">
       {{ $t('packages.documentation') }}
     </div>
-    <div
+    <!-- <div
       class="document"
       v-for="(vignette, index) in vignettes.data"
       :key="index"
     >
       {{ vignette.title }}
-    </div>
-    <div v-show="vignettes.data?.length == 0">
+    </div> -->
+    <!-- <div v-show="vignettes.data?.length == 0">
       {{ $t('packages.noVignette') }}
-    </div>
+    </div> -->
     <div class="document" @click="getManual">
       {{ $t('packages.referenceManual') }}
     </div>
@@ -183,7 +185,7 @@ import {
   EntityModelRPackageDto,
   ResponseDtoListVignette
 } from '@/openapi'
-import { computed, ref } from 'vue'
+import { computed, onBeforeMount, ref } from 'vue'
 import { usePackagesStore } from '@/store/packages'
 import { useClipboard } from '@vueuse/core'
 import { i18n } from '@/plugins/i18n'
@@ -194,6 +196,8 @@ import {
   defaultValues
 } from '@/models/Filtration'
 import router from '@/plugins/router'
+import { usePackageDetailsStore } from '@/store/package_details'
+import { Technologies } from '@/enum/Technologies'
 
 const props = defineProps<{ id: number }>()
 
@@ -201,19 +205,14 @@ const emit = defineEmits(['isLoaded'])
 
 const { copy } = useClipboard()
 
-const packageStore = usePackagesStore()
-
-onMounted(() => {
-  packageStore
-    .fetchRPackage(props.id)
-    .then(() => emit('isLoaded'))
-})
+const packageDetailsStore = usePackageDetailsStore()
 
 const packageBag = computed<EntityModelRPackageDto>(
-  () => packageStore.package as EntityModelRPackageDto
+  () =>
+    packageDetailsStore.package as EntityModelRPackageDto
 )
 
-const submission = ref(packageStore.submission)
+const submission = ref(packageDetailsStore.submission)
 
 function showPackageTimeline() {
   var filtration: PackagesFiltration = defaultValues(
@@ -221,11 +220,11 @@ function showPackageTimeline() {
   )
   filtration.name = packageBag.value.name
   filtration.repository = packageBag.value.repository?.name
-  packageStore.setFiltrationWithoutRefresh(filtration)
-  router.push({
-    name: 'packageTimeline',
-    params: { name: packageBag.value.name }
-  })
+  // packageDetailsStore.setFiltrationWithoutRefresh(filtration)
+  // router.push({
+  // name: 'packageTimeline',
+  // params: { name: packageBag.value.name }
+  // })
 }
 
 function copyContent() {
@@ -247,15 +246,16 @@ function copyContent() {
   }
 }
 
-const vignettes = computed<ResponseDtoListVignette>(() => {
-  return packageStore.vignettes
-})
+// const vignettes = computed<ResponseDtoListVignette>(() => {
+//   return []
+//   // return packageStore.vignettes
+// })
 
 async function getManual() {
   if (packageBag.value.id) {
-    await packageStore.downloadManual(
-      packageBag.value.id.toString()
-    )
+    // await packageStore.downloadManual(
+    // packageBag.value.id.toString()
+    // )
   }
 }
 
@@ -285,6 +285,15 @@ const details = [
     value: packageBag.value.url
   }
 ]
+
+// onBeforeMount(() => {
+//   if (props.id) {
+//     packageDetailsStore.fetchPackage(
+//       props.id,
+//       Technologies.Enum.R
+//     )
+//   }
+// })
 </script>
 
 <style scoped lang="scss">

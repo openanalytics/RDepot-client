@@ -28,11 +28,11 @@
           ? RPackageDetails
           : PythonPackageDetails
       "
-      :class="{ short: package }"
+      class="short"
       @is-loaded="isLoaded"
       :id="packageBag?.id || 0"
     />
-    <div class="center" v-if="package">
+    <!-- <div class="center" v-if="package">
       <v-divider :thickness="3"></v-divider>
       <v-btn
         ref="button"
@@ -42,50 +42,50 @@
       >
         {{ $t('common.details') }}</v-btn
       >
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script setup lang="ts">
 import RPackageDetails from '@/components/packages/RPackageDetails.vue'
 import PythonPackageDetails from '@/components/packages/PythonPackageDetails.vue'
-import { usePackagesStore } from '@/store/packages'
 import { Technologies } from '@/enum/Technologies'
-import { useRoute } from 'vue-router'
-import { EntityModelPackageDto } from '@/openapi'
-import { onBeforeMount, computed, ref } from 'vue'
-import router from '@/plugins/router'
+import { usePackageDetailsStore } from '@/store/package_details'
+import { computed, onBeforeMount } from 'vue'
+import { ref } from 'vue'
 
-const package_store = usePackagesStore()
-const route = useRoute()
+const packageDetailsStore = usePackageDetailsStore()
 
 const props = defineProps<{
-  package?: EntityModelPackageDto
+  id?: number
+  technology: Technologies
 }>()
 
 const packageBag = computed(
-  () => props.package || package_store.package
+  () => packageDetailsStore.package
 )
+
 const loading = ref(true)
 
 function isLoaded() {
   loading.value = false
 }
 
-function goToDetailsPage({ id }: EntityModelPackageDto) {
-  router.push({
-    name: 'packageDetails',
-    params: {
-      id: id
-    }
-  })
-}
+// function goToDetailsPage({ id }: EntityModelPackageDto) {
+//   router.push({
+//     name: 'packageDetails',
+//     params: {
+//       id: id
+//     }
+//   })
+// }
 
 onBeforeMount(() => {
-  if (props.package) {
-    package_store.package = props.package
-  } else {
-    package_store.fetchPackage(Number(route.params.id))
+  if (props.id) {
+    packageDetailsStore.fetchPackage(
+      props.id,
+      props.technology
+    )
   }
 })
 </script>

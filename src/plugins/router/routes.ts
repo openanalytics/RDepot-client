@@ -79,7 +79,8 @@ export const routes = [
         name: 'packageDetails',
         component: () =>
           import('@/views/packages/PackageDetails.vue'),
-        meta: { title: 'RDepot - package details' }
+        meta: { title: 'RDepot - package details' },
+        props: true
       },
       {
         path: '/packages/:name/timeline',
