@@ -21,19 +21,31 @@
 -->
 
 <template>
-  <PackageDescription />
-  <PackageSubmission />
-  <PackageInstallation />
-  <PackageDownloads />
-  <PackageProperties />
-  <PackageClassifiers />
+  <div class="subtitle my-5">
+    {{ $t('packages.documentation') }}
+  </div>
+  <div
+    class="document"
+    v-for="(vignette, index) in vignettes?.data"
+    :key="index"
+  >
+    {{ vignette.title }}
+  </div>
+  <div v-show="vignettes?.data?.length == 0">
+    {{ $t('packages.noVignette') }}
+  </div>
 </template>
 
 <script setup lang="ts">
-import PackageDescription from '@/components/packages/packageDetails/PackageDescription.vue'
-import PackageClassifiers from '@/components/packages/packageDetails/PackageClassifiers.vue'
-import PackageInstallation from '@/components/packages/packageDetails/PackageInstallation.vue'
-import PackageSubmission from '@/components/packages/packageDetails/PackageSubmission.vue'
-import PackageProperties from '@/components/packages/packageDetails/PackageProperties.vue'
-import PackageDownloads from '@/components/packages/packageDetails/PackageDownloads.vue'
+import { computed } from 'vue'
+import { ResponseDtoListVignette } from '@/openapi'
+import { usePackageDetailsStore } from '@/store/package_details'
+
+const packageDetailsStore = usePackageDetailsStore()
+
+const vignettes = computed<
+  ResponseDtoListVignette | undefined
+>(() => {
+  return packageDetailsStore.vignettes
+})
 </script>

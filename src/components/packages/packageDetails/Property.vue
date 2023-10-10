@@ -21,19 +21,45 @@
 -->
 
 <template>
-  <PackageDescription />
-  <PackageSubmission />
-  <PackageInstallation />
-  <PackageDownloads />
-  <PackageProperties />
-  <PackageClassifiers />
+  <div v-if="value" class="d-flex">
+    <div class="col_title">
+      {{ title }}
+    </div>
+    <div class="col_desc">
+      {{ value }}
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
-import PackageDescription from '@/components/packages/packageDetails/PackageDescription.vue'
-import PackageClassifiers from '@/components/packages/packageDetails/PackageClassifiers.vue'
-import PackageInstallation from '@/components/packages/packageDetails/PackageInstallation.vue'
-import PackageSubmission from '@/components/packages/packageDetails/PackageSubmission.vue'
-import PackageProperties from '@/components/packages/packageDetails/PackageProperties.vue'
-import PackageDownloads from '@/components/packages/packageDetails/PackageDownloads.vue'
+const props = defineProps({
+  title: String,
+  value: String
+})
 </script>
+
+<style lang="scss">
+$text_color: rgba(var(--v-theme-about-package));
+$background_color: rgba(var(--v-theme-about-background));
+
+.col_title {
+  color: $text_color;
+  width: 130px;
+  background-color: $background_color;
+  margin-right: 1rem;
+  font-weight: 500;
+  padding: 3px;
+  border-radius: 4px;
+  margin: 1px;
+  transition: all 0.2s ease;
+  &:hover {
+    transform: scale(1.01);
+  }
+}
+
+.col_desc {
+  padding: 3px;
+  margin: 1px;
+  color: $text_color;
+}
+</style>

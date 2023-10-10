@@ -75,7 +75,7 @@ export const routes = [
         meta: { title: 'RDepot - packages' }
       },
       {
-        path: '/packages/:id',
+        path: '/packages/:technology/:id',
         name: 'packageDetails',
         component: () =>
           import('@/views/packages/PackageDetails.vue'),

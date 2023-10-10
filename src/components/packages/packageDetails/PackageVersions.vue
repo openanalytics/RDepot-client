@@ -108,30 +108,6 @@
           }}.tar.gz
         </a>
       </div>
-      <div class="d-flex align-center">
-        <div class="col_title">
-          {{ $t('packages.windowsBinaries') }}
-        </div>
-        <div class="col_desc">
-          {{ $t('common.notAvailable') }}
-        </div>
-      </div>
-      <div class="d-flex align-center">
-        <div class="col_title">
-          {{ $t('packages.osxBinaries') }}
-        </div>
-        <div class="col_desc">
-          {{ $t('common.notAvailable') }}
-        </div>
-      </div>
-      <div class="d-flex align-center">
-        <div class="col_title">
-          {{ $t('packages.oldSources') }}
-        </div>
-        <div class="col_desc">
-          {{ $t('packages.archive') }}
-        </div>
-      </div>
     </div>
     <div class="subtitle my-5">
       {{ $t('packages.details') }}
@@ -176,24 +152,15 @@
 
 <script setup lang="ts">
 import { EntityModelPythonPackageDto } from '@/openapi'
-import { computed, ref, onMounted } from 'vue'
-import { usePackagesStore } from '@/store/packages'
+import { computed, ref } from 'vue'
 import MarkdownDescription from '@/components/common/MarkdownDescription.vue'
+import { usePackageDetailsStore } from '@/store/package_details'
 
-const props = defineProps<{ id: number }>()
-
-const emit = defineEmits(['isLoaded'])
-
-const package_store = usePackagesStore()
-
-onMounted(async () => {
-  // package_store
-  //   .fetchPythonPackage(props.id)
-  //   .then(() => emit('isLoaded'))
-})
+const packageDetailsStore = usePackageDetailsStore()
 
 const packageBag = computed(
-  () => package_store.package as EntityModelPythonPackageDto
+  () =>
+    packageDetailsStore.packageBag as EntityModelPythonPackageDto
 )
 
 const details = [
@@ -256,7 +223,7 @@ const categories = computed(() => {
   return categories
 })
 
-const submission = ref(package_store.submission)
+const submission = ref(packageDetailsStore.submission)
 </script>
 
 <style lang="scss">

@@ -27,6 +27,7 @@ import { useSortStore } from '@/store/sort'
 import { usePagination } from '@/store/pagination'
 import { useAuthorizationStore } from '@/store/authorization'
 import * as helper from '@/plugins/router/helpers'
+import { Technologies } from '@/enum/Technologies'
 
 const DEFAULT_TITLE = i18n.t('common.projectTitle')
 
@@ -62,7 +63,10 @@ router.beforeEach(async (to) => {
 router.beforeResolve(async (to) => {
   switch (to.name) {
     case 'packageDetails':
-      await helper.loadPackageDetails(Number(to.params.id))
+      await helper.loadPackageDetails(
+        Number(to.params.id),
+        to.params.technology as Technologies
+      )
       break
     case 'repositoryDetails':
       await helper.loadRepositoryDetails(

@@ -28,11 +28,9 @@ import { fetchPackagesServices } from '@/services'
 import { defineStore } from 'pinia'
 import {
   EntityModelPackageDto,
-  EntityModelSubmissionDto,
-  ResponseDtoListVignette
+  EntityModelSubmissionDto
 } from '@/openapi'
 import {
-  downloadReferenceManual,
   fetchPackageServices,
   updateRPackage
 } from '@/services/package_services'
@@ -46,7 +44,6 @@ interface State {
   packages: EntityModelPackageDto[]
   package?: EntityModelPackageDto
   submission?: EntityModelSubmissionDto
-  vignettes: ResponseDtoListVignette
   filtration: PackagesFiltration
   chosenPackageId?: number
   next?: boolean
@@ -62,7 +59,6 @@ export const usePackagesStore = defineStore(
         packages: [],
         package: {},
         submission: {},
-        vignettes: {},
         filtration: defaultValues(PackagesFiltration),
         chosenPackageId: undefined,
         next: false
@@ -108,12 +104,12 @@ export const usePackagesStore = defineStore(
         this.packages = packages
         return pageData
       },
-      async fetchPackage(id: number) {
+      async fetchPackage(
+        id: number,
+        technology: Technologies
+      ) {
         this.package = (
-          await fetchPackageServices(
-            id,
-            Technologies.Enum.R
-          )
+          await fetchPackageServices(id, technology)
         )[0]
         if (this.package?.submissionId) {
           this.submission = (
@@ -148,11 +144,7 @@ export const usePackagesStore = defineStore(
           }
         )
       },
-      async downloadManual(id: string) {
-        await downloadReferenceManual(id).then((res) => {
-          console.log(res)
-        })
-      },
+
       async setFiltration(payload: PackagesFiltration) {
         const pagination = usePagination()
         pagination.resetPage()

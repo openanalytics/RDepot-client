@@ -25,8 +25,6 @@ import {
   ApiV2SubmissionControllerApiFactory,
   EntityModelSubmissionDto,
   PythonSubmissionControllerApiFactory,
-  ResponseDtoEntityModelSubmissionDto,
-  ResponseDtoPagedModelEntityModelSubmissionDto,
   RSubmissionControllerApiFactory
 } from '@/openapi'
 import {
@@ -38,9 +36,7 @@ import { createPatch } from 'rfc6902'
 import { useSortStore } from '@/store/sort'
 import { isAuthorized } from '@/plugins/casl'
 import { Technologies } from '@/enum/Technologies'
-import { z } from 'zod'
 import { getConfiguration } from './api_config'
-import { AxiosResponse } from 'axios'
 
 export async function fetchSubmissions(
   filtration: SubmissionsFiltration,
@@ -123,11 +119,11 @@ export async function addSubmission(
 
   if (technology === Technologies.enum.R) {
     submissionApi = RSubmissionControllerApiFactory(
-      getConfiguration()
+      await getConfiguration()
     ).submitRPacakgeForm
   } else if (technology === Technologies.enum.Python) {
     submissionApi = PythonSubmissionControllerApiFactory(
-      getConfiguration()
+      await getConfiguration()
     ).submitPythonPackageForm
   } else {
     return new Promise(() => false)
@@ -138,14 +134,6 @@ export async function addSubmission(
     [repository, file, generateManual, false],
     false
   )
-  // .then(
-  //   (submission) => {
-  //     return ['success', submission[0].data.packageBag?.id]
-  //   },
-  //   (msg) => {
-  //     return msg.response.data.data
-  //   }
-  // )
 }
 
 export function fetchSubmission(

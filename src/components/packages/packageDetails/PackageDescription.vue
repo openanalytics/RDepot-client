@@ -21,19 +21,29 @@
 -->
 
 <template>
-  <PackageDescription />
-  <PackageSubmission />
-  <PackageInstallation />
-  <PackageDownloads />
-  <PackageProperties />
-  <PackageClassifiers />
+  <div class="package_title my-5">
+    {{ packageBag.title }}
+  </div>
+  <MarkdownDescription
+    v-if="packageBag.technology == Technologies.enum.Python"
+    :description="packageBag.description || ''"
+  ></MarkdownDescription>
+  <div v-else class="text my-5">
+    {{ packageBag.description }}
+  </div>
 </template>
 
 <script setup lang="ts">
-import PackageDescription from '@/components/packages/packageDetails/PackageDescription.vue'
-import PackageClassifiers from '@/components/packages/packageDetails/PackageClassifiers.vue'
-import PackageInstallation from '@/components/packages/packageDetails/PackageInstallation.vue'
-import PackageSubmission from '@/components/packages/packageDetails/PackageSubmission.vue'
-import PackageProperties from '@/components/packages/packageDetails/PackageProperties.vue'
-import PackageDownloads from '@/components/packages/packageDetails/PackageDownloads.vue'
+import { EntityModelRPackageDto } from '@/openapi'
+import { computed } from 'vue'
+import { usePackageDetailsStore } from '@/store/package_details'
+import { Technologies } from '@/enum/Technologies'
+import MarkdownDescription from '@/components/common/MarkdownDescription.vue'
+
+const packageDetailsStore = usePackageDetailsStore()
+
+const packageBag = computed<EntityModelRPackageDto>(
+  () =>
+    packageDetailsStore.packageBag as EntityModelRPackageDto
+)
 </script>

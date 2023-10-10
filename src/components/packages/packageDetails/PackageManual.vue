@@ -21,19 +21,24 @@
 -->
 
 <template>
-  <PackageDescription />
-  <PackageSubmission />
-  <PackageInstallation />
-  <PackageDownloads />
-  <PackageProperties />
-  <PackageClassifiers />
+  <div class="document" @click="getManual">
+    {{ $t('packages.referenceManual') }}
+  </div>
 </template>
 
 <script setup lang="ts">
-import PackageDescription from '@/components/packages/packageDetails/PackageDescription.vue'
-import PackageClassifiers from '@/components/packages/packageDetails/PackageClassifiers.vue'
-import PackageInstallation from '@/components/packages/packageDetails/PackageInstallation.vue'
-import PackageSubmission from '@/components/packages/packageDetails/PackageSubmission.vue'
-import PackageProperties from '@/components/packages/packageDetails/PackageProperties.vue'
-import PackageDownloads from '@/components/packages/packageDetails/PackageDownloads.vue'
+import { usePackageDetailsStore } from '@/store/package_details'
+
+const packageDetailsStore = usePackageDetailsStore()
+
+async function getManual() {
+  if (
+    packageDetailsStore.packageBag &&
+    packageDetailsStore.packageBag.id
+  ) {
+    await packageDetailsStore.downloadManual(
+      packageDetailsStore.packageBag.id.toString()
+    )
+  }
+}
 </script>

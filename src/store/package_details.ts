@@ -28,18 +28,26 @@ import { fetchPackagesServices } from '@/services'
 import { defineStore } from 'pinia'
 import {
   EntityModelPackageDto,
+  EntityModelPythonPackageDto,
   EntityModelRPackageDto,
-  EntityModelSubmissionDto
+  EntityModelSubmissionDto,
+  ResponseDtoListVignette
 } from '@/openapi'
-import { fetchPackageServices } from '@/services/package_services'
+import {
+  downloadReferenceManual,
+  fetchPackageServices
+} from '@/services/package_services'
 import { fetchSubmission } from '@/services/submission_services'
 import { Technologies } from '@/enum/Technologies'
 
 interface State {
   packages: EntityModelPackageDto[]
-  package?: EntityModelRPackageDto
+  packageBag?:
+    | EntityModelRPackageDto
+    | EntityModelPythonPackageDto
   submission?: EntityModelSubmissionDto
   next?: boolean
+  vignettes?: ResponseDtoListVignette
 }
 
 export const usePackageDetailsStore = defineStore(
@@ -48,8 +56,9 @@ export const usePackageDetailsStore = defineStore(
     state: (): State => {
       return {
         packages: [],
-        package: {},
+        packageBag: {},
         submission: {},
+        vignettes: {},
         next: false
       }
     },
@@ -64,24 +73,21 @@ export const usePackageDetailsStore = defineStore(
           technology,
           false
         )
-        this.package = packageBag
+        this.packageBag = packageBag
         if (packageBag.submissionId != undefined) {
-          fetchSubmission(packageBag.submissionId)
+          this.submission = (await fetchSubmission(id))[0]
         }
         this.fetchAllPackageVersions()
-      },
-      async fetchSubmission(id: number) {
-        this.submission = (await fetchSubmission(id))[0]
       },
       async fetchAllPackageVersions(
         page = 1,
         pageSize = 10
       ) {
-        if (this.package) {
+        if (this.packageBag) {
           var filtration = defaultValues(PackagesFiltration)
           filtration.repository =
-            this.package.repository?.name
-          filtration.name = this.package.name
+            this.packageBag.repository?.name
+          filtration.name = this.packageBag.name
           const [packages, pageData] =
             await fetchPackagesServices(
               filtration,
@@ -94,6 +100,11 @@ export const usePackageDetailsStore = defineStore(
             this.fetchAllPackageVersions(pageData.page + 1)
           }
         }
+      },
+      async downloadManual(id: string) {
+        await downloadReferenceManual(id).then((res) => {
+          console.log(res)
+        })
       }
     }
   }
