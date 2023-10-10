@@ -40,14 +40,18 @@ router.beforeEach(async (to) => {
 
   if (to.fullPath.startsWith('/auth')) {
     await helper.handleAuthorization()
+    helper.hideSidebar(false)
     return '/packages'
   } else if (to.fullPath.startsWith('/logout')) {
     helper.handleLogout()
+    helper.hideSidebar(true)
     return '/'
   } else if (to.name != 'login') {
     if (!(await authorizationStore.isUserLoggedIn())) {
+      helper.hideSidebar(true)
       return helper.redirectToLoginPage()
     }
+    helper.hideSidebar(false)
     authorizationStore.getUserInfo()
   }
 
