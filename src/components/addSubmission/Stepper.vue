@@ -45,11 +45,8 @@ import StepFirst from './StepFirst.vue'
 import StepSecond from './StepSecond.vue'
 import StepThird from './StepThird.vue'
 import { ref } from 'vue'
-import { onMounted } from 'vue'
-import { useRepositoryStore } from '@/store/repositories'
 import { useSubmissionStore } from '@/store/submission'
 
-const repositoryStore = useRepositoryStore()
 const submissionStore = useSubmissionStore()
 const components = [StepFirst, StepSecond, StepThird]
 
@@ -61,10 +58,6 @@ function changeValue(event: number) {
     submissionStore.$reset()
   }
 }
-
-onMounted(() => {
-  repositoryStore.fetchRepositories()
-})
 </script>
 
 <style scoped lang="scss">

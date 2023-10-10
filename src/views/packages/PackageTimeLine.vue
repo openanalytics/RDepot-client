@@ -26,4 +26,8 @@
 
 <script setup lang="ts">
 import PackageTimeLine from '@/components/packages/PackagesTimeLine.vue'
+import Pagination from '@/components/common/Pagination.vue'
+import ShortPackagesList from '@/components/packages/shortPackages/ShortPackagesList.vue'
+
+const props = defineProps({ name: String })
 </script>

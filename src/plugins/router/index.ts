@@ -29,6 +29,7 @@ import { usePagination } from '@/store/pagination'
 import { useAuthorizationStore } from '@/store/authorization'
 import { useSimpleAuthorization } from '@/composable/auth/simpleAuthorization'
 import { useOICDAuthorization } from '@/composable/auth/oicdAuthorization'
+import { usePackagesStore } from '@/store/packages'
 
 const DEFAULT_TITLE = i18n.t('common.projectTitle')
 
@@ -60,6 +61,33 @@ router.beforeEach(async (to) => {
     ? (to.meta.title as string)
     : DEFAULT_TITLE
 })
+
+router.beforeResolve(async (to) => {
+  switch (to.name) {
+    case 'packageDetails':
+      await loadPackageDetails(Number(to.params.id))
+      break
+    case 'repositoryDetails':
+      await loadRepositoryDetails(String(to.params.name))
+      break
+    default:
+      break
+  }
+  return true
+})
+
+async function loadPackageDetails(id: number) {
+  const packageStore = usePackagesStore()
+  return packageStore.fetchPackage(id)
+}
+
+async function loadRepositoryDetails(name: string) {
+  const packageStore = usePackagesStore()
+  return packageStore.fetchPackages({
+    repository: name,
+    deleted: false
+  })
+}
 
 async function redirectToLoginPage() {
   const { isSimpleAuthAvailable } = useSimpleAuthorization()

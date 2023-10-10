@@ -21,6 +21,9 @@
 -->
 
 <template>
+  <div style="padding-top: 200px">
+    {{ technology }}
+  </div>
   <div v-show="!loading">
     <component
       :is="
@@ -70,24 +73,6 @@ const loading = ref(true)
 function isLoaded() {
   loading.value = false
 }
-
-// function goToDetailsPage({ id }: EntityModelPackageDto) {
-//   router.push({
-//     name: 'packageDetails',
-//     params: {
-//       id: id
-//     }
-//   })
-// }
-
-onBeforeMount(() => {
-  if (props.id) {
-    packageDetailsStore.fetchPackage(
-      props.id,
-      props.technology
-    )
-  }
-})
 </script>
 
 <style scoped lang="scss">

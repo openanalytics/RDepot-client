@@ -35,7 +35,6 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeMount } from 'vue'
 import ShortPackageRow from '@/components/packages/shortPackages/ShortPackageRow.vue'
 import ResourcesList from '@/components/common/resources/ResourcesList.vue'
 import { usePackagesStore } from '@/store/packages'
@@ -57,8 +56,4 @@ function updateData(): void {
     deleted: false
   })
 }
-
-onBeforeMount(() => {
-  updateData()
-})
 </script>

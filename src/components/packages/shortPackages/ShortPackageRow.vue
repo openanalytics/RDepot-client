@@ -118,7 +118,7 @@ function navigate() {
     router.push({
       name: 'packageDetails',
       params: {
-        name: props.packageBag.id
+        id: props.packageBag.id
       }
     })
   }
