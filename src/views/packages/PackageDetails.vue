@@ -84,8 +84,6 @@ function goToDetailsPage({ id }: EntityModelPackageDto) {
 onBeforeMount(() => {
   if (props.package) {
     package_store.package = props.package
-  } else {
-    package_store.fetchPackage(Number(route.params.id))
   }
 })
 </script>

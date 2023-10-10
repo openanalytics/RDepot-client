@@ -33,21 +33,8 @@
 <script setup lang="ts">
 import Pagination from '@/components/common/Pagination.vue'
 import ShortPackagesList from '@/components/packages/shortPackages/ShortPackagesList.vue'
-import { usePackagesStore } from '@/store/packages'
-import { onBeforeMount } from 'vue'
 
 const props = defineProps({ name: String })
-
-const packageStore = usePackagesStore()
-
-onBeforeMount(() => {
-  if (props.name) {
-    packageStore.fetchPackages({
-      repository: props.name,
-      deleted: false
-    })
-  }
-})
 </script>
 
 <style>
