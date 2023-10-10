@@ -48,6 +48,7 @@ router.beforeEach(async (to) => {
     if (!(await authorizationStore.isUserLoggedIn())) {
       return helper.redirectToLoginPage()
     }
+    authorizationStore.getUserInfo()
   }
 
   const pagination = usePagination()

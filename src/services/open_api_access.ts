@@ -87,6 +87,8 @@ function errorsHandler(error: AxiosError) {
         type: 'error',
         text: i18n.t('errors.401')
       })
+      const authorizationStore = useAuthorizationStore()
+      authorizationStore.logout()
       break
     }
     case 403: {
