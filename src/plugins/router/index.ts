@@ -63,23 +63,31 @@ router.beforeEach(async (to) => {
 })
 
 router.beforeResolve(async (to) => {
-  if (
-    to.params.constructor === Object &&
-    Object.keys(to.params).length > 0
-  ) {
-    if (to.params.id) {
-      const package_store = usePackagesStore()
-      await package_store.fetchPackage(Number(to.params.id))
-    } else if (to.params.name) {
-      const packageStore = usePackagesStore()
-      await packageStore.fetchPackages({
-        repository: to.params.name,
-        deleted: false
-      })
-    }
+  switch (to.name) {
+    case 'packageDetails':
+      await loadPackageDetails(Number(to.params.id))
+      break
+    case 'repositoryDetails':
+      await loadRepositoryDetails(String(to.params.name))
+      break
+    default:
+      break
   }
   return true
 })
+
+async function loadPackageDetails(id: number) {
+  const packageStore = usePackagesStore()
+  return packageStore.fetchPackage(id)
+}
+
+async function loadRepositoryDetails(name: string) {
+  const packageStore = usePackagesStore()
+  return packageStore.fetchPackages({
+    repository: name,
+    deleted: false
+  })
+}
 
 async function redirectToLoginPage() {
   const { isSimpleAuthAvailable } = useSimpleAuthorization()
