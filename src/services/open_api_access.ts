@@ -32,17 +32,24 @@ import { useAuthorizationStore } from '@/store/authorization'
 export async function openApiRequest<T>(
   callback: Function,
   parameters?: any[],
-  showProgress = true
+  showProgress = true,
+  blob = false
 ): Promise<validatedData<T>> {
   if (showProgress) {
     turnOnProgress()
   }
-  console.log(parameters)
   if (parameters) {
-    return callback(...parameters, await getHeaders()).then(
-      resolved,
-      rejected
-    )
+    if (blob) {
+      return callback(
+        ...parameters,
+        await getHeaders(blob)
+      ).then(resolvedBlob, rejected)
+    } else {
+      return callback(
+        ...parameters,
+        await getHeaders()
+      ).then(resolved, rejected)
+    }
   } else {
     return callback(await getHeaders()).then(
       resolved,
@@ -54,6 +61,23 @@ export async function openApiRequest<T>(
 function turnOnProgress() {
   const commonStore = useCommonStore()
   commonStore.setProgressCircularActive(true)
+}
+
+async function resolvedBlob(
+  result: AxiosResponse<Blob>
+): Promise<validatedData<any>> {
+  const fileName = genFileName(result.config.url)
+  const url = window.URL.createObjectURL(
+    new Blob([result.data])
+  )
+  const link = document.createElement('a')
+  link.href = url
+  link.setAttribute('download', `${fileName}.pdf`)
+  document.body.appendChild(link)
+  link.click()
+  const common_store = useCommonStore()
+  common_store.setProgressCircularActive(false)
+  return validateRequest([])
 }
 
 async function resolved(
@@ -70,6 +94,26 @@ async function resolved(
     result.data.data?.page,
     result.data.data?.links
   )
+}
+
+function genFileName(url?: string) {
+  let fileName = ''
+  url?.split('/').forEach((p) => {
+    switch (p) {
+      case 'manual':
+        fileName += p
+        break
+      case 'r':
+        fileName += 'R'
+        break
+      case 'python':
+        fileName += 'Python'
+        break
+      default:
+        break
+    }
+  })
+  return fileName
 }
 
 function rejected(result: AxiosError) {
