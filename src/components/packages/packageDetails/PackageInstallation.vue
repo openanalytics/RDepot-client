@@ -32,7 +32,7 @@
     }}
   </div>
 
-  <div class="code my-2">
+  <div class="code mb-2 mt-4 mr-2 ml-1">
     <code class="d-flex justify-lg-space-between pt-7">
       {{
         $t('packages.download-code', [

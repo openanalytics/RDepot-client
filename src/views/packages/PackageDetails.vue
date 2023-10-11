@@ -21,12 +21,25 @@
 -->
 
 <template>
-  <PackageDescription />
-  <PackageSubmission />
-  <PackageInstallation />
-  <PackageDownloads />
-  <PackageProperties />
-  <PackageClassifiers />
+  <PackageTitle />
+  <div class="d-flex">
+    <v-card
+      class="pl-10 pr-5"
+      variant="flat"
+      color="background"
+    >
+      <PackageSubmission />
+      <PackageVersions />
+      <PackageClassifiers />
+    </v-card>
+    <v-card color="background" variant="flat" class="mr-10">
+      <PackageDescription />
+      <PackageInstallation />
+      <PackageDownloads />
+      <PackageManual />
+      <PackageProperties />
+    </v-card>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -36,4 +49,7 @@ import PackageInstallation from '@/components/packages/packageDetails/PackageIns
 import PackageSubmission from '@/components/packages/packageDetails/PackageSubmission.vue'
 import PackageProperties from '@/components/packages/packageDetails/PackageProperties.vue'
 import PackageDownloads from '@/components/packages/packageDetails/PackageDownloads.vue'
+import PackageVersions from '@/components/packages/packageDetails/PackageVersions.vue'
+import PackageTitle from '@/components/packages/packageDetails/PackageTitle.vue'
+import PackageManual from '@/components/packages/packageDetails/PackageManual.vue'
 </script>

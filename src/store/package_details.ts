@@ -80,11 +80,13 @@ export const usePackageDetailsStore = defineStore(
         this.fetchAllPackageVersions()
       },
       async fetchAllPackageVersions(
-        page = 1,
+        page = 0,
         pageSize = 10
       ) {
         if (this.packageBag) {
-          var filtration = defaultValues(PackagesFiltration)
+          const filtration = defaultValues(
+            PackagesFiltration
+          )
           filtration.repository =
             this.packageBag.repository?.name
           filtration.name = this.packageBag.name
@@ -96,7 +98,7 @@ export const usePackageDetailsStore = defineStore(
               false
             )
           this.packages = [...this.packages, ...packages]
-          if (pageData.page < pageData.totalNumber) {
+          if (this.packages.length < pageData.totalNumber) {
             this.fetchAllPackageVersions(pageData.page + 1)
           }
         }

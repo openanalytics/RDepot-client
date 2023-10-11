@@ -21,12 +21,22 @@
 -->
 
 <template>
-  <div class="document" @click="getManual">
-    {{ $t('packages.referenceManual') }}
+  <div
+    class="document"
+    @click="getManual"
+    v-if="
+      packageDetailsStore.packageBag?.technology ==
+      Technologies.enum.R
+    "
+  >
+    <v-btn class="my-3" width="250">
+      {{ $t('packages.referenceManual') }}
+    </v-btn>
   </div>
 </template>
 
 <script setup lang="ts">
+import { Technologies } from '@/enum/Technologies'
 import { usePackageDetailsStore } from '@/store/package_details'
 
 const packageDetailsStore = usePackageDetailsStore()

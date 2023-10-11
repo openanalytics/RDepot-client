@@ -21,50 +21,23 @@
 -->
 
 <template>
-  <div class="subtitle my-5">
-    {{ $t('packages.downloads') }}
-  </div>
-  <div class="d-flex" style="flex-direction: column">
-    <div class="d-flex align-center">
-      <div class="col_title">
-        {{ $t('packages.sourceFile') }}
-      </div>
-      <a
-        :href="
-          '/manager/packages/' +
-          packageBag.id +
-          '/download/' +
-          packageBag.name +
-          '_' +
-          packageBag.version +
-          '.tar.gz'
-        "
-        class="col_desc document"
-      >
-        {{ packageBag.name }}_{{
-          packageBag.version
-        }}.tar.gz
-      </a>
-    </div>
-  </div>
-  <div class="subtitle my-5">
-    {{ $t('packages.details') }}
-  </div>
   <div class="d-flex" style="flex-direction: column">
     <template v-for="{ translation, value } in details">
-      <Property :title="$t(translation)" :value="value" />
+      <Property
+        :title="$t(translation)"
+        :value="value || 'not provided'"
+      />
     </template>
   </div>
 </template>
 
 <script setup lang="ts">
 import { EntityModelPythonPackageDto } from '@/openapi'
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import { usePackageDetailsStore } from '@/store/package_details'
 import Property from '@/components/packages/packageDetails/Property.vue'
 
 const packageDetailsStore = usePackageDetailsStore()
-
 const packageBag = computed(
   () =>
     packageDetailsStore.packageBag as EntityModelPythonPackageDto
@@ -100,41 +73,10 @@ const details = [
     value: packageBag.value.requiresPython
   },
   {
-    translation: 'packages.url',
-    value: packageBag.value.url
-  },
-  {
     translation: 'packages.license',
     value: packageBag.value.license
   }
 ]
-
-const categories = computed(() => {
-  let classifiers: string =
-    packageBag.value.classifiers || ''
-  let categories: Record<string, Array<string>> = {}
-  classifiers
-    ?.split(',')
-    .forEach((classifierAndVal: string) => {
-      let splitIndex = classifierAndVal.indexOf('::')
-      let classifier = classifierAndVal.substring(
-        0,
-        splitIndex
-      )
-      let value = classifierAndVal.substring(
-        splitIndex + 2,
-        classifierAndVal.length
-      )
-      if (categories[classifier]) {
-        categories[classifier].push(value)
-      } else {
-        categories[classifier] = [value]
-      }
-    })
-  return categories
-})
-
-const submission = ref(packageDetailsStore.submission)
 </script>
 
 <style lang="scss">

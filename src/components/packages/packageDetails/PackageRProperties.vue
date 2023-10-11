@@ -22,7 +22,10 @@
 
 <template>
   <template v-for="{ translation, value } in details">
-    <Property :title="$t(translation)" :value="value" />
+    <Property
+      :title="$t(translation)"
+      :value="value || 'not provided'"
+    />
   </template>
 </template>
 
@@ -40,6 +43,10 @@ const packageBag = computed<EntityModelRPackageDto>(
 )
 
 const details = [
+  {
+    translation: 'packages.version',
+    value: packageBag.value.version
+  },
   {
     translation: 'packages.systemRequirements',
     value: packageBag.value.systemRequirements

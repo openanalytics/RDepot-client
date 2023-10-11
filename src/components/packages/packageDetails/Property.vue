@@ -21,45 +21,56 @@
 -->
 
 <template>
-  <div v-if="value" class="d-flex">
-    <div class="col_title">
+  <div v-if="value" class="pt-2">
+    <div class="title">
       {{ title }}
     </div>
-    <div class="col_desc">
-      {{ value }}
+    <div class="value">
+      {{ text }}
     </div>
+    <v-divider :thickness="boldDivider ? 5 : 3"></v-divider>
   </div>
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
-  title: String,
-  value: String
+import { computed } from 'vue'
+
+const props = defineProps<{
+  title: string
+  value?: string
+  split?: boolean
+  boldDivider?: boolean
+}>()
+
+const text = computed(() => {
+  if (props.split) {
+    return splitValue()
+  }
+  return props.value
 })
+
+function splitValue() {
+  const RE_GET_EXTENSION = '/,(?!\d+\])/' // /(?:\.([^.]+))?$/
+
+  return props.value?.replaceAll(RE_GET_EXTENSION, '+')
+}
 </script>
 
 <style lang="scss">
-$text_color: rgba(var(--v-theme-about-package));
+$text_color: rgba(var(--v-theme-oablue-darken-2));
+$text_color_2: rgba(var(--v-theme-oablue));
 $background_color: rgba(var(--v-theme-about-background));
 
-.col_title {
-  color: $text_color;
-  width: 130px;
-  background-color: $background_color;
-  margin-right: 1rem;
-  font-weight: 500;
-  padding: 3px;
-  border-radius: 4px;
-  margin: 1px;
-  transition: all 0.2s ease;
-  &:hover {
-    transform: scale(1.01);
-  }
+.title {
+  color: $text_color_2;
+  font-weight: 600;
+  font-size: larger;
+}
+.value {
+  padding-bottom: 20px;
 }
 
-.col_desc {
-  padding: 3px;
-  margin: 1px;
-  color: $text_color;
+hr_style {
+  border-top: $text_color_2 solid 1px !important;
 }
 </style>

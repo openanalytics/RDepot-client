@@ -22,17 +22,17 @@
 
 <template>
   <template v-if="packageBag.classifiers">
-    <div class="subtitle my-5">
+    <h2 class="my-5">
       {{ $t('packages.classifiers') }}
-    </div>
-    <div class="d-flex" style="flex-direction: column">
+    </h2>
+    <div class="d-flex pb-5" style="flex-direction: column">
       <ul>
-        <li
+        <div
           class="classifier-key"
           v-for="key in Object.keys(categories)"
         >
-          <strong>{{ key }}</strong>
-          <ul>
+          <div class="title">{{ key }}</div>
+          <ul class="py-2">
             <li
               class="classifier-value"
               v-for="value in categories[key]"
@@ -40,7 +40,11 @@
               {{ value }}
             </li>
           </ul>
-        </li>
+          <v-divider
+            :thickness="3"
+            class="py-2"
+          ></v-divider>
+        </div>
       </ul>
     </div>
   </template>

@@ -21,209 +21,30 @@
 -->
 
 <template>
-  <div class="my-5 mx-1 mb-10">
-    <div class="package_title my-5">
-      {{
-        packageBag.title ||
-        packageBag.summary ||
-        packageBag.name
-      }}
-    </div>
-    <MarkdownDescription
-      :description="packageBag.description || ''"
-    ></MarkdownDescription>
-    <div class="text my-3">
-      {{ $t('packages.originalPythonPackageData') }}:
-    </div>
-    <div class="d-flex" style="flex-direction: column">
-      <div class="d-flex">
-        <div class="col_title col_small">
-          {{ $t('packages.authors') }}:
-        </div>
-        <div class="col_desc">{{ packageBag.author }}</div>
-      </div>
-      <div class="d-flex">
-        <div class="col_title col_small">
-          {{ $t('packages.emailAuthors') }}:
-        </div>
-        <div class="col_desc">
-          {{ packageBag.authorEmail }}
-        </div>
-      </div>
-    </div>
-
-    <div class="text my-3">
-      {{ $t('packages.withinRdepot') }}:
-    </div>
-    <div class="d-flex" style="flex-direction: column">
-      <div class="d-flex">
-        <div class="col_title col_small">
-          {{ $t('packages.submitter') }}:
-        </div>
-        <div class="col_desc">
-          {{ submission?.submitter?.name }}
-        </div>
-      </div>
-
-      <div class="d-flex">
-        <div class="col_title col_small">
-          {{ $t('packages.approver') }}:
-        </div>
-        <div class="col_desc">
-          {{ submission?.approver?.name }}
-        </div>
-      </div>
-
-      <div class="d-flex">
-        <div class="col_title col_small">
-          {{ $t('packages.maintainer') }}:
-        </div>
-        <div class="col_desc">
-          {{ packageBag.user?.name }}
-        </div>
-      </div>
-    </div>
-    <div class="subtitle my-5">
-      {{ $t('packages.downloads') }}
-    </div>
-    <div class="d-flex" style="flex-direction: column">
-      <div class="d-flex align-center">
-        <div class="col_title">
-          {{ $t('packages.sourceFile') }}
-        </div>
-        <a
-          :href="
-            '/manager/packages/' +
-            packageBag.id +
-            '/download/' +
-            packageBag.name +
-            '_' +
-            packageBag.version +
-            '.tar.gz'
-          "
-          class="col_desc document"
+  <div class="my-5 mx-1 mb-10" style="min-width: 200px">
+    <h2 class="d-flex justify-center" style="width: 100%">
+      package versions
+    </h2>
+    <div
+      v-for="packageBag in packageDetailsStore.packages"
+      :key="packageBag.id"
+      class="my-5"
+    >
+      <v-card style="width: 100%" @click="() => {}">
+        <v-card-text
+          class="d-flex align-center justify-center"
         >
-          {{ packageBag.name }}_{{
-            packageBag.version
-          }}.tar.gz
-        </a>
-      </div>
+          {{ packageBag.version }}
+        </v-card-text>
+      </v-card>
     </div>
-    <div class="subtitle my-5">
-      {{ $t('packages.details') }}
-    </div>
-    <div class="d-flex" style="flex-direction: column">
-      <template v-for="{ translation, value } in details">
-        <div v-if="value" class="d-flex">
-          <div class="col_title">
-            {{ $t(translation) }}
-          </div>
-          <div class="col_desc">
-            {{ value }}
-          </div>
-        </div>
-      </template>
-    </div>
-    <template v-if="packageBag.classifiers">
-      <div class="subtitle my-5">
-        {{ $t('packages.classifiers') }}
-      </div>
-      <div class="d-flex" style="flex-direction: column">
-        <ul>
-          <li
-            class="classifier-key"
-            v-for="key in Object.keys(categories)"
-          >
-            <strong>{{ key }}</strong>
-            <ul>
-              <li
-                class="classifier-value"
-                v-for="value in categories[key]"
-              >
-                {{ value }}
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-    </template>
   </div>
 </template>
 
 <script setup lang="ts">
-import { EntityModelPythonPackageDto } from '@/openapi'
-import { computed, ref } from 'vue'
-import MarkdownDescription from '@/components/common/MarkdownDescription.vue'
 import { usePackageDetailsStore } from '@/store/package_details'
 
 const packageDetailsStore = usePackageDetailsStore()
-
-const packageBag = computed(
-  () =>
-    packageDetailsStore.packageBag as EntityModelPythonPackageDto
-)
-
-const details = [
-  {
-    translation: 'packages.version',
-    value: packageBag.value.version
-  },
-  {
-    translation: 'packages.platform',
-    value: packageBag.value.platform
-  },
-  {
-    translation: 'packages.projectUrl',
-    value: packageBag.value.projectUrl
-  },
-  {
-    translation: 'packages.providesExtra',
-    value: packageBag.value.providesExtra
-  },
-  {
-    translation: 'packages.requiresDist',
-    value: packageBag.value.requiresDist
-  },
-  {
-    translation: 'packages.requiresExternal',
-    value: packageBag.value.requiresExternal
-  },
-  {
-    translation: 'packages.requiresPython',
-    value: packageBag.value.requiresPython
-  },
-  {
-    translation: 'packages.url',
-    value: packageBag.value.url
-  }
-]
-
-const categories = computed(() => {
-  let classifiers: string =
-    packageBag.value.classifiers || ''
-  let categories: Record<string, Array<string>> = {}
-  classifiers
-    ?.split(',')
-    .forEach((classifierAndVal: string) => {
-      let splitIndex = classifierAndVal.indexOf('::')
-      let classifier = classifierAndVal.substring(
-        0,
-        splitIndex
-      )
-      let value = classifierAndVal.substring(
-        splitIndex + 2,
-        classifierAndVal.length
-      )
-      if (categories[classifier]) {
-        categories[classifier].push(value)
-      } else {
-        categories[classifier] = [value]
-      }
-    })
-  return categories
-})
-
-const submission = ref(packageDetailsStore.submission)
 </script>
 
 <style lang="scss">

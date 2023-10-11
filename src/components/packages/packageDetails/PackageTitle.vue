@@ -21,37 +21,27 @@
 -->
 
 <template>
-  <h2 class="mt-5">{{ $t('packages.downloads') }}</h2>
-  <v-btn class="my-3" width="250">
-    Download Source File
-  </v-btn>
-  <!-- <a
-        :href="
-          '/manager/packages/' +
-          packageBag.id +
-          '/download/' +
-          packageBag.name +
-          '_' +
-          packageBag.version +
-          '.tar.gz'
-        "
-        class="col_desc document"
-      >
-        {{ packageBag.name }}_{{
-          packageBag.version
-        }}.tar.gz
-      </a> -->
+  <h2 class="my-5">
+    {{ packageBag.name }}
+  </h2>
+  <h3 color="text">{{ packageBag.title }}</h3>
 </template>
 
 <script setup lang="ts">
+import { EntityModelRPackageDto } from '@/openapi'
 import { computed } from 'vue'
-import { EntityModelPythonPackageDto } from '@/openapi'
 import { usePackageDetailsStore } from '@/store/package_details'
 
 const packageDetailsStore = usePackageDetailsStore()
 
-const packageBag = computed(
+const packageBag = computed<EntityModelRPackageDto>(
   () =>
-    packageDetailsStore.packageBag as EntityModelPythonPackageDto
+    packageDetailsStore.packageBag as EntityModelRPackageDto
 )
 </script>
+
+<style lang="scss">
+h3 {
+  color: rgba(var(--v-theme-about-package));
+}
+</style>

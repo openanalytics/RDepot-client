@@ -21,20 +21,15 @@
 -->
 
 <template>
-  <div class="text my-3">
-    {{
-      $t('packages.originalPackageData', [
-        packageBag.technology
-      ])
-    }}:
-  </div>
   <div class="d-flex" style="flex-direction: column">
     <Property
       :title="$t('packages.authors')"
       :value="packageBag.author"
+      split
+      bold-divider
     />
   </div>
-  <div class="text my-3">
+  <div class="text mt-3">
     {{ $t('packages.withinRdepot') }}:
   </div>
   <div class="d-flex" style="flex-direction: column">
