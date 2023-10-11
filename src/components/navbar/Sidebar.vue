@@ -25,6 +25,7 @@
     v-model="drawer"
     :location="xs ? 'start' : 'left'"
     :touchless="mobile ? false : true"
+    v-if="showSidebar"
   >
     <v-list nav open-strategy="single">
       <v-list-item
@@ -172,6 +173,10 @@ const submissionsStore = useSubmissionStore()
 const commonStore = useCommonStore()
 const getUserLogin = computed(() => {
   return authorizationStore.me.name
+})
+
+const showSidebar = computed(() => {
+  return authorizationStore.sidebar
 })
 
 const getSubtitle = computed(() => {
