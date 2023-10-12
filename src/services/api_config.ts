@@ -37,11 +37,21 @@ export async function getConfiguration() {
   return configuration
 }
 
-export async function getHeaders() {
+export async function getHeaders(withBlob = false) {
   const axiosRequestConfig: AxiosRequestConfig = {
     headers: {
       Authorization: 'Bearer ' + (await getToken())
     }
+  }
+  if (withBlob) {
+    axiosRequestConfig.responseType = 'blob'
+  }
+  return axiosRequestConfig
+}
+
+export async function getBlob() {
+  const axiosRequestConfig: AxiosRequestConfig = {
+    responseType: 'blob'
   }
   return axiosRequestConfig
 }
