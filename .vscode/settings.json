@@ -36,6 +36,7 @@
   "i18n-ally.usage.scanningIgnore": ["*.spec.ts"],
   "cSpell.words": [
     "browserslistrc",
+    "dompurify",
     "Newsfeed",
     "oablue",
     "OICD",

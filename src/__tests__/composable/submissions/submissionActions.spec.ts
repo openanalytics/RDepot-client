@@ -57,7 +57,7 @@ describe('submissionActions', () => {
       submissionsStore,
       'updateSubmission'
     )
-    let submission = {
+    const submission = {
       state: 'WAITING'
     } as EntityModelSubmissionDto
     await rejectSubmission(submission)
@@ -70,7 +70,7 @@ describe('submissionActions', () => {
       submissionsStore,
       'updateSubmission'
     )
-    let submission = {
+    const submission = {
       state: 'WAITING'
     } as EntityModelSubmissionDto
     await acceptSubmission(submission)
@@ -83,7 +83,7 @@ describe('submissionActions', () => {
       submissionsStore,
       'updateSubmission'
     )
-    let submission = {
+    const submission = {
       state: 'WAITING'
     } as EntityModelSubmissionDto
     await cancelSubmission(submission)

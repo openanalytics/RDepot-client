@@ -21,24 +21,13 @@
 -->
 
 <template>
-  <div>
-    <div class="repositoryname mt-10 ml-5">
-      {{ props.name }}
-    </div>
-    <ShortPackagesList class="mt-10"></ShortPackagesList>
-    <Pagination />
-  </div>
+  <PackageTimeLine />
 </template>
 
 <script setup lang="ts">
+import PackageTimeLine from '@/components/packages/PackagesTimeLine.vue'
 import Pagination from '@/components/common/Pagination.vue'
 import ShortPackagesList from '@/components/packages/shortPackages/ShortPackagesList.vue'
 
 const props = defineProps({ name: String })
 </script>
-
-<style>
-.repositoryname {
-  font-size: 1.5em;
-}
-</style>

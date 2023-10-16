@@ -25,10 +25,15 @@ import { useSimpleAuthorization } from '@/composable/auth/simpleAuthorization'
 import { useOICDAuthorization } from '@/composable/auth/oicdAuthorization'
 import { usePackagesStore } from '@/store/packages'
 import { useAuthorizationStore } from '@/store/authorization'
+import { Technologies } from '@/enum/Technologies'
+import { usePackageDetailsStore } from '@/store/package_details'
 
-export async function loadPackageDetails(id: number) {
-  const packageStore = usePackagesStore()
-  return packageStore.fetchPackage(id)
+export async function loadPackageDetails(
+  id: number,
+  technology: Technologies
+) {
+  const packageDetailsStore = usePackageDetailsStore()
+  return packageDetailsStore.fetchPackage(id, technology)
 }
 
 export async function loadRepositoryDetails(name: string) {

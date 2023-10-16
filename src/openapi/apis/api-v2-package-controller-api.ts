@@ -20,6 +20,7 @@
  *
  */
 
+/* tslint:disable */
 /* eslint-disable */
 /**
  * RDEPOT API
@@ -62,6 +63,7 @@ export const ApiV2PackageControllerApiAxiosParamCreator =
        * @param {boolean} [deleted]
        * @param {string} [submissionState]
        * @param {Array<string>} [technology]
+       * @param {string} [name]
        * @param {number} [page] Zero-based page index (0..N)
        * @param {number} [size] The size of the page to be returned
        * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
@@ -73,6 +75,7 @@ export const ApiV2PackageControllerApiAxiosParamCreator =
         deleted?: boolean,
         submissionState?: string,
         technology?: Array<string>,
+        name?: string,
         page?: number,
         size?: number,
         sort?: Array<string>,
@@ -123,6 +126,10 @@ export const ApiV2PackageControllerApiAxiosParamCreator =
 
         if (technology) {
           localVarQueryParameter['technology'] = technology
+        }
+
+        if (name !== undefined) {
+          localVarQueryParameter['name'] = name
         }
 
         if (page !== undefined) {
@@ -264,6 +271,7 @@ export const ApiV2PackageControllerApiFp = function (
      * @param {boolean} [deleted]
      * @param {string} [submissionState]
      * @param {Array<string>} [technology]
+     * @param {string} [name]
      * @param {number} [page] Zero-based page index (0..N)
      * @param {number} [size] The size of the page to be returned
      * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
@@ -275,6 +283,7 @@ export const ApiV2PackageControllerApiFp = function (
       deleted?: boolean,
       submissionState?: string,
       technology?: Array<string>,
+      name?: string,
       page?: number,
       size?: number,
       sort?: Array<string>,
@@ -295,6 +304,7 @@ export const ApiV2PackageControllerApiFp = function (
           deleted,
           submissionState,
           technology,
+          name,
           page,
           size,
           sort,
@@ -362,6 +372,7 @@ export const ApiV2PackageControllerApiFactory = function (
      * @param {boolean} [deleted]
      * @param {string} [submissionState]
      * @param {Array<string>} [technology]
+     * @param {string} [name]
      * @param {number} [page] Zero-based page index (0..N)
      * @param {number} [size] The size of the page to be returned
      * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
@@ -373,6 +384,7 @@ export const ApiV2PackageControllerApiFactory = function (
       deleted?: boolean,
       submissionState?: string,
       technology?: Array<string>,
+      name?: string,
       page?: number,
       size?: number,
       sort?: Array<string>,
@@ -386,6 +398,7 @@ export const ApiV2PackageControllerApiFactory = function (
           deleted,
           submissionState,
           technology,
+          name,
           page,
           size,
           sort,
@@ -425,6 +438,7 @@ export class ApiV2PackageControllerApi extends BaseAPI {
    * @param {boolean} [deleted]
    * @param {string} [submissionState]
    * @param {Array<string>} [technology]
+   * @param {string} [name]
    * @param {number} [page] Zero-based page index (0..N)
    * @param {number} [size] The size of the page to be returned
    * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
@@ -437,6 +451,7 @@ export class ApiV2PackageControllerApi extends BaseAPI {
     deleted?: boolean,
     submissionState?: string,
     technology?: Array<string>,
+    name?: string,
     page?: number,
     size?: number,
     sort?: Array<string>,
@@ -450,6 +465,7 @@ export class ApiV2PackageControllerApi extends BaseAPI {
         deleted,
         submissionState,
         technology,
+        name,
         page,
         size,
         sort,

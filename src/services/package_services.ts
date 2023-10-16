@@ -20,6 +20,7 @@
  *
  */
 
+import { Technologies } from '@/enum/Technologies'
 import { PackagesFiltration } from '@/models/Filtration'
 import {
   ApiV2PackageControllerApiFactory,
@@ -55,6 +56,7 @@ export async function fetchPackagesServices(
       filtration?.deleted,
       filtration?.state,
       filtration?.technologies,
+      filtration?.name,
       page,
       pageSize,
       sort.getSortBy()
@@ -63,21 +65,36 @@ export async function fetchPackagesServices(
   )
 }
 
+// export function fetchPackageServices(
+//   id: number,
+//   showProgress = false
+// ): Promise<validatedData<EntityModelPackageDto>> {
+//   if (!isAuthorized('GET', 'packages')) {
+//     return new Promise(() => {})
+//   }
+//   return openApiRequest<EntityModelPackageDto>(
+//     ApiV2PackageControllerApiFactory().getPackageById,
+//     [id],
+//     showProgress
+//   )
+// }
+
 export function fetchPackageServices(
   id: number,
+  technology: Technologies,
   showProgress = false
-): Promise<validatedData<EntityModelPackageDto>> {
-  if (!isAuthorized('GET', 'packages')) {
-    return new Promise(() => {})
+) {
+  switch (technology) {
+    case Technologies.Enum.Python: {
+      return fetchPythonPackageServices(id, showProgress)
+    }
+    case Technologies.Enum.R: {
+      return fetchRPackageServices(id, showProgress)
+    }
   }
-  return openApiRequest<EntityModelPackageDto>(
-    ApiV2PackageControllerApiFactory().getPackageById,
-    [id],
-    showProgress
-  )
 }
 
-export function fetchRPackageServices(
+function fetchRPackageServices(
   id: number,
   showProgress = false
 ): Promise<validatedData<EntityModelRPackageDto>> {
@@ -91,7 +108,7 @@ export function fetchRPackageServices(
   )
 }
 
-export function fetchPythonPackageServices(
+function fetchPythonPackageServices(
   id: number,
   showProgress = false
 ): Promise<validatedData<EntityModelPythonPackageDto>> {

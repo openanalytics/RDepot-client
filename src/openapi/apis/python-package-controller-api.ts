@@ -20,6 +20,7 @@
  *
  */
 
+/* tslint:disable */
 /* eslint-disable */
 /**
  * RDEPOT API
@@ -222,6 +223,7 @@ export const PythonPackageControllerApiAxiosParamCreator =
        * @param {string} [repositoryName]
        * @param {boolean} [deleted]
        * @param {string} [submissionState]
+       * @param {string} [name]
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
@@ -229,6 +231,7 @@ export const PythonPackageControllerApiAxiosParamCreator =
         repositoryName?: string,
         deleted?: boolean,
         submissionState?: string,
+        name?: string,
         options: AxiosRequestConfig = {}
       ): Promise<RequestArgs> => {
         const localVarPath = `/api/v2/manager/python/packages`
@@ -272,6 +275,10 @@ export const PythonPackageControllerApiAxiosParamCreator =
         if (submissionState !== undefined) {
           localVarQueryParameter['submissionState'] =
             submissionState
+        }
+
+        if (name !== undefined) {
+          localVarQueryParameter['name'] = name
         }
 
         const query = new URLSearchParams(
@@ -490,6 +497,7 @@ export const PythonPackageControllerApiFp = function (
      * @param {string} [repositoryName]
      * @param {boolean} [deleted]
      * @param {string} [submissionState]
+     * @param {string} [name]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -497,6 +505,7 @@ export const PythonPackageControllerApiFp = function (
       repositoryName?: string,
       deleted?: boolean,
       submissionState?: string,
+      name?: string,
       options?: AxiosRequestConfig
     ): Promise<
       (
@@ -511,6 +520,7 @@ export const PythonPackageControllerApiFp = function (
           repositoryName,
           deleted,
           submissionState,
+          name,
           options
         )
       return (
@@ -604,6 +614,7 @@ export const PythonPackageControllerApiFactory = function (
      * @param {string} [repositoryName]
      * @param {boolean} [deleted]
      * @param {string} [submissionState]
+     * @param {string} [name]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -611,6 +622,7 @@ export const PythonPackageControllerApiFactory = function (
       repositoryName?: string,
       deleted?: boolean,
       submissionState?: string,
+      name?: string,
       options?: AxiosRequestConfig
     ): Promise<AxiosResponse<ResponseDtoObject>> {
       return PythonPackageControllerApiFp(configuration)
@@ -618,6 +630,7 @@ export const PythonPackageControllerApiFactory = function (
           repositoryName,
           deleted,
           submissionState,
+          name,
           options
         )
         .then((request) => request(axios, basePath))
@@ -685,6 +698,7 @@ export class PythonPackageControllerApi extends BaseAPI {
    * @param {string} [repositoryName]
    * @param {boolean} [deleted]
    * @param {string} [submissionState]
+   * @param {string} [name]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof PythonPackageControllerApi
@@ -693,6 +707,7 @@ export class PythonPackageControllerApi extends BaseAPI {
     repositoryName?: string,
     deleted?: boolean,
     submissionState?: string,
+    name?: string,
     options?: AxiosRequestConfig
   ): Promise<AxiosResponse<ResponseDtoObject>> {
     return PythonPackageControllerApiFp(this.configuration)
@@ -700,6 +715,7 @@ export class PythonPackageControllerApi extends BaseAPI {
         repositoryName,
         deleted,
         submissionState,
+        name,
         options
       )
       .then((request) => request(this.axios, this.basePath))

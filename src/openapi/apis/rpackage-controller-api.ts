@@ -20,6 +20,7 @@
  *
  */
 
+/* tslint:disable */
 /* eslint-disable */
 /**
  * RDEPOT API
@@ -438,6 +439,7 @@ export const RPackageControllerApiAxiosParamCreator =
        * @param {string} [repositoryName]
        * @param {boolean} [deleted]
        * @param {string} [submissionState]
+       * @param {string} [name]
        * @param {number} [page] Zero-based page index (0..N)
        * @param {number} [size] The size of the page to be returned
        * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
@@ -448,6 +450,7 @@ export const RPackageControllerApiAxiosParamCreator =
         repositoryName?: string,
         deleted?: boolean,
         submissionState?: string,
+        name?: string,
         page?: number,
         size?: number,
         sort?: Array<string>,
@@ -494,6 +497,10 @@ export const RPackageControllerApiAxiosParamCreator =
         if (submissionState !== undefined) {
           localVarQueryParameter['submissionState'] =
             submissionState
+        }
+
+        if (name !== undefined) {
+          localVarQueryParameter['name'] = name
         }
 
         if (page !== undefined) {
@@ -1030,6 +1037,7 @@ export const RPackageControllerApiFp = function (
      * @param {string} [repositoryName]
      * @param {boolean} [deleted]
      * @param {string} [submissionState]
+     * @param {string} [name]
      * @param {number} [page] Zero-based page index (0..N)
      * @param {number} [size] The size of the page to be returned
      * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
@@ -1040,6 +1048,7 @@ export const RPackageControllerApiFp = function (
       repositoryName?: string,
       deleted?: boolean,
       submissionState?: string,
+      name?: string,
       page?: number,
       size?: number,
       sort?: Array<string>,
@@ -1057,6 +1066,7 @@ export const RPackageControllerApiFp = function (
           repositoryName,
           deleted,
           submissionState,
+          name,
           page,
           size,
           sort,
@@ -1279,6 +1289,7 @@ export const RPackageControllerApiFactory = function (
      * @param {string} [repositoryName]
      * @param {boolean} [deleted]
      * @param {string} [submissionState]
+     * @param {string} [name]
      * @param {number} [page] Zero-based page index (0..N)
      * @param {number} [size] The size of the page to be returned
      * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
@@ -1289,6 +1300,7 @@ export const RPackageControllerApiFactory = function (
       repositoryName?: string,
       deleted?: boolean,
       submissionState?: string,
+      name?: string,
       page?: number,
       size?: number,
       sort?: Array<string>,
@@ -1299,6 +1311,7 @@ export const RPackageControllerApiFactory = function (
           repositoryName,
           deleted,
           submissionState,
+          name,
           page,
           size,
           sort,
@@ -1449,6 +1462,7 @@ export class RPackageControllerApi extends BaseAPI {
    * @param {string} [repositoryName]
    * @param {boolean} [deleted]
    * @param {string} [submissionState]
+   * @param {string} [name]
    * @param {number} [page] Zero-based page index (0..N)
    * @param {number} [size] The size of the page to be returned
    * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
@@ -1460,6 +1474,7 @@ export class RPackageControllerApi extends BaseAPI {
     repositoryName?: string,
     deleted?: boolean,
     submissionState?: string,
+    name?: string,
     page?: number,
     size?: number,
     sort?: Array<string>,
@@ -1470,6 +1485,7 @@ export class RPackageControllerApi extends BaseAPI {
         repositoryName,
         deleted,
         submissionState,
+        name,
         page,
         size,
         sort,
