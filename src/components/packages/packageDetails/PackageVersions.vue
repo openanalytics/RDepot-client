@@ -22,22 +22,30 @@
 
 <template>
   <div class="my-5 mx-1 mb-10" style="min-width: 200px">
-    <h2 class="d-flex justify-center" style="width: 100%">
-      package versions
-    </h2>
-    <div
+    <div class="title">Package versions</div>
+    <ul
       v-for="packageBag in packageDetailsStore.packages"
       :key="packageBag.id"
       class="my-5"
     >
-      <v-card style="width: 100%" @click="() => {}">
+      <li class="classifier-value">
+        {{ packageBag.version }}
+        <span
+          v-show="
+            packageBag.version ==
+            packageDetailsStore.packageBag?.version
+          "
+          >( current )</span
+        >
+      </li>
+      <!-- <v-card style="width: 100%" @click="() => {}">
         <v-card-text
           class="d-flex align-center justify-center"
         >
           {{ packageBag.version }}
         </v-card-text>
-      </v-card>
-    </div>
+      </v-card> -->
+    </ul>
   </div>
 </template>
 

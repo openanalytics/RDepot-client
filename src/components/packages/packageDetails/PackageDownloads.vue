@@ -21,7 +21,6 @@
 -->
 
 <template>
-  <h2 class="mt-5">{{ $t('packages.downloads') }}</h2>
   <v-btn class="my-3" width="250">
     Download Source File
   </v-btn>
