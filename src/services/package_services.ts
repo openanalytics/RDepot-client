@@ -140,6 +140,8 @@ export async function updateRPackage(
 export function downloadReferenceManual(id: string) {
   return openApiRequest<Promise<boolean>>(
     RPackageControllerApiFactory().downloadReferenceManual,
-    [id]
+    [id],
+    true,
+    true
   )
 }

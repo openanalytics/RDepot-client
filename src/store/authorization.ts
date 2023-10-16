@@ -51,6 +51,7 @@ interface State {
   ability: Ability
   me: EntityModelUserDto
   loginType: LoginType
+  sidebar: boolean
 }
 
 export const useAuthorizationStore = defineStore(
@@ -64,7 +65,8 @@ export const useAuthorizationStore = defineStore(
         userRole: undefined,
         userId: 8,
         ability: defineAbilityFor(Role.enum.admin),
-        loginType: LoginType.Enum.OICD
+        loginType: LoginType.Enum.OICD,
+        sidebar: false
       }
     },
 
@@ -189,6 +191,10 @@ export const useAuthorizationStore = defineStore(
 
       can(action: Action, subject: Subject): boolean {
         return this.ability.can(action, subject)
+      },
+
+      hideSidebar(value: boolean) {
+        this.sidebar = !value
       }
     }
   }
