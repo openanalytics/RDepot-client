@@ -66,13 +66,17 @@ function turnOnProgress() {
 async function resolvedBlob(
   result: AxiosResponse<Blob>
 ): Promise<validatedData<any>> {
+  let url: string
+  let fileName: string
+  let link
   switch (result.data.type) {
     case 'application/pdf':
-      const fileName = genFileName(result.config.url)
-      const url = window.URL.createObjectURL(
+      // for manual
+      fileName = genFileName(result.config.url)
+      url = window.URL.createObjectURL(
         new Blob([result.data])
       )
-      const link = document.createElement('a')
+      link = document.createElement('a')
       link.href = url
       link.setAttribute('download', `${fileName}.pdf`)
       document.body.appendChild(link)
@@ -81,14 +85,27 @@ async function resolvedBlob(
     case 'application/octet-stream':
       // For now, this works for opening a file in new tab without downloading
       // still considering how to download files different than *.pdf
-      const url1 = window.URL.createObjectURL(
+      url = window.URL.createObjectURL(
         new Blob([result.data])
       )
-      const link1 = document.createElement('a')
-      link1.href = url1
-      link1.setAttribute('target', '_blank')
-      document.body.appendChild(link1)
-      link1.click()
+      link = document.createElement('a')
+      link.href = url
+      link.setAttribute('target', '_blank')
+      document.body.appendChild(link)
+      link.click()
+      break
+    case 'application/gzip':
+      // for source files
+      console.log('Downloading', result)
+      fileName = 'sourcefile'
+      url = window.URL.createObjectURL(
+        new Blob([result.data])
+      )
+      link = document.createElement('a')
+      link.href = url
+      link.setAttribute('download', `${fileName}.tar.gz`)
+      document.body.appendChild(link)
+      link.click()
       break
     default:
       break
