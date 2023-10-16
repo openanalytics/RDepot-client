@@ -21,82 +21,43 @@
 -->
 
 <template>
-  <div v-show="!loading">
-    <component
-      :is="
-        packageBag?.technology === Technologies.enum.R
-          ? RPackageDetails
-          : PythonPackageDetails
-      "
-      :class="{ short: package }"
-      @is-loaded="isLoaded"
-      :id="packageBag?.id || 0"
-    />
-    <div class="center" v-if="package">
-      <v-divider :thickness="3"></v-divider>
-      <v-btn
-        ref="button"
-        color="oablue"
-        class="button"
-        @click="goToDetailsPage(packageBag || {})"
-      >
-        {{ $t('common.details') }}</v-btn
-      >
+  <div
+    :class="{
+      short: $parent?.$vuetify.defaults.VExpansionPanel
+    }"
+  >
+    <PackageTitle />
+    <div class="d-flex">
+      <div class="mr-10">
+        <PackageDescription />
+        <PackageInstallation />
+        <PackageProperties />
+        <!-- </v-card> -->
+      </div>
+      <div class="pr-5" variant="flat" color="background">
+        <PackageDownloads />
+        <PackageManual />
+        <PackageSubmission />
+        <PackageVersions />
+        <PackageClassifiers />
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import RPackageDetails from '@/components/packages/RPackageDetails.vue'
-import PythonPackageDetails from '@/components/packages/PythonPackageDetails.vue'
-import { usePackagesStore } from '@/store/packages'
-import { Technologies } from '@/enum/Technologies'
-import { useRoute } from 'vue-router'
-import { EntityModelPackageDto } from '@/openapi'
-import { onBeforeMount, computed, ref } from 'vue'
-import router from '@/plugins/router'
-
-const package_store = usePackagesStore()
-const route = useRoute()
-
-const props = defineProps<{
-  package?: EntityModelPackageDto
-}>()
-
-const packageBag = computed(
-  () => props.package || package_store.package
-)
-const loading = ref(true)
-
-function isLoaded() {
-  loading.value = false
-}
-
-function goToDetailsPage({ id }: EntityModelPackageDto) {
-  router.push({
-    name: 'packageDetails',
-    params: {
-      id: id
-    }
-  })
-}
-
-onBeforeMount(() => {
-  if (props.package) {
-    package_store.package = props.package
-  }
-})
+import PackageDescription from '@/components/packages/packageDetails/PackageDescription.vue'
+import PackageClassifiers from '@/components/packages/packageDetails/PackageClassifiers.vue'
+import PackageInstallation from '@/components/packages/packageDetails/PackageInstallation.vue'
+import PackageSubmission from '@/components/packages/packageDetails/PackageSubmission.vue'
+import PackageProperties from '@/components/packages/packageDetails/PackageProperties.vue'
+import PackageDownloads from '@/components/packages/packageDetails/PackageDownloads.vue'
+import PackageVersions from '@/components/packages/packageDetails/PackageVersions.vue'
+import PackageTitle from '@/components/packages/packageDetails/PackageTitle.vue'
+import PackageManual from '@/components/packages/packageDetails/PackageManual.vue'
 </script>
 
-<style scoped lang="scss">
-.center {
-  text-align: center;
-}
-
-.button {
-  margin-top: 15px;
-}
-
+<style scoped>
 .short {
   max-height: 250px;
   overflow: hidden;

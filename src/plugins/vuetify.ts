@@ -38,6 +38,7 @@ export default createVuetify({
     themes: {
       dark: {
         colors: {
+          headerText: '#fff',
           primary: '#3f51b5',
           secondary: '#b0bec5',
           accent: '#8c9eff',
@@ -60,6 +61,7 @@ export default createVuetify({
       },
       light: {
         colors: {
+          headerText: '#fff',
           primary: '#000',
           secondary: '#000',
           accent: '#fff',

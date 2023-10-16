@@ -172,14 +172,14 @@ import router from '@/plugins/router'
 import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
 import SortTitle from '@/components/common/resources/SortTitle.vue'
 import TextRecord from '@/components/common/resources/TextRecord.vue'
-import { useRepositoryStore } from '@/store/repositories'
 import { EntityModelRepositoryDto } from '@/openapi'
 import { updateRepository } from '@/services/repository_services'
 import { ref } from 'vue'
 import { useUtilities } from '@/composable/utilities'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
+import { usePackagesStore } from '@/store/packages'
 
-const repositoryStore = useRepositoryStore()
+const packagesStore = usePackagesStore()
 const { deepCopy } = useUtilities()
 const { canDelete, canPatch } = useUserAuthorities()
 
@@ -207,14 +207,14 @@ function updateRepositoryPublished(): void {
 function navigate() {
   chooseRepository()
   router.push({
-    name: 'repositoryDetails',
-    params: {
-      name: props.repository?.name
-    }
+    name: 'packages'
   })
 }
 
 function chooseRepository() {
-  repositoryStore.setChosenRepository(props.repository?.id)
+  packagesStore.setFiltrationByRepositoryOnly(
+    props.repository?.name
+  )
+  // packagesStore.setFiltration({repository.})
 }
 </script>

@@ -28,29 +28,25 @@ import { fetchPackagesServices } from '@/services'
 import { defineStore } from 'pinia'
 import {
   EntityModelPackageDto,
-  EntityModelSubmissionDto,
-  ResponseDtoListVignette,
-  RPackageControllerApiFactory
+  EntityModelSubmissionDto
 } from '@/openapi'
 import {
   downloadReferenceManual,
   downloadVignetteHtml,
   downloadSourceFile,
   fetchPackageServices,
-  fetchPythonPackageServices,
-  fetchRPackageServices,
   updateRPackage
 } from '@/services/package_services'
 import { useUtilities } from '@/composable/utilities'
 import { packagesFiltrationLabels } from '@/maps/Filtration'
 import { fetchSubmission } from '@/services/submission_services'
 import { usePagination } from './pagination'
+import { Technologies } from '@/enum/Technologies'
 
 interface State {
   packages: EntityModelPackageDto[]
   package?: EntityModelPackageDto
   submission?: EntityModelSubmissionDto
-  vignettes: ResponseDtoListVignette
   filtration: PackagesFiltration
   chosenPackageId?: number
   next?: boolean
@@ -66,7 +62,6 @@ export const usePackagesStore = defineStore(
         packages: [],
         package: {},
         submission: {},
-        vignettes: {},
         filtration: defaultValues(PackagesFiltration),
         chosenPackageId: undefined,
         next: false
@@ -112,8 +107,13 @@ export const usePackagesStore = defineStore(
         this.packages = packages
         return pageData
       },
-      async fetchPackage(id: number) {
-        this.package = (await fetchPackageServices(id))[0]
+      async fetchPackage(
+        id: number,
+        technology: Technologies
+      ) {
+        this.package = (
+          await fetchPackageServices(id, technology)
+        )[0]
         if (this.package?.submissionId) {
           this.submission = (
             await fetchSubmission(this.package.submissionId)
@@ -121,11 +121,19 @@ export const usePackagesStore = defineStore(
         }
       },
       async fetchRPackage(id: number) {
-        this.package = (await fetchRPackageServices(id))[0]
+        this.package = (
+          await fetchPackageServices(
+            id,
+            Technologies.Enum.R
+          )
+        )[0]
       },
       async fetchPythonPackage(id: number) {
         this.package = (
-          await fetchPythonPackageServices(id)
+          await fetchPackageServices(
+            id,
+            Technologies.Enum.Python
+          )
         )[0]
       },
       async activatePackage(
@@ -174,6 +182,11 @@ export const usePackagesStore = defineStore(
       setFiltrationByRepositoryOnly(payload?: string) {
         this.filtration = defaultValues(PackagesFiltration)
         this.filtration.repository = payload
+      },
+      setFiltrationWithoutRefresh(
+        payload: PackagesFiltration
+      ) {
+        this.filtration = payload
       },
       clearFiltration() {
         const pagination = usePagination()

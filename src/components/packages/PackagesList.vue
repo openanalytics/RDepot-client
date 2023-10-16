@@ -31,6 +31,7 @@
     <template #expansion-text="slotProps">
       <PackageDetails
         :package="(slotProps.resource as EntityModelPackageDto)"
+        class="short"
       />
     </template>
   </ResourcesList>

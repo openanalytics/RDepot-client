@@ -49,7 +49,7 @@
             height="40"
             width="40"
           />
-          <p class="logotext">RDepot</p>
+          <div class="logotext">RDepot</div>
         </v-row>
       </v-row>
       <v-row align="center" justify="end" class="my-0 mx-3">
@@ -89,6 +89,8 @@ function showSidebar() {
     margin: auto 1em;
     font-size: 1.25em;
     font-weight: 400;
+    color: rgb(var(--v-theme-headerText));
+    font-weight: 500;
   }
 }
 
