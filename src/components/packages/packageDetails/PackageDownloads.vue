@@ -21,25 +21,9 @@
 -->
 
 <template>
-  <v-btn class="my-3" width="250">
+  <v-btn class="my-3" width="250" @click="getSourceFile">
     Download Source File
   </v-btn>
-  <!-- <a
-        :href="
-          '/manager/packages/' +
-          packageBag.id +
-          '/download/' +
-          packageBag.name +
-          '_' +
-          packageBag.version +
-          '.tar.gz'
-        "
-        class="col_desc document"
-      >
-        {{ packageBag.name }}_{{
-          packageBag.version
-        }}.tar.gz
-      </a> -->
 </template>
 
 <script setup lang="ts">
@@ -53,4 +37,18 @@ const packageBag = computed(
   () =>
     packageDetailsStore.packageBag as EntityModelPythonPackageDto
 )
+
+async function getSourceFile() {
+  if (
+    packageBag.value.id &&
+    packageBag.value.name &&
+    packageBag.value.version
+  ) {
+    await packageDetailsStore.downloadSourceFile(
+      packageBag.value.id.toString(),
+      packageBag.value.name,
+      packageBag.value.version
+    )
+  }
+}
 </script>
