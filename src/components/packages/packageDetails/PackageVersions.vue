@@ -28,36 +28,59 @@
       :key="packageBag.id"
       class="my-5"
     >
-      <li class="classifier-value">
+      <li
+        class="classifier-value"
+        :class="{ hover: mainId != packageBag.id }"
+        @click="navigate(packageBag.id)"
+      >
         {{ packageBag.version }}
         <span
-          v-show="
+          v-if="
             packageBag.version ==
             packageDetailsStore.packageBag?.version
           "
           >( current )</span
         >
       </li>
-      <!-- <v-card style="width: 100%" @click="() => {}">
-        <v-card-text
-          class="d-flex align-center justify-center"
-        >
-          {{ packageBag.version }}
-        </v-card-text>
-      </v-card> -->
     </ul>
   </div>
 </template>
 
 <script setup lang="ts">
+import router from '@/plugins/router'
 import { usePackageDetailsStore } from '@/store/package_details'
+import { computed } from 'vue'
+import { compile } from 'vue'
 
 const packageDetailsStore = usePackageDetailsStore()
+
+const mainId = computed(() => {
+  return packageDetailsStore.packageBag?.id
+})
+
+function navigate(id?: number) {
+  if (id) {
+    router.push({
+      name: 'packageDetails',
+      params: {
+        id: id,
+        technology:
+          packageDetailsStore.packageBag?.technology
+      }
+    })
+  }
+}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 $text_color: rgba(var(--v-theme-about-package));
 $background_color: rgba(var(--v-theme-about-background));
+
+.hover {
+  &:hover {
+    cursor: pointer;
+  }
+}
 
 .classifier-value {
   display: list-item;
