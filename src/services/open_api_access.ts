@@ -82,9 +82,8 @@ async function resolvedBlob(
       document.body.appendChild(link)
       link.click()
       break
-    case 'application/octet-stream':
-      // For now, this works for opening a file in new tab without downloading
-      // still considering how to download files different than *.pdf
+    case 'text/html':
+      // for *html vignette
       url = window.URL.createObjectURL(
         new Blob([result.data])
       )
@@ -96,7 +95,6 @@ async function resolvedBlob(
       break
     case 'application/gzip':
       // for source files
-      console.log('Downloading', result)
       fileName = 'sourcefile'
       url = window.URL.createObjectURL(
         new Blob([result.data])

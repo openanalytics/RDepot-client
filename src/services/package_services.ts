@@ -27,6 +27,7 @@ import {
   EntityModelPackageDto,
   EntityModelPythonPackageDto,
   EntityModelRPackageDto,
+  ResponseDtoListVignette,
   PythonPackageControllerApiFactory,
   RPackageControllerApiFactory
 } from '@/openapi'
@@ -167,6 +168,14 @@ export function downloadSourceFile(
     RPackageControllerApiFactory().downloadPackage,
     [id, name, version],
     true,
+    true
+  )
+}
+
+export function fetchVignettes(id: number) {
+  return openApiRequest<Promise<ResponseDtoListVignette>>(
+    RPackageControllerApiFactory().getVignetteLinks,
+    [id],
     true
   )
 }

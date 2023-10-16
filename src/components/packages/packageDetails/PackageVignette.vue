@@ -21,32 +21,36 @@
 -->
 
 <template>
-  <div class="title" v-if="vignettes.length > 0">
-    {{ $t('packages.documentation') }}
-  </div>
-  <PackageVignette
-    v-for="(vignette, index) in vignettes"
-    :key="index"
-    :fileName="vignette.fileName"
-  >
-    {{ vignette.title }}
-  </PackageVignette>
-  <div v-show="vignettes?.data?.length == 0">
-    {{ $t('packages.noVignette') }}
-  </div>
+  <v-btn class="my-3" width="250" @click="getVignette">
+    {{ props.fileName }}
+  </v-btn>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { ResponseDtoListVignette } from '@/openapi'
+import { EntityModelPythonPackageDto } from '@/openapi'
 import { usePackageDetailsStore } from '@/store/package_details'
-import PackageVignette from '@/components/packages/packageDetails/PackageVignette.vue'
+
+var props = defineProps<{
+  fileName: {
+    type?: String
+    required: true
+  }
+}>()
 
 const packageDetailsStore = usePackageDetailsStore()
 
-const vignettes = computed<
-  ResponseDtoListVignette | undefined
->(() => {
-  return packageDetailsStore.vignettes
-})
+const packageBag = computed(
+  () =>
+    packageDetailsStore.packageBag as EntityModelPythonPackageDto
+)
+
+async function getVignette() {
+  if (packageBag.value.id && props.fileName) {
+    await packageDetailsStore.downloadVignette(
+      packageBag.value.id.toString(),
+      props.fileName.split('.html')[0]
+    )
+  }
+}
 </script>

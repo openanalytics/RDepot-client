@@ -37,7 +37,8 @@ import {
   downloadReferenceManual,
   downloadVignetteHtml,
   downloadSourceFile,
-  fetchPackageServices
+  fetchPackageServices,
+  fetchVignettes
 } from '@/services/package_services'
 import { fetchSubmission } from '@/services/submission_services'
 import { Technologies } from '@/enum/Technologies'
@@ -80,6 +81,9 @@ export const usePackageDetailsStore = defineStore(
           this.submission = (await fetchSubmission(id))[0]
         }
         this.fetchAllPackageVersions()
+        if (this.packageBag.id) {
+          this.fetchVignettes(this.packageBag.id)
+        }
       },
       async fetchAllPackageVersions(
         page = 0,
@@ -127,6 +131,10 @@ export const usePackageDetailsStore = defineStore(
             console.log(id, 'sourcefile', res)
           }
         )
+      },
+      async fetchVignettes(id: number) {
+        const [vignettes] = await fetchVignettes(id)
+        this.vignettes = vignettes
       }
     }
   }
