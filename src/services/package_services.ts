@@ -128,3 +128,28 @@ export function downloadReferenceManual(id: string) {
     true
   )
 }
+
+export function downloadVignetteHtml(
+  id: string,
+  name: string
+) {
+  return openApiRequest<Promise<boolean>>(
+    RPackageControllerApiFactory().downloadVignetteHtml,
+    [id, name],
+    true,
+    true
+  )
+}
+
+export function downloadSourceFile(
+  id: string,
+  name: string,
+  version: string
+) {
+  return openApiRequest<Promise<boolean>>(
+    RPackageControllerApiFactory().downloadPackage,
+    [id, name, version],
+    true,
+    true
+  )
+}

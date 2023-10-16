@@ -34,6 +34,8 @@ import {
 } from '@/openapi'
 import {
   downloadReferenceManual,
+  downloadVignetteHtml,
+  downloadSourceFile,
   fetchPackageServices,
   fetchPythonPackageServices,
   fetchRPackageServices,
@@ -141,6 +143,24 @@ export const usePackagesStore = defineStore(
         await downloadReferenceManual(id).then((res) => {
           console.log(res)
         })
+      },
+      async downloadVignette(id: string, fileName: string) {
+        await downloadVignetteHtml(id, fileName).then(
+          (res) => {
+            console.log(id, fileName, 'vignette.json', res)
+          }
+        )
+      },
+      async downloadSourceFile(
+        id: string,
+        name: string,
+        version: string
+      ) {
+        await downloadSourceFile(id, name, version).then(
+          (res) => {
+            console.log(id, 'sourcefile', res)
+          }
+        )
       },
       async setFiltration(payload: PackagesFiltration) {
         const pagination = usePagination()
