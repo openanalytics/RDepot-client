@@ -28,9 +28,10 @@
       <PackageInstallation />
       <PackageProperties />
     </div>
-    <div class="pr-5" variant="flat" color="background">
+    <div class="pr-5" color="background">
       <PackageDownloads />
       <PackageManual />
+      <PackageVignettes />
       <PackageSubmission />
       <PackageVersions />
       <PackageClassifiers />
@@ -48,4 +49,5 @@ import PackageDownloads from '@/components/packages/packageDetails/PackageDownlo
 import PackageVersions from '@/components/packages/packageDetails/PackageVersions.vue'
 import PackageTitle from '@/components/packages/packageDetails/PackageTitle.vue'
 import PackageManual from '@/components/packages/packageDetails/PackageManual.vue'
+import PackageVignettes from '@/components/packages/packageDetails/PackageVignettes.vue'
 </script>

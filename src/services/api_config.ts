@@ -49,13 +49,6 @@ export async function getHeaders(withBlob = false) {
   return axiosRequestConfig
 }
 
-export async function getBlob() {
-  const axiosRequestConfig: AxiosRequestConfig = {
-    responseType: 'blob'
-  }
-  return axiosRequestConfig
-}
-
 async function getToken() {
   const authorizationStore = useAuthorizationStore()
   if (

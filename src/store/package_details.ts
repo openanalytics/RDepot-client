@@ -35,7 +35,10 @@ import {
 } from '@/openapi'
 import {
   downloadReferenceManual,
-  fetchPackageServices
+  downloadVignetteHtml,
+  downloadSourceFile,
+  fetchPackageServices,
+  fetchVignettes
 } from '@/services/package_services'
 import { fetchSubmission } from '@/services/submission_services'
 import { Technologies } from '@/enum/Technologies'
@@ -78,6 +81,9 @@ export const usePackageDetailsStore = defineStore(
           this.submission = (await fetchSubmission(id))[0]
         }
         this.fetchAllPackageVersions()
+        if (this.packageBag.id) {
+          this.fetchVignettes(this.packageBag.id)
+        }
       },
       async fetchAllPackageVersions(
         page = 0,
@@ -107,6 +113,28 @@ export const usePackageDetailsStore = defineStore(
         await downloadReferenceManual(id).then((res) => {
           console.log(res)
         })
+      },
+      async downloadVignette(id: string, fileName: string) {
+        await downloadVignetteHtml(id, fileName).then(
+          (res) => {
+            console.log(id, fileName, 'vignette.json', res)
+          }
+        )
+      },
+      async downloadSourceFile(
+        id: string,
+        name: string,
+        version: string
+      ) {
+        await downloadSourceFile(id, name, version).then(
+          (res) => {
+            console.log(id, 'sourcefile', res)
+          }
+        )
+      },
+      async fetchVignettes(id: number) {
+        const [vignettes] = await fetchVignettes(id)
+        this.vignettes = vignettes
       }
     }
   }
