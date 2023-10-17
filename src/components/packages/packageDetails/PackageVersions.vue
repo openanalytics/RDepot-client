@@ -22,34 +22,65 @@
 
 <template>
   <div class="my-5 mx-1 mb-10" style="min-width: 200px">
-    <h2 class="d-flex justify-center" style="width: 100%">
-      package versions
-    </h2>
-    <div
+    <div class="title">Package versions</div>
+    <ul
       v-for="packageBag in packageDetailsStore.packages"
       :key="packageBag.id"
       class="my-5"
     >
-      <v-card style="width: 100%" @click="() => {}">
-        <v-card-text
-          class="d-flex align-center justify-center"
+      <li
+        class="classifier-value"
+        :class="{ hover: mainId != packageBag.id }"
+        @click="navigate(packageBag.id)"
+      >
+        {{ packageBag.version }}
+        <span
+          v-if="
+            packageBag.version ==
+            packageDetailsStore.packageBag?.version
+          "
+          >( current )</span
         >
-          {{ packageBag.version }}
-        </v-card-text>
-      </v-card>
-    </div>
+      </li>
+    </ul>
   </div>
 </template>
 
 <script setup lang="ts">
+import router from '@/plugins/router'
 import { usePackageDetailsStore } from '@/store/package_details'
+import { computed } from 'vue'
+import { compile } from 'vue'
 
 const packageDetailsStore = usePackageDetailsStore()
+
+const mainId = computed(() => {
+  return packageDetailsStore.packageBag?.id
+})
+
+function navigate(id?: number) {
+  if (id) {
+    router.push({
+      name: 'packageDetails',
+      params: {
+        id: id,
+        technology:
+          packageDetailsStore.packageBag?.technology
+      }
+    })
+  }
+}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 $text_color: rgba(var(--v-theme-about-package));
 $background_color: rgba(var(--v-theme-about-background));
+
+.hover {
+  &:hover {
+    cursor: pointer;
+  }
+}
 
 .classifier-value {
   display: list-item;
