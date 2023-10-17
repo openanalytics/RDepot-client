@@ -55,12 +55,12 @@ describe('Package Classifiers', () => {
   })
 
   it('display all classifiers titles', async () => {
-    var ulComponents = wrapper.findAll('ul')
+    const ulComponents = wrapper.findAll('ul')
     expect(ulComponents).toHaveLength(7)
   })
 
   it('display all classifiers values', async () => {
-    var liComponents = wrapper.findAll('li')
+    const liComponents = wrapper.findAll('li')
     expect(liComponents).toHaveLength(14)
   })
 })
