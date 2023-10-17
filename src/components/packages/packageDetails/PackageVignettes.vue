@@ -21,15 +21,15 @@
 -->
 
 <template>
-  <div class="title" v-if="vignettes.length > 0">
+  <div class="title" v-if="vignettes">
     {{ $t('packages.documentation') }}
   </div>
   <PackageVignette
     v-for="(vignette, index) in vignettes"
     :key="index"
-    :fileName="vignette.fileName"
+    :fileName="vignette?.fileName"
   >
-    {{ vignette.title }}
+    {{ vignette?.title }}
   </PackageVignette>
   <div v-show="vignettes?.data?.length == 0">
     {{ $t('packages.noVignette') }}
