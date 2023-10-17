@@ -21,16 +21,16 @@
 -->
 
 <template>
-  <div class="subtitle my-5">
+  <div class="title" v-if="vignettes.length > 0">
     {{ $t('packages.documentation') }}
   </div>
-  <div
-    class="document"
-    v-for="(vignette, index) in vignettes?.data"
+  <PackageVignette
+    v-for="(vignette, index) in vignettes"
     :key="index"
+    :fileName="vignette.fileName"
   >
     {{ vignette.title }}
-  </div>
+  </PackageVignette>
   <div v-show="vignettes?.data?.length == 0">
     {{ $t('packages.noVignette') }}
   </div>
@@ -40,6 +40,7 @@
 import { computed } from 'vue'
 import { ResponseDtoListVignette } from '@/openapi'
 import { usePackageDetailsStore } from '@/store/package_details'
+import PackageVignette from '@/components/packages/packageDetails/PackageVignette.vue'
 
 const packageDetailsStore = usePackageDetailsStore()
 
