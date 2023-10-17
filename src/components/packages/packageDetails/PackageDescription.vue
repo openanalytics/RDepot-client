@@ -21,26 +21,83 @@
 -->
 
 <template>
-  <MarkdownDescription
-    v-if="packageBag.technology == Technologies.enum.Python"
-    :description="packageBag.description || ''"
-  ></MarkdownDescription>
-  <div v-else class="text my-5">
-    {{ packageBag.description }}
+  <div :class="{ short: packageBagShort }">
+    <MarkdownDescription
+      v-if="
+        packageBag.technology == Technologies.enum.Python
+      "
+      :description="packageBag.description || ''"
+      short
+    ></MarkdownDescription>
+    <div v-else class="text my-5">
+      {{ packageBag.description }}
+    </div>
+  </div>
+  <div class="center" v-if="packageBagShort">
+    <v-divider :thickness="3"></v-divider>
+    <v-btn
+      ref="button"
+      color="oablue"
+      class="button mt-3"
+      @click="goToDetailsPage(packageBagShort || {})"
+    >
+      {{ $t('common.details') }}</v-btn
+    >
   </div>
 </template>
 
 <script setup lang="ts">
-import { EntityModelRPackageDto } from '@/openapi'
+import {
+  EntityModelPackageDto,
+  EntityModelRPackageDto
+} from '@/openapi'
 import { computed } from 'vue'
 import { usePackageDetailsStore } from '@/store/package_details'
 import { Technologies } from '@/enum/Technologies'
 import MarkdownDescription from '@/components/common/MarkdownDescription.vue'
+import router from '@/plugins/router'
+
+var props = defineProps<{
+  packageBagShort?: EntityModelPackageDto
+}>()
 
 const packageDetailsStore = usePackageDetailsStore()
 
 const packageBag = computed<EntityModelRPackageDto>(
   () =>
-    packageDetailsStore.packageBag as EntityModelRPackageDto
+    props.packageBagShort ||
+    (packageDetailsStore.packageBag as EntityModelRPackageDto)
 )
+
+function goToDetailsPage({
+  id,
+  technology
+}: EntityModelPackageDto) {
+  router.push({
+    name: 'packageDetails',
+    params: {
+      id: id,
+      technology: technology
+    }
+  })
+}
 </script>
+
+<style scoped>
+.short {
+  max-height: 250px;
+  overflow: hidden;
+  -webkit-mask-image: -webkit-gradient(
+    linear,
+    left 90%,
+    left bottom,
+    from(rgba(0, 0, 0, 1)),
+    to(rgba(0, 0, 0, 0))
+  );
+
+  .text {
+    font-size: 1em !important;
+    padding-right: 25%;
+  }
+}
+</style>
