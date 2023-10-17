@@ -28,6 +28,7 @@ import { getHeaders } from './api_config'
 import { i18n } from '@/plugins/i18n'
 import { ResponseDtoObject } from '@/openapi/models'
 import { useAuthorizationStore } from '@/store/authorization'
+import { useBlob } from '@/composable/blob'
 
 export async function openApiRequest<T>(
   callback: Function,
@@ -66,44 +67,23 @@ function turnOnProgress() {
 async function resolvedBlob(
   result: AxiosResponse<Blob>
 ): Promise<validatedData<any>> {
-  let url: string
-  let fileName: string
-  let link
+  const blob = useBlob()
   switch (result.data.type) {
     case 'application/pdf':
       // for manual
-      fileName = genFileName(result.config.url)
-      url = window.URL.createObjectURL(
-        new Blob([result.data])
+      blob.downloadBlob(
+        result.data,
+        '.pdf',
+        result.config.url
       )
-      link = document.createElement('a')
-      link.href = url
-      link.setAttribute('download', `${fileName}.pdf`)
-      document.body.appendChild(link)
-      link.click()
       break
     case 'text/html':
       // for *html vignette
-      url = window.URL.createObjectURL(
-        new Blob([result.data])
-      )
-      link = document.createElement('a')
-      link.href = url
-      link.setAttribute('target', '_blank')
-      document.body.appendChild(link)
-      link.click()
+      blob.openBlob(result.data)
       break
     case 'application/gzip':
       // for source files
-      fileName = 'sourcefile'
-      url = window.URL.createObjectURL(
-        new Blob([result.data])
-      )
-      link = document.createElement('a')
-      link.href = url
-      link.setAttribute('download', `${fileName}.tar.gz`)
-      document.body.appendChild(link)
-      link.click()
+      blob.downloadBlob(result.data, '.tar.gz')
       break
     default:
       break
@@ -127,26 +107,6 @@ async function resolved(
     result.data.data?.page,
     result.data.data?.links
   )
-}
-
-function genFileName(url?: string) {
-  let fileName = ''
-  url?.split('/').forEach((p) => {
-    switch (p) {
-      case 'manual':
-        fileName += p
-        break
-      case 'r':
-        fileName += 'R'
-        break
-      case 'python':
-        fileName += 'Python'
-        break
-      default:
-        break
-    }
-  })
-  return fileName
 }
 
 function rejected(result: AxiosError) {
