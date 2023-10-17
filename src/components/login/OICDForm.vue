@@ -67,7 +67,7 @@ onMounted(() => {
     })
     .catch((error) => {
       notify({
-        title: t('erros.oauthTitle'),
+        title: t('errors.oauthTitle'),
         type: 'error',
         text: t('errors.oauth')
       })
