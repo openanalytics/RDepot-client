@@ -31,6 +31,9 @@ import {
   EntityModelSubmissionDto
 } from '@/openapi'
 import {
+  downloadReferenceManual,
+  downloadVignetteHtml,
+  downloadSourceFile,
   fetchPackageServices,
   updateRPackage
 } from '@/services/package_services'
@@ -144,7 +147,29 @@ export const usePackagesStore = defineStore(
           }
         )
       },
-
+      async downloadManual(id: string) {
+        await downloadReferenceManual(id).then((res) => {
+          console.log(res)
+        })
+      },
+      async downloadVignette(id: string, fileName: string) {
+        await downloadVignetteHtml(id, fileName).then(
+          (res) => {
+            console.log(id, fileName, 'vignette.json', res)
+          }
+        )
+      },
+      async downloadSourceFile(
+        id: string,
+        name: string,
+        version: string
+      ) {
+        await downloadSourceFile(id, name, version).then(
+          (res) => {
+            console.log(id, 'sourcefile', res)
+          }
+        )
+      },
       async setFiltration(payload: PackagesFiltration) {
         const pagination = usePagination()
         pagination.resetPage()

@@ -28,6 +28,7 @@ import { getHeaders } from './api_config'
 import { i18n } from '@/plugins/i18n'
 import { ResponseDtoObject } from '@/openapi/models'
 import { useAuthorizationStore } from '@/store/authorization'
+import { useBlob } from '@/composable/blob'
 
 export async function openApiRequest<T>(
   callback: Function,
@@ -66,15 +67,27 @@ function turnOnProgress() {
 async function resolvedBlob(
   result: AxiosResponse<Blob>
 ): Promise<validatedData<any>> {
-  const fileName = genFileName(result.config.url)
-  const url = window.URL.createObjectURL(
-    new Blob([result.data])
-  )
-  const link = document.createElement('a')
-  link.href = url
-  link.setAttribute('download', `${fileName}.pdf`)
-  document.body.appendChild(link)
-  link.click()
+  const blob = useBlob()
+  switch (result.data.type) {
+    case 'application/pdf':
+      // for manual
+      blob.downloadBlob(
+        result.data,
+        '.pdf',
+        result.config.url
+      )
+      break
+    case 'text/html':
+      // for *html vignette
+      blob.openBlob(result.data)
+      break
+    case 'application/gzip':
+      // for source files
+      blob.downloadBlob(result.data, '.tar.gz')
+      break
+    default:
+      break
+  }
   const common_store = useCommonStore()
   common_store.setProgressCircularActive(false)
   return validateRequest([])
@@ -94,26 +107,6 @@ async function resolved(
     result.data.data?.page,
     result.data.data?.links
   )
-}
-
-function genFileName(url?: string) {
-  let fileName = ''
-  url?.split('/').forEach((p) => {
-    switch (p) {
-      case 'manual':
-        fileName += p
-        break
-      case 'r':
-        fileName += 'R'
-        break
-      case 'python':
-        fileName += 'Python'
-        break
-      default:
-        break
-    }
-  })
-  return fileName
 }
 
 function rejected(result: AxiosError) {
