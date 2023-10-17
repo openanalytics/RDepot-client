@@ -23,7 +23,7 @@
 <template>
   <PackageTitle />
   <div class="d-flex">
-    <div class="mr-10">
+    <div class="mr-10 flex-fill">
       <PackageDescription />
       <PackageInstallation />
       <PackageProperties />
@@ -48,5 +48,4 @@ import PackageDownloads from '@/components/packages/packageDetails/PackageDownlo
 import PackageVersions from '@/components/packages/packageDetails/PackageVersions.vue'
 import PackageTitle from '@/components/packages/packageDetails/PackageTitle.vue'
 import PackageManual from '@/components/packages/packageDetails/PackageManual.vue'
-import { EntityModelPackageDto } from '@/openapi'
 </script>
