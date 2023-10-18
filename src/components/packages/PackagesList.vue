@@ -29,8 +29,8 @@
       <PackageRow :packageBag="slotProps.resource" />
     </template>
     <template #expansion-text="slotProps">
-      <PackageDetails
-        :package="(slotProps.resource as EntityModelPackageDto)"
+      <PackageDescription
+        :packageBagShort="(slotProps.resource as EntityModelPackageDto)"
         class="short"
       />
     </template>
@@ -44,6 +44,7 @@ import ResourcesList from '@/components/common/resources/ResourcesList.vue'
 import { onBeforeMount } from 'vue'
 import PackageDetails from '@/views/packages/PackageDetails.vue'
 import { EntityModelPackageDto } from '@/openapi'
+import PackageDescription from './packageDetails/PackageDescription.vue'
 
 const packagesStore = usePackagesStore()
 

@@ -21,27 +21,20 @@
 -->
 
 <template>
-  <div
-    :class="{
-      short: $parent?.$vuetify.defaults.VExpansionPanel
-    }"
-  >
-    <PackageTitle />
-    <div class="d-flex">
-      <div class="mr-10">
-        <PackageDescription />
-        <PackageInstallation />
-        <PackageProperties />
-        <!-- </v-card> -->
-      </div>
-      <div class="pr-5" variant="flat" color="background">
-        <PackageDownloads />
-        <PackageManual />
-        <PackageVignettes />
-        <PackageSubmission />
-        <PackageVersions />
-        <PackageClassifiers />
-      </div>
+  <PackageTitle />
+  <div class="d-flex">
+    <div class="mr-10 flex-fill">
+      <PackageDescription />
+      <PackageInstallation />
+      <PackageProperties />
+    </div>
+    <div class="pr-5" color="background">
+      <PackageDownloads />
+      <PackageManual />
+      <PackageVignettes />
+      <PackageSubmission />
+      <PackageVersions />
+      <PackageClassifiers />
     </div>
   </div>
 </template>
@@ -58,15 +51,3 @@ import PackageTitle from '@/components/packages/packageDetails/PackageTitle.vue'
 import PackageManual from '@/components/packages/packageDetails/PackageManual.vue'
 import PackageVignettes from '@/components/packages/packageDetails/PackageVignettes.vue'
 </script>
-
-<style scoped>
-.short {
-  max-height: 250px;
-  overflow: hidden;
-  mask: linear-gradient(
-    to top,
-    rgba(255, 0, 0, 0),
-    rgb(255, 0, 0, 1) 50%
-  );
-}
-</style>
