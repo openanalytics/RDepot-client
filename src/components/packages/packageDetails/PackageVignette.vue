@@ -32,10 +32,7 @@ import { EntityModelPythonPackageDto } from '@/openapi'
 import { usePackageDetailsStore } from '@/store/package_details'
 
 var props = defineProps<{
-  fileName: {
-    type?: String
-    required: true
-  }
+  fileName: string
 }>()
 
 const packageDetailsStore = usePackageDetailsStore()
