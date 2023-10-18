@@ -138,6 +138,22 @@ export async function updateRPackage(
     [patch, oldPackage.id]
   )
 }
+
+export async function updatePythonPackage(
+  oldPackage: EntityModelPackageDto,
+  newPackage: EntityModelPackageDto
+): Promise<validatedData<EntityModelPackageDto>> {
+  if (!isAuthorized('PATCH', 'package')) {
+    return new Promise(() => false)
+  }
+  const patch = createPatch(oldPackage, newPackage)
+
+  return openApiRequest<EntityModelPackageDto>(
+    PythonPackageControllerApiFactory().updatePythonPackage,
+    [patch, oldPackage.id]
+  )
+}
+
 export function downloadReferenceManual(id: string) {
   return openApiRequest<Promise<boolean>>(
     RPackageControllerApiFactory().downloadReferenceManual,
