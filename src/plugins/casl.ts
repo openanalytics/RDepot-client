@@ -36,8 +36,9 @@ import {
 import { z } from 'zod'
 import { RouteRecordName } from 'vue-router'
 import { useAuthorizationStore } from '@/store/authorization'
-import { notify } from '@kyvg/vue3-notification'
-import { i18n } from './i18n'
+// import { notify } from '@kyvg/vue3-notification'
+// import { i18n } from './i18n'
+import { useToast } from '@/composable/toasts'
 
 const FrontendRoute = z.enum([
   'Home',
@@ -152,10 +153,12 @@ export function isAuthorized(
 ): boolean {
   const authorizationStore = useAuthorizationStore()
   if (!authorizationStore.can(action, subject)) {
-    notify({
-      type: 'error',
-      text: i18n.t('common.errors.unauthorized')
-    })
+    const toasts = useToast()
+    toasts.error('common.errors.unauthorized')
+    // notify({
+    //   type: 'error',
+    //   text: i18n.t('common.errors.unauthorized')
+    // })
     return false
   }
   return true

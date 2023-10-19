@@ -23,8 +23,10 @@
 import { createVuetify } from 'vuetify/lib/framework.mjs'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
-import Notifications from '@kyvg/vue3-notification'
+// import Notifications from '@kyvg/vue3-notification'
 import { i18nInstance } from '@/plugins/i18n'
+import Vue3Toastify from 'vue3-toastify'
+import 'vue3-toastify/dist/index.css'
 
 const vuetify = createVuetify({
   components,
@@ -33,6 +35,7 @@ const vuetify = createVuetify({
 
 export const plugins = [
   vuetify,
-  Notifications,
+  // Notifications,
+  Vue3Toastify,
   i18nInstance
 ]

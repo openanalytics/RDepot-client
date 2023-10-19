@@ -36,11 +36,12 @@ import {
   validatedData,
   validateRequest
 } from './open_api_access'
-import { notify } from '@kyvg/vue3-notification'
+// import { notify } from '@kyvg/vue3-notification'
 import { useSortStore } from '@/store/sort'
 import { repositorySchema } from '@/models/Schemas'
 import { createPatch } from 'rfc6902'
 import { isAuthorized } from '@/plugins/casl'
+import { useToast } from '@/composable/toasts'
 
 export function fetchRepositoriesServices(
   filtration?: RepositoriesFiltration,
@@ -94,10 +95,12 @@ export async function createRepository(
       )
     }
   } else {
-    notify({
-      type: 'error',
-      text: validatedRepository.error.message
-    })
+    const toasts = useToast()
+    toasts.error(validatedRepository.error.message)
+    // notify({
+    //   type: 'error',
+    //   text: validatedRepository.error.message
+    // })
     return new Promise(() => false)
   }
 }

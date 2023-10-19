@@ -7,7 +7,9 @@
     "login": "zaloguj",
     "clear": "wyczyść",
     "wrongCredentials": "Błędne dane logowania, spróbuj ponownie ",
-    "keycloak": "Keycloak"
+    "keycloak": "Keycloak",
+    "success": "Udane logowanie",
+    "error": "Nieudane logowanie. Spróbuj ponownie (\"{0}\")"
   },
   "packages": {
     "authors": "Autorzy",
@@ -170,6 +172,7 @@
     },
     "list": "Repozytoria",
     "maintainers": "Konserwatorzy repozytorium",
+    "empty": "Nie wybrano repozytorium",
     "creation": {
       "serverAddress": "Adres serwera",
       "name": "Nazwa",

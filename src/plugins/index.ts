@@ -37,6 +37,10 @@ import { i18nInstance } from './i18n'
 import { caslAbility } from './casl'
 import { VueDOMPurifyHTMLconfig } from './vue_dompurify_html'
 import VueDOMPurifyHTML from 'vue-dompurify-html'
+import Vue3Toastify, {
+  type ToastContainerOptions
+} from 'vue3-toastify'
+import 'vue3-toastify/dist/index.css'
 
 export function registerPlugins(app: App) {
   loadFonts()
@@ -48,4 +52,9 @@ export function registerPlugins(app: App) {
     .use(Notifications)
     .use(abilitiesPlugin, caslAbility)
     .use(VueDOMPurifyHTML, VueDOMPurifyHTMLconfig)
+    .use(Vue3Toastify, {
+      autoClose: 3000,
+      limit: 5,
+      clearOnUrlChange: false
+    } as ToastContainerOptions)
 }

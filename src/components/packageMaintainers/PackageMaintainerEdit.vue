@@ -76,11 +76,13 @@ import { Form, useForm } from 'vee-validate'
 import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
 import { ref, onMounted, computed } from 'vue'
 import { packageMaintainerSchema } from '@/models/Schemas'
-import { notify } from '@kyvg/vue3-notification'
+// import { notify } from '@kyvg/vue3-notification'
 import { z } from 'zod'
 import { useUtilities } from '@/composable/utilities'
+import { useToast } from '@/composable/toasts'
 
 const maintainersStore = usePackageMaintainersStore()
+const toasts = useToast()
 const buttons = [
   {
     id: 'cancelbutton',
@@ -169,10 +171,11 @@ async function editMaintainer() {
     )
     changeDialogOptions()
   } else {
-    notify({
-      type: 'warn',
-      text: i18n.t('notifications.invalidform')
-    })
+    toasts.warning('notifications.invalidform')
+    // notify({
+    //   type: 'warn',
+    //   text: i18n.t('notifications.invalidform')
+    // })
   }
 }
 

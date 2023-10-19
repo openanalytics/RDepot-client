@@ -72,14 +72,16 @@
 import { EntityModelRepositoryDto } from '@/openapi'
 import { useRepositoryStore } from '@/store/repositories'
 import { useSubmissionStore } from '@/store/submission'
-import { useNotification } from '@kyvg/vue3-notification'
+// import { useNotification } from '@kyvg/vue3-notification'
 import { onMounted } from 'vue'
 import { computed } from 'vue'
+import { useToast } from '@/composable/toasts'
 
 const emits = defineEmits(['next'])
 const submissionsStore = useSubmissionStore()
 const repositoryStore = useRepositoryStore()
-const notifications = useNotification()
+// const notifications = useNotification()
+const toasts = useToast()
 
 const repositories = computed(function () {
   return repositoryStore.repositories
@@ -93,10 +95,11 @@ function nextStep() {
   if (submissionsStore.repository != null) {
     emits('next', 2)
   } else {
-    notifications.notify({
-      text: 'no repository chosen',
-      type: 'warn'
-    })
+    toasts.warning('repositories.empty')
+    // notifications.notify({
+    //   text: 'no repository chosen',
+    //   type: 'warn'
+    // })
   }
 }
 

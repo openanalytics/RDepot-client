@@ -64,10 +64,11 @@ import { Form, useForm } from 'vee-validate'
 import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
 import { toTypedSchema } from '@vee-validate/zod'
 import { repositoryMaintainerSchema } from '@/models/Schemas'
-import { notify } from '@kyvg/vue3-notification'
+// import { notify } from '@kyvg/vue3-notification'
 import { i18n } from '@/plugins/i18n'
 import { z } from 'zod'
 import { useUtilities } from '@/composable/utilities'
+import { useToast } from '@/composable/toasts'
 
 const props = defineProps({
   blockedField: {
@@ -120,15 +121,18 @@ const { meta } = useForm({
   }
 })
 
+const toasts = useToast()
+
 function setMaintainer() {
   if (meta.value.valid) {
     maintainersStore.updateMaintainer(localMaintainer.value)
     changeDialogOptions()
   } else {
-    notify({
-      type: 'warn',
-      text: i18n.t('notifications.invalidform')
-    })
+    toasts.warning('notifications.invalidform')
+    // notify({
+    //   type: 'warn',
+    //   text: i18n.t('notifications.invalidform')
+    // })
   }
 }
 

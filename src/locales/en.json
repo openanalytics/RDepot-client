@@ -7,7 +7,9 @@
     "login": "login",
     "clear": "clear",
     "wrongCredentials": "Wrong credentials, please try again",
-    "keycloak": "Keycloak"
+    "keycloak": "Keycloak",
+    "success": "User successfully logged in",
+    "error": "Login procedure failed, please try again (\"{0}\")"
   },
   "errors": {
     "401": "Cannot perform this request because user is not authenticated.",
@@ -156,6 +158,7 @@
       "technology": "Technology",
       "duplicateName": "Repository name already exists"
     },
+    "empty": "No repository chosen",
     "maintainers": "repository maintainers",
     "list": "repositories"
   },
