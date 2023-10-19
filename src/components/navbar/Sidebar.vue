@@ -39,15 +39,17 @@
         prepend-icon="mdi-timetable"
         :title="$t('common.events')"
         :value="$t('common.events')"
-        @click="$router.push({ name: 'events' })"
-      ></v-list-item>
-
+        active-class="link-active"
+        to="/events"
+      >
+      </v-list-item>
       <v-list-item
         v-if="authorizationStore.can('POST', 'submissions')"
         prepend-icon="mdi-upload"
         :title="$t('common.addPackage')"
         :value="$t('common.addPackage')"
-        @click="redirectAddPackage"
+        active-class="link-active"
+        to="/add-packages"
       ></v-list-item>
 
       <v-list-item
@@ -55,7 +57,8 @@
         prepend-icon="mdi-email"
         :title="$t('common.submissions')"
         :value="$t('common.submissions')"
-        @click="$router.push({ name: 'submissions' })"
+        active-class="link-active"
+        to="/submissions"
       ></v-list-item>
 
       <v-list-group
@@ -65,7 +68,6 @@
             'packageMaintainers'
           ) || authorizationStore.can('GET', 'packages')
         "
-        value="Packages"
         tag="Packages"
       >
         <template v-slot:activator="{ props }">
@@ -81,7 +83,8 @@
           :title="$t('common.list')"
           :value="$t('packages.list')"
           id="sidebarpackageslist"
-          @click="$router.push({ name: 'packages' })"
+          active-class="link-active"
+          to="/packages"
         ></v-list-item>
         <v-list-item
           v-if="
@@ -92,9 +95,8 @@
           "
           :title="$t('common.maintainers')"
           :value="$t('packages.maintainers')"
-          @click="
-            $router.push({ name: 'packageMaintainers' })
-          "
+          active-class="link-active"
+          to="/package-maintainers"
         ></v-list-item>
       </v-list-group>
       <v-list-group
@@ -122,7 +124,8 @@
           "
           :title="$t('common.list')"
           :value="$t('repositories.list')"
-          @click="$router.push({ name: 'repositories' })"
+          active-class="link-active"
+          to="/repositories"
         ></v-list-item>
         <v-list-item
           v-if="
@@ -134,11 +137,8 @@
           :title="$t('common.maintainers')"
           :value="$t('repositories.maintainers')"
           id="sidebarrepositorymintainers"
-          @click="
-            $router.push({
-              name: 'repositoryMaintainers'
-            })
-          "
+          active-class="link-active"
+          to="/repository-maintainers"
         ></v-list-item>
       </v-list-group>
       <v-list-item
@@ -146,7 +146,8 @@
         prepend-icon="mdi-account-multiple"
         :title="$t('common.users')"
         :value="$t('common.users')"
-        @click="$router.push({ name: 'users' })"
+        active-class="link-active"
+        to="/users"
       ></v-list-item>
       <v-list-item
         prepend-icon="mdi-logout"
@@ -166,6 +167,7 @@ import { useAuthorizationStore } from '@/store/authorization'
 import { useSubmissionStore } from '@/store/submission'
 import { computed } from 'vue'
 import { useDisplay } from 'vuetify/lib/framework.mjs'
+import { ref } from 'vue'
 
 const { xs, mobile } = useDisplay()
 const authorizationStore = useAuthorizationStore()
@@ -174,6 +176,8 @@ const commonStore = useCommonStore()
 const getUserLogin = computed(() => {
   return authorizationStore.me.name
 })
+
+const events = ref<boolean>(false)
 
 const showSidebar = computed(() => {
   return authorizationStore.sidebar
