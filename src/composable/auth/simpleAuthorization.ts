@@ -24,11 +24,9 @@ import { Login } from '@/models/users/Login'
 import { BASE_PATH } from '@/openapi/base'
 import axios from 'axios'
 import { useToast } from '@/composable/toasts'
-import { useToastStore } from '@/store/toast'
 
 export function useSimpleAuthorization() {
   const toasts = useToast()
-  const toastStore = useToastStore()
   async function login(payload: Login) {
     logout()
     return await axios
@@ -37,12 +35,11 @@ export function useSimpleAuthorization() {
         password: payload.password
       })
       .then((res) => {
-        toastStore.success('authorization.success')
         localStorage.setItem(
           'simpleAuthToken',
           res.data.data.token
         )
-        // toasts.success('authorization.success')
+        toasts.success('authorization.success')
         return res.data.data.token
       })
       .catch((err) => {
