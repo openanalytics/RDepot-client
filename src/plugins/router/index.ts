@@ -56,10 +56,7 @@ router.beforeEach(async (to) => {
     authorizationStore.getUserInfo()
   }
 
-  const pagination = usePagination()
-  const sort = useSortStore()
-  pagination.resetPage()
-  sort.reset()
+  helper.resetStoreValues(to)
   document.title = to.meta.title
     ? (to.meta.title as string)
     : DEFAULT_TITLE
