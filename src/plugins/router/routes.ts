@@ -103,7 +103,10 @@ export const routes = [
         name: 'addSubmission',
         component: () =>
           import('@/views/submissions/AddSubmission.vue'),
-        meta: { title: 'RDepot - add packages' }
+        meta: { title: 'RDepot - add packages' },
+        beforeEnter: () => {
+          prepareAddPackageView()
+        }
       },
       {
         path: '/events',

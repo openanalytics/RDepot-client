@@ -197,10 +197,11 @@ const drawer = computed({
 function logout() {
   authorizationStore.logout()
 }
-
-const redirectAddPackage = () => {
-  submissionsStore.updateStepperKey()
-  submissionsStore.repository = undefined
-  router.push({ name: 'addSubmission' })
-}
 </script>
+
+<style>
+.rdepot-sidebar {
+  font-weight: bolder;
+  color: blue;
+}
+</style>
