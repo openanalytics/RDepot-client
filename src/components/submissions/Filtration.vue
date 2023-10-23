@@ -22,7 +22,7 @@
 
 <template>
   <filtration-card
-    :title="$t('submissions.filtration.title')"
+    :title="$t('filtration.title')"
     v-on:clear-filtration="resetValues()"
     v-on:set-filtration="setFiltration()"
     v-on:change-dialog-options="cancelModal()"
@@ -33,7 +33,7 @@
         :items="states"
         name="state"
         as="v-select"
-        :label="$t('submissions.filtration.state')"
+        :label="$t('filtration.state')"
       ></validated-input-field>
 
       <validated-input-field
@@ -47,7 +47,7 @@
 
       <validated-input-field
         name="assignedToMe"
-        :label="$t('submissions.filtration.assigned')"
+        :label="$t('filtration.assignedToMe')"
         as="v-switch"
       ></validated-input-field>
     </form>

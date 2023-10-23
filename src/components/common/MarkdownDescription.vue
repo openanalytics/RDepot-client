@@ -34,12 +34,11 @@ import { computed } from 'vue'
 
 const props = defineProps<{
   description: string
+  short?: Boolean
   packageId?: number
 }>()
 
 const { renderer } = useUtilities()
-
-const short = computed(() => props.packageId !== undefined)
 
 // Reset marked settings to use defaults
 marked.use(marked.getDefaults())

@@ -35,6 +35,7 @@ import {
   downloadVignetteHtml,
   downloadSourceFile,
   fetchPackageServices,
+  updatePythonPackage,
   updateRPackage
 } from '@/services/package_services'
 import { useUtilities } from '@/composable/utilities'
@@ -141,11 +142,22 @@ export const usePackagesStore = defineStore(
       ) {
         const oldPackage = deepCopy(newPackage)
         oldPackage.active = !newPackage.active
-        await updateRPackage(oldPackage, newPackage).then(
-          async (success) => {
+        if (
+          newPackage.technology == Technologies.Enum.Python
+        ) {
+          await updatePythonPackage(
+            oldPackage,
+            newPackage
+          ).then(async (success) => {
             if (success) await this.fetchPackages()
-          }
-        )
+          })
+        } else {
+          await updateRPackage(oldPackage, newPackage).then(
+            async (success) => {
+              if (success) await this.fetchPackages()
+            }
+          )
+        }
       },
       async downloadManual(id: string) {
         await downloadReferenceManual(id).then((res) => {
