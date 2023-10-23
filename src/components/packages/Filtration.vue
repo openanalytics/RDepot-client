@@ -22,7 +22,7 @@
 
 <template>
   <filtration-card
-    :title="$t('packages.filtration.title')"
+    :title="$t('filtration.title')"
     v-on:clear-filtration="resetValues()"
     v-on:set-filtration="setFiltration()"
     v-on:change-dialog-options="cancelModal()"
@@ -32,7 +32,7 @@
       :items="states"
       name="state"
       as="v-select"
-      :label="$t('packages.filtration.state')"
+      :label="$t('filtration.state')"
     ></validated-input-field>
 
     <validated-input-field
@@ -50,7 +50,7 @@
       name="technologies"
       multiple
       as="v-select"
-      :label="$t('repositories.filtration.technology')"
+      :label="$t('filtration.technologies')"
     ></validated-input-field>
 
     <validated-input-field

@@ -1,240 +1,218 @@
 {
-  "authorization": {
-    "username": "Login",
-    "usernameError": "Login jest wymagany",
-    "password": "Hasło",
-    "passwordError": "Hasło jest wymagane",
-    "login": "zaloguj",
-    "clear": "wyczyść",
-    "wrongCredentials": "Błędne dane logowania, spróbuj ponownie ",
-    "keycloak": "Keycloak"
-  },
-  "packages": {
-    "authors": "Autorzy",
-    "emailAuthors": "Emaile",
-    "platform": "Platforma",
-    "version": "Wersja",
-    "projectUrl": "URL projektu",
-    "license": "Licencja",
-    "url": "URL",
-    "noVignette": "Brak dostępnych winiet",
-    "install": "Instalacja",
-    "installInstruction": "Aby zainstalować ten pakiet, uruchom \"{0}\" i wprowadź komendę:",
-    "withinRdepot": "Wewnątrz RDepot",
-    "requiresDist": "Wymaga dystrybucji",
-    "requiresExternal": "Zewnętrzne wymagania",
-    "requiresPython": "Wymaga python",
-    "description": "Opis",
-    "documentation": "Dokumentacja",
-    "systemRequirements": "Wymagania systemowe",
-    "downloads": "Do pobrania",
-    "sourceFile": "Plik źródłowy",
-    "archive": "Archiwum",
-    "oldSources": "Stare źródła",
-    "details": "Szczegóły",
-    "depends": "Zależności",
-    "referenceManual": "Instrukcja",
-    "windowsBineries": "Pliki binarne Windows",
-    "osxBinaries": "Pliki binarne OS X",
-    "originalPackageData": "Jak opisano w pakiecie \"{0}\"",
-    "imports": "Importuje",
-    "suggests": "Sugestie",
-    "providesExtra": "Dostarcza dodatkowe",
-    "download-code": "install.packages(\"{0}\", repos = c(rdepot = \"{1}\"), getOption(\"repos\")))",
-    "windowsBinaries": "Pliki binarne Windows",
-    "approver": "Zatwierdzający",
-    "classifiers": "Klasyfikatory",
-    "submitter": "Zgłaszający",
-    "filtration": {
-      "title": "Filtracja pakietów",
-      "state": "Stan",
-      "repository": "Repozytorium",
-      "deleted": "Usunięte"
-    },
-    "maintainers": "Konserwatorzy pakietów",
-    "maintainer": "Konserwator",
-    "list": "Pakiety",
-    "title": "Tytuł"
-  },
-  "common": {
-    "create": "Utwórz",
-    "search": "Wyszukaj",
-    "edit": "Edytuj",
-    "projectTitle": "RDepot",
-    "errors": {
-      "copyFailed": "Nieudane kopiowanie",
-      "required": "To pole jest wymagane",
-      "url": "To powinien być url",
-      "email": "To powinien być adres email",
-      "unauthorized": "Nie masz uprawnień do wykonania tej akcji."
-    },
-    "copied": "Kod został skopiowany",
-    "notAvaiable": "Niedostępne",
-    "logout": "Wyloguj",
-    "delete": "Usuń",
-    "deleteQuestion": "Czy na pewno chcesz usunąć {resource_name}?",
-    "goBack": "Powrót",
-    "reset": "Wyczyść",
-    "noListingResults": "Nie znaleziono żadnych wyników",
-    "users": "Użytkownicy",
-    "list": "Lista",
-    "repositories": "Repozytoria",
-    "maintainers": "Konserwatorzy",
-    "packages": "Pakiety",
-    "addPackage": "Dodaj pakiet",
-    "events": "Zdarzenia",
-    "submissions": "Zgłoszenia",
-    "details": "Zobacz szczegóły",
-    "cancel": "Anuluj",
-    "clearForm": "Wyczyść formularz",
-    "apply": "Zastosuj",
-    "save": "Zapisz"
-  },
-  "errors": {
-    "oauth": "Błąd autoryzacji",
-    "401": "Nie można wykonać zapytania. Użytkownik nie jest zalogowany.",
-    "403": "Nie można wykonać zapytania. Użytkownik nie posiada odpowiednich uprawnień.",
-    "422": "Nieudana walidacja",
-    "oauthTitle": "Autoryzacja"
-  },
-  "users": {
-    "edit": {
-      "tooltip": "Edytuj użytkownika",
-      "role": "Rola",
-      "overlay": "Edytuj rolę {user_login}",
-      "title": "Edytuj użytkownika"
-    }
-  },
-  "columns": {
-    "actions": "Akcje",
-    "active": "Aktywny",
-    "role": "Rola",
-    "username": "Nazwa użytkownika",
-    "email": "Email",
-    "name": "Użytkownik",
-    "accepted": "Zaakceptowany",
-    "technology": "Technologia",
-    "approver": "Zatwierdzający",
-    "submitter": "Zgłaszający",
-    "repository": "Repozytorium",
-    "package": "Pakiet",
-    "date": "Data",
-    "packageName": "Pakiet",
-    "published": "Opublikowano",
-    "version": "Wersja",
-    "title": "Tytuł",
-    "publicationUri": "URI publikacji",
-    "maintainer": "Konserwator",
-    "serverAddress": "Adres serwera",
-    "packagesNo": "Lp. pakietu"
-  },
-  "notifications": {
-    "successFiltration": "Udane filtrowanie",
-    "successFiltrationReset": "Filtry wyczyszczone",
-    "successCancelSubmission": "Zgłoszenie anulowane",
-    "acceptSubmission": "Zgłoszenie zaakceptowane",
-    "successRejectSubmission": "Zgłoszenie odrzucone",
-    "successCreateSubmissiom": "Zgłoszenie utworzone",
-    "successDeletePackageManager": "Usunięto {maintainer_name}",
-    "successUpdatePackageManager": "Zaktualizowano {maintainer_name}",
-    "successCreateRepository": "Utworzono {repository_name}",
-    "successDeleteRepositoryManager": "Usunięto {maintainer_name}",
-    "successUpdateRepositoryManager": "Zaktualizowano {maintainer_name}",
-    "successDeleteRepositoryMaintainer": "Usunięto {maintainer_name}",
-    "successUpdateRepositoryMaintainer": "Zaktualizowano {maintainer_name}",
-    "invalidform": "Przesłane dane są niepoprawne",
-    "successUpdateUser": "Dane użytkownika zaktualizowane"
-  },
-  "maintainers": {
-    "delete": "Usuń konserwatora",
-    "filtration": {
-      "title": "Filtracja konserwatorów",
-      "technology": "Technologia",
-      "deleted": "Usunięci"
-    },
-    "deleteQuestion": "Czy na pewno chcesz usunąć {maintainer_name}?",
-    "editform": {
-      "repository": "Repozytorium",
-      "user": "Użytkownik",
-      "title": "Edytuj konserwatora",
-      "package": "Pakiet",
-      "packageNotFound": "Pakiet nie znajduje się w repozytorium"
-    },
-    "edit": "Edytuj konserwatora"
-  },
-  "repositories": {
-    "filtration": {
-      "title": "Filtracja repozytoriów",
-      "name": "Nazwa",
-      "technology": "Technologia"
-    },
-    "list": "Repozytoria",
-    "maintainers": "Konserwatorzy repozytorium",
-    "creation": {
-      "serverAddress": "Adres serwera",
-      "name": "Nazwa",
-      "title": "Nowe repozytorium",
-      "technology": "Technologia",
-      "publicationUri": "URI publikacji",
-      "publicationUriPlaceholder": "http://localhost/repo/{'{name}'}",
-      "serverAddressPlaceholder": "http://oa-rdepot-repo:8080/{'{name}'}",
-      "duplicateName": "Repozytorium o tej nazwie już istnieje"
-    }
-  },
-  "submissions": {
-    "filtration": {
-      "title": "Filtrowanie zgłoszeń",
-      "assigned": "Przypisane do mnie",
-      "state": "Stan",
-      "package": "Pakiet"
-    },
-    "wrongExtension": "Wybierz pakiety o poprawnym rozszerzeniu (.tar.gz)",
-    "noPackageChosen": "Nie wybrano pakietów",
-    "waitForAllRequestsToFulfill": "Zaczekaj na zakończenie wszystkich zgłoszeń",
-    "choseFiles": "Wybierz pliki",
-    "addAnotherSubmission": "Dodaj następne pakiety"
-  },
   "addSubmission": {
     "step1Title": "Wybierz repozytorium",
     "step2Title": "Wgrano {0} pakietów",
     "step3Title": "Podsumowanie"
   },
-  "filtration": {
-    "state": "Stan",
-    "packageName": "Nazwa pakietu",
-    "repositoryName": "Nazwa repozytorium",
-    "deleted": "Usunięte",
-    "technologies": "Technologie",
-    "assignedToMe": "Przypisane do mnie",
-    "eventType": "Typ zdarzenia",
-    "resourceType": "Typ zasobu",
-    "resourceId": "Id zasobu",
-    "userId": "Id użytkownika",
-    "title": "Filtrowanie",
-    "makeSure": "Ta akcja wyczyści wszystkie filtry"
+  "authorization": {
+    "clear": "wyczyść",
+    "keycloak": "Keycloak",
+    "logged-in": "Zalogowany",
+    "login": "zaloguj",
+    "not-logged-in": "Nie zalogowany",
+    "password": "Hasło",
+    "passwordError": "Hasło jest wymagane",
+    "username": "Login",
+    "usernameError": "Login jest wymagany",
+    "wrongCredentials": "Błędne dane logowania, spróbuj ponownie"
   },
-  "pagination": {
-    "size": "Rozmiar strony"
+  "columns": {
+    "accepted": "Zaakceptowany",
+    "actions": "Akcje",
+    "active": "Aktywny",
+    "approver": "Zatwierdzający",
+    "date": "Data",
+    "email": "Email",
+    "maintainer": "Konserwator",
+    "name": "Użytkownik",
+    "package": "Pakiet",
+    "packageName": "Pakiet",
+    "packagesNo": "Lp. pakietu",
+    "publicationUri": "URI publikacji",
+    "published": "Opublikowano",
+    "repository": "Repozytorium",
+    "role": "Rola",
+    "serverAddress": "Adres serwera",
+    "submitter": "Zgłaszający",
+    "technology": "Technologia",
+    "title": "Tytuł",
+    "username": "Nazwa użytkownika",
+    "version": "Wersja"
+  },
+  "common": {
+    "addPackage": "Dodaj pakiet",
+    "apply": "Zastosuj",
+    "cancel": "Anuluj",
+    "clearForm": "Wyczyść formularz",
+    "copied": "Kod został skopiowany",
+    "create": "Utwórz",
+    "delete": "Usuń",
+    "deleteQuestion": "Czy na pewno chcesz usunąć {resource_name}?",
+    "details": "Zobacz szczegóły",
+    "edit": "Edytuj",
+    "errors": {
+      "copyFailed": "Nieudane kopiowanie",
+      "email": "To powinien być adres email",
+      "required": "To pole jest wymagane",
+      "unauthorized": "Nie masz uprawnień do wykonania tej akcji.",
+      "url": "To powinien być url"
+    },
+    "events": "Zdarzenia",
+    "goBack": "Powrót",
+    "list": "Lista",
+    "logout": "Wyloguj",
+    "maintainers": "Konserwatorzy",
+    "noListingResults": "Nie znaleziono żadnych wyników",
+    "notAvaiable": "Niedostępne",
+    "packages": "Pakiety",
+    "projectTitle": "RDepot",
+    "repositories": "Repozytoria",
+    "reset": "Wyczyść",
+    "save": "Zapisz",
+    "search": "Wyszukaj",
+    "submissions": "Zgłoszenia",
+    "users": "Użytkownicy"
+  },
+  "errors": {
+    "401": "Nie można wykonać zapytania. Użytkownik nie jest zalogowany.",
+    "403": "Nie można wykonać zapytania. Użytkownik nie posiada odpowiednich uprawnień.",
+    "422": "Nieudana walidacja",
+    "oauth": "Błąd autoryzacji",
+    "oauthTitle": "Autoryzacja"
   },
   "events": {
-    "noEvents": "Brak dostępnych zdarzeń",
-    "filtration": {
-      "title": "Filtracja zdarzeń",
-      "eventType": "Typ zdarzenia",
-      "technology": "Technologia",
-      "userId": "Id użytkownika",
-      "resourceType": "Typ zasobu",
-      "resourceId": "Id zasobu"
-    }
+    "noEvents": "Brak dostępnych zdarzeń"
   },
-  "loginType": {
-    "keycloak": "Keycloak"
+  "filtration": {
+    "assignedToMe": "Przypisane do mnie",
+    "deleted": "Usunięte",
+    "eventType": "Typ zdarzenia",
+    "makeSure": "Ta akcja wyczyści wszystkie filtry",
+    "packageName": "Nazwa pakietu",
+    "repositoryName": "Nazwa repozytorium",
+    "resourceId": "Id zasobu",
+    "resourceType": "Typ zasobu",
+    "state": "Stan",
+    "technologies": "Technologie",
+    "title": "Filtrowanie",
+    "userId": "Id użytkownika"
+  },
+  "maintainers": {
+    "delete": "Usuń konserwatora",
+    "deleteQuestion": "Czy na pewno chcesz usunąć {maintainer_name}?",
+    "edit": "Edytuj konserwatora",
+    "editform": {
+      "package": "Pakiet",
+      "packageNotFound": "Pakiet nie znajduje się w repozytorium",
+      "repository": "Repozytorium",
+      "title": "Edytuj konserwatora",
+      "user": "Użytkownik"
+    },
+    "filtration": {
+      "deleted": "Usunięci"
+    }
   },
   "navbar": {
     "changeLanguage": "lang"
   },
-  "user": {
-    "logged-in": "zalogowany",
-    "not-logged-in": "nie zalogowany"
+  "notifications": {
+    "acceptSubmission": "Zgłoszenie zaakceptowane",
+    "invalidform": "Przesłane dane są niepoprawne",
+    "successCancelSubmission": "Zgłoszenie anulowane",
+    "successCreateRepository": "Utworzono {repository_name}",
+    "successCreateSubmissiom": "Zgłoszenie utworzone",
+    "successDeletePackageManager": "Usunięto {maintainer_name}",
+    "successDeleteRepositoryMaintainer": "Usunięto {maintainer_name}",
+    "successDeleteRepositoryManager": "Usunięto {maintainer_name}",
+    "successFiltration": "Udane filtrowanie",
+    "successFiltrationReset": "Filtry wyczyszczone",
+    "successRejectSubmission": "Zgłoszenie odrzucone",
+    "successUpdatePackageManager": "Zaktualizowano {maintainer_name}",
+    "successUpdateRepositoryMaintainer": "Zaktualizowano {maintainer_name}",
+    "successUpdateRepositoryManager": "Zaktualizowano {maintainer_name}",
+    "successUpdateUser": "Dane użytkownika zaktualizowane"
+  },
+  "packages": {
+    "approver": "Zatwierdzający",
+    "archive": "Archiwum",
+    "authors": "Autorzy",
+    "classifiers": "Klasyfikatory",
+    "depends": "Zależności",
+    "description": "Opis",
+    "details": "Szczegóły",
+    "documentation": "Dokumentacja",
+    "download-code": "install.packages(\"{0}\", repos = c(rdepot = \"{1}\"), getOption(\"repos\")))",
+    "downloads": "Do pobrania",
+    "emailAuthors": "Emaile",
+    "filtration": {
+      "deleted": "Usunięte",
+      "repository": "Repozytorium"
+    },
+    "imports": "Importuje",
+    "install": "Instalacja",
+    "installInstruction": "Aby zainstalować ten pakiet, uruchom \"{0}\" i wprowadź komendę:",
+    "license": "Licencja",
+    "list": "Pakiety",
+    "maintainer": "Konserwator",
+    "maintainers": "Konserwatorzy pakietów",
+    "noVignette": "Brak dostępnych winiet",
+    "oldSources": "Stare źródła",
+    "originalPackageData": "Jak opisano w pakiecie \"{0}\"",
+    "osxBinaries": "Pliki binarne OS X",
+    "platform": "Platforma",
+    "projectUrl": "URL projektu",
+    "providesExtra": "Dostarcza dodatkowe",
+    "referenceManual": "Instrukcja",
+    "requiresDist": "Wymaga dystrybucji",
+    "requiresExternal": "Zewnętrzne wymagania",
+    "requiresPython": "Wymaga python",
+    "sourceFile": "Plik źródłowy",
+    "submitter": "Zgłaszający",
+    "suggests": "Sugestie",
+    "systemRequirements": "Wymagania systemowe",
+    "title": "Tytuł",
+    "url": "URL",
+    "version": "Wersja",
+    "windowsBinaries": "Pliki binarne Windows",
+    "windowsBineries": "Pliki binarne Windows",
+    "withinRdepot": "Wewnątrz RDepot"
+  },
+  "pagination": {
+    "size": "rozmiar strony"
+  },
+  "repositories": {
+    "creation": {
+      "duplicateName": "Repozytorium o tej nazwie już istnieje",
+      "name": "Nazwa",
+      "publicationUri": "URI publikacji",
+      "publicationUriPlaceholder": "http://localhost/repo/{'{name}'}",
+      "serverAddress": "Adres serwera",
+      "serverAddressPlaceholder": "http://oa-rdepot-repo:8080/{'{name}'}",
+      "technology": "Technologia",
+      "title": "Nowe repozytorium"
+    },
+    "filtration": {
+      "name": "Nazwa"
+    },
+    "list": "Repozytoria",
+    "maintainers": "Konserwatorzy repozytorium"
+  },
+  "submissions": {
+    "addAnotherSubmission": "Dodaj następne pakiety",
+    "choseFiles": "Wybierz pliki",
+    "filtration": {
+      "package": "Pakiet"
+    },
+    "noPackageChosen": "Nie wybrano pakietów",
+    "waitForAllRequestsToFulfill": "Zaczekaj na zakończenie wszystkich zgłoszeń",
+    "wrongExtension": "Wybierz pakiety o poprawnym rozszerzeniu (.tar.gz)"
+  },
+  "users": {
+    "edit": {
+      "overlay": "Edytuj rolę {user_login}",
+      "role": "Rola",
+      "title": "Edytuj użytkownika",
+      "tooltip": "Edytuj użytkownika"
+    }
   }
 }

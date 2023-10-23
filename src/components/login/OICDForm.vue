@@ -28,7 +28,7 @@
       class="loginTypeButton"
     >
       <div class="loginType">
-        {{ $t('loginType.keycloak') }}
+        {{ $t('authorization.keycloak') }}
       </div>
     </v-btn>
   </v-row>
