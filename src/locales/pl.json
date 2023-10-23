@@ -7,12 +7,14 @@
   "authorization": {
     "clear": "wyczyść",
     "keycloak": "Keycloak",
+    "logged-in": "Zalogowany",
     "login": "zaloguj",
+    "not-logged-in": "Nie zalogowany",
     "password": "Hasło",
     "passwordError": "Hasło jest wymagane",
     "username": "Login",
     "usernameError": "Login jest wymagany",
-    "wrongCredentials": "Błędne dane logowania, spróbuj ponownie "
+    "wrongCredentials": "Błędne dane logowania, spróbuj ponownie"
   },
   "columns": {
     "accepted": "Zaakceptowany",
@@ -79,14 +81,6 @@
     "oauthTitle": "Autoryzacja"
   },
   "events": {
-    "filtration": {
-      "eventType": "Typ zdarzenia",
-      "resourceId": "Id zasobu",
-      "resourceType": "Typ zasobu",
-      "technology": "Technologia",
-      "title": "Filtracja zdarzeń",
-      "userId": "Id użytkownika"
-    },
     "noEvents": "Brak dostępnych zdarzeń"
   },
   "filtration": {
@@ -103,9 +97,6 @@
     "title": "Filtrowanie",
     "userId": "Id użytkownika"
   },
-  "loginType": {
-    "keycloak": "Keycloak"
-  },
   "maintainers": {
     "delete": "Usuń konserwatora",
     "deleteQuestion": "Czy na pewno chcesz usunąć {maintainer_name}?",
@@ -118,9 +109,7 @@
       "user": "Użytkownik"
     },
     "filtration": {
-      "deleted": "Usunięci",
-      "technology": "Technologia",
-      "title": "Filtracja konserwatorów"
+      "deleted": "Usunięci"
     }
   },
   "navbar": {
@@ -157,9 +146,7 @@
     "emailAuthors": "Emaile",
     "filtration": {
       "deleted": "Usunięte",
-      "repository": "Repozytorium",
-      "state": "Stan",
-      "title": "Filtracja pakietów"
+      "repository": "Repozytorium"
     },
     "imports": "Importuje",
     "install": "Instalacja",
@@ -191,7 +178,7 @@
     "withinRdepot": "Wewnątrz RDepot"
   },
   "pagination": {
-    "size": "Rozmiar strony"
+    "size": "rozmiar strony"
   },
   "repositories": {
     "creation": {
@@ -205,9 +192,7 @@
       "title": "Nowe repozytorium"
     },
     "filtration": {
-      "name": "Nazwa",
-      "technology": "Technologia",
-      "title": "Filtracja repozytoriów"
+      "name": "Nazwa"
     },
     "list": "Repozytoria",
     "maintainers": "Konserwatorzy repozytorium"
@@ -216,18 +201,11 @@
     "addAnotherSubmission": "Dodaj następne pakiety",
     "choseFiles": "Wybierz pliki",
     "filtration": {
-      "assigned": "Przypisane do mnie",
-      "package": "Pakiet",
-      "state": "Stan",
-      "title": "Filtrowanie zgłoszeń"
+      "package": "Pakiet"
     },
     "noPackageChosen": "Nie wybrano pakietów",
     "waitForAllRequestsToFulfill": "Zaczekaj na zakończenie wszystkich zgłoszeń",
     "wrongExtension": "Wybierz pakiety o poprawnym rozszerzeniu (.tar.gz)"
-  },
-  "user": {
-    "logged-in": "zalogowany",
-    "not-logged-in": "nie zalogowany"
   },
   "users": {
     "edit": {

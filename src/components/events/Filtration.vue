@@ -22,7 +22,7 @@
 
 <template>
   <filtration-card
-    :title="$t('events.filtration.title')"
+    :title="$t('filtration.title')"
     long
     v-on:clear-filtration="resetValues()"
     v-on:set-filtration="setFiltration()"
@@ -33,7 +33,7 @@
       :items="eventTypes"
       name="eventType"
       as="v-select"
-      :label="$t('events.filtration.eventType')"
+      :label="$t('filtration.eventType')"
     ></validated-input-field>
 
     <validated-input-field
@@ -41,7 +41,7 @@
       :items="resourceTypes"
       name="resourceType"
       as="v-select"
-      :label="$t('events.filtration.resourceType')"
+      :label="$t('filtration.resourceType')"
     ></validated-input-field>
 
     <validated-input-field
@@ -50,7 +50,7 @@
       name="technologies"
       multiple
       as="v-select"
-      :label="$t('repositories.filtration.technology')"
+      :label="$t('filtration.technologies')"
     ></validated-input-field>
 
     <validated-input-field
@@ -58,7 +58,7 @@
       type="number"
       name="resourceId"
       min="0"
-      :label="$t('events.filtration.resourceId')"
+      :label="$t('filtration.resourceId')"
       as="v-text-field"
     ></validated-input-field>
 
@@ -67,7 +67,7 @@
       type="number"
       name="userId"
       min="0"
-      :label="$t('events.filtration.userId')"
+      :label="$t('filtration.userId')"
       as="v-text-field"
     ></validated-input-field>
   </filtration-card>

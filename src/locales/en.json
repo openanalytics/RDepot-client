@@ -5,9 +5,11 @@
     "step3Title": "Summary"
   },
   "authorization": {
-    "clear": "clear",
+    "clear": "Clear",
     "keycloak": "Keycloak",
-    "login": "login",
+    "logged-in": "Logged in",
+    "login": "Login",
+    "not-logged-in": "Not logged in",
     "password": "Password",
     "passwordError": "Password is required",
     "username": "Name",
@@ -15,39 +17,39 @@
     "wrongCredentials": "Wrong credentials, please try again"
   },
   "columns": {
-    "accepted": "accepted",
-    "actions": "actions",
-    "active": "active",
-    "approver": "approver",
-    "date": "date",
-    "email": "email",
-    "maintainer": "maintainer",
-    "name": "name",
-    "package": "package",
-    "packageName": "package",
+    "accepted": "Accepted",
+    "actions": "Actions",
+    "active": "Active",
+    "approver": "Approver",
+    "date": "Date",
+    "email": "Email",
+    "maintainer": "Maintainer",
+    "name": "Name",
+    "package": "Package",
+    "packageName": "Package",
     "packagesNo": "# packages",
-    "publicationUri": "publication uri",
-    "published": "published",
-    "repository": "repository",
-    "role": "role",
-    "serverAddress": "server address",
-    "submitter": "submitter",
-    "technology": "technology",
-    "title": "title",
-    "username": "user name",
-    "version": "version"
+    "publicationUri": "Publication uri",
+    "published": "Published",
+    "repository": "Repository",
+    "role": "Role",
+    "serverAddress": "Server address",
+    "submitter": "Submitter",
+    "technology": "Technology",
+    "title": "Title",
+    "username": "User name",
+    "version": "Version"
   },
   "common": {
-    "addPackage": "add package",
-    "apply": "apply",
-    "cancel": "cancel",
-    "clearForm": "clear form",
-    "copied": "code succesfully copied to clipboard",
-    "create": "create",
-    "delete": "delete",
+    "addPackage": "Add package",
+    "apply": "Apply",
+    "cancel": "Cancel",
+    "clearForm": "Clear form",
+    "copied": "Code succesfully copied to clipboard",
+    "create": "Create",
+    "delete": "Delete",
     "deleteQuestion": "Are you sure you want to delete {resource_name}?",
-    "details": "see details",
-    "edit": "edit",
+    "details": "See details",
+    "edit": "Edit",
     "errors": {
       "copyFailed": "Copy failed",
       "email": "This should be an email",
@@ -55,62 +57,51 @@
       "unauthorized": "You are not authorized to perform this action",
       "url": "This should be a url"
     },
-    "events": "events",
-    "goBack": "go back",
-    "list": "list",
-    "logout": "logout",
-    "maintainers": "maintainers",
+    "events": "Events",
+    "goBack": "Go back",
+    "list": "List",
+    "logout": "Logout",
+    "maintainers": "Maintainers",
     "noListingResults": "No results where found",
     "notAvaiable": "Not avaiable",
     "notAvailable": "Not available",
-    "packages": "packages",
+    "packages": "Packages",
     "projectTitle": "RDepot",
-    "repositories": "repositories",
-    "reset": "reset",
-    "save": "save",
-    "search": "search",
-    "submissions": "submissions",
-    "users": "users"
+    "repositories": "Repositories",
+    "reset": "Reset",
+    "save": "Save",
+    "search": "Search",
+    "submissions": "Submissions",
+    "users": "Users"
   },
   "errors": {
     "401": "Cannot perform this request because user is not authenticated.",
     "403": "Cannot perform this request because user is not authorized",
-    "422": "validation failed",
+    "422": "Validation failed",
     "oauth": "Error with oauth",
     "oauthTitle": "Authorization"
   },
   "events": {
-    "filtration": {
-      "eventType": "Event Type",
-      "resourceId": "Resource Id",
-      "resourceType": "Resource Type",
-      "technology": "Technology",
-      "title": "Events filtration",
-      "userId": "User Id"
-    },
     "noEvents": "No events available"
   },
   "filtration": {
-    "assignedToMe": "assigned to me",
-    "deleted": "deleted",
-    "eventType": "event type",
-    "makeSure": "this action will clear all filtration",
-    "packageName": "package name",
-    "repositoryName": "repository name",
-    "resourceId": "resource id",
-    "resourceType": "resource type",
-    "state": "state",
-    "technologies": "technologies",
-    "title": "filtration",
-    "userId": "user id"
-  },
-  "loginType": {
-    "keycloak": "Keycloak"
+    "assignedToMe": "Assigned to me",
+    "deleted": "Deleted",
+    "eventType": "Event type",
+    "makeSure": "This action will clear all filtration",
+    "packageName": "Package name",
+    "repositoryName": "Repository name",
+    "resourceId": "Resource id",
+    "resourceType": "Resource type",
+    "state": "State",
+    "technologies": "Technologies",
+    "title": "Filtration",
+    "userId": "User id"
   },
   "maintainers": {
-    "delete": "delete maintainer",
+    "delete": "Delete maintainer",
     "deleteQuestion": "Are you sure you want to delete {maintainer_name}?",
-    "edit": "edit maintainer",
+    "edit": "Edit maintainer",
     "editform": {
       "package": "Package",
       "packageNotFound": "Package not in repository",
@@ -119,29 +110,27 @@
       "user": "User"
     },
     "filtration": {
-      "deleted": "Deleted",
-      "technology": "Technology",
-      "title": "Maintainers filtration"
+      "deleted": "Deleted"
     }
   },
   "navbar": {
     "changeLanguage": "lang"
   },
   "notifications": {
-    "acceptSubmission": "accept submission",
+    "acceptSubmission": "Accept submission",
     "invalidform": "The submitted form is not valid",
-    "successCancelSubmission": "cancel submission",
-    "successCreateRepository": "successfully created {repository_name}",
-    "successCreateSubmissiom": "successfully created submission",
-    "successDeletePackageManager": "successful deleted {maintainer_name}",
-    "successDeleteRepositoryMaintainer": "successful deleted {maintainer_name}",
-    "successDeleteRepositoryManager": "successful deleted {maintainer_name}",
-    "successFiltration": "successful filtration action",
-    "successFiltrationReset": "successful filtration reset",
-    "successRejectSubmission": "reject submission",
-    "successUpdatePackageManager": "successful updated {maintainer_name}",
-    "successUpdateRepositoryMaintainer": "successful updated {maintainer_name}",
-    "successUpdateRepositoryManager": "successful update {maintainer_name}",
+    "successCancelSubmission": "Cancel submission",
+    "successCreateRepository": "Successfully created {repository_name}",
+    "successCreateSubmissiom": "Successfully created submission",
+    "successDeletePackageManager": "Successful deleted {maintainer_name}",
+    "successDeleteRepositoryMaintainer": "Successful deleted {maintainer_name}",
+    "successDeleteRepositoryManager": "Successful deleted {maintainer_name}",
+    "successFiltration": "Successful filtration action",
+    "successFiltrationReset": "Successful filtration reset",
+    "successRejectSubmission": "Reject submission",
+    "successUpdatePackageManager": "Successful updated {maintainer_name}",
+    "successUpdateRepositoryMaintainer": "Successful updated {maintainer_name}",
+    "successUpdateRepositoryManager": "Successful update {maintainer_name}",
     "successUpdateUser": "Successfully updated user"
   },
   "packages": {
@@ -150,7 +139,7 @@
     "authors": "Authors",
     "classifiers": "Classifiers",
     "depends": "Depends",
-    "description": "description",
+    "description": "Description",
     "details": "Details",
     "documentation": "Documentation",
     "download-code": "install.packages(\"{0}\", repos = c(rdepot = \"{1}\"), getOption(\"repos\")))",
@@ -158,17 +147,15 @@
     "emailAuthors": "Emails",
     "filtration": {
       "deleted": "Deleted",
-      "repository": "Repository",
-      "state": "State",
-      "title": "Packages filtration"
+      "repository": "Repository"
     },
     "imports": "Imports",
     "install": "Install",
     "installInstruction": "To install this package, start \"{0}\" and enter:",
     "license": "License",
-    "list": "packages",
+    "list": "Packages",
     "maintainer": "Maintainer",
-    "maintainers": "package maintainers",
+    "maintainers": "Package maintainers",
     "noVignette": "No vignettes available",
     "oldSources": "Old sources",
     "originalPackageData": "As described in \"{0}\" package",
@@ -184,7 +171,7 @@
     "submitter": "Submitter",
     "suggests": "Suggests",
     "systemRequirements": "System requirements",
-    "title": "title",
+    "title": "Title",
     "url": "URL",
     "version": "Version",
     "windowsBinaries": "Windows binaries",
@@ -197,7 +184,7 @@
   "repositories": {
     "creation": {
       "duplicateName": "Repository name already exists",
-      "name": "name",
+      "name": "Name",
       "publicationUri": "Publication URI",
       "publicationUriPlaceholder": "http://localhost/repo/{'{name}'}",
       "serverAddress": "Server address",
@@ -206,34 +193,25 @@
       "title": "New repository"
     },
     "filtration": {
-      "name": "Name",
-      "technology": "Technology",
-      "title": "Repositories filtration"
+      "name": "Name"
     },
-    "list": "repositories",
-    "maintainers": "repository maintainers"
+    "list": "Repositories",
+    "maintainers": "Repository maintainers"
   },
   "submissions": {
-    "addAnotherSubmission": "upload another packages",
+    "addAnotherSubmission": "Upload another packages",
     "choseFiles": "Choose files",
     "filtration": {
-      "assigned": "assigned to me",
-      "package": "Package",
-      "state": "State",
-      "title": "Submissions filtration"
+      "package": "Package"
     },
-    "noPackageChosen": "no packages choosen",
-    "waitForAllRequestsToFulfill": "wait untill all sumissions will end",
-    "wrongExtension": "choose packages that have correct extention (.tar.gz)"
-  },
-  "user": {
-    "logged-in": "logged in",
-    "not-logged-in": "not logged in"
+    "noPackageChosen": "No packages choosen",
+    "waitForAllRequestsToFulfill": "Wait until all submissions will end",
+    "wrongExtension": "Choose packages that have correct extension (.tar.gz)"
   },
   "users": {
     "edit": {
       "overlay": "Edit user role of {user_login}",
-      "role": "role",
+      "role": "Role",
       "title": "Edit user",
       "tooltip": "Edit user"
     }
