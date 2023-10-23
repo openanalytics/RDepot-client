@@ -127,7 +127,8 @@
     "submitter": "Submitter",
     "approver": "Approver",
     "classifiers": "Classifiers",
-    "maintainer": "Maintainer"
+    "maintainer": "Maintainer",
+    "generatemanual": "generate manual"
   },
   "events": {
     "filtration": {
@@ -237,5 +238,11 @@
   },
   "loginType": {
     "keycloak": "Keycloak"
+  },
+  "dragzone": {
+    "active": "Drag one or more files to this",
+    "dropzone": "drop zone",
+    "inactive": "Drop files to upload them",
+    "click": "to select them manually"
   }
 }

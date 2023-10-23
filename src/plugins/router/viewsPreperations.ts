@@ -26,4 +26,5 @@ export function prepareAddPackageView() {
   const submissionStore = useSubmissionStore()
   submissionStore.updateStepperKey()
   submissionStore.repository = undefined
+  submissionStore.packages = []
 }
