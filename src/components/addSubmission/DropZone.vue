@@ -21,8 +21,9 @@
 -->
 
 <template>
-  <div class="drop-zone px-5 py-5">
+  <div class="drop-zone">
     <div
+      class="px-5 py-5 width"
       :data-active="active"
       @dragenter.prevent="activate"
       @dragover.prevent="activate"
@@ -95,11 +96,16 @@ $background_color: rgba(var(--v-theme-background));
   justify-content: center;
   animation-play-state: paused;
   margin: 1rem 0;
+  width: 100%;
 
   :hover {
     animation: resize 0.5s ease-out infinite alternate;
     cursor: pointer;
   }
+}
+
+.width {
+  width: 100%;
 }
 
 @keyframes resize {
