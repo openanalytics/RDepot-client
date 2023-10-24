@@ -31,7 +31,10 @@
       cols="lg-1 sm-2"
       class="d-flex align-center"
     >
-      <SortTitle v-if="title" :text="$t('columns.name')" />
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.repository')"
+      />
       <TextRecord v-else :text="repository?.name" />
     </v-col>
     <v-col

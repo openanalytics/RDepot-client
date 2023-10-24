@@ -181,8 +181,8 @@ const showSidebar = computed(() => {
 
 const getSubtitle = computed(() => {
   return authorizationStore.me.name
-    ? i18n.t('user.logged-in')
-    : i18n.t('user.not-logged-in')
+    ? i18n.t('authorization.logged-in')
+    : i18n.t('authorization.not-logged-in')
 })
 
 const drawer = computed({

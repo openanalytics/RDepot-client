@@ -15,6 +15,7 @@
     "execute": "npm run license:check && npm run test:unit:once && npm run build",
     "prettier": "npx pretty-quick",
     "prettier:changes": "npx pretty-quick --staged --bail",
+    "json:sort": "jsonsort ./src/locales/*",
     "prepare": "husky install"
   },
   "dependencies": {
@@ -27,6 +28,7 @@
     "@vueuse/components": "^9.13.0",
     "@vueuse/core": "^9.13.0",
     "axios": "^1.2.2",
+    "json-sort-cli": "^1.15.1",
     "keycloak-js": "^20.0.2",
     "lodash": "^4.17.21",
     "lodash.clonedeep": "^4.5.0",
