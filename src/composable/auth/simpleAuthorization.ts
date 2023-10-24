@@ -24,6 +24,7 @@ import { Login } from '@/models/users/Login'
 import { BASE_PATH } from '@/openapi/base'
 import axios from 'axios'
 import { useToast } from '@/composable/toasts'
+import { i18n } from '@/plugins/i18n'
 
 export function useSimpleAuthorization() {
   const toasts = useToast()
@@ -39,11 +40,11 @@ export function useSimpleAuthorization() {
           'simpleAuthToken',
           res.data.data.token
         )
-        toasts.success('authorization.success')
+        toasts.success(i18n.t('authorization.success'))
         return res.data.data.token
       })
       .catch((err) => {
-        toasts.error('authorization.error', [err])
+        toasts.error(i18n.t('authorization.error', [err]))
         return ''
       })
   }

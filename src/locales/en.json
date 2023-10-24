@@ -14,7 +14,9 @@
     "passwordError": "Password is required",
     "username": "Name",
     "usernameError": "Name is required",
-    "wrongCredentials": "Wrong credentials, please try again"
+    "wrongCredentials": "Wrong credentials, please try again",
+    "success": "Successful login",
+    "error": "Unsuccessful login"
   },
   "columns": {
     "accepted": "Accepted",
@@ -191,6 +193,7 @@
       "technology": "Technology",
       "title": "New repository"
     },
+    "empty": "No repository chosen",
     "filtration": {
       "name": "Name"
     },
@@ -207,6 +210,7 @@
     "waitForAllRequestsToFulfill": "Wait until all submissions will end",
     "wrongExtension": "Choose packages that have correct extension (.tar.gz)"
   },
+  "success": "Successful request",
   "users": {
     "edit": {
       "overlay": "Edit user role of {user_login}",

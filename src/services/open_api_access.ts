@@ -23,13 +23,12 @@
 import { useCommonStore } from '@/store/common'
 import { AxiosError, AxiosResponse } from 'axios'
 import { Link, PageMetadata } from '@/openapi'
-// import { notify } from '@kyvg/vue3-notification'
 import { getHeaders } from './api_config'
-// import { i18n } from '@/plugins/i18n'
 import { ResponseDtoObject } from '@/openapi/models'
 import { useAuthorizationStore } from '@/store/authorization'
 import { useBlob } from '@/composable/blob'
 import { useToast } from '@/composable/toasts'
+import { i18n } from '@/plugins/i18n'
 
 export async function openApiRequest<T>(
   callback: Function,
@@ -100,8 +99,7 @@ async function resolved(
   const common_store = useCommonStore()
   common_store.setProgressCircularActive(false)
   const toasts = useToast()
-  toasts.devSuccess('success')
-  // notify('success')
+  toasts.devToast(i18n.t('success'), 'success')
   const data = result.data.data?.content
     ? result.data.data?.content
     : result.data.data
@@ -123,12 +121,7 @@ function errorsHandler(error: AxiosError) {
   const toasts = useToast()
   switch (error.response?.status) {
     case 401: {
-      toasts.error('errors.401')
-      // notify({
-      //   title: '401',
-      //   type: 'error',
-      //   text: i18n.t('errors.401')
-      // })
+      toasts.error(i18n.t('errors.401'))
       const authorizationStore = useAuthorizationStore()
       authorizationStore.logout()
       break
@@ -140,21 +133,12 @@ function errorsHandler(error: AxiosError) {
     }
 
     case 422: {
-      toasts.error('errors.422')
-      // notify({
-      //   title: '401',
-      //   type: 'error',
-      //   text: i18n.t('errors.422')
-      // })
+      toasts.error(i18n.t('errors.422'))
       break
     }
 
     case 500: {
-      toasts.error('errors.500')
-      // notify({
-      //   title: '500',
-      //   type: 'error'
-      // })
+      toasts.error(i18n.t('errors.500'))
       break
     }
   }

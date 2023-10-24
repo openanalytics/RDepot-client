@@ -40,7 +40,6 @@ import { useAuthorizationStore } from '@/store/authorization'
 import { useOICDAuthorization } from '@/composable/auth/oicdAuthorization'
 import { ref } from 'vue'
 import { onMounted } from 'vue'
-// import { notify } from '@kyvg/vue3-notification'
 import { authService as oauthService } from '@/plugins/oauth'
 import {
   registerUserLoggedInEventListener,
@@ -69,12 +68,7 @@ onMounted(() => {
       isUserLoggedIn.value = isLoggedIn
     })
     .catch((error) => {
-      toasts.error('errors.oauth')
-      // notify({
-      //   title: t('errors.oauthTitle'),
-      //   type: 'error',
-      //   text: t('errors.oauth')
-      // })
+      toasts.error(t('errors.oauth'))
     })
 
   registerUserLoggedInEventListener(() => {

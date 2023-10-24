@@ -14,7 +14,9 @@
     "passwordError": "Hasło jest wymagane",
     "username": "Login",
     "usernameError": "Login jest wymagany",
-    "wrongCredentials": "Błędne dane logowania, spróbuj ponownie"
+    "wrongCredentials": "Błędne dane logowania, spróbuj ponownie",
+    "success": "Udane logowanie",
+    "error": "Nieudane logowanie"
   },
   "columns": {
     "accepted": "Zaakceptowany",
@@ -191,6 +193,7 @@
       "technology": "Technologia",
       "title": "Nowe repozytorium"
     },
+    "empty": "Nie wybrano repozytorium",
     "filtration": {
       "name": "Nazwa"
     },
@@ -207,6 +210,7 @@
     "waitForAllRequestsToFulfill": "Zaczekaj na zakończenie wszystkich zgłoszeń",
     "wrongExtension": "Wybierz pakiety o poprawnym rozszerzeniu (.tar.gz)"
   },
+  "success": "Successful request",
   "users": {
     "edit": {
       "overlay": "Edytuj rolę {user_login}",

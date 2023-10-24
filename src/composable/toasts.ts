@@ -20,58 +20,61 @@
  *
  */
 import { toast, type ToastOptions } from 'vue3-toastify'
-import { i18n } from '@/plugins/i18n'
 import getEnv from '@/utils/env'
 
 export function useToast() {
-  function success(message: string): void {
-    toast.success(i18n.t(message), {
-      autoClose: 3000,
-      position: toast.POSITION.BOTTOM_LEFT
+  function success(message: string, icon?: string): void {
+    toast.success(message, {
+      icon: icon
     } as ToastOptions)
   }
 
-  function warning(message: string): void {
-    toast.warn(i18n.t(message), {
-      autoClose: 3000,
-      position: toast.POSITION.BOTTOM_LEFT
+  function warning(message: string, icon?: string): void {
+    toast.warn(message, {
+      icon: icon
     } as ToastOptions)
   }
 
-  function info(message: string): void {
-    toast.info(i18n.t(message), {
-      autoClose: 3000,
-      position: toast.POSITION.BOTTOM_LEFT
+  function info(message: string, icon?: string): void {
+    toast.info(message, {
+      icon: icon
     } as ToastOptions)
   }
 
-  function normal(message: string): void {
-    toast(i18n.t(message), {
-      autoClose: 3000,
-      position: toast.POSITION.BOTTOM_LEFT
+  function normal(message: string, icon?: string): void {
+    toast(message, {
+      icon: icon
     } as ToastOptions)
   }
 
-  function error(
-    message: string,
-    parameters?: Array<any>
-  ): void {
-    if (parameters) {
-      toast.error(i18n.t(message, parameters), {
-        autoClose: 3000,
-        position: toast.POSITION.BOTTOM_LEFT
-      } as ToastOptions)
-    } else {
-      toast.error(i18n.t(message), {
-        autoClose: 3000,
-        position: toast.POSITION.BOTTOM_LEFT
-      } as ToastOptions)
-    }
+  function error(message: string, icon?: string): void {
+    toast.error(message, {
+      icon: icon
+    } as ToastOptions)
   }
 
-  function devSuccess(message: string): void {
+  function devToast(message: string, type: string): void {
     if (getEnv('VITE_DEV_MODE') == 'true') {
-      success(message)
+      switch (type) {
+        case 'info':
+          info(message, '🛠️')
+          break
+        case 'success':
+          success(message, '🛠️')
+          break
+        case 'error':
+          error(message, '🛠️')
+          break
+        case 'normal':
+          normal(message, '🛠️')
+          break
+        case 'warning':
+          warning(message, '🛠️')
+          break
+        default:
+          success(message, '🛠️')
+          break
+      }
     }
   }
 
@@ -81,6 +84,6 @@ export function useToast() {
     normal,
     error,
     warning,
-    devSuccess
+    devToast
   }
 }

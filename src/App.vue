@@ -35,11 +35,6 @@
         </v-main>
       </v-row>
     </div>
-    <!-- <notifications
-      position="bottom left"
-      :max="5"
-      pauseOnHover
-    /> -->
   </v-app>
 </template>
 

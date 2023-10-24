@@ -166,12 +166,11 @@
 
 <script setup lang="ts">
 import { useSubmissionStore } from '@/store/submission'
-// import { useNotification } from '@kyvg/vue3-notification'
 import { computed, ref } from 'vue'
 import { useFileDialog } from '@vueuse/core'
 import { watch } from 'vue'
 import { onMounted } from 'vue'
-import { i18n } from '@/plugins/i18n'
+import { useI18n } from 'vue-i18n'
 import { useToast } from '@/composable/toasts'
 
 const { files, open, reset } = useFileDialog({
@@ -184,8 +183,9 @@ const chosenRepository = computed(() => {
 
 const emits = defineEmits(['next'])
 const submissionsStore = useSubmissionStore()
-// const notifications = useNotification()
 const toasts = useToast()
+const { t } = useI18n()
+
 const valid = ref<boolean>(true)
 
 const filesLocal = ref<File[]>([])
@@ -230,17 +230,9 @@ function nextStep() {
     emits('next', 3)
     submissionsStore.addSubmissionRequests()
   } else if (!valid.value) {
-    toasts.error('submissions.wrongExtension')
-    // notifications.notify({
-    //   text: i18n.t('submissions.wrongExtension'),
-    //   type: 'error'
-    // })
+    toasts.error(t('submissions.wrongExtension'))
   } else {
-    toasts.warning('submissions.noPackageChosen')
-    // notifications.notify({
-    //   text: i18n.t('submissions.noPackageChosen'),
-    //   type: 'warn'
-    // })
+    toasts.warning(t('submissions.noPackageChosen'))
   }
 }
 </script>

@@ -68,25 +68,25 @@ import { repositorySchema } from '@/models/Schemas'
 import { toTypedSchema } from '@vee-validate/zod/dist/vee-validate-zod'
 import { Form, useForm } from 'vee-validate'
 import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
-// import { notify } from '@kyvg/vue3-notification'
 import CardActions from '@/components/common/CardActions.vue'
-import { i18n } from '@/plugins/i18n'
 import { z } from 'zod'
 import { useToast } from '@/composable/toasts'
+import { useI18n } from 'vue-i18n'
 
 const repositoryStore = useRepositoryStore()
 
 const technologySelect = ref(Technologies.options)
+const { t } = useI18n()
 
 const buttons = [
   {
     id: 'cancel-button',
-    text: i18n.t('common.cancel'),
+    text: t('common.cancel'),
     handler: changeDialogOptions
   },
   {
     id: 'set-filtration',
-    text: i18n.t('common.create'),
+    text: t('common.create'),
     handler: createRepository
   }
 ]
@@ -129,11 +129,7 @@ function createRepository() {
     repositoryStore.createRepository(values)
     changeDialogOptions()
   } else {
-    toasts.warning('notifications.invalidform')
-    // notify({
-    //   type: 'warn',
-    //   text: i18n.t('notifications.invalidform')
-    // })
+    toasts.warning(t('notifications.invalidform'))
   }
 }
 

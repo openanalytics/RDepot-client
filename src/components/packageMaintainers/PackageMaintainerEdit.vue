@@ -68,7 +68,6 @@
 </template>
 
 <script setup lang="ts">
-import { i18n } from '@/plugins/i18n'
 import CardActions from '@/components/common/CardActions.vue'
 import { usePackageMaintainersStore } from '@/store/package_maintainers'
 import { toTypedSchema } from '@vee-validate/zod'
@@ -76,24 +75,25 @@ import { Form, useForm } from 'vee-validate'
 import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
 import { ref, onMounted, computed } from 'vue'
 import { packageMaintainerSchema } from '@/models/Schemas'
-// import { notify } from '@kyvg/vue3-notification'
 import { z } from 'zod'
 import { useUtilities } from '@/composable/utilities'
 import { useToast } from '@/composable/toasts'
+import { useI18n } from 'vue-i18n'
 
 const maintainersStore = usePackageMaintainersStore()
 const toasts = useToast()
+const { t } = useI18n()
 const buttons = [
   {
     id: 'cancelbutton',
-    text: i18n.t('common.cancel'),
+    text: t('common.cancel'),
     handler: () => {
       changeDialogOptions()
     }
   },
   {
     id: 'setfiltration',
-    text: i18n.t('common.save'),
+    text: t('common.save'),
     handler: () => {
       editMaintainer()
     }
@@ -139,9 +139,7 @@ const { meta, validateField } = useForm({
               return false
             }
           },
-          i18n.t(
-            'package_maintainers.editform.packageNotFound'
-          )
+          t('package_maintainers.editform.packageNotFound')
         )
     })
   ),
@@ -171,11 +169,7 @@ async function editMaintainer() {
     )
     changeDialogOptions()
   } else {
-    toasts.warning('notifications.invalidform')
-    // notify({
-    //   type: 'warn',
-    //   text: i18n.t('notifications.invalidform')
-    // })
+    toasts.warning(t('notifications.invalidform'))
   }
 }
 

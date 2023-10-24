@@ -64,11 +64,12 @@ import { Form, useForm } from 'vee-validate'
 import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
 import { toTypedSchema } from '@vee-validate/zod'
 import { repositoryMaintainerSchema } from '@/models/Schemas'
-// import { notify } from '@kyvg/vue3-notification'
-import { i18n } from '@/plugins/i18n'
 import { z } from 'zod'
 import { useUtilities } from '@/composable/utilities'
 import { useToast } from '@/composable/toasts'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const props = defineProps({
   blockedField: {
@@ -83,12 +84,12 @@ const props = defineProps({
 const buttons = [
   {
     id: 'cancel-button',
-    text: i18n.t('common.cancel'),
+    text: t('common.cancel'),
     handler: changeDialogOptions
   },
   {
     id: 'set-filtration',
-    text: i18n.t('common.save'),
+    text: t('common.save'),
     handler: setMaintainer
   }
 ]
@@ -128,11 +129,7 @@ function setMaintainer() {
     maintainersStore.updateMaintainer(localMaintainer.value)
     changeDialogOptions()
   } else {
-    toasts.warning('notifications.invalidform')
-    // notify({
-    //   type: 'warn',
-    //   text: i18n.t('notifications.invalidform')
-    // })
+    toasts.warning(t('notifications.invalidform'))
   }
 }
 

@@ -29,8 +29,6 @@ import {
   defaultValues,
   SubmissionsFiltration
 } from '@/models/Filtration'
-// import { notify } from '@kyvg/vue3-notification'
-// import { i18n } from '@/plugins/i18n'
 import { useAuthorizationStore } from '@/store/authorization'
 import {
   addSubmission,
@@ -42,6 +40,7 @@ import { submissionsFiltrationLabels } from '@/maps/Filtration'
 import { validatedData } from '@/services/open_api_access'
 import { usePagination } from '@/store/pagination'
 import { useToast } from '@/composable/toasts'
+import { i18n } from '@/plugins/i18n'
 
 export type PackagePromise = {
   promise: Promise<validatedData<EntityModelSubmissionDto>>
@@ -182,11 +181,9 @@ export const useSubmissionStore = defineStore(
         }
         await this.fetchSubmissions()
         const toasts = useToast()
-        toasts.success('notifications.successFiltration')
-        // notify({
-        //   text: i18n.t('notifications.successFiltration'),
-        //   type: 'success'
-        // })
+        toasts.success(
+          i18n.t('notifications.successFiltration')
+        )
       },
       clearFiltration() {
         const pagination = usePagination()
@@ -200,14 +197,8 @@ export const useSubmissionStore = defineStore(
         await this.fetchSubmissions()
         const toasts = useToast()
         toasts.success(
-          'notifications.successFiltrationReset'
+          i18n.t('notifications.successFiltrationReset')
         )
-        // notify({
-        //   text: i18n.t(
-        //     'notifications.successFiltrationReset'
-        //   ),
-        //   type: 'success'
-        // })
       },
       updateStepperKey() {
         this.stepperKey += 1

@@ -246,8 +246,9 @@ describe('Repository Maintainers Store', () => {
   it('Delete chosen maintainer', async () => {
     const repositoryMaintainersStore =
       useRepositoryMaintainersStore()
-    vi.mock('@kyvg/vue3-notification')
-    const notify = await import('@kyvg/vue3-notification')
+    // vi.mock('@kyvg/vue3-notification')
+    vi.mock('vue3-toastify')
+    const notify = await import('vue3-toastify')
     const spy = vi.spyOn(
       repositoryMaintainersStore,
       'fetchMaintainers'
@@ -261,7 +262,8 @@ describe('Repository Maintainers Store', () => {
     await repositoryMaintainersStore.deleteMaintainer()
 
     expect(spy).toBeCalled()
-    expect(notify.notify).toBeCalledWith('success')
+    // expect(notify.notify).toBeCalledWith('success')
+    expect(notify.toast.success).toBeCalled()
   })
 
   it('Save chosen maintainer', async () => {
