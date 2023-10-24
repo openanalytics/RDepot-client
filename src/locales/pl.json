@@ -6,17 +6,17 @@
   },
   "authorization": {
     "clear": "wyczyść",
+    "error": "Nieudane logowanie",
     "keycloak": "Keycloak",
     "logged-in": "Zalogowany",
     "login": "zaloguj",
     "not-logged-in": "Nie zalogowany",
     "password": "Hasło",
     "passwordError": "Hasło jest wymagane",
+    "success": "Udane logowanie",
     "username": "Login",
     "usernameError": "Login jest wymagany",
-    "wrongCredentials": "Błędne dane logowania, spróbuj ponownie",
-    "success": "Udane logowanie",
-    "error": "Nieudane logowanie"
+    "wrongCredentials": "Błędne dane logowania, spróbuj ponownie"
   },
   "columns": {
     "accepted": "Zaakceptowany",

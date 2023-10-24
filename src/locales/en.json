@@ -6,17 +6,17 @@
   },
   "authorization": {
     "clear": "Clear",
+    "error": "Unsuccessful login",
     "keycloak": "Keycloak",
     "logged-in": "Logged in",
     "login": "Login",
     "not-logged-in": "Not logged in",
     "password": "Password",
     "passwordError": "Password is required",
+    "success": "Successful login",
     "username": "Name",
     "usernameError": "Name is required",
-    "wrongCredentials": "Wrong credentials, please try again",
-    "success": "Successful login",
-    "error": "Unsuccessful login"
+    "wrongCredentials": "Wrong credentials, please try again"
   },
   "columns": {
     "accepted": "Accepted",
