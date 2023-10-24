@@ -22,7 +22,7 @@
 
 <template>
   <v-btn class="my-3" width="250" @click="getVignette">
-    {{ props.fileName }}
+    {{ props.title }}
   </v-btn>
 </template>
 
@@ -32,7 +32,8 @@ import { EntityModelPythonPackageDto } from '@/openapi'
 import { usePackageDetailsStore } from '@/store/package_details'
 
 var props = defineProps<{
-  fileName: string
+  fileName?: string
+  title?: string
 }>()
 
 const packageDetailsStore = usePackageDetailsStore()
