@@ -23,7 +23,7 @@
     "approver": "Zatwierdzający",
     "date": "Data",
     "email": "Email",
-    "maintainer": "Konserwator",
+    "maintainer": "Opiekun",
     "name": "Użytkownik",
     "package": "Pakiet",
     "packageName": "Pakiet",
@@ -61,7 +61,7 @@
     "goBack": "Powrót",
     "list": "Lista",
     "logout": "Wyloguj",
-    "maintainers": "Konserwatorzy",
+    "maintainers": "Opiekunowie",
     "noListingResults": "Nie znaleziono żadnych wyników",
     "notAvaiable": "Niedostępne",
     "packages": "Pakiety",
@@ -98,14 +98,14 @@
     "userId": "Id użytkownika"
   },
   "maintainers": {
-    "delete": "Usuń konserwatora",
+    "delete": "Usuń opiekuna",
     "deleteQuestion": "Czy na pewno chcesz usunąć {maintainer_name}?",
-    "edit": "Edytuj konserwatora",
+    "edit": "Edytuj opiekuna",
     "editform": {
       "package": "Pakiet",
       "packageNotFound": "Pakiet nie znajduje się w repozytorium",
       "repository": "Repozytorium",
-      "title": "Edytuj konserwatora",
+      "title": "Edytuj opiekuna",
       "user": "Użytkownik"
     },
     "filtration": {
@@ -153,8 +153,8 @@
     "installInstruction": "Aby zainstalować ten pakiet, uruchom \"{0}\" i wprowadź komendę:",
     "license": "Licencja",
     "list": "Pakiety",
-    "maintainer": "Konserwator",
-    "maintainers": "Konserwatorzy pakietów",
+    "maintainer": "Opiekun",
+    "maintainers": "Opiekunowie pakietów",
     "noVignette": "Brak dostępnych winiet",
     "oldSources": "Stare źródła",
     "originalPackageData": "Jak opisano w pakiecie \"{0}\"",
@@ -195,7 +195,7 @@
       "name": "Nazwa"
     },
     "list": "Repozytoria",
-    "maintainers": "Konserwatorzy repozytorium"
+    "maintainers": "Opiekunowie repozytorium"
   },
   "submissions": {
     "addAnotherSubmission": "Dodaj następne pakiety",
