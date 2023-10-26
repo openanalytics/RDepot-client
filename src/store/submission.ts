@@ -80,6 +80,16 @@ export const useSubmissionStore = defineStore(
         stepperKey: 0
       }
     },
+    getters: {
+      isDefaultFiltration: (state) => {
+        return (
+          JSON.stringify(state.filtration) ===
+          JSON.stringify(
+            defaultValues(SubmissionsFiltration)
+          )
+        )
+      }
+    },
     actions: {
       async fetchPageOfSubmissions(
         page: number,

@@ -147,10 +147,11 @@ function resetPackages() {
 }
 
 .reset-opacity {
-  opacity: 0.6;
+  opacity: 0.8 !important;
+  font-weight: 800 !important;
   &:hover {
     transition: opacity ease-in-out 0.3s;
-    opacity: 1;
+    opacity: 1 !important;
   }
 }
 </style>

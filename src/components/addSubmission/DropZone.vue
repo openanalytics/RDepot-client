@@ -29,6 +29,7 @@
       @dragover.prevent="activate"
       @dragleave.prevent="setInactive"
       @drop.prevent="onDrop"
+      :class="{ active: active }"
     >
       <slot :dropZoneActive="active"></slot>
     </div>
@@ -89,7 +90,7 @@ $background_color: rgba(var(--v-theme-background));
 
 .drop-zone {
   background-color: $background_color;
-  opacity: 0.4;
+  opacity: 0.6;
   min-height: 100px;
   display: flex;
   align-items: center;
@@ -98,12 +99,27 @@ $background_color: rgba(var(--v-theme-background));
   margin: 1rem 0;
   width: 100%;
 
-  :hover {
+  & > .active {
     animation: resize 0.5s ease-out infinite alternate;
     cursor: pointer;
+    opacity: 1;
+    border: dashed 1px #fff;
   }
+
+  // &:hover {
+  //   animation: resize 0.5s ease-out infinite alternate;
+  //   cursor: pointer;
+  //   opacity: 1;
+  //   border: dashed 1px #fff;
+  // }
 }
 
+// .active {
+//   animation: resize 0.5s ease-out infinite alternate;
+//   cursor: pointer;
+//   opacity: 1;
+//   border: dashed 1px #fff;
+// }
 .width {
   width: 100%;
 }
@@ -113,7 +129,7 @@ $background_color: rgba(var(--v-theme-background));
     transform: scale(1);
   }
   100% {
-    transform: scale(1.02);
+    transform: scale(1.01);
   }
 }
 </style>
