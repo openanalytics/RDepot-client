@@ -115,14 +115,34 @@
         :text="$t('columns.accepted')"
         center
       />
-      <v-checkbox
-        id="checkbox-accepted"
-        color="oablue"
-        @click.stop
-        disabled
-        v-else-if="submission"
-        v-model="getAccepted"
-      />
+
+      <v-tooltip location="right" v-else-if="submission">
+        <template v-slot:activator="{ props }">
+          <div
+            id="tooltip-activator"
+            v-bind="props"
+            class="mt-2"
+          >
+            <v-icon
+              v-if="getAccepted"
+              icon="mdi-check-circle-outline"
+              color="success"
+            ></v-icon>
+            <v-icon
+              v-else-if="getWaiting"
+              icon="mdi-progress-question"
+            ></v-icon>
+            <v-icon
+              v-else-if="getRejectedOrCancelled"
+              icon="mdi-close-circle-outline"
+              color="error"
+            ></v-icon>
+          </div>
+        </template>
+        <span id="tooltip-wait">{{
+          getAcceptedTooltipMessage
+        }}</span>
+      </v-tooltip>
     </v-col>
     <v-col
       id="submission-actions"
@@ -172,7 +192,10 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { EntityModelSubmissionDto } from '@/openapi'
+import {
+  EntityModelSubmissionDto,
+  EntityModelSubmissionDtoStateEnum
+} from '@/openapi'
 import { useSubmissionActions } from '@/composable/submissions/submissionActions'
 import { useAuthorizationStore } from '@/store/authorization'
 import SortTitle from '@/components/common/resources/SortTitle.vue'
@@ -205,10 +228,41 @@ const check = computed(() => {
 })
 
 const getAccepted = computed<boolean>(() => {
-  return props.submission?.state == 'ACCEPTED'
+  return (
+    props.submission?.state ==
+    EntityModelSubmissionDtoStateEnum.ACCEPTED
+  )
 })
 
 const getWaiting = computed<boolean>(() => {
-  return props.submission?.state == 'WAITING'
+  return (
+    props.submission?.state ==
+    EntityModelSubmissionDtoStateEnum.WAITING
+  )
+})
+
+const getRejected = computed<boolean>(() => {
+  return (
+    props.submission?.state ==
+    EntityModelSubmissionDtoStateEnum.REJECTED
+  )
+})
+
+const getCancelled = computed<boolean>(() => {
+  return (
+    props.submission?.state ==
+    EntityModelSubmissionDtoStateEnum.CANCELLED
+  )
+})
+
+const getRejectedOrCancelled = computed<boolean>(() => {
+  return getRejected.value || getCancelled.value
+})
+
+const getAcceptedTooltipMessage = computed<string>(() => {
+  if (getAccepted.value) return 'accepted'
+  if (getWaiting.value) return 'waiting for an action'
+  if (getRejected.value) return 'rejected'
+  else return 'cancelled'
 })
 </script>
