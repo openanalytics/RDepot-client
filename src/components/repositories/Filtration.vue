@@ -49,6 +49,7 @@
       id="filtration-deleted"
       name="deleted"
       :label="$t('packages.filtration.deleted')"
+      color="oablue"
       as="v-switch"
     ></validated-input-field>
   </filtration-card>

@@ -33,6 +33,7 @@
         :items="states"
         name="state"
         as="v-select"
+        multiple
         :label="$t('submissions.filtration.state')"
       ></validated-input-field>
 
@@ -49,6 +50,7 @@
         name="assignedToMe"
         :label="$t('submissions.filtration.assigned')"
         as="v-switch"
+        color="oablue"
       ></validated-input-field>
     </form>
   </filtration-card>

@@ -33,6 +33,7 @@
       :items="eventTypes"
       name="eventType"
       as="v-select"
+      multiple
       :label="$t('events.filtration.eventType')"
     ></validated-input-field>
 
@@ -40,6 +41,7 @@
       id="filtration-resource-type"
       :items="resourceTypes"
       name="resourceType"
+      multiple
       as="v-select"
       :label="$t('events.filtration.resourceType')"
     ></validated-input-field>

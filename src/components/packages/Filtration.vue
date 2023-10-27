@@ -30,6 +30,7 @@
     <validated-input-field
       id="filtration-state"
       :items="states"
+      multiple
       name="state"
       as="v-select"
       :label="$t('packages.filtration.state')"
@@ -38,6 +39,7 @@
     <validated-input-field
       name="repository"
       as="autocomplete"
+      multiple
       :label="$t('packages.filtration.repository')"
       v-on:loadItems="loadRepositories"
       v-on:filtrate="filtrateRepositories"
@@ -58,6 +60,7 @@
       name="deleted"
       :label="$t('packages.filtration.deleted')"
       as="v-switch"
+      color="oablue"
     ></validated-input-field>
   </filtration-card>
 </template>

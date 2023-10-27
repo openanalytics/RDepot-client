@@ -47,7 +47,7 @@
     </VCol>
     <VCol
       id="package-row-title"
-      cols="lg-5 sm-2"
+      cols="lg-4 sm-2"
       class="d-flex align-center"
     >
       <SortTitle
@@ -68,6 +68,17 @@
       />
       <TextRecord v-else :text="packageBag?.user?.name" />
     </VCol>
+
+    <VCol
+      id="package-row-state"
+      cols="lg-1 sm-2"
+      class="d-flex align-center justify-center"
+      align="center"
+    >
+      <SortTitle v-if="title" :text="$t('columns.state')" />
+      <TextRecord v-else text="submission state!" />
+    </VCol>
+
     <VCol
       id="package-row-technology"
       cols="lg-1 sm-2"
