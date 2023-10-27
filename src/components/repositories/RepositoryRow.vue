@@ -154,7 +154,7 @@
             >
           </template>
           <span id="action-details">{{
-            $t('common.details')
+            $t('common.seepackages')
           }}</span>
         </v-tooltip>
         <delete-icon
