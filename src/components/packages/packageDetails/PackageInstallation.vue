@@ -40,12 +40,21 @@
           packageBag.repository?.publicationUri
         ])
       }}
-      <v-icon
-        @click="copyContent()"
-        icon="mdi-content-copy"
-        size="large"
-        start
-      />
+      <v-tooltip location="left">
+        <template v-slot:activator="{ props }">
+          <div id="tooltip-activator" v-bind="props">
+            <v-icon
+              @click="copyContent()"
+              icon="mdi-content-copy"
+              size="large"
+              start
+            />
+          </div>
+        </template>
+        <span id="tooltip-wait">{{
+          $t('packages.copy')
+        }}</span>
+      </v-tooltip>
     </code>
   </div>
 </template>
