@@ -31,7 +31,10 @@
       cols="lg-2 sm-2"
       class="d-flex align-center"
     >
-      <SortTitle v-if="title" :text="$t('columns.name')" />
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.username')"
+      />
       <TextRecord
         v-else
         :text="packageMaintainer?.user?.name"

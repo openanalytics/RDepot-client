@@ -33,7 +33,7 @@
     >
       <SortTitle
         v-if="title"
-        :text="$t('columns.name')"
+        :text="$t('columns.username')"
         sortField="user"
       />
       <TextRecord

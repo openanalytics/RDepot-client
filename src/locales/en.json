@@ -58,7 +58,7 @@
     "seepackages": "see repository's packages "
   },
   "columns": {
-    "name": "user",
+    "name": "Name",
     "version": "version",
     "title": "title",
     "maintainer": "maintainer",
@@ -77,7 +77,7 @@
     "date": "date",
     "packageName": "package",
     "email": "email",
-    "username": "user name",
+    "username": "username",
     "role": "role",
     "state": "State"
   },
