@@ -33,6 +33,7 @@
       :items="eventTypes"
       name="eventType"
       as="v-select"
+      clearable
       multiple
       :label="$t('events.filtration.eventType')"
     ></validated-input-field>
@@ -42,6 +43,7 @@
       :items="resourceTypes"
       name="resourceType"
       multiple
+      clearable
       as="v-select"
       :label="$t('events.filtration.resourceType')"
     ></validated-input-field>
@@ -50,6 +52,7 @@
       id="filtration-technology"
       :items="technologies"
       name="technologies"
+      clearable
       multiple
       as="v-select"
       :label="$t('repositories.filtration.technology')"
@@ -58,6 +61,7 @@
     <validated-input-field
       id="filtration-resource-id"
       type="number"
+      clearable
       name="resourceId"
       min="0"
       :label="$t('events.filtration.resourceId')"
@@ -67,6 +71,7 @@
     <validated-input-field
       id="filtration-user-id"
       type="number"
+      clearable
       name="userId"
       min="0"
       :label="$t('events.filtration.userId')"

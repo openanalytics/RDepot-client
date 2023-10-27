@@ -31,6 +31,7 @@
       id="filtration-state"
       :items="states"
       multiple
+      clearable
       name="state"
       as="v-select"
       :label="$t('packages.filtration.state')"
@@ -40,6 +41,7 @@
       name="repository"
       as="autocomplete"
       multiple
+      clearable
       :label="$t('packages.filtration.repository')"
       v-on:loadItems="loadRepositories"
       v-on:filtrate="filtrateRepositories"
@@ -51,6 +53,7 @@
       :items="technologies"
       name="technologies"
       multiple
+      clearable
       as="v-select"
       :label="$t('repositories.filtration.technology')"
     ></validated-input-field>

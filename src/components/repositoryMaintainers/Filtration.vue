@@ -32,6 +32,7 @@
       :items="technologies"
       name="technologies"
       multiple
+      clearable
       as="v-select"
       :label="$t('repositories.filtration.technology')"
     ></validated-input-field>
