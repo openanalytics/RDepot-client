@@ -174,13 +174,13 @@
     "title": "Title",
     "url": "URL",
     "version": "Version",
+    "vignette": {
+      "download": "Download",
+      "open": "Open in new tab"
+    },
     "windowsBinaries": "Windows binaries",
     "windowsBineries": "Windows binaries",
-    "withinRdepot": "Within RDepot",
-    "vignette": {
-      "open": "Open in new tab",
-      "download": "Download"
-    }
+    "withinRdepot": "Within RDepot"
   },
   "pagination": {
     "size": "page size"
