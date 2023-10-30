@@ -176,7 +176,11 @@
     "version": "Version",
     "windowsBinaries": "Windows binaries",
     "windowsBineries": "Windows binaries",
-    "withinRdepot": "Within RDepot"
+    "withinRdepot": "Within RDepot",
+    "vignette": {
+      "open": "Open in new tab",
+      "download": "Download"
+    }
   },
   "pagination": {
     "size": "page size"

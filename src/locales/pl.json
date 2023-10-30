@@ -175,7 +175,11 @@
     "version": "Wersja",
     "windowsBinaries": "Pliki binarne Windows",
     "windowsBineries": "Pliki binarne Windows",
-    "withinRdepot": "Wewnątrz RDepot"
+    "withinRdepot": "Wewnątrz RDepot",
+    "vignette": {
+      "download": "Pobierz",
+      "open": "Otwórz w nowej karcie"
+    }
   },
   "pagination": {
     "size": "rozmiar strony"

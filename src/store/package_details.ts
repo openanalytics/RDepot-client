@@ -36,6 +36,7 @@ import {
 import {
   downloadReferenceManual,
   downloadVignetteHtml,
+  openVignetteHtml,
   downloadSourceFile,
   fetchPackageServices,
   fetchVignettes
@@ -112,6 +113,11 @@ export const usePackageDetailsStore = defineStore(
       async downloadManual(id: string) {
         await downloadReferenceManual(id).then((res) => {
           console.log(res)
+        })
+      },
+      async openVignette(id: string, fileName: string) {
+        await openVignetteHtml(id, fileName).then((res) => {
+          console.log(id, fileName, 'vignette.json', res)
         })
       },
       async downloadVignette(id: string, fileName: string) {
