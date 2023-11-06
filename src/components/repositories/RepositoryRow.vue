@@ -145,25 +145,11 @@
         v-else-if="repository"
         class="d-flex justify-center align-center"
       >
-        <v-tooltip top>
-          <template v-slot:activator="{ props }">
-            <v-icon
-              id="navigate-icon"
-              @click.stop
-              @click="navigate"
-              v-bind="props"
-              color="oablue"
-              >mdi-forward</v-icon
-            >
-          </template>
-          <span id="action-details">{{
-            $t('common.seepackages')
-          }}</span>
-        </v-tooltip>
         <delete-icon
           v-if="canDelete(props.repository?.links)"
           :name="props.repository?.name"
           :set-resource-id="chooseRepository"
+          class=""
         />
       </span>
     </v-col>
@@ -207,17 +193,9 @@ function updateRepositoryPublished(): void {
   })
 }
 
-function navigate() {
-  chooseRepository()
-  router.push({
-    name: 'packages'
-  })
-}
-
 function chooseRepository() {
   packagesStore.setFiltrationByRepositoryOnly(
     props.repository?.name
   )
-  // packagesStore.setFiltration({repository.})
 }
 </script>

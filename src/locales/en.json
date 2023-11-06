@@ -45,6 +45,7 @@
     "apply": "Apply",
     "cancel": "Cancel",
     "clearForm": "Clear form",
+    "click": "click",
     "copied": "Code succesfully copied to clipboard",
     "create": "Create",
     "delete": "Delete",
@@ -73,15 +74,15 @@
     "reset": "Reset",
     "save": "Save",
     "search": "Search",
-    "seepackages": "See repository's packages ",
+    "seepackages": "See repository's packages",
     "submissions": "Submissions",
     "users": "Users"
   },
   "dragzone": {
     "active": "Drag one or more files to this",
+    "click": "to select them manually",
     "dropzone": "drop zone",
-    "inactive": "Drop files to upload them",
-    "click": "to select them manually"
+    "inactive": "Drop files to upload them"
   },
   "errors": {
     "401": "Cannot perform this request because user is not authenticated.",
@@ -232,6 +233,7 @@
     "waitForAllRequestsToFulfill": "Wait until all submissions will end",
     "wrongExtension": "Choose packages that have correct extension (.tar.gz)"
   },
+  "tempo": "długie zdanie",
   "users": {
     "edit": {
       "overlay": "Edit user role of {user_login}",
@@ -239,6 +241,5 @@
       "title": "Edit user",
       "tooltip": "Edit user"
     }
-  },
-  "tempo": "długie zdanie"
+  }
 }

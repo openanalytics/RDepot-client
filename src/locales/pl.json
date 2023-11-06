@@ -45,6 +45,7 @@
     "apply": "Zastosuj",
     "cancel": "Anuluj",
     "clearForm": "Wyczyść formularz",
+    "click": "naciśnij",
     "copied": "Kod został skopiowany",
     "create": "Utwórz",
     "delete": "Usuń",
@@ -65,20 +66,22 @@
     "maintainers": "Opiekunowie",
     "noListingResults": "Nie znaleziono żadnych wyników",
     "notAvaiable": "Niedostępne",
+    "or": "lub",
     "packages": "Pakiety",
     "projectTitle": "RDepot",
     "repositories": "Repozytoria",
     "reset": "Wyczyść",
     "save": "Zapisz",
     "search": "Wyszukaj",
+    "seepackages": "Zobacz pakiety w repozytorium",
     "submissions": "Zgłoszenia",
     "users": "Użytkownicy"
   },
   "dragzone": {
     "active": "Przeciągnij jeden lub więcej plików",
+    "click": "aby wybrać je ręcznie",
     "dropzone": "drop zone",
-    "inactive": "Przeciągnij pliki aby je wgrać",
-    "click": "aby wybrać je ręcznie"
+    "inactive": "Przeciągnij pliki aby je wgrać"
   },
   "errors": {
     "401": "Nie można wykonać zapytania. Użytkownik nie jest zalogowany.",

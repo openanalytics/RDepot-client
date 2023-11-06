@@ -143,29 +143,12 @@
         no-sort
         justify="center"
       />
-      <span
-        v-else-if="packageBag && !packageBag.deleted"
-        class="d-flex"
-      >
-        <VTooltip top>
-          <template v-slot:activator="{ props }">
-            <VIcon
-              id="navigate-icon"
-              @click.stop
-              @click="navigate"
-              v-bind="props"
-              color="oablue"
-              >mdi-forward</VIcon
-            >
-          </template>
-          <span id="action-details">{{
-            $t('common.details')
-          }}</span>
-        </VTooltip>
+      <span v-else-if="packageBag && !packageBag.deleted">
         <DeleteIcon
           v-if="canDelete(props.packageBag?.links)"
           :name="props.packageBag?.name"
           :set-resource-id="choosePackage"
+          class=""
         />
         <span v-else style="width: 30px"></span>
       </span>
@@ -207,18 +190,6 @@ function updatePackageActive() {
     props.packageBag.active != undefined
   ) {
     packageStore.activatePackage(props.packageBag)
-  }
-}
-
-function navigate() {
-  if (props.packageBag?.name) {
-    router.push({
-      name: 'packageDetails',
-      params: {
-        id: props.packageBag.id,
-        technology: props.packageBag?.technology
-      }
-    })
   }
 }
 </script>
