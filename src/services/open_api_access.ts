@@ -34,17 +34,21 @@ export async function openApiRequest<T>(
   callback: Function,
   parameters?: any[],
   showProgress = true,
-  blob = false
+  blob = false,
+  open = false
 ): Promise<validatedData<T>> {
   if (showProgress) {
     turnOnProgress()
   }
   if (parameters) {
     if (blob) {
-      return callback(
-        ...parameters,
-        await getHeaders(blob)
-      ).then(resolvedBlob, rejected)
+      return callback(...parameters, await getHeaders(blob))
+        .then((result: AxiosResponse<Blob>) => {
+          resolvedBlob(result, open)
+        })
+        .catch((error: AxiosError) => {
+          rejected(error)
+        })
     } else {
       return callback(
         ...parameters,
@@ -65,7 +69,8 @@ function turnOnProgress() {
 }
 
 async function resolvedBlob(
-  result: AxiosResponse<Blob>
+  result: AxiosResponse<Blob>,
+  open = false
 ): Promise<validatedData<any>> {
   const blob = useBlob()
   switch (result.data.type) {
@@ -79,7 +84,11 @@ async function resolvedBlob(
       break
     case 'text/html':
       // for *html vignette
-      blob.openBlob(result.data)
+      if (open === true) {
+        blob.openBlob(result.data)
+      } else {
+        blob.downloadBlob(result.data, '.html')
+      }
       break
     case 'application/gzip':
       // for source files

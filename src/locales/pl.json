@@ -173,6 +173,10 @@
     "title": "Tytuł",
     "url": "URL",
     "version": "Wersja",
+    "vignette": {
+      "download": "Pobierz",
+      "open": "Otwórz w nowej karcie"
+    },
     "windowsBinaries": "Pliki binarne Windows",
     "windowsBineries": "Pliki binarne Windows",
     "withinRdepot": "Wewnątrz RDepot"
