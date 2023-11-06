@@ -27,6 +27,9 @@ import { usePackagesStore } from '@/store/packages'
 import { useAuthorizationStore } from '@/store/authorization'
 import { Technologies } from '@/enum/Technologies'
 import { usePackageDetailsStore } from '@/store/package_details'
+import { usePagination } from '@/store/pagination'
+import { useSortStore } from '@/store/sort'
+import { useSubmissionStore } from '@/store/submission'
 
 export async function loadPackageDetails(
   id: number,
@@ -58,6 +61,13 @@ export async function redirectToLoginPage() {
     authorizationStore.login()
     return '/packages'
   }
+}
+
+export function resetStoreValues(to: any) {
+  const pagination = usePagination()
+  const sort = useSortStore()
+  pagination.resetPage()
+  sort.reset()
 }
 
 export async function handleAuthorization() {

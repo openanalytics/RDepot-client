@@ -20,6 +20,9 @@
  *
  */
 
+import { useSubmissionStore } from '@/store/submission'
+import { prepareAddPackageView } from './viewsPreperations'
+
 export const routes = [
   {
     path: '/',
@@ -42,7 +45,7 @@ export const routes = [
         path: '/users',
         name: 'users',
         component: () => import('@/views/users/Users.vue'),
-        meta: { title: 'RDepot - users' }
+        meta: { title: 'RDepot - users', sidebar: 'users' }
       },
       {
         path: '/repositories',
@@ -83,13 +86,6 @@ export const routes = [
         props: true
       },
       {
-        path: '/packages/:name/timeline',
-        name: 'packageTimeline',
-        component: () =>
-          import('@/views/packages/PackageTimeLine.vue'),
-        meta: { title: 'RDepot - package timeline' }
-      },
-      {
         path: '/package-maintainers',
         name: 'packageMaintainers',
         component: () =>
@@ -103,7 +99,10 @@ export const routes = [
         name: 'addSubmission',
         component: () =>
           import('@/views/submissions/AddSubmission.vue'),
-        meta: { title: 'RDepot - add packages' }
+        meta: { title: 'RDepot - add packages' },
+        beforeEnter: () => {
+          prepareAddPackageView()
+        }
       },
       {
         path: '/events',
