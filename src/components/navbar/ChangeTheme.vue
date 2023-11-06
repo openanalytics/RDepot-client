@@ -21,7 +21,7 @@
 -->
 
 <template>
-  <div class="mydumbass">
+  <div>
     <v-switch
       :key="commonStore.themeKey"
       density="compact"
@@ -47,7 +47,7 @@ const theme = useTheme()
 const commonStore = useCommonStore()
 const authorizationStore = useAuthorizationStore()
 
-const changeTheme = () => {
+async function changeTheme() {
   const new_theme = theme.global.current.value.dark
     ? 'light'
     : 'dark'
@@ -55,10 +55,11 @@ const changeTheme = () => {
   theme.global.name.value = new_theme
   var new_settings = authorizationStore.getCurrentSettings()
   new_settings.theme = new_theme
-  authorizationStore.updateSettings(
+  await authorizationStore.updateSettings(
     authorizationStore.getCurrentSettings(),
     new_settings
   )
+  commonStore.updateThemeKey()
 }
 
 const getTheme = computed(() => {
