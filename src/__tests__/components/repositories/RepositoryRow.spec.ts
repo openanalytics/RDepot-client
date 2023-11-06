@@ -207,7 +207,7 @@ describe('Repositories - repository row (title)', () => {
 
   it('name field', () => {
     const field = wrapper.find('#repository-name')
-    expect(field.text()).toBe('Columns.name')
+    expect(field.text()).toBe('Columns.repository')
   })
 
   it('publication uri title', () => {

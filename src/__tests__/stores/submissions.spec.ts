@@ -276,10 +276,12 @@ describe('Testing submissions store with failing backend', () => {
   it('Fetch submissions', async () => {
     const submissionStore = useSubmissionStore()
 
-    vi.mock('@kyvg/vue3-notification')
-    const { notify } = await import(
-      '@kyvg/vue3-notification'
-    )
+    // vi.mock('@kyvg/vue3-notification')
+    // const { notify } = await import(
+    //   '@kyvg/vue3-notification'
+    // )
+    vi.mock('vue3-toastify')
+    const notify = await import('vue3-toastify')
 
     await submissionStore.fetchSubmissions()
 
@@ -294,10 +296,12 @@ describe('Testing submissions store with failing backend', () => {
       'fetchSubmissions'
     )
 
-    vi.mock('@kyvg/vue3-notification')
-    const { notify } = await import(
-      '@kyvg/vue3-notification'
-    )
+    // vi.mock('@kyvg/vue3-notification')
+    // const { notify } = await import(
+    //   '@kyvg/vue3-notification'
+    // )
+    vi.mock('vue3-toastify')
+    const notify = await import('vue3-toastify')
 
     const submission = deepCopyAny(
       submissions.data.content[0]

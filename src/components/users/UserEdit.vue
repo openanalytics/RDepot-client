@@ -51,12 +51,14 @@ import { ref } from 'vue'
 import { Form, useForm } from 'vee-validate'
 import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
 import { toTypedSchema } from '@vee-validate/zod'
-import { notify } from '@kyvg/vue3-notification'
-import { i18n } from '@/plugins/i18n'
 import { useUserStore } from '@/store/users'
 import { UserRoleSchema } from '@/models/Schemas'
 import { z } from 'zod'
 import { useUtilities } from '@/composable/utilities'
+import { useToast } from '@/composable/toasts'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const props = defineProps({
   blockedField: {
@@ -71,12 +73,12 @@ const props = defineProps({
 const buttons = [
   {
     id: 'cancel-button',
-    text: i18n.t('common.cancel'),
+    text: t('common.cancel'),
     handler: changeDialogOptions
   },
   {
     id: 'set-role',
-    text: i18n.t('common.save'),
+    text: t('common.save'),
     handler: setRole
   }
 ]
@@ -102,6 +104,8 @@ const { meta } = useForm({
 
 const { deepCopy } = useUtilities()
 
+const toasts = useToast()
+
 async function setRole() {
   if (meta.value.valid) {
     const newUser = deepCopy(userStore.chosenUser)
@@ -111,10 +115,7 @@ async function setRole() {
     await userStore.fetchUsers()
     changeDialogOptions()
   } else {
-    notify({
-      type: 'warn',
-      text: i18n.t('notifications.invalidform')
-    })
+    toasts.warning(t('notifications.invalidform'))
   }
 }
 

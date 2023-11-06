@@ -30,13 +30,18 @@ import { loadFonts } from './webfontloader'
 import vuetify from './vuetify'
 import pinia from '../store'
 import router from '@/plugins/router'
-import Notifications from '@kyvg/vue3-notification'
 import { abilitiesPlugin } from '@casl/vue'
 import type { App } from 'vue'
 import { i18nInstance } from './i18n'
 import { caslAbility } from './casl'
 import { VueDOMPurifyHTMLconfig } from './vue_dompurify_html'
 import VueDOMPurifyHTML from 'vue-dompurify-html'
+import Vue3Toastify, {
+  toast,
+  type ToastContainerOptions
+} from 'vue3-toastify'
+import 'vue3-toastify/dist/index.css'
+import { useToast } from '@/composable/toasts'
 
 export function registerPlugins(app: App) {
   loadFonts()
@@ -45,7 +50,13 @@ export function registerPlugins(app: App) {
     .use(router)
     .use(pinia)
     .use(i18nInstance)
-    .use(Notifications)
     .use(abilitiesPlugin, caslAbility)
     .use(VueDOMPurifyHTML, VueDOMPurifyHTMLconfig)
+    .use(Vue3Toastify, {
+      autoClose: 3000,
+      limit: 5,
+      clearOnUrlChange: false,
+      theme: useToast().getToastTheme(),
+      position: toast.POSITION.BOTTOM_LEFT
+    } as ToastContainerOptions)
 }

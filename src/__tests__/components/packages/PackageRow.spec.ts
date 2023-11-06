@@ -194,7 +194,7 @@ describe('Packages - package row (title)', () => {
 
   it('name title', () => {
     const field = wrapper.find('#package-row-name')
-    expect(field.text()).toEqual('Columns.name')
+    expect(field.text()).toEqual('Columns.packageName')
   })
 
   it('version title', () => {

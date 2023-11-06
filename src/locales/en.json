@@ -6,12 +6,14 @@
   },
   "authorization": {
     "clear": "Clear",
+    "error": "Unsuccessful login",
     "keycloak": "Keycloak",
     "logged-in": "Logged in",
     "login": "Login",
     "not-logged-in": "Not logged in",
     "password": "Password",
     "passwordError": "Password is required",
+    "success": "Successful login",
     "username": "Name",
     "usernameError": "Name is required",
     "wrongCredentials": "Wrong credentials, please try again"
@@ -63,7 +65,6 @@
     "logout": "Logout",
     "maintainers": "Maintainers",
     "noListingResults": "No results where found",
-    "notAvaiable": "Not avaiable",
     "notAvailable": "Not available",
     "packages": "Packages",
     "projectTitle": "RDepot",
@@ -196,6 +197,7 @@
       "technology": "Technology",
       "title": "New repository"
     },
+    "empty": "No repository chosen",
     "filtration": {
       "name": "Name"
     },
@@ -212,6 +214,7 @@
     "waitForAllRequestsToFulfill": "Wait until all submissions will end",
     "wrongExtension": "Choose packages that have correct extension (.tar.gz)"
   },
+  "success": "Successful request",
   "users": {
     "edit": {
       "overlay": "Edit user role of {user_login}",

@@ -23,7 +23,6 @@
 import { RepositoriesFiltration } from '@/models/Filtration'
 import {
   ApiV2RepositoryControllerApiFactory,
-  EntityModelRRepositoryDto,
   EntityModelRepositoryDto,
   PythonRepositoryControllerApiFactory,
   PythonRepositoryDto,
@@ -36,11 +35,12 @@ import {
   validatedData,
   validateRequest
 } from './open_api_access'
-import { notify } from '@kyvg/vue3-notification'
 import { useSortStore } from '@/store/sort'
 import { repositorySchema } from '@/models/Schemas'
 import { createPatch } from 'rfc6902'
 import { isAuthorized } from '@/plugins/casl'
+import { useToast } from '@/composable/toasts'
+import { i18n } from '@/plugins/i18n'
 
 export function fetchRepositoriesServices(
   filtration?: RepositoriesFiltration,
@@ -94,10 +94,8 @@ export async function createRepository(
       )
     }
   } else {
-    notify({
-      type: 'error',
-      text: validatedRepository.error.message
-    })
+    const toasts = useToast()
+    toasts.error(i18n.t(validatedRepository.error.message))
     return new Promise(() => false)
   }
 }
