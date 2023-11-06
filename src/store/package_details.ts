@@ -111,32 +111,20 @@ export const usePackageDetailsStore = defineStore(
         }
       },
       async downloadManual(id: string) {
-        await downloadReferenceManual(id).then((res) => {
-          console.log(res)
-        })
+        await downloadReferenceManual(id).then()
       },
       async openVignette(id: string, fileName: string) {
-        await openVignetteHtml(id, fileName).then((res) => {
-          console.log(id, fileName, 'vignette.json', res)
-        })
+        await openVignetteHtml(id, fileName).then()
       },
       async downloadVignette(id: string, fileName: string) {
-        await downloadVignetteHtml(id, fileName).then(
-          (res) => {
-            console.log(id, fileName, 'vignette.json', res)
-          }
-        )
+        await downloadVignetteHtml(id, fileName).then()
       },
       async downloadSourceFile(
         id: string,
         name: string,
         version: string
       ) {
-        await downloadSourceFile(id, name, version).then(
-          (res) => {
-            console.log(id, 'sourcefile', res)
-          }
-        )
+        await downloadSourceFile(id, name, version).then()
       },
       async fetchVignettes(id: number) {
         const [vignettes] = await fetchVignettes(id)
