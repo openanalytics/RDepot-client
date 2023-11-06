@@ -21,19 +21,26 @@
 -->
 
 <template>
-  <v-btn
-    icon
-    @click="changeTheme"
-    :key="commonStore.themeKey"
-  >
-    <v-icon color="text">mdi-theme-light-dark</v-icon>
-  </v-btn>
+  <div class="mydumbass">
+    <v-switch
+      :key="commonStore.themeKey"
+      density="compact"
+      @click="changeTheme"
+      color="primary"
+      :model-value="getTheme"
+      true-icon="mdi-weather-night"
+      false-icon="mdi-weather-sunny"
+      :inset="true"
+      :hide-details="true"
+      style="align-self: center"
+    ></v-switch>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { useAuthorizationStore } from '@/store/authorization'
 import { useCommonStore } from '@/store/common'
-import { onUpdated } from 'vue'
+import { onUpdated, computed } from 'vue'
 import { useTheme } from 'vuetify/lib/framework.mjs'
 
 const theme = useTheme()
@@ -54,9 +61,23 @@ const changeTheme = () => {
   )
 }
 
+const getTheme = computed(() => {
+  return theme.global.current.value.dark
+})
+
 onUpdated(() => {
   if (authorizationStore.me.userSettings?.theme)
     theme.global.name.value =
       authorizationStore.me.userSettings.theme
 })
 </script>
+
+<style lang="scss">
+.mdi-weather-night {
+  color: aliceblue;
+}
+
+.mdi-weather-sunny {
+  color: black;
+}
+</style>
