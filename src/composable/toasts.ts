@@ -21,6 +21,7 @@
  */
 import { toast, type ToastOptions } from 'vue3-toastify'
 import getEnv from '@/utils/env'
+import vuetify from '@/plugins/vuetify'
 
 export function useToast() {
   function success(message: string, icon?: string): void {
@@ -78,12 +79,19 @@ export function useToast() {
     }
   }
 
+  function getToastTheme(): String {
+    return vuetify.theme.global.current.value.dark
+      ? 'dark'
+      : 'light'
+  }
+
   return {
     success,
     info,
     normal,
     error,
     warning,
-    devToast
+    devToast,
+    getToastTheme
   }
 }
