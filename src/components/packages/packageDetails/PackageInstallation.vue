@@ -63,13 +63,16 @@
 import { EntityModelRPackageDto } from '@/openapi'
 import { computed } from 'vue'
 import { useClipboard } from '@vueuse/core'
-import { i18n } from '@/plugins/i18n'
-import { notify } from '@kyvg/vue3-notification'
 import { usePackageDetailsStore } from '@/store/package_details'
+import { useToast } from '@/composable/toasts'
+import { useI18n } from 'vue-i18n'
 
 const { copy } = useClipboard()
 
 const packageDetailsStore = usePackageDetailsStore()
+
+const toasts = useToast()
+const { t } = useI18n()
 
 const packageBag = computed<EntityModelRPackageDto>(
   () =>
@@ -79,19 +82,11 @@ const packageBag = computed<EntityModelRPackageDto>(
 function copyContent() {
   try {
     copy(
-      i18n.t('packages.download-code', [
-        packageBag.value.name
-      ])
+      t('packages.download-code', [packageBag.value.name])
     )
-    notify({
-      text: i18n.t('common.copied'),
-      type: 'success'
-    })
+    toasts.success(t('common.copied'))
   } catch (error) {
-    notify({
-      text: i18n.t('common.errors.copyFailed'),
-      type: 'error'
-    })
+    toasts.error(t('common.errors.copyFailed'))
   }
 }
 </script>

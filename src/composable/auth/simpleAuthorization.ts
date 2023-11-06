@@ -22,10 +22,12 @@
 
 import { Login } from '@/models/users/Login'
 import { BASE_PATH } from '@/openapi/base'
-import { notify } from '@kyvg/vue3-notification'
 import axios from 'axios'
+import { useToast } from '@/composable/toasts'
+import { i18n } from '@/plugins/i18n'
 
 export function useSimpleAuthorization() {
+  const toasts = useToast()
   async function login(payload: Login) {
     logout()
     return await axios
@@ -34,24 +36,15 @@ export function useSimpleAuthorization() {
         password: payload.password
       })
       .then((res) => {
-        notify({
-          text: 'user succesfully logged in!',
-          type: 'success'
-        })
         localStorage.setItem(
           'simpleAuthToken',
           res.data.data.token
         )
+        toasts.success(i18n.t('authorization.success'))
         return res.data.data.token
       })
       .catch((err) => {
-        notify({
-          text:
-            'login procedure failed, please try again (' +
-            err +
-            ' )',
-          type: 'error'
-        })
+        toasts.error(i18n.t('authorization.error', [err]))
         return ''
       })
   }

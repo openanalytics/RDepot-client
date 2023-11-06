@@ -28,8 +28,8 @@
     v-for="(vignette, index) in vignettes"
     :key="index"
     :fileName="vignette?.fileName"
+    :title="vignette?.title"
   >
-    {{ vignette?.title }}
   </PackageVignette>
   <div v-show="vignettes?.data?.length == 0">
     {{ $t('packages.noVignette') }}

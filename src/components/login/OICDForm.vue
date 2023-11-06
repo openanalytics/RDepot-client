@@ -40,12 +40,12 @@ import { useAuthorizationStore } from '@/store/authorization'
 import { useOICDAuthorization } from '@/composable/auth/oicdAuthorization'
 import { ref } from 'vue'
 import { onMounted } from 'vue'
-import { notify } from '@kyvg/vue3-notification'
 import { authService as oauthService } from '@/plugins/oauth'
 import {
   registerUserLoggedInEventListener,
   registerUserLoggedOutEventListener
 } from '@/plugins/eventsBus'
+import { useToast } from '@/composable/toasts'
 
 const { isOICDAuthAvailable } = useOICDAuthorization()
 
@@ -54,6 +54,8 @@ const { t } = useI18n()
 const authorizationStore = useAuthorizationStore()
 
 const isUserLoggedIn = ref<boolean>(false)
+
+const toasts = useToast()
 
 async function loginOICD() {
   authorizationStore.login()
@@ -66,11 +68,7 @@ onMounted(() => {
       isUserLoggedIn.value = isLoggedIn
     })
     .catch((error) => {
-      notify({
-        title: t('errors.oauthTitle'),
-        type: 'error',
-        text: t('errors.oauth')
-      })
+      toasts.error(t('errors.oauth'))
     })
 
   registerUserLoggedInEventListener(() => {

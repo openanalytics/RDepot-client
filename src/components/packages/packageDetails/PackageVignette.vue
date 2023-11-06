@@ -57,7 +57,8 @@ import { usePackageDetailsStore } from '@/store/package_details'
 import { i18n } from '@/plugins/i18n'
 
 var props = defineProps<{
-  fileName: string
+  fileName?: string
+  title?: string
 }>()
 
 const packageDetailsStore = usePackageDetailsStore()

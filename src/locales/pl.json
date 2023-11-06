@@ -6,12 +6,14 @@
   },
   "authorization": {
     "clear": "wyczyść",
+    "error": "Nieudane logowanie",
     "keycloak": "Keycloak",
     "logged-in": "Zalogowany",
     "login": "zaloguj",
     "not-logged-in": "Nie zalogowany",
     "password": "Hasło",
     "passwordError": "Hasło jest wymagane",
+    "success": "Udane logowanie",
     "username": "Login",
     "usernameError": "Login jest wymagany",
     "wrongCredentials": "Błędne dane logowania, spróbuj ponownie"
@@ -65,7 +67,7 @@
     "logout": "Wyloguj",
     "maintainers": "Opiekunowie",
     "noListingResults": "Nie znaleziono żadnych wyników",
-    "notAvaiable": "Niedostępne",
+    "notAvailable": "Niedostępne",
     "or": "lub",
     "packages": "Pakiety",
     "projectTitle": "RDepot",
@@ -207,6 +209,7 @@
       "technology": "Technologia",
       "title": "Nowe repozytorium"
     },
+    "empty": "Nie wybrano repozytorium",
     "filtration": {
       "name": "Nazwa"
     },
@@ -223,6 +226,7 @@
     "waitForAllRequestsToFulfill": "Zaczekaj na zakończenie wszystkich zgłoszeń",
     "wrongExtension": "Wybierz pakiety o poprawnym rozszerzeniu (.tar.gz)"
   },
+  "success": "Successful request",
   "users": {
     "edit": {
       "overlay": "Edytuj rolę {user_login}",

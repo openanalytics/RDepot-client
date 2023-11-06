@@ -79,15 +79,15 @@
 
 <script setup lang="ts">
 import { useSubmissionStore } from '@/store/submission'
-import { useNotification } from '@kyvg/vue3-notification'
 import { computed, ref } from 'vue'
 import { useFileDialog } from '@vueuse/core'
 import { watch } from 'vue'
 import { onMounted } from 'vue'
-import { i18n } from '@/plugins/i18n'
 import DropZone from '@/components/addSubmission/DropZone.vue'
 import FilesList from '@/components/addSubmission/FilesList.vue'
 import { useFilesListStore } from '@/store/local_files'
+import { useI18n } from 'vue-i18n'
+import { useToast } from '@/composable/toasts'
 
 const { files, open } = useFileDialog({
   accept: 'application/gzip'
@@ -96,7 +96,9 @@ const { files, open } = useFileDialog({
 const emits = defineEmits(['next'])
 const filesStore = useFilesListStore()
 const submissionsStore = useSubmissionStore()
-const notifications = useNotification()
+const toasts = useToast()
+const { t } = useI18n()
+
 const valid = ref<boolean>(true)
 
 watch(files, (files) => {
@@ -126,15 +128,9 @@ function nextStep() {
     emits('next', 3)
     submissionsStore.addSubmissionRequests()
   } else if (!valid.value) {
-    notifications.notify({
-      text: i18n.t('submissions.wrongExtension'),
-      type: 'error'
-    })
+    toasts.error(t('submissions.wrongExtension'))
   } else {
-    notifications.notify({
-      text: i18n.t('submissions.noPackageChosen'),
-      type: 'warn'
-    })
+    toasts.warning(t('submissions.noPackageChosen'))
   }
 }
 </script>
