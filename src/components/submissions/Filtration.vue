@@ -22,7 +22,7 @@
 
 <template>
   <filtration-card
-    :title="$t('submissions.filtration.title')"
+    :title="$t('filtration.title')"
     v-on:clear-filtration="resetValues()"
     v-on:set-filtration="setFiltration()"
     v-on:change-dialog-options="cancelModal()"

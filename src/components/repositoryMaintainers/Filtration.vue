@@ -22,7 +22,7 @@
 
 <template>
   <filtration-card
-    :title="$t('maintainers.filtration.title')"
+    :title="$t('filtration.title')"
     v-on:clear-filtration="resetValues()"
     v-on:set-filtration="setFiltration()"
     v-on:change-dialog-options="cancelModal()"
@@ -34,7 +34,7 @@
       multiple
       clearable
       as="v-select"
-      :label="$t('repositories.filtration.technology')"
+      :label="$t('filtration.technologies')"
     ></validated-input-field>
 
     <validated-input-field

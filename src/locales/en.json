@@ -1,253 +1,244 @@
 {
-  "authorization": {
-    "username": "Name",
-    "usernameError": "Name is required",
-    "password": "Password",
-    "passwordError": "Password is required",
-    "login": "login",
-    "clear": "clear",
-    "wrongCredentials": "Wrong credentials, please try again",
-    "keycloak": "Keycloak"
-  },
-  "errors": {
-    "401": "Cannot perform this request because user is not authenticated.",
-    "403": "Cannot perform this request because user is not authorized",
-    "422": "validation failed",
-    "oauth": "Error with oauth",
-    "oauthTitle": "Authorization"
-  },
   "addSubmission": {
     "step1Title": "Choose repository",
     "step2Title": "Upload {0} packages",
     "step3Title": "Summary"
   },
-  "common": {
-    "users": "users",
-    "apply": "apply",
-    "create": "create",
-    "clearForm": "clear form",
-    "search": "search",
-    "reset": "reset",
-    "cancel": "cancel",
-    "details": "see details",
-    "packages": "packages",
-    "repositories": "repositories",
-    "submissions": "submissions",
-    "maintainers": "maintainers",
-    "list": "list",
-    "addPackage": "add package",
-    "events": "events",
-    "delete": "delete",
-    "notAvaiable": "Not avaiable",
-    "save": "save",
-    "edit": "edit",
-    "projectTitle": "RDepot",
-    "noListingResults": "No results where found",
-    "errors": {
-      "copyFailed": "Copy failed",
-      "required": "This field is required",
-      "url": "This should be a url",
-      "email": "This should be an email",
-      "unauthorized": "You are not authorized to perform this action"
-    },
-    "deleteQuestion": "Are you sure you want to delete {resource_name}?",
-    "copied": "code succesfully copied to clipboard",
-    "goBack": "go back",
-    "logout": "logout",
-    "notAvailable": "Not available",
-    "seepackages": "see repository's packages "
+  "authorization": {
+    "clear": "Clear",
+    "keycloak": "Keycloak",
+    "logged-in": "Logged in",
+    "login": "Login",
+    "not-logged-in": "Not logged in",
+    "password": "Password",
+    "passwordError": "Password is required",
+    "username": "Name",
+    "usernameError": "Name is required",
+    "wrongCredentials": "Wrong credentials, please try again"
   },
   "columns": {
-    "name": "Name",
-    "version": "version",
-    "title": "title",
-    "maintainer": "maintainer",
-    "approver": "approver",
-    "submitter": "submitter",
-    "repository": "repository",
-    "active": "active",
-    "actions": "actions",
-    "publicationUri": "publication uri",
-    "serverAddress": "server address",
-    "packagesNo": "# packages",
-    "published": "published",
-    "technology": "technology",
-    "accepted": "accepted",
-    "package": "package",
-    "date": "date",
-    "packageName": "package",
-    "email": "email",
-    "username": "username",
-    "role": "role",
-    "state": "State"
-  },
-  "navbar": {
-    "changeLanguage": "lang"
-  },
-  "packages": {
-    "filtration": {
-      "title": "Packages filtration",
-      "state": "State",
-      "repository": "Repository",
-      "deleted": "Deleted"
-    },
-    "authors": "Authors",
-    "emailAuthors": "Emails",
-    "platform": "Platform",
-    "version": "Version",
-    "projectUrl": "Project URL",
-    "providesExtra": "Provides extra",
-    "requiresDist": "Requires distribution",
-    "requiresExternal": "Requires external",
-    "requiresPython": "Requires python",
-    "description": "description",
-    "maintainers": "package maintainers",
-    "list": "packages",
-    "title": "title",
-    "documentation": "Documentation",
-    "details": "Details",
-    "depends": "Depends",
-    "imports": "Imports",
-    "suggests": "Suggests",
-    "systemRequirements": "System requirements",
-    "license": "License",
-    "url": "URL",
-    "downloads": "Downloads",
-    "sourceFile": "Source file",
-    "windowsBineries": "Windows binaries",
-    "osxBinaries": "OS X binaries",
-    "oldSources": "Old sources",
-    "archive": "Archive",
-    "referenceManual": "Reference Manual",
-    "noVignette": "No vignettes available",
-    "install": "Install",
-    "installInstruction": "To install this package, start \"{0}\" and enter:",
-    "withinRdepot": "Within RDepot",
-    "originalPackageData": "As described in \"{0}\" package",
-    "download-code": "install.packages(\"{0}\", repos = c(rdepot = \"{1}\"), getOption(\"repos\")))",
-    "windowsBinaries": "Windows binaries",
-    "submitter": "Submitter",
+    "accepted": "Accepted",
+    "actions": "Actions",
+    "active": "Active",
     "approver": "Approver",
-    "classifiers": "Classifiers",
+    "date": "Date",
+    "email": "Email",
     "maintainer": "Maintainer",
-    "generatemanual": "generate manual",
-    "copy": "Copy"
+    "name": "Name",
+    "package": "Package",
+    "packageName": "Package",
+    "packagesNo": "# packages",
+    "publicationUri": "Publication uri",
+    "published": "Published",
+    "repository": "Repository",
+    "role": "Role",
+    "serverAddress": "Server address",
+    "state": "State",
+    "submitter": "Submitter",
+    "technology": "Technology",
+    "title": "Title",
+    "username": "User name",
+    "version": "Version"
   },
-  "events": {
-    "filtration": {
-      "title": "Events filtration",
-      "eventType": "Event Type",
-      "resourceType": "Resource Type",
-      "technology": "Technology",
-      "resourceId": "Resource Id",
-      "userId": "User Id"
+  "common": {
+    "addPackage": "Add package",
+    "apply": "Apply",
+    "cancel": "Cancel",
+    "clearForm": "Clear form",
+    "copied": "Code succesfully copied to clipboard",
+    "create": "Create",
+    "delete": "Delete",
+    "deleteQuestion": "Are you sure you want to delete {resource_name}?",
+    "details": "See details",
+    "edit": "Edit",
+    "errors": {
+      "copyFailed": "Copy failed",
+      "email": "This should be an email",
+      "required": "This field is required",
+      "unauthorized": "You are not authorized to perform this action",
+      "url": "This should be a url"
     },
-    "noEvents": "No events available"
-  },
-  "repositories": {
-    "filtration": {
-      "title": "Repositories filtration",
-      "name": "Name",
-      "technology": "Technology"
-    },
-    "creation": {
-      "title": "New repository",
-      "name": "name",
-      "publicationUri": "Publication URI",
-      "publicationUriPlaceholder": "http://localhost/repo/{'{name}'}",
-      "serverAddress": "Server address",
-      "serverAddressPlaceholder": "http://oa-rdepot-repo:8080/{'{name}'}",
-      "technology": "Technology",
-      "duplicateName": "Repository name already exists"
-    },
-    "maintainers": "repository maintainers",
-    "list": "repositories",
-    "addRepository": "Create repository"
-  },
-  "submissions": {
-    "filtration": {
-      "title": "Submissions filtration",
-      "assigned": "assigned to me",
-      "state": "State",
-      "package": "Package"
-    },
-    "choseFiles": "Choose files",
-    "wrongExtension": "choose packages that have correct extention (.tar.gz)",
-    "noPackageChosen": "no packages choosen",
-    "addAnotherSubmission": "upload another packages",
-    "waitForAllRequestsToFulfill": "wait untill all sumissions will end"
-  },
-  "users": {
-    "edit": {
-      "tooltip": "Edit user",
-      "overlay": "Edit user role of {user_login}",
-      "role": "role",
-      "title": "Edit user"
-    }
-  },
-  "pagination": {
-    "size": "page size"
-  },
-  "notifications": {
-    "successFiltration": "successful filtration action",
-    "successFiltrationReset": "successful filtration reset",
-    "successCancelSubmission": "cancel submission",
-    "acceptSubmission": "accept submission",
-    "successRejectSubmission": "reject submission",
-    "successCreateSubmissiom": "successfully created submission",
-    "successDeletePackageManager": "successful deleted {maintainer_name}",
-    "successUpdatePackageManager": "successful updated {maintainer_name}",
-    "successCreateRepository": "successfully created {repository_name}",
-    "successDeleteRepositoryManager": "successful deleted {maintainer_name}",
-    "successUpdateRepositoryManager": "successful update {maintainer_name}",
-    "successDeleteRepositoryMaintainer": "successful deleted {maintainer_name}",
-    "successUpdateRepositoryMaintainer": "successful updated {maintainer_name}",
-    "invalidform": "The submitted form is not valid",
-    "successUpdateUser": "Successfully updated user"
-  },
-  "maintainers": {
-    "edit": "edit maintainer",
-    "delete": "delete maintainer",
-    "filtration": {
-      "title": "Maintainers filtration",
-      "technology": "Technology",
-      "deleted": "Deleted"
-    },
-    "deleteQuestion": "Are you sure you want to delete {maintainer_name}?",
-    "editform": {
-      "title": "Edit maintainer",
-      "repository": "Repository",
-      "package": "Package",
-      "user": "User",
-      "packageNotFound": "Package not in repository"
-    }
-  },
-  "filtration": {
-    "title": "filtration",
-    "makeSure": "this action will clear all filtration",
-    "state": "state",
-    "packageName": "package name",
-    "repositoryName": "repository name",
-    "deleted": "deleted",
-    "technologies": "technologies",
-    "assignedToMe": "assigned to me",
-    "eventType": "event type",
-    "resourceType": "resource type",
-    "resourceId": "resource id",
-    "userId": "user id"
-  },
-  "user": {
-    "not-logged-in": "not logged in",
-    "logged-in": "logged in"
-  },
-  "loginType": {
-    "keycloak": "Keycloak"
+    "events": "Events",
+    "goBack": "Go back",
+    "list": "List",
+    "logout": "Logout",
+    "maintainers": "Maintainers",
+    "noListingResults": "No results where found",
+    "notAvaiable": "Not avaiable",
+    "notAvailable": "Not available",
+    "or": "or",
+    "packages": "Packages",
+    "projectTitle": "RDepot",
+    "repositories": "Repositories",
+    "reset": "Reset",
+    "save": "Save",
+    "search": "Search",
+    "seepackages": "See repository's packages ",
+    "submissions": "Submissions",
+    "users": "Users"
   },
   "dragzone": {
     "active": "Drag one or more files to this",
     "dropzone": "drop zone",
     "inactive": "Drop files to upload them",
     "click": "to select them manually"
+  },
+  "errors": {
+    "401": "Cannot perform this request because user is not authenticated.",
+    "403": "Cannot perform this request because user is not authorized",
+    "422": "Validation failed",
+    "oauth": "Error with oauth",
+    "oauthTitle": "Authorization"
+  },
+  "events": {
+    "filtration": {
+      "eventType": "Event Type",
+      "resourceId": "Resource Id",
+      "resourceType": "Resource Type",
+      "technology": "Technology",
+      "title": "Events filtration",
+      "userId": "User Id"
+    },
+    "noEvents": "No events available"
+  },
+  "filtration": {
+    "assignedToMe": "Assigned to me",
+    "deleted": "Deleted",
+    "eventType": "Event type",
+    "makeSure": "This action will clear all filtration",
+    "packageName": "Package name",
+    "repositoryName": "Repository name",
+    "resourceId": "Resource id",
+    "resourceType": "Resource type",
+    "state": "State",
+    "technologies": "Technologies",
+    "title": "Filtration",
+    "userId": "User id"
+  },
+  "maintainers": {
+    "delete": "Delete maintainer",
+    "deleteQuestion": "Are you sure you want to delete {maintainer_name}?",
+    "edit": "Edit maintainer",
+    "editform": {
+      "package": "Package",
+      "packageNotFound": "Package not in repository",
+      "repository": "Repository",
+      "title": "Edit maintainer",
+      "user": "User"
+    },
+    "filtration": {
+      "deleted": "Deleted"
+    }
+  },
+  "navbar": {
+    "changeLanguage": "lang"
+  },
+  "notifications": {
+    "acceptSubmission": "Accept submission",
+    "invalidform": "The submitted form is not valid",
+    "successCancelSubmission": "Cancel submission",
+    "successCreateRepository": "Successfully created {repository_name}",
+    "successCreateSubmissiom": "Successfully created submission",
+    "successDeletePackageManager": "Successful deleted {maintainer_name}",
+    "successDeleteRepositoryMaintainer": "Successful deleted {maintainer_name}",
+    "successDeleteRepositoryManager": "Successful deleted {maintainer_name}",
+    "successFiltration": "Successful filtration action",
+    "successFiltrationReset": "Successful filtration reset",
+    "successRejectSubmission": "Reject submission",
+    "successUpdatePackageManager": "Successful updated {maintainer_name}",
+    "successUpdateRepositoryMaintainer": "Successful updated {maintainer_name}",
+    "successUpdateRepositoryManager": "Successful update {maintainer_name}",
+    "successUpdateUser": "Successfully updated user"
+  },
+  "packages": {
+    "approver": "Approver",
+    "archive": "Archive",
+    "authors": "Authors",
+    "classifiers": "Classifiers",
+    "copy": "Copy",
+    "depends": "Depends",
+    "description": "Description",
+    "details": "Details",
+    "documentation": "Documentation",
+    "download-code": "install.packages(\"{0}\", repos = c(rdepot = \"{1}\"), getOption(\"repos\")))",
+    "downloads": "Downloads",
+    "emailAuthors": "Emails",
+    "filtration": {
+      "deleted": "Deleted",
+      "repository": "Repository"
+    },
+    "generatemanual": "Generate manual",
+    "imports": "Imports",
+    "install": "Install",
+    "installInstruction": "To install this package, start \"{0}\" and enter:",
+    "license": "License",
+    "list": "Packages",
+    "maintainer": "Maintainer",
+    "maintainers": "Package maintainers",
+    "noVignette": "No vignettes available",
+    "oldSources": "Old sources",
+    "originalPackageData": "As described in \"{0}\" package",
+    "osxBinaries": "OS X binaries",
+    "platform": "Platform",
+    "projectUrl": "Project URL",
+    "providesExtra": "Provides extra",
+    "referenceManual": "Reference Manual",
+    "requiresDist": "Requires distribution",
+    "requiresExternal": "Requires external",
+    "requiresPython": "Requires python",
+    "sourceFile": "Source file",
+    "submitter": "Submitter",
+    "suggests": "Suggests",
+    "systemRequirements": "System requirements",
+    "title": "Title",
+    "url": "URL",
+    "version": "Version",
+    "vignette": {
+      "download": "Download",
+      "open": "Open in new tab"
+    },
+    "windowsBinaries": "Windows binaries",
+    "windowsBineries": "Windows binaries",
+    "withinRdepot": "Within RDepot"
+  },
+  "pagination": {
+    "size": "page size"
+  },
+  "repositories": {
+    "addRepository": "Create repository",
+    "creation": {
+      "duplicateName": "Repository name already exists",
+      "name": "Name",
+      "publicationUri": "Publication URI",
+      "publicationUriPlaceholder": "http://localhost/repo/{'{name}'}",
+      "serverAddress": "Server address",
+      "serverAddressPlaceholder": "http://oa-rdepot-repo:8080/{'{name}'}",
+      "technology": "Technology",
+      "title": "New repository"
+    },
+    "filtration": {
+      "name": "Name"
+    },
+    "list": "Repositories",
+    "maintainers": "Repository maintainers"
+  },
+  "submissions": {
+    "addAnotherSubmission": "Upload another packages",
+    "choseFiles": "Choose files",
+    "filtration": {
+      "package": "Package"
+    },
+    "noPackageChosen": "No packages choosen",
+    "waitForAllRequestsToFulfill": "Wait until all submissions will end",
+    "wrongExtension": "Choose packages that have correct extension (.tar.gz)"
+  },
+  "users": {
+    "edit": {
+      "overlay": "Edit user role of {user_login}",
+      "role": "Role",
+      "title": "Edit user",
+      "tooltip": "Edit user"
+    }
   },
   "tempo": "długie zdanie"
 }

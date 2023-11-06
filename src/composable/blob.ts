@@ -21,13 +21,10 @@
  */
 
 export function useBlob() {
-  function openBlob(data: Blob): void {
-    const url = window.URL.createObjectURL(new Blob([data]))
-    const link = document.createElement('a')
-    link.href = url
-    link.setAttribute('target', '_blank')
-    document.body.appendChild(link)
-    link.click()
+  async function openBlob(data: Blob) {
+    const innerHtml = await data.text()
+    const newWindow = window.open()
+    newWindow?.document.write(innerHtml)
   }
 
   function downloadBlob(
