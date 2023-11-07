@@ -42,10 +42,11 @@ export const SORT_PARAMS: Map<string, string> = new Map<
   [i18n.t('columns.published'), 'published'],
   [i18n.t('columns.technology'), 'resourceTechnology'],
   [i18n.t('columns.repository'), 'repository'],
+  [i18n.t('columns.repositoryName'), 'name'],
   [i18n.t('columns.accepted'), 'state'],
   [i18n.t('columns.package'), 'packageName'],
   [i18n.t('columns.date'), 'date'],
-  [i18n.t('columns.packageName'), 'packageName']
+  [i18n.t('columns.packageName'), 'name']
 ])
 
 //TODO check sort by number of packages

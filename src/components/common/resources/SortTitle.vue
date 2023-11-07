@@ -97,11 +97,11 @@ const getIcon = computed(() => {
   }
 })
 
-function sortBy() {
-  commonStore.setActiveId(id.value)
-  sortStore.setField(
+async function sortBy() {
+  await sortStore.setField(
     props.sortField ? props.sortField : id.value
   )
+  commonStore.setActiveId(sortStore.field)
 }
 
 const title = computed(() => {

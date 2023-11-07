@@ -40,7 +40,8 @@
     "technology": "Technologia",
     "title": "Tytuł",
     "username": "Nazwa użytkownika",
-    "version": "Wersja"
+    "version": "Wersja",
+    "repositoryName": "Repozytorium"
   },
   "common": {
     "addPackage": "Dodaj pakiet",

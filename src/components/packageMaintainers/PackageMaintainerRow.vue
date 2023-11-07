@@ -33,7 +33,7 @@
     >
       <SortTitle
         v-if="title"
-        :text="$t('columns.username')"
+        :text="$t('columns.maintainer')"
       />
       <TextRecord
         v-else

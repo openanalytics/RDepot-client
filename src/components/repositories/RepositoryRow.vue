@@ -33,7 +33,7 @@
     >
       <SortTitle
         v-if="title"
-        :text="$t('columns.repository')"
+        :text="$t('columns.repositoryName')"
       />
       <TextRecord v-else :text="repository?.name" />
     </v-col>
