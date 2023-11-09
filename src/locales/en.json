@@ -27,20 +27,64 @@
     "email": "Email",
     "maintainer": "Maintainer",
     "name": "Name",
-    "package": "Package",
+    "package": {
+      "active": "Active",
+      "maintainer": "Maintainer",
+      "name": "Package",
+      "repository": "Repository",
+      "state": "Status",
+      "technology": "Technology",
+      "title": "Title",
+      "version": "Version"
+    },
+    "packageMaintainer": {
+      "name": "Maintainer",
+      "packageName": "Package",
+      "repository": "Repository",
+      "technology": "Technology"
+    },
     "packageName": "Package",
     "packagesNo": "# packages",
     "publicationUri": "Publication uri",
     "published": "Published",
-    "repository": "Repository",
+    "repository": {
+      "name": "Repository",
+      "packagesNo": "# packages",
+      "publicationUri": "Publication uri",
+      "published": "Published",
+      "serverAddress": "Server address",
+      "technology": "Technology",
+      "version": "Version"
+    },
+    "repositoryMaintainer": {
+      "name": "Maintainer",
+      "repository": "Repository",
+      "technology": "Technology"
+    },
     "repositoryName": "Repository",
     "role": "Role",
     "serverAddress": "Server address",
     "state": "State",
+    "submissions": {
+      "accepted": "Status",
+      "approver": "Approver",
+      "date": "Date",
+      "package": "Package",
+      "repository": "Repository",
+      "submitter": "Submitter",
+      "technology": "Technology"
+    },
     "submitter": "Submitter",
     "technology": "Technology",
     "title": "Title",
     "username": "User name",
+    "users": {
+      "active": "Active",
+      "email": "Email",
+      "name": "User",
+      "role": "Role",
+      "username": "Username"
+    },
     "version": "Version"
   },
   "common": {
@@ -182,6 +226,9 @@
     "oldSources": "Old sources",
     "originalPackageData": "As described in \"{0}\" package",
     "osxBinaries": "OS X binaries",
+    "package": {
+      "title": "Title"
+    },
     "platform": "Platform",
     "projectUrl": "Project URL",
     "providesExtra": "Provides extra",

@@ -33,7 +33,8 @@
     >
       <SortTitle
         v-if="title"
-        :text="$t('columns.packageName')"
+        :text="$t('columns.package.name')"
+        sortKey="columns.package.name"
       />
       <TextRecord v-else :text="packageBag?.name" />
     </VCol>
@@ -44,7 +45,8 @@
     >
       <SortTitle
         v-if="title"
-        :text="$t('columns.version')"
+        :text="$t('columns.package.version')"
+        sortKey="columns.package.version"
       />
       <TextRecord v-else :text="packageBag?.version" />
     </VCol>
@@ -55,7 +57,8 @@
     >
       <SortTitle
         v-if="title"
-        :text="$t('packages.title')"
+        :text="$t('columns.package.title')"
+        sortKey="columns.package.title"
       />
       <TextRecord v-else :text="packageBag?.title" />
     </VCol>
@@ -67,7 +70,8 @@
     >
       <SortTitle
         v-if="title"
-        :text="$t('columns.maintainer')"
+        :text="$t('columns.package.maintainer')"
+        sortKey="columns.package.maintainer"
       />
       <TextRecord v-else :text="packageBag?.user?.name" />
     </VCol>
@@ -78,7 +82,11 @@
       class="d-flex align-center justify-center"
       align="center"
     >
-      <SortTitle v-if="title" :text="$t('columns.state')" />
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.package.state')"
+        sortKey="columns.package.state"
+      />
       <TextRecord v-else text="submission state!" />
     </VCol>
 
@@ -89,7 +97,8 @@
     >
       <SortTitle
         v-if="title"
-        :text="$t('columns.technology')"
+        :text="$t('columns.package.technology')"
+        sortKey="columns.package.technology"
       />
       <TextRecord v-else :text="packageBag?.technology" />
     </VCol>
@@ -100,7 +109,8 @@
     >
       <SortTitle
         v-if="title"
-        :text="$t('columns.repository')"
+        :text="$t('columns.package.repository')"
+        sortKey="columns.package.repository"
       />
       <TextRecord
         v-else
@@ -114,7 +124,8 @@
     >
       <SortTitle
         v-if="title"
-        :text="$t('columns.active')"
+        :text="$t('columns.package.active')"
+        sortKey="columns.package.active"
         center
       />
 
@@ -140,6 +151,7 @@
       <SortTitle
         v-if="title"
         :text="$t('columns.actions')"
+        sortKey="columns.actions"
         no-sort
         justify="center"
       />

@@ -27,20 +27,64 @@
     "email": "Email",
     "maintainer": "Opiekun",
     "name": "Użytkownik",
-    "package": "Pakiet",
+    "package": {
+      "active": "Aktywny",
+      "maintainer": "Opiekun",
+      "name": "Pakiet",
+      "repository": "Repozytorium",
+      "state": "Status",
+      "technology": "Technologia",
+      "title": "Tytuł",
+      "version": "Wersja"
+    },
+    "packageMaintainer": {
+      "name": "Opiekun",
+      "packageName": "Pakiet",
+      "repository": "Repozytorium",
+      "technology": "Technologia"
+    },
     "packageName": "Pakiet",
     "packagesNo": "Lp. pakietu",
     "publicationUri": "URI publikacji",
     "published": "Opublikowano",
-    "repository": "Repozytorium",
+    "repository": {
+      "name": "Repozytorium",
+      "packagesNo": "Lp. pakietu",
+      "publicationUri": "URI publikacji",
+      "published": "Opublikowano",
+      "serverAddress": "Adres serwera",
+      "technology": "Technologia",
+      "version": "Wersja"
+    },
+    "repositoryMaintainer": {
+      "name": "Opiekun",
+      "repository": "Repozytorium",
+      "technology": "Technologia"
+    },
     "repositoryName": "Repozytorium",
     "role": "Rola",
     "serverAddress": "Adres serwera",
     "state": "Stan",
+    "submissions": {
+      "accepted": "Status",
+      "approver": "Zatwierdzający",
+      "date": "Data",
+      "package": "Pakiet",
+      "repository": "Repozytorium",
+      "submitter": "Zgłaszający",
+      "technology": "Technologia"
+    },
     "submitter": "Zgłaszający",
     "technology": "Technologia",
     "title": "Tytuł",
     "username": "Nazwa użytkownika",
+    "users": {
+      "active": "Aktywny",
+      "email": "Email",
+      "name": "Użytkownik",
+      "role": "Rola",
+      "username": "Nazwa użytkownika"
+    },
     "version": "Wersja"
   },
   "common": {
@@ -174,6 +218,9 @@
     "oldSources": "Stare źródła",
     "originalPackageData": "Jak opisano w pakiecie \"{0}\"",
     "osxBinaries": "Pliki binarne OS X",
+    "package": {
+      "title": "Nazwa"
+    },
     "platform": "Platforma",
     "projectUrl": "URL projektu",
     "providesExtra": "Dostarcza dodatkowe",

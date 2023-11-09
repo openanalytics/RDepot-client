@@ -44,10 +44,7 @@ export async function fetchRepositoryMaintainersServices(
   if (!isAuthorized('GET', 'repositoryMaintainers'))
     return new Promise(() => validateRequest)
   const sort = useSortStore()
-  let sortBy = sort.getSortBy()
-  if (sort.field == 'name') {
-    sortBy = ['user,' + sort.direction]
-  }
+  const sortBy = sort.getSortBy()
   return openApiRequest<
     EntityModelRepositoryMaintainerDto[]
   >(

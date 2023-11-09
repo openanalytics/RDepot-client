@@ -29,6 +29,7 @@ import { Technologies } from '@/enum/Technologies'
 import { usePackageDetailsStore } from '@/store/package_details'
 import { usePagination } from '@/store/pagination'
 import { useSortStore } from '@/store/sort'
+import { useCommonStore } from '@/store/common'
 import { useSubmissionStore } from '@/store/submission'
 
 export async function loadPackageDetails(
@@ -100,5 +101,32 @@ export async function handleLogout() {
       .catch((error) => {
         console.log(error)
       })
+  }
+}
+
+export function getDefaultFiltration(to: any) {
+  const sortStore = useSortStore()
+  const commonStore = useCommonStore()
+  switch (to.name) {
+    case 'repositoryMaintainers':
+    case 'packageMaintainers':
+      sortStore.setDefaultFields('user.name', 'asc')
+      sortStore.resetSort()
+      commonStore.setActiveId('user.name')
+      break
+    case 'packages':
+    case 'repositories':
+    case 'users':
+      sortStore.setDefaultFields('name', 'asc')
+      sortStore.resetSort()
+      commonStore.setActiveId('name')
+      break
+    case 'submissions':
+      sortStore.setDefaultFields('state', 'desc')
+      sortStore.resetSort()
+      commonStore.setActiveId('state')
+      break
+    default:
+      break
   }
 }

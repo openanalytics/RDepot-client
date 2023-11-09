@@ -33,7 +33,8 @@
     >
       <SortTitle
         v-if="title"
-        :text="$t('columns.maintainer')"
+        :text="$t('columns.packageMaintainer.name')"
+        sortKey="columns.packageMaintainer.name"
       />
       <TextRecord
         v-else
@@ -47,7 +48,8 @@
     >
       <SortTitle
         v-if="title"
-        :text="$t('columns.packageName')"
+        :text="$t('columns.packageMaintainer.packageName')"
+        sortKey="columns.packageMaintainer.packageName"
       />
       <TextRecord
         v-else
@@ -63,7 +65,8 @@
         v-if="title"
         center
         no-sort
-        :text="$t('columns.technology')"
+        :text="$t('columns.packageMaintainer.technology')"
+        sortKey="columns.packageMaintainer.technology"
       />
       <TextRecord
         v-else
@@ -78,7 +81,8 @@
     >
       <SortTitle
         v-if="title"
-        :text="$t('columns.repository')"
+        :text="$t('columns.packageMaintainer.repository')"
+        sortKey="columns.packageMaintainer.repository"
       />
       <TextRecord
         v-else
@@ -100,6 +104,7 @@
         center
         no-sort
         :text="$t('columns.actions')"
+        sortKey="columns.actions"
         justify="center"
       />
       <span

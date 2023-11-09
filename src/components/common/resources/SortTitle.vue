@@ -70,11 +70,15 @@ const props = defineProps({
   direction: {
     type: String,
     required: false
+  },
+  sortKey: {
+    type: String,
+    required: true
   }
 })
 
 const id = ref<string>(
-  SORT_PARAMS.get(props.text) || 'name'
+  SORT_PARAMS.get(props.sortKey) || 'name'
 )
 const commonStore = useCommonStore()
 const sortStore = useSortStore()

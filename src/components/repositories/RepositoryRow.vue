@@ -33,7 +33,8 @@
     >
       <SortTitle
         v-if="title"
-        :text="$t('columns.repositoryName')"
+        :text="$t('columns.repository.name')"
+        sortKey="columns.repository.name"
       />
       <TextRecord v-else :text="repository?.name" />
     </v-col>
@@ -44,7 +45,8 @@
     >
       <SortTitle
         v-if="title"
-        :text="$t('columns.publicationUri')"
+        :text="$t('columns.repository.publicationUri')"
+        sortKey="columns.repository.publicationUri"
       />
       <TextRecord
         v-else
@@ -58,7 +60,8 @@
     >
       <SortTitle
         v-if="title"
-        :text="$t('columns.serverAddress')"
+        :text="$t('columns.repository.serverAddress')"
+        sortKey="columns.repository.serverAddress"
       />
       <TextRecord
         v-else
@@ -74,7 +77,8 @@
       <SortTitle
         v-if="title"
         center
-        :text="$t('columns.technology')"
+        :text="$t('columns.repository.technology')"
+        sortKey="columns.repository.technology"
       />
       <TextRecord v-else :text="repository?.technology" />
     </v-col>
@@ -86,7 +90,8 @@
       <SortTitle
         v-if="title"
         center
-        :text="$t('columns.version')"
+        :text="$t('columns.repository.version')"
+        sortKey="columns.repository.version"
       />
       <TextRecord
         v-else
@@ -102,7 +107,8 @@
         v-if="title"
         center
         no-sort
-        :text="$t('columns.packagesNo')"
+        :text="$t('columns.repository.packagesNo')"
+        sortKey="columns.repository.packagesNo"
       />
       <TextRecord v-else text="none" no-margin />
     </v-col>
@@ -113,7 +119,8 @@
     >
       <SortTitle
         v-if="title"
-        :text="$t('columns.published')"
+        :text="$t('columns.repository.published')"
+        sortKey="columns.repository.published"
         center
       />
       <v-checkbox
@@ -140,6 +147,7 @@
         no-sort
         center
         :text="$t('columns.actions')"
+        sortKey="columns.actions"
       />
       <span
         v-else-if="repository"

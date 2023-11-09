@@ -31,7 +31,11 @@
       cols="lg-1 sm-2"
       class="d-flex align-center"
     >
-      <SortTitle v-if="title" :text="$t('columns.date')" />
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.submissions.date')"
+        sortKey="columns.submissions.date"
+      />
       <TextRecord v-else text="DATE" />
     </v-col>
     <v-col
@@ -41,7 +45,8 @@
     >
       <SortTitle
         v-if="title"
-        :text="$t('columns.package')"
+        :text="$t('columns.submissions.package')"
+        sortKey="columns.submissions.package"
         sortField="packageBag"
       />
       <TextRecord
@@ -56,7 +61,8 @@
     >
       <SortTitle
         v-if="title"
-        :text="$t('columns.repository')"
+        :text="$t('columns.submissions.repository')"
+        sortKey="columns.submissions.repository"
       />
       <TextRecord
         v-else
@@ -70,7 +76,8 @@
     >
       <SortTitle
         v-if="title"
-        :text="$t('columns.submitter')"
+        :text="$t('columns.submissions.submitter')"
+        sortKey="columns.submissions.submitter"
       />
       <TextRecord
         v-else
@@ -85,7 +92,8 @@
     >
       <SortTitle
         v-if="title"
-        :text="$t('columns.approver')"
+        :text="$t('columns.submissions.approver')"
+        sortKey="columns.submissions.approver"
       />
       <TextRecord
         v-else
@@ -100,7 +108,8 @@
     >
       <SortTitle
         v-if="title"
-        :text="$t('columns.technology')"
+        :text="$t('columns.submissions.technology')"
+        sortKey="columns.submissions.technology"
         center
       />
       <TextRecord v-else :text="submission?.technology" />
@@ -112,7 +121,8 @@
     >
       <SortTitle
         v-if="title"
-        :text="$t('columns.accepted')"
+        :text="$t('columns.submissions.accepted')"
+        sortKey="columns.submissions.accepted"
         center
         direction="desc"
       />
@@ -153,6 +163,7 @@
       <SortTitle
         v-if="title"
         :text="$t('columns.actions')"
+        sortKey="columns.actions"
         center
         no-sort
       />
