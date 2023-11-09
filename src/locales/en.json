@@ -19,7 +19,7 @@
     "wrongCredentials": "Wrong credentials, please try again"
   },
   "columns": {
-    "accepted": "Accepted",
+    "accepted": "Status",
     "actions": "Actions",
     "active": "Active",
     "approver": "Approver",

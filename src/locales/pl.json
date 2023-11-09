@@ -19,7 +19,7 @@
     "wrongCredentials": "Błędne dane logowania, spróbuj ponownie"
   },
   "columns": {
-    "accepted": "Zaakceptowany",
+    "accepted": "Status",
     "actions": "Akcje",
     "active": "Aktywny",
     "approver": "Zatwierdzający",
