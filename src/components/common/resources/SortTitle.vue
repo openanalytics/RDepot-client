@@ -66,6 +66,10 @@ const props = defineProps({
   sortField: {
     type: String,
     required: false
+  },
+  direction: {
+    type: String,
+    required: false
   }
 })
 
@@ -99,7 +103,8 @@ const getIcon = computed(() => {
 
 async function sortBy() {
   await sortStore.setField(
-    props.sortField ? props.sortField : id.value
+    props.sortField ? props.sortField : id.value,
+    props?.direction
   )
   commonStore.setActiveId(sortStore.field)
 }

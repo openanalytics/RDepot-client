@@ -114,6 +114,7 @@
         v-if="title"
         :text="$t('columns.accepted')"
         center
+        direction="desc"
       />
 
       <v-tooltip location="right" v-else-if="submission">

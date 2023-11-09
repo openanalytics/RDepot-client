@@ -50,9 +50,12 @@ export const useSortStore = defineStore('sortStore', {
       this.defaultSort.field = field
       this.defaultSort.direction = direction
     },
-    async setField(payload?: string) {
+    async setField(payload?: string, direction?: string) {
       if (payload && payload !== this.field) {
         this.resetSort()
+        if (direction) {
+          this.direction = direction
+        }
       }
       this.counter += 1
       if (this.counter % 3 === 0) {
@@ -63,7 +66,7 @@ export const useSortStore = defineStore('sortStore', {
             this.direction =
               this.direction == 'asc' ? 'desc' : 'asc'
           } else {
-            this.direction = 'asc'
+            this.direction = direction ? direction : 'asc'
           }
           this.field = payload
         }
