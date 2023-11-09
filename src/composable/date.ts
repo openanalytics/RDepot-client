@@ -21,18 +21,15 @@
  */
 
 import { EntityModelNewsfeedEventDto } from '@/openapi'
+import { Moment } from 'moment'
 
 export function useDates() {
   function isYearAndMonthDate(date: string): boolean {
     return date.length == 7
   }
 
-  function getMonthAndYear(date: Date): string {
-    return (
-      date.getFullYear().toString() +
-      '.' +
-      padTo2Digits(date.getMonth() + 1)
-    )
+  function getMonthAndYear(date: Moment): string {
+    return date.format('yyyy.MM')
   }
   function padTo2Digits(num: number) {
     return num.toString().padStart(2, '0')

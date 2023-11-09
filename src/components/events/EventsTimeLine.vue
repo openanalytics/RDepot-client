@@ -81,6 +81,7 @@ import { useTheme } from 'vuetify'
 import { useDates } from '@/composable/date'
 import NoEvents from './NoEvents.vue'
 import { useCommonStore } from '@/store/common'
+import moment from 'moment'
 
 const { current } = useTheme()
 const { lgAndUp, mdAndUp, smAndUp, smAndDown } =
@@ -155,16 +156,22 @@ const groupedEvents = computed(function () {
       eventsStore.events
     )
 
+    const dateFormat = 'yyyy.MM.DD'
     var firstDate = eventsGroupedByDate.keys().next().value
-    var dateTime = new Date(firstDate)
+    var dateTime = moment(firstDate, dateFormat)
     var monthYear = getMonthAndYear(dateTime)
     localEvents.push(false)
     localEvents.push(monthYear)
     localEvents.push(null)
 
     eventsGroupedByDate.forEach((events, date) => {
-      if (monthYear != getMonthAndYear(new Date(date))) {
-        monthYear = getMonthAndYear(new Date(date))
+      if (
+        monthYear !=
+        getMonthAndYear(moment(date, dateFormat))
+      ) {
+        monthYear = getMonthAndYear(
+          moment(date, dateFormat)
+        )
         localEvents.push(false)
         localEvents.push(monthYear)
         localEvents.push(false)
