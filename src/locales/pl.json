@@ -33,6 +33,7 @@
     "publicationUri": "URI publikacji",
     "published": "Opublikowano",
     "repository": "Repozytorium",
+    "repositoryName": "Repozytorium",
     "role": "Rola",
     "serverAddress": "Adres serwera",
     "state": "Stan",
@@ -40,8 +41,7 @@
     "technology": "Technologia",
     "title": "Tytuł",
     "username": "Nazwa użytkownika",
-    "version": "Wersja",
-    "repositoryName": "Repozytorium"
+    "version": "Wersja"
   },
   "common": {
     "addPackage": "Dodaj pakiet",

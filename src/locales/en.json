@@ -33,6 +33,7 @@
     "publicationUri": "Publication uri",
     "published": "Published",
     "repository": "Repository",
+    "repositoryName": "Repository",
     "role": "Role",
     "serverAddress": "Server address",
     "state": "State",
@@ -40,8 +41,7 @@
     "technology": "Technology",
     "title": "Title",
     "username": "User name",
-    "version": "Version",
-    "repositoryName": "Repository"
+    "version": "Version"
   },
   "common": {
     "addPackage": "Add package",
