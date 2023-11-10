@@ -48,7 +48,7 @@
       </v-row>
       <v-row align="center" justify="end" class="my-0 mx-3">
         <ChangeLanguage class="mr-4" />
-        <ChangeTheme class="mr-12 ml-3 pr-6" />
+        <ChangeTheme class="mr-12 ml-3" />
       </v-row>
     </v-row>
   </v-app-bar>
