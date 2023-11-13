@@ -32,6 +32,8 @@
         prepend-icon="mdi-account"
         :title="getUserLogin"
         :subtitle="getSubtitle"
+        active-class="link-active"
+        to="/account"
       ></v-list-item>
       <v-divider class="pb-3"></v-divider>
       <v-list-item
