@@ -191,7 +191,12 @@ function updateRepositoryPublished(): void {
     const oldRepository = deepCopy(props.repository)
     oldRepository.published = !oldRepository.published
     updateRepository(oldRepository, props.repository).then(
-      () => repositoryStore.fetchRepositories()
+      (success) => {
+        repositoryStore.fetchRepositories()
+      },
+      (failure) => {
+        repositoryStore.fetchRepositories()
+      }
     )
   }
 }
