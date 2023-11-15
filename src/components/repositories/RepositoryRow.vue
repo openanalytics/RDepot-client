@@ -126,7 +126,7 @@
       <v-checkbox
         v-else-if="repository"
         id="checkbox-published"
-        v-model="repositoryLocal.published"
+        v-model="repository.published"
         @change="updateRepositoryPublished()"
         :disabled="
           !canPatch(props.repository?.links).allowed
@@ -171,34 +171,34 @@ import SortTitle from '@/components/common/resources/SortTitle.vue'
 import TextRecord from '@/components/common/resources/TextRecord.vue'
 import { EntityModelRepositoryDto } from '@/openapi'
 import { updateRepository } from '@/services/repository_services'
-import { ref } from 'vue'
 import { useUtilities } from '@/composable/utilities'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
 import { usePackagesStore } from '@/store/packages'
+import { useRepositoryStore } from '@/store/repositories'
 
 const packagesStore = usePackagesStore()
 const { deepCopy } = useUtilities()
 const { canDelete, canPatch } = useUserAuthorities()
+const repositoryStore = useRepositoryStore()
 
 const props = defineProps<{
   title?: boolean
   repository?: EntityModelRepositoryDto
 }>()
-const repositoryLocal = ref<EntityModelRepositoryDto>(
-  props.repository || {}
-)
 
 function updateRepositoryPublished(): void {
-  const oldRepository = deepCopy(repositoryLocal.value)
-  oldRepository.published = !oldRepository.published
-  updateRepository(
-    oldRepository,
-    repositoryLocal.value
-  ).then((success) => {
-    if (!success)
-      repositoryLocal.value.published =
-        oldRepository.published
-  })
+  if (props.repository) {
+    const oldRepository = deepCopy(props.repository)
+    oldRepository.published = !oldRepository.published
+    updateRepository(oldRepository, props.repository).then(
+      (success) => {
+        if (!success)
+          props.repository.published =
+            oldRepository.published
+        repositoryStore.fetchRepositories()
+      }
+    )
+  }
 }
 
 function chooseRepository() {
