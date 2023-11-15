@@ -110,6 +110,7 @@
         v-if="title"
         :text="$t('columns.submissions.technology')"
         sortKey="columns.submissions.technology"
+        no-sort
         center
       />
       <TextRecord v-else :text="submission?.technology" />
