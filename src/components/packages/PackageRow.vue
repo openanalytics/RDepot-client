@@ -33,7 +33,8 @@
     >
       <SortTitle
         v-if="title"
-        :text="$t('columns.packageName')"
+        :text="$t('columns.package.name')"
+        sortKey="columns.package.name"
       />
       <TextRecord v-else :text="packageBag?.name" />
     </VCol>
@@ -44,18 +45,20 @@
     >
       <SortTitle
         v-if="title"
-        :text="$t('columns.version')"
+        :text="$t('columns.package.version')"
+        sortKey="columns.package.version"
       />
       <TextRecord v-else :text="packageBag?.version" />
     </VCol>
     <VCol
       id="package-row-title"
-      cols="lg-5 sm-2"
+      cols="lg-4 sm-2"
       class="d-flex align-center"
     >
       <SortTitle
         v-if="title"
-        :text="$t('packages.title')"
+        :text="$t('columns.package.title')"
+        sortKey="columns.package.title"
       />
       <TextRecord v-else :text="packageBag?.title" />
     </VCol>
@@ -67,10 +70,26 @@
     >
       <SortTitle
         v-if="title"
-        :text="$t('columns.maintainer')"
+        :text="$t('columns.package.maintainer')"
+        sortKey="columns.package.maintainer"
       />
       <TextRecord v-else :text="packageBag?.user?.name" />
     </VCol>
+
+    <VCol
+      id="package-row-state"
+      cols="lg-1 sm-2"
+      class="d-flex align-center justify-center"
+      align="center"
+    >
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.package.state')"
+        sortKey="columns.package.state"
+      />
+      <TextRecord v-else text="submission state!" />
+    </VCol>
+
     <VCol
       id="package-row-technology"
       cols="lg-1 sm-2"
@@ -78,7 +97,8 @@
     >
       <SortTitle
         v-if="title"
-        :text="$t('columns.technology')"
+        :text="$t('columns.package.technology')"
+        sortKey="columns.package.technology"
       />
       <TextRecord v-else :text="packageBag?.technology" />
     </VCol>
@@ -89,7 +109,8 @@
     >
       <SortTitle
         v-if="title"
-        :text="$t('columns.repository')"
+        :text="$t('columns.package.repository')"
+        sortKey="columns.package.repository"
       />
       <TextRecord
         v-else
@@ -103,7 +124,8 @@
     >
       <SortTitle
         v-if="title"
-        :text="$t('columns.active')"
+        :text="$t('columns.package.active')"
+        sortKey="columns.package.active"
         center
       />
 
@@ -129,32 +151,16 @@
       <SortTitle
         v-if="title"
         :text="$t('columns.actions')"
+        sortKey="columns.actions"
         no-sort
         justify="center"
       />
-      <span
-        v-else-if="packageBag && !packageBag.deleted"
-        class="d-flex"
-      >
-        <VTooltip top>
-          <template v-slot:activator="{ props }">
-            <VIcon
-              id="navigate-icon"
-              @click.stop
-              @click="navigate"
-              v-bind="props"
-              color="oablue"
-              >mdi-forward</VIcon
-            >
-          </template>
-          <span id="action-details">{{
-            $t('common.details')
-          }}</span>
-        </VTooltip>
+      <span v-else-if="packageBag && !packageBag.deleted">
         <DeleteIcon
           v-if="canDelete(props.packageBag?.links)"
           :name="props.packageBag?.name"
           :set-resource-id="choosePackage"
+          class=""
         />
         <span v-else style="width: 30px"></span>
       </span>
@@ -196,18 +202,6 @@ function updatePackageActive() {
     props.packageBag.active != undefined
   ) {
     packageStore.activatePackage(props.packageBag)
-  }
-}
-
-function navigate() {
-  if (props.packageBag?.name) {
-    router.push({
-      name: 'packageDetails',
-      params: {
-        id: props.packageBag.id,
-        technology: props.packageBag?.technology
-      }
-    })
   }
 }
 </script>

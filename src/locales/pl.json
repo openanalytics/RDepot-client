@@ -19,7 +19,7 @@
     "wrongCredentials": "Błędne dane logowania, spróbuj ponownie"
   },
   "columns": {
-    "accepted": "Zaakceptowany",
+    "accepted": "Status",
     "actions": "Akcje",
     "active": "Aktywny",
     "approver": "Zatwierdzający",
@@ -27,18 +27,64 @@
     "email": "Email",
     "maintainer": "Opiekun",
     "name": "Użytkownik",
-    "package": "Pakiet",
+    "package": {
+      "active": "Aktywny",
+      "maintainer": "Opiekun",
+      "name": "Pakiet",
+      "repository": "Repozytorium",
+      "state": "Status",
+      "technology": "Technologia",
+      "title": "Tytuł",
+      "version": "Wersja"
+    },
+    "packageMaintainer": {
+      "name": "Opiekun",
+      "packageName": "Pakiet",
+      "repository": "Repozytorium",
+      "technology": "Technologia"
+    },
     "packageName": "Pakiet",
     "packagesNo": "Lp. pakietu",
     "publicationUri": "URI publikacji",
     "published": "Opublikowano",
-    "repository": "Repozytorium",
+    "repository": {
+      "name": "Repozytorium",
+      "packagesNo": "Lp. pakietu",
+      "publicationUri": "URI publikacji",
+      "published": "Opublikowano",
+      "serverAddress": "Adres serwera",
+      "technology": "Technologia",
+      "version": "Wersja"
+    },
+    "repositoryMaintainer": {
+      "name": "Opiekun",
+      "repository": "Repozytorium",
+      "technology": "Technologia"
+    },
+    "repositoryName": "Repozytorium",
     "role": "Rola",
     "serverAddress": "Adres serwera",
+    "state": "Stan",
+    "submissions": {
+      "accepted": "Status",
+      "approver": "Zatwierdzający",
+      "date": "Data",
+      "package": "Pakiet",
+      "repository": "Repozytorium",
+      "submitter": "Zgłaszający",
+      "technology": "Technologia"
+    },
     "submitter": "Zgłaszający",
     "technology": "Technologia",
     "title": "Tytuł",
     "username": "Nazwa użytkownika",
+    "users": {
+      "active": "Aktywny",
+      "email": "Email",
+      "name": "Użytkownik",
+      "role": "Rola",
+      "username": "Nazwa użytkownika"
+    },
     "version": "Wersja"
   },
   "common": {
@@ -46,6 +92,7 @@
     "apply": "Zastosuj",
     "cancel": "Anuluj",
     "clearForm": "Wyczyść formularz",
+    "click": "naciśnij",
     "copied": "Kod został skopiowany",
     "create": "Utwórz",
     "delete": "Usuń",
@@ -66,14 +113,22 @@
     "maintainers": "Opiekunowie",
     "noListingResults": "Nie znaleziono żadnych wyników",
     "notAvailable": "Niedostępne",
+    "or": "lub",
     "packages": "Pakiety",
     "projectTitle": "RDepot",
     "repositories": "Repozytoria",
     "reset": "Wyczyść",
     "save": "Zapisz",
     "search": "Wyszukaj",
+    "seepackages": "Zobacz pakiety w repozytorium",
     "submissions": "Zgłoszenia",
     "users": "Użytkownicy"
+  },
+  "dragzone": {
+    "active": "Przeciągnij jeden lub więcej plików",
+    "click": "aby wybrać je ręcznie",
+    "dropzone": "drop zone",
+    "inactive": "Przeciągnij pliki aby je wgrać"
   },
   "errors": {
     "401": "Nie można wykonać zapytania. Użytkownik nie jest zalogowany.",
@@ -139,6 +194,7 @@
     "archive": "Archiwum",
     "authors": "Autorzy",
     "classifiers": "Klasyfikatory",
+    "copy": "Kopiuj",
     "depends": "Zależności",
     "description": "Opis",
     "details": "Szczegóły",
@@ -150,6 +206,7 @@
       "deleted": "Usunięte",
       "repository": "Repozytorium"
     },
+    "generatemanual": "Generuj instrukcję",
     "imports": "Importuje",
     "install": "Instalacja",
     "installInstruction": "Aby zainstalować ten pakiet, uruchom \"{0}\" i wprowadź komendę:",
@@ -161,6 +218,9 @@
     "oldSources": "Stare źródła",
     "originalPackageData": "Jak opisano w pakiecie \"{0}\"",
     "osxBinaries": "Pliki binarne OS X",
+    "package": {
+      "title": "Nazwa"
+    },
     "platform": "Platforma",
     "projectUrl": "URL projektu",
     "providesExtra": "Dostarcza dodatkowe",

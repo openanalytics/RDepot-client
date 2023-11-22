@@ -31,7 +31,11 @@
       cols="lg-3 sm-2"
       class="d-flex align-center"
     >
-      <SortTitle v-if="title" :text="$t('columns.name')" />
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.users.name')"
+        sortKey="columns.users.name"
+      />
       <TextRecord v-else :text="user?.name" />
     </v-col>
     <v-col
@@ -39,7 +43,11 @@
       cols="lg-3"
       class="d-flex align-center"
     >
-      <SortTitle v-if="title" :text="$t('columns.email')" />
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.users.email')"
+        sortKey="columns.users.email"
+      />
       <TextRecord v-else :text="user?.email" />
     </v-col>
     <v-col
@@ -49,7 +57,8 @@
     >
       <SortTitle
         v-if="title"
-        :text="$t('columns.username')"
+        :text="$t('columns.users.username')"
+        sortKey="columns.users.username"
       />
       <TextRecord v-else :text="user?.login" />
     </v-col>
@@ -60,7 +69,8 @@
     >
       <SortTitle
         v-if="title"
-        :text="$t('columns.role')"
+        :text="$t('columns.users.role')"
+        sortKey="columns.users.role"
         noSort
       />
       <TextRecord v-else :text="getRole" />
@@ -72,7 +82,8 @@
     >
       <SortTitle
         v-if="title"
-        :text="$t('columns.active')"
+        :text="$t('columns.users.active')"
+        sortKey="columns.users.active"
         center
       />
       <v-checkbox
@@ -92,6 +103,7 @@
       <SortTitle
         v-if="title"
         :text="$t('columns.actions')"
+        sortKey="columns.actions"
         center
         no-sort
       />

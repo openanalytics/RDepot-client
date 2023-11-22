@@ -21,7 +21,7 @@
 -->
 
 <template>
-  <div class="title" v-if="vignettes">
+  <div class="title" v-if="vignettes?.data">
     {{ $t('packages.documentation') }}
   </div>
   <PackageVignette

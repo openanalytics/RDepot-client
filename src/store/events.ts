@@ -54,6 +54,14 @@ export const useEventsStore = defineStore('events_store', {
       next: undefined
     }
   },
+  getters: {
+    isDefaultFiltration: (state) => {
+      return (
+        JSON.stringify(state.filtration) ===
+        JSON.stringify(defaultValues(EventsFiltration))
+      )
+    }
+  },
   actions: {
     async fetchEvents() {
       this.pending = true

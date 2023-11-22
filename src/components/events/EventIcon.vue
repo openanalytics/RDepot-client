@@ -27,11 +27,9 @@
     </div>
     <div v-if="isYearAndMonthDate(props.date)">
       <div class="year" v-if="props.date">
-        {{ new Date(props.date).getFullYear() }}
+        {{ getFullYear(props.date) }}
         <div class="month">
-          {{
-            getMonthName(new Date(props.date).getMonth())
-          }}
+          {{ getMonthName(props.date) }}
         </div>
       </div>
     </div>
@@ -49,16 +47,29 @@
 <script setup lang="ts">
 import { eventsIcons } from '@/models/EventTypeIcon'
 import { EntityModelNewsfeedEventDto } from '@/openapi'
+import moment from 'moment'
 
 const props = defineProps({
   date: String,
   event: Object as () => EntityModelNewsfeedEventDto
 })
 
-function getMonthName(monthNumber: number) {
-  const date = new Date()
-  date.setMonth(monthNumber)
-  return date.toLocaleString('en-US', { month: 'long' })
+function getFullYear(date: string) {
+  const year = moment()
+    .month(parseInt(date.split('.')[1]) - 1)
+    .year(parseInt(date.split('.')[0]))
+    .startOf('month')
+    .year()
+  return year
+}
+
+function getMonthName(date: string) {
+  const monthNumber = moment()
+    .startOf('month')
+    .month(parseInt(date.split('.')[1]) - 1)
+    .year(parseInt(date.split('.')[0]))
+    .format('MMMM')
+  return monthNumber
 }
 
 function isFullDate(date: string): boolean {

@@ -82,7 +82,10 @@ export const usePackageDetailsStore = defineStore(
           this.submission = (await fetchSubmission(id))[0]
         }
         this.fetchAllPackageVersions()
-        if (this.packageBag.id) {
+        if (
+          this.packageBag.id &&
+          this.packageBag.technology === 'R'
+        ) {
           this.fetchVignettes(this.packageBag.id)
         }
       },

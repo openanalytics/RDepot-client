@@ -23,7 +23,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { routes } from '@/plugins/router/routes'
 import { i18n } from '@/plugins/i18n'
-import { useSortStore } from '@/store/sort'
 import { usePagination } from '@/store/pagination'
 import { useAuthorizationStore } from '@/store/authorization'
 import * as helper from '@/plugins/router/helpers'
@@ -42,6 +41,7 @@ router.beforeEach(async (to) => {
   if (to.fullPath.startsWith('/auth')) {
     await helper.handleAuthorization()
     helper.hideSidebar(false)
+    helper.getDefaultFiltration(to)
     return '/packages'
   } else if (to.fullPath.startsWith('/logout')) {
     helper.handleLogout()
@@ -55,11 +55,11 @@ router.beforeEach(async (to) => {
     helper.hideSidebar(false)
     authorizationStore.getUserInfo()
   }
-
   helper.resetStoreValues(to)
   document.title = to.meta.title
     ? (to.meta.title as string)
     : DEFAULT_TITLE
+  helper.getDefaultFiltration(to)
 })
 
 router.beforeResolve(async (to) => {

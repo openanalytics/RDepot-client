@@ -79,7 +79,7 @@ export function useToast() {
     }
   }
 
-  function getToastTheme(): String {
+  function getToastTheme(): string {
     return vuetify.theme.global.current.value.dark
       ? 'dark'
       : 'light'

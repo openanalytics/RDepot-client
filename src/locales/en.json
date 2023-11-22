@@ -19,7 +19,7 @@
     "wrongCredentials": "Wrong credentials, please try again"
   },
   "columns": {
-    "accepted": "Accepted",
+    "accepted": "Status",
     "actions": "Actions",
     "active": "Active",
     "approver": "Approver",
@@ -27,18 +27,64 @@
     "email": "Email",
     "maintainer": "Maintainer",
     "name": "Name",
-    "package": "Package",
+    "package": {
+      "active": "Active",
+      "maintainer": "Maintainer",
+      "name": "Package",
+      "repository": "Repository",
+      "state": "Status",
+      "technology": "Technology",
+      "title": "Title",
+      "version": "Version"
+    },
+    "packageMaintainer": {
+      "name": "Maintainer",
+      "packageName": "Package",
+      "repository": "Repository",
+      "technology": "Technology"
+    },
     "packageName": "Package",
     "packagesNo": "# packages",
     "publicationUri": "Publication uri",
     "published": "Published",
-    "repository": "Repository",
+    "repository": {
+      "name": "Repository",
+      "packagesNo": "# packages",
+      "publicationUri": "Publication uri",
+      "published": "Published",
+      "serverAddress": "Server address",
+      "technology": "Technology",
+      "version": "Version"
+    },
+    "repositoryMaintainer": {
+      "name": "Maintainer",
+      "repository": "Repository",
+      "technology": "Technology"
+    },
+    "repositoryName": "Repository",
     "role": "Role",
     "serverAddress": "Server address",
+    "state": "State",
+    "submissions": {
+      "accepted": "Status",
+      "approver": "Approver",
+      "date": "Date",
+      "package": "Package",
+      "repository": "Repository",
+      "submitter": "Submitter",
+      "technology": "Technology"
+    },
     "submitter": "Submitter",
     "technology": "Technology",
     "title": "Title",
     "username": "User name",
+    "users": {
+      "active": "Active",
+      "email": "Email",
+      "name": "User",
+      "role": "Role",
+      "username": "Username"
+    },
     "version": "Version"
   },
   "common": {
@@ -46,6 +92,7 @@
     "apply": "Apply",
     "cancel": "Cancel",
     "clearForm": "Clear form",
+    "click": "click",
     "copied": "Code succesfully copied to clipboard",
     "create": "Create",
     "delete": "Delete",
@@ -66,14 +113,22 @@
     "maintainers": "Maintainers",
     "noListingResults": "No results where found",
     "notAvailable": "Not available",
+    "or": "or",
     "packages": "Packages",
     "projectTitle": "RDepot",
     "repositories": "Repositories",
     "reset": "Reset",
     "save": "Save",
     "search": "Search",
+    "seepackages": "See repository's packages",
     "submissions": "Submissions",
     "users": "Users"
+  },
+  "dragzone": {
+    "active": "Drag one or more files to this",
+    "click": "to select them manually",
+    "dropzone": "drop zone",
+    "inactive": "Drop files to upload them"
   },
   "errors": {
     "401": "Cannot perform this request because user is not authenticated.",
@@ -83,6 +138,14 @@
     "oauthTitle": "Authorization"
   },
   "events": {
+    "filtration": {
+      "eventType": "Event Type",
+      "resourceId": "Resource Id",
+      "resourceType": "Resource Type",
+      "technology": "Technology",
+      "title": "Events filtration",
+      "userId": "User Id"
+    },
     "noEvents": "No events available"
   },
   "filtration": {
@@ -139,6 +202,7 @@
     "archive": "Archive",
     "authors": "Authors",
     "classifiers": "Classifiers",
+    "copy": "Copy",
     "depends": "Depends",
     "description": "Description",
     "details": "Details",
@@ -150,6 +214,7 @@
       "deleted": "Deleted",
       "repository": "Repository"
     },
+    "generatemanual": "Generate manual",
     "imports": "Imports",
     "install": "Install",
     "installInstruction": "To install this package, start \"{0}\" and enter:",
@@ -161,6 +226,9 @@
     "oldSources": "Old sources",
     "originalPackageData": "As described in \"{0}\" package",
     "osxBinaries": "OS X binaries",
+    "package": {
+      "title": "Title"
+    },
     "platform": "Platform",
     "projectUrl": "Project URL",
     "providesExtra": "Provides extra",
@@ -187,6 +255,7 @@
     "size": "page size"
   },
   "repositories": {
+    "addRepository": "Create repository",
     "creation": {
       "duplicateName": "Repository name already exists",
       "name": "Name",
@@ -215,6 +284,7 @@
     "wrongExtension": "Choose packages that have correct extension (.tar.gz)"
   },
   "success": "Successful request",
+  "tempo": "długie zdanie",
   "users": {
     "edit": {
       "overlay": "Edit user role of {user_login}",

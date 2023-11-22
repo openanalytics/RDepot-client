@@ -54,6 +54,16 @@ export const useRepositoryStore = defineStore(
         chosenRepository: {}
       }
     },
+    getters: {
+      isDefaultFiltration: (state) => {
+        return (
+          JSON.stringify(state.filtration) ===
+          JSON.stringify(
+            defaultValues(RepositoriesFiltration)
+          )
+        )
+      }
+    },
     actions: {
       async fetchPageOfRepositories(
         page: number,

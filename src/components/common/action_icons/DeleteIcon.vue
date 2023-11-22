@@ -29,7 +29,7 @@
         @click="deleteDialog"
         v-bind="props"
         color="oared"
-        class="ml-3"
+        :class="class"
         >mdi-trash-can</VIcon
       >
     </template>
@@ -51,6 +51,10 @@ const props = defineProps({
   setResourceId: {
     type: Function,
     required: true
+  },
+  class: {
+    type: String,
+    default: 'ml-3'
   }
 })
 
