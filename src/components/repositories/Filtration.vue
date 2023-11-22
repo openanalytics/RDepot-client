@@ -41,6 +41,7 @@
       :items="technologies"
       name="technologies"
       multiple
+      clearable
       as="v-select"
       :label="$t('filtration.technologies')"
     ></validated-input-field>
@@ -49,6 +50,7 @@
       id="filtration-deleted"
       name="deleted"
       :label="$t('packages.filtration.deleted')"
+      color="oablue"
       as="v-switch"
     ></validated-input-field>
   </filtration-card>

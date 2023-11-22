@@ -33,7 +33,9 @@
         :items="states"
         name="state"
         as="v-select"
-        :label="$t('filtration.state')"
+        multiple
+        clearable
+        :label="$t('submissions.filtration.state')"
       ></validated-input-field>
 
       <validated-input-field
@@ -43,12 +45,15 @@
         v-on:loadItems="loadPackages"
         v-on:filtrate="filtratePackages"
         :storeId="storeId"
+        clearable
       ></validated-input-field>
 
       <validated-input-field
         name="assignedToMe"
-        :label="$t('filtration.assignedToMe')"
+        :label="$t('submissions.filtration.assigned')"
+        clearable
         as="v-switch"
+        color="oablue"
       ></validated-input-field>
     </form>
   </filtration-card>

@@ -66,11 +66,19 @@ const props = defineProps({
   sortField: {
     type: String,
     required: false
+  },
+  direction: {
+    type: String,
+    required: false
+  },
+  sortKey: {
+    type: String,
+    required: true
   }
 })
 
 const id = ref<string>(
-  SORT_PARAMS.get(props.text) || 'name'
+  SORT_PARAMS.get(props.sortKey) || 'name'
 )
 const commonStore = useCommonStore()
 const sortStore = useSortStore()
@@ -97,11 +105,12 @@ const getIcon = computed(() => {
   }
 })
 
-function sortBy() {
-  commonStore.setActiveId(id.value)
-  sortStore.setField(
-    props.sortField ? props.sortField : id.value
+async function sortBy() {
+  await sortStore.setField(
+    props.sortField ? props.sortField : id.value,
+    props?.direction
   )
+  commonStore.setActiveId(sortStore.field)
 }
 
 const title = computed(() => {

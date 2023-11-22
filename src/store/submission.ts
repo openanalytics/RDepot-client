@@ -53,6 +53,7 @@ export type PackagePromise = {
 interface State {
   packages: File[]
   generateManual: File[]
+  files: File[]
   promises: PackagePromise[]
   repository?: EntityModelRepositoryDto
   submissions: EntityModelSubmissionDto[]
@@ -69,6 +70,7 @@ export const useSubmissionStore = defineStore(
     state: (): State => {
       return {
         packages: [],
+        files: [],
         generateManual: [],
         promises: [],
         submissions: [],
@@ -76,6 +78,16 @@ export const useSubmissionStore = defineStore(
         filtration: defaultValues(SubmissionsFiltration),
         resolved: false,
         stepperKey: 0
+      }
+    },
+    getters: {
+      isDefaultFiltration: (state) => {
+        return (
+          JSON.stringify(state.filtration) ===
+          JSON.stringify(
+            defaultValues(SubmissionsFiltration)
+          )
+        )
       }
     },
     actions: {

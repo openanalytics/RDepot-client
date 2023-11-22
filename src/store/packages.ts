@@ -43,6 +43,7 @@ import { packagesFiltrationLabels } from '@/maps/Filtration'
 import { fetchSubmission } from '@/services/submission_services'
 import { usePagination } from './pagination'
 import { Technologies } from '@/enum/Technologies'
+import { reactive, toRaw } from 'vue'
 
 interface State {
   packages: EntityModelPackageDto[]
@@ -66,6 +67,14 @@ export const usePackagesStore = defineStore(
         filtration: defaultValues(PackagesFiltration),
         chosenPackageId: undefined,
         next: false
+      }
+    },
+    getters: {
+      isDefaultFiltration: (state) => {
+        return (
+          JSON.stringify(state.filtration) ===
+          JSON.stringify(defaultValues(PackagesFiltration))
+        )
       }
     },
     actions: {

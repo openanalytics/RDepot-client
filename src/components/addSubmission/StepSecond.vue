@@ -31,120 +31,33 @@
     min-height="250px"
     height="100%"
   >
-    <v-card-text class="mb-1">
-      <div class="text-overline">repository</div>
-      <div id="repository-name" class="text-h4 mb-2">
-        {{ chosenRepository?.name }}
-      </div>
-
-      <v-divider></v-divider>
-
-      <v-list class="text-left">
-        <v-list-item
-          v-if="!!filesLocal.length"
-          class="text-overline"
-        >
-          <template
-            v-slot:append
-            v-if="
-              submissionsStore.repository?.technology !=
-              'Python'
-            "
-          >
-            generate manual
-          </template>
-        </v-list-item>
-        <v-list-item
-          v-for="file in filesLocal"
-          :key="file.name"
-          :title="file.name"
-          class="hoverable"
-        >
-          <template v-slot:prepend>
-            <v-btn
-              @click="removeFile(file)"
-              variant="plain"
-              icon="mdi-delete"
-              width="20"
-              class="mr-8"
-              :color="
-                checkValidity(file) ? 'oared' : 'oared'
-              "
+    <FilesList />
+    <DropZone
+      class="drop-area"
+      @new-files="filesStore.updateFilesAddNew"
+      #default="{ dropZoneActive }"
+      @click="open()"
+    >
+      <label for="file-input">
+        <span v-if="dropZoneActive">
+          {{ $t('dragzone.active') }}
+          <i>{{ $t('dragzone.dropzone') }}</i>
+        </span>
+        <span v-else>
+          <span>
+            {{ $t('dragzone.inactive') }} <br />
+            <small>
+              or <strong>click</strong>
+              {{ $t('dragzone.click') }}</small
             >
-            </v-btn>
-          </template>
+          </span>
+        </span>
+      </label>
+    </DropZone>
 
-          <template
-            v-slot:append
-            v-if="
-              submissionsStore.repository?.technology !=
-              'Python'
-            "
-          >
-            <v-btn
-              v-if="
-                !submissionsStore.getGenerateManualForPackage(
-                  file
-                )
-              "
-              icon="mdi-checkbox-marked-outline"
-              variant="text"
-              @click="
-                submissionsStore.addGenerateManualOptionForPackage(
-                  file
-                )
-              "
-            ></v-btn>
-            <v-btn
-              v-else
-              icon="mdi-checkbox-blank-outline"
-              variant="text"
-              @click="
-                submissionsStore.removeGenerateManualOptionForPackage(
-                  file
-                )
-              "
-            >
-            </v-btn>
-          </template>
-        </v-list-item>
-      </v-list>
-    </v-card-text>
-
-    <v-form v-model="valid">
-      <div
-        class="d-flex my-5 px-5"
-        :class="
-          files && files.length > 0
-            ? 'justify-space-between'
-            : ''
-        "
-        :style="
-          files && files.length > 0
-            ? ''
-            : 'align-items: flex-end'
-        "
-      >
-        <v-btn color="" type="button" @click="open()">
-          <template #prepend>
-            <v-icon icon="mdi-plus"></v-icon>
-          </template>
-          {{ $t('submissions.choseFiles') }}
-        </v-btn>
-
-        <v-btn
-          class="mx-3"
-          type="button"
-          :disabled="!files"
-          v-if="files && !!files.length"
-          color="oared"
-          @click="resetPackages()"
-        >
-          {{ $t('common.reset') }}
-        </v-btn>
-      </div>
-    </v-form>
+    <div class="d-flex"></div>
   </v-card>
+
   <div class="d-flex justify-space-between">
     <v-btn
       id="back-button"
@@ -156,7 +69,7 @@
     <v-btn
       id="next-button"
       color="oablue"
-      :disabled="!!!filesLocal.length"
+      :disabled="!!!filesStore.files.length"
       @click="nextStep"
     >
       submit
@@ -170,58 +83,43 @@ import { computed, ref } from 'vue'
 import { useFileDialog } from '@vueuse/core'
 import { watch } from 'vue'
 import { onMounted } from 'vue'
+import DropZone from '@/components/addSubmission/DropZone.vue'
+import FilesList from '@/components/addSubmission/FilesList.vue'
+import { useFilesListStore } from '@/store/local_files'
 import { useI18n } from 'vue-i18n'
 import { useToast } from '@/composable/toasts'
 
-const { files, open, reset } = useFileDialog({
+const { files, open } = useFileDialog({
   accept: 'application/gzip'
 })
 
-const chosenRepository = computed(() => {
-  return submissionsStore.repository
-})
-
 const emits = defineEmits(['next'])
+const filesStore = useFilesListStore()
 const submissionsStore = useSubmissionStore()
 const toasts = useToast()
 const { t } = useI18n()
 
 const valid = ref<boolean>(true)
 
-const filesLocal = ref<File[]>([])
-
-function removeFile(file: File) {
-  filesLocal.value.forEach((fileLocal: File, i: number) => {
-    if (fileLocal == file) {
-      filesLocal.value.splice(i, 1)
-    }
-  })
-}
-
-function resetPackages() {
-  submissionsStore.setPackages([])
-  reset()
-}
-
 watch(files, (files) => {
-  filesLocal.value = Array.from(files || [])
+  filesStore.updateFilesAddNew(files)
 })
 
-function checkValidity(file: File) {
-  return file['type'] === 'application/gzip'
-}
-
 function savePackagesInStore() {
-  valid.value = filesLocal.value.every(checkValidity)
+  valid.value = filesStore.files.every(checkValidity)
   if (valid.value) {
-    submissionsStore.setPackages(filesLocal.value)
+    submissionsStore.setPackages(filesStore.files)
   } else {
     submissionsStore.setPackages([])
   }
 }
 
+function checkValidity(file: File) {
+  return filesStore.checkValidity(file, 'application/gzip')
+}
+
 onMounted(() => {
-  filesLocal.value = submissionsStore.packages
+  filesStore.files = submissionsStore.packages
 })
 
 function nextStep() {
@@ -237,12 +135,20 @@ function nextStep() {
 }
 </script>
 
-<style>
+<style lang="scss">
 .v-list-item__prepend {
   align-self: center !important;
 }
 
 .v-card__underlay {
   display: none;
+}
+
+.reset-opacity {
+  opacity: 0.6;
+  &:hover {
+    transition: opacity ease-in-out 0.3s;
+    opacity: 1;
+  }
 }
 </style>

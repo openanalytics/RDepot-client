@@ -31,7 +31,11 @@
       cols="lg-1 sm-2"
       class="d-flex align-center"
     >
-      <SortTitle v-if="title" :text="$t('columns.date')" />
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.submissions.date')"
+        sortKey="columns.submissions.date"
+      />
       <TextRecord v-else text="DATE" />
     </v-col>
     <v-col
@@ -41,7 +45,8 @@
     >
       <SortTitle
         v-if="title"
-        :text="$t('columns.package')"
+        :text="$t('columns.submissions.package')"
+        sortKey="columns.submissions.package"
         sortField="packageBag"
       />
       <TextRecord
@@ -56,7 +61,8 @@
     >
       <SortTitle
         v-if="title"
-        :text="$t('columns.repository')"
+        :text="$t('columns.submissions.repository')"
+        sortKey="columns.submissions.repository"
       />
       <TextRecord
         v-else
@@ -70,7 +76,8 @@
     >
       <SortTitle
         v-if="title"
-        :text="$t('columns.submitter')"
+        :text="$t('columns.submissions.submitter')"
+        sortKey="columns.submissions.submitter"
       />
       <TextRecord
         v-else
@@ -85,7 +92,8 @@
     >
       <SortTitle
         v-if="title"
-        :text="$t('columns.approver')"
+        :text="$t('columns.submissions.approver')"
+        sortKey="columns.submissions.approver"
       />
       <TextRecord
         v-else
@@ -100,7 +108,9 @@
     >
       <SortTitle
         v-if="title"
-        :text="$t('columns.technology')"
+        :text="$t('columns.submissions.technology')"
+        sortKey="columns.submissions.technology"
+        no-sort
         center
       />
       <TextRecord v-else :text="submission?.technology" />
@@ -112,17 +122,39 @@
     >
       <SortTitle
         v-if="title"
-        :text="$t('columns.accepted')"
+        :text="$t('columns.submissions.accepted')"
+        sortKey="columns.submissions.accepted"
         center
+        direction="desc"
       />
-      <v-checkbox
-        id="checkbox-accepted"
-        color="oablue"
-        @click.stop
-        disabled
-        v-else-if="submission"
-        v-model="getAccepted"
-      />
+
+      <v-tooltip location="right" v-else-if="submission">
+        <template v-slot:activator="{ props }">
+          <div
+            id="tooltip-activator"
+            v-bind="props"
+            class="mt-2"
+          >
+            <v-icon
+              v-if="getAccepted"
+              icon="mdi-check-circle-outline"
+              color="success"
+            ></v-icon>
+            <v-icon
+              v-else-if="getWaiting"
+              icon="mdi-progress-question"
+            ></v-icon>
+            <v-icon
+              v-else-if="getRejectedOrCancelled"
+              icon="mdi-close-circle-outline"
+              color="error"
+            ></v-icon>
+          </div>
+        </template>
+        <span id="tooltip-wait">{{
+          getAcceptedTooltipMessage
+        }}</span>
+      </v-tooltip>
     </v-col>
     <v-col
       id="submission-actions"
@@ -132,6 +164,7 @@
       <SortTitle
         v-if="title"
         :text="$t('columns.actions')"
+        sortKey="columns.actions"
         center
         no-sort
       />
@@ -172,7 +205,10 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { EntityModelSubmissionDto } from '@/openapi'
+import {
+  EntityModelSubmissionDto,
+  EntityModelSubmissionDtoStateEnum
+} from '@/openapi'
 import { useSubmissionActions } from '@/composable/submissions/submissionActions'
 import { useAuthorizationStore } from '@/store/authorization'
 import SortTitle from '@/components/common/resources/SortTitle.vue'
@@ -205,10 +241,41 @@ const check = computed(() => {
 })
 
 const getAccepted = computed<boolean>(() => {
-  return props.submission?.state == 'ACCEPTED'
+  return (
+    props.submission?.state ==
+    EntityModelSubmissionDtoStateEnum.ACCEPTED
+  )
 })
 
 const getWaiting = computed<boolean>(() => {
-  return props.submission?.state == 'WAITING'
+  return (
+    props.submission?.state ==
+    EntityModelSubmissionDtoStateEnum.WAITING
+  )
+})
+
+const getRejected = computed<boolean>(() => {
+  return (
+    props.submission?.state ==
+    EntityModelSubmissionDtoStateEnum.REJECTED
+  )
+})
+
+const getCancelled = computed<boolean>(() => {
+  return (
+    props.submission?.state ==
+    EntityModelSubmissionDtoStateEnum.CANCELLED
+  )
+})
+
+const getRejectedOrCancelled = computed<boolean>(() => {
+  return getRejected.value || getCancelled.value
+})
+
+const getAcceptedTooltipMessage = computed<string>(() => {
+  if (getAccepted.value) return 'accepted'
+  if (getWaiting.value) return 'waiting for an action'
+  if (getRejected.value) return 'rejected'
+  else return 'cancelled'
 })
 </script>

@@ -21,11 +21,20 @@
 -->
 
 <template>
-  <CommonButton
-    id="add-maintainer"
-    :component="OverlayEnum.enum.Create"
-    ><v-icon icon="mdi-plus"
-  /></CommonButton>
+  <v-tooltip location="left">
+    <template v-slot:activator="{ props }">
+      <div id="tooltip-activator" v-bind="props">
+        <CommonButton
+          id="add-maintainer"
+          :component="OverlayEnum.enum.Create"
+          ><v-icon icon="mdi-plus"
+        /></CommonButton>
+      </div>
+    </template>
+    <span id="tooltip-wait">{{
+      $t('repositories.addRepository')
+    }}</span>
+  </v-tooltip>
 </template>
 
 <script setup lang="ts">

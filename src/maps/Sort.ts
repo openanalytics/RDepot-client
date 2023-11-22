@@ -20,32 +20,59 @@
  *
  */
 
-import { i18n } from '@/plugins/i18n'
-
 export const SORT_PARAMS: Map<string, string> = new Map<
   string,
   string
 >([
-  [i18n.t('columns.name'), 'name'],
-  [i18n.t('columns.email'), 'email'],
-  [i18n.t('columns.username'), 'login'],
-  [i18n.t('columns.version'), 'version'],
-  [i18n.t('columns.title'), 'title'],
-  [i18n.t('columns.maintainer'), 'user'],
-  [i18n.t('columns.active'), 'active'],
-  [i18n.t('columns.approver'), 'approver'],
-  [i18n.t('columns.submitter'), 'submitter'],
-  [i18n.t('columns.publicationUri'), 'publicationUri'],
-  [i18n.t('columns.serverAddress'), 'serverAddress'],
-  [i18n.t('columns.packagesNo'), 'packagesNo'],
-  [i18n.t('columns.published'), 'published'],
-  [i18n.t('columns.published'), 'published'],
-  [i18n.t('columns.technology'), 'resourceTechnology'],
-  [i18n.t('columns.repository'), 'repository'],
-  [i18n.t('columns.accepted'), 'state'],
-  [i18n.t('columns.package'), 'packageName'],
-  [i18n.t('columns.date'), 'date'],
-  [i18n.t('columns.packageName'), 'packageName']
+  ['columns.package.name', 'name'],
+  ['columns.package.version', 'version'],
+  ['columns.package.title', 'title'],
+  ['columns.package.maintainer', 'user.name'],
+  ['columns.package.state', 'state'],
+  ['columns.package.technology', 'resourceTechnology'],
+  ['columns.package.repository', 'repository.name'],
+  ['columns.package.active', 'active'],
+  ['columns.repository.name', 'name'],
+  ['columns.repository.version', 'version'],
+  ['columns.repository.publicationUri', 'publicationUri'],
+  ['columns.repository.serverAddress', 'serverAddress'],
+  ['columns.repository.packagesNo', 'packagesNo'],
+  ['columns.repository.version', 'version'],
+  ['columns.repository.technology', 'resourceTechnology'],
+  ['columns.repository.published', 'published'],
+  ['columns.users.name', 'name'],
+  ['columns.users.email', 'email'],
+  ['columns.users.username', 'username'],
+  ['columns.users.role', 'role'],
+  ['columns.users.active', 'active'],
+  ['columns.repositoryMaintainer.name', 'user.name'],
+  [
+    'columns.repositoryMaintainer.repository',
+    'repository.name'
+  ],
+  [
+    'columns.repositoryMaintainer.technology',
+    'repository.technology'
+  ],
+
+  ['columns.packageMaintainer.name', 'user.name'],
+  ['columns.packageMaintainer.packageName', 'packageName'],
+  [
+    'columns.packageMaintainer.technology',
+    'repository.technology'
+  ],
+  [
+    'columns.packageMaintainer.repository',
+    'repository.name'
+  ],
+
+  ['columns.submissions.date', 'date'],
+  ['columns.submissions.package', 'packageBag.name'],
+  ['columns.submissions.repository', 'repository.name'],
+  ['columns.submissions.submitter', 'submitter.name'],
+  ['columns.submissions.approver', 'approver.name'],
+  ['columns.submissions.technology', 'technology'],
+  ['columns.submissions.accepted', 'state']
 ])
 
 //TODO check sort by number of packages

@@ -30,6 +30,8 @@
     <validated-input-field
       id="filtration-state"
       :items="states"
+      multiple
+      clearable
       name="state"
       as="v-select"
       :label="$t('filtration.state')"
@@ -38,6 +40,8 @@
     <validated-input-field
       name="repository"
       as="autocomplete"
+      multiple
+      clearable
       :label="$t('packages.filtration.repository')"
       v-on:loadItems="loadRepositories"
       v-on:filtrate="filtrateRepositories"
@@ -49,6 +53,7 @@
       :items="technologies"
       name="technologies"
       multiple
+      clearable
       as="v-select"
       :label="$t('filtration.technologies')"
     ></validated-input-field>
@@ -58,6 +63,7 @@
       name="deleted"
       :label="$t('packages.filtration.deleted')"
       as="v-switch"
+      color="oablue"
     ></validated-input-field>
   </filtration-card>
 </template>

@@ -31,9 +31,9 @@ export function defaultValues<T extends z.ZodType>(
 
 const PackagesFiltration = z
   .object({
-    state: z.string().optional(),
+    state: z.array(z.string()).optional(),
     deleted: z.boolean(),
-    repository: z.string().optional(),
+    repository: z.array(z.string()).optional(),
     technologies: z
       .array(z.string())
       .optional()
@@ -43,7 +43,7 @@ const PackagesFiltration = z
         }
         return val
       }),
-    name: z.string().optional()
+    name: z.array(z.string()).optional()
   })
   .default({
     state: undefined,
@@ -83,7 +83,9 @@ const SubmissionsFiltration = z
   .object({
     assignedToMe: z.boolean().optional(),
     state: z
-      .nativeEnum(EntityModelSubmissionDtoStateEnum)
+      .array(
+        z.nativeEnum(EntityModelSubmissionDtoStateEnum)
+      )
       .optional(),
     package: z.string().optional()
   })
@@ -110,8 +112,8 @@ const EventsFiltration = z
       }),
     userId: z.number().optional(),
     resourceId: z.number().optional(),
-    eventType: z.string().optional(),
-    resourceType: z.string().optional()
+    eventType: z.array(z.string()).optional(),
+    resourceType: z.array(z.string()).optional()
   })
   .default({
     technologies: undefined,

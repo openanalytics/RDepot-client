@@ -21,39 +21,54 @@
 -->
 
 <template>
-  <v-row class="ml-10 mt-5">
-    <div
-      v-for="(field, i) in store.filtration"
-      :key="i"
-      v-show="field != undefined"
-    >
-      <chip
-        v-if="typeof field == 'boolean' && field != false"
-        :label="labels.get(i)"
-        v-on:update="updateFiltration(i, !field)"
-      />
-      <chip
-        v-else-if="
-          typeof field == 'string' ||
-          typeof field == 'number'
-        "
-        :label="labels.get(i)"
-        v-on:update="updateFiltration(i)"
-        :value="field"
-      />
-      <span
-        v-else-if="typeof field == 'object'"
-        v-for="(value, index) in field"
-        :key="index"
+  <div class="d-flex flex-column ml-10 mt-5">
+    <v-row>
+      <div
+        v-for="(field, i) in store.filtration"
+        :key="i"
+        v-show="field != undefined"
       >
         <chip
+          v-if="typeof field == 'boolean' && field != false"
           :label="labels.get(i)"
-          :value="value.toString()"
-          v-on:update="updateFiltration(i, value, field)"
+          v-on:update="updateFiltration(i, !field)"
         />
-      </span>
+        <chip
+          v-else-if="
+            typeof field == 'string' ||
+            typeof field == 'number'
+          "
+          :label="labels.get(i)"
+          v-on:update="updateFiltration(i)"
+          :value="field"
+        />
+        <span
+          v-else-if="typeof field == 'object'"
+          v-for="(value, index) in field"
+          :key="index"
+        >
+          <chip
+            :label="labels.get(i)"
+            :value="value.toString()"
+            v-on:update="updateFiltration(i, value, field)"
+          />
+        </span>
+      </div>
+    </v-row>
+
+    <div
+      class="remove-action d-flex"
+      v-if="!store.isDefaultFiltration"
+      @click="store.clearFiltrationAndFetch()"
+    >
+      <v-icon
+        icon="mdi-close-circle-outline"
+        size="small"
+        color="oablue"
+      ></v-icon
+      ><span>remove all filters</span>
     </div>
-  </v-row>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -68,6 +83,8 @@ const props = defineProps<{
     >
     getLabels: Function
     setFiltration: Function
+    isDefaultFiltration: boolean
+    clearFiltrationAndFetch: Function
   }
 }>()
 
@@ -94,3 +111,26 @@ function updateFiltration(
   props.store.setFiltration(localFiltration)
 }
 </script>
+
+<style lang="scss" scoped>
+$oablue: rgba(var(--v-theme-oablue));
+
+.remove-action {
+  justify-content: center;
+  font-weight: 500;
+  font-size: 14px;
+  border-bottom: 1px solid $oablue;
+  gap: 8px;
+  padding-right: 10px;
+  padding-left: 8px;
+  padding-bottom: 2px;
+  margin-left: 10px;
+  opacity: 0.4;
+  width: 150px;
+
+  &:hover {
+    opacity: 1;
+    cursor: pointer;
+  }
+}
+</style>

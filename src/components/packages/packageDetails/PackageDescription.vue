@@ -87,6 +87,7 @@ function goToDetailsPage({
 .short {
   max-height: 250px;
   overflow: hidden;
+  mask-size: auto 250px;
   -webkit-mask-image: -webkit-gradient(
     linear,
     left 90%,

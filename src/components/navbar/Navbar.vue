@@ -23,12 +23,7 @@
 <template>
   <v-app-bar app color="oablue" dark class="navbar">
     <v-row justify="space-around" align="center">
-      <v-row
-        justify="start"
-        align="center"
-        class="ml-4"
-        @click="$router.push({ name: 'Home' })"
-      >
+      <v-row justify="start" align="center" class="ml-4">
         <v-app-bar-nav-icon
           v-show="mobile"
           color="oablue-darken-2"
@@ -39,7 +34,6 @@
           justify="start"
           align="center"
           class="ml-2 logo-container"
-          @click="$router.push({ name: 'Home' })"
           v-ripple
         >
           <v-img
@@ -54,7 +48,7 @@
       </v-row>
       <v-row align="center" justify="end" class="my-0 mx-3">
         <ChangeLanguage class="mr-4" />
-        <ChangeTheme class="mr-2 ml-3" />
+        <ChangeTheme class="mr-12 ml-3" />
       </v-row>
     </v-row>
   </v-app-bar>

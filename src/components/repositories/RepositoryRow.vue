@@ -33,7 +33,8 @@
     >
       <SortTitle
         v-if="title"
-        :text="$t('columns.repository')"
+        :text="$t('columns.repository.name')"
+        sortKey="columns.repository.name"
       />
       <TextRecord v-else :text="repository?.name" />
     </v-col>
@@ -44,7 +45,8 @@
     >
       <SortTitle
         v-if="title"
-        :text="$t('columns.publicationUri')"
+        :text="$t('columns.repository.publicationUri')"
+        sortKey="columns.repository.publicationUri"
       />
       <TextRecord
         v-else
@@ -58,7 +60,8 @@
     >
       <SortTitle
         v-if="title"
-        :text="$t('columns.serverAddress')"
+        :text="$t('columns.repository.serverAddress')"
+        sortKey="columns.repository.serverAddress"
       />
       <TextRecord
         v-else
@@ -74,7 +77,8 @@
       <SortTitle
         v-if="title"
         center
-        :text="$t('columns.technology')"
+        :text="$t('columns.repository.technology')"
+        sortKey="columns.repository.technology"
       />
       <TextRecord v-else :text="repository?.technology" />
     </v-col>
@@ -86,7 +90,8 @@
       <SortTitle
         v-if="title"
         center
-        :text="$t('columns.version')"
+        :text="$t('columns.repository.version')"
+        sortKey="columns.repository.version"
       />
       <TextRecord
         v-else
@@ -102,7 +107,8 @@
         v-if="title"
         center
         no-sort
-        :text="$t('columns.packagesNo')"
+        :text="$t('columns.repository.packagesNo')"
+        sortKey="columns.repository.packagesNo"
       />
       <TextRecord v-else text="none" no-margin />
     </v-col>
@@ -113,13 +119,14 @@
     >
       <SortTitle
         v-if="title"
-        :text="$t('columns.published')"
+        :text="$t('columns.repository.published')"
+        sortKey="columns.repository.published"
         center
       />
       <v-checkbox
         v-else-if="repository"
         id="checkbox-published"
-        v-model="repositoryLocal.published"
+        v-model="repository.published"
         @change="updateRepositoryPublished()"
         :disabled="
           !canPatch(props.repository?.links).allowed
@@ -140,30 +147,17 @@
         no-sort
         center
         :text="$t('columns.actions')"
+        sortKey="columns.actions"
       />
       <span
         v-else-if="repository"
         class="d-flex justify-center align-center"
       >
-        <v-tooltip top>
-          <template v-slot:activator="{ props }">
-            <v-icon
-              id="navigate-icon"
-              @click.stop
-              @click="navigate"
-              v-bind="props"
-              color="oablue"
-              >mdi-forward</v-icon
-            >
-          </template>
-          <span id="action-details">{{
-            $t('common.details')
-          }}</span>
-        </v-tooltip>
         <delete-icon
           v-if="canDelete(props.repository?.links)"
           :name="props.repository?.name"
           :set-resource-id="chooseRepository"
+          class=""
         />
       </span>
     </v-col>
@@ -177,47 +171,39 @@ import SortTitle from '@/components/common/resources/SortTitle.vue'
 import TextRecord from '@/components/common/resources/TextRecord.vue'
 import { EntityModelRepositoryDto } from '@/openapi'
 import { updateRepository } from '@/services/repository_services'
-import { ref } from 'vue'
 import { useUtilities } from '@/composable/utilities'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
 import { usePackagesStore } from '@/store/packages'
+import { useRepositoryStore } from '@/store/repositories'
 
 const packagesStore = usePackagesStore()
 const { deepCopy } = useUtilities()
 const { canDelete, canPatch } = useUserAuthorities()
+const repositoryStore = useRepositoryStore()
 
 const props = defineProps<{
   title?: boolean
   repository?: EntityModelRepositoryDto
 }>()
-const repositoryLocal = ref<EntityModelRepositoryDto>(
-  props.repository || {}
-)
 
 function updateRepositoryPublished(): void {
-  const oldRepository = deepCopy(repositoryLocal.value)
-  oldRepository.published = !oldRepository.published
-  updateRepository(
-    oldRepository,
-    repositoryLocal.value
-  ).then((success) => {
-    if (!success)
-      repositoryLocal.value.published =
-        oldRepository.published
-  })
-}
-
-function navigate() {
-  chooseRepository()
-  router.push({
-    name: 'packages'
-  })
+  if (props.repository) {
+    const oldRepository = deepCopy(props.repository)
+    oldRepository.published = !oldRepository.published
+    updateRepository(oldRepository, props.repository).then(
+      (success) => {
+        repositoryStore.fetchRepositories()
+      },
+      (failure) => {
+        repositoryStore.fetchRepositories()
+      }
+    )
+  }
 }
 
 function chooseRepository() {
   packagesStore.setFiltrationByRepositoryOnly(
     props.repository?.name
   )
-  // packagesStore.setFiltration({repository.})
 }
 </script>

@@ -68,6 +68,16 @@ export const usePackageMaintainersStore = defineStore(
         chosenMaintainer: {}
       }
     },
+    getters: {
+      isDefaultFiltration: (state) => {
+        return (
+          JSON.stringify(state.filtration) ===
+          JSON.stringify(
+            defaultValues(PackageMaintainersFiltration)
+          )
+        )
+      }
+    },
     actions: {
       async fetchMaintainers() {
         const pagination = usePagination()

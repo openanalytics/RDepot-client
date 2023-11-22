@@ -26,31 +26,64 @@ import { useCommonStore } from './common'
 interface State {
   field: string
   direction: string
+  defaultSort: {
+    field: string
+    direction: string
+  }
+  counter: number
 }
 
 export const useSortStore = defineStore('sortStore', {
   state: (): State => {
     return {
       field: 'name',
-      direction: 'asc'
+      direction: 'asc',
+      defaultSort: {
+        field: 'name',
+        direction: 'asc'
+      },
+      counter: 0
     }
   },
   actions: {
-    async setField(payload?: string) {
-      if (payload) {
-        if (this.field == payload) {
-          this.direction =
-            this.direction == 'asc' ? 'desc' : 'asc'
-        } else {
-          this.direction = 'asc'
+    setDefaultFields(field: string, direction: string) {
+      this.defaultSort.field = field
+      this.defaultSort.direction = direction
+    },
+    async setField(payload?: string, direction?: string) {
+      if (payload && payload !== this.field) {
+        this.resetSort()
+        if (direction) {
+          this.direction = direction
         }
-        this.field = payload
+      }
+      this.counter += 1
+      if (this.counter % 3 === 0) {
+        this.resetSort()
+      } else {
+        if (payload) {
+          if (this.field == payload) {
+            this.direction =
+              this.direction == 'asc' ? 'desc' : 'asc'
+          } else {
+            this.direction = direction ? direction : 'asc'
+          }
+          this.field = payload
+        }
       }
       this.updateKey()
+    },
+    resetSort() {
+      this.field = this.defaultSort.field
+      this.direction = this.defaultSort.direction
+      this.counter = 0
     },
     reset() {
       this.field = 'name'
       this.direction = 'asc'
+      this.defaultSort.field = 'name'
+      this.defaultSort.direction = 'asc'
+      this.counter = 0
     },
     updateKey() {
       const commonStore = useCommonStore()

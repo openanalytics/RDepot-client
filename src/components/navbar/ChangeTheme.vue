@@ -21,26 +21,33 @@
 -->
 
 <template>
-  <v-btn
-    icon
-    @click="changeTheme"
-    :key="commonStore.themeKey"
-  >
-    <v-icon color="text">mdi-theme-light-dark</v-icon>
-  </v-btn>
+  <div>
+    <v-switch
+      :key="commonStore.themeKey"
+      density="compact"
+      @click="changeTheme"
+      color="primary"
+      :model-value="getTheme"
+      true-icon="mdi-weather-night"
+      false-icon="mdi-weather-sunny"
+      :inset="true"
+      :hide-details="true"
+      style="align-self: center"
+    ></v-switch>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { useAuthorizationStore } from '@/store/authorization'
 import { useCommonStore } from '@/store/common'
-import { onUpdated } from 'vue'
+import { onUpdated, computed } from 'vue'
 import { useTheme } from 'vuetify/lib/framework.mjs'
 
 const theme = useTheme()
 const commonStore = useCommonStore()
 const authorizationStore = useAuthorizationStore()
 
-const changeTheme = () => {
+async function changeTheme() {
   const new_theme = theme.global.current.value.dark
     ? 'light'
     : 'dark'
@@ -48,11 +55,16 @@ const changeTheme = () => {
   theme.global.name.value = new_theme
   var new_settings = authorizationStore.getCurrentSettings()
   new_settings.theme = new_theme
-  authorizationStore.updateSettings(
+  await authorizationStore.updateSettings(
     authorizationStore.getCurrentSettings(),
     new_settings
   )
+  commonStore.updateThemeKey()
 }
+
+const getTheme = computed(() => {
+  return theme.global.current.value.dark
+})
 
 onUpdated(() => {
   if (authorizationStore.me.userSettings?.theme)
@@ -60,3 +72,13 @@ onUpdated(() => {
       authorizationStore.me.userSettings.theme
 })
 </script>
+
+<style lang="scss">
+.mdi-weather-night {
+  color: aliceblue;
+}
+
+.mdi-weather-sunny {
+  color: black;
+}
+</style>
