@@ -122,7 +122,9 @@
     "search": "Search",
     "seepackages": "See repository's packages",
     "submissions": "Submissions",
-    "users": "Users"
+    "users": "Users",
+    "settings": "Settings",
+    "ok": "Ok"
   },
   "dragzone": {
     "active": "Drag one or more files to this",
@@ -292,5 +294,13 @@
       "title": "Edit user",
       "tooltip": "Edit user"
     }
+  },
+  "settings": {
+    "save": "Save chages",
+    "tab": {
+      "table": "Table settings",
+      "token": "Access tokens"
+    },
+    "newToken": "New token"
   }
 }

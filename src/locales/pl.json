@@ -122,7 +122,9 @@
     "search": "Wyszukaj",
     "seepackages": "Zobacz pakiety w repozytorium",
     "submissions": "Zgłoszenia",
-    "users": "Użytkownicy"
+    "users": "Użytkownicy",
+    "settings": "Ustawienia",
+    "ok": "Ok"
   },
   "dragzone": {
     "active": "Przeciągnij jeden lub więcej plików",
@@ -282,5 +284,13 @@
       "title": "Edytuj użytkownika",
       "tooltip": "Edytuj użytkownika"
     }
+  },
+  "settings": {
+    "save": "Zapisz zmiany",
+    "tab": {
+      "table": "Ustawienia tabel",
+      "token": "Access tokens"
+    },
+    "newToken": "Nowy token"
   }
 }

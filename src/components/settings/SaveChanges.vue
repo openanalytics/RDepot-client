@@ -21,35 +21,25 @@
 -->
 
 <template>
-  <v-container class="account-container">
-    <v-card class="mx-auto account-card" variant="elevated">
-      <v-card-item>
-        <v-card-title> User Account </v-card-title>
-        <v-card-text>
-          <v-form lazy-validation>
-            <AccountDetails />
-          </v-form>
-        </v-card-text>
-      </v-card-item>
-    </v-card>
-  </v-container>
+  <div class="ml-auto">
+    <v-btn
+      class="ml-6"
+      color="oablue"
+      @click="saveSettings"
+      >{{ t('settings.save') }}</v-btn
+    >
+  </div>
 </template>
 
 <script setup lang="ts">
-import AccountDetails from '@/components/account/AccountDetails.vue'
-</script>
+import { useI18n } from 'vue-i18n'
+import { useSettingsStore } from '@/store/settings'
 
-<style scoped type="scss">
-.account-container {
-  max-width: 90%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+const { t } = useI18n()
 
-  .account-card {
-    width: 100%;
-  }
+const settingsStore = useSettingsStore()
+
+function saveSettings() {
+  settingsStore.saveChanges()
 }
-</style>
+</script>

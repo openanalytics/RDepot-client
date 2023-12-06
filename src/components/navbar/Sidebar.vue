@@ -32,8 +32,6 @@
         prepend-icon="mdi-account"
         :title="getUserLogin"
         :subtitle="getSubtitle"
-        active-class="link-active"
-        to="/account"
       ></v-list-item>
       <v-divider class="pb-3"></v-divider>
       <v-list-item
@@ -151,6 +149,14 @@
         active-class="link-active"
         to="/users"
       ></v-list-item>
+      <v-list-item
+        prepend-icon="mdi-cog"
+        :title="$t('common.settings')"
+        :value="$t('common.settings')"
+        active-class="link-active"
+        to="/settings"
+      >
+      </v-list-item>
       <v-list-item
         prepend-icon="mdi-logout"
         :title="$t('common.logout')"

@@ -21,31 +21,36 @@
 -->
 
 <template>
-  <v-row>
-    <v-col cols="4">
-      <validated-input-field
-        name="username"
-        as="v-text-field"
-        class="mt-10"
-        :label="$t('authorization.username')"
-        color="oablue"
-        required
-        autofocus
-        disabled
-        id="username-input"
-      />
-    </v-col>
-  </v-row>
+  <v-card flat>
+    <v-card-text>
+      <v-row>
+        <v-col cols="2">
+          <v-text-field
+            id="page-size-input"
+            v-model="pageSize"
+            type="number"
+            color="text"
+            aria-valuemin="1"
+            :label="$t('pagination.size')"
+            @change="changedData"
+          ></v-text-field>
+        </v-col>
+      </v-row>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script setup lang="ts">
-import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
 import { useI18n } from 'vue-i18n'
-import { z } from 'zod'
-import { toTypedSchema } from '@vee-validate/zod'
-import { Form, useForm } from 'vee-validate'
-import { onKeyStroke } from '@vueuse/core'
-import { useAuthorizationStore } from '@/store/authorization'
+import { ref } from 'vue'
+import { useSettingsStore } from '@/store/settings'
 
 const { t } = useI18n()
+
+const settingsStore = useSettingsStore()
+const pageSize = ref(settingsStore.pageSize)
+
+function changedData() {
+  settingsStore.changes = true
+}
 </script>

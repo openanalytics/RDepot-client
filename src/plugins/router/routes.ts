@@ -112,11 +112,11 @@ export const routes = [
         meta: { title: 'RDepot - events' }
       },
       {
-        path: '/account',
-        name: 'account',
+        path: '/settings',
+        name: 'settings',
         component: () =>
-          import('@/views/account/Account.vue'),
-        meta: { title: 'RDepot - events' }
+          import('@/views/settings/Settings.vue'),
+        meta: { title: 'RDepot - settings' }
       }
     ]
   }
