@@ -22,25 +22,13 @@
 
 <template>
   <Overlay>
-    <!-- <template v-slot:props="{ closeModal }">
-      <Filtration
-        v-if="getFiltration"
-        v-on:closeModal="closeModal"
-      />
-    </template> -->
+    <template v-slot:props="{ closeModal }">
+      <CreateToken v-on:closeModal="closeModal" />
+    </template>
   </Overlay>
 </template>
 
 <script setup lang="ts">
-import { OverlayEnum } from '@/enum/Overlay'
-import { useCommonStore } from '@/store/common'
-import { useEventsStore } from '@/store/events'
-import { computed, onMounted } from 'vue'
 import Overlay from '@/components/common/Overlay.vue'
-import Filtration from '@/components/events/Filtration.vue'
-
-const eventStore = useEventsStore()
-const commonStore = useCommonStore()
-
-const getFiltration = computed(commonStore.isFiltration)
+import CreateToken from '@/components/settings/CreateToken.vue'
 </script>

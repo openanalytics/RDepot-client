@@ -113,6 +113,7 @@
     "maintainers": "Maintainers",
     "noListingResults": "No results where found",
     "notAvailable": "Not available",
+    "ok": "Ok",
     "or": "or",
     "packages": "Packages",
     "projectTitle": "RDepot",
@@ -121,10 +122,9 @@
     "save": "Save",
     "search": "Search",
     "seepackages": "See repository's packages",
-    "submissions": "Submissions",
-    "users": "Users",
     "settings": "Settings",
-    "ok": "Ok"
+    "submissions": "Submissions",
+    "users": "Users"
   },
   "dragzone": {
     "active": "Drag one or more files to this",
@@ -275,6 +275,17 @@
     "list": "Repositories",
     "maintainers": "Repository maintainers"
   },
+  "settings": {
+    "newToken": "New token",
+    "save": "Save chages",
+    "tab": {
+      "table": "Table settings",
+      "token": "Access tokens"
+    },
+    "expirationDate": "Active days",
+    "tokenName": "Name",
+    "create": "New access token"
+  },
   "submissions": {
     "addAnotherSubmission": "Upload another packages",
     "choseFiles": "Choose files",
@@ -294,13 +305,5 @@
       "title": "Edit user",
       "tooltip": "Edit user"
     }
-  },
-  "settings": {
-    "save": "Save chages",
-    "tab": {
-      "table": "Table settings",
-      "token": "Access tokens"
-    },
-    "newToken": "New token"
   }
 }

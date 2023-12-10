@@ -20,15 +20,9 @@
  *
  */
 
-import {
-  EntityModelRepositoryDto,
-  EntityModelSubmissionDto
-} from '@/openapi'
+import { EntityModelSubmissionDto } from '@/openapi'
 import { defineStore } from 'pinia'
-import {
-  defaultValues,
-  SubmissionsFiltration
-} from '@/models/Filtration'
+import { Token } from '@/models/Token'
 import { useAuthorizationStore } from '@/store/authorization'
 import {
   addSubmission,
@@ -36,7 +30,6 @@ import {
   updateSubmission
 } from '@/services/submission_services'
 import { useUtilities } from '@/composable/utilities'
-import { submissionsFiltrationLabels } from '@/maps/Filtration'
 import { validatedData } from '@/services/open_api_access'
 import { usePagination } from '@/store/pagination'
 import { useToast } from '@/composable/toasts'
@@ -51,15 +44,8 @@ export type PackagePromise = {
 }
 
 interface State {
-  packages: File[]
-  generateManual: File[]
-  files: File[]
   promises: PackagePromise[]
-  repository?: EntityModelRepositoryDto
   tokens: EntityModelSubmissionDto[]
-  filtration: SubmissionsFiltration
-  resolved: boolean
-  stepperKey: number
   changes: boolean
   showModal: boolean
   showCreatedModal: boolean
@@ -74,15 +60,8 @@ export const useSettingsStore = defineStore(
   {
     state: (): State => {
       return {
-        packages: [],
-        files: [],
-        generateManual: [],
         promises: [],
         tokens: [],
-        repository: undefined,
-        filtration: defaultValues(SubmissionsFiltration),
-        resolved: false,
-        stepperKey: 0,
         changes: false,
         showModal: false,
         showCreatedModal: false,
@@ -90,38 +69,13 @@ export const useSettingsStore = defineStore(
         newToken: ''
       }
     },
-    getters: {
-      isDefaultFiltration: (state) => {
-        return (
-          JSON.stringify(state.filtration) ===
-          JSON.stringify(
-            defaultValues(SubmissionsFiltration)
-          )
-        )
-      }
-    },
     actions: {
-      async fetchPageOfSubmissions(
-        page: number,
-        pageSize = 8
-      ) {
-        const authorizationStore = useAuthorizationStore()
-        const pageData = await this.fetchData(
-          page,
-          pageSize,
-          defaultValues(SubmissionsFiltration),
-          authorizationStore.me.id,
-          false
-        )
-        return pageData
-      },
       async fetchSubmissions() {
         const pagination = usePagination()
         const authorizationStore = useAuthorizationStore()
         const pageData = await this.fetchData(
           pagination.fetchPage,
           pagination.pageSize,
-          this.filtration,
           authorizationStore.me.id
         )
         pagination.newPageWithoutRefresh(pageData.page)
@@ -130,12 +84,10 @@ export const useSettingsStore = defineStore(
       async fetchData(
         page: number,
         pageSize: number,
-        filtration: SubmissionsFiltration,
         user_id?: number,
         showProgress = true
       ) {
         const [tokens, pageData] = await fetchSubmissions(
-          filtration,
           user_id,
           page,
           pageSize,
@@ -160,14 +112,6 @@ export const useSettingsStore = defineStore(
           await this.fetchSubmissions()
         })
       },
-      addGenerateManualOptionForPackage(file: File) {
-        this.generateManual.push(file)
-      },
-      removeGenerateManualOptionForPackage(file: File) {
-        this.generateManual = this.generateManual.filter(
-          (item) => item !== file
-        )
-      },
       getGenerateManualForPackage(file: File) {
         if (this.repository?.technology == 'Python')
           return true
@@ -180,52 +124,6 @@ export const useSettingsStore = defineStore(
       },
       addPackage(payload: File) {
         this.packages = [...this.packages, payload]
-      },
-      addPackages(payload: File[]) {
-        payload.forEach((packageBag: File) => {
-          this.packages = [...this.packages, packageBag]
-        })
-      },
-      async setRepository(
-        payload: EntityModelRepositoryDto
-      ) {
-        this.repository = payload
-      },
-      async setFiltration(payload: SubmissionsFiltration) {
-        const pagination = usePagination()
-        pagination.resetPage()
-        if (
-          SubmissionsFiltration.safeParse(payload).success
-        ) {
-          this.filtration =
-            SubmissionsFiltration.parse(payload)
-        }
-        await this.fetchSubmissions()
-        const toasts = useToast()
-        toasts.success(
-          i18n.t('notifications.successFiltration')
-        )
-      },
-      clearFiltration() {
-        const pagination = usePagination()
-        pagination.resetPage()
-        this.filtration = defaultValues(
-          SubmissionsFiltration
-        )
-      },
-      async clearFiltrationAndFetch() {
-        this.clearFiltration()
-        await this.fetchSubmissions()
-        const toasts = useToast()
-        toasts.success(
-          i18n.t('notifications.successFiltrationReset')
-        )
-      },
-      updateStepperKey() {
-        this.stepperKey += 1
-        if (this.stepperKey > 100) {
-          this.stepperKey = 0
-        }
       },
       async addSubmissionRequests() {
         this.promises = this.packages.map((packageBag) => {
@@ -260,15 +158,22 @@ export const useSettingsStore = defineStore(
             })
         })
       },
-      getLabels() {
-        return submissionsFiltrationLabels
-      },
+
       saveChanges() {
         this.changes = false
       },
       fetchSettings() {},
       resetNewToken() {
         this.newToken = ''
+      },
+      async createToken(payload: Token) {
+        // if (EventsFiltration.safeParse(payload).success) {
+        //   this.filtration = EventsFiltration.parse(payload)
+        // }
+        // this.page = 0
+        // this.events = []
+        // await this.fetchEvents()
+        // TODO await response and put to this.newToken, close modal and open the modal with clipboard
       }
     }
   }
