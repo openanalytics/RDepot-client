@@ -53,6 +53,7 @@ interface State {
   showEditModal: boolean
   pageSize: number
   newToken: string
+  currentToken?: Token
 }
 
 const { deepCopy } = useUtilities()
@@ -70,7 +71,8 @@ export const useSettingsStore = defineStore(
         showDeactivateModal: false,
         showEditModal: false,
         pageSize: 0,
-        newToken: ''
+        newToken: '',
+        currentToken: undefined
       }
     },
     actions: {

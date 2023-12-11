@@ -97,14 +97,21 @@
           id="accept-button"
           color="success"
           class="mx-1"
-          @click="acceptSubmission(submission)"
+          @click="deactivateToken(submission)"
           >DEACTIVATE</v-btn
+        >
+        <v-btn
+          id="accept-button"
+          color="success"
+          class="mx-1"
+          @click="editToken(submission)"
+          >EDIT</v-btn
         >
         <v-btn
           v-if="check"
           id="cancel-button"
           color="oared"
-          @click="cancelSubmission(submission)"
+          @click="deleteToken(submission)"
           >DELETE</v-btn
         >
       </span>
@@ -118,7 +125,7 @@ import {
   EntityModelSubmissionDto,
   EntityModelSubmissionDtoStateEnum
 } from '@/openapi'
-import { useSubmissionActions } from '@/composable/submissions/submissionActions'
+import { useTokenActions } from '@/composable/tokens/tokenActions'
 import { useAuthorizationStore } from '@/store/authorization'
 import SortTitle from '@/components/common/resources/SortTitle.vue'
 import TextRecord from '@/components/common/resources/TextRecord.vue'
@@ -136,11 +143,8 @@ const props = defineProps({
 
 const authorizationStore = useAuthorizationStore()
 const { canPatch } = useUserAuthorities()
-const {
-  acceptSubmission,
-  cancelSubmission,
-  rejectSubmission
-} = useSubmissionActions()
+const { deactivateToken, editToken, deleteToken } =
+  useTokenActions()
 
 const check = computed(() => {
   return (
