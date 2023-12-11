@@ -49,6 +49,8 @@ interface State {
   changes: boolean
   showModal: boolean
   showCreatedModal: boolean
+  showDeactivateModal: boolean
+  showEditModal: boolean
   pageSize: number
   newToken: string
 }
@@ -65,6 +67,8 @@ export const useSettingsStore = defineStore(
         changes: false,
         showModal: false,
         showCreatedModal: false,
+        showDeactivateModal: false,
+        showEditModal: false,
         pageSize: 0,
         newToken: ''
       }
@@ -174,6 +178,12 @@ export const useSettingsStore = defineStore(
         // this.events = []
         // await this.fetchEvents()
         // TODO await response and put to this.newToken, close modal and open the modal with clipboard
+      },
+      async deactivateToken() {
+        //TODO get actual token and deactivate it
+      },
+      async editToken() {
+        //TODO get actual token with modified name and update it
       }
     }
   }

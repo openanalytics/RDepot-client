@@ -276,15 +276,16 @@
     "maintainers": "Repository maintainers"
   },
   "settings": {
+    "create": "New access token",
+    "edit": "Edit token name",
+    "expirationDate": "Active days",
     "newToken": "New token",
     "save": "Save chages",
     "tab": {
       "table": "Table settings",
       "token": "Access tokens"
     },
-    "expirationDate": "Active days",
-    "tokenName": "Name",
-    "create": "New access token"
+    "tokenName": "Name"
   },
   "submissions": {
     "addAnotherSubmission": "Upload another packages",

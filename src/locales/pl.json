@@ -267,15 +267,16 @@
     "maintainers": "Opiekunowie repozytorium"
   },
   "settings": {
+    "create": "Nowy access token",
+    "edit": "Edycja nazwy tokenu",
+    "expirationDate": "Czas aktywności",
     "newToken": "Nowy token",
     "save": "Zapisz zmiany",
     "tab": {
       "table": "Ustawienia tabel",
       "token": "Access tokens"
     },
-    "expirationDate": "Czas aktywności",
-    "tokenName": "Nazwa",
-    "create": "Nowy access token"
+    "tokenName": "Nazwa"
   },
   "submissions": {
     "addAnotherSubmission": "Dodaj następne pakiety",

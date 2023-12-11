@@ -25,6 +25,10 @@
   <CreatedTokenModal
     v-if="settingsStore.showCreatedModal"
   />
+  <TokenDeactivateModal
+    v-if="settingsStore.showDeactivateModal"
+  />
+  <TokenEditModal v-if="settingsStore.showEditModal" />
   <div class="d-flex flex-row" style="align-items: center">
     <h2 class="my-5">
       {{ $t('common.settings') }}
@@ -37,6 +41,8 @@
 <script setup lang="ts">
 import { useSettingsStore } from '@/store/settings'
 import TokenModal from '@/components/settings/TokenModal.vue'
+import TokenDeactivateModal from '@/components/settings/TokenDeactivateModal.vue'
+import TokenEditModal from '@/components/settings/TokenEditModal.vue'
 import CreatedTokenModal from '@/components/settings/CreatedTokenModal.vue'
 import SaveChanges from '@/components/settings/SaveChanges.vue'
 import SettingsTabs from '@/components/settings/SettingsTabs.vue'
