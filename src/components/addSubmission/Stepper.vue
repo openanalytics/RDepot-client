@@ -32,7 +32,7 @@
         <component
           :key="submissionStore.stepperKey"
           :is="components[el - 1]"
-          v-on:next="changeValue"
+          @next="changeValue"
         ></component>
       </v-window-item>
     </v-window>

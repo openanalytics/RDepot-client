@@ -24,9 +24,9 @@
   <filtration-card
     :title="$t('filtration.title')"
     long
-    v-on:clear-filtration="resetValues()"
-    v-on:set-filtration="setFiltration()"
-    v-on:change-dialog-options="cancelModal()"
+    @clear-filtration="resetValues()"
+    @set-filtration="setFiltration()"
+    @change-dialog-options="cancelModal()"
   >
     <validated-input-field
       id="filtration-event-type"

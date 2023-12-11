@@ -24,8 +24,8 @@
   <token-card
     :title="$t('settings.create')"
     long
-    v-on:createToken="createToken()"
-    v-on:cancel="cancelModal()"
+    @createToken="createToken()"
+    @cancel="cancelModal()"
   >
     <validated-input-field
       id="token-name"

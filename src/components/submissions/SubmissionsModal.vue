@@ -21,11 +21,11 @@
 -->
 
 <template>
-  <Overlay v-on:action="clearFiltration()">
-    <template v-slot:props="{ closeModal }">
+  <Overlay @action="clearFiltration()">
+    <template #props="{ closeModal }">
       <Filtration
         v-if="commonStore.isFiltration()"
-        v-on:closeModal="closeModal"
+        @closeModal="closeModal"
       />
     </template>
   </Overlay>

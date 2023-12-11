@@ -129,7 +129,7 @@
       />
 
       <v-tooltip location="right" v-else-if="submission">
-        <template v-slot:activator="{ props }">
+        <template #activator="{ props }">
           <div
             id="tooltip-activator"
             v-bind="props"

@@ -32,7 +32,7 @@
       width: '300px'
     }"
     @update:search="search"
-    ><template v-slot:append-item>
+    ><template #append-item>
       <div
         v-intersect="loadItems"
         class="p3"

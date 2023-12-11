@@ -21,16 +21,16 @@
 -->
 
 <template>
-  <Overlay v-on:action="performAction()">
-    <template v-slot:props="{ closeModal }">
+  <Overlay @action="performAction()">
+    <template #props="{ closeModal }">
       <Filtration
         v-if="commonStore.isFiltration()"
-        v-on:closeModal="closeModal"
+        @closeModal="closeModal"
       />
       <RepositoryMaintainerEdit
         v-if="commonStore.isEdit()"
         :blocked-field="editBlockedField"
-        v-on:closeModal="closeModal"
+        @closeModal="closeModal"
       />
     </template>
   </Overlay>

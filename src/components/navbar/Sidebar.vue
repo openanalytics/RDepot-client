@@ -70,7 +70,7 @@
         "
         tag="Packages"
       >
-        <template v-slot:activator="{ props }">
+        <template #activator="{ props }">
           <v-list-item
             v-bind="props"
             prepend-icon="mdi-package"
@@ -110,7 +110,7 @@
         value="Repositories"
         tag="Repositories"
       >
-        <template v-slot:activator="{ props }">
+        <template #activator="{ props }">
           <v-list-item
             prepend-icon="mdi-source-repository"
             v-bind="props"

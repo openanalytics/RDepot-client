@@ -26,7 +26,7 @@
       {{ promise.packageBag.name }}
     </template>
 
-    <template v-slot:prepend>
+    <template #prepend>
       <v-progress-circular
         indeterminate="disable-shrink"
         v-if="promise.state == 'pending'"
@@ -46,7 +46,7 @@
         location="left"
         content-class="custom-tooltip"
       >
-        <template v-slot:activator="{ props }">
+        <template #activator="{ props }">
           <v-icon
             color="red"
             v-bind="props"
@@ -62,7 +62,7 @@
       </v-tooltip>
     </template>
 
-    <template v-slot:append v-if="technology != 'Python'">
+    <template #append v-if="technology != 'Python'">
       <v-btn
         v-if="
           !generateManual &&

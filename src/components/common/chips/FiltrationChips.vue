@@ -31,7 +31,7 @@
         <chip
           v-if="typeof field == 'boolean' && field != false"
           :label="labels.get(i)"
-          v-on:update="updateFiltration(i, !field)"
+          @update="updateFiltration(i, !field)"
         />
         <chip
           v-else-if="
@@ -39,7 +39,7 @@
             typeof field == 'number'
           "
           :label="labels.get(i)"
-          v-on:update="updateFiltration(i)"
+          @update="updateFiltration(i)"
           :value="field"
         />
         <span
@@ -50,7 +50,7 @@
           <chip
             :label="labels.get(i)"
             :value="value.toString()"
-            v-on:update="updateFiltration(i, value, field)"
+            @update="updateFiltration(i, value, field)"
           />
         </span>
       </div>

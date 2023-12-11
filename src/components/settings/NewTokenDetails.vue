@@ -31,7 +31,7 @@
         <code class="d-flex justify-lg-space-between pt-1">
           {{ settingsStore.newToken }}
           <v-tooltip location="left">
-            <template v-slot:activator="{ props }">
+            <template #activator="{ props }">
               <div id="tooltip-activator" v-bind="props">
                 <v-icon
                   @click="copyContent()"

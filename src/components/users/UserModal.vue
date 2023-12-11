@@ -22,10 +22,10 @@
 
 <template>
   <Overlay>
-    <template v-slot:props="{ closeModal }">
+    <template #props="{ closeModal }">
       <UserEdit
         v-if="commonStore.isEdit()"
-        v-on:closeModal="closeModal"
+        @closeModal="closeModal"
       />
     </template>
   </Overlay>

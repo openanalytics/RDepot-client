@@ -78,7 +78,7 @@
         class="d-flex justify-center align-center"
       >
         <v-tooltip top>
-          <template v-slot:activator="{ props }">
+          <template #activator="{ props }">
             <v-icon
               id="navigate-icon"
               @click.stop

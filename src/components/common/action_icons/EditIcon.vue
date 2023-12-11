@@ -22,7 +22,7 @@
 
 <template>
   <v-tooltip top>
-    <template v-slot:activator="{ props }">
+    <template #activator="{ props }">
       <v-icon
         id="pencil-icon"
         @click.stop

@@ -23,9 +23,9 @@
 <template>
   <filtration-card
     :title="$t('filtration.title')"
-    v-on:clear-filtration="resetValues()"
-    v-on:set-filtration="setFiltration()"
-    v-on:change-dialog-options="cancelModal()"
+    @clear-filtration="resetValues()"
+    @set-filtration="setFiltration()"
+    @change-dialog-options="cancelModal()"
   >
     <form as="v-form" lazy-validation>
       <validated-input-field
@@ -42,8 +42,8 @@
         name="package"
         as="autocomplete"
         :label="$t('submissions.filtration.package')"
-        v-on:loadItems="loadPackages"
-        v-on:filtrate="filtratePackages"
+        @loadItems="loadPackages"
+        @filtrate="filtratePackages"
         :storeId="storeId"
         clearable
       ></validated-input-field>

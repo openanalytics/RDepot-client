@@ -25,7 +25,7 @@
   <v-row class="my-3">
     <FiltrationChips :store="repositoriesStore" />
     <FiltrationButtons>
-      <template v-slot:prepend
+      <template #prepend
         ><AddButton
           v-if="
             authorizationStore.can('POST', 'repository')

@@ -33,8 +33,8 @@
     <slot name="props" :closeModal="closeModal">
       <QuestionCard
         :text="commonStore.overlayText"
-        v-on:reset="reset"
-        v-on:cancel="closeModal"
+        @reset="reset"
+        @cancel="closeModal"
       />
     </slot>
   </v-overlay>

@@ -21,9 +21,9 @@
 -->
 
 <template>
-  <Overlay v-on:action="resetToken()">
-    <template v-slot:props="{ closeModal }">
-      <NewTokenDetails v-on:closeModal="closeModal" />
+  <Overlay @action="resetToken()">
+    <template #props="{ closeModal }">
+      <NewTokenDetails @closeModal="closeModal" />
     </template>
   </Overlay>
 </template>

@@ -46,7 +46,7 @@
         </template>
 
         <template
-          v-slot:append
+          #append
           v-if="
             submissionsStore.repository?.technology !=
             'Python'
@@ -61,7 +61,7 @@
         :title="file.name"
         class="hoverable"
       >
-        <template v-slot:prepend>
+        <template #prepend>
           <v-btn
             @click="filesStore.removeFile(file)"
             variant="plain"
@@ -81,7 +81,7 @@
         </template>
 
         <template
-          v-slot:append
+          #append
           v-if="
             submissionsStore.repository?.technology !=
             'Python'

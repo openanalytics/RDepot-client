@@ -47,7 +47,7 @@
         item ? (isYearAndMonthDate(item) ? '90' : '0') : '0'
       "
     >
-      <template v-slot:icon>
+      <template #icon>
         <EventIcon
           :event="item.eventType ? item : undefined"
           :date="!item.eventType ? item : undefined"

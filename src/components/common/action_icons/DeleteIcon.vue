@@ -22,7 +22,7 @@
 
 <template>
   <VTooltip top>
-    <template v-slot:activator="{ props }">
+    <template #activator="{ props }">
       <VIcon
         id="delete-icon"
         @click.stop

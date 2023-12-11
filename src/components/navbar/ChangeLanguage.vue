@@ -22,7 +22,7 @@
 
 <template>
   <v-menu offset-y>
-    <template v-slot:activator="{ props }">
+    <template #activator="{ props }">
       <v-btn
         id="languagesbutton"
         color="oablue-darken-2"

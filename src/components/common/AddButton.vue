@@ -22,7 +22,7 @@
 
 <template>
   <v-tooltip location="left">
-    <template v-slot:activator="{ props }">
+    <template #activator="{ props }">
       <div id="tooltip-activator" v-bind="props">
         <CommonButton
           id="add-maintainer"

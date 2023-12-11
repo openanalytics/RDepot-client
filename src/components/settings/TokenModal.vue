@@ -22,8 +22,8 @@
 
 <template>
   <Overlay>
-    <template v-slot:props="{ closeModal }">
-      <CreateToken v-on:closeModal="closeModal" />
+    <template #props="{ closeModal }">
+      <CreateToken @closeModal="closeModal" />
     </template>
   </Overlay>
 </template>

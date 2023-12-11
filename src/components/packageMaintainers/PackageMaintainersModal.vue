@@ -21,15 +21,15 @@
 -->
 
 <template>
-  <Overlay v-on:action="overlayEvent()">
-    <template v-slot:props="{ closeModal }">
+  <Overlay @action="overlayEvent()">
+    <template #props="{ closeModal }">
       <Filtration
         v-if="commonStore.isFiltration()"
-        v-on:closeModal="closeModal"
+        @closeModal="closeModal"
       />
       <PackageMaintainerEdit
         v-if="commonStore.isEdit()"
-        v-on:closeModal="closeModal"
+        @closeModal="closeModal"
       />
     </template>
   </Overlay>
