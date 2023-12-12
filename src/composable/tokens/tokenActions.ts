@@ -23,7 +23,7 @@
 import { EntityModelSubmissionDto } from '@/openapi'
 import { useSettingsStore } from '@/store/settings'
 
-export function useSubmissionActions() {
+export function useTokenActions() {
   async function deactivateToken(
     submission?: EntityModelSubmissionDto
   ) {}

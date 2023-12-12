@@ -276,7 +276,9 @@
       "table": "Ustawienia tabel",
       "token": "Access tokens"
     },
-    "tokenName": "Nazwa"
+    "tokenName": "Nazwa",
+    "deactivate": "Dezaktywuj token",
+    "deactivateQuestion": "Czy na pewno chcesz dezaktywować token?"
   },
   "submissions": {
     "addAnotherSubmission": "Dodaj następne pakiety",

@@ -285,7 +285,9 @@
       "table": "Table settings",
       "token": "Access tokens"
     },
-    "tokenName": "Name"
+    "tokenName": "Name",
+    "deactivate": "Deactivate token",
+    "deactivateQuestion": "Are you sure you want to deactivate the token?"
   },
   "submissions": {
     "addAnotherSubmission": "Upload another packages",
