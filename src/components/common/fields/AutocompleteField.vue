@@ -25,6 +25,7 @@
     :label="label"
     :items="selectStore.items"
     :custom-filter="customFiltrate"
+    auto-select-first
     :loading="selectStore.pending"
     :menu-props="{
       location: 'bottom center',
@@ -53,6 +54,7 @@ import {
   SelectState,
   useSelectStore
 } from '@/store/select_pagination'
+import { q } from 'msw/lib/glossary-de6278a9'
 
 const props = defineProps<{
   label: string
@@ -82,11 +84,11 @@ function search(value: string) {
 function customFiltrate(
   _: string,
   queryText: string,
-  itemText: string
+  itemText: { title: string }
 ) {
   return (
     selectStore.ifAllFetched &&
-    (itemText.includes(queryText) || false)
+    (itemText.title.includes(queryText) || false)
   )
 }
 

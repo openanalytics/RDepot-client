@@ -152,7 +152,11 @@
     "state": "Stan",
     "technologies": "Technologie",
     "title": "Filtrowanie",
-    "userId": "Id użytkownika"
+    "userId": "Id użytkownika",
+    "packages": {
+      "name": "Nazwa pakietu"
+    },
+    "reset": "Resetuj"
   },
   "maintainers": {
     "delete": "Usuń opiekuna",
@@ -204,7 +208,10 @@
     "emailAuthors": "Emaile",
     "filtration": {
       "deleted": "Usunięte",
-      "repository": "Repozytorium"
+      "repository": "Repozytorium",
+      "name": "Pakiet",
+      "submissionState": "Stan",
+      "maintainer": "Opiekun"
     },
     "generatemanual": "Generuj instrukcję",
     "imports": "Importuje",

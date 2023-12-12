@@ -160,7 +160,11 @@
     "state": "State",
     "technologies": "Technologies",
     "title": "Filtration",
-    "userId": "User id"
+    "userId": "User id",
+    "packages": {
+      "name": "Name"
+    },
+    "reset": "Reset"
   },
   "maintainers": {
     "delete": "Delete maintainer",
@@ -212,7 +216,10 @@
     "emailAuthors": "Emails",
     "filtration": {
       "deleted": "Deleted",
-      "repository": "Repository"
+      "repository": "Repository",
+      "name": "Package",
+      "submissionState": "State",
+      "maintainer": "Maintainer"
     },
     "generatemanual": "Generate manual",
     "imports": "Imports",
