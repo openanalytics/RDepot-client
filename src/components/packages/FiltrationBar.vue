@@ -82,8 +82,9 @@
       </v-col>
     </v-row>
     <v-row justify="start">
-      <!-- <v-col sm="3">
+      <v-col sm="3">
         <validated-input-field
+          @update:modelValue="setFiltration"
           name="maintainer"
           as="autocomplete"
           multiple
@@ -91,9 +92,9 @@
           :label="$t('packages.filtration.maintainer')"
           @loadItems="loadMaintainers"
           @filtrate="filtrateMaintainers"
-          :storeId="storeId"
+          :storeId="storeIdMaintainer"
         ></validated-input-field>
-      </v-col> -->
+      </v-col>
       <v-spacer />
       <v-col sm="1">
         <v-btn
@@ -118,7 +119,7 @@ import {
 import { useI18n } from 'vue-i18n'
 import { useEnumFiltration } from '@/composable/filtration/enumFiltration'
 import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesFiltration'
-import { useRepositoryMaintainersFiltration } from '@/composable/filtration/maintainersFiltration'
+import { usePackageMaintainersFiltration } from '@/composable/filtration/maintainersFiltration'
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { usePackagesStore } from '@/store/packages'
@@ -128,8 +129,11 @@ const { states, technologies } = useEnumFiltration()
 
 const { storeId, filtrateRepositories, loadRepositories } =
   useRepositoriesFiltration()
-const { filtrateMaintainers, loadMaintainers } =
-  useRepositoryMaintainersFiltration()
+const {
+  storeIdMaintainer,
+  filtrateMaintainers,
+  loadMaintainers
+} = usePackageMaintainersFiltration()
 const packageStore = usePackagesStore()
 
 const { setValues, values } = useForm({
