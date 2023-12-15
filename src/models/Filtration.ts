@@ -67,12 +67,24 @@ const RepositoriesFiltration = z
         return val
       }),
     name: z.string().optional(),
-    deleted: z.boolean()
+    deleted: z.boolean(),
+    published: z.boolean(),
+    maintainer: z
+      .array(z.string())
+      .optional()
+      .transform((val) => {
+        if (val?.length == 0) {
+          return undefined
+        }
+        return val
+      })
   })
   .default({
     technologies: undefined,
     name: undefined,
-    deleted: false
+    deleted: false,
+    published: false,
+    maintainer: undefined
   })
 
 type RepositoriesFiltration = z.infer<
@@ -135,19 +147,38 @@ const PackageMaintainersFiltration = z
           return undefined
         }
         return val
-      })
+      }),
+    repository: z.array(z.string()).optional()
   })
   .default({
     deleted: false,
-    technologies: undefined
+    technologies: undefined,
+    repository: undefined
   })
 
 type PackageMaintainersFiltration = z.infer<
   typeof PackageMaintainersFiltration
 >
 
-const RepositoryMaintainersFiltration =
-  PackageMaintainersFiltration
+const RepositoryMaintainersFiltration = z
+  .object({
+    deleted: z.boolean(),
+    technologies: z
+      .array(z.string())
+      .optional()
+      .transform((val) => {
+        if (val?.length == 0) {
+          return undefined
+        }
+        return val
+      }),
+    repository: z.array(z.string()).optional()
+  })
+  .default({
+    deleted: false,
+    technologies: undefined,
+    repository: undefined
+  })
 
 type RepositoryMaintainersFiltration = z.infer<
   typeof RepositoryMaintainersFiltration

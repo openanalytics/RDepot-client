@@ -60,6 +60,28 @@ export async function fetchRepositoryMaintainersServices(
   )
 }
 
+export async function fetchAllRepositoryMaintainers(): Promise<
+  validatedData<EntityModelRepositoryMaintainerDto[]>
+> {
+  if (!isAuthorized('GET', 'repositoryMaintainers'))
+    return new Promise(() => validateRequest)
+  const sort = useSortStore()
+  const sortBy = sort.getSortBy()
+  return openApiRequest<
+    EntityModelRepositoryMaintainerDto[]
+  >(
+    ApiV2RepositoryMaintainerControllerApiFactory()
+      .getAllRepositoryMaintainers,
+    [
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      ['user.name,asc']
+    ]
+  )
+}
+
 export async function updateRepositoryMaintainer(
   oldMaintainer: EntityModelRepositoryMaintainerDto,
   newMaintainer: EntityModelRepositoryMaintainerDto

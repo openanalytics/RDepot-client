@@ -30,7 +30,10 @@ import {
   defaultValues
 } from '@/models/Filtration'
 import { fetchRepositoriesServices } from '@/services'
-import { updateRepository } from '@/services/repository_services'
+import {
+  fetchFullRepositoriesList,
+  updateRepository
+} from '@/services/repository_services'
 import { createRepository } from '@/services/repository_services'
 import { useUtilities } from '@/composable/utilities'
 import { repositoriesFiltrationLabels } from '@/maps/Filtration'
@@ -75,6 +78,12 @@ export const useRepositoryStore = defineStore(
           defaultValues(RepositoriesFiltration),
           false
         )
+        return pageData
+      },
+      async fetchRepositoriesList() {
+        const [repositories, pageData] =
+          await fetchFullRepositoriesList()
+        this.repositories = repositories
         return pageData
       },
       async fetchRepositories() {

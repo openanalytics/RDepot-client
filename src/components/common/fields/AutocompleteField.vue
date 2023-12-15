@@ -117,7 +117,6 @@ watchDebounced(
 )
 
 onMounted(async () => {
-  sortStore.reset()
   await loadItems()
 })
 </script>

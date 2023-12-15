@@ -23,16 +23,14 @@
 <template>
   <RepositoriesModal />
   <v-row class="my-3">
-    <FiltrationChips :store="repositoriesStore" />
-    <FiltrationButtons>
-      <template v-slot:prepend
-        ><AddButton
-          v-if="
-            authorizationStore.can('POST', 'repository')
-          "
-      /></template>
-    </FiltrationButtons>
+    <v-spacer />
+    <div class="mr-12 pr-5">
+      <AddButton
+        v-if="authorizationStore.can('POST', 'repository')"
+      />
+    </div>
   </v-row>
+  <FiltrationBar />
   <RepositoriesList />
   <Pagination />
 </template>
@@ -40,13 +38,10 @@
 <script setup lang="ts">
 import RepositoriesModal from '@/components/repositories/RepositoriesModal.vue'
 import RepositoriesList from '@/components/repositories/RepositoriesList.vue'
-import FiltrationButtons from '@/components/common/FiltrationButtons.vue'
 import AddButton from '@/components/common/AddButton.vue'
 import Pagination from '@/components/common/Pagination.vue'
+import FiltrationBar from '@/components/repositories/FiltrationBar.vue'
 import { useAuthorizationStore } from '@/store/authorization'
-import { useRepositoryStore } from '@/store/repositories'
-import FiltrationChips from '@/components/common/chips/FiltrationChips.vue'
 
 const authorizationStore = useAuthorizationStore()
-const repositoriesStore = useRepositoryStore()
 </script>

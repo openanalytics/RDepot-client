@@ -22,22 +22,14 @@
 
 <template>
   <MaintainersModal />
-  <v-row class="my-3">
-    <FiltrationChips :store="repositoryMaintainersStore" />
-    <FiltrationButtons />
-  </v-row>
+  <FiltrationBar />
   <RepositoryMaintainersList />
   <Pagination />
 </template>
 
 <script setup lang="ts">
-import FiltrationButtons from '@/components/common/FiltrationButtons.vue'
+import FiltrationBar from '@/components/repositoryMaintainers/FiltrationBar.vue'
 import Pagination from '@/components/common/Pagination.vue'
-import FiltrationChips from '@/components/common/chips/FiltrationChips.vue'
 import RepositoryMaintainersList from '@/components/repositoryMaintainers/RepositoryMaintainersList.vue'
 import MaintainersModal from '@/components/repositoryMaintainers/RepositoryMaintainersModal.vue'
-import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
-
-const repositoryMaintainersStore =
-  useRepositoryMaintainersStore()
 </script>

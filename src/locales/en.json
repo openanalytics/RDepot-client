@@ -154,17 +154,17 @@
     "eventType": "Event type",
     "makeSure": "This action will clear all filtration",
     "packageName": "Package name",
+    "packages": {
+      "name": "Name"
+    },
     "repositoryName": "Repository name",
+    "reset": "Reset",
     "resourceId": "Resource id",
     "resourceType": "Resource type",
     "state": "State",
     "technologies": "Technologies",
     "title": "Filtration",
-    "userId": "User id",
-    "packages": {
-      "name": "Name"
-    },
-    "reset": "Reset"
+    "userId": "User id"
   },
   "maintainers": {
     "delete": "Delete maintainer",
@@ -216,10 +216,13 @@
     "emailAuthors": "Emails",
     "filtration": {
       "deleted": "Deleted",
-      "repository": "Repository",
+      "maintainer": "Maintainer",
       "name": "Package",
+      "repository": "Repository",
       "submissionState": "State",
-      "maintainer": "Maintainer"
+      "maintainers": {
+        "searchPlaceholder": "Maintainer, package..."
+      }
     },
     "generatemanual": "Generate manual",
     "imports": "Imports",
@@ -275,7 +278,11 @@
     },
     "empty": "No repository chosen",
     "filtration": {
-      "name": "Name"
+      "name": "Name",
+      "maintainers": {
+        "searchPlaceholder": "Maintainer, repository..."
+      },
+      "published": "Published"
     },
     "list": "Repositories",
     "maintainers": "Repository maintainers"
@@ -284,7 +291,8 @@
     "addAnotherSubmission": "Upload another packages",
     "choseFiles": "Choose files",
     "filtration": {
-      "package": "Package"
+      "package": "Package",
+      "searchPlaceholder": "Package, submitter, approver..."
     },
     "noPackageChosen": "No packages choosen",
     "waitForAllRequestsToFulfill": "Wait until all submissions will end",

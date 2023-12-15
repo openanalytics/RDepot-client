@@ -146,17 +146,17 @@
     "eventType": "Typ zdarzenia",
     "makeSure": "Ta akcja wyczyści wszystkie filtry",
     "packageName": "Nazwa pakietu",
+    "packages": {
+      "name": "Nazwa pakietu"
+    },
     "repositoryName": "Nazwa repozytorium",
+    "reset": "Resetuj",
     "resourceId": "Id zasobu",
     "resourceType": "Typ zasobu",
     "state": "Stan",
     "technologies": "Technologie",
     "title": "Filtrowanie",
-    "userId": "Id użytkownika",
-    "packages": {
-      "name": "Nazwa pakietu"
-    },
-    "reset": "Resetuj"
+    "userId": "Id użytkownika"
   },
   "maintainers": {
     "delete": "Usuń opiekuna",
@@ -208,10 +208,13 @@
     "emailAuthors": "Emaile",
     "filtration": {
       "deleted": "Usunięte",
-      "repository": "Repozytorium",
+      "maintainer": "Opiekun",
       "name": "Pakiet",
+      "repository": "Repozytorium",
       "submissionState": "Stan",
-      "maintainer": "Opiekun"
+      "maintainers": {
+        "searchPlaceholder": "Opiekun, pakiet..."
+      }
     },
     "generatemanual": "Generuj instrukcję",
     "imports": "Importuje",
@@ -266,7 +269,11 @@
     },
     "empty": "Nie wybrano repozytorium",
     "filtration": {
-      "name": "Nazwa"
+      "name": "Nazwa",
+      "maintainers": {
+        "searchPlaceholder": "Opiekun, repozytorium..."
+      },
+      "published": "Opublikowane"
     },
     "list": "Repozytoria",
     "maintainers": "Opiekunowie repozytorium"
@@ -275,7 +282,8 @@
     "addAnotherSubmission": "Dodaj następne pakiety",
     "choseFiles": "Wybierz pliki",
     "filtration": {
-      "package": "Pakiet"
+      "package": "Pakiet",
+      "searchPlaceholder": "Pakiet, zgłaszający, zatwierdzający.."
     },
     "noPackageChosen": "Nie wybrano pakietów",
     "waitForAllRequestsToFulfill": "Zaczekaj na zakończenie wszystkich zgłoszeń",

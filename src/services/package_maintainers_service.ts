@@ -60,6 +60,25 @@ export async function fetchPackageMaintainersService(
   )
 }
 
+export async function fetchAllPackageMaintainers(): Promise<
+  validatedData<EntityModelPackageMaintainerDto[]>
+> {
+  if (!isAuthorized('GET', 'packageMaintainers')) {
+    return new Promise(() => validateRequest)
+  }
+  return openApiRequest<EntityModelPackageMaintainerDto[]>(
+    ApiV2PackageMaintainerControllerApiFactory()
+      .getAllPackageMaintainers,
+    [
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      ['user.name,asc']
+    ]
+  )
+}
+
 export async function deletePackageMaintainerService(
   maintainer: EntityModelPackageMaintainerDto
 ): Promise<validatedData<EntityModelPackageMaintainerDto>> {
