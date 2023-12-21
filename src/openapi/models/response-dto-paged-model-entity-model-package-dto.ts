@@ -32,39 +32,42 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
 import { PagedModelEntityModelPackageDto } from './paged-model-entity-model-package-dto'
+import { PagedModelEntityModelPackageDto } from '.'
+
 /**
+ *
  *
  * @export
  * @interface ResponseDtoPagedModelEntityModelPackageDto
  */
 export interface ResponseDtoPagedModelEntityModelPackageDto {
   /**
-   *
    * @type {string}
    * @memberof ResponseDtoPagedModelEntityModelPackageDto
    */
   status?: ResponseDtoPagedModelEntityModelPackageDtoStatusEnum
+
   /**
-   *
    * @type {number}
    * @memberof ResponseDtoPagedModelEntityModelPackageDto
    */
   code?: number
+
   /**
-   *
    * @type {string}
    * @memberof ResponseDtoPagedModelEntityModelPackageDto
    */
   message?: string
+
   /**
-   *
    * @type {string}
    * @memberof ResponseDtoPagedModelEntityModelPackageDto
    */
   messageCode?: string
+
   /**
-   *
    * @type {PagedModelEntityModelPackageDto}
    * @memberof ResponseDtoPagedModelEntityModelPackageDto
    */

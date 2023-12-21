@@ -20,7 +20,6 @@
  *
  */
 
-/* tslint:disable */
 /* eslint-disable */
 /**
  * RDEPOT API
@@ -33,6 +32,7 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
 import globalAxios, {
   AxiosResponse,
   AxiosInstance,
@@ -436,9 +436,9 @@ export const RPackageControllerApiAxiosParamCreator =
       },
       /**
        *
-       * @param {string} [repositoryName]
+       * @param {Array<string>} [repository]
        * @param {boolean} [deleted]
-       * @param {string} [submissionState]
+       * @param {Array<string>} [submissionState]
        * @param {string} [name]
        * @param {number} [page] Zero-based page index (0..N)
        * @param {number} [size] The size of the page to be returned
@@ -447,9 +447,9 @@ export const RPackageControllerApiAxiosParamCreator =
        * @throws {RequiredError}
        */
       getAllRPackages: async (
-        repositoryName?: string,
+        repository?: Array<string>,
         deleted?: boolean,
-        submissionState?: string,
+        submissionState?: Array<string>,
         name?: string,
         page?: number,
         size?: number,
@@ -485,16 +485,15 @@ export const RPackageControllerApiAxiosParamCreator =
             'Bearer ' + accessToken
         }
 
-        if (repositoryName !== undefined) {
-          localVarQueryParameter['repositoryName'] =
-            repositoryName
+        if (repository) {
+          localVarQueryParameter['repository'] = repository
         }
 
         if (deleted !== undefined) {
           localVarQueryParameter['deleted'] = deleted
         }
 
-        if (submissionState !== undefined) {
+        if (submissionState) {
           localVarQueryParameter['submissionState'] =
             submissionState
         }
@@ -870,17 +869,8 @@ export const RPackageControllerApiAxiosParamCreator =
         }
         const needsSerialization =
           typeof body !== 'string' ||
-          Object.entries(
-            localVarRequestOptions.headers!
-          ).find(([key, value]) => {
-            if (
-              value === 'application/json' &&
-              key == 'Content-Type'
-            ) {
-              return true
-            }
-            return false
-          })
+          localVarRequestOptions.headers['Content-Type'] ===
+            'application/json'
         localVarRequestOptions.data = needsSerialization
           ? JSON.stringify(body !== undefined ? body : {})
           : body || ''
@@ -1034,9 +1024,9 @@ export const RPackageControllerApiFp = function (
     },
     /**
      *
-     * @param {string} [repositoryName]
+     * @param {Array<string>} [repository]
      * @param {boolean} [deleted]
-     * @param {string} [submissionState]
+     * @param {Array<string>} [submissionState]
      * @param {string} [name]
      * @param {number} [page] Zero-based page index (0..N)
      * @param {number} [size] The size of the page to be returned
@@ -1045,9 +1035,9 @@ export const RPackageControllerApiFp = function (
      * @throws {RequiredError}
      */
     async getAllRPackages(
-      repositoryName?: string,
+      repository?: Array<string>,
       deleted?: boolean,
-      submissionState?: string,
+      submissionState?: Array<string>,
       name?: string,
       page?: number,
       size?: number,
@@ -1063,7 +1053,7 @@ export const RPackageControllerApiFp = function (
         await RPackageControllerApiAxiosParamCreator(
           configuration
         ).getAllRPackages(
-          repositoryName,
+          repository,
           deleted,
           submissionState,
           name,
@@ -1286,9 +1276,9 @@ export const RPackageControllerApiFactory = function (
     },
     /**
      *
-     * @param {string} [repositoryName]
+     * @param {Array<string>} [repository]
      * @param {boolean} [deleted]
-     * @param {string} [submissionState]
+     * @param {Array<string>} [submissionState]
      * @param {string} [name]
      * @param {number} [page] Zero-based page index (0..N)
      * @param {number} [size] The size of the page to be returned
@@ -1297,9 +1287,9 @@ export const RPackageControllerApiFactory = function (
      * @throws {RequiredError}
      */
     async getAllRPackages(
-      repositoryName?: string,
+      repository?: Array<string>,
       deleted?: boolean,
-      submissionState?: string,
+      submissionState?: Array<string>,
       name?: string,
       page?: number,
       size?: number,
@@ -1308,7 +1298,7 @@ export const RPackageControllerApiFactory = function (
     ): Promise<AxiosResponse<ResponseDtoObject>> {
       return RPackageControllerApiFp(configuration)
         .getAllRPackages(
-          repositoryName,
+          repository,
           deleted,
           submissionState,
           name,
@@ -1459,9 +1449,9 @@ export class RPackageControllerApi extends BaseAPI {
   }
   /**
    *
-   * @param {string} [repositoryName]
+   * @param {Array<string>} [repository]
    * @param {boolean} [deleted]
-   * @param {string} [submissionState]
+   * @param {Array<string>} [submissionState]
    * @param {string} [name]
    * @param {number} [page] Zero-based page index (0..N)
    * @param {number} [size] The size of the page to be returned
@@ -1471,9 +1461,9 @@ export class RPackageControllerApi extends BaseAPI {
    * @memberof RPackageControllerApi
    */
   public async getAllRPackages(
-    repositoryName?: string,
+    repository?: Array<string>,
     deleted?: boolean,
-    submissionState?: string,
+    submissionState?: Array<string>,
     name?: string,
     page?: number,
     size?: number,
@@ -1482,7 +1472,7 @@ export class RPackageControllerApi extends BaseAPI {
   ): Promise<AxiosResponse<ResponseDtoObject>> {
     return RPackageControllerApiFp(this.configuration)
       .getAllRPackages(
-        repositoryName,
+        repository,
         deleted,
         submissionState,
         name,

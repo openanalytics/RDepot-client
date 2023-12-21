@@ -32,39 +32,42 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
 import { PagedModelEntityModelPythonRepositoryDto } from './paged-model-entity-model-python-repository-dto'
+import { PagedModelEntityModelPythonRepositoryDto } from '.'
+
 /**
+ *
  *
  * @export
  * @interface ResponseDtoPagedModelEntityModelPythonRepositoryDto
  */
 export interface ResponseDtoPagedModelEntityModelPythonRepositoryDto {
   /**
-   *
    * @type {string}
    * @memberof ResponseDtoPagedModelEntityModelPythonRepositoryDto
    */
   status?: ResponseDtoPagedModelEntityModelPythonRepositoryDtoStatusEnum
+
   /**
-   *
    * @type {number}
    * @memberof ResponseDtoPagedModelEntityModelPythonRepositoryDto
    */
   code?: number
+
   /**
-   *
    * @type {string}
    * @memberof ResponseDtoPagedModelEntityModelPythonRepositoryDto
    */
   message?: string
+
   /**
-   *
    * @type {string}
    * @memberof ResponseDtoPagedModelEntityModelPythonRepositoryDto
    */
   messageCode?: string
+
   /**
-   *
    * @type {PagedModelEntityModelPythonRepositoryDto}
    * @memberof ResponseDtoPagedModelEntityModelPythonRepositoryDto
    */

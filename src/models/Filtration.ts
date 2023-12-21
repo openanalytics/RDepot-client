@@ -31,9 +31,25 @@ export function defaultValues<T extends z.ZodType>(
 
 const PackagesFiltration = z
   .object({
-    state: z.array(z.string()).optional(),
+    submissionState: z
+      .array(z.string())
+      .optional()
+      .transform((val) => {
+        if (val?.length == 0) {
+          return undefined
+        }
+        return val
+      }),
     deleted: z.boolean(),
-    repository: z.array(z.string()).optional(),
+    repository: z
+      .array(z.string())
+      .optional()
+      .transform((val) => {
+        if (val?.length == 0) {
+          return undefined
+        }
+        return val
+      }),
     technologies: z
       .array(z.string())
       .optional()
@@ -43,14 +59,16 @@ const PackagesFiltration = z
         }
         return val
       }),
-    name: z.array(z.string()).optional()
+    name: z.array(z.string()).optional(),
+    maintainer: z.array(z.string()).optional()
   })
   .default({
-    state: undefined,
+    submissionState: undefined,
     repository: undefined,
     technologies: undefined,
     deleted: false,
-    name: undefined
+    name: undefined,
+    maintainer: undefined
   })
 
 type PackagesFiltration = z.infer<typeof PackagesFiltration>
@@ -98,13 +116,43 @@ const SubmissionsFiltration = z
       .array(
         z.nativeEnum(EntityModelSubmissionDtoStateEnum)
       )
-      .optional(),
-    package: z.string().optional()
+      .optional()
+      .transform((val) => {
+        if (val?.length == 0) {
+          return undefined
+        }
+        return val
+      }),
+    package: z.string().optional(),
+    technologies: z
+      .array(z.string())
+      .optional()
+      .transform((val) => {
+        if (val?.length == 0) {
+          return undefined
+        }
+        return val
+      }),
+    repository: z
+      .array(z.string())
+      .optional()
+      .transform((val) => {
+        if (val?.length == 0) {
+          return undefined
+        }
+        return val
+      }),
+    fromDate: z.string().optional(),
+    toDate: z.string().optional()
   })
   .default({
     assignedToMe: undefined,
     state: undefined,
-    package: undefined
+    package: undefined,
+    technologies: undefined,
+    repository: undefined,
+    fromDate: undefined,
+    toDate: undefined
   })
 
 type SubmissionsFiltration = z.infer<
@@ -148,12 +196,30 @@ const PackageMaintainersFiltration = z
         }
         return val
       }),
-    repository: z.array(z.string()).optional()
+    repository: z
+      .array(z.string())
+      .optional()
+      .transform((val) => {
+        if (val?.length == 0) {
+          return undefined
+        }
+        return val
+      }),
+    maintainer: z
+      .array(z.string())
+      .optional()
+      .transform((val) => {
+        if (val?.length == 0) {
+          return undefined
+        }
+        return val
+      })
   })
   .default({
     deleted: false,
     technologies: undefined,
-    repository: undefined
+    repository: undefined,
+    maintainer: undefined
   })
 
 type PackageMaintainersFiltration = z.infer<

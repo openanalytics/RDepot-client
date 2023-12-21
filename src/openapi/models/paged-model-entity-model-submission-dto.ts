@@ -32,29 +32,36 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
 import { EntityModelSubmissionDto } from './entity-model-submission-dto'
 import { Link } from './link'
 import { PageMetadata } from './page-metadata'
+import {
+  EntityModelSubmissionDto,
+  Link,
+  PageMetadata
+} from '.'
+
 /**
+ *
  *
  * @export
  * @interface PagedModelEntityModelSubmissionDto
  */
 export interface PagedModelEntityModelSubmissionDto {
   /**
-   *
    * @type {Array<Link>}
    * @memberof PagedModelEntityModelSubmissionDto
    */
   links?: Array<Link>
+
   /**
-   *
    * @type {Array<EntityModelSubmissionDto>}
    * @memberof PagedModelEntityModelSubmissionDto
    */
   content?: Array<EntityModelSubmissionDto>
+
   /**
-   *
    * @type {PageMetadata}
    * @memberof PagedModelEntityModelSubmissionDto
    */

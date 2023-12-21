@@ -86,17 +86,24 @@
         ></validated-input-field>
       </v-col>
       <v-col sm="2">
-        <div @click="pickDate">
-          <validated-input-field
-            @update:modelValue="setFiltration"
-            name="fromDate"
-            as="v-text-field"
-            :label="$t('submissions.filtration.fromDate')"
-            color="oablue"
-            disabled
-            id="filtration-fromDate"
-          />
-        </div>
+        <validated-input-field
+          @update:focused="selectFromDate"
+          name="fromDate"
+          as="v-text-field"
+          :label="$t('submissions.filtration.fromDate')"
+          color="oablue"
+          id="filtration-fromDate"
+        />
+      </v-col>
+      <v-col sm="2">
+        <validated-input-field
+          @update:focused="selectToDate"
+          name="toDate"
+          as="v-text-field"
+          :label="$t('submissions.filtration.toDate')"
+          color="oablue"
+          id="filtration-toDate"
+        />
       </v-col>
       <v-col sm="1">
         <v-btn
@@ -110,6 +117,30 @@
       </v-col>
     </v-row>
   </v-container>
+  <v-dialog v-model="showDatepicker" width="auto">
+    <v-card>
+      <v-card-text>
+        <v-date-picker
+          @update:modelValue="updateDate"
+          :modelValue="fromDatePicker"
+        ></v-date-picker>
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn
+          :text="t('common.reset')"
+          @click="resetDate"
+          color="error"
+        ></v-btn>
+        <v-spacer></v-spacer>
+        <v-btn
+          :text="t('common.cancel')"
+          @click="closeModal"
+        ></v-btn>
+        <v-spacer></v-spacer>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script setup lang="ts">
@@ -125,10 +156,13 @@ import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useSubmissionStore } from '@/store/submission'
 import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesFiltration'
+import { ref } from 'vue'
 
 const { t } = useI18n()
 const { states, technologies } = useEnumFiltration()
-
+const fromDatePicker = ref(new Date())
+const changedDate = ref('')
+const showDatepicker = ref(false)
 const { storeId, filtrateRepositories, loadRepositories } =
   useRepositoriesFiltration()
 
@@ -139,7 +173,7 @@ const {
 } = useRepositoryMaintainersFiltration()
 const submissionsStore = useSubmissionStore()
 
-const { setValues, values } = useForm({
+const { setValues, values, setFieldValue } = useForm({
   validationSchema: toTypedSchema(SubmissionsFiltration),
   initialValues: submissionsStore.filtration
 })
@@ -157,7 +191,60 @@ function resetValues() {
   )
 }
 
-function pickDate() {
-  console.log('date picked')
+function selectFromDate(e: Boolean) {
+  if (e) {
+    console.log()
+    if (values.fromDate !== undefined) {
+      fromDatePicker.value = new Date(values.fromDate)
+    }
+    showDatepicker.value = true
+    changedDate.value = 'from'
+  }
+}
+
+function selectToDate(e: Boolean) {
+  if (e) {
+    if (values.toDate !== undefined) {
+      fromDatePicker.value = new Date(values.toDate)
+    }
+    showDatepicker.value = true
+    changedDate.value = 'to'
+  }
+}
+
+function updateDate(value: Date) {
+  if (changedDate.value === 'from') {
+    setFieldValue(
+      'fromDate',
+      value.toLocaleDateString('en-CA')
+    )
+  } else if (changedDate.value === 'to') {
+    setFieldValue(
+      'toDate',
+      value.toLocaleDateString('en-CA')
+    )
+  }
+  showDatepicker.value = false
+  changedDate.value = ''
+  fromDatePicker.value = new Date()
+  setFiltration()
+}
+
+function resetDate() {
+  if (changedDate.value === 'from') {
+    setFieldValue('fromDate', undefined)
+  } else if (changedDate.value === 'to') {
+    setFieldValue('toDate', undefined)
+  }
+  showDatepicker.value = false
+  changedDate.value = ''
+  fromDatePicker.value = new Date()
+  setFiltration()
+}
+
+function closeModal() {
+  showDatepicker.value = false
+  changedDate.value = ''
+  fromDatePicker.value = new Date()
 }
 </script>

@@ -32,42 +32,39 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
 import { RepositoryProjection } from './repository-projection'
 import { UserProjection } from './user-projection'
+import { RepositoryProjection, UserProjection } from '.'
+
 /**
+ *
  *
  * @export
  * @interface RepositoryMaintainerDto
  */
 export interface RepositoryMaintainerDto {
   /**
-   *
    * @type {number}
    * @memberof RepositoryMaintainerDto
    */
   id?: number
+
   /**
-   *
    * @type {UserProjection}
    * @memberof RepositoryMaintainerDto
    */
   user?: UserProjection
+
   /**
-   *
    * @type {RepositoryProjection}
    * @memberof RepositoryMaintainerDto
    */
   repository?: RepositoryProjection
+
   /**
-   *
    * @type {boolean}
    * @memberof RepositoryMaintainerDto
    */
   deleted?: boolean
-  /**
-   *
-   * @type {string}
-   * @memberof RepositoryMaintainerDto
-   */
-  description?: string
 }

@@ -32,64 +32,92 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
+import {} from '.'
+
 /**
+ *
  *
  * @export
  * @interface PythonRepositoryDto
  */
 export interface PythonRepositoryDto {
   /**
-   *
    * @type {number}
    * @memberof PythonRepositoryDto
    */
   id?: number
+
   /**
-   *
    * @type {number}
    * @memberof PythonRepositoryDto
    */
   version?: number
+
   /**
-   *
    * @type {string}
    * @memberof PythonRepositoryDto
    */
   publicationUri?: string
+
   /**
-   *
    * @type {string}
    * @memberof PythonRepositoryDto
    */
   name?: string
+
   /**
-   *
    * @type {string}
    * @memberof PythonRepositoryDto
    */
   serverAddress?: string
+
   /**
-   *
    * @type {boolean}
    * @memberof PythonRepositoryDto
    */
   deleted?: boolean
+
   /**
-   *
    * @type {boolean}
    * @memberof PythonRepositoryDto
    */
   published?: boolean
+
   /**
-   *
    * @type {boolean}
    * @memberof PythonRepositoryDto
    */
   synchronizing?: boolean
+
   /**
-   *
    * @type {string}
    * @memberof PythonRepositoryDto
    */
   technology?: string
+
+  /**
+   * @type {number}
+   * @memberof PythonRepositoryDto
+   */
+  numberOfPackages?: number
+
+  /**
+   * @type {string}
+   * @memberof PythonRepositoryDto
+   */
+  hashMethod?: PythonRepositoryDtoHashMethodEnum
+}
+
+/**
+ * @export
+ * @enum {string}
+ */
+export enum PythonRepositoryDtoHashMethodEnum {
+  MD5 = 'MD5',
+  SHA1 = 'SHA1',
+  SHA224 = 'SHA224',
+  SHA256 = 'SHA256',
+  SHA384 = 'SHA384',
+  SHA512 = 'SHA512'
 }

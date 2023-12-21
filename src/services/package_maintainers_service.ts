@@ -47,12 +47,15 @@ export async function fetchPackageMaintainersService(
   }
   const sort = useSortStore()
   const sortBy = sort.getSortBy()
+  console.log(filtration)
   return openApiRequest<EntityModelPackageMaintainerDto[]>(
     ApiV2PackageMaintainerControllerApiFactory()
       .getAllPackageMaintainers,
     [
       filtration?.deleted,
       filtration?.technologies,
+      filtration?.repository,
+      filtration?.maintainer,
       page,
       pageSize,
       sortBy
@@ -70,6 +73,8 @@ export async function fetchAllPackageMaintainers(): Promise<
     ApiV2PackageMaintainerControllerApiFactory()
       .getAllPackageMaintainers,
     [
+      undefined,
+      undefined,
       undefined,
       undefined,
       undefined,

@@ -22,11 +22,12 @@
 
 <template>
   <TopScrollButton />
-  <EventsModal />
+  <FiltrationBar />
+  <!-- <EventsModal />
   <v-row class="my-3">
     <FiltrationChips :store="eventsStore" />
     <FiltrationButtons />
-  </v-row>
+  </v-row> -->
   <EventsTimeLine />
 </template>
 
@@ -36,6 +37,7 @@ import FiltrationChips from '@/components/common/chips/FiltrationChips.vue'
 import TopScrollButton from '@/components/common/TopScrollButton.vue'
 import EventsModal from '@/components/events/EventsModal.vue'
 import EventsTimeLine from '@/components/events/EventsTimeLine.vue'
+import FiltrationBar from '@/components/events/FiltrationBar.vue'
 import { useEventsStore } from '@/store/events'
 
 const eventsStore = useEventsStore()

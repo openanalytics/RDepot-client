@@ -32,39 +32,42 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
 import { Vignette } from './vignette'
+import { Vignette } from '.'
+
 /**
+ *
  *
  * @export
  * @interface ResponseDtoListVignette
  */
 export interface ResponseDtoListVignette {
   /**
-   *
    * @type {string}
    * @memberof ResponseDtoListVignette
    */
   status?: ResponseDtoListVignetteStatusEnum
+
   /**
-   *
    * @type {number}
    * @memberof ResponseDtoListVignette
    */
   code?: number
+
   /**
-   *
    * @type {string}
    * @memberof ResponseDtoListVignette
    */
   message?: string
+
   /**
-   *
    * @type {string}
    * @memberof ResponseDtoListVignette
    */
   messageCode?: string
+
   /**
-   *
    * @type {Array<Vignette>}
    * @memberof ResponseDtoListVignette
    */

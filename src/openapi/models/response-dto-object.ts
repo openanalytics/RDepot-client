@@ -32,38 +32,41 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
+import {} from '.'
+
 /**
+ *
  *
  * @export
  * @interface ResponseDtoObject
  */
 export interface ResponseDtoObject {
   /**
-   *
    * @type {string}
    * @memberof ResponseDtoObject
    */
   status?: ResponseDtoObjectStatusEnum
+
   /**
-   *
    * @type {number}
    * @memberof ResponseDtoObject
    */
   code?: number
+
   /**
-   *
    * @type {string}
    * @memberof ResponseDtoObject
    */
   message?: string
+
   /**
-   *
    * @type {string}
    * @memberof ResponseDtoObject
    */
   messageCode?: string
+
   /**
-   *
    * @type {any}
    * @memberof ResponseDtoObject
    */

@@ -32,39 +32,42 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
 import { PagedModelEntityModelNewsfeedEventDto } from './paged-model-entity-model-newsfeed-event-dto'
+import { PagedModelEntityModelNewsfeedEventDto } from '.'
+
 /**
+ *
  *
  * @export
  * @interface ResponseDtoPagedModelEntityModelNewsfeedEventDto
  */
 export interface ResponseDtoPagedModelEntityModelNewsfeedEventDto {
   /**
-   *
    * @type {string}
    * @memberof ResponseDtoPagedModelEntityModelNewsfeedEventDto
    */
   status?: ResponseDtoPagedModelEntityModelNewsfeedEventDtoStatusEnum
+
   /**
-   *
    * @type {number}
    * @memberof ResponseDtoPagedModelEntityModelNewsfeedEventDto
    */
   code?: number
+
   /**
-   *
    * @type {string}
    * @memberof ResponseDtoPagedModelEntityModelNewsfeedEventDto
    */
   message?: string
+
   /**
-   *
    * @type {string}
    * @memberof ResponseDtoPagedModelEntityModelNewsfeedEventDto
    */
   messageCode?: string
+
   /**
-   *
    * @type {PagedModelEntityModelNewsfeedEventDto}
    * @memberof ResponseDtoPagedModelEntityModelNewsfeedEventDto
    */

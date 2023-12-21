@@ -33,52 +33,12 @@
  * Do not edit the class manually.
  */
 
-import { EntityModelRepositoryMaintainerDto } from './entity-model-repository-maintainer-dto'
-import { EntityModelRepositoryMaintainerDto } from '.'
+import {} from '.'
 
 /**
  *
  *
  * @export
- * @interface ResponseDtoEntityModelRepositoryMaintainerDto
+ * @interface IDto
  */
-export interface ResponseDtoEntityModelRepositoryMaintainerDto {
-  /**
-   * @type {string}
-   * @memberof ResponseDtoEntityModelRepositoryMaintainerDto
-   */
-  status?: ResponseDtoEntityModelRepositoryMaintainerDtoStatusEnum
-
-  /**
-   * @type {number}
-   * @memberof ResponseDtoEntityModelRepositoryMaintainerDto
-   */
-  code?: number
-
-  /**
-   * @type {string}
-   * @memberof ResponseDtoEntityModelRepositoryMaintainerDto
-   */
-  message?: string
-
-  /**
-   * @type {string}
-   * @memberof ResponseDtoEntityModelRepositoryMaintainerDto
-   */
-  messageCode?: string
-
-  /**
-   * @type {EntityModelRepositoryMaintainerDto}
-   * @memberof ResponseDtoEntityModelRepositoryMaintainerDto
-   */
-  data?: EntityModelRepositoryMaintainerDto
-}
-
-/**
- * @export
- * @enum {string}
- */
-export enum ResponseDtoEntityModelRepositoryMaintainerDtoStatusEnum {
-  SUCCESS = 'SUCCESS',
-  ERROR = 'ERROR'
-}
+export interface IDto {}

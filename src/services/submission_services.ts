@@ -59,7 +59,10 @@ export async function fetchSubmissions(
       filtration?.state,
       filtration.assignedToMe ? logged_user_id : undefined,
       filtration?.package,
-      undefined, // TODO: add technology filtering
+      filtration?.technologies, // TODO: add technology filtering
+      filtration?.repository, // TODO:
+      filtration?.fromDate,
+      filtration?.toDate,
       page,
       pageSize,
       sortBy

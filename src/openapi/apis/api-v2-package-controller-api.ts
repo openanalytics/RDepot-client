@@ -20,7 +20,6 @@
  *
  */
 
-/* tslint:disable */
 /* eslint-disable */
 /**
  * RDEPOT API
@@ -33,6 +32,7 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
 import globalAxios, {
   AxiosResponse,
   AxiosInstance,
@@ -59,11 +59,12 @@ export const ApiV2PackageControllerApiAxiosParamCreator =
     return {
       /**
        *
-       * @param {string} [repositoryName]
+       * @param {Array<string>} [repository]
        * @param {boolean} [deleted]
-       * @param {string} [submissionState]
+       * @param {Array<string>} [submissionState]
        * @param {Array<string>} [technology]
        * @param {string} [name]
+       * @param {string} [maintainer]
        * @param {number} [page] Zero-based page index (0..N)
        * @param {number} [size] The size of the page to be returned
        * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
@@ -71,11 +72,12 @@ export const ApiV2PackageControllerApiAxiosParamCreator =
        * @throws {RequiredError}
        */
       getAllPackages: async (
-        repositoryName?: string,
+        repository?: Array<string>,
         deleted?: boolean,
-        submissionState?: string,
+        submissionState?: Array<string>,
         technology?: Array<string>,
         name?: string,
+        maintainer?: string,
         page?: number,
         size?: number,
         sort?: Array<string>,
@@ -109,17 +111,15 @@ export const ApiV2PackageControllerApiAxiosParamCreator =
           localVarHeaderParameter['Authorization'] =
             'Bearer ' + accessToken
         }
-
-        if (repositoryName !== undefined) {
-          localVarQueryParameter['repositoryName'] =
-            repositoryName
+        if (repository) {
+          localVarQueryParameter['repository'] = repository
         }
 
         if (deleted !== undefined) {
           localVarQueryParameter['deleted'] = deleted
         }
 
-        if (submissionState !== undefined) {
+        if (submissionState) {
           localVarQueryParameter['submissionState'] =
             submissionState
         }
@@ -130,6 +130,10 @@ export const ApiV2PackageControllerApiAxiosParamCreator =
 
         if (name !== undefined) {
           localVarQueryParameter['name'] = name
+        }
+
+        if (maintainer !== undefined) {
+          localVarQueryParameter['maintainer'] = maintainer
         }
 
         if (page !== undefined) {
@@ -267,11 +271,12 @@ export const ApiV2PackageControllerApiFp = function (
   return {
     /**
      *
-     * @param {string} [repositoryName]
+     * @param {Array<string>} [repository]
      * @param {boolean} [deleted]
-     * @param {string} [submissionState]
+     * @param {Array<string>} [submissionState]
      * @param {Array<string>} [technology]
      * @param {string} [name]
+     * @param {string} [maintainer]
      * @param {number} [page] Zero-based page index (0..N)
      * @param {number} [size] The size of the page to be returned
      * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
@@ -279,11 +284,12 @@ export const ApiV2PackageControllerApiFp = function (
      * @throws {RequiredError}
      */
     async getAllPackages(
-      repositoryName?: string,
+      repository?: Array<string>,
       deleted?: boolean,
-      submissionState?: string,
+      submissionState?: Array<string>,
       technology?: Array<string>,
       name?: string,
+      maintainer?: string,
       page?: number,
       size?: number,
       sort?: Array<string>,
@@ -300,11 +306,12 @@ export const ApiV2PackageControllerApiFp = function (
         await ApiV2PackageControllerApiAxiosParamCreator(
           configuration
         ).getAllPackages(
-          repositoryName,
+          repository,
           deleted,
           submissionState,
           technology,
           name,
+          maintainer,
           page,
           size,
           sort,
@@ -368,11 +375,12 @@ export const ApiV2PackageControllerApiFactory = function (
   return {
     /**
      *
-     * @param {string} [repositoryName]
+     * @param {Array<string>} [repository]
      * @param {boolean} [deleted]
-     * @param {string} [submissionState]
+     * @param {Array<string>} [submissionState]
      * @param {Array<string>} [technology]
      * @param {string} [name]
+     * @param {string} [maintainer]
      * @param {number} [page] Zero-based page index (0..N)
      * @param {number} [size] The size of the page to be returned
      * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
@@ -380,11 +388,12 @@ export const ApiV2PackageControllerApiFactory = function (
      * @throws {RequiredError}
      */
     async getAllPackages(
-      repositoryName?: string,
+      repository?: Array<string>,
       deleted?: boolean,
-      submissionState?: string,
+      submissionState?: Array<string>,
       technology?: Array<string>,
       name?: string,
+      maintainer?: string,
       page?: number,
       size?: number,
       sort?: Array<string>,
@@ -394,11 +403,12 @@ export const ApiV2PackageControllerApiFactory = function (
     > {
       return ApiV2PackageControllerApiFp(configuration)
         .getAllPackages(
-          repositoryName,
+          repository,
           deleted,
           submissionState,
           technology,
           name,
+          maintainer,
           page,
           size,
           sort,
@@ -434,11 +444,12 @@ export const ApiV2PackageControllerApiFactory = function (
 export class ApiV2PackageControllerApi extends BaseAPI {
   /**
    *
-   * @param {string} [repositoryName]
+   * @param {Array<string>} [repository]
    * @param {boolean} [deleted]
-   * @param {string} [submissionState]
+   * @param {Array<string>} [submissionState]
    * @param {Array<string>} [technology]
    * @param {string} [name]
+   * @param {string} [maintainer]
    * @param {number} [page] Zero-based page index (0..N)
    * @param {number} [size] The size of the page to be returned
    * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
@@ -447,11 +458,12 @@ export class ApiV2PackageControllerApi extends BaseAPI {
    * @memberof ApiV2PackageControllerApi
    */
   public async getAllPackages(
-    repositoryName?: string,
+    repository?: Array<string>,
     deleted?: boolean,
-    submissionState?: string,
+    submissionState?: Array<string>,
     technology?: Array<string>,
     name?: string,
+    maintainer?: string,
     page?: number,
     size?: number,
     sort?: Array<string>,
@@ -461,11 +473,12 @@ export class ApiV2PackageControllerApi extends BaseAPI {
   > {
     return ApiV2PackageControllerApiFp(this.configuration)
       .getAllPackages(
-        repositoryName,
+        repository,
         deleted,
         submissionState,
         technology,
         name,
+        maintainer,
         page,
         size,
         sort,

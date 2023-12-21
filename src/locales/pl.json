@@ -283,7 +283,9 @@
     "choseFiles": "Wybierz pliki",
     "filtration": {
       "package": "Pakiet",
-      "searchPlaceholder": "Pakiet, zgłaszający, zatwierdzający.."
+      "searchPlaceholder": "Pakiet, zgłaszający, zatwierdzający..",
+      "fromDate": "Data początkowa",
+      "toDate": "Data końcowa"
     },
     "noPackageChosen": "Nie wybrano pakietów",
     "waitForAllRequestsToFulfill": "Zaczekaj na zakończenie wszystkich zgłoszeń",

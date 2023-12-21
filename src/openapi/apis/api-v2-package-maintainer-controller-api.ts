@@ -32,6 +32,7 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
 import globalAxios, {
   AxiosResponse,
   AxiosInstance,
@@ -130,18 +131,8 @@ export const ApiV2PackageMaintainerControllerApiAxiosParamCreator =
         }
         const needsSerialization =
           typeof body !== 'string' ||
-          Object.entries(
-            localVarRequestOptions.headers!
-          ).find(([key, value]) => {
-            if (
-              value === 'application/json' &&
-              key == 'Content-Type'
-            ) {
-              return true
-            }
-            return false
-          })
-
+          localVarRequestOptions.headers['Content-Type'] ===
+            'application/json'
         localVarRequestOptions.data = needsSerialization
           ? JSON.stringify(body !== undefined ? body : {})
           : body || ''
@@ -237,7 +228,9 @@ export const ApiV2PackageMaintainerControllerApiAxiosParamCreator =
       /**
        *
        * @param {boolean} [deleted]
-       * @param {Array<string>} [resourceTechnology]
+       * @param {Array<string>} [technology]
+       * @param {Array<string>} [repository]
+       * @param {Array<string>} [maintainer]
        * @param {number} [page] Zero-based page index (0..N)
        * @param {number} [size] The size of the page to be returned
        * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
@@ -246,7 +239,9 @@ export const ApiV2PackageMaintainerControllerApiAxiosParamCreator =
        */
       getAllPackageMaintainers: async (
         deleted?: boolean,
-        resourceTechnology?: Array<string>,
+        technology?: Array<string>,
+        repository?: Array<string>,
+        maintainer?: Array<string>,
         page?: number,
         size?: number,
         sort?: Array<string>,
@@ -285,9 +280,16 @@ export const ApiV2PackageMaintainerControllerApiAxiosParamCreator =
           localVarQueryParameter['deleted'] = deleted
         }
 
-        if (resourceTechnology) {
-          localVarQueryParameter['resourceTechnology'] =
-            resourceTechnology
+        if (technology) {
+          localVarQueryParameter['technology'] = technology
+        }
+
+        if (repository) {
+          localVarQueryParameter['repository'] = repository
+        }
+
+        if (maintainer) {
+          localVarQueryParameter['maintainer'] = maintainer
         }
 
         if (page !== undefined) {
@@ -497,17 +499,8 @@ export const ApiV2PackageMaintainerControllerApiAxiosParamCreator =
         }
         const needsSerialization =
           typeof body !== 'string' ||
-          Object.entries(
-            localVarRequestOptions.headers!
-          ).find(([key, value]) => {
-            if (
-              value === 'application/json' &&
-              key == 'Content-Type'
-            ) {
-              return true
-            }
-            return false
-          })
+          localVarRequestOptions.headers['Content-Type'] ===
+            'application/json'
         localVarRequestOptions.data = needsSerialization
           ? JSON.stringify(body !== undefined ? body : {})
           : body || ''
@@ -593,7 +586,9 @@ export const ApiV2PackageMaintainerControllerApiFp =
       /**
        *
        * @param {boolean} [deleted]
-       * @param {Array<string>} [resourceTechnology]
+       * @param {Array<string>} [technology]
+       * @param {Array<string>} [repository]
+       * @param {Array<string>} [maintainer]
        * @param {number} [page] Zero-based page index (0..N)
        * @param {number} [size] The size of the page to be returned
        * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
@@ -602,7 +597,9 @@ export const ApiV2PackageMaintainerControllerApiFp =
        */
       async getAllPackageMaintainers(
         deleted?: boolean,
-        resourceTechnology?: Array<string>,
+        technology?: Array<string>,
+        repository?: Array<string>,
+        maintainer?: Array<string>,
         page?: number,
         size?: number,
         sort?: Array<string>,
@@ -620,7 +617,9 @@ export const ApiV2PackageMaintainerControllerApiFp =
             configuration
           ).getAllPackageMaintainers(
             deleted,
-            resourceTechnology,
+            technology,
+            repository,
+            maintainer,
             page,
             size,
             sort,
@@ -750,7 +749,9 @@ export const ApiV2PackageMaintainerControllerApiFactory =
       /**
        *
        * @param {boolean} [deleted]
-       * @param {Array<string>} [resourceTechnology]
+       * @param {Array<string>} [technology]
+       * @param {Array<string>} [repository]
+       * @param {Array<string>} [maintainer]
        * @param {number} [page] Zero-based page index (0..N)
        * @param {number} [size] The size of the page to be returned
        * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
@@ -759,7 +760,9 @@ export const ApiV2PackageMaintainerControllerApiFactory =
        */
       async getAllPackageMaintainers(
         deleted?: boolean,
-        resourceTechnology?: Array<string>,
+        technology?: Array<string>,
+        repository?: Array<string>,
+        maintainer?: Array<string>,
         page?: number,
         size?: number,
         sort?: Array<string>,
@@ -772,7 +775,9 @@ export const ApiV2PackageMaintainerControllerApiFactory =
         )
           .getAllPackageMaintainers(
             deleted,
-            resourceTechnology,
+            technology,
+            repository,
+            maintainer,
             page,
             size,
             sort,
@@ -863,7 +868,9 @@ export class ApiV2PackageMaintainerControllerApi extends BaseAPI {
   /**
    *
    * @param {boolean} [deleted]
-   * @param {Array<string>} [resourceTechnology]
+   * @param {Array<string>} [technology]
+   * @param {Array<string>} [repository]
+   * @param {Array<string>} [maintainer]
    * @param {number} [page] Zero-based page index (0..N)
    * @param {number} [size] The size of the page to be returned
    * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
@@ -873,7 +880,9 @@ export class ApiV2PackageMaintainerControllerApi extends BaseAPI {
    */
   public async getAllPackageMaintainers(
     deleted?: boolean,
-    resourceTechnology?: Array<string>,
+    technology?: Array<string>,
+    repository?: Array<string>,
+    maintainer?: Array<string>,
     page?: number,
     size?: number,
     sort?: Array<string>,
@@ -886,7 +895,9 @@ export class ApiV2PackageMaintainerControllerApi extends BaseAPI {
     )
       .getAllPackageMaintainers(
         deleted,
-        resourceTechnology,
+        technology,
+        repository,
+        maintainer,
         page,
         size,
         sort,

@@ -292,7 +292,9 @@
     "choseFiles": "Choose files",
     "filtration": {
       "package": "Package",
-      "searchPlaceholder": "Package, submitter, approver..."
+      "searchPlaceholder": "Package, submitter, approver...",
+      "fromDate": "From date",
+      "toDate": "To date"
     },
     "noPackageChosen": "No packages choosen",
     "waitForAllRequestsToFulfill": "Wait until all submissions will end",

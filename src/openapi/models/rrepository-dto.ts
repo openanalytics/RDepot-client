@@ -32,64 +32,73 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
+import {} from '.'
+
 /**
+ *
  *
  * @export
  * @interface RRepositoryDto
  */
 export interface RRepositoryDto {
   /**
-   *
    * @type {number}
    * @memberof RRepositoryDto
    */
   id?: number
+
   /**
-   *
    * @type {number}
    * @memberof RRepositoryDto
    */
   version?: number
+
   /**
-   *
    * @type {string}
    * @memberof RRepositoryDto
    */
   publicationUri?: string
+
   /**
-   *
    * @type {string}
    * @memberof RRepositoryDto
    */
   name?: string
+
   /**
-   *
    * @type {string}
    * @memberof RRepositoryDto
    */
   serverAddress?: string
+
   /**
-   *
    * @type {boolean}
    * @memberof RRepositoryDto
    */
   deleted?: boolean
+
   /**
-   *
    * @type {boolean}
    * @memberof RRepositoryDto
    */
   published?: boolean
+
   /**
-   *
    * @type {boolean}
    * @memberof RRepositoryDto
    */
   synchronizing?: boolean
+
   /**
-   *
    * @type {string}
    * @memberof RRepositoryDto
    */
   technology?: string
+
+  /**
+   * @type {number}
+   * @memberof RRepositoryDto
+   */
+  numberOfPackages?: number
 }

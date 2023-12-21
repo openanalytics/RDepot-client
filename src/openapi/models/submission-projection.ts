@@ -33,52 +33,35 @@
  * Do not edit the class manually.
  */
 
-import { EntityModelRepositoryMaintainerDto } from './entity-model-repository-maintainer-dto'
-import { EntityModelRepositoryMaintainerDto } from '.'
+import {} from '.'
 
 /**
  *
  *
  * @export
- * @interface ResponseDtoEntityModelRepositoryMaintainerDto
+ * @interface SubmissionProjection
  */
-export interface ResponseDtoEntityModelRepositoryMaintainerDto {
-  /**
-   * @type {string}
-   * @memberof ResponseDtoEntityModelRepositoryMaintainerDto
-   */
-  status?: ResponseDtoEntityModelRepositoryMaintainerDtoStatusEnum
-
+export interface SubmissionProjection {
   /**
    * @type {number}
-   * @memberof ResponseDtoEntityModelRepositoryMaintainerDto
+   * @memberof SubmissionProjection
    */
-  code?: number
+  id?: number
 
   /**
    * @type {string}
-   * @memberof ResponseDtoEntityModelRepositoryMaintainerDto
+   * @memberof SubmissionProjection
    */
-  message?: string
-
-  /**
-   * @type {string}
-   * @memberof ResponseDtoEntityModelRepositoryMaintainerDto
-   */
-  messageCode?: string
-
-  /**
-   * @type {EntityModelRepositoryMaintainerDto}
-   * @memberof ResponseDtoEntityModelRepositoryMaintainerDto
-   */
-  data?: EntityModelRepositoryMaintainerDto
+  state?: SubmissionProjectionStateEnum
 }
 
 /**
  * @export
  * @enum {string}
  */
-export enum ResponseDtoEntityModelRepositoryMaintainerDtoStatusEnum {
-  SUCCESS = 'SUCCESS',
-  ERROR = 'ERROR'
+export enum SubmissionProjectionStateEnum {
+  ACCEPTED = 'ACCEPTED',
+  WAITING = 'WAITING',
+  CANCELLED = 'CANCELLED',
+  REJECTED = 'REJECTED'
 }
