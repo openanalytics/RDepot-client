@@ -99,7 +99,7 @@
         ></validated-input-field>
       </v-col>
       <v-spacer />
-      <v-col sm="1">
+      <v-col sm="1" class="reset-button">
         <v-btn
           class="my-2"
           color="oablue"
@@ -154,3 +154,10 @@ function resetValues() {
   packageStore.setFiltration(values as PackagesFiltration)
 }
 </script>
+
+<style lang="scss">
+.reset-button {
+  display: grid;
+  align-content: center;
+}
+</style>

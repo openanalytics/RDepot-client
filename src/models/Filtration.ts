@@ -59,7 +59,7 @@ const PackagesFiltration = z
         }
         return val
       }),
-    name: z.array(z.string()).optional(),
+    name: z.string().optional(),
     maintainer: z.array(z.string()).optional()
   })
   .default({

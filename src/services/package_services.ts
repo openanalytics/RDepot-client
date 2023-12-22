@@ -57,7 +57,7 @@ export async function fetchPackagesServices(
       filtration?.deleted,
       filtration?.submissionState,
       filtration?.technologies,
-      filtration?.name,
+      undefined,
       filtration?.maintainer,
       page,
       pageSize,

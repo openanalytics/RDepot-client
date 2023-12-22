@@ -26,7 +26,7 @@
     style="padding-left: 0; padding-right: 0"
   >
     <v-row>
-      <v-col sm="4">
+      <v-col sm="5">
         <validated-input-field
           @update:modelValue="setFiltration"
           name="name"
@@ -75,6 +75,8 @@
           :storeId="storeIdMaintainer"
         ></validated-input-field>
       </v-col>
+    </v-row>
+    <v-row>
       <v-col sm="3">
         <validated-input-field
           @update:modelValue="setFiltration"
@@ -108,9 +110,9 @@
           id="filtration-toDate"
         />
       </v-col>
-      <v-col sm="1">
+      <v-spacer />
+      <v-col sm="1" class="reset-button">
         <v-btn
-          class="my-2"
           color="oablue"
           size="large"
           @click="resetValues"
@@ -252,3 +254,10 @@ function closeModal() {
   fromDatePicker.value = new Date()
 }
 </script>
+
+<style lang="scss">
+.reset-button {
+  display: grid;
+  align-content: center;
+}
+</style>

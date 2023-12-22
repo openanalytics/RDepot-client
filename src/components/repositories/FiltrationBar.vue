@@ -81,7 +81,7 @@
           color="oablue"
         ></validated-input-field>
       </v-col>
-      <v-col sm="1">
+      <v-col sm="1" class="reset-button">
         <v-btn
           class="my-2"
           color="oablue"
@@ -137,3 +137,10 @@ function resetValues() {
   )
 }
 </script>
+
+<style lang="scss">
+.reset-button {
+  display: grid;
+  align-content: center;
+}
+</style>
