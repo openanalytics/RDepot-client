@@ -308,6 +308,10 @@
       "role": "Role",
       "title": "Edit user",
       "tooltip": "Edit user"
+    },
+    "filtration": {
+      "active": "Active",
+      "roles": "Roles"
     }
   }
 }

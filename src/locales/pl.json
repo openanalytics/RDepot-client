@@ -298,6 +298,10 @@
       "role": "Rola",
       "title": "Edytuj użytkownika",
       "tooltip": "Edytuj użytkownika"
+    },
+    "filtration": {
+      "active": "Aktywny",
+      "roles": "Role"
     }
   }
 }

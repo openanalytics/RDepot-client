@@ -40,12 +40,20 @@ export function useEnumFiltration() {
     'repositoryMaintainer'
   ])
 
+  const roles = ref([
+    'admin',
+    'user',
+    'packagemaintainer',
+    'repositorymaintainer'
+  ])
+
   const eventTypes = ref(['create', 'update', 'delete'])
 
   return {
     states,
     technologies,
     resourceTypes,
-    eventTypes
+    eventTypes,
+    roles
   }
 }

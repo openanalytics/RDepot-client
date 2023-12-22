@@ -276,11 +276,34 @@ type RepositoryMaintainersFiltration = z.infer<
   typeof RepositoryMaintainersFiltration
 >
 
+const UsersFiltration = z
+  .object({
+    active: z.boolean().optional(),
+    roles: z
+      .array(z.string())
+      .optional()
+      .transform((val) => {
+        if (val?.length == 0) {
+          return undefined
+        }
+        return val
+      }),
+    name: z.string().optional()
+  })
+  .default({
+    active: undefined,
+    roles: undefined,
+    name: undefined
+  })
+
+type UsersFiltration = z.infer<typeof UsersFiltration>
+
 export {
   RepositoriesFiltration,
   PackagesFiltration,
   SubmissionsFiltration,
   EventsFiltration,
   PackageMaintainersFiltration,
-  RepositoryMaintainersFiltration
+  RepositoryMaintainersFiltration,
+  UsersFiltration
 }

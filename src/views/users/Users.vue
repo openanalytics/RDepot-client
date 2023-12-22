@@ -21,6 +21,7 @@
 -->
 
 <template>
+  <FiltrationBar />
   <UserModal />
   <UserList />
   <Pagination />
@@ -28,6 +29,7 @@
 
 <script setup lang="ts">
 import UserList from '@/components/users/UserList.vue'
+import FiltrationBar from '@/components/users/FiltrationBar.vue'
 import UserModal from '@/components/users/UserModal.vue'
 import Pagination from '@/components/common/Pagination.vue'
 </script>
