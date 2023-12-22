@@ -21,7 +21,10 @@
 -->
 
 <template>
-  <v-container class="mr-12">
+  <v-container
+    class="v-expansion mx-8"
+    style="padding-left: 0; padding-right: 0"
+  >
     <v-row>
       <v-col sm="2">
         <validated-input-field
@@ -35,82 +38,183 @@
           :label="$t('filtration.technologies')"
         ></validated-input-field>
       </v-col>
-      <!-- <v-col sm="2">
+      <v-col sm="2">
         <validated-input-field
           @update:modelValue="setFiltration"
-          name="repository"
-          as="autocomplete"
-          multiple
+          id="filtration-event-type"
+          :items="eventTypes"
+          name="eventType"
+          as="v-select"
           clearable
-          :label="$t('packages.filtration.repository')"
-          @loadItems="loadRepositories"
-          @filtrate="filtrateRepositories"
-          :storeId="storeId"
+          multiple
+          :label="$t('events.filtration.eventType')"
         ></validated-input-field>
       </v-col>
-      <v-col sm="1">
+      <v-col sm="2">
         <validated-input-field
-          @change="setFiltration"
-          id="filtration-deleted"
-          name="deleted"
-          :label="$t('packages.filtration.deleted')"
-          as="v-switch"
-          color="oablue"
+          @update:modelValue="setFiltration"
+          id="filtration-resource-type"
+          :items="resourceTypes"
+          name="resourceType"
+          multiple
+          clearable
+          as="v-select"
+          :label="$t('filtration.resourceType')"
         ></validated-input-field>
+      </v-col>
+      <v-col sm="2">
+        <validated-input-field
+          @update:focused="selectFromDate"
+          name="fromDate"
+          as="v-text-field"
+          :label="$t('submissions.filtration.fromDate')"
+          color="oablue"
+          id="filtration-fromDate"
+        />
+      </v-col>
+      <v-col sm="2">
+        <validated-input-field
+          @update:focused="selectToDate"
+          name="toDate"
+          as="v-text-field"
+          :label="$t('submissions.filtration.toDate')"
+          color="oablue"
+          id="filtration-toDate"
+        />
       </v-col>
       <v-spacer />
       <v-col sm="1">
         <v-btn
           class="my-2"
           color="oablue"
+          size="large"
           @click="resetValues"
-          v-if="!packageMaintainerStore.isDefaultFiltration"
+          v-if="!eventStore.isDefaultFiltration"
         >
           {{ t('filtration.reset') }}</v-btn
         >
-      </v-col> -->
+      </v-col>
     </v-row>
   </v-container>
+  <v-dialog v-model="showDatepicker" width="auto">
+    <v-card>
+      <v-card-text>
+        <v-date-picker
+          @update:modelValue="updateDate"
+          :modelValue="fromDatePicker"
+        ></v-date-picker>
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn
+          :text="t('common.reset')"
+          @click="resetDate"
+          color="error"
+        ></v-btn>
+        <v-spacer></v-spacer>
+        <v-btn
+          :text="t('common.cancel')"
+          @click="closeModal"
+        ></v-btn>
+        <v-spacer></v-spacer>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script setup lang="ts">
 import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
 import {
   defaultValues,
-  PackageMaintainersFiltration
+  EventsFiltration
 } from '@/models/Filtration'
 import { useI18n } from 'vue-i18n'
 import { useEnumFiltration } from '@/composable/filtration/enumFiltration'
 import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesFiltration'
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
-import { usePackageMaintainersStore } from '@/store/package_maintainers'
+import { useEventsStore } from '@/store/events'
+import { ref } from 'vue'
 
 const { t } = useI18n()
-const { technologies } = useEnumFiltration()
-
+const { technologies, resourceTypes, eventTypes } =
+  useEnumFiltration()
+const fromDatePicker = ref(new Date())
+const changedDate = ref('')
+const showDatepicker = ref(false)
 const { storeId, filtrateRepositories, loadRepositories } =
   useRepositoriesFiltration()
 
-const packageMaintainerStore = usePackageMaintainersStore()
+const eventStore = useEventsStore()
 
-const { setValues, values } = useForm({
-  validationSchema: toTypedSchema(
-    PackageMaintainersFiltration
-  ),
-  initialValues: packageMaintainerStore.filtration
+const { setValues, values, setFieldValue } = useForm({
+  validationSchema: toTypedSchema(EventsFiltration),
+  initialValues: eventStore.filtration
 })
 
 function setFiltration() {
-  packageMaintainerStore.setFiltration(
-    values as PackageMaintainersFiltration
-  )
+  eventStore.setFiltration(values as EventsFiltration)
 }
 
 function resetValues() {
-  setValues(defaultValues(PackageMaintainersFiltration))
-  packageMaintainerStore.setFiltration(
-    values as PackageMaintainersFiltration
-  )
+  setValues(defaultValues(EventsFiltration))
+  eventStore.setFiltration(values as EventsFiltration)
+}
+
+function selectFromDate(e: Boolean) {
+  if (e) {
+    console.log()
+    if (values.fromDate !== undefined) {
+      fromDatePicker.value = new Date(values.fromDate)
+    }
+    showDatepicker.value = true
+    changedDate.value = 'from'
+  }
+}
+
+function selectToDate(e: Boolean) {
+  if (e) {
+    if (values.toDate !== undefined) {
+      fromDatePicker.value = new Date(values.toDate)
+    }
+    showDatepicker.value = true
+    changedDate.value = 'to'
+  }
+}
+
+function updateDate(value: Date) {
+  if (changedDate.value === 'from') {
+    setFieldValue(
+      'fromDate',
+      value.toLocaleDateString('en-CA')
+    )
+  } else if (changedDate.value === 'to') {
+    setFieldValue(
+      'toDate',
+      value.toLocaleDateString('en-CA')
+    )
+  }
+  showDatepicker.value = false
+  changedDate.value = ''
+  fromDatePicker.value = new Date()
+  setFiltration()
+}
+
+function resetDate() {
+  if (changedDate.value === 'from') {
+    setFieldValue('fromDate', undefined)
+  } else if (changedDate.value === 'to') {
+    setFieldValue('toDate', undefined)
+  }
+  showDatepicker.value = false
+  changedDate.value = ''
+  fromDatePicker.value = new Date()
+  setFiltration()
+}
+
+function closeModal() {
+  showDatepicker.value = false
+  changedDate.value = ''
+  fromDatePicker.value = new Date()
 }
 </script>

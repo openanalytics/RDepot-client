@@ -170,17 +170,43 @@ const EventsFiltration = z
         }
         return val
       }),
-    userId: z.number().optional(),
-    resourceId: z.number().optional(),
-    eventType: z.array(z.string()).optional(),
-    resourceType: z.array(z.string()).optional()
+    userName: z
+      .string()
+      .optional()
+      .transform((val) => {
+        if (val?.length == 0) {
+          return undefined
+        }
+        return val
+      }),
+    eventType: z
+      .array(z.string())
+      .optional()
+      .transform((val) => {
+        if (val?.length == 0) {
+          return undefined
+        }
+        return val
+      }),
+    resourceType: z
+      .array(z.string())
+      .optional()
+      .transform((val) => {
+        if (val?.length == 0) {
+          return undefined
+        }
+        return val
+      }),
+    fromDate: z.string().optional(),
+    toDate: z.string().optional()
   })
   .default({
     technologies: undefined,
-    userId: undefined,
-    resourceId: undefined,
+    userName: undefined,
     eventType: undefined,
-    resourceType: undefined
+    resourceType: undefined,
+    fromDate: undefined,
+    toDate: undefined
   })
 
 type EventsFiltration = z.infer<typeof EventsFiltration>

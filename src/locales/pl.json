@@ -209,12 +209,12 @@
     "filtration": {
       "deleted": "Usunięte",
       "maintainer": "Opiekun",
-      "name": "Pakiet",
-      "repository": "Repozytorium",
-      "submissionState": "Stan",
       "maintainers": {
         "searchPlaceholder": "Opiekun, pakiet..."
-      }
+      },
+      "name": "Pakiet",
+      "repository": "Repozytorium",
+      "submissionState": "Stan"
     },
     "generatemanual": "Generuj instrukcję",
     "imports": "Importuje",
@@ -269,10 +269,10 @@
     },
     "empty": "Nie wybrano repozytorium",
     "filtration": {
-      "name": "Nazwa",
       "maintainers": {
         "searchPlaceholder": "Opiekun, repozytorium..."
       },
+      "name": "Nazwa",
       "published": "Opublikowane"
     },
     "list": "Repozytoria",
@@ -282,9 +282,9 @@
     "addAnotherSubmission": "Dodaj następne pakiety",
     "choseFiles": "Wybierz pliki",
     "filtration": {
+      "fromDate": "Data początkowa",
       "package": "Pakiet",
       "searchPlaceholder": "Pakiet, zgłaszający, zatwierdzający..",
-      "fromDate": "Data początkowa",
       "toDate": "Data końcowa"
     },
     "noPackageChosen": "Nie wybrano pakietów",

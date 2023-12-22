@@ -217,12 +217,12 @@
     "filtration": {
       "deleted": "Deleted",
       "maintainer": "Maintainer",
-      "name": "Package",
-      "repository": "Repository",
-      "submissionState": "State",
       "maintainers": {
         "searchPlaceholder": "Maintainer, package..."
-      }
+      },
+      "name": "Package",
+      "repository": "Repository",
+      "submissionState": "State"
     },
     "generatemanual": "Generate manual",
     "imports": "Imports",
@@ -278,10 +278,10 @@
     },
     "empty": "No repository chosen",
     "filtration": {
-      "name": "Name",
       "maintainers": {
         "searchPlaceholder": "Maintainer, repository..."
       },
+      "name": "Name",
       "published": "Published"
     },
     "list": "Repositories",
@@ -291,9 +291,9 @@
     "addAnotherSubmission": "Upload another packages",
     "choseFiles": "Choose files",
     "filtration": {
+      "fromDate": "From date",
       "package": "Package",
       "searchPlaceholder": "Package, submitter, approver...",
-      "fromDate": "From date",
       "toDate": "To date"
     },
     "noPackageChosen": "No packages choosen",

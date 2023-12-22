@@ -21,7 +21,10 @@
 -->
 
 <template>
-  <v-container class="mr-12">
+  <v-container
+    class="v-expansion mx-8"
+    style="padding-left: 0; padding-right: 0"
+  >
     <v-row>
       <v-col sm="5">
         <validated-input-field
@@ -77,6 +80,7 @@
         <v-btn
           class="my-2"
           color="oablue"
+          size="large"
           @click="resetValues"
           v-if="!packageMaintainerStore.isDefaultFiltration"
         >
