@@ -168,14 +168,18 @@ import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useSubmissionStore } from '@/store/submission'
 import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesFiltration'
-import { ref } from 'vue'
 import DatePicker from '@/components/common/DatePicker.vue'
+import { useDatePicker } from '@/composable/datePicker'
 
 const { t } = useI18n()
 const { states, technologies } = useEnumFiltration()
-const fromDatePicker = ref(new Date())
-const changedDate = ref('')
-const showDatepicker = ref(false)
+const {
+  fromDatePicker,
+  changedDate,
+  showDatepicker,
+  selectDate,
+  closeModal
+} = useDatePicker()
 const { storeId, filtrateRepositories, loadRepositories } =
   useRepositoriesFiltration()
 
@@ -204,24 +208,12 @@ function resetValues() {
   )
 }
 
-function selectFromDate(e: Boolean) {
-  if (e) {
-    if (values.fromDate !== undefined) {
-      fromDatePicker.value = new Date(values.fromDate)
-    }
-    showDatepicker.value = true
-    changedDate.value = 'from'
-  }
+function selectFromDate(e: boolean) {
+  selectDate(e, 'from', values.fromDate)
 }
 
-function selectToDate(e: Boolean) {
-  if (e) {
-    if (values.toDate !== undefined) {
-      fromDatePicker.value = new Date(values.toDate)
-    }
-    showDatepicker.value = true
-    changedDate.value = 'to'
-  }
+function selectToDate(e: boolean) {
+  selectDate(e, 'to', values.toDate)
 }
 
 function updateDate(value: Date) {
@@ -236,9 +228,7 @@ function updateDate(value: Date) {
       value.toLocaleDateString('en-CA')
     )
   }
-  showDatepicker.value = false
-  changedDate.value = ''
-  fromDatePicker.value = new Date()
+  closeModal()
   setFiltration()
 }
 
@@ -248,16 +238,8 @@ function resetDate() {
   } else if (changedDate.value === 'to') {
     setFieldValue('toDate', undefined)
   }
-  showDatepicker.value = false
-  changedDate.value = ''
-  fromDatePicker.value = new Date()
+  closeModal()
   setFiltration()
-}
-
-function closeModal() {
-  showDatepicker.value = false
-  changedDate.value = ''
-  fromDatePicker.value = new Date()
 }
 </script>
 
