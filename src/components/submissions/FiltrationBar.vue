@@ -180,7 +180,7 @@ import {
 } from '@/models/Filtration'
 import { useI18n } from 'vue-i18n'
 import { useEnumFiltration } from '@/composable/filtration/enumFiltration'
-import { useRepositoryMaintainersFiltration } from '@/composable/filtration/maintainersFiltration'
+import { useRepositoryMaintainersFiltration } from '@/composable/filtration/repositoryMaintainersFiltration'
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useSubmissionStore } from '@/store/submission'

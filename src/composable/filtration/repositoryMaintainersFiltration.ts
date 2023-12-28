@@ -20,49 +20,12 @@
  *
  */
 
-import {
-  EntityModelPackageMaintainerDto,
-  EntityModelRepositoryMaintainerDto
-} from '@/openapi'
-import { usePackageMaintainersStore } from '@/store/package_maintainers'
+import { EntityModelRepositoryMaintainerDto } from '@/openapi'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
 import {
   useSelectStore,
   SelectState
 } from '@/store/select_pagination'
-
-export function usePackageMaintainersFiltration() {
-  const storeIdMaintainer: SelectState =
-    'packageMaintainers'
-
-  const selectStore = useSelectStore(storeIdMaintainer)
-  const packageMaintainerStore =
-    usePackageMaintainersStore()
-
-  async function loadMaintainers() {
-    await packageMaintainerStore.fetchAllMaintainers()
-    selectStore.addItems(
-      packageMaintainerStore.maintainers.map(
-        (maintainer: EntityModelPackageMaintainerDto) =>
-          maintainer.user?.name
-      )
-    )
-  }
-
-  function filtrateMaintainers(value: string | undefined) {
-    // if (
-    //   repositoryMaintainerStore.filtration.name !== value
-    // ) {
-    //   // repositoryMaintainerStore.setFiltrationByName(value)
-    // }
-  }
-
-  return {
-    storeIdMaintainer,
-    loadMaintainers,
-    filtrateMaintainers
-  }
-}
 
 export function useRepositoryMaintainersFiltration() {
   const storeIdMaintainer: SelectState =
