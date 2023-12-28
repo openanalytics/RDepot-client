@@ -21,6 +21,13 @@
 -->
 
 <template>
+  <DatePicker
+    v-model="showDatepicker"
+    :previousDate="fromDatePicker"
+    @updateDate="updateDate"
+    @closeModal="closeModal"
+    @resetDate="resetDate"
+  />
   <v-container
     class="v-expansion mx-8"
     style="padding-left: 0; padding-right: 0"
@@ -112,30 +119,6 @@
       </v-col>
     </v-row>
   </v-container>
-  <v-dialog v-model="showDatepicker" width="auto">
-    <v-card>
-      <v-card-text>
-        <v-date-picker
-          @update:modelValue="updateDate"
-          :modelValue="fromDatePicker"
-        ></v-date-picker>
-      </v-card-text>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn
-          :text="t('common.reset')"
-          @click="resetDate"
-          color="error"
-        ></v-btn>
-        <v-spacer></v-spacer>
-        <v-btn
-          :text="t('common.cancel')"
-          @click="closeModal"
-        ></v-btn>
-        <v-spacer></v-spacer>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
 </template>
 
 <script setup lang="ts">
@@ -146,11 +129,11 @@ import {
 } from '@/models/Filtration'
 import { useI18n } from 'vue-i18n'
 import { useEnumFiltration } from '@/composable/filtration/enumFiltration'
-import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesFiltration'
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useEventsStore } from '@/store/events'
 import { ref } from 'vue'
+import DatePicker from '@/components/common/DatePicker.vue'
 
 const { t } = useI18n()
 const { technologies, resourceTypes, eventTypes } =
@@ -158,8 +141,6 @@ const { technologies, resourceTypes, eventTypes } =
 const fromDatePicker = ref(new Date())
 const changedDate = ref('')
 const showDatepicker = ref(false)
-const { storeId, filtrateRepositories, loadRepositories } =
-  useRepositoriesFiltration()
 
 const eventStore = useEventsStore()
 
@@ -179,7 +160,6 @@ function resetValues() {
 
 function selectFromDate(e: Boolean) {
   if (e) {
-    console.log()
     if (values.fromDate !== undefined) {
       fromDatePicker.value = new Date(values.fromDate)
     }
