@@ -32,88 +32,85 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
 import { Link } from './link'
 import { UserSettingsProjection } from './user-settings-projection'
+import { Link, UserSettingsProjection } from '.'
+
 /**
+ *
  *
  * @export
  * @interface EntityModelUserDto
  */
 export interface EntityModelUserDto {
   /**
-   *
    * @type {number}
    * @memberof EntityModelUserDto
    */
   id?: number
+
   /**
-   *
    * @type {string}
    * @memberof EntityModelUserDto
    */
   name?: string
+
   /**
-   *
    * @type {string}
    * @memberof EntityModelUserDto
    */
   email?: string
+
   /**
-   *
    * @type {string}
    * @memberof EntityModelUserDto
    */
   login?: string
+
   /**
-   *
    * @type {boolean}
    * @memberof EntityModelUserDto
    */
   active?: boolean
+
   /**
-   *
    * @type {string}
    * @memberof EntityModelUserDto
    */
   lastLoggedInOn?: string
+
   /**
-   *
    * @type {string}
    * @memberof EntityModelUserDto
    */
   createdOn?: string
+
   /**
-   *
    * @type {boolean}
    * @memberof EntityModelUserDto
    */
   deleted?: boolean
+
   /**
-   *
    * @type {number}
    * @memberof EntityModelUserDto
    */
   roleId?: number
+
   /**
-   *
    * @type {string}
    * @memberof EntityModelUserDto
    */
   role?: string
+
   /**
-   *
    * @type {UserSettingsProjection}
    * @memberof EntityModelUserDto
    */
   userSettings?: UserSettingsProjection
+
   /**
-   *
-   * @type {string}
-   * @memberof EntityModelUserDto
-   */
-  description?: string
-  /**
-   *
    * @type {Array<Link>}
    * @memberof EntityModelUserDto
    */

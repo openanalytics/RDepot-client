@@ -32,26 +32,29 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
+import {} from '.'
+
 /**
+ *
  *
  * @export
  * @interface ChangedVariableDto
  */
 export interface ChangedVariableDto {
   /**
-   *
    * @type {string}
    * @memberof ChangedVariableDto
    */
   property?: string
+
   /**
-   *
    * @type {any}
    * @memberof ChangedVariableDto
    */
   valueBefore?: any
+
   /**
-   *
    * @type {any}
    * @memberof ChangedVariableDto
    */

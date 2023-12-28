@@ -32,77 +32,80 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
 import { ChangedVariableDto } from './changed-variable-dto'
+import { IDto } from './idto'
 import { Link } from './link'
 import { UserProjection } from './user-projection'
+import {
+  ChangedVariableDto,
+  IDto,
+  Link,
+  UserProjection
+} from '.'
+
 /**
+ *
  *
  * @export
  * @interface EntityModelNewsfeedEventDto
  */
 export interface EntityModelNewsfeedEventDto {
   /**
-   *
    * @type {number}
    * @memberof EntityModelNewsfeedEventDto
    */
   id?: number
+
   /**
-   *
    * @type {string}
    * @memberof EntityModelNewsfeedEventDto
    */
   technology?: string
+
   /**
-   *
    * @type {string}
    * @memberof EntityModelNewsfeedEventDto
    */
   time?: string
+
   /**
-   *
    * @type {UserProjection}
    * @memberof EntityModelNewsfeedEventDto
    */
   user?: UserProjection
+
   /**
-   *
    * @type {string}
    * @memberof EntityModelNewsfeedEventDto
    */
   eventType?: string
+
   /**
-   *
-   * @type {string}
-   * @memberof EntityModelNewsfeedEventDto
-   */
-  description?: string
-  /**
-   *
    * @type {number}
    * @memberof EntityModelNewsfeedEventDto
    */
   resourceId?: number
+
   /**
-   *
    * @type {string}
    * @memberof EntityModelNewsfeedEventDto
    */
   resourceType?: EntityModelNewsfeedEventDtoResourceTypeEnum
+
   /**
-   *
-   * @type {string}
-   * @memberof EntityModelNewsfeedEventDto
-   */
-  resourceDescription?: string
-  /**
-   *
    * @type {Array<ChangedVariableDto>}
    * @memberof EntityModelNewsfeedEventDto
    */
   changedProperties?: Array<ChangedVariableDto>
+
   /**
-   *
+   * @type {IDto}
+   * @memberof EntityModelNewsfeedEventDto
+   */
+  relatedResource?: IDto
+
+  /**
    * @type {Array<Link>}
    * @memberof EntityModelNewsfeedEventDto
    */

@@ -32,39 +32,42 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
 import { CollectionModelRoleDto } from './collection-model-role-dto'
+import { CollectionModelRoleDto } from '.'
+
 /**
+ *
  *
  * @export
  * @interface ResponseDtoCollectionModelRoleDto
  */
 export interface ResponseDtoCollectionModelRoleDto {
   /**
-   *
    * @type {string}
    * @memberof ResponseDtoCollectionModelRoleDto
    */
   status?: ResponseDtoCollectionModelRoleDtoStatusEnum
+
   /**
-   *
    * @type {number}
    * @memberof ResponseDtoCollectionModelRoleDto
    */
   code?: number
+
   /**
-   *
    * @type {string}
    * @memberof ResponseDtoCollectionModelRoleDto
    */
   message?: string
+
   /**
-   *
    * @type {string}
    * @memberof ResponseDtoCollectionModelRoleDto
    */
   messageCode?: string
+
   /**
-   *
    * @type {CollectionModelRoleDto}
    * @memberof ResponseDtoCollectionModelRoleDto
    */

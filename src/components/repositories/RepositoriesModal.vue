@@ -23,10 +23,6 @@
 <template>
   <Overlay v-on:action="performAction()">
     <template v-slot:props="{ closeModal }">
-      <Filtration
-        v-if="commonStore.isFiltration()"
-        v-on:closeModal="closeModal"
-      />
       <Creation
         v-if="commonStore.isCreate()"
         v-on:closeModal="closeModal"
@@ -38,7 +34,6 @@
 <script setup lang="ts">
 import { useCommonStore } from '@/store/common'
 import Overlay from '@/components/common/Overlay.vue'
-import Filtration from '@/components/repositories/Filtration.vue'
 import Creation from '@/components/repositories/Creation.vue'
 import { useRepositoryStore } from '@/store/repositories'
 
@@ -46,9 +41,7 @@ const repositoriesStore = useRepositoryStore()
 const commonStore = useCommonStore()
 
 async function performAction() {
-  if (commonStore.isFiltration()) {
-    await repositoriesStore.clearFiltrationAndFetch()
-  } else if (commonStore.isDelete()) {
+  if (commonStore.isDelete()) {
     await repositoriesStore.softDelete()
   }
 }

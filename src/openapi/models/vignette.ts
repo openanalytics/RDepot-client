@@ -32,20 +32,23 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
+import {} from '.'
+
 /**
+ *
  *
  * @export
  * @interface Vignette
  */
 export interface Vignette {
   /**
-   *
    * @type {string}
    * @memberof Vignette
    */
   title?: string
+
   /**
-   *
    * @type {string}
    * @memberof Vignette
    */

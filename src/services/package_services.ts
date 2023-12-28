@@ -55,9 +55,10 @@ export async function fetchPackagesServices(
     [
       filtration?.repository,
       filtration?.deleted,
-      filtration?.state,
+      filtration?.submissionState,
       filtration?.technologies,
-      filtration?.name,
+      undefined,
+      filtration?.maintainer,
       page,
       pageSize,
       sort.getSortBy()

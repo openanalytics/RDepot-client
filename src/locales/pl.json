@@ -146,7 +146,11 @@
     "eventType": "Typ zdarzenia",
     "makeSure": "Ta akcja wyczyści wszystkie filtry",
     "packageName": "Nazwa pakietu",
+    "packages": {
+      "name": "Nazwa pakietu"
+    },
     "repositoryName": "Nazwa repozytorium",
+    "reset": "Resetuj",
     "resourceId": "Id zasobu",
     "resourceType": "Typ zasobu",
     "state": "Stan",
@@ -204,7 +208,13 @@
     "emailAuthors": "Emaile",
     "filtration": {
       "deleted": "Usunięte",
-      "repository": "Repozytorium"
+      "maintainer": "Opiekun",
+      "maintainers": {
+        "searchPlaceholder": "Opiekun, pakiet..."
+      },
+      "name": "Pakiet",
+      "repository": "Repozytorium",
+      "submissionState": "Stan"
     },
     "generatemanual": "Generuj instrukcję",
     "imports": "Importuje",
@@ -259,7 +269,11 @@
     },
     "empty": "Nie wybrano repozytorium",
     "filtration": {
-      "name": "Nazwa"
+      "maintainers": {
+        "searchPlaceholder": "Opiekun, repozytorium..."
+      },
+      "name": "Nazwa",
+      "published": "Opublikowane"
     },
     "list": "Repozytoria",
     "maintainers": "Opiekunowie repozytorium"
@@ -268,7 +282,10 @@
     "addAnotherSubmission": "Dodaj następne pakiety",
     "choseFiles": "Wybierz pliki",
     "filtration": {
-      "package": "Pakiet"
+      "fromDate": "Data początkowa",
+      "package": "Pakiet",
+      "searchPlaceholder": "Pakiet, zgłaszający, zatwierdzający..",
+      "toDate": "Data końcowa"
     },
     "noPackageChosen": "Nie wybrano pakietów",
     "waitForAllRequestsToFulfill": "Zaczekaj na zakończenie wszystkich zgłoszeń",
@@ -281,6 +298,10 @@
       "role": "Rola",
       "title": "Edytuj użytkownika",
       "tooltip": "Edytuj użytkownika"
+    },
+    "filtration": {
+      "active": "Aktywny",
+      "roles": "Role"
     }
   }
 }

@@ -32,6 +32,7 @@ import {
 } from '@/models/Filtration'
 import {
   deletedRepositoryMaintainer,
+  fetchAllRepositoryMaintainers,
   fetchRepositoryMaintainersServices,
   updateRepositoryMaintainer
 } from '@/services/repository_maintainers_services'
@@ -83,6 +84,11 @@ export const useRepositoryMaintainersStore = defineStore(
           )
         pagination.newPageWithoutRefresh(pageData.page)
         pagination.totalNumber = pageData.totalNumber
+        this.maintainers = maintainers
+      },
+      async fetchAllMaintainers() {
+        const [maintainers, pageData] =
+          await fetchAllRepositoryMaintainers()
         this.maintainers = maintainers
       },
       async fetchRepositories() {

@@ -32,53 +32,54 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
 import { Link } from './link'
 import { RepositoryProjection } from './repository-projection'
 import { UserProjection } from './user-projection'
+import {
+  Link,
+  RepositoryProjection,
+  UserProjection
+} from '.'
+
 /**
+ *
  *
  * @export
  * @interface EntityModelPackageMaintainerDto
  */
 export interface EntityModelPackageMaintainerDto {
   /**
-   *
    * @type {number}
    * @memberof EntityModelPackageMaintainerDto
    */
   id?: number
+
   /**
-   *
    * @type {UserProjection}
    * @memberof EntityModelPackageMaintainerDto
    */
   user?: UserProjection
+
   /**
-   *
    * @type {string}
    * @memberof EntityModelPackageMaintainerDto
    */
   packageName?: string
+
   /**
-   *
    * @type {RepositoryProjection}
    * @memberof EntityModelPackageMaintainerDto
    */
   repository?: RepositoryProjection
+
   /**
-   *
    * @type {boolean}
    * @memberof EntityModelPackageMaintainerDto
    */
   deleted?: boolean
+
   /**
-   *
-   * @type {string}
-   * @memberof EntityModelPackageMaintainerDto
-   */
-  description?: string
-  /**
-   *
    * @type {Array<Link>}
    * @memberof EntityModelPackageMaintainerDto
    */

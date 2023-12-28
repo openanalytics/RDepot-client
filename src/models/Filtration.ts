@@ -31,9 +31,25 @@ export function defaultValues<T extends z.ZodType>(
 
 const PackagesFiltration = z
   .object({
-    state: z.array(z.string()).optional(),
+    submissionState: z
+      .array(z.string())
+      .optional()
+      .transform((val) => {
+        if (val?.length == 0) {
+          return undefined
+        }
+        return val
+      }),
     deleted: z.boolean(),
-    repository: z.array(z.string()).optional(),
+    repository: z
+      .array(z.string())
+      .optional()
+      .transform((val) => {
+        if (val?.length == 0) {
+          return undefined
+        }
+        return val
+      }),
     technologies: z
       .array(z.string())
       .optional()
@@ -43,14 +59,16 @@ const PackagesFiltration = z
         }
         return val
       }),
-    name: z.array(z.string()).optional()
+    name: z.string().optional(),
+    maintainer: z.array(z.string()).optional()
   })
   .default({
-    state: undefined,
+    submissionState: undefined,
     repository: undefined,
     technologies: undefined,
     deleted: false,
-    name: undefined
+    name: undefined,
+    maintainer: undefined
   })
 
 type PackagesFiltration = z.infer<typeof PackagesFiltration>
@@ -67,12 +85,24 @@ const RepositoriesFiltration = z
         return val
       }),
     name: z.string().optional(),
-    deleted: z.boolean()
+    deleted: z.boolean(),
+    published: z.boolean(),
+    maintainer: z
+      .array(z.string())
+      .optional()
+      .transform((val) => {
+        if (val?.length == 0) {
+          return undefined
+        }
+        return val
+      })
   })
   .default({
     technologies: undefined,
     name: undefined,
-    deleted: false
+    deleted: false,
+    published: false,
+    maintainer: undefined
   })
 
 type RepositoriesFiltration = z.infer<
@@ -86,13 +116,43 @@ const SubmissionsFiltration = z
       .array(
         z.nativeEnum(EntityModelSubmissionDtoStateEnum)
       )
-      .optional(),
-    package: z.string().optional()
+      .optional()
+      .transform((val) => {
+        if (val?.length == 0) {
+          return undefined
+        }
+        return val
+      }),
+    package: z.string().optional(),
+    technologies: z
+      .array(z.string())
+      .optional()
+      .transform((val) => {
+        if (val?.length == 0) {
+          return undefined
+        }
+        return val
+      }),
+    repository: z
+      .array(z.string())
+      .optional()
+      .transform((val) => {
+        if (val?.length == 0) {
+          return undefined
+        }
+        return val
+      }),
+    fromDate: z.string().optional(),
+    toDate: z.string().optional()
   })
   .default({
     assignedToMe: undefined,
     state: undefined,
-    package: undefined
+    package: undefined,
+    technologies: undefined,
+    repository: undefined,
+    fromDate: undefined,
+    toDate: undefined
   })
 
 type SubmissionsFiltration = z.infer<
@@ -110,17 +170,43 @@ const EventsFiltration = z
         }
         return val
       }),
-    userId: z.number().optional(),
-    resourceId: z.number().optional(),
-    eventType: z.array(z.string()).optional(),
-    resourceType: z.array(z.string()).optional()
+    userName: z
+      .string()
+      .optional()
+      .transform((val) => {
+        if (val?.length == 0) {
+          return undefined
+        }
+        return val
+      }),
+    eventType: z
+      .array(z.string())
+      .optional()
+      .transform((val) => {
+        if (val?.length == 0) {
+          return undefined
+        }
+        return val
+      }),
+    resourceType: z
+      .array(z.string())
+      .optional()
+      .transform((val) => {
+        if (val?.length == 0) {
+          return undefined
+        }
+        return val
+      }),
+    fromDate: z.string().optional(),
+    toDate: z.string().optional()
   })
   .default({
     technologies: undefined,
-    userId: undefined,
-    resourceId: undefined,
+    userName: undefined,
     eventType: undefined,
-    resourceType: undefined
+    resourceType: undefined,
+    fromDate: undefined,
+    toDate: undefined
   })
 
 type EventsFiltration = z.infer<typeof EventsFiltration>
@@ -135,23 +221,82 @@ const PackageMaintainersFiltration = z
           return undefined
         }
         return val
+      }),
+    repository: z
+      .array(z.string())
+      .optional()
+      .transform((val) => {
+        if (val?.length == 0) {
+          return undefined
+        }
+        return val
+      }),
+    maintainer: z
+      .array(z.string())
+      .optional()
+      .transform((val) => {
+        if (val?.length == 0) {
+          return undefined
+        }
+        return val
       })
   })
   .default({
     deleted: false,
-    technologies: undefined
+    technologies: undefined,
+    repository: undefined,
+    maintainer: undefined
   })
 
 type PackageMaintainersFiltration = z.infer<
   typeof PackageMaintainersFiltration
 >
 
-const RepositoryMaintainersFiltration =
-  PackageMaintainersFiltration
+const RepositoryMaintainersFiltration = z
+  .object({
+    deleted: z.boolean(),
+    technologies: z
+      .array(z.string())
+      .optional()
+      .transform((val) => {
+        if (val?.length == 0) {
+          return undefined
+        }
+        return val
+      }),
+    repository: z.array(z.string()).optional()
+  })
+  .default({
+    deleted: false,
+    technologies: undefined,
+    repository: undefined
+  })
 
 type RepositoryMaintainersFiltration = z.infer<
   typeof RepositoryMaintainersFiltration
 >
+
+const UsersFiltration = z
+  .object({
+    active: z.boolean().optional(),
+    roles: z
+      .array(z.string())
+      .optional()
+      .transform((val) => {
+        if (val?.length == 0) {
+          return undefined
+        }
+        return val
+      }),
+    name: z.string().optional()
+  })
+  .default({
+    active: undefined,
+    roles: undefined,
+    name: undefined
+  })
+
+type UsersFiltration = z.infer<typeof UsersFiltration>
 
 export {
   RepositoriesFiltration,
@@ -159,5 +304,6 @@ export {
   SubmissionsFiltration,
   EventsFiltration,
   PackageMaintainersFiltration,
-  RepositoryMaintainersFiltration
+  RepositoryMaintainersFiltration,
+  UsersFiltration
 }

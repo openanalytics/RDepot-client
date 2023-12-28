@@ -32,29 +32,36 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
 import { EntityModelRepositoryMaintainerDto } from './entity-model-repository-maintainer-dto'
 import { Link } from './link'
 import { PageMetadata } from './page-metadata'
+import {
+  EntityModelRepositoryMaintainerDto,
+  Link,
+  PageMetadata
+} from '.'
+
 /**
+ *
  *
  * @export
  * @interface PagedModelEntityModelRepositoryMaintainerDto
  */
 export interface PagedModelEntityModelRepositoryMaintainerDto {
   /**
-   *
    * @type {Array<Link>}
    * @memberof PagedModelEntityModelRepositoryMaintainerDto
    */
   links?: Array<Link>
+
   /**
-   *
    * @type {Array<EntityModelRepositoryMaintainerDto>}
    * @memberof PagedModelEntityModelRepositoryMaintainerDto
    */
   content?: Array<EntityModelRepositoryMaintainerDto>
+
   /**
-   *
    * @type {PageMetadata}
    * @memberof PagedModelEntityModelRepositoryMaintainerDto
    */

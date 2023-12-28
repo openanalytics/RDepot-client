@@ -32,39 +32,42 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
 import { EntityModelSubmissionDto } from './entity-model-submission-dto'
+import { EntityModelSubmissionDto } from '.'
+
 /**
+ *
  *
  * @export
  * @interface ResponseDtoEntityModelSubmissionDto
  */
 export interface ResponseDtoEntityModelSubmissionDto {
   /**
-   *
    * @type {string}
    * @memberof ResponseDtoEntityModelSubmissionDto
    */
   status?: ResponseDtoEntityModelSubmissionDtoStatusEnum
+
   /**
-   *
    * @type {number}
    * @memberof ResponseDtoEntityModelSubmissionDto
    */
   code?: number
+
   /**
-   *
    * @type {string}
    * @memberof ResponseDtoEntityModelSubmissionDto
    */
   message?: string
+
   /**
-   *
    * @type {string}
    * @memberof ResponseDtoEntityModelSubmissionDto
    */
   messageCode?: string
+
   /**
-   *
    * @type {EntityModelSubmissionDto}
    * @memberof ResponseDtoEntityModelSubmissionDto
    */

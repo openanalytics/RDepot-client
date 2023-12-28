@@ -32,71 +32,99 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
 import { Link } from './link'
+import { Link } from '.'
+
 /**
+ *
  *
  * @export
  * @interface EntityModelPythonRepositoryDto
  */
 export interface EntityModelPythonRepositoryDto {
   /**
-   *
    * @type {number}
    * @memberof EntityModelPythonRepositoryDto
    */
   id?: number
+
   /**
-   *
    * @type {number}
    * @memberof EntityModelPythonRepositoryDto
    */
   version?: number
+
   /**
-   *
    * @type {string}
    * @memberof EntityModelPythonRepositoryDto
    */
   publicationUri?: string
+
   /**
-   *
    * @type {string}
    * @memberof EntityModelPythonRepositoryDto
    */
   name?: string
+
   /**
-   *
    * @type {string}
    * @memberof EntityModelPythonRepositoryDto
    */
   serverAddress?: string
+
   /**
-   *
    * @type {boolean}
    * @memberof EntityModelPythonRepositoryDto
    */
   deleted?: boolean
+
   /**
-   *
    * @type {boolean}
    * @memberof EntityModelPythonRepositoryDto
    */
   published?: boolean
+
   /**
-   *
    * @type {boolean}
    * @memberof EntityModelPythonRepositoryDto
    */
   synchronizing?: boolean
+
   /**
-   *
    * @type {string}
    * @memberof EntityModelPythonRepositoryDto
    */
   technology?: string
+
   /**
-   *
+   * @type {number}
+   * @memberof EntityModelPythonRepositoryDto
+   */
+  numberOfPackages?: number
+
+  /**
+   * @type {string}
+   * @memberof EntityModelPythonRepositoryDto
+   */
+  hashMethod?: EntityModelPythonRepositoryDtoHashMethodEnum
+
+  /**
    * @type {Array<Link>}
    * @memberof EntityModelPythonRepositoryDto
    */
   links?: Array<Link>
+}
+
+/**
+ * @export
+ * @enum {string}
+ */
+export enum EntityModelPythonRepositoryDtoHashMethodEnum {
+  MD5 = 'MD5',
+  SHA1 = 'SHA1',
+  SHA224 = 'SHA224',
+  SHA256 = 'SHA256',
+  SHA384 = 'SHA384',
+  SHA512 = 'SHA512'
 }

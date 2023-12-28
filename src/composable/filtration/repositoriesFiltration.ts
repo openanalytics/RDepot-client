@@ -35,9 +35,7 @@ export function useRepositoriesFiltration() {
 
   async function loadRepositories() {
     selectStore.paginationData =
-      await repositoriesStore.fetchPageOfRepositories(
-        selectStore.paginationData.page
-      )
+      await repositoriesStore.fetchRepositoriesList()
     selectStore.addItems(
       repositoriesStore.repositories.map(
         (repository: EntityModelRepositoryDto) =>

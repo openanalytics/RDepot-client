@@ -32,29 +32,32 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
 import { EntityModelUserDto } from './entity-model-user-dto'
 import { Link } from './link'
 import { PageMetadata } from './page-metadata'
+import { EntityModelUserDto, Link, PageMetadata } from '.'
+
 /**
+ *
  *
  * @export
  * @interface PagedModelEntityModelUserDto
  */
 export interface PagedModelEntityModelUserDto {
   /**
-   *
    * @type {Array<Link>}
    * @memberof PagedModelEntityModelUserDto
    */
   links?: Array<Link>
+
   /**
-   *
    * @type {Array<EntityModelUserDto>}
    * @memberof PagedModelEntityModelUserDto
    */
   content?: Array<EntityModelUserDto>
+
   /**
-   *
    * @type {PageMetadata}
    * @memberof PagedModelEntityModelUserDto
    */

@@ -32,6 +32,7 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
 import globalAxios, {
   AxiosResponse,
   AxiosInstance,
@@ -58,10 +59,13 @@ export const ApiV2SubmissionControllerApiAxiosParamCreator =
     return {
       /**
        *
-       * @param {string} [state]
+       * @param {Array<string>} [state]
        * @param {number} [submitterId]
        * @param {number} [packageId]
        * @param {Array<string>} [technology]
+       * @param {Array<string>} [repository]
+       * @param {string} [fromDate]
+       * @param {string} [toDate]
        * @param {number} [page] Zero-based page index (0..N)
        * @param {number} [size] The size of the page to be returned
        * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
@@ -69,10 +73,13 @@ export const ApiV2SubmissionControllerApiAxiosParamCreator =
        * @throws {RequiredError}
        */
       getAllSubmissions: async (
-        state?: string,
+        state?: Array<string>,
         submitterId?: number,
         packageId?: number,
         technology?: Array<string>,
+        repository?: Array<string>,
+        fromDate?: string,
+        toDate?: string,
         page?: number,
         size?: number,
         sort?: Array<string>,
@@ -107,7 +114,7 @@ export const ApiV2SubmissionControllerApiAxiosParamCreator =
             'Bearer ' + accessToken
         }
 
-        if (state !== undefined) {
+        if (state) {
           localVarQueryParameter['state'] = state
         }
 
@@ -122,6 +129,18 @@ export const ApiV2SubmissionControllerApiAxiosParamCreator =
 
         if (technology) {
           localVarQueryParameter['technology'] = technology
+        }
+
+        if (repository) {
+          localVarQueryParameter['repository'] = repository
+        }
+
+        if (fromDate !== undefined) {
+          localVarQueryParameter['fromDate'] = fromDate
+        }
+
+        if (toDate !== undefined) {
+          localVarQueryParameter['toDate'] = toDate
         }
 
         if (page !== undefined) {
@@ -259,10 +278,13 @@ export const ApiV2SubmissionControllerApiFp = function (
   return {
     /**
      *
-     * @param {string} [state]
+     * @param {Array<string>} [state]
      * @param {number} [submitterId]
      * @param {number} [packageId]
      * @param {Array<string>} [technology]
+     * @param {Array<string>} [repository]
+     * @param {string} [fromDate]
+     * @param {string} [toDate]
      * @param {number} [page] Zero-based page index (0..N)
      * @param {number} [size] The size of the page to be returned
      * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
@@ -270,10 +292,13 @@ export const ApiV2SubmissionControllerApiFp = function (
      * @throws {RequiredError}
      */
     async getAllSubmissions(
-      state?: string,
+      state?: Array<string>,
       submitterId?: number,
       packageId?: number,
       technology?: Array<string>,
+      repository?: Array<string>,
+      fromDate?: string,
+      toDate?: string,
       page?: number,
       size?: number,
       sort?: Array<string>,
@@ -294,6 +319,9 @@ export const ApiV2SubmissionControllerApiFp = function (
           submitterId,
           packageId,
           technology,
+          repository,
+          fromDate,
+          toDate,
           page,
           size,
           sort,
@@ -358,10 +386,13 @@ export const ApiV2SubmissionControllerApiFactory =
     return {
       /**
        *
-       * @param {string} [state]
+       * @param {Array<string>} [state]
        * @param {number} [submitterId]
        * @param {number} [packageId]
        * @param {Array<string>} [technology]
+       * @param {Array<string>} [repository]
+       * @param {string} [fromDate]
+       * @param {string} [toDate]
        * @param {number} [page] Zero-based page index (0..N)
        * @param {number} [size] The size of the page to be returned
        * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
@@ -369,10 +400,13 @@ export const ApiV2SubmissionControllerApiFactory =
        * @throws {RequiredError}
        */
       async getAllSubmissions(
-        state?: string,
+        state?: Array<string>,
         submitterId?: number,
         packageId?: number,
         technology?: Array<string>,
+        repository?: Array<string>,
+        fromDate?: string,
+        toDate?: string,
         page?: number,
         size?: number,
         sort?: Array<string>,
@@ -386,6 +420,9 @@ export const ApiV2SubmissionControllerApiFactory =
             submitterId,
             packageId,
             technology,
+            repository,
+            fromDate,
+            toDate,
             page,
             size,
             sort,
@@ -421,10 +458,13 @@ export const ApiV2SubmissionControllerApiFactory =
 export class ApiV2SubmissionControllerApi extends BaseAPI {
   /**
    *
-   * @param {string} [state]
+   * @param {Array<string>} [state]
    * @param {number} [submitterId]
    * @param {number} [packageId]
    * @param {Array<string>} [technology]
+   * @param {Array<string>} [repository]
+   * @param {string} [fromDate]
+   * @param {string} [toDate]
    * @param {number} [page] Zero-based page index (0..N)
    * @param {number} [size] The size of the page to be returned
    * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
@@ -433,10 +473,13 @@ export class ApiV2SubmissionControllerApi extends BaseAPI {
    * @memberof ApiV2SubmissionControllerApi
    */
   public async getAllSubmissions(
-    state?: string,
+    state?: Array<string>,
     submitterId?: number,
     packageId?: number,
     technology?: Array<string>,
+    repository?: Array<string>,
+    fromDate?: string,
+    toDate?: string,
     page?: number,
     size?: number,
     sort?: Array<string>,
@@ -452,6 +495,9 @@ export class ApiV2SubmissionControllerApi extends BaseAPI {
         submitterId,
         packageId,
         technology,
+        repository,
+        fromDate,
+        toDate,
         page,
         size,
         sort,

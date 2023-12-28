@@ -32,6 +32,7 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
 import globalAxios, {
   AxiosResponse,
   AxiosInstance,
@@ -58,11 +59,12 @@ export const ApiV2NewsfeedEventControllerApiAxiosParamCreator =
     return {
       /**
        *
-       * @param {string} [technology]
-       * @param {number} [userId]
-       * @param {number} [resourceId]
-       * @param {string} [eventType]
-       * @param {string} [resourceType]
+       * @param {Array<string>} [technology]
+       * @param {Array<string>} [userName]
+       * @param {Array<string>} [eventType]
+       * @param {Array<string>} [resourceType]
+       * @param {string} [fromDate]
+       * @param {string} [toDate]
        * @param {number} [page] Zero-based page index (0..N)
        * @param {number} [size] The size of the page to be returned
        * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
@@ -70,11 +72,12 @@ export const ApiV2NewsfeedEventControllerApiAxiosParamCreator =
        * @throws {RequiredError}
        */
       getAllEvents: async (
-        technology?: string,
-        userId?: number,
-        resourceId?: number,
-        eventType?: string,
-        resourceType?: string,
+        technology?: Array<string>,
+        userName?: Array<string>,
+        eventType?: Array<string>,
+        resourceType?: Array<string>,
+        fromDate?: string,
+        toDate?: string,
         page?: number,
         size?: number,
         sort?: Array<string>,
@@ -109,25 +112,29 @@ export const ApiV2NewsfeedEventControllerApiAxiosParamCreator =
             'Bearer ' + accessToken
         }
 
-        if (technology !== undefined) {
+        if (technology) {
           localVarQueryParameter['technology'] = technology
         }
 
-        if (userId !== undefined) {
-          localVarQueryParameter['userId'] = userId
+        if (userName) {
+          localVarQueryParameter['userName'] = userName
         }
 
-        if (resourceId !== undefined) {
-          localVarQueryParameter['resourceId'] = resourceId
-        }
-
-        if (eventType !== undefined) {
+        if (eventType) {
           localVarQueryParameter['eventType'] = eventType
         }
 
-        if (resourceType !== undefined) {
+        if (resourceType) {
           localVarQueryParameter['resourceType'] =
             resourceType
+        }
+
+        if (fromDate !== undefined) {
+          localVarQueryParameter['fromDate'] = fromDate
+        }
+
+        if (toDate !== undefined) {
+          localVarQueryParameter['toDate'] = toDate
         }
 
         if (page !== undefined) {
@@ -265,11 +272,12 @@ export const ApiV2NewsfeedEventControllerApiFp = function (
   return {
     /**
      *
-     * @param {string} [technology]
-     * @param {number} [userId]
-     * @param {number} [resourceId]
-     * @param {string} [eventType]
-     * @param {string} [resourceType]
+     * @param {Array<string>} [technology]
+     * @param {Array<string>} [userName]
+     * @param {Array<string>} [eventType]
+     * @param {Array<string>} [resourceType]
+     * @param {string} [fromDate]
+     * @param {string} [toDate]
      * @param {number} [page] Zero-based page index (0..N)
      * @param {number} [size] The size of the page to be returned
      * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
@@ -277,11 +285,12 @@ export const ApiV2NewsfeedEventControllerApiFp = function (
      * @throws {RequiredError}
      */
     async getAllEvents(
-      technology?: string,
-      userId?: number,
-      resourceId?: number,
-      eventType?: string,
-      resourceType?: string,
+      technology?: Array<string>,
+      userName?: Array<string>,
+      eventType?: Array<string>,
+      resourceType?: Array<string>,
+      fromDate?: string,
+      toDate?: string,
       page?: number,
       size?: number,
       sort?: Array<string>,
@@ -299,10 +308,11 @@ export const ApiV2NewsfeedEventControllerApiFp = function (
           configuration
         ).getAllEvents(
           technology,
-          userId,
-          resourceId,
+          userName,
           eventType,
           resourceType,
+          fromDate,
+          toDate,
           page,
           size,
           sort,
@@ -367,11 +377,12 @@ export const ApiV2NewsfeedEventControllerApiFactory =
     return {
       /**
        *
-       * @param {string} [technology]
-       * @param {number} [userId]
-       * @param {number} [resourceId]
-       * @param {string} [eventType]
-       * @param {string} [resourceType]
+       * @param {Array<string>} [technology]
+       * @param {Array<string>} [userName]
+       * @param {Array<string>} [eventType]
+       * @param {Array<string>} [resourceType]
+       * @param {string} [fromDate]
+       * @param {string} [toDate]
        * @param {number} [page] Zero-based page index (0..N)
        * @param {number} [size] The size of the page to be returned
        * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
@@ -379,11 +390,12 @@ export const ApiV2NewsfeedEventControllerApiFactory =
        * @throws {RequiredError}
        */
       async getAllEvents(
-        technology?: string,
-        userId?: number,
-        resourceId?: number,
-        eventType?: string,
-        resourceType?: string,
+        technology?: Array<string>,
+        userName?: Array<string>,
+        eventType?: Array<string>,
+        resourceType?: Array<string>,
+        fromDate?: string,
+        toDate?: string,
         page?: number,
         size?: number,
         sort?: Array<string>,
@@ -396,10 +408,11 @@ export const ApiV2NewsfeedEventControllerApiFactory =
         )
           .getAllEvents(
             technology,
-            userId,
-            resourceId,
+            userName,
             eventType,
             resourceType,
+            fromDate,
+            toDate,
             page,
             size,
             sort,
@@ -437,11 +450,12 @@ export const ApiV2NewsfeedEventControllerApiFactory =
 export class ApiV2NewsfeedEventControllerApi extends BaseAPI {
   /**
    *
-   * @param {string} [technology]
-   * @param {number} [userId]
-   * @param {number} [resourceId]
-   * @param {string} [eventType]
-   * @param {string} [resourceType]
+   * @param {Array<string>} [technology]
+   * @param {Array<string>} [userName]
+   * @param {Array<string>} [eventType]
+   * @param {Array<string>} [resourceType]
+   * @param {string} [fromDate]
+   * @param {string} [toDate]
    * @param {number} [page] Zero-based page index (0..N)
    * @param {number} [size] The size of the page to be returned
    * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
@@ -450,11 +464,12 @@ export class ApiV2NewsfeedEventControllerApi extends BaseAPI {
    * @memberof ApiV2NewsfeedEventControllerApi
    */
   public async getAllEvents(
-    technology?: string,
-    userId?: number,
-    resourceId?: number,
-    eventType?: string,
-    resourceType?: string,
+    technology?: Array<string>,
+    userName?: Array<string>,
+    eventType?: Array<string>,
+    resourceType?: Array<string>,
+    fromDate?: string,
+    toDate?: string,
     page?: number,
     size?: number,
     sort?: Array<string>,
@@ -467,10 +482,11 @@ export class ApiV2NewsfeedEventControllerApi extends BaseAPI {
     )
       .getAllEvents(
         technology,
-        userId,
-        resourceId,
+        userName,
         eventType,
         resourceType,
+        fromDate,
+        toDate,
         page,
         size,
         sort,

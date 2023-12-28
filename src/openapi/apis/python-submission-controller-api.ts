@@ -32,6 +32,7 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
 import globalAxios, {
   AxiosResponse,
   AxiosInstance,
@@ -139,9 +140,13 @@ export const PythonSubmissionControllerApiAxiosParamCreator =
       },
       /**
        *
-       * @param {string} [state]
+       * @param {Array<string>} [state]
        * @param {number} [submitterId]
        * @param {number} [packageId]
+       * @param {Array<string>} [technology]
+       * @param {Array<string>} [repository]
+       * @param {string} [fromDate]
+       * @param {string} [toDate]
        * @param {number} [page] Zero-based page index (0..N)
        * @param {number} [size] The size of the page to be returned
        * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
@@ -149,9 +154,13 @@ export const PythonSubmissionControllerApiAxiosParamCreator =
        * @throws {RequiredError}
        */
       getAllPythonSubmissions: async (
-        state?: string,
+        state?: Array<string>,
         submitterId?: number,
         packageId?: number,
+        technology?: Array<string>,
+        repository?: Array<string>,
+        fromDate?: string,
+        toDate?: string,
         page?: number,
         size?: number,
         sort?: Array<string>,
@@ -186,7 +195,7 @@ export const PythonSubmissionControllerApiAxiosParamCreator =
             'Bearer ' + accessToken
         }
 
-        if (state !== undefined) {
+        if (state) {
           localVarQueryParameter['state'] = state
         }
 
@@ -197,6 +206,22 @@ export const PythonSubmissionControllerApiAxiosParamCreator =
 
         if (packageId !== undefined) {
           localVarQueryParameter['packageId'] = packageId
+        }
+
+        if (technology) {
+          localVarQueryParameter['technology'] = technology
+        }
+
+        if (repository) {
+          localVarQueryParameter['repository'] = repository
+        }
+
+        if (fromDate !== undefined) {
+          localVarQueryParameter['fromDate'] = fromDate
+        }
+
+        if (toDate !== undefined) {
+          localVarQueryParameter['toDate'] = toDate
         }
 
         if (page !== undefined) {
@@ -512,17 +537,8 @@ export const PythonSubmissionControllerApiAxiosParamCreator =
         }
         const needsSerialization =
           typeof body !== 'string' ||
-          Object.entries(
-            localVarRequestOptions.headers!
-          ).find(([key, value]) => {
-            if (
-              value === 'application/json' &&
-              key == 'Content-Type'
-            ) {
-              return true
-            }
-            return false
-          })
+          localVarRequestOptions.headers['Content-Type'] ===
+            'application/json'
         localVarRequestOptions.data = needsSerialization
           ? JSON.stringify(body !== undefined ? body : {})
           : body || ''
@@ -578,9 +594,13 @@ export const PythonSubmissionControllerApiFp = function (
     },
     /**
      *
-     * @param {string} [state]
+     * @param {Array<string>} [state]
      * @param {number} [submitterId]
      * @param {number} [packageId]
+     * @param {Array<string>} [technology]
+     * @param {Array<string>} [repository]
+     * @param {string} [fromDate]
+     * @param {string} [toDate]
      * @param {number} [page] Zero-based page index (0..N)
      * @param {number} [size] The size of the page to be returned
      * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
@@ -588,9 +608,13 @@ export const PythonSubmissionControllerApiFp = function (
      * @throws {RequiredError}
      */
     async getAllPythonSubmissions(
-      state?: string,
+      state?: Array<string>,
       submitterId?: number,
       packageId?: number,
+      technology?: Array<string>,
+      repository?: Array<string>,
+      fromDate?: string,
+      toDate?: string,
       page?: number,
       size?: number,
       sort?: Array<string>,
@@ -610,6 +634,10 @@ export const PythonSubmissionControllerApiFp = function (
           state,
           submitterId,
           packageId,
+          technology,
+          repository,
+          fromDate,
+          toDate,
           page,
           size,
           sort,
@@ -764,9 +792,13 @@ export const PythonSubmissionControllerApiFactory =
       },
       /**
        *
-       * @param {string} [state]
+       * @param {Array<string>} [state]
        * @param {number} [submitterId]
        * @param {number} [packageId]
+       * @param {Array<string>} [technology]
+       * @param {Array<string>} [repository]
+       * @param {string} [fromDate]
+       * @param {string} [toDate]
        * @param {number} [page] Zero-based page index (0..N)
        * @param {number} [size] The size of the page to be returned
        * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
@@ -774,9 +806,13 @@ export const PythonSubmissionControllerApiFactory =
        * @throws {RequiredError}
        */
       async getAllPythonSubmissions(
-        state?: string,
+        state?: Array<string>,
         submitterId?: number,
         packageId?: number,
+        technology?: Array<string>,
+        repository?: Array<string>,
+        fromDate?: string,
+        toDate?: string,
         page?: number,
         size?: number,
         sort?: Array<string>,
@@ -791,6 +827,10 @@ export const PythonSubmissionControllerApiFactory =
             state,
             submitterId,
             packageId,
+            technology,
+            repository,
+            fromDate,
+            toDate,
             page,
             size,
             sort,
@@ -891,9 +931,13 @@ export class PythonSubmissionControllerApi extends BaseAPI {
   }
   /**
    *
-   * @param {string} [state]
+   * @param {Array<string>} [state]
    * @param {number} [submitterId]
    * @param {number} [packageId]
+   * @param {Array<string>} [technology]
+   * @param {Array<string>} [repository]
+   * @param {string} [fromDate]
+   * @param {string} [toDate]
    * @param {number} [page] Zero-based page index (0..N)
    * @param {number} [size] The size of the page to be returned
    * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
@@ -902,9 +946,13 @@ export class PythonSubmissionControllerApi extends BaseAPI {
    * @memberof PythonSubmissionControllerApi
    */
   public async getAllPythonSubmissions(
-    state?: string,
+    state?: Array<string>,
     submitterId?: number,
     packageId?: number,
+    technology?: Array<string>,
+    repository?: Array<string>,
+    fromDate?: string,
+    toDate?: string,
     page?: number,
     size?: number,
     sort?: Array<string>,
@@ -919,6 +967,10 @@ export class PythonSubmissionControllerApi extends BaseAPI {
         state,
         submitterId,
         packageId,
+        technology,
+        repository,
+        fromDate,
+        toDate,
         page,
         size,
         sort,

@@ -32,22 +32,25 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
 import { Link } from './link'
 import { RoleDto } from './role-dto'
+import { Link, RoleDto } from '.'
+
 /**
+ *
  *
  * @export
  * @interface CollectionModelRoleDto
  */
 export interface CollectionModelRoleDto {
   /**
-   *
    * @type {Array<Link>}
    * @memberof CollectionModelRoleDto
    */
   links?: Array<Link>
+
   /**
-   *
    * @type {Array<RoleDto>}
    * @memberof CollectionModelRoleDto
    */

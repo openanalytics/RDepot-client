@@ -32,39 +32,42 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
 import { EntityModelPackageDto } from './entity-model-package-dto'
+import { EntityModelPackageDto } from '.'
+
 /**
+ *
  *
  * @export
  * @interface ResponseDtoEntityModelPackageDto
  */
 export interface ResponseDtoEntityModelPackageDto {
   /**
-   *
    * @type {string}
    * @memberof ResponseDtoEntityModelPackageDto
    */
   status?: ResponseDtoEntityModelPackageDtoStatusEnum
+
   /**
-   *
    * @type {number}
    * @memberof ResponseDtoEntityModelPackageDto
    */
   code?: number
+
   /**
-   *
    * @type {string}
    * @memberof ResponseDtoEntityModelPackageDto
    */
   message?: string
+
   /**
-   *
    * @type {string}
    * @memberof ResponseDtoEntityModelPackageDto
    */
   messageCode?: string
+
   /**
-   *
    * @type {EntityModelPackageDto}
    * @memberof ResponseDtoEntityModelPackageDto
    */

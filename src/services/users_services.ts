@@ -25,6 +25,7 @@ import {
   EntityModelUserDto,
   RoleDto
 } from '@/openapi'
+import { UsersFiltration } from '@/models/Filtration'
 import {
   openApiRequest,
   validateRequest,
@@ -36,7 +37,8 @@ import { createPatch } from 'rfc6902'
 
 export async function fetchUsers(
   page?: number,
-  pageSize?: number
+  pageSize?: number,
+  filtration?: UsersFiltration
 ): Promise<validatedData<EntityModelUserDto[]>> {
   if (!isAuthorized('GET', 'users')) {
     return new Promise(() => validateRequest)
@@ -45,7 +47,13 @@ export async function fetchUsers(
 
   return openApiRequest<EntityModelUserDto[]>(
     ApiV2UserControllerApiFactory().getAllUsers,
-    [page, pageSize, sort.getSortBy()]
+    [
+      filtration?.roles,
+      filtration?.active,
+      page,
+      pageSize,
+      sort.getSortBy()
+    ]
   )
 }
 
