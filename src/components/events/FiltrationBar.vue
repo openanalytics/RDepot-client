@@ -29,6 +29,10 @@
       <v-col sm="2">
         <validated-input-field
           @update:modelValue="setFiltration"
+          density="compact"
+          hide-details
+          chips
+          closable-chips
           id="filtration-technology"
           :items="technologies"
           name="technologies"
@@ -41,6 +45,10 @@
       <v-col sm="2">
         <validated-input-field
           @update:modelValue="setFiltration"
+          density="compact"
+          hide-details
+          chips
+          closable-chips
           id="filtration-event-type"
           :items="eventTypes"
           name="eventType"
@@ -53,6 +61,10 @@
       <v-col sm="2">
         <validated-input-field
           @update:modelValue="setFiltration"
+          density="compact"
+          hide-details
+          chips
+          closable-chips
           id="filtration-resource-type"
           :items="resourceTypes"
           name="resourceType"
@@ -65,6 +77,8 @@
       <v-col sm="2">
         <validated-input-field
           @update:focused="selectFromDate"
+          density="compact"
+          hide-details
           name="fromDate"
           as="v-text-field"
           :label="$t('submissions.filtration.fromDate')"
@@ -75,6 +89,8 @@
       <v-col sm="2">
         <validated-input-field
           @update:focused="selectToDate"
+          density="compact"
+          hide-details
           name="toDate"
           as="v-text-field"
           :label="$t('submissions.filtration.toDate')"
@@ -86,8 +102,8 @@
       <v-col sm="1" class="reset-button">
         <v-btn
           class="my-2"
+          density="compact"
           color="oablue"
-          size="large"
           @click="resetValues"
           v-if="!eventStore.isDefaultFiltration"
         >

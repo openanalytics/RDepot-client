@@ -29,6 +29,8 @@
       <!-- <v-col sm="4">
         <validated-input-field
           @update:modelValue="setFiltration"
+          density="compact"
+          hide-details
           name="name"
           as="v-text-field"
           :label="$t('packages.filtration.name')"
@@ -39,6 +41,10 @@
       <v-col sm="2">
         <validated-input-field
           @update:modelValue="setFiltration"
+          density="compact"
+          hide-details
+          chips
+          closable-chips
           id="filtration-roles"
           :items="roles"
           name="roles"
@@ -51,6 +57,8 @@
       <v-col sm="1">
         <validated-input-field
           @change="setFiltration"
+          density="compact"
+          hide-details
           id="filtration-active"
           name="active"
           :label="$t('users.filtration.active')"
@@ -62,8 +70,8 @@
       <v-col sm="1" class="reset-button">
         <v-btn
           class="my-2"
+          density="compact"
           color="oablue"
-          size="large"
           @click="resetValues"
           v-if="!userStore.isDefaultFiltration"
         >

@@ -54,7 +54,6 @@ import {
   SelectState,
   useSelectStore
 } from '@/store/select_pagination'
-import { q } from 'msw/lib/glossary-de6278a9'
 
 const props = defineProps<{
   label: string

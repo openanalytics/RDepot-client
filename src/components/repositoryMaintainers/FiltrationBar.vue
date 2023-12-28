@@ -29,6 +29,8 @@
       <v-col sm="5">
         <validated-input-field
           @update:modelValue="setFiltration"
+          density="compact"
+          hide-details
           name="name"
           as="v-text-field"
           :label="
@@ -43,6 +45,8 @@
       <v-col sm="2">
         <validated-input-field
           @update:modelValue="setFiltration"
+          density="compact"
+          hide-details
           id="filtration-technology"
           :items="technologies"
           name="technologies"
@@ -55,6 +59,10 @@
       <v-col sm="1">
         <validated-input-field
           @change="setFiltration"
+          density="compact"
+          hide-details
+          chips
+          closable-chips
           id="filtration-deleted"
           name="deleted"
           :label="$t('packages.filtration.deleted')"
@@ -66,8 +74,8 @@
       <v-col sm="1" class="reset-button">
         <v-btn
           class="my-2"
+          density="compact"
           color="oablue"
-          size="large"
           @click="resetValues"
           v-if="
             !repositoryMaintainerStore.isDefaultFiltration

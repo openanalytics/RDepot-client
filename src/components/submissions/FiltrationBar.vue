@@ -29,6 +29,8 @@
       <v-col sm="5">
         <validated-input-field
           @update:modelValue="setFiltration"
+          density="compact"
+          hide-details
           name="name"
           as="v-text-field"
           :label="
@@ -41,6 +43,10 @@
       <v-col sm="2">
         <validated-input-field
           @update:modelValue="setFiltration"
+          density="compact"
+          hide-details
+          chips
+          closable-chips
           id="filtration-technology"
           :items="technologies"
           name="technologies"
@@ -53,6 +59,10 @@
       <v-col sm="2">
         <validated-input-field
           @update:modelValue="setFiltration"
+          density="compact"
+          hide-details
+          chips
+          closable-chips
           id="filtration-state"
           :items="states"
           name="state"
@@ -65,6 +75,10 @@
       <v-col sm="3">
         <validated-input-field
           @update:modelValue="setFiltration"
+          density="compact"
+          hide-details
+          chips
+          closable-chips
           name="maintainer"
           as="autocomplete"
           multiple
@@ -80,6 +94,10 @@
       <v-col sm="3">
         <validated-input-field
           @update:modelValue="setFiltration"
+          density="compact"
+          hide-details
+          chips
+          closable-chips
           name="repository"
           as="autocomplete"
           multiple
@@ -93,6 +111,8 @@
       <v-col sm="2">
         <validated-input-field
           @update:focused="selectFromDate"
+          density="compact"
+          hide-details
           name="fromDate"
           as="v-text-field"
           :label="$t('submissions.filtration.fromDate')"
@@ -103,6 +123,8 @@
       <v-col sm="2">
         <validated-input-field
           @update:focused="selectToDate"
+          density="compact"
+          hide-details
           name="toDate"
           as="v-text-field"
           :label="$t('submissions.filtration.toDate')"
@@ -113,8 +135,9 @@
       <v-spacer />
       <v-col sm="1" class="reset-button">
         <v-btn
+          class="my-2"
           color="oablue"
-          size="large"
+          density="compact"
           @click="resetValues"
           v-if="!submissionsStore.isDefaultFiltration"
         >
