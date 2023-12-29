@@ -53,15 +53,15 @@ export async function fetchPackagesServices(
   return openApiRequest<EntityModelPackageDto[]>(
     ApiV2PackageControllerApiFactory().getAllPackages,
     [
+      page,
+      pageSize,
+      sort.getSortBy(),
       filtration?.repository,
       filtration?.deleted,
       filtration?.submissionState,
       filtration?.technologies,
-      undefined,
-      filtration?.maintainer,
-      page,
-      pageSize,
-      sort.getSortBy()
+      filtration?.search,
+      filtration?.maintainer
     ],
     showProgress
   )

@@ -61,20 +61,22 @@ export const ApiV2UserControllerApiAxiosParamCreator =
     return {
       /**
        *
-       * @param {Array<string>} [role]
-       * @param {boolean} [active]
        * @param {number} [page] Zero-based page index (0..N)
        * @param {number} [size] The size of the page to be returned
-       * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+       * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+       * @param {Array<string>} [role]
+       * @param {boolean} [active]
+       * @param {string} [search]
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
       getAllUsers: async (
-        role?: Array<string>,
-        active?: boolean,
         page?: number,
         size?: number,
         sort?: Array<string>,
+        role?: Array<string>,
+        active?: boolean,
+        search?: string,
         options: AxiosRequestConfig = {}
       ): Promise<RequestArgs> => {
         const localVarPath = `/api/v2/manager/users`
@@ -106,14 +108,6 @@ export const ApiV2UserControllerApiAxiosParamCreator =
             'Bearer ' + accessToken
         }
 
-        if (role) {
-          localVarQueryParameter['role'] = role
-        }
-
-        if (active !== undefined) {
-          localVarQueryParameter['active'] = active
-        }
-
         if (page !== undefined) {
           localVarQueryParameter['page'] = page
         }
@@ -124,6 +118,18 @@ export const ApiV2UserControllerApiAxiosParamCreator =
 
         if (sort) {
           localVarQueryParameter['sort'] = sort
+        }
+
+        if (role) {
+          localVarQueryParameter['role'] = role
+        }
+
+        if (active !== undefined) {
+          localVarQueryParameter['active'] = active
+        }
+
+        if (search !== undefined) {
+          localVarQueryParameter['search'] = search
         }
 
         const query = new URLSearchParams(
@@ -482,20 +488,22 @@ export const ApiV2UserControllerApiFp = function (
   return {
     /**
      *
-     * @param {Array<string>} [role]
-     * @param {boolean} [active]
      * @param {number} [page] Zero-based page index (0..N)
      * @param {number} [size] The size of the page to be returned
-     * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     * @param {Array<string>} [role]
+     * @param {boolean} [active]
+     * @param {string} [search]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getAllUsers(
-      role?: Array<string>,
-      active?: boolean,
       page?: number,
       size?: number,
       sort?: Array<string>,
+      role?: Array<string>,
+      active?: boolean,
+      search?: string,
       options?: AxiosRequestConfig
     ): Promise<
       (
@@ -509,11 +517,12 @@ export const ApiV2UserControllerApiFp = function (
         await ApiV2UserControllerApiAxiosParamCreator(
           configuration
         ).getAllUsers(
-          role,
-          active,
           page,
           size,
           sort,
+          role,
+          active,
+          search,
           options
         )
       return (
@@ -666,31 +675,34 @@ export const ApiV2UserControllerApiFactory = function (
   return {
     /**
      *
-     * @param {Array<string>} [role]
-     * @param {boolean} [active]
      * @param {number} [page] Zero-based page index (0..N)
      * @param {number} [size] The size of the page to be returned
-     * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     * @param {Array<string>} [role]
+     * @param {boolean} [active]
+     * @param {string} [search]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getAllUsers(
-      role?: Array<string>,
-      active?: boolean,
       page?: number,
       size?: number,
       sort?: Array<string>,
+      role?: Array<string>,
+      active?: boolean,
+      search?: string,
       options?: AxiosRequestConfig
     ): Promise<
       AxiosResponse<ResponseDtoPagedModelEntityModelUserDto>
     > {
       return ApiV2UserControllerApiFp(configuration)
         .getAllUsers(
-          role,
-          active,
           page,
           size,
           sort,
+          role,
+          active,
+          search,
           options
         )
         .then((request) => request(axios, basePath))
@@ -767,27 +779,37 @@ export const ApiV2UserControllerApiFactory = function (
 export class ApiV2UserControllerApi extends BaseAPI {
   /**
    *
-   * @param {Array<string>} [role]
-   * @param {boolean} [active]
    * @param {number} [page] Zero-based page index (0..N)
    * @param {number} [size] The size of the page to be returned
-   * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+   * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+   * @param {Array<string>} [role]
+   * @param {boolean} [active]
+   * @param {string} [search]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof ApiV2UserControllerApi
    */
   public async getAllUsers(
-    role?: Array<string>,
-    active?: boolean,
     page?: number,
     size?: number,
     sort?: Array<string>,
+    role?: Array<string>,
+    active?: boolean,
+    search?: string,
     options?: AxiosRequestConfig
   ): Promise<
     AxiosResponse<ResponseDtoPagedModelEntityModelUserDto>
   > {
     return ApiV2UserControllerApiFp(this.configuration)
-      .getAllUsers(role, active, page, size, sort, options)
+      .getAllUsers(
+        page,
+        size,
+        sort,
+        role,
+        active,
+        search,
+        options
+      )
       .then((request) => request(this.axios, this.basePath))
   }
   /**

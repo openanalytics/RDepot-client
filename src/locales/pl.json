@@ -214,7 +214,8 @@
       },
       "name": "Pakiet",
       "repository": "Repozytorium",
-      "submissionState": "Stan"
+      "submissionState": "Stan",
+      "searchBox": "Pakiet..."
     },
     "generatemanual": "Generuj instrukcję",
     "imports": "Importuje",
@@ -273,7 +274,8 @@
         "searchPlaceholder": "Opiekun, repozytorium..."
       },
       "name": "Nazwa",
-      "published": "Opublikowane"
+      "published": "Opublikowane",
+      "searchBox": "Repozytorium..."
     },
     "list": "Repozytoria",
     "maintainers": "Opiekunowie repozytorium"
@@ -301,7 +303,8 @@
     },
     "filtration": {
       "active": "Aktywny",
-      "roles": "Role"
+      "roles": "Role",
+      "searchBox": "Użytkownik..."
     }
   }
 }

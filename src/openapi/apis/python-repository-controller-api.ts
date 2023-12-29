@@ -227,20 +227,20 @@ export const PythonRepositoryControllerApiAxiosParamCreator =
       },
       /**
        *
-       * @param {boolean} [deleted]
-       * @param {string} [name]
        * @param {number} [page] Zero-based page index (0..N)
        * @param {number} [size] The size of the page to be returned
-       * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+       * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+       * @param {boolean} [deleted]
+       * @param {string} [name]
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
       getAllPythonRepositories: async (
-        deleted?: boolean,
-        name?: string,
         page?: number,
         size?: number,
         sort?: Array<string>,
+        deleted?: boolean,
+        name?: string,
         options: AxiosRequestConfig = {}
       ): Promise<RequestArgs> => {
         const localVarPath = `/api/v2/manager/python/repositories`
@@ -272,14 +272,6 @@ export const PythonRepositoryControllerApiAxiosParamCreator =
             'Bearer ' + accessToken
         }
 
-        if (deleted !== undefined) {
-          localVarQueryParameter['deleted'] = deleted
-        }
-
-        if (name !== undefined) {
-          localVarQueryParameter['name'] = name
-        }
-
         if (page !== undefined) {
           localVarQueryParameter['page'] = page
         }
@@ -290,6 +282,14 @@ export const PythonRepositoryControllerApiAxiosParamCreator =
 
         if (sort) {
           localVarQueryParameter['sort'] = sort
+        }
+
+        if (deleted !== undefined) {
+          localVarQueryParameter['deleted'] = deleted
+        }
+
+        if (name !== undefined) {
+          localVarQueryParameter['name'] = name
         }
 
         const query = new URLSearchParams(
@@ -574,20 +574,20 @@ export const PythonRepositoryControllerApiFp = function (
     },
     /**
      *
-     * @param {boolean} [deleted]
-     * @param {string} [name]
      * @param {number} [page] Zero-based page index (0..N)
      * @param {number} [size] The size of the page to be returned
-     * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     * @param {boolean} [deleted]
+     * @param {string} [name]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getAllPythonRepositories(
-      deleted?: boolean,
-      name?: string,
       page?: number,
       size?: number,
       sort?: Array<string>,
+      deleted?: boolean,
+      name?: string,
       options?: AxiosRequestConfig
     ): Promise<
       (
@@ -601,11 +601,11 @@ export const PythonRepositoryControllerApiFp = function (
         await PythonRepositoryControllerApiAxiosParamCreator(
           configuration
         ).getAllPythonRepositories(
-          deleted,
-          name,
           page,
           size,
           sort,
+          deleted,
+          name,
           options
         )
       return (
@@ -731,20 +731,20 @@ export const PythonRepositoryControllerApiFactory =
       },
       /**
        *
-       * @param {boolean} [deleted]
-       * @param {string} [name]
        * @param {number} [page] Zero-based page index (0..N)
        * @param {number} [size] The size of the page to be returned
-       * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+       * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+       * @param {boolean} [deleted]
+       * @param {string} [name]
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
       async getAllPythonRepositories(
-        deleted?: boolean,
-        name?: string,
         page?: number,
         size?: number,
         sort?: Array<string>,
+        deleted?: boolean,
+        name?: string,
         options?: AxiosRequestConfig
       ): Promise<
         AxiosResponse<ResponseDtoPagedModelEntityModelPythonRepositoryDto>
@@ -753,11 +753,11 @@ export const PythonRepositoryControllerApiFactory =
           configuration
         )
           .getAllPythonRepositories(
-            deleted,
-            name,
             page,
             size,
             sort,
+            deleted,
+            name,
             options
           )
           .then((request) => request(axios, basePath))
@@ -844,21 +844,21 @@ export class PythonRepositoryControllerApi extends BaseAPI {
   }
   /**
    *
-   * @param {boolean} [deleted]
-   * @param {string} [name]
    * @param {number} [page] Zero-based page index (0..N)
    * @param {number} [size] The size of the page to be returned
-   * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+   * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+   * @param {boolean} [deleted]
+   * @param {string} [name]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof PythonRepositoryControllerApi
    */
   public async getAllPythonRepositories(
-    deleted?: boolean,
-    name?: string,
     page?: number,
     size?: number,
     sort?: Array<string>,
+    deleted?: boolean,
+    name?: string,
     options?: AxiosRequestConfig
   ): Promise<
     AxiosResponse<ResponseDtoPagedModelEntityModelPythonRepositoryDto>
@@ -867,11 +867,11 @@ export class PythonRepositoryControllerApi extends BaseAPI {
       this.configuration
     )
       .getAllPythonRepositories(
-        deleted,
-        name,
         page,
         size,
         sort,
+        deleted,
+        name,
         options
       )
       .then((request) => request(this.axios, this.basePath))

@@ -48,11 +48,12 @@ export async function fetchUsers(
   return openApiRequest<EntityModelUserDto[]>(
     ApiV2UserControllerApiFactory().getAllUsers,
     [
-      filtration?.roles,
-      filtration?.active,
       page,
       pageSize,
-      sort.getSortBy()
+      sort.getSortBy(),
+      filtration?.roles,
+      filtration?.active,
+      filtration?.search
     ]
   )
 }

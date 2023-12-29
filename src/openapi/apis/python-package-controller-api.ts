@@ -220,6 +220,9 @@ export const PythonPackageControllerApiAxiosParamCreator =
       },
       /**
        *
+       * @param {number} [page] Zero-based page index (0..N)
+       * @param {number} [size] The size of the page to be returned
+       * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
        * @param {Array<string>} [repository]
        * @param {boolean} [deleted]
        * @param {Array<string>} [submissionState]
@@ -228,6 +231,9 @@ export const PythonPackageControllerApiAxiosParamCreator =
        * @throws {RequiredError}
        */
       getAllPythonPackages: async (
+        page?: number,
+        size?: number,
+        sort?: Array<string>,
         repository?: Array<string>,
         deleted?: boolean,
         submissionState?: Array<string>,
@@ -261,6 +267,18 @@ export const PythonPackageControllerApiAxiosParamCreator =
               : await configuration.accessToken
           localVarHeaderParameter['Authorization'] =
             'Bearer ' + accessToken
+        }
+
+        if (page !== undefined) {
+          localVarQueryParameter['page'] = page
+        }
+
+        if (size !== undefined) {
+          localVarQueryParameter['size'] = size
+        }
+
+        if (sort) {
+          localVarQueryParameter['sort'] = sort
         }
 
         if (repository) {
@@ -484,6 +502,9 @@ export const PythonPackageControllerApiFp = function (
     },
     /**
      *
+     * @param {number} [page] Zero-based page index (0..N)
+     * @param {number} [size] The size of the page to be returned
+     * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
      * @param {Array<string>} [repository]
      * @param {boolean} [deleted]
      * @param {Array<string>} [submissionState]
@@ -492,6 +513,9 @@ export const PythonPackageControllerApiFp = function (
      * @throws {RequiredError}
      */
     async getAllPythonPackages(
+      page?: number,
+      size?: number,
+      sort?: Array<string>,
       repository?: Array<string>,
       deleted?: boolean,
       submissionState?: Array<string>,
@@ -507,6 +531,9 @@ export const PythonPackageControllerApiFp = function (
         await PythonPackageControllerApiAxiosParamCreator(
           configuration
         ).getAllPythonPackages(
+          page,
+          size,
+          sort,
           repository,
           deleted,
           submissionState,
@@ -601,6 +628,9 @@ export const PythonPackageControllerApiFactory = function (
     },
     /**
      *
+     * @param {number} [page] Zero-based page index (0..N)
+     * @param {number} [size] The size of the page to be returned
+     * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
      * @param {Array<string>} [repository]
      * @param {boolean} [deleted]
      * @param {Array<string>} [submissionState]
@@ -609,6 +639,9 @@ export const PythonPackageControllerApiFactory = function (
      * @throws {RequiredError}
      */
     async getAllPythonPackages(
+      page?: number,
+      size?: number,
+      sort?: Array<string>,
       repository?: Array<string>,
       deleted?: boolean,
       submissionState?: Array<string>,
@@ -617,6 +650,9 @@ export const PythonPackageControllerApiFactory = function (
     ): Promise<AxiosResponse<ResponseDtoObject>> {
       return PythonPackageControllerApiFp(configuration)
         .getAllPythonPackages(
+          page,
+          size,
+          sort,
           repository,
           deleted,
           submissionState,
@@ -685,6 +721,9 @@ export class PythonPackageControllerApi extends BaseAPI {
   }
   /**
    *
+   * @param {number} [page] Zero-based page index (0..N)
+   * @param {number} [size] The size of the page to be returned
+   * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
    * @param {Array<string>} [repository]
    * @param {boolean} [deleted]
    * @param {Array<string>} [submissionState]
@@ -694,6 +733,9 @@ export class PythonPackageControllerApi extends BaseAPI {
    * @memberof PythonPackageControllerApi
    */
   public async getAllPythonPackages(
+    page?: number,
+    size?: number,
+    sort?: Array<string>,
     repository?: Array<string>,
     deleted?: boolean,
     submissionState?: Array<string>,
@@ -702,6 +744,9 @@ export class PythonPackageControllerApi extends BaseAPI {
   ): Promise<AxiosResponse<ResponseDtoObject>> {
     return PythonPackageControllerApiFp(this.configuration)
       .getAllPythonPackages(
+        page,
+        size,
+        sort,
         repository,
         deleted,
         submissionState,

@@ -59,22 +59,26 @@ export const ApiV2RepositoryControllerApiAxiosParamCreator =
     return {
       /**
        *
-       * @param {boolean} [deleted]
-       * @param {string} [name]
-       * @param {Array<string>} [technology]
        * @param {number} [page] Zero-based page index (0..N)
        * @param {number} [size] The size of the page to be returned
-       * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+       * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+       * @param {boolean} [deleted]
+       * @param {Array<string>} [technology]
+       * @param {boolean} [published]
+       * @param {Array<string>} [maintainer]
+       * @param {string} [search]
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
       getAllRepositories: async (
-        deleted?: boolean,
-        name?: string,
-        technology?: Array<string>,
         page?: number,
         size?: number,
         sort?: Array<string>,
+        deleted?: boolean,
+        technology?: Array<string>,
+        published?: boolean,
+        maintainer?: Array<string>,
+        search?: string,
         options: AxiosRequestConfig = {}
       ): Promise<RequestArgs> => {
         const localVarPath = `/api/v2/manager/repositories`
@@ -106,18 +110,6 @@ export const ApiV2RepositoryControllerApiAxiosParamCreator =
             'Bearer ' + accessToken
         }
 
-        if (deleted !== undefined) {
-          localVarQueryParameter['deleted'] = deleted
-        }
-
-        if (name !== undefined) {
-          localVarQueryParameter['name'] = name
-        }
-
-        if (technology) {
-          localVarQueryParameter['technology'] = technology
-        }
-
         if (page !== undefined) {
           localVarQueryParameter['page'] = page
         }
@@ -128,6 +120,26 @@ export const ApiV2RepositoryControllerApiAxiosParamCreator =
 
         if (sort) {
           localVarQueryParameter['sort'] = sort
+        }
+
+        if (deleted !== undefined) {
+          localVarQueryParameter['deleted'] = deleted
+        }
+
+        if (technology) {
+          localVarQueryParameter['technology'] = technology
+        }
+
+        if (published !== undefined) {
+          localVarQueryParameter['published'] = published
+        }
+
+        if (maintainer) {
+          localVarQueryParameter['maintainer'] = maintainer
+        }
+
+        if (search !== undefined) {
+          localVarQueryParameter['search'] = search
         }
 
         const query = new URLSearchParams(
@@ -253,22 +265,26 @@ export const ApiV2RepositoryControllerApiFp = function (
   return {
     /**
      *
-     * @param {boolean} [deleted]
-     * @param {string} [name]
-     * @param {Array<string>} [technology]
      * @param {number} [page] Zero-based page index (0..N)
      * @param {number} [size] The size of the page to be returned
-     * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     * @param {boolean} [deleted]
+     * @param {Array<string>} [technology]
+     * @param {boolean} [published]
+     * @param {Array<string>} [maintainer]
+     * @param {string} [search]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getAllRepositories(
-      deleted?: boolean,
-      name?: string,
-      technology?: Array<string>,
       page?: number,
       size?: number,
       sort?: Array<string>,
+      deleted?: boolean,
+      technology?: Array<string>,
+      published?: boolean,
+      maintainer?: Array<string>,
+      search?: string,
       options?: AxiosRequestConfig
     ): Promise<
       (
@@ -282,12 +298,14 @@ export const ApiV2RepositoryControllerApiFp = function (
         await ApiV2RepositoryControllerApiAxiosParamCreator(
           configuration
         ).getAllRepositories(
-          deleted,
-          name,
-          technology,
           page,
           size,
           sort,
+          deleted,
+          technology,
+          published,
+          maintainer,
+          search,
           options
         )
       return (
@@ -349,34 +367,40 @@ export const ApiV2RepositoryControllerApiFactory =
     return {
       /**
        *
-       * @param {boolean} [deleted]
-       * @param {string} [name]
-       * @param {Array<string>} [technology]
        * @param {number} [page] Zero-based page index (0..N)
        * @param {number} [size] The size of the page to be returned
-       * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+       * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+       * @param {boolean} [deleted]
+       * @param {Array<string>} [technology]
+       * @param {boolean} [published]
+       * @param {Array<string>} [maintainer]
+       * @param {string} [search]
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
       async getAllRepositories(
-        deleted?: boolean,
-        name?: string,
-        technology?: Array<string>,
         page?: number,
         size?: number,
         sort?: Array<string>,
+        deleted?: boolean,
+        technology?: Array<string>,
+        published?: boolean,
+        maintainer?: Array<string>,
+        search?: string,
         options?: AxiosRequestConfig
       ): Promise<
         AxiosResponse<ResponseDtoPagedModelEntityModelRepositoryDto>
       > {
         return ApiV2RepositoryControllerApiFp(configuration)
           .getAllRepositories(
-            deleted,
-            name,
-            technology,
             page,
             size,
             sort,
+            deleted,
+            technology,
+            published,
+            maintainer,
+            search,
             options
           )
           .then((request) => request(axios, basePath))
@@ -409,23 +433,27 @@ export const ApiV2RepositoryControllerApiFactory =
 export class ApiV2RepositoryControllerApi extends BaseAPI {
   /**
    *
-   * @param {boolean} [deleted]
-   * @param {string} [name]
-   * @param {Array<string>} [technology]
    * @param {number} [page] Zero-based page index (0..N)
    * @param {number} [size] The size of the page to be returned
-   * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+   * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+   * @param {boolean} [deleted]
+   * @param {Array<string>} [technology]
+   * @param {boolean} [published]
+   * @param {Array<string>} [maintainer]
+   * @param {string} [search]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof ApiV2RepositoryControllerApi
    */
   public async getAllRepositories(
-    deleted?: boolean,
-    name?: string,
-    technology?: Array<string>,
     page?: number,
     size?: number,
     sort?: Array<string>,
+    deleted?: boolean,
+    technology?: Array<string>,
+    published?: boolean,
+    maintainer?: Array<string>,
+    search?: string,
     options?: AxiosRequestConfig
   ): Promise<
     AxiosResponse<ResponseDtoPagedModelEntityModelRepositoryDto>
@@ -434,12 +462,14 @@ export class ApiV2RepositoryControllerApi extends BaseAPI {
       this.configuration
     )
       .getAllRepositories(
-        deleted,
-        name,
-        technology,
         page,
         size,
         sort,
+        deleted,
+        technology,
+        published,
+        maintainer,
+        search,
         options
       )
       .then((request) => request(this.axios, this.basePath))

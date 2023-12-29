@@ -59,28 +59,28 @@ export const ApiV2PackageControllerApiAxiosParamCreator =
     return {
       /**
        *
+       * @param {number} [page] Zero-based page index (0..N)
+       * @param {number} [size] The size of the page to be returned
+       * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
        * @param {Array<string>} [repository]
        * @param {boolean} [deleted]
        * @param {Array<string>} [submissionState]
        * @param {Array<string>} [technology]
-       * @param {string} [name]
-       * @param {string} [maintainer]
-       * @param {number} [page] Zero-based page index (0..N)
-       * @param {number} [size] The size of the page to be returned
-       * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+       * @param {string} [search]
+       * @param {Array<string>} [maintainer]
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
       getAllPackages: async (
+        page?: number,
+        size?: number,
+        sort?: Array<string>,
         repository?: Array<string>,
         deleted?: boolean,
         submissionState?: Array<string>,
         technology?: Array<string>,
-        name?: string,
-        maintainer?: string,
-        page?: number,
-        size?: number,
-        sort?: Array<string>,
+        search?: string,
+        maintainer?: Array<string>,
         options: AxiosRequestConfig = {}
       ): Promise<RequestArgs> => {
         const localVarPath = `/api/v2/manager/packages`
@@ -111,6 +111,19 @@ export const ApiV2PackageControllerApiAxiosParamCreator =
           localVarHeaderParameter['Authorization'] =
             'Bearer ' + accessToken
         }
+
+        if (page !== undefined) {
+          localVarQueryParameter['page'] = page
+        }
+
+        if (size !== undefined) {
+          localVarQueryParameter['size'] = size
+        }
+
+        if (sort) {
+          localVarQueryParameter['sort'] = sort
+        }
+
         if (repository) {
           localVarQueryParameter['repository'] = repository
         }
@@ -128,24 +141,12 @@ export const ApiV2PackageControllerApiAxiosParamCreator =
           localVarQueryParameter['technology'] = technology
         }
 
-        if (name !== undefined) {
-          localVarQueryParameter['name'] = name
+        if (search !== undefined) {
+          localVarQueryParameter['search'] = search
         }
 
-        if (maintainer !== undefined) {
+        if (maintainer) {
           localVarQueryParameter['maintainer'] = maintainer
-        }
-
-        if (page !== undefined) {
-          localVarQueryParameter['page'] = page
-        }
-
-        if (size !== undefined) {
-          localVarQueryParameter['size'] = size
-        }
-
-        if (sort) {
-          localVarQueryParameter['sort'] = sort
         }
 
         const query = new URLSearchParams(
@@ -271,28 +272,28 @@ export const ApiV2PackageControllerApiFp = function (
   return {
     /**
      *
+     * @param {number} [page] Zero-based page index (0..N)
+     * @param {number} [size] The size of the page to be returned
+     * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
      * @param {Array<string>} [repository]
      * @param {boolean} [deleted]
      * @param {Array<string>} [submissionState]
      * @param {Array<string>} [technology]
-     * @param {string} [name]
-     * @param {string} [maintainer]
-     * @param {number} [page] Zero-based page index (0..N)
-     * @param {number} [size] The size of the page to be returned
-     * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     * @param {string} [search]
+     * @param {Array<string>} [maintainer]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getAllPackages(
+      page?: number,
+      size?: number,
+      sort?: Array<string>,
       repository?: Array<string>,
       deleted?: boolean,
       submissionState?: Array<string>,
       technology?: Array<string>,
-      name?: string,
-      maintainer?: string,
-      page?: number,
-      size?: number,
-      sort?: Array<string>,
+      search?: string,
+      maintainer?: Array<string>,
       options?: AxiosRequestConfig
     ): Promise<
       (
@@ -306,15 +307,15 @@ export const ApiV2PackageControllerApiFp = function (
         await ApiV2PackageControllerApiAxiosParamCreator(
           configuration
         ).getAllPackages(
+          page,
+          size,
+          sort,
           repository,
           deleted,
           submissionState,
           technology,
-          name,
+          search,
           maintainer,
-          page,
-          size,
-          sort,
           options
         )
       return (
@@ -375,43 +376,43 @@ export const ApiV2PackageControllerApiFactory = function (
   return {
     /**
      *
+     * @param {number} [page] Zero-based page index (0..N)
+     * @param {number} [size] The size of the page to be returned
+     * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
      * @param {Array<string>} [repository]
      * @param {boolean} [deleted]
      * @param {Array<string>} [submissionState]
      * @param {Array<string>} [technology]
-     * @param {string} [name]
-     * @param {string} [maintainer]
-     * @param {number} [page] Zero-based page index (0..N)
-     * @param {number} [size] The size of the page to be returned
-     * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     * @param {string} [search]
+     * @param {Array<string>} [maintainer]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getAllPackages(
+      page?: number,
+      size?: number,
+      sort?: Array<string>,
       repository?: Array<string>,
       deleted?: boolean,
       submissionState?: Array<string>,
       technology?: Array<string>,
-      name?: string,
-      maintainer?: string,
-      page?: number,
-      size?: number,
-      sort?: Array<string>,
+      search?: string,
+      maintainer?: Array<string>,
       options?: AxiosRequestConfig
     ): Promise<
       AxiosResponse<ResponseDtoPagedModelEntityModelPackageDto>
     > {
       return ApiV2PackageControllerApiFp(configuration)
         .getAllPackages(
+          page,
+          size,
+          sort,
           repository,
           deleted,
           submissionState,
           technology,
-          name,
+          search,
           maintainer,
-          page,
-          size,
-          sort,
           options
         )
         .then((request) => request(axios, basePath))
@@ -444,44 +445,44 @@ export const ApiV2PackageControllerApiFactory = function (
 export class ApiV2PackageControllerApi extends BaseAPI {
   /**
    *
+   * @param {number} [page] Zero-based page index (0..N)
+   * @param {number} [size] The size of the page to be returned
+   * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
    * @param {Array<string>} [repository]
    * @param {boolean} [deleted]
    * @param {Array<string>} [submissionState]
    * @param {Array<string>} [technology]
-   * @param {string} [name]
-   * @param {string} [maintainer]
-   * @param {number} [page] Zero-based page index (0..N)
-   * @param {number} [size] The size of the page to be returned
-   * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+   * @param {string} [search]
+   * @param {Array<string>} [maintainer]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof ApiV2PackageControllerApi
    */
   public async getAllPackages(
+    page?: number,
+    size?: number,
+    sort?: Array<string>,
     repository?: Array<string>,
     deleted?: boolean,
     submissionState?: Array<string>,
     technology?: Array<string>,
-    name?: string,
-    maintainer?: string,
-    page?: number,
-    size?: number,
-    sort?: Array<string>,
+    search?: string,
+    maintainer?: Array<string>,
     options?: AxiosRequestConfig
   ): Promise<
     AxiosResponse<ResponseDtoPagedModelEntityModelPackageDto>
   > {
     return ApiV2PackageControllerApiFp(this.configuration)
       .getAllPackages(
+        page,
+        size,
+        sort,
         repository,
         deleted,
         submissionState,
         technology,
-        name,
+        search,
         maintainer,
-        page,
-        size,
-        sort,
         options
       )
       .then((request) => request(this.axios, this.basePath))

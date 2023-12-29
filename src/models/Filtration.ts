@@ -59,15 +59,31 @@ const PackagesFiltration = z
         }
         return val
       }),
-    name: z.string().optional(),
-    maintainer: z.array(z.string()).optional()
+    search: z
+      .string()
+      .optional()
+      .transform((val) => {
+        if (val?.length == 0) {
+          return undefined
+        }
+        return val
+      }),
+    maintainer: z
+      .array(z.string())
+      .optional()
+      .transform((val) => {
+        if (val?.length == 0) {
+          return undefined
+        }
+        return val
+      })
   })
   .default({
     submissionState: undefined,
     repository: undefined,
     technologies: undefined,
     deleted: false,
-    name: undefined,
+    search: undefined,
     maintainer: undefined
   })
 
@@ -84,9 +100,17 @@ const RepositoriesFiltration = z
         }
         return val
       }),
-    name: z.string().optional(),
+    search: z
+      .string()
+      .optional()
+      .transform((val) => {
+        if (val?.length == 0) {
+          return undefined
+        }
+        return val
+      }),
     deleted: z.boolean(),
-    published: z.boolean(),
+    published: z.boolean().optional(),
     maintainer: z
       .array(z.string())
       .optional()
@@ -99,9 +123,9 @@ const RepositoriesFiltration = z
   })
   .default({
     technologies: undefined,
-    name: undefined,
+    search: undefined,
     deleted: false,
-    published: false,
+    published: undefined,
     maintainer: undefined
   })
 
@@ -123,7 +147,15 @@ const SubmissionsFiltration = z
         }
         return val
       }),
-    package: z.string().optional(),
+    search: z
+      .string()
+      .optional()
+      .transform((val) => {
+        if (val?.length == 0) {
+          return undefined
+        }
+        return val
+      }),
     technologies: z
       .array(z.string())
       .optional()
@@ -148,7 +180,7 @@ const SubmissionsFiltration = z
   .default({
     assignedToMe: undefined,
     state: undefined,
-    package: undefined,
+    search: undefined,
     technologies: undefined,
     repository: undefined,
     fromDate: undefined,
@@ -212,7 +244,7 @@ const EventsFiltration = z
 type EventsFiltration = z.infer<typeof EventsFiltration>
 const PackageMaintainersFiltration = z
   .object({
-    deleted: z.boolean(),
+    deleted: z.boolean().optional(),
     technologies: z
       .array(z.string())
       .optional()
@@ -231,8 +263,8 @@ const PackageMaintainersFiltration = z
         }
         return val
       }),
-    maintainer: z
-      .array(z.string())
+    search: z
+      .string()
       .optional()
       .transform((val) => {
         if (val?.length == 0) {
@@ -242,10 +274,10 @@ const PackageMaintainersFiltration = z
       })
   })
   .default({
-    deleted: false,
+    deleted: undefined,
     technologies: undefined,
     repository: undefined,
-    maintainer: undefined
+    search: undefined
   })
 
 type PackageMaintainersFiltration = z.infer<
@@ -254,7 +286,7 @@ type PackageMaintainersFiltration = z.infer<
 
 const RepositoryMaintainersFiltration = z
   .object({
-    deleted: z.boolean(),
+    deleted: z.boolean().optional(),
     technologies: z
       .array(z.string())
       .optional()
@@ -264,12 +296,20 @@ const RepositoryMaintainersFiltration = z
         }
         return val
       }),
-    repository: z.array(z.string()).optional()
+    search: z
+      .string()
+      .optional()
+      .transform((val) => {
+        if (val?.length == 0) {
+          return undefined
+        }
+        return val
+      })
   })
   .default({
-    deleted: false,
+    deleted: undefined,
     technologies: undefined,
-    repository: undefined
+    search: undefined
   })
 
 type RepositoryMaintainersFiltration = z.infer<
@@ -288,12 +328,20 @@ const UsersFiltration = z
         }
         return val
       }),
-    name: z.string().optional()
+    search: z
+      .string()
+      .optional()
+      .transform((val) => {
+        if (val?.length == 0) {
+          return undefined
+        }
+        return val
+      })
   })
   .default({
     active: undefined,
     roles: undefined,
-    name: undefined
+    search: undefined
   })
 
 type UsersFiltration = z.infer<typeof UsersFiltration>

@@ -38,13 +38,13 @@
           @update:modelValue="setFiltration"
           density="compact"
           hide-details
-          name="name"
+          name="search"
           as="v-text-field"
           :label="
             $t('submissions.filtration.searchPlaceholder')
           "
           color="oablue"
-          id="filtration-name"
+          id="filtration-search"
         />
       </v-col>
       <v-col sm="2">
@@ -86,25 +86,6 @@
           hide-details
           chips
           closable-chips
-          name="maintainer"
-          as="autocomplete"
-          multiple
-          clearable
-          :label="$t('packages.filtration.maintainer')"
-          @loadItems="loadMaintainers"
-          @filtrate="filtrateMaintainers"
-          :storeId="storeIdMaintainer"
-        ></validated-input-field>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col sm="3">
-        <validated-input-field
-          @update:modelValue="setFiltration"
-          density="compact"
-          hide-details
-          chips
-          closable-chips
           name="repository"
           as="autocomplete"
           multiple
@@ -115,6 +96,8 @@
           :storeId="storeId"
         ></validated-input-field>
       </v-col>
+    </v-row>
+    <v-row>
       <v-col sm="2">
         <validated-input-field
           @update:focused="selectFromDate"
@@ -163,7 +146,6 @@ import {
 } from '@/models/Filtration'
 import { useI18n } from 'vue-i18n'
 import { useEnumFiltration } from '@/composable/filtration/enumFiltration'
-import { useRepositoryMaintainersFiltration } from '@/composable/filtration/repositoryMaintainersFiltration'
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useSubmissionStore } from '@/store/submission'
@@ -183,11 +165,6 @@ const {
 const { storeId, filtrateRepositories, loadRepositories } =
   useRepositoriesFiltration()
 
-const {
-  storeIdMaintainer,
-  filtrateMaintainers,
-  loadMaintainers
-} = useRepositoryMaintainersFiltration()
 const submissionsStore = useSubmissionStore()
 
 const { setValues, values, setFieldValue } = useForm({
