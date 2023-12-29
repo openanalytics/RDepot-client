@@ -222,8 +222,8 @@
       },
       "name": "Package",
       "repository": "Repository",
-      "submissionState": "State",
-      "searchBox": "Package..."
+      "searchBox": "Package...",
+      "submissionState": "State"
     },
     "generatemanual": "Generate manual",
     "imports": "Imports",

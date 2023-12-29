@@ -214,8 +214,8 @@
       },
       "name": "Pakiet",
       "repository": "Repozytorium",
-      "submissionState": "Stan",
-      "searchBox": "Pakiet..."
+      "searchBox": "Pakiet...",
+      "submissionState": "Stan"
     },
     "generatemanual": "Generuj instrukcję",
     "imports": "Importuje",
