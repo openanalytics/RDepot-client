@@ -32,39 +32,42 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
 import { EntityModelNewsfeedEventDto } from './entity-model-newsfeed-event-dto'
+import { EntityModelNewsfeedEventDto } from '.'
+
 /**
+ *
  *
  * @export
  * @interface ResponseDtoEntityModelNewsfeedEventDto
  */
 export interface ResponseDtoEntityModelNewsfeedEventDto {
   /**
-   *
    * @type {string}
    * @memberof ResponseDtoEntityModelNewsfeedEventDto
    */
   status?: ResponseDtoEntityModelNewsfeedEventDtoStatusEnum
+
   /**
-   *
    * @type {number}
    * @memberof ResponseDtoEntityModelNewsfeedEventDto
    */
   code?: number
+
   /**
-   *
    * @type {string}
    * @memberof ResponseDtoEntityModelNewsfeedEventDto
    */
   message?: string
+
   /**
-   *
    * @type {string}
    * @memberof ResponseDtoEntityModelNewsfeedEventDto
    */
   messageCode?: string
+
   /**
-   *
    * @type {EntityModelNewsfeedEventDto}
    * @memberof ResponseDtoEntityModelNewsfeedEventDto
    */

@@ -32,26 +32,29 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
+import {} from '.'
+
 /**
+ *
  *
  * @export
  * @interface UserSettingsProjection
  */
 export interface UserSettingsProjection {
   /**
-   *
    * @type {string}
    * @memberof UserSettingsProjection
    */
   language?: string
+
   /**
-   *
    * @type {string}
    * @memberof UserSettingsProjection
    */
   theme?: string
+
   /**
-   *
    * @type {number}
    * @memberof UserSettingsProjection
    */

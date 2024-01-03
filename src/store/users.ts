@@ -30,12 +30,17 @@ import {
 import { EntityModelUserDto, RoleDto } from '@/openapi'
 import { Role } from '@/enum/UserRoles'
 import { usePagination } from '@/store/pagination'
+import {
+  defaultValues,
+  UsersFiltration
+} from '@/models/Filtration'
 
 interface State {
   userToken: string
   userName: string
   userList: EntityModelUserDto[]
   chosenUser: EntityModelUserDto
+  filtration: UsersFiltration
   roles: RoleDto[]
 }
 
@@ -46,13 +51,26 @@ export const useUserStore = defineStore('userStore', {
       userName: '',
       userList: [],
       chosenUser: {},
+      filtration: defaultValues(UsersFiltration),
       roles: []
+    }
+  },
+  getters: {
+    isDefaultFiltration: (state) => {
+      return (
+        JSON.stringify(state.filtration) ===
+        JSON.stringify(defaultValues(UsersFiltration))
+      )
     }
   },
   actions: {
     async fetchUsers() {
       const pagination = usePagination()
-      const [users, pageData] = await fetchUsers()
+      const [users, pageData] = await fetchUsers(
+        pagination.fetchPage,
+        pagination.pageSize,
+        this.filtration
+      )
       this.userList = users
       pagination.newPageWithoutRefresh(pageData.page)
       pagination.totalNumber = pageData.totalNumber
@@ -63,7 +81,14 @@ export const useUserStore = defineStore('userStore', {
         this.roles = roles
       }
     },
-
+    async setFiltration(payload: UsersFiltration) {
+      const pagination = usePagination()
+      pagination.resetPage()
+      if (UsersFiltration.safeParse(payload).success) {
+        this.filtration = UsersFiltration.parse(payload)
+      }
+      await this.fetchUsers()
+    },
     async saveUser(newUser: EntityModelUserDto) {
       await updateUser(this.chosenUser, newUser)
     },

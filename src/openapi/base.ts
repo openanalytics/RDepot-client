@@ -32,6 +32,7 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
 import { Configuration } from './configuration'
 // Some imports not used depending on template conditions
 // @ts-ignore

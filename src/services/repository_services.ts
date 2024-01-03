@@ -68,6 +68,28 @@ export function fetchRepositoriesServices(
   )
 }
 
+export function fetchFullRepositoriesList(
+  showProgress = false
+): Promise<validatedData<EntityModelRepositoryDto[]>> {
+  if (!isAuthorized('GET', 'repositories')) {
+    return new Promise(() => validateRequest)
+  }
+
+  return openApiRequest<EntityModelRepositoryDto[]>(
+    ApiV2RepositoryControllerApiFactory()
+      .getAllRepositories,
+    [
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined
+    ],
+    showProgress
+  )
+}
+
 export async function createRepository(
   newRepository: EntityModelRepositoryDto
 ): Promise<validatedData<EntityModelRepositoryDto>> {

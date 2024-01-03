@@ -37,6 +37,7 @@ import {
 } from '@/services'
 import {
   deletePackageMaintainerService,
+  fetchAllPackageMaintainers,
   fetchPackageMaintainersService,
   updatePackageMaintainerService
 } from '@/services/package_maintainers_service'
@@ -89,6 +90,11 @@ export const usePackageMaintainersStore = defineStore(
           )
         pagination.newPageWithoutRefresh(pageData.page)
         pagination.totalNumber = pageData.totalNumber
+        this.maintainers = maintainers
+      },
+      async fetchAllMaintainers() {
+        const [maintainers, pageData] =
+          await fetchAllPackageMaintainers()
         this.maintainers = maintainers
       },
       async fetchRepositories() {

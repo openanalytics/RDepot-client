@@ -51,10 +51,11 @@ export async function fetchEventsServices(
     ApiV2NewsfeedEventControllerApiFactory().getAllEvents,
     [
       localFiltration,
-      filtration.userId,
-      filtration.resourceId,
+      filtration.userName,
       filtration.eventType,
       filtration.resourceType,
+      filtration.fromDate,
+      filtration.toDate,
       page,
       pageSize,
       undefined

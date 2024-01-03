@@ -25,6 +25,7 @@
     :label="label"
     :items="selectStore.items"
     :custom-filter="customFiltrate"
+    auto-select-first
     :loading="selectStore.pending"
     :menu-props="{
       location: 'bottom center',
@@ -82,11 +83,11 @@ function search(value: string) {
 function customFiltrate(
   _: string,
   queryText: string,
-  itemText: string
+  itemText: { title: string }
 ) {
   return (
     selectStore.ifAllFetched &&
-    (itemText.includes(queryText) || false)
+    (itemText.title.includes(queryText) || false)
   )
 }
 
@@ -115,7 +116,6 @@ watchDebounced(
 )
 
 onMounted(async () => {
-  sortStore.reset()
   await loadItems()
 })
 </script>

@@ -32,69 +32,78 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
 import { Link } from './link'
+import { Link } from '.'
+
 /**
+ *
  *
  * @export
  * @interface EntityModelRepositoryDto
  */
 export interface EntityModelRepositoryDto {
   /**
-   *
    * @type {number}
    * @memberof EntityModelRepositoryDto
    */
   id?: number
+
   /**
-   *
    * @type {number}
    * @memberof EntityModelRepositoryDto
    */
   version?: number
+
   /**
-   *
    * @type {string}
    * @memberof EntityModelRepositoryDto
    */
   publicationUri?: string
+
   /**
-   *
    * @type {string}
    * @memberof EntityModelRepositoryDto
    */
   name?: string
+
   /**
-   *
    * @type {string}
    * @memberof EntityModelRepositoryDto
    */
   serverAddress?: string
+
   /**
-   *
    * @type {boolean}
    * @memberof EntityModelRepositoryDto
    */
   deleted?: boolean
+
   /**
-   *
    * @type {boolean}
    * @memberof EntityModelRepositoryDto
    */
   published?: boolean
+
   /**
-   *
    * @type {boolean}
    * @memberof EntityModelRepositoryDto
    */
   synchronizing?: boolean
+
   /**
-   *
    * @type {string}
    * @memberof EntityModelRepositoryDto
    */
   technology?: string
+
   /**
-   *
+   * @type {number}
+   * @memberof EntityModelRepositoryDto
+   */
+  numberOfPackages?: number
+
+  /**
    * @type {Array<Link>}
    * @memberof EntityModelRepositoryDto
    */

@@ -19,6 +19,7 @@
  * along with this program. If not, see <http://www.apache.org/licenses/>
  *
  */
+
 import { toast, type ToastOptions } from 'vue3-toastify'
 import getEnv from '@/utils/env'
 import vuetify from '@/plugins/vuetify'

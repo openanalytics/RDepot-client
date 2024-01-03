@@ -24,7 +24,11 @@ import { Pagination } from '@/services/open_api_access'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 
-export type SelectState = 'packages' | 'repositories'
+export type SelectState =
+  | 'packages'
+  | 'repositories'
+  | 'repositoryMaintainers'
+  | 'packageMaintainers'
 const definedStores = new Map<
   string,
   ReturnType<typeof defineSelectStore>

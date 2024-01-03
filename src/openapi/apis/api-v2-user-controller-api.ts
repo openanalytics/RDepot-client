@@ -32,6 +32,7 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
 import globalAxios, {
   AxiosResponse,
   AxiosInstance,
@@ -60,6 +61,8 @@ export const ApiV2UserControllerApiAxiosParamCreator =
     return {
       /**
        *
+       * @param {Array<string>} [role]
+       * @param {boolean} [active]
        * @param {number} [page] Zero-based page index (0..N)
        * @param {number} [size] The size of the page to be returned
        * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
@@ -67,6 +70,8 @@ export const ApiV2UserControllerApiAxiosParamCreator =
        * @throws {RequiredError}
        */
       getAllUsers: async (
+        role?: Array<string>,
+        active?: boolean,
         page?: number,
         size?: number,
         sort?: Array<string>,
@@ -99,6 +104,14 @@ export const ApiV2UserControllerApiAxiosParamCreator =
               : await configuration.accessToken
           localVarHeaderParameter['Authorization'] =
             'Bearer ' + accessToken
+        }
+
+        if (role) {
+          localVarQueryParameter['role'] = role
+        }
+
+        if (active !== undefined) {
+          localVarQueryParameter['active'] = active
         }
 
         if (page !== undefined) {
@@ -442,17 +455,8 @@ export const ApiV2UserControllerApiAxiosParamCreator =
         }
         const needsSerialization =
           typeof body !== 'string' ||
-          Object.entries(
-            localVarRequestOptions.headers!
-          ).find(([key, value]) => {
-            if (
-              value === 'application/json' &&
-              key == 'Content-Type'
-            ) {
-              return true
-            }
-            return false
-          })
+          localVarRequestOptions.headers['Content-Type'] ===
+            'application/json'
         localVarRequestOptions.data = needsSerialization
           ? JSON.stringify(body !== undefined ? body : {})
           : body || ''
@@ -478,6 +482,8 @@ export const ApiV2UserControllerApiFp = function (
   return {
     /**
      *
+     * @param {Array<string>} [role]
+     * @param {boolean} [active]
      * @param {number} [page] Zero-based page index (0..N)
      * @param {number} [size] The size of the page to be returned
      * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
@@ -485,6 +491,8 @@ export const ApiV2UserControllerApiFp = function (
      * @throws {RequiredError}
      */
     async getAllUsers(
+      role?: Array<string>,
+      active?: boolean,
       page?: number,
       size?: number,
       sort?: Array<string>,
@@ -500,7 +508,14 @@ export const ApiV2UserControllerApiFp = function (
       const localVarAxiosArgs =
         await ApiV2UserControllerApiAxiosParamCreator(
           configuration
-        ).getAllUsers(page, size, sort, options)
+        ).getAllUsers(
+          role,
+          active,
+          page,
+          size,
+          sort,
+          options
+        )
       return (
         axios: AxiosInstance = globalAxios,
         basePath: string = BASE_PATH
@@ -651,6 +666,8 @@ export const ApiV2UserControllerApiFactory = function (
   return {
     /**
      *
+     * @param {Array<string>} [role]
+     * @param {boolean} [active]
      * @param {number} [page] Zero-based page index (0..N)
      * @param {number} [size] The size of the page to be returned
      * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
@@ -658,6 +675,8 @@ export const ApiV2UserControllerApiFactory = function (
      * @throws {RequiredError}
      */
     async getAllUsers(
+      role?: Array<string>,
+      active?: boolean,
       page?: number,
       size?: number,
       sort?: Array<string>,
@@ -666,7 +685,14 @@ export const ApiV2UserControllerApiFactory = function (
       AxiosResponse<ResponseDtoPagedModelEntityModelUserDto>
     > {
       return ApiV2UserControllerApiFp(configuration)
-        .getAllUsers(page, size, sort, options)
+        .getAllUsers(
+          role,
+          active,
+          page,
+          size,
+          sort,
+          options
+        )
         .then((request) => request(axios, basePath))
     },
     /**
@@ -741,6 +767,8 @@ export const ApiV2UserControllerApiFactory = function (
 export class ApiV2UserControllerApi extends BaseAPI {
   /**
    *
+   * @param {Array<string>} [role]
+   * @param {boolean} [active]
    * @param {number} [page] Zero-based page index (0..N)
    * @param {number} [size] The size of the page to be returned
    * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
@@ -749,6 +777,8 @@ export class ApiV2UserControllerApi extends BaseAPI {
    * @memberof ApiV2UserControllerApi
    */
   public async getAllUsers(
+    role?: Array<string>,
+    active?: boolean,
     page?: number,
     size?: number,
     sort?: Array<string>,
@@ -757,7 +787,7 @@ export class ApiV2UserControllerApi extends BaseAPI {
     AxiosResponse<ResponseDtoPagedModelEntityModelUserDto>
   > {
     return ApiV2UserControllerApiFp(this.configuration)
-      .getAllUsers(page, size, sort, options)
+      .getAllUsers(role, active, page, size, sort, options)
       .then((request) => request(this.axios, this.basePath))
   }
   /**

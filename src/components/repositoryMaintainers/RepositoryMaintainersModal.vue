@@ -21,12 +21,8 @@
 -->
 
 <template>
-  <Overlay @action="performAction()">
-    <template #props="{ closeModal }">
-      <Filtration
-        v-if="commonStore.isFiltration()"
-        @closeModal="closeModal"
-      />
+  <Overlay v-on:action="performAction()">
+    <template v-slot:props="{ closeModal }">
       <RepositoryMaintainerEdit
         v-if="commonStore.isEdit()"
         :blocked-field="editBlockedField"
@@ -39,7 +35,6 @@
 <script setup lang="ts">
 import { useCommonStore } from '@/store/common'
 import Overlay from '@/components/common/Overlay.vue'
-import Filtration from '@/components/repositoryMaintainers/Filtration.vue'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
 import RepositoryMaintainerEdit from '@/components/repositoryMaintainers/RepositoryMaintainerEdit.vue'
 

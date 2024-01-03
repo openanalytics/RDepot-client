@@ -32,32 +32,35 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
+import {} from '.'
+
 /**
+ *
  *
  * @export
  * @interface UserProjection
  */
 export interface UserProjection {
   /**
-   *
    * @type {number}
    * @memberof UserProjection
    */
   id?: number
+
   /**
-   *
    * @type {string}
    * @memberof UserProjection
    */
   name?: string
+
   /**
-   *
    * @type {string}
    * @memberof UserProjection
    */
   login?: string
+
   /**
-   *
    * @type {string}
    * @memberof UserProjection
    */

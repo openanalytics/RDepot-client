@@ -20,7 +20,6 @@
  *
  */
 
-/* tslint:disable */
 /* eslint-disable */
 /**
  * RDEPOT API
@@ -33,6 +32,7 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
 import globalAxios, {
   AxiosResponse,
   AxiosInstance,
@@ -220,17 +220,17 @@ export const PythonPackageControllerApiAxiosParamCreator =
       },
       /**
        *
-       * @param {string} [repositoryName]
+       * @param {Array<string>} [repository]
        * @param {boolean} [deleted]
-       * @param {string} [submissionState]
+       * @param {Array<string>} [submissionState]
        * @param {string} [name]
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
       getAllPythonPackages: async (
-        repositoryName?: string,
+        repository?: Array<string>,
         deleted?: boolean,
-        submissionState?: string,
+        submissionState?: Array<string>,
         name?: string,
         options: AxiosRequestConfig = {}
       ): Promise<RequestArgs> => {
@@ -263,16 +263,15 @@ export const PythonPackageControllerApiAxiosParamCreator =
             'Bearer ' + accessToken
         }
 
-        if (repositoryName !== undefined) {
-          localVarQueryParameter['repositoryName'] =
-            repositoryName
+        if (repository) {
+          localVarQueryParameter['repository'] = repository
         }
 
         if (deleted !== undefined) {
           localVarQueryParameter['deleted'] = deleted
         }
 
-        if (submissionState !== undefined) {
+        if (submissionState) {
           localVarQueryParameter['submissionState'] =
             submissionState
         }
@@ -396,17 +395,8 @@ export const PythonPackageControllerApiAxiosParamCreator =
         }
         const needsSerialization =
           typeof body !== 'string' ||
-          Object.entries(
-            localVarRequestOptions.headers!
-          ).find(([key, value]) => {
-            if (
-              value === 'application/json' &&
-              key == 'Content-Type'
-            ) {
-              return true
-            }
-            return false
-          })
+          localVarRequestOptions.headers['Content-Type'] ===
+            'application/json'
         localVarRequestOptions.data = needsSerialization
           ? JSON.stringify(body !== undefined ? body : {})
           : body || ''
@@ -494,17 +484,17 @@ export const PythonPackageControllerApiFp = function (
     },
     /**
      *
-     * @param {string} [repositoryName]
+     * @param {Array<string>} [repository]
      * @param {boolean} [deleted]
-     * @param {string} [submissionState]
+     * @param {Array<string>} [submissionState]
      * @param {string} [name]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getAllPythonPackages(
-      repositoryName?: string,
+      repository?: Array<string>,
       deleted?: boolean,
-      submissionState?: string,
+      submissionState?: Array<string>,
       name?: string,
       options?: AxiosRequestConfig
     ): Promise<
@@ -517,7 +507,7 @@ export const PythonPackageControllerApiFp = function (
         await PythonPackageControllerApiAxiosParamCreator(
           configuration
         ).getAllPythonPackages(
-          repositoryName,
+          repository,
           deleted,
           submissionState,
           name,
@@ -611,23 +601,23 @@ export const PythonPackageControllerApiFactory = function (
     },
     /**
      *
-     * @param {string} [repositoryName]
+     * @param {Array<string>} [repository]
      * @param {boolean} [deleted]
-     * @param {string} [submissionState]
+     * @param {Array<string>} [submissionState]
      * @param {string} [name]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getAllPythonPackages(
-      repositoryName?: string,
+      repository?: Array<string>,
       deleted?: boolean,
-      submissionState?: string,
+      submissionState?: Array<string>,
       name?: string,
       options?: AxiosRequestConfig
     ): Promise<AxiosResponse<ResponseDtoObject>> {
       return PythonPackageControllerApiFp(configuration)
         .getAllPythonPackages(
-          repositoryName,
+          repository,
           deleted,
           submissionState,
           name,
@@ -695,24 +685,24 @@ export class PythonPackageControllerApi extends BaseAPI {
   }
   /**
    *
-   * @param {string} [repositoryName]
+   * @param {Array<string>} [repository]
    * @param {boolean} [deleted]
-   * @param {string} [submissionState]
+   * @param {Array<string>} [submissionState]
    * @param {string} [name]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof PythonPackageControllerApi
    */
   public async getAllPythonPackages(
-    repositoryName?: string,
+    repository?: Array<string>,
     deleted?: boolean,
-    submissionState?: string,
+    submissionState?: Array<string>,
     name?: string,
     options?: AxiosRequestConfig
   ): Promise<AxiosResponse<ResponseDtoObject>> {
     return PythonPackageControllerApiFp(this.configuration)
       .getAllPythonPackages(
-        repositoryName,
+        repository,
         deleted,
         submissionState,
         name,

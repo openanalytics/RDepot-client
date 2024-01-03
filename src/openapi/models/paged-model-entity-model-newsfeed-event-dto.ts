@@ -32,29 +32,36 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
 import { EntityModelNewsfeedEventDto } from './entity-model-newsfeed-event-dto'
 import { Link } from './link'
 import { PageMetadata } from './page-metadata'
+import {
+  EntityModelNewsfeedEventDto,
+  Link,
+  PageMetadata
+} from '.'
+
 /**
+ *
  *
  * @export
  * @interface PagedModelEntityModelNewsfeedEventDto
  */
 export interface PagedModelEntityModelNewsfeedEventDto {
   /**
-   *
    * @type {Array<Link>}
    * @memberof PagedModelEntityModelNewsfeedEventDto
    */
   links?: Array<Link>
+
   /**
-   *
    * @type {Array<EntityModelNewsfeedEventDto>}
    * @memberof PagedModelEntityModelNewsfeedEventDto
    */
   content?: Array<EntityModelNewsfeedEventDto>
+
   /**
-   *
    * @type {PageMetadata}
    * @memberof PagedModelEntityModelNewsfeedEventDto
    */

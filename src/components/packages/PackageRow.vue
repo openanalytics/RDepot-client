@@ -87,7 +87,10 @@
         :text="$t('columns.package.state')"
         sortKey="columns.package.state"
       />
-      <TextRecord v-else text="submission state!" />
+      <TextRecord
+        v-else
+        :text="packageBag?.submission?.state"
+      />
     </VCol>
 
     <VCol

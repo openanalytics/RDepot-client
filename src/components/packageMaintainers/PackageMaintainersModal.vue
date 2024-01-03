@@ -21,12 +21,8 @@
 -->
 
 <template>
-  <Overlay @action="overlayEvent()">
-    <template #props="{ closeModal }">
-      <Filtration
-        v-if="commonStore.isFiltration()"
-        @closeModal="closeModal"
-      />
+  <Overlay v-on:action="overlayEvent()">
+    <template v-slot:props="{ closeModal }">
       <PackageMaintainerEdit
         v-if="commonStore.isEdit()"
         @closeModal="closeModal"
@@ -38,7 +34,6 @@
 <script setup lang="ts">
 import { useCommonStore } from '@/store/common'
 import Overlay from '@/components/common/Overlay.vue'
-import Filtration from '@/components/packageMaintainers/Filtration.vue'
 import { usePackageMaintainersStore } from '@/store/package_maintainers'
 import PackageMaintainerEdit from '@/components/packageMaintainers/PackageMaintainerEdit.vue'
 

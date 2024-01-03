@@ -32,32 +32,35 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
+import {} from '.'
+
 /**
+ *
  *
  * @export
  * @interface RoleDto
  */
 export interface RoleDto {
   /**
-   *
    * @type {number}
    * @memberof RoleDto
    */
   id?: number
+
   /**
-   *
    * @type {number}
    * @memberof RoleDto
    */
   value?: number
+
   /**
-   *
    * @type {string}
    * @memberof RoleDto
    */
   name?: string
+
   /**
-   *
    * @type {string}
    * @memberof RoleDto
    */

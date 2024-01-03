@@ -21,7 +21,6 @@
 -->
 
 <template>
-  <v-row justify="end" class="my-10 mx-10" align="center" />
   <ResourcesList :resources="userStore.userList">
     <template #title>
       <UserRow title />

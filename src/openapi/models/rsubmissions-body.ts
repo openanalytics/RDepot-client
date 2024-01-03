@@ -32,14 +32,17 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
+import {} from '.'
+
 /**
+ *
  *
  * @export
  * @interface RSubmissionsBody
  */
 export interface RSubmissionsBody {
   /**
-   *
    * @type {Blob}
    * @memberof RSubmissionsBody
    */

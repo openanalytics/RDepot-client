@@ -32,197 +32,206 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
 import { Link } from './link'
 import { RepositoryProjection } from './repository-projection'
+import { SubmissionProjection } from './submission-projection'
 import { UserProjection } from './user-projection'
+import {
+  Link,
+  RepositoryProjection,
+  SubmissionProjection,
+  UserProjection
+} from '.'
+
 /**
+ *
  *
  * @export
  * @interface EntityModelPythonPackageDto
  */
 export interface EntityModelPythonPackageDto {
   /**
-   *
    * @type {number}
    * @memberof EntityModelPythonPackageDto
    */
   id?: number
+
   /**
-   *
    * @type {UserProjection}
    * @memberof EntityModelPythonPackageDto
    */
   user?: UserProjection
+
   /**
-   *
    * @type {RepositoryProjection}
    * @memberof EntityModelPythonPackageDto
    */
   repository?: RepositoryProjection
+
   /**
-   *
-   * @type {number}
+   * @type {SubmissionProjection}
    * @memberof EntityModelPythonPackageDto
    */
-  submissionId?: number
+  submission?: SubmissionProjection
+
   /**
-   *
    * @type {string}
    * @memberof EntityModelPythonPackageDto
    */
   name?: string
+
   /**
-   *
    * @type {string}
    * @memberof EntityModelPythonPackageDto
    */
   version?: string
+
   /**
-   *
-   * @type {string}
-   * @memberof EntityModelPythonPackageDto
-   */
-  description?: string
-  /**
-   *
-   * @type {string}
-   * @memberof EntityModelPythonPackageDto
-   */
-  author?: string
-  /**
-   *
-   * @type {string}
-   * @memberof EntityModelPythonPackageDto
-   */
-  title?: string
-  /**
-   *
-   * @type {string}
-   * @memberof EntityModelPythonPackageDto
-   */
-  url?: string
-  /**
-   *
    * @type {string}
    * @memberof EntityModelPythonPackageDto
    */
   source?: string
+
   /**
-   *
    * @type {boolean}
    * @memberof EntityModelPythonPackageDto
    */
   active?: boolean
+
   /**
-   *
    * @type {boolean}
    * @memberof EntityModelPythonPackageDto
    */
   deleted?: boolean
+
   /**
-   *
    * @type {string}
    * @memberof EntityModelPythonPackageDto
    */
   technology?: string
+
   /**
-   *
+   * @type {string}
+   * @memberof EntityModelPythonPackageDto
+   */
+  description?: string
+
+  /**
+   * @type {string}
+   * @memberof EntityModelPythonPackageDto
+   */
+  author?: string
+
+  /**
+   * @type {string}
+   * @memberof EntityModelPythonPackageDto
+   */
+  title?: string
+
+  /**
+   * @type {string}
+   * @memberof EntityModelPythonPackageDto
+   */
+  url?: string
+
+  /**
    * @type {string}
    * @memberof EntityModelPythonPackageDto
    */
   authorEmail?: string
+
   /**
-   *
    * @type {string}
    * @memberof EntityModelPythonPackageDto
    */
   classifiers?: string
+
   /**
-   *
    * @type {string}
    * @memberof EntityModelPythonPackageDto
    */
   descriptionContentType?: string
+
   /**
-   *
    * @type {string}
    * @memberof EntityModelPythonPackageDto
    */
   homePage?: string
+
   /**
-   *
    * @type {string}
    * @memberof EntityModelPythonPackageDto
    */
   keywords?: string
+
   /**
-   *
    * @type {string}
    * @memberof EntityModelPythonPackageDto
    */
   license?: string
+
   /**
-   *
    * @type {string}
    * @memberof EntityModelPythonPackageDto
    */
   maintainer?: string
+
   /**
-   *
    * @type {string}
    * @memberof EntityModelPythonPackageDto
    */
   maintainerEmail?: string
+
   /**
-   *
    * @type {string}
    * @memberof EntityModelPythonPackageDto
    */
   platform?: string
+
   /**
-   *
    * @type {string}
    * @memberof EntityModelPythonPackageDto
    */
   projectUrl?: string
+
   /**
-   *
    * @type {string}
    * @memberof EntityModelPythonPackageDto
    */
   providesExtra?: string
+
   /**
-   *
    * @type {string}
    * @memberof EntityModelPythonPackageDto
    */
   requiresDist?: string
+
   /**
-   *
    * @type {string}
    * @memberof EntityModelPythonPackageDto
    */
   requiresExternal?: string
+
   /**
-   *
    * @type {string}
    * @memberof EntityModelPythonPackageDto
    */
   requiresPython?: string
+
   /**
-   *
    * @type {string}
    * @memberof EntityModelPythonPackageDto
    */
   summary?: string
+
   /**
-   *
    * @type {string}
    * @memberof EntityModelPythonPackageDto
    */
   hash?: string
+
   /**
-   *
    * @type {Array<Link>}
    * @memberof EntityModelPythonPackageDto
    */
