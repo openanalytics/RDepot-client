@@ -228,20 +228,20 @@ export const RRepositoryControllerApiAxiosParamCreator =
       },
       /**
        *
-       * @param {boolean} [deleted]
-       * @param {string} [name]
        * @param {number} [page] Zero-based page index (0..N)
        * @param {number} [size] The size of the page to be returned
-       * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+       * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+       * @param {boolean} [deleted]
+       * @param {string} [name]
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
       getAllRRepositories: async (
-        deleted?: boolean,
-        name?: string,
         page?: number,
         size?: number,
         sort?: Array<string>,
+        deleted?: boolean,
+        name?: string,
         options: AxiosRequestConfig = {}
       ): Promise<RequestArgs> => {
         const localVarPath = `/api/v2/manager/r/repositories`
@@ -273,14 +273,6 @@ export const RRepositoryControllerApiAxiosParamCreator =
             'Bearer ' + accessToken
         }
 
-        if (deleted !== undefined) {
-          localVarQueryParameter['deleted'] = deleted
-        }
-
-        if (name !== undefined) {
-          localVarQueryParameter['name'] = name
-        }
-
         if (page !== undefined) {
           localVarQueryParameter['page'] = page
         }
@@ -291,6 +283,14 @@ export const RRepositoryControllerApiAxiosParamCreator =
 
         if (sort) {
           localVarQueryParameter['sort'] = sort
+        }
+
+        if (deleted !== undefined) {
+          localVarQueryParameter['deleted'] = deleted
+        }
+
+        if (name !== undefined) {
+          localVarQueryParameter['name'] = name
         }
 
         const query = new URLSearchParams(
@@ -735,20 +735,20 @@ export const RRepositoryControllerApiFp = function (
     },
     /**
      *
-     * @param {boolean} [deleted]
-     * @param {string} [name]
      * @param {number} [page] Zero-based page index (0..N)
      * @param {number} [size] The size of the page to be returned
-     * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     * @param {boolean} [deleted]
+     * @param {string} [name]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getAllRRepositories(
-      deleted?: boolean,
-      name?: string,
       page?: number,
       size?: number,
       sort?: Array<string>,
+      deleted?: boolean,
+      name?: string,
       options?: AxiosRequestConfig
     ): Promise<
       (
@@ -762,11 +762,11 @@ export const RRepositoryControllerApiFp = function (
         await RRepositoryControllerApiAxiosParamCreator(
           configuration
         ).getAllRRepositories(
-          deleted,
-          name,
           page,
           size,
           sort,
+          deleted,
+          name,
           options
         )
       return (
@@ -947,31 +947,31 @@ export const RRepositoryControllerApiFactory = function (
     },
     /**
      *
-     * @param {boolean} [deleted]
-     * @param {string} [name]
      * @param {number} [page] Zero-based page index (0..N)
      * @param {number} [size] The size of the page to be returned
-     * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     * @param {boolean} [deleted]
+     * @param {string} [name]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getAllRRepositories(
-      deleted?: boolean,
-      name?: string,
       page?: number,
       size?: number,
       sort?: Array<string>,
+      deleted?: boolean,
+      name?: string,
       options?: AxiosRequestConfig
     ): Promise<
       AxiosResponse<ResponseDtoPagedModelEntityModelRRepositoryDto>
     > {
       return RRepositoryControllerApiFp(configuration)
         .getAllRRepositories(
-          deleted,
-          name,
           page,
           size,
           sort,
+          deleted,
+          name,
           options
         )
         .then((request) => request(axios, basePath))
@@ -1078,32 +1078,32 @@ export class RRepositoryControllerApi extends BaseAPI {
   }
   /**
    *
-   * @param {boolean} [deleted]
-   * @param {string} [name]
    * @param {number} [page] Zero-based page index (0..N)
    * @param {number} [size] The size of the page to be returned
-   * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+   * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+   * @param {boolean} [deleted]
+   * @param {string} [name]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof RRepositoryControllerApi
    */
   public async getAllRRepositories(
-    deleted?: boolean,
-    name?: string,
     page?: number,
     size?: number,
     sort?: Array<string>,
+    deleted?: boolean,
+    name?: string,
     options?: AxiosRequestConfig
   ): Promise<
     AxiosResponse<ResponseDtoPagedModelEntityModelRRepositoryDto>
   > {
     return RRepositoryControllerApiFp(this.configuration)
       .getAllRRepositories(
-        deleted,
-        name,
         page,
         size,
         sort,
+        deleted,
+        name,
         options
       )
       .then((request) => request(this.axios, this.basePath))

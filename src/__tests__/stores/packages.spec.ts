@@ -47,10 +47,12 @@ const defaultFiltration = defaultValues(PackagesFiltration)
 
 const { deepCopyAny } = useUtilities()
 const randomFiltration = {
-  state: 'ACCEPTED',
-  deleted: true,
-  repository: 'testrepo1',
-  technologies: [Technologies.enum.R]
+  submissionState: ['ACCEPTED'],
+  repository: ['repository1'],
+  deleted: false,
+  technologies: [Technologies.enum.R],
+  maintainer: ['newton'],
+  search: 'a'
 }
 
 const server = setupServer(
@@ -116,7 +118,6 @@ describe('Package Store', () => {
     const packageStore = usePackagesStore()
     expect(packageStore.packages).toStrictEqual([])
     expect(packageStore.package).toStrictEqual({})
-    expect(packageStore.vignettes).toStrictEqual({})
     expect(packageStore.filtration).toStrictEqual(
       defaultFiltration
     )
@@ -136,7 +137,8 @@ describe('Package Store', () => {
   it('Fetch package', async () => {
     const packageStore = usePackagesStore()
     await packageStore.fetchPackage(
-      packages.data.content[2].id
+      packages.data.content[2].id,
+      'R'
     )
 
     expect(packageStore.package).toStrictEqual(

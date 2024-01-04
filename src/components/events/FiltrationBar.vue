@@ -109,6 +109,7 @@
       <v-col sm="1" class="reset-button">
         <v-btn
           class="my-2"
+          id="reset-button"
           density="compact"
           color="oablue"
           @click="resetValues"

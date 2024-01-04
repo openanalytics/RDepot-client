@@ -42,16 +42,15 @@ import { Technologies } from '@/enum/Technologies'
 import { i18n } from '@/plugins/i18n'
 
 const defaultFiltration = {
-  deleted: false,
-  technologies: undefined
+  deleted: undefined,
+  technologies: undefined,
+  search: undefined
 }
 
 const randomFiltration = {
-  deleted: true,
-  technologies: [
-    Technologies.enum.Python,
-    Technologies.enum.R
-  ]
+  deleted: false,
+  technologies: [Technologies.enum.Python],
+  search: 'ana'
 }
 
 const server = setupServer(

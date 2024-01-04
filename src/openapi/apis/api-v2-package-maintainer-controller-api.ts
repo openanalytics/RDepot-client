@@ -227,24 +227,24 @@ export const ApiV2PackageMaintainerControllerApiAxiosParamCreator =
       },
       /**
        *
+       * @param {number} [page] Zero-based page index (0..N)
+       * @param {number} [size] The size of the page to be returned
+       * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
        * @param {boolean} [deleted]
        * @param {Array<string>} [technology]
        * @param {Array<string>} [repository]
-       * @param {Array<string>} [maintainer]
-       * @param {number} [page] Zero-based page index (0..N)
-       * @param {number} [size] The size of the page to be returned
-       * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+       * @param {string} [search]
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
       getAllPackageMaintainers: async (
-        deleted?: boolean,
-        technology?: Array<string>,
-        repository?: Array<string>,
-        maintainer?: Array<string>,
         page?: number,
         size?: number,
         sort?: Array<string>,
+        deleted?: boolean,
+        technology?: Array<string>,
+        repository?: Array<string>,
+        search?: string,
         options: AxiosRequestConfig = {}
       ): Promise<RequestArgs> => {
         const localVarPath = `/api/v2/manager/package-maintainers`
@@ -276,6 +276,18 @@ export const ApiV2PackageMaintainerControllerApiAxiosParamCreator =
             'Bearer ' + accessToken
         }
 
+        if (page !== undefined) {
+          localVarQueryParameter['page'] = page
+        }
+
+        if (size !== undefined) {
+          localVarQueryParameter['size'] = size
+        }
+
+        if (sort) {
+          localVarQueryParameter['sort'] = sort
+        }
+
         if (deleted !== undefined) {
           localVarQueryParameter['deleted'] = deleted
         }
@@ -288,20 +300,8 @@ export const ApiV2PackageMaintainerControllerApiAxiosParamCreator =
           localVarQueryParameter['repository'] = repository
         }
 
-        if (maintainer) {
-          localVarQueryParameter['maintainer'] = maintainer
-        }
-
-        if (page !== undefined) {
-          localVarQueryParameter['page'] = page
-        }
-
-        if (size !== undefined) {
-          localVarQueryParameter['size'] = size
-        }
-
-        if (sort) {
-          localVarQueryParameter['sort'] = sort
+        if (search !== undefined) {
+          localVarQueryParameter['search'] = search
         }
 
         const query = new URLSearchParams(
@@ -585,24 +585,24 @@ export const ApiV2PackageMaintainerControllerApiFp =
       },
       /**
        *
+       * @param {number} [page] Zero-based page index (0..N)
+       * @param {number} [size] The size of the page to be returned
+       * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
        * @param {boolean} [deleted]
        * @param {Array<string>} [technology]
        * @param {Array<string>} [repository]
-       * @param {Array<string>} [maintainer]
-       * @param {number} [page] Zero-based page index (0..N)
-       * @param {number} [size] The size of the page to be returned
-       * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+       * @param {string} [search]
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
       async getAllPackageMaintainers(
-        deleted?: boolean,
-        technology?: Array<string>,
-        repository?: Array<string>,
-        maintainer?: Array<string>,
         page?: number,
         size?: number,
         sort?: Array<string>,
+        deleted?: boolean,
+        technology?: Array<string>,
+        repository?: Array<string>,
+        search?: string,
         options?: AxiosRequestConfig
       ): Promise<
         (
@@ -616,13 +616,13 @@ export const ApiV2PackageMaintainerControllerApiFp =
           await ApiV2PackageMaintainerControllerApiAxiosParamCreator(
             configuration
           ).getAllPackageMaintainers(
-            deleted,
-            technology,
-            repository,
-            maintainer,
             page,
             size,
             sort,
+            deleted,
+            technology,
+            repository,
+            search,
             options
           )
         return (
@@ -748,24 +748,24 @@ export const ApiV2PackageMaintainerControllerApiFactory =
       },
       /**
        *
+       * @param {number} [page] Zero-based page index (0..N)
+       * @param {number} [size] The size of the page to be returned
+       * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
        * @param {boolean} [deleted]
        * @param {Array<string>} [technology]
        * @param {Array<string>} [repository]
-       * @param {Array<string>} [maintainer]
-       * @param {number} [page] Zero-based page index (0..N)
-       * @param {number} [size] The size of the page to be returned
-       * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+       * @param {string} [search]
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
       async getAllPackageMaintainers(
-        deleted?: boolean,
-        technology?: Array<string>,
-        repository?: Array<string>,
-        maintainer?: Array<string>,
         page?: number,
         size?: number,
         sort?: Array<string>,
+        deleted?: boolean,
+        technology?: Array<string>,
+        repository?: Array<string>,
+        search?: string,
         options?: AxiosRequestConfig
       ): Promise<
         AxiosResponse<ResponseDtoPagedModelEntityModelPackageMaintainerDto>
@@ -774,13 +774,13 @@ export const ApiV2PackageMaintainerControllerApiFactory =
           configuration
         )
           .getAllPackageMaintainers(
-            deleted,
-            technology,
-            repository,
-            maintainer,
             page,
             size,
             sort,
+            deleted,
+            technology,
+            repository,
+            search,
             options
           )
           .then((request) => request(axios, basePath))
@@ -867,25 +867,25 @@ export class ApiV2PackageMaintainerControllerApi extends BaseAPI {
   }
   /**
    *
+   * @param {number} [page] Zero-based page index (0..N)
+   * @param {number} [size] The size of the page to be returned
+   * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
    * @param {boolean} [deleted]
    * @param {Array<string>} [technology]
    * @param {Array<string>} [repository]
-   * @param {Array<string>} [maintainer]
-   * @param {number} [page] Zero-based page index (0..N)
-   * @param {number} [size] The size of the page to be returned
-   * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+   * @param {string} [search]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof ApiV2PackageMaintainerControllerApi
    */
   public async getAllPackageMaintainers(
-    deleted?: boolean,
-    technology?: Array<string>,
-    repository?: Array<string>,
-    maintainer?: Array<string>,
     page?: number,
     size?: number,
     sort?: Array<string>,
+    deleted?: boolean,
+    technology?: Array<string>,
+    repository?: Array<string>,
+    search?: string,
     options?: AxiosRequestConfig
   ): Promise<
     AxiosResponse<ResponseDtoPagedModelEntityModelPackageMaintainerDto>
@@ -894,13 +894,13 @@ export class ApiV2PackageMaintainerControllerApi extends BaseAPI {
       this.configuration
     )
       .getAllPackageMaintainers(
-        deleted,
-        technology,
-        repository,
-        maintainer,
         page,
         size,
         sort,
+        deleted,
+        technology,
+        repository,
+        search,
         options
       )
       .then((request) => request(this.axios, this.basePath))

@@ -222,6 +222,7 @@
       },
       "name": "Package",
       "repository": "Repository",
+      "searchBox": "Package...",
       "submissionState": "State"
     },
     "generatemanual": "Generate manual",
@@ -282,7 +283,8 @@
         "searchPlaceholder": "Maintainer, repository..."
       },
       "name": "Name",
-      "published": "Published"
+      "published": "Published",
+      "searchBox": "Repository..."
     },
     "list": "Repositories",
     "maintainers": "Repository maintainers"
@@ -311,7 +313,8 @@
     },
     "filtration": {
       "active": "Active",
-      "roles": "Roles"
+      "roles": "Roles",
+      "searchBox": "User..."
     }
   }
 }

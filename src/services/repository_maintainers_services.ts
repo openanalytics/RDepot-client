@@ -51,11 +51,12 @@ export async function fetchRepositoryMaintainersServices(
     ApiV2RepositoryMaintainerControllerApiFactory()
       .getAllRepositoryMaintainers,
     [
-      filtration?.deleted,
-      filtration?.technologies,
       page,
       pageSize,
-      sortBy
+      sortBy,
+      filtration?.deleted,
+      filtration?.technologies,
+      filtration?.search
     ]
   )
 }
@@ -75,9 +76,10 @@ export async function fetchAllRepositoryMaintainers(): Promise<
     [
       undefined,
       undefined,
+      ['user.name,asc'],
       undefined,
       undefined,
-      ['user.name,asc']
+      undefined
     ]
   )
 }

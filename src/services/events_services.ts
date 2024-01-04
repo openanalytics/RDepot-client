@@ -50,15 +50,15 @@ export async function fetchEventsServices(
   return openApiRequest<EntityModelNewsfeedEventDto>(
     ApiV2NewsfeedEventControllerApiFactory().getAllEvents,
     [
+      page,
+      pageSize,
+      undefined,
       localFiltration,
       filtration.userName,
       filtration.eventType,
       filtration.resourceType,
       filtration.fromDate,
-      filtration.toDate,
-      page,
-      pageSize,
-      undefined
+      filtration.toDate
     ]
   )
 }

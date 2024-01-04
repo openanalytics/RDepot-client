@@ -46,6 +46,7 @@ import {
   defaultValues
 } from '@/models/Filtration'
 import { usePagination } from '@/store/pagination'
+import { Technologies } from '@/enum/Technologies'
 
 const { deepCopyAny } = useUtilities()
 const files = [
@@ -60,9 +61,13 @@ const defaultFiltration = defaultValues(
 )
 
 const randomFiltration = {
-  package: packages.data.content[0].name,
-  state: 'ACCEPTED',
-  assignedToMe: true
+  state: ['ACCEPTED'],
+  assignedToMe: false,
+  search: 'accured',
+  technologies: [Technologies.enum.Python],
+  repository: ['repository1'],
+  fromDate: '2019-05-03',
+  toDate: '2022-09-20'
 } as SubmissionsFiltration
 
 const server = setupServer(

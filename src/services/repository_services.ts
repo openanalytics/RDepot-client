@@ -57,12 +57,14 @@ export function fetchRepositoriesServices(
     ApiV2RepositoryControllerApiFactory()
       .getAllRepositories,
     [
-      filtration?.deleted,
-      filtration?.name,
-      filtration?.technologies,
       page,
       pageSize,
-      sort.getSortBy()
+      sort.getSortBy(),
+      filtration?.deleted,
+      filtration?.technologies,
+      filtration?.published,
+      filtration?.maintainer,
+      filtration?.search
     ],
     showProgress
   )
@@ -79,6 +81,8 @@ export function fetchFullRepositoriesList(
     ApiV2RepositoryControllerApiFactory()
       .getAllRepositories,
     [
+      undefined,
+      undefined,
       undefined,
       undefined,
       undefined,

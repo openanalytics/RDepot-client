@@ -26,18 +26,18 @@
     style="padding-left: 0; padding-right: 0"
   >
     <v-row>
-      <!-- <v-col sm="4">
+      <v-col sm="4">
         <validated-input-field
           @update:modelValue="setFiltration"
           density="compact"
           hide-details
-          name="name"
+          name="search"
           as="v-text-field"
-          :label="$t('packages.filtration.name')"
+          :label="$t('users.filtration.searchBox')"
           color="oablue"
-          id="filtration-name"
+          id="filtration-search"
         />
-      </v-col> -->
+      </v-col>
       <v-col sm="2">
         <validated-input-field
           @update:modelValue="setFiltration"
@@ -70,6 +70,7 @@
       <v-col sm="1" class="reset-button">
         <v-btn
           class="my-2"
+          id="reset-button"
           density="compact"
           color="oablue"
           @click="resetValues"

@@ -56,16 +56,15 @@ export async function fetchSubmissions(
   return openApiRequest<EntityModelSubmissionDto[]>(
     ApiV2SubmissionControllerApiFactory().getAllSubmissions,
     [
-      filtration?.state,
-      filtration.assignedToMe ? logged_user_id : undefined,
-      filtration?.package,
-      filtration?.technologies, // TODO: add technology filtering
-      filtration?.repository, // TODO:
-      filtration?.fromDate,
-      filtration?.toDate,
       page,
       pageSize,
-      sortBy
+      sortBy,
+      filtration?.state,
+      filtration?.technologies,
+      filtration?.repository,
+      filtration?.fromDate,
+      filtration?.toDate,
+      filtration?.search
     ],
     showProgress
   )

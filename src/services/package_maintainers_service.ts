@@ -52,13 +52,13 @@ export async function fetchPackageMaintainersService(
     ApiV2PackageMaintainerControllerApiFactory()
       .getAllPackageMaintainers,
     [
+      page,
+      pageSize,
+      sortBy,
       filtration?.deleted,
       filtration?.technologies,
       filtration?.repository,
-      filtration?.maintainer,
-      page,
-      pageSize,
-      sortBy
+      filtration?.search
     ]
   )
 }
@@ -75,11 +75,11 @@ export async function fetchAllPackageMaintainers(): Promise<
     [
       undefined,
       undefined,
+      ['user.name,asc'],
       undefined,
       undefined,
       undefined,
-      undefined,
-      ['user.name,asc']
+      undefined
     ]
   )
 }
