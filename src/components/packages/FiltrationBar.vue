@@ -123,6 +123,7 @@
         <v-btn
           class="my-2"
           density="compact"
+          id="reset-button"
           color="oablue"
           @click="resetValues"
           v-if="!packageStore.isDefaultFiltration"

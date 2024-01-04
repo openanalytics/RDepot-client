@@ -38,15 +38,19 @@ import { usePagination } from '@/store/pagination'
 import { Technologies } from '@/enum/Technologies'
 
 const defaultFiltration = {
-  name: undefined,
+  deleted: false,
   technologies: undefined,
-  deleted: false
+  search: undefined,
+  published: undefined,
+  maintainer: undefined
 }
 
 const randomFiltration = {
-  name: 'Test',
+  deleted: true,
   technologies: [Technologies.enum.R],
-  deleted: true
+  search: '10',
+  published: true,
+  maintainer: ['tesla']
 }
 
 const server = setupServer(

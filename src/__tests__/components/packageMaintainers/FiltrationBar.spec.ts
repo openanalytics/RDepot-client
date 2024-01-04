@@ -32,7 +32,7 @@ import { mount } from '@vue/test-utils'
 import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
 import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
-import FiltrationVue from '@/components/packageMaintainers/Filtration.vue'
+import FiltrationBarVue from '@/components/packageMaintainers/FiltrationBar.vue'
 import { createPinia, setActivePinia } from 'pinia'
 import { usePackageMaintainersStore } from '@/store/package_maintainers'
 import { Technologies } from '@/enum/Technologies'
@@ -41,6 +41,7 @@ import {
   defaultValues
 } from '@/models/Filtration'
 import flushPromises from 'flush-promises'
+import waitForExpect from 'wait-for-expect'
 
 let wrapper: any
 const globalConfig = {
@@ -52,7 +53,9 @@ let packageMaintainersStore: any
 const packageMaintainersStoreFiltration =
   PackageMaintainersFiltration.parse({
     deleted: false,
-    technologies: [Technologies.enum.R]
+    technologies: [Technologies.enum.R],
+    search: 'newton',
+    repository: ['repository1']
   })
 
 beforeAll(() => {
@@ -62,7 +65,7 @@ beforeAll(() => {
 beforeEach(async () => {
   setActivePinia(createPinia())
   packageMaintainersStore = usePackageMaintainersStore()
-  wrapper = mount(FiltrationVue, {
+  wrapper = mount(FiltrationBarVue, {
     global: globalConfig
   })
 })
@@ -72,87 +75,33 @@ describe('Packages Maintainers - filtration', () => {
     expect(wrapper.exists()).toBe(true)
   })
 
-  it('show reset button', () => {
-    expect(wrapper.find('#reset-button').isVisible()).toBe(
-      true
+  it('reset button hidden without filtration', () => {
+    expect(wrapper.find('#reset-button').exists()).toBe(
+      false
     )
   })
 
-  it('show set filtration button', () => {
-    expect(
-      wrapper.find('#set-filtration').isVisible()
-    ).toBe(true)
+  it('reset button visible with filtration', async () => {
+    await fillTheFormWithRandomData()
+    fillPiniaFiltrationWithRandomData()
+    await waitForExpect(() => {
+      expect(
+        wrapper.find('#reset-button').isVisible()
+      ).toBe(true)
+    })
   })
 
-  it('reset clear form', async () => {
+  it('reset form', async () => {
+    await fillTheFormWithRandomData()
+    fillPiniaFiltrationWithRandomData()
+    await waitForExpect(() => {
+      expect(
+        wrapper.find('#reset-button').isVisible()
+      ).toBe(true)
+    })
     await clickButton('#reset-button')
     checkIfFiltrationIsEmpty()
     checkIfPiniaFiltrationIsEmpty()
-  })
-
-  it('reset filled form', async () => {
-    fillTheFormWithRandomData()
-    fillPiniaFiltrationWithRandomData()
-    await clickButton('#reset-button')
-    checkIfFiltrationIsEmpty()
-    checkIfPiniaFiltrationIsFilledWithData()
-  })
-
-  it('reset form but not accept it yet', async () => {
-    fillTheFormWithRandomData()
-    fillPiniaFiltrationWithRandomData()
-    wrapper.vm.values.technologies = [
-      Technologies.enum.Python
-    ]
-    await clickButton('#reset-button')
-    checkIfFiltrationIsEmpty()
-    expect(
-      packageMaintainersStore.filtration.technologies
-    ).toStrictEqual([Technologies.enum.R])
-  })
-
-  it('reset form and cancel it', async () => {
-    fillTheFormWithRandomData()
-    fillPiniaFiltrationWithRandomData()
-    wrapper.vm.values.technologies = [
-      Technologies.enum.Python
-    ]
-    await clickButton('#reset-button')
-    await clickButton('#cancel-button')
-    expect(
-      packageMaintainersStore.filtration.technologies
-    ).toStrictEqual([Technologies.enum.R])
-  })
-
-  it('change state but cancel action', async () => {
-    fillTheFormWithRandomData()
-    fillPiniaFiltrationWithRandomData()
-    await clickButton('#set-filtration')
-    wrapper.vm.values.technologies = [
-      Technologies.enum.Python
-    ]
-    await clickButton('#cancel-button')
-    expect(
-      packageMaintainersStore.filtration.technologies
-    ).toStrictEqual([Technologies.enum.R])
-  })
-
-  it('clear form and accept it', async () => {
-    fillTheFormWithRandomData()
-    fillPiniaFiltrationWithRandomData()
-    await clickButton('#set-filtration')
-    expect(wrapper.emitted().closeModal).toBeTruthy()
-    await clickButton('#reset-button')
-    await clickButton('#set-filtration')
-    checkIfFiltrationIsEmpty()
-    checkIfPiniaFiltrationIsEmpty()
-  })
-
-  it('save filtration', async () => {
-    fillTheFormWithRandomData()
-    await clickButton('#set-filtration')
-    expect(wrapper.emitted().closeModal).toBeTruthy()
-    checkIfPiniaFiltrationIsFilledWithData()
   })
 })
 
@@ -165,15 +114,6 @@ function checkIfFiltrationIsEmpty() {
 function checkIfPiniaFiltrationIsEmpty() {
   expect(packageMaintainersStore.filtration).toEqual(
     defaultValues(PackageMaintainersFiltration)
-  )
-}
-
-function checkIfPiniaFiltrationIsFilledWithData() {
-  expect(
-    packageMaintainersStore.filtration.technologies
-  ).toStrictEqual([Technologies.enum.R])
-  expect(packageMaintainersStore.filtration.deleted).toBe(
-    false
   )
 }
 
