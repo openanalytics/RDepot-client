@@ -22,7 +22,6 @@
 
 import { UserSettingsProjection } from '@/openapi/models/user-settings-projection'
 import { useAuthorizationStore } from '@/store/authorization'
-import { rest } from 'msw'
 import me from '@/__tests__/config/mockData/me.json'
 import { setupServer } from 'msw/node'
 import { createPinia, setActivePinia } from 'pinia'
@@ -35,12 +34,13 @@ import {
   beforeAll,
   afterAll
 } from 'vitest'
+import { http, HttpResponse } from 'msw'
 
 const server = setupServer(
-  rest.get(
+  http.get(
     'http://localhost:8017/api/v2/manager/users/me',
-    (_, res, ctx) => {
-      return res(ctx.json(me))
+    () => {
+      return HttpResponse.json(me)
     }
   )
 )

@@ -167,22 +167,22 @@ describe('User - user row (title)', () => {
 
   it('name field', () => {
     const field = wrapper.find('#user-name')
-    expect(field.text()).toBe('Columns.name')
+    expect(field.text()).toBe('Columns.users.name')
   })
 
   it('email field', () => {
     const field = wrapper.find('#user-email')
-    expect(field.text()).toBe('Columns.email')
+    expect(field.text()).toBe('Columns.users.email')
   })
 
   it('username field', () => {
     const field = wrapper.find('#user-username')
-    expect(field.text()).toBe('Columns.username')
+    expect(field.text()).toBe('Columns.users.username')
   })
 
   it('role field', () => {
     const field = wrapper.find('#user-role')
-    expect(field.text()).toBe('Columns.role')
+    expect(field.text()).toBe('Columns.users.role')
   })
 
   it('edit button exists', () => {
@@ -194,7 +194,7 @@ describe('User - user row (title)', () => {
   it('active title', () => {
     const field = wrapper.find('#user-active')
     const checkbox = wrapper.find('#checkbox-active')
-    expect(field.text()).toBe('Columns.active')
+    expect(field.text()).toBe('Columns.users.active')
     expect(checkbox.exists()).toBe(false)
   })
 

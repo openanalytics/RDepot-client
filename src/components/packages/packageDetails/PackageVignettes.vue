@@ -21,7 +21,7 @@
 -->
 
 <template>
-  <div class="title" v-if="vignettes?.data">
+  <div class="title" v-if="vignettes.length > 0">
     {{ $t('packages.documentation') }}
   </div>
   <PackageVignette
@@ -31,7 +31,7 @@
     :title="vignette?.title"
   >
   </PackageVignette>
-  <div v-show="vignettes?.data?.length == 0">
+  <div v-show="vignettes?.length == 0">
     {{ $t('packages.noVignette') }}
   </div>
 </template>

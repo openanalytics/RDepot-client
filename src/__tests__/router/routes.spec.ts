@@ -74,11 +74,6 @@ describe('App router', () => {
     findComponentInWrapper(wrapper, 'repositories')
   })
 
-  it('renders repository details via router', async () => {
-    await getRouterPath('/repositories/testrepo1')
-    findComponentInWrapper(wrapper, 'repositoryDetails')
-  })
-
   it('renders repository maintainers list via router', async () => {
     await getRouterPath('/repository-maintainers')
     findComponentInWrapper(wrapper, 'repositoryMaintainers')

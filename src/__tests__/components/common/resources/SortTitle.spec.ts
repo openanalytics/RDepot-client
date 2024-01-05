@@ -44,7 +44,7 @@ describe('SortTitle - default options', () => {
     setActivePinia(createPinia())
     wrapper = mount(SortTitle, {
       global: globalConfig,
-      props: { text: TEXT }
+      props: { text: TEXT, sortKey: TEXT }
     })
   })
 
@@ -84,7 +84,8 @@ describe('SortTitle - custom options', () => {
       props: {
         text: TEXT,
         center: true,
-        sortField: 'user'
+        sortField: 'user',
+        sortKey: 'user'
       }
     })
   })
@@ -116,6 +117,7 @@ describe('SortTitle - no sort option', () => {
       global: globalConfig,
       props: {
         text: TEXT,
+        sortKey: 'name',
         noSort: true
       }
     })
@@ -136,7 +138,8 @@ describe('SortTitle - nonactive field', () => {
     wrapper = mount(SortTitle, {
       global: globalConfig,
       props: {
-        text: TEXT
+        text: TEXT,
+        sortKey: 'name'
       }
     })
   })
@@ -165,9 +168,10 @@ describe('SortTitle - nonactive field', () => {
     expect(sortStore.direction).toEqual('asc')
     expect(sortStore.field).toEqual('user')
     await sortButton.trigger('click')
-    expect(sortStore.direction).toEqual('asc')
     expect(commonStore.activeId).toEqual('name')
     expect(sortStore.field).toEqual('name')
-    expect(wrapper.vm.getIcon).toEqual('mdi-sort-ascending')
+    expect(wrapper.vm.getIcon).toEqual(
+      'mdi-sort-descending'
+    )
   })
 })

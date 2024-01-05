@@ -153,21 +153,27 @@ describe('Repository Maintainers - maintainers row (title)', () => {
     const field = wrapper.find(
       '#repository-maintainer-name'
     )
-    expect(field.text()).toBe('Columns.name')
+    expect(field.text()).toBe(
+      'Columns.repositoryMaintainer.name'
+    )
   })
 
   it('repository field', () => {
     const field = wrapper.find(
       '#repository-maintainer-repository'
     )
-    expect(field.text()).toBe('Columns.repository')
+    expect(field.text()).toBe(
+      'Columns.repositoryMaintainer.repository'
+    )
   })
 
   it('technology field', () => {
     const field = wrapper.find(
       '#repository-maintainer-technology'
     )
-    expect(field.text()).toBe('Columns.technology')
+    expect(field.text()).toBe(
+      'Columns.repositoryMaintainer.technology'
+    )
   })
 
   it('actions field', () => {

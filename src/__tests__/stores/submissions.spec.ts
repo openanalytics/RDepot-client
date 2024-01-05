@@ -38,7 +38,6 @@ import {
 import packages from '@/__tests__/config/mockData/packages.json'
 import submissions from '@/__tests__/config/mockData/submissions.json'
 import me from '@/__tests__/config/mockData/me.json'
-import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { useUtilities } from '@/composable/utilities'
 import {
@@ -47,6 +46,7 @@ import {
 } from '@/models/Filtration'
 import { usePagination } from '@/store/pagination'
 import { Technologies } from '@/enum/Technologies'
+import { http, HttpResponse } from 'msw'
 
 const { deepCopyAny } = useUtilities()
 const files = [
@@ -71,25 +71,21 @@ const randomFiltration = {
 } as SubmissionsFiltration
 
 const server = setupServer(
-  rest.get(
+  http.get(
     'http://localhost:8017/api/v2/manager/submissions',
-    (_, res, ctx) => {
-      return res(ctx.json(submissions))
+    () => {
+      return HttpResponse.json(submissions)
     }
   ),
-
-  rest.patch(
+  http.patch(
     'http://localhost:8017/api/v2/manager/r/submissions/:submission_id',
-    (req, res, ctx) => {
-      return res(
-        ctx.json({
-          data: submissions.data.content.find(
-            (elem) =>
-              elem.id.toString() ===
-              req.params.submission_id
-          )
-        })
-      )
+    ({ params }) => {
+      const { submission_id } = params
+      return HttpResponse.json({
+        data: submissions.data.content.find(
+          (elem) => elem.id.toString() === submission_id
+        )
+      })
     }
   )
 )
@@ -246,22 +242,26 @@ describe('Submissions Store', () => {
 })
 
 const failingServer = setupServer(
-  rest.get(
+  http.get(
     'http://localhost:8017/api/v2/manager/submissions',
-    (_, res, ctx) => {
-      return res(ctx.status(403))
+    () => {
+      return new HttpResponse(null, {
+        status: 403
+      })
     }
   ),
-  rest.patch(
+  http.patch(
     'http://localhost:8017/api/v2/manager/r/submissions/:submission_id',
-    (_, res, ctx) => {
-      return res(ctx.status(403))
+    () => {
+      return new HttpResponse(null, {
+        status: 403
+      })
     }
   ),
-  rest.get(
+  http.get(
     'http://localhost:8017/api/v2/manager/users/me',
-    (_, res, ctx) => {
-      return res(ctx.json(me))
+    () => {
+      return HttpResponse.json(me)
     }
   )
 )

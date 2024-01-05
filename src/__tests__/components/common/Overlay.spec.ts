@@ -23,10 +23,10 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 
 import Overlay from '@/components/common/Overlay.vue'
-import FiltrationVue from '@/components/packages/Filtration.vue'
 import { createPinia, setActivePinia } from 'pinia'
 import { shallowMount } from '@vue/test-utils'
 import { useCommonStore } from '@/store/common'
+import UserEdit from '@/components/users/UserEdit.vue'
 
 let wrapper: any
 let commonStore: any
@@ -40,7 +40,7 @@ describe('Overlay - chosen component', () => {
         return {}
       },
       slots: {
-        props: FiltrationVue
+        props: UserEdit
       }
     })
   })
@@ -49,13 +49,10 @@ describe('Overlay - chosen component', () => {
     expect(wrapper.exists()).toBe(true)
   })
 
-  it('renders chosen component', async () => {
+  it('renders chosen component', () => {
     expect(
-      wrapper.findComponent('filtration-stub').isVisible()
+      wrapper.findComponent('user-edit-stub').exists()
     ).toBe(true)
-    expect(
-      wrapper.findComponent('question-card-stub').exists()
-    ).toBe(false)
   })
 
   it('reset after escape button is clicked', async () => {

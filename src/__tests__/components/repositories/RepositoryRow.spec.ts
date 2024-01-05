@@ -117,12 +117,6 @@ describe('Repositories - repository row (repository)', () => {
     )
   })
 
-  it('navigate button is visiable', () => {
-    expect(wrapper.find('#navigate-icon').isVisible()).toBe(
-      true
-    )
-  })
-
   it('delete button is visible', () => {
     expect(wrapper.find('#delete-icon').isVisible()).toBe(
       true
@@ -207,47 +201,51 @@ describe('Repositories - repository row (title)', () => {
 
   it('name field', () => {
     const field = wrapper.find('#repository-name')
-    expect(field.text()).toBe('Columns.repository')
+    expect(field.text()).toBe('Columns.repository.name')
   })
 
   it('publication uri title', () => {
     const field = wrapper.find(
       '#repository-publication-uri'
     )
-    expect(field.text()).toBe('Columns.publicationUri')
+    expect(field.text()).toBe(
+      'Columns.repository.publicationUri'
+    )
   })
 
   it('server address title', () => {
     const field = wrapper.find('#repository-server-address')
-    expect(field.text()).toBe('Columns.serverAddress')
+    expect(field.text()).toBe(
+      'Columns.repository.serverAddress'
+    )
   })
 
   it('version title', () => {
     const field = wrapper.find('#repository-version')
-    expect(field.text()).toBe('Columns.version')
+    expect(field.text()).toBe('Columns.repository.version')
   })
 
   it('technology title', () => {
     const field = wrapper.find('#repository-technology')
-    expect(field.text()).toBe('Columns.technology')
+    expect(field.text()).toBe(
+      'Columns.repository.technology'
+    )
   })
 
   it('packages number title', () => {
     const field = wrapper.find('#repository-packages-no')
-    expect(field.text()).toBe('Columns.packagesNo')
+    expect(field.text()).toBe(
+      'Columns.repository.packagesNo'
+    )
   })
 
   it('published title', () => {
     const field = wrapper.find('#repository-published')
     const checkbox = wrapper.find('#checkbox-published')
-    expect(field.text()).toEqual('Columns.published')
-    expect(checkbox.exists()).toEqual(false)
-  })
-
-  it('navigate button not exists', () => {
-    expect(wrapper.find('#navigate-icon').exists()).toBe(
-      false
+    expect(field.text()).toEqual(
+      'Columns.repository.published'
     )
+    expect(checkbox.exists()).toEqual(false)
   })
 
   it('delete button not exists', () => {
