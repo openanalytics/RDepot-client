@@ -47,6 +47,7 @@ import {
 import { usePagination } from '@/store/pagination'
 import { Technologies } from '@/enum/Technologies'
 import { http, HttpResponse } from 'msw'
+import { useToast } from '@/composable/toasts'
 
 const { deepCopyAny } = useUtilities()
 const files = [
@@ -287,18 +288,17 @@ describe('Testing submissions store with failing backend', () => {
     await submissionStore.fetchSubmissions()
 
     expect(submissionStore.submissions).toStrictEqual([])
-    // expect(notify).toBeCalled()
+    // expect(toast).toBeCalled()
   })
 
   it('Update submissions', async () => {
     const submissionStore = useSubmissionStore()
+    const toasts = useToast()
     const spy = vi.spyOn(
       submissionStore,
       'fetchSubmissions'
     )
-
-    vi.mock('vue3-toastify')
-    const notify = await import('vue3-toastify')
+    const spyToast = vi.spyOn(toasts, 'error')
 
     const submission = deepCopyAny(
       submissions.data.content[0]
@@ -309,7 +309,8 @@ describe('Testing submissions store with failing backend', () => {
     })
 
     expect(spy).toBeCalledTimes(1)
-    // expect(wrapper.text()).toContain('')
+    // TODO update tests in submissions when the backed error handling will be completed and updated on fronted
+    // expect(spyToast).toBeCalled()
     expect(submissionStore.submissions).toStrictEqual([])
   })
 })
