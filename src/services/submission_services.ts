@@ -38,15 +38,23 @@ import { isAuthorized } from '@/plugins/casl'
 import { Technologies } from '@/enum/Technologies'
 import { getConfiguration } from './api_config'
 
+type ValidatedSumbissions = Promise<
+  validatedData<EntityModelSubmissionDto[]>
+>
+
+type ValidatedSumbission = Promise<
+  validatedData<EntityModelSubmissionDto>
+>
+
 export async function fetchSubmissions(
   filtration: SubmissionsFiltration,
   logged_user_id?: number,
   page?: number,
   pageSize?: number,
   showProgress = true
-): Promise<validatedData<EntityModelSubmissionDto[]>> {
+): ValidatedSumbissions {
   if (!isAuthorized('GET', 'submissions')) {
-    return new Promise(() => validateRequest)
+    return new Promise(() => validateRequest([]))
   }
   const sort = useSortStore()
   let sortBy = sort.getSortBy()
@@ -67,13 +75,15 @@ export async function fetchSubmissions(
       filtration?.search
     ],
     showProgress
-  )
+  ).catch(() => {
+    return validateRequest([])
+  })
 }
 
 export async function updateSubmission(
   oldSubmission: EntityModelSubmissionDto,
   newSubmission: EntityModelSubmissionDto
-): Promise<validatedData<EntityModelSubmissionDto>> {
+): ValidatedSumbission {
   if (!isAuthorized('PATCH', 'submissions')) {
     return new Promise(() => false)
   }
@@ -86,7 +96,9 @@ export async function updateSubmission(
     return openApiRequest<EntityModelSubmissionDto>(
       RSubmissionControllerApiFactory().updateRSubmission,
       [patch_body, oldSubmission.id!]
-    )
+    ).catch(() => {
+      return validateRequest({})
+    })
   } else if (
     oldSubmission.technology === Technologies.enum.Python
   ) {
@@ -94,7 +106,9 @@ export async function updateSubmission(
       PythonSubmissionControllerApiFactory()
         .updatePythonSubmission,
       [patch_body, oldSubmission.id!]
-    )
+    ).catch(() => {
+      return validateRequest({})
+    })
   } else {
     // Should never happen expect if a new technology is added
     throw {
@@ -112,7 +126,7 @@ export async function addSubmission(
   technology: string,
   file: File,
   generateManual?: boolean
-): Promise<validatedData<EntityModelSubmissionDto>> {
+): ValidatedSumbission {
   if (!isAuthorized('POST', 'submissions')) {
     return new Promise(() => false)
   }
@@ -135,12 +149,14 @@ export async function addSubmission(
     submissionApi,
     [repository, file, generateManual, false],
     false
-  )
+  ).catch(() => {
+    return validateRequest({})
+  })
 }
 
 export function fetchSubmission(
   id: number
-): Promise<validatedData<EntityModelSubmissionDto>> {
+): ValidatedSumbission {
   if (!isAuthorized('GET', 'submissions')) {
     return new Promise(() => {})
   }
@@ -148,5 +164,7 @@ export function fetchSubmission(
   return openApiRequest<EntityModelSubmissionDto>(
     ApiV2SubmissionControllerApiFactory().getSubmissionById,
     [id]
-  )
+  ).catch(() => {
+    return validateRequest({})
+  })
 }

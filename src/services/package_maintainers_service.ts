@@ -35,15 +35,21 @@ import { createPatch } from 'rfc6902'
 import { useSortStore } from '@/store/sort'
 import { isAuthorized } from '@/plugins/casl'
 
+type ValidatedPackageMaintainers = Promise<
+  validatedData<EntityModelPackageMaintainerDto[]>
+>
+
+type ValidatedPackageMaintainer = Promise<
+  validatedData<EntityModelPackageMaintainerDto>
+>
+
 export async function fetchPackageMaintainersService(
   filtration?: PackageMaintainersFiltration,
   page?: number,
   pageSize?: number
-): Promise<
-  validatedData<EntityModelPackageMaintainerDto[]>
-> {
+): ValidatedPackageMaintainers {
   if (!isAuthorized('GET', 'packageMaintainers')) {
-    return new Promise(() => validateRequest)
+    return new Promise(() => validateRequest([]))
   }
   const sort = useSortStore()
   const sortBy = sort.getSortBy()
@@ -59,14 +65,14 @@ export async function fetchPackageMaintainersService(
       filtration?.repository,
       filtration?.search
     ]
-  )
+  ).catch(() => {
+    return validateRequest([])
+  })
 }
 
-export async function fetchAllPackageMaintainers(): Promise<
-  validatedData<EntityModelPackageMaintainerDto[]>
-> {
+export async function fetchAllPackageMaintainers(): ValidatedPackageMaintainers {
   if (!isAuthorized('GET', 'packageMaintainers')) {
-    return new Promise(() => validateRequest)
+    return new Promise(() => validateRequest([]))
   }
   return openApiRequest<EntityModelPackageMaintainerDto[]>(
     ApiV2PackageMaintainerControllerApiFactory()
@@ -80,12 +86,14 @@ export async function fetchAllPackageMaintainers(): Promise<
       undefined,
       undefined
     ]
-  )
+  ).catch(() => {
+    return validateRequest([])
+  })
 }
 
 export async function deletePackageMaintainerService(
   maintainer: EntityModelPackageMaintainerDto
-): Promise<validatedData<EntityModelPackageMaintainerDto>> {
+): ValidatedPackageMaintainer {
   if (!isAuthorized('DELETE', 'packageMaintainers')) {
     return new Promise(() => false)
   }
@@ -93,13 +101,15 @@ export async function deletePackageMaintainerService(
     ApiV2PackageMaintainerControllerApiFactory()
       .deletePackageMaintainer,
     [maintainer.id]
-  )
+  ).catch(() => {
+    return validateRequest({})
+  })
 }
 
 export async function updatePackageMaintainerService(
   oldMaintainer: PackageMaintainerDto,
   newMaintainer: PackageMaintainerDto
-): Promise<validatedData<EntityModelPackageMaintainerDto>> {
+): ValidatedPackageMaintainer {
   if (!isAuthorized('PATCH', 'packageMaintainers')) {
     return new Promise(() => false)
   }
@@ -109,5 +119,7 @@ export async function updatePackageMaintainerService(
     ApiV2PackageMaintainerControllerApiFactory()
       .updatePackageMaintainer,
     [patch, oldMaintainer.id]
-  )
+  ).catch(() => {
+    return validateRequest({})
+  })
 }

@@ -42,14 +42,22 @@ import { isAuthorized } from '@/plugins/casl'
 import { useToast } from '@/composable/toasts'
 import { i18n } from '@/plugins/i18n'
 
+type ValidatedRepositories = Promise<
+  validatedData<EntityModelRepositoryDto[]>
+>
+
+type ValidatedRepository = Promise<
+  validatedData<EntityModelRepositoryDto>
+>
+
 export function fetchRepositoriesServices(
   filtration?: RepositoriesFiltration,
   page?: number,
   pageSize?: number,
   showProgress = true
-): Promise<validatedData<EntityModelRepositoryDto[]>> {
+): ValidatedRepositories {
   if (!isAuthorized('GET', 'repositories')) {
-    return new Promise(() => validateRequest)
+    return new Promise(() => validateRequest([]))
   }
   const sort = useSortStore()
 
@@ -67,14 +75,16 @@ export function fetchRepositoriesServices(
       filtration?.search
     ],
     showProgress
-  )
+  ).catch(() => {
+    return validateRequest([])
+  })
 }
 
 export function fetchFullRepositoriesList(
   showProgress = false
-): Promise<validatedData<EntityModelRepositoryDto[]>> {
+): ValidatedRepositories {
   if (!isAuthorized('GET', 'repositories')) {
-    return new Promise(() => validateRequest)
+    return new Promise(() => validateRequest([]))
   }
 
   return openApiRequest<EntityModelRepositoryDto[]>(
@@ -91,12 +101,14 @@ export function fetchFullRepositoriesList(
       undefined
     ],
     showProgress
-  )
+  ).catch(() => {
+    return validateRequest([])
+  })
 }
 
 export async function createRepository(
   newRepository: EntityModelRepositoryDto
-): Promise<validatedData<EntityModelRepositoryDto>> {
+): ValidatedRepository {
   if (!isAuthorized('POST', 'repository')) {
     return new Promise(() => false)
   }
@@ -128,7 +140,7 @@ export async function createRepository(
 export async function updateRepository(
   oldRepository: EntityModelRepositoryDto,
   newRepository: EntityModelRepositoryDto
-): Promise<validatedData<EntityModelRepositoryDto>> {
+): ValidatedRepository {
   if (!isAuthorized('PATCH', 'repository')) {
     return new Promise(() => false)
   }
