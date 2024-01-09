@@ -369,9 +369,7 @@ describe('Package Maintainers Store requests with failing backend', () => {
   it('Fetch repositories', async () => {
     const packageMaintainersStore =
       usePackageMaintainersStore()
-
     await packageMaintainersStore.fetchRepositories()
-
     expect(
       packageMaintainersStore.repositories
     ).toStrictEqual([])
