@@ -33,13 +33,13 @@
  * Do not edit the class manually.
  */
 
-import { EntityModelNewsfeedEventDto } from './entity-model-newsfeed-event-dto'
-import { Link } from './link'
+import { Links } from './links'
 import { PageMetadata } from './page-metadata'
+import { PagedModelEntityModelNewsfeedEventDtoEmbedded } from './paged-model-entity-model-newsfeed-event-dto-embedded'
 import {
-  EntityModelNewsfeedEventDto,
-  Link,
-  PageMetadata
+  Links,
+  PageMetadata,
+  PagedModelEntityModelNewsfeedEventDtoEmbedded
 } from '.'
 
 /**
@@ -50,16 +50,16 @@ import {
  */
 export interface PagedModelEntityModelNewsfeedEventDto {
   /**
-   * @type {Array<Link>}
+   * @type {PagedModelEntityModelNewsfeedEventDtoEmbedded}
    * @memberof PagedModelEntityModelNewsfeedEventDto
    */
-  links?: Array<Link>
+  embedded?: PagedModelEntityModelNewsfeedEventDtoEmbedded
 
   /**
-   * @type {Array<EntityModelNewsfeedEventDto>}
+   * @type {Links}
    * @memberof PagedModelEntityModelNewsfeedEventDto
    */
-  content?: Array<EntityModelNewsfeedEventDto>
+  links?: Links
 
   /**
    * @type {PageMetadata}

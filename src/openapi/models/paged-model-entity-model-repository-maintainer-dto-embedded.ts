@@ -33,60 +33,19 @@
  * Do not edit the class manually.
  */
 
-import {} from '.'
+import { EntityModelRepositoryMaintainerDto } from './entity-model-repository-maintainer-dto'
+import { EntityModelRepositoryMaintainerDto } from '.'
 
 /**
  *
  *
  * @export
- * @interface Link
+ * @interface PagedModelEntityModelRepositoryMaintainerDtoEmbedded
  */
-export interface Link {
+export interface PagedModelEntityModelRepositoryMaintainerDtoEmbedded {
   /**
-   * @type {string}
-   * @memberof Link
+   * @type {Array<EntityModelRepositoryMaintainerDto>}
+   * @memberof PagedModelEntityModelRepositoryMaintainerDtoEmbedded
    */
-  href?: string
-
-  /**
-   * @type {string}
-   * @memberof Link
-   */
-  hreflang?: string
-
-  /**
-   * @type {string}
-   * @memberof Link
-   */
-  title?: string
-
-  /**
-   * @type {string}
-   * @memberof Link
-   */
-  type?: string
-
-  /**
-   * @type {string}
-   * @memberof Link
-   */
-  deprecation?: string
-
-  /**
-   * @type {string}
-   * @memberof Link
-   */
-  profile?: string
-
-  /**
-   * @type {string}
-   * @memberof Link
-   */
-  name?: string
-
-  /**
-   * @type {boolean}
-   * @memberof Link
-   */
-  templated?: boolean
+  repositoryMaintainerDtoList?: Array<EntityModelRepositoryMaintainerDto>
 }

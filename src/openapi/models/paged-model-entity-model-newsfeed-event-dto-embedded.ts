@@ -33,60 +33,19 @@
  * Do not edit the class manually.
  */
 
-import {} from '.'
+import { EntityModelNewsfeedEventDto } from './entity-model-newsfeed-event-dto'
+import { EntityModelNewsfeedEventDto } from '.'
 
 /**
  *
  *
  * @export
- * @interface Link
+ * @interface PagedModelEntityModelNewsfeedEventDtoEmbedded
  */
-export interface Link {
+export interface PagedModelEntityModelNewsfeedEventDtoEmbedded {
   /**
-   * @type {string}
-   * @memberof Link
+   * @type {Array<EntityModelNewsfeedEventDto>}
+   * @memberof PagedModelEntityModelNewsfeedEventDtoEmbedded
    */
-  href?: string
-
-  /**
-   * @type {string}
-   * @memberof Link
-   */
-  hreflang?: string
-
-  /**
-   * @type {string}
-   * @memberof Link
-   */
-  title?: string
-
-  /**
-   * @type {string}
-   * @memberof Link
-   */
-  type?: string
-
-  /**
-   * @type {string}
-   * @memberof Link
-   */
-  deprecation?: string
-
-  /**
-   * @type {string}
-   * @memberof Link
-   */
-  profile?: string
-
-  /**
-   * @type {string}
-   * @memberof Link
-   */
-  name?: string
-
-  /**
-   * @type {boolean}
-   * @memberof Link
-   */
-  templated?: boolean
+  newsfeedEventDtoList?: Array<EntityModelNewsfeedEventDto>
 }

@@ -33,60 +33,19 @@
  * Do not edit the class manually.
  */
 
-import {} from '.'
+import { EntityModelRRepositoryDto } from './entity-model-rrepository-dto'
+import { EntityModelRRepositoryDto } from '.'
 
 /**
  *
  *
  * @export
- * @interface Link
+ * @interface PagedModelEntityModelRRepositoryDtoEmbedded
  */
-export interface Link {
+export interface PagedModelEntityModelRRepositoryDtoEmbedded {
   /**
-   * @type {string}
-   * @memberof Link
+   * @type {Array<EntityModelRRepositoryDto>}
+   * @memberof PagedModelEntityModelRRepositoryDtoEmbedded
    */
-  href?: string
-
-  /**
-   * @type {string}
-   * @memberof Link
-   */
-  hreflang?: string
-
-  /**
-   * @type {string}
-   * @memberof Link
-   */
-  title?: string
-
-  /**
-   * @type {string}
-   * @memberof Link
-   */
-  type?: string
-
-  /**
-   * @type {string}
-   * @memberof Link
-   */
-  deprecation?: string
-
-  /**
-   * @type {string}
-   * @memberof Link
-   */
-  profile?: string
-
-  /**
-   * @type {string}
-   * @memberof Link
-   */
-  name?: string
-
-  /**
-   * @type {boolean}
-   * @memberof Link
-   */
-  templated?: boolean
+  rRepositoryDtoList?: Array<EntityModelRRepositoryDto>
 }

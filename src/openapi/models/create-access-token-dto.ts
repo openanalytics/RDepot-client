@@ -33,79 +33,24 @@
  * Do not edit the class manually.
  */
 
-import { Links } from './links'
-import { Links } from '.'
+import {} from '.'
 
 /**
  *
  *
  * @export
- * @interface EntityModelRepositoryDto
+ * @interface CreateAccessTokenDto
  */
-export interface EntityModelRepositoryDto {
+export interface CreateAccessTokenDto {
   /**
-   * @type {number}
-   * @memberof EntityModelRepositoryDto
+   * @type {string}
+   * @memberof CreateAccessTokenDto
    */
-  id?: number
-
-  /**
-   * @type {number}
-   * @memberof EntityModelRepositoryDto
-   */
-  version?: number
+  name: string
 
   /**
    * @type {string}
-   * @memberof EntityModelRepositoryDto
+   * @memberof CreateAccessTokenDto
    */
-  publicationUri?: string
-
-  /**
-   * @type {string}
-   * @memberof EntityModelRepositoryDto
-   */
-  name?: string
-
-  /**
-   * @type {string}
-   * @memberof EntityModelRepositoryDto
-   */
-  serverAddress?: string
-
-  /**
-   * @type {boolean}
-   * @memberof EntityModelRepositoryDto
-   */
-  deleted?: boolean
-
-  /**
-   * @type {boolean}
-   * @memberof EntityModelRepositoryDto
-   */
-  published?: boolean
-
-  /**
-   * @type {boolean}
-   * @memberof EntityModelRepositoryDto
-   */
-  synchronizing?: boolean
-
-  /**
-   * @type {string}
-   * @memberof EntityModelRepositoryDto
-   */
-  technology?: string
-
-  /**
-   * @type {number}
-   * @memberof EntityModelRepositoryDto
-   */
-  numberOfPackages?: number
-
-  /**
-   * @type {Links}
-   * @memberof EntityModelRepositoryDto
-   */
-  links?: Links
+  lifetime?: string
 }

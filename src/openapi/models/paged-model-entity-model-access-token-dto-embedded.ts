@@ -33,60 +33,19 @@
  * Do not edit the class manually.
  */
 
-import {} from '.'
+import { EntityModelAccessTokenDto } from './entity-model-access-token-dto'
+import { EntityModelAccessTokenDto } from '.'
 
 /**
  *
  *
  * @export
- * @interface Link
+ * @interface PagedModelEntityModelAccessTokenDtoEmbedded
  */
-export interface Link {
+export interface PagedModelEntityModelAccessTokenDtoEmbedded {
   /**
-   * @type {string}
-   * @memberof Link
+   * @type {Array<EntityModelAccessTokenDto>}
+   * @memberof PagedModelEntityModelAccessTokenDtoEmbedded
    */
-  href?: string
-
-  /**
-   * @type {string}
-   * @memberof Link
-   */
-  hreflang?: string
-
-  /**
-   * @type {string}
-   * @memberof Link
-   */
-  title?: string
-
-  /**
-   * @type {string}
-   * @memberof Link
-   */
-  type?: string
-
-  /**
-   * @type {string}
-   * @memberof Link
-   */
-  deprecation?: string
-
-  /**
-   * @type {string}
-   * @memberof Link
-   */
-  profile?: string
-
-  /**
-   * @type {string}
-   * @memberof Link
-   */
-  name?: string
-
-  /**
-   * @type {boolean}
-   * @memberof Link
-   */
-  templated?: boolean
+  accessTokenDtoList?: Array<EntityModelAccessTokenDto>
 }

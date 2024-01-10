@@ -34,78 +34,36 @@
  */
 
 import { Links } from './links'
-import { Links } from '.'
+import { PageMetadata } from './page-metadata'
+import { PagedModelEntityModelAccessTokenDtoEmbedded } from './paged-model-entity-model-access-token-dto-embedded'
+import {
+  Links,
+  PageMetadata,
+  PagedModelEntityModelAccessTokenDtoEmbedded
+} from '.'
 
 /**
  *
  *
  * @export
- * @interface EntityModelRepositoryDto
+ * @interface PagedModelEntityModelAccessTokenDto
  */
-export interface EntityModelRepositoryDto {
+export interface PagedModelEntityModelAccessTokenDto {
   /**
-   * @type {number}
-   * @memberof EntityModelRepositoryDto
+   * @type {PagedModelEntityModelAccessTokenDtoEmbedded}
+   * @memberof PagedModelEntityModelAccessTokenDto
    */
-  id?: number
-
-  /**
-   * @type {number}
-   * @memberof EntityModelRepositoryDto
-   */
-  version?: number
-
-  /**
-   * @type {string}
-   * @memberof EntityModelRepositoryDto
-   */
-  publicationUri?: string
-
-  /**
-   * @type {string}
-   * @memberof EntityModelRepositoryDto
-   */
-  name?: string
-
-  /**
-   * @type {string}
-   * @memberof EntityModelRepositoryDto
-   */
-  serverAddress?: string
-
-  /**
-   * @type {boolean}
-   * @memberof EntityModelRepositoryDto
-   */
-  deleted?: boolean
-
-  /**
-   * @type {boolean}
-   * @memberof EntityModelRepositoryDto
-   */
-  published?: boolean
-
-  /**
-   * @type {boolean}
-   * @memberof EntityModelRepositoryDto
-   */
-  synchronizing?: boolean
-
-  /**
-   * @type {string}
-   * @memberof EntityModelRepositoryDto
-   */
-  technology?: string
-
-  /**
-   * @type {number}
-   * @memberof EntityModelRepositoryDto
-   */
-  numberOfPackages?: number
+  embedded?: PagedModelEntityModelAccessTokenDtoEmbedded
 
   /**
    * @type {Links}
-   * @memberof EntityModelRepositoryDto
+   * @memberof PagedModelEntityModelAccessTokenDto
    */
   links?: Links
+
+  /**
+   * @type {PageMetadata}
+   * @memberof PagedModelEntityModelAccessTokenDto
+   */
+  page?: PageMetadata
 }

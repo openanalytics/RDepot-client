@@ -33,60 +33,19 @@
  * Do not edit the class manually.
  */
 
-import {} from '.'
+import { EntityModelPackageDto } from './entity-model-package-dto'
+import { EntityModelPackageDto } from '.'
 
 /**
  *
  *
  * @export
- * @interface Link
+ * @interface PagedModelEntityModelPackageDtoEmbedded
  */
-export interface Link {
+export interface PagedModelEntityModelPackageDtoEmbedded {
   /**
-   * @type {string}
-   * @memberof Link
+   * @type {Array<EntityModelPackageDto>}
+   * @memberof PagedModelEntityModelPackageDtoEmbedded
    */
-  href?: string
-
-  /**
-   * @type {string}
-   * @memberof Link
-   */
-  hreflang?: string
-
-  /**
-   * @type {string}
-   * @memberof Link
-   */
-  title?: string
-
-  /**
-   * @type {string}
-   * @memberof Link
-   */
-  type?: string
-
-  /**
-   * @type {string}
-   * @memberof Link
-   */
-  deprecation?: string
-
-  /**
-   * @type {string}
-   * @memberof Link
-   */
-  profile?: string
-
-  /**
-   * @type {string}
-   * @memberof Link
-   */
-  name?: string
-
-  /**
-   * @type {boolean}
-   * @memberof Link
-   */
-  templated?: boolean
+  packageDtoList?: Array<EntityModelPackageDto>
 }

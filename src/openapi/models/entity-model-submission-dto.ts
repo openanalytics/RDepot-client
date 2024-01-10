@@ -34,11 +34,11 @@
  */
 
 import { EntityModelPackageDto } from './entity-model-package-dto'
-import { Link } from './link'
+import { Links } from './links'
 import { UserProjection } from './user-projection'
 import {
   EntityModelPackageDto,
-  Link,
+  Links,
   UserProjection
 } from '.'
 
@@ -92,10 +92,10 @@ export interface EntityModelSubmissionDto {
   technology?: string
 
   /**
-   * @type {Array<Link>}
+   * @type {Links}
    * @memberof EntityModelSubmissionDto
    */
-  links?: Array<Link>
+  links?: Links
 }
 
 /**

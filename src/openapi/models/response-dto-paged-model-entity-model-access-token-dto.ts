@@ -33,79 +33,52 @@
  * Do not edit the class manually.
  */
 
-import { Links } from './links'
-import { Links } from '.'
+import { PagedModelEntityModelAccessTokenDto } from './paged-model-entity-model-access-token-dto'
+import { PagedModelEntityModelAccessTokenDto } from '.'
 
 /**
  *
  *
  * @export
- * @interface EntityModelRepositoryDto
+ * @interface ResponseDtoPagedModelEntityModelAccessTokenDto
  */
-export interface EntityModelRepositoryDto {
-  /**
-   * @type {number}
-   * @memberof EntityModelRepositoryDto
-   */
-  id?: number
-
-  /**
-   * @type {number}
-   * @memberof EntityModelRepositoryDto
-   */
-  version?: number
-
+export interface ResponseDtoPagedModelEntityModelAccessTokenDto {
   /**
    * @type {string}
-   * @memberof EntityModelRepositoryDto
+   * @memberof ResponseDtoPagedModelEntityModelAccessTokenDto
    */
-  publicationUri?: string
-
-  /**
-   * @type {string}
-   * @memberof EntityModelRepositoryDto
-   */
-  name?: string
-
-  /**
-   * @type {string}
-   * @memberof EntityModelRepositoryDto
-   */
-  serverAddress?: string
-
-  /**
-   * @type {boolean}
-   * @memberof EntityModelRepositoryDto
-   */
-  deleted?: boolean
-
-  /**
-   * @type {boolean}
-   * @memberof EntityModelRepositoryDto
-   */
-  published?: boolean
-
-  /**
-   * @type {boolean}
-   * @memberof EntityModelRepositoryDto
-   */
-  synchronizing?: boolean
-
-  /**
-   * @type {string}
-   * @memberof EntityModelRepositoryDto
-   */
-  technology?: string
+  status?: ResponseDtoPagedModelEntityModelAccessTokenDtoStatusEnum
 
   /**
    * @type {number}
-   * @memberof EntityModelRepositoryDto
+   * @memberof ResponseDtoPagedModelEntityModelAccessTokenDto
    */
-  numberOfPackages?: number
+  code?: number
 
   /**
-   * @type {Links}
-   * @memberof EntityModelRepositoryDto
+   * @type {string}
+   * @memberof ResponseDtoPagedModelEntityModelAccessTokenDto
    */
-  links?: Links
+  message?: string
+
+  /**
+   * @type {string}
+   * @memberof ResponseDtoPagedModelEntityModelAccessTokenDto
+   */
+  messageCode?: string
+
+  /**
+   * @type {PagedModelEntityModelAccessTokenDto}
+   * @memberof ResponseDtoPagedModelEntityModelAccessTokenDto
+   */
+  data?: PagedModelEntityModelAccessTokenDto
+}
+
+/**
+ * @export
+ * @enum {string}
+ */
+export enum ResponseDtoPagedModelEntityModelAccessTokenDtoStatusEnum {
+  SUCCESS = 'SUCCESS',
+  ERROR = 'ERROR'
 }

@@ -33,10 +33,14 @@
  * Do not edit the class manually.
  */
 
-import { EntityModelUserDto } from './entity-model-user-dto'
-import { Link } from './link'
+import { Links } from './links'
 import { PageMetadata } from './page-metadata'
-import { EntityModelUserDto, Link, PageMetadata } from '.'
+import { PagedModelEntityModelUserDtoEmbedded } from './paged-model-entity-model-user-dto-embedded'
+import {
+  Links,
+  PageMetadata,
+  PagedModelEntityModelUserDtoEmbedded
+} from '.'
 
 /**
  *
@@ -46,16 +50,16 @@ import { EntityModelUserDto, Link, PageMetadata } from '.'
  */
 export interface PagedModelEntityModelUserDto {
   /**
-   * @type {Array<Link>}
+   * @type {PagedModelEntityModelUserDtoEmbedded}
    * @memberof PagedModelEntityModelUserDto
    */
-  links?: Array<Link>
+  embedded?: PagedModelEntityModelUserDtoEmbedded
 
   /**
-   * @type {Array<EntityModelUserDto>}
+   * @type {Links}
    * @memberof PagedModelEntityModelUserDto
    */
-  content?: Array<EntityModelUserDto>
+  links?: Links
 
   /**
    * @type {PageMetadata}

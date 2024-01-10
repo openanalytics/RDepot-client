@@ -34,78 +34,67 @@
  */
 
 import { Links } from './links'
-import { Links } from '.'
+import { UserProjection } from './user-projection'
+import { Links, UserProjection } from '.'
 
 /**
  *
  *
  * @export
- * @interface EntityModelRepositoryDto
+ * @interface EntityModelAccessTokenDto
  */
-export interface EntityModelRepositoryDto {
+export interface EntityModelAccessTokenDto {
   /**
    * @type {number}
-   * @memberof EntityModelRepositoryDto
+   * @memberof EntityModelAccessTokenDto
    */
   id?: number
 
   /**
-   * @type {number}
-   * @memberof EntityModelRepositoryDto
-   */
-  version?: number
-
-  /**
    * @type {string}
-   * @memberof EntityModelRepositoryDto
-   */
-  publicationUri?: string
-
-  /**
-   * @type {string}
-   * @memberof EntityModelRepositoryDto
+   * @memberof EntityModelAccessTokenDto
    */
   name?: string
 
   /**
    * @type {string}
-   * @memberof EntityModelRepositoryDto
+   * @memberof EntityModelAccessTokenDto
    */
-  serverAddress?: string
+  value?: string
+
+  /**
+   * @type {string}
+   * @memberof EntityModelAccessTokenDto
+   */
+  creationDate?: string
+
+  /**
+   * @type {string}
+   * @memberof EntityModelAccessTokenDto
+   */
+  expirationDate?: string
 
   /**
    * @type {boolean}
-   * @memberof EntityModelRepositoryDto
+   * @memberof EntityModelAccessTokenDto
+   */
+  active?: boolean
+
+  /**
+   * @type {boolean}
+   * @memberof EntityModelAccessTokenDto
    */
   deleted?: boolean
 
   /**
-   * @type {boolean}
-   * @memberof EntityModelRepositoryDto
+   * @type {UserProjection}
+   * @memberof EntityModelAccessTokenDto
    */
-  published?: boolean
-
-  /**
-   * @type {boolean}
-   * @memberof EntityModelRepositoryDto
-   */
-  synchronizing?: boolean
-
-  /**
-   * @type {string}
-   * @memberof EntityModelRepositoryDto
-   */
-  technology?: string
-
-  /**
-   * @type {number}
-   * @memberof EntityModelRepositoryDto
-   */
-  numberOfPackages?: number
+  user?: UserProjection
 
   /**
    * @type {Links}
-   * @memberof EntityModelRepositoryDto
+   * @memberof EntityModelAccessTokenDto
    */
   links?: Links
 }

@@ -33,79 +33,52 @@
  * Do not edit the class manually.
  */
 
-import { Links } from './links'
-import { Links } from '.'
+import { EntityModelAccessTokenDto } from './entity-model-access-token-dto'
+import { EntityModelAccessTokenDto } from '.'
 
 /**
  *
  *
  * @export
- * @interface EntityModelRepositoryDto
+ * @interface ResponseDtoEntityModelAccessTokenDto
  */
-export interface EntityModelRepositoryDto {
-  /**
-   * @type {number}
-   * @memberof EntityModelRepositoryDto
-   */
-  id?: number
-
-  /**
-   * @type {number}
-   * @memberof EntityModelRepositoryDto
-   */
-  version?: number
-
+export interface ResponseDtoEntityModelAccessTokenDto {
   /**
    * @type {string}
-   * @memberof EntityModelRepositoryDto
+   * @memberof ResponseDtoEntityModelAccessTokenDto
    */
-  publicationUri?: string
-
-  /**
-   * @type {string}
-   * @memberof EntityModelRepositoryDto
-   */
-  name?: string
-
-  /**
-   * @type {string}
-   * @memberof EntityModelRepositoryDto
-   */
-  serverAddress?: string
-
-  /**
-   * @type {boolean}
-   * @memberof EntityModelRepositoryDto
-   */
-  deleted?: boolean
-
-  /**
-   * @type {boolean}
-   * @memberof EntityModelRepositoryDto
-   */
-  published?: boolean
-
-  /**
-   * @type {boolean}
-   * @memberof EntityModelRepositoryDto
-   */
-  synchronizing?: boolean
-
-  /**
-   * @type {string}
-   * @memberof EntityModelRepositoryDto
-   */
-  technology?: string
+  status?: ResponseDtoEntityModelAccessTokenDtoStatusEnum
 
   /**
    * @type {number}
-   * @memberof EntityModelRepositoryDto
+   * @memberof ResponseDtoEntityModelAccessTokenDto
    */
-  numberOfPackages?: number
+  code?: number
 
   /**
-   * @type {Links}
-   * @memberof EntityModelRepositoryDto
+   * @type {string}
+   * @memberof ResponseDtoEntityModelAccessTokenDto
    */
-  links?: Links
+  message?: string
+
+  /**
+   * @type {string}
+   * @memberof ResponseDtoEntityModelAccessTokenDto
+   */
+  messageCode?: string
+
+  /**
+   * @type {EntityModelAccessTokenDto}
+   * @memberof ResponseDtoEntityModelAccessTokenDto
+   */
+  data?: EntityModelAccessTokenDto
+}
+
+/**
+ * @export
+ * @enum {string}
+ */
+export enum ResponseDtoEntityModelAccessTokenDtoStatusEnum {
+  SUCCESS = 'SUCCESS',
+  ERROR = 'ERROR'
 }

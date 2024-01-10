@@ -33,9 +33,9 @@
  * Do not edit the class manually.
  */
 
-import { Link } from './link'
+import { Links } from './links'
 import { UserSettingsProjection } from './user-settings-projection'
-import { Link, UserSettingsProjection } from '.'
+import { Links, UserSettingsProjection } from '.'
 
 /**
  *
@@ -111,8 +111,8 @@ export interface EntityModelUserDto {
   userSettings?: UserSettingsProjection
 
   /**
-   * @type {Array<Link>}
+   * @type {Links}
    * @memberof EntityModelUserDto
    */
-  links?: Array<Link>
+  links?: Links
 }

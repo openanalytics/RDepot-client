@@ -33,60 +33,13 @@
  * Do not edit the class manually.
  */
 
-import {} from '.'
+import { Link } from './link'
+import { Link } from '.'
 
 /**
  *
  *
  * @export
- * @interface Link
+ * @interface Links
  */
-export interface Link {
-  /**
-   * @type {string}
-   * @memberof Link
-   */
-  href?: string
-
-  /**
-   * @type {string}
-   * @memberof Link
-   */
-  hreflang?: string
-
-  /**
-   * @type {string}
-   * @memberof Link
-   */
-  title?: string
-
-  /**
-   * @type {string}
-   * @memberof Link
-   */
-  type?: string
-
-  /**
-   * @type {string}
-   * @memberof Link
-   */
-  deprecation?: string
-
-  /**
-   * @type {string}
-   * @memberof Link
-   */
-  profile?: string
-
-  /**
-   * @type {string}
-   * @memberof Link
-   */
-  name?: string
-
-  /**
-   * @type {boolean}
-   * @memberof Link
-   */
-  templated?: boolean
-}
+export interface Links extends null<String, Link> {}

@@ -33,12 +33,12 @@
  * Do not edit the class manually.
  */
 
-import { Link } from './link'
+import { Links } from './links'
 import { RepositoryProjection } from './repository-projection'
 import { SubmissionProjection } from './submission-projection'
 import { UserProjection } from './user-projection'
 import {
-  Link,
+  Links,
   RepositoryProjection,
   SubmissionProjection,
   UserProjection
@@ -136,8 +136,8 @@ export interface EntityModelPackageDto {
   url?: string
 
   /**
-   * @type {Array<Link>}
+   * @type {Links}
    * @memberof EntityModelPackageDto
    */
-  links?: Array<Link>
+  links?: Links
 }
