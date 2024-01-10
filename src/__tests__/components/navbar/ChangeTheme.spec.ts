@@ -34,6 +34,7 @@ import { mocks } from '@/__tests__/config/mocks'
 import ChangeThemeVue from '@/components/navbar/ChangeTheme.vue'
 import { createPinia, setActivePinia } from 'pinia'
 import { useAuthorizationStore } from '@/store/authorization'
+import waitForExpect from 'wait-for-expect'
 
 let authorizationStore: any
 let wrapper: any
@@ -59,24 +60,26 @@ describe('Change Theme', () => {
   })
 
   it('change theme on click', async () => {
-    await wrapper.trigger('click')
+    const themeSwitch = wrapper.find('#theme-switch')
+    await themeSwitch.trigger('click')
     expect(wrapper.vm.theme.global.name.value).toEqual(
       'dark'
     )
   })
 
   it('change theme two times after two clicks', async () => {
+    const themeSwitch = wrapper.find('#theme-switch')
     const spy = vi.spyOn(
       authorizationStore,
       'updateSettings'
     )
     wrapper.vm.theme.global.name.value = 'dark'
-    await wrapper.trigger('click')
+    await themeSwitch.trigger('click')
     expect(spy).toHaveBeenCalledTimes(1)
     expect(wrapper.vm.theme.global.name.value).toEqual(
       'light'
     )
-    await wrapper.trigger('click')
+    await themeSwitch.trigger('click')
     expect(spy).toHaveBeenCalledTimes(2)
     expect(wrapper.vm.theme.global.name.value).toEqual(
       'dark'

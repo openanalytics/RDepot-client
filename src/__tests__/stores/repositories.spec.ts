@@ -32,10 +32,10 @@ import {
 } from 'vitest'
 import packages from '@/__tests__/config/mockData/packages.json'
 import repositories from '@/__tests__/config/mockData/repositories.json'
-import { rest } from 'msw'
 import { useRepositoryStore } from '@/store/repositories'
 import { usePagination } from '@/store/pagination'
 import { Technologies } from '@/enum/Technologies'
+import { http, HttpResponse } from 'msw'
 
 const defaultFiltration = {
   deleted: false,
@@ -54,16 +54,16 @@ const randomFiltration = {
 }
 
 const server = setupServer(
-  rest.get(
+  http.get(
     'http://localhost:8017/api/v2/manager/repositories',
-    (_, res, ctx) => {
-      return res(ctx.json(repositories))
+    () => {
+      return HttpResponse.json(repositories)
     }
   ),
-  rest.get(
+  http.get(
     'http://localhost:8017/api/v2/manager/packages',
-    (_, res, ctx) => {
-      return res(ctx.json(packages))
+    () => {
+      return HttpResponse.json(packages)
     }
   )
 )

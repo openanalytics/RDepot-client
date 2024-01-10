@@ -32,13 +32,17 @@ import {
 } from './open_api_access'
 import { isAuthorized } from '@/plugins/casl'
 
+type ValidatedNewsFeed = Promise<
+  validatedData<EntityModelNewsfeedEventDto>
+>
+
 export async function fetchEventsServices(
   filtration: EventsFiltration,
   page?: number,
   pageSize?: number
-): Promise<validatedData<EntityModelNewsfeedEventDto>> {
+): ValidatedNewsFeed {
   if (!isAuthorized('GET', 'events')) {
-    return new Promise(() => validateRequest)
+    return new Promise(() => validateRequest({}))
   }
   let localFiltration = undefined
   if (
@@ -60,5 +64,7 @@ export async function fetchEventsServices(
       filtration.fromDate,
       filtration.toDate
     ]
-  )
+  ).catch(() => {
+    return validateRequest({})
+  })
 }

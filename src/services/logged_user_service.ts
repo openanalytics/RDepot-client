@@ -23,6 +23,7 @@
 import { UserSettingsProjection } from '@/openapi/models/user-settings-projection'
 import {
   openApiRequest,
+  validateRequest,
   validatedData
 } from './open_api_access'
 import { createPatch } from 'rfc6902'
@@ -39,7 +40,9 @@ type ValidatedUserType = Promise<
 export async function getMyData(): ValidatedUserType {
   return openApiRequest<EntityModelUserDto>(
     ApiV2UserControllerApiFactory().getUserInfo
-  )
+  ).catch(() => {
+    return validateRequest({})
+  })
 }
 
 export function updateUserSettings(
@@ -52,5 +55,7 @@ export function updateUserSettings(
     ApiV2UserSettingsControllerApiFactory()
       .patchUserSettingsByUserId,
     [patch, me.id]
-  )
+  ).catch(() => {
+    return validateRequest({})
+  })
 }

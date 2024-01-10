@@ -34,7 +34,6 @@ import {
 import packages from '@/__tests__/config/mockData/packages.json'
 import submissions from '@/__tests__/config/mockData/submissions.json'
 import repositories from '@/__tests__/config/mockData/repositories.json'
-import { rest } from 'msw'
 import { usePagination } from '@/store/pagination'
 import { Technologies } from '@/enum/Technologies'
 import {
@@ -42,6 +41,7 @@ import {
   defaultValues
 } from '@/models/Filtration'
 import { useUtilities } from '@/composable/utilities'
+import { http, HttpResponse } from 'msw'
 
 const defaultFiltration = defaultValues(PackagesFiltration)
 
@@ -56,50 +56,48 @@ const randomFiltration = {
 }
 
 const server = setupServer(
-  rest.get(
+  http.get(
     'http://localhost:8017/api/v2/manager/packages',
-    (_, res, ctx) => {
-      return res(ctx.json(packages))
+    () => {
+      return HttpResponse.json(packages)
     }
   ),
-  rest.get(
+  http.get(
     'http://localhost:8017/api/v2/manager/submissions',
-    (_, res, ctx) => {
-      return res(ctx.json(submissions))
+    () => {
+      return HttpResponse.json(submissions)
     }
   ),
-  rest.get(
-    'http://localhost:8017/api/v2/manager/packages/:package_id',
-    (req, res, ctx) => {
-      return res(
-        ctx.json({
-          data: packages.data.content.find(
-            (elem) =>
-              elem.id.toString() ===
-              req.params.package_id.toString()
-          )
-        })
-      )
-    }
-  ),
-  rest.get(
-    'http://localhost:8017/api/v2/manager/submissions/:submission_id',
-    (req, res, ctx) => {
-      return res(
-        ctx.json({
-          data: submissions.data.content.find(
-            (elem) =>
-              elem.id.toString() ===
-              req.params.submission_id.toString()
-          )
-        })
-      )
-    }
-  ),
-  rest.patch(
+  http.get(
     'http://localhost:8017/api/v2/manager/r/packages/:package_id',
-    (req, res, ctx) => {
-      return res(ctx.status(202))
+    ({ params }) => {
+      const { package_id } = params
+      return HttpResponse.json({
+        data: packages.data.content.find(
+          (elem) =>
+            elem.id.toString() === package_id.toString()
+        )
+      })
+    }
+  ),
+  http.get(
+    'http://localhost:8017/api/v2/manager/submissions/:submission_id',
+    ({ params }) => {
+      const { submission_id } = params
+      return HttpResponse.json({
+        data: submissions.data.content.find(
+          (elem) =>
+            elem.id.toString() === submission_id.toString()
+        )
+      })
+    }
+  ),
+  http.patch(
+    'http://localhost:8017/api/v2/manager/r/packages/:package_id',
+    () => {
+      return new HttpResponse(null, {
+        status: 202
+      })
     }
   )
 )

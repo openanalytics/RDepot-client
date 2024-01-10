@@ -37,6 +37,7 @@ import { createPinia, setActivePinia } from 'pinia'
 import StepSecondVue from '@/components/addSubmission/StepSecond.vue'
 import { useSubmissionStore } from '@/store/submission'
 import { nextTick } from 'process'
+import { useFilesListStore } from '@/store/local_files'
 
 let wrapper: any
 const globalConfig = {
@@ -96,6 +97,8 @@ describe('Add submission - second step', () => {
         type: 'application/gzip'
       } as File
     ]
+    const filesStore = useFilesListStore()
+    filesStore.files = files
     const button = wrapper.find('#next-button')
     wrapper.vm.valid = true
     wrapper.vm.files = files
@@ -119,12 +122,12 @@ describe('Add submission - second step', () => {
     wrapper.vm.valid = true
     wrapper.vm.files = files
     wrapper.vm.filesLocal = files
-
+    const filesStore = useFilesListStore()
+    filesStore.files = files
     submissionsStore.repository = {
       technology: 'R'
     }
     await nextTick(() => {})
-
     const checkboxMarked = wrapper.find(
       '.mdi-checkbox-marked-outline'
     )
@@ -134,8 +137,9 @@ describe('Add submission - second step', () => {
 
     expect(checkboxMarked.isVisible()).toBeTruthy()
     expect(checkboxUnmarked.exists()).toBeFalsy()
-    console.log(wrapper.text())
-    expect(wrapper.text()).toContain('generate manual')
+    expect(wrapper.text()).toContain(
+      'packages.generatemanual'
+    )
   })
 
   it('generate manual change on click', async () => {
@@ -149,7 +153,8 @@ describe('Add submission - second step', () => {
     wrapper.vm.valid = true
     wrapper.vm.files = files
     wrapper.vm.filesLocal = files
-
+    const filesStore = useFilesListStore()
+    filesStore.files = files
     submissionsStore.repository = {
       technology: 'R'
     }
@@ -186,13 +191,13 @@ describe('Add submission - second step', () => {
     wrapper.vm.valid = true
     wrapper.vm.files = files
     wrapper.vm.filesLocal = files
-
+    const filesStore = useFilesListStore()
+    filesStore.files = files
     submissionsStore.repository = {
       technology: 'Python'
     }
 
     await nextTick(() => {})
-    console.log(wrapper.html())
     const checkboxMarked = wrapper.find(
       '.mdi-checkbox-marked-outline'
     )

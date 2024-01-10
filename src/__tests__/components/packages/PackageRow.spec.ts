@@ -112,12 +112,6 @@ describe('Packages - package row (packagebag)', () => {
     )
   })
 
-  it('navigate button is visiable', () => {
-    expect(wrapper.find('#navigate-icon').isVisible()).toBe(
-      true
-    )
-  })
-
   it('delete package button is visible', () => {
     expect(wrapper.find('#delete-icon').isVisible()).toBe(
       true
@@ -194,40 +188,34 @@ describe('Packages - package row (title)', () => {
 
   it('name title', () => {
     const field = wrapper.find('#package-row-name')
-    expect(field.text()).toEqual('Columns.packageName')
+    expect(field.text()).toEqual('Columns.package.name')
   })
 
   it('version title', () => {
     const field = wrapper.find('#package-row-version')
-    expect(field.text()).toBe('Columns.version')
+    expect(field.text()).toBe('Columns.package.version')
   })
 
   it('title title', () => {
     const field = wrapper.find('#package-row-title')
-    expect(field.text()).toBe('Packages.title')
+    expect(field.text()).toBe('Columns.package.title')
   })
 
   it('technology title', () => {
     const field = wrapper.find('#package-row-technology')
-    expect(field.text()).toBe('Columns.technology')
+    expect(field.text()).toBe('Columns.package.technology')
   })
 
   it('maintainer title', () => {
     const field = wrapper.find('#package-row-maintainer')
-    expect(field.text()).toBe('Columns.maintainer')
+    expect(field.text()).toBe('Columns.package.maintainer')
   })
 
   it('active title', () => {
     const field = wrapper.find('#package-row-active')
     const checkboxActive = wrapper.find('#checkbox-active')
-    expect(field.text()).toBe('Columns.active')
+    expect(field.text()).toBe('Columns.package.active')
     expect(checkboxActive.exists()).toBeFalsy()
-  })
-
-  it('navigate button not exists', () => {
-    expect(wrapper.find('#navigate-icon').exists()).toBe(
-      false
-    )
   })
 
   it('delete package button not exists', () => {
