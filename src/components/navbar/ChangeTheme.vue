@@ -24,6 +24,7 @@
   <div>
     <v-switch
       :key="commonStore.themeKey"
+      id="theme-switch"
       density="compact"
       @click="changeTheme"
       color="primary"

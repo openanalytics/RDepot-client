@@ -32,34 +32,38 @@ import {
 } from 'vitest'
 import packages from '@/__tests__/config/mockData/packages.json'
 import repositories from '@/__tests__/config/mockData/repositories.json'
-import { rest } from 'msw'
 import { useRepositoryStore } from '@/store/repositories'
 import { usePagination } from '@/store/pagination'
 import { Technologies } from '@/enum/Technologies'
+import { http, HttpResponse } from 'msw'
 
 const defaultFiltration = {
-  name: undefined,
+  deleted: false,
   technologies: undefined,
-  deleted: false
+  search: undefined,
+  published: undefined,
+  maintainer: undefined
 }
 
 const randomFiltration = {
-  name: 'Test',
+  deleted: true,
   technologies: [Technologies.enum.R],
-  deleted: true
+  search: '10',
+  published: true,
+  maintainer: ['tesla']
 }
 
 const server = setupServer(
-  rest.get(
+  http.get(
     'http://localhost:8017/api/v2/manager/repositories',
-    (_, res, ctx) => {
-      return res(ctx.json(repositories))
+    () => {
+      return HttpResponse.json(repositories)
     }
   ),
-  rest.get(
+  http.get(
     'http://localhost:8017/api/v2/manager/packages',
-    (_, res, ctx) => {
-      return res(ctx.json(packages))
+    () => {
+      return HttpResponse.json(packages)
     }
   )
 )

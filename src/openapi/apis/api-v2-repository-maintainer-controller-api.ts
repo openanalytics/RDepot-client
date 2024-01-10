@@ -227,20 +227,22 @@ export const ApiV2RepositoryMaintainerControllerApiAxiosParamCreator =
       },
       /**
        *
-       * @param {boolean} [deleted]
-       * @param {Array<string>} [resourceTechnology]
        * @param {number} [page] Zero-based page index (0..N)
        * @param {number} [size] The size of the page to be returned
-       * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+       * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+       * @param {boolean} [deleted]
+       * @param {Array<string>} [resourceTechnology]
+       * @param {string} [search]
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
       getAllRepositoryMaintainers: async (
-        deleted?: boolean,
-        resourceTechnology?: Array<string>,
         page?: number,
         size?: number,
         sort?: Array<string>,
+        deleted?: boolean,
+        resourceTechnology?: Array<string>,
+        search?: string,
         options: AxiosRequestConfig = {}
       ): Promise<RequestArgs> => {
         const localVarPath = `/api/v2/manager/repository-maintainers`
@@ -272,15 +274,6 @@ export const ApiV2RepositoryMaintainerControllerApiAxiosParamCreator =
             'Bearer ' + accessToken
         }
 
-        if (deleted !== undefined) {
-          localVarQueryParameter['deleted'] = deleted
-        }
-
-        if (resourceTechnology) {
-          localVarQueryParameter['resourceTechnology'] =
-            resourceTechnology
-        }
-
         if (page !== undefined) {
           localVarQueryParameter['page'] = page
         }
@@ -291,6 +284,19 @@ export const ApiV2RepositoryMaintainerControllerApiAxiosParamCreator =
 
         if (sort) {
           localVarQueryParameter['sort'] = sort
+        }
+
+        if (deleted !== undefined) {
+          localVarQueryParameter['deleted'] = deleted
+        }
+
+        if (resourceTechnology) {
+          localVarQueryParameter['resourceTechnology'] =
+            resourceTechnology
+        }
+
+        if (search !== undefined) {
+          localVarQueryParameter['search'] = search
         }
 
         const query = new URLSearchParams(
@@ -574,20 +580,22 @@ export const ApiV2RepositoryMaintainerControllerApiFp =
       },
       /**
        *
-       * @param {boolean} [deleted]
-       * @param {Array<string>} [resourceTechnology]
        * @param {number} [page] Zero-based page index (0..N)
        * @param {number} [size] The size of the page to be returned
-       * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+       * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+       * @param {boolean} [deleted]
+       * @param {Array<string>} [resourceTechnology]
+       * @param {string} [search]
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
       async getAllRepositoryMaintainers(
-        deleted?: boolean,
-        resourceTechnology?: Array<string>,
         page?: number,
         size?: number,
         sort?: Array<string>,
+        deleted?: boolean,
+        resourceTechnology?: Array<string>,
+        search?: string,
         options?: AxiosRequestConfig
       ): Promise<
         (
@@ -601,11 +609,12 @@ export const ApiV2RepositoryMaintainerControllerApiFp =
           await ApiV2RepositoryMaintainerControllerApiAxiosParamCreator(
             configuration
           ).getAllRepositoryMaintainers(
-            deleted,
-            resourceTechnology,
             page,
             size,
             sort,
+            deleted,
+            resourceTechnology,
+            search,
             options
           )
         return (
@@ -731,20 +740,22 @@ export const ApiV2RepositoryMaintainerControllerApiFactory =
       },
       /**
        *
-       * @param {boolean} [deleted]
-       * @param {Array<string>} [resourceTechnology]
        * @param {number} [page] Zero-based page index (0..N)
        * @param {number} [size] The size of the page to be returned
-       * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+       * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+       * @param {boolean} [deleted]
+       * @param {Array<string>} [resourceTechnology]
+       * @param {string} [search]
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
       async getAllRepositoryMaintainers(
-        deleted?: boolean,
-        resourceTechnology?: Array<string>,
         page?: number,
         size?: number,
         sort?: Array<string>,
+        deleted?: boolean,
+        resourceTechnology?: Array<string>,
+        search?: string,
         options?: AxiosRequestConfig
       ): Promise<
         AxiosResponse<ResponseDtoPagedModelEntityModelRepositoryMaintainerDto>
@@ -753,11 +764,12 @@ export const ApiV2RepositoryMaintainerControllerApiFactory =
           configuration
         )
           .getAllRepositoryMaintainers(
-            deleted,
-            resourceTechnology,
             page,
             size,
             sort,
+            deleted,
+            resourceTechnology,
+            search,
             options
           )
           .then((request) => request(axios, basePath))
@@ -844,21 +856,23 @@ export class ApiV2RepositoryMaintainerControllerApi extends BaseAPI {
   }
   /**
    *
-   * @param {boolean} [deleted]
-   * @param {Array<string>} [resourceTechnology]
    * @param {number} [page] Zero-based page index (0..N)
    * @param {number} [size] The size of the page to be returned
-   * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+   * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+   * @param {boolean} [deleted]
+   * @param {Array<string>} [resourceTechnology]
+   * @param {string} [search]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof ApiV2RepositoryMaintainerControllerApi
    */
   public async getAllRepositoryMaintainers(
-    deleted?: boolean,
-    resourceTechnology?: Array<string>,
     page?: number,
     size?: number,
     sort?: Array<string>,
+    deleted?: boolean,
+    resourceTechnology?: Array<string>,
+    search?: string,
     options?: AxiosRequestConfig
   ): Promise<
     AxiosResponse<ResponseDtoPagedModelEntityModelRepositoryMaintainerDto>
@@ -867,11 +881,12 @@ export class ApiV2RepositoryMaintainerControllerApi extends BaseAPI {
       this.configuration
     )
       .getAllRepositoryMaintainers(
-        deleted,
-        resourceTechnology,
         page,
         size,
         sort,
+        deleted,
+        resourceTechnology,
+        search,
         options
       )
       .then((request) => request(this.axios, this.basePath))

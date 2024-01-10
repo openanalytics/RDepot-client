@@ -436,24 +436,24 @@ export const RPackageControllerApiAxiosParamCreator =
       },
       /**
        *
+       * @param {number} [page] Zero-based page index (0..N)
+       * @param {number} [size] The size of the page to be returned
+       * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
        * @param {Array<string>} [repository]
        * @param {boolean} [deleted]
        * @param {Array<string>} [submissionState]
        * @param {string} [name]
-       * @param {number} [page] Zero-based page index (0..N)
-       * @param {number} [size] The size of the page to be returned
-       * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
       getAllRPackages: async (
+        page?: number,
+        size?: number,
+        sort?: Array<string>,
         repository?: Array<string>,
         deleted?: boolean,
         submissionState?: Array<string>,
         name?: string,
-        page?: number,
-        size?: number,
-        sort?: Array<string>,
         options: AxiosRequestConfig = {}
       ): Promise<RequestArgs> => {
         const localVarPath = `/api/v2/manager/r/packages`
@@ -485,6 +485,18 @@ export const RPackageControllerApiAxiosParamCreator =
             'Bearer ' + accessToken
         }
 
+        if (page !== undefined) {
+          localVarQueryParameter['page'] = page
+        }
+
+        if (size !== undefined) {
+          localVarQueryParameter['size'] = size
+        }
+
+        if (sort) {
+          localVarQueryParameter['sort'] = sort
+        }
+
         if (repository) {
           localVarQueryParameter['repository'] = repository
         }
@@ -500,18 +512,6 @@ export const RPackageControllerApiAxiosParamCreator =
 
         if (name !== undefined) {
           localVarQueryParameter['name'] = name
-        }
-
-        if (page !== undefined) {
-          localVarQueryParameter['page'] = page
-        }
-
-        if (size !== undefined) {
-          localVarQueryParameter['size'] = size
-        }
-
-        if (sort) {
-          localVarQueryParameter['sort'] = sort
         }
 
         const query = new URLSearchParams(
@@ -1024,24 +1024,24 @@ export const RPackageControllerApiFp = function (
     },
     /**
      *
+     * @param {number} [page] Zero-based page index (0..N)
+     * @param {number} [size] The size of the page to be returned
+     * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
      * @param {Array<string>} [repository]
      * @param {boolean} [deleted]
      * @param {Array<string>} [submissionState]
      * @param {string} [name]
-     * @param {number} [page] Zero-based page index (0..N)
-     * @param {number} [size] The size of the page to be returned
-     * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getAllRPackages(
+      page?: number,
+      size?: number,
+      sort?: Array<string>,
       repository?: Array<string>,
       deleted?: boolean,
       submissionState?: Array<string>,
       name?: string,
-      page?: number,
-      size?: number,
-      sort?: Array<string>,
       options?: AxiosRequestConfig
     ): Promise<
       (
@@ -1053,13 +1053,13 @@ export const RPackageControllerApiFp = function (
         await RPackageControllerApiAxiosParamCreator(
           configuration
         ).getAllRPackages(
+          page,
+          size,
+          sort,
           repository,
           deleted,
           submissionState,
           name,
-          page,
-          size,
-          sort,
           options
         )
       return (
@@ -1276,35 +1276,35 @@ export const RPackageControllerApiFactory = function (
     },
     /**
      *
+     * @param {number} [page] Zero-based page index (0..N)
+     * @param {number} [size] The size of the page to be returned
+     * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
      * @param {Array<string>} [repository]
      * @param {boolean} [deleted]
      * @param {Array<string>} [submissionState]
      * @param {string} [name]
-     * @param {number} [page] Zero-based page index (0..N)
-     * @param {number} [size] The size of the page to be returned
-     * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getAllRPackages(
+      page?: number,
+      size?: number,
+      sort?: Array<string>,
       repository?: Array<string>,
       deleted?: boolean,
       submissionState?: Array<string>,
       name?: string,
-      page?: number,
-      size?: number,
-      sort?: Array<string>,
       options?: AxiosRequestConfig
     ): Promise<AxiosResponse<ResponseDtoObject>> {
       return RPackageControllerApiFp(configuration)
         .getAllRPackages(
+          page,
+          size,
+          sort,
           repository,
           deleted,
           submissionState,
           name,
-          page,
-          size,
-          sort,
           options
         )
         .then((request) => request(axios, basePath))
@@ -1449,36 +1449,36 @@ export class RPackageControllerApi extends BaseAPI {
   }
   /**
    *
+   * @param {number} [page] Zero-based page index (0..N)
+   * @param {number} [size] The size of the page to be returned
+   * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
    * @param {Array<string>} [repository]
    * @param {boolean} [deleted]
    * @param {Array<string>} [submissionState]
    * @param {string} [name]
-   * @param {number} [page] Zero-based page index (0..N)
-   * @param {number} [size] The size of the page to be returned
-   * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof RPackageControllerApi
    */
   public async getAllRPackages(
+    page?: number,
+    size?: number,
+    sort?: Array<string>,
     repository?: Array<string>,
     deleted?: boolean,
     submissionState?: Array<string>,
     name?: string,
-    page?: number,
-    size?: number,
-    sort?: Array<string>,
     options?: AxiosRequestConfig
   ): Promise<AxiosResponse<ResponseDtoObject>> {
     return RPackageControllerApiFp(this.configuration)
       .getAllRPackages(
+        page,
+        size,
+        sort,
         repository,
         deleted,
         submissionState,
         name,
-        page,
-        size,
-        sort,
         options
       )
       .then((request) => request(this.axios, this.basePath))

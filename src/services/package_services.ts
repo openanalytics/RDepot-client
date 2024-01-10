@@ -40,12 +40,24 @@ import {
 import { useSortStore } from '@/store/sort'
 import { createPatch } from 'rfc6902'
 
+type ValidatedPackages = Promise<
+  validatedData<EntityModelPackageDto[]>
+>
+
+type ValidatedPackage = Promise<
+  validatedData<EntityModelPackageDto>
+>
+
+type ValidatedPackagePython = Promise<
+  validatedData<EntityModelPythonPackageDto>
+>
+
 export async function fetchPackagesServices(
   filtration?: PackagesFiltration,
   page?: number,
   pageSize?: number,
   showProgress = false
-): Promise<validatedData<EntityModelPackageDto[]>> {
+): ValidatedPackages {
   if (!isAuthorized('GET', 'packages')) {
     return new Promise(() => validateRequest)
   }
@@ -53,18 +65,20 @@ export async function fetchPackagesServices(
   return openApiRequest<EntityModelPackageDto[]>(
     ApiV2PackageControllerApiFactory().getAllPackages,
     [
+      page,
+      pageSize,
+      sort.getSortBy(),
       filtration?.repository,
       filtration?.deleted,
       filtration?.submissionState,
       filtration?.technologies,
-      undefined,
-      filtration?.maintainer,
-      page,
-      pageSize,
-      sort.getSortBy()
+      filtration?.search,
+      filtration?.maintainer
     ],
     showProgress
-  )
+  ).catch(() => {
+    return validateRequest([])
+  })
 }
 
 // export function fetchPackageServices(
@@ -99,7 +113,7 @@ export function fetchPackageServices(
 function fetchRPackageServices(
   id: number,
   showProgress = false
-): Promise<validatedData<EntityModelRPackageDto>> {
+): ValidatedPackage {
   if (!isAuthorized('GET', 'packages')) {
     return new Promise(() => {})
   }
@@ -107,13 +121,15 @@ function fetchRPackageServices(
     RPackageControllerApiFactory().getRPackageById,
     [id],
     showProgress
-  )
+  ).catch(() => {
+    return validateRequest({})
+  })
 }
 
 function fetchPythonPackageServices(
   id: number,
   showProgress = false
-): Promise<validatedData<EntityModelPythonPackageDto>> {
+): ValidatedPackagePython {
   if (!isAuthorized('GET', 'packages')) {
     return new Promise(() => {})
   }
@@ -122,13 +138,15 @@ function fetchPythonPackageServices(
       .getAllPythonPackageById,
     [id],
     showProgress
-  )
+  ).catch(() => {
+    return validateRequest({})
+  })
 }
 
 export async function updateRPackage(
   oldPackage: EntityModelPackageDto,
   newPackage: EntityModelPackageDto
-): Promise<validatedData<EntityModelPackageDto>> {
+): ValidatedPackage {
   if (!isAuthorized('PATCH', 'package')) {
     return new Promise(() => false)
   }
@@ -137,13 +155,15 @@ export async function updateRPackage(
   return openApiRequest<EntityModelPackageDto>(
     RPackageControllerApiFactory().updatePackage,
     [patch, oldPackage.id]
-  )
+  ).catch(() => {
+    return validateRequest({})
+  })
 }
 
 export async function updatePythonPackage(
   oldPackage: EntityModelPackageDto,
   newPackage: EntityModelPackageDto
-): Promise<validatedData<EntityModelPackageDto>> {
+): ValidatedPackage {
   if (!isAuthorized('PATCH', 'package')) {
     return new Promise(() => false)
   }
@@ -152,7 +172,9 @@ export async function updatePythonPackage(
   return openApiRequest<EntityModelPackageDto>(
     PythonPackageControllerApiFactory().updatePythonPackage,
     [patch, oldPackage.id]
-  )
+  ).catch(() => {
+    return validateRequest({})
+  })
 }
 
 export function downloadReferenceManual(id: string) {
@@ -161,7 +183,9 @@ export function downloadReferenceManual(id: string) {
     [id],
     true,
     true
-  )
+  ).catch(() => {
+    return false
+  })
 }
 
 export function openVignetteHtml(id: string, name: string) {
@@ -171,7 +195,9 @@ export function openVignetteHtml(id: string, name: string) {
     true,
     true,
     true
-  )
+  ).catch(() => {
+    return false
+  })
 }
 
 export function downloadVignetteHtml(
@@ -184,7 +210,9 @@ export function downloadVignetteHtml(
     [id, name],
     true,
     true
-  )
+  ).catch(() => {
+    return false
+  })
 }
 
 export function downloadSourceFile(
@@ -197,7 +225,9 @@ export function downloadSourceFile(
     [id, name, version],
     true,
     true
-  )
+  ).catch(() => {
+    return false
+  })
 }
 
 export function fetchVignettes(id: number) {
@@ -205,5 +235,7 @@ export function fetchVignettes(id: number) {
     RPackageControllerApiFactory().getVignetteLinks,
     [id],
     true
-  )
+  ).catch(() => {
+    return validateRequest([])
+  })
 }

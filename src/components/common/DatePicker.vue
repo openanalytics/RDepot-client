@@ -22,7 +22,7 @@
 
 <template>
   <v-dialog v-model="show" width="auto">
-    <v-card>
+    <v-card v-click-outside="closeModal">
       <v-card-text>
         <v-date-picker
           @update:modelValue="updateDate"

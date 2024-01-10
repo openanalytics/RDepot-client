@@ -31,7 +31,7 @@
           @update:modelValue="setFiltration"
           density="compact"
           hide-details
-          name="name"
+          name="search"
           as="v-text-field"
           :label="
             $t(
@@ -39,7 +39,7 @@
             )
           "
           color="oablue"
-          id="filtration-name"
+          id="filtration-search"
         />
       </v-col>
       <v-col sm="2">
@@ -74,6 +74,7 @@
       <v-col sm="1" class="reset-button">
         <v-btn
           class="my-2"
+          id="reset-button"
           density="compact"
           color="oablue"
           @click="resetValues"

@@ -140,30 +140,28 @@ export const RSubmissionControllerApiAxiosParamCreator =
       },
       /**
        *
+       * @param {number} [page] Zero-based page index (0..N)
+       * @param {number} [size] The size of the page to be returned
+       * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
        * @param {Array<string>} [state]
-       * @param {number} [submitterId]
-       * @param {number} [packageId]
        * @param {Array<string>} [technology]
        * @param {Array<string>} [repository]
        * @param {string} [fromDate]
        * @param {string} [toDate]
-       * @param {number} [page] Zero-based page index (0..N)
-       * @param {number} [size] The size of the page to be returned
-       * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+       * @param {string} [search]
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
       getAllRSubmissions: async (
+        page?: number,
+        size?: number,
+        sort?: Array<string>,
         state?: Array<string>,
-        submitterId?: number,
-        packageId?: number,
         technology?: Array<string>,
         repository?: Array<string>,
         fromDate?: string,
         toDate?: string,
-        page?: number,
-        size?: number,
-        sort?: Array<string>,
+        search?: string,
         options: AxiosRequestConfig = {}
       ): Promise<RequestArgs> => {
         const localVarPath = `/api/v2/manager/r/submissions`
@@ -195,17 +193,20 @@ export const RSubmissionControllerApiAxiosParamCreator =
             'Bearer ' + accessToken
         }
 
+        if (page !== undefined) {
+          localVarQueryParameter['page'] = page
+        }
+
+        if (size !== undefined) {
+          localVarQueryParameter['size'] = size
+        }
+
+        if (sort) {
+          localVarQueryParameter['sort'] = sort
+        }
+
         if (state) {
           localVarQueryParameter['state'] = state
-        }
-
-        if (submitterId !== undefined) {
-          localVarQueryParameter['submitterId'] =
-            submitterId
-        }
-
-        if (packageId !== undefined) {
-          localVarQueryParameter['packageId'] = packageId
         }
 
         if (technology) {
@@ -224,16 +225,8 @@ export const RSubmissionControllerApiAxiosParamCreator =
           localVarQueryParameter['toDate'] = toDate
         }
 
-        if (page !== undefined) {
-          localVarQueryParameter['page'] = page
-        }
-
-        if (size !== undefined) {
-          localVarQueryParameter['size'] = size
-        }
-
-        if (sort) {
-          localVarQueryParameter['sort'] = sort
+        if (search !== undefined) {
+          localVarQueryParameter['search'] = search
         }
 
         const query = new URLSearchParams(
@@ -594,30 +587,28 @@ export const RSubmissionControllerApiFp = function (
     },
     /**
      *
+     * @param {number} [page] Zero-based page index (0..N)
+     * @param {number} [size] The size of the page to be returned
+     * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
      * @param {Array<string>} [state]
-     * @param {number} [submitterId]
-     * @param {number} [packageId]
      * @param {Array<string>} [technology]
      * @param {Array<string>} [repository]
      * @param {string} [fromDate]
      * @param {string} [toDate]
-     * @param {number} [page] Zero-based page index (0..N)
-     * @param {number} [size] The size of the page to be returned
-     * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     * @param {string} [search]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getAllRSubmissions(
+      page?: number,
+      size?: number,
+      sort?: Array<string>,
       state?: Array<string>,
-      submitterId?: number,
-      packageId?: number,
       technology?: Array<string>,
       repository?: Array<string>,
       fromDate?: string,
       toDate?: string,
-      page?: number,
-      size?: number,
-      sort?: Array<string>,
+      search?: string,
       options?: AxiosRequestConfig
     ): Promise<
       (
@@ -631,16 +622,15 @@ export const RSubmissionControllerApiFp = function (
         await RSubmissionControllerApiAxiosParamCreator(
           configuration
         ).getAllRSubmissions(
+          page,
+          size,
+          sort,
           state,
-          submitterId,
-          packageId,
           technology,
           repository,
           fromDate,
           toDate,
-          page,
-          size,
-          sort,
+          search,
           options
         )
       return (
@@ -789,46 +779,43 @@ export const RSubmissionControllerApiFactory = function (
     },
     /**
      *
+     * @param {number} [page] Zero-based page index (0..N)
+     * @param {number} [size] The size of the page to be returned
+     * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
      * @param {Array<string>} [state]
-     * @param {number} [submitterId]
-     * @param {number} [packageId]
      * @param {Array<string>} [technology]
      * @param {Array<string>} [repository]
      * @param {string} [fromDate]
      * @param {string} [toDate]
-     * @param {number} [page] Zero-based page index (0..N)
-     * @param {number} [size] The size of the page to be returned
-     * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     * @param {string} [search]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getAllRSubmissions(
+      page?: number,
+      size?: number,
+      sort?: Array<string>,
       state?: Array<string>,
-      submitterId?: number,
-      packageId?: number,
       technology?: Array<string>,
       repository?: Array<string>,
       fromDate?: string,
       toDate?: string,
-      page?: number,
-      size?: number,
-      sort?: Array<string>,
+      search?: string,
       options?: AxiosRequestConfig
     ): Promise<
       AxiosResponse<ResponseDtoPagedModelEntityModelSubmissionDto>
     > {
       return RSubmissionControllerApiFp(configuration)
         .getAllRSubmissions(
+          page,
+          size,
+          sort,
           state,
-          submitterId,
-          packageId,
           technology,
           repository,
           fromDate,
           toDate,
-          page,
-          size,
-          sort,
+          search,
           options
         )
         .then((request) => request(axios, basePath))
@@ -918,47 +905,44 @@ export class RSubmissionControllerApi extends BaseAPI {
   }
   /**
    *
+   * @param {number} [page] Zero-based page index (0..N)
+   * @param {number} [size] The size of the page to be returned
+   * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
    * @param {Array<string>} [state]
-   * @param {number} [submitterId]
-   * @param {number} [packageId]
    * @param {Array<string>} [technology]
    * @param {Array<string>} [repository]
    * @param {string} [fromDate]
    * @param {string} [toDate]
-   * @param {number} [page] Zero-based page index (0..N)
-   * @param {number} [size] The size of the page to be returned
-   * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+   * @param {string} [search]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof RSubmissionControllerApi
    */
   public async getAllRSubmissions(
+    page?: number,
+    size?: number,
+    sort?: Array<string>,
     state?: Array<string>,
-    submitterId?: number,
-    packageId?: number,
     technology?: Array<string>,
     repository?: Array<string>,
     fromDate?: string,
     toDate?: string,
-    page?: number,
-    size?: number,
-    sort?: Array<string>,
+    search?: string,
     options?: AxiosRequestConfig
   ): Promise<
     AxiosResponse<ResponseDtoPagedModelEntityModelSubmissionDto>
   > {
     return RSubmissionControllerApiFp(this.configuration)
       .getAllRSubmissions(
+        page,
+        size,
+        sort,
         state,
-        submitterId,
-        packageId,
         technology,
         repository,
         fromDate,
         toDate,
-        page,
-        size,
-        sort,
+        search,
         options
       )
       .then((request) => request(this.axios, this.basePath))

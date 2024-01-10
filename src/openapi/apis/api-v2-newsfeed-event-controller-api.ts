@@ -59,28 +59,28 @@ export const ApiV2NewsfeedEventControllerApiAxiosParamCreator =
     return {
       /**
        *
+       * @param {number} [page] Zero-based page index (0..N)
+       * @param {number} [size] The size of the page to be returned
+       * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
        * @param {Array<string>} [technology]
        * @param {Array<string>} [userName]
        * @param {Array<string>} [eventType]
        * @param {Array<string>} [resourceType]
        * @param {string} [fromDate]
        * @param {string} [toDate]
-       * @param {number} [page] Zero-based page index (0..N)
-       * @param {number} [size] The size of the page to be returned
-       * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
       getAllEvents: async (
+        page?: number,
+        size?: number,
+        sort?: Array<string>,
         technology?: Array<string>,
         userName?: Array<string>,
         eventType?: Array<string>,
         resourceType?: Array<string>,
         fromDate?: string,
         toDate?: string,
-        page?: number,
-        size?: number,
-        sort?: Array<string>,
         options: AxiosRequestConfig = {}
       ): Promise<RequestArgs> => {
         const localVarPath = `/api/v2/manager/events`
@@ -112,6 +112,18 @@ export const ApiV2NewsfeedEventControllerApiAxiosParamCreator =
             'Bearer ' + accessToken
         }
 
+        if (page !== undefined) {
+          localVarQueryParameter['page'] = page
+        }
+
+        if (size !== undefined) {
+          localVarQueryParameter['size'] = size
+        }
+
+        if (sort) {
+          localVarQueryParameter['sort'] = sort
+        }
+
         if (technology) {
           localVarQueryParameter['technology'] = technology
         }
@@ -135,18 +147,6 @@ export const ApiV2NewsfeedEventControllerApiAxiosParamCreator =
 
         if (toDate !== undefined) {
           localVarQueryParameter['toDate'] = toDate
-        }
-
-        if (page !== undefined) {
-          localVarQueryParameter['page'] = page
-        }
-
-        if (size !== undefined) {
-          localVarQueryParameter['size'] = size
-        }
-
-        if (sort) {
-          localVarQueryParameter['sort'] = sort
         }
 
         const query = new URLSearchParams(
@@ -272,28 +272,28 @@ export const ApiV2NewsfeedEventControllerApiFp = function (
   return {
     /**
      *
+     * @param {number} [page] Zero-based page index (0..N)
+     * @param {number} [size] The size of the page to be returned
+     * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
      * @param {Array<string>} [technology]
      * @param {Array<string>} [userName]
      * @param {Array<string>} [eventType]
      * @param {Array<string>} [resourceType]
      * @param {string} [fromDate]
      * @param {string} [toDate]
-     * @param {number} [page] Zero-based page index (0..N)
-     * @param {number} [size] The size of the page to be returned
-     * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getAllEvents(
+      page?: number,
+      size?: number,
+      sort?: Array<string>,
       technology?: Array<string>,
       userName?: Array<string>,
       eventType?: Array<string>,
       resourceType?: Array<string>,
       fromDate?: string,
       toDate?: string,
-      page?: number,
-      size?: number,
-      sort?: Array<string>,
       options?: AxiosRequestConfig
     ): Promise<
       (
@@ -307,15 +307,15 @@ export const ApiV2NewsfeedEventControllerApiFp = function (
         await ApiV2NewsfeedEventControllerApiAxiosParamCreator(
           configuration
         ).getAllEvents(
+          page,
+          size,
+          sort,
           technology,
           userName,
           eventType,
           resourceType,
           fromDate,
           toDate,
-          page,
-          size,
-          sort,
           options
         )
       return (
@@ -377,28 +377,28 @@ export const ApiV2NewsfeedEventControllerApiFactory =
     return {
       /**
        *
+       * @param {number} [page] Zero-based page index (0..N)
+       * @param {number} [size] The size of the page to be returned
+       * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
        * @param {Array<string>} [technology]
        * @param {Array<string>} [userName]
        * @param {Array<string>} [eventType]
        * @param {Array<string>} [resourceType]
        * @param {string} [fromDate]
        * @param {string} [toDate]
-       * @param {number} [page] Zero-based page index (0..N)
-       * @param {number} [size] The size of the page to be returned
-       * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
       async getAllEvents(
+        page?: number,
+        size?: number,
+        sort?: Array<string>,
         technology?: Array<string>,
         userName?: Array<string>,
         eventType?: Array<string>,
         resourceType?: Array<string>,
         fromDate?: string,
         toDate?: string,
-        page?: number,
-        size?: number,
-        sort?: Array<string>,
         options?: AxiosRequestConfig
       ): Promise<
         AxiosResponse<ResponseDtoPagedModelEntityModelNewsfeedEventDto>
@@ -407,15 +407,15 @@ export const ApiV2NewsfeedEventControllerApiFactory =
           configuration
         )
           .getAllEvents(
+            page,
+            size,
+            sort,
             technology,
             userName,
             eventType,
             resourceType,
             fromDate,
             toDate,
-            page,
-            size,
-            sort,
             options
           )
           .then((request) => request(axios, basePath))
@@ -450,29 +450,29 @@ export const ApiV2NewsfeedEventControllerApiFactory =
 export class ApiV2NewsfeedEventControllerApi extends BaseAPI {
   /**
    *
+   * @param {number} [page] Zero-based page index (0..N)
+   * @param {number} [size] The size of the page to be returned
+   * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
    * @param {Array<string>} [technology]
    * @param {Array<string>} [userName]
    * @param {Array<string>} [eventType]
    * @param {Array<string>} [resourceType]
    * @param {string} [fromDate]
    * @param {string} [toDate]
-   * @param {number} [page] Zero-based page index (0..N)
-   * @param {number} [size] The size of the page to be returned
-   * @param {Array<string>} [sort] Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof ApiV2NewsfeedEventControllerApi
    */
   public async getAllEvents(
+    page?: number,
+    size?: number,
+    sort?: Array<string>,
     technology?: Array<string>,
     userName?: Array<string>,
     eventType?: Array<string>,
     resourceType?: Array<string>,
     fromDate?: string,
     toDate?: string,
-    page?: number,
-    size?: number,
-    sort?: Array<string>,
     options?: AxiosRequestConfig
   ): Promise<
     AxiosResponse<ResponseDtoPagedModelEntityModelNewsfeedEventDto>
@@ -481,15 +481,15 @@ export class ApiV2NewsfeedEventControllerApi extends BaseAPI {
       this.configuration
     )
       .getAllEvents(
+        page,
+        size,
+        sort,
         technology,
         userName,
         eventType,
         resourceType,
         fromDate,
         toDate,
-        page,
-        size,
-        sort,
         options
       )
       .then((request) => request(this.axios, this.basePath))

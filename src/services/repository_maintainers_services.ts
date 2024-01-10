@@ -34,13 +34,19 @@ import { createPatch } from 'rfc6902'
 import { useSortStore } from '@/store/sort'
 import { isAuthorized } from '@/plugins/casl'
 
+type ValidatedRepositoryMaintainers = Promise<
+  validatedData<EntityModelRepositoryMaintainerDto[]>
+>
+
+type ValidatedRepositoryMaintainer = Promise<
+  validatedData<EntityModelRepositoryMaintainerDto>
+>
+
 export async function fetchRepositoryMaintainersServices(
   filtration: RepositoryMaintainersFiltration,
   page?: number,
   pageSize?: number
-): Promise<
-  validatedData<EntityModelRepositoryMaintainerDto[]>
-> {
+): ValidatedRepositoryMaintainers {
   if (!isAuthorized('GET', 'repositoryMaintainers'))
     return new Promise(() => validateRequest)
   const sort = useSortStore()
@@ -51,18 +57,19 @@ export async function fetchRepositoryMaintainersServices(
     ApiV2RepositoryMaintainerControllerApiFactory()
       .getAllRepositoryMaintainers,
     [
-      filtration?.deleted,
-      filtration?.technologies,
       page,
       pageSize,
-      sortBy
+      sortBy,
+      filtration?.deleted,
+      filtration?.technologies,
+      filtration?.search
     ]
-  )
+  ).catch(() => {
+    return validateRequest([])
+  })
 }
 
-export async function fetchAllRepositoryMaintainers(): Promise<
-  validatedData<EntityModelRepositoryMaintainerDto[]>
-> {
+export async function fetchAllRepositoryMaintainers(): ValidatedRepositoryMaintainers {
   if (!isAuthorized('GET', 'repositoryMaintainers'))
     return new Promise(() => validateRequest)
   const sort = useSortStore()
@@ -75,19 +82,20 @@ export async function fetchAllRepositoryMaintainers(): Promise<
     [
       undefined,
       undefined,
+      ['user.name,asc'],
       undefined,
       undefined,
-      ['user.name,asc']
+      undefined
     ]
-  )
+  ).catch(() => {
+    return validateRequest([])
+  })
 }
 
 export async function updateRepositoryMaintainer(
   oldMaintainer: EntityModelRepositoryMaintainerDto,
   newMaintainer: EntityModelRepositoryMaintainerDto
-): Promise<
-  validatedData<EntityModelRepositoryMaintainerDto>
-> {
+): ValidatedRepositoryMaintainer {
   if (!isAuthorized('PATCH', 'repositoryMaintainers'))
     return new Promise(() => false)
 
@@ -97,14 +105,14 @@ export async function updateRepositoryMaintainer(
     ApiV2RepositoryMaintainerControllerApiFactory()
       .updateRepositoryMaintainer,
     [patch, oldMaintainer.id]
-  )
+  ).catch(() => {
+    return validateRequest({})
+  })
 }
 
 export async function deletedRepositoryMaintainer(
   maintainer: EntityModelRepositoryMaintainerDto
-): Promise<
-  validatedData<EntityModelRepositoryMaintainerDto>
-> {
+): ValidatedRepositoryMaintainer {
   if (!isAuthorized('DELETE', 'repositoryMaintainers')) {
     return new Promise(() => false)
   }
@@ -112,5 +120,7 @@ export async function deletedRepositoryMaintainer(
     ApiV2RepositoryMaintainerControllerApiFactory()
       .deleteRepositoryMaintainer,
     [maintainer.id]
-  )
+  ).catch(() => {
+    return validateRequest({})
+  })
 }

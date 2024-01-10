@@ -45,9 +45,11 @@ beforeAll(() => {
   config.global.renderStubDefaultSlot = true
   setActivePinia(createPinia())
   packageDetailsStore = usePackageDetailsStore()
-  packageDetailsStore.vignettes = {
-    data: [{ title: TITLE_1 }, { title: TITLE_2 }]
-  }
+  packageDetailsStore.vignettes = [
+    { title: TITLE_1, filename: TITLE_1 },
+    { title: TITLE_2, filename: TITLE_2 }
+  ]
+
   wrapper = mount(PackageVignettes, {
     global: globalConfig
   })
@@ -58,9 +60,9 @@ describe('Package Vignettes', () => {
     expect(wrapper.exists()).toBe(true)
   })
 
-  it('display both vignettes', async () => {
-    console.log(wrapper.html())
-    expect(wrapper.text()).toContain(TITLE_1)
-    expect(wrapper.text()).toContain(TITLE_2)
+  it('display both vignettes', () => {
+    expect(wrapper.findAll('button').length === 2).toBe(
+      true
+    )
   })
 })

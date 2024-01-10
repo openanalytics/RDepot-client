@@ -46,5 +46,5 @@ export interface PythonSubmissionsBody {
    * @type {Blob}
    * @memberof PythonSubmissionsBody
    */
-  file?: Blob
+  file: Blob
 }

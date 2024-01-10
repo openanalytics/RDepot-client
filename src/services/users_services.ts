@@ -35,32 +35,45 @@ import { useSortStore } from '@/store/sort'
 import { isAuthorized } from '@/plugins/casl'
 import { createPatch } from 'rfc6902'
 
+type ValidatedUsers = Promise<
+  validatedData<EntityModelUserDto[]>
+>
+
+type ValidatedUser = Promise<
+  validatedData<EntityModelUserDto>
+>
+
+type ValidatedRRoles = Promise<validatedData<RoleDto[]>>
+
 export async function fetchUsers(
   page?: number,
   pageSize?: number,
   filtration?: UsersFiltration
-): Promise<validatedData<EntityModelUserDto[]>> {
+): ValidatedUsers {
   if (!isAuthorized('GET', 'users')) {
-    return new Promise(() => validateRequest)
+    return new Promise(() => validateRequest([]))
   }
   const sort = useSortStore()
 
   return openApiRequest<EntityModelUserDto[]>(
     ApiV2UserControllerApiFactory().getAllUsers,
     [
-      filtration?.roles,
-      filtration?.active,
       page,
       pageSize,
-      sort.getSortBy()
+      sort.getSortBy(),
+      filtration?.roles,
+      filtration?.active,
+      filtration?.search
     ]
-  )
+  ).catch(() => {
+    return validateRequest([])
+  })
 }
 
 export async function updateUser(
   oldUser: EntityModelUserDto,
   newUser: EntityModelUserDto
-): Promise<validatedData<EntityModelUserDto>> {
+): ValidatedUser {
   if (!isAuthorized('PATCH', 'users')) {
     return new Promise(() => false)
   }
@@ -68,10 +81,10 @@ export async function updateUser(
   return openApiRequest<EntityModelUserDto>(
     ApiV2UserControllerApiFactory().patchUser,
     [patch, oldUser.id]
-  )
+  ).catch(() => {
+    return validateRequest({})
+  })
 }
-
-type ValidatedRRoles = Promise<validatedData<RoleDto[]>>
 
 export async function fetchRoles(): ValidatedRRoles {
   if (!isAuthorized('GET', 'users')) {
@@ -79,5 +92,7 @@ export async function fetchRoles(): ValidatedRRoles {
   }
   return openApiRequest<RoleDto[]>(
     ApiV2UserControllerApiFactory().getRoles
-  )
+  ).catch(() => {
+    return validateRequest([])
+  })
 }

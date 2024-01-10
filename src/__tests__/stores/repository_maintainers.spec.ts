@@ -34,55 +34,59 @@ import {
 import repositoryMaintainers from '@/__tests__/config/mockData/repositoryMaintainers.json'
 import repositories from '@/__tests__/config/mockData/repositories.json'
 import packages from '@/__tests__/config/mockData/packages.json'
-import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
 import { usePagination } from '@/store/pagination'
 import { Technologies } from '@/enum/Technologies'
 import { i18n } from '@/plugins/i18n'
+import { http, HttpResponse } from 'msw'
+import me from '@/__tests__/config/mockData/me.json'
 
 const defaultFiltration = {
-  deleted: false,
-  technologies: undefined
+  deleted: undefined,
+  technologies: undefined,
+  search: undefined
 }
 
 const randomFiltration = {
-  deleted: true,
-  technologies: [
-    Technologies.enum.Python,
-    Technologies.enum.R
-  ]
+  deleted: false,
+  technologies: [Technologies.enum.Python],
+  search: 'ana'
 }
 
 const server = setupServer(
-  rest.get(
+  http.get(
     'http://localhost:8017/api/v2/manager/repository-maintainers',
-    (_, res, ctx) => {
-      return res(ctx.json(repositoryMaintainers))
+    () => {
+      return HttpResponse.json(repositoryMaintainers)
     }
   ),
-  rest.get(
+  http.get(
     'http://localhost:8017/api/v2/manager/repositories',
-    (_, res, ctx) => {
-      return res(ctx.json(repositories))
+    () => {
+      return HttpResponse.json(repositories)
     }
   ),
-  rest.get(
+  http.get(
     'http://localhost:8017/api/v2/manager/packages',
-    (_, res, ctx) => {
-      return res(ctx.json(packages))
+    () => {
+      return HttpResponse.json(packages)
     }
   ),
-  rest.delete(
+  http.delete(
     'http://localhost:8017/api/v2/manager/repository-maintainers/:maintainer_id',
-    (_, res, ctx) => {
-      return res(ctx.status(202))
+    () => {
+      return new HttpResponse(null, {
+        status: 202
+      })
     }
   ),
-  rest.patch(
+  http.patch(
     'http://localhost:8017/api/v2/manager/repository-maintainers/:maintainer_id',
-    (_, res, ctx) => {
-      return res(ctx.status(202))
+    () => {
+      return new HttpResponse(null, {
+        status: 202
+      })
     }
   )
 )
@@ -287,22 +291,34 @@ describe('Repository Maintainers Store', () => {
 })
 
 const failingServer = setupServer(
-  rest.get(
+  http.get(
     'http://localhost:8017/api/v2/manager/repository-maintainers',
-    (_, res, ctx) => {
-      return res(ctx.status(403))
+    () => {
+      return new HttpResponse(null, {
+        status: 403
+      })
     }
   ),
-  rest.get(
+  http.get(
     'http://localhost:8017/api/v2/manager/repositories',
-    (_, res, ctx) => {
-      return res(ctx.status(403))
+    () => {
+      return new HttpResponse(null, {
+        status: 403
+      })
     }
   ),
-  rest.get(
+  http.get(
     'http://localhost:8017/api/v2/manager/packages',
-    (_, res, ctx) => {
-      return res(ctx.status(403))
+    () => {
+      return new HttpResponse(null, {
+        status: 403
+      })
+    }
+  ),
+  http.get(
+    'http://localhost:8017/api/v2/manager/users/me',
+    () => {
+      return HttpResponse.json(me)
     }
   )
 )
@@ -326,7 +342,6 @@ describe('Repository Maintainers Store requests with failing backend', () => {
       useRepositoryMaintainersStore()
 
     await repositoryMaintainersStore.fetchMaintainers()
-
     expect(
       repositoryMaintainersStore.maintainers
     ).toStrictEqual([])

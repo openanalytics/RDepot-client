@@ -46,5 +46,5 @@ export interface RSubmissionsBody {
    * @type {Blob}
    * @memberof RSubmissionsBody
    */
-  file?: Blob
+  file: Blob
 }

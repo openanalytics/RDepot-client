@@ -31,33 +31,34 @@ import {
   it,
   vi
 } from 'vitest'
-import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import events from '@/__tests__/config/mockData/events.json'
 import { Technologies } from '@/enum/Technologies'
 import { EventsFiltration } from '@/models/Filtration'
+import { http, HttpResponse } from 'msw'
 
 const defaultFiltration = {
   eventType: undefined,
-  resourceId: undefined,
   resourceType: undefined,
   technologies: undefined,
-  userId: undefined
+  userName: undefined,
+  fromDate: undefined,
+  toDate: undefined
 }
 
 const randomFiltration = {
-  eventType: 'some event type',
-  resourceId: 4,
-  resourceType: 'four',
-  technologies: [Technologies.enum.R],
-  userId: 44
+  eventType: ['update'],
+  userName: 'tesla',
+  technologies: [Technologies.enum.Python],
+  resourceType: ['submission'],
+  fromDate: '2019-05-03',
+  toDate: '2022-09-20'
 }
-
 const server = setupServer(
-  rest.get(
+  http.get(
     'http://localhost:8017/api/v2/manager/events',
-    (_, res, ctx) => {
-      return res(ctx.json(events))
+    () => {
+      return HttpResponse.json(events)
     }
   )
 )
