@@ -30,5 +30,5 @@
 
 <script setup lang="ts">
 import Overlay from '@/components/common/Overlay.vue'
-import CreateToken from '@/components/settings/CreateToken.vue'
+import CreateToken from '@/components/settings/createToken/CreateToken.vue'
 </script>

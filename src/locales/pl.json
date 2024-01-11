@@ -284,6 +284,8 @@
   },
   "settings": {
     "create": "Nowy access token",
+    "deactivate": "Dezaktywuj token",
+    "deactivateQuestion": "Czy na pewno chcesz dezaktywować token?",
     "edit": "Edycja nazwy tokenu",
     "expirationDate": "Czas aktywności",
     "newToken": "Nowy token",
@@ -292,9 +294,7 @@
       "table": "Ustawienia tabel",
       "token": "Access tokens"
     },
-    "tokenName": "Nazwa",
-    "deactivate": "Dezaktywuj token",
-    "deactivateQuestion": "Czy na pewno chcesz dezaktywować token?"
+    "tokenName": "Nazwa"
   },
   "submissions": {
     "addAnotherSubmission": "Dodaj następne pakiety",

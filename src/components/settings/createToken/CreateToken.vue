@@ -31,7 +31,7 @@
       id="token-name"
       type="text"
       clearable
-      name="tokenName"
+      name="name"
       :label="$t('settings.tokenName')"
       as="v-text-field"
     ></validated-input-field>
@@ -39,7 +39,7 @@
     <validated-input-field
       id="token-expiration-date"
       type="number"
-      name="expirationDate"
+      name="lifetime"
       min="0"
       :label="$t('settings.expirationDate')"
       as="v-text-field"
@@ -52,9 +52,9 @@ import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
 import { useSettingsStore } from '@/store/settings'
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
-import TokenCard from '@/components/settings/TokenCard.vue'
+import TokenCard from '@/components/settings/createToken/TokenCard.vue'
 import { z } from 'zod'
-import { Token } from '@/models/Token'
+import { CreateToken } from '@/models/Token'
 
 const emit = defineEmits(['closeModal'])
 const settingsStore = useSettingsStore()
@@ -62,8 +62,8 @@ const settingsStore = useSettingsStore()
 const { values, meta, validate } = useForm({
   validationSchema: toTypedSchema(
     z.object({
-      tokenName: z.string().nonempty(),
-      expirationDate: z.number()
+      name: z.string().nonempty(),
+      lifetime: z.string().nonempty()
     })
   )
 })
@@ -71,7 +71,7 @@ const { values, meta, validate } = useForm({
 function createToken() {
   validate()
   if (meta.value.valid) {
-    settingsStore.createToken(values as Token)
+    settingsStore.createToken(values as CreateToken)
     cancelModal()
   }
 }

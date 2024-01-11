@@ -20,14 +20,14 @@
  *
  */
 
-interface TokenApiData {
-  tokenName: string
-  expirationDate: number
+interface CreateTokenApiData {
+  name: string
+  lifetime: string
 }
 
-interface Token extends TokenApiData {
+interface CreateToken extends CreateTokenApiData {
   error: boolean
   errorMessage: string
 }
 
-export type { Token, TokenApiData }
+export type { CreateToken, CreateTokenApiData }

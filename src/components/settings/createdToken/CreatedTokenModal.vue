@@ -31,7 +31,7 @@
 <script setup lang="ts">
 import { useSettingsStore } from '@/store/settings'
 import Overlay from '@/components/common/Overlay.vue'
-import NewTokenDetails from '@/components/settings/NewTokenDetails.vue'
+import NewTokenDetails from '@/components/settings/createdToken/NewTokenDetails.vue'
 
 const settingsStore = useSettingsStore()
 

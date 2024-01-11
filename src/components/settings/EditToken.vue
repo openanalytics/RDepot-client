@@ -31,8 +31,8 @@
       id="token-name"
       type="text"
       clearable
-      v-model="localToken.tokenName"
-      name="tokenName"
+      v-model="localToken.name"
+      name="name"
       :label="$t('settings.tokenName')"
       as="v-text-field"
     ></validated-input-field>
@@ -57,7 +57,7 @@ const localToken = ref(token)
 const { values, meta, validate } = useForm({
   validationSchema: toTypedSchema(
     z.object({
-      tokenName: z.string().nonempty()
+      name: z.string().nonempty()
     })
   )
 })

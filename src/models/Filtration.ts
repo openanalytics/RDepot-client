@@ -346,6 +346,38 @@ const UsersFiltration = z
 
 type UsersFiltration = z.infer<typeof UsersFiltration>
 
+const TokensFiltration = z
+  .object({
+    name: z
+      .string()
+      .optional()
+      .transform((val) => {
+        if (val?.length == 0) {
+          return undefined
+        }
+        return val
+      }),
+    active: z.boolean().optional(),
+    expired: z.boolean().optional(),
+    userLogin: z
+      .string()
+      .optional()
+      .transform((val) => {
+        if (val?.length == 0) {
+          return undefined
+        }
+        return val
+      })
+  })
+  .default({
+    name: undefined,
+    active: undefined,
+    expired: undefined,
+    userLogin: undefined
+  })
+
+type TokensFiltration = z.infer<typeof TokensFiltration>
+
 export {
   RepositoriesFiltration,
   PackagesFiltration,
@@ -353,5 +385,6 @@ export {
   EventsFiltration,
   PackageMaintainersFiltration,
   RepositoryMaintainersFiltration,
-  UsersFiltration
+  UsersFiltration,
+  TokensFiltration
 }

@@ -28,11 +28,15 @@
     <v-divider></v-divider>
     <v-card-text>
       <div class="code mb-2 mt-4 mr-2 ml-1">
-        <code class="d-flex justify-lg-space-between pt-1">
+        <code class="d-flex justify-lg-space-between pt-5">
           {{ settingsStore.newToken }}
-          <v-tooltip location="left">
+          <v-tooltip location="right">
             <template #activator="{ props }">
-              <div id="tooltip-activator" v-bind="props">
+              <div
+                id="tooltip-activator"
+                v-bind="props"
+                class="pl-3"
+              >
                 <v-icon
                   @click="copyContent()"
                   icon="mdi-content-copy"
@@ -71,8 +75,10 @@ const emit = defineEmits<{
 
 function copyContent() {
   try {
-    copy(settingsStore.newToken)
-    toasts.success(t('common.copied'))
+    if (settingsStore.newToken) {
+      copy(settingsStore.newToken)
+      toasts.success(t('common.copied'))
+    }
   } catch (error) {
     toasts.error(t('common.errors.copyFailed'))
   }

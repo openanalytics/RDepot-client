@@ -115,6 +115,11 @@ export const packageMaintainerSchema = z.object({
   links: z.array(linkSchema)
 })
 
+export const tokenSchema = z.object({
+  name: z.string(),
+  lifetime: z.string()
+})
+
 export function formValidation<T extends z.ZodTypeAny>(
   zObject: T
 ) {

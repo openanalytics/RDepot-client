@@ -40,10 +40,10 @@
 
 <script setup lang="ts">
 import { useSettingsStore } from '@/store/settings'
-import TokenModal from '@/components/settings/TokenModal.vue'
+import TokenModal from '@/components/settings/createToken/TokenModal.vue'
 import TokenDeactivateModal from '@/components/settings/TokenDeactivateModal.vue'
 import TokenEditModal from '@/components/settings/TokenEditModal.vue'
-import CreatedTokenModal from '@/components/settings/CreatedTokenModal.vue'
+import CreatedTokenModal from '@/components/settings/createdToken/CreatedTokenModal.vue'
 import SaveChanges from '@/components/settings/SaveChanges.vue'
 import SettingsTabs from '@/components/settings/SettingsTabs.vue'
 

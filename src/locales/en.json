@@ -293,6 +293,8 @@
   },
   "settings": {
     "create": "New access token",
+    "deactivate": "Deactivate token",
+    "deactivateQuestion": "Are you sure you want to deactivate the token?",
     "edit": "Edit token name",
     "expirationDate": "Active days",
     "newToken": "New token",
@@ -301,9 +303,7 @@
       "table": "Table settings",
       "token": "Access tokens"
     },
-    "tokenName": "Name",
-    "deactivate": "Deactivate token",
-    "deactivateQuestion": "Are you sure you want to deactivate the token?"
+    "tokenName": "Name"
   },
   "submissions": {
     "addAnotherSubmission": "Upload another packages",

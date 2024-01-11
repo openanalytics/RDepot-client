@@ -40,10 +40,19 @@
 </template>
 
 <script setup lang="ts">
+import { onBeforeMount } from 'vue'
 import ResourcesList from '@/components/common/resources/ResourcesList.vue'
 import TokenRow from '@/components/settings/TokenRow.vue'
 import AddToken from '@/components/settings/AddToken.vue'
 import { useSettingsStore } from '@/store/settings'
 
 const settingsStore = useSettingsStore()
+
+function updateData(): void {
+  settingsStore.fetchTokens()
+}
+
+onBeforeMount(() => {
+  updateData()
+})
 </script>
