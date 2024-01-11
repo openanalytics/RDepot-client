@@ -29,20 +29,20 @@
         color="oablue"
       >
         <v-tab>
-          <v-icon start icon="mdi-table" />
-          {{ t('settings.tab.table') }}
-        </v-tab>
-        <v-tab>
           <v-icon start icon="mdi-key-variant" />
           {{ t('settings.tab.token') }}
+        </v-tab>
+        <v-tab>
+          <v-icon start icon="mdi-table" />
+          {{ t('settings.tab.table') }}
         </v-tab>
       </v-tabs>
       <v-window v-model="tab" style="width: 100%">
         <v-window-item>
-          <TableSettings />
+          <TokenSettings />
         </v-window-item>
         <v-window-item>
-          <TokenSettings />
+          <TableSettings />
         </v-window-item>
       </v-window>
     </div>

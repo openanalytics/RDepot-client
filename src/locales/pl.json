@@ -85,7 +85,14 @@
       "role": "Rola",
       "username": "Nazwa użytkownika"
     },
-    "version": "Wersja"
+    "version": "Wersja",
+    "tokens": {
+      "name": "Nazwa",
+      "creationDate": "Data utworzenia",
+      "expirationDate": "Data wygaśnięcia",
+      "active": "Aktywny",
+      "deleted": "Usunięty"
+    }
   },
   "common": {
     "addPackage": "Dodaj pakiet",

@@ -112,7 +112,6 @@ export const useSettingsStore = defineStore(
           showProgress
         )
         this.tokens = tokens
-        console.log(tokens)
         return pageData
       },
 

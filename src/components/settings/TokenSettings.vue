@@ -32,7 +32,7 @@
           <TokenRow title />
         </template>
         <template #expansion-row="slotProps">
-          <TokenRow :submission="slotProps.resource" />
+          <TokenRow :token="slotProps.resource" />
         </template>
       </ResourcesList>
     </v-card-text>

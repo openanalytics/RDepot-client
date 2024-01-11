@@ -27,21 +27,6 @@
     id="token-row"
   >
     <v-col
-      id="token-expiration-date"
-      cols="lg-2 sm-2"
-      class="d-flex align-center"
-    >
-      <SortTitle
-        v-if="title"
-        :text="$t('columns.tokens.date')"
-        sortKey="columns.tokens.date"
-      />
-      <TextRecord
-        v-else
-        :text="submission?.packageBag?.date"
-      />
-    </v-col>
-    <v-col
       id="token-name"
       cols="lg-2"
       class="d-flex align-center"
@@ -50,26 +35,70 @@
         v-if="title"
         :text="$t('columns.tokens.name')"
         sortKey="columns.tokens.name"
-        sortField="packageBag"
+        sortField="name"
       />
-      <TextRecord
-        v-else
-        :text="submission?.packageBag?.name"
-      />
+      <TextRecord v-else :text="token?.name" />
     </v-col>
     <v-col
-      id="token-value"
-      cols="lg-4 sm-2"
+      id="token-creationDate"
+      cols="lg-1 sm-1"
       class="d-flex align-center"
     >
       <SortTitle
         v-if="title"
-        :text="$t('columns.tokens.value')"
-        sortKey="columns.tokens.value"
+        :text="$t('columns.tokens.creationDate')"
+        sortKey="columns.tokens.creationDate"
       />
-      <TextRecord
+      <TextRecord v-else :text="token?.creationDate" />
+    </v-col>
+    <v-col
+      id="token-expirationDate"
+      cols="lg-1 sm-1"
+      class="d-flex align-center"
+    >
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.tokens.expirationDate')"
+        sortKey="columns.tokens.expirationDate"
+      />
+      <TextRecord v-else :text="token?.expirationDate" />
+    </v-col>
+    <v-col
+      id="token-active"
+      cols="lg-1 sm-1"
+      class="d-flex align-center"
+    >
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.tokens.active')"
+        sortKey="columns.tokens.active"
+      />
+      <VCheckbox
         v-else
-        :text="submission?.packageBag?.value"
+        id="checkbox-active"
+        class="mr-8"
+        color="oablue"
+        v-model="token!.active"
+        disabled
+      />
+    </v-col>
+    <v-col
+      id="token-deleted"
+      cols="lg-1 sm-1"
+      class="d-flex align-center"
+    >
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.tokens.deleted')"
+        sortKey="columns.tokens.deleted"
+      />
+      <VCheckbox
+        v-else
+        id="checkbox-deleted"
+        class="mr-8"
+        color="oablue"
+        v-model="token!.deleted"
+        disabled
       />
     </v-col>
     <v-col
@@ -86,34 +115,31 @@
       />
       <span
         v-else-if="
-          getWaiting &&
-          canPatch(submission?.links).fields.includes(
-            'state'
-          )
+          canPatch(token?.links).fields.includes('state')
         "
         class="d-flex justify-center align-center"
       >
-        <v-btn
+        <!-- <v-btn
           id="accept-button"
           color="success"
           class="mx-1"
-          @click="deactivateToken(submission)"
+          @click="deactivateToken(token)"
           >DEACTIVATE</v-btn
         >
         <v-btn
           id="accept-button"
           color="success"
           class="mx-1"
-          @click="editToken(submission)"
+          @click="editToken(token)"
           >EDIT</v-btn
         >
         <v-btn
           v-if="check"
           id="cancel-button"
           color="oared"
-          @click="deleteToken(submission)"
+          @click="deleteToken(token)"
           >DELETE</v-btn
-        >
+        > -->
       </span>
     </v-col>
   </v-row>
@@ -122,7 +148,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import {
-  EntityModelSubmissionDto,
+  EntityModelAccessTokenDto,
   EntityModelSubmissionDtoStateEnum
 } from '@/openapi'
 import { useTokenActions } from '@/composable/tokens/tokenActions'
@@ -136,8 +162,8 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-  submission: Object as () =>
-    | EntityModelSubmissionDto
+  token: Object as () =>
+    | EntityModelAccessTokenDto
     | undefined
 })
 
@@ -147,48 +173,45 @@ const { deactivateToken, editToken, deleteToken } =
   useTokenActions()
 
 const check = computed(() => {
-  return (
-    authorizationStore.userId ===
-    props.submission?.submitter?.id
-  )
+  return authorizationStore.userId === props.token?.user?.id
 })
 
-const getAccepted = computed<boolean>(() => {
-  return (
-    props.submission?.state ==
-    EntityModelSubmissionDtoStateEnum.ACCEPTED
-  )
-})
+// const getAccepted = computed<boolean>(() => {
+//   return (
+//     props.token?.state ==
+//     EntityModelSubmissionDtoStateEnum.ACCEPTED
+//   )
+// })
 
-const getWaiting = computed<boolean>(() => {
-  return (
-    props.submission?.state ==
-    EntityModelSubmissionDtoStateEnum.WAITING
-  )
-})
+// const getWaiting = computed<boolean>(() => {
+//   return (
+//     props.token?.state ==
+//     EntityModelSubmissionDtoStateEnum.WAITING
+//   )
+// })
 
-const getRejected = computed<boolean>(() => {
-  return (
-    props.submission?.state ==
-    EntityModelSubmissionDtoStateEnum.REJECTED
-  )
-})
+// const getRejected = computed<boolean>(() => {
+//   return (
+//     props.submission?.state ==
+//     EntityModelSubmissionDtoStateEnum.REJECTED
+//   )
+// })
 
-const getCancelled = computed<boolean>(() => {
-  return (
-    props.submission?.state ==
-    EntityModelSubmissionDtoStateEnum.CANCELLED
-  )
-})
+// const getCancelled = computed<boolean>(() => {
+//   return (
+//     props.submission?.state ==
+//     EntityModelSubmissionDtoStateEnum.CANCELLED
+//   )
+// })
 
-const getRejectedOrCancelled = computed<boolean>(() => {
-  return getRejected.value || getCancelled.value
-})
+// const getRejectedOrCancelled = computed<boolean>(() => {
+//   return getRejected.value || getCancelled.value
+// })
 
-const getAcceptedTooltipMessage = computed<string>(() => {
-  if (getAccepted.value) return 'accepted'
-  if (getWaiting.value) return 'waiting for an action'
-  if (getRejected.value) return 'rejected'
-  else return 'cancelled'
-})
+// const getAcceptedTooltipMessage = computed<string>(() => {
+//   if (getAccepted.value) return 'accepted'
+//   if (getWaiting.value) return 'waiting for an action'
+//   if (getRejected.value) return 'rejected'
+//   else return 'cancelled'
+// })
 </script>
