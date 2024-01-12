@@ -313,7 +313,12 @@
       "table": "Table settings",
       "token": "Access tokens"
     },
-    "tokenName": "Name"
+    "tokenName": "Name",
+    "filtration": {
+      "searchPlaceholder": "Name",
+      "active": "Active",
+      "expired": "Expired"
+    }
   },
   "submissions": {
     "addAnotherSubmission": "Upload another packages",

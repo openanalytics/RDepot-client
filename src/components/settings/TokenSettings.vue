@@ -26,6 +26,7 @@
       <AddToken />
     </v-card-title>
     <v-card-text>
+      <!-- <FiltrationBar /> -->
       <ResourcesList :resources="settingsStore.tokens">
         <template #title>
           <TokenRow title />
@@ -43,6 +44,7 @@ import { onBeforeMount } from 'vue'
 import ResourcesList from '@/components/common/resources/ResourcesList.vue'
 import TokenRow from '@/components/settings/TokenRow.vue'
 import AddToken from '@/components/settings/AddToken.vue'
+import FiltrationBar from '@/components/settings/FiltrationBar.vue'
 import { useSettingsStore } from '@/store/settings'
 
 const settingsStore = useSettingsStore()

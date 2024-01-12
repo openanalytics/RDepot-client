@@ -80,8 +80,16 @@ export const useSettingsStore = defineStore(
         showDeleteModal: false,
         showEditModal: false,
         pageSize: 0,
-        newToken: ''
-        // currentToken: undefined
+        newToken: '',
+        currentToken: undefined
+      }
+    },
+    getters: {
+      isDefaultFiltration: (state) => {
+        return (
+          JSON.stringify(state.filtration) ===
+          JSON.stringify(defaultValues(TokensFiltration))
+        )
       }
     },
     actions: {
@@ -113,6 +121,23 @@ export const useSettingsStore = defineStore(
         )
         this.tokens = tokens
         return pageData
+      },
+      async setFiltration(payload: TokensFiltration) {
+        const pagination = usePagination()
+        pagination.resetPage()
+        if (TokensFiltration.safeParse(payload).success) {
+          this.filtration = TokensFiltration.parse(payload)
+        }
+        await this.fetchTokens()
+        const toasts = useToast()
+        toasts.success(
+          i18n.t('notifications.successFiltration')
+        )
+      },
+      clearFiltration() {
+        const pagination = usePagination()
+        pagination.resetPage()
+        this.filtration = defaultValues(TokensFiltration)
       },
 
       // async updateSubmission(
