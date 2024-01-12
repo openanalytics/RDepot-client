@@ -20,31 +20,34 @@
  *
  */
 
-import { EntityModelSubmissionDto } from '@/openapi'
+import { EntityModelAccessTokenDto } from '@/openapi'
 import { useSettingsStore } from '@/store/settings'
 
 export function useTokenActions() {
-  async function deactivateToken(
-    submission?: EntityModelSubmissionDto
-  ) {}
+  async function deleteToken(
+    token?: EntityModelAccessTokenDto
+  ) {
+    changeSubmissionState('DELETE', token)
+  }
 
   async function editToken(
-    submission?: EntityModelSubmissionDto
+    token?: EntityModelAccessTokenDto
   ) {}
 
-  async function deleteToken(
-    submission?: EntityModelSubmissionDto
-    // token: Token
+  async function changeSubmissionState(
+    modification: String,
+    token?: EntityModelAccessTokenDto
   ) {
     const settingsStore = useSettingsStore()
-    //   await settingsStore.updateSubmission(submission, {
-    //     state: CANCELLED
-    //   })
+    if (token) {
+      if (modification === 'DELETE') {
+        await settingsStore.openDeleteModal(token)
+      }
+    }
   }
 
   return {
-    deactivateToken,
-    editToken,
-    deleteToken
+    deleteToken,
+    editToken
   }
 }

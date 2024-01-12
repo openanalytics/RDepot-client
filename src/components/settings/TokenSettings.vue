@@ -26,7 +26,6 @@
       <AddToken />
     </v-card-title>
     <v-card-text>
-      <!-- TODO make table with tokens and possible actions - deactivate, delete -->
       <ResourcesList :resources="settingsStore.tokens">
         <template #title>
           <TokenRow title />

@@ -77,6 +77,13 @@
     "submitter": "Zgłaszający",
     "technology": "Technologia",
     "title": "Tytuł",
+    "tokens": {
+      "active": "Aktywny",
+      "creationDate": "Data utworzenia",
+      "deleted": "Usunięty",
+      "expirationDate": "Data wygaśnięcia",
+      "name": "Nazwa"
+    },
     "username": "Nazwa użytkownika",
     "users": {
       "active": "Aktywny",
@@ -85,14 +92,7 @@
       "role": "Rola",
       "username": "Nazwa użytkownika"
     },
-    "version": "Wersja",
-    "tokens": {
-      "name": "Nazwa",
-      "creationDate": "Data utworzenia",
-      "expirationDate": "Data wygaśnięcia",
-      "active": "Aktywny",
-      "deleted": "Usunięty"
-    }
+    "version": "Wersja"
   },
   "common": {
     "addPackage": "Dodaj pakiet",
@@ -291,10 +291,13 @@
   },
   "settings": {
     "create": "Nowy access token",
-    "deactivate": "Dezaktywuj token",
-    "deactivateQuestion": "Czy na pewno chcesz dezaktywować token?",
+    "delete": "Usuń token",
+    "deleteQuestion": "Czy na pewno chcesz usunąć token <strong>{0}</strong>?",
     "edit": "Edycja nazwy tokenu",
     "expirationDate": "Czas aktywności",
+    "message": {
+      "deleted": "Token usunięty"
+    },
     "newToken": "Nowy token",
     "save": "Zapisz zmiany",
     "tab": {

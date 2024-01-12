@@ -21,24 +21,52 @@
 -->
 
 <template>
-  <Overlay>
-    <template #props="{ closeModal }">
-      <DeactivateToken
-        @closeModal="closeModal"
-        @deactivateToken="deactivateToken"
-      />
-    </template>
-  </Overlay>
+  <v-card class="pa-5" width="400">
+    <v-card-title>
+      {{ $t('settings.delete') }}
+    </v-card-title>
+    <v-divider></v-divider>
+    <v-card-text>
+      <p
+        v-html="
+          $t('settings.deleteQuestion', [
+            settingsStore.currentToken?.name
+          ])
+        "
+      ></p>
+    </v-card-text>
+    <v-divider></v-divider>
+    <card-actions :buttons="buttons"></card-actions>
+  </v-card>
 </template>
 
 <script setup lang="ts">
 import { useSettingsStore } from '@/store/settings'
-import Overlay from '@/components/common/Overlay.vue'
-import DeactivateToken from '@/components/settings/DeactivateToken.vue'
+import CardActions from '@/components/common/CardActions.vue'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const settingsStore = useSettingsStore()
 
-function deactivateToken() {
-  settingsStore.deactivateToken()
+const emit = defineEmits(['closeModal', 'deleteToken'])
+
+const buttons = [
+  {
+    id: 'cancel-button',
+    text: t('common.cancel'),
+    handler: () => closeModal()
+  },
+  {
+    id: 'ok-button',
+    text: t('common.ok'),
+    handler: () => deleteToken()
+  }
+]
+
+function closeModal() {
+  emit('closeModal')
+}
+function deleteToken() {
+  emit('deleteToken')
 }
 </script>

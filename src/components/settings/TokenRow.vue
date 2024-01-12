@@ -41,7 +41,7 @@
     </v-col>
     <v-col
       id="token-creationDate"
-      cols="lg-1 sm-1"
+      cols="lg-2 sm-2"
       class="d-flex align-center"
     >
       <SortTitle
@@ -53,7 +53,7 @@
     </v-col>
     <v-col
       id="token-expirationDate"
-      cols="lg-1 sm-1"
+      cols="lg-2 sm-2"
       class="d-flex align-center"
     >
       <SortTitle
@@ -114,21 +114,12 @@
         no-sort
       />
       <span
-        v-else-if="
-          canPatch(token?.links).fields.includes('state')
-        "
+        v-else
         class="d-flex justify-center align-center"
       >
-        <!-- <v-btn
-          id="accept-button"
-          color="success"
-          class="mx-1"
-          @click="deactivateToken(token)"
-          >DEACTIVATE</v-btn
-        >
         <v-btn
           id="accept-button"
-          color="success"
+          color="oablue"
           class="mx-1"
           @click="editToken(token)"
           >EDIT</v-btn
@@ -139,7 +130,7 @@
           color="oared"
           @click="deleteToken(token)"
           >DELETE</v-btn
-        > -->
+        >
       </span>
     </v-col>
   </v-row>
@@ -147,10 +138,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import {
-  EntityModelAccessTokenDto,
-  EntityModelSubmissionDtoStateEnum
-} from '@/openapi'
+import { EntityModelAccessTokenDto } from '@/openapi'
 import { useTokenActions } from '@/composable/tokens/tokenActions'
 import { useAuthorizationStore } from '@/store/authorization'
 import SortTitle from '@/components/common/resources/SortTitle.vue'
@@ -169,49 +157,9 @@ const props = defineProps({
 
 const authorizationStore = useAuthorizationStore()
 const { canPatch } = useUserAuthorities()
-const { deactivateToken, editToken, deleteToken } =
-  useTokenActions()
+const { deleteToken, editToken } = useTokenActions()
 
 const check = computed(() => {
-  return authorizationStore.userId === props.token?.user?.id
+  return authorizationStore.me.id === props.token?.user?.id
 })
-
-// const getAccepted = computed<boolean>(() => {
-//   return (
-//     props.token?.state ==
-//     EntityModelSubmissionDtoStateEnum.ACCEPTED
-//   )
-// })
-
-// const getWaiting = computed<boolean>(() => {
-//   return (
-//     props.token?.state ==
-//     EntityModelSubmissionDtoStateEnum.WAITING
-//   )
-// })
-
-// const getRejected = computed<boolean>(() => {
-//   return (
-//     props.submission?.state ==
-//     EntityModelSubmissionDtoStateEnum.REJECTED
-//   )
-// })
-
-// const getCancelled = computed<boolean>(() => {
-//   return (
-//     props.submission?.state ==
-//     EntityModelSubmissionDtoStateEnum.CANCELLED
-//   )
-// })
-
-// const getRejectedOrCancelled = computed<boolean>(() => {
-//   return getRejected.value || getCancelled.value
-// })
-
-// const getAcceptedTooltipMessage = computed<string>(() => {
-//   if (getAccepted.value) return 'accepted'
-//   if (getWaiting.value) return 'waiting for an action'
-//   if (getRejected.value) return 'rejected'
-//   else return 'cancelled'
-// })
 </script>

@@ -20,10 +20,7 @@
  *
  */
 
-import {
-  SubmissionsFiltration,
-  TokensFiltration
-} from '@/models/Filtration'
+import { TokensFiltration } from '@/models/Filtration'
 import {
   ApiV2AccessTokenControllerApiFactory,
   EntityModelAccessTokenDto,
@@ -106,6 +103,17 @@ export async function createToken(
     toasts.error(i18n.t(validatedToken.error.message))
     return new Promise(() => false)
   }
+}
+
+export async function deleteToken(id: number) {
+  // if (!isAuthorized('DELETE', 'repository')) {
+  //   return new Promise(() => false)
+  // }
+  return openApiRequest<CreateAccessTokenDto>(
+    ApiV2AccessTokenControllerApiFactory()
+      .deleteAccessToken,
+    [id]
+  )
 }
 
 // export async function updateSubmission(

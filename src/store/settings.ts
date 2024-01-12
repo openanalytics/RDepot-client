@@ -25,7 +25,6 @@ import {
   CreateAccessTokenDto
 } from '@/openapi'
 import { defineStore } from 'pinia'
-import { CreateToken } from '@/models/Token'
 import { useAuthorizationStore } from '@/store/authorization'
 import {
   TokensFiltration,
@@ -33,7 +32,8 @@ import {
 } from '@/models/Filtration'
 import {
   fetchTokens,
-  createToken
+  createToken,
+  deleteToken
 } from '@/services/settings_services'
 import { useUtilities } from '@/composable/utilities'
 import { validatedData } from '@/services/open_api_access'
@@ -57,11 +57,11 @@ interface State {
   changes: boolean
   showModal: boolean
   showCreatedModal: boolean
-  showDeactivateModal: boolean
+  showDeleteModal: boolean
   showEditModal: boolean
   pageSize: number
   newToken?: string
-  // currentToken?: Token
+  currentToken?: EntityModelAccessTokenDto
 }
 
 const { deepCopy } = useUtilities()
@@ -77,7 +77,7 @@ export const useSettingsStore = defineStore(
         changes: false,
         showModal: false,
         showCreatedModal: false,
-        showDeactivateModal: false,
+        showDeleteModal: false,
         showEditModal: false,
         pageSize: 0,
         newToken: ''
@@ -129,19 +129,6 @@ export const useSettingsStore = defineStore(
       //   ).then(async () => {
       //     await this.fetchSubmissions()
       //   })
-      // },
-      // getGenerateManualForPackage(file: File) {
-      //   if (this.repository?.technology == 'Python')
-      //     return true
-      //   return !!this.generateManual.find(
-      //     (item) => item == file
-      //   )
-      // },
-      // setPackages(payload: File[]) {
-      //   this.packages = payload
-      // },
-      // addPackage(payload: File) {
-      //   this.packages = [...this.packages, payload]
       // },
       // async addSubmissionRequests() {
       //   this.promises = this.packages.map((packageBag) => {
@@ -198,17 +185,29 @@ export const useSettingsStore = defineStore(
           }
         )
       },
-      // async createToken(payload: Token) {
-      // if (EventsFiltration.safeParse(payload).success) {
-      //   this.filtration = EventsFiltration.parse(payload)
-      // }
-      // this.page = 0
-      // this.events = []
-      // await this.fetchEvents()
-      // TODO await response and put to this.newToken, close modal and open the modal with clipboard
-      // },
-      async deactivateToken() {
-        //TODO get actual token and deactivate it
+
+      openDeleteModal(token: EntityModelAccessTokenDto) {
+        this.currentToken = token
+        this.showDeleteModal = true
+        const commonStore = useCommonStore()
+        commonStore.setOverlayModel(true)
+      },
+      async deleteToken() {
+        if (this.currentToken?.id) {
+          await deleteToken(this.currentToken.id).then(
+            async () => {
+              const toast = useToast()
+              toast.success(
+                i18n.t('settings.message.deleted')
+              )
+              this.showDeleteModal = false
+              const commonStore = useCommonStore()
+              commonStore.setOverlayModel(false)
+              await this.fetchTokens()
+            }
+          )
+        }
+        this.currentToken = undefined
       },
       async editToken() {
         //TODO get actual token with modified name and update it

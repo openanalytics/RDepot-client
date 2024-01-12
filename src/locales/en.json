@@ -77,6 +77,13 @@
     "submitter": "Submitter",
     "technology": "Technology",
     "title": "Title",
+    "tokens": {
+      "active": "Active",
+      "creationDate": "Creation date",
+      "deleted": "Deleted",
+      "expirationDate": "Expiration date",
+      "name": "Name"
+    },
     "username": "User name",
     "users": {
       "active": "Active",
@@ -85,14 +92,7 @@
       "role": "Role",
       "username": "Username"
     },
-    "version": "Version",
-    "tokens": {
-      "name": "Name",
-      "creationDate": "Creation date",
-      "expirationDate": "Expiration date",
-      "active": "Active",
-      "deleted": "Deleted"
-    }
+    "version": "Version"
   },
   "common": {
     "addPackage": "Add package",
@@ -300,10 +300,13 @@
   },
   "settings": {
     "create": "New access token",
-    "deactivate": "Deactivate token",
-    "deactivateQuestion": "Are you sure you want to deactivate the token?",
+    "delete": "Delete token",
+    "deleteQuestion": "Are you sure you want to delete the token <strong>{0}</strong>?",
     "edit": "Edit token name",
     "expirationDate": "Active days",
+    "message": {
+      "delete": "Token deleted"
+    },
     "newToken": "New token",
     "save": "Save chages",
     "tab": {
