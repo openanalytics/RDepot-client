@@ -304,8 +304,14 @@
     "deleteQuestion": "Are you sure you want to delete the token <strong>{0}</strong>?",
     "edit": "Edit token name",
     "expirationDate": "Active days",
+    "filtration": {
+      "active": "Active",
+      "expired": "Expired",
+      "searchPlaceholder": "Name"
+    },
     "message": {
-      "delete": "Token deleted"
+      "delete": "Token deleted",
+      "edited": "Token edited"
     },
     "newToken": "New token",
     "save": "Save chages",
@@ -313,12 +319,7 @@
       "table": "Table settings",
       "token": "Access tokens"
     },
-    "tokenName": "Name",
-    "filtration": {
-      "searchPlaceholder": "Name",
-      "active": "Active",
-      "expired": "Expired"
-    }
+    "tokenName": "Name"
   },
   "submissions": {
     "addAnotherSubmission": "Upload another packages",

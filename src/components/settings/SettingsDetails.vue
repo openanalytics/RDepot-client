@@ -40,7 +40,7 @@
 import { useSettingsStore } from '@/store/settings'
 import TokenModal from '@/components/settings/createToken/TokenModal.vue'
 import TokenDeleteModal from '@/components/settings/deleteToken/TokenDeleteModal.vue'
-import TokenEditModal from '@/components/settings/TokenEditModal.vue'
+import TokenEditModal from '@/components/settings/editToken/TokenEditModal.vue'
 import CreatedTokenModal from '@/components/settings/createdToken/CreatedTokenModal.vue'
 import SaveChanges from '@/components/settings/SaveChanges.vue'
 import SettingsTabs from '@/components/settings/SettingsTabs.vue'

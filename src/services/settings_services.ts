@@ -35,7 +35,6 @@ import { tokenSchema } from '@/models/Schemas'
 import { createPatch } from 'rfc6902'
 import { useSortStore } from '@/store/sort'
 import { isAuthorized } from '@/plugins/casl'
-import { Technologies } from '@/enum/Technologies'
 import { getConfiguration } from './api_config'
 import { useToast } from '@/composable/toasts'
 import { i18n } from '@/plugins/i18n'
@@ -116,6 +115,24 @@ export async function deleteToken(id: number) {
   )
 }
 
+export async function editToken(
+  oldToken: EntityModelAccessTokenDto,
+  newToken: EntityModelAccessTokenDto
+): ValidatedToken {
+  // if (!isAuthorized('PATCH', 'submissions')) {
+  //     return new Promise(() => false)
+  //   }
+
+  const patch_body = createPatch(oldToken, newToken)
+  console.log(patch_body)
+  return openApiRequest<EntityModelAccessTokenDto>(
+    ApiV2AccessTokenControllerApiFactory().patchAccessToken,
+    [patch_body, oldToken.id!]
+  ).catch(() => {
+    return validateRequest({})
+  })
+}
+
 // export async function updateSubmission(
 //   oldSubmission: EntityModelSubmissionDto,
 //   newSubmission: EntityModelSubmissionDto
@@ -155,52 +172,4 @@ export async function deleteToken(id: number) {
 //         '" not implemented!'
 //     }
 //   }
-// }
-
-// export async function addSubmission(
-//   repository: string,
-//   technology: string,
-//   file: File,
-//   generateManual?: boolean
-// ): ValidatedSumbission {
-//   if (!isAuthorized('POST', 'submissions')) {
-//     return new Promise(() => false)
-//   }
-
-//   let submissionApi
-
-//   if (technology === Technologies.enum.R) {
-//     submissionApi = RSubmissionControllerApiFactory(
-//       await getConfiguration()
-//     ).submitRPacakgeForm
-//   } else if (technology === Technologies.enum.Python) {
-//     submissionApi = PythonSubmissionControllerApiFactory(
-//       await getConfiguration()
-//     ).submitPythonPackageForm
-//   } else {
-//     return new Promise(() => false)
-//   }
-
-//   return openApiRequest<EntityModelSubmissionDto>(
-//     submissionApi,
-//     [repository, file, generateManual, false],
-//     false
-//   ).catch(() => {
-//     return validateRequest({})
-//   })
-// }
-
-// export function fetchSubmission(
-//   id: number
-// ): ValidatedSumbission {
-//   if (!isAuthorized('GET', 'submissions')) {
-//     return new Promise(() => {})
-//   }
-
-//   return openApiRequest<EntityModelSubmissionDto>(
-//     ApiV2SubmissionControllerApiFactory().getSubmissionById,
-//     [id]
-//   ).catch(() => {
-//     return validateRequest({})
-//   })
 // }

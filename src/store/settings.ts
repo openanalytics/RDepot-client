@@ -33,7 +33,8 @@ import {
 import {
   fetchTokens,
   createToken,
-  deleteToken
+  deleteToken,
+  editToken
 } from '@/services/settings_services'
 import { useUtilities } from '@/composable/utilities'
 import { validatedData } from '@/services/open_api_access'
@@ -139,22 +140,6 @@ export const useSettingsStore = defineStore(
         pagination.resetPage()
         this.filtration = defaultValues(TokensFiltration)
       },
-
-      // async updateSubmission(
-      //   oldSubmission: EntityModelSubmissionDto,
-      //   newValues: Partial<EntityModelSubmissionDto>
-      // ) {
-      //   const newSubmission = {
-      //     ...deepCopy(oldSubmission),
-      //     ...newValues
-      //   }
-      //   await updateSubmission(
-      //     oldSubmission,
-      //     newSubmission
-      //   ).then(async () => {
-      //     await this.fetchSubmissions()
-      //   })
-      // },
       // async addSubmissionRequests() {
       //   this.promises = this.packages.map((packageBag) => {
       //     return {
@@ -234,8 +219,36 @@ export const useSettingsStore = defineStore(
         }
         this.currentToken = undefined
       },
-      async editToken() {
-        //TODO get actual token with modified name and update it
+
+      openEditModal(token: EntityModelAccessTokenDto) {
+        this.currentToken = token
+        this.showEditModal = true
+        const commonStore = useCommonStore()
+        commonStore.setOverlayModel(true)
+      },
+
+      async editToken(
+        oldToken: EntityModelAccessTokenDto,
+        newValues: Partial<EntityModelAccessTokenDto>
+      ) {
+        const newToken = {
+          ...deepCopy(oldToken),
+          ...newValues
+        }
+        await editToken(oldToken, newToken)?.then(
+          async (success) => {
+            if (success) {
+              const toast = useToast()
+              toast.success(
+                i18n.t('settings.message.edited')
+              )
+              this.showEditModal = false
+              const commonStore = useCommonStore()
+              commonStore.setOverlayModel(false)
+              await this.fetchTokens()
+            }
+          }
+        )
       }
     }
   }

@@ -27,22 +27,18 @@ export function useTokenActions() {
   async function deleteToken(
     token?: EntityModelAccessTokenDto
   ) {
-    changeSubmissionState('DELETE', token)
+    if (token) {
+      const settingsStore = useSettingsStore()
+      await settingsStore.openDeleteModal(token)
+    }
   }
 
   async function editToken(
     token?: EntityModelAccessTokenDto
-  ) {}
-
-  async function changeSubmissionState(
-    modification: String,
-    token?: EntityModelAccessTokenDto
   ) {
-    const settingsStore = useSettingsStore()
     if (token) {
-      if (modification === 'DELETE') {
-        await settingsStore.openDeleteModal(token)
-      }
+      const settingsStore = useSettingsStore()
+      await settingsStore.openEditModal(token)
     }
   }
 

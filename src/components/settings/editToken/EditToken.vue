@@ -44,14 +44,18 @@ import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
 import { useSettingsStore } from '@/store/settings'
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
-import TokenEditCard from '@/components/settings/TokenEditCard.vue'
+import TokenEditCard from '@/components/settings/editToken/TokenEditCard.vue'
 import { ref } from 'vue'
 import { z } from 'zod'
+import { EntityModelAccessTokenDto } from '@/openapi'
+import { useUtilities } from '@/composable/utilities'
 
 const emit = defineEmits(['closeModal'])
 const settingsStore = useSettingsStore()
 
-let token = settingsStore.currentToken
+const { deepCopy } = useUtilities()
+
+let token = deepCopy(settingsStore.currentToken)
 const localToken = ref(token)
 
 const { values, meta, validate } = useForm({
@@ -65,8 +69,11 @@ const { values, meta, validate } = useForm({
 function editToken() {
   validate()
   if (meta.value.valid) {
-    console.log(values)
-    settingsStore.editToken(values)
+    const newToken = deepCopy(localToken.value)
+    settingsStore.editToken(
+      deepCopy(settingsStore.currentToken),
+      newToken
+    )
     cancelModal()
   }
 }

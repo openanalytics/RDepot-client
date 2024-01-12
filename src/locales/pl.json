@@ -295,8 +295,14 @@
     "deleteQuestion": "Czy na pewno chcesz usunąć token <strong>{0}</strong>?",
     "edit": "Edycja nazwy tokenu",
     "expirationDate": "Czas aktywności",
+    "filtration": {
+      "active": "Aktywny",
+      "expired": "Przedawniony",
+      "searchPlaceholder": "Nazwa"
+    },
     "message": {
-      "deleted": "Token usunięty"
+      "deleted": "Token usunięty",
+      "edited": "Token pomyślnie edytowany"
     },
     "newToken": "Nowy token",
     "save": "Zapisz zmiany",
@@ -304,12 +310,7 @@
       "table": "Ustawienia tabel",
       "token": "Access tokens"
     },
-    "tokenName": "Nazwa",
-    "filtration": {
-      "searchPlaceholder": "Nazwa",
-      "active": "Aktywny",
-      "expired": "Przedawniony"
-    }
+    "tokenName": "Nazwa"
   },
   "submissions": {
     "addAnotherSubmission": "Dodaj następne pakiety",
