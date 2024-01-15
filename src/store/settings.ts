@@ -34,7 +34,8 @@ import {
   fetchTokens,
   createToken,
   deleteToken,
-  editToken
+  editToken,
+  deactivateToken
 } from '@/services/settings_services'
 import { useUtilities } from '@/composable/utilities'
 import { validatedData } from '@/services/open_api_access'
@@ -60,6 +61,7 @@ interface State {
   showCreatedModal: boolean
   showDeleteModal: boolean
   showEditModal: boolean
+  showDeactivateModal: boolean
   pageSize: number
   newToken?: string
   currentToken?: EntityModelAccessTokenDto
@@ -80,6 +82,7 @@ export const useSettingsStore = defineStore(
         showCreatedModal: false,
         showDeleteModal: false,
         showEditModal: false,
+        showDeactivateModal: false,
         pageSize: 0,
         newToken: '',
         currentToken: undefined
@@ -243,6 +246,39 @@ export const useSettingsStore = defineStore(
                 i18n.t('settings.message.edited')
               )
               this.showEditModal = false
+              const commonStore = useCommonStore()
+              commonStore.setOverlayModel(false)
+              await this.fetchTokens()
+            }
+          }
+        )
+      },
+
+      openDeactivateModal(
+        token: EntityModelAccessTokenDto
+      ) {
+        this.currentToken = token
+        this.showDeactivateModal = true
+        const commonStore = useCommonStore()
+        commonStore.setOverlayModel(true)
+      },
+
+      async deactivateToken(
+        oldToken: EntityModelAccessTokenDto,
+        newValues: Partial<EntityModelAccessTokenDto>
+      ) {
+        const newToken = {
+          ...deepCopy(oldToken),
+          ...newValues
+        }
+        await deactivateToken(oldToken, newToken)?.then(
+          async (success) => {
+            if (success) {
+              const toast = useToast()
+              toast.success(
+                i18n.t('settings.message.deactivated')
+              )
+              this.showDeactivateModal = false
               const commonStore = useCommonStore()
               commonStore.setOverlayModel(false)
               await this.fetchTokens()

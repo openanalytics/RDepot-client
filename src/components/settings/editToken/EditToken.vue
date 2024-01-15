@@ -47,7 +47,6 @@ import { toTypedSchema } from '@vee-validate/zod'
 import TokenEditCard from '@/components/settings/editToken/TokenEditCard.vue'
 import { ref } from 'vue'
 import { z } from 'zod'
-import { EntityModelAccessTokenDto } from '@/openapi'
 import { useUtilities } from '@/composable/utilities'
 
 const emit = defineEmits(['closeModal'])

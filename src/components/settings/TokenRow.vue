@@ -104,13 +104,12 @@
     <v-col
       id="token-actions"
       cols="lg-4"
-      class="d-flex justify-center"
+      class="d-flex justify-left"
     >
       <SortTitle
         v-if="title"
         :text="$t('columns.actions')"
         sortKey="columns.actions"
-        center
         no-sort
       />
       <span
@@ -122,14 +121,22 @@
           color="oablue"
           class="mx-1"
           @click="editToken(token)"
-          >EDIT</v-btn
+          >{{ $t('common.edit') }}</v-btn
         >
         <v-btn
           v-if="check"
+          class="mx-1"
           id="cancel-button"
           color="oared"
           @click="deleteToken(token)"
-          >DELETE</v-btn
+          >{{ $t('common.delete') }}</v-btn
+        >
+        <v-btn
+          v-if="check && active"
+          id="accept-button"
+          color="warning"
+          @click="deactivateToken(token)"
+          >{{ $t('common.deactivate') }}</v-btn
         >
       </span>
     </v-col>
@@ -157,9 +164,14 @@ const props = defineProps({
 
 const authorizationStore = useAuthorizationStore()
 const { canPatch } = useUserAuthorities()
-const { deleteToken, editToken } = useTokenActions()
+const { deleteToken, editToken, deactivateToken } =
+  useTokenActions()
 
 const check = computed(() => {
   return authorizationStore.me.id === props.token?.user?.id
+})
+
+const active = computed(() => {
+  return props.token?.active
 })
 </script>

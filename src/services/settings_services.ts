@@ -35,7 +35,6 @@ import { tokenSchema } from '@/models/Schemas'
 import { createPatch } from 'rfc6902'
 import { useSortStore } from '@/store/sort'
 import { isAuthorized } from '@/plugins/casl'
-import { getConfiguration } from './api_config'
 import { useToast } from '@/composable/toasts'
 import { i18n } from '@/plugins/i18n'
 
@@ -132,44 +131,20 @@ export async function editToken(
     return validateRequest({})
   })
 }
+export async function deactivateToken(
+  oldToken: EntityModelAccessTokenDto,
+  newToken: EntityModelAccessTokenDto
+): ValidatedToken {
+  // if (!isAuthorized('PATCH', 'submissions')) {
+  //     return new Promise(() => false)
+  //   }
 
-// export async function updateSubmission(
-//   oldSubmission: EntityModelSubmissionDto,
-//   newSubmission: EntityModelSubmissionDto
-// ): ValidatedSumbission {
-//   if (!isAuthorized('PATCH', 'submissions')) {
-//     return new Promise(() => false)
-//   }
-
-//   const patch_body = createPatch(
-//     oldSubmission,
-//     newSubmission
-//   )
-//   if (oldSubmission.technology === Technologies.enum.R) {
-//     return openApiRequest<EntityModelSubmissionDto>(
-//       RSubmissionControllerApiFactory().updateRSubmission,
-//       [patch_body, oldSubmission.id!]
-//     ).catch(() => {
-//       return validateRequest({})
-//     })
-//   } else if (
-//     oldSubmission.technology === Technologies.enum.Python
-//   ) {
-//     return openApiRequest<EntityModelSubmissionDto>(
-//       PythonSubmissionControllerApiFactory()
-//         .updatePythonSubmission,
-//       [patch_body, oldSubmission.id!]
-//     ).catch(() => {
-//       return validateRequest({})
-//     })
-//   } else {
-//     // Should never happen expect if a new technology is added
-//     throw {
-//       name: 'NotImplemetedError',
-//       message:
-//         'Updating of "' +
-//         oldSubmission.technology +
-//         '" not implemented!'
-//     }
-//   }
-// }
+  const patch_body = createPatch(oldToken, newToken)
+  console.log(patch_body)
+  return openApiRequest<EntityModelAccessTokenDto>(
+    ApiV2AccessTokenControllerApiFactory().patchAccessToken,
+    [patch_body, oldToken.id!]
+  ).catch(() => {
+    return validateRequest({})
+  })
+}

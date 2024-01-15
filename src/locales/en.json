@@ -131,7 +131,8 @@
     "seepackages": "See repository's packages",
     "settings": "Settings",
     "submissions": "Submissions",
-    "users": "Users"
+    "users": "Users",
+    "deactivate": "Deactivate"
   },
   "dragzone": {
     "active": "Drag one or more files to this",
@@ -302,6 +303,7 @@
     "create": "New access token",
     "delete": "Delete token",
     "deleteQuestion": "Are you sure you want to delete the token <strong>{0}</strong>?",
+    "deactivateQuestion": "Are you sure you want to deactivate the token <strong>{0}</strong>?",
     "edit": "Edit token name",
     "expirationDate": "Active days",
     "filtration": {
@@ -311,7 +313,8 @@
     },
     "message": {
       "delete": "Token deleted",
-      "edited": "Token edited"
+      "edited": "Token edited",
+      "deactivated": "Token deactivated"
     },
     "newToken": "New token",
     "save": "Save chages",
@@ -319,7 +322,8 @@
       "table": "Table settings",
       "token": "Access tokens"
     },
-    "tokenName": "Name"
+    "tokenName": "Name",
+    "deactivate": "Deactivate token"
   },
   "submissions": {
     "addAnotherSubmission": "Upload another packages",

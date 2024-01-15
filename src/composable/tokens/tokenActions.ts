@@ -29,7 +29,7 @@ export function useTokenActions() {
   ) {
     if (token) {
       const settingsStore = useSettingsStore()
-      await settingsStore.openDeleteModal(token)
+      settingsStore.openDeleteModal(token)
     }
   }
 
@@ -38,12 +38,22 @@ export function useTokenActions() {
   ) {
     if (token) {
       const settingsStore = useSettingsStore()
-      await settingsStore.openEditModal(token)
+      settingsStore.openEditModal(token)
+    }
+  }
+
+  async function deactivateToken(
+    token?: EntityModelAccessTokenDto
+  ) {
+    if (token) {
+      const settingsStore = useSettingsStore()
+      settingsStore.openDeactivateModal(token)
     }
   }
 
   return {
     deleteToken,
-    editToken
+    editToken,
+    deactivateToken
   }
 }
