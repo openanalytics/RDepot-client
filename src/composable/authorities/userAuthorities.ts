@@ -28,12 +28,30 @@ type PatchOptions = {
 }
 
 export function useUserAuthorities() {
-  function canDelete(links?: Array<Link>) {
-    return canPerformAction('delete', links)
+  function canDelete(links?: Array<Link>): boolean {
+    return canPerformAction('delete', links).allowed
   }
 
-  function canPatch(links?: Array<Link>) {
-    return canPerformAction('patch', links)
+  function canPatch(
+    links?: Array<Link>,
+    field?: string
+  ): boolean {
+    const result: PatchOptions = canPerformAction(
+      'patch',
+      links
+    )
+    if (result.fields.length === 0) {
+      return result.allowed
+    } else {
+      if (field) {
+        return result.fields.includes(field)
+      } else {
+        console.error(
+          'No field was specified in canPatch operation'
+        )
+        return false
+      }
+    }
   }
 
   function canPerformAction(

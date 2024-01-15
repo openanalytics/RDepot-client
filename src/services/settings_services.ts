@@ -53,8 +53,7 @@ export async function fetchTokens(
   pageSize?: number,
   showProgress = true
 ): ValidatedTokens {
-  //TODO check the authorization name
-  if (!isAuthorized('GET', 'submissions')) {
+  if (!isAuthorized('GET', 'settings')) {
     return new Promise(() => validateRequest([]))
   }
   const sort = useSortStore()
@@ -83,8 +82,7 @@ export async function fetchTokens(
 export async function createToken(
   newToken: CreateAccessTokenDto
 ): ValidatedToken {
-  //TODO check the authorization name
-  if (!isAuthorized('POST', 'repository')) {
+  if (!isAuthorized('POST', 'settings')) {
     return new Promise(() => false)
   }
   const validatedToken = tokenSchema.safeParse(newToken)
@@ -104,9 +102,6 @@ export async function createToken(
 }
 
 export async function deleteToken(id: number) {
-  // if (!isAuthorized('DELETE', 'repository')) {
-  //   return new Promise(() => false)
-  // }
   return openApiRequest<CreateAccessTokenDto>(
     ApiV2AccessTokenControllerApiFactory()
       .deleteAccessToken,
@@ -118,12 +113,7 @@ export async function editToken(
   oldToken: EntityModelAccessTokenDto,
   newToken: EntityModelAccessTokenDto
 ): ValidatedToken {
-  // if (!isAuthorized('PATCH', 'submissions')) {
-  //     return new Promise(() => false)
-  //   }
-
   const patch_body = createPatch(oldToken, newToken)
-  console.log(patch_body)
   return openApiRequest<EntityModelAccessTokenDto>(
     ApiV2AccessTokenControllerApiFactory().patchAccessToken,
     [patch_body, oldToken.id!]
@@ -135,10 +125,6 @@ export async function deactivateToken(
   oldToken: EntityModelAccessTokenDto,
   newToken: EntityModelAccessTokenDto
 ): ValidatedToken {
-  // if (!isAuthorized('PATCH', 'submissions')) {
-  //     return new Promise(() => false)
-  //   }
-
   const patch_body = createPatch(oldToken, newToken)
   console.log(patch_body)
   return openApiRequest<EntityModelAccessTokenDto>(

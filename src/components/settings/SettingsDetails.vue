@@ -25,11 +25,9 @@
   <CreatedTokenModal
     v-if="settingsStore.showCreatedModal"
   />
-  <TokenDeleteModal v-if="settingsStore.showDeleteModal" />
-  <TokenEditModal v-if="settingsStore.showEditModal" />
-  <TokenDeactivateModal
-    v-if="settingsStore.showDeactivateModal"
-  />
+  <TokenDeleteModal v-if="commonStore.isDelete()" />
+  <TokenEditModal v-if="commonStore.isEdit()" />
+  <TokenDeactivateModal v-if="commonStore.isDeactivate()" />
   <div class="d-flex flex-row" style="align-items: center">
     <h2 class="my-5">
       {{ $t('common.settings') }}
@@ -47,9 +45,11 @@ import TokenEditModal from '@/components/settings/editToken/TokenEditModal.vue'
 import TokenDeactivateModal from '@/components/settings/deactivateToken/TokenDeactivateModal.vue'
 import CreatedTokenModal from '@/components/settings/createdToken/CreatedTokenModal.vue'
 import SaveChanges from '@/components/settings/SaveChanges.vue'
+import { useCommonStore } from '@/store/common'
 import SettingsTabs from '@/components/settings/SettingsTabs.vue'
 
 const settingsStore = useSettingsStore()
+const commonStore = useCommonStore()
 </script>
 
 <style scoped type="scss">

@@ -23,22 +23,12 @@
 <template>
   <Overlay>
     <template #props="{ closeModal }">
-      <DeleteToken
-        @closeModal="closeModal"
-        @deleteToken="deleteToken"
-      />
+      <DeleteToken @closeModal="closeModal" />
     </template>
   </Overlay>
 </template>
 
 <script setup lang="ts">
-import { useSettingsStore } from '@/store/settings'
 import Overlay from '@/components/common/Overlay.vue'
 import DeleteToken from '@/components/settings/deleteToken/DeleteToken.vue'
-
-const settingsStore = useSettingsStore()
-
-function deleteToken() {
-  settingsStore.deleteToken()
-}
 </script>

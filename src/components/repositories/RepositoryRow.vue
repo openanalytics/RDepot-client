@@ -128,9 +128,7 @@
         id="checkbox-published"
         v-model="repository.published"
         @change="updateRepositoryPublished()"
-        :disabled="
-          !canPatch(props.repository?.links).allowed
-        "
+        :disabled="!canPatch(props.repository?.links)"
         color="oablue"
         class="mr-8"
         @click.stop
@@ -165,7 +163,6 @@
 </template>
 
 <script setup lang="ts">
-import router from '@/plugins/router'
 import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
 import SortTitle from '@/components/common/resources/SortTitle.vue'
 import TextRecord from '@/components/common/resources/TextRecord.vue'

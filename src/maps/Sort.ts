@@ -78,7 +78,8 @@ export const SORT_PARAMS: Map<string, string> = new Map<
   ['columns.tokens.creationDate', 'creationDate'],
   ['columns.tokens.expirationDate', 'expirationDate'],
   ['columns.tokens.active', 'active'],
-  ['columns.tokens.deleted', 'deleted']
+  ['columns.tokens.deleted', 'deleted'],
+  ['columns.tokens.user', 'user.name']
 ])
 
 //TODO check sort by number of packages

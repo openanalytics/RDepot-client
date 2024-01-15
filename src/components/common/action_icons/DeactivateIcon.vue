@@ -21,41 +21,56 @@
 -->
 
 <template>
-  <v-tooltip top>
+  <VTooltip top>
     <template #activator="{ props }">
-      <v-icon
-        id="pencil-icon"
+      <VIcon
+        id="cancel-icon"
         @click.stop
-        @click="edit"
+        @click="deactivateDialog"
         v-bind="props"
-        class="ml-3"
-        color="oablue"
-        >mdi-pencil</v-icon
+        color="oared"
+        :class="class"
+        >mdi-cancel</VIcon
       >
     </template>
-    <span id="action-edit">{{ text }}</span>
-  </v-tooltip>
+    <span id="action-deactivate">{{
+      $t('common.deactivate')
+    }}</span>
+  </VTooltip>
 </template>
 
 <script setup lang="ts">
 import { OverlayEnum } from '@/enum/Overlay'
+import { i18n } from '@/plugins/i18n'
 import { useCommonStore } from '@/store/common'
 
 const props = defineProps({
-  text: {
-    type: String,
+  name: {
+    type: String
+  },
+  setResourceId: {
+    type: Function,
     required: true
+  },
+  class: {
+    type: String,
+    default: 'ml-3'
   }
 })
 
-const emits = defineEmits(['setEntity'])
 const commonStore = useCommonStore()
 
-function edit() {
-  emits('setEntity')
-  commonStore.setOverlayText(props.text)
+function deactivateDialog() {
+  props.setResourceId()
+  commonStore.setOverlayText(
+    i18n.t('common.deactivateQuestion', {
+      resource_name: props.name
+    })
+  )
   commonStore.setOverlayModel(true)
   commonStore.setOverlayOpacity(0.8)
-  commonStore.setOverlayComponent(OverlayEnum.enum.Edit)
+  commonStore.setOverlayComponent(
+    OverlayEnum.enum.Deactivate
+  )
 }
 </script>

@@ -21,29 +21,64 @@
 -->
 
 <template>
-  <delete-token-card
-    :title="$t('settings.delete')"
-    long
-    @deleteToken="deleteToken()"
-    @cancel="cancelModal()"
-  >
-  </delete-token-card>
+  <v-card class="pa-5" width="400">
+    <v-card-title>
+      {{ props.title }}
+    </v-card-title>
+    <v-divider></v-divider>
+    <v-card-text>
+      <p
+        v-html="
+          $t('settings.deleteQuestion', [
+            settingsStore.currentToken?.name
+          ])
+        "
+      ></p>
+    </v-card-text>
+    <v-divider></v-divider>
+    <card-actions :buttons="buttons"></card-actions>
+  </v-card>
 </template>
 
 <script setup lang="ts">
 import { useSettingsStore } from '@/store/settings'
+import CardActions from '@/components/common/CardActions.vue'
 import { useI18n } from 'vue-i18n'
-import DeleteTokenCard from '@/components/settings/deleteToken/DeleteTokenCard.vue'
+
+const props = defineProps({
+  title: {
+    type: String,
+    required: true
+  },
+  long: {
+    type: Boolean,
+    required: false,
+    default: false
+  }
+})
 
 const { t } = useI18n()
 const settingsStore = useSettingsStore()
 
-const emit = defineEmits(['closeModal'])
+const emit = defineEmits(['cancel', 'deleteToken'])
 
-function cancelModal() {
-  emit('closeModal')
+const buttons = [
+  {
+    id: 'cancel-button',
+    text: t('common.cancel'),
+    handler: () => cancel()
+  },
+  {
+    id: 'ok-button',
+    text: t('common.ok'),
+    handler: () => deleteToken()
+  }
+]
+
+function cancel() {
+  emit('cancel')
 }
 function deleteToken() {
-  settingsStore.deleteToken()
+  emit('deleteToken')
 }
 </script>

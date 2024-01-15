@@ -170,10 +170,7 @@
       />
       <span
         v-else-if="
-          getWaiting &&
-          canPatch(submission?.links).fields.includes(
-            'state'
-          )
+          getWaiting && canPatch(submission?.links, 'state')
         "
         class="d-flex justify-center align-center"
       >

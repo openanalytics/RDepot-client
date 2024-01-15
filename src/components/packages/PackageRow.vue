@@ -140,9 +140,7 @@
         v-else-if="packageBag"
         v-model="packageBag.active"
         @change="updatePackageActive"
-        :disabled="
-          !canPatch(props.packageBag?.links).allowed
-        "
+        :disabled="!canPatch(props.packageBag?.links)"
       />
     </VCol>
     <VCol

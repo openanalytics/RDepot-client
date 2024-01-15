@@ -40,6 +40,19 @@
       <TextRecord v-else :text="token?.name" />
     </v-col>
     <v-col
+      v-if="authorizationStore.userRole === 3"
+      id="token-user"
+      cols="lg-2"
+      class="d-flex align-center"
+    >
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.tokens.name')"
+        sortKey="columns.tokens.user"
+      />
+      <TextRecord v-else :text="token?.user?.name" />
+    </v-col>
+    <v-col
       id="token-creationDate"
       cols="lg-2 sm-2"
       class="d-flex align-center"
@@ -83,61 +96,37 @@
       />
     </v-col>
     <v-col
-      id="token-deleted"
-      cols="lg-1 sm-1"
-      class="d-flex align-center"
-    >
-      <SortTitle
-        v-if="title"
-        :text="$t('columns.tokens.deleted')"
-        sortKey="columns.tokens.deleted"
-      />
-      <VCheckbox
-        v-else
-        id="checkbox-deleted"
-        class="mr-8"
-        color="oablue"
-        v-model="token!.deleted"
-        disabled
-      />
-    </v-col>
-    <v-col
       id="token-actions"
-      cols="lg-4"
+      cols="lg-3"
       class="d-flex justify-left"
+      style="justify-content: right"
     >
       <SortTitle
         v-if="title"
         :text="$t('columns.actions')"
         sortKey="columns.actions"
         no-sort
+        right
       />
       <span
         v-else
         class="d-flex justify-center align-center"
       >
-        <v-btn
-          id="accept-button"
-          color="oablue"
-          class="mx-1"
-          @click="editToken(token)"
-          >{{ $t('common.edit') }}</v-btn
-        >
-        <v-btn
-          v-if="check"
-          class="mx-1"
-          id="cancel-button"
-          color="oared"
-          @click="deleteToken(token)"
-          >{{ $t('common.delete') }}</v-btn
-        >
-        <v-btn
-          v-if="check && active"
-          id="accept-button"
-          color="warning"
-          @click="deactivateToken(token)"
-          >{{ $t('common.deactivate') }}</v-btn
-        >
+        <edit-icon
+          v-if="canPatch(token?.links) && active"
+          @set-entity="setEditEntity()"
+          :text="$t('common.edit')"
+        />
+        <delete-icon
+          v-if="canDelete(token?.links)"
+          :name="token?.name"
+          :set-resource-id="setEditEntity"
+        />
+        <deactivate-icon
+          v-if="canPatch(token?.links) && active"
+          :name="token?.name"
+          :set-resource-id="setEditEntity"
+        />
       </span>
     </v-col>
   </v-row>
@@ -146,11 +135,17 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { EntityModelAccessTokenDto } from '@/openapi'
-import { useTokenActions } from '@/composable/tokens/tokenActions'
-import { useAuthorizationStore } from '@/store/authorization'
 import SortTitle from '@/components/common/resources/SortTitle.vue'
 import TextRecord from '@/components/common/resources/TextRecord.vue'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
+import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
+import DeactivateIcon from '@/components/common/action_icons/DeactivateIcon.vue'
+import EditIcon from '@/components/common/action_icons/EditIcon.vue'
+import { useSettingsStore } from '@/store/settings'
+import { useAuthorizationStore } from '@/store/authorization'
+
+const settingsStore = useSettingsStore()
+const authorizationStore = useAuthorizationStore()
 
 const props = defineProps({
   title: {
@@ -161,17 +156,13 @@ const props = defineProps({
     | EntityModelAccessTokenDto
     | undefined
 })
-
-const authorizationStore = useAuthorizationStore()
-const { canPatch } = useUserAuthorities()
-const { deleteToken, editToken, deactivateToken } =
-  useTokenActions()
-
-const check = computed(() => {
-  return authorizationStore.me.id === props.token?.user?.id
-})
+const { canPatch, canDelete } = useUserAuthorities()
 
 const active = computed(() => {
   return props.token?.active
 })
+
+function setEditEntity() {
+  settingsStore.setChosenToken(props.token || {})
+}
 </script>

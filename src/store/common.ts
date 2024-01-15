@@ -31,7 +31,7 @@ interface State {
   overlayText: string
   overlayModel: boolean
   overlayOpacity: number
-  overlayComponent: OverlayEnum
+  overlayComponent?: OverlayEnum
   key: number
   activeId: string
   themeKey: number
@@ -48,7 +48,7 @@ export const useCommonStore = defineStore('commonStore', {
       overlayOpacity: 0.8,
       overlayModel: false,
       activeId: 'name',
-      overlayComponent: OverlayEnum.enum.Delete,
+      overlayComponent: undefined,
       key: 0,
       themeKey: 0
     }
@@ -108,6 +108,11 @@ export const useCommonStore = defineStore('commonStore', {
     isDelete() {
       return (
         this.overlayComponent == OverlayEnum.enum.Delete
+      )
+    },
+    isDeactivate() {
+      return (
+        this.overlayComponent == OverlayEnum.enum.Deactivate
       )
     }
   }

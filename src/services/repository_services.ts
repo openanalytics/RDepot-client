@@ -60,7 +60,6 @@ export function fetchRepositoriesServices(
     return new Promise(() => validateRequest([]))
   }
   const sort = useSortStore()
-
   return openApiRequest<EntityModelRepositoryDto[]>(
     ApiV2RepositoryControllerApiFactory()
       .getAllRepositories,

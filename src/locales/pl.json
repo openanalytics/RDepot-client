@@ -102,6 +102,8 @@
     "click": "naciśnij",
     "copied": "Kod został skopiowany",
     "create": "Utwórz",
+    "deactivate": "Dezaktywuj",
+    "deactivateQuestion": "Are you sure you want to deactivate {resource_name}?",
     "delete": "Usuń",
     "deleteQuestion": "Czy na pewno chcesz usunąć {resource_name}?",
     "details": "Zobacz szczegóły",
@@ -131,8 +133,7 @@
     "seepackages": "Zobacz pakiety w repozytorium",
     "settings": "Ustawienia",
     "submissions": "Zgłoszenia",
-    "users": "Użytkownicy",
-    "deactivate": "Dezaktywuj"
+    "users": "Użytkownicy"
   },
   "dragzone": {
     "active": "Przeciągnij jeden lub więcej plików",
@@ -292,9 +293,10 @@
   },
   "settings": {
     "create": "Nowy access token",
+    "deactivate": "Dezaktywuj token",
+    "deactivateQuestion": "Czy na pewno chcesz dezaktywować token <strong>{0}</strong>?",
     "delete": "Usuń token",
     "deleteQuestion": "Czy na pewno chcesz usunąć token <strong>{0}</strong>?",
-    "deactivateQuestion": "Czy na pewno chcesz dezaktywować token <strong>{0}</strong>?",
     "edit": "Edycja nazwy tokenu",
     "expirationDate": "Czas aktywności",
     "filtration": {
@@ -303,9 +305,9 @@
       "searchPlaceholder": "Nazwa"
     },
     "message": {
+      "deactivated": "Token dezatywowany",
       "deleted": "Token usunięty",
-      "edited": "Token pomyślnie edytowany",
-      "deactivated": "Token dezatywowany"
+      "edited": "Token pomyślnie edytowany"
     },
     "newToken": "Nowy token",
     "save": "Zapisz zmiany",
@@ -313,8 +315,7 @@
       "table": "Ustawienia tabel",
       "token": "Access tokens"
     },
-    "tokenName": "Nazwa",
-    "deactivate": "Dezaktywuj token"
+    "tokenName": "Nazwa"
   },
   "submissions": {
     "addAnotherSubmission": "Dodaj następne pakiety",

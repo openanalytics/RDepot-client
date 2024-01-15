@@ -58,6 +58,21 @@ export const roleToString = Role.transform(
   }
 )
 
+export const stringToRole = (arg: string): Role => {
+  switch (arg) {
+    case 'user':
+      return 0
+    case 'package maintainer':
+      return 1
+    case 'repository maintainer':
+      return 2
+    case 'admin':
+      return 3
+    default:
+      throw Error('Undefined role: ' + arg)
+  }
+}
+
 export function isAtLeastUser(role: Role) {
   return role >= Role.enum.user
 }

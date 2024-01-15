@@ -26,7 +26,7 @@
     no-gutters
     align="center"
     class="flex-nowrap"
-    :justify="center ? 'center' : 'start'"
+    :justify="justifySide"
   >
     <span class="font-weight-bold">{{ title }} </span>
     <v-btn
@@ -63,6 +63,11 @@ const props = defineProps({
     required: false,
     default: false
   },
+  right: {
+    type: Boolean,
+    required: false,
+    default: false
+  },
   sortField: {
     type: String,
     required: false
@@ -91,6 +96,16 @@ const active = computed(() => {
     )
   }
   return commonStore.activeId == id.value
+})
+
+const justifySide = computed(() => {
+  if (props.center) {
+    return 'center'
+  } else if (props.right) {
+    return 'end'
+  } else {
+    return 'start'
+  }
 })
 
 const getIcon = computed(() => {

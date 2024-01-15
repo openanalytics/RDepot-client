@@ -102,6 +102,8 @@
     "click": "click",
     "copied": "Code succesfully copied to clipboard",
     "create": "Create",
+    "deactivate": "Deactivate",
+    "deactivateQuestion": "Are you sure you want to deactivate {resource_name}?",
     "delete": "Delete",
     "deleteQuestion": "Are you sure you want to delete {resource_name}?",
     "details": "See details",
@@ -131,8 +133,7 @@
     "seepackages": "See repository's packages",
     "settings": "Settings",
     "submissions": "Submissions",
-    "users": "Users",
-    "deactivate": "Deactivate"
+    "users": "Users"
   },
   "dragzone": {
     "active": "Drag one or more files to this",
@@ -301,9 +302,10 @@
   },
   "settings": {
     "create": "New access token",
+    "deactivate": "Deactivate token",
+    "deactivateQuestion": "Are you sure you want to deactivate token <strong>{0}</strong>?",
     "delete": "Delete token",
-    "deleteQuestion": "Are you sure you want to delete the token <strong>{0}</strong>?",
-    "deactivateQuestion": "Are you sure you want to deactivate the token <strong>{0}</strong>?",
+    "deleteQuestion": "Are you sure you want to delete token <strong>{0}</strong>?",
     "edit": "Edit token name",
     "expirationDate": "Active days",
     "filtration": {
@@ -312,9 +314,9 @@
       "searchPlaceholder": "Name"
     },
     "message": {
+      "deactivated": "Token deactivated",
       "delete": "Token deleted",
-      "edited": "Token edited",
-      "deactivated": "Token deactivated"
+      "edited": "Token edited"
     },
     "newToken": "New token",
     "save": "Save chages",
@@ -322,8 +324,7 @@
       "table": "Table settings",
       "token": "Access tokens"
     },
-    "tokenName": "Name",
-    "deactivate": "Deactivate token"
+    "tokenName": "Name"
   },
   "submissions": {
     "addAnotherSubmission": "Upload another packages",

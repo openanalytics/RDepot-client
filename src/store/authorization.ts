@@ -24,7 +24,7 @@ import { useSimpleAuthorization } from '@/composable/auth/simpleAuthorization'
 import { useUserSettings } from '@/composable/user/userSettings'
 import { useUtilities } from '@/composable/utilities'
 import { LoginType } from '@/enum/LoginType'
-import { Role } from '@/enum/UserRoles'
+import { Role, stringToRole } from '@/enum/UserRoles'
 import { Login } from '@/models/users/Login'
 import { EntityModelUserDto } from '@/openapi'
 import { UserSettingsProjection } from '@/openapi/models/user-settings-projection'
@@ -48,7 +48,7 @@ interface State {
   userLogin: string
   userRole?: Role
   userId: number
-  ability: Ability
+  ability?: Ability
   me: EntityModelUserDto
   loginType: LoginType
   sidebar: boolean
@@ -64,7 +64,7 @@ export const useAuthorizationStore = defineStore(
         userLogin: '',
         userRole: undefined,
         userId: 8,
-        ability: defineAbilityFor(Role.enum.admin),
+        ability: undefined,
         loginType: LoginType.Enum.OICD,
         sidebar: false
       }
@@ -99,7 +99,9 @@ export const useAuthorizationStore = defineStore(
           authService.logout()
         }
         this.$reset()
-        router.push({ name: 'login' })
+        await router.push({ name: 'login' })
+        this.ability = undefined
+        this.userRole = undefined
       },
 
       async isUserLoggedIn(): Promise<boolean> {
@@ -180,6 +182,12 @@ export const useAuthorizationStore = defineStore(
       async getUserInfo() {
         const [me] = await getMyData()
         if (me) {
+          if (me.role) {
+            this.ability = defineAbilityFor(
+              stringToRole(me.role)
+            )
+            this.userRole = stringToRole(me.role)
+          }
           if (this.checkRoles(me.role)) {
             this.me = me
             this.getUserSettings()
@@ -190,7 +198,9 @@ export const useAuthorizationStore = defineStore(
       },
 
       can(action: Action, subject: Subject): boolean {
-        return this.ability.can(action, subject)
+        return this.ability
+          ? this.ability?.can(action, subject)
+          : false
       },
 
       hideSidebar(value: boolean) {

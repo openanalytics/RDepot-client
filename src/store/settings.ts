@@ -59,12 +59,10 @@ interface State {
   changes: boolean
   showModal: boolean
   showCreatedModal: boolean
-  showDeleteModal: boolean
-  showEditModal: boolean
   showDeactivateModal: boolean
   pageSize: number
   newToken?: string
-  currentToken?: EntityModelAccessTokenDto
+  currentToken: EntityModelAccessTokenDto
 }
 
 const { deepCopy } = useUtilities()
@@ -80,12 +78,10 @@ export const useSettingsStore = defineStore(
         changes: false,
         showModal: false,
         showCreatedModal: false,
-        showDeleteModal: false,
-        showEditModal: false,
         showDeactivateModal: false,
         pageSize: 0,
         newToken: '',
-        currentToken: undefined
+        currentToken: {}
       }
     },
     getters: {
@@ -143,39 +139,20 @@ export const useSettingsStore = defineStore(
         pagination.resetPage()
         this.filtration = defaultValues(TokensFiltration)
       },
-      // async addSubmissionRequests() {
-      //   this.promises = this.packages.map((packageBag) => {
-      //     return {
-      //       promise: addSubmission(
-      //         this.repository?.name!,
-      //         this.repository?.technology!,
-      //         packageBag,
-      //         !this.getGenerateManualForPackage(packageBag)
-      //       ),
-      //       packageBag: packageBag,
-      //       state: 'pending',
-      //       error: [],
-      //       response: undefined
-      //     }
-      //   })
-      //   let fulfilled = 0
-      //   this.promises.forEach(async (promise) => {
-      //     await promise.promise
-      //       .then((response) => {
-      //         promise.response = response
-      //         promise.state = 'success'
-      //       })
-      //       .catch((err) => {
-      //         promise.state = 'error'
-      //         promise.error = err.response.data.data
-      //       })
-      //       .finally(() => {
-      //         if (++fulfilled == this.promises.length) {
-      //           this.resolved = true
-      //         }
-      //       })
-      //   })
-      // },
+      setChosenToken(payload: EntityModelAccessTokenDto) {
+        this.currentToken = payload
+        this.saveToken()
+      },
+      saveToken() {
+        this.tokens = this.tokens.map(
+          (token: EntityModelAccessTokenDto) => {
+            if (token.id == this.currentToken.id) {
+              return this.currentToken
+            }
+            return token
+          }
+        )
+      },
 
       saveChanges() {
         this.changes = false
@@ -199,12 +176,6 @@ export const useSettingsStore = defineStore(
         )
       },
 
-      openDeleteModal(token: EntityModelAccessTokenDto) {
-        this.currentToken = token
-        this.showDeleteModal = true
-        const commonStore = useCommonStore()
-        commonStore.setOverlayModel(true)
-      },
       async deleteToken() {
         if (this.currentToken?.id) {
           await deleteToken(this.currentToken.id).then(
@@ -213,21 +184,13 @@ export const useSettingsStore = defineStore(
               toast.success(
                 i18n.t('settings.message.deleted')
               )
-              this.showDeleteModal = false
               const commonStore = useCommonStore()
               commonStore.setOverlayModel(false)
               await this.fetchTokens()
             }
           )
         }
-        this.currentToken = undefined
-      },
-
-      openEditModal(token: EntityModelAccessTokenDto) {
-        this.currentToken = token
-        this.showEditModal = true
-        const commonStore = useCommonStore()
-        commonStore.setOverlayModel(true)
+        this.currentToken = {}
       },
 
       async editToken(
@@ -245,22 +208,10 @@ export const useSettingsStore = defineStore(
               toast.success(
                 i18n.t('settings.message.edited')
               )
-              this.showEditModal = false
-              const commonStore = useCommonStore()
-              commonStore.setOverlayModel(false)
               await this.fetchTokens()
             }
           }
         )
-      },
-
-      openDeactivateModal(
-        token: EntityModelAccessTokenDto
-      ) {
-        this.currentToken = token
-        this.showDeactivateModal = true
-        const commonStore = useCommonStore()
-        commonStore.setOverlayModel(true)
       },
 
       async deactivateToken(
@@ -278,7 +229,6 @@ export const useSettingsStore = defineStore(
               toast.success(
                 i18n.t('settings.message.deactivated')
               )
-              this.showDeactivateModal = false
               const commonStore = useCommonStore()
               commonStore.setOverlayModel(false)
               await this.fetchTokens()

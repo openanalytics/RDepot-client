@@ -90,10 +90,6 @@
       />
     </v-col>
     <v-col
-      v-if="
-        canPatch(packageMaintainer?.links).allowed ||
-        canDelete(packageMaintainer?.links)
-      "
       id="package-maintainer-actions"
       cols="lg-1"
       class="d-flex justify-center"
@@ -114,7 +110,7 @@
         class="d-flex justify-center align-center"
       >
         <edit-icon
-          v-if="canPatch(packageMaintainer?.links).allowed"
+          v-if="canPatch(packageMaintainer?.links)"
           @set-entity="setEditEntity()"
           :text="getEditMessage"
         />
