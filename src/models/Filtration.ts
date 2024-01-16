@@ -109,6 +109,7 @@ const RepositoriesFiltration = z
         }
         return val
       }),
+    name: z.string().optional(),
     deleted: z.boolean(),
     published: z.boolean().optional(),
     maintainer: z
@@ -126,6 +127,7 @@ const RepositoriesFiltration = z
     search: undefined,
     deleted: false,
     published: undefined,
+    name: undefined,
     maintainer: undefined
   })
 

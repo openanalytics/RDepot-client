@@ -71,6 +71,7 @@ export function fetchRepositoriesServices(
       filtration?.technologies,
       filtration?.published,
       filtration?.maintainer,
+      filtration?.name,
       filtration?.search
     ],
     showProgress
@@ -90,6 +91,7 @@ export function fetchFullRepositoriesList(
     ApiV2RepositoryControllerApiFactory()
       .getAllRepositories,
     [
+      undefined,
       undefined,
       undefined,
       undefined,
