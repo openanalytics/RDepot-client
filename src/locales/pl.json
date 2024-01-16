@@ -302,7 +302,8 @@
     "filtration": {
       "active": "Aktywny",
       "expired": "Przedawniony",
-      "searchPlaceholder": "Nazwa"
+      "searchPlaceholder": "Nazwa",
+      "searchPlaceholderAdmin": "Nazwa, nazwa użytkownika..."
     },
     "message": {
       "deactivated": "Token dezatywowany",

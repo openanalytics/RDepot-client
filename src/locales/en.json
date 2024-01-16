@@ -311,7 +311,8 @@
     "filtration": {
       "active": "Active",
       "expired": "Expired",
-      "searchPlaceholder": "Name"
+      "searchPlaceholder": "Name",
+      "searchPlaceholderAdmin": "Name, username..."
     },
     "message": {
       "deactivated": "Token deactivated",

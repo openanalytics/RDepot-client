@@ -40,7 +40,13 @@
       <TextRecord v-else :text="token?.name" />
     </v-col>
     <v-col
-      v-if="authorizationStore.userRole === 3"
+      v-if="
+        isAtLeastAdmin(
+          authorizationStore.userRole
+            ? authorizationStore.userRole
+            : 0
+        )
+      "
       id="token-user"
       cols="lg-2"
       class="d-flex align-center"
@@ -143,6 +149,7 @@ import DeactivateIcon from '@/components/common/action_icons/DeactivateIcon.vue'
 import EditIcon from '@/components/common/action_icons/EditIcon.vue'
 import { useSettingsStore } from '@/store/settings'
 import { useAuthorizationStore } from '@/store/authorization'
+import { isAtLeastAdmin } from '@/enum/UserRoles'
 
 const settingsStore = useSettingsStore()
 const authorizationStore = useAuthorizationStore()

@@ -26,7 +26,7 @@
       <AddToken />
     </v-card-title>
     <v-card-text>
-      <!-- <FiltrationBar /> -->
+      <FiltrationBar />
       <ResourcesList :resources="settingsStore.tokens">
         <template #title>
           <TokenRow title />

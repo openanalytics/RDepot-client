@@ -34,7 +34,15 @@
           name="name"
           as="v-text-field"
           :label="
-            $t('settings.filtration.searchPlaceholder')
+            isAtLeastAdmin(
+              authorizationStore.userRole
+                ? authorizationStore.userRole
+                : 0
+            )
+              ? $t(
+                  'settings.filtration.searchPlaceholderAdmin'
+                )
+              : $t('settings.filtration.searchPlaceholder')
           "
           color="oablue"
           id="filtration-name"
@@ -91,7 +99,10 @@ import { useI18n } from 'vue-i18n'
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useSettingsStore } from '@/store/settings'
+import { isAtLeastAdmin } from '@/enum/UserRoles'
+import { useAuthorizationStore } from '@/store/authorization'
 
+const authorizationStore = useAuthorizationStore()
 const { t } = useI18n()
 
 const settingsStore = useSettingsStore()
