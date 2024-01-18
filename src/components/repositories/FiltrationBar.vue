@@ -54,7 +54,16 @@
           :label="$t('filtration.technologies')"
         ></validated-input-field>
       </v-col>
-      <v-col sm="3">
+      <v-col
+        sm="3"
+        v-if="
+          isAtLeastAdmin(
+            authorizationStore.userRole
+              ? authorizationStore.userRole
+              : 0
+          )
+        "
+      >
         <validated-input-field
           @update:modelValue="setFiltration"
           density="compact"
@@ -123,9 +132,12 @@ import { useRepositoryMaintainersFiltration } from '@/composable/filtration/repo
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useRepositoryStore } from '@/store/repositories'
+import { useAuthorizationStore } from '@/store/authorization'
+import { isAtLeastAdmin } from '@/enum/UserRoles'
 
 const { t } = useI18n()
 const { technologies } = useEnumFiltration()
+const authorizationStore = useAuthorizationStore()
 
 const {
   storeIdMaintainer,

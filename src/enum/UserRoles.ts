@@ -62,9 +62,9 @@ export const stringToRole = (arg: string): Role => {
   switch (arg) {
     case 'user':
       return 0
-    case 'package maintainer':
+    case 'packagemaintainer':
       return 1
-    case 'repository maintainer':
+    case 'repositorymaintainer':
       return 2
     case 'admin':
       return 3

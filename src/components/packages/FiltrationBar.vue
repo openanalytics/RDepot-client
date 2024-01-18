@@ -101,7 +101,16 @@
       </v-col>
     </v-row>
     <v-row justify="start">
-      <v-col sm="3">
+      <v-col
+        sm="3"
+        v-if="
+          isAtLeastRepositoryMaintainer(
+            authorizationStore.userRole
+              ? authorizationStore.userRole
+              : 0
+          )
+        "
+      >
         <validated-input-field
           @update:modelValue="setFiltration"
           density="compact"
@@ -148,10 +157,12 @@ import { usePackageMaintainersFiltration } from '@/composable/filtration/package
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { usePackagesStore } from '@/store/packages'
+import { useAuthorizationStore } from '@/store/authorization'
+import { isAtLeastRepositoryMaintainer } from '@/enum/UserRoles'
 
 const { t } = useI18n()
 const { states, technologies } = useEnumFiltration()
-
+const authorizationStore = useAuthorizationStore()
 const { storeId, filtrateRepositories, loadRepositories } =
   useRepositoriesFiltration()
 const {
