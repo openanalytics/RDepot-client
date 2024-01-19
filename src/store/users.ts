@@ -75,6 +75,17 @@ export const useUserStore = defineStore('userStore', {
       pagination.newPageWithoutRefresh(pageData.page)
       pagination.totalNumber = pageData.totalNumber
     },
+    async fetchAllUsers() {
+      const pagination = usePagination()
+      const [users, pageData] = await fetchUsers(
+        pagination.fetchPage,
+        pagination.pageSize,
+        undefined
+      )
+      this.userList = users
+      pagination.newPageWithoutRefresh(pageData.page)
+      pagination.totalNumber = pageData.totalNumber
+    },
     async fetchRoles() {
       if (this.roles.length === 0) {
         const [roles] = await fetchRoles()

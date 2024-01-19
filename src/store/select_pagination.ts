@@ -29,6 +29,7 @@ export type SelectState =
   | 'repositories'
   | 'repositoryMaintainers'
   | 'packageMaintainers'
+  | 'user'
 const definedStores = new Map<
   string,
   ReturnType<typeof defineSelectStore>

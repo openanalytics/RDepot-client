@@ -303,7 +303,8 @@
       "active": "Aktywny",
       "expired": "Przedawniony",
       "searchPlaceholder": "Nazwa",
-      "searchPlaceholderAdmin": "Nazwa, nazwa użytkownika..."
+      "searchPlaceholderAdmin": "Nazwa, nazwa użytkownika...",
+      "userLogin": "Użytkownicy"
     },
     "message": {
       "deactivated": "Token dezatywowany",

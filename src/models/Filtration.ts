@@ -350,7 +350,7 @@ type UsersFiltration = z.infer<typeof UsersFiltration>
 
 const TokensFiltration = z
   .object({
-    name: z
+    search: z
       .string()
       .optional()
       .transform((val) => {
@@ -362,7 +362,7 @@ const TokensFiltration = z
     active: z.boolean().optional(),
     expired: z.boolean().optional(),
     userLogin: z
-      .string()
+      .array(z.string())
       .optional()
       .transform((val) => {
         if (val?.length == 0) {
@@ -372,7 +372,7 @@ const TokensFiltration = z
       })
   })
   .default({
-    name: undefined,
+    search: undefined,
     active: undefined,
     expired: undefined,
     userLogin: undefined

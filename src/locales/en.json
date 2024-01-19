@@ -312,7 +312,8 @@
       "active": "Active",
       "expired": "Expired",
       "searchPlaceholder": "Name",
-      "searchPlaceholderAdmin": "Name, username..."
+      "searchPlaceholderAdmin": "Name, username...",
+      "userLogin": "Users"
     },
     "message": {
       "deactivated": "Token deactivated",

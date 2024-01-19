@@ -310,10 +310,10 @@ export const ApiV2AccessTokenControllerApiAxiosParamCreator =
        * @param {number} [page] Zero-based page index (0..N)
        * @param {number} [size] The size of the page to be returned
        * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-       * @param {string} [name]
+       * @param {string} [search]
+       * @param {Array<string>} [userLogin]
        * @param {boolean} [active]
        * @param {boolean} [expired]
-       * @param {string} [userLogin]
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
@@ -321,10 +321,10 @@ export const ApiV2AccessTokenControllerApiAxiosParamCreator =
         page?: number,
         size?: number,
         sort?: Array<string>,
-        name?: string,
+        search?: string,
+        userLogin?: Array<string>,
         active?: boolean,
         expired?: boolean,
-        userLogin?: string,
         options: AxiosRequestConfig = {}
       ): Promise<RequestArgs> => {
         const localVarPath = `/api/v2/manager/access-tokens`
@@ -368,8 +368,12 @@ export const ApiV2AccessTokenControllerApiAxiosParamCreator =
           localVarQueryParameter['sort'] = sort
         }
 
-        if (name !== undefined) {
-          localVarQueryParameter['name'] = name
+        if (search !== undefined) {
+          localVarQueryParameter['search'] = search
+        }
+
+        if (userLogin) {
+          localVarQueryParameter['userLogin'] = userLogin
         }
 
         if (active !== undefined) {
@@ -378,10 +382,6 @@ export const ApiV2AccessTokenControllerApiAxiosParamCreator =
 
         if (expired !== undefined) {
           localVarQueryParameter['expired'] = expired
-        }
-
-        if (userLogin !== undefined) {
-          localVarQueryParameter['userLogin'] = userLogin
         }
 
         const query = new URLSearchParams(
@@ -621,10 +621,10 @@ export const ApiV2AccessTokenControllerApiFp = function (
      * @param {number} [page] Zero-based page index (0..N)
      * @param {number} [size] The size of the page to be returned
      * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-     * @param {string} [name]
+     * @param {string} [search]
+     * @param {Array<string>} [userLogin]
      * @param {boolean} [active]
      * @param {boolean} [expired]
-     * @param {string} [userLogin]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -632,10 +632,10 @@ export const ApiV2AccessTokenControllerApiFp = function (
       page?: number,
       size?: number,
       sort?: Array<string>,
-      name?: string,
+      search?: string,
+      userLogin?: Array<string>,
       active?: boolean,
       expired?: boolean,
-      userLogin?: string,
       options?: AxiosRequestConfig
     ): Promise<
       (
@@ -652,10 +652,10 @@ export const ApiV2AccessTokenControllerApiFp = function (
           page,
           size,
           sort,
-          name,
+          search,
+          userLogin,
           active,
           expired,
-          userLogin,
           options
         )
       return (
@@ -770,10 +770,10 @@ export const ApiV2AccessTokenControllerApiFactory =
        * @param {number} [page] Zero-based page index (0..N)
        * @param {number} [size] The size of the page to be returned
        * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-       * @param {string} [name]
+       * @param {string} [search]
+       * @param {Array<string>} [userLogin]
        * @param {boolean} [active]
        * @param {boolean} [expired]
-       * @param {string} [userLogin]
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
@@ -781,10 +781,10 @@ export const ApiV2AccessTokenControllerApiFactory =
         page?: number,
         size?: number,
         sort?: Array<string>,
-        name?: string,
+        search?: string,
+        userLogin?: Array<string>,
         active?: boolean,
         expired?: boolean,
-        userLogin?: string,
         options?: AxiosRequestConfig
       ): Promise<
         AxiosResponse<ResponseDtoPagedModelEntityModelAccessTokenDto>
@@ -796,10 +796,10 @@ export const ApiV2AccessTokenControllerApiFactory =
             page,
             size,
             sort,
-            name,
+            search,
+            userLogin,
             active,
             expired,
-            userLogin,
             options
           )
           .then((request) => request(axios, basePath))
@@ -890,10 +890,10 @@ export class ApiV2AccessTokenControllerApi extends BaseAPI {
    * @param {number} [page] Zero-based page index (0..N)
    * @param {number} [size] The size of the page to be returned
    * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
-   * @param {string} [name]
+   * @param {string} [search]
+   * @param {Array<string>} [userLogin]
    * @param {boolean} [active]
    * @param {boolean} [expired]
-   * @param {string} [userLogin]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof ApiV2AccessTokenControllerApi
@@ -902,10 +902,10 @@ export class ApiV2AccessTokenControllerApi extends BaseAPI {
     page?: number,
     size?: number,
     sort?: Array<string>,
-    name?: string,
+    search?: string,
+    userLogin?: Array<string>,
     active?: boolean,
     expired?: boolean,
-    userLogin?: string,
     options?: AxiosRequestConfig
   ): Promise<
     AxiosResponse<ResponseDtoPagedModelEntityModelAccessTokenDto>
@@ -917,10 +917,10 @@ export class ApiV2AccessTokenControllerApi extends BaseAPI {
         page,
         size,
         sort,
-        name,
+        search,
+        userLogin,
         active,
         expired,
-        userLogin,
         options
       )
       .then((request) => request(this.axios, this.basePath))

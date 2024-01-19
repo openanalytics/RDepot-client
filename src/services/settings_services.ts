@@ -68,10 +68,10 @@ export async function fetchTokens(
       page,
       pageSize,
       sortBy,
-      filtration?.name,
+      filtration?.search,
+      filtration?.userLogin,
       filtration?.active,
-      filtration?.expired,
-      filtration?.userLogin
+      filtration?.expired
     ],
     showProgress
   ).catch(() => {

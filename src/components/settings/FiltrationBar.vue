@@ -31,22 +31,39 @@
           @update:modelValue="setFiltration"
           density="compact"
           hide-details
-          name="name"
+          name="search"
           as="v-text-field"
           :label="
-            isAtLeastAdmin(
-              authorizationStore.userRole
-                ? authorizationStore.userRole
-                : 0
-            )
-              ? $t(
-                  'settings.filtration.searchPlaceholderAdmin'
-                )
-              : $t('settings.filtration.searchPlaceholder')
+            $t('settings.filtration.searchPlaceholder')
           "
           color="oablue"
-          id="filtration-name"
+          id="filtration-search"
         />
+      </v-col>
+      <v-col
+        sm="3"
+        v-if="
+          isAtLeastAdmin(
+            authorizationStore.userRole
+              ? authorizationStore.userRole
+              : 0
+          )
+        "
+      >
+        <validated-input-field
+          @update:modelValue="setFiltration"
+          density="compact"
+          hide-details
+          chips
+          closable-chips
+          name="userLogin"
+          as="autocomplete"
+          multiple
+          clearable
+          :label="$t('settings.filtration.userLogin')"
+          @loadItems="loadUsers"
+          :storeId="storeIdUser"
+        ></validated-input-field>
       </v-col>
       <v-col sm="1">
         <validated-input-field
@@ -101,13 +118,17 @@ import { toTypedSchema } from '@vee-validate/zod'
 import { useSettingsStore } from '@/store/settings'
 import { isAtLeastAdmin } from '@/enum/UserRoles'
 import { useAuthorizationStore } from '@/store/authorization'
+import { useUsersFiltration } from '@/composable/filtration/usersFiltration'
+import { onMounted } from 'vue'
 
 const authorizationStore = useAuthorizationStore()
 const { t } = useI18n()
 
 const settingsStore = useSettingsStore()
 
-const { setValues, values } = useForm({
+const { storeIdUser, loadUsers } = useUsersFiltration()
+
+const { setValues, values, setFieldValue } = useForm({
   validationSchema: toTypedSchema(TokensFiltration),
   initialValues: settingsStore.filtration
 })
@@ -120,6 +141,22 @@ function resetValues() {
   setValues(defaultValues(TokensFiltration))
   settingsStore.setFiltration(values as TokensFiltration)
 }
+
+onMounted(() => {
+  if (
+    isAtLeastAdmin(
+      authorizationStore.userRole
+        ? authorizationStore.userRole
+        : 0
+    ) &&
+    authorizationStore.me.login
+  ) {
+    setFieldValue('userLogin', [
+      authorizationStore.me.login
+    ])
+    setFiltration()
+  }
+})
 </script>
 
 <style lang="scss">
