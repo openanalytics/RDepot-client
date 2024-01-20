@@ -37,7 +37,8 @@ export function useEnumFiltration() {
     'user',
     'submission',
     'packageMaintainer',
-    'repositoryMaintainer'
+    'repositoryMaintainer',
+    'accessToken'
   ])
 
   const roles = ref([
