@@ -26,7 +26,6 @@
     v-if="description"
     v-html="description"
   />
-  <!-- {{ description }} -->
 </template>
 
 <script setup lang="ts">
@@ -64,6 +63,8 @@ const description = computed(() => {
 function packageDescription() {
   switch (props.eventType) {
     case 'update':
+      return updateDescription()
+    case 'upload':
     case 'create':
     case 'delete':
       return `<ul> 
@@ -94,6 +95,7 @@ function packageDescription() {
 function repositoryDescription() {
   switch (props.eventType) {
     case 'update':
+      return updateDescription()
     case 'create':
     case 'delete':
       return `<ul> 
@@ -115,6 +117,7 @@ function repositoryDescription() {
 function userDescription() {
   switch (props.eventType) {
     case 'update':
+      return updateDescription()
     case 'create':
     case 'delete':
       return `<ul> 
@@ -140,6 +143,8 @@ function userDescription() {
 function submissionDescription() {
   switch (props.eventType) {
     case 'update':
+      return updateDescription()
+    case 'upload':
     case 'create':
     case 'delete':
       return `<ul> 
@@ -173,6 +178,7 @@ function submissionDescription() {
 function accessTokenDescription() {
   switch (props.eventType) {
     case 'update':
+      return updateDescription()
     case 'create':
     case 'delete':
       return `<ul> 
@@ -188,6 +194,7 @@ function accessTokenDescription() {
 function packageMaintainerDescription() {
   switch (props.eventType) {
     case 'update':
+      return updateDescription()
     case 'create':
     case 'delete':
       return `<ul> 
@@ -223,6 +230,7 @@ function packageMaintainerDescription() {
 function repositoryMaintainerDescription() {
   switch (props.eventType) {
     case 'update':
+      return updateDescription()
     case 'create':
     case 'delete':
       return `<ul> 
@@ -248,6 +256,22 @@ function repositoryMaintainerDescription() {
     default:
       return undefined
   }
+}
+
+function updateDescription() {
+  let message = '<ul>'
+  props.event?.changedProperties.forEach((property) => {
+    message +=
+      '<li>' +
+      property.property +
+      ' <ul style="margin-left: 3%"><li>Before: ' +
+      property.valueBefore +
+      '</li><li>After: ' +
+      property.valueAfter +
+      '</li></ul></li>'
+  })
+  message += '</ul>'
+  return message
 }
 </script>
 

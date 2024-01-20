@@ -138,6 +138,8 @@
     "oauthTitle": "Authorization"
   },
   "events": {
+    "author": "Author",
+    "description": "Description",
     "filtration": {
       "eventType": "Event Type",
       "resourceId": "Resource Id",

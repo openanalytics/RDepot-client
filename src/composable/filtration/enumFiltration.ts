@@ -48,7 +48,12 @@ export function useEnumFiltration() {
     'repositorymaintainer'
   ])
 
-  const eventTypes = ref(['create', 'update', 'delete'])
+  const eventTypes = ref([
+    'create',
+    'update',
+    'delete',
+    'upload'
+  ])
 
   return {
     states,

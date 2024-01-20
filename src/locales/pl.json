@@ -138,6 +138,8 @@
     "oauthTitle": "Autoryzacja"
   },
   "events": {
+    "author": "Autor",
+    "description": "Opis",
     "noEvents": "Brak dostępnych zdarzeń"
   },
   "filtration": {

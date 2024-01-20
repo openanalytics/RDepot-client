@@ -45,7 +45,9 @@
     </v-card-title>
     <v-card-text class="eventCard">
       <div class="by-user d-flex">
-        <span class="subtitle"> author</span>
+        <span class="subtitle">
+          {{ $t('events.author') }}</span
+        >
         <p class="value">
           {{ login }} <br />
           {{ email }}
@@ -53,7 +55,9 @@
       </div>
       <v-divider></v-divider>
       <div class="desc d-flex">
-        <span class="subtitle"> description</span>
+        <span class="subtitle">
+          {{ $t('events.description') }}</span
+        >
         <EventBoxDescription
           :event="event"
           :eventType="eventType"
@@ -112,6 +116,7 @@ const description = computed(() => {
 const borderColor = computed(() => {
   switch (props.event?.eventType) {
     case 'create':
+    case 'upload':
       return 'green'
     case 'update':
       return 'yellow'
