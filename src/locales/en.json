@@ -89,7 +89,9 @@
   },
   "common": {
     "addPackage": "Add package",
+    "after": "After",
     "apply": "Apply",
+    "before": "Before",
     "cancel": "Cancel",
     "clearForm": "Clear form",
     "click": "click",

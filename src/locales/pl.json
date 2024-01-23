@@ -89,7 +89,9 @@
   },
   "common": {
     "addPackage": "Dodaj pakiet",
+    "after": "Po",
     "apply": "Zastosuj",
+    "before": "Przed",
     "cancel": "Anuluj",
     "clearForm": "Wyczyść formularz",
     "click": "naciśnij",

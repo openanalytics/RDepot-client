@@ -148,10 +148,11 @@ function submissionDescription() {
     case 'create':
     case 'delete':
       return `<ul> 
-                <li>Package name: <strong>${
-                  props.event?.relatedResource?.packageBag
-                    .name
-                }</strong> </li>
+                <li>${i18n.t(
+                  'columns.submissions.package'
+                )}: <strong>${
+        props.event?.relatedResource?.packageBag.name
+      }</strong> </li>
                 <li>${i18n.t('columns.package.version')}: ${
         props.event?.relatedResource?.packageBag.version
       }</li>    
@@ -264,9 +265,11 @@ function updateDescription() {
     message +=
       '<li>' +
       property.property +
-      ' <ul style="margin-left: 3%"><li>Before: ' +
+      `<ul style="margin-left: 3%"><li>${i18n.t(
+        'common.before'
+      )}: ` +
       property.valueBefore +
-      '</li><li>After: ' +
+      `</li><li>${i18n.t('common.after')}: ` +
       property.valueAfter +
       '</li></ul></li>'
   })
