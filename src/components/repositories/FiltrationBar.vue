@@ -76,7 +76,6 @@
           clearable
           :label="$t('packages.filtration.maintainer')"
           @loadItems="loadMaintainers"
-          @filtrate="filtrateMaintainers"
           :storeId="storeIdMaintainer"
         ></validated-input-field>
       </v-col>
@@ -139,11 +138,8 @@ const { t } = useI18n()
 const { technologies } = useEnumFiltration()
 const authorizationStore = useAuthorizationStore()
 
-const {
-  storeIdMaintainer,
-  filtrateMaintainers,
-  loadMaintainers
-} = useRepositoryMaintainersFiltration()
+const { storeIdMaintainer, loadMaintainers } =
+  useRepositoryMaintainersFiltration()
 const repositoryStore = useRepositoryStore()
 
 const { setValues, values } = useForm({

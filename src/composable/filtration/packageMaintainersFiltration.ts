@@ -45,17 +45,8 @@ export function usePackageMaintainersFiltration() {
     )
   }
 
-  function filtrateMaintainers(value: string | undefined) {
-    // if (
-    //   repositoryMaintainerStore.filtration.name !== value
-    // ) {
-    //   // repositoryMaintainerStore.setFiltrationByName(value)
-    // }
-  }
-
   return {
     storeIdMaintainer,
-    loadMaintainers,
-    filtrateMaintainers
+    loadMaintainers
   }
 }
