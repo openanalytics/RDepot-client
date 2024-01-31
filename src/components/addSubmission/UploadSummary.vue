@@ -100,7 +100,6 @@
 import { PackagePromise } from '@/store/submission'
 import { computed } from 'vue'
 import { usePackagesStore } from '@/store/packages'
-import { response } from 'msw'
 
 var props = defineProps<{
   promise: PackagePromise

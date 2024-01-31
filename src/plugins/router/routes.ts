@@ -20,7 +20,6 @@
  *
  */
 
-import { useSubmissionStore } from '@/store/submission'
 import { prepareAddPackageView } from './viewsPreperations'
 
 export const routes = [
