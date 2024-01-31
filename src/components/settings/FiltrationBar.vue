@@ -164,4 +164,8 @@ onMounted(() => {
   display: grid;
   align-content: center;
 }
+
+.v-selection-control .v-label {
+  white-space: nowrap;
+}
 </style>
