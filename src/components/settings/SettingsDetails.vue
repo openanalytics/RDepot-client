@@ -21,10 +21,8 @@
 -->
 
 <template>
-  <TokenModal v-if="settingsStore.showModal" />
-  <CreatedTokenModal
-    v-if="settingsStore.showCreatedModal"
-  />
+  <TokenModal v-if="commonStore.isCreate()" />
+  <CreatedTokenModal v-if="commonStore.isCreated()" />
   <TokenDeleteModal v-if="commonStore.isDelete()" />
   <TokenEditModal v-if="commonStore.isEdit()" />
   <TokenDeactivateModal v-if="commonStore.isDeactivate()" />

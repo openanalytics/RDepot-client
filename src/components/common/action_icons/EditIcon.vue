@@ -54,8 +54,6 @@ const commonStore = useCommonStore()
 function edit() {
   emits('setEntity')
   commonStore.setOverlayText(props.text)
-  commonStore.setOverlayModel(true)
-  commonStore.setOverlayOpacity(0.8)
-  commonStore.setOverlayComponent(OverlayEnum.enum.Edit)
+  commonStore.openOverlay(OverlayEnum.enum.Edit)
 }
 </script>

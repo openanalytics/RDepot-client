@@ -36,14 +36,12 @@
 </template>
 
 <script setup lang="ts">
-import { useSettingsStore } from '@/store/settings'
 import { useCommonStore } from '@/store/common'
+import { OverlayEnum } from '@/enum/Overlay'
 
-const settingsStore = useSettingsStore()
 const commonStore = useCommonStore()
 
 function openModal() {
-  settingsStore.showModal = true
-  commonStore.setOverlayModel(true)
+  commonStore.openOverlay(OverlayEnum.enum.Create)
 }
 </script>

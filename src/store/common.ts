@@ -72,6 +72,11 @@ export const useCommonStore = defineStore('commonStore', {
     setOverlayComponent(payload: OverlayEnum) {
       this.overlayComponent = payload
     },
+    openOverlay(payload: OverlayEnum, opacity = 0.8) {
+      this.setOverlayModel(true)
+      this.setOverlayOpacity(opacity)
+      this.setOverlayComponent(payload)
+    },
     updateKey() {
       this.key += 1
       if (this.key > 100) {
@@ -108,6 +113,11 @@ export const useCommonStore = defineStore('commonStore', {
     isDelete() {
       return (
         this.overlayComponent == OverlayEnum.enum.Delete
+      )
+    },
+    isCreated() {
+      return (
+        this.overlayComponent == OverlayEnum.enum.Created
       )
     },
     isDeactivate() {

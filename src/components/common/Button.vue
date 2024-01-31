@@ -44,7 +44,6 @@ const commonStore = useCommonStore()
 
 function openModal() {
   commonStore.setOverlayText(i18n.t('filtration.makeSure'))
-  commonStore.setOverlayModel(true)
-  commonStore.setOverlayComponent(props.component)
+  commonStore.openOverlay(props.component)
 }
 </script>

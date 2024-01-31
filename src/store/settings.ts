@@ -43,6 +43,7 @@ import { usePagination } from '@/store/pagination'
 import { useToast } from '@/composable/toasts'
 import { i18n } from '@/plugins/i18n'
 import { useCommonStore } from '@/store/common'
+import { OverlayEnum } from '@/enum/Overlay'
 
 export type PackagePromise = {
   promise: Promise<validatedData<EntityModelAccessTokenDto>>
@@ -57,9 +58,6 @@ interface State {
   tokens: EntityModelAccessTokenDto[]
   filtration: TokensFiltration
   changes: boolean
-  showModal: boolean
-  showCreatedModal: boolean
-  showDeactivateModal: boolean
   pageSize: number
   newToken?: string
   currentToken: EntityModelAccessTokenDto
@@ -76,9 +74,6 @@ export const useSettingsStore = defineStore(
         tokens: [],
         filtration: defaultValues(TokensFiltration),
         changes: false,
-        showModal: false,
-        showCreatedModal: false,
-        showDeactivateModal: false,
         pageSize: 0,
         newToken: '',
         currentToken: {}
@@ -165,11 +160,12 @@ export const useSettingsStore = defineStore(
         await createToken(newToken)?.then(
           async (success) => {
             if (success) {
-              this.showModal = false
               const commonStore = useCommonStore()
+              commonStore.setOverlayModel(false)
               this.newToken = success[0].value
-              this.showCreatedModal = true
-              commonStore.setOverlayModel(true)
+              commonStore.openOverlay(
+                OverlayEnum.enum.Created
+              )
               await this.fetchTokens()
             }
           }

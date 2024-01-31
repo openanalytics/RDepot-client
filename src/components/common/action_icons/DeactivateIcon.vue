@@ -67,10 +67,6 @@ function deactivateDialog() {
       resource_name: props.name
     })
   )
-  commonStore.setOverlayModel(true)
-  commonStore.setOverlayOpacity(0.8)
-  commonStore.setOverlayComponent(
-    OverlayEnum.enum.Deactivate
-  )
+  commonStore.openOverlay(OverlayEnum.enum.Deactivate)
 }
 </script>
