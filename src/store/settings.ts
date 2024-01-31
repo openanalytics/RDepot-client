@@ -154,7 +154,7 @@ export const useSettingsStore = defineStore(
       },
       fetchSettings() {},
       resetNewToken() {
-        this.newToken = ''
+        setTimeout(() => (this.newToken = ''), 200)
       },
       async createToken(newToken: CreateAccessTokenDto) {
         await createToken(newToken)?.then(
