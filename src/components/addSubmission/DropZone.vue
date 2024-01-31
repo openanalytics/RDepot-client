@@ -105,21 +105,8 @@ $background_color: rgba(var(--v-theme-background));
     opacity: 1;
     border: dashed 1px #fff;
   }
-
-  // &:hover {
-  //   animation: resize 0.5s ease-out infinite alternate;
-  //   cursor: pointer;
-  //   opacity: 1;
-  //   border: dashed 1px #fff;
-  // }
 }
 
-// .active {
-//   animation: resize 0.5s ease-out infinite alternate;
-//   cursor: pointer;
-//   opacity: 1;
-//   border: dashed 1px #fff;
-// }
 .width {
   width: 100%;
 }
