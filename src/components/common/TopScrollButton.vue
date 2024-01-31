@@ -48,7 +48,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
-var showFab = ref(false)
+const showFab = ref(false)
 
 function onScroll(e: Event) {
   if (typeof window === 'undefined') return
