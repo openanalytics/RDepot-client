@@ -117,7 +117,7 @@
         <delete-icon
           v-if="canDelete(props.packageMaintainer?.links)"
           :name="props.packageMaintainer?.user?.name"
-          :set-resource-id="chooseMaintainer"
+          @setResourceId="chooseMaintainer"
         />
       </span>
     </v-col>

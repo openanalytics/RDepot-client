@@ -109,7 +109,7 @@
         <delete-icon
           v-if="canDelete(repositoryMaintainer.links)"
           :name="props.repositoryMaintainer?.user?.name"
-          :set-resource-id="setEditMaintainer"
+          @setResourceId="setEditMaintainer"
         />
       </span>
     </v-col>

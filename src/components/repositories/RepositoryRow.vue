@@ -155,7 +155,7 @@
         <delete-icon
           v-if="canDelete(props.repository?.links)"
           :name="props.repository?.name"
-          :set-resource-id="chooseRepository"
+          @setResourceId="chooseRepository"
           class=""
         />
       </span>

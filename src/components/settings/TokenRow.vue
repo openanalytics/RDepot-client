@@ -126,12 +126,12 @@
         <delete-icon
           v-if="canDelete(token?.links)"
           :name="token?.name"
-          :set-resource-id="setEditEntity"
+          @setResourceId="setEditEntity"
         />
         <deactivate-icon
           v-if="canPatch(token?.links) && active"
           :name="token?.name"
-          :set-resource-id="setEditEntity"
+          @setResourceId="setEditEntity"
         />
       </span>
     </v-col>

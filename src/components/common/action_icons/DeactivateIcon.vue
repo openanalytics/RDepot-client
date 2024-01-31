@@ -44,13 +44,11 @@ import { OverlayEnum } from '@/enum/Overlay'
 import { i18n } from '@/plugins/i18n'
 import { useCommonStore } from '@/store/common'
 
+const emits = defineEmits(['setResourceId'])
+
 const props = defineProps({
   name: {
     type: String
-  },
-  setResourceId: {
-    type: Function,
-    required: true
   },
   class: {
     type: String,
@@ -61,7 +59,7 @@ const props = defineProps({
 const commonStore = useCommonStore()
 
 function deactivateDialog() {
-  props.setResourceId()
+  emits('setResourceId')
   commonStore.setOverlayText(
     i18n.t('common.deactivateQuestion', {
       resource_name: props.name

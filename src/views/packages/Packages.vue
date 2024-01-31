@@ -21,6 +21,7 @@
 -->
 
 <template>
+  <PackagesModal />
   <FiltrationBar />
   <PackagesList />
   <Pagination />
@@ -30,4 +31,5 @@
 import PackagesList from '@/components/packages/PackagesList.vue'
 import Pagination from '@/components/common/Pagination.vue'
 import FiltrationBar from '@/components/packages/FiltrationBar.vue'
+import PackagesModal from '@/components/packages/PackagesModal.vue'
 </script>

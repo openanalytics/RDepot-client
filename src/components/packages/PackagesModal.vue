@@ -21,50 +21,22 @@
 -->
 
 <template>
-  <VTooltip top>
-    <template #activator="{ props }">
-      <VIcon
-        id="delete-icon"
-        @click.stop
-        @click="deleteDialog"
-        v-bind="props"
-        color="oared"
-        :class="class"
-        >mdi-trash-can</VIcon
-      >
-    </template>
-    <span id="action-delete">{{
-      $t('common.delete')
-    }}</span>
-  </VTooltip>
+  <Overlay v-on:action="performAction()">
+    <template v-slot:props="{ closeModal }"> </template>
+  </Overlay>
 </template>
 
 <script setup lang="ts">
-import { OverlayEnum } from '@/enum/Overlay'
-import { i18n } from '@/plugins/i18n'
 import { useCommonStore } from '@/store/common'
+import Overlay from '@/components/common/Overlay.vue'
+import { usePackagesStore } from '@/store/packages'
 
-const emits = defineEmits(['setResourceId'])
-
-const props = defineProps({
-  name: {
-    type: String
-  },
-  class: {
-    type: String,
-    default: 'ml-3'
-  }
-})
-
+const packagesStore = usePackagesStore()
 const commonStore = useCommonStore()
 
-function deleteDialog() {
-  emits('setResourceId')
-  commonStore.setOverlayText(
-    i18n.t('common.deleteQuestion', {
-      resource_name: props.name
-    })
-  )
-  commonStore.openOverlay(OverlayEnum.enum.Delete)
+async function performAction() {
+  if (commonStore.isDelete()) {
+    await packagesStore.deletePackage()
+  }
 }
 </script>

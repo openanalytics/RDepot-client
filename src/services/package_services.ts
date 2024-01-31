@@ -239,3 +239,38 @@ export function fetchVignettes(id: number) {
     return validateRequest([])
   })
 }
+
+export function deletePythonPackage(
+  oldPackage: EntityModelPackageDto,
+  newPackage: EntityModelPackageDto
+) {
+  // if (!isAuthorized('PATCH', 'packages')) {
+  //   return new Promise(() => false)
+  // }
+
+  const patch_body = createPatch(oldPackage, newPackage)
+
+  return openApiRequest<EntityModelPackageDto>(
+    PythonPackageControllerApiFactory().updatePythonPackage,
+    [patch_body, oldPackage.id!]
+  ).catch(() => {
+    return validateRequest({})
+  })
+}
+
+export function deleteRPackage(
+  oldPackage: EntityModelPackageDto,
+  newPackage: EntityModelPackageDto
+) {
+  // if (!isAuthorized('PATCH', 'packages')) {
+  //   return new Promise(() => false)
+  // }
+
+  const patch_body = createPatch(oldPackage, newPackage)
+  return openApiRequest<EntityModelPackageDto>(
+    RPackageControllerApiFactory().updatePackage,
+    [patch_body, oldPackage.id!]
+  ).catch(() => {
+    return validateRequest({})
+  })
+}

@@ -159,9 +159,12 @@
       />
       <span v-else-if="packageBag && !packageBag.deleted">
         <DeleteIcon
-          v-if="canDelete(props.packageBag?.links)"
+          v-if="
+            canDelete(props.packageBag?.links) &&
+            !props.packageBag?.deleted
+          "
           :name="props.packageBag?.name"
-          :set-resource-id="choosePackage"
+          @setResourceId="choosePackage"
           class=""
         />
         <span v-else style="width: 30px"></span>
@@ -195,7 +198,7 @@ const props = defineProps({
 })
 
 function choosePackage() {
-  packageStore.setChosenPackage(props.packageBag?.id)
+  packageStore.setChosenPackage(props.packageBag)
 }
 
 function updatePackageActive() {
