@@ -63,7 +63,7 @@
     >
       <SortTitle
         v-if="title"
-        center
+        :justify="JustifyEnum.Enum.center"
         no-sort
         :text="$t('columns.packageMaintainer.technology')"
         sortKey="columns.packageMaintainer.technology"
@@ -82,6 +82,7 @@
       <SortTitle
         v-if="title"
         :text="$t('columns.packageMaintainer.repository')"
+        :justify="JustifyEnum.Enum.center"
         sortKey="columns.packageMaintainer.repository"
       />
       <TextRecord
@@ -97,11 +98,10 @@
       <SortTitle
         v-if="title"
         true
-        center
+        :justify="JustifyEnum.Enum.center"
         no-sort
         :text="$t('columns.actions')"
         sortKey="columns.actions"
-        justify="center"
       />
       <span
         v-else-if="
@@ -134,6 +134,7 @@ import { i18n } from '@/plugins/i18n'
 import { usePackageMaintainersStore } from '@/store/package_maintainers'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
 import { computed } from 'vue'
+import { JustifyEnum } from '@/enum/Justify'
 
 const props = defineProps({
   title: {

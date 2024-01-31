@@ -67,7 +67,7 @@
       <SortTitle
         v-if="title"
         no-sort
-        center
+        :justify="JustifyEnum.Enum.center"
         :text="
           $t('columns.repositoryMaintainer.technology')
         "
@@ -87,7 +87,7 @@
     >
       <SortTitle
         v-if="title"
-        center
+        :justify="JustifyEnum.Enum.center"
         no-sort
         :text="$t('columns.actions')"
         sortKey="columns.actions"
@@ -125,6 +125,7 @@ import { i18n } from '@/plugins/i18n'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
 import { EntityModelRepositoryMaintainerDto } from '@/openapi'
+import { JustifyEnum } from '@/enum/Justify'
 
 const props = defineProps({
   title: {

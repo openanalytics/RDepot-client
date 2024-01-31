@@ -92,27 +92,27 @@
         :text="$t('columns.tokens.active')"
         sortKey="columns.tokens.active"
       />
-      <VCheckbox
-        v-else
-        id="checkbox-active"
-        class="mr-8"
-        color="oablue"
-        v-model="token!.active"
-        disabled
-      />
+      <span v-else>
+        <VCheckbox
+          id="checkbox-active"
+          class="mr-8"
+          color="oablue"
+          v-model="token!.active"
+          disabled
+        />
+      </span>
     </v-col>
     <v-col
       id="token-actions"
       cols="lg-3"
-      class="d-flex justify-left"
-      style="justify-content: right"
+      class="d-flex justify-end"
     >
       <SortTitle
         v-if="title"
         :text="$t('columns.actions')"
         sortKey="columns.actions"
         no-sort
-        right
+        :justify="JustifyEnum.Enum.end"
       />
       <span
         v-else
@@ -150,6 +150,7 @@ import EditIcon from '@/components/common/action_icons/EditIcon.vue'
 import { useSettingsStore } from '@/store/settings'
 import { useAuthorizationStore } from '@/store/authorization'
 import { isAtLeastAdmin } from '@/enum/UserRoles'
+import { JustifyEnum } from '@/enum/Justify'
 
 const settingsStore = useSettingsStore()
 const authorizationStore = useAuthorizationStore()

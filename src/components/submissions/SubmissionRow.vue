@@ -111,7 +111,7 @@
         :text="$t('columns.submissions.technology')"
         sortKey="columns.submissions.technology"
         no-sort
-        center
+        :justify="JustifyEnum.Enum.center"
       />
       <TextRecord v-else :text="submission?.technology" />
     </v-col>
@@ -124,7 +124,7 @@
         v-if="title"
         :text="$t('columns.submissions.accepted')"
         sortKey="columns.submissions.accepted"
-        center
+        :justify="JustifyEnum.Enum.center"
         direction="desc"
       />
 
@@ -165,7 +165,7 @@
         v-if="title"
         :text="$t('columns.actions')"
         sortKey="columns.actions"
-        center
+        :justify="JustifyEnum.Enum.center"
         no-sort
       />
       <span
@@ -211,6 +211,7 @@ import { useAuthorizationStore } from '@/store/authorization'
 import SortTitle from '@/components/common/resources/SortTitle.vue'
 import TextRecord from '@/components/common/resources/TextRecord.vue'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
+import { JustifyEnum } from '@/enum/Justify'
 
 const props = defineProps({
   title: {
