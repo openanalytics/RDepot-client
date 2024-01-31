@@ -107,16 +107,10 @@
       </v-col>
       <v-spacer />
       <v-col sm="1" class="reset-button">
-        <v-btn
-          class="my-2"
-          id="reset-button"
-          density="compact"
-          color="oablue"
-          @click="resetValues"
+        <ResetButton
           v-if="!eventStore.isDefaultFiltration"
-        >
-          {{ t('filtration.reset') }}</v-btn
-        >
+          @resetValues="resetValues"
+        />
       </v-col>
     </v-row>
   </v-container>
@@ -128,15 +122,14 @@ import {
   defaultValues,
   EventsFiltration
 } from '@/models/Filtration'
-import { useI18n } from 'vue-i18n'
 import { useEnumFiltration } from '@/composable/filtration/enumFiltration'
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useEventsStore } from '@/store/events'
 import DatePicker from '@/components/common/DatePicker.vue'
 import { useDatePicker } from '@/composable/datePicker'
+import ResetButton from '@/components/common/ResetButton.vue'
 
-const { t } = useI18n()
 const { technologies, resourceTypes, eventTypes } =
   useEnumFiltration()
 

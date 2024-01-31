@@ -91,16 +91,10 @@
       </v-col>
       <v-spacer />
       <v-col sm="1" class="reset-button">
-        <v-btn
-          class="my-2"
-          id="reset-button"
-          color="oablue"
-          density="compact"
-          @click="resetValues"
+        <ResetButton
           v-if="!settingsStore.isDefaultFiltration"
-        >
-          {{ t('filtration.reset') }}</v-btn
-        >
+          @resetValues="resetValues"
+        />
       </v-col>
     </v-row>
   </v-container>
@@ -112,7 +106,6 @@ import {
   defaultValues,
   TokensFiltration
 } from '@/models/Filtration'
-import { useI18n } from 'vue-i18n'
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useSettingsStore } from '@/store/settings'
@@ -120,9 +113,9 @@ import { isAtLeastAdmin } from '@/enum/UserRoles'
 import { useAuthorizationStore } from '@/store/authorization'
 import { useUsersFiltration } from '@/composable/filtration/usersFiltration'
 import { onMounted } from 'vue'
+import ResetButton from '@/components/common/ResetButton.vue'
 
 const authorizationStore = useAuthorizationStore()
-const { t } = useI18n()
 
 const settingsStore = useSettingsStore()
 
