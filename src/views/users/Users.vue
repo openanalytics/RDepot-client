@@ -23,7 +23,7 @@
 <template>
   <FiltrationBar />
   <UserModal />
-  <UserList />
+  <UserList :key="componentKey" />
   <Pagination />
 </template>
 
@@ -32,4 +32,11 @@ import UserList from '@/components/users/UserList.vue'
 import FiltrationBar from '@/components/users/FiltrationBar.vue'
 import UserModal from '@/components/users/UserModal.vue'
 import Pagination from '@/components/common/Pagination.vue'
+import { computed } from 'vue'
+import { useCommonStore } from '@/store/common'
+
+const commonStore = useCommonStore()
+const componentKey = computed(() => {
+  return commonStore.key
+})
 </script>

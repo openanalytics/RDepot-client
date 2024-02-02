@@ -23,7 +23,7 @@
 <template>
   <MaintainersModal />
   <FiltrationBar />
-  <PackageMaintainersList />
+  <PackageMaintainersList :key="componentKey" />
   <Pagination />
 </template>
 
@@ -32,4 +32,11 @@ import MaintainersModal from '@/components/packageMaintainers/PackageMaintainers
 import PackageMaintainersList from '@/components/packageMaintainers/PackageMaintainersList.vue'
 import FiltrationBar from '@/components/packageMaintainers/FiltrationBar.vue'
 import Pagination from '@/components/common/Pagination.vue'
+import { computed } from 'vue'
+import { useCommonStore } from '@/store/common'
+
+const commonStore = useCommonStore()
+const componentKey = computed(() => {
+  return commonStore.key
+})
 </script>

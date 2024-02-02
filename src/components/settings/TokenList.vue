@@ -21,26 +21,29 @@
 -->
 
 <template>
-  <v-card flat>
-    <v-card-title>
-      <AddToken />
-    </v-card-title>
-    <v-card-text>
-      <FiltrationBar />
-      <TokenList :key="componentKey" />
-    </v-card-text>
-  </v-card>
+  <ResourcesList :resources="settingsStore.tokens">
+    <template #title>
+      <TokenRow title />
+    </template>
+    <template #expansion-row="slotProps">
+      <TokenRow :token="slotProps.resource" />
+    </template>
+  </ResourcesList>
 </template>
 
 <script setup lang="ts">
-import AddToken from '@/components/settings/AddToken.vue'
-import FiltrationBar from '@/components/settings/FiltrationBar.vue'
-import TokenList from '@/components/settings/TokenList.vue'
-import { computed } from 'vue'
-import { useCommonStore } from '@/store/common'
+import { onBeforeMount } from 'vue'
+import ResourcesList from '@/components/common/resources/ResourcesList.vue'
+import TokenRow from '@/components/settings/TokenRow.vue'
+import { useSettingsStore } from '@/store/settings'
 
-const commonStore = useCommonStore()
-const componentKey = computed(() => {
-  return commonStore.key
+const settingsStore = useSettingsStore()
+
+function updateData(): void {
+  settingsStore.fetchTokens()
+}
+
+onBeforeMount(() => {
+  updateData()
 })
 </script>

@@ -31,7 +31,7 @@
     </div>
   </v-row>
   <FiltrationBar />
-  <RepositoriesList />
+  <RepositoriesList :key="componentKey" />
   <Pagination />
 </template>
 
@@ -42,6 +42,12 @@ import AddButton from '@/components/common/AddButton.vue'
 import Pagination from '@/components/common/Pagination.vue'
 import FiltrationBar from '@/components/repositories/FiltrationBar.vue'
 import { useAuthorizationStore } from '@/store/authorization'
+import { computed } from 'vue'
+import { useCommonStore } from '@/store/common'
 
+const commonStore = useCommonStore()
+const componentKey = computed(() => {
+  return commonStore.key
+})
 const authorizationStore = useAuthorizationStore()
 </script>
