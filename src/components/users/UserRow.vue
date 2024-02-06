@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2023 Open Analytics NV
+ Copyright (C) 2012-2024 Open Analytics NV
  
  ===========================================================================
  
@@ -84,16 +84,17 @@
         v-if="title"
         :text="$t('columns.users.active')"
         sortKey="columns.users.active"
-        center
+        :justify="JustifyEnum.Enum.center"
       />
-      <v-checkbox
-        id="checkbox-active"
-        color="oablue"
-        @click.stop
-        disabled
-        v-else-if="user"
-        v-model="user.active"
-      />
+      <span v-else-if="user">
+        <v-checkbox
+          id="checkbox-active"
+          color="oablue"
+          @click.stop
+          disabled
+          v-model="user.active"
+        />
+      </span>
     </v-col>
     <v-col
       id="user-actions"
@@ -104,7 +105,7 @@
         v-if="title"
         :text="$t('columns.actions')"
         sortKey="columns.actions"
-        center
+        :justify="JustifyEnum.Enum.center"
         no-sort
       />
       <span
@@ -112,7 +113,7 @@
         class="d-flex justify-center align-center"
       >
         <edit-icon
-          v-if="canPatch(user?.links).allowed"
+          v-if="canPatch(user?.links)"
           @set-entity="setEditUser"
           :text="$t('users.edit.tooltip')"
         >
@@ -131,6 +132,7 @@ import { EntityModelUserDto } from '@/openapi'
 import { roleToString } from '@/enum/UserRoles'
 import { useUserStore } from '@/store/users'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
+import { JustifyEnum } from '@/enum/Justify'
 
 const userStore = useUserStore()
 

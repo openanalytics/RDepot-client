@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2023 Open Analytics NV
+ * Copyright (C) 2012-2024 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -50,7 +50,8 @@ const FrontendRoute = z.enum([
   'packageDetails',
   'packageMaintainers',
   'addSubmission',
-  'events'
+  'events',
+  'settings'
 ])
 
 const BackendRoute = z.enum([
@@ -64,7 +65,8 @@ const BackendRoute = z.enum([
   'repositoryMaintainers',
   'package',
   'repository',
-  'submissions'
+  'submissions',
+  'settings'
 ])
 
 const Subject = z.enum([
@@ -84,7 +86,6 @@ export const Ability = PureAbility as AbilityClass<Ability>
 
 export function defineAbilityFor(role: Role) {
   const { can, build } = new AbilityBuilder(Ability)
-
   if (isAtLeastUser(role)) {
     can('GET', [
       'events',
@@ -92,7 +93,6 @@ export function defineAbilityFor(role: Role) {
       'Home',
       'packages',
       'packageDetails',
-      'packageMaintainers',
       'repositories',
       'repositoryDetails',
       'package',
@@ -100,6 +100,7 @@ export function defineAbilityFor(role: Role) {
     ])
 
     can(['GET', 'PATCH', 'POST'], 'submissions')
+    can(['GET', 'POST'], 'settings')
   }
 
   if (isAtLeastPackageMaintainer(role)) {
@@ -108,7 +109,7 @@ export function defineAbilityFor(role: Role) {
   }
 
   if (isAtLeastRepositoryMaintainer(role)) {
-    can(['POST', 'PATCH'], 'packageMaintainers')
+    can(['GET', 'POST', 'PATCH'], 'packageMaintainers')
 
     can('PATCH', 'repository')
   }

@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2023 Open Analytics NV
+ Copyright (C) 2012-2024 Open Analytics NV
  
  ===========================================================================
  
@@ -26,7 +26,7 @@
       <RepositoryMaintainerEdit
         v-if="commonStore.isEdit()"
         :blocked-field="editBlockedField"
-        v-on:closeModal="closeModal"
+        @closeModal="closeModal"
       />
     </template>
   </Overlay>

@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2023 Open Analytics NV
+ Copyright (C) 2012-2024 Open Analytics NV
  
  ===========================================================================
  
@@ -124,16 +124,10 @@
       </v-col>
       <v-spacer />
       <v-col sm="1" class="reset-button">
-        <v-btn
-          class="my-2"
-          id="reset-button"
-          color="oablue"
-          density="compact"
-          @click="resetValues"
+        <ResetButton
           v-if="!submissionsStore.isDefaultFiltration"
-        >
-          {{ t('filtration.reset') }}</v-btn
-        >
+          @resetValues="resetValues"
+        />
       </v-col>
     </v-row>
   </v-container>
@@ -145,7 +139,6 @@ import {
   defaultValues,
   SubmissionsFiltration
 } from '@/models/Filtration'
-import { useI18n } from 'vue-i18n'
 import { useEnumFiltration } from '@/composable/filtration/enumFiltration'
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
@@ -153,8 +146,8 @@ import { useSubmissionStore } from '@/store/submission'
 import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesFiltration'
 import DatePicker from '@/components/common/DatePicker.vue'
 import { useDatePicker } from '@/composable/datePicker'
+import ResetButton from '@/components/common/ResetButton.vue'
 
-const { t } = useI18n()
 const { states, technologies } = useEnumFiltration()
 const {
   fromDatePicker,

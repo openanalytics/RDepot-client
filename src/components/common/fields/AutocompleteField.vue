@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2023 Open Analytics NV
+ Copyright (C) 2012-2024 Open Analytics NV
  
  ===========================================================================
  
@@ -33,7 +33,7 @@
       width: '300px'
     }"
     @update:search="search"
-    ><template v-slot:append-item>
+    ><template #append-item>
       <div
         v-intersect="loadItems"
         class="p3"

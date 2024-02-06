@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2023 Open Analytics NV
+ Copyright (C) 2012-2024 Open Analytics NV
  
  ===========================================================================
  
@@ -63,7 +63,7 @@
     >
       <SortTitle
         v-if="title"
-        center
+        :justify="JustifyEnum.Enum.center"
         no-sort
         :text="$t('columns.packageMaintainer.technology')"
         sortKey="columns.packageMaintainer.technology"
@@ -82,6 +82,7 @@
       <SortTitle
         v-if="title"
         :text="$t('columns.packageMaintainer.repository')"
+        :justify="JustifyEnum.Enum.center"
         sortKey="columns.packageMaintainer.repository"
       />
       <TextRecord
@@ -90,10 +91,6 @@
       />
     </v-col>
     <v-col
-      v-if="
-        canPatch(packageMaintainer?.links).allowed ||
-        canDelete(packageMaintainer?.links)
-      "
       id="package-maintainer-actions"
       cols="lg-1"
       class="d-flex justify-center"
@@ -101,11 +98,10 @@
       <SortTitle
         v-if="title"
         true
-        center
+        :justify="JustifyEnum.Enum.center"
         no-sort
         :text="$t('columns.actions')"
         sortKey="columns.actions"
-        justify="center"
       />
       <span
         v-else-if="
@@ -114,14 +110,14 @@
         class="d-flex justify-center align-center"
       >
         <edit-icon
-          v-if="canPatch(packageMaintainer?.links).allowed"
+          v-if="canPatch(packageMaintainer?.links)"
           @set-entity="setEditEntity()"
           :text="getEditMessage"
         />
         <delete-icon
           v-if="canDelete(props.packageMaintainer?.links)"
           :name="props.packageMaintainer?.user?.name"
-          :set-resource-id="chooseMaintainer"
+          @setResourceId="chooseMaintainer"
         />
       </span>
     </v-col>
@@ -138,6 +134,7 @@ import { i18n } from '@/plugins/i18n'
 import { usePackageMaintainersStore } from '@/store/package_maintainers'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
 import { computed } from 'vue'
+import { JustifyEnum } from '@/enum/Justify'
 
 const props = defineProps({
   title: {

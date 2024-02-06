@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2023 Open Analytics NV
+ * Copyright (C) 2012-2024 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -27,6 +27,8 @@ export const OverlayEnum = z.enum([
   'Edit',
   'Reset',
   'Filtration',
-  'Create'
+  'Create',
+  'Created',
+  'Deactivate'
 ])
 export type OverlayEnum = z.infer<typeof OverlayEnum>

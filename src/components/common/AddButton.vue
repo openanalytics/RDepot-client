@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2023 Open Analytics NV
+ Copyright (C) 2012-2024 Open Analytics NV
  
  ===========================================================================
  
@@ -22,7 +22,7 @@
 
 <template>
   <v-tooltip location="left">
-    <template v-slot:activator="{ props }">
+    <template #activator="{ props }">
       <div id="tooltip-activator" v-bind="props">
         <CommonButton
           id="add-maintainer"

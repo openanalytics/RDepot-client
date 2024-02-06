@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2023 Open Analytics NV
+ Copyright (C) 2012-2024 Open Analytics NV
  
  ===========================================================================
  
@@ -23,7 +23,7 @@
 <template>
   <MaintainersModal />
   <FiltrationBar />
-  <RepositoryMaintainersList />
+  <RepositoryMaintainersList :key="componentKey" />
   <Pagination />
 </template>
 
@@ -32,4 +32,11 @@ import FiltrationBar from '@/components/repositoryMaintainers/FiltrationBar.vue'
 import Pagination from '@/components/common/Pagination.vue'
 import RepositoryMaintainersList from '@/components/repositoryMaintainers/RepositoryMaintainersList.vue'
 import MaintainersModal from '@/components/repositoryMaintainers/RepositoryMaintainersModal.vue'
+import { computed } from 'vue'
+import { useCommonStore } from '@/store/common'
+
+const commonStore = useCommonStore()
+const componentKey = computed(() => {
+  return commonStore.key
+})
 </script>

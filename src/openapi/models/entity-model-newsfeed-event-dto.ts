@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2023 Open Analytics NV
+ * Copyright (C) 2012-2024 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -35,12 +35,12 @@
 
 import { ChangedVariableDto } from './changed-variable-dto'
 import { IDto } from './idto'
-import { Link } from './link'
+import { Links } from './links'
 import { UserProjection } from './user-projection'
 import {
   ChangedVariableDto,
   IDto,
-  Link,
+  Links,
   UserProjection
 } from '.'
 
@@ -106,10 +106,10 @@ export interface EntityModelNewsfeedEventDto {
   relatedResource?: IDto
 
   /**
-   * @type {Array<Link>}
+   * @type {Links}
    * @memberof EntityModelNewsfeedEventDto
    */
-  links?: Array<Link>
+  links?: Links
 }
 
 /**
@@ -125,5 +125,6 @@ export enum EntityModelNewsfeedEventDtoResourceTypeEnum {
   USER = 'USER',
   EVENT = 'EVENT',
   ROLE = 'ROLE',
-  USERSETTINGS = 'USER_SETTINGS'
+  USERSETTINGS = 'USER_SETTINGS',
+  ACCESSTOKEN = 'ACCESS_TOKEN'
 }

@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2023 Open Analytics NV
+ * Copyright (C) 2012-2024 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -109,6 +109,7 @@ const RepositoriesFiltration = z
         }
         return val
       }),
+    name: z.string().optional(),
     deleted: z.boolean(),
     published: z.boolean().optional(),
     maintainer: z
@@ -126,6 +127,7 @@ const RepositoriesFiltration = z
     search: undefined,
     deleted: false,
     published: undefined,
+    name: undefined,
     maintainer: undefined
   })
 
@@ -346,6 +348,38 @@ const UsersFiltration = z
 
 type UsersFiltration = z.infer<typeof UsersFiltration>
 
+const TokensFiltration = z
+  .object({
+    search: z
+      .string()
+      .optional()
+      .transform((val) => {
+        if (val?.length == 0) {
+          return undefined
+        }
+        return val
+      }),
+    active: z.boolean().optional(),
+    expired: z.boolean().optional(),
+    userLogin: z
+      .array(z.string())
+      .optional()
+      .transform((val) => {
+        if (val?.length == 0) {
+          return undefined
+        }
+        return val
+      })
+  })
+  .default({
+    search: undefined,
+    active: undefined,
+    expired: undefined,
+    userLogin: undefined
+  })
+
+type TokensFiltration = z.infer<typeof TokensFiltration>
+
 export {
   RepositoriesFiltration,
   PackagesFiltration,
@@ -353,5 +387,6 @@ export {
   EventsFiltration,
   PackageMaintainersFiltration,
   RepositoryMaintainersFiltration,
-  UsersFiltration
+  UsersFiltration,
+  TokensFiltration
 }

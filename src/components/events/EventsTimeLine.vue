@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2023 Open Analytics NV
+ Copyright (C) 2012-2024 Open Analytics NV
  
  ===========================================================================
  
@@ -47,7 +47,7 @@
         item ? (isYearAndMonthDate(item) ? '90' : '0') : '0'
       "
     >
-      <template v-slot:icon>
+      <template #icon>
         <EventIcon
           :event="item.eventType ? item : undefined"
           :date="!item.eventType ? item : undefined"

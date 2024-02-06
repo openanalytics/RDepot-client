@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2023 Open Analytics NV
+ * Copyright (C) 2012-2024 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -33,9 +33,9 @@
  * Do not edit the class manually.
  */
 
-import { Link } from './link'
-import { RoleDto } from './role-dto'
-import { Link, RoleDto } from '.'
+import { CollectionModelRoleDtoEmbedded } from './collection-model-role-dto-embedded'
+import { Links } from './links'
+import { CollectionModelRoleDtoEmbedded, Links } from '.'
 
 /**
  *
@@ -45,14 +45,14 @@ import { Link, RoleDto } from '.'
  */
 export interface CollectionModelRoleDto {
   /**
-   * @type {Array<Link>}
+   * @type {CollectionModelRoleDtoEmbedded}
    * @memberof CollectionModelRoleDto
    */
-  links?: Array<Link>
+  embedded?: CollectionModelRoleDtoEmbedded
 
   /**
-   * @type {Array<RoleDto>}
+   * @type {Links}
    * @memberof CollectionModelRoleDto
    */
-  content?: Array<RoleDto>
+  links?: Links
 }

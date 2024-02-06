@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2023 Open Analytics NV
+ Copyright (C) 2012-2024 Open Analytics NV
  
  ===========================================================================
  
@@ -22,7 +22,7 @@
 
 <template>
   <VTooltip top>
-    <template v-slot:activator="{ props }">
+    <template #activator="{ props }">
       <VIcon
         id="delete-icon"
         @click.stop
@@ -44,13 +44,11 @@ import { OverlayEnum } from '@/enum/Overlay'
 import { i18n } from '@/plugins/i18n'
 import { useCommonStore } from '@/store/common'
 
+const emits = defineEmits(['setResourceId'])
+
 const props = defineProps({
   name: {
     type: String
-  },
-  setResourceId: {
-    type: Function,
-    required: true
   },
   class: {
     type: String,
@@ -61,14 +59,12 @@ const props = defineProps({
 const commonStore = useCommonStore()
 
 function deleteDialog() {
-  props.setResourceId()
+  emits('setResourceId')
   commonStore.setOverlayText(
     i18n.t('common.deleteQuestion', {
       resource_name: props.name
     })
   )
-  commonStore.setOverlayModel(true)
-  commonStore.setOverlayOpacity(0.8)
-  commonStore.setOverlayComponent(OverlayEnum.enum.Delete)
+  commonStore.openOverlay(OverlayEnum.enum.Delete)
 }
 </script>

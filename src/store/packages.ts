@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2023 Open Analytics NV
+ * Copyright (C) 2012-2024 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -36,7 +36,9 @@ import {
   downloadSourceFile,
   fetchPackageServices,
   updatePythonPackage,
-  updateRPackage
+  updateRPackage,
+  deletePythonPackage,
+  deleteRPackage
 } from '@/services/package_services'
 import { useUtilities } from '@/composable/utilities'
 import { packagesFiltrationLabels } from '@/maps/Filtration'
@@ -50,7 +52,7 @@ interface State {
   package?: EntityModelPackageDto
   submission?: EntityModelSubmissionDto
   filtration: PackagesFiltration
-  chosenPackageId?: number
+  chosenPackage?: EntityModelPackageDto
   next?: boolean
 }
 
@@ -65,7 +67,7 @@ export const usePackagesStore = defineStore(
         package: {},
         submission: {},
         filtration: defaultValues(PackagesFiltration),
-        chosenPackageId: undefined,
+        chosenPackage: undefined,
         next: false
       }
     },
@@ -191,6 +193,32 @@ export const usePackagesStore = defineStore(
           }
         )
       },
+      async deletePackage() {
+        if (this.chosenPackage) {
+          const newPackage = deepCopy(this.chosenPackage)
+          newPackage.deleted = true
+          if (
+            this.chosenPackage.technology ===
+            Technologies.enum.Python
+          ) {
+            await deletePythonPackage(
+              this.chosenPackage,
+              newPackage
+            ).then(async (success) => {
+              if (success) await this.fetchPackages()
+            })
+          } else {
+            if (this.chosenPackage.id) {
+              await deleteRPackage(
+                this.chosenPackage,
+                newPackage
+              ).then(async (success) => {
+                if (success) await this.fetchPackages()
+              })
+            }
+          }
+        }
+      },
       async setFiltration(payload: PackagesFiltration) {
         const pagination = usePagination()
         pagination.resetPage()
@@ -218,8 +246,8 @@ export const usePackagesStore = defineStore(
         this.clearFiltration()
         await this.fetchPackages()
       },
-      setChosenPackage(id?: number) {
-        this.chosenPackageId = id
+      setChosenPackage(payload?: EntityModelPackageDto) {
+        this.chosenPackage = payload
       },
       getLabels() {
         return packagesFiltrationLabels

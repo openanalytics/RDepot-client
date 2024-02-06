@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2023 Open Analytics NV
+ * Copyright (C) 2012-2024 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -30,7 +30,7 @@ export const SORT_PARAMS: Map<string, string> = new Map<
   ['columns.package.maintainer', 'user.name'],
   ['columns.package.state', 'state'],
   ['columns.package.technology', 'resourceTechnology'],
-  ['columns.package.repository', 'repository.name'],
+  ['columns.package.repository', 'repositoryGeneric'],
   ['columns.package.active', 'active'],
   ['columns.repository.name', 'name'],
   ['columns.repository.version', 'version'],
@@ -42,7 +42,7 @@ export const SORT_PARAMS: Map<string, string> = new Map<
   ['columns.repository.published', 'published'],
   ['columns.users.name', 'name'],
   ['columns.users.email', 'email'],
-  ['columns.users.username', 'username'],
+  ['columns.users.username', 'login'],
   ['columns.users.role', 'role'],
   ['columns.users.active', 'active'],
   ['columns.repositoryMaintainer.name', 'user.name'],
@@ -72,7 +72,14 @@ export const SORT_PARAMS: Map<string, string> = new Map<
   ['columns.submissions.submitter', 'submitter.name'],
   ['columns.submissions.approver', 'approver.name'],
   ['columns.submissions.technology', 'technology'],
-  ['columns.submissions.accepted', 'state']
+  ['columns.submissions.accepted', 'state'],
+
+  ['columns.tokens.name', 'name'],
+  ['columns.tokens.creationDate', 'creationDate'],
+  ['columns.tokens.expirationDate', 'expirationDate'],
+  ['columns.tokens.active', 'active'],
+  ['columns.tokens.deleted', 'deleted'],
+  ['columns.tokens.user', 'user.name']
 ])
 
 //TODO check sort by number of packages

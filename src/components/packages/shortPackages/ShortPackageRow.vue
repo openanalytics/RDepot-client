@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2023 Open Analytics NV
+ Copyright (C) 2012-2024 Open Analytics NV
  
  ===========================================================================
  
@@ -31,7 +31,11 @@
       cols="lg-1 sm-2"
       class="d-flex align-center"
     >
-      <SortTitle v-if="title" :text="$t('columns.name')" />
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.name')"
+        sortKey="columns.name"
+      />
       <TextRecord v-else :text="packageBag?.name" />
     </v-col>
     <v-col
@@ -42,6 +46,7 @@
       <SortTitle
         v-if="title"
         :text="$t('columns.version')"
+        sortKey="columns.version"
       />
       <TextRecord v-else :text="packageBag?.version" />
     </v-col>
@@ -50,7 +55,11 @@
       cols="lg-8\7 sm-2"
       class="d-flex align-center"
     >
-      <SortTitle v-if="title" :text="$t('columns.title')" />
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.title')"
+        sortKey="columns.title"
+      />
       <TextRecord v-else :text="packageBag?.title" />
     </v-col>
     <v-col
@@ -60,7 +69,8 @@
     >
       <SortTitle
         v-if="title"
-        :text="$t('columns.maintainer')" />
+        :text="$t('columns.maintainer')"
+        sortKey="columns.maintainer" />
       <TextRecord v-else :text="packageBag?.user?.name"
     /></v-col>
     <v-col
@@ -71,6 +81,7 @@
       <SortTitle
         v-if="title"
         :text="$t('columns.actions')"
+        sortKey="columns.actions"
         no-sort
       />
       <span
@@ -78,7 +89,7 @@
         class="d-flex justify-center align-center"
       >
         <v-tooltip top>
-          <template v-slot:activator="{ props }">
+          <template #activator="{ props }">
             <v-icon
               id="navigate-icon"
               @click.stop

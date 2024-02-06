@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2023 Open Analytics NV
+ * Copyright (C) 2012-2024 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -33,11 +33,11 @@
  * Do not edit the class manually.
  */
 
-import { Link } from './link'
+import { Links } from './links'
 import { RepositoryProjection } from './repository-projection'
 import { UserProjection } from './user-projection'
 import {
-  Link,
+  Links,
   RepositoryProjection,
   UserProjection
 } from '.'
@@ -80,8 +80,8 @@ export interface EntityModelPackageMaintainerDto {
   deleted?: boolean
 
   /**
-   * @type {Array<Link>}
+   * @type {Links}
    * @memberof EntityModelPackageMaintainerDto
    */
-  links?: Array<Link>
+  links?: Links
 }

@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2023 Open Analytics NV
+ Copyright (C) 2012-2024 Open Analytics NV
  
  ===========================================================================
  
@@ -33,8 +33,8 @@
     <slot name="props" :closeModal="closeModal">
       <QuestionCard
         :text="commonStore.overlayText"
-        v-on:reset="reset"
-        v-on:cancel="closeModal"
+        @reset="reset"
+        @cancel="closeModal"
       />
     </slot>
   </v-overlay>

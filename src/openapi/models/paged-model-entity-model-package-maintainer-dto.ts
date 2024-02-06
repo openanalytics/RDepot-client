@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2023 Open Analytics NV
+ * Copyright (C) 2012-2024 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -33,13 +33,13 @@
  * Do not edit the class manually.
  */
 
-import { EntityModelPackageMaintainerDto } from './entity-model-package-maintainer-dto'
-import { Link } from './link'
+import { Links } from './links'
 import { PageMetadata } from './page-metadata'
+import { PagedModelEntityModelPackageMaintainerDtoEmbedded } from './paged-model-entity-model-package-maintainer-dto-embedded'
 import {
-  EntityModelPackageMaintainerDto,
-  Link,
-  PageMetadata
+  Links,
+  PageMetadata,
+  PagedModelEntityModelPackageMaintainerDtoEmbedded
 } from '.'
 
 /**
@@ -50,16 +50,16 @@ import {
  */
 export interface PagedModelEntityModelPackageMaintainerDto {
   /**
-   * @type {Array<Link>}
+   * @type {PagedModelEntityModelPackageMaintainerDtoEmbedded}
    * @memberof PagedModelEntityModelPackageMaintainerDto
    */
-  links?: Array<Link>
+  embedded?: PagedModelEntityModelPackageMaintainerDtoEmbedded
 
   /**
-   * @type {Array<EntityModelPackageMaintainerDto>}
+   * @type {Links}
    * @memberof PagedModelEntityModelPackageMaintainerDto
    */
-  content?: Array<EntityModelPackageMaintainerDto>
+  links?: Links
 
   /**
    * @type {PageMetadata}

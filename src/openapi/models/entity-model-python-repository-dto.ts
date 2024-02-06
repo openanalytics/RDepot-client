@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2023 Open Analytics NV
+ * Copyright (C) 2012-2024 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -33,8 +33,8 @@
  * Do not edit the class manually.
  */
 
-import { Link } from './link'
-import { Link } from '.'
+import { Links } from './links'
+import { Links } from '.'
 
 /**
  *
@@ -110,10 +110,10 @@ export interface EntityModelPythonRepositoryDto {
   hashMethod?: EntityModelPythonRepositoryDtoHashMethodEnum
 
   /**
-   * @type {Array<Link>}
+   * @type {Links}
    * @memberof EntityModelPythonRepositoryDto
    */
-  links?: Array<Link>
+  links?: Links
 }
 
 /**

@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2023 Open Analytics NV
+ Copyright (C) 2012-2024 Open Analytics NV
  
  ===========================================================================
  
@@ -101,7 +101,16 @@
       </v-col>
     </v-row>
     <v-row justify="start">
-      <v-col sm="3">
+      <v-col
+        sm="3"
+        v-if="
+          isAtLeastRepositoryMaintainer(
+            authorizationStore.userRole
+              ? authorizationStore.userRole
+              : 0
+          )
+        "
+      >
         <validated-input-field
           @update:modelValue="setFiltration"
           density="compact"
@@ -114,22 +123,15 @@
           clearable
           :label="$t('packages.filtration.maintainer')"
           @loadItems="loadMaintainers"
-          @filtrate="filtrateMaintainers"
           :storeId="storeIdMaintainer"
         ></validated-input-field>
       </v-col>
       <v-spacer />
       <v-col sm="1" class="reset-button">
-        <v-btn
-          class="my-2"
-          density="compact"
-          id="reset-button"
-          color="oablue"
-          @click="resetValues"
+        <ResetButton
           v-if="!packageStore.isDefaultFiltration"
-        >
-          {{ t('filtration.reset') }}</v-btn
-        >
+          @resetValues="resetValues"
+        />
       </v-col>
     </v-row>
   </v-container>
@@ -141,24 +143,22 @@ import {
   defaultValues,
   PackagesFiltration
 } from '@/models/Filtration'
-import { useI18n } from 'vue-i18n'
 import { useEnumFiltration } from '@/composable/filtration/enumFiltration'
 import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesFiltration'
 import { usePackageMaintainersFiltration } from '@/composable/filtration/packageMaintainersFiltration'
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { usePackagesStore } from '@/store/packages'
+import { useAuthorizationStore } from '@/store/authorization'
+import { isAtLeastRepositoryMaintainer } from '@/enum/UserRoles'
+import ResetButton from '@/components/common/ResetButton.vue'
 
-const { t } = useI18n()
 const { states, technologies } = useEnumFiltration()
-
+const authorizationStore = useAuthorizationStore()
 const { storeId, filtrateRepositories, loadRepositories } =
   useRepositoriesFiltration()
-const {
-  storeIdMaintainer,
-  filtrateMaintainers,
-  loadMaintainers
-} = usePackageMaintainersFiltration()
+const { storeIdMaintainer, loadMaintainers } =
+  usePackageMaintainersFiltration()
 const packageStore = usePackagesStore()
 
 const { setValues, values } = useForm({

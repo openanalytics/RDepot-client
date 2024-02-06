@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2023 Open Analytics NV
+ * Copyright (C) 2012-2024 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -29,6 +29,7 @@ export type SelectState =
   | 'repositories'
   | 'repositoryMaintainers'
   | 'packageMaintainers'
+  | 'user'
 const definedStores = new Map<
   string,
   ReturnType<typeof defineSelectStore>

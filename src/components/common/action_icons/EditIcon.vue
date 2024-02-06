@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2023 Open Analytics NV
+ Copyright (C) 2012-2024 Open Analytics NV
  
  ===========================================================================
  
@@ -22,7 +22,7 @@
 
 <template>
   <v-tooltip top>
-    <template v-slot:activator="{ props }">
+    <template #activator="{ props }">
       <v-icon
         id="pencil-icon"
         @click.stop
@@ -33,9 +33,7 @@
         >mdi-pencil</v-icon
       >
     </template>
-    <span id="action-edit">{{
-      $t('maintainers.edit')
-    }}</span>
+    <span id="action-edit">{{ text }}</span>
   </v-tooltip>
 </template>
 
@@ -56,8 +54,6 @@ const commonStore = useCommonStore()
 function edit() {
   emits('setEntity')
   commonStore.setOverlayText(props.text)
-  commonStore.setOverlayModel(true)
-  commonStore.setOverlayOpacity(0.8)
-  commonStore.setOverlayComponent(OverlayEnum.enum.Edit)
+  commonStore.openOverlay(OverlayEnum.enum.Edit)
 }
 </script>

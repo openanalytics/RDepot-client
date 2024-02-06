@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2023 Open Analytics NV
+ * Copyright (C) 2012-2024 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -29,6 +29,7 @@ import { mocks } from '@/__tests__/config/mocks'
 import { createPinia, setActivePinia } from 'pinia'
 import { useCommonStore } from '@/store/common'
 import { useSortStore } from '@/store/sort'
+import { JustifyEnum } from '@/enum/Justify'
 
 let wrapper: any
 const TEXT = 'name'
@@ -83,7 +84,7 @@ describe('SortTitle - custom options', () => {
       global: globalConfig,
       props: {
         text: TEXT,
-        center: true,
+        justify: JustifyEnum.Enum.center,
         sortField: 'user',
         sortKey: 'user'
       }

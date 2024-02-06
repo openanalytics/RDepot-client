@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2023 Open Analytics NV
+ * Copyright (C) 2012-2024 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -57,6 +57,21 @@ export const roleToString = Role.transform(
     }
   }
 )
+
+export const stringToRole = (arg: string): Role => {
+  switch (arg) {
+    case 'user':
+      return 0
+    case 'packagemaintainer':
+      return 1
+    case 'repositorymaintainer':
+      return 2
+    case 'admin':
+      return 3
+    default:
+      throw Error('Undefined role: ' + arg)
+  }
+}
 
 export function isAtLeastUser(role: Role) {
   return role >= Role.enum.user

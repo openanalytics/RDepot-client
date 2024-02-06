@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2023 Open Analytics NV
+ * Copyright (C) 2012-2024 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -54,13 +54,36 @@ export async function fetchUsers(
     return new Promise(() => validateRequest([]))
   }
   const sort = useSortStore()
-
   return openApiRequest<EntityModelUserDto[]>(
     ApiV2UserControllerApiFactory().getAllUsers,
     [
       page,
       pageSize,
       sort.getSortBy(),
+      filtration?.roles,
+      filtration?.active,
+      filtration?.search
+    ]
+  ).catch(() => {
+    return validateRequest([])
+  })
+}
+
+export async function fetchAllUsers(
+  page?: number,
+  pageSize?: number,
+  filtration?: UsersFiltration
+): ValidatedUsers {
+  if (!isAuthorized('GET', 'users')) {
+    return new Promise(() => validateRequest([]))
+  }
+
+  return openApiRequest<EntityModelUserDto[]>(
+    ApiV2UserControllerApiFactory().getAllUsers,
+    [
+      page,
+      pageSize,
+      ['name,asc'],
       filtration?.roles,
       filtration?.active,
       filtration?.search

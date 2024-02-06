@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2023 Open Analytics NV
+ * Copyright (C) 2012-2024 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -46,12 +46,6 @@ export interface Link {
    * @type {string}
    * @memberof Link
    */
-  rel?: string
-
-  /**
-   * @type {string}
-   * @memberof Link
-   */
   href?: string
 
   /**
@@ -59,12 +53,6 @@ export interface Link {
    * @memberof Link
    */
   hreflang?: string
-
-  /**
-   * @type {string}
-   * @memberof Link
-   */
-  media?: string
 
   /**
    * @type {string}
@@ -95,4 +83,10 @@ export interface Link {
    * @memberof Link
    */
   name?: string
+
+  /**
+   * @type {boolean}
+   * @memberof Link
+   */
+  templated?: boolean
 }

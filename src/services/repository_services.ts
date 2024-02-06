@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2023 Open Analytics NV
+ * Copyright (C) 2012-2024 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -60,7 +60,6 @@ export function fetchRepositoriesServices(
     return new Promise(() => validateRequest([]))
   }
   const sort = useSortStore()
-
   return openApiRequest<EntityModelRepositoryDto[]>(
     ApiV2RepositoryControllerApiFactory()
       .getAllRepositories,
@@ -72,6 +71,7 @@ export function fetchRepositoriesServices(
       filtration?.technologies,
       filtration?.published,
       filtration?.maintainer,
+      filtration?.name,
       filtration?.search
     ],
     showProgress
@@ -91,6 +91,7 @@ export function fetchFullRepositoriesList(
     ApiV2RepositoryControllerApiFactory()
       .getAllRepositories,
     [
+      undefined,
       undefined,
       undefined,
       undefined,
