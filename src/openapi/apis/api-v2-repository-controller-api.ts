@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2023 Open Analytics NV
+ * Copyright (C) 2012-2024 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -66,6 +66,7 @@ export const ApiV2RepositoryControllerApiAxiosParamCreator =
        * @param {Array<string>} [technology]
        * @param {boolean} [published]
        * @param {Array<string>} [maintainer]
+       * @param {string} [name]
        * @param {string} [search]
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
@@ -78,6 +79,7 @@ export const ApiV2RepositoryControllerApiAxiosParamCreator =
         technology?: Array<string>,
         published?: boolean,
         maintainer?: Array<string>,
+        name?: string,
         search?: string,
         options: AxiosRequestConfig = {}
       ): Promise<RequestArgs> => {
@@ -136,6 +138,10 @@ export const ApiV2RepositoryControllerApiAxiosParamCreator =
 
         if (maintainer) {
           localVarQueryParameter['maintainer'] = maintainer
+        }
+
+        if (name !== undefined) {
+          localVarQueryParameter['name'] = name
         }
 
         if (search !== undefined) {
@@ -272,6 +278,7 @@ export const ApiV2RepositoryControllerApiFp = function (
      * @param {Array<string>} [technology]
      * @param {boolean} [published]
      * @param {Array<string>} [maintainer]
+     * @param {string} [name]
      * @param {string} [search]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -284,6 +291,7 @@ export const ApiV2RepositoryControllerApiFp = function (
       technology?: Array<string>,
       published?: boolean,
       maintainer?: Array<string>,
+      name?: string,
       search?: string,
       options?: AxiosRequestConfig
     ): Promise<
@@ -305,6 +313,7 @@ export const ApiV2RepositoryControllerApiFp = function (
           technology,
           published,
           maintainer,
+          name,
           search,
           options
         )
@@ -374,6 +383,7 @@ export const ApiV2RepositoryControllerApiFactory =
        * @param {Array<string>} [technology]
        * @param {boolean} [published]
        * @param {Array<string>} [maintainer]
+       * @param {string} [name]
        * @param {string} [search]
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
@@ -386,6 +396,7 @@ export const ApiV2RepositoryControllerApiFactory =
         technology?: Array<string>,
         published?: boolean,
         maintainer?: Array<string>,
+        name?: string,
         search?: string,
         options?: AxiosRequestConfig
       ): Promise<
@@ -400,6 +411,7 @@ export const ApiV2RepositoryControllerApiFactory =
             technology,
             published,
             maintainer,
+            name,
             search,
             options
           )
@@ -440,6 +452,7 @@ export class ApiV2RepositoryControllerApi extends BaseAPI {
    * @param {Array<string>} [technology]
    * @param {boolean} [published]
    * @param {Array<string>} [maintainer]
+   * @param {string} [name]
    * @param {string} [search]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -453,6 +466,7 @@ export class ApiV2RepositoryControllerApi extends BaseAPI {
     technology?: Array<string>,
     published?: boolean,
     maintainer?: Array<string>,
+    name?: string,
     search?: string,
     options?: AxiosRequestConfig
   ): Promise<
@@ -469,6 +483,7 @@ export class ApiV2RepositoryControllerApi extends BaseAPI {
         technology,
         published,
         maintainer,
+        name,
         search,
         options
       )

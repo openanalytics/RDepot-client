@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2023 Open Analytics NV
+ * Copyright (C) 2012-2024 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -237,5 +237,40 @@ export function fetchVignettes(id: number) {
     true
   ).catch(() => {
     return validateRequest([])
+  })
+}
+
+export function deletePythonPackage(
+  oldPackage: EntityModelPackageDto,
+  newPackage: EntityModelPackageDto
+) {
+  // if (!isAuthorized('PATCH', 'packages')) {
+  //   return new Promise(() => false)
+  // }
+
+  const patch_body = createPatch(oldPackage, newPackage)
+
+  return openApiRequest<EntityModelPackageDto>(
+    PythonPackageControllerApiFactory().updatePythonPackage,
+    [patch_body, oldPackage.id!]
+  ).catch(() => {
+    return validateRequest({})
+  })
+}
+
+export function deleteRPackage(
+  oldPackage: EntityModelPackageDto,
+  newPackage: EntityModelPackageDto
+) {
+  // if (!isAuthorized('PATCH', 'packages')) {
+  //   return new Promise(() => false)
+  // }
+
+  const patch_body = createPatch(oldPackage, newPackage)
+  return openApiRequest<EntityModelPackageDto>(
+    RPackageControllerApiFactory().updatePackage,
+    [patch_body, oldPackage.id!]
+  ).catch(() => {
+    return validateRequest({})
   })
 }

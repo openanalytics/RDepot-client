@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2023 Open Analytics NV
+ Copyright (C) 2012-2024 Open Analytics NV
  
  ===========================================================================
  
@@ -27,7 +27,7 @@
     <v-menu open-on-hover activator="parent">
       <v-list>
         <v-list-item @click="openVignette" value="open">
-          <template v-slot:prepend>
+          <template #prepend>
             <v-icon icon="mdi-open-in-new"></v-icon>
           </template>
           <v-list-item-title>{{
@@ -38,7 +38,7 @@
           @click="downloadVignette"
           value="download"
         >
-          <template v-slot:prepend>
+          <template #prepend>
             <v-icon icon="mdi-download"></v-icon>
           </template>
           <v-list-item-title>{{

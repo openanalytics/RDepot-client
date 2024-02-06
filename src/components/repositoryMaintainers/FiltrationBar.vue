@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2023 Open Analytics NV
+ Copyright (C) 2012-2024 Open Analytics NV
  
  ===========================================================================
  
@@ -72,18 +72,12 @@
       </v-col>
       <v-spacer />
       <v-col sm="1" class="reset-button">
-        <v-btn
-          class="my-2"
-          id="reset-button"
-          density="compact"
-          color="oablue"
-          @click="resetValues"
+        <ResetButton
           v-if="
             !repositoryMaintainerStore.isDefaultFiltration
           "
-        >
-          {{ t('filtration.reset') }}</v-btn
-        >
+          @resetValues="resetValues"
+        />
       </v-col>
     </v-row>
   </v-container>
@@ -95,13 +89,12 @@ import {
   defaultValues,
   RepositoryMaintainersFiltration
 } from '@/models/Filtration'
-import { useI18n } from 'vue-i18n'
 import { useEnumFiltration } from '@/composable/filtration/enumFiltration'
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
+import ResetButton from '@/components/common/ResetButton.vue'
 
-const { t } = useI18n()
 const { technologies } = useEnumFiltration()
 
 const repositoryMaintainerStore =

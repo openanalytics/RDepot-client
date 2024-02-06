@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2023 Open Analytics NV
+ Copyright (C) 2012-2024 Open Analytics NV
  
  ===========================================================================
  
@@ -32,10 +32,10 @@
       clearable
       persistent-hint
     >
-      <template v-slot:selection="{ item, index }">
+      <template #selection="{ item, index }">
         {{ item.value.name }}
       </template>
-      <template v-slot:item="{ item, index }">
+      <template #item="{ item, index }">
         <v-list-item @click="changeRepository(item.value)">
           <v-list-item-content>
             <v-list-item-title>

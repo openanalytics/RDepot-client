@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2023 Open Analytics NV
+ * Copyright (C) 2012-2024 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -20,7 +20,6 @@
  *
  */
 
-import { useSubmissionStore } from '@/store/submission'
 import { prepareAddPackageView } from './viewsPreperations'
 
 export const routes = [
@@ -110,6 +109,13 @@ export const routes = [
         component: () =>
           import('@/views/events/Events.vue'),
         meta: { title: 'RDepot - events' }
+      },
+      {
+        path: '/settings',
+        name: 'settings',
+        component: () =>
+          import('@/views/settings/Settings.vue'),
+        meta: { title: 'RDepot - settings' }
       }
     ]
   }

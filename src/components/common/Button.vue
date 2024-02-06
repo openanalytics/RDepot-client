@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2023 Open Analytics NV
+ Copyright (C) 2012-2024 Open Analytics NV
  
  ===========================================================================
  
@@ -44,7 +44,6 @@ const commonStore = useCommonStore()
 
 function openModal() {
   commonStore.setOverlayText(i18n.t('filtration.makeSure'))
-  commonStore.setOverlayModel(true)
-  commonStore.setOverlayComponent(props.component)
+  commonStore.openOverlay(props.component)
 }
 </script>

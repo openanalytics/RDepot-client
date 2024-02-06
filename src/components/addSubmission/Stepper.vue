@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2023 Open Analytics NV
+ Copyright (C) 2012-2024 Open Analytics NV
  
  ===========================================================================
  
@@ -32,7 +32,7 @@
         <component
           :key="submissionStore.stepperKey"
           :is="components[el - 1]"
-          v-on:next="changeValue"
+          @next="changeValue"
         ></component>
       </v-window-item>
     </v-window>

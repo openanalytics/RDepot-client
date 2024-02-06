@@ -77,6 +77,13 @@
     "submitter": "Submitter",
     "technology": "Technology",
     "title": "Title",
+    "tokens": {
+      "active": "Active",
+      "creationDate": "Creation date",
+      "deleted": "Deleted",
+      "expirationDate": "Expiration date",
+      "name": "Name"
+    },
     "username": "User name",
     "users": {
       "active": "Active",
@@ -97,6 +104,8 @@
     "click": "click",
     "copied": "Code succesfully copied to clipboard",
     "create": "Create",
+    "deactivate": "Deactivate",
+    "deactivateQuestion": "Are you sure you want to deactivate {resource_name}?",
     "delete": "Delete",
     "deleteQuestion": "Are you sure you want to delete {resource_name}?",
     "details": "See details",
@@ -115,6 +124,7 @@
     "maintainers": "Maintainers",
     "noListingResults": "No results where found",
     "notAvailable": "Not available",
+    "ok": "Ok",
     "or": "or",
     "packages": "Packages",
     "projectTitle": "RDepot",
@@ -123,6 +133,7 @@
     "save": "Save",
     "search": "Search",
     "seepackages": "See repository's packages",
+    "settings": "Settings",
     "submissions": "Submissions",
     "users": "Users"
   },
@@ -292,6 +303,34 @@
     },
     "list": "Repositories",
     "maintainers": "Repository maintainers"
+  },
+  "settings": {
+    "create": "New access token",
+    "deactivate": "Deactivate token",
+    "deactivateQuestion": "Are you sure you want to deactivate token <strong>{0}</strong>?",
+    "delete": "Delete token",
+    "deleteQuestion": "Are you sure you want to delete token <strong>{0}</strong>?",
+    "edit": "Edit token name",
+    "expirationDate": "Active days",
+    "filtration": {
+      "active": "Active",
+      "expired": "Expired",
+      "searchPlaceholder": "Name",
+      "searchPlaceholderAdmin": "Name, username...",
+      "userLogin": "Users"
+    },
+    "message": {
+      "deactivated": "Token deactivated",
+      "delete": "Token deleted",
+      "edited": "Token edited"
+    },
+    "newToken": "New token",
+    "save": "Save chages",
+    "tab": {
+      "table": "Table settings",
+      "token": "Access tokens"
+    },
+    "tokenName": "Name"
   },
   "submissions": {
     "addAnotherSubmission": "Upload another packages",

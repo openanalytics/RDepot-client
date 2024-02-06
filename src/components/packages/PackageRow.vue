@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2023 Open Analytics NV
+ Copyright (C) 2012-2024 Open Analytics NV
  
  ===========================================================================
  
@@ -66,12 +66,12 @@
       id="package-row-maintainer"
       cols="lg-1 sm-2"
       class="d-flex align-center justify-center"
-      align="center"
     >
       <SortTitle
         v-if="title"
         :text="$t('columns.package.maintainer')"
         sortKey="columns.package.maintainer"
+        :justify="JustifyEnum.Enum.center"
       />
       <TextRecord v-else :text="packageBag?.user?.name" />
     </VCol>
@@ -80,12 +80,12 @@
       id="package-row-state"
       cols="lg-1 sm-2"
       class="d-flex align-center justify-center"
-      align="center"
     >
       <SortTitle
         v-if="title"
         :text="$t('columns.package.state')"
         sortKey="columns.package.state"
+        :justify="JustifyEnum.Enum.center"
       />
       <TextRecord
         v-else
@@ -102,6 +102,7 @@
         v-if="title"
         :text="$t('columns.package.technology')"
         sortKey="columns.package.technology"
+        :justify="JustifyEnum.Enum.center"
       />
       <TextRecord v-else :text="packageBag?.technology" />
     </VCol>
@@ -114,6 +115,7 @@
         v-if="title"
         :text="$t('columns.package.repository')"
         sortKey="columns.package.repository"
+        :justify="JustifyEnum.Enum.center"
       />
       <TextRecord
         v-else
@@ -123,46 +125,46 @@
     <VCol
       id="package-row-active"
       cols="lg-1"
-      class="d-flex justify-center"
+      class="d-flex justify-center align-center"
     >
       <SortTitle
         v-if="title"
         :text="$t('columns.package.active')"
         sortKey="columns.package.active"
-        center
+        :justify="JustifyEnum.Enum.center"
       />
-
-      <VCheckbox
-        id="checkbox-active"
-        class="mr-8"
-        color="oablue"
-        @click.stop
-        v-else-if="packageBag"
-        v-model="packageBag.active"
-        @change="updatePackageActive"
-        :disabled="
-          !canPatch(props.packageBag?.links).allowed
-        "
-      />
+      <span v-else-if="packageBag">
+        <VCheckbox
+          id="checkbox-active"
+          class="mr-8"
+          color="oablue"
+          @click.stop
+          v-model="packageBag.active"
+          @change="updatePackageActive"
+          :disabled="!canPatch(props.packageBag?.links)"
+        />
+      </span>
     </VCol>
     <VCol
       id="package-row-actions"
       cols="lg-1"
       class="d-flex justify-center align-center"
-      align="center"
     >
       <SortTitle
         v-if="title"
         :text="$t('columns.actions')"
         sortKey="columns.actions"
         no-sort
-        justify="center"
+        :justify="JustifyEnum.Enum.center"
       />
       <span v-else-if="packageBag && !packageBag.deleted">
         <DeleteIcon
-          v-if="canDelete(props.packageBag?.links)"
+          v-if="
+            canDelete(props.packageBag?.links) &&
+            !props.packageBag?.deleted
+          "
           :name="props.packageBag?.name"
-          :set-resource-id="choosePackage"
+          @setResourceId="choosePackage"
           class=""
         />
         <span v-else style="width: 30px"></span>
@@ -179,6 +181,7 @@ import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
 import SortTitle from '@/components/common/resources/SortTitle.vue'
 import TextRecord from '@/components/common/resources/TextRecord.vue'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
+import { JustifyEnum } from '@/enum/Justify'
 
 const { canDelete, canPatch } = useUserAuthorities()
 
@@ -195,7 +198,7 @@ const props = defineProps({
 })
 
 function choosePackage() {
-  packageStore.setChosenPackage(props.packageBag?.id)
+  packageStore.setChosenPackage(props.packageBag)
 }
 
 function updatePackageActive() {

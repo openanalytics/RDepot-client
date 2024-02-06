@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2023 Open Analytics NV
+ Copyright (C) 2012-2024 Open Analytics NV
  
  ===========================================================================
  
@@ -28,10 +28,7 @@
         <Sidebar />
         <ProgressCircular />
         <v-main>
-          <router-view
-            :key="componentKey"
-            style="margin: 0 15px"
-          ></router-view>
+          <router-view style="margin: 0 15px"></router-view>
         </v-main>
       </v-row>
     </div>
@@ -42,11 +39,4 @@
 import Sidebar from '@/components/navbar/Sidebar.vue'
 import Navbar from '@/components/navbar/Navbar.vue'
 import ProgressCircular from './components/common/progress/ProgressCircular.vue'
-import { computed } from 'vue'
-import { useCommonStore } from './store/common'
-
-const commonStore = useCommonStore()
-const componentKey = computed(() => {
-  return commonStore.key
-})
 </script>

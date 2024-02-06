@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2023 Open Analytics NV
+ * Copyright (C) 2012-2024 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -25,7 +25,8 @@ import { LoginType } from '@/enum/LoginType'
 import {
   fetchRoles,
   fetchUsers,
-  updateUser
+  updateUser,
+  fetchAllUsers
 } from '@/services/users_services'
 import { EntityModelUserDto, RoleDto } from '@/openapi'
 import { Role } from '@/enum/UserRoles'
@@ -70,6 +71,17 @@ export const useUserStore = defineStore('userStore', {
         pagination.fetchPage,
         pagination.pageSize,
         this.filtration
+      )
+      this.userList = users
+      pagination.newPageWithoutRefresh(pageData.page)
+      pagination.totalNumber = pageData.totalNumber
+    },
+    async fetchAllUsers() {
+      const pagination = usePagination()
+      const [users, pageData] = await fetchAllUsers(
+        pagination.fetchPage,
+        pagination.pageSize,
+        undefined
       )
       this.userList = users
       pagination.newPageWithoutRefresh(pageData.page)

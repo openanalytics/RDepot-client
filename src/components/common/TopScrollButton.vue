@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2023 Open Analytics NV
+ Copyright (C) 2012-2024 Open Analytics NV
  
  ===========================================================================
  
@@ -48,7 +48,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
-var showFab = ref(false)
+const showFab = ref(false)
 
 function onScroll(e: Event) {
   if (typeof window === 'undefined') return

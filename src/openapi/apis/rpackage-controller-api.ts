@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2023 Open Analytics NV
+ * Copyright (C) 2012-2024 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -249,13 +249,11 @@ export const RPackageControllerApiAxiosParamCreator =
       /**
        *
        * @param {number} id
-       * @param {string} name
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
       downloadVignetteHtml: async (
         id: number,
-        name: string,
         options: AxiosRequestConfig = {}
       ): Promise<RequestArgs> => {
         // verify required parameter 'id' is not null or undefined
@@ -265,23 +263,11 @@ export const RPackageControllerApiAxiosParamCreator =
             'Required parameter id was null or undefined when calling downloadVignetteHtml.'
           )
         }
-        // verify required parameter 'name' is not null or undefined
-        if (name === null || name === undefined) {
-          throw new RequiredError(
-            'name',
-            'Required parameter name was null or undefined when calling downloadVignetteHtml.'
-          )
-        }
         const localVarPath =
-          `/api/v2/manager/r/packages/{id}/vignettes/{name}.html`
-            .replace(
-              `{${'id'}}`,
-              encodeURIComponent(String(id))
-            )
-            .replace(
-              `{${'name'}}`,
-              encodeURIComponent(String(name))
-            )
+          `/api/v2/manager/r/packages/{id}/vignettes/{name}.html`.replace(
+            `{${'id'}}`,
+            encodeURIComponent(String(id))
+          )
         // use dummy base URL string because the URL constructor only accepts absolute URLs.
         const localVarUrlObj = new URL(
           localVarPath,
@@ -961,13 +947,11 @@ export const RPackageControllerApiFp = function (
     /**
      *
      * @param {number} id
-     * @param {string} name
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async downloadVignetteHtml(
       id: number,
-      name: string,
       options?: AxiosRequestConfig
     ): Promise<
       (
@@ -978,7 +962,7 @@ export const RPackageControllerApiFp = function (
       const localVarAxiosArgs =
         await RPackageControllerApiAxiosParamCreator(
           configuration
-        ).downloadVignetteHtml(id, name, options)
+        ).downloadVignetteHtml(id, options)
       return (
         axios: AxiosInstance = globalAxios,
         basePath: string = BASE_PATH
@@ -1245,17 +1229,15 @@ export const RPackageControllerApiFactory = function (
     /**
      *
      * @param {number} id
-     * @param {string} name
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async downloadVignetteHtml(
       id: number,
-      name: string,
       options?: AxiosRequestConfig
     ): Promise<AxiosResponse<Array<string>>> {
       return RPackageControllerApiFp(configuration)
-        .downloadVignetteHtml(id, name, options)
+        .downloadVignetteHtml(id, options)
         .then((request) => request(axios, basePath))
     },
     /**
@@ -1416,18 +1398,16 @@ export class RPackageControllerApi extends BaseAPI {
   /**
    *
    * @param {number} id
-   * @param {string} name
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof RPackageControllerApi
    */
   public async downloadVignetteHtml(
     id: number,
-    name: string,
     options?: AxiosRequestConfig
   ): Promise<AxiosResponse<Array<string>>> {
     return RPackageControllerApiFp(this.configuration)
-      .downloadVignetteHtml(id, name, options)
+      .downloadVignetteHtml(id, options)
       .then((request) => request(this.axios, this.basePath))
   }
   /**

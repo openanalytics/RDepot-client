@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2023 Open Analytics NV
+ * Copyright (C) 2012-2024 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -45,17 +45,8 @@ export function usePackageMaintainersFiltration() {
     )
   }
 
-  function filtrateMaintainers(value: string | undefined) {
-    // if (
-    //   repositoryMaintainerStore.filtration.name !== value
-    // ) {
-    //   // repositoryMaintainerStore.setFiltrationByName(value)
-    // }
-  }
-
   return {
     storeIdMaintainer,
-    loadMaintainers,
-    filtrateMaintainers
+    loadMaintainers
   }
 }

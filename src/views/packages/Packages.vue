@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2023 Open Analytics NV
+ Copyright (C) 2012-2024 Open Analytics NV
  
  ===========================================================================
  
@@ -21,8 +21,9 @@
 -->
 
 <template>
+  <PackagesModal />
   <FiltrationBar />
-  <PackagesList />
+  <PackagesList :key="componentKey" />
   <Pagination />
 </template>
 
@@ -30,4 +31,12 @@
 import PackagesList from '@/components/packages/PackagesList.vue'
 import Pagination from '@/components/common/Pagination.vue'
 import FiltrationBar from '@/components/packages/FiltrationBar.vue'
+import PackagesModal from '@/components/packages/PackagesModal.vue'
+import { computed } from 'vue'
+import { useCommonStore } from '@/store/common'
+
+const commonStore = useCommonStore()
+const componentKey = computed(() => {
+  return commonStore.key
+})
 </script>

@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2023 Open Analytics NV
+ * Copyright (C) 2012-2024 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -33,13 +33,13 @@
  * Do not edit the class manually.
  */
 
-import { EntityModelRRepositoryDto } from './entity-model-rrepository-dto'
-import { Link } from './link'
+import { Links } from './links'
 import { PageMetadata } from './page-metadata'
+import { PagedModelEntityModelRRepositoryDtoEmbedded } from './paged-model-entity-model-rrepository-dto-embedded'
 import {
-  EntityModelRRepositoryDto,
-  Link,
-  PageMetadata
+  Links,
+  PageMetadata,
+  PagedModelEntityModelRRepositoryDtoEmbedded
 } from '.'
 
 /**
@@ -50,16 +50,16 @@ import {
  */
 export interface PagedModelEntityModelRRepositoryDto {
   /**
-   * @type {Array<Link>}
+   * @type {PagedModelEntityModelRRepositoryDtoEmbedded}
    * @memberof PagedModelEntityModelRRepositoryDto
    */
-  links?: Array<Link>
+  embedded?: PagedModelEntityModelRRepositoryDtoEmbedded
 
   /**
-   * @type {Array<EntityModelRRepositoryDto>}
+   * @type {Links}
    * @memberof PagedModelEntityModelRRepositoryDto
    */
-  content?: Array<EntityModelRRepositoryDto>
+  links?: Links
 
   /**
    * @type {PageMetadata}

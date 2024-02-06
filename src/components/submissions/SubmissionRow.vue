@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2023 Open Analytics NV
+ Copyright (C) 2012-2024 Open Analytics NV
  
  ===========================================================================
  
@@ -111,7 +111,7 @@
         :text="$t('columns.submissions.technology')"
         sortKey="columns.submissions.technology"
         no-sort
-        center
+        :justify="JustifyEnum.Enum.center"
       />
       <TextRecord v-else :text="submission?.technology" />
     </v-col>
@@ -124,12 +124,12 @@
         v-if="title"
         :text="$t('columns.submissions.accepted')"
         sortKey="columns.submissions.accepted"
-        center
+        :justify="JustifyEnum.Enum.center"
         direction="desc"
       />
 
       <v-tooltip location="right" v-else-if="submission">
-        <template v-slot:activator="{ props }">
+        <template #activator="{ props }">
           <div
             id="tooltip-activator"
             v-bind="props"
@@ -165,15 +165,12 @@
         v-if="title"
         :text="$t('columns.actions')"
         sortKey="columns.actions"
-        center
+        :justify="JustifyEnum.Enum.center"
         no-sort
       />
       <span
         v-else-if="
-          getWaiting &&
-          canPatch(submission?.links).fields.includes(
-            'state'
-          )
+          getWaiting && canPatch(submission?.links, 'state')
         "
         class="d-flex justify-center align-center"
       >
@@ -214,6 +211,7 @@ import { useAuthorizationStore } from '@/store/authorization'
 import SortTitle from '@/components/common/resources/SortTitle.vue'
 import TextRecord from '@/components/common/resources/TextRecord.vue'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
+import { JustifyEnum } from '@/enum/Justify'
 
 const props = defineProps({
   title: {

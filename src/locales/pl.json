@@ -77,6 +77,13 @@
     "submitter": "Zgłaszający",
     "technology": "Technologia",
     "title": "Tytuł",
+    "tokens": {
+      "active": "Aktywny",
+      "creationDate": "Data utworzenia",
+      "deleted": "Usunięty",
+      "expirationDate": "Data wygaśnięcia",
+      "name": "Nazwa"
+    },
     "username": "Nazwa użytkownika",
     "users": {
       "active": "Aktywny",
@@ -97,6 +104,8 @@
     "click": "naciśnij",
     "copied": "Kod został skopiowany",
     "create": "Utwórz",
+    "deactivate": "Dezaktywuj",
+    "deactivateQuestion": "Are you sure you want to deactivate {resource_name}?",
     "delete": "Usuń",
     "deleteQuestion": "Czy na pewno chcesz usunąć {resource_name}?",
     "details": "Zobacz szczegóły",
@@ -115,6 +124,7 @@
     "maintainers": "Opiekunowie",
     "noListingResults": "Nie znaleziono żadnych wyników",
     "notAvailable": "Niedostępne",
+    "ok": "Ok",
     "or": "lub",
     "packages": "Pakiety",
     "projectTitle": "RDepot",
@@ -123,6 +133,7 @@
     "save": "Zapisz",
     "search": "Wyszukaj",
     "seepackages": "Zobacz pakiety w repozytorium",
+    "settings": "Ustawienia",
     "submissions": "Zgłoszenia",
     "users": "Użytkownicy"
   },
@@ -283,6 +294,34 @@
     },
     "list": "Repozytoria",
     "maintainers": "Opiekunowie repozytorium"
+  },
+  "settings": {
+    "create": "Nowy access token",
+    "deactivate": "Dezaktywuj token",
+    "deactivateQuestion": "Czy na pewno chcesz dezaktywować token <strong>{0}</strong>?",
+    "delete": "Usuń token",
+    "deleteQuestion": "Czy na pewno chcesz usunąć token <strong>{0}</strong>?",
+    "edit": "Edycja nazwy tokenu",
+    "expirationDate": "Czas aktywności",
+    "filtration": {
+      "active": "Aktywny",
+      "expired": "Przedawniony",
+      "searchPlaceholder": "Nazwa",
+      "searchPlaceholderAdmin": "Nazwa, nazwa użytkownika...",
+      "userLogin": "Użytkownicy"
+    },
+    "message": {
+      "deactivated": "Token dezatywowany",
+      "deleted": "Token usunięty",
+      "edited": "Token pomyślnie edytowany"
+    },
+    "newToken": "Nowy token",
+    "save": "Zapisz zmiany",
+    "tab": {
+      "table": "Ustawienia tabel",
+      "token": "Access tokens"
+    },
+    "tokenName": "Nazwa"
   },
   "submissions": {
     "addAnotherSubmission": "Dodaj następne pakiety",

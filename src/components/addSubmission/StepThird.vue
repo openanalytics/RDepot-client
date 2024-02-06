@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2023 Open Analytics NV
+ Copyright (C) 2012-2024 Open Analytics NV
  
  ===========================================================================
  
@@ -30,9 +30,9 @@
       <v-divider></v-divider>
       <v-list class="text-left">
         <v-list-item class="text-overline">
-          <template v-slot:prepend> packages </template>
+          <template #prepend> packages </template>
           <template
-            v-slot:append
+            #append
             v-if="
               submissionsStore.repository?.technology !=
               'Python'
@@ -62,7 +62,7 @@
       location="center"
       v-if="!submissionsStore.resolved"
     >
-      <template v-slot:activator="{ props }">
+      <template #activator="{ props }">
         <div id="tooltip-activator" v-bind="props">
           <v-btn
             id="back-button-disabled"

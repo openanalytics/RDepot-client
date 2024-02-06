@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2023 Open Analytics NV
+ Copyright (C) 2012-2024 Open Analytics NV
  
  ===========================================================================
  
@@ -26,7 +26,7 @@
     no-gutters
     align="center"
     class="flex-nowrap"
-    :justify="center ? 'center' : 'start'"
+    :justify="justify"
   >
     <span class="font-weight-bold">{{ title }} </span>
     <v-btn
@@ -47,6 +47,8 @@ import { useCommonStore } from '@/store/common'
 import { useSortStore } from '@/store/sort'
 import { computed, ref } from 'vue'
 import { SORT_PARAMS } from '@/maps/Sort'
+import { JustifyEnum } from '@/enum/Justify'
+import { PropType } from 'vue'
 
 const props = defineProps({
   text: {
@@ -58,10 +60,10 @@ const props = defineProps({
     required: false,
     default: false
   },
-  center: {
-    type: Boolean,
+  justify: {
+    type: String as PropType<JustifyEnum>,
     required: false,
-    default: false
+    default: JustifyEnum.Enum.start
   },
   sortField: {
     type: String,

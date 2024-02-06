@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2023 Open Analytics NV
+ * Copyright (C) 2012-2024 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -33,13 +33,13 @@
  * Do not edit the class manually.
  */
 
-import { EntityModelSubmissionDto } from './entity-model-submission-dto'
-import { Link } from './link'
+import { Links } from './links'
 import { PageMetadata } from './page-metadata'
+import { PagedModelEntityModelSubmissionDtoEmbedded } from './paged-model-entity-model-submission-dto-embedded'
 import {
-  EntityModelSubmissionDto,
-  Link,
-  PageMetadata
+  Links,
+  PageMetadata,
+  PagedModelEntityModelSubmissionDtoEmbedded
 } from '.'
 
 /**
@@ -50,16 +50,16 @@ import {
  */
 export interface PagedModelEntityModelSubmissionDto {
   /**
-   * @type {Array<Link>}
+   * @type {PagedModelEntityModelSubmissionDtoEmbedded}
    * @memberof PagedModelEntityModelSubmissionDto
    */
-  links?: Array<Link>
+  embedded?: PagedModelEntityModelSubmissionDtoEmbedded
 
   /**
-   * @type {Array<EntityModelSubmissionDto>}
+   * @type {Links}
    * @memberof PagedModelEntityModelSubmissionDto
    */
-  content?: Array<EntityModelSubmissionDto>
+  links?: Links
 
   /**
    * @type {PageMetadata}

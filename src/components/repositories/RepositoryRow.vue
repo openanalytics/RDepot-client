@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2023 Open Analytics NV
+ Copyright (C) 2012-2024 Open Analytics NV
  
  ===========================================================================
  
@@ -76,7 +76,7 @@
     >
       <SortTitle
         v-if="title"
-        center
+        :justify="JustifyEnum.Enum.center"
         :text="$t('columns.repository.technology')"
         sortKey="columns.repository.technology"
       />
@@ -89,7 +89,7 @@
     >
       <SortTitle
         v-if="title"
-        center
+        :justify="JustifyEnum.Enum.center"
         :text="$t('columns.repository.version')"
         sortKey="columns.repository.version"
       />
@@ -105,7 +105,7 @@
     >
       <SortTitle
         v-if="title"
-        center
+        :justify="JustifyEnum.Enum.center"
         no-sort
         :text="$t('columns.repository.packagesNo')"
         sortKey="columns.repository.packagesNo"
@@ -121,23 +121,22 @@
         v-if="title"
         :text="$t('columns.repository.published')"
         sortKey="columns.repository.published"
-        center
+        :justify="JustifyEnum.Enum.center"
       />
-      <v-checkbox
-        v-else-if="repository"
-        id="checkbox-published"
-        v-model="repository.published"
-        @change="updateRepositoryPublished()"
-        :disabled="
-          !canPatch(props.repository?.links).allowed
-        "
-        color="oablue"
-        class="mr-8"
-        @click.stop
-      />
+      <span v-else-if="repository">
+        <v-checkbox
+          id="checkbox-published"
+          v-model="repository.published"
+          @change="updateRepositoryPublished()"
+          :disabled="!canPatch(props.repository?.links)"
+          color="oablue"
+          class="mr-8"
+          @click.stop
+        />
+      </span>
     </v-col>
     <v-col
-      v-if="canDelete(props.repository?.links)"
+      v-if="title || canDelete(props.repository?.links)"
       id="repository-actions"
       cols="lg-1"
       class="d-flex justify-center"
@@ -145,7 +144,7 @@
       <SortTitle
         v-if="title"
         no-sort
-        center
+        :justify="JustifyEnum.Enum.center"
         :text="$t('columns.actions')"
         sortKey="columns.actions"
       />
@@ -156,7 +155,7 @@
         <delete-icon
           v-if="canDelete(props.repository?.links)"
           :name="props.repository?.name"
-          :set-resource-id="chooseRepository"
+          @setResourceId="chooseRepository"
           class=""
         />
       </span>
@@ -165,7 +164,6 @@
 </template>
 
 <script setup lang="ts">
-import router from '@/plugins/router'
 import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
 import SortTitle from '@/components/common/resources/SortTitle.vue'
 import TextRecord from '@/components/common/resources/TextRecord.vue'
@@ -175,6 +173,7 @@ import { useUtilities } from '@/composable/utilities'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
 import { usePackagesStore } from '@/store/packages'
 import { useRepositoryStore } from '@/store/repositories'
+import { JustifyEnum } from '@/enum/Justify'
 
 const packagesStore = usePackagesStore()
 const { deepCopy } = useUtilities()

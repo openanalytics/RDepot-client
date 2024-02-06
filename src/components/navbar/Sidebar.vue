@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2023 Open Analytics NV
+ Copyright (C) 2012-2024 Open Analytics NV
  
  ===========================================================================
  
@@ -70,7 +70,7 @@
         "
         tag="Packages"
       >
-        <template v-slot:activator="{ props }">
+        <template #activator="{ props }">
           <v-list-item
             v-bind="props"
             prepend-icon="mdi-package"
@@ -110,7 +110,7 @@
         value="Repositories"
         tag="Repositories"
       >
-        <template v-slot:activator="{ props }">
+        <template #activator="{ props }">
           <v-list-item
             prepend-icon="mdi-source-repository"
             v-bind="props"
@@ -149,6 +149,14 @@
         active-class="link-active"
         to="/users"
       ></v-list-item>
+      <v-list-item
+        prepend-icon="mdi-cog"
+        :title="$t('common.settings')"
+        :value="$t('common.settings')"
+        active-class="link-active"
+        to="/settings"
+      >
+      </v-list-item>
       <v-list-item
         prepend-icon="mdi-logout"
         :title="$t('common.logout')"

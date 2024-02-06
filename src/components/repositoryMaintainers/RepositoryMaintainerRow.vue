@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2023 Open Analytics NV
+ Copyright (C) 2012-2024 Open Analytics NV
  
  ===========================================================================
  
@@ -67,7 +67,7 @@
       <SortTitle
         v-if="title"
         no-sort
-        center
+        :justify="JustifyEnum.Enum.center"
         :text="
           $t('columns.repositoryMaintainer.technology')
         "
@@ -81,17 +81,13 @@
     </v-col>
 
     <v-col
-      v-if="
-        canPatch(repositoryMaintainer?.links).allowed ||
-        canDelete(repositoryMaintainer?.links)
-      "
       id="repository-maintainer-actions"
       cols="lg-1"
       class="d-flex justify-center"
     >
       <SortTitle
         v-if="title"
-        center
+        :justify="JustifyEnum.Enum.center"
         no-sort
         :text="$t('columns.actions')"
         sortKey="columns.actions"
@@ -104,9 +100,7 @@
         class="d-flex justify-center align-center"
       >
         <edit-icon
-          v-if="
-            canPatch(repositoryMaintainer.links).allowed
-          "
+          v-if="canPatch(repositoryMaintainer.links)"
           :text="i18n.t('maintainers.edit')"
           @set-entity="setEditMaintainer"
         >
@@ -115,7 +109,7 @@
         <delete-icon
           v-if="canDelete(repositoryMaintainer.links)"
           :name="props.repositoryMaintainer?.user?.name"
-          :set-resource-id="setEditMaintainer"
+          @setResourceId="setEditMaintainer"
         />
       </span>
     </v-col>
@@ -131,6 +125,7 @@ import { i18n } from '@/plugins/i18n'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
 import { EntityModelRepositoryMaintainerDto } from '@/openapi'
+import { JustifyEnum } from '@/enum/Justify'
 
 const props = defineProps({
   title: {

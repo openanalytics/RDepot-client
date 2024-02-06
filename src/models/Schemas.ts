@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2023 Open Analytics NV
+ * Copyright (C) 2012-2024 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -113,6 +113,11 @@ export const packageMaintainerSchema = z.object({
   deleted: z.boolean().default(false),
   description: z.string(),
   links: z.array(linkSchema)
+})
+
+export const tokenSchema = z.object({
+  name: z.string(),
+  lifetime: z.string()
 })
 
 export function formValidation<T extends z.ZodTypeAny>(
