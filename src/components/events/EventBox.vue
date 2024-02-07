@@ -21,7 +21,15 @@
 -->
 
 <template>
-  <v-card class="eventCard elevation-2" v-ripple rounded>
+  <v-card
+    class="eventCard elevation-2"
+    v-ripple
+    rounded
+    :style="{
+      borderLeft:
+        '10px solid ' + borderColor + ' !important'
+    }"
+  >
     <v-card-title
       style="padding: 0"
       class="d-flex justify-space-between align-items-start"
@@ -37,7 +45,9 @@
     </v-card-title>
     <v-card-text class="eventCard">
       <div class="by-user d-flex">
-        <span class="subtitle"> author</span>
+        <span class="subtitle">
+          {{ $t('events.author') }}</span
+        >
         <p class="value">
           {{ login }} <br />
           {{ email }}
@@ -45,10 +55,14 @@
       </div>
       <v-divider></v-divider>
       <div class="desc d-flex">
-        <span class="subtitle"> description</span>
-        <p class="value">
-          {{ description }}
-        </p>
+        <span class="subtitle">
+          {{ $t('events.description') }}</span
+        >
+        <EventBoxDescription
+          :event="event"
+          :eventType="eventType"
+          :resourceType="resourceType"
+        />
       </div>
     </v-card-text>
   </v-card>
@@ -58,6 +72,7 @@
 import { EntityModelNewsfeedEventDto } from '@/openapi'
 import { computed } from 'vue'
 import { useDates } from '@/composable/date'
+import EventBoxDescription from '@/components/events/EventBoxDescription.vue'
 
 const props = defineProps({
   event: Object as () => EntityModelNewsfeedEventDto
@@ -96,6 +111,20 @@ const email = computed(() => {
 
 const description = computed(() => {
   return props.event?.changedProperties
+})
+
+const borderColor = computed(() => {
+  switch (props.event?.eventType) {
+    case 'create':
+    case 'upload':
+      return 'green'
+    case 'update':
+      return 'yellow'
+    case 'delete':
+      return 'red'
+    default:
+      return 'black'
+  }
 })
 </script>
 

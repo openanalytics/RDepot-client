@@ -96,7 +96,9 @@
   },
   "common": {
     "addPackage": "Add package",
+    "after": "After",
     "apply": "Apply",
+    "before": "Before",
     "cancel": "Cancel",
     "clearForm": "Clear form",
     "click": "click",
@@ -149,6 +151,8 @@
     "oauthTitle": "Authorization"
   },
   "events": {
+    "author": "Author",
+    "description": "Description",
     "filtration": {
       "eventType": "Event Type",
       "resourceId": "Resource Id",
