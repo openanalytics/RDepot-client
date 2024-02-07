@@ -21,17 +21,23 @@
 -->
 
 <template>
-  <p
-    class="value"
-    v-if="description"
-    v-html="description"
-  />
+  <component
+    :is="as"
+    :event="event"
+    :eventType="eventType"
+  ></component>
 </template>
 
 <script setup lang="ts">
 import { EntityModelNewsfeedEventDto } from '@/openapi'
-import { computed } from 'vue'
-import { i18n } from '@/plugins/i18n'
+import PackageEvent from '@/components/events/resources/PackageEvent.vue'
+import RepositoryEvent from '@/components/events/resources/RepositoryEvent.vue'
+import UserEvent from '@/components/events/resources/UserEvent.vue'
+import SubmissionEvent from '@/components/events/resources/SubmissionEvent.vue'
+import AccessTokenEvent from '@/components/events/resources/AccessTokenEvent.vue'
+import PackageMaintainerEvent from '@/components/events/resources/PackageMaintainerEvent.vue'
+import RepositoryMaintainerEvent from '@/components/events/resources/RepositoryMaintainerEvent.vue'
+import { z } from 'zod'
 
 const props = defineProps({
   event: Object as () => EntityModelNewsfeedEventDto,
@@ -39,248 +45,33 @@ const props = defineProps({
   resourceType: String
 })
 
-const description = computed(() => {
-  switch (props.resourceType) {
-    case 'PACKAGE':
-      return packageDescription()
-    case 'REPOSITORY':
-      return repositoryDescription()
-    case 'USER':
-      return userDescription()
-    case 'SUBMISSION':
-      return submissionDescription()
-    case 'ACCESS TOKEN':
-      return accessTokenDescription()
-    case 'PACKAGE MAINTAINER':
-      return packageMaintainerDescription()
-    case 'REPOSITORY MAINTAINER':
-      return repositoryMaintainerDescription()
-    default:
-      return undefined
-  }
-})
+const component = z.enum([
+  'PACKAGE',
+  'REPOSITORY',
+  'USER',
+  'SUBMISSION',
+  'ACCESS TOKEN',
+  'PACKAGE MAINTAINER',
+  'REPOSITORY MAINTAINER'
+])
 
-function packageDescription() {
-  switch (props.eventType) {
-    case 'update':
-      return updateDescription()
-    case 'upload':
-    case 'create':
-    case 'delete':
-      return `<ul> 
-                <li>${i18n.t(
-                  'columns.submissions.package'
-                )}: <strong>${
-        props.event?.relatedResource.name
-      }</strong></li>
-                <li>${i18n.t('columns.package.version')}: ${
-        props.event?.relatedResource?.version
-      }</li>
-                <li>${i18n.t(
-                  'columns.package.repository'
-                )}: ${
-        props.event?.relatedResource?.repository.name
-      }</li>
-                <li>${i18n.t(
-                  'columns.package.technology'
-                )}: ${
-        props.event?.relatedResource?.technology
-      }</li>    
-            </ul>`
-    default:
-      return undefined
-  }
-}
+type Component = z.infer<typeof component>
 
-function repositoryDescription() {
-  switch (props.eventType) {
-    case 'update':
-      return updateDescription()
-    case 'create':
-    case 'delete':
-      return `<ul> 
-                <li>${i18n.t(
-                  'columns.package.repository'
-                )}: <strong>${
-        props.event?.relatedResource?.name
-      }</strong> </li>
-                <li>${i18n.t(
-                  'columns.repository.technology'
-                )}: ${
-        props.event?.relatedResource?.technology
-      }</li>    
-            </ul>`
-    default:
-      return undefined
-  }
-}
-function userDescription() {
-  switch (props.eventType) {
-    case 'update':
-      return updateDescription()
-    case 'create':
-    case 'delete':
-      return `<ul> 
-                <li>${i18n.t(
-                  'columns.users.name'
-                )}: <strong>${
-        props.event?.relatedResource?.name
-      }</strong> </li>
-                <li>${i18n.t('columns.users.email')}: ${
-        props.event?.relatedResource?.email
-      }</li>    
-                <li>${i18n.t('columns.users.username')}: ${
-        props.event?.relatedResource?.login
-      }</li>    
-                <li>${i18n.t('columns.users.role')}: ${
-        props.event?.relatedResource?.role
-      }</li>    
-            </ul>`
-    default:
-      return undefined
-  }
-}
-function submissionDescription() {
-  switch (props.eventType) {
-    case 'update':
-      return updateDescription()
-    case 'upload':
-    case 'create':
-    case 'delete':
-      return `<ul> 
-                <li>${i18n.t(
-                  'columns.submissions.package'
-                )}: <strong>${
-        props.event?.relatedResource?.packageBag.name
-      }</strong> </li>
-                <li>${i18n.t('columns.package.version')}: ${
-        props.event?.relatedResource?.packageBag.version
-      }</li>    
-                <li>${i18n.t(
-                  'columns.package.technology'
-                )}: ${
-        props.event?.relatedResource?.technology
-      }</li>    
-                <li>${i18n.t(
-                  'columns.package.repository'
-                )}: ${
-        props.event?.relatedResource?.packageBag.repository
-          .name
-      }</li>    
-                <li>${i18n.t('columns.state')}: ${
-        props.event?.relatedResource?.state
-      }</li>    
-            </ul>`
-    default:
-      return undefined
-  }
-}
+const toComponent = new Map<Component, any>([
+  [component.enum['PACKAGE'], PackageEvent],
+  [component.enum['REPOSITORY'], RepositoryEvent],
+  [component.enum['USER'], UserEvent],
+  [component.enum['SUBMISSION'], SubmissionEvent],
+  [component.enum['ACCESS TOKEN'], AccessTokenEvent],
+  [
+    component.enum['PACKAGE MAINTAINER'],
+    PackageMaintainerEvent
+  ],
+  [
+    component.enum['REPOSITORY MAINTAINER'],
+    RepositoryMaintainerEvent
+  ]
+])
 
-function accessTokenDescription() {
-  switch (props.eventType) {
-    case 'update':
-      return updateDescription()
-    case 'create':
-    case 'delete':
-      return `<ul> 
-                <li>Name: <strong>${props.event?.relatedResource?.name}</strong> </li>
-                <li>Created: ${props.event?.relatedResource?.creationDate}</li>    
-                <li>Expired : ${props.event?.relatedResource?.expirationDate}</li>    
-            </ul>`
-    default:
-      return undefined
-  }
-}
-
-function packageMaintainerDescription() {
-  switch (props.eventType) {
-    case 'update':
-      return updateDescription()
-    case 'create':
-    case 'delete':
-      return `<ul> 
-                <li>${i18n.t(
-                  'columns.users.username'
-                )}: <strong>${
-        props.event?.relatedResource?.user.name
-      }</strong> </li>
-                <li>${i18n.t('columns.users.email')}: ${
-        props.event?.relatedResource?.user.email
-      }</li>    
-                <li>${i18n.t(
-                  'columns.packageMaintainer.packageName'
-                )}: ${
-        props.event?.relatedResource?.packageName
-      }</li>    
-                <li>${i18n.t(
-                  'columns.package.repository'
-                )}: ${
-        props.event?.relatedResource?.repository.name
-      }</li>    
-                <li>${i18n.t(
-                  'columns.package.technology'
-                )}: ${
-        props.event?.relatedResource?.repository.technology
-      }</li>    
-            </ul>`
-    default:
-      return undefined
-  }
-}
-
-function repositoryMaintainerDescription() {
-  switch (props.eventType) {
-    case 'update':
-      return updateDescription()
-    case 'create':
-    case 'delete':
-      return `<ul> 
-                <li>${i18n.t(
-                  'columns.users.username'
-                )}: <strong>${
-        props.event?.relatedResource?.user.name
-      }</strong> </li>
-                <li>${i18n.t('columns.users.email')}: ${
-        props.event?.relatedResource?.user.email
-      }</li>    
-                <li>${i18n.t(
-                  'columns.package.repository'
-                )}: ${
-        props.event?.relatedResource?.repository.name
-      }</li>    
-                <li>${i18n.t(
-                  'columns.package.technology'
-                )}: ${
-        props.event?.relatedResource?.repository.technology
-      }</li>    
-            </ul>`
-    default:
-      return undefined
-  }
-}
-
-function updateDescription() {
-  let message = '<ul>'
-  props.event?.changedProperties.forEach((property) => {
-    message +=
-      '<li>' +
-      property.property +
-      `<ul style="margin-left: 3%"><li>${i18n.t(
-        'common.before'
-      )}: ` +
-      property.valueBefore +
-      `</li><li>${i18n.t('common.after')}: ` +
-      property.valueAfter +
-      '</li></ul></li>'
-  })
-  message += '</ul>'
-  return message
-}
+const as = toComponent.get(props.resourceType)
 </script>
-
-<style lang="scss">
-.value {
-  flex-basis: 70%;
-  margin: 10px 0;
-}
-</style>
