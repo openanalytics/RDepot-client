@@ -34,12 +34,24 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 import { useSettingsStore } from '@/store/settings'
+import { useAuthorizationStore } from '@/store/authorization'
+import { useUtilities } from '@/composable/utilities'
 
 const { t } = useI18n()
+const { deepCopy } = useUtilities()
 
+const authorizationStore = useAuthorizationStore()
 const settingsStore = useSettingsStore()
 
 function saveSettings() {
+  const newSettings = deepCopy(
+    authorizationStore.getCurrentSettings()
+  )
+  newSettings.pageSize = settingsStore.newPageSize
+  authorizationStore.updateSettings(
+    authorizationStore.getCurrentSettings(),
+    newSettings
+  )
   settingsStore.saveChanges()
 }
 </script>

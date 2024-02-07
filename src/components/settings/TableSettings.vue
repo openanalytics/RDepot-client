@@ -44,13 +44,18 @@
 import { useI18n } from 'vue-i18n'
 import { ref } from 'vue'
 import { useSettingsStore } from '@/store/settings'
+import { useAuthorizationStore } from '@/store/authorization'
 
 const { t } = useI18n()
 
 const settingsStore = useSettingsStore()
-const pageSize = ref(settingsStore.pageSize)
+const authorizationStore = useAuthorizationStore()
+const pageSize = ref(
+  authorizationStore.getCurrentSettings().pageSize
+)
 
 function changedData() {
   settingsStore.changes = true
+  settingsStore.newPageSize = pageSize.value
 }
 </script>

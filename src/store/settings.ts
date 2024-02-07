@@ -61,6 +61,7 @@ interface State {
   pageSize: number
   newToken?: string
   currentToken: EntityModelAccessTokenDto
+  newPageSize?: number
 }
 
 const { deepCopy } = useUtilities()
@@ -76,7 +77,8 @@ export const useSettingsStore = defineStore(
         changes: false,
         pageSize: 0,
         newToken: '',
-        currentToken: {}
+        currentToken: {},
+        newPageSize: undefined
       }
     },
     getters: {
@@ -151,6 +153,7 @@ export const useSettingsStore = defineStore(
 
       saveChanges() {
         this.changes = false
+        this.newPageSize = undefined
       },
       fetchSettings() {},
       resetNewToken() {
