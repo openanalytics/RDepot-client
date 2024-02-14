@@ -63,8 +63,20 @@ export const useSortStore = defineStore('sortStore', {
       } else {
         if (payload) {
           if (this.field == payload) {
-            this.direction =
-              this.direction == 'asc' ? 'desc' : 'asc'
+            console.log(
+              payload,
+              this.defaultSort.direction,
+              this.counter
+            )
+            if (
+              this.counter === 2 &&
+              this.defaultSort.field === payload
+            ) {
+              this.resetSort()
+            } else {
+              this.direction =
+                this.direction == 'asc' ? 'desc' : 'asc'
+            }
           } else {
             this.direction = direction ? direction : 'asc'
           }
