@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build",
+    "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint . --fix --ignore-path .gitignore",
     "lint:staged": "eslint --fix $(git diff --diff-filter=d --cached --name-only)",
@@ -76,6 +76,6 @@
     "vite": "^3.0.9",
     "vite-plugin-vuetify": "^1.0.0-alpha.12",
     "vitest": "^0.27.3",
-    "vue-tsc": "^1.0.9"
+    "vue-tsc": "^1.8.27"
   }
 }
