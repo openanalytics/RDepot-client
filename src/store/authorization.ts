@@ -97,6 +97,8 @@ export const useAuthorizationStore = defineStore(
           logout()
         } else if (this.loginType == LoginType.Enum.OICD) {
           authService.logout()
+          const { logout } = useSimpleAuthorization()
+          logout()
         }
         this.$reset()
         await router.push({ name: 'login' })
