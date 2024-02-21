@@ -47,7 +47,7 @@
         v-if="title"
         :text="$t('columns.submissions.package')"
         sortKey="columns.submissions.package"
-        sortField="packageBag"
+        sortField="packageBag.name"
       />
       <TextRecord
         v-else
