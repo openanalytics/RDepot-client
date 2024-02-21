@@ -26,7 +26,7 @@
       class="ml-6"
       color="oablue"
       @click="saveSettings"
-      >{{ t('settings.save') }}</v-btn
+      >{{ $t('settings.save') }}</v-btn
     >
   </div>
 </template>
@@ -35,23 +35,33 @@
 import { useI18n } from 'vue-i18n'
 import { useSettingsStore } from '@/store/settings'
 import { useAuthorizationStore } from '@/store/authorization'
-import { useUtilities } from '@/composable/utilities'
+import { UserSettingsProjection } from '@/openapi/models/user-settings-projection'
+import { useTheme } from 'vuetify/lib/framework.mjs'
+import { useCommonStore } from '@/store/common'
+import langs from '@/locales/index'
 
-const { t } = useI18n()
-const { deepCopy } = useUtilities()
+const t = useI18n()
+const theme = useTheme()
+const commonStore = useCommonStore()
 
 const authorizationStore = useAuthorizationStore()
 const settingsStore = useSettingsStore()
 
-function saveSettings() {
-  const newSettings = deepCopy(
-    authorizationStore.getCurrentSettings()
-  )
-  newSettings.pageSize = settingsStore.newPageSize
-  authorizationStore.updateSettings(
+async function saveSettings() {
+  await authorizationStore.updateSettings(
     authorizationStore.getCurrentSettings(),
-    newSettings
+    settingsStore.newSettings as UserSettingsProjection
   )
+  if (settingsStore.newSettings) {
+    theme.global.name.value = settingsStore.newSettings
+      .theme
+      ? settingsStore.newSettings.theme
+      : settingsStore.newSettings.theme
+    commonStore.updateThemeKey()
+    t.locale.value = langs.filter(
+      (x) => x.name === settingsStore.newSettings.language
+    )[0].display
+  }
   settingsStore.saveChanges()
 }
 </script>

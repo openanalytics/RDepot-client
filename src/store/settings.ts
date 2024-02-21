@@ -44,6 +44,7 @@ import { useToast } from '@/composable/toasts'
 import { i18n } from '@/plugins/i18n'
 import { useCommonStore } from '@/store/common'
 import { OverlayEnum } from '@/enum/Overlay'
+import { UserSettingsProjection } from '@/openapi/models/user-settings-projection'
 
 export type PackagePromise = {
   promise: Promise<validatedData<EntityModelAccessTokenDto>>
@@ -61,7 +62,7 @@ interface State {
   pageSize: number
   newToken?: string
   currentToken: EntityModelAccessTokenDto
-  newPageSize?: number
+  newSettings?: UserSettingsProjection
 }
 
 const { deepCopy } = useUtilities()
@@ -78,7 +79,7 @@ export const useSettingsStore = defineStore(
         pageSize: 0,
         newToken: '',
         currentToken: {},
-        newPageSize: undefined
+        newSettings: undefined
       }
     },
     getters: {
@@ -153,7 +154,7 @@ export const useSettingsStore = defineStore(
 
       saveChanges() {
         this.changes = false
-        this.newPageSize = undefined
+        this.newSettings = undefined
       },
       fetchSettings() {},
       resetNewToken() {

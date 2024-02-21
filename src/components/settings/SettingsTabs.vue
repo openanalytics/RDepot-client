@@ -34,7 +34,7 @@
         </v-tab>
         <v-tab>
           <v-icon start icon="mdi-table" />
-          {{ t('settings.tab.table') }}
+          {{ t('settings.tab.general') }}
         </v-tab>
       </v-tabs>
       <v-window v-model="tab" style="width: 100%">

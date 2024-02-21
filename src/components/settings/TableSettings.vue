@@ -27,13 +27,31 @@
         <v-col cols="2">
           <v-text-field
             id="page-size-input"
-            v-model="pageSize"
+            v-model="currentSettings.pageSize"
             type="number"
             color="text"
             aria-valuemin="1"
             :label="$t('pagination.size')"
             @change="changedData"
           ></v-text-field>
+        </v-col>
+        <v-col cols="2">
+          <v-select
+            id="language-input"
+            v-model="currentSettings.language"
+            :label="$t('settings.lang')"
+            :items="languages"
+            @update:modelValue="changedData"
+          ></v-select>
+        </v-col>
+        <v-col cols="2">
+          <v-select
+            id="theme-input"
+            v-model="currentSettings.theme"
+            :label="$t('settings.theme')"
+            :items="themes"
+            @update:modelValue="changedData"
+          ></v-select>
         </v-col>
       </v-row>
     </v-card-text>
@@ -43,6 +61,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 import { ref } from 'vue'
+import langs from '@/locales/index'
 import { useSettingsStore } from '@/store/settings'
 import { useAuthorizationStore } from '@/store/authorization'
 
@@ -50,12 +69,26 @@ const { t } = useI18n()
 
 const settingsStore = useSettingsStore()
 const authorizationStore = useAuthorizationStore()
-const pageSize = ref(
-  authorizationStore.getCurrentSettings().pageSize
+
+const currentSettings = ref(
+  authorizationStore.getCurrentSettings()
 )
+
+const themes = [
+  { title: t('settings.themes.dark'), value: 'dark' },
+  { title: t('settings.themes.light'), value: 'light' }
+]
+
+const languages = langs.map((lang) => {
+  return { title: lang.display, value: lang.name }
+})
 
 function changedData() {
   settingsStore.changes = true
-  settingsStore.newPageSize = pageSize.value
+  settingsStore.newSettings = {
+    pageSize: currentSettings.value.pageSize,
+    language: currentSettings.value.language,
+    theme: currentSettings.value.theme
+  }
 }
 </script>
