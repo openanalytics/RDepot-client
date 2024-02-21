@@ -71,7 +71,6 @@
         v-if="title"
         :text="$t('columns.users.role')"
         sortKey="columns.users.role"
-        noSort
       />
       <TextRecord v-else :text="getRole" />
     </v-col>
