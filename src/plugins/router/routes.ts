@@ -31,7 +31,7 @@ export const routes = [
       {
         path: '',
         name: 'Home',
-        redirect: (to) => {
+        redirect: () => {
           return 'packages'
         }
       },
