@@ -21,32 +21,31 @@
 -->
 
 <template>
-  <div class="title" v-if="vignettes.length > 0">
-    {{ $t('packages.documentation') }}
-  </div>
-  <PackageVignette
-    v-for="(vignette, index) in vignettes"
-    :key="index"
-    :fileName="vignette?.fileName"
-    :title="vignette?.title"
-  >
-  </PackageVignette>
-  <div v-show="vignettes?.length == 0">
-    {{ $t('packages.noVignette') }}
+  <div v-if="packageDetailsStore.vignettes">
+    <div
+      class="title"
+      v-if="packageDetailsStore.vignettes.length > 0"
+    >
+      {{ $t('packages.documentation') }}
+    </div>
+    <PackageVignette
+      v-for="(
+        vignette, index
+      ) in packageDetailsStore.vignettes"
+      :key="index"
+      :fileName="vignette.fileName"
+      :title="vignette.title"
+    >
+    </PackageVignette>
+    <div v-show="packageDetailsStore.vignettes.length == 0">
+      {{ $t('packages.noVignette') }}
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { ResponseDtoListVignette } from '@/openapi'
 import { usePackageDetailsStore } from '@/store/package_details'
 import PackageVignette from '@/components/packages/packageDetails/PackageVignette.vue'
 
 const packageDetailsStore = usePackageDetailsStore()
-
-const vignettes = computed<
-  ResponseDtoListVignette | undefined
->(() => {
-  return packageDetailsStore.vignettes
-})
 </script>

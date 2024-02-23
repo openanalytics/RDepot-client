@@ -52,14 +52,14 @@ async function saveSettings() {
     authorizationStore.getCurrentSettings(),
     settingsStore.newSettings as UserSettingsProjection
   )
-  if (settingsStore.newSettings) {
-    theme.global.name.value = settingsStore.newSettings
-      .theme
-      ? settingsStore.newSettings.theme
-      : settingsStore.newSettings.theme
+  if (settingsStore.newSettings?.theme) {
+    theme.global.name.value =
+      settingsStore.newSettings.theme
     commonStore.updateThemeKey()
+  }
+  if (settingsStore.newSettings?.language) {
     t.locale.value = langs.filter(
-      (x) => x.name === settingsStore.newSettings.language
+      (x) => x.name === settingsStore.newSettings?.language
     )[0].display
   }
   settingsStore.saveChanges()

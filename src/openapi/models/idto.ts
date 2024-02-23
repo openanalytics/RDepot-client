@@ -20,6 +20,10 @@
  *
  */
 
+import { EntityModelPackageDto } from './entity-model-package-dto'
+import { EntityModelRepositoryDto } from './entity-model-repository-dto'
+import { EntityModelUserDto } from './entity-model-user-dto'
+
 /* eslint-disable */
 /**
  * RDEPOT API
@@ -39,4 +43,82 @@
  * @export
  * @interface IDto
  */
-export interface IDto {}
+export interface IDto {
+  /**
+   * @type {String}
+   * @memberof IDto
+   */
+  name?: String
+
+  /**
+   * @type {String}
+   * @memberof IDto
+   */
+  creationDate?: String
+
+  /**
+   * @type {String}
+   * @memberof IDto
+   */
+  expirationDate?: String
+
+  /**
+   * @type {String}
+   * @memberof IDto
+   */
+  version?: String
+
+  /**
+   * @type {String}
+   * @memberof IDto
+   */
+  technology?: String
+
+  /**
+   * @type {String}
+   * @memberof IDto
+   */
+  packageName?: String
+
+  /**
+   * @type {String}
+   * @memberof IDto
+   */
+  role?: String
+
+  /**
+   * @type {String}
+   * @memberof IDto
+   */
+  login?: String
+
+  /**
+   * @type {String}
+   * @memberof IDto
+   */
+  email?: String
+
+  /**
+   * @type {String}
+   * @memberof IDto
+   */
+  state?: String
+
+  /**
+   * @type {EntityModelRepositoryDto}
+   * @memberof IDto
+   */
+  repository?: EntityModelRepositoryDto
+
+  /**
+   * @type {EntityModelUserDto}
+   * @memberof IDto
+   */
+  user?: EntityModelUserDto
+
+  /**
+   * @type {EntityModelPackageDto}
+   * @memberof IDto
+   */
+  packageBag?: EntityModelPackageDto
+}

@@ -57,4 +57,10 @@ export interface Link {
    * @memberof Link
    */
   href?: string
+
+  /**
+   * @type {string}
+   * @memberof Link
+   */
+  type?: string
 }

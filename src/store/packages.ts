@@ -126,9 +126,11 @@ export const usePackagesStore = defineStore(
         this.package = (
           await fetchPackageServices(id, technology)
         )[0]
-        if (this.package?.submissionId) {
+        if (this.package?.submission?.id) {
           this.submission = (
-            await fetchSubmission(this.package.submissionId)
+            await fetchSubmission(
+              this.package.submission.id
+            )
           )[0]
         }
       },
@@ -231,6 +233,8 @@ export const usePackagesStore = defineStore(
       setFiltrationByRepositoryOnly(payload?: string) {
         this.filtration = defaultValues(PackagesFiltration)
         this.filtration.repository = payload
+          ? [payload]
+          : undefined
       },
       setFiltrationWithoutRefresh(
         payload: PackagesFiltration

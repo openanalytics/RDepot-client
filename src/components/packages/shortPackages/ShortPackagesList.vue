@@ -52,7 +52,9 @@ function getDescription(item: any) {
 
 function updateData(): void {
   packageStore.fetchPackages({
-    repository: repositoriesStore.chosenRepository.name,
+    repository: repositoriesStore.chosenRepository.name
+      ? [repositoriesStore.chosenRepository.name]
+      : [],
     deleted: false
   })
 }
