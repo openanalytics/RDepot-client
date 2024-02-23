@@ -32,18 +32,18 @@
           <v-icon start icon="mdi-key-variant" />
           {{ t('settings.tab.token') }}
         </v-tab>
-        <!-- <v-tab>
+        <v-tab>
           <v-icon start icon="mdi-table" />
-          {{ t('settings.tab.table') }}
-        </v-tab> -->
+          {{ t('settings.tab.general') }}
+        </v-tab>
       </v-tabs>
       <v-window v-model="tab" style="width: 100%">
         <v-window-item>
           <TokenSettings />
         </v-window-item>
-        <!-- <v-window-item>
+        <v-window-item>
           <TableSettings />
-        </v-window-item> -->
+        </v-window-item>
       </v-window>
     </div>
   </v-card>

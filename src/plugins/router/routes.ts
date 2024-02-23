@@ -31,8 +31,9 @@ export const routes = [
       {
         path: '',
         name: 'Home',
-        component: () => import('@/views/users/Login.vue'),
-        meta: { title: 'RDepot - login' }
+        redirect: () => {
+          return 'packages'
+        }
       },
       {
         path: '/login',

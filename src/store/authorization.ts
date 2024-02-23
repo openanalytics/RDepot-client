@@ -92,12 +92,11 @@ export const useAuthorizationStore = defineStore(
       },
 
       async logout() {
-        if (this.loginType == LoginType.Enum.SIMPLE) {
-          const { logout } = useSimpleAuthorization()
-          logout()
-        } else if (this.loginType == LoginType.Enum.OICD) {
+        if (this.loginType == LoginType.Enum.OICD) {
           authService.logout()
         }
+        const { logout } = useSimpleAuthorization()
+        logout()
         this.$reset()
         await router.push({ name: 'login' })
         this.ability = undefined

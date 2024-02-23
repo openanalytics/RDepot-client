@@ -35,7 +35,7 @@
         v-if="title"
         :text="$t('columns.repositoryMaintainer.name')"
         sortKey="columns.repositoryMaintainer.name"
-        sortField="user"
+        sortField="user.name"
       />
       <TextRecord
         v-else

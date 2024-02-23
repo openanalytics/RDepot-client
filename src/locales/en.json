@@ -278,7 +278,7 @@
     "withinRdepot": "Within RDepot"
   },
   "pagination": {
-    "size": "page size"
+    "size": "Page size"
   },
   "repositories": {
     "addRepository": "Create repository",
@@ -319,6 +319,7 @@
       "searchPlaceholderAdmin": "Name, username...",
       "userLogin": "Users"
     },
+    "lang": "Language",
     "message": {
       "deactivated": "Token deactivated",
       "delete": "Token deleted",
@@ -327,8 +328,14 @@
     "newToken": "New token",
     "save": "Save chages",
     "tab": {
+      "general": "General",
       "table": "Table settings",
       "token": "Access tokens"
+    },
+    "theme": "Theme",
+    "themes": {
+      "dark": "dark",
+      "light": "light"
     },
     "tokenName": "Name"
   },
