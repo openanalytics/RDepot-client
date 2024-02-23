@@ -33,15 +33,9 @@
  * Do not edit the class manually.
  */
 
-import { Links } from './links'
+import { Link } from './link'
 import { PageMetadata } from './page-metadata'
 import { PagedModelEntityModelNewsfeedEventDtoEmbedded } from './paged-model-entity-model-newsfeed-event-dto-embedded'
-import {
-  Links,
-  PageMetadata,
-  PagedModelEntityModelNewsfeedEventDtoEmbedded
-} from '.'
-
 /**
  *
  *
@@ -56,10 +50,10 @@ export interface PagedModelEntityModelNewsfeedEventDto {
   embedded?: PagedModelEntityModelNewsfeedEventDtoEmbedded
 
   /**
-   * @type {Links}
+   * @type {Array<Link>}
    * @memberof PagedModelEntityModelNewsfeedEventDto
    */
-  links?: Links
+  links?: Array<Link>
 
   /**
    * @type {PageMetadata}

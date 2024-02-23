@@ -34,8 +34,6 @@
  */
 
 import { EntityModelPackageMaintainerDto } from './entity-model-package-maintainer-dto'
-import { EntityModelPackageMaintainerDto } from '.'
-
 /**
  *
  *

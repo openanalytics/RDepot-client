@@ -33,15 +33,9 @@
  * Do not edit the class manually.
  */
 
-import { Links } from './links'
+import { Link } from './link'
 import { PageMetadata } from './page-metadata'
 import { PagedModelEntityModelSubmissionDtoEmbedded } from './paged-model-entity-model-submission-dto-embedded'
-import {
-  Links,
-  PageMetadata,
-  PagedModelEntityModelSubmissionDtoEmbedded
-} from '.'
-
 /**
  *
  *
@@ -56,10 +50,10 @@ export interface PagedModelEntityModelSubmissionDto {
   embedded?: PagedModelEntityModelSubmissionDtoEmbedded
 
   /**
-   * @type {Links}
+   * @type {Array<Link>}
    * @memberof PagedModelEntityModelSubmissionDto
    */
-  links?: Links
+  links?: Array<Link>
 
   /**
    * @type {PageMetadata}

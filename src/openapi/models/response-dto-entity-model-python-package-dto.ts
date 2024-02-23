@@ -34,8 +34,6 @@
  */
 
 import { EntityModelPythonPackageDto } from './entity-model-python-package-dto'
-import { EntityModelPythonPackageDto } from '.'
-
 /**
  *
  *

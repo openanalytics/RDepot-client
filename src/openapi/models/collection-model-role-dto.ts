@@ -34,9 +34,7 @@
  */
 
 import { CollectionModelRoleDtoEmbedded } from './collection-model-role-dto-embedded'
-import { Links } from './links'
-import { CollectionModelRoleDtoEmbedded, Links } from '.'
-
+import { Link } from './link'
 /**
  *
  *
@@ -51,8 +49,8 @@ export interface CollectionModelRoleDto {
   embedded?: CollectionModelRoleDtoEmbedded
 
   /**
-   * @type {Links}
+   * @type {Array<Link>}
    * @memberof CollectionModelRoleDto
    */
-  links?: Links
+  links?: Array<Link>
 }

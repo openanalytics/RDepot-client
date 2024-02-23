@@ -33,15 +33,9 @@
  * Do not edit the class manually.
  */
 
-import { Links } from './links'
+import { Link } from './link'
 import { PageMetadata } from './page-metadata'
 import { PagedModelEntityModelPythonRepositoryDtoEmbedded } from './paged-model-entity-model-python-repository-dto-embedded'
-import {
-  Links,
-  PageMetadata,
-  PagedModelEntityModelPythonRepositoryDtoEmbedded
-} from '.'
-
 /**
  *
  *
@@ -56,10 +50,10 @@ export interface PagedModelEntityModelPythonRepositoryDto {
   embedded?: PagedModelEntityModelPythonRepositoryDtoEmbedded
 
   /**
-   * @type {Links}
+   * @type {Array<Link>}
    * @memberof PagedModelEntityModelPythonRepositoryDto
    */
-  links?: Links
+  links?: Array<Link>
 
   /**
    * @type {PageMetadata}

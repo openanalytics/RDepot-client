@@ -34,8 +34,6 @@
  */
 
 import { PagedModelEntityModelPackageDto } from './paged-model-entity-model-package-dto'
-import { PagedModelEntityModelPackageDto } from '.'
-
 /**
  *
  *

@@ -34,8 +34,6 @@
  */
 
 import { EntityModelUserDto } from './entity-model-user-dto'
-import { EntityModelUserDto } from '.'
-
 /**
  *
  *

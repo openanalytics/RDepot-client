@@ -33,15 +33,9 @@
  * Do not edit the class manually.
  */
 
-import { Links } from './links'
+import { Link } from './link'
 import { RepositoryProjection } from './repository-projection'
 import { UserProjection } from './user-projection'
-import {
-  Links,
-  RepositoryProjection,
-  UserProjection
-} from '.'
-
 /**
  *
  *
@@ -80,8 +74,8 @@ export interface EntityModelPackageMaintainerDto {
   deleted?: boolean
 
   /**
-   * @type {Links}
+   * @type {Array<Link>}
    * @memberof EntityModelPackageMaintainerDto
    */
-  links?: Links
+  links?: Array<Link>
 }

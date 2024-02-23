@@ -34,8 +34,6 @@
  */
 
 import { PagedModelEntityModelUserDto } from './paged-model-entity-model-user-dto'
-import { PagedModelEntityModelUserDto } from '.'
-
 /**
  *
  *

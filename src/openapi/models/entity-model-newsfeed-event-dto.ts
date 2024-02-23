@@ -35,15 +35,8 @@
 
 import { ChangedVariableDto } from './changed-variable-dto'
 import { IDto } from './idto'
-import { Links } from './links'
+import { Link } from './link'
 import { UserProjection } from './user-projection'
-import {
-  ChangedVariableDto,
-  IDto,
-  Links,
-  UserProjection
-} from '.'
-
 /**
  *
  *
@@ -106,10 +99,10 @@ export interface EntityModelNewsfeedEventDto {
   relatedResource?: IDto
 
   /**
-   * @type {Links}
+   * @type {Array<Link>}
    * @memberof EntityModelNewsfeedEventDto
    */
-  links?: Links
+  links?: Array<Link>
 }
 
 /**
