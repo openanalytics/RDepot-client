@@ -106,7 +106,10 @@ const { meta, values } = useForm({
           previousVal = value
           loading.value = true
           const repositoryWithSameName =
-            await repositoryStore.fetchRepository(value)
+            await repositoryStore.fetchRepository(
+              value,
+              false
+            )
           loading.value = false
           previousReturn =
             repositoryWithSameName.length === 0
