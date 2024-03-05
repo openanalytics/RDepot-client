@@ -27,9 +27,11 @@ import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
 import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import pythonPackage from '@/__tests__/config/mockData/pythonPackage.json'
+import RPackage from '@/__tests__/config/mockData/RPackage.json'
 import { createPinia, setActivePinia } from 'pinia'
 import PackageInstallation from '@/components/packages/packageDetails/PackageInstallation.vue'
 import { usePackageDetailsStore } from '@/store/package_details'
+import { nextTick } from 'process'
 
 let wrapper: any
 let packageDetailsStore: any
@@ -60,5 +62,20 @@ describe('Package Installation', () => {
 
   it('display copy icon', () => {
     expect(wrapper.findAll('i')).toHaveLength(1)
+  })
+
+  it('display correct installation command Python', () => {
+    expect(wrapper.find('#install-command').text()).toBe(
+      `pip -v install --index-url ${pythonPackage.repository?.publicationUri} ${pythonPackage.name}`
+    )
+  })
+
+  it('display correct installation command R', async () => {
+    const packageDetailsStore = usePackageDetailsStore()
+    packageDetailsStore.packageBag = RPackage
+    await nextTick(() => {})
+    expect(wrapper.find('#install-command').text()).toBe(
+      `install.packages("${RPackage.name}", repos = c(rdepot = "${RPackage.repository.publicationUri}"), getOption("repos")))`
+    )
   })
 })
