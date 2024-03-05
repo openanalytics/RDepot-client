@@ -251,6 +251,7 @@
     "projectUrl": "URL projektu",
     "providesExtra": "Dostarcza dodatkowe",
     "referenceManual": "Instrukcja",
+    "replaceOptionDesc": "Podmień, jeżeli pakiet o tej samej nazwie i wersji istnieje już w wybranym repozytorium",
     "requiresDist": "Wymaga dystrybucji",
     "requiresExternal": "Zewnętrzne wymagania",
     "requiresPython": "Wymaga python",
@@ -267,8 +268,7 @@
     },
     "windowsBinaries": "Pliki binarne Windows",
     "windowsBineries": "Pliki binarne Windows",
-    "withinRdepot": "Wewnątrz RDepot",
-    "replaceOptionDesc": "Podmień, jeżeli pakiet o tej samej nazwie i wersji istnieje już w wybranym repozytorium"
+    "withinRdepot": "Wewnątrz RDepot"
   },
   "pagination": {
     "size": "Rozmiar strony"

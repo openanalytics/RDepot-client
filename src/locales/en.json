@@ -259,6 +259,7 @@
     "projectUrl": "Project URL",
     "providesExtra": "Provides extra",
     "referenceManual": "Reference Manual",
+    "replaceOptionDesc": "Replace if package with the same name and version already exists in chosen repository",
     "requiresDist": "Requires distribution",
     "requiresExternal": "Requires external",
     "requiresPython": "Requires python",
@@ -275,8 +276,7 @@
     },
     "windowsBinaries": "Windows binaries",
     "windowsBineries": "Windows binaries",
-    "withinRdepot": "Within RDepot",
-    "replaceOptionDesc": "Replace if package with the same name and version already exists in chosen repository"
+    "withinRdepot": "Within RDepot"
   },
   "pagination": {
     "size": "Page size"
