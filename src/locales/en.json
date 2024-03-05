@@ -275,7 +275,8 @@
     },
     "windowsBinaries": "Windows binaries",
     "windowsBineries": "Windows binaries",
-    "withinRdepot": "Within RDepot"
+    "withinRdepot": "Within RDepot",
+    "replaceOptionDesc": "Replace if package with the same name and version already exists in chosen repository"
   },
   "pagination": {
     "size": "Page size"
