@@ -34,17 +34,7 @@
 
   <div class="code mb-2 mt-4 mr-2 ml-1">
     <code class="d-flex justify-lg-space-between pt-7">
-      {{
-        packageBag?.technology === 'R'
-          ? $t('packages.download-code', [
-              packageBag.name,
-              packageBag.repository?.publicationUri
-            ])
-          : $t('packages.installPy-code', [
-              packageBag.repository?.publicationUri,
-              packageBag.name
-            ])
-      }}
+      {{ installCommand }}
       <v-tooltip location="left">
         <template #activator="{ props }">
           <div id="tooltip-activator" v-bind="props">
@@ -84,11 +74,21 @@ const packageBag = computed<EntityModelRPackageDto>(
     packageDetailsStore.packageBag as EntityModelRPackageDto
 )
 
+const installCommand = computed<string>(() => {
+  return packageBag.value.technology === 'R'
+    ? t('packages.download-code', [
+        packageBag.value.name,
+        packageBag.value.repository?.publicationUri
+      ])
+    : t('packages.installPy-code', [
+        packageBag.value.repository?.publicationUri,
+        packageBag.value.name
+      ])
+})
+
 function copyContent() {
   try {
-    copy(
-      t('packages.download-code', [packageBag.value.name])
-    )
+    copy(installCommand.value)
     toasts.success(t('common.copied'))
   } catch (error) {
     toasts.error(t('common.errors.copyFailed'))
