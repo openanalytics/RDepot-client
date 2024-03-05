@@ -236,6 +236,7 @@
     "imports": "Importuje",
     "install": "Instalacja",
     "installInstruction": "Aby zainstalować ten pakiet, uruchom \"{0}\" i wprowadź komendę:",
+    "installPy-code": "pip -v install --index-url {0} {1}",
     "license": "Licencja",
     "list": "Pakiety",
     "maintainer": "Opiekun",

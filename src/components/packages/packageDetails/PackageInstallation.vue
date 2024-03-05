@@ -35,10 +35,15 @@
   <div class="code mb-2 mt-4 mr-2 ml-1">
     <code class="d-flex justify-lg-space-between pt-7">
       {{
-        $t('packages.download-code', [
-          packageBag.name,
-          packageBag.repository?.publicationUri
-        ])
+        packageBag?.technology === 'R'
+          ? $t('packages.download-code', [
+              packageBag.name,
+              packageBag.repository?.publicationUri
+            ])
+          : $t('packages.installPy-code', [
+              packageBag.repository?.name,
+              packageBag.name
+            ])
       }}
       <v-tooltip location="left">
         <template #activator="{ props }">
