@@ -48,6 +48,7 @@ import { usePagination } from '@/store/pagination'
 import { Technologies } from '@/enum/Technologies'
 import { http, HttpResponse } from 'msw'
 import { useToast } from '@/composable/toasts'
+import { nextTick } from 'vue'
 
 const { deepCopyAny } = useUtilities()
 const files = [
@@ -205,12 +206,11 @@ describe('Submissions Store', () => {
     )
   })
 
-  it('Get generate manual for Python', () => {
+  it('Get replace default value', () => {
     const submissionStore = useSubmissionStore()
-    submissionStore.repository = { technology: 'Python' }
     expect(
-      submissionStore.getGenerateManualForPackage(files[0])
-    ).toBeTruthy()
+      submissionStore.getReplaceForPackage(files[0])
+    ).toBeFalsy()
   })
 
   it('Get generate manual for random R', () => {
