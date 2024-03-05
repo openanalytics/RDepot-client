@@ -38,11 +38,11 @@ import { isAuthorized } from '@/plugins/casl'
 import { Technologies } from '@/enum/Technologies'
 import { getConfiguration } from './api_config'
 
-type ValidatedSumbissions = Promise<
+type ValidatedSubmissions = Promise<
   validatedData<EntityModelSubmissionDto[]>
 >
 
-type ValidatedSumbission = Promise<
+type ValidatedSubmission = Promise<
   validatedData<EntityModelSubmissionDto>
 >
 
@@ -52,7 +52,7 @@ export async function fetchSubmissions(
   page?: number,
   pageSize?: number,
   showProgress = true
-): ValidatedSumbissions {
+): ValidatedSubmissions {
   if (!isAuthorized('GET', 'submissions')) {
     return new Promise(() => validateRequest([]))
   }
@@ -83,7 +83,7 @@ export async function fetchSubmissions(
 export async function updateSubmission(
   oldSubmission: EntityModelSubmissionDto,
   newSubmission: EntityModelSubmissionDto
-): ValidatedSumbission {
+): ValidatedSubmission {
   if (!isAuthorized('PATCH', 'submissions')) {
     return new Promise(() => false)
   }
@@ -126,7 +126,7 @@ export async function addSubmission(
   technology: string,
   file: File,
   generateManual?: boolean
-): ValidatedSumbission {
+): ValidatedSubmission {
   if (!isAuthorized('POST', 'submissions')) {
     return new Promise(() => false)
   }
@@ -149,14 +149,12 @@ export async function addSubmission(
     submissionApi,
     [repository, file, generateManual, false],
     false
-  ).catch(() => {
-    return validateRequest({})
-  })
+  )
 }
 
 export function fetchSubmission(
   id: number
-): ValidatedSumbission {
+): ValidatedSubmission {
   if (!isAuthorized('GET', 'submissions')) {
     return new Promise(() => {})
   }

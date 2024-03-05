@@ -36,9 +36,7 @@ describe('Common Store', () => {
     expect(commonStore.drawer).toBeTruthy()
     expect(commonStore.overlayText).toBe('')
     expect(commonStore.overlayOpacity).toBe(0.8)
-    expect(commonStore.overlayComponent).toBe(
-      OverlayEnum.enum.Delete
-    )
+    expect(commonStore.overlayComponent).toBe(undefined)
     expect(commonStore.key).toBe(0)
   })
 
