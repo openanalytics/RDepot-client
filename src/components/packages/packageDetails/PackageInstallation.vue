@@ -41,7 +41,7 @@
               packageBag.repository?.publicationUri
             ])
           : $t('packages.installPy-code', [
-              packageBag.repository?.name,
+              packageBag.repository?.publicationUri,
               packageBag.name
             ])
       }}
