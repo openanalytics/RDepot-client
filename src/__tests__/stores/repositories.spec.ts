@@ -34,14 +34,17 @@ import packages from '@/__tests__/config/mockData/packages.json'
 import repositories from '@/__tests__/config/mockData/repositories.json'
 import { useRepositoryStore } from '@/store/repositories'
 import { usePagination } from '@/store/pagination'
+import { useAuthorizationStore } from '@/store/authorization'
+import me from '@/__tests__/config/mockData/me.json'
 import { Technologies } from '@/enum/Technologies'
 import { http, HttpResponse } from 'msw'
 
 const defaultFiltration = {
-  deleted: false,
   technologies: undefined,
   search: undefined,
+  deleted: false,
   published: undefined,
+  name: undefined,
   maintainer: undefined
 }
 
@@ -54,6 +57,12 @@ const randomFiltration = {
 }
 
 const server = setupServer(
+  http.get(
+    'http://localhost:8017/api/v2/manager/users/me',
+    () => {
+      return HttpResponse.json(me)
+    }
+  ),
   http.get(
     'http://localhost:8017/api/v2/manager/repositories',
     () => {
@@ -69,9 +78,11 @@ const server = setupServer(
 )
 
 describe('Repository Store', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     setActivePinia(createPinia())
     server.listen()
+    const authorizationStore = useAuthorizationStore()
+    await authorizationStore.getUserInfo()
   })
 
   afterAll(() => {
