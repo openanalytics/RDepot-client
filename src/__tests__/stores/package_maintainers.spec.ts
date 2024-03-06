@@ -39,7 +39,6 @@ import { setupServer } from 'msw/node'
 import { usePagination } from '@/store/pagination'
 import { Technologies } from '@/enum/Technologies'
 import { useAuthorizationStore } from '@/store/authorization'
-import me from '@/__tests__/config/mockData/me.json'
 import {
   PackageMaintainersFiltration,
   defaultValues
