@@ -110,12 +110,14 @@
         class="d-flex justify-center align-center"
       >
         <edit-icon
-          v-if="canPatch(packageMaintainer?.links)"
+          :disabled="!canPatch(packageMaintainer?.links)"
           @set-entity="setEditEntity()"
           :text="getEditMessage"
         />
         <delete-icon
-          v-if="canDelete(props.packageMaintainer?.links)"
+          :disabled="
+            !canDelete(props.packageMaintainer?.links)
+          "
           :name="props.packageMaintainer?.user?.name"
           @setResourceId="chooseMaintainer"
         />

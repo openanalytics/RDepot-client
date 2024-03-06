@@ -21,7 +21,7 @@
 -->
 
 <template>
-  <v-tooltip top>
+  <v-tooltip location="top">
     <template #activator="{ props }">
       <v-icon
         id="pencil-icon"
@@ -29,11 +29,16 @@
         @click="edit"
         v-bind="props"
         class="ml-3"
-        color="oablue"
+        :color="disabled ? 'grey' : 'oablue'"
         >mdi-pencil</v-icon
       >
     </template>
-    <span id="action-edit">{{ text }}</span>
+    <span id="action-delete" v-if="!disabled">{{
+      text
+    }}</span>
+    <span v-else>
+      {{ $t('common.notAuthorized') }}
+    </span>
   </v-tooltip>
 </template>
 
@@ -45,6 +50,10 @@ const props = defineProps({
   text: {
     type: String,
     required: true
+  },
+  disabled: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -52,8 +61,10 @@ const emits = defineEmits(['setEntity'])
 const commonStore = useCommonStore()
 
 function edit() {
-  emits('setEntity')
-  commonStore.setOverlayText(props.text)
-  commonStore.openOverlay(OverlayEnum.enum.Edit)
+  if (!props.disabled) {
+    emits('setEntity')
+    commonStore.setOverlayText(props.text)
+    commonStore.openOverlay(OverlayEnum.enum.Edit)
+  }
 }
 </script>

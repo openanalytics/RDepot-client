@@ -100,14 +100,14 @@
         class="d-flex justify-center align-center"
       >
         <edit-icon
-          v-if="canPatch(repositoryMaintainer.links)"
+          :disabled="!canPatch(repositoryMaintainer.links)"
           :text="i18n.t('maintainers.edit')"
           @set-entity="setEditMaintainer"
         >
         </edit-icon>
 
         <delete-icon
-          v-if="canDelete(repositoryMaintainer.links)"
+          :disabled="!canDelete(repositoryMaintainer.links)"
           :name="props.repositoryMaintainer?.user?.name"
           @setResourceId="setEditMaintainer"
         />
