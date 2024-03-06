@@ -20,6 +20,13 @@
  *
  */
 
-import { fetchRepositoriesServices } from './repository_services'
+import {
+  fetchRepositoriesServices,
+  fetchAllRepositoriesServices
+} from './repository_services'
 import { fetchPackagesServices } from './package_services'
-export { fetchRepositoriesServices, fetchPackagesServices }
+export {
+  fetchRepositoriesServices,
+  fetchPackagesServices,
+  fetchAllRepositoriesServices
+}

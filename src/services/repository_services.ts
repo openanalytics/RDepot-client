@@ -80,6 +80,30 @@ export function fetchRepositoriesServices(
   })
 }
 
+export function fetchAllRepositoriesServices(): ValidatedRepositories {
+  if (!isAuthorized('GET', 'repositories')) {
+    return new Promise(() => validateRequest([]))
+  }
+  return openApiRequest<EntityModelRepositoryDto[]>(
+    ApiV2RepositoryControllerApiFactory()
+      .getAllRepositories,
+    [
+      undefined,
+      undefined,
+      ['name,asc'],
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined
+    ],
+    false
+  ).catch(() => {
+    return validateRequest([])
+  })
+}
+
 export function fetchFullRepositoriesList(
   showProgress = false
 ): ValidatedRepositories {

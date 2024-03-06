@@ -133,7 +133,7 @@ function setMaintainer() {
   }
 }
 
-onMounted(maintainersStore.fetchRepositories)
+onMounted(maintainersStore.fetchAllRepositories)
 
 function changeDialogOptions() {
   emit('closeModal')

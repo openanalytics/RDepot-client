@@ -36,7 +36,10 @@ import {
   fetchRepositoryMaintainersServices,
   updateRepositoryMaintainer
 } from '@/services/repository_maintainers_services'
-import { fetchRepositoriesServices } from '@/services'
+import {
+  fetchRepositoriesServices,
+  fetchAllRepositoriesServices
+} from '@/services'
 import { useUtilities } from '@/composable/utilities'
 import { repositoryMaintainersFiltrationLabels } from '@/maps/Filtration'
 import { usePagination } from '@/store/pagination'
@@ -94,6 +97,11 @@ export const useRepositoryMaintainersStore = defineStore(
       async fetchRepositories() {
         const [repositories] =
           await fetchRepositoriesServices()
+        this.repositories = repositories
+      },
+      async fetchAllRepositories() {
+        const [repositories] =
+          await fetchAllRepositoriesServices()
         this.repositories = repositories
       },
       async setChosenMaintainer(
