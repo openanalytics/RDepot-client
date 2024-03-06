@@ -2,3 +2,5 @@
 .prettierignore
 .vscode
 .gitignore
+.dockerignore
+.yml
