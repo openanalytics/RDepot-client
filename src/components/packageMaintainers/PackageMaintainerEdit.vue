@@ -180,7 +180,7 @@ function changeDialogOptions() {
 
 onMounted(() => {
   updateMaintainer()
-  maintainersStore.fetchRepositories()
+  maintainersStore.fetchAllRepositories()
   maintainersStore.fetchPackages()
 })
 </script>
