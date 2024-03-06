@@ -4,4 +4,4 @@ services:
     build:
       context: .
     ports:
-      - '30011:80'
+      - '3001:80'
