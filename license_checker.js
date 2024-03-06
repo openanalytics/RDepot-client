@@ -38,6 +38,7 @@ const EXTENSION_WITHOUT_LICENSE = [
   'ico',
   'yml',
   'yaml',
+  'conf',
   'json',
   'png',
   'svg',
