@@ -110,7 +110,13 @@
         :text="$t('columns.repository.packagesNo')"
         sortKey="columns.repository.packagesNo"
       />
-      <TextRecord v-else text="none" no-margin />
+      <TextRecord
+        v-else
+        :text="
+          props.repository?.numberOfPackages?.toString()
+        "
+        no-margin
+      />
     </v-col>
     <v-col
       id="repository-published"
