@@ -53,6 +53,7 @@ export type PackagePromise = {
 interface State {
   packages: File[]
   generateManual: File[]
+  replace: File[]
   files: File[]
   promises: PackagePromise[]
   repository?: EntityModelRepositoryDto
@@ -72,6 +73,7 @@ export const useSubmissionStore = defineStore(
         packages: [],
         files: [],
         generateManual: [],
+        replace: [],
         promises: [],
         submissions: [],
         repository: undefined,
@@ -151,6 +153,24 @@ export const useSubmissionStore = defineStore(
           await this.fetchSubmissions()
         })
       },
+      updateReplaceOptionForPackage(file: File) {
+        if (this.getReplaceForPackage(file)) {
+          this.removeReplaceOptionForPackage(file)
+        } else {
+          this.addReplaceOptionForPackage(file)
+        }
+      },
+      addReplaceOptionForPackage(file: File) {
+        this.replace.push(file)
+      },
+      removeReplaceOptionForPackage(file: File) {
+        this.replace = this.replace.filter(
+          (item) => item !== file
+        )
+      },
+      getReplaceForPackage(file: File) {
+        return !!this.replace.find((item) => item == file)
+      },
       addGenerateManualOptionForPackage(file: File) {
         this.generateManual.push(file)
       },
@@ -225,7 +245,8 @@ export const useSubmissionStore = defineStore(
               this.repository?.name!,
               this.repository?.technology!,
               packageBag,
-              !this.getGenerateManualForPackage(packageBag)
+              !this.getGenerateManualForPackage(packageBag),
+              this.getReplaceForPackage(packageBag)
             ),
             packageBag: packageBag,
             state: 'pending',

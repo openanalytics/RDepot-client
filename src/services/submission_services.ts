@@ -125,7 +125,8 @@ export async function addSubmission(
   repository: string,
   technology: string,
   file: File,
-  generateManual?: boolean
+  generateManual?: boolean,
+  replace?: boolean
 ): ValidatedSumbission {
   if (!isAuthorized('POST', 'submissions')) {
     return new Promise(() => false)
@@ -147,7 +148,7 @@ export async function addSubmission(
 
   return openApiRequest<EntityModelSubmissionDto>(
     submissionApi,
-    [repository, file, generateManual, false],
+    [repository, file, generateManual, replace],
     false
   ).catch(() => {
     return validateRequest({})

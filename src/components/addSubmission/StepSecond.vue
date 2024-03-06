@@ -79,7 +79,7 @@
 
 <script setup lang="ts">
 import { useSubmissionStore } from '@/store/submission'
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import { useFileDialog } from '@vueuse/core'
 import { watch } from 'vue'
 import { onMounted } from 'vue'

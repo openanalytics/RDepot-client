@@ -66,18 +66,11 @@
             @click="filesStore.removeFile(file)"
             variant="plain"
             icon="mdi-delete"
-            width="20"
-            class="mr-8"
-            :color="
-              filesStore.checkValidity(
-                file,
-                'application/gzip'
-              )
-                ? 'oared'
-                : 'oared'
-            "
-          >
-          </v-btn>
+            size="medium"
+            class="mr-3"
+            color="oared"
+          />
+          <ReplaceOption :file="file" />
         </template>
 
         <template
@@ -122,6 +115,7 @@
 import { useFilesListStore } from '@/store/local_files'
 import { useSubmissionStore } from '@/store/submission'
 import { computed } from 'vue'
+import ReplaceOption from './ReplaceOption.vue'
 
 const submissionsStore = useSubmissionStore()
 const filesStore = useFilesListStore()

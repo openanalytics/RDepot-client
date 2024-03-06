@@ -259,6 +259,7 @@
     "projectUrl": "Project URL",
     "providesExtra": "Provides extra",
     "referenceManual": "Reference Manual",
+    "replaceOptionDesc": "Replace if package with the same name and version already exists in chosen repository",
     "requiresDist": "Requires distribution",
     "requiresExternal": "Requires external",
     "requiresPython": "Requires python",
