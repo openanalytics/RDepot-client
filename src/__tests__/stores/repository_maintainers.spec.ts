@@ -41,6 +41,7 @@ import { Technologies } from '@/enum/Technologies'
 import { i18n } from '@/plugins/i18n'
 import { http, HttpResponse } from 'msw'
 import me from '@/__tests__/config/mockData/me.json'
+import { useAuthorizationStore } from '@/store/authorization'
 
 const defaultFiltration = {
   deleted: undefined,
@@ -55,6 +56,12 @@ const randomFiltration = {
 }
 
 const server = setupServer(
+  http.get(
+    'http://localhost:8017/api/v2/manager/users/me',
+    () => {
+      return HttpResponse.json(me)
+    }
+  ),
   http.get(
     'http://localhost:8017/api/v2/manager/repository-maintainers',
     () => {
@@ -96,9 +103,11 @@ describe('Repository Maintainers Store', () => {
     server.listen()
   })
 
-  beforeEach(() => {
+  beforeEach(async () => {
     setActivePinia(createPinia())
     server.resetHandlers()
+    const authorizationStore = useAuthorizationStore()
+    await authorizationStore.getUserInfo()
   })
 
   afterEach(() => {
@@ -328,9 +337,11 @@ describe('Repository Maintainers Store requests with failing backend', () => {
     failingServer.listen()
   })
 
-  beforeEach(() => {
+  beforeEach(async () => {
     setActivePinia(createPinia())
     failingServer.resetHandlers()
+    const authorizationStore = useAuthorizationStore()
+    await authorizationStore.getUserInfo()
   })
 
   afterAll(() => {
