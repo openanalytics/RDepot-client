@@ -36,6 +36,7 @@ const EXTENSION_WITHOUT_LICENSE = [
   'sh',
   'env',
   'ico',
+  'yml',
   'yaml',
   'json',
   'png',
@@ -45,6 +46,7 @@ const EXTENSION_WITHOUT_LICENSE = [
   'gitignore',
   'properties',
   'prettierrc',
+  'dockerignore',
   'browserslistrc',
   'prettierignore'
 ]
