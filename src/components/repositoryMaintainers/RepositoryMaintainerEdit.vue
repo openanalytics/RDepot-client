@@ -40,7 +40,7 @@
           name="repositoryId"
           as="v-select"
           id="edit-package-maintainer-repository"
-          :modelValue="localMaintainer.repository"
+          :modelValue="localMaintainer.repository!.id"
           @update:modelValue="newValue => localMaintainer.repository!.id = newValue"
           :items="repositories"
           item-title="name"

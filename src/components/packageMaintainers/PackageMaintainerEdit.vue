@@ -38,7 +38,7 @@
         <validated-input-field
           as="v-select"
           name="repositoryId"
-          :modelValue="localMaintainer.repository"
+          :modelValue="localMaintainer.repository!.id"
           @update:modelValue="newValue => {
             localMaintainer.repository!.id = newValue
             validateField('packageName')
