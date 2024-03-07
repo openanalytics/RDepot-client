@@ -33,7 +33,8 @@ import {
 } from '@/models/Filtration'
 import {
   fetchPackagesServices,
-  fetchRepositoriesServices
+  fetchRepositoriesServices,
+  fetchAllRepositoriesServices
 } from '@/services'
 import {
   deletePackageMaintainerService,
@@ -100,6 +101,11 @@ export const usePackageMaintainersStore = defineStore(
       async fetchRepositories() {
         const [repositories] =
           await fetchRepositoriesServices()
+        this.repositories = repositories
+      },
+      async fetchAllRepositories() {
+        const [repositories] =
+          await fetchAllRepositoriesServices()
         this.repositories = repositories
       },
       async fetchPackages() {
