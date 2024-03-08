@@ -155,13 +155,9 @@ async function isRepositoryNameIsDuplicated(
 function isRepositoryInTheReposList(
   repoList: EntityModelRepositoryDto[]
 ) {
-  var flag = false
-  repoList.forEach((repo) => {
-    if (repo.id == localRepository.value.id) {
-      flag = true
-    }
-  })
-  return flag
+  return repoList.find(
+    (repo) => repo.id == localRepository.value.id
+  )
 }
 
 function updateRepository() {
