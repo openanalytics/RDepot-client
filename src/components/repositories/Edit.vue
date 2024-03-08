@@ -120,13 +120,7 @@ const { meta } = useForm({
             return previousReturn
           }
           previousVal = value
-          loading.value = true
-          const repositoryWithSameName =
-            await repositoryStore.fetchRepository(value)
-          loading.value = false
-          previousReturn =
-            repositoryWithSameName.length === 0
-          return previousReturn
+          return await isRepositoryNameIsDuplicated(value)
         },
         t('repositories.creation.duplicateName')
       ),
@@ -145,6 +139,30 @@ const { meta } = useForm({
 
 const emit = defineEmits(['closeModal'])
 const toasts = useToast()
+
+async function isRepositoryNameIsDuplicated(
+  repoName: string
+) {
+  loading.value = true
+  const repositoriesWithSameName =
+    await repositoryStore.fetchRepository(repoName)
+  loading.value = false
+  if (isRepositoryInTheReposList(repositoriesWithSameName))
+    return false
+  return repositoriesWithSameName.length === 0
+}
+
+function isRepositoryInTheReposList(
+  repoList: EntityModelRepositoryDto[]
+) {
+  var flag = false
+  repoList.forEach((repo) => {
+    if (repo.id == localRepository.value.id) {
+      flag = true
+    }
+  })
+  return flag
+}
 
 function updateRepository() {
   if (meta.value.valid) {

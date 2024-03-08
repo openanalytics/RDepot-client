@@ -136,8 +136,6 @@ export const useRepositoryStore = defineStore(
           ...deepCopy(this.chosenRepository),
           ...newValues
         }
-        console.log(newRepository)
-        console.log(newValues.toString)
         await updateRepository(
           this.chosenRepository,
           newRepository
