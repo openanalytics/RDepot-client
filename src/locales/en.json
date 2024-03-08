@@ -185,6 +185,7 @@
   "maintainers": {
     "delete": "Delete maintainer",
     "deleteQuestion": "Are you sure you want to delete {maintainer_name}?",
+    "deleted": "This repository maintainer is deleted",
     "edit": "Edit maintainer",
     "editform": {
       "package": "Package",
@@ -195,8 +196,7 @@
     },
     "filtration": {
       "deleted": "Deleted"
-    },
-    "deleted": "This repository maintainer is deleted"
+    }
   },
   "navbar": {
     "changeLanguage": "lang"

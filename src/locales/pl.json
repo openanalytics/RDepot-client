@@ -177,6 +177,7 @@
   "maintainers": {
     "delete": "Usuń opiekuna",
     "deleteQuestion": "Czy na pewno chcesz usunąć {maintainer_name}?",
+    "deleted": "Ten opiekun jest usunięty",
     "edit": "Edytuj opiekuna",
     "editform": {
       "package": "Pakiet",
@@ -187,8 +188,7 @@
     },
     "filtration": {
       "deleted": "Usunięci"
-    },
-    "deleted": "Ten opiekun jest usunięty"
+    }
   },
   "navbar": {
     "changeLanguage": "lang"
