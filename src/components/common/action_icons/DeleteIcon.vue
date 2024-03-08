@@ -21,21 +21,24 @@
 -->
 
 <template>
-  <VTooltip top>
+  <VTooltip location="top">
     <template #activator="{ props }">
       <VIcon
         id="delete-icon"
         @click.stop
         @click="deleteDialog"
         v-bind="props"
-        color="oared"
+        :color="disabled ? 'grey' : 'oared'"
         :class="class"
         >mdi-trash-can</VIcon
       >
     </template>
-    <span id="action-delete">{{
+    <span id="action-delete" v-if="!disabled">{{
       $t('common.delete')
     }}</span>
+    <span v-else>
+      {{ hoverMessage }}
+    </span>
   </VTooltip>
 </template>
 
@@ -53,18 +56,29 @@ const props = defineProps({
   class: {
     type: String,
     default: 'ml-3'
+  },
+  disabled: {
+    type: Boolean,
+    default: false
+  },
+  hoverMessage: {
+    type: String,
+    reqiured: false,
+    default: i18n.t('common.notAuthorized')
   }
 })
 
 const commonStore = useCommonStore()
 
 function deleteDialog() {
-  emits('setResourceId')
-  commonStore.setOverlayText(
-    i18n.t('common.deleteQuestion', {
-      resource_name: props.name
-    })
-  )
-  commonStore.openOverlay(OverlayEnum.enum.Delete)
+  if (!props.disabled) {
+    emits('setResourceId')
+    commonStore.setOverlayText(
+      i18n.t('common.deleteQuestion', {
+        resource_name: props.name
+      })
+    )
+    commonStore.openOverlay(OverlayEnum.enum.Delete)
+  }
 }
 </script>

@@ -104,20 +104,34 @@
         sortKey="columns.actions"
       />
       <span
-        v-else-if="
-          packageMaintainer && !packageMaintainer.deleted
-        "
+        v-else-if="packageMaintainer"
         class="d-flex justify-center align-center"
       >
         <edit-icon
-          v-if="canPatch(packageMaintainer?.links)"
+          :disabled="
+            !canPatch(packageMaintainer?.links) ||
+            packageMaintainer.deleted
+          "
           @set-entity="setEditEntity()"
           :text="getEditMessage"
+          :hoverMessage="
+            packageMaintainer.deleted
+              ? i18n.t('maintainers.deleted')
+              : undefined
+          "
         />
         <delete-icon
-          v-if="canDelete(props.packageMaintainer?.links)"
+          :disabled="
+            !canDelete(props.packageMaintainer?.links) ||
+            packageMaintainer.deleted
+          "
           :name="props.packageMaintainer?.user?.name"
           @setResourceId="chooseMaintainer"
+          :hoverMessage="
+            packageMaintainer.deleted
+              ? i18n.t('maintainers.deleted')
+              : undefined
+          "
         />
       </span>
     </v-col>

@@ -159,22 +159,20 @@
       />
       <span v-else-if="packageBag && !packageBag.deleted">
         <DeleteIcon
-          v-if="
-            canDelete(props.packageBag?.links) &&
+          :disabled="
+            !canDelete(props.packageBag?.links) &&
             !props.packageBag?.deleted
           "
           :name="props.packageBag?.name"
           @setResourceId="choosePackage"
           class=""
         />
-        <span v-else style="width: 30px"></span>
       </span>
     </VCol>
   </VRow>
 </template>
 
 <script setup lang="ts">
-import router from '@/plugins/router'
 import { EntityModelPackageDto } from '@/openapi'
 import { usePackagesStore } from '@/store/packages'
 import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'

@@ -123,6 +123,7 @@
     "logout": "Wyloguj",
     "maintainers": "Opiekunowie",
     "noListingResults": "Nie znaleziono żadnych wyników",
+    "notAuthorized": "Nie masz wystarczających uprawnień aby wykonać tę operację",
     "notAvailable": "Niedostępne",
     "ok": "Ok",
     "or": "lub",
@@ -176,6 +177,7 @@
   "maintainers": {
     "delete": "Usuń opiekuna",
     "deleteQuestion": "Czy na pewno chcesz usunąć {maintainer_name}?",
+    "deleted": "Ten opiekun jest usunięty",
     "edit": "Edytuj opiekuna",
     "editform": {
       "package": "Pakiet",
@@ -284,6 +286,9 @@
       "serverAddressPlaceholder": "http://oa-rdepot-repo:8080/{'{name}'}",
       "technology": "Technologia",
       "title": "Nowe repozytorium"
+    },
+    "edit": {
+      "title": "Edytuj repozytorium"
     },
     "empty": "Nie wybrano repozytorium",
     "filtration": {

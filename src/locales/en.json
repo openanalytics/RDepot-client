@@ -123,6 +123,7 @@
     "logout": "Logout",
     "maintainers": "Maintainers",
     "noListingResults": "No results where found",
+    "notAuthorized": "You are not authorized to perform this action",
     "notAvailable": "Not available",
     "ok": "Ok",
     "or": "or",
@@ -184,6 +185,7 @@
   "maintainers": {
     "delete": "Delete maintainer",
     "deleteQuestion": "Are you sure you want to delete {maintainer_name}?",
+    "deleted": "This repository maintainer is deleted",
     "edit": "Edit maintainer",
     "editform": {
       "package": "Package",
@@ -293,6 +295,9 @@
       "serverAddressPlaceholder": "http://oa-rdepot-repo:8080/{'{name}'}",
       "technology": "Technology",
       "title": "New repository"
+    },
+    "edit": {
+      "title": "Edit repository"
     },
     "empty": "No repository chosen",
     "filtration": {

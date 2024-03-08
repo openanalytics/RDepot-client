@@ -27,6 +27,10 @@
         v-if="commonStore.isCreate()"
         @closeModal="closeModal"
       />
+      <Edit
+        v-if="commonStore.isEdit()"
+        @closeModal="closeModal"
+      />
     </template>
   </Overlay>
 </template>
@@ -36,6 +40,7 @@ import { useCommonStore } from '@/store/common'
 import Overlay from '@/components/common/Overlay.vue'
 import Creation from '@/components/repositories/Creation.vue'
 import { useRepositoryStore } from '@/store/repositories'
+import Edit from './Edit.vue'
 
 const repositoriesStore = useRepositoryStore()
 const commonStore = useCommonStore()
