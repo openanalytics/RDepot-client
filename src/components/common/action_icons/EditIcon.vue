@@ -37,13 +37,14 @@
       text
     }}</span>
     <span v-else>
-      {{ $t('common.notAuthorized') }}
+      {{ hoverMessage }}
     </span>
   </v-tooltip>
 </template>
 
 <script setup lang="ts">
 import { OverlayEnum } from '@/enum/Overlay'
+import { i18n } from '@/plugins/i18n'
 import { useCommonStore } from '@/store/common'
 
 const props = defineProps({
@@ -54,6 +55,11 @@ const props = defineProps({
   disabled: {
     type: Boolean,
     default: false
+  },
+  hoverMessage: {
+    type: String,
+    reqiured: false,
+    default: i18n.t('common.notAuthorized')
   }
 })
 

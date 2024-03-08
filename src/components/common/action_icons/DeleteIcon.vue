@@ -37,7 +37,7 @@
       $t('common.delete')
     }}</span>
     <span v-else>
-      {{ $t('common.notAuthorized') }}
+      {{ hoverMessage }}
     </span>
   </VTooltip>
 </template>
@@ -60,6 +60,11 @@ const props = defineProps({
   disabled: {
     type: Boolean,
     default: false
+  },
+  hoverMessage: {
+    type: String,
+    reqiured: false,
+    default: i18n.t('common.notAuthorized')
   }
 })
 

@@ -195,7 +195,8 @@
     },
     "filtration": {
       "deleted": "Deleted"
-    }
+    },
+    "deleted": "This repository maintainer is deleted"
   },
   "navbar": {
     "changeLanguage": "lang"

@@ -187,7 +187,8 @@
     },
     "filtration": {
       "deleted": "Usunięci"
-    }
+    },
+    "deleted": "Ten opiekun jest usunięty"
   },
   "navbar": {
     "changeLanguage": "lang"

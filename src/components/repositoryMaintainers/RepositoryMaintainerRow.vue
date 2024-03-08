@@ -93,23 +93,28 @@
         sortKey="columns.actions"
       />
       <span
-        v-else-if="
-          repositoryMaintainer &&
-          !repositoryMaintainer.deleted
-        "
+        v-else-if="repositoryMaintainer"
         class="d-flex justify-center align-center"
       >
         <edit-icon
-          :disabled="!canPatch(repositoryMaintainer.links)"
+          :disabled="
+            !canPatch(repositoryMaintainer.links) ||
+            repositoryMaintainer.deleted
+          "
           :text="i18n.t('maintainers.edit')"
           @set-entity="setEditMaintainer"
+          :hoverMessage="i18n.t('maintainers.deleted')"
         >
         </edit-icon>
 
         <delete-icon
-          :disabled="!canDelete(repositoryMaintainer.links)"
+          :disabled="
+            !canDelete(repositoryMaintainer.links) ||
+            repositoryMaintainer.deleted
+          "
           :name="props.repositoryMaintainer?.user?.name"
           @setResourceId="setEditMaintainer"
+          :hoverMessage="i18n.t('maintainers.deleted')"
         />
       </span>
     </v-col>
