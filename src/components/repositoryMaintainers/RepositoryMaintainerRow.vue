@@ -103,7 +103,11 @@
           "
           :text="i18n.t('maintainers.edit')"
           @set-entity="setEditMaintainer"
-          :hoverMessage="i18n.t('maintainers.deleted')"
+          :hoverMessage="
+            repositoryMaintainer.deleted
+              ? i18n.t('maintainers.deleted')
+              : undefined
+          "
         >
         </edit-icon>
 
@@ -114,7 +118,11 @@
           "
           :name="props.repositoryMaintainer?.user?.name"
           @setResourceId="setEditMaintainer"
-          :hoverMessage="i18n.t('maintainers.deleted')"
+          :hoverMessage="
+            repositoryMaintainer.deleted
+              ? i18n.t('maintainers.deleted')
+              : undefined
+          "
         />
       </span>
     </v-col>
