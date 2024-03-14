@@ -112,7 +112,10 @@ export const useRepositoryStore = defineStore(
         this.repositories = repositories
         return pageData
       },
-      async fetchRepository(name: string) {
+      async fetchRepository(
+        name: string,
+        showProgress = true
+      ) {
         const [repository] =
           await fetchRepositoriesServices(
             {
@@ -120,7 +123,7 @@ export const useRepositoryStore = defineStore(
             } as RepositoriesFiltration,
             undefined,
             undefined,
-            true
+            showProgress
           )
         return repository
       },

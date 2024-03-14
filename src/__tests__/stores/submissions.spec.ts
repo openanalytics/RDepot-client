@@ -48,7 +48,7 @@ import { usePagination } from '@/store/pagination'
 import { Technologies } from '@/enum/Technologies'
 import { http, HttpResponse } from 'msw'
 import { useToast } from '@/composable/toasts'
-import { nextTick } from 'vue'
+import { useAuthorizationStore } from '@/store/authorization'
 
 const { deepCopyAny } = useUtilities()
 const files = [
@@ -74,6 +74,12 @@ const randomFiltration = {
 
 const server = setupServer(
   http.get(
+    'http://localhost:8017/api/v2/manager/users/me',
+    () => {
+      return HttpResponse.json(me)
+    }
+  ),
+  http.get(
     'http://localhost:8017/api/v2/manager/submissions',
     () => {
       return HttpResponse.json(submissions)
@@ -93,9 +99,11 @@ const server = setupServer(
 )
 
 describe('Submissions Store', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     setActivePinia(createPinia())
     server.listen()
+    const authorizationStore = useAuthorizationStore()
+    await authorizationStore.getUserInfo()
   })
 
   afterAll(() => server.close())
@@ -268,9 +276,11 @@ const failingServer = setupServer(
 )
 
 describe('Testing submissions store with failing backend', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     setActivePinia(createPinia())
     failingServer.listen()
+    const authorizationStore = useAuthorizationStore()
+    await authorizationStore.getUserInfo()
   })
 
   afterEach(() => {

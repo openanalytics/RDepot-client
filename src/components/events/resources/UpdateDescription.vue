@@ -42,6 +42,9 @@
 import { EntityModelNewsfeedEventDto } from '@/openapi'
 
 const props = defineProps({
-  event: Object as () => EntityModelNewsfeedEventDto
+  event: {
+    type: Object as () => EntityModelNewsfeedEventDto,
+    required: true
+  }
 })
 </script>

@@ -40,7 +40,11 @@ const globalConfig = {
 beforeEach(async () => {
   setActivePinia(createPinia())
   commonStore = useCommonStore()
-  wrapper = shallowMount(CommonButton, {
+  wrapper = shallowMount(CommonButton as any, {
+    props: { component: 'Filtration' },
+    slots: {
+      default: 'Button'
+    },
     global: globalConfig
   })
 })

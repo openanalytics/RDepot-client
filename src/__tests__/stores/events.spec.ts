@@ -36,6 +36,8 @@ import events from '@/__tests__/config/mockData/events.json'
 import { Technologies } from '@/enum/Technologies'
 import { EventsFiltration } from '@/models/Filtration'
 import { http, HttpResponse } from 'msw'
+import { useAuthorizationStore } from '@/store/authorization'
+import me from '@/__tests__/config/mockData/me.json'
 
 const defaultFiltration = {
   eventType: undefined,
@@ -56,6 +58,12 @@ const randomFiltration = {
 }
 const server = setupServer(
   http.get(
+    'http://localhost:8017/api/v2/manager/users/me',
+    () => {
+      return HttpResponse.json(me)
+    }
+  ),
+  http.get(
     'http://localhost:8017/api/v2/manager/events',
     () => {
       return HttpResponse.json(events)
@@ -68,9 +76,11 @@ describe('Event Store', () => {
     server.listen()
   })
 
-  beforeEach(() => {
+  beforeEach(async () => {
     setActivePinia(createPinia())
     server.resetHandlers()
+    const authorizationStore = useAuthorizationStore()
+    await authorizationStore.getUserInfo()
   })
 
   afterAll(() => {

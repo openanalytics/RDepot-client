@@ -34,8 +34,6 @@
  */
 
 import { CollectionModelRoleDto } from './collection-model-role-dto'
-import { CollectionModelRoleDto } from '.'
-
 /**
  *
  *

@@ -33,15 +33,9 @@
  * Do not edit the class manually.
  */
 
-import { Links } from './links'
+import { Link } from './link'
 import { PageMetadata } from './page-metadata'
 import { PagedModelEntityModelAccessTokenDtoEmbedded } from './paged-model-entity-model-access-token-dto-embedded'
-import {
-  Links,
-  PageMetadata,
-  PagedModelEntityModelAccessTokenDtoEmbedded
-} from '.'
-
 /**
  *
  *
@@ -56,10 +50,10 @@ export interface PagedModelEntityModelAccessTokenDto {
   embedded?: PagedModelEntityModelAccessTokenDtoEmbedded
 
   /**
-   * @type {Links}
+   * @type {Array<Link>}
    * @memberof PagedModelEntityModelAccessTokenDto
    */
-  links?: Links
+  links?: Array<Link>
 
   /**
    * @type {PageMetadata}

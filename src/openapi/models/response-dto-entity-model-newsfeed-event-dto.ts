@@ -34,8 +34,6 @@
  */
 
 import { EntityModelNewsfeedEventDto } from './entity-model-newsfeed-event-dto'
-import { EntityModelNewsfeedEventDto } from '.'
-
 /**
  *
  *

@@ -30,7 +30,6 @@ import { usePackageDetailsStore } from '@/store/package_details'
 import { usePagination } from '@/store/pagination'
 import { useSortStore } from '@/store/sort'
 import { useCommonStore } from '@/store/common'
-import { useSubmissionStore } from '@/store/submission'
 
 export async function loadPackageDetails(
   id: number,
@@ -43,7 +42,7 @@ export async function loadPackageDetails(
 export async function loadRepositoryDetails(name: string) {
   const packageStore = usePackagesStore()
   return packageStore.fetchPackages({
-    repository: name,
+    repository: [name],
     deleted: false
   })
 }

@@ -33,15 +33,9 @@
  * Do not edit the class manually.
  */
 
-import { Links } from './links'
+import { Link } from './link'
 import { PageMetadata } from './page-metadata'
 import { PagedModelEntityModelPackageMaintainerDtoEmbedded } from './paged-model-entity-model-package-maintainer-dto-embedded'
-import {
-  Links,
-  PageMetadata,
-  PagedModelEntityModelPackageMaintainerDtoEmbedded
-} from '.'
-
 /**
  *
  *
@@ -56,10 +50,10 @@ export interface PagedModelEntityModelPackageMaintainerDto {
   embedded?: PagedModelEntityModelPackageMaintainerDtoEmbedded
 
   /**
-   * @type {Links}
+   * @type {Array<Link>}
    * @memberof PagedModelEntityModelPackageMaintainerDto
    */
-  links?: Links
+  links?: Array<Link>
 
   /**
    * @type {PageMetadata}
