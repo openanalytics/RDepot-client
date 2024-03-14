@@ -119,17 +119,17 @@
         class="d-flex justify-center align-center"
       >
         <edit-icon
-          v-if="canPatch(token?.links) && active"
+          :disabled="!canPatch(token?.links) && active"
           @set-entity="setEditEntity()"
           :text="$t('common.edit')"
         />
         <delete-icon
-          v-if="canDelete(token?.links)"
+          :disabled="!canDelete(token?.links)"
           :name="token?.name"
           @setResourceId="setEditEntity"
         />
         <deactivate-icon
-          v-if="canPatch(token?.links) && active"
+          :disabled="!canPatch(token?.links) && active"
           :name="token?.name"
           @setResourceId="setEditEntity"
         />

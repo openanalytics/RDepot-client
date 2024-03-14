@@ -214,12 +214,11 @@ describe('Submissions Store', () => {
     )
   })
 
-  it('Get generate manual for Python', () => {
+  it('Get replace default value', () => {
     const submissionStore = useSubmissionStore()
-    submissionStore.repository = { technology: 'Python' }
     expect(
-      submissionStore.getGenerateManualForPackage(files[0])
-    ).toBeTruthy()
+      submissionStore.getReplaceForPackage(files[0])
+    ).toBeFalsy()
   })
 
   it('Get generate manual for random R', () => {

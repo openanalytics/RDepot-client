@@ -81,14 +81,11 @@ export const useAuthorizationStore = defineStore(
       async simpleLogin(data: Login) {
         const { login } = useSimpleAuthorization()
         this.chooseLoginType(LoginType.Enum.SIMPLE)
-        login(data)
-          .then((token) => {
-            this.userToken = token
-            router.push({ name: 'packages' })
-          })
-          .finally(() => {
-            this.getUserInfo()
-          })
+        await login(data).then(async (token) => {
+          this.userToken = token
+          await this.getUserInfo()
+          router.push({ name: 'packages' })
+        })
       },
 
       async logout() {

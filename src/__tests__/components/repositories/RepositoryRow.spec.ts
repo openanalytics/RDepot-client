@@ -94,7 +94,7 @@ describe('Repositories - repository row (repository)', () => {
 
   it('packages number field', () => {
     const field = wrapper.find('#repository-packages-no')
-    expect(field.text()).toBe('none')
+    expect(field.text()).toBe('')
   })
 
   it('published field (checkbox)', () => {
@@ -162,7 +162,7 @@ describe('Repositories - repository row (empty repository)', () => {
 
   it('packages number field', () => {
     const field = wrapper.find('#repository-packages-no')
-    expect(field.text()).toBe('none')
+    expect(field.text()).toBe('')
   })
 
   it('published field (checkbox)', () => {

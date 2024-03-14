@@ -123,6 +123,7 @@
     "logout": "Wyloguj",
     "maintainers": "Opiekunowie",
     "noListingResults": "Nie znaleziono żadnych wyników",
+    "notAuthorized": "Nie masz wystarczających uprawnień aby wykonać tę operację",
     "notAvailable": "Niedostępne",
     "ok": "Ok",
     "or": "lub",
@@ -176,6 +177,7 @@
   "maintainers": {
     "delete": "Usuń opiekuna",
     "deleteQuestion": "Czy na pewno chcesz usunąć {maintainer_name}?",
+    "deleted": "Ten opiekun jest usunięty",
     "edit": "Edytuj opiekuna",
     "editform": {
       "package": "Pakiet",
@@ -236,6 +238,7 @@
     "imports": "Importuje",
     "install": "Instalacja",
     "installInstruction": "Aby zainstalować ten pakiet, uruchom \"{0}\" i wprowadź komendę:",
+    "installPy-code": "pip -v install --index-url {0} {1}",
     "license": "Licencja",
     "list": "Pakiety",
     "maintainer": "Opiekun",
@@ -251,6 +254,7 @@
     "projectUrl": "URL projektu",
     "providesExtra": "Dostarcza dodatkowe",
     "referenceManual": "Instrukcja",
+    "replaceOptionDesc": "Podmień, jeżeli pakiet o tej samej nazwie i wersji istnieje już w wybranym repozytorium",
     "requiresDist": "Wymaga dystrybucji",
     "requiresExternal": "Zewnętrzne wymagania",
     "requiresPython": "Wymaga python",
@@ -282,6 +286,9 @@
       "serverAddressPlaceholder": "http://oa-rdepot-repo:8080/{'{name}'}",
       "technology": "Technologia",
       "title": "Nowe repozytorium"
+    },
+    "edit": {
+      "title": "Edytuj repozytorium"
     },
     "empty": "Nie wybrano repozytorium",
     "filtration": {
