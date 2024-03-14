@@ -34,14 +34,18 @@ const EXTENSIONS_WITH_LICENSE = [
 const EXTENSION_WITHOUT_LICENSE = [
   'md',
   'sh',
+  'gz',
   'env',
   'ico',
   'yml',
+  'jar',
+  'war',
+  'png',
+  'svg',
+  'sql',
   'yaml',
   'conf',
   'json',
-  'png',
-  'svg',
   'local',
   'eslintrc',
   'gitignore',
@@ -49,7 +53,8 @@ const EXTENSION_WITHOUT_LICENSE = [
   'prettierrc',
   'dockerignore',
   'browserslistrc',
-  'prettierignore'
+  'prettierignore',
+  'gitattributes'
 ]
 
 const DIRS_WITHOUT_LICENSE_CHECKING = [
@@ -59,7 +64,13 @@ const DIRS_WITHOUT_LICENSE_CHECKING = [
   '.git',
   '.husky',
   '.scannerwork',
-  'mockData'
+  'mockData',
+  'itestGenerated',
+  'itestNewFiles',
+  'itestServer',
+  'itestSourceFiles',
+  'itestPdf',
+  'itestPackages'
 ]
 
 const license_header = fs.readFileSync('LICENSE').toString()
