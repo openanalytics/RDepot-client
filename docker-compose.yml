@@ -1,7 +1,113 @@
 version: '3'
 services:
-  frontend:
+  proxy:
+    image: registry.openanalytics.eu/proxy/library/nginx:alpine
+    restart: unless-stopped
+    labels:
+      eu.openanalytics.rdepot.container.name: 'oa-rdepot-proxy'
+    volumes:
+      - ./docker/proxy/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./docker/proxy/sites-enabled/rdepot:/etc/nginx/sites-enabled/rdepot:ro
+      - repository:/opt/rdepot/repo/:ro
+    depends_on:
+      - app
+      - repo
+    ports:
+      - 8017:80
+      - 8021:90
+      - 8023:95
+    networks:
+      oa-rdepot:
+        aliases:
+          - oa-rdepot-proxy
+  app:
+    image: registry.openanalytics.eu/openanalytics/rdepot-app:2.0.0-SNAPSHOT
+    restart: unless-stopped
+    hostname: oa-rdepot-app
+    container_name: oa-rdepot-app
+    volumes:
+      - ./docker/app/application.yml:/opt/rdepot/application.yml
+      - ./docker/app/rdepot.war:/opt/rdepot/rdepot.war:ro
+      - ./docker/app/rdepot.conf:/opt/rdepot/rdepot.conf:ro
+      - ./itestSourceFiles:/opt/testSourceFiles:ro
+      - ./itestGenerated:/opt/testGenerated:ro
+      - ./itestNewFiles:/opt/newFiles:ro
+    ports:
+      - 8001:8001
+      - 8018:8080
+      - 8019:8001
+    depends_on:
+      - db
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          'if [ "$$(curl -I localhost:8080 2>/dev/null | grep HTTP/1.1 | cut -d" " -f2)" != "302" ]; then exit 1; else exit 0; fi;'
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+    environment:
+      - DB_URL=jdbc:postgresql://oa-rdepot-db:5432/rdepot
+      - DB_USERNAME=postgres
+    networks:
+      oa-rdepot:
+        aliases:
+          - oa-rdepot-app
+        ipv4_address: 192.168.49.21
+  db:
+    image: registry.openanalytics.eu/proxy/library/postgres:alpine
+    labels:
+      eu.openanalytics.rdepot.container.name: 'oa-rdepot-db'
+    restart: always
+    hostname: oa-rdepot-db
+    # container_name: oa-rdepot-db
+    volumes:
+      - ./docker/db/initial_scripts/:/docker-entrypoint-initdb.d/:ro
+      - ./docker/db/sql_files/:/opt/sql_files/:ro
+    environment:
+      - POSTGRES_PASSWORD=mysecretpassword
+    networks:
+      oa-rdepot:
+        aliases:
+          - oa-rdepot-db
+  repo:
+    image: registry.openanalytics.eu/openanalytics/rdepot-repo:2.0.0-SNAPSHOT
+    restart: unless-stopped
+    labels:
+      eu.openanalytics.rdepot.container.name: 'oa-rdepot-repo'
+    hostname: oa-rdepot-repo
+    volumes:
+      - repository:/opt/rdepot/
+      - ./itestServer:/opt/testServer
+      - ./scripts/:/opt/scripts/
+    networks:
+      oa-rdepot:
+        aliases:
+          - oa-rdepot-repo
+  client:
     build:
       context: .
+    labels:
+      eu.openanalytics.rdepot.container.name: 'oa-rdepot-client'
     ports:
       - '3001:80'
+    depends_on:
+      - app
+      - db
+      - proxy
+      - repo
+    networks:
+      oa-rdepot:
+        aliases:
+          - oa-rdepot-client
+networks:
+  oa-rdepot:
+    ipam:
+      config:
+        - subnet: 192.168.49.0/24
+volumes:
+  repository:
+  repositories:
+  snapshots:
+  queue:
