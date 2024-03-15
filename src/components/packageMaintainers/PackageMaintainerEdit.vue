@@ -52,11 +52,9 @@
         <validated-input-field
           as="v-select"
           name="packageName"
-          id="edit-package-maintainer-package"
           v-model="localMaintainer.packageName"
+          id="edit-package-maintainer-package"
           :items="packages"
-          item-title="name"
-          item-value="name"
           :label="$t('maintainers.editform.package')"
         />
       </v-card-text>
@@ -104,18 +102,32 @@ const repositories = computed(() => {
 })
 
 const packages = computed(() => {
-  return Array.from(
-    new Set(
-      maintainersStore.packages
-        .filter((packageBag) => {
-          return (
-            packageBag.repository?.id ==
-            localMaintainer.value.repository?.id
-          )
-        })
-        .map((packageBag) => packageBag.name)
-    )
-  )
+  return maintainersStore.packages
+    .filter((packageBag) => {
+      return (
+        packageBag.repository?.id ==
+        localMaintainer.value.repository?.id
+      )
+    })
+    .map((packageBag) => {
+      return {
+        title: packageBag.name,
+        value: packageBag.name,
+        props: {
+          disabled: packageBag.user === null ? false : true,
+          subtitle:
+            packageBag.user !== null
+              ? packageBag.user?.name
+              : ''
+        }
+      }
+    })
+    .filter((obj, pos, arr) => {
+      return (
+        arr.map((pack) => pack.title).indexOf(obj.title) ===
+        pos
+      )
+    })
 })
 
 let maintainer = maintainersStore.chosenMaintainer
@@ -163,14 +175,10 @@ function updateMaintainer() {
 }
 
 async function editMaintainer() {
-  if (meta.value.valid) {
-    await maintainersStore.updateMaintainer(
-      localMaintainer.value
-    )
-    changeDialogOptions()
-  } else {
-    toasts.warning(t('notifications.invalidform'))
-  }
+  await maintainersStore.updateMaintainer(
+    localMaintainer.value
+  )
+  changeDialogOptions()
 }
 
 function changeDialogOptions() {
@@ -184,3 +192,22 @@ onMounted(() => {
   maintainersStore.fetchPackages()
 })
 </script>
+
+<style lang="scss">
+.v-input--error:not(.v-input--disabled)
+  .v-input__details
+  .v-messages {
+  color: rgb(var(--v-theme-warning));
+}
+
+.v-field--error:not(.v-field--disabled)
+  .v-label.v-field-label {
+  color: rgb(var(--v-theme-warning));
+}
+
+.v-field--error:not(.v-field--disabled)
+  .v-field__append-inner
+  > .v-icon {
+  color: rgb(var(--v-theme-warning));
+}
+</style>

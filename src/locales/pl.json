@@ -208,6 +208,11 @@
     "successUpdateRepositoryManager": "Zaktualizowano {maintainer_name}",
     "successUpdateUser": "Dane użytkownika zaktualizowane"
   },
+  "package_maintainers": {
+    "editform": {
+      "packageNotFound": "Pakiet jeszcze nie istnieje"
+    }
+  },
   "packages": {
     "approver": "Zatwierdzający",
     "archive": "Archiwum",
