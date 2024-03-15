@@ -68,6 +68,7 @@
         "approver": null,
         "changes": null,
         "state": "WAITING",
+        "created": "2023-12-12",
         "description": "Submission [id: 26, package: The Universal Scalability Law (Gunther 2007), submitter: User [id: 5, name: Nikola Tesla, login: tesla, email: tesla@ldap.forumsys.com], approver: ]",
         "links": [
           {
@@ -124,6 +125,7 @@
         },
         "approver": null,
         "changes": null,
+        "created": "2023-07-23",
         "state": "WAITING",
         "description": "Submission [id: 19, package: Create preliminary exploratory data visualisations of an entire dataset to identify problems or unexpected features using 'ggplot2'., submitter: User [id: 7, name: Isaac Newton, login: newton, email: newton@ldap.forumsys.com], approver: ]",
         "links": [
@@ -181,6 +183,7 @@
         },
         "approver": null,
         "changes": null,
+        "created": "2023-07-23",
         "state": "WAITING",
         "description": "Submission [id: 31, package: The 'abc' package provides various functions for parameter estimation and model selection in an ABC framework. Three main, submitter: User [id: 6, name: Galileo Galilei, login: galieleo, email: galieleo@ldap.forumsys.com], approver: ]",
         "links": [
@@ -249,6 +252,7 @@
         },
         "approver": null,
         "changes": null,
+        "created": "2023-07-23",
         "state": "WAITING",
         "description": "Submission [id: 30, package: This package supplies tools for tabulating and analyzing the results of predictive models. The methods employed are applicable to virtually any predictive model and make comparisons between different methodologies straightforward., submitter: User [id: 6, name: Galileo Galilei, login: galieleo, email: galieleo@ldap.forumsys.com], approver: ]",
         "links": [
@@ -311,6 +315,7 @@
           "email": "einstein@ldap.forumsys.com"
         },
         "changes": null,
+        "created": "2023-07-23",
         "state": "ACCEPTED",
         "description": "Submission [id: 5, package: Package for visualizing data quality of partially accruing data., submitter: User [id: 4, name: Albert Einstein, login: einstein, email: einstein@ldap.forumsys.com], approver: User [id: 4, name: Albert Einstein, login: einstein, email: einstein@ldap.forumsys.com]]",
         "links": [
@@ -435,6 +440,7 @@
           "email": "tesla@ldap.forumsys.com"
         },
         "changes": null,
+        "created": "2023-07-23",
         "state": "REJECTED",
         "description": "Submission [id: 16, package: This package supplies tools for tabulating and analyzing the results of predictive models. The methods employed are applicable to virtually any predictive model and make comparisons between different methodologies straightforward., submitter: User [id: 7, name: Isaac Newton, login: newton, email: newton@ldap.forumsys.com], approver: User [id: 5, name: Nikola Tesla, login: tesla, email: tesla@ldap.forumsys.com]]",
         "links": [
@@ -497,6 +503,7 @@
           "email": "einstein@ldap.forumsys.com"
         },
         "changes": null,
+        "created": "2023-07-23",
         "state": "ACCEPTED",
         "description": "Submission [id: 15, package: Performs nonparametric tests for equality of location against ordered alternatives., submitter: User [id: 4, name: Albert Einstein, login: einstein, email: einstein@ldap.forumsys.com], approver: User [id: 4, name: Albert Einstein, login: einstein, email: einstein@ldap.forumsys.com]]",
         "links": [
@@ -559,6 +566,7 @@
           "email": "einstein@ldap.forumsys.com"
         },
         "changes": null,
+        "created": "2023-07-23",
         "state": "ACCEPTED",
         "description": "Submission [id: 6, package: Package for visualizing data quality of partially accruing time series., submitter: User [id: 4, name: Albert Einstein, login: einstein, email: einstein@ldap.forumsys.com], approver: User [id: 4, name: Albert Einstein, login: einstein, email: einstein@ldap.forumsys.com]]",
         "links": [
@@ -621,6 +629,7 @@
           "email": "einstein@ldap.forumsys.com"
         },
         "changes": null,
+        "created": "2023-07-23",
         "state": "ACCEPTED",
         "description": "Submission [id: 12, package: The 'abc' package provides various functions for parameter estimation and model selection in an ABC framework. Three main, submitter: User [id: 4, name: Albert Einstein, login: einstein, email: einstein@ldap.forumsys.com], approver: User [id: 4, name: Albert Einstein, login: einstein, email: einstein@ldap.forumsys.com]]",
         "links": [
@@ -683,6 +692,7 @@
           "email": "einstein@ldap.forumsys.com"
         },
         "changes": null,
+        "created": "2023-07-23",
         "state": "ACCEPTED",
         "description": "Submission [id: 27, package: The Universal Scalability Law (Gunther 2007), submitter: User [id: 4, name: Albert Einstein, login: einstein, email: einstein@ldap.forumsys.com], approver: User [id: 4, name: Albert Einstein, login: einstein, email: einstein@ldap.forumsys.com]]",
         "links": [
@@ -745,6 +755,7 @@
           "email": "galieleo@ldap.forumsys.com"
         },
         "changes": null,
+        "created": "2023-07-23",
         "state": "CANCELLED",
         "description": "Submission [id: 23, package: Is a collection of models to analyze genome scale codon data using a Bayesian framework. Provides visualization routines and checkpointing for model fittings. Currently published models to analyze gene data for selection on codon, submitter: User [id: 6, name: Galileo Galilei, login: galieleo, email: galieleo@ldap.forumsys.com], approver: User [id: 6, name: Galileo Galilei, login: galieleo, email: galieleo@ldap.forumsys.com]]",
         "links": [
@@ -807,6 +818,7 @@
           "email": "tesla@ldap.forumsys.com"
         },
         "changes": null,
+        "created": "2023-07-23",
         "state": "REJECTED",
         "description": "Submission [id: 24, package: Estimates and graphs deterministic (DEA) frontier models with different technology assumptions (fdh, vrs, drs, crs, irs, add). Also handles possible slacks, peers and their weights (lambdas), optimal cost, revenue and profit allocation, super--efficiency, and mergers. A comparative method for estimating SFA efficiencies is included., submitter: User [id: 6, name: Galileo Galilei, login: galieleo, email: galieleo@ldap.forumsys.com], approver: User [id: 5, name: Nikola Tesla, login: tesla, email: tesla@ldap.forumsys.com]]",
         "links": [
@@ -869,6 +881,7 @@
           "email": "einstein@ldap.forumsys.com"
         },
         "changes": null,
+        "created": "2023-07-23",
         "state": "ACCEPTED",
         "description": "Submission [id: 11, package: The package implements several ABC algorithms for performing parameter estimation and model selection. Cross-validation tools are also available for measuring the accuracy of ABC estimates, and to calculate the misclassification probabilities of different models., submitter: User [id: 4, name: Albert Einstein, login: einstein, email: einstein@ldap.forumsys.com], approver: User [id: 4, name: Albert Einstein, login: einstein, email: einstein@ldap.forumsys.com]]",
         "links": [
@@ -931,6 +944,7 @@
           "email": "einstein@ldap.forumsys.com"
         },
         "changes": null,
+        "created": "2023-07-23",
         "state": "ACCEPTED",
         "description": "Submission [id: 8, package: Package for visualizing data quality of partially accruing data., submitter: User [id: 4, name: Albert Einstein, login: einstein, email: einstein@ldap.forumsys.com], approver: User [id: 4, name: Albert Einstein, login: einstein, email: einstein@ldap.forumsys.com]]",
         "links": [
@@ -993,6 +1007,7 @@
           "email": "tesla@ldap.forumsys.com"
         },
         "changes": null,
+        "created": "2023-07-23",
         "state": "ACCEPTED",
         "description": "Submission [id: 25, package: The Universal Scalability Law (Gunther 2007), submitter: User [id: 5, name: Nikola Tesla, login: tesla, email: tesla@ldap.forumsys.com], approver: User [id: 5, name: Nikola Tesla, login: tesla, email: tesla@ldap.forumsys.com]]",
         "links": [
@@ -1055,6 +1070,7 @@
           "email": "einstein@ldap.forumsys.com"
         },
         "changes": null,
+        "created": "2023-07-23",
         "state": "ACCEPTED",
         "description": "Submission [id: 29, package: This package supplies tools for tabulating and analyzing the results of predictive models. The methods employed are applicable to virtually any predictive model and make comparisons between different methodologies straightforward., submitter: User [id: 4, name: Albert Einstein, login: einstein, email: einstein@ldap.forumsys.com], approver: User [id: 4, name: Albert Einstein, login: einstein, email: einstein@ldap.forumsys.com]]",
         "links": [
@@ -1117,6 +1133,7 @@
           "email": "einstein@ldap.forumsys.com"
         },
         "changes": null,
+        "created": "2023-07-23",
         "state": "ACCEPTED",
         "description": "Submission [id: 4, package: Package for visualizing data quality of partially accruing time series., submitter: User [id: 4, name: Albert Einstein, login: einstein, email: einstein@ldap.forumsys.com], approver: User [id: 4, name: Albert Einstein, login: einstein, email: einstein@ldap.forumsys.com]]",
         "links": [
@@ -1179,6 +1196,7 @@
           "email": "tesla@ldap.forumsys.com"
         },
         "changes": null,
+        "created": "2023-07-23",
         "state": "ACCEPTED",
         "description": "Submission [id: 21, package: Estimates and graphs deterministic (DEA) frontier models with different technology assumptions (fdh, vrs, drs, crs, irs, add). Also handles possible slacks, peers and their weights (lambdas), optimal cost, revenue and profit allocation, super--efficiency, and mergers. A comparative method for estimating SFA efficiencies is included., submitter: User [id: 6, name: Galileo Galilei, login: galieleo, email: galieleo@ldap.forumsys.com], approver: User [id: 5, name: Nikola Tesla, login: tesla, email: tesla@ldap.forumsys.com]]",
         "links": [
@@ -1241,6 +1259,7 @@
           "email": "einstein@ldap.forumsys.com"
         },
         "changes": null,
+        "created": "2023-07-23",
         "state": "ACCEPTED",
         "description": "Submission [id: 14, package: Package for visualizing data quality of partially accruing time series., submitter: User [id: 4, name: Albert Einstein, login: einstein, email: einstein@ldap.forumsys.com], approver: User [id: 4, name: Albert Einstein, login: einstein, email: einstein@ldap.forumsys.com]]",
         "links": [

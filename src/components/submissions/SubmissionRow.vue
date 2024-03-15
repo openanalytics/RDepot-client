@@ -36,7 +36,7 @@
         :text="$t('columns.submissions.date')"
         sortKey="columns.submissions.date"
       />
-      <TextRecord v-else text="DATE" />
+      <TextRecord v-else :text="submission?.created" />
     </v-col>
     <v-col
       id="submission-package"

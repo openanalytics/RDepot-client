@@ -19,7 +19,7 @@
  * along with this program. If not, see <http://www.apache.org/licenses/>
  *
  */
-
+/* tslint:disable */
 /* eslint-disable */
 /**
  * RDEPOT API
@@ -83,11 +83,17 @@ export interface EntityModelSubmissionDto {
    * @type {string}
    * @memberof EntityModelSubmissionDto
    */
+  created?: string
+
+  /**
+   * @type {string}
+   * @memberof EntityModelSubmissionDto
+   */
   technology?: string
 
   /**
    * @type {Array<Link>}
-   * @memberof EntityModelSubmissionDto
+   * @memberof EntityModelRRepositoryDto
    */
   links?: Array<Link>
 }
