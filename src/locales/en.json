@@ -220,6 +220,7 @@
   },
   "package_maintainers": {
     "editform": {
+      "packageHasMaintainer": "This package has maintainer",
       "packageNotFound": "Package doesn't exist yet"
     }
   },

@@ -41,6 +41,8 @@
           :modelValue="localMaintainer.repository!.id"
           @update:modelValue="newValue => {
             localMaintainer.repository!.id = newValue
+            localMaintainer.packageName = ''
+            setFieldValue('packageName', '')
             validateField('packageName')
           }"
           :items="repositories"
@@ -50,9 +52,9 @@
           :label="$t('maintainers.editform.repository')"
         />
         <validated-input-field
-          as="v-select"
+          as="v-combobox"
           name="packageName"
-          v-model="localMaintainer.packageName"
+          :modelValue="localMaintainer.packageName"
           id="edit-package-maintainer-package"
           :items="packages"
           :label="$t('maintainers.editform.package')"
@@ -135,7 +137,7 @@ const localMaintainer = ref(maintainer)
 
 const emit = defineEmits(['closeModal'])
 
-const { meta, validateField } = useForm({
+const { meta, validateField, setFieldValue } = useForm({
   validationSchema: toTypedSchema(
     z.object({
       username:
@@ -146,12 +148,16 @@ const { meta, validateField } = useForm({
         packageMaintainerSchema.shape.packageName.refine(
           (val) => {
             if (packages.value) {
-              return packages.value.includes(val)
+              return !packages.value.find(
+                (pack) => pack.value === val
+              )?.props.disabled
             } else {
               return false
             }
           },
-          t('package_maintainers.editform.packageNotFound')
+          t(
+            'package_maintainers.editform.packageHasMaintainer'
+          )
         )
     })
   ),
@@ -175,10 +181,14 @@ function updateMaintainer() {
 }
 
 async function editMaintainer() {
-  await maintainersStore.updateMaintainer(
-    localMaintainer.value
-  )
-  changeDialogOptions()
+  if (meta.value.valid) {
+    await maintainersStore.updateMaintainer(
+      localMaintainer.value
+    )
+    changeDialogOptions()
+  } else {
+    toasts.warning(t('notifications.invalidform'))
+  }
 }
 
 function changeDialogOptions() {
@@ -192,22 +202,3 @@ onMounted(() => {
   maintainersStore.fetchPackages()
 })
 </script>
-
-<style lang="scss">
-.v-input--error:not(.v-input--disabled)
-  .v-input__details
-  .v-messages {
-  color: rgb(var(--v-theme-warning));
-}
-
-.v-field--error:not(.v-field--disabled)
-  .v-label.v-field-label {
-  color: rgb(var(--v-theme-warning));
-}
-
-.v-field--error:not(.v-field--disabled)
-  .v-field__append-inner
-  > .v-icon {
-  color: rgb(var(--v-theme-warning));
-}
-</style>

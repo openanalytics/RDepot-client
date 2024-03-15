@@ -212,6 +212,7 @@
   },
   "package_maintainers": {
     "editform": {
+      "packageHasMaintainer": "Ten pakiet ma już opiekuna",
       "packageNotFound": "Pakiet jeszcze nie istnieje"
     }
   },
