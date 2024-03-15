@@ -21,34 +21,34 @@
 -->
 
 <template>
-  <p class="value" v-if="eventType === 'update'">
+  <p class="value" v-if="event && eventType === 'update'">
     <UpdateDescription :event="event"></UpdateDescription>
   </p>
   <ul v-else class="value">
     <li>
       {{ $t('columns.users.username') }}:
       <strong>{{
-        event?.relatedResource?.user.name
+        event?.relatedResource?.user?.name
       }}</strong>
     </li>
     <li>
       {{ $t('columns.users.email') }}:
-      {{ event?.relatedResource?.user.email }}
+      {{ event?.relatedResource?.user?.email }}
     </li>
     <li>
       {{ $t('columns.package.repository') }}:
-      {{ event?.relatedResource?.repository.name }}
+      {{ event?.relatedResource?.repository?.name }}
     </li>
     <li>
       {{ $t('columns.package.technology') }}:
-      {{ event?.relatedResource?.repository.technology }}
+      {{ event?.relatedResource?.repository?.technology }}
     </li>
   </ul>
 </template>
 
 <script setup lang="ts">
 import { EntityModelNewsfeedEventDto } from '@/openapi'
-import UpdateDescription from '@/components/events/resources/UpdateDescription'
+import UpdateDescription from '@/components/events/resources/UpdateDescription.vue'
 
 const props = defineProps({
   event: Object as () => EntityModelNewsfeedEventDto,

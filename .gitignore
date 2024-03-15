@@ -2,6 +2,12 @@
 node_modules
 /dist
 /coverage
+/itestGenerated
+/itestNewFiles
+/itestServer
+/itestSourceFiles
+/itestPdf
+/itestPackages
 
 # local env files
 .env.local

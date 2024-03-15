@@ -83,7 +83,7 @@ function search(value: string) {
 function customFiltrate(
   _: string,
   queryText: string,
-  itemText: { title: string }
+  itemText: any
 ) {
   return (
     selectStore.ifAllFetched &&

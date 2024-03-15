@@ -45,9 +45,12 @@ export const useSelectStoreFactory = (id: SelectState) => {
   >
 }
 
+export type UserObject = { title: string; value: string }
+export type ItemType = string | UserObject | undefined
+
 function defineSelectStore<SelectState>(id: SelectState) {
   return defineStore(`${id}`, () => {
-    const itemsLocal = ref<(string | undefined)[]>([])
+    const itemsLocal = ref<ItemType[]>([])
     const pendingLocal = ref<boolean>(false)
     const paginationDataLocal = ref<Pagination>({
       page: 0,
@@ -65,7 +68,7 @@ function defineSelectStore<SelectState>(id: SelectState) {
       get() {
         return [...new Set(itemsLocal.value)]
       },
-      set(value: (string | undefined)[]) {
+      set(value: ItemType[]) {
         itemsLocal.value = value
       }
     })
@@ -100,7 +103,7 @@ function defineSelectStore<SelectState>(id: SelectState) {
       paginationDataLocal.value.page = payload
     }
 
-    function addItems(payload: (string | undefined)[]) {
+    function addItems(payload: ItemType[]) {
       itemsLocal.value = [
         ...itemsLocal.value,
         ...payload.filter((item) => item !== undefined)

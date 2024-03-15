@@ -29,7 +29,8 @@ import {
   EntityModelRPackageDto,
   ResponseDtoListVignette,
   PythonPackageControllerApiFactory,
-  RPackageControllerApiFactory
+  RPackageControllerApiFactory,
+  Vignette
 } from '@/openapi'
 import { isAuthorized } from '@/plugins/casl'
 import {
@@ -51,6 +52,8 @@ type ValidatedPackage = Promise<
 type ValidatedPackagePython = Promise<
   validatedData<EntityModelPythonPackageDto>
 >
+
+type ValidatedVignette = Promise<validatedData<Vignette[]>>
 
 export async function fetchPackagesServices(
   filtration?: PackagesFiltration,
@@ -177,7 +180,7 @@ export async function updatePythonPackage(
   })
 }
 
-export function downloadReferenceManual(id: string) {
+export async function downloadReferenceManual(id: string) {
   return openApiRequest<Promise<boolean>>(
     RPackageControllerApiFactory().downloadReferenceManual,
     [id],
@@ -188,7 +191,10 @@ export function downloadReferenceManual(id: string) {
   })
 }
 
-export function openVignetteHtml(id: string, name: string) {
+export async function openVignetteHtml(
+  id: string,
+  name: string
+) {
   return openApiRequest<Promise<boolean>>(
     RPackageControllerApiFactory().downloadVignetteHtml,
     [id, name],
@@ -200,7 +206,7 @@ export function openVignetteHtml(id: string, name: string) {
   })
 }
 
-export function downloadVignetteHtml(
+export async function downloadVignetteHtml(
   id: string,
   name: string
 ) {
@@ -215,7 +221,7 @@ export function downloadVignetteHtml(
   })
 }
 
-export function downloadSourceFile(
+export async function downloadSourceFile(
   id: string,
   name: string,
   version: string
@@ -230,8 +236,10 @@ export function downloadSourceFile(
   })
 }
 
-export function fetchVignettes(id: number) {
-  return openApiRequest<Promise<ResponseDtoListVignette>>(
+export async function fetchVignettes(
+  id: number
+): ValidatedVignette {
+  return openApiRequest<Vignette[]>(
     RPackageControllerApiFactory().getVignetteLinks,
     [id],
     true
@@ -240,7 +248,17 @@ export function fetchVignettes(id: number) {
   })
 }
 
-export function deletePythonPackage(
+// export async function fetchVignettes(id: number) {
+//   return openApiRequest<Promise<ResponseDtoListVignette>>(
+//     RPackageControllerApiFactory().getVignetteLinks,
+//     [id],
+//     true
+//   ).catch(() => {
+//     return validateRequest({})
+//   })
+// }
+
+export async function deletePythonPackage(
   oldPackage: EntityModelPackageDto,
   newPackage: EntityModelPackageDto
 ) {
@@ -258,7 +276,7 @@ export function deletePythonPackage(
   })
 }
 
-export function deleteRPackage(
+export async function deleteRPackage(
   oldPackage: EntityModelPackageDto,
   newPackage: EntityModelPackageDto
 ) {

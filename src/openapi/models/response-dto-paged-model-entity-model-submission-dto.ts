@@ -34,8 +34,6 @@
  */
 
 import { PagedModelEntityModelSubmissionDto } from './paged-model-entity-model-submission-dto'
-import { PagedModelEntityModelSubmissionDto } from '.'
-
 /**
  *
  *

@@ -34,8 +34,6 @@
  */
 
 import { PagedModelEntityModelRepositoryMaintainerDto } from './paged-model-entity-model-repository-maintainer-dto'
-import { PagedModelEntityModelRepositoryMaintainerDto } from '.'
-
 /**
  *
  *

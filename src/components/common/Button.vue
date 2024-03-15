@@ -37,8 +37,14 @@
 import { OverlayEnum } from '@/enum/Overlay'
 import { i18n } from '@/plugins/i18n'
 import { useCommonStore } from '@/store/common'
+import { PropType } from 'vue'
 
-var props = defineProps<{ component: OverlayEnum }>()
+const props = defineProps({
+  component: {
+    type: String as PropType<OverlayEnum>,
+    required: true
+  }
+})
 
 const commonStore = useCommonStore()
 

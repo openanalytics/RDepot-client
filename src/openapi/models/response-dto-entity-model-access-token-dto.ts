@@ -34,8 +34,6 @@
  */
 
 import { EntityModelAccessTokenDto } from './entity-model-access-token-dto'
-import { EntityModelAccessTokenDto } from '.'
-
 /**
  *
  *

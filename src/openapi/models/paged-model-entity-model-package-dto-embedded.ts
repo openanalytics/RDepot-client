@@ -34,8 +34,6 @@
  */
 
 import { EntityModelPackageDto } from './entity-model-package-dto'
-import { EntityModelPackageDto } from '.'
-
 /**
  *
  *

@@ -33,10 +33,8 @@
  * Do not edit the class manually.
  */
 
-import { Links } from './links'
+import { Link } from './link'
 import { UserProjection } from './user-projection'
-import { Links, UserProjection } from '.'
-
 /**
  *
  *
@@ -93,8 +91,8 @@ export interface EntityModelAccessTokenDto {
   user?: UserProjection
 
   /**
-   * @type {Links}
+   * @type {Array<Link>}
    * @memberof EntityModelAccessTokenDto
    */
-  links?: Links
+  links?: Array<Link>
 }

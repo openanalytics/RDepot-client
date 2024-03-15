@@ -42,6 +42,8 @@ import {
 } from '@/models/Filtration'
 import { useUtilities } from '@/composable/utilities'
 import { http, HttpResponse } from 'msw'
+import { useAuthorizationStore } from '@/store/authorization'
+import me from '@/__tests__/config/mockData/me.json'
 
 const defaultFiltration = defaultValues(PackagesFiltration)
 
@@ -56,6 +58,12 @@ const randomFiltration = {
 }
 
 const server = setupServer(
+  http.get(
+    'http://localhost:8017/api/v2/manager/users/me',
+    () => {
+      return HttpResponse.json(me)
+    }
+  ),
   http.get(
     'http://localhost:8017/api/v2/manager/packages',
     () => {
@@ -103,9 +111,11 @@ const server = setupServer(
 )
 
 describe('Package Store', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     setActivePinia(createPinia())
     server.listen()
+    const authorizationStore = useAuthorizationStore()
+    await authorizationStore.getUserInfo()
   })
 
   afterAll(() => {
@@ -212,12 +222,12 @@ describe('Package Store', () => {
 
     expect(
       packageStore.filtration.repository
-    ).toStrictEqual(repositories.data.content[0].name)
+    ).toStrictEqual([repositories.data.content[0].name])
     expect(packageStore.filtration.deleted).toBe(
       defaultFiltration.deleted
     )
-    expect(packageStore.filtration.state).toBe(
-      defaultFiltration.state
+    expect(packageStore.filtration.submissionState).toBe(
+      defaultFiltration.submissionState
     )
     expect(packageStore.filtration.technologies).toBe(
       defaultFiltration.technologies

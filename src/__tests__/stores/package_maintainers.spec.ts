@@ -38,6 +38,7 @@ import packages from '@/__tests__/config/mockData/packages.json'
 import { setupServer } from 'msw/node'
 import { usePagination } from '@/store/pagination'
 import { Technologies } from '@/enum/Technologies'
+import { useAuthorizationStore } from '@/store/authorization'
 import {
   PackageMaintainersFiltration,
   defaultValues
@@ -58,6 +59,12 @@ const randomFiltration = {
 }
 
 const server = setupServer(
+  http.get(
+    'http://localhost:8017/api/v2/manager/users/me',
+    () => {
+      return HttpResponse.json(me)
+    }
+  ),
   http.get(
     'http://localhost:8017/api/v2/manager/package-maintainers',
     () => {
@@ -99,9 +106,11 @@ describe('Package Maintainers Store', () => {
     server.listen()
   })
 
-  beforeEach(() => {
+  beforeEach(async () => {
     setActivePinia(createPinia())
     server.resetHandlers()
+    const authorizationStore = useAuthorizationStore()
+    await authorizationStore.getUserInfo()
   })
 
   afterEach(() => {
@@ -348,9 +357,11 @@ describe('Package Maintainers Store requests with failing backend', () => {
     failingServer.listen()
   })
 
-  beforeEach(() => {
+  beforeEach(async () => {
     setActivePinia(createPinia())
     failingServer.resetHandlers()
+    const authorizationStore = useAuthorizationStore()
+    await authorizationStore.getUserInfo()
   })
 
   afterAll(() => {

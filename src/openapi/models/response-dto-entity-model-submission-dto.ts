@@ -34,8 +34,6 @@
  */
 
 import { EntityModelSubmissionDto } from './entity-model-submission-dto'
-import { EntityModelSubmissionDto } from '.'
-
 /**
  *
  *

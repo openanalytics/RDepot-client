@@ -73,5 +73,7 @@ const toComponent = new Map<Component, any>([
   ]
 ])
 
-const as = toComponent.get(props.resourceType)
+const as = toComponent.get(
+  props.resourceType || toComponent.get('PACKAGE')
+)
 </script>

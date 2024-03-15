@@ -34,8 +34,6 @@
  */
 
 import { Vignette } from './vignette'
-import { Vignette } from '.'
-
 /**
  *
  *

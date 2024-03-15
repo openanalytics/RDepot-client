@@ -110,7 +110,13 @@
         :text="$t('columns.repository.packagesNo')"
         sortKey="columns.repository.packagesNo"
       />
-      <TextRecord v-else text="none" no-margin />
+      <TextRecord
+        v-else
+        :text="
+          props.repository?.numberOfPackages?.toString()
+        "
+        no-margin
+      />
     </v-col>
     <v-col
       id="repository-published"
@@ -136,7 +142,6 @@
       </span>
     </v-col>
     <v-col
-      v-if="title || canDelete(props.repository?.links)"
       id="repository-actions"
       cols="lg-1"
       class="d-flex justify-center"
@@ -152,11 +157,15 @@
         v-else-if="repository"
         class="d-flex justify-center align-center"
       >
-        <delete-icon
-          v-if="canDelete(props.repository?.links)"
+        <EditIcon
+          :disabled="!canPatch(props.repository?.links)"
+          @set-entity="setEditEntity()"
+          :text="$t('common.edit')"
+        />
+        <DeleteIcon
+          :disabled="!canDelete(props.repository?.links)"
           :name="props.repository?.name"
           @setResourceId="chooseRepository"
-          class=""
         />
       </span>
     </v-col>
@@ -174,6 +183,7 @@ import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
 import { usePackagesStore } from '@/store/packages'
 import { useRepositoryStore } from '@/store/repositories'
 import { JustifyEnum } from '@/enum/Justify'
+import EditIcon from '../common/action_icons/EditIcon.vue'
 
 const packagesStore = usePackagesStore()
 const { deepCopy } = useUtilities()
@@ -190,10 +200,10 @@ function updateRepositoryPublished(): void {
     const oldRepository = deepCopy(props.repository)
     oldRepository.published = !oldRepository.published
     updateRepository(oldRepository, props.repository).then(
-      (success) => {
+      () => {
         repositoryStore.fetchRepositories()
       },
-      (failure) => {
+      () => {
         repositoryStore.fetchRepositories()
       }
     )
@@ -204,5 +214,9 @@ function chooseRepository() {
   packagesStore.setFiltrationByRepositoryOnly(
     props.repository?.name
   )
+}
+
+function setEditEntity() {
+  repositoryStore.setChosenRepository(props.repository?.id)
 }
 </script>

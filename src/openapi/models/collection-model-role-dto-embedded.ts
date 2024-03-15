@@ -34,8 +34,6 @@
  */
 
 import { RoleDto } from './role-dto'
-import { RoleDto } from '.'
-
 /**
  *
  *

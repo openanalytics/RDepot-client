@@ -33,9 +33,7 @@
  * Do not edit the class manually.
  */
 
-import { Links } from './links'
-import { Links } from '.'
-
+import { Link } from './link'
 /**
  *
  *
@@ -110,10 +108,10 @@ export interface EntityModelPythonRepositoryDto {
   hashMethod?: EntityModelPythonRepositoryDtoHashMethodEnum
 
   /**
-   * @type {Links}
+   * @type {Array<Link>}
    * @memberof EntityModelPythonRepositoryDto
    */
-  links?: Links
+  links?: Array<Link>
 }
 
 /**

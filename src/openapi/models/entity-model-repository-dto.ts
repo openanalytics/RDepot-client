@@ -33,9 +33,7 @@
  * Do not edit the class manually.
  */
 
-import { Links } from './links'
-import { Links } from '.'
-
+import { Link } from './link'
 /**
  *
  *
@@ -104,8 +102,8 @@ export interface EntityModelRepositoryDto {
   numberOfPackages?: number
 
   /**
-   * @type {Links}
+   * @type {Array<Link>}
    * @memberof EntityModelRepositoryDto
    */
-  links?: Links
+  links?: Array<Link>
 }

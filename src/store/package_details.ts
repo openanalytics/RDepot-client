@@ -31,7 +31,7 @@ import {
   EntityModelPythonPackageDto,
   EntityModelRPackageDto,
   EntityModelSubmissionDto,
-  ResponseDtoListVignette
+  Vignette
 } from '@/openapi'
 import {
   downloadReferenceManual,
@@ -51,7 +51,7 @@ interface State {
     | EntityModelPythonPackageDto
   submission?: EntityModelSubmissionDto
   next?: boolean
-  vignettes?: ResponseDtoListVignette
+  vignettes?: Vignette[]
 }
 
 export const usePackageDetailsStore = defineStore(
@@ -62,7 +62,7 @@ export const usePackageDetailsStore = defineStore(
         packages: [],
         packageBag: {},
         submission: {},
-        vignettes: {},
+        vignettes: [],
         next: false
       }
     },
@@ -78,7 +78,7 @@ export const usePackageDetailsStore = defineStore(
           false
         )
         this.packageBag = packageBag
-        if (packageBag.submissionId != undefined) {
+        if (packageBag.submission?.id != undefined) {
           this.submission = (await fetchSubmission(id))[0]
         }
         this.fetchAllPackageVersions()
@@ -97,9 +97,12 @@ export const usePackageDetailsStore = defineStore(
           const filtration = defaultValues(
             PackagesFiltration
           )
-          filtration.repository =
-            this.packageBag.repository?.name
-          filtration.name = this.packageBag.name
+          if (this.packageBag.repository?.name) {
+            filtration.repository = [
+              this.packageBag.repository?.name
+            ]
+          }
+          filtration.search = this.packageBag.name
           const [packages, pageData] =
             await fetchPackagesServices(
               filtration,

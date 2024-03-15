@@ -21,7 +21,7 @@
 -->
 
 <template>
-  <v-tooltip top>
+  <v-tooltip location="top">
     <template #activator="{ props }">
       <v-icon
         id="pencil-icon"
@@ -29,22 +29,37 @@
         @click="edit"
         v-bind="props"
         class="ml-3"
-        color="oablue"
+        :color="disabled ? 'grey' : 'oablue'"
         >mdi-pencil</v-icon
       >
     </template>
-    <span id="action-edit">{{ text }}</span>
+    <span id="action-delete" v-if="!disabled">{{
+      text
+    }}</span>
+    <span v-else>
+      {{ hoverMessage }}
+    </span>
   </v-tooltip>
 </template>
 
 <script setup lang="ts">
 import { OverlayEnum } from '@/enum/Overlay'
+import { i18n } from '@/plugins/i18n'
 import { useCommonStore } from '@/store/common'
 
 const props = defineProps({
   text: {
     type: String,
     required: true
+  },
+  disabled: {
+    type: Boolean,
+    default: false
+  },
+  hoverMessage: {
+    type: String,
+    reqiured: false,
+    default: i18n.t('common.notAuthorized')
   }
 })
 
@@ -52,8 +67,10 @@ const emits = defineEmits(['setEntity'])
 const commonStore = useCommonStore()
 
 function edit() {
-  emits('setEntity')
-  commonStore.setOverlayText(props.text)
-  commonStore.openOverlay(OverlayEnum.enum.Edit)
+  if (!props.disabled) {
+    emits('setEntity')
+    commonStore.setOverlayText(props.text)
+    commonStore.openOverlay(OverlayEnum.enum.Edit)
+  }
 }
 </script>

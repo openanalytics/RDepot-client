@@ -24,7 +24,8 @@ import { EntityModelUserDto } from '@/openapi'
 import { useUserStore } from '@/store/users'
 import {
   useSelectStore,
-  SelectState
+  SelectState,
+  UserObject
 } from '@/store/select_pagination'
 
 export function useUsersFiltration() {
@@ -37,7 +38,10 @@ export function useUsersFiltration() {
     await userStore.fetchAllUsers()
     selectStore.addItems(
       userStore.userList.map((user: EntityModelUserDto) => {
-        return { value: user.login, title: user.name }
+        return {
+          value: user.login,
+          title: user.name
+        } as UserObject
       })
     )
   }
