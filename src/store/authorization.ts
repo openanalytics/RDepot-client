@@ -164,12 +164,14 @@ export const useAuthorizationStore = defineStore(
           this.me.role != role &&
           this.me.role != undefined
         ) {
-          alert(
-            'role has changed from ' +
-              this.me.role +
-              'to ' +
-              role
-          )
+          if (role) {
+            alert(
+              'role has changed from ' +
+                this.me.role +
+                ' to ' +
+                role
+            )
+          }
           return false
         }
         return true

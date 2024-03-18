@@ -25,6 +25,7 @@ import { BASE_PATH } from '@/openapi/base'
 import axios from 'axios'
 import { useToast } from '@/composable/toasts'
 import { i18n } from '@/plugins/i18n'
+import getEnv from '@/utils/env'
 
 export function useSimpleAuthorization() {
   const toasts = useToast()
@@ -54,9 +55,7 @@ export function useSimpleAuthorization() {
   }
 
   function isSimpleAuthAvailable() {
-    return Boolean(
-      JSON.parse(import.meta.env.VITE_LOGIN_SIMPLE)
-    )
+    return Boolean(JSON.parse(getEnv('VITE_LOGIN_SIMPLE')))
   }
 
   function getTokenFromLocalStorage() {
