@@ -211,9 +211,7 @@ function updateRepositoryPublished(): void {
 }
 
 function chooseRepository() {
-  packagesStore.setFiltrationByRepositoryOnly(
-    props.repository?.name
-  )
+  repositoryStore.setChosenRepository(props.repository?.id)
 }
 
 function setEditEntity() {
