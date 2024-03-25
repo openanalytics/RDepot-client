@@ -147,6 +147,7 @@
   "errors": {
     "401": "Nie można wykonać zapytania. Użytkownik nie jest zalogowany.",
     "403": "Nie można wykonać zapytania. Użytkownik nie posiada odpowiednich uprawnień.",
+    "405": "Prawdopodobny problem z konfiguracją serwera. Skontaktuj się z administratorem.",
     "422": "Nieudana walidacja",
     "oauth": "Błąd autoryzacji",
     "oauthTitle": "Autoryzacja"
