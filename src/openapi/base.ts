@@ -34,6 +34,7 @@
  */
 
 import { Configuration } from './configuration'
+import getEnv from '@/utils/env'
 // Some imports not used depending on template conditions
 // @ts-ignore
 import globalAxios, {
@@ -41,7 +42,7 @@ import globalAxios, {
   AxiosInstance
 } from 'axios'
 
-export const BASE_PATH = 'http://localhost:8017'.replace(
+export const BASE_PATH = getEnv('VITE_SERVER_ADDRESS').replace(
   /\/+$/,
   ''
 )

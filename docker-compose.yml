@@ -3,6 +3,7 @@ services:
   proxy:
     image: registry.openanalytics.eu/proxy/library/nginx:alpine
     restart: unless-stopped
+    container_name: oa-rdepot-proxy
     labels:
       eu.openanalytics.rdepot.container.name: 'oa-rdepot-proxy'
     volumes:
@@ -24,7 +25,7 @@ services:
     image: registry.openanalytics.eu/openanalytics/rdepot-app:2.0.0-SNAPSHOT
     restart: unless-stopped
     hostname: oa-rdepot-app
-    container_name: oa-rdepot-app
+    container_name: oa-rdepot-backend
     volumes:
       - ./docker/app/application.yml:/opt/rdepot/application.yml
       - ./docker/app/rdepot.war:/opt/rdepot/rdepot.war:ro
@@ -61,7 +62,7 @@ services:
       eu.openanalytics.rdepot.container.name: 'oa-rdepot-db'
     restart: always
     hostname: oa-rdepot-db
-    # container_name: oa-rdepot-db
+    container_name: oa-rdepot-db
     volumes:
       - ./docker/db/initial_scripts/:/docker-entrypoint-initdb.d/:ro
       - ./docker/db/sql_files/:/opt/sql_files/:ro
@@ -74,6 +75,7 @@ services:
   repo:
     image: registry.openanalytics.eu/openanalytics/rdepot-repo:2.0.0-SNAPSHOT
     restart: unless-stopped
+    container_name: oa-rdepot-repo
     labels:
       eu.openanalytics.rdepot.container.name: 'oa-rdepot-repo'
     hostname: oa-rdepot-repo
@@ -86,6 +88,7 @@ services:
         aliases:
           - oa-rdepot-repo
   client:
+    container_name: oa-rdepot-frontend
     build:
       context: .
     labels:
