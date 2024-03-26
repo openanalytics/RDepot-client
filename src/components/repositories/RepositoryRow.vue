@@ -159,7 +159,7 @@
       >
         <EditIcon
           :disabled="!canPatch(props.repository?.links)"
-          @set-entity="setEditEntity()"
+          @set-entity="chooseRepository()"
           :text="$t('common.edit')"
         />
         <DeleteIcon
@@ -211,12 +211,6 @@ function updateRepositoryPublished(): void {
 }
 
 function chooseRepository() {
-  packagesStore.setFiltrationByRepositoryOnly(
-    props.repository?.name
-  )
-}
-
-function setEditEntity() {
   repositoryStore.setChosenRepository(props.repository?.id)
 }
 </script>
