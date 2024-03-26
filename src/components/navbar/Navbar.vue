@@ -25,7 +25,7 @@
     <v-row justify="space-around" align="center">
       <v-row justify="start" align="center" class="ml-4">
         <v-app-bar-nav-icon
-          v-show="mobile"
+          v-show="mobile && showHamburger"
           color="oablue-darken-2"
           @click.stop="showSidebar"
         ></v-app-bar-nav-icon>
@@ -59,9 +59,16 @@ import ChangeLanguage from '@/components/navbar/ChangeLanguage.vue'
 import ChangeTheme from '@/components/navbar/ChangeTheme.vue'
 import { useCommonStore } from '@/store/common'
 import { useDisplay } from 'vuetify/lib/framework.mjs'
+import { computed } from 'vue'
+import { useAuthorizationStore } from '@/store/authorization'
 
 const commonStore = useCommonStore()
+const authorizationStore = useAuthorizationStore()
 const { mobile } = useDisplay()
+
+const showHamburger = computed(() => {
+  return authorizationStore.sidebar
+})
 
 function showSidebar() {
   commonStore.setDrawer(!commonStore.drawer)
