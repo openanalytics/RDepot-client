@@ -44,12 +44,12 @@
       "technology": "Technologia"
     },
     "packageName": "Pakiet",
-    "packagesNo": "Lp. pakietu",
+    "packagesNo": "# pakietu",
     "publicationUri": "URI publikacji",
     "published": "Opublikowano",
     "repository": {
       "name": "Repozytorium",
-      "packagesNo": "Lp. pakietu",
+      "packagesNo": "# pakietu",
       "publicationUri": "URI publikacji",
       "published": "Opublikowano",
       "serverAddress": "Adres serwera",
