@@ -384,7 +384,11 @@
     },
     "noPackageChosen": "No packages choosen",
     "waitForAllRequestsToFulfill": "Wait until all submissions will end",
-    "wrongExtension": "Choose packages that have correct extension (.tar.gz)"
+    "wrongExtension": "Choose packages that have correct extension (.tar.gz)",
+    "waitingForAction": "waiting for an action",
+    "accepted": "accepted",
+    "rejected": "rejected",
+    "cancelled": "cancelled"
   },
   "success": "Request processed successfully",
   "tempo": "długie zdanie",

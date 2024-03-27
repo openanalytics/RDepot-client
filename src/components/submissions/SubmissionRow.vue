@@ -212,6 +212,7 @@ import SortTitle from '@/components/common/resources/SortTitle.vue'
 import TextRecord from '@/components/common/resources/TextRecord.vue'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
 import { JustifyEnum } from '@/enum/Justify'
+import { i18n } from '@/plugins/i18n'
 
 const props = defineProps({
   title: {
@@ -271,9 +272,12 @@ const getRejectedOrCancelled = computed<boolean>(() => {
 })
 
 const getAcceptedTooltipMessage = computed<string>(() => {
-  if (getAccepted.value) return 'accepted'
-  if (getWaiting.value) return 'waiting for an action'
-  if (getRejected.value) return 'rejected'
-  else return 'cancelled'
+  if (getAccepted.value)
+    return i18n.t('submissions.accepted')
+  if (getWaiting.value)
+    return i18n.t('submissions.waitingForAction')
+  if (getRejected.value)
+    return i18n.t('submissions.rejected')
+  else return i18n.t('submissions.cancelled')
 })
 </script>

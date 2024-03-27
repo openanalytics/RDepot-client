@@ -378,7 +378,11 @@
     },
     "noPackageChosen": "Nie wybrano pakietów",
     "waitForAllRequestsToFulfill": "Zaczekaj na zakończenie wszystkich zgłoszeń",
-    "wrongExtension": "Wybierz pakiety o poprawnym rozszerzeniu (.tar.gz)"
+    "wrongExtension": "Wybierz pakiety o poprawnym rozszerzeniu (.tar.gz)",
+    "accepted": "zaakceptowane",
+    "waitingForAction": "oczekuje na akcję",
+    "rejected": "odrzucone",
+    "cancelled": "anulowane"
   },
   "success": "Poprawnie wykonana operacja",
   "users": {
