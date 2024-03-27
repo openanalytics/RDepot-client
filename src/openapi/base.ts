@@ -42,10 +42,9 @@ import globalAxios, {
   AxiosInstance
 } from 'axios'
 
-export const BASE_PATH = getEnv('VITE_SERVER_ADDRESS').replace(
-  /\/+$/,
-  ''
-)
+export const BASE_PATH = getEnv(
+  'VITE_SERVER_ADDRESS'
+).replace(/\/+$/, '')
 
 /**
  *

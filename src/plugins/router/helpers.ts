@@ -53,14 +53,7 @@ export function hideSidebar(value: boolean) {
 }
 
 export async function redirectToLoginPage() {
-  const { isSimpleAuthAvailable } = useSimpleAuthorization()
-  const authorizationStore = useAuthorizationStore()
-  if (isSimpleAuthAvailable()) {
-    return '/login'
-  } else {
-    authorizationStore.login()
-    return '/packages'
-  }
+  return '/login'
 }
 
 export function resetStoreValues(to: any) {
