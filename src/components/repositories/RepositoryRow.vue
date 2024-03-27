@@ -137,15 +137,32 @@
         :justify="JustifyEnum.Enum.center"
       />
       <span v-else-if="repository">
-        <v-checkbox
-          id="checkbox-published"
-          v-model="repository.published"
-          @change="updateRepositoryPublished()"
-          :disabled="!canPatch(props.repository?.links)"
-          color="oablue"
-          class="mr-8"
-          @click.stop
-        />
+        <v-tooltip
+          location="top"
+          :disabled="canPatch(repository?.links)"
+        >
+          <template #activator="{ props }">
+            <span v-bind="props">
+              <v-checkbox
+                id="checkbox-published"
+                v-model="repository.published"
+                @change="updateRepositoryPublished()"
+                :readonly="!canPatch(repository?.links)"
+                :color="
+                  !canPatch(repository?.links)
+                    ? 'grey'
+                    : 'oablue'
+                "
+                class="mr-8"
+                @click.stop
+              >
+              </v-checkbox>
+            </span>
+          </template>
+          <span v-if="!canPatch(repository?.links)">{{
+            $t('common.notAuthorized')
+          }}</span>
+        </v-tooltip>
       </span>
     </v-col>
     <v-spacer />
@@ -207,17 +224,22 @@ const props = defineProps<{
 }>()
 
 function updateRepositoryPublished(): void {
-  if (props.repository) {
-    const oldRepository = deepCopy(props.repository)
-    oldRepository.published = !oldRepository.published
-    updateRepository(oldRepository, props.repository).then(
-      () => {
-        repositoryStore.fetchRepositories()
-      },
-      () => {
-        repositoryStore.fetchRepositories()
-      }
-    )
+  if (canPatch(props.repository?.links)) {
+    if (props.repository) {
+      const oldRepository = deepCopy(props.repository)
+      oldRepository.published = !oldRepository.published
+      updateRepository(
+        oldRepository,
+        props.repository
+      ).then(
+        () => {
+          repositoryStore.fetchRepositories()
+        },
+        () => {
+          repositoryStore.fetchRepositories()
+        }
+      )
+    }
   }
 }
 
