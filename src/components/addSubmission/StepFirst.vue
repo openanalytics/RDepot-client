@@ -63,7 +63,7 @@
       color="oablue"
       @click="nextStep"
     >
-      Continue
+      {{ $t('button.continue') }}
     </v-btn>
   </div>
 </template>

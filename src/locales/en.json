@@ -1,5 +1,6 @@
 {
   "addSubmission": {
+    "generateManual": "Generate manual",
     "step1Title": "Choose repository",
     "step2Title": "Upload {0} packages",
     "step3Title": "Summary"
@@ -17,6 +18,9 @@
     "username": "Login",
     "usernameError": "Name is required",
     "wrongCredentials": "Wrong credentials, please try again"
+  },
+  "button": {
+    "continue": "Continue"
   },
   "columns": {
     "accepted": "Status",
@@ -136,6 +140,7 @@
     "seepackages": "See repository's packages",
     "settings": "Settings",
     "submissions": "Submissions",
+    "submit": "Submit",
     "users": "Users"
   },
   "dragzone": {

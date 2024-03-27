@@ -1,7 +1,8 @@
 {
   "addSubmission": {
+    "generateManual": "Generuj dokumentację",
     "step1Title": "Wybierz repozytorium",
-    "step2Title": "Wgrano {0} pakietów",
+    "step2Title": "Wgraj pakiety {0}",
     "step3Title": "Podsumowanie"
   },
   "authorization": {
@@ -17,6 +18,9 @@
     "username": "Login",
     "usernameError": "Login jest wymagany",
     "wrongCredentials": "Błędne dane logowania, spróbuj ponownie"
+  },
+  "button": {
+    "continue": "Kontynuuj"
   },
   "columns": {
     "accepted": "Status",
@@ -136,6 +140,7 @@
     "seepackages": "Zobacz pakiety w repozytorium",
     "settings": "Ustawienia",
     "submissions": "Zgłoszenia",
+    "submit": "Zatwierdź",
     "users": "Użytkownicy"
   },
   "dragzone": {
