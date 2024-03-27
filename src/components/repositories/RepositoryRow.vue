@@ -57,6 +57,13 @@
       id="repository-server-address"
       cols="lg-4 sm-2"
       class="d-flex align-center"
+      v-if="
+        isAtLeastRepositoryMaintainer(
+          authorizationStore.userRole
+            ? authorizationStore.userRole
+            : 0
+        )
+      "
     >
       <SortTitle
         v-if="title"
@@ -141,6 +148,7 @@
         />
       </span>
     </v-col>
+    <v-spacer />
     <v-col
       id="repository-actions"
       cols="lg-1"
@@ -184,11 +192,14 @@ import { usePackagesStore } from '@/store/packages'
 import { useRepositoryStore } from '@/store/repositories'
 import { JustifyEnum } from '@/enum/Justify'
 import EditIcon from '../common/action_icons/EditIcon.vue'
+import { isAtLeastRepositoryMaintainer } from '@/enum/UserRoles'
+import { useAuthorizationStore } from '@/store/authorization'
 
 const packagesStore = usePackagesStore()
 const { deepCopy } = useUtilities()
 const { canDelete, canPatch } = useUserAuthorities()
 const repositoryStore = useRepositoryStore()
+const authorizationStore = useAuthorizationStore()
 
 const props = defineProps<{
   title?: boolean
