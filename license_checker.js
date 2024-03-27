@@ -43,6 +43,8 @@ const EXTENSION_WITHOUT_LICENSE = [
   'png',
   'svg',
   'sql',
+  'mdv',
+  'ldif',
   'yaml',
   'conf',
   'json',
