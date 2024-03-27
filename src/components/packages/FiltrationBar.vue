@@ -87,7 +87,16 @@
           :label="$t('packages.filtration.submissionState')"
         ></validated-input-field>
       </v-col>
-      <v-col sm="1">
+      <v-col
+        sm="1"
+        v-if="
+          isAtLeastAdmin(
+            authorizationStore.userRole
+              ? authorizationStore.userRole
+              : 0
+          )
+        "
+      >
         <validated-input-field
           @change="setFiltration"
           density="compact"
@@ -150,7 +159,10 @@ import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { usePackagesStore } from '@/store/packages'
 import { useAuthorizationStore } from '@/store/authorization'
-import { isAtLeastRepositoryMaintainer } from '@/enum/UserRoles'
+import {
+  isAtLeastRepositoryMaintainer,
+  isAtLeastAdmin
+} from '@/enum/UserRoles'
 import ResetButton from '@/components/common/ResetButton.vue'
 
 const { states, technologies } = useEnumFiltration()
