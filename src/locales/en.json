@@ -14,7 +14,7 @@
     "password": "Password",
     "passwordError": "Password is required",
     "success": "Successful login",
-    "username": "Name",
+    "username": "Login",
     "usernameError": "Name is required",
     "wrongCredentials": "Wrong credentials, please try again"
   },
