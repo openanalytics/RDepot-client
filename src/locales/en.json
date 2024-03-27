@@ -7,7 +7,7 @@
   "authorization": {
     "clear": "Clear",
     "error": "Unsuccessful login",
-    "keycloak": "Keycloak",
+    "keycloak": "Login via Keycloak",
     "logged-in": "Logged in",
     "login": "Login",
     "not-logged-in": "Not logged in",
@@ -148,6 +148,7 @@
     "401": "Cannot perform this request because user is not authenticated.",
     "403": "Cannot perform this request because user is not authorized",
     "422": "Validation failed",
+    "500": "Internal server error",
     "oauth": "Error with oauth",
     "oauthTitle": "Authorization"
   },
@@ -359,7 +360,7 @@
     "waitForAllRequestsToFulfill": "Wait until all submissions will end",
     "wrongExtension": "Choose packages that have correct extension (.tar.gz)"
   },
-  "success": "Successful request",
+  "success": "Request processed successfully",
   "tempo": "długie zdanie",
   "users": {
     "edit": {
