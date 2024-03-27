@@ -368,7 +368,9 @@
     "waiting": "OCZEKUJE"
   },
   "submissions": {
+    "accepted": "zaakceptowane",
     "addAnotherSubmission": "Dodaj następne pakiety",
+    "cancelled": "anulowane",
     "choseFiles": "Wybierz pliki",
     "filtration": {
       "fromDate": "Data początkowa",
@@ -377,12 +379,10 @@
       "toDate": "Data końcowa"
     },
     "noPackageChosen": "Nie wybrano pakietów",
-    "waitForAllRequestsToFulfill": "Zaczekaj na zakończenie wszystkich zgłoszeń",
-    "wrongExtension": "Wybierz pakiety o poprawnym rozszerzeniu (.tar.gz)",
-    "accepted": "zaakceptowane",
-    "waitingForAction": "oczekuje na akcję",
     "rejected": "odrzucone",
-    "cancelled": "anulowane"
+    "waitForAllRequestsToFulfill": "Zaczekaj na zakończenie wszystkich zgłoszeń",
+    "waitingForAction": "oczekuje na akcję",
+    "wrongExtension": "Wybierz pakiety o poprawnym rozszerzeniu (.tar.gz)"
   },
   "success": "Poprawnie wykonana operacja",
   "users": {

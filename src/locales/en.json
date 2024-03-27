@@ -374,7 +374,9 @@
     "waiting": "WAITING"
   },
   "submissions": {
+    "accepted": "accepted",
     "addAnotherSubmission": "Upload another packages",
+    "cancelled": "cancelled",
     "choseFiles": "Choose files",
     "filtration": {
       "fromDate": "From date",
@@ -383,12 +385,10 @@
       "toDate": "To date"
     },
     "noPackageChosen": "No packages choosen",
-    "waitForAllRequestsToFulfill": "Wait until all submissions will end",
-    "wrongExtension": "Choose packages that have correct extension (.tar.gz)",
-    "waitingForAction": "waiting for an action",
-    "accepted": "accepted",
     "rejected": "rejected",
-    "cancelled": "cancelled"
+    "waitForAllRequestsToFulfill": "Wait until all submissions will end",
+    "waitingForAction": "waiting for an action",
+    "wrongExtension": "Choose packages that have correct extension (.tar.gz)"
   },
   "success": "Request processed successfully",
   "tempo": "długie zdanie",
