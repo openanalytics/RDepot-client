@@ -46,20 +46,20 @@
     <v-row class="form-buttons my-10">
       <v-btn
         class="btn mx-2"
-        @click="loginSimple"
-        color="oablue"
-        id="login-simple-button"
-      >
-        {{ $t('authorization.login') }}
-      </v-btn>
-
-      <v-btn
-        class="btn mx-2"
         @click="handleReset"
         color="oablue"
         id="reset-button"
       >
         {{ $t('authorization.clear') }}
+      </v-btn>
+
+      <v-btn
+        class="btn mx-2"
+        @click="loginSimple"
+        color="oablue"
+        id="login-simple-button"
+      >
+        {{ $t('authorization.login') }}
       </v-btn>
     </v-row>
   </div>
