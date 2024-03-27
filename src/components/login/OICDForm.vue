@@ -82,7 +82,8 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .loginTypeButton {
-  border: rgb(var(--v-theme-surface)) solid 1px;
+  margin-top: 50px;
+  border: rgb(var(--v-theme-on-background)) solid 1px;
   .loginType {
     max-width: 500px;
     width: 500px;

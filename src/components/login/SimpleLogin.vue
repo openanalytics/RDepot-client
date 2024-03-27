@@ -21,46 +21,48 @@
 -->
 
 <template>
-  <validated-input-field
-    name="username"
-    as="v-text-field"
-    class="mt-10"
-    :label="$t('authorization.username')"
-    color="oablue"
-    required
-    autofocus
-    id="username-input"
-  />
-
-  <validated-input-field
-    name="password"
-    as="v-text-field"
-    :label="$t('authorization.password')"
-    type="password"
-    color="oablue"
-    required
-    id="password-input"
-  />
-
-  <v-row class="form-buttons my-10">
-    <v-btn
-      class="btn mx-2"
-      @click="loginSimple"
+  <div v-if="isSimpleAuthAvailable()">
+    <validated-input-field
+      name="username"
+      as="v-text-field"
+      class="mt-10"
+      :label="$t('authorization.username')"
       color="oablue"
-      id="login-simple-button"
-    >
-      {{ $t('authorization.login') }}
-    </v-btn>
+      required
+      autofocus
+      id="username-input"
+    />
 
-    <v-btn
-      class="btn mx-2"
-      @click="handleReset"
+    <validated-input-field
+      name="password"
+      as="v-text-field"
+      :label="$t('authorization.password')"
+      type="password"
       color="oablue"
-      id="reset-button"
-    >
-      {{ $t('authorization.clear') }}
-    </v-btn>
-  </v-row>
+      required
+      id="password-input"
+    />
+
+    <v-row class="form-buttons my-10">
+      <v-btn
+        class="btn mx-2"
+        @click="loginSimple"
+        color="oablue"
+        id="login-simple-button"
+      >
+        {{ $t('authorization.login') }}
+      </v-btn>
+
+      <v-btn
+        class="btn mx-2"
+        @click="handleReset"
+        color="oablue"
+        id="reset-button"
+      >
+        {{ $t('authorization.clear') }}
+      </v-btn>
+    </v-row>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -68,13 +70,15 @@ import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
 import { useI18n } from 'vue-i18n'
 import { z } from 'zod'
 import { toTypedSchema } from '@vee-validate/zod'
-import { Form, useForm } from 'vee-validate'
+import { useForm } from 'vee-validate'
 import { Login } from '@/models/users/Login'
 import { onKeyStroke } from '@vueuse/core'
 import { useAuthorizationStore } from '@/store/authorization'
+import { useSimpleAuthorization } from '@/composable/auth/simpleAuthorization'
 
 const { t } = useI18n()
 const authorizationStore = useAuthorizationStore()
+const { isSimpleAuthAvailable } = useSimpleAuthorization()
 
 const { handleReset, values, meta, validate } = useForm({
   validationSchema: toTypedSchema(

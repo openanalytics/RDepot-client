@@ -7,7 +7,7 @@
   "authorization": {
     "clear": "wyczyść",
     "error": "Nieudane logowanie",
-    "keycloak": "Keycloak",
+    "keycloak": "Zaloguj przy użyciu Keycloak",
     "logged-in": "Zalogowany",
     "login": "zaloguj",
     "not-logged-in": "Nie zalogowany",
