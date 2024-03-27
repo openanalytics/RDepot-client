@@ -141,15 +141,31 @@
         :justify="JustifyEnum.Enum.center"
       />
       <span v-else-if="packageBag">
-        <VCheckbox
-          id="checkbox-active"
-          class="mr-8"
-          color="oablue"
-          @click.stop
-          v-model="packageBag.active"
-          @change="updatePackageActive"
-          :disabled="!canPatch(props.packageBag?.links)"
-        />
+        <v-tooltip
+          location="top"
+          :disabled="canPatch(packageBag?.links)"
+        >
+          <template #activator="{ props }">
+            <span v-bind="props">
+              <VCheckbox
+                id="checkbox-active"
+                class="mr-8"
+                @click.stop
+                v-model="packageBag.active"
+                @change="updatePackageActive"
+                :readonly="!canPatch(packageBag?.links)"
+                :color="
+                  !canPatch(packageBag?.links)
+                    ? 'grey'
+                    : 'oablue'
+                "
+              />
+            </span>
+          </template>
+          <span v-if="!canPatch(packageBag?.links)">{{
+            $t('common.notAuthorized')
+          }}</span>
+        </v-tooltip>
       </span>
     </VCol>
     <VCol
@@ -208,6 +224,7 @@ function choosePackage() {
 
 function updatePackageActive() {
   if (
+    canPatch(props.packageBag?.links) &&
     props.packageBag &&
     props.packageBag.id &&
     props.packageBag.active != undefined

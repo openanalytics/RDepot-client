@@ -54,6 +54,22 @@
         :text="submission?.packageBag?.name"
       />
     </v-col>
+    <VCol
+      id="package-row-version"
+      cols="lg-1"
+      class="d-flex align-center"
+    >
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.package.version')"
+        sortKey="columns.submissions.version"
+        sortField="packageBag.version"
+      />
+      <TextRecord
+        v-else
+        :text="submission?.packageBag?.version"
+      />
+    </VCol>
     <v-col
       id="submission-repository"
       cols="lg-1 sm-2"
@@ -87,7 +103,7 @@
 
     <v-col
       id="submission-approver"
-      cols="lg-4 sm-2"
+      cols="lg-3 sm-2"
       class="d-flex align-center"
     >
       <SortTitle
