@@ -88,6 +88,9 @@ onMounted(() => {
     max-width: 500px;
     width: 500px;
   }
-  background-color: rgba(var(--v-theme-on-background), 0.2);
+  background-color: rgba(
+    var(--v-theme-on-background),
+    0.2
+  ) !important;
 }
 </style>
