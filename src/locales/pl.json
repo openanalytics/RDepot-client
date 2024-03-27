@@ -148,6 +148,7 @@
     "401": "Nie można wykonać zapytania. Użytkownik nie jest zalogowany.",
     "403": "Nie można wykonać zapytania. Użytkownik nie posiada odpowiednich uprawnień.",
     "422": "Nieudana walidacja",
+    "500": "Serwer nie mógl zrealizować Twojego żądania",
     "oauth": "Błąd autoryzacji",
     "oauthTitle": "Autoryzacja"
   },
@@ -350,7 +351,7 @@
     "waitForAllRequestsToFulfill": "Zaczekaj na zakończenie wszystkich zgłoszeń",
     "wrongExtension": "Wybierz pakiety o poprawnym rozszerzeniu (.tar.gz)"
   },
-  "success": "Successful request",
+  "success": "Poprawnie wykonana operacja",
   "users": {
     "edit": {
       "overlay": "Edytuj rolę {user_login}",

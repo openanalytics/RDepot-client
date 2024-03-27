@@ -153,8 +153,6 @@ export function isAuthorized(
 ): boolean {
   const authorizationStore = useAuthorizationStore()
   if (!authorizationStore.can(action, subject)) {
-    const toasts = useToast()
-    toasts.error(i18n.t('common.errors.unauthorized'))
     return false
   }
   return true

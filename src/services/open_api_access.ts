@@ -108,7 +108,7 @@ async function resolved(
   const common_store = useCommonStore()
   common_store.setProgressCircularActive(false)
   const toasts = useToast()
-  toasts.devToast(i18n.t('success'), 'success')
+  toasts.notifyAPISuccess(result)
   const data = result.data.data?.content
     ? result.data.data?.content
     : result.data.data
