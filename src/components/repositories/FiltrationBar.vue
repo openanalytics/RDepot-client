@@ -79,7 +79,16 @@
           :storeId="storeIdMaintainer"
         ></validated-input-field>
       </v-col>
-      <v-col sm="1">
+      <v-col
+        sm="1"
+        v-if="
+          isAtLeastAdmin(
+            authorizationStore.userRole
+              ? authorizationStore.userRole
+              : 0
+          )
+        "
+      >
         <validated-input-field
           @change="setFiltration"
           density="compact"
