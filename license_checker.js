@@ -43,7 +43,7 @@ const EXTENSION_WITHOUT_LICENSE = [
   'png',
   'svg',
   'sql',
-  'mdv',
+  'mdb',
   'ldif',
   'yaml',
   'conf',
