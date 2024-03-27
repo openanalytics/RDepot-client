@@ -152,9 +152,18 @@
     "oauth": "Błąd autoryzacji",
     "oauthTitle": "Autoryzacja"
   },
+  "eventTypes": {
+    "create": "Utworzenie",
+    "delete": "Usunięcie",
+    "update": "Aktualizacja",
+    "upload": "Wgranie"
+  },
   "events": {
     "author": "Autor",
     "description": "Opis",
+    "filtration": {
+      "eventType": "Typ zdarzenia"
+    },
     "noEvents": "Brak dostępnych zdarzeń"
   },
   "filtration": {
@@ -303,6 +312,15 @@
     "list": "Repozytoria",
     "maintainers": "Opiekunowie repozytorium"
   },
+  "resourceType": {
+    "accessToken": "Access token",
+    "package": "Pakiet",
+    "packageMaintainer": "Opiekun pakietu",
+    "repository": "Repozytorium",
+    "repositoryMaintainer": "Opiekun repozytorium",
+    "submission": "Zgłoszenie",
+    "user": "Użytkownik"
+  },
   "settings": {
     "create": "Nowy access token",
     "deactivate": "Dezaktywuj token",
@@ -337,6 +355,12 @@
       "light": "jasny"
     },
     "tokenName": "Nazwa"
+  },
+  "states": {
+    "accepted": "ZAAKCEPTOWANY",
+    "cancelled": "ANULOWANY",
+    "rejected": "ODRZUCONY",
+    "waiting": "OCZEKUJE"
   },
   "submissions": {
     "addAnotherSubmission": "Dodaj następne pakiety",

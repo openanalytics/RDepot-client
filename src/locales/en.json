@@ -152,6 +152,12 @@
     "oauth": "Error with oauth",
     "oauthTitle": "Authorization"
   },
+  "eventTypes": {
+    "create": "Create",
+    "delete": "Delete",
+    "update": "Update",
+    "upload": "Upload"
+  },
   "events": {
     "author": "Author",
     "description": "Description",
@@ -312,6 +318,15 @@
     "list": "Repositories",
     "maintainers": "Repository maintainers"
   },
+  "resourceType": {
+    "accessToken": "Access token",
+    "package": "Package",
+    "packageMaintainer": "Package maintainer",
+    "repository": "Repository",
+    "repositoryMaintainer": "Repository maintainer",
+    "submission": "Submission",
+    "user": "User"
+  },
   "settings": {
     "create": "New access token",
     "deactivate": "Deactivate token",
@@ -346,6 +361,12 @@
       "light": "light"
     },
     "tokenName": "Name"
+  },
+  "states": {
+    "accepted": "ACCEPTED",
+    "cancelled": "CANCELLED",
+    "rejected": "REJECTED",
+    "waiting": "WAITING"
   },
   "submissions": {
     "addAnotherSubmission": "Upload another packages",

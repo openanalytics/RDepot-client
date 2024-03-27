@@ -89,7 +89,14 @@
       />
       <TextRecord
         v-else
-        :text="packageBag?.submission?.state"
+        :text="
+          packageBag?.submission?.state
+            ? $t(
+                'states.' +
+                  packageBag?.submission?.state.toLowerCase()
+              )
+            : ''
+        "
       />
     </VCol>
 

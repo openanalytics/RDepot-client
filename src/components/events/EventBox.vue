@@ -35,7 +35,8 @@
       class="d-flex justify-space-between align-items-start"
     >
       <div class="title">
-        {{ resourceType }} - {{ eventType }}
+        {{ resourceTypeTitle }} -
+        {{ $t('eventTypes.' + eventType) }}
       </div>
       <div class="date">
         <div>
@@ -73,6 +74,7 @@ import { EntityModelNewsfeedEventDto } from '@/openapi'
 import { computed } from 'vue'
 import { useDates } from '@/composable/date'
 import EventBoxDescription from '@/components/events/EventBoxDescription.vue'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
   event: Object as () => EntityModelNewsfeedEventDto
@@ -90,6 +92,41 @@ const time = computed(function () {
     return time
   } else {
     return null
+  }
+})
+
+const { t } = useI18n()
+
+const resourceTypeTitle = computed(() => {
+  switch (props.event?.resourceType) {
+    case 'PACKAGE':
+      return t('resourceType.package').toUpperCase()
+    case 'REPOSITORY':
+      return t('resourceType.repository').toUpperCase()
+    case 'USER':
+      return t('resourceType.user').toUpperCase()
+    case 'SUBMISSION':
+      return t('resourceType.submission').toUpperCase()
+    case 'ACCESS_TOKEN':
+      return t('resourceType.accessToken').toUpperCase()
+    case 'PACKAGE_MAINTAINER':
+      return t(
+        'resourceType.packageMaintainer'
+      ).toUpperCase()
+    case 'REPOSITORY_MAINTAINER':
+      return t(
+        'resourceType.repositoryMaintainer'
+      ).toUpperCase()
+    default:
+      return ''
+  }
+  const resourceTypes = {
+    REPOSITORY: 'repository',
+    USER: 'user',
+    SUBMISSION: 'submission',
+    ACCESS_TOKEN: 'accessToken',
+    PACKAGE_MAINTAINER: 'packageMaintainer',
+    REPOSITORY_MAINTAINER: 'repositoryMaintainer'
   }
 })
 
