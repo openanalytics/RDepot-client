@@ -35,6 +35,7 @@
       :key="index"
       :fileName="vignette.fileName"
       :title="vignette.title"
+      class="d-flex flex-column"
     >
     </PackageVignette>
     <div v-show="packageDetailsStore.vignettes.length == 0">
