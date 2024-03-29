@@ -37,7 +37,7 @@
 
 <script setup lang="ts">
 import { usePackageMaintainersStore } from '@/store/package_maintainers'
-import { onBeforeMount } from 'vue'
+import { onMounted } from 'vue'
 import PackageMaintainerRow from '@/components/packageMaintainers/PackageMaintainerRow.vue'
 import ResourcesList from '@/components/common/resources/ResourcesList.vue'
 
@@ -47,7 +47,7 @@ function updateData(): void {
   packageMaintainersStore.fetchMaintainers()
 }
 
-onBeforeMount(() => {
+onMounted(() => {
   updateData()
 })
 </script>

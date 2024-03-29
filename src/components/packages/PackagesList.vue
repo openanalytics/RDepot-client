@@ -41,7 +41,7 @@
 import { usePackagesStore } from '@/store/packages'
 import PackageRow from '@/components/packages/PackageRow.vue'
 import ResourcesList from '@/components/common/resources/ResourcesList.vue'
-import { onBeforeMount } from 'vue'
+import { onMounted } from 'vue'
 import PackageDetails from '@/views/packages/PackageDetails.vue'
 import { EntityModelPackageDto } from '@/openapi'
 import PackageDescription from './packageDetails/PackageDescription.vue'
@@ -52,7 +52,7 @@ function updateData(): void {
   packagesStore.fetchPackages()
 }
 
-onBeforeMount(() => {
+onMounted(() => {
   updateData()
 })
 </script>
