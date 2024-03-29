@@ -43,8 +43,6 @@
           :modelValue="localMaintainer.repository!.id"
           @update:modelValue="newValue => localMaintainer.repository!.id = newValue"
           :items="repositories"
-          item-title="name"
-          item-value="id"
           :label="$t('maintainers.editform.repository')"
           :disabled="blockedField == 'repository'"
         />
@@ -97,7 +95,16 @@ const buttons = [
 const maintainersStore = useRepositoryMaintainersStore()
 
 const repositories = computed(() => {
-  return maintainersStore.repositories
+  return maintainersStore.repositories.map((repo) => {
+    return {
+      title: repo.name,
+      value: repo.id,
+      props: {
+        subtitle:
+          repo.technology !== null ? repo.technology : ''
+      }
+    }
+  })
 })
 const { deepCopy } = useUtilities()
 let maintainer: EntityModelRepositoryMaintainerDto =
