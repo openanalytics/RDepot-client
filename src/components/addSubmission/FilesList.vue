@@ -43,7 +43,7 @@
             color="oared mb-1"
             class="reset-opacity"
             variant="outlined"
-            >reset</v-btn
+            >{{ $t('common.reset') }}</v-btn
           >
         </template>
 

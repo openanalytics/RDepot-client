@@ -152,4 +152,10 @@ function nextStep() {
     opacity: 1;
   }
 }
+
+.hoverable:hover {
+  background-color: rgb(
+    var(--v-theme-background)
+  ) !important;
+}
 </style>
