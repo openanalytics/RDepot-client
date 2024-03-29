@@ -87,7 +87,11 @@ async function resolvedBlob(
       if (open === true) {
         blob.openBlob(result.data)
       } else {
-        blob.downloadBlob(result.data, '.html')
+        blob.downloadBlob(
+          result.data,
+          '.html',
+          result.config.url
+        )
       }
       break
     case 'application/gzip':

@@ -50,6 +50,11 @@ export function useBlob() {
       fileName += urlArray
         ? urlArray.replace('.tar.gz', '')
         : 'sourcefile'
+    } else if (extension === '.html') {
+      const urlArray = url?.split('/').pop()
+      fileName += urlArray
+        ? urlArray.replace('.html', '')
+        : 'sourcefile'
     } else {
       url?.split('/').forEach((p) => {
         switch (p) {
