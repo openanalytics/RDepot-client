@@ -152,6 +152,7 @@
   "errors": {
     "401": "Cannot perform this request because user is not authenticated.",
     "403": "Cannot perform this request because user is not authorized",
+    "405": "There seems to be a configuration issue on the back-end. Please contact your administrator for fixing this.",
     "422": "Validation failed",
     "500": "Internal server error",
     "oauth": "Error with oauth",
