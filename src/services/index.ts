@@ -22,11 +22,13 @@
 
 import {
   fetchRepositoriesServices,
-  fetchAllRepositoriesServices
+  fetchAllRepositoriesServices,
+  fetchAllUndeletedRepositoriesServices
 } from './repository_services'
 import { fetchPackagesServices } from './package_services'
 export {
   fetchRepositoriesServices,
   fetchPackagesServices,
-  fetchAllRepositoriesServices
+  fetchAllRepositoriesServices,
+  fetchAllUndeletedRepositoriesServices
 }
