@@ -136,39 +136,45 @@ async function rejected(result: AxiosError) {
 
 async function errorsHandler(error: AxiosError) {
   const toasts = useToast()
-  switch (error.response?.status) {
-    case 304: {
-      const authorizationStore = useAuthorizationStore()
-      if (!(await authorizationStore.isUserLoggedIn())) {
-        authorizationStore.logout()
+  if (!error.response?.status) {
+    toasts.error(i18n.t('errors.405'))
+    const authorizationStore = useAuthorizationStore()
+    authorizationStore.logout()
+  } else {
+    switch (error.response?.status) {
+      case 304: {
+        const authorizationStore = useAuthorizationStore()
+        if (!(await authorizationStore.isUserLoggedIn())) {
+          authorizationStore.logout()
+        }
+        break
       }
-      break
-    }
-    case 401: {
-      toasts.error(i18n.t('errors.401'))
-      const authorizationStore = useAuthorizationStore()
-      authorizationStore.logout()
-      break
-    }
-    case 403: {
-      const authorizationStore = useAuthorizationStore()
-      authorizationStore.getUserInfo()
-      break
-    }
-    case 405: {
-      toasts.error(i18n.t('errors.405'))
-      const authorizationStore = useAuthorizationStore()
-      authorizationStore.logout()
-      break
-    }
-    case 422: {
-      toasts.error(i18n.t('errors.422'))
-      break
-    }
+      case 401: {
+        toasts.error(i18n.t('errors.401'))
+        const authorizationStore = useAuthorizationStore()
+        authorizationStore.logout()
+        break
+      }
+      case 403: {
+        const authorizationStore = useAuthorizationStore()
+        authorizationStore.getUserInfo()
+        break
+      }
+      case 405: {
+        toasts.error(i18n.t('errors.405'))
+        const authorizationStore = useAuthorizationStore()
+        authorizationStore.logout()
+        break
+      }
+      case 422: {
+        toasts.error(i18n.t('errors.422'))
+        break
+      }
 
-    case 500: {
-      toasts.error(i18n.t('errors.500'))
-      break
+      case 500: {
+        toasts.error(i18n.t('errors.500'))
+        break
+      }
     }
   }
 }
