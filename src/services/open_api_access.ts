@@ -76,16 +76,20 @@ async function resolvedBlob(
   switch (result.data.type) {
     case 'application/pdf':
       // for manual
-      blob.downloadBlob(
-        result.data,
-        '.pdf',
-        result.config.url
-      )
+      if (open === true) {
+        blob.openBlob(result.data, 'pdf')
+      } else {
+        blob.downloadBlob(
+          result.data,
+          '.pdf',
+          result.config.url
+        )
+      }
       break
     case 'text/html':
       // for *html vignette
       if (open === true) {
-        blob.openBlob(result.data)
+        blob.openBlob(result.data, 'html')
       } else {
         blob.downloadBlob(
           result.data,

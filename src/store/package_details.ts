@@ -38,6 +38,7 @@ import {
   downloadVignetteHtml,
   downloadVignettePdf,
   openVignetteHtml,
+  openVignettePdf,
   downloadSourceFile,
   fetchPackageServices,
   fetchVignettes
@@ -121,7 +122,17 @@ export const usePackageDetailsStore = defineStore(
         await downloadReferenceManual(id).then()
       },
       async openVignette(id: string, fileName: string) {
-        await openVignetteHtml(id, fileName).then()
+        if (fileName.split('.html').length > 1) {
+          await openVignetteHtml(
+            id,
+            fileName.split('.html')[0]
+          ).then()
+        } else if (fileName.split('.pdf').length > 1) {
+          await openVignettePdf(
+            id,
+            fileName.split('.pdf')[0]
+          ).then()
+        }
       },
       async downloadVignette(id: string, fileName: string) {
         if (fileName.split('.html').length > 1) {

@@ -206,6 +206,21 @@ export async function openVignetteHtml(
   })
 }
 
+export async function openVignettePdf(
+  id: string,
+  name: string
+) {
+  return openApiRequest<Promise<boolean>>(
+    RPackageControllerApiFactory().downloadVignettePdf,
+    [id, name],
+    true,
+    true,
+    true
+  ).catch(() => {
+    return false
+  })
+}
+
 export async function downloadVignetteHtml(
   id: string,
   name: string

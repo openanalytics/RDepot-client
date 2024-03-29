@@ -72,7 +72,7 @@ async function openVignette() {
   if (packageBag.value.id && props.fileName) {
     await packageDetailsStore.openVignette(
       packageBag.value.id.toString(),
-      props.fileName.split('.html')[0]
+      props.fileName
     )
   }
 }

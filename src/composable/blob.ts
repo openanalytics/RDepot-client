@@ -21,10 +21,15 @@
  */
 
 export function useBlob() {
-  async function openBlob(data: Blob) {
-    const innerHtml = await data.text()
-    const newWindow = window.open()
-    newWindow?.document.write(innerHtml)
+  async function openBlob(data: Blob, type: string) {
+    if (type === 'html') {
+      const innerHtml = await data.text()
+      const newWindow = window.open()
+      newWindow?.document.write(innerHtml)
+    } else if (type === 'pdf') {
+      const fileURL = URL.createObjectURL(data)
+      window.open(fileURL, '_blank')
+    }
   }
 
   function downloadBlob(
@@ -55,11 +60,19 @@ export function useBlob() {
       fileName += urlArray
         ? urlArray.replace('.html', '')
         : 'sourcefile'
+    } else if (
+      extension === '.pdf' &&
+      url?.includes('vignettes')
+    ) {
+      const urlArray = url?.split('/').pop()
+      fileName += urlArray
+        ? urlArray.replace('.pdf', '')
+        : 'sourcefile'
     } else {
       url?.split('/').forEach((p) => {
         switch (p) {
-          case 'manual_':
-            fileName += p
+          case 'manual':
+            fileName += p + '_'
             break
           case 'r':
             fileName += 'R_'
