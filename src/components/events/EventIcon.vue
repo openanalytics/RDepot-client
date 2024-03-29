@@ -48,6 +48,8 @@
 import { eventsIcons } from '@/models/EventTypeIcon'
 import { EntityModelNewsfeedEventDto } from '@/openapi'
 import moment from 'moment'
+import 'moment/dist/locale/pl'
+import { i18n } from '@/plugins/i18n'
 
 const props = defineProps({
   date: String,
@@ -65,6 +67,7 @@ function getFullYear(date: string) {
 
 function getMonthName(date: string) {
   const monthNumber = moment()
+    .locale(i18n.locale.value)
     .startOf('month')
     .month(parseInt(date.split('.')[1]) - 1)
     .year(parseInt(date.split('.')[0]))

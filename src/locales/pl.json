@@ -1,13 +1,14 @@
 {
   "addSubmission": {
+    "generateManual": "Generuj dokumentację",
     "step1Title": "Wybierz repozytorium",
-    "step2Title": "Wgrano {0} pakietów",
+    "step2Title": "Wgraj pakiety {0}",
     "step3Title": "Podsumowanie"
   },
   "authorization": {
     "clear": "wyczyść",
     "error": "Nieudane logowanie",
-    "keycloak": "Keycloak",
+    "keycloak": "Zaloguj przy użyciu Keycloak",
     "logged-in": "Zalogowany",
     "login": "zaloguj",
     "not-logged-in": "Nie zalogowany",
@@ -17,6 +18,9 @@
     "username": "Login",
     "usernameError": "Login jest wymagany",
     "wrongCredentials": "Błędne dane logowania, spróbuj ponownie"
+  },
+  "button": {
+    "continue": "Kontynuuj"
   },
   "columns": {
     "accepted": "Status",
@@ -44,12 +48,12 @@
       "technology": "Technologia"
     },
     "packageName": "Pakiet",
-    "packagesNo": "Lp. pakietu",
+    "packagesNo": "# pakietu",
     "publicationUri": "URI publikacji",
     "published": "Opublikowano",
     "repository": {
       "name": "Repozytorium",
-      "packagesNo": "Lp. pakietu",
+      "packagesNo": "# pakietu",
       "publicationUri": "URI publikacji",
       "published": "Opublikowano",
       "serverAddress": "Adres serwera",
@@ -136,6 +140,7 @@
     "seepackages": "Zobacz pakiety w repozytorium",
     "settings": "Ustawienia",
     "submissions": "Zgłoszenia",
+    "submit": "Zatwierdź",
     "users": "Użytkownicy"
   },
   "dragzone": {
@@ -149,12 +154,22 @@
     "403": "Nie można wykonać zapytania. Użytkownik nie posiada odpowiednich uprawnień.",
     "405": "Prawdopodobny problem z konfiguracją serwera. Skontaktuj się z administratorem.",
     "422": "Nieudana walidacja",
+    "500": "Serwer nie mógl zrealizować Twojego żądania",
     "oauth": "Błąd autoryzacji",
     "oauthTitle": "Autoryzacja"
+  },
+  "eventTypes": {
+    "create": "Utworzenie",
+    "delete": "Usunięcie",
+    "update": "Aktualizacja",
+    "upload": "Wgranie"
   },
   "events": {
     "author": "Autor",
     "description": "Opis",
+    "filtration": {
+      "eventType": "Typ zdarzenia"
+    },
     "noEvents": "Brak dostępnych zdarzeń"
   },
   "filtration": {
@@ -210,6 +225,12 @@
     "successUpdateRepositoryMaintainer": "Zaktualizowano {maintainer_name}",
     "successUpdateRepositoryManager": "Zaktualizowano {maintainer_name}",
     "successUpdateUser": "Dane użytkownika zaktualizowane"
+  },
+  "package_maintainers": {
+    "editform": {
+      "packageHasMaintainer": "Ten pakiet ma już opiekuna",
+      "packageNotFound": "Pakiet jeszcze nie istnieje"
+    }
   },
   "packages": {
     "approver": "Zatwierdzający",
@@ -303,6 +324,15 @@
     "list": "Repozytoria",
     "maintainers": "Opiekunowie repozytorium"
   },
+  "resourceType": {
+    "accessToken": "Access token",
+    "package": "Pakiet",
+    "packageMaintainer": "Opiekun pakietu",
+    "repository": "Repozytorium",
+    "repositoryMaintainer": "Opiekun repozytorium",
+    "submission": "Zgłoszenie",
+    "user": "Użytkownik"
+  },
   "settings": {
     "create": "Nowy access token",
     "deactivate": "Dezaktywuj token",
@@ -338,8 +368,16 @@
     },
     "tokenName": "Nazwa"
   },
+  "states": {
+    "accepted": "ZAAKCEPTOWANY",
+    "cancelled": "ANULOWANY",
+    "rejected": "ODRZUCONY",
+    "waiting": "OCZEKUJE"
+  },
   "submissions": {
+    "accepted": "zaakceptowane",
     "addAnotherSubmission": "Dodaj następne pakiety",
+    "cancelled": "anulowane",
     "choseFiles": "Wybierz pliki",
     "filtration": {
       "fromDate": "Data początkowa",
@@ -348,10 +386,12 @@
       "toDate": "Data końcowa"
     },
     "noPackageChosen": "Nie wybrano pakietów",
+    "rejected": "odrzucone",
     "waitForAllRequestsToFulfill": "Zaczekaj na zakończenie wszystkich zgłoszeń",
+    "waitingForAction": "oczekuje na akcję",
     "wrongExtension": "Wybierz pakiety o poprawnym rozszerzeniu (.tar.gz)"
   },
-  "success": "Successful request",
+  "success": "Poprawnie wykonana operacja",
   "users": {
     "edit": {
       "overlay": "Edytuj rolę {user_login}",

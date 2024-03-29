@@ -9,7 +9,8 @@ JSON_STRING='window.configs = { \
   "VITE_KEYCLOAK_RESPONSE_TYPE":"'"${VITE_KEYCLOAK_RESPONSE_TYPE}"'", \
   "VITE_KEYCLOAK_SCOPE":"'"${VITE_KEYCLOAK_SCOPE}"'", \
   "VITE_DEV_MODE":"'"${VITE_DEV_MODE}"'", \
-  "VITE_URL_PREFIX":"'"${VITE_URL_PREFIX}"'" \
+  "VITE_URL_PREFIX":"'"${VITE_URL_PREFIX}"'", \
+  "VITE_SERVER_ADDRESS":"'"${VITE_SERVER_ADDRESS}"'" \
 }'
 sed -i "s@// CONFIGURATIONS_PLACEHOLDER@${JSON_STRING}@" /usr/share/nginx/html/index.html
 exec "$@"

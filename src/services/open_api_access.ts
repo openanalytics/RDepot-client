@@ -87,12 +87,20 @@ async function resolvedBlob(
       if (open === true) {
         blob.openBlob(result.data)
       } else {
-        blob.downloadBlob(result.data, '.html')
+        blob.downloadBlob(
+          result.data,
+          '.html',
+          result.config.url
+        )
       }
       break
     case 'application/gzip':
       // for source files
-      blob.downloadBlob(result.data, '.tar.gz')
+      blob.downloadBlob(
+        result.data,
+        '.tar.gz',
+        result.config.url
+      )
       break
     default:
       break
@@ -108,7 +116,7 @@ async function resolved(
   const common_store = useCommonStore()
   common_store.setProgressCircularActive(false)
   const toasts = useToast()
-  toasts.devToast(i18n.t('success'), 'success')
+  toasts.notifyAPISuccess(result)
   const data = result.data.data?.content
     ? result.data.data?.content
     : result.data.data

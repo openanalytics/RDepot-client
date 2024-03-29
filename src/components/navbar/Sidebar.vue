@@ -52,15 +52,6 @@
         to="/add-packages"
       ></v-list-item>
 
-      <v-list-item
-        v-if="authorizationStore.can('GET', 'submissions')"
-        prepend-icon="mdi-email"
-        :title="$t('common.submissions')"
-        :value="$t('common.submissions')"
-        active-class="link-active"
-        to="/submissions"
-      ></v-list-item>
-
       <v-list-group
         v-if="
           authorizationStore.can(
@@ -149,6 +140,16 @@
         active-class="link-active"
         to="/users"
       ></v-list-item>
+
+      <v-list-item
+        v-if="authorizationStore.can('GET', 'submissions')"
+        prepend-icon="mdi-email"
+        :title="$t('common.submissions')"
+        :value="$t('common.submissions')"
+        active-class="link-active"
+        to="/submissions"
+      ></v-list-item>
+
       <v-list-item
         prepend-icon="mdi-cog"
         :title="$t('common.settings')"
@@ -164,28 +165,28 @@
         @click="logout"
       ></v-list-item>
     </v-list>
+
+    <template v-slot:append>
+      <v-list-item style="font-size: 0.7rem">
+        v2.0.0
+      </v-list-item>
+    </template>
   </v-navigation-drawer>
 </template>
 
 <script setup lang="ts">
-import router from '@/plugins/router'
 import { i18n } from '@/plugins/i18n'
 import { useCommonStore } from '@/store/common'
 import { useAuthorizationStore } from '@/store/authorization'
-import { useSubmissionStore } from '@/store/submission'
 import { computed } from 'vue'
 import { useDisplay } from 'vuetify/lib/framework.mjs'
-import { ref } from 'vue'
 
 const { xs, mobile } = useDisplay()
 const authorizationStore = useAuthorizationStore()
-const submissionsStore = useSubmissionStore()
 const commonStore = useCommonStore()
 const getUserLogin = computed(() => {
   return authorizationStore.me.name
 })
-
-const events = ref<boolean>(false)
 
 const showSidebar = computed(() => {
   return authorizationStore.sidebar

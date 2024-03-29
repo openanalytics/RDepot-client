@@ -57,6 +57,13 @@
       id="repository-server-address"
       cols="lg-4 sm-2"
       class="d-flex align-center"
+      v-if="
+        isAtLeastRepositoryMaintainer(
+          authorizationStore.userRole
+            ? authorizationStore.userRole
+            : 0
+        )
+      "
     >
       <SortTitle
         v-if="title"
@@ -130,17 +137,35 @@
         :justify="JustifyEnum.Enum.center"
       />
       <span v-else-if="repository">
-        <v-checkbox
-          id="checkbox-published"
-          v-model="repository.published"
-          @change="updateRepositoryPublished()"
-          :disabled="!canPatch(props.repository?.links)"
-          color="oablue"
-          class="mr-8"
-          @click.stop
-        />
+        <v-tooltip
+          location="top"
+          :disabled="canPatch(repository?.links)"
+        >
+          <template #activator="{ props }">
+            <span v-bind="props">
+              <v-checkbox
+                id="checkbox-published"
+                v-model="repository.published"
+                @change="updateRepositoryPublished()"
+                :readonly="!canPatch(repository?.links)"
+                :color="
+                  !canPatch(repository?.links)
+                    ? 'grey'
+                    : 'oablue'
+                "
+                class="mr-8"
+                @click.stop
+              >
+              </v-checkbox>
+            </span>
+          </template>
+          <span v-if="!canPatch(repository?.links)">{{
+            $t('common.notAuthorized')
+          }}</span>
+        </v-tooltip>
       </span>
     </v-col>
+    <v-spacer />
     <v-col
       id="repository-actions"
       cols="lg-1"
@@ -159,7 +184,7 @@
       >
         <EditIcon
           :disabled="!canPatch(props.repository?.links)"
-          @set-entity="setEditEntity()"
+          @set-entity="chooseRepository()"
           :text="$t('common.edit')"
         />
         <DeleteIcon
@@ -184,11 +209,14 @@ import { usePackagesStore } from '@/store/packages'
 import { useRepositoryStore } from '@/store/repositories'
 import { JustifyEnum } from '@/enum/Justify'
 import EditIcon from '../common/action_icons/EditIcon.vue'
+import { isAtLeastRepositoryMaintainer } from '@/enum/UserRoles'
+import { useAuthorizationStore } from '@/store/authorization'
 
 const packagesStore = usePackagesStore()
 const { deepCopy } = useUtilities()
 const { canDelete, canPatch } = useUserAuthorities()
 const repositoryStore = useRepositoryStore()
+const authorizationStore = useAuthorizationStore()
 
 const props = defineProps<{
   title?: boolean
@@ -196,27 +224,26 @@ const props = defineProps<{
 }>()
 
 function updateRepositoryPublished(): void {
-  if (props.repository) {
-    const oldRepository = deepCopy(props.repository)
-    oldRepository.published = !oldRepository.published
-    updateRepository(oldRepository, props.repository).then(
-      () => {
-        repositoryStore.fetchRepositories()
-      },
-      () => {
-        repositoryStore.fetchRepositories()
-      }
-    )
+  if (canPatch(props.repository?.links)) {
+    if (props.repository) {
+      const oldRepository = deepCopy(props.repository)
+      oldRepository.published = !oldRepository.published
+      updateRepository(
+        oldRepository,
+        props.repository
+      ).then(
+        () => {
+          repositoryStore.fetchRepositories()
+        },
+        () => {
+          repositoryStore.fetchRepositories()
+        }
+      )
+    }
   }
 }
 
 function chooseRepository() {
-  packagesStore.setFiltrationByRepositoryOnly(
-    props.repository?.name
-  )
-}
-
-function setEditEntity() {
   repositoryStore.setChosenRepository(props.repository?.id)
 }
 </script>

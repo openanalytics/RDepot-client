@@ -29,7 +29,10 @@ import {
   RepositoriesFiltration,
   defaultValues
 } from '@/models/Filtration'
-import { fetchRepositoriesServices } from '@/services'
+import {
+  fetchRepositoriesServices,
+  fetchAllUndeletedRepositoriesServices
+} from '@/services'
 import {
   fetchFullRepositoriesList,
   updateRepository
@@ -95,6 +98,18 @@ export const useRepositoryStore = defineStore(
         )
         pagination.newPageWithoutRefresh(pageData.page)
         pagination.totalNumber = pageData.totalNumber
+      },
+      async fetchAllRepositories() {
+        const pagination = usePagination()
+        const pageData = await this.fetchAllData()
+        pagination.newPageWithoutRefresh(pageData.page)
+        pagination.totalNumber = pageData.totalNumber
+      },
+      async fetchAllData() {
+        const [repositories, pageData] =
+          await fetchAllUndeletedRepositoriesServices()
+        this.repositories = repositories
+        return pageData
       },
       async fetchData(
         page: number,

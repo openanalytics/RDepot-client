@@ -47,7 +47,8 @@
           <span>
             {{ $t('dragzone.inactive') }} <br />
             <small>
-              or <strong>click</strong>
+              {{ $t('common.or') }}
+              <strong>{{ $t('common.click') }}</strong>
               {{ $t('dragzone.click') }}</small
             >
           </span>
@@ -72,7 +73,7 @@
       :disabled="!!!filesStore.files.length"
       @click="nextStep"
     >
-      submit
+      {{ $t('common.submit') }}
     </v-btn>
   </div>
 </template>

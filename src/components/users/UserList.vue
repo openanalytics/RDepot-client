@@ -32,7 +32,7 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeMount } from 'vue'
+import { onMounted } from 'vue'
 import UserRow from '@/components/users/UserRow.vue'
 import ResourcesList from '@/components/common/resources/ResourcesList.vue'
 import { useUserStore } from '@/store/users'
@@ -43,7 +43,7 @@ function updateData(): void {
   userStore.fetchUsers()
 }
 
-onBeforeMount(() => {
+onMounted(() => {
   updateData()
   userStore.fetchRoles()
 })

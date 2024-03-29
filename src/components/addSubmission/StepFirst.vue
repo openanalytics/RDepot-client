@@ -63,7 +63,7 @@
       color="oablue"
       @click="nextStep"
     >
-      Continue
+      {{ $t('button.continue') }}
     </v-btn>
   </div>
 </template>
@@ -100,7 +100,7 @@ function nextStep() {
 }
 
 onMounted(() => {
-  repositoryStore.fetchRepositories()
+  repositoryStore.fetchAllRepositories()
 })
 </script>
 
