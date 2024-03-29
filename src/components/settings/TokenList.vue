@@ -32,7 +32,7 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeMount } from 'vue'
+import { onMounted } from 'vue'
 import ResourcesList from '@/components/common/resources/ResourcesList.vue'
 import TokenRow from '@/components/settings/TokenRow.vue'
 import { useSettingsStore } from '@/store/settings'
@@ -43,7 +43,7 @@ function updateData(): void {
   settingsStore.fetchTokens()
 }
 
-onBeforeMount(() => {
+onMounted(() => {
   updateData()
 })
 </script>

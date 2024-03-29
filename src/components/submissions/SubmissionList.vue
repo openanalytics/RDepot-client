@@ -32,7 +32,7 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeMount } from 'vue'
+import { onMounted } from 'vue'
 import { useSubmissionStore } from '@/store/submission'
 import SubmissionRow from '@/components/submissions/SubmissionRow.vue'
 import ResourcesList from '@/components/common/resources/ResourcesList.vue'
@@ -43,7 +43,7 @@ function updateData(): void {
   submissionStore.fetchSubmissions()
 }
 
-onBeforeMount(() => {
+onMounted(() => {
   updateData()
 })
 </script>

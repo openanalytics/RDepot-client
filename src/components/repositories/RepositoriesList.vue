@@ -38,7 +38,7 @@
 import { EntityModelRRepositoryDto } from '@/openapi'
 import router from '@/plugins/router'
 import { useRepositoryStore } from '@/store/repositories'
-import { onBeforeMount } from 'vue'
+import { onMounted } from 'vue'
 import RepositoryRow from '@/components/repositories/RepositoryRow.vue'
 import ResourcesList from '@/components/common/resources/ResourcesList.vue'
 import { usePackagesStore } from '@/store/packages'
@@ -61,7 +61,7 @@ function chooseRepository(name: string) {
   packagesStore.setFiltrationByRepositoryOnly(name)
 }
 
-onBeforeMount(() => {
+onMounted(() => {
   updateData()
 })
 </script>
