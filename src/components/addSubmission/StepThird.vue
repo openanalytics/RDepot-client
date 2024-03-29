@@ -23,14 +23,18 @@
 <template>
   <v-card class="mb-12 px-10 py-3 step text-center">
     <v-card-text class="mb-1">
-      <div class="text-overline">repository</div>
+      <div class="text-overline">
+        {{ $t('columns.repository.name') }}
+      </div>
       <div id="repository-name" class="text-h4 mb-2">
         {{ chosenRepository?.name }}
       </div>
       <v-divider></v-divider>
       <v-list class="text-left">
         <v-list-item class="text-overline">
-          <template #prepend> packages </template>
+          <template #prepend>
+            {{ $t('columns.package.name') }}
+          </template>
           <template
             #append
             v-if="
@@ -38,7 +42,7 @@
               'Python'
             "
           >
-            generate manual
+            {{ $t('addSubmission.generateManual') }}
           </template>
         </v-list-item>
         <UploadSummary

@@ -70,7 +70,7 @@ describe('Submissions - submission row (ACCEPTED)', () => {
 
   it('date field', () => {
     const field = wrapper.find('#submission-date')
-    expect(field.text()).toBe('DATE')
+    expect(field.text()).toEqual('2023-07-23')
   })
 
   it('package field', () => {
@@ -169,7 +169,7 @@ describe('Submissions - submission row (empty)', () => {
 
   it('date field', () => {
     const field = wrapper.find('#submission-date')
-    expect(field.text()).toBe('DATE')
+    expect(field.text().length).toEqual(0)
   })
 
   it('package field', () => {

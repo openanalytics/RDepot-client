@@ -22,7 +22,9 @@
 
 <template>
   <v-card-text class="mb-1">
-    <div class="text-overline">repository</div>
+    <div class="text-overline">
+      {{ $t('columns.repository.name') }}
+    </div>
     <div id="repository-name" class="text-h4 mb-2">
       {{ chosenRepository?.name }}
     </div>

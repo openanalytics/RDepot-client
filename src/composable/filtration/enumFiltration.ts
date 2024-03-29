@@ -22,23 +22,51 @@
 
 import { Technologies } from '@/enum/Technologies'
 import { EntityModelSubmissionDtoStateEnum } from '@/openapi'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 export function useEnumFiltration() {
-  const states = ref(
-    Object.values(EntityModelSubmissionDtoStateEnum)
+  const { t } = useI18n()
+
+  const states = computed(() =>
+    Object.values(EntityModelSubmissionDtoStateEnum).map(
+      (state) => {
+        return {
+          title: t('states.' + state.toLowerCase()),
+          value: state
+        }
+      }
+    )
   )
 
   const technologies = ref(Technologies.options)
 
-  const resourceTypes = ref([
-    'package',
-    'repository',
-    'user',
-    'submission',
-    'packageMaintainer',
-    'repositoryMaintainer',
-    'accessToken'
+  const resourceTypes = computed(() => [
+    {
+      title: t('resourceType.package'),
+      value: 'package'
+    },
+    {
+      title: t('resourceType.repository'),
+      value: 'repository'
+    },
+    { title: t('resourceType.user'), value: 'user' },
+    {
+      title: t('resourceType.submission'),
+      value: 'submission'
+    },
+    {
+      title: t('resourceType.packageMaintainer'),
+      value: 'packageMaintainer'
+    },
+    {
+      title: t('resourceType.repositoryMaintainer'),
+      value: 'repositoryMaintainer'
+    },
+    {
+      title: t('resourceType.accessToken'),
+      value: 'accessToken'
+    }
   ])
 
   const roles = ref([
@@ -48,11 +76,11 @@ export function useEnumFiltration() {
     'repositorymaintainer'
   ])
 
-  const eventTypes = ref([
-    'create',
-    'update',
-    'delete',
-    'upload'
+  const eventTypes = computed(() => [
+    { title: t('eventTypes.create'), value: 'create' },
+    { title: t('eventTypes.update'), value: 'update' },
+    { title: t('eventTypes.delete'), value: 'delete' },
+    { title: t('eventTypes.upload'), value: 'upload' }
   ])
 
   return {

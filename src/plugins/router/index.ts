@@ -23,15 +23,15 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { routes } from '@/plugins/router/routes'
 import { i18n } from '@/plugins/i18n'
-import { usePagination } from '@/store/pagination'
 import { useAuthorizationStore } from '@/store/authorization'
 import * as helper from '@/plugins/router/helpers'
 import { Technologies } from '@/enum/Technologies'
+import getEnv from '@/utils/env'
 
 const DEFAULT_TITLE = i18n.t('common.projectTitle')
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory(getEnv('VITE_URL_PREFIX')),
   routes
 })
 

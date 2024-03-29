@@ -21,6 +21,7 @@
  */
 
 import { authService } from '@/plugins/oauth'
+import getEnv from '@/utils/env'
 
 export function useOICDAuthorization() {
   async function login() {
@@ -32,9 +33,7 @@ export function useOICDAuthorization() {
   }
 
   function isOICDAuthAvailable() {
-    return Boolean(
-      JSON.parse(import.meta.env.VITE_LOGIN_OIDC)
-    )
+    return Boolean(JSON.parse(getEnv('VITE_LOGIN_OIDC')))
   }
 
   async function isUserLoggedInOICD() {

@@ -3,19 +3,17 @@ services:
   proxy:
     image: registry.openanalytics.eu/proxy/library/nginx:alpine
     restart: unless-stopped
+    container_name: oa-rdepot-proxy
     labels:
       eu.openanalytics.rdepot.container.name: 'oa-rdepot-proxy'
     volumes:
       - ./docker/proxy/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./docker/proxy/sites-enabled/rdepot:/etc/nginx/sites-enabled/rdepot:ro
-      - repository:/opt/rdepot/repo/:ro
     depends_on:
       - app
       - repo
     ports:
       - 8017:80
-      - 8021:90
-      - 8023:95
     networks:
       oa-rdepot:
         aliases:
@@ -24,18 +22,9 @@ services:
     image: registry.openanalytics.eu/openanalytics/rdepot-app:2.0.0-SNAPSHOT
     restart: unless-stopped
     hostname: oa-rdepot-app
-    container_name: oa-rdepot-app
+    container_name: oa-rdepot-backend
     volumes:
       - ./docker/app/application.yml:/opt/rdepot/application.yml
-      - ./docker/app/rdepot.war:/opt/rdepot/rdepot.war:ro
-      - ./docker/app/rdepot.conf:/opt/rdepot/rdepot.conf:ro
-      - ./itestSourceFiles:/opt/testSourceFiles:ro
-      - ./itestGenerated:/opt/testGenerated:ro
-      - ./itestNewFiles:/opt/newFiles:ro
-    ports:
-      - 8001:8001
-      - 8018:8080
-      - 8019:8001
     depends_on:
       - db
     healthcheck:
@@ -61,12 +50,10 @@ services:
       eu.openanalytics.rdepot.container.name: 'oa-rdepot-db'
     restart: always
     hostname: oa-rdepot-db
-    # container_name: oa-rdepot-db
-    volumes:
-      - ./docker/db/initial_scripts/:/docker-entrypoint-initdb.d/:ro
-      - ./docker/db/sql_files/:/opt/sql_files/:ro
+    container_name: oa-rdepot-db
     environment:
       - POSTGRES_PASSWORD=mysecretpassword
+      - POSTGRES_DB=rdepot
     networks:
       oa-rdepot:
         aliases:
@@ -74,40 +61,63 @@ services:
   repo:
     image: registry.openanalytics.eu/openanalytics/rdepot-repo:2.0.0-SNAPSHOT
     restart: unless-stopped
+    container_name: oa-rdepot-repo
     labels:
       eu.openanalytics.rdepot.container.name: 'oa-rdepot-repo'
     hostname: oa-rdepot-repo
-    volumes:
-      - repository:/opt/rdepot/
-      - ./itestServer:/opt/testServer
-      - ./scripts/:/opt/scripts/
     networks:
       oa-rdepot:
         aliases:
           - oa-rdepot-repo
   client:
+    container_name: oa-rdepot-frontend
     build:
       context: .
+    restart: unless-stopped
     labels:
       eu.openanalytics.rdepot.container.name: 'oa-rdepot-client'
     ports:
       - '3001:80'
-    depends_on:
-      - app
-      - db
-      - proxy
-      - repo
     networks:
       oa-rdepot:
         aliases:
           - oa-rdepot-client
+  keycloak:
+    image: quay.io/keycloak/keycloak:10.0.2
+    restart: unless-stopped
+    hostname: oa-rdepot-keycloak
+    container_name: oa-rdepot-keycloak
+    ports:
+      - 8080:8080
+    environment:
+      - DB_VENDOR=h2
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD=testpassword
+      - KEYCLOAK_IMPORT=/opt/rdepot/realm-rdepot.json
+      - PROXY_ADDRESS_FORWARDING=true
+    volumes:
+      - ./docker/keycloak/realm-rdepot-vue.json:/opt/rdepot/realm-rdepot.json
+    networks:
+      oa-rdepot:
+        ipv4_address: 192.168.49.17
+
+  ldap:
+    build: ./docker/ldap
+    restart: unless-stopped
+    hostname: oa-rdepot-ldap
+    container_name: oa-rdepot-ldap
+    environment:
+      - LDAP_TLS=false
+      - LDAP_ORGANISATION=Test Company
+      - LDAP_DOMAIN=example.org
+      - LDAP_ADMIN_PASSWORD=testpassword
+    volumes:
+      - ./docker/ldap/import/config:/etc/ldap/slapd.d/
+      - ./docker/ldap/import/db:/var/lib/ldap/
+    networks:
+      - oa-rdepot
 networks:
   oa-rdepot:
     ipam:
       config:
         - subnet: 192.168.49.0/24
-volumes:
-  repository:
-  repositories:
-  snapshots:
-  queue:

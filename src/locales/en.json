@@ -1,5 +1,6 @@
 {
   "addSubmission": {
+    "generateManual": "Generate manual",
     "step1Title": "Choose repository",
     "step2Title": "Upload {0} packages",
     "step3Title": "Summary"
@@ -7,16 +8,19 @@
   "authorization": {
     "clear": "Clear",
     "error": "Unsuccessful login",
-    "keycloak": "Keycloak",
+    "keycloak": "Login via Keycloak",
     "logged-in": "Logged in",
     "login": "Login",
     "not-logged-in": "Not logged in",
     "password": "Password",
     "passwordError": "Password is required",
     "success": "Successful login",
-    "username": "Name",
+    "username": "Login",
     "usernameError": "Name is required",
     "wrongCredentials": "Wrong credentials, please try again"
+  },
+  "button": {
+    "continue": "Continue"
   },
   "columns": {
     "accepted": "Status",
@@ -45,12 +49,12 @@
     },
     "packageName": "Package",
     "packagesNo": "# packages",
-    "publicationUri": "Publication uri",
+    "publicationUri": "Publication URI",
     "published": "Published",
     "repository": {
       "name": "Repository",
       "packagesNo": "# packages",
-      "publicationUri": "Publication uri",
+      "publicationUri": "Publication URI",
       "published": "Published",
       "serverAddress": "Server address",
       "technology": "Technology",
@@ -136,6 +140,7 @@
     "seepackages": "See repository's packages",
     "settings": "Settings",
     "submissions": "Submissions",
+    "submit": "Submit",
     "users": "Users"
   },
   "dragzone": {
@@ -148,8 +153,15 @@
     "401": "Cannot perform this request because user is not authenticated.",
     "403": "Cannot perform this request because user is not authorized",
     "422": "Validation failed",
+    "500": "Internal server error",
     "oauth": "Error with oauth",
     "oauthTitle": "Authorization"
+  },
+  "eventTypes": {
+    "create": "Create",
+    "delete": "Delete",
+    "update": "Update",
+    "upload": "Upload"
   },
   "events": {
     "author": "Author",
@@ -317,6 +329,15 @@
     "list": "Repositories",
     "maintainers": "Repository maintainers"
   },
+  "resourceType": {
+    "accessToken": "Access token",
+    "package": "Package",
+    "packageMaintainer": "Package maintainer",
+    "repository": "Repository",
+    "repositoryMaintainer": "Repository maintainer",
+    "submission": "Submission",
+    "user": "User"
+  },
   "settings": {
     "create": "New access token",
     "deactivate": "Deactivate token",
@@ -352,8 +373,16 @@
     },
     "tokenName": "Name"
   },
+  "states": {
+    "accepted": "ACCEPTED",
+    "cancelled": "CANCELLED",
+    "rejected": "REJECTED",
+    "waiting": "WAITING"
+  },
   "submissions": {
+    "accepted": "accepted",
     "addAnotherSubmission": "Upload another packages",
+    "cancelled": "cancelled",
     "choseFiles": "Choose files",
     "filtration": {
       "fromDate": "From date",
@@ -362,10 +391,12 @@
       "toDate": "To date"
     },
     "noPackageChosen": "No packages choosen",
+    "rejected": "rejected",
     "waitForAllRequestsToFulfill": "Wait until all submissions will end",
+    "waitingForAction": "waiting for an action",
     "wrongExtension": "Choose packages that have correct extension (.tar.gz)"
   },
-  "success": "Successful request",
+  "success": "Request processed successfully",
   "tempo": "długie zdanie",
   "users": {
     "edit": {

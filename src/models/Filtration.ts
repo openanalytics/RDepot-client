@@ -126,7 +126,7 @@ const RepositoriesFiltration = z
     technologies: undefined,
     search: undefined,
     deleted: false,
-    published: undefined,
+    published: true,
     name: undefined,
     maintainer: undefined
   })
@@ -276,7 +276,7 @@ const PackageMaintainersFiltration = z
       })
   })
   .default({
-    deleted: undefined,
+    deleted: false,
     technologies: undefined,
     repository: undefined,
     search: undefined
@@ -309,7 +309,7 @@ const RepositoryMaintainersFiltration = z
       })
   })
   .default({
-    deleted: undefined,
+    deleted: false,
     technologies: undefined,
     search: undefined
   })
@@ -341,7 +341,7 @@ const UsersFiltration = z
       })
   })
   .default({
-    active: undefined,
+    active: true,
     roles: undefined,
     search: undefined
   })
@@ -373,8 +373,8 @@ const TokensFiltration = z
   })
   .default({
     search: undefined,
-    active: undefined,
-    expired: undefined,
+    active: true,
+    expired: false,
     userLogin: undefined
   })
 
