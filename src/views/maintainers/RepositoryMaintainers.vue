@@ -22,6 +22,19 @@
 
 <template>
   <MaintainersModal />
+  <v-row class="my-3">
+    <v-spacer />
+    <div class="mr-12 pr-5">
+      <AddMaintainerButton
+        v-if="
+          authorizationStore.can(
+            'POST',
+            'repositoryMaintainers'
+          )
+        "
+      />
+    </div>
+  </v-row>
   <FiltrationBar />
   <RepositoryMaintainersList :key="componentKey" />
   <Pagination />
@@ -34,9 +47,12 @@ import RepositoryMaintainersList from '@/components/repositoryMaintainers/Reposi
 import MaintainersModal from '@/components/repositoryMaintainers/RepositoryMaintainersModal.vue'
 import { computed } from 'vue'
 import { useCommonStore } from '@/store/common'
+import { useAuthorizationStore } from '@/store/authorization'
+import AddMaintainerButton from '@/components/common/AddMaintainerButton.vue'
 
 const commonStore = useCommonStore()
 const componentKey = computed(() => {
   return commonStore.key
 })
+const authorizationStore = useAuthorizationStore()
 </script>
