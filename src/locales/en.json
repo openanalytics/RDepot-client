@@ -315,6 +315,12 @@
       "technology": "Technology",
       "title": "New repository"
     },
+    "declarative": {
+      "create": "Create action is disabled in declarative mode",
+      "delete": "Delete action is disabled in declarative mode",
+      "edit": "Edit action is disabled in declarative mode",
+      "publish": "Publish action is disabled in declarative mode "
+    },
     "edit": {
       "title": "Edit repository"
     },

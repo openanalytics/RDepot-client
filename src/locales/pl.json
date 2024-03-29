@@ -309,6 +309,12 @@
       "technology": "Technologia",
       "title": "Nowe repozytorium"
     },
+    "declarative": {
+      "create": "Tworzenie repozytorium jest niedostępne w deklaratywnym trybie",
+      "delete": "Usuwanie jest niedostępne w deklaratywnym trybie",
+      "edit": "Edycja jest niedostępna w deklaratywnym trybie",
+      "publish": "Publikowanie jest niedostępne w deklaratywnym trybie"
+    },
     "edit": {
       "title": "Edytuj repozytorium"
     },

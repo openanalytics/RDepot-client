@@ -51,7 +51,8 @@ const FrontendRoute = z.enum([
   'packageMaintainers',
   'addSubmission',
   'events',
-  'settings'
+  'settings',
+  'config'
 ])
 
 const BackendRoute = z.enum([
@@ -66,7 +67,8 @@ const BackendRoute = z.enum([
   'package',
   'repository',
   'submissions',
-  'settings'
+  'settings',
+  'config'
 ])
 
 const Subject = z.enum([
@@ -96,7 +98,8 @@ export function defineAbilityFor(role: Role) {
       'repositories',
       'repositoryDetails',
       'package',
-      'repository'
+      'repository',
+      'config'
     ])
 
     can(['GET', 'PATCH', 'POST'], 'submissions')

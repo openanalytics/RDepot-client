@@ -137,19 +137,20 @@
         :justify="JustifyEnum.Enum.center"
       />
       <span v-else-if="repository">
-        <v-tooltip
-          location="top"
-          :disabled="canPatch(repository?.links)"
-        >
+        <v-tooltip location="top" :disabled="!isDisabled">
           <template #activator="{ props }">
             <span v-bind="props">
               <v-checkbox
                 id="checkbox-published"
                 v-model="repository.published"
                 @change="updateRepositoryPublished()"
-                :readonly="!canPatch(repository?.links)"
+                :readonly="
+                  !canPatch(repository?.links) ||
+                  configStore.declarativeMode
+                "
                 :color="
-                  !canPatch(repository?.links)
+                  !canPatch(repository?.links) ||
+                  configStore.declarativeMode
                     ? 'grey'
                     : 'oablue'
                 "
@@ -161,6 +162,9 @@
           </template>
           <span v-if="!canPatch(repository?.links)">{{
             $t('common.notAuthorized')
+          }}</span>
+          <span v-if="configStore.declarativeMode">{{
+            $t('repositories.declarative.publish')
           }}</span>
         </v-tooltip>
       </span>
@@ -183,14 +187,30 @@
         class="d-flex justify-center align-center"
       >
         <EditIcon
-          :disabled="!canPatch(props.repository?.links)"
+          :disabled="
+            !canPatch(props.repository?.links) ||
+            configStore.declarativeMode
+          "
           @set-entity="chooseRepository()"
           :text="$t('common.edit')"
+          :hoverMessage="
+            configStore.declarativeMode
+              ? $t('repositories.declarative.edit')
+              : undefined
+          "
         />
         <DeleteIcon
-          :disabled="!canDelete(props.repository?.links)"
+          :disabled="
+            !canDelete(props.repository?.links) ||
+            configStore.declarativeMode
+          "
           :name="props.repository?.name"
           @setResourceId="chooseRepository"
+          :hoverMessage="
+            configStore.declarativeMode
+              ? $t('repositories.declarative.delete')
+              : undefined
+          "
         />
       </span>
     </v-col>
@@ -205,17 +225,18 @@ import { EntityModelRepositoryDto } from '@/openapi'
 import { updateRepository } from '@/services/repository_services'
 import { useUtilities } from '@/composable/utilities'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
-import { usePackagesStore } from '@/store/packages'
 import { useRepositoryStore } from '@/store/repositories'
 import { JustifyEnum } from '@/enum/Justify'
-import EditIcon from '../common/action_icons/EditIcon.vue'
+import EditIcon from '@/components/common/action_icons/EditIcon.vue'
 import { isAtLeastRepositoryMaintainer } from '@/enum/UserRoles'
 import { useAuthorizationStore } from '@/store/authorization'
+import { useConfigStore } from '@/store/config'
+import { computed } from '@vue/reactivity'
 
-const packagesStore = usePackagesStore()
 const { deepCopy } = useUtilities()
 const { canDelete, canPatch } = useUserAuthorities()
 const repositoryStore = useRepositoryStore()
+const configStore = useConfigStore()
 const authorizationStore = useAuthorizationStore()
 
 const props = defineProps<{
@@ -223,8 +244,17 @@ const props = defineProps<{
   repository?: EntityModelRepositoryDto
 }>()
 
+const isDisabled = computed(
+  () =>
+    configStore.declarativeMode ||
+    !canPatch(props.repository?.links)
+)
+
 function updateRepositoryPublished(): void {
-  if (canPatch(props.repository?.links)) {
+  if (
+    !isDisabled.value &&
+    canPatch(props.repository?.links)
+  ) {
     if (props.repository) {
       const oldRepository = deepCopy(props.repository)
       oldRepository.published = !oldRepository.published
