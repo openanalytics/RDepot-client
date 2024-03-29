@@ -191,6 +191,7 @@
         class="d-flex justify-center align-center"
       >
         <v-btn
+          v-if="!check"
           id="accept-button"
           color="success"
           class="mx-1"
@@ -250,7 +251,7 @@ const {
 
 const check = computed(() => {
   return (
-    authorizationStore.userId ===
+    authorizationStore.me?.id ===
     props.submission?.submitter?.id
   )
 })
