@@ -90,7 +90,13 @@
           id="checkbox-active"
           color="oablue"
           @click.stop
-          disabled
+          :disabled="
+            !isAtLeastAdmin(
+              authorizationStore.userRole
+                ? authorizationStore.userRole
+                : 0
+            )
+          "
           v-model="user.active"
         />
       </span>
@@ -132,9 +138,11 @@ import { roleToString } from '@/enum/UserRoles'
 import { useUserStore } from '@/store/users'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
 import { JustifyEnum } from '@/enum/Justify'
+import { useAuthorizationStore } from '@/store/authorization'
+import { isAtLeastAdmin } from '@/enum/UserRoles'
 
 const userStore = useUserStore()
-
+const authorizationStore = useAuthorizationStore()
 const props = defineProps({
   title: {
     type: Boolean,
