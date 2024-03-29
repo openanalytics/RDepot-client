@@ -87,12 +87,20 @@ async function resolvedBlob(
       if (open === true) {
         blob.openBlob(result.data)
       } else {
-        blob.downloadBlob(result.data, '.html')
+        blob.downloadBlob(
+          result.data,
+          '.html',
+          result.config.url
+        )
       }
       break
     case 'application/gzip':
       // for source files
-      blob.downloadBlob(result.data, '.tar.gz')
+      blob.downloadBlob(
+        result.data,
+        '.tar.gz',
+        result.config.url
+      )
       break
     default:
       break
@@ -119,36 +127,54 @@ async function resolved(
   )
 }
 
-function rejected(result: AxiosError) {
+async function rejected(result: AxiosError) {
   const common_store = useCommonStore()
   common_store.setProgressCircularActive(false)
-  errorsHandler(result)
+  await errorsHandler(result)
   throw result
 }
 
-function errorsHandler(error: AxiosError) {
+async function errorsHandler(error: AxiosError) {
   const toasts = useToast()
-  switch (error.response?.status) {
-    case 401: {
-      toasts.error(i18n.t('errors.401'))
-      const authorizationStore = useAuthorizationStore()
-      authorizationStore.logout()
-      break
-    }
-    case 403: {
-      const authorizationStore = useAuthorizationStore()
-      authorizationStore.getUserInfo()
-      break
-    }
+  if (!error.response?.status) {
+    toasts.error(i18n.t('errors.405'))
+    const authorizationStore = useAuthorizationStore()
+    authorizationStore.logout()
+  } else {
+    switch (error.response?.status) {
+      case 304: {
+        const authorizationStore = useAuthorizationStore()
+        if (!(await authorizationStore.isUserLoggedIn())) {
+          authorizationStore.logout()
+        }
+        break
+      }
+      case 401: {
+        toasts.error(i18n.t('errors.401'))
+        const authorizationStore = useAuthorizationStore()
+        authorizationStore.logout()
+        break
+      }
+      case 403: {
+        const authorizationStore = useAuthorizationStore()
+        authorizationStore.getUserInfo()
+        break
+      }
+      case 405: {
+        toasts.error(i18n.t('errors.405'))
+        const authorizationStore = useAuthorizationStore()
+        authorizationStore.logout()
+        break
+      }
+      case 422: {
+        toasts.error(i18n.t('errors.422'))
+        break
+      }
 
-    case 422: {
-      toasts.error(i18n.t('errors.422'))
-      break
-    }
-
-    case 500: {
-      toasts.error(i18n.t('errors.500'))
-      break
+      case 500: {
+        toasts.error(i18n.t('errors.500'))
+        break
+      }
     }
   }
 }

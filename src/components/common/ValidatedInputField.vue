@@ -34,6 +34,7 @@
 import { useField } from 'vee-validate'
 import { toRef } from 'vue'
 import {
+  VCombobox,
   VSelect,
   VSwitch,
   VTextField
@@ -51,6 +52,7 @@ const component = z.enum([
   'v-text-field',
   'v-select',
   'v-switch',
+  'v-combobox',
   'autocomplete'
 ])
 type Component = z.infer<typeof component>
@@ -59,6 +61,7 @@ const toComponent = new Map<Component, any>([
   [component.enum['v-text-field'], VTextField],
   [component.enum['v-select'], VSelect],
   [component.enum['v-switch'], VSwitch],
+  [component.enum['v-combobox'], VCombobox],
   [component.enum['autocomplete'], AutocompleteField]
 ])
 

@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeMount } from 'vue'
+import { onMounted } from 'vue'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
 import RepositoryMaintainerRow from '@/components/repositoryMaintainers/RepositoryMaintainerRow.vue'
 import ResourcesList from '@/components/common/resources//ResourcesList.vue'
@@ -48,7 +48,7 @@ function updateData(): void {
   repositoryMaintainersStore.fetchMaintainers()
 }
 
-onBeforeMount(() => {
+onMounted(() => {
   updateData()
 })
 </script>

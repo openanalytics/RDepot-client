@@ -42,6 +42,7 @@ import { defineStore } from 'pinia'
 import { authService } from '@/plugins/oauth'
 import router from '@/plugins/router'
 import { useOICDAuthorization } from '@/composable/auth/oicdAuthorization'
+import { useConfigStore } from './config'
 
 interface State {
   userToken: string
@@ -71,10 +72,16 @@ export const useAuthorizationStore = defineStore(
     },
 
     actions: {
+      async postLoginOperations() {
+        const configStore = useConfigStore()
+        await this.getUserInfo()
+        configStore.fetchConfiguration()
+      },
+
       async login() {
         this.chooseLoginType(LoginType.Enum.OICD)
-        authService.login().finally(() => {
-          this.getUserInfo()
+        authService.login().finally(async () => {
+          await this.postLoginOperations()
         })
       },
 
@@ -83,7 +90,7 @@ export const useAuthorizationStore = defineStore(
         this.chooseLoginType(LoginType.Enum.SIMPLE)
         await login(data).then(async (token) => {
           this.userToken = token
-          await this.getUserInfo()
+          await this.postLoginOperations()
           router.push({ name: 'packages' })
         })
       },

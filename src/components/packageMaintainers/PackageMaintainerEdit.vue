@@ -38,9 +38,11 @@
         <validated-input-field
           as="v-select"
           name="repositoryId"
-          :modelValue="localMaintainer.repository"
+          :modelValue="localMaintainer.repository!.id"
           @update:modelValue="newValue => {
             localMaintainer.repository!.id = newValue
+            localMaintainer.packageName = ''
+            setFieldValue('packageName', '')
             validateField('packageName')
           }"
           :items="repositories"
@@ -50,13 +52,17 @@
           :label="$t('maintainers.editform.repository')"
         />
         <validated-input-field
-          as="v-select"
+          as="v-combobox"
           name="packageName"
+          :modelValue="localMaintainer.packageName"
+          @update:modelValue="
+            (newValue) => {
+              localMaintainer.packageName = newValue
+              validateField('packageName')
+            }
+          "
           id="edit-package-maintainer-package"
-          v-model="localMaintainer.packageName"
           :items="packages"
-          item-title="name"
-          item-value="name"
           :label="$t('maintainers.editform.package')"
         />
       </v-card-text>
@@ -104,18 +110,32 @@ const repositories = computed(() => {
 })
 
 const packages = computed(() => {
-  return Array.from(
-    new Set(
-      maintainersStore.packages
-        .filter((packageBag) => {
-          return (
-            packageBag.repository?.id ==
-            localMaintainer.value.repository?.id
-          )
-        })
-        .map((packageBag) => packageBag.name)
-    )
-  )
+  return maintainersStore.packages
+    .filter((packageBag) => {
+      return (
+        packageBag.repository?.id ==
+        localMaintainer.value.repository?.id
+      )
+    })
+    .map((packageBag) => {
+      return {
+        title: packageBag.name,
+        value: packageBag.name,
+        props: {
+          disabled: packageBag.user === null ? false : true,
+          subtitle:
+            packageBag.user !== null
+              ? packageBag.user?.name
+              : ''
+        }
+      }
+    })
+    .filter((obj, pos, arr) => {
+      return (
+        arr.map((pack) => pack.title).indexOf(obj.title) ===
+        pos
+      )
+    })
 })
 
 let maintainer = maintainersStore.chosenMaintainer
@@ -123,7 +143,7 @@ const localMaintainer = ref(maintainer)
 
 const emit = defineEmits(['closeModal'])
 
-const { meta, validateField } = useForm({
+const { meta, validateField, setFieldValue } = useForm({
   validationSchema: toTypedSchema(
     z.object({
       username:
@@ -134,12 +154,16 @@ const { meta, validateField } = useForm({
         packageMaintainerSchema.shape.packageName.refine(
           (val) => {
             if (packages.value) {
-              return packages.value.includes(val)
+              return !packages.value.find(
+                (pack) => pack.value === val
+              )?.props.disabled
             } else {
               return false
             }
           },
-          t('package_maintainers.editform.packageNotFound')
+          t(
+            'package_maintainers.editform.packageHasMaintainer'
+          )
         )
     })
   ),

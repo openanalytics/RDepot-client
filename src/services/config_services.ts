@@ -21,14 +21,30 @@
  */
 
 import {
-  fetchRepositoriesServices,
-  fetchAllRepositoriesServices,
-  fetchAllUndeletedRepositoriesServices
-} from './repository_services'
-import { fetchPackagesServices } from './package_services'
-export {
-  fetchRepositoriesServices,
-  fetchPackagesServices,
-  fetchAllRepositoriesServices,
-  fetchAllUndeletedRepositoriesServices
+  ResponseDtoPublicConfigurationDto,
+  ApiV2ConfigControllerApiFactory,
+  PublicConfigurationDto
+} from '@/openapi'
+import {
+  openApiRequest,
+  validatedData,
+  validateRequest
+} from './open_api_access'
+import { isAuthorized } from '@/plugins/casl'
+
+type ValidatedConfig = Promise<
+  validatedData<PublicConfigurationDto>
+>
+
+export async function fetchConfiguration(): ValidatedConfig {
+  if (!isAuthorized('GET', 'config')) {
+    return new Promise(() => validateRequest({}))
+  }
+  return openApiRequest<PublicConfigurationDto>(
+    ApiV2ConfigControllerApiFactory().getPublicConfig,
+    [],
+    false
+  ).catch(() => {
+    return validateRequest({})
+  })
 }

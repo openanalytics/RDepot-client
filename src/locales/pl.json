@@ -152,6 +152,7 @@
   "errors": {
     "401": "Nie można wykonać zapytania. Użytkownik nie jest zalogowany.",
     "403": "Nie można wykonać zapytania. Użytkownik nie posiada odpowiednich uprawnień.",
+    "405": "Prawdopodobny problem z konfiguracją serwera. Skontaktuj się z administratorem.",
     "422": "Nieudana walidacja",
     "500": "Serwer nie mógl zrealizować Twojego żądania",
     "oauth": "Błąd autoryzacji",
@@ -224,6 +225,12 @@
     "successUpdateRepositoryMaintainer": "Zaktualizowano {maintainer_name}",
     "successUpdateRepositoryManager": "Zaktualizowano {maintainer_name}",
     "successUpdateUser": "Dane użytkownika zaktualizowane"
+  },
+  "package_maintainers": {
+    "editform": {
+      "packageHasMaintainer": "Ten pakiet ma już opiekuna",
+      "packageNotFound": "Pakiet jeszcze nie istnieje"
+    }
   },
   "packages": {
     "approver": "Zatwierdzający",
@@ -301,6 +308,12 @@
       "serverAddressPlaceholder": "http://oa-rdepot-repo:8080/{'{name}'}",
       "technology": "Technologia",
       "title": "Nowe repozytorium"
+    },
+    "declarative": {
+      "create": "Tworzenie repozytorium jest niedostępne w deklaratywnym trybie",
+      "delete": "Usuwanie jest niedostępne w deklaratywnym trybie",
+      "edit": "Edycja jest niedostępna w deklaratywnym trybie",
+      "publish": "Publikowanie jest niedostępne w deklaratywnym trybie"
     },
     "edit": {
       "title": "Edytuj repozytorium"

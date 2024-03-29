@@ -20,15 +20,24 @@
  *
  */
 
-import {
-  fetchRepositoriesServices,
-  fetchAllRepositoriesServices,
-  fetchAllUndeletedRepositoriesServices
-} from './repository_services'
-import { fetchPackagesServices } from './package_services'
-export {
-  fetchRepositoriesServices,
-  fetchPackagesServices,
-  fetchAllRepositoriesServices,
-  fetchAllUndeletedRepositoriesServices
+import { fetchConfiguration } from '@/services/config_services'
+import { defineStore } from 'pinia'
+
+interface State {
+  declarativeMode: boolean
 }
+
+export const useConfigStore = defineStore('configStore', {
+  state: (): State => {
+    return {
+      declarativeMode: false
+    }
+  },
+  actions: {
+    async fetchConfiguration() {
+      const [config] = await fetchConfiguration()
+      this.declarativeMode =
+        config.declarativeModeEnabled || false
+    }
+  }
+})

@@ -152,6 +152,7 @@
   "errors": {
     "401": "Cannot perform this request because user is not authenticated.",
     "403": "Cannot perform this request because user is not authorized",
+    "405": "There seems to be a configuration issue on the back-end. Please contact your administrator for fixing this.",
     "422": "Validation failed",
     "500": "Internal server error",
     "oauth": "Error with oauth",
@@ -230,6 +231,12 @@
     "successUpdateRepositoryManager": "Successful update {maintainer_name}",
     "successUpdateUser": "Successfully updated user"
   },
+  "package_maintainers": {
+    "editform": {
+      "packageHasMaintainer": "This package has maintainer",
+      "packageNotFound": "Package doesn't exist yet"
+    }
+  },
   "packages": {
     "approver": "Approver",
     "archive": "Archive",
@@ -307,6 +314,12 @@
       "serverAddressPlaceholder": "http://oa-rdepot-repo:8080/{'{name}'}",
       "technology": "Technology",
       "title": "New repository"
+    },
+    "declarative": {
+      "create": "Create action is disabled in declarative mode",
+      "delete": "Delete action is disabled in declarative mode",
+      "edit": "Edit action is disabled in declarative mode",
+      "publish": "Publish action is disabled in declarative mode "
     },
     "edit": {
       "title": "Edit repository"
