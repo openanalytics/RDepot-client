@@ -81,7 +81,7 @@ async function downloadVignette() {
   if (packageBag.value.id && props.fileName) {
     await packageDetailsStore.downloadVignette(
       packageBag.value.id.toString(),
-      props.fileName.split('.html')[0]
+      props.fileName
     )
   }
 }

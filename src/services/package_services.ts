@@ -211,8 +211,21 @@ export async function downloadVignetteHtml(
   name: string
 ) {
   return openApiRequest<Promise<boolean>>(
-    // RPackageControllerApiFactory().downloadVignetteHtml,
     RPackageControllerApiFactory().downloadVignetteHtml,
+    [id, name],
+    true,
+    true
+  ).catch(() => {
+    return false
+  })
+}
+
+export async function downloadVignettePdf(
+  id: string,
+  name: string
+) {
+  return openApiRequest<Promise<boolean>>(
+    RPackageControllerApiFactory().downloadVignettePdf,
     [id, name],
     true,
     true

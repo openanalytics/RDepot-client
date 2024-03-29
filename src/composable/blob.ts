@@ -58,14 +58,14 @@ export function useBlob() {
     } else {
       url?.split('/').forEach((p) => {
         switch (p) {
-          case 'manual':
+          case 'manual_':
             fileName += p
             break
           case 'r':
-            fileName += 'R'
+            fileName += 'R_'
             break
           case 'python':
-            fileName += 'Python'
+            fileName += 'Python_'
             break
           default:
             break
