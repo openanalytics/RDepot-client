@@ -224,16 +224,28 @@ export async function downloadVignetteHtml(
 export async function downloadSourceFile(
   id: string,
   name: string,
-  version: string
+  version: string,
+  technology: string
 ) {
-  return openApiRequest<Promise<boolean>>(
-    RPackageControllerApiFactory().downloadPackage,
-    [id, name, version],
-    true,
-    true
-  ).catch(() => {
-    return false
-  })
+  if (technology === 'R') {
+    return openApiRequest<Promise<boolean>>(
+      RPackageControllerApiFactory().downloadPackage,
+      [id, name, version],
+      true,
+      true
+    ).catch(() => {
+      return false
+    })
+  } else {
+    return openApiRequest<Promise<boolean>>(
+      PythonPackageControllerApiFactory().downloadPackage,
+      [id, name, version],
+      true,
+      true
+    ).catch(() => {
+      return false
+    })
+  }
 }
 
 export async function fetchVignettes(

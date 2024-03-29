@@ -128,9 +128,15 @@ export const usePackageDetailsStore = defineStore(
       async downloadSourceFile(
         id: string,
         name: string,
-        version: string
+        version: string,
+        technology: string
       ) {
-        await downloadSourceFile(id, name, version).then()
+        await downloadSourceFile(
+          id,
+          name,
+          version,
+          technology
+        ).then()
       },
       async fetchVignettes(id: number) {
         const [vignettes] = await fetchVignettes(id)
