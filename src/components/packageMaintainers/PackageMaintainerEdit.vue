@@ -55,6 +55,12 @@
           as="v-combobox"
           name="packageName"
           :modelValue="localMaintainer.packageName"
+          @update:modelValue="
+            (newValue) => {
+              localMaintainer.packageName = newValue
+              validateField('packageName')
+            }
+          "
           id="edit-package-maintainer-package"
           :items="packages"
           :label="$t('maintainers.editform.package')"
