@@ -100,7 +100,7 @@ function nextStep() {
 }
 
 onMounted(() => {
-  repositoryStore.fetchRepositories()
+  repositoryStore.fetchAllRepositories()
 })
 </script>
 
