@@ -40,7 +40,8 @@ import {
   deletePackageMaintainerService,
   fetchAllPackageMaintainers,
   fetchPackageMaintainersService,
-  updatePackageMaintainerService
+  updatePackageMaintainerService,
+  createPackageMaintainerService
 } from '@/services/package_maintainers_service'
 import { useUtilities } from '@/composable/utilities'
 import { packageMaintainersFiltrationLabels } from '@/maps/Filtration'
@@ -178,6 +179,15 @@ export const usePackageMaintainersStore = defineStore(
         ).then(async (success) => {
           if (success) await this.fetchMaintainers()
         })
+      },
+      async createMaintainer(
+        maintainer: Partial<PackageMaintainerDto>
+      ) {
+        createPackageMaintainerService(maintainer).then(
+          async (success) => {
+            if (success) await this.fetchMaintainers()
+          }
+        )
       },
       getLabels() {
         return packageMaintainersFiltrationLabels

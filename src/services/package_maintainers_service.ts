@@ -123,3 +123,19 @@ export async function updatePackageMaintainerService(
     return validateRequest({})
   })
 }
+
+export async function createPackageMaintainerService(
+  maintainer: PackageMaintainerDto
+): ValidatedPackageMaintainer {
+  if (!isAuthorized('POST', 'packageMaintainers')) {
+    return new Promise(() => false)
+  }
+
+  return openApiRequest<EntityModelPackageMaintainerDto>(
+    ApiV2PackageMaintainerControllerApiFactory()
+      .createPackageMaintainer,
+    [maintainer]
+  ).catch(() => {
+    return validateRequest({})
+  })
+}

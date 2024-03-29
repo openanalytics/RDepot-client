@@ -191,6 +191,9 @@
     "userId": "Id użytkownika"
   },
   "maintainers": {
+    "createform": {
+      "title": "Utwórz opiekuna"
+    },
     "delete": "Usuń opiekuna",
     "deleteQuestion": "Czy na pewno chcesz usunąć {maintainer_name}?",
     "deleted": "Ten opiekun jest usunięty",
@@ -225,6 +228,9 @@
     "successUpdateRepositoryMaintainer": "Zaktualizowano {maintainer_name}",
     "successUpdateRepositoryManager": "Zaktualizowano {maintainer_name}",
     "successUpdateUser": "Dane użytkownika zaktualizowane"
+  },
+  "packageMaintainer": {
+    "create": "Stwórz opiekuna"
   },
   "package_maintainers": {
     "editform": {

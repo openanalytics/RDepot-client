@@ -196,6 +196,9 @@
     "userId": "User id"
   },
   "maintainers": {
+    "createform": {
+      "title": "Create maintainer"
+    },
     "delete": "Delete maintainer",
     "deleteQuestion": "Are you sure you want to delete {maintainer_name}?",
     "deleted": "This repository maintainer is deleted",
@@ -230,6 +233,9 @@
     "successUpdateRepositoryMaintainer": "Successful updated {maintainer_name}",
     "successUpdateRepositoryManager": "Successful update {maintainer_name}",
     "successUpdateUser": "Successfully updated user"
+  },
+  "packageMaintainer": {
+    "create": "Create maintainer"
   },
   "package_maintainers": {
     "editform": {
