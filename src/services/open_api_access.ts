@@ -92,7 +92,11 @@ async function resolvedBlob(
       break
     case 'application/gzip':
       // for source files
-      blob.downloadBlob(result.data, '.tar.gz')
+      blob.downloadBlob(
+        result.data,
+        '.tar.gz',
+        result.config.url
+      )
       break
     default:
       break

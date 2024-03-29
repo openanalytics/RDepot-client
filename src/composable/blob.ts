@@ -33,7 +33,7 @@ export function useBlob() {
     fileUrl?: string
   ): void {
     const fileName = fileUrl
-      ? genFileName(fileUrl)
+      ? genFileName(fileUrl, extension)
       : 'sourcefile'
     const url = window.URL.createObjectURL(new Blob([data]))
     const link = document.createElement('a')
@@ -43,23 +43,30 @@ export function useBlob() {
     link.click()
   }
 
-  function genFileName(url?: string) {
+  function genFileName(url?: string, extension?: string) {
     let fileName = ''
-    url?.split('/').forEach((p) => {
-      switch (p) {
-        case 'manual':
-          fileName += p
-          break
-        case 'r':
-          fileName += 'R'
-          break
-        case 'python':
-          fileName += 'Python'
-          break
-        default:
-          break
-      }
-    })
+    if (extension === '.tar.gz') {
+      const urlArray = url?.split('/').pop()
+      fileName += urlArray
+        ? urlArray.replace('.tar.gz', '')
+        : 'sourcefile'
+    } else {
+      url?.split('/').forEach((p) => {
+        switch (p) {
+          case 'manual':
+            fileName += p
+            break
+          case 'r':
+            fileName += 'R'
+            break
+          case 'python':
+            fileName += 'Python'
+            break
+          default:
+            break
+        }
+      })
+    }
     return fileName
   }
 
