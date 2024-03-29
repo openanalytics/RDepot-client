@@ -229,7 +229,7 @@ export async function downloadSourceFile(
 ) {
   if (technology === 'R') {
     return openApiRequest<Promise<boolean>>(
-      RPackageControllerApiFactory().downloadPackage,
+      RPackageControllerApiFactory().downloadRPackage,
       [id, name, version],
       true,
       true
@@ -238,7 +238,8 @@ export async function downloadSourceFile(
     })
   } else {
     return openApiRequest<Promise<boolean>>(
-      PythonPackageControllerApiFactory().downloadPackage,
+      PythonPackageControllerApiFactory()
+        .downloadPythonPackage,
       [id, name, version],
       true,
       true
