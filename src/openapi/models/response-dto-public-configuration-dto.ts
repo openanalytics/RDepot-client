@@ -32,19 +32,52 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-export * from './apis/api-v2-access-token-controller-api'
-export * from './apis/api-v2-config-controller-api'
-export * from './apis/api-v2-newsfeed-event-controller-api'
-export * from './apis/api-v2-package-controller-api'
-export * from './apis/api-v2-package-maintainer-controller-api'
-export * from './apis/api-v2-repository-controller-api'
-export * from './apis/api-v2-repository-maintainer-controller-api'
-export * from './apis/api-v2-submission-controller-api'
-export * from './apis/api-v2-user-controller-api'
-export * from './apis/api-v2-user-settings-controller-api'
-export * from './apis/python-package-controller-api'
-export * from './apis/python-repository-controller-api'
-export * from './apis/python-submission-controller-api'
-export * from './apis/rpackage-controller-api'
-export * from './apis/rrepository-controller-api'
-export * from './apis/rsubmission-controller-api'
+
+import { PublicConfigurationDto } from './public-configuration-dto'
+/**
+ *
+ *
+ * @export
+ * @interface ResponseDtoPublicConfigurationDto
+ */
+export interface ResponseDtoPublicConfigurationDto {
+  /**
+   * @type {string}
+   * @memberof ResponseDtoPublicConfigurationDto
+   */
+  status?: ResponseDtoPublicConfigurationDtoStatusEnum
+
+  /**
+   * @type {number}
+   * @memberof ResponseDtoPublicConfigurationDto
+   */
+  code?: number
+
+  /**
+   * @type {string}
+   * @memberof ResponseDtoPublicConfigurationDto
+   */
+  message?: string
+
+  /**
+   * @type {string}
+   * @memberof ResponseDtoPublicConfigurationDto
+   */
+  messageCode?: string
+
+  /**
+   * @type {PublicConfigurationDto}
+   * @memberof ResponseDtoPublicConfigurationDto
+   */
+  data?: PublicConfigurationDto
+}
+
+/**
+ * @export
+ * @enum {string}
+ */
+export enum ResponseDtoPublicConfigurationDtoStatusEnum {
+  SUCCESS = 'SUCCESS',
+  ERROR = 'ERROR',
+  WARNING = 'WARNING'
+}

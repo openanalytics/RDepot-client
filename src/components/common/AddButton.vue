@@ -26,18 +26,27 @@
       <div id="tooltip-activator" v-bind="props">
         <CommonButton
           id="add-maintainer"
+          :disabled="configStore.declarativeMode"
           :component="OverlayEnum.enum.Create"
           ><v-icon icon="mdi-plus"
         /></CommonButton>
       </div>
     </template>
-    <span id="tooltip-wait">{{
-      $t('repositories.addRepository')
-    }}</span>
+    <span id="tooltip-wait"
+      ><span v-if="!configStore.declarativeMode">{{
+        $t('repositories.addRepository')
+      }}</span
+      ><span v-else>
+        {{ $t('repositories.declarative.create') }}</span
+      >
+    </span>
   </v-tooltip>
 </template>
 
 <script setup lang="ts">
 import CommonButton from '@/components/common/Button.vue'
 import { OverlayEnum } from '@/enum/Overlay'
+import { useConfigStore } from '@/store/config'
+
+const configStore = useConfigStore()
 </script>
