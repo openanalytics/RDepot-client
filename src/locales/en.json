@@ -230,6 +230,12 @@
     "successUpdateRepositoryManager": "Successful update {maintainer_name}",
     "successUpdateUser": "Successfully updated user"
   },
+  "package_maintainers": {
+    "editform": {
+      "packageHasMaintainer": "This package has maintainer",
+      "packageNotFound": "Package doesn't exist yet"
+    }
+  },
   "packages": {
     "approver": "Approver",
     "archive": "Archive",
