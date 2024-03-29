@@ -60,7 +60,7 @@
       <v-list-item
         v-for="file in filesStore.files"
         :key="file.name"
-        :title="file.name"
+        :title="calculateFileName(file.name)"
         class="hoverable"
       >
         <template #prepend>
@@ -125,6 +125,14 @@ const filesStore = useFilesListStore()
 const chosenRepository = computed(() => {
   return submissionsStore.repository
 })
+
+function calculateFileName(file: string) {
+  if (file.length >= 50) {
+    return `${file.slice(0, 21)}...${file.slice(-15)}`
+  } else {
+    return file
+  }
+}
 
 function resetPackages() {
   filesStore.files = []

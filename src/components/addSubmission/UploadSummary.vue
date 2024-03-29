@@ -23,7 +23,7 @@
 <template>
   <v-list-item id="submission-package">
     <template #title :color="getColor">
-      {{ promise.packageBag.name }}
+      {{ fileName }}
     </template>
 
     <template #prepend>
@@ -115,6 +115,17 @@ const getColor = computed(() => {
     : props.promise.state == 'error'
     ? 'red'
     : 'primary'
+})
+
+const fileName = computed(() => {
+  if (props.promise.packageBag.name.length >= 50) {
+    return `${props.promise.packageBag.name.slice(
+      0,
+      25
+    )}...${props.promise.packageBag.name.slice(-21)}`
+  } else {
+    return props.promise.packageBag.name
+  }
 })
 
 function downloadManual(id: string) {
