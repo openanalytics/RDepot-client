@@ -40,7 +40,7 @@
     </v-col>
     <v-col
       id="repository-publication-uri"
-      cols="lg-2"
+      cols="lg-3"
       class="d-flex align-center"
     >
       <SortTitle
@@ -55,7 +55,7 @@
     </v-col>
     <v-col
       id="repository-server-address"
-      cols="lg-4 sm-2"
+      cols="lg-3 sm-2"
       class="d-flex align-center"
       v-if="
         isAtLeastRepositoryMaintainer(

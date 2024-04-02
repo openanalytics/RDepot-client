@@ -25,7 +25,9 @@
   <div class="d-flex">
     <div class="mr-10 flex-fill">
       <PackageDescription />
-      <PackageInstallation />
+      <PackageInstallation
+        v-if="packageBag.repository.published"
+      />
       <PackageProperties />
     </div>
     <div class="pr-5" color="background">
@@ -50,4 +52,14 @@ import PackageVersions from '@/components/packages/packageDetails/PackageVersion
 import PackageTitle from '@/components/packages/packageDetails/PackageTitle.vue'
 import PackageManual from '@/components/packages/packageDetails/PackageManual.vue'
 import PackageVignettes from '@/components/packages/packageDetails/PackageVignettes.vue'
+import { EntityModelRPackageDto } from '@/openapi'
+import { computed } from 'vue'
+import { usePackageDetailsStore } from '@/store/package_details'
+
+const packageDetailsStore = usePackageDetailsStore()
+
+const packageBag = computed<EntityModelRPackageDto>(
+  () =>
+    packageDetailsStore.packageBag as EntityModelRPackageDto
+)
 </script>
