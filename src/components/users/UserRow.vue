@@ -90,6 +90,7 @@
           id="checkbox-active"
           color="oablue"
           @click.stop
+          @change="updateUserActive()"
           :disabled="
             !isAtLeastAdmin(
               authorizationStore.userRole
@@ -140,6 +141,8 @@ import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
 import { JustifyEnum } from '@/enum/Justify'
 import { useAuthorizationStore } from '@/store/authorization'
 import { isAtLeastAdmin } from '@/enum/UserRoles'
+import { updateUser } from '@/services/users_services'
+import { useUtilities } from '@/composable/utilities'
 
 const userStore = useUserStore()
 const authorizationStore = useAuthorizationStore()
@@ -160,6 +163,24 @@ const getRole = computed(() => {
 function setEditUser() {
   if (props.user) {
     userStore.chosenUser = props.user
+  }
+}
+const { deepCopy } = useUtilities()
+
+function updateUserActive(): void {
+  if (canPatch(props.user?.links)) {
+    if (props.user) {
+      const oldUser = deepCopy(props.user)
+      oldUser.active = !oldUser.active
+      updateUser(oldUser, props.user).then(
+        () => {
+          userStore.fetchUsers()
+        },
+        () => {
+          userStore.fetchUsers()
+        }
+      )
+    }
   }
 }
 </script>
