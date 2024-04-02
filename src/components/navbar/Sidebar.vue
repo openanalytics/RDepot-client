@@ -98,7 +98,6 @@
             'repositoryMaintainers'
           )
         "
-        value="Repositories"
         tag="Repositories"
       >
         <template #activator="{ props }">
