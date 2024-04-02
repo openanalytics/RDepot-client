@@ -1,4 +1,9 @@
 {
+  "action": {
+    "accept": "ACCEPT",
+    "cancel": "CANCEL",
+    "reject": "REJECT"
+  },
   "addSubmission": {
     "generateManual": "Generate manual",
     "step1Title": "Choose repository",

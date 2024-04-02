@@ -152,23 +152,26 @@
             class="mt-2"
           >
             <v-icon
-              v-if="getAccepted"
-              icon="mdi-check-circle-outline"
-              color="success"
-            ></v-icon>
-            <v-icon
-              v-else-if="getWaiting"
-              icon="mdi-progress-question"
-            ></v-icon>
-            <v-icon
-              v-else-if="getRejectedOrCancelled"
-              icon="mdi-close-circle-outline"
-              color="error"
+              :icon="
+                getStatusIcon(
+                  submission?.state ||
+                    EntityModelSubmissionDtoStateEnum.WAITING
+                )
+              "
+              :color="
+                getStatusColor(
+                  submission?.state ||
+                    EntityModelSubmissionDtoStateEnum.WAITING
+                )
+              "
             ></v-icon>
           </div>
         </template>
         <span id="tooltip-wait">{{
-          getAcceptedTooltipMessage
+          getTooltipMessage(
+            submission?.state ||
+              EntityModelSubmissionDtoStateEnum.WAITING
+          )
         }}</span>
       </v-tooltip>
     </v-col>
@@ -196,21 +199,21 @@
           color="success"
           class="mx-1"
           @click="acceptSubmission(submission)"
-          >ACCEPT</v-btn
+          >{{ $t('action.accept') }}</v-btn
         >
         <v-btn
           v-if="check"
           id="cancel-button"
           color="oared"
           @click="cancelSubmission(submission)"
-          >CANCEL</v-btn
+          >{{ $t('action.cancel') }}</v-btn
         >
         <v-btn
           v-else
           id="reject-button"
           color="oared"
           @click="rejectSubmission(submission)"
-          >REJECT</v-btn
+          >{{ $t('action.reject') }}</v-btn
         >
       </span>
     </v-col>
@@ -230,6 +233,7 @@ import TextRecord from '@/components/common/resources/TextRecord.vue'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
 import { JustifyEnum } from '@/enum/Justify'
 import { i18n } from '@/plugins/i18n'
+import { useSubmissionIcons } from '@/composable/submissions/statusIcons'
 
 const props = defineProps({
   title: {
@@ -249,17 +253,13 @@ const {
   rejectSubmission
 } = useSubmissionActions()
 
+const { getStatusIcon, getStatusColor, getTooltipMessage } =
+  useSubmissionIcons()
+
 const check = computed(() => {
   return (
     authorizationStore.me?.id ===
     props.submission?.submitter?.id
-  )
-})
-
-const getAccepted = computed<boolean>(() => {
-  return (
-    props.submission?.state ==
-    EntityModelSubmissionDtoStateEnum.ACCEPTED
   )
 })
 
@@ -268,33 +268,5 @@ const getWaiting = computed<boolean>(() => {
     props.submission?.state ==
     EntityModelSubmissionDtoStateEnum.WAITING
   )
-})
-
-const getRejected = computed<boolean>(() => {
-  return (
-    props.submission?.state ==
-    EntityModelSubmissionDtoStateEnum.REJECTED
-  )
-})
-
-const getCancelled = computed<boolean>(() => {
-  return (
-    props.submission?.state ==
-    EntityModelSubmissionDtoStateEnum.CANCELLED
-  )
-})
-
-const getRejectedOrCancelled = computed<boolean>(() => {
-  return getRejected.value || getCancelled.value
-})
-
-const getAcceptedTooltipMessage = computed<string>(() => {
-  if (getAccepted.value)
-    return i18n.t('submissions.accepted')
-  if (getWaiting.value)
-    return i18n.t('submissions.waitingForAction')
-  if (getRejected.value)
-    return i18n.t('submissions.rejected')
-  else return i18n.t('submissions.cancelled')
 })
 </script>
