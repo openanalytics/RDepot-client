@@ -42,6 +42,15 @@
           :items="repositories"
           :label="$t('maintainers.editform.repository')"
         />
+        <v-alert
+          :text="t('maintainers.createform.disclaimer')"
+          :title="
+            t('maintainers.createform.disclaimerTitle')
+          "
+          type="info"
+          variant="tonal"
+          border="start"
+        ></v-alert>
       </v-card-text>
       <v-divider></v-divider>
       <card-actions :buttons="buttons" />
@@ -149,6 +158,8 @@ function setMaintainer() {
           toasts.warning(
             t('notifications.insufficientPermissions')
           )
+        } else {
+          toasts.warning(t(err.response.data.data[0]))
         }
       })
   } else {

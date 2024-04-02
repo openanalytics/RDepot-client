@@ -191,6 +191,10 @@
     "userId": "Id użytkownika"
   },
   "maintainers": {
+    "createform": {
+      "disclaimer": "Tylko użytkownicy z rolą conajmniej opiekuna repozytorium dostępni.",
+      "disclaimerTitle": "Dostępni użytkownicy"
+    },
     "delete": "Usuń opiekuna",
     "deleteQuestion": "Czy na pewno chcesz usunąć {maintainer_name}?",
     "deleted": "Ten opiekun jest usunięty",
@@ -330,6 +334,9 @@
     },
     "list": "Repozytoria",
     "maintainers": "Opiekunowie repozytorium"
+  },
+  "repositorymaintainer": {
+    "duplicate": "Użytkownik jest już przypisany do wybranego repozytorium"
   },
   "resourceType": {
     "accessToken": "Access token",
