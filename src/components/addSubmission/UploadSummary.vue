@@ -23,7 +23,7 @@
 <template>
   <v-list-item id="submission-package">
     <template #title :color="getColor">
-      {{ fileName }}
+      {{ formatFilename(promise.packageBag.name) }}
     </template>
 
     <template #prepend>
@@ -100,6 +100,7 @@
 import { PackagePromise } from '@/store/submission'
 import { computed } from 'vue'
 import { usePackagesStore } from '@/store/packages'
+import { useFiles } from '@/composable/file'
 
 var props = defineProps<{
   promise: PackagePromise
@@ -117,16 +118,7 @@ const getColor = computed(() => {
     : 'primary'
 })
 
-const fileName = computed(() => {
-  if (props.promise.packageBag.name.length >= 50) {
-    return `${props.promise.packageBag.name.slice(
-      0,
-      25
-    )}...${props.promise.packageBag.name.slice(-21)}`
-  } else {
-    return props.promise.packageBag.name
-  }
-})
+const { formatFilename } = useFiles()
 
 function downloadManual(id: string) {
   packagesStore.downloadManual(id)

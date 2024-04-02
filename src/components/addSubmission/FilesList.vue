@@ -60,7 +60,7 @@
       <v-list-item
         v-for="file in filesStore.files"
         :key="file.name"
-        :title="calculateFileName(file.name)"
+        :title="formatFilename(file.name)"
         class="hoverable"
       >
         <template #prepend>
@@ -118,21 +118,14 @@ import { useFilesListStore } from '@/store/local_files'
 import { useSubmissionStore } from '@/store/submission'
 import { computed } from 'vue'
 import ReplaceOption from './ReplaceOption.vue'
+import { useFiles } from '@/composable/file'
 
 const submissionsStore = useSubmissionStore()
 const filesStore = useFilesListStore()
-
+const { formatFilename } = useFiles()
 const chosenRepository = computed(() => {
   return submissionsStore.repository
 })
-
-function calculateFileName(file: string) {
-  if (file.length >= 50) {
-    return `${file.slice(0, 21)}...${file.slice(-15)}`
-  } else {
-    return file
-  }
-}
 
 function resetPackages() {
   filesStore.files = []
