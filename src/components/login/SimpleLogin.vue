@@ -44,23 +44,17 @@
     />
 
     <v-row class="form-buttons my-10">
-      <v-btn
-        class="btn mx-2"
-        @click="handleReset"
-        color="oablue"
-        id="reset-button"
-      >
-        {{ $t('authorization.clear') }}
-      </v-btn>
-
-      <v-btn
-        class="btn mx-2"
-        @click="loginSimple"
-        color="oablue"
-        id="login-simple-button"
-      >
-        {{ $t('authorization.login') }}
-      </v-btn>
+      <v-col>
+        <v-btn
+          style="width: 100%; justify-self: center"
+          class="btn"
+          @click="loginSimple"
+          color="oablue"
+          id="login-simple-button"
+        >
+          {{ $t('authorization.login') }}
+        </v-btn>
+      </v-col>
     </v-row>
   </div>
 </template>
@@ -80,7 +74,7 @@ const { t } = useI18n()
 const authorizationStore = useAuthorizationStore()
 const { isSimpleAuthAvailable } = useSimpleAuthorization()
 
-const { handleReset, values, meta, validate } = useForm({
+const { values, meta, validate } = useForm({
   validationSchema: toTypedSchema(
     z.object({
       username: z
