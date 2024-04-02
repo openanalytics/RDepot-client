@@ -61,6 +61,10 @@ import { z } from 'zod'
 import { useToast } from '@/composable/toasts'
 import { useI18n } from 'vue-i18n'
 import { useUserStore } from '@/store/users'
+import {
+  stringToRole,
+  isAtLeastRepositoryMaintainer
+} from '@/enum/UserRoles'
 
 const { t } = useI18n()
 
@@ -81,9 +85,17 @@ const maintainersStore = useRepositoryMaintainersStore()
 const userStore = useUserStore()
 
 const users = computed(() => {
-  return userStore.userList.map((user) => {
-    return { title: user.name, value: user.id }
-  })
+  return userStore.userList
+    .filter((user) =>
+      user.role
+        ? isAtLeastRepositoryMaintainer(
+            stringToRole(user.role)
+          )
+        : false
+    )
+    .map((user) => {
+      return { title: user.name, value: user.id }
+    })
 })
 
 const repositories = computed(() => {
