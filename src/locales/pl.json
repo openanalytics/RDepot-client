@@ -211,6 +211,7 @@
   },
   "notifications": {
     "acceptSubmission": "Zgłoszenie zaakceptowane",
+    "insufficientPermissions": "Wybrany użytkownik nie ma wystarczających uprawnień.",
     "invalidform": "Przesłane dane są niepoprawne",
     "successCancelSubmission": "Zgłoszenie anulowane",
     "successCreateRepository": "Utworzono {repository_name}",

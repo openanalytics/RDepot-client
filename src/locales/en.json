@@ -216,6 +216,7 @@
   },
   "notifications": {
     "acceptSubmission": "Accept submission",
+    "insufficientPermissions": "User's permissions are not sufficient to create a maintainer.",
     "invalidform": "The submitted form is not valid",
     "successCancelSubmission": "Cancel submission",
     "successCreateRepository": "Successfully created {repository_name}",

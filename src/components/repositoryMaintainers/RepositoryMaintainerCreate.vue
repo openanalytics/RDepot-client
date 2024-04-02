@@ -124,8 +124,21 @@ function setMaintainer() {
       user: { id: values.userId },
       repository: { id: values.repositoryId }
     }
-    maintainersStore.createMaintainer(maintainer)
-    changeDialogOptions()
+    maintainersStore
+      .createMaintainer(maintainer)
+      .then((res) => {
+        changeDialogOptions()
+      })
+      .catch((err) => {
+        if (
+          err.response.data.data[0] ===
+          "User's permissions are not sufficient to create a maintainer."
+        ) {
+          toasts.warning(
+            t('notifications.insufficientPermissions')
+          )
+        }
+      })
   } else {
     toasts.warning(t('notifications.invalidform'))
   }

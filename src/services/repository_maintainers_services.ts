@@ -120,9 +120,7 @@ export async function createRepositoryMaintainer(
     ApiV2RepositoryMaintainerControllerApiFactory()
       .createRepositoryMaintainer,
     [maintainer]
-  ).catch(() => {
-    return validateRequest({})
-  })
+  )
 }
 
 export async function deletedRepositoryMaintainer(
