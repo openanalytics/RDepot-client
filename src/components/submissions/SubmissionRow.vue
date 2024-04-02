@@ -87,7 +87,7 @@
     </v-col>
     <v-col
       id="submission-submitter"
-      cols="lg-1 sm-2"
+      cols="lg-2 sm-2"
       class="d-flex align-center"
     >
       <SortTitle
@@ -103,7 +103,7 @@
 
     <v-col
       id="submission-approver"
-      cols="lg-3 sm-2"
+      cols="lg-2 sm-2"
       class="d-flex align-center"
     >
       <SortTitle
@@ -232,7 +232,6 @@ import SortTitle from '@/components/common/resources/SortTitle.vue'
 import TextRecord from '@/components/common/resources/TextRecord.vue'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
 import { JustifyEnum } from '@/enum/Justify'
-import { i18n } from '@/plugins/i18n'
 import { useSubmissionIcons } from '@/composable/submissions/statusIcons'
 
 const props = defineProps({

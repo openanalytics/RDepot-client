@@ -28,7 +28,7 @@
   >
     <v-col
       id="repository-maintainer-name"
-      cols="lg-1 sm-2"
+      cols="lg-2 sm-2"
       class="d-flex align-center"
     >
       <SortTitle
@@ -44,7 +44,7 @@
     </v-col>
     <v-col
       id="repository-maintainer-repository"
-      cols="lg-9 sm-2"
+      cols="lg-2 sm-2"
       class="d-flex align-center"
     >
       <SortTitle
@@ -59,6 +59,7 @@
         :text="repositoryMaintainer?.repository?.name"
       />
     </v-col>
+    <v-spacer />
     <v-col
       id="repository-maintainer-technology"
       cols="lg-1 sm-2"

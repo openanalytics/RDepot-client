@@ -52,7 +52,7 @@
     </VCol>
     <VCol
       id="package-row-title"
-      cols="lg-4 sm-2"
+      cols="lg-3 sm-2"
       class="d-flex align-center"
     >
       <SortTitle
@@ -64,7 +64,7 @@
     </VCol>
     <VCol
       id="package-row-maintainer"
-      cols="lg-1 sm-2"
+      cols="lg-2 sm-2"
       class="d-flex align-center justify-center"
     >
       <SortTitle
