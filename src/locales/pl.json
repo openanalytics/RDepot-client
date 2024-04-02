@@ -409,6 +409,7 @@
       "active": "Aktywny",
       "roles": "Role",
       "searchBox": "Użytkownik..."
-    }
+    },
+    "unableDeactivation": "Użytkownik nie może dezaktywować siebie"
   }
 }

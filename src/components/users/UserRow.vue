@@ -86,20 +86,38 @@
         :justify="JustifyEnum.Enum.center"
       />
       <span v-else-if="user">
-        <v-checkbox
-          id="checkbox-active"
-          color="oablue"
-          @click.stop
-          @change="updateUserActive()"
-          :disabled="
-            !isAtLeastAdmin(
-              authorizationStore.userRole
-                ? authorizationStore.userRole
-                : 0
-            ) || user.id === authorizationStore.me.id
-          "
-          v-model="user.active"
-        />
+        <v-tooltip
+          location="top"
+          :disabled="user.id !== authorizationStore.me.id"
+        >
+          <template #activator="{ props }">
+            <span v-bind="props">
+              <v-checkbox
+                id="checkbox-active"
+                @click.stop
+                @change="updateUserActive()"
+                :readonly="
+                  !isAtLeastAdmin(
+                    authorizationStore.userRole
+                      ? authorizationStore.userRole
+                      : 0
+                  ) || user.id === authorizationStore.me.id
+                "
+                :color="
+                  !isAtLeastAdmin(
+                    authorizationStore.userRole
+                      ? authorizationStore.userRole
+                      : 0
+                  ) || user.id === authorizationStore.me.id
+                    ? 'grey'
+                    : 'oablue'
+                "
+                v-model="user.active"
+              />
+            </span>
+          </template>
+          <span>{{ $t('users.unableDeactivation') }}</span>
+        </v-tooltip>
       </span>
     </v-col>
     <v-col
