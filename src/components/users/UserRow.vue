@@ -96,7 +96,7 @@
               authorizationStore.userRole
                 ? authorizationStore.userRole
                 : 0
-            )
+            ) || user.id === authorizationStore.me.id
           "
           v-model="user.active"
         />
