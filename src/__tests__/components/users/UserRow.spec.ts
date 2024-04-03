@@ -39,6 +39,8 @@ import { EntityModelUserDto } from '@/openapi'
 import { createPinia, setActivePinia } from 'pinia'
 import { roleToString } from '@/enum/UserRoles'
 import { useUtilities } from '@/composable/utilities'
+import { useAuthorizationStore } from '@/store/authorization'
+import { nextTick } from 'vue'
 
 let wrapper: any
 const { deepCopyAny } = useUtilities()
@@ -54,7 +56,7 @@ beforeAll(() => {
 
 describe('User list - user row', () => {
   const user: EntityModelUserDto = deepCopyAny(
-    users.data.content[4]
+    users.data.content[5]
   )
   beforeEach(async () => {
     wrapper = mount(UserRow, {
@@ -92,8 +94,21 @@ describe('User list - user row', () => {
     )
   })
 
-  it('active field', () => {
+  it('active field with oneself', async () => {
+    const authorizationStore = useAuthorizationStore()
+    authorizationStore.me = user
+    await nextTick()
     const checkboxActive = wrapper.find('#checkbox-active')
+    console.log(checkboxActive.html())
+    expect(checkboxActive.element.checked).toBe(user.active)
+    expect(checkboxActive.element.disabled).toBe(true)
+  })
+  it('active field with different user', async () => {
+    const authorizationStore = useAuthorizationStore()
+    authorizationStore.me = users.data.content[0]
+    await nextTick()
+    const checkboxActive = wrapper.find('#checkbox-active')
+    console.log(checkboxActive.html())
     expect(checkboxActive.element.checked).toBe(user.active)
     expect(checkboxActive.element.disabled).toBe(true)
   })
