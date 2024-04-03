@@ -196,6 +196,10 @@
     "userId": "Id użytkownika"
   },
   "maintainers": {
+    "createform": {
+      "disclaimer": "Tylko użytkownicy z rolą conajmniej opiekuna repozytorium dostępni.",
+      "disclaimerTitle": "Dostępni użytkownicy"
+    },
     "delete": "Usuń opiekuna",
     "deleteQuestion": "Czy na pewno chcesz usunąć {maintainer_name}?",
     "deleted": "Ten opiekun jest usunięty",
@@ -216,6 +220,7 @@
   },
   "notifications": {
     "acceptSubmission": "Zgłoszenie zaakceptowane",
+    "insufficientPermissions": "Wybrany użytkownik nie ma wystarczających uprawnień.",
     "invalidform": "Przesłane dane są niepoprawne",
     "successCancelSubmission": "Zgłoszenie anulowane",
     "successCreateRepository": "Utworzono {repository_name}",
@@ -334,6 +339,9 @@
     },
     "list": "Repozytoria",
     "maintainers": "Opiekunowie repozytorium"
+  },
+  "repositorymaintainer": {
+    "duplicate": "Użytkownik jest już przypisany do wybranego repozytorium"
   },
   "resourceType": {
     "accessToken": "Access token",

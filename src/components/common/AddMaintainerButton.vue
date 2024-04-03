@@ -26,22 +26,17 @@
       <div id="tooltip-activator" v-bind="props">
         <CommonButton
           id="add-maintainer"
-          :disabled="configStore.declarativeMode"
           :component="OverlayEnum.enum.Create"
         >
           <span class="pr-3">
             {{ $t('common.create') }}</span
-          ><v-icon icon="mdi-plus"
+          >
+          <v-icon icon="mdi-plus"
         /></CommonButton>
       </div>
     </template>
     <span id="tooltip-wait"
-      ><span v-if="!configStore.declarativeMode">{{
-        $t('repositories.addRepository')
-      }}</span
-      ><span v-else>
-        {{ $t('repositories.declarative.create') }}</span
-      >
+      ><span>{{ $t('packageMaintainer.create') }}</span>
     </span>
   </v-tooltip>
 </template>

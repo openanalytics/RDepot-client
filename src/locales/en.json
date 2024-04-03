@@ -201,6 +201,10 @@
     "userId": "User id"
   },
   "maintainers": {
+    "createform": {
+      "disclaimer": "Only users with at least repository maintainer role available.",
+      "disclaimerTitle": "Available users"
+    },
     "delete": "Delete maintainer",
     "deleteQuestion": "Are you sure you want to delete {maintainer_name}?",
     "deleted": "This repository maintainer is deleted",
@@ -221,6 +225,7 @@
   },
   "notifications": {
     "acceptSubmission": "Accept submission",
+    "insufficientPermissions": "User's permissions are not sufficient to create a maintainer.",
     "invalidform": "The submitted form is not valid",
     "successCancelSubmission": "Cancel submission",
     "successCreateRepository": "Successfully created {repository_name}",
@@ -340,6 +345,9 @@
     },
     "list": "Repositories",
     "maintainers": "Repository maintainers"
+  },
+  "repositorymaintainer": {
+    "duplicate": "User already assigned to this repository"
   },
   "resourceType": {
     "accessToken": "Access token",

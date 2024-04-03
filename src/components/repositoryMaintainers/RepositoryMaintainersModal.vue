@@ -28,6 +28,10 @@
         :blocked-field="editBlockedField"
         @closeModal="closeModal"
       />
+      <RepositoryMaintainerCreate
+        v-if="commonStore.isCreate()"
+        @closeModal="closeModal"
+      />
     </template>
   </Overlay>
 </template>
@@ -37,6 +41,7 @@ import { useCommonStore } from '@/store/common'
 import Overlay from '@/components/common/Overlay.vue'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
 import RepositoryMaintainerEdit from '@/components/repositoryMaintainers/RepositoryMaintainerEdit.vue'
+import RepositoryMaintainerCreate from '@/components/repositoryMaintainers/RepositoryMaintainerCreate.vue'
 
 const maintainersStore = useRepositoryMaintainersStore()
 const commonStore = useCommonStore()
