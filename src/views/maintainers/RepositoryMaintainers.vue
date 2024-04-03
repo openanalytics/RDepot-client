@@ -49,10 +49,11 @@ import { computed } from 'vue'
 import { useCommonStore } from '@/store/common'
 import { useAuthorizationStore } from '@/store/authorization'
 import AddMaintainerButton from '@/components/common/AddMaintainerButton.vue'
+import { useMeStore } from '@/store/userMe'
 
 const commonStore = useCommonStore()
 const componentKey = computed(() => {
   return commonStore.key
 })
-const authorizationStore = useAuthorizationStore()
+const authorizationStore = useMeStore()
 </script>

@@ -53,7 +53,6 @@ router.beforeEach(async (to) => {
       return helper.redirectToLoginPage()
     }
     helper.hideSidebar(false)
-    authorizationStore.getUserInfo()
   }
   helper.resetStoreValues(to)
   document.title = to.meta.title

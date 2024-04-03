@@ -44,10 +44,11 @@ import FiltrationBar from '@/components/repositories/FiltrationBar.vue'
 import { useAuthorizationStore } from '@/store/authorization'
 import { computed } from 'vue'
 import { useCommonStore } from '@/store/common'
+import { useMeStore } from '@/store/userMe'
 
 const commonStore = useCommonStore()
 const componentKey = computed(() => {
   return commonStore.key
 })
-const authorizationStore = useAuthorizationStore()
+const authorizationStore = useMeStore()
 </script>

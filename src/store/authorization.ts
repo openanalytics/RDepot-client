@@ -43,14 +43,12 @@ import { authService } from '@/plugins/oauth'
 import router from '@/plugins/router'
 import { useOICDAuthorization } from '@/composable/auth/oicdAuthorization'
 import { useConfigStore } from './config'
+import { useMeStore } from './userMe'
 
 interface State {
   userToken: string
   userLogin: string
-  userRole?: Role
   userId: number
-  ability?: Ability
-  me: EntityModelUserDto
   loginType: LoginType
   sidebar: boolean
 }
@@ -60,12 +58,9 @@ export const useAuthorizationStore = defineStore(
   {
     state: (): State => {
       return {
-        me: {},
         userToken: '',
         userLogin: '',
-        userRole: undefined,
         userId: 8,
-        ability: undefined,
         loginType: LoginType.Enum.OICD,
         sidebar: false
       }
@@ -74,7 +69,8 @@ export const useAuthorizationStore = defineStore(
     actions: {
       async postLoginOperations() {
         const configStore = useConfigStore()
-        await this.getUserInfo()
+        const meStore = useMeStore()
+        await meStore.getUserInfo()
         configStore.fetchConfiguration()
       },
 
@@ -103,8 +99,9 @@ export const useAuthorizationStore = defineStore(
         logout()
         this.$reset()
         await router.push({ name: 'login' })
-        this.ability = undefined
-        this.userRole = undefined
+        const meStore = useMeStore()
+        meStore.ability = undefined
+        meStore.userRole = undefined
       },
 
       async isUserLoggedIn(): Promise<boolean> {
@@ -142,13 +139,14 @@ export const useAuthorizationStore = defineStore(
         oldSettings: UserSettingsProjection,
         newSettings: UserSettingsProjection
       ) {
+        const meStore = useMeStore()
         await updateUserSettings(
           oldSettings,
           newSettings,
-          this.me
+          meStore.me
         )
         const [me] = await getMyData()
-        this.me = me
+        meStore.me = me
       },
 
       getDefaultSettings(): UserSettingsProjection {
@@ -160,53 +158,55 @@ export const useAuthorizationStore = defineStore(
       },
 
       getCurrentSettings(): UserSettingsProjection {
+        const meStore = useMeStore()
         const { deepCopy } = useUtilities()
         return deepCopy(
-          this.me.userSettings || this.getDefaultSettings()
+          meStore.me.userSettings ||
+            this.getDefaultSettings()
         )
       },
 
-      checkRoles(role: string | undefined) {
-        if (
-          this.me.role != role &&
-          this.me.role != undefined
-        ) {
-          if (role) {
-            alert(
-              'role has changed from ' +
-                this.me.role +
-                ' to ' +
-                role
-            )
-          }
-          return false
-        }
-        return true
-      },
+      // checkRoles(role: string | undefined) {
+      //   if (
+      //     this.me.role != role &&
+      //     this.me.role != undefined
+      //   ) {
+      //     if (role) {
+      //       alert(
+      //         'role has changed from ' +
+      //           this.me.role +
+      //           ' to ' +
+      //           role
+      //       )
+      //     }
+      //     return false
+      //   }
+      //   return true
+      // },
 
-      async getUserInfo() {
-        const [me] = await getMyData()
-        if (me) {
-          if (me.role) {
-            this.ability = defineAbilityFor(
-              stringToRole(me.role)
-            )
-            this.userRole = stringToRole(me.role)
-          }
-          if (this.checkRoles(me.role)) {
-            this.me = me
-            this.getUserSettings()
-          } else {
-            this.logout()
-          }
-        }
-      },
+      // async getUserInfo() {
+      //   const [me] = await getMyData()
+      //   if (me) {
+      //     if (me.role) {
+      //       this.ability = defineAbilityFor(
+      //         stringToRole(me.role)
+      //       )
+      //       this.userRole = stringToRole(me.role)
+      //     }
+      //     if (this.checkRoles(me.role)) {
+      //       this.me = me
+      //       this.getUserSettings()
+      //     } else {
+      //       this.logout()
+      //     }
+      //   }
+      // },
 
-      can(action: Action, subject: Subject): boolean {
-        return this.ability
-          ? this.ability?.can(action, subject)
-          : false
-      },
+      // can(action: Action, subject: Subject): boolean {
+      //   return this.ability
+      //     ? this.ability?.can(action, subject)
+      //     : false
+      // },
 
       hideSidebar(value: boolean) {
         this.sidebar = !value
