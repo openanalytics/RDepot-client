@@ -26,35 +26,14 @@
       class="mt-5"
       :items="repositories"
       :label="$t('addSubmission.step1Title')"
-      v-model="submissionsStore.repository"
+      @update:model-value="
+        (newValue) => changeRepository(newValue)
+      "
       filled
       dense
       clearable
       persistent-hint
     >
-      <template #selection="{ item, index }">
-        {{ item.value.name }}
-      </template>
-      <template #item="{ item, index }">
-        <v-list-item @click="changeRepository(item.value)">
-          <v-list-item-content>
-            <v-list-item-title>
-              <v-row no-gutters align="center">
-                <span class="text-body-1">{{
-                  item.value.name
-                }}</span>
-                <v-spacer></v-spacer>
-                <v-chip
-                  text-color="white"
-                  class="text-body-1"
-                  small
-                  >{{ item.value.technology }}</v-chip
-                >
-              </v-row>
-            </v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </template>
     </v-select>
   </v-card>
   <div class="d-flex justify-end">
@@ -69,7 +48,6 @@
 </template>
 
 <script setup lang="ts">
-import { EntityModelRepositoryDto } from '@/openapi'
 import { useRepositoryStore } from '@/store/repositories'
 import { useSubmissionStore } from '@/store/submission'
 import { onMounted } from 'vue'
@@ -84,11 +62,21 @@ const toasts = useToast()
 const { t } = useI18n()
 
 const repositories = computed(function () {
-  return repositoryStore.repositories
+  return repositoryStore.repositories.map((repo) => {
+    return {
+      title: repo.name,
+      value: repo.id,
+      props: { subtitle: repo.technology }
+    }
+  })
 })
 
-function changeRepository(value: EntityModelRepositoryDto) {
-  submissionsStore.setRepository(value)
+function changeRepository(value: number) {
+  const chosenRepository =
+    repositoryStore.repositories.find(
+      (repo) => repo.id == value
+    )
+  submissionsStore.setRepository(chosenRepository || {})
 }
 
 function nextStep() {
