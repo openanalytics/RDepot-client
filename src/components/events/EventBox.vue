@@ -88,7 +88,7 @@ const time = computed(function () {
     let time: String =
       padTo2Digits(date.getHours()) +
       ':' +
-      date.getMinutes()
+      padTo2Digits(date.getMinutes())
     return time
   } else {
     return null

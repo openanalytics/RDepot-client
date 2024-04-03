@@ -11,6 +11,7 @@ JSON_STRING='window.configs = { \
   "VITE_DEV_MODE":"'"${VITE_DEV_MODE}"'", \
   "VITE_URL_PREFIX":"'"${VITE_URL_PREFIX}"'", \
   "VITE_SERVER_ADDRESS":"'"${VITE_SERVER_ADDRESS}"'" \
+  "VITE_CURRENT_COMMIT_VERSION":"'"${VITE_CURRENT_COMMIT_VERSION}"'" \
 }'
 sed -i "s@// CONFIGURATIONS_PLACEHOLDER@${JSON_STRING}@" /usr/share/nginx/html/index.html
 exec "$@"

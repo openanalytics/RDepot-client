@@ -1,4 +1,9 @@
 {
+  "action": {
+    "accept": "ZAAKCEPTUJ",
+    "cancel": "ANULUJ",
+    "reject": "ODRZUĆ"
+  },
   "addSubmission": {
     "generateManual": "Generuj dokumentację",
     "step1Title": "Wybierz repozytorium",
@@ -192,6 +197,8 @@
   },
   "maintainers": {
     "createform": {
+      "disclaimer": "Tylko użytkownicy z rolą conajmniej opiekuna repozytorium dostępni.",
+      "disclaimerTitle": "Dostępni użytkownicy",
       "title": "Utwórz opiekuna"
     },
     "delete": "Usuń opiekuna",
@@ -214,6 +221,7 @@
   },
   "notifications": {
     "acceptSubmission": "Zgłoszenie zaakceptowane",
+    "insufficientPermissions": "Wybrany użytkownik nie ma wystarczających uprawnień.",
     "invalidform": "Przesłane dane są niepoprawne",
     "successCancelSubmission": "Zgłoszenie anulowane",
     "successCreateRepository": "Utworzono {repository_name}",
@@ -335,6 +343,9 @@
     },
     "list": "Repozytoria",
     "maintainers": "Opiekunowie repozytorium"
+  },
+  "repositorymaintainer": {
+    "duplicate": "Użytkownik jest już przypisany do wybranego repozytorium"
   },
   "resourceType": {
     "accessToken": "Access token",

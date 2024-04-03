@@ -43,7 +43,7 @@
             color="oared mb-1"
             class="reset-opacity"
             variant="outlined"
-            >reset</v-btn
+            >{{ $t('common.reset') }}</v-btn
           >
         </template>
 
@@ -60,7 +60,7 @@
       <v-list-item
         v-for="file in filesStore.files"
         :key="file.name"
-        :title="file.name"
+        :title="formatFilename(file.name)"
         class="hoverable"
       >
         <template #prepend>
@@ -118,10 +118,11 @@ import { useFilesListStore } from '@/store/local_files'
 import { useSubmissionStore } from '@/store/submission'
 import { computed } from 'vue'
 import ReplaceOption from './ReplaceOption.vue'
+import { useFiles } from '@/composable/file'
 
 const submissionsStore = useSubmissionStore()
 const filesStore = useFilesListStore()
-
+const { formatFilename } = useFiles()
 const chosenRepository = computed(() => {
   return submissionsStore.repository
 })

@@ -34,7 +34,8 @@ import {
   deletedRepositoryMaintainer,
   fetchAllRepositoryMaintainers,
   fetchRepositoryMaintainersServices,
-  updateRepositoryMaintainer
+  updateRepositoryMaintainer,
+  createRepositoryMaintainer
 } from '@/services/repository_maintainers_services'
 import {
   fetchRepositoriesServices,
@@ -128,6 +129,15 @@ export const useRepositoryMaintainersStore = defineStore(
             if (success) await this.fetchMaintainers()
           })
         }
+      },
+      async createMaintainer(
+        maintainer: Partial<EntityModelPackageMaintainerDto>
+      ) {
+        await createRepositoryMaintainer(maintainer).then(
+          async (success) => {
+            if (success) await this.fetchMaintainers()
+          }
+        )
       },
       async deleteMaintainer() {
         if (this.chosenMaintainer) {

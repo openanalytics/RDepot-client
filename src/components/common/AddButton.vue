@@ -28,7 +28,8 @@
           id="add-maintainer"
           :disabled="configStore.declarativeMode"
           :component="OverlayEnum.enum.Create"
-          ><span class="pr-3">
+        >
+          <span class="pr-3">
             {{ $t('common.create') }}</span
           ><v-icon icon="mdi-plus"
         /></CommonButton>

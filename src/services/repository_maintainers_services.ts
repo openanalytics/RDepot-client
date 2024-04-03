@@ -110,6 +110,19 @@ export async function updateRepositoryMaintainer(
   })
 }
 
+export async function createRepositoryMaintainer(
+  maintainer: EntityModelRepositoryMaintainerDto
+): ValidatedRepositoryMaintainer {
+  if (!isAuthorized('POST', 'repositoryMaintainers'))
+    return new Promise(() => false)
+
+  return openApiRequest<EntityModelRepositoryMaintainerDto>(
+    ApiV2RepositoryMaintainerControllerApiFactory()
+      .createRepositoryMaintainer,
+    [maintainer]
+  )
+}
+
 export async function deletedRepositoryMaintainer(
   maintainer: EntityModelRepositoryMaintainerDto
 ): ValidatedRepositoryMaintainer {
