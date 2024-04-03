@@ -56,10 +56,12 @@ async function changeTheme() {
   theme.global.name.value = new_theme
   var new_settings = authorizationStore.getCurrentSettings()
   new_settings.theme = new_theme
-  await authorizationStore.updateSettings(
-    authorizationStore.getCurrentSettings(),
-    new_settings
-  )
+  if (await authorizationStore.isUserLoggedIn()) {
+    await authorizationStore.updateSettings(
+      authorizationStore.getCurrentSettings(),
+      new_settings
+    )
+  }
   commonStore.updateThemeKey()
 }
 

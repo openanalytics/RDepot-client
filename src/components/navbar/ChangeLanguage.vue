@@ -60,13 +60,16 @@ import { useAuthorizationStore } from '@/store/authorization'
 
 const authorizationStore = useAuthorizationStore()
 
-const changeLanguage = (new_language: string) => {
-  var new_settings = authorizationStore.getCurrentSettings()
-  new_settings.language = new_language
-  authorizationStore.updateSettings(
-    authorizationStore.getCurrentSettings(),
-    new_settings
-  )
+const changeLanguage = async (new_language: string) => {
+  if (await authorizationStore.isUserLoggedIn()) {
+    var new_settings =
+      authorizationStore.getCurrentSettings()
+    new_settings.language = new_language
+    authorizationStore.updateSettings(
+      authorizationStore.getCurrentSettings(),
+      new_settings
+    )
+  }
 }
 </script>
 

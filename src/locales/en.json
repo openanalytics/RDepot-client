@@ -1,4 +1,9 @@
 {
+  "action": {
+    "accept": "ACCEPT",
+    "cancel": "CANCEL",
+    "reject": "REJECT"
+  },
   "addSubmission": {
     "generateManual": "Generate manual",
     "step1Title": "Choose repository",
@@ -196,6 +201,10 @@
     "userId": "User id"
   },
   "maintainers": {
+    "createform": {
+      "disclaimer": "Only users with at least repository maintainer role available.",
+      "disclaimerTitle": "Available users"
+    },
     "delete": "Delete maintainer",
     "deleteQuestion": "Are you sure you want to delete {maintainer_name}?",
     "deleted": "This repository maintainer is deleted",
@@ -216,6 +225,7 @@
   },
   "notifications": {
     "acceptSubmission": "Accept submission",
+    "insufficientPermissions": "User's permissions are not sufficient to create a maintainer.",
     "invalidform": "The submitted form is not valid",
     "successCancelSubmission": "Cancel submission",
     "successCreateRepository": "Successfully created {repository_name}",
@@ -336,6 +346,9 @@
     "list": "Repositories",
     "maintainers": "Repository maintainers"
   },
+  "repositorymaintainer": {
+    "duplicate": "User already assigned to this repository"
+  },
   "resourceType": {
     "accessToken": "Access token",
     "package": "Package",
@@ -388,7 +401,7 @@
   },
   "submissions": {
     "accepted": "accepted",
-    "addAnotherSubmission": "Upload another packages",
+    "addAnotherSubmission": "Upload other packages",
     "cancelled": "cancelled",
     "choseFiles": "Choose files",
     "filtration": {
@@ -416,6 +429,7 @@
       "active": "Active",
       "roles": "Roles",
       "searchBox": "User..."
-    }
+    },
+    "unableDeactivation": "User can't deactivate themself"
   }
 }

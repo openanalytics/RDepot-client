@@ -52,7 +52,7 @@
     </VCol>
     <VCol
       id="package-row-title"
-      cols="lg-4 sm-2"
+      cols="lg-3 sm-2"
       class="d-flex align-center"
     >
       <SortTitle
@@ -64,7 +64,7 @@
     </VCol>
     <VCol
       id="package-row-maintainer"
-      cols="lg-1 sm-2"
+      cols="lg-2 sm-2"
       class="d-flex align-center justify-center"
     >
       <SortTitle
@@ -87,17 +87,44 @@
         sortKey="columns.package.state"
         :justify="JustifyEnum.Enum.center"
       />
-      <TextRecord
-        v-else
-        :text="
-          packageBag?.submission?.state
-            ? $t(
-                'states.' +
-                  packageBag?.submission?.state.toLowerCase()
-              )
-            : ''
-        "
-      />
+      <v-tooltip location="right" v-else-if="packageBag">
+        <template #activator="{ props }">
+          <div
+            id="tooltip-activator"
+            v-bind="props"
+            class="mt-2"
+          >
+            <v-icon
+              :icon="
+                getStatusIcon(
+                  EntityModelSubmissionDtoStateEnum[
+                    packageBag?.submission?.state ||
+                      EntityModelSubmissionDtoStateEnum.WAITING
+                  ] ||
+                    EntityModelSubmissionDtoStateEnum.WAITING
+                )
+              "
+              :color="
+                getStatusColor(
+                  EntityModelSubmissionDtoStateEnum[
+                    packageBag?.submission?.state ||
+                      EntityModelSubmissionDtoStateEnum.WAITING
+                  ] ||
+                    EntityModelSubmissionDtoStateEnum.WAITING
+                )
+              "
+            ></v-icon>
+          </div>
+        </template>
+        <span id="tooltip-wait">{{
+          getTooltipMessage(
+            EntityModelSubmissionDtoStateEnum[
+              packageBag?.submission?.state ||
+                EntityModelSubmissionDtoStateEnum.WAITING
+            ] || EntityModelSubmissionDtoStateEnum.WAITING
+          )
+        }}</span>
+      </v-tooltip>
     </VCol>
 
     <VCol
@@ -203,10 +230,15 @@ import SortTitle from '@/components/common/resources/SortTitle.vue'
 import TextRecord from '@/components/common/resources/TextRecord.vue'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
 import { JustifyEnum } from '@/enum/Justify'
+import { useSubmissionIcons } from '@/composable/submissions/statusIcons'
+import { EntityModelSubmissionDtoStateEnum } from '@/openapi'
 
 const { canDelete, canPatch } = useUserAuthorities()
 
 const packageStore = usePackagesStore()
+
+const { getStatusIcon, getStatusColor, getTooltipMessage } =
+  useSubmissionIcons()
 
 const props = defineProps({
   title: {

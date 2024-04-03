@@ -101,7 +101,7 @@ export function useToast() {
         result.config.method?.toLowerCase() == 'delete' ||
         result.config.method?.toLowerCase() == 'patch'
       ) {
-        success(i18n.t('success'), 'success')
+        success(i18n.t('success'))
       }
     }
   }
