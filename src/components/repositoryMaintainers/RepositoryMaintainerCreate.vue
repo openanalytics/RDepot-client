@@ -27,7 +27,7 @@
         {{ $t('maintainers.createform.title') }}
       </v-card-title>
       <v-divider></v-divider>
-      <v-card-text style="height: 300px">
+      <v-card-text>
         <validated-input-field
           name="userId"
           as="v-select"
@@ -42,14 +42,15 @@
           :items="repositories"
           :label="$t('maintainers.editform.repository')"
         />
+      </v-card-text>
+      <v-card-text>
         <v-alert
+          style="font-size: 0.75rem"
           :text="t('maintainers.createform.disclaimer')"
-          :title="
-            t('maintainers.createform.disclaimerTitle')
-          "
-          type="info"
           variant="tonal"
           border="start"
+          density="compact"
+          color="oablue"
         ></v-alert>
       </v-card-text>
       <v-divider></v-divider>
