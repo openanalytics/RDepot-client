@@ -36,9 +36,6 @@ import {
 import { z } from 'zod'
 import { RouteRecordName } from 'vue-router'
 import { useAuthorizationStore } from '@/store/authorization'
-import { useToast } from '@/composable/toasts'
-import { i18n } from '@/plugins/i18n'
-import { useMeStore } from '@/store/userMe'
 
 const FrontendRoute = z.enum([
   'Home',
@@ -155,8 +152,8 @@ export function isAuthorized(
   action: Action,
   subject: Subject
 ): boolean {
-  const meStore = useMeStore()
-  if (!meStore.can(action, subject)) {
+  const authorizationStore = useAuthorizationStore()
+  if (!authorizationStore.can(action, subject)) {
     return false
   }
   return true

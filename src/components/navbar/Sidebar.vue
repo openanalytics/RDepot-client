@@ -35,7 +35,7 @@
       ></v-list-item>
       <v-divider class="pb-3"></v-divider>
       <v-list-item
-        v-if="meStore.can('GET', 'events')"
+        v-if="authorizationStore.can('GET', 'events')"
         prepend-icon="mdi-timetable"
         :title="$t('common.events')"
         :value="$t('common.events')"
@@ -44,7 +44,7 @@
       >
       </v-list-item>
       <v-list-item
-        v-if="meStore.can('POST', 'submissions')"
+        v-if="authorizationStore.can('POST', 'submissions')"
         prepend-icon="mdi-upload"
         :title="$t('common.addPackage')"
         :value="$t('common.addPackage')"
@@ -54,8 +54,10 @@
 
       <v-list-group
         v-if="
-          meStore.can('GET', 'packageMaintainers') ||
-          meStore.can('GET', 'packages')
+          authorizationStore.can(
+            'GET',
+            'packageMaintainers'
+          ) || authorizationStore.can('GET', 'packages')
         "
         tag="Packages"
       >
@@ -68,7 +70,7 @@
         </template>
 
         <v-list-item
-          v-if="meStore.can('GET', 'packages')"
+          v-if="authorizationStore.can('GET', 'packages')"
           :title="$t('common.list')"
           :value="$t('packages.list')"
           id="sidebarpackageslist"
@@ -76,7 +78,12 @@
           to="/packages"
         ></v-list-item>
         <v-list-item
-          v-if="meStore.can('GET', 'packageMaintainers')"
+          v-if="
+            authorizationStore.can(
+              'GET',
+              'packageMaintainers'
+            )
+          "
           :title="$t('common.maintainers')"
           :value="$t('packages.maintainers')"
           active-class="link-active"
@@ -85,8 +92,11 @@
       </v-list-group>
       <v-list-group
         v-if="
-          meStore.can('GET', 'repositories') ||
-          meStore.can('GET', 'repositoryMaintainers')
+          authorizationStore.can('GET', 'repositories') ||
+          authorizationStore.can(
+            'GET',
+            'repositoryMaintainers'
+          )
         "
         tag="Repositories"
       >
@@ -99,14 +109,21 @@
         </template>
 
         <v-list-item
-          v-if="meStore.can('GET', 'repositories')"
+          v-if="
+            authorizationStore.can('GET', 'repositories')
+          "
           :title="$t('common.list')"
           :value="$t('repositories.list')"
           active-class="link-active"
           to="/repositories"
         ></v-list-item>
         <v-list-item
-          v-if="meStore.can('GET', 'repositoryMaintainers')"
+          v-if="
+            authorizationStore.can(
+              'GET',
+              'repositoryMaintainers'
+            )
+          "
           :title="$t('common.maintainers')"
           :value="$t('repositories.maintainers')"
           id="sidebarrepositorymintainers"
@@ -115,7 +132,7 @@
         ></v-list-item>
       </v-list-group>
       <v-list-item
-        v-if="meStore.can('GET', 'users')"
+        v-if="authorizationStore.can('GET', 'users')"
         prepend-icon="mdi-account-multiple"
         :title="$t('common.users')"
         :value="$t('common.users')"
@@ -124,7 +141,7 @@
       ></v-list-item>
 
       <v-list-item
-        v-if="meStore.can('GET', 'submissions')"
+        v-if="authorizationStore.can('GET', 'submissions')"
         prepend-icon="mdi-email"
         :title="$t('common.submissions')"
         :value="$t('common.submissions')"

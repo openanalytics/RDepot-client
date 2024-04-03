@@ -51,6 +51,7 @@ interface State {
   userId: number
   loginType: LoginType
   sidebar: boolean
+  ability?: Ability
 }
 
 export const useAuthorizationStore = defineStore(
@@ -62,7 +63,8 @@ export const useAuthorizationStore = defineStore(
         userLogin: '',
         userId: 8,
         loginType: LoginType.Enum.OICD,
-        sidebar: false
+        sidebar: false,
+        ability: undefined
       }
     },
 
@@ -100,7 +102,7 @@ export const useAuthorizationStore = defineStore(
         this.$reset()
         await router.push({ name: 'login' })
         const meStore = useMeStore()
-        meStore.ability = undefined
+        this.ability = undefined
         meStore.userRole = undefined
       },
 
@@ -166,47 +168,20 @@ export const useAuthorizationStore = defineStore(
         )
       },
 
-      // checkRoles(role: string | undefined) {
-      //   if (
-      //     this.me.role != role &&
-      //     this.me.role != undefined
-      //   ) {
-      //     if (role) {
-      //       alert(
-      //         'role has changed from ' +
-      //           this.me.role +
-      //           ' to ' +
-      //           role
-      //       )
-      //     }
-      //     return false
-      //   }
-      //   return true
-      // },
-
-      // async getUserInfo() {
-      //   const [me] = await getMyData()
-      //   if (me) {
-      //     if (me.role) {
-      //       this.ability = defineAbilityFor(
-      //         stringToRole(me.role)
-      //       )
-      //       this.userRole = stringToRole(me.role)
-      //     }
-      //     if (this.checkRoles(me.role)) {
-      //       this.me = me
-      //       this.getUserSettings()
-      //     } else {
-      //       this.logout()
-      //     }
-      //   }
-      // },
-
-      // can(action: Action, subject: Subject): boolean {
-      //   return this.ability
-      //     ? this.ability?.can(action, subject)
-      //     : false
-      // },
+      can(action: Action, subject: Subject): boolean {
+        const meStore = useMeStore()
+        if (
+          meStore.me &&
+          typeof this.ability?.can !== 'function'
+        ) {
+          this.ability = defineAbilityFor(
+            stringToRole(meStore.me.role || '')
+          )
+        }
+        return this.ability
+          ? this.ability?.can(action, subject)
+          : false
+      },
 
       hideSidebar(value: boolean) {
         this.sidebar = !value

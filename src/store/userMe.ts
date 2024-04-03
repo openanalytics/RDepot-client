@@ -24,17 +24,11 @@ import { EntityModelUserDto } from '@/openapi'
 import { getMyData } from '@/services/logged_user_service'
 import { defineStore } from 'pinia'
 import { useAuthorizationStore } from './authorization'
-import {
-  defineAbilityFor,
-  Ability,
-  Action,
-  Subject
-} from '@/plugins/casl'
+import { defineAbilityFor } from '@/plugins/casl'
 import { Role, stringToRole } from '@/enum/UserRoles'
 
 interface State {
   me: EntityModelUserDto
-  ability?: Ability
   userRole?: Role
 }
 
@@ -42,7 +36,6 @@ export const useMeStore = defineStore('meStore', {
   state: (): State => {
     return {
       me: {},
-      ability: undefined,
       userRole: undefined
     }
   },
@@ -70,7 +63,7 @@ export const useMeStore = defineStore('meStore', {
       const [me] = await getMyData()
       if (me) {
         if (me.role) {
-          this.ability = defineAbilityFor(
+          authorizationStore.ability = defineAbilityFor(
             stringToRole(me.role)
           )
           this.userRole = stringToRole(me.role)
@@ -82,19 +75,6 @@ export const useMeStore = defineStore('meStore', {
           authorizationStore.logout()
         }
       }
-    },
-    can(action: Action, subject: Subject): boolean {
-      if (
-        this.me &&
-        typeof this.ability?.can !== 'function'
-      ) {
-        this.ability = defineAbilityFor(
-          stringToRole(this.me.role || '')
-        )
-      }
-      return this.ability
-        ? this.ability?.can(action, subject)
-        : false
     }
   },
   persist: true

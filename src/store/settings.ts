@@ -45,6 +45,7 @@ import { i18n } from '@/plugins/i18n'
 import { useCommonStore } from '@/store/common'
 import { OverlayEnum } from '@/enum/Overlay'
 import { UserSettingsProjection } from '@/openapi/models/user-settings-projection'
+import { useMeStore } from './userMe'
 
 export type PackagePromise = {
   promise: Promise<validatedData<EntityModelAccessTokenDto>>
@@ -93,12 +94,12 @@ export const useSettingsStore = defineStore(
     actions: {
       async fetchTokens() {
         const pagination = usePagination()
-        const authorizationStore = useAuthorizationStore()
+        const meStore = useMeStore()
         const pageData = await this.fetchData(
           pagination.fetchPage,
           pagination.pageSize,
           this.filtration,
-          authorizationStore.me.id
+          meStore.me.id
         )
         pagination.newPageWithoutRefresh(pageData.page)
         pagination.totalNumber = pageData.totalNumber

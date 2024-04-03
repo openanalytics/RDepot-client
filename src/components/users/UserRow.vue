@@ -92,9 +92,7 @@
           @click.stop
           :disabled="
             !isAtLeastAdmin(
-              authorizationStore.userRole
-                ? authorizationStore.userRole
-                : 0
+              meStore.userRole ? meStore.userRole : 0
             )
           "
           v-model="user.active"
@@ -140,7 +138,9 @@ import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
 import { JustifyEnum } from '@/enum/Justify'
 import { useAuthorizationStore } from '@/store/authorization'
 import { isAtLeastAdmin } from '@/enum/UserRoles'
+import { useMeStore } from '@/store/userMe'
 
+const meStore = useMeStore()
 const userStore = useUserStore()
 const authorizationStore = useAuthorizationStore()
 const props = defineProps({
