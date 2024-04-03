@@ -203,6 +203,7 @@
   "maintainers": {
     "createform": {
       "disclaimer": "Only users with at least repository maintainer role available.",
+      "disclaimerPackages": "Only users with at least package maintainer role available.",
       "disclaimerTitle": "Available users",
       "title": "Create maintainer"
     },

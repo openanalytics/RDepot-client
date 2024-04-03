@@ -54,11 +54,32 @@
           as="v-combobox"
           name="packageName"
           id="create-package-maintainer-package"
+          @update:modelValue="
+            (newValue) => {
+              setFieldValue(
+                'packageName',
+                typeof newValue === 'string'
+                  ? newValue
+                  : newValue.value
+              )
+            }
+          "
           :items="packages"
           :label="$t('maintainers.editform.package')"
         />
       </v-card-text>
-      <v-divider></v-divider>
+      <v-card-text>
+        <v-alert
+          style="font-size: 0.75rem"
+          :text="
+            t('maintainers.createform.disclaimerPackages')
+          "
+          variant="tonal"
+          border="start"
+          density="compact"
+          color="oablue"
+        ></v-alert>
+      </v-card-text>
       <v-divider></v-divider>
       <card-actions :buttons="buttons" />
     </v-card>
@@ -78,6 +99,10 @@ import { useUtilities } from '@/composable/utilities'
 import { useToast } from '@/composable/toasts'
 import { useI18n } from 'vue-i18n'
 import { useUserStore } from '@/store/users'
+import {
+  stringToRole,
+  isAtLeastPackageMaintainer
+} from '@/enum/UserRoles'
 
 const maintainersStore = usePackageMaintainersStore()
 const userStore = useUserStore()
@@ -104,9 +129,17 @@ const repositories = computed(() => {
 })
 
 const users = computed(() => {
-  return userStore.userList.map((user) => {
-    return { title: user.name, value: user.id }
-  })
+  return userStore.userList
+    .filter((user) =>
+      user.role
+        ? isAtLeastPackageMaintainer(
+            stringToRole(user.role)
+          )
+        : false
+    )
+    .map((user) => {
+      return { title: user.name, value: user.id }
+    })
 })
 
 const packages = computed(() => {
@@ -124,7 +157,6 @@ const packages = computed(() => {
         title: packageBag.name,
         value: packageBag.name,
         props: {
-          disabled: packageBag.user === null ? false : true,
           subtitle:
             packageBag.user !== null
               ? packageBag.user?.name
@@ -150,20 +182,7 @@ const { meta, validateField, setFieldValue, values } =
         repositoryId:
           packageMaintainerSchema.shape.repository.shape.id,
         packageName:
-          packageMaintainerSchema.shape.packageName.refine(
-            (val) => {
-              if (packages.value) {
-                return !packages.value.find(
-                  (pack) => pack.value === val
-                )?.props.disabled
-              } else {
-                return false
-              }
-            },
-            t(
-              'package_maintainers.editform.packageHasMaintainer'
-            )
-          )
+          packageMaintainerSchema.shape.packageName
       })
     ),
     initialValues: {
