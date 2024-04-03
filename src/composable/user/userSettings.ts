@@ -23,7 +23,7 @@
 import { i18n } from '@/plugins/i18n'
 import { useCommonStore } from '@/store/common'
 import { usePagination } from '@/store/pagination'
-import { useMeStore } from '@/store/userMe'
+import { useMeStore } from '@/store/me'
 
 export function useUserSettings() {
   async function getUserSettings() {

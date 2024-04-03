@@ -41,7 +41,7 @@
 <script setup lang="ts">
 import { useAuthorizationStore } from '@/store/authorization'
 import { useCommonStore } from '@/store/common'
-import { useMeStore } from '@/store/userMe'
+import { useMeStore } from '@/store/me'
 import { onUpdated, computed } from 'vue'
 import { useTheme } from 'vuetify/lib/framework.mjs'
 

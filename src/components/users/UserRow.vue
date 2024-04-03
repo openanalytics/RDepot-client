@@ -155,7 +155,7 @@ import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
 import { JustifyEnum } from '@/enum/Justify'
 import { useAuthorizationStore } from '@/store/authorization'
 import { isAtLeastAdmin } from '@/enum/UserRoles'
-import { useMeStore } from '@/store/userMe'
+import { useMeStore } from '@/store/me'
 import { updateUser } from '@/services/users_services'
 import { useUtilities } from '@/composable/utilities'
 

@@ -229,7 +229,7 @@ import EditIcon from '@/components/common/action_icons/EditIcon.vue'
 import { isAtLeastRepositoryMaintainer } from '@/enum/UserRoles'
 import { useConfigStore } from '@/store/config'
 import { computed } from '@vue/reactivity'
-import { useMeStore } from '@/store/userMe'
+import { useMeStore } from '@/store/me'
 
 const { deepCopy } = useUtilities()
 const { canDelete, canPatch } = useUserAuthorities()

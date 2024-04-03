@@ -43,7 +43,7 @@ import { authService } from '@/plugins/oauth'
 import router from '@/plugins/router'
 import { useOICDAuthorization } from '@/composable/auth/oicdAuthorization'
 import { useConfigStore } from './config'
-import { useMeStore } from './userMe'
+import { useMeStore } from './me'
 
 interface State {
   userToken: string

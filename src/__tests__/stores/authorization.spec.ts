@@ -35,7 +35,7 @@ import {
   afterAll
 } from 'vitest'
 import { http, HttpResponse } from 'msw'
-import { useMeStore } from '@/store/userMe'
+import { useMeStore } from '@/store/me'
 
 const server = setupServer(
   http.get(

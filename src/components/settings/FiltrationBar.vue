@@ -112,7 +112,7 @@ import { useAuthorizationStore } from '@/store/authorization'
 import { useUsersFiltration } from '@/composable/filtration/usersFiltration'
 import { onMounted } from 'vue'
 import ResetButton from '@/components/common/ResetButton.vue'
-import { useMeStore } from '@/store/userMe'
+import { useMeStore } from '@/store/me'
 
 const authorizationStore = useAuthorizationStore()
 const meStore = useMeStore()

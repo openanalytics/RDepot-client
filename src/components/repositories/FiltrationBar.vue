@@ -131,7 +131,7 @@ import { toTypedSchema } from '@vee-validate/zod'
 import { useRepositoryStore } from '@/store/repositories'
 import { isAtLeastAdmin } from '@/enum/UserRoles'
 import ResetButton from '@/components/common/ResetButton.vue'
-import { useMeStore } from '@/store/userMe'
+import { useMeStore } from '@/store/me'
 
 const { technologies } = useEnumFiltration()
 const meStore = useMeStore()

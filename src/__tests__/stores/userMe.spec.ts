@@ -20,7 +20,7 @@
  *
  */
 
-import { useMeStore } from '@/store/userMe'
+import { useMeStore } from '@/store/me'
 import me from '@/__tests__/config/mockData/me.json'
 import { setupServer } from 'msw/node'
 import { createPinia, setActivePinia } from 'pinia'

@@ -41,7 +41,7 @@ import { validatedData } from '@/services/open_api_access'
 import { usePagination } from '@/store/pagination'
 import { useToast } from '@/composable/toasts'
 import { i18n } from '@/plugins/i18n'
-import { useMeStore } from './userMe'
+import { useMeStore } from './me'
 
 export type PackagePromise = {
   promise: Promise<validatedData<EntityModelSubmissionDto>>

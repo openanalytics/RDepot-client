@@ -45,7 +45,7 @@ import { i18n } from '@/plugins/i18n'
 import { useCommonStore } from '@/store/common'
 import { OverlayEnum } from '@/enum/Overlay'
 import { UserSettingsProjection } from '@/openapi/models/user-settings-projection'
-import { useMeStore } from './userMe'
+import { useMeStore } from './me'
 
 export type PackagePromise = {
   promise: Promise<validatedData<EntityModelAccessTokenDto>>

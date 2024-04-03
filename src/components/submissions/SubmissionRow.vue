@@ -232,7 +232,7 @@ import TextRecord from '@/components/common/resources/TextRecord.vue'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
 import { JustifyEnum } from '@/enum/Justify'
 import { useSubmissionIcons } from '@/composable/submissions/statusIcons'
-import { useMeStore } from '@/store/userMe'
+import { useMeStore } from '@/store/me'
 
 const props = defineProps({
   title: {

@@ -148,7 +148,7 @@ import EditIcon from '@/components/common/action_icons/EditIcon.vue'
 import { useSettingsStore } from '@/store/settings'
 import { isAtLeastAdmin } from '@/enum/UserRoles'
 import { JustifyEnum } from '@/enum/Justify'
-import { useMeStore } from '@/store/userMe'
+import { useMeStore } from '@/store/me'
 
 const settingsStore = useSettingsStore()
 const meStore = useMeStore()

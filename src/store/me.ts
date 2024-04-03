@@ -32,7 +32,7 @@ interface State {
   userRole?: Role
 }
 
-export const useMeStore = defineStore('meStore', {
+export const useMeStore = defineStore('me', {
   state: (): State => {
     return {
       me: {},
