@@ -86,19 +86,38 @@
         :justify="JustifyEnum.Enum.center"
       />
       <span v-else-if="user">
-        <v-checkbox
-          id="checkbox-active"
-          color="oablue"
-          @click.stop
-          :disabled="
-            !isAtLeastAdmin(
-              authorizationStore.userRole
-                ? authorizationStore.userRole
-                : 0
-            )
-          "
-          v-model="user.active"
-        />
+        <v-tooltip
+          location="top"
+          :disabled="user.id !== authorizationStore.me.id"
+        >
+          <template #activator="{ props }">
+            <span v-bind="props">
+              <v-checkbox
+                id="checkbox-active"
+                @click.stop
+                @change="updateUserActive()"
+                :readonly="
+                  !isAtLeastAdmin(
+                    authorizationStore.userRole
+                      ? authorizationStore.userRole
+                      : 0
+                  ) || user.id === authorizationStore.me.id
+                "
+                :color="
+                  !isAtLeastAdmin(
+                    authorizationStore.userRole
+                      ? authorizationStore.userRole
+                      : 0
+                  ) || user.id === authorizationStore.me.id
+                    ? 'grey'
+                    : 'oablue'
+                "
+                v-model="user.active"
+              />
+            </span>
+          </template>
+          <span>{{ $t('users.unableDeactivation') }}</span>
+        </v-tooltip>
       </span>
     </v-col>
     <v-col
@@ -140,6 +159,8 @@ import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
 import { JustifyEnum } from '@/enum/Justify'
 import { useAuthorizationStore } from '@/store/authorization'
 import { isAtLeastAdmin } from '@/enum/UserRoles'
+import { updateUser } from '@/services/users_services'
+import { useUtilities } from '@/composable/utilities'
 
 const userStore = useUserStore()
 const authorizationStore = useAuthorizationStore()
@@ -160,6 +181,24 @@ const getRole = computed(() => {
 function setEditUser() {
   if (props.user) {
     userStore.chosenUser = props.user
+  }
+}
+const { deepCopy } = useUtilities()
+
+function updateUserActive(): void {
+  if (canPatch(props.user?.links)) {
+    if (props.user) {
+      const oldUser = deepCopy(props.user)
+      oldUser.active = !oldUser.active
+      updateUser(oldUser, props.user).then(
+        () => {
+          userStore.fetchUsers()
+        },
+        () => {
+          userStore.fetchUsers()
+        }
+      )
+    }
   }
 }
 </script>
