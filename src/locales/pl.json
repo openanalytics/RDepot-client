@@ -1,4 +1,9 @@
 {
+  "action": {
+    "accept": "ZAAKCEPTUJ",
+    "cancel": "ANULUJ",
+    "reject": "ODRZUĆ"
+  },
   "addSubmission": {
     "generateManual": "Generuj dokumentację",
     "step1Title": "Wybierz repozytorium",

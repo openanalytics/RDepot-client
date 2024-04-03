@@ -34,6 +34,7 @@ interface ImportMetaEnv {
   readonly VITE_DEV_MODE: string
   readonly VITE_URL_PREFIX: string
   readonly VITE_SERVER_ADDRESS: string
+  readonly VITE_CURRENT_COMMIT_VERSION: string
 }
 
 interface ImportMeta {

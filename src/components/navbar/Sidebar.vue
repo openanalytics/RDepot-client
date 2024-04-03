@@ -168,6 +168,11 @@
     <template v-slot:append>
       <v-list-item style="font-size: 0.7rem">
         v2.0.0
+        <span v-if="getEnv('VITE_DEV_MODE') === 'true'"
+          >({{
+            getEnv('VITE_CURRENT_COMMIT_VERSION')
+          }})</span
+        >
       </v-list-item>
     </template>
   </v-navigation-drawer>
@@ -179,6 +184,7 @@ import { useCommonStore } from '@/store/common'
 import { useAuthorizationStore } from '@/store/authorization'
 import { computed } from 'vue'
 import { useDisplay } from 'vuetify/lib/framework.mjs'
+import getEnv from '@/utils/env'
 
 const { xs, mobile } = useDisplay()
 const authorizationStore = useAuthorizationStore()
