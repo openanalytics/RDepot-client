@@ -35,11 +35,17 @@ export function useBlob() {
   function downloadBlob(
     data: Blob,
     extension: string,
-    fileUrl?: string
+    fileUrl?: string,
+    name?: string
   ): void {
-    const fileName = fileUrl
-      ? genFileName(fileUrl, extension)
-      : 'sourcefile'
+    let fileName
+    if (name) {
+      fileName = name
+    } else if (fileUrl) {
+      fileName = genFileName(fileUrl, extension)
+    } else {
+      fileName = 'sourcefile'
+    }
     const url = window.URL.createObjectURL(new Blob([data]))
     const link = document.createElement('a')
     link.href = url

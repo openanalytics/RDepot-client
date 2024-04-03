@@ -35,7 +35,8 @@ export async function openApiRequest<T>(
   parameters?: any[],
   showProgress = true,
   blob = false,
-  open = false
+  open = false,
+  fileName = ''
 ): Promise<validatedData<T>> {
   if (showProgress) {
     turnOnProgress()
@@ -44,7 +45,7 @@ export async function openApiRequest<T>(
     if (blob) {
       return callback(...parameters, await getHeaders(blob))
         .then((result: AxiosResponse<Blob>) => {
-          resolvedBlob(result, open)
+          resolvedBlob(result, open, fileName)
         })
         .catch((error: AxiosError) => {
           rejected(error)
@@ -70,7 +71,8 @@ function turnOnProgress() {
 
 async function resolvedBlob(
   result: AxiosResponse<Blob>,
-  open = false
+  open = false,
+  fileName = ''
 ): Promise<validatedData<any>> {
   const blob = useBlob()
   switch (result.data.type) {
@@ -82,7 +84,8 @@ async function resolvedBlob(
         blob.downloadBlob(
           result.data,
           '.pdf',
-          result.config.url
+          result.config.url,
+          fileName
         )
       }
       break

@@ -180,12 +180,17 @@ export async function updatePythonPackage(
   })
 }
 
-export async function downloadReferenceManual(id: string) {
+export async function downloadReferenceManual(
+  id: string,
+  fileName: string
+) {
   return openApiRequest<Promise<boolean>>(
     RPackageControllerApiFactory().downloadReferenceManual,
     [id],
     true,
-    true
+    true,
+    false,
+    fileName
   ).catch(() => {
     return false
   })

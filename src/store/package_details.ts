@@ -118,8 +118,8 @@ export const usePackageDetailsStore = defineStore(
           }
         }
       },
-      async downloadManual(id: string) {
-        await downloadReferenceManual(id).then()
+      async downloadManual(id: string, fileName: string) {
+        await downloadReferenceManual(id, fileName).then()
       },
       async openVignette(id: string, fileName: string) {
         if (fileName.split('.html').length > 1) {
