@@ -80,6 +80,9 @@ export const usePackageDetailsStore = defineStore(
           false
         )
         this.packageBag = packageBag
+        if (technology === Technologies.Enum.Python) {
+          this.vignettes = undefined
+        }
         if (packageBag.submission?.id != undefined) {
           this.submission = (await fetchSubmission(id))[0]
         }
