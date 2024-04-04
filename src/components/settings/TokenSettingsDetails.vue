@@ -21,15 +21,9 @@
 -->
 
 <template>
-  <v-card flat>
-    <v-card-title>
-      <AddToken />
-    </v-card-title>
-    <v-card-text>
-      <FiltrationBar />
-      <TokenList :key="componentKey" />
-    </v-card-text>
-  </v-card>
+  <AddToken />
+  <FiltrationBar />
+  <TokenList :key="componentKey" />
 </template>
 
 <script setup lang="ts">

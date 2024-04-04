@@ -21,9 +21,9 @@
 -->
 
 <template>
-  <SettingsDetails />
+  <SettingsGeneral />
 </template>
 
 <script setup lang="ts">
-import SettingsDetails from '@/components/settings/SettingsDetails.vue'
+import SettingsGeneral from '@/components/settings/SettingsGeneral.vue'
 </script>

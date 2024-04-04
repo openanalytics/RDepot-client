@@ -21,37 +21,34 @@
 -->
 
 <template>
-  <v-container
-    class="v-expansion mx-8"
-    style="padding-left: 0; padding-right: 0"
-  >
-    <v-row>
-      <v-spacer></v-spacer>
-      <div id="tooltip-activator" class="d-flex flex-row">
-        <v-btn
-          id="common-button"
-          color="oablue"
-          size="small"
-          dark
-          dense
-          @click="openModal"
-          class="mx-3 ml-auto my-3"
-        >
-          <span> {{ $t('common.create') }}</span>
-          <v-icon icon="mdi-plus" />
-        </v-btn>
-      </div>
-    </v-row>
-  </v-container>
+  <div class="d-flex flex-row" style="align-items: center">
+    <h2 class="my-5">
+      {{ $t('common.settings') }}
+    </h2>
+    <SaveChanges v-if="settingsStore.changes" />
+  </div>
+  <TableSettings />
 </template>
 
 <script setup lang="ts">
-import { useCommonStore } from '@/store/common'
-import { OverlayEnum } from '@/enum/Overlay'
+import { useSettingsStore } from '@/store/settings'
+import SaveChanges from '@/components/settings/SaveChanges.vue'
+import TableSettings from '@/components/settings/TableSettings.vue'
 
-const commonStore = useCommonStore()
-
-function openModal() {
-  commonStore.openOverlay(OverlayEnum.enum.Create)
-}
+const settingsStore = useSettingsStore()
 </script>
+
+<style scoped type="scss">
+.settings-container {
+  max-width: 90%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .settings-card {
+    width: 100%;
+  }
+}
+</style>

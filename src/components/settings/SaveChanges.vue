@@ -25,6 +25,7 @@
     <v-btn
       class="ml-6"
       color="oablue"
+      size="small"
       @click="saveSettings"
       >{{ $t('settings.save') }}</v-btn
     >
