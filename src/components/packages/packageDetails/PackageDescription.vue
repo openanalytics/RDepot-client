@@ -29,9 +29,11 @@
       :description="packageBag.description || ''"
       short
     ></MarkdownDescription>
-    <div v-else class="text my-5">
-      {{ packageBag.description }}
-    </div>
+    <div
+      v-else
+      class="text my-5"
+      v-dompurify-html="RDescription"
+    ></div>
   </div>
   <div class="center" v-if="packageBagShort">
     <v-divider :thickness="3"></v-divider>
@@ -68,6 +70,18 @@ const packageBag = computed<EntityModelRPackageDto>(
     props.packageBagShort ||
     (packageDetailsStore.packageBag as EntityModelRPackageDto)
 )
+
+const RDescription = computed(() => {
+  const dotRegex = /\.\\n+/gi
+  const description =
+    props.packageBagShort?.description ||
+    (
+      packageDetailsStore.packageBag as EntityModelRPackageDto
+    ).description
+  return description
+    ?.replaceAll(dotRegex, '.<br/>')
+    .replaceAll('\\n', ' ')
+})
 
 function goToDetailsPage({
   id,
