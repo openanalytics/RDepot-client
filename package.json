@@ -11,7 +11,7 @@
     "license:check": "node ./license_checker.js",
     "test:unit": "vitest --environment jsdom",
     "test:unit:once": "vitest --environment jsdom run",
-    "test:unit:once:junit": "vitest --environment jsdom --reporter=junit --outputFile.junit=test-report.xml --reporter=default --reporter=html --outputFile.html=test-report.html run",
+    "test:unit:once:junit": "vitest --environment jsdom --reporter=junit --outputFile.junit=reports/test-report.xml --reporter=default --reporter=html --outputFile.html=reports/test-report.html run",
     "test:unit:ui": "vitest --ui --environment jsdom",
     "test:coverage": "vitest run --coverage",
     "execute": "npm run license:check && npm run test:unit:once && npm run build",

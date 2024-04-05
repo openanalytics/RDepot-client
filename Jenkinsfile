@@ -40,10 +40,10 @@ pipeline {
       steps {
 	      sh "npm run lint:check"
         withChecks('Linting') {
-          junit "lint-report.xml"
+          junit "reports/lint-report.xml"
         }
         publishHTML([
-          reportDir: './', reportFiles: 'lint-report.html',
+          reportDir: 'reports', reportFiles: 'lint-report.html',
           reportName: 'UI Linting Report',
           allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true])
         }
@@ -51,10 +51,10 @@ pipeline {
     stage('Unit test') {
       sh "npm run test:unit:once:junit"
       withChecks('UI Unit Tests') {
-        junit "test-report.xml"
+        junit "reports/test-report.xml"
       }
       publishHTML([
-        reportDir: './', reportFiles: 'test-report.html',
+        reportDir: 'reports', reportFiles: 'test-report.html',
         reportName: 'UI Unit Tests Report',
         allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true])
     }

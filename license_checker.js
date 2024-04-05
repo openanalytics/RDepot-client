@@ -56,7 +56,8 @@ const EXTENSION_WITHOUT_LICENSE = [
   'dockerignore',
   'browserslistrc',
   'prettierignore',
-  'gitattributes'
+  'gitattributes',
+  'eslintoutputrc'
 ]
 
 const DIRS_WITHOUT_LICENSE_CHECKING = [
@@ -72,7 +73,8 @@ const DIRS_WITHOUT_LICENSE_CHECKING = [
   'itestServer',
   'itestSourceFiles',
   'itestPdf',
-  'itestPackages'
+  'itestPackages',
+  'reports'
 ]
 
 const license_header = fs.readFileSync('LICENSE').toString()

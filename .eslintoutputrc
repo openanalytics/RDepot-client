@@ -8,13 +8,13 @@
     {
       "name": "junit",
       "output": "file",
-      "path": "lint-report.xml",
+      "path": "reports/lint-report.xml",
       "id": "junitLint"
     },
     {
         "name": "html",
         "output": "file",
-        "path": "lint-report.html",
+        "path": "reports/lint-report.html",
         "id": "htmlLint"
       }
   ],
