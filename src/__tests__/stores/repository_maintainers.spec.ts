@@ -43,7 +43,7 @@ import me from '@/__tests__/config/mockData/me.json'
 import { useAuthorizationStore } from '@/store/authorization'
 
 const defaultFiltration = {
-  deleted: undefined,
+  deleted: false,
   technologies: undefined,
   search: undefined
 }
