@@ -9,6 +9,7 @@ pipeline {
     buildDiscarder(logRotator(numToKeepStr: '3'))
   }
   environment {
+    VERSION = sh(returnStdout: true, script: 'node -p "require(\'./package.json\').version"').trim()
     NS = 'openanalytics'
     DOCKER_BUILDKIT = '1'
   }
@@ -16,7 +17,6 @@ pipeline {
     stage('Prepare environment') {
       steps {
         script {
-          env.VERSION = sh(returnStdout: true, script: 'node -p "require(\"./package.json\").version"').trim()
           if (env.BRANCH_NAME == 'develop') {
             env.TAG = "${env.VERSION}-SNAPSHOT"
           } else {
