@@ -33,7 +33,7 @@ export default defineConfig({
     globals: true,
     includeSource: ['src/**/*.{js,ts,vue}'],
     deps: {
-      inline: ['vuetify']
+      inline: ['vuetify', 'moment']
     },
     environment: 'jsdom'
   },
