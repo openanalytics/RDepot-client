@@ -25,9 +25,7 @@
     <div class="title">
       {{ title }}
     </div>
-    <div class="value">
-      {{ text }}
-    </div>
+    <div class="value" v-html="text"></div>
     <v-divider :thickness="boldDivider ? 5 : 3"></v-divider>
   </div>
 </template>
@@ -43,10 +41,18 @@ const props = defineProps<{
 }>()
 
 const text = computed(() => {
+  const commaRegex = /\,\\n+/gi
+  const dotRegex = /\.\\n+/gi
   if (props.split) {
     return splitValue()
+      ?.replaceAll(commaRegex, ',<br/>')
+      .replaceAll(dotRegex, ',<br/>')
+      .replaceAll('\\n', ' ')
   }
   return props.value
+    ?.replaceAll(commaRegex, ',<br/>')
+    .replaceAll(dotRegex, ',<br/>')
+    .replaceAll('\\n', ' ')
 })
 
 function splitValue() {

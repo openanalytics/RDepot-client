@@ -113,6 +113,7 @@
     "click": "click",
     "copied": "Code succesfully copied to clipboard",
     "create": "Create",
+    "current": "current",
     "deactivate": "Deactivate",
     "deactivateQuestion": "Are you sure you want to deactivate {resource_name}?",
     "delete": "Delete",

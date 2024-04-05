@@ -113,6 +113,7 @@
     "click": "naciśnij",
     "copied": "Kod został skopiowany",
     "create": "Utwórz",
+    "current": "obecna",
     "deactivate": "Dezaktywuj",
     "deactivateQuestion": "Are you sure you want to deactivate {resource_name}?",
     "delete": "Usuń",
