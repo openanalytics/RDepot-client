@@ -21,37 +21,9 @@
 -->
 
 <template>
-  <v-container
-    class="v-expansion mx-8"
-    style="padding-left: 0; padding-right: 0"
-  >
-    <v-row>
-      <v-spacer></v-spacer>
-      <div id="tooltip-activator" class="d-flex flex-row">
-        <v-btn
-          id="common-button"
-          color="oablue"
-          size="small"
-          dark
-          dense
-          @click="openModal"
-          class="mx-3 ml-auto my-3"
-        >
-          <span> {{ $t('common.create') }}</span>
-          <v-icon icon="mdi-plus" />
-        </v-btn>
-      </div>
-    </v-row>
-  </v-container>
+  <SettingsTokens />
 </template>
 
 <script setup lang="ts">
-import { useCommonStore } from '@/store/common'
-import { OverlayEnum } from '@/enum/Overlay'
-
-const commonStore = useCommonStore()
-
-function openModal() {
-  commonStore.openOverlay(OverlayEnum.enum.Create)
-}
+import SettingsTokens from '@/components/settings/SettingsTokens.vue'
 </script>

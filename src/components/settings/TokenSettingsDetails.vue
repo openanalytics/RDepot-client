@@ -21,37 +21,20 @@
 -->
 
 <template>
-  <v-container
-    class="v-expansion mx-8"
-    style="padding-left: 0; padding-right: 0"
-  >
-    <v-row>
-      <v-spacer></v-spacer>
-      <div id="tooltip-activator" class="d-flex flex-row">
-        <v-btn
-          id="common-button"
-          color="oablue"
-          size="small"
-          dark
-          dense
-          @click="openModal"
-          class="mx-3 ml-auto my-3"
-        >
-          <span> {{ $t('common.create') }}</span>
-          <v-icon icon="mdi-plus" />
-        </v-btn>
-      </div>
-    </v-row>
-  </v-container>
+  <AddToken />
+  <FiltrationBar />
+  <TokenList :key="componentKey" />
 </template>
 
 <script setup lang="ts">
+import AddToken from '@/components/settings/AddToken.vue'
+import FiltrationBar from '@/components/settings/FiltrationBar.vue'
+import TokenList from '@/components/settings/TokenList.vue'
+import { computed } from 'vue'
 import { useCommonStore } from '@/store/common'
-import { OverlayEnum } from '@/enum/Overlay'
 
 const commonStore = useCommonStore()
-
-function openModal() {
-  commonStore.openOverlay(OverlayEnum.enum.Create)
-}
+const componentKey = computed(() => {
+  return commonStore.key
+})
 </script>

@@ -21,26 +21,9 @@
 -->
 
 <template>
-  <v-card flat>
-    <v-card-title>
-      <AddToken />
-    </v-card-title>
-    <v-card-text>
-      <FiltrationBar />
-      <TokenList :key="componentKey" />
-    </v-card-text>
-  </v-card>
+  <SettingsGeneral />
 </template>
 
 <script setup lang="ts">
-import AddToken from '@/components/settings/AddToken.vue'
-import FiltrationBar from '@/components/settings/FiltrationBar.vue'
-import TokenList from '@/components/settings/TokenList.vue'
-import { computed } from 'vue'
-import { useCommonStore } from '@/store/common'
-
-const commonStore = useCommonStore()
-const componentKey = computed(() => {
-  return commonStore.key
-})
+import SettingsGeneral from '@/components/settings/SettingsGeneral.vue'
 </script>

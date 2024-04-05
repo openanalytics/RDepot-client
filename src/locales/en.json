@@ -91,7 +91,8 @@
       "creationDate": "Creation date",
       "deleted": "Deleted",
       "expirationDate": "Expiration date",
-      "name": "Name"
+      "name": "Name",
+      "user": "User"
     },
     "username": "User name",
     "users": {
@@ -380,7 +381,7 @@
       "edited": "Token edited"
     },
     "newToken": "New token",
-    "save": "Save chages",
+    "save": "Save changes",
     "tab": {
       "general": "General",
       "table": "Table settings",

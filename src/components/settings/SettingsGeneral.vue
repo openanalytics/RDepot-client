@@ -21,9 +21,29 @@
 -->
 
 <template>
-  <SettingsDetails />
+  <div class="d-flex flex-row" style="align-items: center">
+    <h2 class="my-5">
+      {{ $t('common.settings') }}
+    </h2>
+  </div>
+  <TableSettings />
 </template>
 
 <script setup lang="ts">
-import SettingsDetails from '@/components/settings/SettingsDetails.vue'
+import TableSettings from '@/components/settings/TableSettings.vue'
 </script>
+
+<style scoped type="scss">
+.settings-container {
+  max-width: 90%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .settings-card {
+    width: 100%;
+  }
+}
+</style>

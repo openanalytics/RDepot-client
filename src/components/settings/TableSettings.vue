@@ -54,16 +54,21 @@
           ></v-select>
         </v-col>
       </v-row>
+      <v-row>
+        <v-spacer />
+        <SaveChanges v-if="settingsStore.changes" />
+      </v-row>
     </v-card-text>
   </v-card>
 </template>
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import langs from '@/locales/index'
 import { useSettingsStore } from '@/store/settings'
 import { useAuthorizationStore } from '@/store/authorization'
+import SaveChanges from '@/components/settings/SaveChanges.vue'
 
 const { t } = useI18n()
 
@@ -74,13 +79,17 @@ const currentSettings = ref(
   authorizationStore.getCurrentSettings()
 )
 
-const themes = [
-  { title: t('settings.themes.dark'), value: 'dark' },
-  { title: t('settings.themes.light'), value: 'light' }
-]
+const themes = computed(() => {
+  return [
+    { title: t('settings.themes.dark'), value: 'dark' },
+    { title: t('settings.themes.light'), value: 'light' }
+  ]
+})
 
-const languages = langs.map((lang) => {
-  return { title: lang.display, value: lang.name }
+const languages = computed(() => {
+  return langs.map((lang) => {
+    return { title: lang.display, value: lang.name }
+  })
 })
 
 function changedData() {
