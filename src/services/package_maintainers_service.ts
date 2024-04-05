@@ -85,7 +85,8 @@ export async function fetchAllPackageMaintainers(): ValidatedPackageMaintainers 
       undefined,
       undefined,
       undefined
-    ]
+    ],
+    false
   ).catch(() => {
     return validateRequest([])
   })

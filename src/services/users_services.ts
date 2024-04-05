@@ -87,7 +87,8 @@ export async function fetchAllUsers(
       filtration?.roles,
       filtration?.active,
       filtration?.search
-    ]
+    ],
+    false
   ).catch(() => {
     return validateRequest([])
   })
