@@ -1,0 +1,22 @@
+{
+  "files": ["."],
+  "formats": [
+    {
+      "name": "stylish",
+      "output": "console"
+    },
+    {
+      "name": "junit",
+      "output": "file",
+      "path": "lint-report.xml",
+      "id": "junitLint"
+    },
+    {
+        "name": "html",
+        "output": "file",
+        "path": "lint-report.html",
+        "id": "htmlLint"
+      }
+  ],
+  "eslintConfig": {}
+}
