@@ -45,6 +45,7 @@
     "@typescript-eslint/no-non-null-assertion": "off",
     "@typescript-eslint/no-explicit-any": ["off"],
     "@typescript-eslint/ban-types": "warn",
+    "@typescript-eslint/no-unused-vars": ["error"],
     "brace-style": [
       "warn",
       "1tbs",
