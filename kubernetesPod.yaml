@@ -6,7 +6,7 @@ metadata:
 spec:
   containers:
     - name: rdepot-client-build
-      image: registry.openanalytics.eu/proxy/node:lts-alpine
+      image: registry.openanalytics.eu/proxy/library/node:lts-alpine
       resources:
         limits:
           memory: '4Gi'
