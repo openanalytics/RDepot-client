@@ -57,7 +57,8 @@ const EXTENSION_WITHOUT_LICENSE = [
   'browserslistrc',
   'prettierignore',
   'gitattributes',
-  'eslintoutputrc'
+  'eslintoutputrc',
+  'eslintignore'
 ]
 
 const DIRS_WITHOUT_LICENSE_CHECKING = [
