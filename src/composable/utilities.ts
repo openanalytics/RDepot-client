@@ -46,12 +46,7 @@ export function useUtilities() {
         </i>
         </pre>`
     },
-    heading(
-      text: string,
-      level: number,
-      _raw: string,
-      _slugger: any
-    ) {
+    heading(text: string, level: number) {
       level += 2
       return `<h${level}>${text}</h${level}>\n`
     }

@@ -27,7 +27,6 @@ import {
   EntityModelPackageDto,
   EntityModelPythonPackageDto,
   EntityModelRPackageDto,
-  ResponseDtoListVignette,
   PythonPackageControllerApiFactory,
   RPackageControllerApiFactory,
   Vignette

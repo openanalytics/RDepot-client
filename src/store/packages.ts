@@ -45,7 +45,6 @@ import { packagesFiltrationLabels } from '@/maps/Filtration'
 import { fetchSubmission } from '@/services/submission_services'
 import { usePagination } from './pagination'
 import { Technologies } from '@/enum/Technologies'
-import { reactive, toRaw } from 'vue'
 
 interface State {
   packages: EntityModelPackageDto[]

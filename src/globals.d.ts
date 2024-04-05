@@ -22,7 +22,7 @@
 
 declare global {
   interface Window {
-    configs: Object
+    configs: object
   }
 }
 

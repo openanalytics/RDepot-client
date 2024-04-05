@@ -47,7 +47,6 @@ import {
 import { usePagination } from '@/store/pagination'
 import { Technologies } from '@/enum/Technologies'
 import { http, HttpResponse } from 'msw'
-import { useToast } from '@/composable/toasts'
 import { useAuthorizationStore } from '@/store/authorization'
 
 const { deepCopyAny } = useUtilities()
@@ -293,8 +292,6 @@ describe('Testing submissions store with failing backend', () => {
     const submissionStore = useSubmissionStore()
 
     vi.mock('vue3-toastify')
-    const notify = await import('vue3-toastify')
-
     await submissionStore.fetchSubmissions()
 
     expect(submissionStore.submissions).toStrictEqual([])
@@ -303,13 +300,10 @@ describe('Testing submissions store with failing backend', () => {
 
   it('Update submissions', async () => {
     const submissionStore = useSubmissionStore()
-    const toasts = useToast()
     const spy = vi.spyOn(
       submissionStore,
       'fetchSubmissions'
     )
-    const spyToast = vi.spyOn(toasts, 'error')
-
     const submission = deepCopyAny(
       submissions.data.content[0]
     )

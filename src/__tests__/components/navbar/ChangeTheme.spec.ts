@@ -34,7 +34,6 @@ import { mocks } from '@/__tests__/config/mocks'
 import ChangeThemeVue from '@/components/navbar/ChangeTheme.vue'
 import { createPinia, setActivePinia } from 'pinia'
 import { useAuthorizationStore } from '@/store/authorization'
-import waitForExpect from 'wait-for-expect'
 
 let authorizationStore: any
 let wrapper: any
