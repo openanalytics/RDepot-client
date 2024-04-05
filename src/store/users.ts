@@ -21,7 +21,6 @@
  */
 
 import { defineStore } from 'pinia'
-import { LoginType } from '@/enum/LoginType'
 import {
   fetchRoles,
   fetchUsers,

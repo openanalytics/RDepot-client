@@ -20,19 +20,13 @@
  *
  */
 
-import { LoginType } from '@/enum/LoginType'
-import { EntityModelUserDto, RoleDto } from '@/openapi'
-import { usePagination } from '@/store/pagination'
 import { useUserStore } from '@/store/users'
 import { createPinia, setActivePinia } from 'pinia'
 import { beforeEach, describe, expect, it } from 'vitest'
 
-let pagination
-
 describe('User Store', () => {
   beforeEach(async () => {
     setActivePinia(createPinia())
-    pagination = usePagination()
   })
 
   it('Starting values', () => {
@@ -44,16 +38,3 @@ describe('User Store', () => {
     expect(user_store.roles).toEqual([])
   })
 })
-
-const store_example_values = {
-  userToken: 'abc',
-  userName: 'name',
-  loginType: 'DEFAULT' as LoginType,
-  userList: [
-    { name: 'name1' },
-    { name: 'name2' },
-    { name: 'name3' }
-  ] as EntityModelUserDto[],
-  chosenUser: { name: 'name2' } as EntityModelUserDto,
-  roles: [{ name: 'admin' }] as RoleDto[]
-}

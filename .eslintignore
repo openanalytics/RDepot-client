@@ -1,0 +1,4 @@
+.gitignore
+Jenkinsfile
+.husky
+.vscode

@@ -49,14 +49,16 @@ pipeline {
         }
     }
     stage('Unit test') {
-      sh "npm run test:unit:once:junit"
-      withChecks('UI Unit Tests') {
-        junit "reports/test-report.xml"
+      steps {
+        sh "npm run test:unit:once:junit"
+        withChecks('UI Unit Tests') {
+          junit "reports/test-report.xml"
+        }
+        publishHTML([
+          reportDir: 'reports', reportFiles: 'test-report.html',
+          reportName: 'UI Unit Tests Report',
+          allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true])
       }
-      publishHTML([
-        reportDir: 'reports', reportFiles: 'test-report.html',
-        reportName: 'UI Unit Tests Report',
-        allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true])
     }
     stage('Build') {
       steps {
