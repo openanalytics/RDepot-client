@@ -42,12 +42,14 @@ async function getSourceFile() {
   if (
     packageBag.value.id &&
     packageBag.value.name &&
-    packageBag.value.version
+    packageBag.value.version &&
+    packageBag.value.technology
   ) {
     await packageDetailsStore.downloadSourceFile(
       packageBag.value.id.toString(),
       packageBag.value.name,
-      packageBag.value.version
+      packageBag.value.version,
+      packageBag.value.technology
     )
   }
 }

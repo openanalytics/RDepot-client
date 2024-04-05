@@ -36,7 +36,9 @@ import {
 import {
   downloadReferenceManual,
   downloadVignetteHtml,
+  downloadVignettePdf,
   openVignetteHtml,
+  openVignettePdf,
   downloadSourceFile,
   fetchPackageServices,
   fetchVignettes
@@ -78,6 +80,9 @@ export const usePackageDetailsStore = defineStore(
           false
         )
         this.packageBag = packageBag
+        if (technology === Technologies.Enum.Python) {
+          this.vignettes = undefined
+        }
         if (packageBag.submission?.id != undefined) {
           this.submission = (await fetchSubmission(id))[0]
         }
@@ -116,21 +121,47 @@ export const usePackageDetailsStore = defineStore(
           }
         }
       },
-      async downloadManual(id: string) {
-        await downloadReferenceManual(id).then()
+      async downloadManual(id: string, fileName: string) {
+        await downloadReferenceManual(id, fileName).then()
       },
       async openVignette(id: string, fileName: string) {
-        await openVignetteHtml(id, fileName).then()
+        if (fileName.split('.html').length > 1) {
+          await openVignetteHtml(
+            id,
+            fileName.split('.html')[0]
+          ).then()
+        } else if (fileName.split('.pdf').length > 1) {
+          await openVignettePdf(
+            id,
+            fileName.split('.pdf')[0]
+          ).then()
+        }
       },
       async downloadVignette(id: string, fileName: string) {
-        await downloadVignetteHtml(id, fileName).then()
+        if (fileName.split('.html').length > 1) {
+          await downloadVignetteHtml(
+            id,
+            fileName.split('.html')[0]
+          ).then()
+        } else if (fileName.split('.pdf').length > 1) {
+          await downloadVignettePdf(
+            id,
+            fileName.split('.pdf')[0]
+          ).then()
+        }
       },
       async downloadSourceFile(
         id: string,
         name: string,
-        version: string
+        version: string,
+        technology: string
       ) {
-        await downloadSourceFile(id, name, version).then()
+        await downloadSourceFile(
+          id,
+          name,
+          version,
+          technology
+        ).then()
       },
       async fetchVignettes(id: number) {
         const [vignettes] = await fetchVignettes(id)
