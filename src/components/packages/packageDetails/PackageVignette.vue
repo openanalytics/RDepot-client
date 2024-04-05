@@ -23,7 +23,7 @@
 <template>
   <v-tooltip
     max-width="400"
-    location="top"
+    location="left"
     content-class="custom-tooltip"
   >
     <template #activator="{ props }">
