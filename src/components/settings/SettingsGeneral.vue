@@ -25,17 +25,12 @@
     <h2 class="my-5">
       {{ $t('common.settings') }}
     </h2>
-    <SaveChanges v-if="settingsStore.changes" />
   </div>
   <TableSettings />
 </template>
 
 <script setup lang="ts">
-import { useSettingsStore } from '@/store/settings'
-import SaveChanges from '@/components/settings/SaveChanges.vue'
 import TableSettings from '@/components/settings/TableSettings.vue'
-
-const settingsStore = useSettingsStore()
 </script>
 
 <style scoped type="scss">

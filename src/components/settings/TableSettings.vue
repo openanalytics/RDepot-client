@@ -54,6 +54,10 @@
           ></v-select>
         </v-col>
       </v-row>
+      <v-row>
+        <v-spacer />
+        <SaveChanges v-if="settingsStore.changes" />
+      </v-row>
     </v-card-text>
   </v-card>
 </template>
@@ -64,6 +68,7 @@ import { ref, computed } from 'vue'
 import langs from '@/locales/index'
 import { useSettingsStore } from '@/store/settings'
 import { useAuthorizationStore } from '@/store/authorization'
+import SaveChanges from '@/components/settings/SaveChanges.vue'
 
 const { t } = useI18n()
 

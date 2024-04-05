@@ -21,7 +21,7 @@
 -->
 
 <template>
-  <div class="ml-auto">
+  <div class="ml-auto pr-5 py-5">
     <v-btn
       class="ml-6"
       color="oablue"
