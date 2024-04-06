@@ -21,36 +21,9 @@
 -->
 
 <template>
-  <v-btn class="my-3" width="250" @click="getSourceFile">
-    Download Source File
-  </v-btn>
+  <SettingsTokens />
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { EntityModelPythonPackageDto } from '@/openapi'
-import { usePackageDetailsStore } from '@/store/package_details'
-
-const packageDetailsStore = usePackageDetailsStore()
-
-const packageBag = computed(
-  () =>
-    packageDetailsStore.packageBag as EntityModelPythonPackageDto
-)
-
-async function getSourceFile() {
-  if (
-    packageBag.value.id &&
-    packageBag.value.name &&
-    packageBag.value.version &&
-    packageBag.value.technology
-  ) {
-    await packageDetailsStore.downloadSourceFile(
-      packageBag.value.id.toString(),
-      packageBag.value.name,
-      packageBag.value.version,
-      packageBag.value.technology
-    )
-  }
-}
+import SettingsTokens from '@/components/settings/SettingsTokens.vue'
 </script>

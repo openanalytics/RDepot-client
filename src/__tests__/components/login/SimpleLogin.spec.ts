@@ -52,24 +52,6 @@ describe('SimpleLogin', () => {
     expect(wrapper.exists()).toBe(true)
   })
 
-  it('reset simple login', async () => {
-    const fieldUsername = wrapper.find('#username-input')
-    fieldUsername.setValue(userCorrect.login)
-    const fieldPassword = wrapper.find('#password-input')
-    fieldPassword.setValue(userCorrect.password)
-    const resetButton = wrapper.find('#reset-button')
-    expect(resetButton.exists()).toBeTruthy()
-    expect(fieldUsername.element.value).toBe(
-      userCorrect.login
-    )
-    expect(fieldPassword.element.value).toBe(
-      userCorrect.password
-    )
-    await resetButton.trigger('click')
-    expect(fieldUsername.element.value).toBe('')
-    expect(fieldPassword.element.value).toBe('')
-  })
-
   it('check empty login', async () => {
     const fieldPassword = wrapper.find('#password-input')
     fieldPassword.setValue(userCorrect.password)

@@ -91,7 +91,8 @@
       "creationDate": "Data utworzenia",
       "deleted": "Usunięty",
       "expirationDate": "Data wygaśnięcia",
-      "name": "Nazwa"
+      "name": "Nazwa",
+      "user": "Użytkownik"
     },
     "username": "Nazwa użytkownika",
     "users": {
@@ -113,6 +114,7 @@
     "click": "naciśnij",
     "copied": "Kod został skopiowany",
     "create": "Utwórz",
+    "current": "obecna",
     "deactivate": "Dezaktywuj",
     "deactivateQuestion": "Are you sure you want to deactivate {resource_name}?",
     "delete": "Usuń",

@@ -19,7 +19,7 @@
  * along with this program. If not, see <http://www.apache.org/licenses/>
  *
  */
-
+/* tslint:disable */
 /* eslint-disable */
 /**
  * RDEPOT API
@@ -91,6 +91,113 @@ export const PythonPackageControllerApiAxiosParamCreator =
         }
         const localVarRequestOptions: AxiosRequestConfig = {
           method: 'DELETE',
+          ...baseOptions,
+          ...options
+        }
+        const localVarHeaderParameter = {} as any
+        const localVarQueryParameter = {} as any
+
+        // authentication Bearer required
+        // http bearer authentication required
+        if (configuration && configuration.accessToken) {
+          const accessToken =
+            typeof configuration.accessToken === 'function'
+              ? await configuration.accessToken()
+              : await configuration.accessToken
+          localVarHeaderParameter['Authorization'] =
+            'Bearer ' + accessToken
+        }
+
+        const query = new URLSearchParams(
+          localVarUrlObj.search
+        )
+        for (const key in localVarQueryParameter) {
+          query.set(key, localVarQueryParameter[key])
+        }
+        for (const key in options.params) {
+          query.set(key, options.params[key])
+        }
+        localVarUrlObj.search = new URLSearchParams(
+          query
+        ).toString()
+        let headersFromBaseOptions =
+          baseOptions && baseOptions.headers
+            ? baseOptions.headers
+            : {}
+        localVarRequestOptions.headers = {
+          ...localVarHeaderParameter,
+          ...headersFromBaseOptions,
+          ...options.headers
+        }
+
+        return {
+          url:
+            localVarUrlObj.pathname +
+            localVarUrlObj.search +
+            localVarUrlObj.hash,
+          options: localVarRequestOptions
+        }
+      },
+      /**
+       *
+       * @param {number} id
+       * @param {string} name
+       * @param {string} version
+       * @param {*} [options] Override http request option.
+       * @throws {RequiredError}
+       */
+      downloadPythonPackage: async (
+        id: number,
+        name: string,
+        version: string,
+        options: AxiosRequestConfig = {}
+      ): Promise<RequestArgs> => {
+        // verify required parameter 'id' is not null or undefined
+        if (id === null || id === undefined) {
+          throw new RequiredError(
+            'id',
+            'Required parameter id was null or undefined when calling downloadPythonPackage.'
+          )
+        }
+        // verify required parameter 'name' is not null or undefined
+        if (name === null || name === undefined) {
+          throw new RequiredError(
+            'name',
+            'Required parameter name was null or undefined when calling downloadPythonPackage.'
+          )
+        }
+        // verify required parameter 'version' is not null or undefined
+        if (version === null || version === undefined) {
+          throw new RequiredError(
+            'version',
+            'Required parameter version was null or undefined when calling downloadPythonPackage.'
+          )
+        }
+        const localVarPath =
+          `/api/v2/manager/python/packages/{id}/download/{name}-{version}.tar.gz`
+            .replace(
+              `{${'id'}}`,
+              encodeURIComponent(String(id))
+            )
+            .replace(
+              `{${'name'}}`,
+              encodeURIComponent(String(name))
+            )
+            .replace(
+              `{${'version'}}`,
+              encodeURIComponent(String(version))
+            )
+        // use dummy base URL string because the URL constructor only accepts absolute URLs.
+        const localVarUrlObj = new URL(
+          localVarPath,
+          'https://example.com'
+        )
+        let baseOptions
+        if (configuration) {
+          baseOptions = configuration.baseOptions
+        }
+        const localVarRequestOptions: AxiosRequestConfig = {
+          method: 'GET',
           ...baseOptions,
           ...options
         }
@@ -481,6 +588,40 @@ export const PythonPackageControllerApiFp = function (
     /**
      *
      * @param {number} id
+     * @param {string} name
+     * @param {string} version
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async downloadPythonPackage(
+      id: number,
+      name: string,
+      version: string,
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => Promise<AxiosResponse<Array<string>>>
+    > {
+      const localVarAxiosArgs =
+        await PythonPackageControllerApiAxiosParamCreator(
+          configuration
+        ).downloadPythonPackage(id, name, version, options)
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH
+      ) => {
+        const axiosRequestArgs: AxiosRequestConfig = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url
+        }
+        return axios.request(axiosRequestArgs)
+      }
+    },
+    /**
+     *
+     * @param {number} id
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -623,6 +764,24 @@ export const PythonPackageControllerApiFactory = function (
     /**
      *
      * @param {number} id
+     * @param {string} name
+     * @param {string} version
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async downloadPythonPackage(
+      id: number,
+      name: string,
+      version: string,
+      options?: AxiosRequestConfig
+    ): Promise<AxiosResponse<Array<string>>> {
+      return PythonPackageControllerApiFp(configuration)
+        .downloadPythonPackage(id, name, version, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     *
+     * @param {number} id
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -710,6 +869,25 @@ export class PythonPackageControllerApi extends BaseAPI {
   ): Promise<AxiosResponse<void>> {
     return PythonPackageControllerApiFp(this.configuration)
       .deletePythonPackage(id, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+  /**
+   *
+   * @param {number} id
+   * @param {string} name
+   * @param {string} version
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PythonPackageControllerApi
+   */
+  public async downloadPythonPackage(
+    id: number,
+    name: string,
+    version: string,
+    options?: AxiosRequestConfig
+  ): Promise<AxiosResponse<Array<string>>> {
+    return PythonPackageControllerApiFp(this.configuration)
+      .downloadPythonPackage(id, name, version, options)
       .then((request) => request(this.axios, this.basePath))
   }
   /**

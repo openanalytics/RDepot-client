@@ -21,20 +21,31 @@
  */
 
 export function useBlob() {
-  async function openBlob(data: Blob) {
-    const innerHtml = await data.text()
-    const newWindow = window.open()
-    newWindow?.document.write(innerHtml)
+  async function openBlob(data: Blob, type: string) {
+    if (type === 'html') {
+      const innerHtml = await data.text()
+      const newWindow = window.open()
+      newWindow?.document.write(innerHtml)
+    } else if (type === 'pdf') {
+      const fileURL = URL.createObjectURL(data)
+      window.open(fileURL, '_blank')
+    }
   }
 
   function downloadBlob(
     data: Blob,
     extension: string,
-    fileUrl?: string
+    fileUrl?: string,
+    name?: string
   ): void {
-    const fileName = fileUrl
-      ? genFileName(fileUrl, extension)
-      : 'sourcefile'
+    let fileName
+    if (name) {
+      fileName = name
+    } else if (fileUrl) {
+      fileName = genFileName(fileUrl, extension)
+    } else {
+      fileName = 'sourcefile'
+    }
     const url = window.URL.createObjectURL(new Blob([data]))
     const link = document.createElement('a')
     link.href = url
@@ -55,17 +66,25 @@ export function useBlob() {
       fileName += urlArray
         ? urlArray.replace('.html', '')
         : 'sourcefile'
+    } else if (
+      extension === '.pdf' &&
+      url?.includes('vignettes')
+    ) {
+      const urlArray = url?.split('/').pop()
+      fileName += urlArray
+        ? urlArray.replace('.pdf', '')
+        : 'sourcefile'
     } else {
       url?.split('/').forEach((p) => {
         switch (p) {
           case 'manual':
-            fileName += p
+            fileName += p + '_'
             break
           case 'r':
-            fileName += 'R'
+            fileName += 'R_'
             break
           case 'python':
-            fileName += 'Python'
+            fileName += 'Python_'
             break
           default:
             break

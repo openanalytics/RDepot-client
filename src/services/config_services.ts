@@ -21,7 +21,6 @@
  */
 
 import {
-  ResponseDtoPublicConfigurationDto,
   ApiV2ConfigControllerApiFactory,
   PublicConfigurationDto
 } from '@/openapi'

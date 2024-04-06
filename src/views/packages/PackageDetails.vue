@@ -28,7 +28,11 @@
       <PackageInstallation />
       <PackageProperties />
     </div>
-    <div class="pr-5" color="background">
+    <div
+      class="pr-5"
+      style="max-width: 400px; width: 100%"
+      color="background"
+    >
       <PackageDownloads />
       <PackageManual />
       <PackageVignettes />
