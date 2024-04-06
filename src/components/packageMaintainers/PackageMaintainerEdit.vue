@@ -38,15 +38,7 @@
         <validated-input-field
           as="v-select"
           name="repository"
-          @update:modelValue="
-            (newValue) => {
-              console.log(newValue);
-              localMaintainer.repository!.id = newValue.value
-              localMaintainer.packageName = ''
-              setFieldValue('packageName', '')
-              validateField('packageName')
-            }
-          "
+          @update:modelValue="updateForm"
           :items="repositories"
           id="edit-package-maintainer-repository"
           :label="$t('maintainers.editform.repository')"
@@ -74,12 +66,7 @@
           as="v-combobox"
           name="packageName"
           :modelValue="localMaintainer.packageName"
-          @update:modelValue="
-            (newValue) => {
-              localMaintainer.packageName = newValue
-              validateField('packageName')
-            }
-          "
+          @update:modelValue="setPackageName"
           id="edit-package-maintainer-package"
           :items="packages"
           :label="$t('maintainers.editform.package')"
@@ -235,6 +222,18 @@ async function editMaintainer() {
   } else {
     toasts.warning(t('notifications.invalidform'))
   }
+}
+
+function updateForm(newValue: any) {
+  localMaintainer.value.repository!.id = newValue.value
+  localMaintainer.value.packageName = ''
+  setFieldValue('packageName', '')
+  validateField('packageName')
+}
+
+function setPackageName(newValue: string) {
+  localMaintainer.value.packageName = newValue
+  validateField('packageName')
 }
 
 function changeDialogOptions() {

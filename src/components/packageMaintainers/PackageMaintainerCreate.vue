@@ -38,12 +38,7 @@
         <validated-input-field
           as="v-select"
           name="repository"
-          @update:modelValue="
-            () => {
-              setFieldValue('packageName', '')
-              validateField('packageName')
-            }
-          "
+          @update:modelValue="resetPackageName"
           :items="repositories"
           id="create-package-maintainer-repository"
           :label="$t('maintainers.editform.repository')"
@@ -71,16 +66,7 @@
           as="v-combobox"
           name="packageName"
           id="create-package-maintainer-package"
-          @update:modelValue="
-            (newValue) => {
-              setFieldValue(
-                'packageName',
-                typeof newValue === 'string'
-                  ? newValue
-                  : newValue.value
-              )
-            }
-          "
+          @update:modelValue="updatePackageName"
           :items="packages"
           :label="$t('maintainers.editform.package')"
         />
@@ -109,10 +95,9 @@ import { usePackageMaintainersStore } from '@/store/package_maintainers'
 import { toTypedSchema } from '@vee-validate/zod'
 import { Form, useForm } from 'vee-validate'
 import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
-import { ref, onMounted, computed } from 'vue'
+import { onMounted, computed } from 'vue'
 import { packageMaintainerSchema } from '@/models/Schemas'
 import { z } from 'zod'
-import { useUtilities } from '@/composable/utilities'
 import { useToast } from '@/composable/toasts'
 import { useI18n } from 'vue-i18n'
 import { useUserStore } from '@/store/users'
@@ -240,6 +225,18 @@ async function createMaintainer() {
   } else {
     toasts.warning(t('notifications.invalidform'))
   }
+}
+
+function resetPackageName() {
+  setFieldValue('packageName', '')
+  validateField('packageName')
+}
+
+function updatePackageName(newValue: any) {
+  setFieldValue(
+    'packageName',
+    typeof newValue === 'string' ? newValue : newValue.value
+  )
 }
 
 function changeDialogOptions() {
