@@ -37,20 +37,39 @@
         />
         <validated-input-field
           as="v-select"
-          name="repositoryId"
-          :modelValue="localMaintainer.repository!.id"
-          @update:modelValue="newValue => {
-            localMaintainer.repository!.id = newValue
-            localMaintainer.packageName = ''
-            setFieldValue('packageName', '')
-            validateField('packageName')
-          }"
+          name="repository"
+          @update:modelValue="
+            (newValue) => {
+              console.log(newValue);
+              localMaintainer.repository!.id = newValue.value
+              localMaintainer.packageName = ''
+              setFieldValue('packageName', '')
+              validateField('packageName')
+            }
+          "
           :items="repositories"
-          item-title="name"
-          item-value="id"
           id="edit-package-maintainer-repository"
           :label="$t('maintainers.editform.repository')"
-        />
+          :template="true"
+          filled
+          dense
+          clearable
+          persistent-hint
+          return-object
+        >
+          <template #item="{ item, props }">
+            <v-list-item v-bind="props">
+              <template v-slot:append>
+                <v-chip
+                  text-color="white"
+                  class="text-body-1"
+                  small
+                  >{{ item.raw.props.technology }}</v-chip
+                >
+              </template>
+            </v-list-item>
+          </template>
+        </validated-input-field>
         <validated-input-field
           as="v-combobox"
           name="packageName"
@@ -85,6 +104,7 @@ import { z } from 'zod'
 import { useUtilities } from '@/composable/utilities'
 import { useToast } from '@/composable/toasts'
 import { useI18n } from 'vue-i18n'
+import { Technologies } from '@/enum/Technologies'
 
 const maintainersStore = usePackageMaintainersStore()
 const toasts = useToast()
@@ -106,7 +126,15 @@ const buttons = [
   }
 ]
 const repositories = computed(() => {
-  return maintainersStore.repositories
+  return maintainersStore.repositories.map((repo) => {
+    return {
+      title: repo.name,
+      value: repo.id,
+      props: {
+        technology: repo.technology
+      }
+    }
+  })
 })
 
 const packages = computed(() => {
@@ -148,8 +176,18 @@ const { meta, validateField, setFieldValue } = useForm({
     z.object({
       username:
         packageMaintainerSchema.shape.user.shape.name,
-      repositoryId:
-        packageMaintainerSchema.shape.repository.shape.id,
+      repository: z.object({
+        title:
+          packageMaintainerSchema.shape.repository.shape
+            .name,
+        value:
+          packageMaintainerSchema.shape.repository.shape.id,
+        props: z.object({
+          technology:
+            packageMaintainerSchema.shape.repository.shape
+              .technology
+        })
+      }),
       packageName:
         packageMaintainerSchema.shape.packageName.refine(
           (val) => {
@@ -169,13 +207,15 @@ const { meta, validateField, setFieldValue } = useForm({
   ),
   initialValues: {
     username: maintainer?.user?.name,
-    repositoryId: maintainer?.repository?.id,
+    repository: {
+      title: maintainer.repository?.name,
+      value: maintainer.repository?.id,
+      props: {
+        technology: maintainer.repository
+          ?.technology as Technologies
+      }
+    },
     packageName: maintainer?.packageName
-  },
-  initialTouched: {
-    username: false,
-    repositoryId: false,
-    packageName: true
   }
 })
 const { deepCopy } = useUtilities()
