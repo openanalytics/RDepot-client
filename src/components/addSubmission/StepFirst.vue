@@ -26,14 +26,25 @@
       class="mt-5"
       :items="repositories"
       :label="$t('addSubmission.step1Title')"
-      @update:model-value="
-        (newValue) => changeRepository(newValue)
-      "
       filled
       dense
       clearable
       persistent-hint
+      return-object
+      @update:model-value="changeRepository"
     >
+      <template #item="{ item, props }">
+        <v-list-item v-bind="props">
+          <template v-slot:append>
+            <v-chip
+              text-color="white"
+              class="text-body-1"
+              small
+              >{{ item.raw.props.technology }}</v-chip
+            >
+          </template>
+        </v-list-item>
+      </template>
     </v-select>
   </v-card>
   <div class="d-flex justify-end">
@@ -54,6 +65,7 @@ import { onMounted } from 'vue'
 import { computed } from 'vue'
 import { useToast } from '@/composable/toasts'
 import { useI18n } from 'vue-i18n'
+import { EntityModelRepositoryDto } from '@/openapi'
 
 const emits = defineEmits(['next'])
 const submissionsStore = useSubmissionStore()
@@ -61,22 +73,33 @@ const repositoryStore = useRepositoryStore()
 const toasts = useToast()
 const { t } = useI18n()
 
+type SelectRepository = {
+  title?: string
+  value?: number
+  props: {
+    technology?: string
+  }
+}
+
 const repositories = computed(function () {
   return repositoryStore.repositories.map((repo) => {
     return {
       title: repo.name,
       value: repo.id,
-      props: { subtitle: repo.technology }
+      props: { technology: repo.technology }
     }
   })
 })
 
-function changeRepository(value: number) {
-  const chosenRepository =
-    repositoryStore.repositories.find(
-      (repo) => repo.id == value
-    )
-  submissionsStore.setRepository(chosenRepository || {})
+function changeRepository(value: SelectRepository | null) {
+  if (value) {
+    const repository = {
+      name: value.title,
+      id: value.value,
+      technology: value.props.technology
+    } as EntityModelRepositoryDto
+    submissionsStore.setRepository(repository)
+  }
 }
 
 function nextStep() {
