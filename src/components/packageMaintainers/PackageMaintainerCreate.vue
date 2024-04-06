@@ -37,19 +37,36 @@
         />
         <validated-input-field
           as="v-select"
-          name="repositoryId"
+          name="repository"
           @update:modelValue="
-            (newValue) => {
+            () => {
               setFieldValue('packageName', '')
               validateField('packageName')
             }
           "
           :items="repositories"
-          item-title="name"
-          item-value="id"
           id="create-package-maintainer-repository"
           :label="$t('maintainers.editform.repository')"
-        />
+          :template="true"
+          filled
+          dense
+          clearable
+          persistent-hint
+          return-object
+        >
+          <template #item="{ item, props }">
+            <v-list-item v-bind="props">
+              <template v-slot:append>
+                <v-chip
+                  text-color="white"
+                  class="text-body-1"
+                  small
+                  >{{ item.raw.props.technology }}</v-chip
+                >
+              </template>
+            </v-list-item>
+          </template>
+        </validated-input-field>
         <validated-input-field
           as="v-combobox"
           name="packageName"
@@ -125,7 +142,15 @@ const buttons = [
   }
 ]
 const repositories = computed(() => {
-  return maintainersStore.repositories
+  return maintainersStore.repositories.map((repo) => {
+    return {
+      title: repo.name,
+      value: repo.id,
+      props: {
+        technology: repo.technology
+      }
+    }
+  })
 })
 
 const users = computed(() => {
@@ -145,8 +170,8 @@ const users = computed(() => {
 const packages = computed(() => {
   return maintainersStore.packages
     .filter((packageBag) => {
-      if (values.repositoryId) {
-        const repoId = values.repositoryId as Number
+      if (values.repository) {
+        const repoId = values.repository.value as Number
         return packageBag.repository?.id === repoId
       } else {
         return false
@@ -179,21 +204,27 @@ const { meta, validateField, setFieldValue, values } =
     validationSchema: toTypedSchema(
       z.object({
         userId: packageMaintainerSchema.shape.user.shape.id,
-        repositoryId:
-          packageMaintainerSchema.shape.repository.shape.id,
+        repository: z.object({
+          title:
+            packageMaintainerSchema.shape.repository.shape
+              .name,
+          value:
+            packageMaintainerSchema.shape.repository.shape
+              .id,
+          props: z.object({
+            technology:
+              packageMaintainerSchema.shape.repository.shape
+                .technology
+          })
+        }),
         packageName:
           packageMaintainerSchema.shape.packageName
       })
     ),
     initialValues: {
       userId: undefined,
-      repositoryId: undefined,
+      repository: undefined,
       packageName: undefined
-    },
-    initialTouched: {
-      userId: false,
-      repositoryId: false,
-      packageName: true
     }
   })
 
@@ -202,7 +233,7 @@ async function createMaintainer() {
     const maintainer = {
       user: { id: values.userId },
       packageName: values.packageName,
-      repository: { id: values.repositoryId }
+      repository: { id: values.repository?.value }
     }
     await maintainersStore.createMaintainer(maintainer)
     changeDialogOptions()
