@@ -365,6 +365,9 @@
     "submission": "Submission",
     "user": "User"
   },
+  "role": {
+    "admin": "Admin"
+  },
   "settings": {
     "create": "New access token",
     "deactivate": "Deactivate token",

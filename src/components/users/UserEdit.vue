@@ -32,11 +32,8 @@
           name="role"
           as="v-select"
           id="edit-user-role"
-          v-model="localRole"
-          :items="userStore.roles"
-          item-title="description"
+          :items="roles"
           :label="$t('users.edit.role')"
-          return-object
         />
       </v-card-text>
       <v-divider></v-divider>
@@ -57,6 +54,8 @@ import { z } from 'zod'
 import { useUtilities } from '@/composable/utilities'
 import { useToast } from '@/composable/toasts'
 import { useI18n } from 'vue-i18n'
+import { useEnumFiltration } from '@/composable/filtration/enumFiltration'
+import { stringToRole } from '@/enum/UserRoles'
 
 const { t } = useI18n()
 
@@ -69,6 +68,8 @@ const props = defineProps({
     }
   }
 })
+
+const { roles } = useEnumFiltration()
 
 const buttons = [
   {
@@ -87,14 +88,15 @@ const userStore = useUserStore()
 
 const localRole = ref(
   userStore.roleIdToRole(userStore.chosenUser.roleId || 1)
+    .name
 )
 
 const emit = defineEmits(['closeModal'])
 
-const { meta } = useForm({
+const { meta, values } = useForm({
   validationSchema: toTypedSchema(
     z.object({
-      role: UserRoleSchema
+      role: UserRoleSchema.shape.name
     })
   ),
   initialValues: {
@@ -109,8 +111,7 @@ const toasts = useToast()
 async function setRole() {
   if (meta.value.valid) {
     const newUser = deepCopy(userStore.chosenUser)
-
-    newUser.roleId = (localRole.value.value || 0) + 1
+    newUser.roleId = stringToRole(values.role || 'user') + 1
     await userStore.saveUser(newUser)
     await userStore.fetchUsers()
     changeDialogOptions()

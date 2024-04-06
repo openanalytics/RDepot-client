@@ -359,6 +359,9 @@
     "submission": "Zgłoszenie",
     "user": "Użytkownik"
   },
+  "role": {
+    "admin": "Administrator"
+  },
   "settings": {
     "create": "Nowy access token",
     "deactivate": "Dezaktywuj token",

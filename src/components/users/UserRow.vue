@@ -161,7 +161,9 @@ import { useAuthorizationStore } from '@/store/authorization'
 import { isAtLeastAdmin } from '@/enum/UserRoles'
 import { updateUser } from '@/services/users_services'
 import { useUtilities } from '@/composable/utilities'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const userStore = useUserStore()
 const authorizationStore = useAuthorizationStore()
 const props = defineProps({
@@ -175,7 +177,18 @@ const props = defineProps({
 const { canPatch } = useUserAuthorities()
 
 const getRole = computed(() => {
-  return roleToString.parse((props.user?.roleId || 1) - 1)
+  switch (
+    roleToString.parse((props.user?.roleId || 1) - 1)
+  ) {
+    case 'admin':
+      return t('role.admin')
+    case 'user':
+      return t('resourceType.user')
+    case 'package maintainer':
+      return t('resourceType.packageMaintainer')
+    case 'repository maintainer':
+      return t('resourceType.repositoryMaintainer')
+  }
 })
 
 function setEditUser() {
