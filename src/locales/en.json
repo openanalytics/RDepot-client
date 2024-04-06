@@ -91,7 +91,8 @@
       "creationDate": "Creation date",
       "deleted": "Deleted",
       "expirationDate": "Expiration date",
-      "name": "Name"
+      "name": "Name",
+      "user": "User"
     },
     "username": "User name",
     "users": {
@@ -113,6 +114,7 @@
     "click": "click",
     "copied": "Code succesfully copied to clipboard",
     "create": "Create",
+    "current": "current",
     "deactivate": "Deactivate",
     "deactivateQuestion": "Are you sure you want to deactivate {resource_name}?",
     "delete": "Delete",
@@ -385,7 +387,7 @@
       "edited": "Token edited"
     },
     "newToken": "New token",
-    "save": "Save chages",
+    "save": "Save changes",
     "tab": {
       "general": "General",
       "table": "Table settings",
@@ -434,6 +436,7 @@
       "active": "Active",
       "roles": "Roles",
       "searchBox": "User..."
-    }
+    },
+    "unableDeactivation": "User can't deactivate themself"
   }
 }

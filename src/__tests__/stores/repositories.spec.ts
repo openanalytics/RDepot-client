@@ -43,7 +43,7 @@ const defaultFiltration = {
   technologies: undefined,
   search: undefined,
   deleted: false,
-  published: undefined,
+  published: true,
   name: undefined,
   maintainer: undefined
 }

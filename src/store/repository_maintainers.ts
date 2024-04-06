@@ -91,7 +91,7 @@ export const useRepositoryMaintainersStore = defineStore(
         this.maintainers = maintainers
       },
       async fetchAllMaintainers() {
-        const [maintainers, pageData] =
+        const [maintainers] =
           await fetchAllRepositoryMaintainers()
         this.maintainers = maintainers
       },

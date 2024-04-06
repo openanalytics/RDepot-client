@@ -25,8 +25,7 @@ import {
   it,
   expect,
   beforeEach,
-  beforeAll,
-  vi
+  beforeAll
 } from 'vitest'
 
 import { mount } from '@vue/test-utils'
@@ -35,17 +34,12 @@ import { mocks } from '@/__tests__/config/mocks'
 import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import { createPinia, setActivePinia } from 'pinia'
 import Edit from '@/components/repositories/Edit.vue'
-import { useRepositoryStore } from '@/store/repositories'
-import { PythonRepositoryDto } from '@/openapi'
-import { nextTick } from 'vue'
 
 let wrapper: any
 const globalConfig = {
   mocks: mocks,
   plugins: plugins
 }
-
-let repositoryStore: any
 
 beforeAll(() => {
   global.ResizeObserver = ResizeObserver
@@ -54,7 +48,6 @@ beforeAll(() => {
 describe('Edit Repository', () => {
   beforeEach(async () => {
     setActivePinia(createPinia())
-    repositoryStore = useRepositoryStore()
     wrapper = mount(Edit, {
       global: globalConfig,
       props: {

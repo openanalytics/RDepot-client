@@ -36,8 +36,6 @@ import {
 import { z } from 'zod'
 import { RouteRecordName } from 'vue-router'
 import { useAuthorizationStore } from '@/store/authorization'
-import { useToast } from '@/composable/toasts'
-import { i18n } from '@/plugins/i18n'
 
 const FrontendRoute = z.enum([
   'Home',

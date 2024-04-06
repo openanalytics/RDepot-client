@@ -38,13 +38,12 @@ import { setupServer } from 'msw/node'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
 import { usePagination } from '@/store/pagination'
 import { Technologies } from '@/enum/Technologies'
-import { i18n } from '@/plugins/i18n'
 import { http, HttpResponse } from 'msw'
 import me from '@/__tests__/config/mockData/me.json'
 import { useAuthorizationStore } from '@/store/authorization'
 
 const defaultFiltration = {
-  deleted: undefined,
+  deleted: false,
   technologies: undefined,
   search: undefined
 }

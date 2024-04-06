@@ -72,8 +72,6 @@ export async function fetchRepositoryMaintainersServices(
 export async function fetchAllRepositoryMaintainers(): ValidatedRepositoryMaintainers {
   if (!isAuthorized('GET', 'repositoryMaintainers'))
     return new Promise(() => validateRequest)
-  const sort = useSortStore()
-  const sortBy = sort.getSortBy()
   return openApiRequest<
     EntityModelRepositoryMaintainerDto[]
   >(

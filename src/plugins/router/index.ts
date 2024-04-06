@@ -55,7 +55,7 @@ router.beforeEach(async (to) => {
     helper.hideSidebar(false)
     authorizationStore.getUserInfo()
   }
-  helper.resetStoreValues(to)
+  helper.resetStoreValues()
   document.title = to.meta.title
     ? (to.meta.title as string)
     : DEFAULT_TITLE
