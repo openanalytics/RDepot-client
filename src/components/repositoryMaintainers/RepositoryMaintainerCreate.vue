@@ -36,12 +36,31 @@
           :label="$t('maintainers.editform.user')"
         />
         <validated-input-field
-          name="repositoryId"
+          name="repository"
           as="v-select"
           id="edit-repository-maintainer-repository"
           :items="repositories"
           :label="$t('maintainers.editform.repository')"
-        />
+          filled
+          dense
+          clearable
+          persistent-hint
+          return-object
+          :template="true"
+        >
+          <template #item="{ item, props }">
+            <v-list-item v-bind="props">
+              <template v-slot:append>
+                <v-chip
+                  text-color="white"
+                  class="text-body-1"
+                  small
+                  >{{ item.raw.props.technology }}</v-chip
+                >
+              </template>
+            </v-list-item>
+          </template>
+        </validated-input-field>
       </v-card-text>
       <v-card-text>
         <v-alert
@@ -75,6 +94,7 @@ import {
   stringToRole,
   isAtLeastRepositoryMaintainer
 } from '@/enum/UserRoles'
+import { EntityModelRepositoryDto } from '@/openapi'
 
 const { t } = useI18n()
 
@@ -108,15 +128,12 @@ const users = computed(() => {
     })
 })
 
-const repositories = computed(() => {
+const repositories = computed(function () {
   return maintainersStore.repositories.map((repo) => {
     return {
       title: repo.name,
       value: repo.id,
-      props: {
-        subtitle:
-          repo.technology !== null ? repo.technology : ''
-      }
+      props: { technology: repo.technology }
     }
   })
 })
@@ -128,13 +145,24 @@ const { meta, values } = useForm({
     z.object({
       userId:
         repositoryMaintainerSchema.shape.user.shape.id,
-      repositoryId:
-        repositoryMaintainerSchema.shape.repository.shape.id
+      repository: z.object({
+        title:
+          repositoryMaintainerSchema.shape.repository.shape
+            .name,
+        value:
+          repositoryMaintainerSchema.shape.repository.shape
+            .id,
+        props: z.object({
+          technology:
+            repositoryMaintainerSchema.shape.repository
+              .shape.technology
+        })
+      })
     })
   ),
   initialValues: {
     userId: undefined,
-    repositoryId: undefined
+    repository: undefined
   }
 })
 
@@ -144,7 +172,7 @@ function setMaintainer() {
   if (meta.value.valid) {
     const maintainer = {
       user: { id: values.userId },
-      repository: { id: values.repositoryId }
+      repository: { id: values.repository?.value }
     }
     maintainersStore
       .createMaintainer(maintainer)
