@@ -21,7 +21,6 @@
  */
 
 import { authService } from '@/plugins/oauth'
-import { useSimpleAuthorization } from '@/composable/auth/simpleAuthorization'
 import { useOICDAuthorization } from '@/composable/auth/oicdAuthorization'
 import { usePackagesStore } from '@/store/packages'
 import { useAuthorizationStore } from '@/store/authorization'

@@ -37,7 +37,7 @@ const router = createRouter({
 
 router.beforeEach(async (to) => {
   const authorizationStore = useAuthorizationStore()
-
+  authorizationStore.getUserSettings()
   if (to.fullPath.startsWith('/auth')) {
     await helper.handleAuthorization()
     helper.hideSidebar(false)

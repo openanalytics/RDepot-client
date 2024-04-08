@@ -104,6 +104,7 @@ export const useAuthorizationStore = defineStore(
         const meStore = useMeStore()
         this.ability = undefined
         meStore.userRole = undefined
+        localStorage.removeItem('me')
       },
 
       async isUserLoggedIn(): Promise<boolean> {
