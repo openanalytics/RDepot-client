@@ -39,7 +39,7 @@
             <v-chip
               text-color="white"
               class="text-body-1"
-              small
+              size="x-small"
               >{{ item.raw.props.technology }}</v-chip
             >
           </template>
