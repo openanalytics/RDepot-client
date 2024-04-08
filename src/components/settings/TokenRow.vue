@@ -51,7 +51,7 @@
     >
       <SortTitle
         v-if="title"
-        :text="$t('columns.tokens.name')"
+        :text="$t('columns.tokens.user')"
         sortKey="columns.tokens.user"
       />
       <TextRecord v-else :text="token?.user?.name" />

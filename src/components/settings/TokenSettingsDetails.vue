@@ -21,36 +21,20 @@
 -->
 
 <template>
-  <v-btn class="my-3" width="250" @click="getSourceFile">
-    Download Source File
-  </v-btn>
+  <AddToken />
+  <FiltrationBar />
+  <TokenList :key="componentKey" />
 </template>
 
 <script setup lang="ts">
+import AddToken from '@/components/settings/AddToken.vue'
+import FiltrationBar from '@/components/settings/FiltrationBar.vue'
+import TokenList from '@/components/settings/TokenList.vue'
 import { computed } from 'vue'
-import { EntityModelPythonPackageDto } from '@/openapi'
-import { usePackageDetailsStore } from '@/store/package_details'
+import { useCommonStore } from '@/store/common'
 
-const packageDetailsStore = usePackageDetailsStore()
-
-const packageBag = computed(
-  () =>
-    packageDetailsStore.packageBag as EntityModelPythonPackageDto
-)
-
-async function getSourceFile() {
-  if (
-    packageBag.value.id &&
-    packageBag.value.name &&
-    packageBag.value.version &&
-    packageBag.value.technology
-  ) {
-    await packageDetailsStore.downloadSourceFile(
-      packageBag.value.id.toString(),
-      packageBag.value.name,
-      packageBag.value.version,
-      packageBag.value.technology
-    )
-  }
-}
+const commonStore = useCommonStore()
+const componentKey = computed(() => {
+  return commonStore.key
+})
 </script>

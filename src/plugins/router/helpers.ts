@@ -55,7 +55,7 @@ export async function redirectToLoginPage() {
   return '/login'
 }
 
-export function resetStoreValues(to: any) {
+export function resetStoreValues() {
   const pagination = usePagination()
   const sort = useSortStore()
   pagination.resetPage()

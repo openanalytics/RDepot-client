@@ -80,11 +80,6 @@ describe('Repositories - repository row (repository)', () => {
     expect(field.text()).toBe(repository.publicationUri)
   })
 
-  it('server address field', () => {
-    const field = wrapper.find('#repository-server-address')
-    expect(field.text()).toBe(repository.serverAddress)
-  })
-
   it('version field', () => {
     const field = wrapper.find('#repository-version')
     expect(field.text()).toBe(
@@ -150,11 +145,6 @@ describe('Repositories - repository row (empty repository)', () => {
     expect(field.text()).toBe('')
   })
 
-  it('server address field', () => {
-    const field = wrapper.find('#repository-server-address')
-    expect(field.text()).toBe('')
-  })
-
   it('repository version is correctly displayed', () => {
     const field = wrapper.find('#repository-version')
     expect(field.text()).toBe('')
@@ -210,13 +200,6 @@ describe('Repositories - repository row (title)', () => {
     )
     expect(field.text()).toBe(
       'Columns.repository.publicationUri'
-    )
-  })
-
-  it('server address title', () => {
-    const field = wrapper.find('#repository-server-address')
-    expect(field.text()).toBe(
-      'Columns.repository.serverAddress'
     )
   })
 

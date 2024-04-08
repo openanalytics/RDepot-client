@@ -148,15 +148,28 @@
         active-class="link-active"
         to="/submissions"
       ></v-list-item>
+      <v-list-group tag="Settings">
+        <template #activator="{ props }">
+          <v-list-item
+            prepend-icon="mdi-cog"
+            v-bind="props"
+            :title="$t('common.settings')"
+          ></v-list-item>
+        </template>
 
-      <v-list-item
-        prepend-icon="mdi-cog"
-        :title="$t('common.settings')"
-        :value="$t('common.settings')"
-        active-class="link-active"
-        to="/settings"
-      >
-      </v-list-item>
+        <v-list-item
+          :title="$t('settings.tab.general')"
+          :value="$t('settings.tab.general')"
+          active-class="link-active"
+          to="/settings-general"
+        ></v-list-item>
+        <v-list-item
+          :title="$t('settings.tab.token')"
+          :value="$t('settings.tab.token')"
+          active-class="link-active"
+          to="/settings-tokens"
+        ></v-list-item>
+      </v-list-group>
       <v-list-item
         prepend-icon="mdi-logout"
         :title="$t('common.logout')"

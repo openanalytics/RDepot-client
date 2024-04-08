@@ -60,7 +60,7 @@ router.beforeEach(async (to) => {
     }
     helper.hideSidebar(true)
   }
-  helper.resetStoreValues(to)
+  helper.resetStoreValues()
   document.title = to.meta.title
     ? (to.meta.title as string)
     : DEFAULT_TITLE

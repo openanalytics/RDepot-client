@@ -74,7 +74,10 @@
         variant="text"
         id="download-manual-icon"
         @click="
-          downloadManual(promise.response[0].id.toString())
+          downloadManual(
+            promise.response[0].id.toString(),
+            `${promise.response[0].packageBag?.name}_${promise.response[0].packageBag?.version}_manual`
+          )
         "
       ></v-btn>
       <v-btn
@@ -120,8 +123,8 @@ const getColor = computed(() => {
 
 const { formatFilename } = useFiles()
 
-function downloadManual(id: string) {
-  packagesStore.downloadManual(id)
+function downloadManual(id: string, fileName: string) {
+  packagesStore.downloadManual(id, fileName)
 }
 </script>
 
