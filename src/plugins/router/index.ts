@@ -37,7 +37,7 @@ const router = createRouter({
 
 router.beforeEach(async (to) => {
   const authorizationStore = useAuthorizationStore()
-
+  authorizationStore.getUserSettings()
   if (to.fullPath.startsWith('/auth')) {
     await helper.handleAuthorization()
     helper.hideSidebar(false)
@@ -53,7 +53,12 @@ router.beforeEach(async (to) => {
       return helper.redirectToLoginPage()
     }
     helper.hideSidebar(false)
-    authorizationStore.getUserInfo()
+  } else if (to.name == 'login') {
+    if (await authorizationStore.isUserLoggedIn()) {
+      helper.hideSidebar(false)
+      return '/packages'
+    }
+    helper.hideSidebar(true)
   }
   helper.resetStoreValues()
   document.title = to.meta.title

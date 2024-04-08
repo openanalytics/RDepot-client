@@ -42,9 +42,7 @@
     <v-col
       v-if="
         isAtLeastAdmin(
-          authorizationStore.userRole
-            ? authorizationStore.userRole
-            : 0
+          meStore.userRole ? meStore.userRole : 0
         )
       "
       id="token-user"
@@ -148,13 +146,12 @@ import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
 import DeactivateIcon from '@/components/common/action_icons/DeactivateIcon.vue'
 import EditIcon from '@/components/common/action_icons/EditIcon.vue'
 import { useSettingsStore } from '@/store/settings'
-import { useAuthorizationStore } from '@/store/authorization'
 import { isAtLeastAdmin } from '@/enum/UserRoles'
 import { JustifyEnum } from '@/enum/Justify'
+import { useMeStore } from '@/store/me'
 
 const settingsStore = useSettingsStore()
-const authorizationStore = useAuthorizationStore()
-
+const meStore = useMeStore()
 const props = defineProps({
   title: {
     type: Boolean,

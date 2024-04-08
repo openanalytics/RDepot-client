@@ -227,12 +227,12 @@ import {
   EntityModelSubmissionDtoStateEnum
 } from '@/openapi'
 import { useSubmissionActions } from '@/composable/submissions/submissionActions'
-import { useAuthorizationStore } from '@/store/authorization'
 import SortTitle from '@/components/common/resources/SortTitle.vue'
 import TextRecord from '@/components/common/resources/TextRecord.vue'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
 import { JustifyEnum } from '@/enum/Justify'
 import { useSubmissionIcons } from '@/composable/submissions/statusIcons'
+import { useMeStore } from '@/store/me'
 
 const props = defineProps({
   title: {
@@ -244,7 +244,7 @@ const props = defineProps({
     | undefined
 })
 
-const authorizationStore = useAuthorizationStore()
+const meStore = useMeStore()
 const { canPatch } = useUserAuthorities()
 const {
   acceptSubmission,
@@ -256,10 +256,7 @@ const { getStatusIcon, getStatusColor, getTooltipMessage } =
   useSubmissionIcons()
 
 const check = computed(() => {
-  return (
-    authorizationStore.me?.id ===
-    props.submission?.submitter?.id
-  )
+  return meStore.me?.id === props.submission?.submitter?.id
 })
 
 const getWaiting = computed<boolean>(() => {

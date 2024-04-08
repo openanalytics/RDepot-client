@@ -29,7 +29,6 @@ import {
   defaultValues,
   SubmissionsFiltration
 } from '@/models/Filtration'
-import { useAuthorizationStore } from '@/store/authorization'
 import {
   addSubmission,
   fetchSubmissions,
@@ -41,6 +40,7 @@ import { validatedData } from '@/services/open_api_access'
 import { usePagination } from '@/store/pagination'
 import { useToast } from '@/composable/toasts'
 import { i18n } from '@/plugins/i18n'
+import { useMeStore } from './me'
 
 export type PackagePromise = {
   promise: Promise<validatedData<EntityModelSubmissionDto>>
@@ -97,24 +97,24 @@ export const useSubmissionStore = defineStore(
         page: number,
         pageSize = 8
       ) {
-        const authorizationStore = useAuthorizationStore()
+        const meStore = useMeStore()
         const pageData = await this.fetchData(
           page,
           pageSize,
           defaultValues(SubmissionsFiltration),
-          authorizationStore.me.id,
+          meStore.me.id,
           false
         )
         return pageData
       },
       async fetchSubmissions() {
         const pagination = usePagination()
-        const authorizationStore = useAuthorizationStore()
+        const meStore = useMeStore()
         const pageData = await this.fetchData(
           pagination.fetchPage,
           pagination.pageSize,
           this.filtration,
-          authorizationStore.me.id
+          meStore.me.id
         )
         pagination.newPageWithoutRefresh(pageData.page)
         pagination.totalNumber = pageData.totalNumber
