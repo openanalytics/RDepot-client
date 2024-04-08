@@ -24,9 +24,8 @@ import { useSimpleAuthorization } from '@/composable/auth/simpleAuthorization'
 import { useUserSettings } from '@/composable/user/userSettings'
 import { useUtilities } from '@/composable/utilities'
 import { LoginType } from '@/enum/LoginType'
-import { Role, stringToRole } from '@/enum/UserRoles'
+import { stringToRole } from '@/enum/UserRoles'
 import { Login } from '@/models/users/Login'
-import { EntityModelUserDto } from '@/openapi'
 import { UserSettingsProjection } from '@/openapi/models/user-settings-projection'
 import {
   defineAbilityFor,

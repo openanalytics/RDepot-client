@@ -34,7 +34,6 @@ import {
 } from 'vitest'
 import { http, HttpResponse } from 'msw'
 import { useAuthorizationStore } from '@/store/authorization'
-import { nextTick } from 'vue'
 
 const server = setupServer(
   http.get(

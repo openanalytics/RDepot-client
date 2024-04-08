@@ -25,7 +25,6 @@ import {
   CreateAccessTokenDto
 } from '@/openapi'
 import { defineStore } from 'pinia'
-import { useAuthorizationStore } from '@/store/authorization'
 import {
   TokensFiltration,
   defaultValues
