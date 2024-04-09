@@ -282,6 +282,7 @@
     "list": "Pakiety",
     "maintainer": "Opiekun",
     "maintainers": "Opiekunowie pakietów",
+    "noInstallInstruction": "Repozytorium nie zostało jeszcze opublikowane",
     "noVignette": "Brak dostępnych winiet",
     "oldSources": "Stare źródła",
     "originalPackageData": "Jak opisano w pakiecie \"{0}\"",
