@@ -40,7 +40,7 @@ import { usePagination } from '@/store/pagination'
 import { Technologies } from '@/enum/Technologies'
 import { http, HttpResponse } from 'msw'
 import me from '@/__tests__/config/mockData/me.json'
-import { useAuthorizationStore } from '@/store/authorization'
+import { useMeStore } from '@/store/me'
 
 const defaultFiltration = {
   deleted: false,
@@ -105,8 +105,8 @@ describe('Repository Maintainers Store', () => {
   beforeEach(async () => {
     setActivePinia(createPinia())
     server.resetHandlers()
-    const authorizationStore = useAuthorizationStore()
-    await authorizationStore.getUserInfo()
+    const meStore = useMeStore()
+    await meStore.getUserInfo()
   })
 
   afterEach(() => {
@@ -339,8 +339,8 @@ describe('Repository Maintainers Store requests with failing backend', () => {
   beforeEach(async () => {
     setActivePinia(createPinia())
     failingServer.resetHandlers()
-    const authorizationStore = useAuthorizationStore()
-    await authorizationStore.getUserInfo()
+    const meStore = useMeStore()
+    await meStore.getUserInfo()
   })
 
   afterAll(() => {

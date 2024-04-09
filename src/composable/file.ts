@@ -31,7 +31,19 @@ export function useFiles() {
     }
   }
 
+  function formatCutFilename(
+    filename: string,
+    cutoff?: number
+  ): string {
+    if (filename.length >= (cutoff || 20)) {
+      return `${filename.slice(0, (cutoff || 20) - 3)}...`
+    } else {
+      return filename
+    }
+  }
+
   return {
-    formatFilename
+    formatFilename,
+    formatCutFilename
   }
 }

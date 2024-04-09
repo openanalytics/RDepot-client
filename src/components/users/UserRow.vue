@@ -88,7 +88,7 @@
       <span v-else-if="user">
         <v-tooltip
           location="top"
-          :disabled="user.id !== authorizationStore.me.id"
+          :disabled="user.id !== meStore.me.id"
         >
           <template #activator="{ props }">
             <span v-bind="props">
@@ -98,17 +98,13 @@
                 @change="updateUserActive()"
                 :readonly="
                   !isAtLeastAdmin(
-                    authorizationStore.userRole
-                      ? authorizationStore.userRole
-                      : 0
-                  ) || user.id === authorizationStore.me.id
+                    meStore.userRole ? meStore.userRole : 0
+                  ) || user.id === meStore.me.id
                 "
                 :color="
                   !isAtLeastAdmin(
-                    authorizationStore.userRole
-                      ? authorizationStore.userRole
-                      : 0
-                  ) || user.id === authorizationStore.me.id
+                    meStore.userRole ? meStore.userRole : 0
+                  ) || user.id === meStore.me.id
                     ? 'grey'
                     : 'oablue'
                 "
@@ -157,15 +153,15 @@ import { roleToString } from '@/enum/UserRoles'
 import { useUserStore } from '@/store/users'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
 import { JustifyEnum } from '@/enum/Justify'
-import { useAuthorizationStore } from '@/store/authorization'
 import { isAtLeastAdmin } from '@/enum/UserRoles'
+import { useMeStore } from '@/store/me'
 import { updateUser } from '@/services/users_services'
 import { useUtilities } from '@/composable/utilities'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
+const meStore = useMeStore()
 const userStore = useUserStore()
-const authorizationStore = useAuthorizationStore()
 const props = defineProps({
   title: {
     type: Boolean,

@@ -44,9 +44,7 @@
         sm="3"
         v-if="
           isAtLeastAdmin(
-            authorizationStore.userRole
-              ? authorizationStore.userRole
-              : 0
+            meStore.userRole ? meStore.userRole : 0
           )
         "
       >
@@ -114,9 +112,10 @@ import { useAuthorizationStore } from '@/store/authorization'
 import { useUsersFiltration } from '@/composable/filtration/usersFiltration'
 import { onMounted } from 'vue'
 import ResetButton from '@/components/common/ResetButton.vue'
+import { useMeStore } from '@/store/me'
 
 const authorizationStore = useAuthorizationStore()
-
+const meStore = useMeStore()
 const settingsStore = useSettingsStore()
 
 const { storeIdUser, loadUsers } = useUsersFiltration()
@@ -138,15 +137,11 @@ function resetValues() {
 onMounted(() => {
   if (
     isAtLeastAdmin(
-      authorizationStore.userRole
-        ? authorizationStore.userRole
-        : 0
+      meStore.userRole ? meStore.userRole : 0
     ) &&
-    authorizationStore.me.login
+    meStore.me.login
   ) {
-    setFieldValue('userLogin', [
-      authorizationStore.me.login
-    ])
+    setFieldValue('userLogin', [meStore.me.login])
     setFiltration()
   }
 })

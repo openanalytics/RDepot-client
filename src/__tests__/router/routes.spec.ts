@@ -34,14 +34,27 @@ import { createPinia, setActivePinia } from 'pinia'
 import { mocks } from '@/__tests__/config/mocks'
 import { plugins } from '@/__tests__/config/plugins'
 import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
+import { useUtilities } from '@/composable/utilities'
+import { EntityModelUserDto } from '@/openapi'
+import users from '@/__tests__/config/mockData/users.json'
+import { useMeStore } from '@/store/me'
+import { stringToRole } from '@/enum/UserRoles'
 
 let router: Router
 let globalSettigns: any
 let wrapper: any
+const { deepCopyAny } = useUtilities()
 
 beforeAll(() => {
   setActivePinia(createPinia())
   global.ResizeObserver = ResizeObserver
+  const user: EntityModelUserDto = deepCopyAny(
+    users.data.content[5]
+  )
+
+  const meStore = useMeStore()
+  meStore.me = user
+  meStore.userRole = stringToRole(user.role || 'admin')
 })
 
 beforeEach(async () => {
