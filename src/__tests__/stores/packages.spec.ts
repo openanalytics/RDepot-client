@@ -42,8 +42,8 @@ import {
 } from '@/models/Filtration'
 import { useUtilities } from '@/composable/utilities'
 import { http, HttpResponse } from 'msw'
-import { useAuthorizationStore } from '@/store/authorization'
 import me from '@/__tests__/config/mockData/me.json'
+import { useMeStore } from '@/store/me'
 
 const defaultFiltration = defaultValues(PackagesFiltration)
 
@@ -114,8 +114,8 @@ describe('Package Store', () => {
   beforeEach(async () => {
     setActivePinia(createPinia())
     server.listen()
-    const authorizationStore = useAuthorizationStore()
-    await authorizationStore.getUserInfo()
+    const meStore = useMeStore()
+    await meStore.getUserInfo()
   })
 
   afterAll(() => {

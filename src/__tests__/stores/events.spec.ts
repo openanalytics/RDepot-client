@@ -36,8 +36,8 @@ import events from '@/__tests__/config/mockData/events.json'
 import { Technologies } from '@/enum/Technologies'
 import { EventsFiltration } from '@/models/Filtration'
 import { http, HttpResponse } from 'msw'
-import { useAuthorizationStore } from '@/store/authorization'
 import me from '@/__tests__/config/mockData/me.json'
+import { useMeStore } from '@/store/me'
 
 const defaultFiltration = {
   eventType: undefined,
@@ -79,8 +79,8 @@ describe('Event Store', () => {
   beforeEach(async () => {
     setActivePinia(createPinia())
     server.resetHandlers()
-    const authorizationStore = useAuthorizationStore()
-    await authorizationStore.getUserInfo()
+    const meStore = useMeStore()
+    await meStore.getUserInfo()
   })
 
   afterAll(() => {
