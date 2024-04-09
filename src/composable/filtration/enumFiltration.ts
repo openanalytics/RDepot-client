@@ -69,11 +69,17 @@ export function useEnumFiltration() {
     }
   ])
 
-  const roles = ref([
-    'admin',
-    'user',
-    'packagemaintainer',
-    'repositorymaintainer'
+  const roles = computed(() => [
+    { title: t('role.admin'), value: 'admin' },
+    { title: t('resourceType.user'), value: 'user' },
+    {
+      title: t('resourceType.packageMaintainer'),
+      value: 'packagemaintainer'
+    },
+    {
+      title: t('resourceType.repositoryMaintainer'),
+      value: 'repositorymaintainer'
+    }
   ])
 
   const eventTypes = computed(() => [

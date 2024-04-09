@@ -24,23 +24,23 @@
   <form as="v-form" ref="form">
     <v-card class="pa-5" width="400">
       <v-card-title>
-        {{ $t('maintainers.editform.title') }}
+        {{ $t('maintainers.createform.title') }}
       </v-card-title>
       <v-divider></v-divider>
       <v-card-text style="height: 300px">
         <validated-input-field
-          as="v-text-field"
-          name="username"
-          id="edit-package-maintainer-user"
+          as="v-select"
+          name="userId"
+          :items="users"
+          id="create-package-maintainer-user"
           :label="$t('maintainers.editform.user')"
-          disabled
         />
         <validated-input-field
           as="v-select"
           name="repository"
-          @update:modelValue="updateForm"
+          @update:modelValue="resetPackageName"
           :items="repositories"
-          id="edit-package-maintainer-repository"
+          id="create-package-maintainer-repository"
           :label="$t('maintainers.editform.repository')"
           :template="true"
           filled
@@ -65,14 +65,24 @@
         <validated-input-field
           as="v-combobox"
           name="packageName"
-          :modelValue="localMaintainer.packageName"
-          @update:modelValue="setPackageName"
-          id="edit-package-maintainer-package"
+          id="create-package-maintainer-package"
+          @update:modelValue="updatePackageName"
           :items="packages"
           :label="$t('maintainers.editform.package')"
         />
       </v-card-text>
-      <v-divider></v-divider>
+      <v-card-text>
+        <v-alert
+          style="font-size: 0.75rem"
+          :text="
+            t('maintainers.createform.disclaimerPackages')
+          "
+          variant="tonal"
+          border="start"
+          density="compact"
+          color="oablue"
+        ></v-alert>
+      </v-card-text>
       <v-divider></v-divider>
       <card-actions :buttons="buttons" />
     </v-card>
@@ -85,15 +95,19 @@ import { usePackageMaintainersStore } from '@/store/package_maintainers'
 import { toTypedSchema } from '@vee-validate/zod'
 import { Form, useForm } from 'vee-validate'
 import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
-import { ref, onMounted, computed } from 'vue'
+import { onMounted, computed } from 'vue'
 import { packageMaintainerSchema } from '@/models/Schemas'
 import { z } from 'zod'
-import { useUtilities } from '@/composable/utilities'
 import { useToast } from '@/composable/toasts'
 import { useI18n } from 'vue-i18n'
-import { Technologies } from '@/enum/Technologies'
+import { useUserStore } from '@/store/users'
+import {
+  stringToRole,
+  isAtLeastPackageMaintainer
+} from '@/enum/UserRoles'
 
 const maintainersStore = usePackageMaintainersStore()
+const userStore = useUserStore()
 const toasts = useToast()
 const { t } = useI18n()
 const buttons = [
@@ -105,10 +119,10 @@ const buttons = [
     }
   },
   {
-    id: 'setfiltration',
+    id: 'createbutton',
     text: t('common.save'),
     handler: () => {
-      editMaintainer()
+      createMaintainer()
     }
   }
 ]
@@ -124,20 +138,35 @@ const repositories = computed(() => {
   })
 })
 
+const users = computed(() => {
+  return userStore.userList
+    .filter((user) =>
+      user.role
+        ? isAtLeastPackageMaintainer(
+            stringToRole(user.role)
+          )
+        : false
+    )
+    .map((user) => {
+      return { title: user.name, value: user.id }
+    })
+})
+
 const packages = computed(() => {
   return maintainersStore.packages
     .filter((packageBag) => {
-      return (
-        packageBag.repository?.id ==
-        localMaintainer.value.repository?.id
-      )
+      if (values.repository) {
+        const repoId = values.repository.value as Number
+        return packageBag.repository?.id === repoId
+      } else {
+        return false
+      }
     })
     .map((packageBag) => {
       return {
         title: packageBag.name,
         value: packageBag.name,
         props: {
-          disabled: packageBag.user === null ? false : true,
           subtitle:
             packageBag.user !== null
               ? packageBag.user?.name
@@ -153,97 +182,70 @@ const packages = computed(() => {
     })
 })
 
-let maintainer = maintainersStore.chosenMaintainer
-const localMaintainer = ref(maintainer)
-
 const emit = defineEmits(['closeModal'])
 
-const { meta, validateField, setFieldValue } = useForm({
-  validationSchema: toTypedSchema(
-    z.object({
-      username:
-        packageMaintainerSchema.shape.user.shape.name,
-      repository: z.object({
-        title:
-          packageMaintainerSchema.shape.repository.shape
-            .name,
-        value:
-          packageMaintainerSchema.shape.repository.shape.id,
-        props: z.object({
-          technology:
+const { meta, validateField, setFieldValue, values } =
+  useForm({
+    validationSchema: toTypedSchema(
+      z.object({
+        userId: packageMaintainerSchema.shape.user.shape.id,
+        repository: z.object({
+          title:
             packageMaintainerSchema.shape.repository.shape
-              .technology
-        })
-      }),
-      packageName:
-        packageMaintainerSchema.shape.packageName.refine(
-          (val) => {
-            if (packages.value) {
-              return !packages.value.find(
-                (pack) => pack.value === val
-              )?.props.disabled
-            } else {
-              return false
-            }
-          },
-          t(
-            'package_maintainers.editform.packageHasMaintainer'
-          )
-        )
-    })
-  ),
-  initialValues: {
-    username: maintainer?.user?.name,
-    repository: {
-      title: maintainer.repository?.name,
-      value: maintainer.repository?.id,
-      props: {
-        technology: maintainer.repository
-          ?.technology as Technologies
-      }
-    },
-    packageName: maintainer?.packageName
-  }
-})
-const { deepCopy } = useUtilities()
+              .name,
+          value:
+            packageMaintainerSchema.shape.repository.shape
+              .id,
+          props: z.object({
+            technology:
+              packageMaintainerSchema.shape.repository.shape
+                .technology
+          })
+        }),
+        packageName:
+          packageMaintainerSchema.shape.packageName
+      })
+    ),
+    initialValues: {
+      userId: undefined,
+      repository: undefined,
+      packageName: undefined
+    }
+  })
 
-function updateMaintainer() {
-  localMaintainer.value = deepCopy(
-    maintainersStore.chosenMaintainer
-  )
-}
-
-async function editMaintainer() {
+async function createMaintainer() {
   if (meta.value.valid) {
-    await maintainersStore.updateMaintainer(
-      localMaintainer.value
-    )
+    const maintainer = {
+      user: { id: values.userId },
+      packageName: values.packageName,
+      repository: { id: values.repository?.value }
+    }
+    await maintainersStore.createMaintainer(maintainer)
     changeDialogOptions()
   } else {
     toasts.warning(t('notifications.invalidform'))
   }
 }
 
-function updateForm(newValue: any) {
-  localMaintainer.value.repository!.id = newValue.value
-  localMaintainer.value.packageName = ''
+function resetPackageName() {
   setFieldValue('packageName', '')
   validateField('packageName')
 }
 
-function setPackageName(newValue: string) {
-  localMaintainer.value.packageName = newValue
-  validateField('packageName')
+function updatePackageName(newValue: any) {
+  setFieldValue(
+    'packageName',
+    typeof newValue === 'string' ? newValue : newValue.value
+  )
 }
 
 function changeDialogOptions() {
-  updateMaintainer()
   emit('closeModal')
 }
 
-onMounted(() => {
-  updateMaintainer()
+onMounted(async () => {
   maintainersStore.fetchAllRepositories()
   maintainersStore.fetchPackages()
+  userStore.fetchAllUsers()
 })
 </script>

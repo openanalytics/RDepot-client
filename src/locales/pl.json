@@ -200,7 +200,9 @@
   "maintainers": {
     "createform": {
       "disclaimer": "Tylko użytkownicy z rolą conajmniej opiekuna repozytorium dostępni.",
-      "disclaimerTitle": "Dostępni użytkownicy"
+      "disclaimerPackages": "Tylko użytkownicy z rolą conajmniej opiekuna pakietu dostępni.",
+      "disclaimerTitle": "Dostępni użytkownicy",
+      "title": "Utwórz opiekuna"
     },
     "delete": "Usuń opiekuna",
     "deleteQuestion": "Czy na pewno chcesz usunąć {maintainer_name}?",
@@ -237,6 +239,9 @@
     "successUpdateRepositoryMaintainer": "Zaktualizowano {maintainer_name}",
     "successUpdateRepositoryManager": "Zaktualizowano {maintainer_name}",
     "successUpdateUser": "Dane użytkownika zaktualizowane"
+  },
+  "packageMaintainer": {
+    "create": "Stwórz opiekuna"
   },
   "package_maintainers": {
     "editform": {
@@ -353,6 +358,9 @@
     "repositoryMaintainer": "Opiekun repozytorium",
     "submission": "Zgłoszenie",
     "user": "Użytkownik"
+  },
+  "role": {
+    "admin": "Administrator"
   },
   "settings": {
     "create": "Nowy access token",
