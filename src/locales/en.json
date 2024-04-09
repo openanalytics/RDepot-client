@@ -441,6 +441,6 @@
       "roles": "Roles",
       "searchBox": "User..."
     },
-    "unableDeactivation": "User can't deactivate themself"
+    "unableDeactivation": "Users cannot deactivate themselves"
   }
 }
