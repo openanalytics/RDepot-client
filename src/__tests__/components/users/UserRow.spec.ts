@@ -39,8 +39,8 @@ import { EntityModelUserDto } from '@/openapi'
 import { createPinia, setActivePinia } from 'pinia'
 import { roleToString } from '@/enum/UserRoles'
 import { useUtilities } from '@/composable/utilities'
-import { useAuthorizationStore } from '@/store/authorization'
 import { nextTick } from 'vue'
+import { useMeStore } from '@/store/me'
 
 let wrapper: any
 const { deepCopyAny } = useUtilities()
@@ -95,8 +95,8 @@ describe('User list - user row', () => {
   })
 
   it('active field with oneself', async () => {
-    const authorizationStore = useAuthorizationStore()
-    authorizationStore.me = user
+    const meStore = useMeStore()
+    meStore.me = user
     await nextTick()
     const checkboxActive = wrapper.find('#checkbox-active')
     console.log(checkboxActive.html())
@@ -104,8 +104,8 @@ describe('User list - user row', () => {
     expect(checkboxActive.element.disabled).toBe(true)
   })
   it('active field with different user', async () => {
-    const authorizationStore = useAuthorizationStore()
-    authorizationStore.me = users.data.content[0]
+    const meStore = useMeStore()
+    meStore.me = users.data.content[0]
     await nextTick()
     const checkboxActive = wrapper.find('#checkbox-active')
     console.log(checkboxActive.html())

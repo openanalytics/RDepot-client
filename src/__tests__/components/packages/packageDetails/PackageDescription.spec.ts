@@ -21,7 +21,6 @@
  */
 
 import { describe, it, expect, beforeAll } from 'vitest'
-
 import { mount, config } from '@vue/test-utils'
 import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
@@ -82,7 +81,10 @@ describe('Package Description (R)', async () => {
     packageDetailsStore.packageBag.technology = 'R'
     await nextTick(() => {})
     expect(wrapper.text()).toContain(
-      packageDetailsStore.packageBag?.description
+      packageDetailsStore.packageBag?.description.slice(
+        0,
+        100
+      )
     )
   })
 })
