@@ -39,11 +39,10 @@
     </template>
     <template #append-item>
       <div
-        v-intersect="loadItems"
         class="p3"
         justify="center"
         align="center"
-        v-show="!selectStore.ifAllFetched"
+        v-if="!selectStore.ifAllFetched"
       >
         <span v-show="!selectStore.ifAllFetched">...</span>
       </div>
@@ -53,7 +52,6 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { useSortStore } from '@/store/sort'
 import { watchDebounced } from '@vueuse/core'
 import {
   SelectState,
@@ -72,7 +70,6 @@ const emits = defineEmits<{
 }>()
 
 const selectStore = useSelectStore(props.storeId)
-const sortStore = useSortStore()
 
 const queryTerm = ref<string | undefined>('')
 
@@ -99,22 +96,25 @@ function customFiltrate(
 }
 
 async function loadItems() {
+  console.log('load items')
   if (
     selectStore.paginationData.totalNumber < 0 ||
-    !selectStore.ifAllFetched
+    !selectStore.shouldFetchNextPage
   ) {
-    selectStore.pending = true
-    await emits('loadItems')
-    selectStore.pending = false
+    emits('loadItems')
   }
 }
 
 watchDebounced(
   queryTerm,
   () => {
+    console.log('debouncing!!')
     if (!selectStore.ifAllFetched) {
+      console.log(selectStore.items)
       emits('filtrate', queryTerm.value)
       selectStore.resetItems()
+      console.log(selectStore.items)
+
       selectStore.resetPagination()
       loadItems()
     }
