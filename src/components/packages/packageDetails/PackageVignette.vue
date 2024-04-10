@@ -21,33 +21,44 @@
 -->
 
 <template>
-  <v-btn class="my-3" width="250">
-    {{ props.fileName }}
+  <v-tooltip
+    max-width="400"
+    location="left"
+    content-class="custom-tooltip"
+  >
+    <template #activator="{ props }">
+      <v-btn v-bind="props" class="my-3" width="250">
+        {{ formattedName }}
 
-    <v-menu open-on-hover activator="parent">
-      <v-list>
-        <v-list-item @click="openVignette" value="open">
-          <template #prepend>
-            <v-icon icon="mdi-open-in-new"></v-icon>
-          </template>
-          <v-list-item-title>{{
-            i18n.t('packages.vignette.open')
-          }}</v-list-item-title>
-        </v-list-item>
-        <v-list-item
-          @click="downloadVignette"
-          value="download"
-        >
-          <template #prepend>
-            <v-icon icon="mdi-download"></v-icon>
-          </template>
-          <v-list-item-title>{{
-            i18n.t('packages.vignette.download')
-          }}</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-menu>
-  </v-btn>
+        <v-menu open-on-hover activator="parent">
+          <v-list>
+            <v-list-item @click="openVignette" value="open">
+              <template #prepend>
+                <v-icon icon="mdi-open-in-new"></v-icon>
+              </template>
+              <v-list-item-title>{{
+                i18n.t('packages.vignette.open')
+              }}</v-list-item-title>
+            </v-list-item>
+            <v-list-item
+              @click="downloadVignette"
+              value="download"
+            >
+              <template #prepend>
+                <v-icon icon="mdi-download"></v-icon>
+              </template>
+              <v-list-item-title>{{
+                i18n.t('packages.vignette.download')
+              }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </v-btn>
+    </template>
+    <div>
+      {{ props.fileName }}
+    </div>
+  </v-tooltip>
 </template>
 
 <script setup lang="ts">
@@ -55,6 +66,7 @@ import { computed } from 'vue'
 import { EntityModelPythonPackageDto } from '@/openapi'
 import { usePackageDetailsStore } from '@/store/package_details'
 import { i18n } from '@/plugins/i18n'
+import { useFiles } from '@/composable/file'
 
 var props = defineProps<{
   fileName?: string
@@ -67,6 +79,12 @@ const packageBag = computed(
   () =>
     packageDetailsStore.packageBag as EntityModelPythonPackageDto
 )
+
+const { formatCutFilename } = useFiles()
+
+const formattedName = computed(() => {
+  return formatCutFilename(props.fileName || '')
+})
 
 async function openVignette() {
   if (packageBag.value.id && props.fileName) {

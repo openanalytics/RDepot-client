@@ -47,7 +47,7 @@ import {
 import { usePagination } from '@/store/pagination'
 import { Technologies } from '@/enum/Technologies'
 import { http, HttpResponse } from 'msw'
-import { useAuthorizationStore } from '@/store/authorization'
+import { useMeStore } from '@/store/me'
 
 const { deepCopyAny } = useUtilities()
 const files = [
@@ -101,8 +101,8 @@ describe('Submissions Store', () => {
   beforeEach(async () => {
     setActivePinia(createPinia())
     server.listen()
-    const authorizationStore = useAuthorizationStore()
-    await authorizationStore.getUserInfo()
+    const meStore = useMeStore()
+    await meStore.getUserInfo()
   })
 
   afterAll(() => server.close())
@@ -278,8 +278,8 @@ describe('Testing submissions store with failing backend', () => {
   beforeEach(async () => {
     setActivePinia(createPinia())
     failingServer.listen()
-    const authorizationStore = useAuthorizationStore()
-    await authorizationStore.getUserInfo()
+    const meStore = useMeStore()
+    await meStore.getUserInfo()
   })
 
   afterEach(() => {

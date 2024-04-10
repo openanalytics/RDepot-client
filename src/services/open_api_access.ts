@@ -29,6 +29,7 @@ import { useAuthorizationStore } from '@/store/authorization'
 import { useBlob } from '@/composable/blob'
 import { useToast } from '@/composable/toasts'
 import { i18n } from '@/plugins/i18n'
+import { useMeStore } from '@/store/me'
 
 export async function openApiRequest<T>(
   callback: Function,
@@ -163,7 +164,7 @@ async function errorsHandler(error: AxiosError) {
         break
       }
       case 403: {
-        const authorizationStore = useAuthorizationStore()
+        const authorizationStore = useMeStore()
         authorizationStore.getUserInfo()
         break
       }

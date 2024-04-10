@@ -40,7 +40,7 @@
     </v-col>
     <v-col
       id="repository-publication-uri"
-      cols="lg-2"
+      cols="lg-3"
       class="d-flex align-center"
     >
       <SortTitle
@@ -55,13 +55,11 @@
     </v-col>
     <v-col
       id="repository-server-address"
-      cols="lg-4 sm-2"
+      cols="lg-3 sm-2"
       class="d-flex align-center"
       v-if="
         isAtLeastRepositoryMaintainer(
-          authorizationStore.userRole
-            ? authorizationStore.userRole
-            : 0
+          meStore.userRole ? meStore.userRole : 0
         )
       "
     >
@@ -229,15 +227,15 @@ import { useRepositoryStore } from '@/store/repositories'
 import { JustifyEnum } from '@/enum/Justify'
 import EditIcon from '@/components/common/action_icons/EditIcon.vue'
 import { isAtLeastRepositoryMaintainer } from '@/enum/UserRoles'
-import { useAuthorizationStore } from '@/store/authorization'
 import { useConfigStore } from '@/store/config'
 import { computed } from '@vue/reactivity'
+import { useMeStore } from '@/store/me'
 
 const { deepCopy } = useUtilities()
 const { canDelete, canPatch } = useUserAuthorities()
 const repositoryStore = useRepositoryStore()
 const configStore = useConfigStore()
-const authorizationStore = useAuthorizationStore()
+const meStore = useMeStore()
 
 const props = defineProps<{
   title?: boolean

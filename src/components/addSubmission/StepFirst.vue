@@ -26,33 +26,23 @@
       class="mt-5"
       :items="repositories"
       :label="$t('addSubmission.step1Title')"
-      v-model="submissionsStore.repository"
       filled
       dense
       clearable
       persistent-hint
+      return-object
+      @update:model-value="changeRepository"
     >
-      <template #selection="{ item, index }">
-        {{ item.value.name }}
-      </template>
-      <template #item="{ item, index }">
-        <v-list-item @click="changeRepository(item.value)">
-          <v-list-item-content>
-            <v-list-item-title>
-              <v-row no-gutters align="center">
-                <span class="text-body-1">{{
-                  item.value.name
-                }}</span>
-                <v-spacer></v-spacer>
-                <v-chip
-                  text-color="white"
-                  class="text-body-1"
-                  small
-                  >{{ item.value.technology }}</v-chip
-                >
-              </v-row>
-            </v-list-item-title>
-          </v-list-item-content>
+      <template #item="{ item, props }">
+        <v-list-item v-bind="props">
+          <template v-slot:append>
+            <v-chip
+              text-color="white"
+              class="text-body-1"
+              size="x-small"
+              >{{ item.raw.props.technology }}</v-chip
+            >
+          </template>
         </v-list-item>
       </template>
     </v-select>
@@ -69,13 +59,13 @@
 </template>
 
 <script setup lang="ts">
-import { EntityModelRepositoryDto } from '@/openapi'
 import { useRepositoryStore } from '@/store/repositories'
 import { useSubmissionStore } from '@/store/submission'
 import { onMounted } from 'vue'
 import { computed } from 'vue'
 import { useToast } from '@/composable/toasts'
 import { useI18n } from 'vue-i18n'
+import { EntityModelRepositoryDto } from '@/openapi'
 
 const emits = defineEmits(['next'])
 const submissionsStore = useSubmissionStore()
@@ -83,12 +73,33 @@ const repositoryStore = useRepositoryStore()
 const toasts = useToast()
 const { t } = useI18n()
 
+type SelectRepository = {
+  title?: string
+  value?: number
+  props: {
+    technology?: string
+  }
+}
+
 const repositories = computed(function () {
-  return repositoryStore.repositories
+  return repositoryStore.repositories.map((repo) => {
+    return {
+      title: repo.name,
+      value: repo.id,
+      props: { technology: repo.technology }
+    }
+  })
 })
 
-function changeRepository(value: EntityModelRepositoryDto) {
-  submissionsStore.setRepository(value)
+function changeRepository(value: SelectRepository | null) {
+  if (value) {
+    const repository = {
+      name: value.title,
+      id: value.value,
+      technology: value.props.technology
+    } as EntityModelRepositoryDto
+    submissionsStore.setRepository(repository)
+  }
 }
 
 function nextStep() {

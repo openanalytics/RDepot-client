@@ -20,8 +20,7 @@
  *
  */
 
-import { UserSettingsProjection } from '@/openapi/models/user-settings-projection'
-import { useAuthorizationStore } from '@/store/authorization'
+import { useMeStore } from '@/store/me'
 import me from '@/__tests__/config/mockData/me.json'
 import { setupServer } from 'msw/node'
 import { createPinia, setActivePinia } from 'pinia'
@@ -30,12 +29,11 @@ import {
   expect,
   it,
   beforeEach,
-  vi,
   beforeAll,
   afterAll
 } from 'vitest'
 import { http, HttpResponse } from 'msw'
-import { useMeStore } from '@/store/me'
+import { useAuthorizationStore } from '@/store/authorization'
 
 const server = setupServer(
   http.get(
@@ -61,11 +59,9 @@ describe('Logged user store tests', () => {
   })
 
   it('Default state', () => {
-    const authorizationStore = useAuthorizationStore()
-
-    expect(authorizationStore.userToken).toBe('')
-    expect(authorizationStore.userLogin).toBe('')
-    expect(authorizationStore.userId).toBe(8)
+    const meStore = useMeStore()
+    expect(Object.keys(meStore.me).length).toBe(0)
+    expect(meStore.userRole).toBe(undefined)
   })
 
   it('get current settings', () => {
@@ -77,7 +73,6 @@ describe('Logged user store tests', () => {
         theme: 'light'
       }
     }
-
     const authorizationStore = useAuthorizationStore()
     const current_settings =
       authorizationStore.getCurrentSettings()
@@ -87,22 +82,25 @@ describe('Logged user store tests', () => {
     expect(current_settings.theme).toBe('light')
   })
 
-  it('get current settings when settings are empty', () => {
-    const authorizationStore = useAuthorizationStore()
-    const new_settings: UserSettingsProjection =
-      authorizationStore.getCurrentSettings()
-    expect(new_settings.language).toBe('en')
-    expect(new_settings.pageSize).toBe(10)
-    expect(new_settings.theme).toBe('dark')
+  it('alert logout if role has changed', () => {
+    const meStore = useMeStore()
+    meStore.me.role = 'admin'
+    expect(
+      meStore.checkRoles('repositorymaintainer')
+    ).toBeFalsy()
   })
 
-  it('call logout if user role has changed', async () => {
-    const authorizationStore = useAuthorizationStore()
+  it('do not alert logout if role has not changed', () => {
     const meStore = useMeStore()
-    meStore.me.role = 'packagemaintainer'
+    meStore.me.role = 'admin'
+    expect(meStore.checkRoles('admin')).toBeTruthy()
+  })
 
-    const spy = vi.spyOn(authorizationStore, 'logout')
+  it('fetch information about logged in user', async () => {
+    const meStore = useMeStore()
+    const data_about_user = me.data
+
     await meStore.getUserInfo()
-    expect(spy).toBeCalledTimes(1)
+    expect(meStore.me).toStrictEqual(data_about_user)
   })
 })

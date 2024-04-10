@@ -161,6 +161,7 @@
         "createdOn": "1970-01-01",
         "deleted": false,
         "roleId": 4,
+        "role": "admin",
         "description": "User [id: 4, name: Albert Einstein, login: einstein, email: einstein@ldap.forumsys.com]",
         "links": [
           {

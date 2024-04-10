@@ -84,7 +84,8 @@ export async function fetchAllRepositoryMaintainers(): ValidatedRepositoryMainta
       undefined,
       undefined,
       undefined
-    ]
+    ],
+    false
   ).catch(() => {
     return validateRequest([])
   })

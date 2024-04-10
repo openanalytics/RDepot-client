@@ -205,7 +205,9 @@
   "maintainers": {
     "createform": {
       "disclaimer": "Only users with at least repository maintainer role available.",
-      "disclaimerTitle": "Available users"
+      "disclaimerPackages": "Only users with at least package maintainer role available.",
+      "disclaimerTitle": "Available users",
+      "title": "Create maintainer"
     },
     "delete": "Delete maintainer",
     "deleteQuestion": "Are you sure you want to delete {maintainer_name}?",
@@ -242,6 +244,9 @@
     "successUpdateRepositoryMaintainer": "Successful updated {maintainer_name}",
     "successUpdateRepositoryManager": "Successful update {maintainer_name}",
     "successUpdateUser": "Successfully updated user"
+  },
+  "packageMaintainer": {
+    "create": "Create maintainer"
   },
   "package_maintainers": {
     "editform": {
@@ -282,6 +287,7 @@
     "list": "Packages",
     "maintainer": "Maintainer",
     "maintainers": "Package maintainers",
+    "noInstallInstruction": "The repository has not been published yet.",
     "noVignette": "No vignettes available",
     "oldSources": "Old sources",
     "originalPackageData": "As described in \"{0}\" package",
@@ -360,6 +366,9 @@
     "submission": "Submission",
     "user": "User"
   },
+  "role": {
+    "admin": "Admin"
+  },
   "settings": {
     "create": "New access token",
     "deactivate": "Deactivate token",
@@ -432,6 +441,6 @@
       "roles": "Roles",
       "searchBox": "User..."
     },
-    "unableDeactivation": "User can't deactivate themself"
+    "unableDeactivation": "Users cannot deactivate themselves"
   }
 }

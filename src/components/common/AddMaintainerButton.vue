@@ -27,6 +27,7 @@
         <CommonButton
           id="add-maintainer"
           :component="OverlayEnum.enum.Create"
+          size="small"
         >
           <span class="pr-3">
             {{ $t('common.create') }}</span
