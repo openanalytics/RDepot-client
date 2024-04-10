@@ -36,10 +36,13 @@ import { createPinia, setActivePinia } from 'pinia'
 import UserList from '@/components/users/UserList.vue'
 import UserRow from '@/components/users/UserRow.vue'
 import users from '@/__tests__/config/mockData/users.json'
+import me from '@/__tests__/config/mockData/me.json'
+import { useMeStore } from '@/store/me'
 import { useUserStore } from '@/store/users'
 
 let wrapper: any
 let userStore: any
+let meStore: any
 const globalConfig = {
   mocks: mocks,
   plugins: plugins
@@ -48,6 +51,8 @@ beforeAll(() => {
   global.ResizeObserver = ResizeObserver
   setActivePinia(createPinia())
   userStore = useUserStore()
+  meStore = useMeStore()
+  meStore.me = me.data
 })
 
 beforeEach(async () => {
@@ -55,6 +60,8 @@ beforeEach(async () => {
     global: globalConfig
   })
   userStore.userList = users.data.content
+  meStore = useMeStore()
+  meStore.me = me.data
 })
 
 describe('User - list', () => {

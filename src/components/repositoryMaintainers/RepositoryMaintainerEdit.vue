@@ -32,20 +32,36 @@
           name="userlogin"
           as="v-text-field"
           id="edit-package-maintainer-user"
-          :value="localMaintainer.user?.login"
           :label="$t('maintainers.editform.user')"
           :disabled="blockedField == 'user'"
         />
         <validated-input-field
-          name="repositoryId"
+          name="repository"
           as="v-select"
           id="edit-package-maintainer-repository"
-          :modelValue="localMaintainer.repository!.id"
-          @update:modelValue="newValue => localMaintainer.repository!.id = newValue"
           :items="repositories"
           :label="$t('maintainers.editform.repository')"
           :disabled="blockedField == 'repository'"
-        />
+          filled
+          dense
+          clearable
+          persistent-hint
+          return-object
+          :template="true"
+        >
+          <template #item="{ item, props }">
+            <v-list-item v-bind="props">
+              <template v-slot:append>
+                <v-chip
+                  text-color="white"
+                  class="text-body-1"
+                  size="x-small"
+                  >{{ item.raw.props.technology }}</v-chip
+                >
+              </template>
+            </v-list-item>
+          </template>
+        </validated-input-field>
       </v-card-text>
       <v-divider></v-divider>
       <card-actions :buttons="buttons" />
@@ -66,6 +82,7 @@ import { z } from 'zod'
 import { useUtilities } from '@/composable/utilities'
 import { useToast } from '@/composable/toasts'
 import { useI18n } from 'vue-i18n'
+import { Technologies } from '@/enum/Technologies'
 
 const { t } = useI18n()
 
@@ -100,8 +117,7 @@ const repositories = computed(() => {
       title: repo.name,
       value: repo.id,
       props: {
-        subtitle:
-          repo.technology !== null ? repo.technology : ''
+        technology: repo.technology
       }
     }
   })
@@ -110,22 +126,38 @@ const { deepCopy } = useUtilities()
 let maintainer: EntityModelRepositoryMaintainerDto =
   deepCopy(maintainersStore.chosenMaintainer)
 
-const localMaintainer = ref(maintainer)
-
 const emit = defineEmits(['closeModal'])
 
-const { meta } = useForm({
+const { meta, values } = useForm({
   validationSchema: toTypedSchema(
     z.object({
       userlogin:
         repositoryMaintainerSchema.shape.user.shape.login,
-      repositoryId:
-        repositoryMaintainerSchema.shape.repository.shape.id
+      repository: z.object({
+        title:
+          repositoryMaintainerSchema.shape.repository.shape
+            .name,
+        value:
+          repositoryMaintainerSchema.shape.repository.shape
+            .id,
+        props: z.object({
+          technology:
+            repositoryMaintainerSchema.shape.repository
+              .shape.technology
+        })
+      })
     })
   ),
   initialValues: {
     userlogin: maintainer.user?.login,
-    repositoryId: maintainer.repository?.id
+    repository: {
+      title: maintainer.repository?.name,
+      value: maintainer.repository?.id,
+      props: {
+        technology: maintainer.repository
+          ?.technology as Technologies
+      }
+    }
   }
 })
 
@@ -133,7 +165,10 @@ const toasts = useToast()
 
 function setMaintainer() {
   if (meta.value.valid) {
-    maintainersStore.updateMaintainer(localMaintainer.value)
+    if (maintainer.repository) {
+      maintainer.repository.id = values.repository?.value
+    }
+    maintainersStore.updateMaintainer(maintainer)
     changeDialogOptions()
   } else {
     toasts.warning(t('notifications.invalidform'))

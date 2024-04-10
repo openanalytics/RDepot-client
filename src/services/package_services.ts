@@ -179,12 +179,17 @@ export async function updatePythonPackage(
   })
 }
 
-export async function downloadReferenceManual(id: string) {
+export async function downloadReferenceManual(
+  id: string,
+  fileName: string
+) {
   return openApiRequest<Promise<boolean>>(
     RPackageControllerApiFactory().downloadReferenceManual,
     [id],
     true,
-    true
+    true,
+    false,
+    fileName
   ).catch(() => {
     return false
   })
@@ -205,13 +210,41 @@ export async function openVignetteHtml(
   })
 }
 
+export async function openVignettePdf(
+  id: string,
+  name: string
+) {
+  return openApiRequest<Promise<boolean>>(
+    RPackageControllerApiFactory().downloadVignettePdf,
+    [id, name],
+    true,
+    true,
+    true
+  ).catch(() => {
+    return false
+  })
+}
+
 export async function downloadVignetteHtml(
   id: string,
   name: string
 ) {
   return openApiRequest<Promise<boolean>>(
-    // RPackageControllerApiFactory().downloadVignetteHtml,
     RPackageControllerApiFactory().downloadVignetteHtml,
+    [id, name],
+    true,
+    true
+  ).catch(() => {
+    return false
+  })
+}
+
+export async function downloadVignettePdf(
+  id: string,
+  name: string
+) {
+  return openApiRequest<Promise<boolean>>(
+    RPackageControllerApiFactory().downloadVignettePdf,
     [id, name],
     true,
     true
@@ -223,16 +256,29 @@ export async function downloadVignetteHtml(
 export async function downloadSourceFile(
   id: string,
   name: string,
-  version: string
+  version: string,
+  technology: string
 ) {
-  return openApiRequest<Promise<boolean>>(
-    RPackageControllerApiFactory().downloadPackage,
-    [id, name, version],
-    true,
-    true
-  ).catch(() => {
-    return false
-  })
+  if (technology === 'R') {
+    return openApiRequest<Promise<boolean>>(
+      RPackageControllerApiFactory().downloadRPackage,
+      [id, name, version],
+      true,
+      true
+    ).catch(() => {
+      return false
+    })
+  } else {
+    return openApiRequest<Promise<boolean>>(
+      PythonPackageControllerApiFactory()
+        .downloadPythonPackage,
+      [id, name, version],
+      true,
+      true
+    ).catch(() => {
+      return false
+    })
+  }
 }
 
 export async function fetchVignettes(

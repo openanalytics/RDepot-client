@@ -37,8 +37,11 @@ import { usePackagesStore } from '@/store/packages'
 import PackagesListVue from '@/components/packages/PackagesList.vue'
 import PackageRowVue from '@/components/packages/PackageRow.vue'
 import packages from '@/__tests__/config/mockData/packages.json'
+import { useMeStore } from '@/store/me'
+import me from '@/__tests__/config/mockData/me.json'
 
 let wrapper: any
+let meStore: any
 let packagesStore: any
 const globalConfig = {
   mocks: mocks,
@@ -49,6 +52,8 @@ beforeAll(() => {
   global.ResizeObserver = ResizeObserver
   setActivePinia(createPinia())
   packagesStore = usePackagesStore()
+  meStore = useMeStore()
+  meStore.me = me.data
 })
 
 beforeEach(async () => {

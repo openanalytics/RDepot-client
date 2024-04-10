@@ -21,9 +21,9 @@
  */
 
 import { i18n } from '@/plugins/i18n'
-import { useAuthorizationStore } from '@/store/authorization'
 import { useCommonStore } from '@/store/common'
 import { usePagination } from '@/store/pagination'
+import { useMeStore } from '@/store/me'
 
 export function useUserSettings() {
   async function getUserSettings() {
@@ -38,9 +38,9 @@ export function useUserSettings() {
   }
 
   function setLanguage() {
-    const authorizationStore = useAuthorizationStore()
-    if (authorizationStore.me.userSettings?.language) {
-      switch (authorizationStore.me.userSettings.language) {
+    const meStore = useMeStore()
+    if (meStore.me.userSettings?.language) {
+      switch (meStore.me.userSettings.language) {
         case 'en-EN': {
           i18n.locale.value = 'en'
           break
@@ -58,10 +58,10 @@ export function useUserSettings() {
 
   function setPageSize() {
     const { newPageSizeWithoutRefresh } = usePagination()
-    const authorizationStore = useAuthorizationStore()
-    if (authorizationStore.me.userSettings?.pageSize) {
+    const meStore = useMeStore()
+    if (meStore.me.userSettings?.pageSize) {
       newPageSizeWithoutRefresh(
-        authorizationStore.me.userSettings.pageSize
+        meStore.me.userSettings.pageSize
       )
     }
   }

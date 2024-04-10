@@ -58,9 +58,7 @@
         sm="3"
         v-if="
           isAtLeastAdmin(
-            authorizationStore.userRole
-              ? authorizationStore.userRole
-              : 0
+            meStore.userRole ? meStore.userRole : 0
           )
         "
       >
@@ -83,9 +81,7 @@
         sm="1"
         v-if="
           isAtLeastAdmin(
-            authorizationStore.userRole
-              ? authorizationStore.userRole
-              : 0
+            meStore.userRole ? meStore.userRole : 0
           )
         "
       >
@@ -133,12 +129,12 @@ import { useRepositoryMaintainersFiltration } from '@/composable/filtration/repo
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useRepositoryStore } from '@/store/repositories'
-import { useAuthorizationStore } from '@/store/authorization'
 import { isAtLeastAdmin } from '@/enum/UserRoles'
 import ResetButton from '@/components/common/ResetButton.vue'
+import { useMeStore } from '@/store/me'
 
 const { technologies } = useEnumFiltration()
-const authorizationStore = useAuthorizationStore()
+const meStore = useMeStore()
 
 const { storeIdMaintainer, loadMaintainers } =
   useRepositoryMaintainersFiltration()

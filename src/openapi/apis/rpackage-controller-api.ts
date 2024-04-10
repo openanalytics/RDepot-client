@@ -67,7 +67,7 @@ export const RPackageControllerApiAxiosParamCreator =
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
-      downloadPackage: async (
+      downloadRPackage: async (
         id: number,
         name: string,
         version: string,
@@ -77,21 +77,21 @@ export const RPackageControllerApiAxiosParamCreator =
         if (id === null || id === undefined) {
           throw new RequiredError(
             'id',
-            'Required parameter id was null or undefined when calling downloadPackage.'
+            'Required parameter id was null or undefined when calling downloadRPackage.'
           )
         }
         // verify required parameter 'name' is not null or undefined
         if (name === null || name === undefined) {
           throw new RequiredError(
             'name',
-            'Required parameter name was null or undefined when calling downloadPackage.'
+            'Required parameter name was null or undefined when calling downloadRPackage.'
           )
         }
         // verify required parameter 'version' is not null or undefined
         if (version === null || version === undefined) {
           throw new RequiredError(
             'version',
-            'Required parameter version was null or undefined when calling downloadPackage.'
+            'Required parameter version was null or undefined when calling downloadRPackage.'
           )
         }
         const localVarPath =
@@ -912,7 +912,7 @@ export const RPackageControllerApiFp = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async downloadPackage(
+    async downloadRPackage(
       id: number,
       name: string,
       version: string,
@@ -926,7 +926,7 @@ export const RPackageControllerApiFp = function (
       const localVarAxiosArgs =
         await RPackageControllerApiAxiosParamCreator(
           configuration
-        ).downloadPackage(id, name, version, options)
+        ).downloadRPackage(id, name, version, options)
       return (
         axios: AxiosInstance = globalAxios,
         basePath: string = BASE_PATH
@@ -1228,14 +1228,14 @@ export const RPackageControllerApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async downloadPackage(
+    async downloadRPackage(
       id: number,
       name: string,
       version: string,
       options?: AxiosRequestConfig
     ): Promise<AxiosResponse<Array<string>>> {
       return RPackageControllerApiFp(configuration)
-        .downloadPackage(id, name, version, options)
+        .downloadRPackage(id, name, version, options)
         .then((request) => request(axios, basePath))
     },
     /**
@@ -1398,14 +1398,14 @@ export class RPackageControllerApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof RPackageControllerApi
    */
-  public async downloadPackage(
+  public async downloadRPackage(
     id: number,
     name: string,
     version: string,
     options?: AxiosRequestConfig
   ): Promise<AxiosResponse<Array<string>>> {
     return RPackageControllerApiFp(this.configuration)
-      .downloadPackage(id, name, version, options)
+      .downloadRPackage(id, name, version, options)
       .then((request) => request(this.axios, this.basePath))
   }
   /**

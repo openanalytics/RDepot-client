@@ -126,7 +126,6 @@ export async function deactivateToken(
   newToken: EntityModelAccessTokenDto
 ): ValidatedToken {
   const patch_body = createPatch(oldToken, newToken)
-  console.log(patch_body)
   return openApiRequest<EntityModelAccessTokenDto>(
     ApiV2AccessTokenControllerApiFactory().patchAccessToken,
     [patch_body, oldToken.id!]

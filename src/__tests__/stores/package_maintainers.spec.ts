@@ -38,13 +38,13 @@ import packages from '@/__tests__/config/mockData/packages.json'
 import { setupServer } from 'msw/node'
 import { usePagination } from '@/store/pagination'
 import { Technologies } from '@/enum/Technologies'
-import { useAuthorizationStore } from '@/store/authorization'
 import {
   PackageMaintainersFiltration,
   defaultValues
 } from '@/models/Filtration'
 import { http, HttpResponse } from 'msw'
 import me from '@/__tests__/config/mockData/me.json'
+import { useMeStore } from '@/store/me'
 
 const defaultFiltration = defaultValues(
   PackageMaintainersFiltration
@@ -109,8 +109,8 @@ describe('Package Maintainers Store', () => {
   beforeEach(async () => {
     setActivePinia(createPinia())
     server.resetHandlers()
-    const authorizationStore = useAuthorizationStore()
-    await authorizationStore.getUserInfo()
+    const meStore = useMeStore()
+    await meStore.getUserInfo()
   })
 
   afterEach(() => {
@@ -360,8 +360,8 @@ describe('Package Maintainers Store requests with failing backend', () => {
   beforeEach(async () => {
     setActivePinia(createPinia())
     failingServer.resetHandlers()
-    const authorizationStore = useAuthorizationStore()
-    await authorizationStore.getUserInfo()
+    const meStore = useMeStore()
+    await meStore.getUserInfo()
   })
 
   afterAll(() => {

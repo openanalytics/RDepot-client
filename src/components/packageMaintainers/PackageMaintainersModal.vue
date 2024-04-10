@@ -27,6 +27,10 @@
         v-if="commonStore.isEdit()"
         @closeModal="closeModal"
       />
+      <PackageMaintainerCreate
+        v-if="commonStore.isCreate()"
+        @closeModal="closeModal"
+      />
     </template>
   </Overlay>
 </template>
@@ -36,6 +40,7 @@ import { useCommonStore } from '@/store/common'
 import Overlay from '@/components/common/Overlay.vue'
 import { usePackageMaintainersStore } from '@/store/package_maintainers'
 import PackageMaintainerEdit from '@/components/packageMaintainers/PackageMaintainerEdit.vue'
+import PackageMaintainerCreate from '@/components/packageMaintainers/PackageMaintainerCreate.vue'
 
 const maintainersStore = usePackageMaintainersStore()
 const commonStore = useCommonStore()

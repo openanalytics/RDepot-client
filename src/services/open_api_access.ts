@@ -29,13 +29,15 @@ import { useAuthorizationStore } from '@/store/authorization'
 import { useBlob } from '@/composable/blob'
 import { useToast } from '@/composable/toasts'
 import { i18n } from '@/plugins/i18n'
+import { useMeStore } from '@/store/me'
 
 export async function openApiRequest<T>(
   callback: Function,
   parameters?: any[],
   showProgress = true,
   blob = false,
-  open = false
+  open = false,
+  fileName = ''
 ): Promise<validatedData<T>> {
   if (showProgress) {
     turnOnProgress()
@@ -44,7 +46,7 @@ export async function openApiRequest<T>(
     if (blob) {
       return callback(...parameters, await getHeaders(blob))
         .then((result: AxiosResponse<Blob>) => {
-          resolvedBlob(result, open)
+          resolvedBlob(result, open, fileName)
         })
         .catch((error: AxiosError) => {
           rejected(error)
@@ -70,22 +72,28 @@ function turnOnProgress() {
 
 async function resolvedBlob(
   result: AxiosResponse<Blob>,
-  open = false
+  open = false,
+  fileName = ''
 ): Promise<validatedData<any>> {
   const blob = useBlob()
   switch (result.data.type) {
     case 'application/pdf':
       // for manual
-      blob.downloadBlob(
-        result.data,
-        '.pdf',
-        result.config.url
-      )
+      if (open === true) {
+        blob.openBlob(result.data, 'pdf')
+      } else {
+        blob.downloadBlob(
+          result.data,
+          '.pdf',
+          result.config.url,
+          fileName
+        )
+      }
       break
     case 'text/html':
       // for *html vignette
       if (open === true) {
-        blob.openBlob(result.data)
+        blob.openBlob(result.data, 'html')
       } else {
         blob.downloadBlob(
           result.data,
@@ -156,7 +164,7 @@ async function errorsHandler(error: AxiosError) {
         break
       }
       case 403: {
-        const authorizationStore = useAuthorizationStore()
+        const authorizationStore = useMeStore()
         authorizationStore.getUserInfo()
         break
       }

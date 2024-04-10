@@ -27,7 +27,11 @@
     @blur="handleBlur"
     :error-messages="errors"
     v-bind="attrs"
-  />
+  >
+    <template v-if="template" #item="{ item, props }">
+      <slot name="item" :item="item" :props="props"> </slot>
+    </template>
+  </component>
 </template>
 
 <script setup lang="ts">
@@ -46,6 +50,7 @@ const props = defineProps<{
   name: string
   as: Component
   attrs?: Object
+  template?: boolean
 }>()
 
 const component = z.enum([

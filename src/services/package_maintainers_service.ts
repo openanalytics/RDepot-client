@@ -85,7 +85,8 @@ export async function fetchAllPackageMaintainers(): ValidatedPackageMaintainers 
       undefined,
       undefined,
       undefined
-    ]
+    ],
+    false
   ).catch(() => {
     return validateRequest([])
   })
@@ -119,6 +120,22 @@ export async function updatePackageMaintainerService(
     ApiV2PackageMaintainerControllerApiFactory()
       .updatePackageMaintainer,
     [patch, oldMaintainer.id]
+  ).catch(() => {
+    return validateRequest({})
+  })
+}
+
+export async function createPackageMaintainerService(
+  maintainer: PackageMaintainerDto
+): ValidatedPackageMaintainer {
+  if (!isAuthorized('POST', 'packageMaintainers')) {
+    return new Promise(() => false)
+  }
+
+  return openApiRequest<EntityModelPackageMaintainerDto>(
+    ApiV2PackageMaintainerControllerApiFactory()
+      .createPackageMaintainer,
+    [maintainer]
   ).catch(() => {
     return validateRequest({})
   })

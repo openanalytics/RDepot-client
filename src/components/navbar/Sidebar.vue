@@ -148,15 +148,28 @@
         active-class="link-active"
         to="/submissions"
       ></v-list-item>
+      <v-list-group tag="Settings">
+        <template #activator="{ props }">
+          <v-list-item
+            prepend-icon="mdi-cog"
+            v-bind="props"
+            :title="$t('common.settings')"
+          ></v-list-item>
+        </template>
 
-      <v-list-item
-        prepend-icon="mdi-cog"
-        :title="$t('common.settings')"
-        :value="$t('common.settings')"
-        active-class="link-active"
-        to="/settings"
-      >
-      </v-list-item>
+        <v-list-item
+          :title="$t('settings.tab.general')"
+          :value="$t('settings.tab.general')"
+          active-class="link-active"
+          to="/settings-general"
+        ></v-list-item>
+        <v-list-item
+          :title="$t('settings.tab.token')"
+          :value="$t('settings.tab.token')"
+          active-class="link-active"
+          to="/settings-tokens"
+        ></v-list-item>
+      </v-list-group>
       <v-list-item
         prepend-icon="mdi-logout"
         :title="$t('common.logout')"
@@ -185,12 +198,14 @@ import { useAuthorizationStore } from '@/store/authorization'
 import { computed } from 'vue'
 import { useDisplay } from 'vuetify/lib/framework.mjs'
 import getEnv from '@/utils/env'
+import { useMeStore } from '@/store/me'
 
 const { xs, mobile } = useDisplay()
 const authorizationStore = useAuthorizationStore()
+const meStore = useMeStore()
 const commonStore = useCommonStore()
 const getUserLogin = computed(() => {
-  return authorizationStore.me.name
+  return meStore.me.name
 })
 
 const showSidebar = computed(() => {
@@ -198,7 +213,7 @@ const showSidebar = computed(() => {
 })
 
 const getSubtitle = computed(() => {
-  return authorizationStore.me.name
+  return meStore.me.name
     ? i18n.t('authorization.logged-in')
     : i18n.t('authorization.not-logged-in')
 })

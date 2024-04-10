@@ -37,10 +37,9 @@ import EditIcon from '@/components/common/action_icons/EditIcon.vue'
 import users from '@/__tests__/config/mockData/users.json'
 import { EntityModelUserDto } from '@/openapi'
 import { createPinia, setActivePinia } from 'pinia'
-import { roleToString } from '@/enum/UserRoles'
 import { useUtilities } from '@/composable/utilities'
-import { useAuthorizationStore } from '@/store/authorization'
 import { nextTick } from 'vue'
+import { useMeStore } from '@/store/me'
 
 let wrapper: any
 const { deepCopyAny } = useUtilities()
@@ -89,26 +88,22 @@ describe('User list - user row', () => {
 
   it('role field', () => {
     const field = wrapper.find('#user-role')
-    expect(field.text()).toBe(
-      roleToString.parse(user.roleId! - 1)
-    )
+    expect(field.text()).toBe('Admin')
   })
 
   it('active field with oneself', async () => {
-    const authorizationStore = useAuthorizationStore()
-    authorizationStore.me = user
+    const meStore = useMeStore()
+    meStore.me = user
     await nextTick()
     const checkboxActive = wrapper.find('#checkbox-active')
-    console.log(checkboxActive.html())
     expect(checkboxActive.element.checked).toBe(user.active)
     expect(checkboxActive.element.disabled).toBe(true)
   })
   it('active field with different user', async () => {
-    const authorizationStore = useAuthorizationStore()
-    authorizationStore.me = users.data.content[0]
+    const meStore = useMeStore()
+    meStore.me = users.data.content[0]
     await nextTick()
     const checkboxActive = wrapper.find('#checkbox-active')
-    console.log(checkboxActive.html())
     expect(checkboxActive.element.checked).toBe(user.active)
     expect(checkboxActive.element.disabled).toBe(true)
   })
@@ -151,7 +146,7 @@ describe('User - user row (empty)', () => {
 
   it('role field', () => {
     const field = wrapper.find('#user-role')
-    expect(field.text()).toBe('user')
+    expect(field.text()).toBe('User')
   })
 
   it('active field', () => {

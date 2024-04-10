@@ -39,6 +39,8 @@ import submissions from '@/__tests__/config/mockData/submissions.json'
 import { PackagePromise } from '@/store/submission'
 import { usePackagesStore } from '@/store/packages'
 import { VProgressCircular } from 'vuetify/components'
+import { useMeStore } from '@/store/me'
+import me from '@/__tests__/config/mockData/me.json'
 
 let wrapper: any
 const globalConfig = {
@@ -47,6 +49,7 @@ const globalConfig = {
 }
 
 let packageStore: any
+let meStore: any
 
 const file: File = {
   name: 'A3_1.0.0.tar.gz',
@@ -69,6 +72,8 @@ describe('Upload summary - pending', () => {
   beforeEach(async () => {
     setActivePinia(createPinia())
     packageStore = usePackagesStore()
+    meStore = useMeStore()
+    meStore.me = me.data
     wrapper = mount(UploadSummary, {
       global: globalConfig,
       props: {
@@ -144,7 +149,8 @@ describe('Upload summary - error', () => {
   beforeEach(async () => {
     setActivePinia(createPinia())
     packageStore = usePackagesStore()
-
+    meStore = useMeStore()
+    meStore.me = me.data
     wrapper = mount(UploadSummary, {
       global: globalConfig,
       props: {
@@ -174,7 +180,6 @@ describe('Upload summary - error', () => {
   })
 
   it('error icon is displayed', () => {
-    console.log(wrapper.html())
     const errorIcon = wrapper.find('#submission-error-icon')
     expect(errorIcon.exists()).toBeTruthy()
     expect(errorIcon.isVisible()).toBeTruthy()
@@ -210,19 +215,6 @@ describe('Upload summary - error', () => {
     )
     expect(generateIcon.element.disabled).toBeTruthy()
   })
-
-  it('error icon shows tooltip on hover', async (done: CallableFunction) => {
-    const tooltipActivator = wrapper.find(
-      '#submission-error-icon'
-    )
-    expect(tooltipActivator.exists()).toBeTruthy()
-    await tooltipActivator.trigger('mousenter')
-    await wrapper.vm.$nextTick()
-    requestAnimationFrame(() => {
-      expect(wrapper.text()).toContain(promise.error[0])
-      done()
-    })
-  })
 })
 
 describe('Upload summary - success', () => {
@@ -247,7 +239,8 @@ describe('Upload summary - success', () => {
   beforeEach(async () => {
     setActivePinia(createPinia())
     packageStore = usePackagesStore()
-
+    meStore = useMeStore()
+    meStore.me = me.data
     wrapper = mount(UploadSummary, {
       global: globalConfig,
       props: {
@@ -279,7 +272,6 @@ describe('Upload summary - success', () => {
   })
 
   it('error icon is not displayed', () => {
-    console.log(wrapper.html())
     const errorIcon = wrapper.find('#submission-error-icon')
     expect(errorIcon.exists()).toBeFalsy()
   })

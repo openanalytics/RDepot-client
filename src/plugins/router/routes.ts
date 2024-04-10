@@ -112,11 +112,18 @@ export const routes = [
         meta: { title: 'RDepot - events' }
       },
       {
-        path: '/settings',
-        name: 'settings',
+        path: '/settings-general',
+        name: 'settingsGeneral',
         component: () =>
-          import('@/views/settings/Settings.vue'),
+          import('@/views/settings/General.vue'),
         meta: { title: 'RDepot - settings' }
+      },
+      {
+        path: '/settings-tokens',
+        name: 'settingsTokens',
+        component: () =>
+          import('@/views/settings/AccessTokens.vue'),
+        meta: { title: 'RDepot - access tokens' }
       }
     ]
   }

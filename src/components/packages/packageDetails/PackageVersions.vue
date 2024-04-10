@@ -39,7 +39,7 @@
             packageBag.version ==
             packageDetailsStore.packageBag?.version
           "
-          >( current )</span
+          >({{ $t('common.current') }})</span
         >
       </li>
     </ul>

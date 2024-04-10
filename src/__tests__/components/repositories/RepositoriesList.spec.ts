@@ -37,8 +37,11 @@ import RepositoriesListVue from '@/components/repositories/RepositoriesList.vue'
 import RepositoryRowVue from '@/components/repositories/RepositoryRow.vue'
 import repositories from '@/__tests__/config/mockData/repositories.json'
 import { useRepositoryStore } from '@/store/repositories'
+import { useMeStore } from '@/store/me'
+import me from '@/__tests__/config/mockData/me.json'
 
 let wrapper: any
+let meStore: any
 const globalConfig = {
   mocks: mocks,
   plugins: plugins
@@ -47,6 +50,8 @@ const globalConfig = {
 beforeAll(() => {
   global.ResizeObserver = ResizeObserver
   setActivePinia(createPinia())
+  meStore = useMeStore()
+  meStore.me = me.data
 })
 
 beforeEach(async () => {
