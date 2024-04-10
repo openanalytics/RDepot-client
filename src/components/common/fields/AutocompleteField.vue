@@ -34,18 +34,19 @@
     }"
     @update:search="search"
   >
+    <template v-if="template" #item="{ item, props }">
+      <slot name="item" :item="item" :props="props"> </slot>
+    </template>
     <template #append-item>
       <div
         v-intersect="loadItems"
         class="p3"
         justify="center"
         align="center"
+        v-show="!selectStore.ifAllFetched"
       >
         <span v-show="!selectStore.ifAllFetched">...</span>
       </div>
-    </template>
-    <template v-if="template" #item="{ item, props }">
-      <slot name="item" :item="item" :props="props"> </slot>
     </template>
   </v-autocomplete>
 </template>
@@ -91,8 +92,9 @@ function customFiltrate(
   itemText: any
 ) {
   return (
-    selectStore.ifAllFetched &&
-    (itemText.title.includes(queryText) || false)
+    (selectStore.ifAllFetched &&
+      itemText.title.includes(queryText)) ||
+    false
   )
 }
 
