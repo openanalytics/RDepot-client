@@ -35,7 +35,8 @@ import {
   fetchAllRepositoryMaintainers,
   fetchRepositoryMaintainersServices,
   updateRepositoryMaintainer,
-  createRepositoryMaintainer
+  createRepositoryMaintainer,
+  fetchFullMaintainersList
 } from '@/services/repository_maintainers_services'
 import {
   fetchRepositoriesServices,
@@ -94,6 +95,15 @@ export const useRepositoryMaintainersStore = defineStore(
         const [maintainers] =
           await fetchAllRepositoryMaintainers()
         this.maintainers = maintainers
+      },
+      async fetchMaintainersList(
+        page: number,
+        pageSize = 8
+      ) {
+        const [maintainers, pageData] =
+          await fetchFullMaintainersList(page, pageSize)
+        this.maintainers = maintainers
+        return pageData
       },
       async fetchRepositories() {
         const [repositories] =

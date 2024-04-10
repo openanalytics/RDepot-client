@@ -41,7 +41,8 @@ import {
   fetchAllPackageMaintainers,
   fetchPackageMaintainersService,
   updatePackageMaintainerService,
-  createPackageMaintainerService
+  createPackageMaintainerService,
+  fetchFullMaintainersList
 } from '@/services/package_maintainers_service'
 import { useUtilities } from '@/composable/utilities'
 import { packageMaintainersFiltrationLabels } from '@/maps/Filtration'
@@ -98,6 +99,15 @@ export const usePackageMaintainersStore = defineStore(
         const [maintainers] =
           await fetchAllPackageMaintainers()
         this.maintainers = maintainers
+      },
+      async fetchMaintainersList(
+        page: number,
+        pageSize = 8
+      ) {
+        const [maintainers, pageData] =
+          await fetchFullMaintainersList(page, pageSize)
+        this.maintainers = maintainers
+        return pageData
       },
       async fetchRepositories() {
         const [repositories] =

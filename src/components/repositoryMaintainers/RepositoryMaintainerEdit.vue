@@ -37,9 +37,8 @@
         />
         <validated-input-field
           name="repository"
-          as="v-select"
+          as="autocomplete"
           id="edit-package-maintainer-repository"
-          :items="repositories"
           :label="$t('maintainers.editform.repository')"
           :disabled="blockedField == 'repository'"
           filled
@@ -48,6 +47,9 @@
           persistent-hint
           return-object
           :template="true"
+          @loadItems="loadRepositoriesObjects"
+          @filtrate="filtrateRepositories"
+          :storeId="storeId"
         >
           <template #item="{ item, props }">
             <v-list-item v-bind="props">
@@ -73,7 +75,7 @@
 import CardActions from '@/components/common/CardActions.vue'
 import { EntityModelRepositoryMaintainerDto } from '@/openapi'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
-import { ref, computed, onMounted } from 'vue'
+import { computed, onBeforeMount } from 'vue'
 import { Form, useForm } from 'vee-validate'
 import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
 import { toTypedSchema } from '@vee-validate/zod'
@@ -83,6 +85,7 @@ import { useUtilities } from '@/composable/utilities'
 import { useToast } from '@/composable/toasts'
 import { useI18n } from 'vue-i18n'
 import { Technologies } from '@/enum/Technologies'
+import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesFiltration'
 
 const { t } = useI18n()
 
@@ -108,6 +111,13 @@ const buttons = [
     handler: setMaintainer
   }
 ]
+
+const {
+  storeId,
+  filtrateRepositories,
+  loadRepositoriesObjects,
+  resetPagination
+} = useRepositoriesFiltration()
 
 const maintainersStore = useRepositoryMaintainersStore()
 
@@ -175,7 +185,9 @@ function setMaintainer() {
   }
 }
 
-onMounted(maintainersStore.fetchAllRepositories)
+onBeforeMount(() => {
+  resetPagination
+})
 
 function changeDialogOptions() {
   emit('closeModal')

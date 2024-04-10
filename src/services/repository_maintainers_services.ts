@@ -90,6 +90,34 @@ export async function fetchAllRepositoryMaintainers(): ValidatedRepositoryMainta
   })
 }
 
+export async function fetchFullMaintainersList(
+  page?: number,
+  pageSize?: number,
+  showProgress = false
+): ValidatedRepositoryMaintainers {
+  if (!isAuthorized('GET', 'repositoryMaintainers')) {
+    return new Promise(() => validateRequest([]))
+  }
+
+  return openApiRequest<
+    EntityModelRepositoryMaintainerDto[]
+  >(
+    ApiV2RepositoryMaintainerControllerApiFactory()
+      .getAllRepositoryMaintainers,
+    [
+      page,
+      pageSize,
+      ['user.name,asc'],
+      undefined,
+      undefined,
+      undefined
+    ],
+    showProgress
+  ).catch(() => {
+    return validateRequest([])
+  })
+}
+
 export async function updateRepositoryMaintainer(
   oldMaintainer: EntityModelRepositoryMaintainerDto,
   newMaintainer: EntityModelRepositoryMaintainerDto

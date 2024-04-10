@@ -36,10 +36,9 @@
           disabled
         />
         <validated-input-field
-          as="v-select"
+          as="autocomplete"
           name="repository"
           @update:modelValue="updateForm"
-          :items="repositories"
           id="edit-package-maintainer-repository"
           :label="$t('maintainers.editform.repository')"
           :template="true"
@@ -48,6 +47,9 @@
           clearable
           persistent-hint
           return-object
+          @loadItems="loadRepositoriesObjects"
+          @filtrate="filtrateRepositoriesObjects"
+          :storeId="storeId"
         >
           <template #item="{ item, props }">
             <v-list-item v-bind="props">
@@ -85,13 +87,14 @@ import { usePackageMaintainersStore } from '@/store/package_maintainers'
 import { toTypedSchema } from '@vee-validate/zod'
 import { Form, useForm } from 'vee-validate'
 import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
-import { ref, onMounted, computed } from 'vue'
+import { ref, onBeforeMount, computed } from 'vue'
 import { packageMaintainerSchema } from '@/models/Schemas'
 import { z } from 'zod'
 import { useUtilities } from '@/composable/utilities'
 import { useToast } from '@/composable/toasts'
 import { useI18n } from 'vue-i18n'
 import { Technologies } from '@/enum/Technologies'
+import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesFiltration'
 
 const maintainersStore = usePackageMaintainersStore()
 const toasts = useToast()
@@ -112,17 +115,13 @@ const buttons = [
     }
   }
 ]
-const repositories = computed(() => {
-  return maintainersStore.repositories.map((repo) => {
-    return {
-      title: repo.name,
-      value: repo.id,
-      props: {
-        technology: repo.technology
-      }
-    }
-  })
-})
+
+const {
+  storeId,
+  filtrateRepositoriesObjects,
+  loadRepositoriesObjects,
+  resetPagination
+} = useRepositoriesFiltration()
 
 const packages = computed(() => {
   return maintainersStore.packages
@@ -225,7 +224,8 @@ async function editMaintainer() {
 }
 
 function updateForm(newValue: any) {
-  localMaintainer.value.repository!.id = newValue.value
+  localMaintainer.value.repository!.id =
+    newValue !== null ? newValue.value : undefined
   localMaintainer.value.packageName = ''
   setFieldValue('packageName', '')
   validateField('packageName')
@@ -241,9 +241,9 @@ function changeDialogOptions() {
   emit('closeModal')
 }
 
-onMounted(() => {
+onBeforeMount(() => {
+  resetPagination()
   updateMaintainer()
-  maintainersStore.fetchAllRepositories()
   maintainersStore.fetchPackages()
 })
 </script>

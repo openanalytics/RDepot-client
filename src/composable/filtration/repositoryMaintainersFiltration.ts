@@ -35,8 +35,16 @@ export function useRepositoryMaintainersFiltration() {
   const repositoryMaintainerStore =
     useRepositoryMaintainersStore()
 
+  async function resetPaginationMaintainers() {
+    selectStore.resetItems()
+    selectStore.resetPagination()
+  }
+
   async function loadMaintainers() {
-    await repositoryMaintainerStore.fetchAllMaintainers()
+    selectStore.paginationData =
+      await repositoryMaintainerStore.fetchMaintainersList(
+        selectStore.paginationData.page
+      )
     selectStore.addItems(
       repositoryMaintainerStore.maintainers.map(
         (maintainer: EntityModelRepositoryMaintainerDto) =>
@@ -47,6 +55,7 @@ export function useRepositoryMaintainersFiltration() {
 
   return {
     storeIdMaintainer,
-    loadMaintainers
+    loadMaintainers,
+    resetPaginationMaintainers
   }
 }

@@ -127,6 +127,8 @@ export function fetchAllUndeletedRepositoriesServices(): ValidatedRepositories {
   })
 }
 export function fetchFullRepositoriesList(
+  page?: number,
+  pageSize?: number,
   showProgress = false
 ): ValidatedRepositories {
   if (!isAuthorized('GET', 'repositories')) {
@@ -137,9 +139,9 @@ export function fetchFullRepositoriesList(
     ApiV2RepositoryControllerApiFactory()
       .getAllRepositories,
     [
-      undefined,
-      undefined,
-      undefined,
+      page,
+      pageSize,
+      ['name,asc'],
       undefined,
       undefined,
       undefined,

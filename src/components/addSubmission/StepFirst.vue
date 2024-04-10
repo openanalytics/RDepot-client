@@ -22,9 +22,11 @@
 
 <template>
   <v-card class="mb-12 px-10 py-5 step" height="250px">
-    <v-select
+    <AutocompleteField
       class="mt-5"
-      :items="repositories"
+      @loadItems="loadRepositoriesObjects"
+      @filtrate="filtrateRepositories"
+      :storeId="storeId"
       :label="$t('addSubmission.step1Title')"
       filled
       dense
@@ -32,6 +34,7 @@
       persistent-hint
       return-object
       @update:model-value="changeRepository"
+      :template="true"
     >
       <template #item="{ item, props }">
         <v-list-item v-bind="props">
@@ -45,7 +48,7 @@
           </template>
         </v-list-item>
       </template>
-    </v-select>
+    </AutocompleteField>
   </v-card>
   <div class="d-flex justify-end">
     <v-btn
@@ -59,19 +62,25 @@
 </template>
 
 <script setup lang="ts">
-import { useRepositoryStore } from '@/store/repositories'
 import { useSubmissionStore } from '@/store/submission'
-import { onMounted } from 'vue'
-import { computed } from 'vue'
 import { useToast } from '@/composable/toasts'
 import { useI18n } from 'vue-i18n'
 import { EntityModelRepositoryDto } from '@/openapi'
+import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesFiltration'
+import AutocompleteField from '@/components/common/fields/AutocompleteField.vue'
+import { onBeforeMount } from 'vue'
 
 const emits = defineEmits(['next'])
 const submissionsStore = useSubmissionStore()
-const repositoryStore = useRepositoryStore()
 const toasts = useToast()
 const { t } = useI18n()
+
+const {
+  storeId,
+  filtrateRepositories,
+  loadRepositoriesObjects,
+  resetPagination
+} = useRepositoriesFiltration()
 
 type SelectRepository = {
   title?: string
@@ -80,16 +89,6 @@ type SelectRepository = {
     technology?: string
   }
 }
-
-const repositories = computed(function () {
-  return repositoryStore.repositories.map((repo) => {
-    return {
-      title: repo.name,
-      value: repo.id,
-      props: { technology: repo.technology }
-    }
-  })
-})
 
 function changeRepository(value: SelectRepository | null) {
   if (value) {
@@ -110,9 +109,7 @@ function nextStep() {
   }
 }
 
-onMounted(() => {
-  repositoryStore.fetchAllRepositories()
-})
+onBeforeMount(() => resetPagination())
 </script>
 
 <style lang="scss">
