@@ -120,3 +120,28 @@ export async function fetchRoles(): ValidatedRRoles {
     return validateRequest([])
   })
 }
+
+export async function fetchFullUsersList(
+  page?: number,
+  pageSize?: number,
+  showProgress = false
+): ValidatedUsers {
+  if (!isAuthorized('GET', 'users')) {
+    return new Promise(() => validateRequest([]))
+  }
+
+  return openApiRequest<EntityModelUserDto[]>(
+    ApiV2UserControllerApiFactory().getAllUsers,
+    [
+      page,
+      pageSize,
+      ['name,asc'],
+      undefined,
+      undefined,
+      undefined
+    ],
+    showProgress
+  ).catch(() => {
+    return validateRequest([])
+  })
+}

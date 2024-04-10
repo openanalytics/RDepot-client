@@ -28,12 +28,13 @@
     auto-select-first
     :loading="selectStore.pending"
     :menu-props="{
-      location: 'bottom center',
+      location: 'bottom',
       height: '200px',
       width: '300px'
     }"
     @update:search="search"
-    ><template #append-item>
+  >
+    <template #append-item>
       <div
         v-intersect="loadItems"
         class="p3"
@@ -42,6 +43,9 @@
       >
         <span v-show="!selectStore.ifAllFetched">...</span>
       </div>
+    </template>
+    <template v-if="template" #item="{ item, props }">
+      <slot name="item" :item="item" :props="props"> </slot>
     </template>
   </v-autocomplete>
 </template>
@@ -58,6 +62,7 @@ import {
 const props = defineProps<{
   label: string
   storeId: SelectState
+  template?: boolean
 }>()
 
 const emits = defineEmits<{

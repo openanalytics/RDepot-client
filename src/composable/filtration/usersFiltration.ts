@@ -25,14 +25,25 @@ import { useUserStore } from '@/store/users'
 import {
   useSelectStore,
   SelectState,
-  UserObject
+  UserObject,
+  UserObjectCreate
 } from '@/store/select_pagination'
+import {
+  stringToRole,
+  isAtLeastPackageMaintainer,
+  isAtLeastRepositoryMaintainer
+} from '@/enum/UserRoles'
 
 export function useUsersFiltration() {
   const storeIdUser: SelectState = 'user'
 
   const selectStore = useSelectStore(storeIdUser)
   const userStore = useUserStore()
+
+  async function resetPaginationUsers() {
+    selectStore.resetItems()
+    selectStore.resetPagination()
+  }
 
   async function loadUsers() {
     await userStore.fetchAllUsers()
@@ -46,8 +57,47 @@ export function useUsersFiltration() {
     )
   }
 
+  async function loadUsersObjects(desiredRoles?: string) {
+    selectStore.paginationData =
+      await userStore.fetchUsersList(
+        selectStore.paginationData.page
+      )
+    selectStore.addItems(
+      userStore.userList
+        .filter((user) => {
+          switch (desiredRoles) {
+            case 'packageMaintainer':
+              return isAtLeastPackageMaintainer(
+                stringToRole(user.role || 'user')
+              )
+            case 'repositoryMaintainer':
+              return isAtLeastRepositoryMaintainer(
+                stringToRole(user.role || 'user')
+              )
+            default:
+              return true
+          }
+        })
+        .map((user: EntityModelUserDto) => {
+          return {
+            value: user.id,
+            title: user.name
+          } as UserObjectCreate
+        })
+    )
+  }
+
+  function filtrateUsers(value: string | undefined) {
+    if (userStore.filtration.search !== value) {
+      userStore.setFiltrationByName(value)
+    }
+  }
+
   return {
     storeIdUser,
-    loadUsers
+    loadUsers,
+    loadUsersObjects,
+    filtrateUsers,
+    resetPaginationUsers
   }
 }

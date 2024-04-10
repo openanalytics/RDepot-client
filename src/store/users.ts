@@ -25,7 +25,8 @@ import {
   fetchRoles,
   fetchUsers,
   updateUser,
-  fetchAllUsers
+  fetchAllUsers,
+  fetchFullUsersList
 } from '@/services/users_services'
 import { EntityModelUserDto, RoleDto } from '@/openapi'
 import { Role } from '@/enum/UserRoles'
@@ -86,6 +87,12 @@ export const useUserStore = defineStore('userStore', {
       pagination.newPageWithoutRefresh(pageData.page)
       pagination.totalNumber = pageData.totalNumber
     },
+    async fetchUsersList(page: number, pageSize = 3) {
+      const [repositories, pageData] =
+        await fetchFullUsersList(page, pageSize)
+      this.userList = repositories
+      return pageData
+    },
     async fetchRoles() {
       if (this.roles.length === 0) {
         const [roles] = await fetchRoles()
@@ -99,6 +106,15 @@ export const useUserStore = defineStore('userStore', {
         this.filtration = UsersFiltration.parse(payload)
       }
       await this.fetchUsers()
+    },
+    setFiltrationByName(payload: string | undefined) {
+      this.clearFiltration()
+      this.filtration.search = payload
+    },
+    clearFiltration() {
+      const pagination = usePagination()
+      pagination.resetPage()
+      this.filtration = defaultValues(UsersFiltration)
     },
     async saveUser(newUser: EntityModelUserDto) {
       await updateUser(this.chosenUser, newUser)

@@ -160,13 +160,21 @@ import {
 } from '@/enum/UserRoles'
 import ResetButton from '@/components/common/ResetButton.vue'
 import { useMeStore } from '@/store/me'
+import { onBeforeMount } from 'vue'
 
 const { states, technologies } = useEnumFiltration()
 const meStore = useMeStore()
-const { storeId, filtrateRepositories, loadRepositories } =
-  useRepositoriesFiltration()
-const { storeIdMaintainer, loadMaintainers } =
-  usePackageMaintainersFiltration()
+const {
+  storeId,
+  filtrateRepositories,
+  loadRepositories,
+  resetPagination
+} = useRepositoriesFiltration()
+const {
+  storeIdMaintainer,
+  loadMaintainers,
+  resetPaginationMaintainers
+} = usePackageMaintainersFiltration()
 const packageStore = usePackagesStore()
 
 const { setValues, values } = useForm({
@@ -182,6 +190,11 @@ function resetValues() {
   setValues(defaultValues(PackagesFiltration))
   packageStore.setFiltration(values as PackagesFiltration)
 }
+
+onBeforeMount(() => {
+  resetPaginationMaintainers()
+  resetPagination()
+})
 </script>
 
 <style lang="scss">

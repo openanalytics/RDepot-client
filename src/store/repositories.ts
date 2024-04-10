@@ -83,9 +83,12 @@ export const useRepositoryStore = defineStore(
         )
         return pageData
       },
-      async fetchRepositoriesList() {
+      async fetchRepositoriesList(
+        page: number,
+        pageSize = 8
+      ) {
         const [repositories, pageData] =
-          await fetchFullRepositoriesList()
+          await fetchFullRepositoriesList(page, pageSize)
         this.repositories = repositories
         return pageData
       },

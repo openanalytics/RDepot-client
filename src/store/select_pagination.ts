@@ -46,7 +46,23 @@ export const useSelectStoreFactory = (id: SelectState) => {
 }
 
 export type UserObject = { title: string; value: string }
-export type ItemType = string | UserObject | undefined
+export type UserObjectCreate = {
+  title: string
+  value: number
+}
+export type RepositoryObject = {
+  title: string
+  value: number
+  props: {
+    technology: string
+  }
+}
+export type ItemType =
+  | string
+  | UserObject
+  | UserObjectCreate
+  | RepositoryObject
+  | undefined
 
 function defineSelectStore<SelectState>(id: SelectState) {
   return defineStore(`${id}`, () => {

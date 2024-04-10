@@ -24,7 +24,8 @@ import { EntityModelRepositoryDto } from '@/openapi'
 import { useRepositoryStore } from '@/store/repositories'
 import {
   useSelectStore,
-  SelectState
+  SelectState,
+  RepositoryObject
 } from '@/store/select_pagination'
 
 export function useRepositoriesFiltration() {
@@ -33,13 +34,38 @@ export function useRepositoriesFiltration() {
   const selectStore = useSelectStore(storeId)
   const repositoriesStore = useRepositoryStore()
 
+  async function resetPagination() {
+    selectStore.resetItems()
+    selectStore.resetPagination()
+  }
+
   async function loadRepositories() {
     selectStore.paginationData =
-      await repositoriesStore.fetchRepositoriesList()
+      await repositoriesStore.fetchRepositoriesList(
+        selectStore.paginationData.page
+      )
     selectStore.addItems(
       repositoriesStore.repositories.map(
         (repository: EntityModelRepositoryDto) =>
           repository.name
+      )
+    )
+  }
+
+  async function loadRepositoriesObjects() {
+    selectStore.paginationData =
+      await repositoriesStore.fetchRepositoriesList(
+        selectStore.paginationData.page
+      )
+    selectStore.addItems(
+      repositoriesStore.repositories.map(
+        (repository: EntityModelRepositoryDto) => {
+          return {
+            title: repository.name,
+            value: repository.id,
+            props: { technology: repository.technology }
+          } as RepositoryObject
+        }
       )
     )
   }
@@ -50,9 +76,22 @@ export function useRepositoriesFiltration() {
     }
   }
 
+  function filtrateRepositoriesObjects(
+    value: RepositoryObject | undefined
+  ) {
+    if (
+      repositoriesStore.filtration.name !== value?.title
+    ) {
+      repositoriesStore.setFiltrationByName(value?.title)
+    }
+  }
+
   return {
     storeId,
     loadRepositories,
-    filtrateRepositories
+    loadRepositoriesObjects,
+    resetPagination,
+    filtrateRepositories,
+    filtrateRepositoriesObjects
   }
 }

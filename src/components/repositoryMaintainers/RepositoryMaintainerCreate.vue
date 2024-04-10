@@ -29,17 +29,25 @@
       <v-divider></v-divider>
       <v-card-text>
         <validated-input-field
-          name="userId"
-          as="v-select"
-          :items="users"
+          name="user"
+          as="autocomplete"
           id="edit-repository-maintainer-user"
           :label="$t('maintainers.editform.user')"
+          filled
+          dense
+          clearable
+          persistent-hint
+          return-object
+          @loadItems="
+            loadUsersObjects('repositoryMaintainer')
+          "
+          @filtrate="filtrateUsers"
+          :storeId="storeIdUser"
         />
         <validated-input-field
           name="repository"
-          as="v-select"
+          as="autocomplete"
           id="edit-repository-maintainer-repository"
-          :items="repositories"
           :label="$t('maintainers.editform.repository')"
           filled
           dense
@@ -47,6 +55,9 @@
           persistent-hint
           return-object
           :template="true"
+          @loadItems="loadRepositoriesObjects"
+          @filtrate="filtrateRepositories"
+          :storeId="storeId"
         >
           <template #item="{ item, props }">
             <v-list-item v-bind="props">
@@ -81,7 +92,7 @@
 <script setup lang="ts">
 import CardActions from '@/components/common/CardActions.vue'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
-import { computed, onMounted } from 'vue'
+import { onBeforeMount } from 'vue'
 import { Form, useForm } from 'vee-validate'
 import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
 import { toTypedSchema } from '@vee-validate/zod'
@@ -89,12 +100,8 @@ import { repositoryMaintainerSchema } from '@/models/Schemas'
 import { z } from 'zod'
 import { useToast } from '@/composable/toasts'
 import { useI18n } from 'vue-i18n'
-import { useUserStore } from '@/store/users'
-import {
-  stringToRole,
-  isAtLeastRepositoryMaintainer
-} from '@/enum/UserRoles'
-import { EntityModelRepositoryDto } from '@/openapi'
+import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesFiltration'
+import { useUsersFiltration } from '@/composable/filtration/usersFiltration'
 
 const { t } = useI18n()
 
@@ -111,40 +118,33 @@ const buttons = [
   }
 ]
 
+const {
+  storeId,
+  filtrateRepositories,
+  loadRepositoriesObjects,
+  resetPagination
+} = useRepositoriesFiltration()
+
+const {
+  storeIdUser,
+  loadUsersObjects,
+  filtrateUsers,
+  resetPaginationUsers
+} = useUsersFiltration()
+
 const maintainersStore = useRepositoryMaintainersStore()
-const userStore = useUserStore()
-
-const users = computed(() => {
-  return userStore.userList
-    .filter((user) =>
-      user.role
-        ? isAtLeastRepositoryMaintainer(
-            stringToRole(user.role)
-          )
-        : false
-    )
-    .map((user) => {
-      return { title: user.name, value: user.id }
-    })
-})
-
-const repositories = computed(function () {
-  return maintainersStore.repositories.map((repo) => {
-    return {
-      title: repo.name,
-      value: repo.id,
-      props: { technology: repo.technology }
-    }
-  })
-})
 
 const emit = defineEmits(['closeModal'])
 
 const { meta, values } = useForm({
   validationSchema: toTypedSchema(
     z.object({
-      userId:
-        repositoryMaintainerSchema.shape.user.shape.id,
+      user: z.object({
+        title:
+          repositoryMaintainerSchema.shape.user.shape.name,
+        value:
+          repositoryMaintainerSchema.shape.user.shape.id
+      }),
       repository: z.object({
         title:
           repositoryMaintainerSchema.shape.repository.shape
@@ -161,7 +161,7 @@ const { meta, values } = useForm({
     })
   ),
   initialValues: {
-    userId: undefined,
+    user: undefined,
     repository: undefined
   }
 })
@@ -171,7 +171,7 @@ const toasts = useToast()
 function setMaintainer() {
   if (meta.value.valid) {
     const maintainer = {
-      user: { id: values.userId },
+      user: { id: values.user?.value },
       repository: { id: values.repository?.value }
     }
     maintainersStore
@@ -196,9 +196,9 @@ function setMaintainer() {
   }
 }
 
-onMounted(() => {
-  maintainersStore.fetchAllRepositories()
-  userStore.fetchAllUsers()
+onBeforeMount(() => {
+  resetPagination()
+  resetPaginationUsers()
 })
 
 function changeDialogOptions() {

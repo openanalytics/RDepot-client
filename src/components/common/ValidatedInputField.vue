@@ -27,8 +27,12 @@
     @blur="handleBlur"
     :error-messages="errors"
     v-bind="attrs"
+    :template="template"
   >
-    <template v-if="template" #item="{ item, props }">
+    <template
+      v-if="template && as !== 'autocomplete'"
+      #item="{ item, props }"
+    >
       <slot name="item" :item="item" :props="props"> </slot>
     </template>
   </component>

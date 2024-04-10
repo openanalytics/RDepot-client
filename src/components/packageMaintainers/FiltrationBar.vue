@@ -110,11 +110,16 @@ import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { usePackageMaintainersStore } from '@/store/package_maintainers'
 import ResetButton from '@/components/common/ResetButton.vue'
+import { onBeforeMount } from 'vue'
 
 const { technologies } = useEnumFiltration()
 
-const { storeId, filtrateRepositories, loadRepositories } =
-  useRepositoriesFiltration()
+const {
+  storeId,
+  filtrateRepositories,
+  loadRepositories,
+  resetPagination
+} = useRepositoriesFiltration()
 
 const packageMaintainerStore = usePackageMaintainersStore()
 
@@ -137,6 +142,8 @@ function resetValues() {
     values as PackageMaintainersFiltration
   )
 }
+
+onBeforeMount(() => resetPagination())
 </script>
 
 <style lang="scss">

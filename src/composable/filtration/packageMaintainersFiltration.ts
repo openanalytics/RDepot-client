@@ -35,8 +35,16 @@ export function usePackageMaintainersFiltration() {
   const packageMaintainerStore =
     usePackageMaintainersStore()
 
+  async function resetPaginationMaintainers() {
+    selectStore.resetItems()
+    selectStore.resetPagination()
+  }
+
   async function loadMaintainers() {
-    await packageMaintainerStore.fetchAllMaintainers()
+    selectStore.paginationData =
+      await packageMaintainerStore.fetchMaintainersList(
+        selectStore.paginationData.page
+      )
     selectStore.addItems(
       packageMaintainerStore.maintainers.map(
         (maintainer: EntityModelPackageMaintainerDto) =>
@@ -47,6 +55,7 @@ export function usePackageMaintainersFiltration() {
 
   return {
     storeIdMaintainer,
-    loadMaintainers
+    loadMaintainers,
+    resetPaginationMaintainers
   }
 }

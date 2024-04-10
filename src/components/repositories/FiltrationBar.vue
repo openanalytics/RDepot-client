@@ -132,12 +132,16 @@ import { useRepositoryStore } from '@/store/repositories'
 import { isAtLeastAdmin } from '@/enum/UserRoles'
 import ResetButton from '@/components/common/ResetButton.vue'
 import { useMeStore } from '@/store/me'
+import { onBeforeMount } from 'vue'
 
 const { technologies } = useEnumFiltration()
 const meStore = useMeStore()
 
-const { storeIdMaintainer, loadMaintainers } =
-  useRepositoryMaintainersFiltration()
+const {
+  storeIdMaintainer,
+  loadMaintainers,
+  resetPaginationMaintainers
+} = useRepositoryMaintainersFiltration()
 const repositoryStore = useRepositoryStore()
 
 const { setValues, values } = useForm({
@@ -157,6 +161,8 @@ function resetValues() {
     values as RepositoriesFiltration
   )
 }
+
+onBeforeMount(() => resetPaginationMaintainers())
 </script>
 
 <style lang="scss">

@@ -92,6 +92,33 @@ export async function fetchAllPackageMaintainers(): ValidatedPackageMaintainers 
   })
 }
 
+export async function fetchFullMaintainersList(
+  page?: number,
+  pageSize?: number,
+  showProgress = false
+): ValidatedPackageMaintainers {
+  if (!isAuthorized('GET', 'packageMaintainers')) {
+    return new Promise(() => validateRequest([]))
+  }
+
+  return openApiRequest<EntityModelPackageMaintainerDto[]>(
+    ApiV2PackageMaintainerControllerApiFactory()
+      .getAllPackageMaintainers,
+    [
+      page,
+      pageSize,
+      ['user.name,asc'],
+      undefined,
+      undefined,
+      undefined,
+      undefined
+    ],
+    showProgress
+  ).catch(() => {
+    return validateRequest([])
+  })
+}
+
 export async function deletePackageMaintainerService(
   maintainer: EntityModelPackageMaintainerDto
 ): ValidatedPackageMaintainer {

@@ -29,17 +29,23 @@
       <v-divider></v-divider>
       <v-card-text style="height: 300px">
         <validated-input-field
-          as="v-select"
-          name="userId"
-          :items="users"
+          as="autocomplete"
+          name="user"
           id="create-package-maintainer-user"
           :label="$t('maintainers.editform.user')"
+          filled
+          dense
+          clearable
+          persistent-hint
+          return-object
+          @loadItems="loadUsersObjects('packageMaintainer')"
+          @filtrate="filtrateUsers"
+          :storeId="storeIdUser"
         />
         <validated-input-field
-          as="v-select"
+          as="autocomplete"
           name="repository"
           @update:modelValue="resetPackageName"
-          :items="repositories"
           id="create-package-maintainer-repository"
           :label="$t('maintainers.editform.repository')"
           :template="true"
@@ -48,6 +54,9 @@
           clearable
           persistent-hint
           return-object
+          @loadItems="loadRepositoriesObjects"
+          @filtrate="filtrateRepositories"
+          :storeId="storeId"
         >
           <template #item="{ item, props }">
             <v-list-item v-bind="props">
@@ -95,19 +104,15 @@ import { usePackageMaintainersStore } from '@/store/package_maintainers'
 import { toTypedSchema } from '@vee-validate/zod'
 import { Form, useForm } from 'vee-validate'
 import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
-import { onMounted, computed } from 'vue'
+import { onBeforeMount, computed } from 'vue'
 import { packageMaintainerSchema } from '@/models/Schemas'
 import { z } from 'zod'
 import { useToast } from '@/composable/toasts'
 import { useI18n } from 'vue-i18n'
-import { useUserStore } from '@/store/users'
-import {
-  stringToRole,
-  isAtLeastPackageMaintainer
-} from '@/enum/UserRoles'
+import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesFiltration'
+import { useUsersFiltration } from '@/composable/filtration/usersFiltration'
 
 const maintainersStore = usePackageMaintainersStore()
-const userStore = useUserStore()
 const toasts = useToast()
 const { t } = useI18n()
 const buttons = [
@@ -126,31 +131,20 @@ const buttons = [
     }
   }
 ]
-const repositories = computed(() => {
-  return maintainersStore.repositories.map((repo) => {
-    return {
-      title: repo.name,
-      value: repo.id,
-      props: {
-        technology: repo.technology
-      }
-    }
-  })
-})
 
-const users = computed(() => {
-  return userStore.userList
-    .filter((user) =>
-      user.role
-        ? isAtLeastPackageMaintainer(
-            stringToRole(user.role)
-          )
-        : false
-    )
-    .map((user) => {
-      return { title: user.name, value: user.id }
-    })
-})
+const {
+  storeId,
+  filtrateRepositories,
+  loadRepositoriesObjects,
+  resetPagination
+} = useRepositoriesFiltration()
+
+const {
+  storeIdUser,
+  loadUsersObjects,
+  filtrateUsers,
+  resetPaginationUsers
+} = useUsersFiltration()
 
 const packages = computed(() => {
   return maintainersStore.packages
@@ -188,7 +182,11 @@ const { meta, validateField, setFieldValue, values } =
   useForm({
     validationSchema: toTypedSchema(
       z.object({
-        userId: packageMaintainerSchema.shape.user.shape.id,
+        user: z.object({
+          title:
+            packageMaintainerSchema.shape.user.shape.name,
+          value: packageMaintainerSchema.shape.user.shape.id
+        }),
         repository: z.object({
           title:
             packageMaintainerSchema.shape.repository.shape
@@ -207,7 +205,7 @@ const { meta, validateField, setFieldValue, values } =
       })
     ),
     initialValues: {
-      userId: undefined,
+      user: undefined,
       repository: undefined,
       packageName: undefined
     }
@@ -216,7 +214,7 @@ const { meta, validateField, setFieldValue, values } =
 async function createMaintainer() {
   if (meta.value.valid) {
     const maintainer = {
-      user: { id: values.userId },
+      user: { id: values.user?.value },
       packageName: values.packageName,
       repository: { id: values.repository?.value }
     }
@@ -243,9 +241,9 @@ function changeDialogOptions() {
   emit('closeModal')
 }
 
-onMounted(async () => {
-  maintainersStore.fetchAllRepositories()
+onBeforeMount(async () => {
+  resetPagination()
+  resetPaginationUsers()
   maintainersStore.fetchPackages()
-  userStore.fetchAllUsers()
 })
 </script>
