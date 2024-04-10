@@ -35,8 +35,8 @@ export function useRepositoriesFiltration() {
   const repositoriesStore = useRepositoryStore()
 
   async function resetPagination() {
-    selectStore.resetItems()
     selectStore.resetPagination()
+    selectStore.resetItems()
   }
 
   async function loadRepositories() {
@@ -55,7 +55,8 @@ export function useRepositoriesFiltration() {
   async function loadRepositoriesObjects() {
     selectStore.paginationData =
       await repositoriesStore.fetchRepositoriesList(
-        selectStore.paginationData.page
+        selectStore.paginationData.page,
+        2
       )
     selectStore.addItems(
       repositoriesStore.repositories.map(
@@ -77,12 +78,10 @@ export function useRepositoriesFiltration() {
   }
 
   function filtrateRepositoriesObjects(
-    value: RepositoryObject | undefined
+    value: string | undefined
   ) {
-    if (
-      repositoriesStore.filtration.name !== value?.title
-    ) {
-      repositoriesStore.setFiltrationByName(value?.title)
+    if (repositoriesStore.filtration.name !== value) {
+      repositoriesStore.setFiltrationByName(value)
     }
   }
 
