@@ -11,10 +11,12 @@ pipeline {
   environment {
     VERSION = sh(returnStdout: true, script: 'node -p "require(\'./package.json\').version"').trim()
     NS = 'openanalytics'
+    REGISTRY = 'registry.openanalytics.eu'
+    IMAGE = 'rdepot-client'
     DOCKER_BUILDKIT = '1'
   }
   stages {
-    stage('Prepare environment') {
+    stage('Prepare Environment') {
       steps {
         script {
           if (env.BRANCH_NAME == 'develop') {
@@ -26,12 +28,12 @@ pipeline {
         }
       }
     }
-    stage('Install dependencies') {
+    stage('Install Dependencies') {
       steps {
 	      sh "npm install"
       }
     }
-    stage('License check') {
+    stage('License Check') {
       steps {
 	      sh "npm run license:check"
       }
@@ -48,7 +50,7 @@ pipeline {
           allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true])
         }
     }
-    stage('Unit test') {
+    stage('Unit Test') {
       steps {
         sh "npm run test:unit:once:junit"
         withChecks('UI Unit Tests') {
@@ -60,23 +62,7 @@ pipeline {
           allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true])
       }
     }
-    stage('Build') {
-      steps {
-        withDockerRegistry([
-            credentialsId: "oa-sa-jenkins-registry",
-            url: "https://registry.openanalytics.eu"]) {
-          sh """
-            docker build --build-arg BUILDKIT_INLINE_CACHE=1 \
-                --cache-from registry.openanalytics.eu/${env.NS}/rdepot-client:${env.TAG} \
-                -t registry.openanalytics.eu/${env.NS}/rdepot-client:${env.TAG} \
-                -t registry.openanalytics.eu/${env.NS}/rdepot-client:latest \
-                -f ./Dockerfile \
-                ./
-          """
-        }
-      }
-    }
-    stage('Publish') {
+    stage('Build & Publish') {
       when {
         anyOf {
           branch 'develop'
@@ -85,11 +71,15 @@ pipeline {
         }
       }
       steps {
-        withDockerRegistry([
-            credentialsId: "oa-sa-jenkins-registry",
-            url: "https://registry.openanalytics.eu"]) {
-          sh "docker push registry.openanalytics.eu/${env.NS}/rdepot-client:${env.TAG}"
-          sh "docker push registry.openanalytics.eu/${env.NS}/rdepot-client:latest"
+        container('kaniko') {
+          sh """
+          /kaniko/executor \
+                    -v info \
+                    --context ${env.WORKSPACE} \
+                    --cache=true \
+                    --cache-repo ${env.REGISTRY}/${env.NS}/${env.IMAGE} \
+                    --destination ${env.REGISTRY}/${env.NS}/${env.IMAGE}:${env.TAG}
+          """
         }
       }
     }

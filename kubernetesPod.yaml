@@ -3,10 +3,34 @@ kind: Pod
 metadata:
   labels:
     ci: rdepot-client-build
+    docker: kaniko-rdepot-client
 spec:
   imagePullSecrets:
   - name: registry-robot
+  volumes:
+  - name: kaniko-dockerconfig
+    secret:
+      secretName: registry-robot
   containers:
+  - name: kaniko
+    image: gcr.io/kaniko-project/executor:v1.9.1-debug
+    env:
+    - name: AWS_SDK_LOAD_CONFIG
+      value: "true"
+    command:
+    - /kaniko/docker-credential-ecr-login
+    - get
+    tty: true
+    volumeMounts:
+    - name: kaniko-dockerconfig
+      mountPath: /kaniko/.docker/config.json
+      subPath: .dockerconfigjson
+    resources:
+      requests:
+        memory: "100Mi"
+      limits:
+        memory: "1024Mi"
+    imagePullPolicy: Always
   - name: rdepot-client-build
     image: registry.openanalytics.eu/proxy/library/node:lts-alpine
     resources:
