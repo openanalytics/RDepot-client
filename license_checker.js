@@ -48,6 +48,7 @@ const EXTENSION_WITHOUT_LICENSE = [
   'yaml',
   'conf',
   'json',
+  'test',
   'local',
   'eslintrc',
   'gitignore',
