@@ -35,6 +35,8 @@ import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import { createPinia, setActivePinia } from 'pinia'
 import { useSubmissionStore } from '@/store/submission'
 import StepFirstVue from '@/components/addSubmission/StepFirst.vue'
+import me from '@/__tests__/config/mockData/me.json'
+import { useMeStore } from '@/store/me'
 
 let wrapper: any
 const globalConfig = {
@@ -42,6 +44,7 @@ const globalConfig = {
   plugins: plugins
 }
 let submissionStore: any
+let meStore: any
 
 beforeAll(() => {
   global.ResizeObserver = ResizeObserver
@@ -50,6 +53,8 @@ beforeAll(() => {
 beforeEach(async () => {
   setActivePinia(createPinia())
   submissionStore = useSubmissionStore()
+  meStore = useMeStore()
+  meStore.me = me.data
   wrapper = mount(StepFirstVue, {
     global: globalConfig
   })

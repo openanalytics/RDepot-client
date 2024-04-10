@@ -42,6 +42,8 @@ import {
 import flushPromises from 'flush-promises'
 import waitForExpect from 'wait-for-expect'
 import { Technologies } from '@/enum/Technologies'
+import { useMeStore } from '@/store/me'
+import me from '@/__tests__/config/mockData/me.json'
 
 let wrapper: any
 const globalConfig = {
@@ -49,6 +51,7 @@ const globalConfig = {
   plugins: plugins
 }
 let eventsStore: any
+let meStore: any
 
 const EXAMPLE_EVENT_FILTRATION = EventsFiltration.parse({
   eventType: ['update'],
@@ -66,6 +69,8 @@ beforeAll(() => {
 beforeEach(async () => {
   setActivePinia(createPinia())
   eventsStore = useEventsStore()
+  meStore = useMeStore()
+  meStore.me = me.data
   wrapper = mount(FiltrationBarVue, {
     global: globalConfig
   })

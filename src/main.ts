@@ -39,7 +39,6 @@ import { registerPlugins } from '@/plugins'
 const app = createApp(App)
 
 registerPlugins(app)
-// console.log(keycloak)
 // app.provide('keycloak', JSON.stringify(keycloak))
 // app.config.globalProperties.$keycloak = keycloak
 

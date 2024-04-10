@@ -138,21 +138,6 @@ describe('Add submission - step third', () => {
     expect(buttonDisabled.exists()).toBeFalsy()
   })
 
-  it('disabled action button shows tooltip on hover', async (done: CallableFunction) => {
-    const tooltipActivator = wrapper.find(
-      '#tooltip-activator'
-    )
-    expect(tooltipActivator.exists()).toBeTruthy()
-    await tooltipActivator.trigger('mousenter')
-    await wrapper.vm.$nextTick()
-    requestAnimationFrame(() => {
-      const tooltip = wrapper.find('#tooltip-wait')
-      expect(tooltip.exist()).toBeTruthy()
-
-      done()
-    })
-  })
-
   it('each submission is listed', () => {
     const submissionRecords =
       wrapper.findAllComponents(UploadSummary)

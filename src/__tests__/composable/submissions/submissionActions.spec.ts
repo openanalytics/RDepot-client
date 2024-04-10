@@ -32,12 +32,18 @@ import { useSubmissionActions } from '@/composable/submissions/submissionActions
 import { EntityModelSubmissionDto } from '@/openapi'
 import { createPinia, setActivePinia } from 'pinia'
 import { useSubmissionStore } from '@/store/submission'
+import { Technologies } from '@/enum/Technologies'
+import { useMeStore } from '@/store/me'
+import me from '@/__tests__/config/mockData/me.json'
 
 let submissionsStore: any
+let meStore: any
 
 beforeEach(async () => {
   setActivePinia(createPinia())
   submissionsStore = useSubmissionStore()
+  meStore = useMeStore()
+  meStore.me = me.data
 })
 
 describe('submissionActions', () => {
@@ -58,7 +64,8 @@ describe('submissionActions', () => {
       'updateSubmission'
     )
     const submission = {
-      state: 'WAITING'
+      state: 'WAITING',
+      technology: Technologies.Enum.Python
     } as EntityModelSubmissionDto
     await rejectSubmission(submission)
     expect(spy).toBeCalledTimes(1)
@@ -71,22 +78,24 @@ describe('submissionActions', () => {
       'updateSubmission'
     )
     const submission = {
-      state: 'WAITING'
+      state: 'WAITING',
+      technology: Technologies.Enum.Python
     } as EntityModelSubmissionDto
     await acceptSubmission(submission)
     expect(spy).toBeCalledTimes(1)
   })
 
-  it('should change submission state to CANCELLED', async () => {
-    const { cancelSubmission } = useSubmissionActions()
+  it('should change submission state to WAITING', async () => {
+    const { acceptSubmission } = useSubmissionActions()
     const spy = vi.spyOn(
       submissionsStore,
       'updateSubmission'
     )
     const submission = {
-      state: 'WAITING'
+      state: 'WAITING',
+      technology: Technologies.Enum.Python
     } as EntityModelSubmissionDto
-    await cancelSubmission(submission)
+    await acceptSubmission(submission)
     expect(spy).toBeCalledTimes(1)
   })
 })

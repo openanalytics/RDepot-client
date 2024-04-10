@@ -173,16 +173,12 @@ export const usePackagesStore = defineStore(
       },
       async downloadManual(id: string, fileName: string) {
         await downloadReferenceManual(id, fileName).then(
-          (res) => {
-            console.log(res)
-          }
+          () => {}
         )
       },
       async downloadVignette(id: string, fileName: string) {
         await downloadVignetteHtml(id, fileName).then(
-          (res) => {
-            console.log(id, fileName, 'vignette.json', res)
-          }
+          () => {}
         )
       },
       async downloadSourceFile(
@@ -196,9 +192,7 @@ export const usePackagesStore = defineStore(
           name,
           version,
           technology
-        ).then((res) => {
-          console.log(id, 'sourcefile', res)
-        })
+        ).then(() => {})
       },
       async deletePackage() {
         if (this.chosenPackage) {
