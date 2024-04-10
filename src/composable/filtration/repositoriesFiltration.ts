@@ -40,10 +40,17 @@ export function useRepositoriesFiltration() {
   }
 
   async function loadRepositories() {
-    selectStore.paginationData =
-      await repositoriesStore.fetchRepositoriesList(
-        selectStore.paginationData.page
+    console.log(selectStore.paginationData.page)
+
+    await repositoriesStore
+      .fetchRepositoriesList(
+        selectStore.paginationData.page,
+        selectStore.pageSize
       )
+      .then((res) => {
+        selectStore.paginationData.totalNumber =
+          res.totalNumber
+      })
     selectStore.addItems(
       repositoriesStore.repositories.map(
         (repository: EntityModelRepositoryDto) =>
@@ -53,22 +60,45 @@ export function useRepositoriesFiltration() {
   }
 
   async function loadRepositoriesObjects() {
-    selectStore.paginationData =
-      await repositoriesStore.fetchRepositoriesList(
-        selectStore.paginationData.page,
-        2
+    // if (selectStore.) {
+    if (
+      selectStore.items.length !=
+        selectStore.paginationData.totalNumber ||
+      selectStore.paginationData.totalNumber == -1
+    ) {
+      selectStore.setPage(
+        selectStore.paginationData.page + 1
       )
-    selectStore.addItems(
-      repositoriesStore.repositories.map(
-        (repository: EntityModelRepositoryDto) => {
-          return {
-            title: repository.name,
-            value: repository.id,
-            props: { technology: repository.technology }
-          } as RepositoryObject
-        }
+
+      console.log(
+        selectStore.items.length !=
+          selectStore.paginationData.totalNumber
       )
-    )
+
+      console.log(selectStore.items.length)
+      console.log(selectStore.paginationData.totalNumber)
+      await repositoriesStore
+        .fetchRepositoriesList(
+          selectStore.paginationData.page - 1,
+          selectStore.pageSize
+        )
+        .then((res) => {
+          selectStore.paginationData.totalNumber =
+            res.totalNumber
+        })
+      selectStore.addItems(
+        repositoriesStore.repositories.map(
+          (repository: EntityModelRepositoryDto) => {
+            return {
+              title: repository.name,
+              value: repository.id,
+              props: { technology: repository.technology }
+            } as RepositoryObject
+          }
+        )
+      )
+      // }
+    }
   }
 
   function filtrateRepositories(value: string | undefined) {

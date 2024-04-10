@@ -68,6 +68,7 @@ function defineSelectStore<SelectState>(id: SelectState) {
   return defineStore(`${id}`, () => {
     const itemsLocal = ref<ItemType[]>([])
     const pendingLocal = ref<boolean>(false)
+    const pageSize = 1
     const paginationDataLocal = ref<Pagination>({
       page: 0,
       totalNumber: -1
@@ -77,6 +78,14 @@ function defineSelectStore<SelectState>(id: SelectState) {
       return (
         itemsLocal.value.length >=
         paginationData.value.totalNumber
+      )
+    })
+
+    const shouldFetchNextPage = computed(() => {
+      return (
+        paginationData.value.totalNumber < 0 ||
+        itemsLocal.value.length / pageSize <
+          paginationData.value.totalNumber / pageSize
       )
     })
 
@@ -104,7 +113,7 @@ function defineSelectStore<SelectState>(id: SelectState) {
       },
       set(payload: Pagination) {
         paginationDataLocal.value = payload
-        setPage((payload.page += 1))
+        // setPage((payload.page += 1))
       }
     })
 
@@ -137,7 +146,10 @@ function defineSelectStore<SelectState>(id: SelectState) {
       addItems,
       resetItems,
       pending,
-      ifAllFetched
+      ifAllFetched,
+      pageSize,
+      shouldFetchNextPage,
+      setPage
     }
   })
 }
