@@ -40,27 +40,6 @@ export function useRepositoriesFiltration() {
   }
 
   async function loadRepositories() {
-    console.log(selectStore.paginationData.page)
-
-    await repositoriesStore
-      .fetchRepositoriesList(
-        selectStore.paginationData.page,
-        selectStore.pageSize
-      )
-      .then((res) => {
-        selectStore.paginationData.totalNumber =
-          res.totalNumber
-      })
-    selectStore.addItems(
-      repositoriesStore.repositories.map(
-        (repository: EntityModelRepositoryDto) =>
-          repository.name
-      )
-    )
-  }
-
-  async function loadRepositoriesObjects() {
-    // if (selectStore.) {
     if (
       selectStore.items.length !=
         selectStore.paginationData.totalNumber ||
@@ -69,35 +48,75 @@ export function useRepositoriesFiltration() {
       selectStore.setPage(
         selectStore.paginationData.page + 1
       )
-
-      console.log(
-        selectStore.items.length !=
-          selectStore.paginationData.totalNumber
-      )
-
-      console.log(selectStore.items.length)
-      console.log(selectStore.paginationData.totalNumber)
-      await repositoriesStore
-        .fetchRepositoriesList(
-          selectStore.paginationData.page - 1,
-          selectStore.pageSize
+      if (
+        selectStore.shouldFetchNextPage &&
+        ((selectStore.paginationData.totalNumber > 0 &&
+          selectStore.paginationData.page <=
+            Math.ceil(
+              selectStore.paginationData.totalNumber /
+                selectStore.pageSize
+            )) ||
+          selectStore.paginationData.totalNumber < 0)
+      ) {
+        await repositoriesStore
+          .fetchRepositoriesList(
+            selectStore.paginationData.page - 1,
+            selectStore.pageSize
+          )
+          .then((res) => {
+            selectStore.paginationData.totalNumber =
+              res.totalNumber
+          })
+        selectStore.addItems(
+          repositoriesStore.repositories.map(
+            (repository: EntityModelRepositoryDto) =>
+              repository.name
+          )
         )
-        .then((res) => {
-          selectStore.paginationData.totalNumber =
-            res.totalNumber
-        })
-      selectStore.addItems(
-        repositoriesStore.repositories.map(
-          (repository: EntityModelRepositoryDto) => {
-            return {
-              title: repository.name,
-              value: repository.id,
-              props: { technology: repository.technology }
-            } as RepositoryObject
-          }
-        )
+      }
+    }
+  }
+
+  async function loadRepositoriesObjects() {
+    if (
+      selectStore.items.length !=
+        selectStore.paginationData.totalNumber ||
+      selectStore.paginationData.totalNumber == -1
+    ) {
+      selectStore.setPage(
+        selectStore.paginationData.page + 1
       )
-      // }
+      if (
+        selectStore.shouldFetchNextPage &&
+        ((selectStore.paginationData.totalNumber > 0 &&
+          selectStore.paginationData.page <=
+            Math.ceil(
+              selectStore.paginationData.totalNumber /
+                selectStore.pageSize
+            )) ||
+          selectStore.paginationData.totalNumber < 0)
+      ) {
+        await repositoriesStore
+          .fetchRepositoriesList(
+            selectStore.paginationData.page - 1,
+            selectStore.pageSize
+          )
+          .then((res) => {
+            selectStore.paginationData.totalNumber =
+              res.totalNumber
+          })
+        selectStore.addItems(
+          repositoriesStore.repositories.map(
+            (repository: EntityModelRepositoryDto) => {
+              return {
+                title: repository.name,
+                value: repository.id,
+                props: { technology: repository.technology }
+              } as RepositoryObject
+            }
+          )
+        )
+      }
     }
   }
 

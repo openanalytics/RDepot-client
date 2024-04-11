@@ -94,7 +94,23 @@
           @loadItems="loadRepositories"
           @filtrate="filtrateRepositories"
           :storeId="storeId"
-        ></validated-input-field>
+          :template="true"
+        >
+          <template #item="{ item, props }">
+            <v-list-item
+              v-bind="props"
+              v-intersect="loadRepositories"
+            >
+              <template v-slot:prepend="{ isActive }">
+                <v-list-item-action start>
+                  <v-checkbox-btn
+                    :model-value="isActive"
+                  ></v-checkbox-btn>
+                </v-list-item-action>
+              </template>
+            </v-list-item>
+          </template>
+        </validated-input-field>
       </v-col>
     </v-row>
     <v-row>

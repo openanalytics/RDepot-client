@@ -68,7 +68,7 @@ function defineSelectStore<SelectState>(id: SelectState) {
   return defineStore(`${id}`, () => {
     const itemsLocal = ref<ItemType[]>([])
     const pendingLocal = ref<boolean>(false)
-    const pageSize = 1
+    const pageSize = 8
     const paginationDataLocal = ref<Pagination>({
       page: 0,
       totalNumber: -1
