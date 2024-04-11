@@ -60,7 +60,10 @@
           :storeId="storeId"
         >
           <template #item="{ item, props }">
-            <v-list-item v-bind="props">
+            <v-list-item
+              v-bind="props"
+              v-intersect="loadRepositoriesObjects"
+            >
               <template v-slot:append>
                 <v-chip
                   text-color="white"
