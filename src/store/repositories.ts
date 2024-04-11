@@ -87,10 +87,8 @@ export const useRepositoryStore = defineStore(
         page: number,
         pageSize = 8
       ) {
-        console.log('will fetch with this page: ' + page)
         const [repositories, pageData] =
           await fetchFullRepositoriesList(page, pageSize)
-        console.log(pageData)
         this.repositories = repositories
         return pageData
       },

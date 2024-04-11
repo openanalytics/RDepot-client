@@ -61,7 +61,23 @@
           :label="$t('settings.filtration.userLogin')"
           @loadItems="loadUsers"
           :storeId="storeIdUser"
-        ></validated-input-field>
+          :template="true"
+        >
+          <template #item="{ item, props }">
+            <v-list-item
+              v-bind="props"
+              v-intersect="loadUsers"
+            >
+              <template v-slot:prepend="{ isActive }">
+                <v-list-item-action start>
+                  <v-checkbox-btn
+                    :model-value="isActive"
+                  ></v-checkbox-btn>
+                </v-list-item-action>
+              </template>
+            </v-list-item>
+          </template>
+        </validated-input-field>
       </v-col>
       <v-col sm="1">
         <validated-input-field
@@ -108,17 +124,17 @@ import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useSettingsStore } from '@/store/settings'
 import { isAtLeastAdmin } from '@/enum/UserRoles'
-import { useAuthorizationStore } from '@/store/authorization'
 import { useUsersFiltration } from '@/composable/filtration/usersFiltration'
 import { onMounted } from 'vue'
 import ResetButton from '@/components/common/ResetButton.vue'
 import { useMeStore } from '@/store/me'
+import { onBeforeMount } from 'vue'
 
-const authorizationStore = useAuthorizationStore()
 const meStore = useMeStore()
 const settingsStore = useSettingsStore()
 
-const { storeIdUser, loadUsers } = useUsersFiltration()
+const { storeIdUser, loadUsers, resetPaginationUsers } =
+  useUsersFiltration()
 
 const { setValues, values, setFieldValue } = useForm({
   validationSchema: toTypedSchema(TokensFiltration),
@@ -145,6 +161,8 @@ onMounted(() => {
     setFiltration()
   }
 })
+
+onBeforeMount(() => resetPaginationUsers())
 </script>
 
 <style lang="scss">

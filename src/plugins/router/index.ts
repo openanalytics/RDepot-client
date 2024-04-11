@@ -27,6 +27,7 @@ import { useAuthorizationStore } from '@/store/authorization'
 import * as helper from '@/plugins/router/helpers'
 import { Technologies } from '@/enum/Technologies'
 import getEnv from '@/utils/env'
+import { useUserStore } from '@/store/users'
 
 const DEFAULT_TITLE = i18n.t('common.projectTitle')
 
@@ -79,6 +80,9 @@ router.beforeResolve(async (to) => {
       await helper.loadRepositoryDetails(
         String(to.params.name)
       )
+      break
+    case 'users':
+      useUserStore().clearFiltration()
       break
     default:
       break

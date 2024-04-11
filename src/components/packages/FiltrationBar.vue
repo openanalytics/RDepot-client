@@ -145,7 +145,23 @@
           :label="$t('packages.filtration.maintainer')"
           @loadItems="loadMaintainers"
           :storeId="storeIdMaintainer"
-        ></validated-input-field>
+          :template="true"
+        >
+          <template #item="{ item, props }">
+            <v-list-item
+              v-bind="props"
+              v-intersect="loadMaintainers"
+            >
+              <template v-slot:prepend="{ isActive }">
+                <v-list-item-action start>
+                  <v-checkbox-btn
+                    :model-value="isActive"
+                  ></v-checkbox-btn>
+                </v-list-item-action>
+              </template>
+            </v-list-item>
+          </template>
+        </validated-input-field>
       </v-col>
       <v-spacer />
       <v-col sm="1" class="reset-button">

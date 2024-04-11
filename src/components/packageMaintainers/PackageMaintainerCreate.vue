@@ -41,7 +41,18 @@
           @loadItems="loadUsersObjects('packageMaintainer')"
           @filtrate="filtrateUsers"
           :storeId="storeIdUser"
-        />
+          :template="true"
+        >
+          <template #item="{ item, props }">
+            <v-list-item
+              v-bind="props"
+              v-intersect="
+                loadUsersObjects('packageMaintainer')
+              "
+            >
+            </v-list-item>
+          </template>
+        </validated-input-field>
         <validated-input-field
           as="autocomplete"
           name="repository"

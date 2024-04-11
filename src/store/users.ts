@@ -89,7 +89,11 @@ export const useUserStore = defineStore('userStore', {
     },
     async fetchUsersList(page: number, pageSize = 3) {
       const [repositories, pageData] =
-        await fetchFullUsersList(page, pageSize)
+        await fetchFullUsersList(
+          page,
+          pageSize,
+          this.filtration
+        )
       this.userList = repositories
       return pageData
     },
