@@ -284,7 +284,8 @@ describe('Upload summary - success', () => {
   })
 
   it('download manual after click action ', async () => {
-    const spy = vi.spyOn(packageStore, 'downloadManual')
+    const spy = vi.fn(() => {})
+    packageStore.downloadManual = spy
     const downloadIcon = wrapper.find(
       '#download-manual-icon'
     )

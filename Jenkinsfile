@@ -14,6 +14,7 @@ pipeline {
     REGISTRY = 'registry.openanalytics.eu'
     IMAGE = 'rdepot-client'
     DOCKER_BUILDKIT = '1'
+    NO_COLOR = 'true'
   }
   stages {
     stage('Prepare Environment') {
@@ -56,11 +57,6 @@ pipeline {
         withChecks('UI Unit Tests') {
           junit "reports/test-report.xml"
         }
-        publishHTML([
-          reportDir: 'reports', reportFiles: 'test-report.html',
-          reportName: 'UI Unit Tests Report',
-          allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true])
-      }
     }
     stage('Build & Publish') {
       when {
