@@ -263,7 +263,11 @@ export const useSubmissionStore = defineStore(
             })
             .catch((err) => {
               promise.state = 'error'
-              promise.error = err.response.data.data
+              if (err.response?.data.data) {
+                promise.error = err.response.data.data
+              } else if (err.response?.data) {
+                promise.error = err.response.data
+              }
             })
             .finally(() => {
               if (++fulfilled == this.promises.length) {

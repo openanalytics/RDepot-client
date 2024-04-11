@@ -287,6 +287,7 @@
     "list": "Packages",
     "maintainer": "Maintainer",
     "maintainers": "Package maintainers",
+    "noInstallInstruction": "The repository has not been published yet.",
     "noVignette": "No vignettes available",
     "oldSources": "Old sources",
     "originalPackageData": "As described in \"{0}\" package",
@@ -440,6 +441,6 @@
       "roles": "Roles",
       "searchBox": "User..."
     },
-    "unableDeactivation": "User can't deactivate themself"
+    "unableDeactivation": "Users cannot deactivate themselves"
   }
 }

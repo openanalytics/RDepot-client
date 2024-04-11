@@ -42,6 +42,8 @@ import {
 } from '@/models/Filtration'
 import flushPromises from 'flush-promises'
 import waitForExpect from 'wait-for-expect'
+import { useMeStore } from '@/store/me'
+import me from '@/__tests__/config/mockData/me.json'
 
 let wrapper: any
 const globalConfig = {
@@ -49,6 +51,7 @@ const globalConfig = {
   plugins: plugins
 }
 let repositoriesStore: any
+let meStore: any
 
 const EXAMPLE_REPOSITORY_FILTRATION =
   RepositoriesFiltration.parse({
@@ -66,6 +69,8 @@ beforeAll(() => {
 beforeEach(async () => {
   setActivePinia(createPinia())
   repositoriesStore = useRepositoryStore()
+  meStore = useMeStore()
+  meStore.me = me.data
   wrapper = mount(FiltrationBarVue, {
     global: globalConfig
   })

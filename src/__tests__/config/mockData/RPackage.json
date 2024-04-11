@@ -10,7 +10,8 @@
     "id": 4,
     "name": "testrepo3",
     "publicationUri": "http://localhost/repo/testrepo3",
-    "technology": "R"
+    "technology": "R",
+    "published": true
   },
   "name": "A3",
   "version": "0.9.2",

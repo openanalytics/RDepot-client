@@ -84,7 +84,7 @@ import { useCommonStore } from '@/store/common'
 import moment from 'moment'
 
 const { current } = useTheme()
-const { lgAndUp, mdAndUp, smAndUp, smAndDown } =
+const { xlAndUp, lgAndUp, mdAndUp, smAndDown } =
   useDisplay()
 const { isYearAndMonthDate, getMonthAndYear, getDate } =
   useDates()
@@ -95,13 +95,13 @@ const hiddenDays = ref<string[]>([])
 const hiddenMonths = ref<string[]>([])
 
 const eventBoxWidth = computed(() => {
-  return lgAndUp
+  return xlAndUp.value
     ? '650'
-    : mdAndUp
+    : lgAndUp.value
+    ? '500'
+    : mdAndUp.value
     ? '450'
-    : smAndUp
-    ? '400'
-    : '250'
+    : '400'
 })
 
 function getDotColor(item: any) {

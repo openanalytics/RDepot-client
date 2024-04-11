@@ -1,0 +1,5 @@
+.gitignore
+Jenkinsfile
+.husky
+.vscode
+kubernetesPod.yaml

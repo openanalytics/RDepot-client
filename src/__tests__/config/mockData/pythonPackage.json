@@ -10,7 +10,8 @@
     "id": 10,
     "name": "testrepo10",
     "publicationUri": "http://localhost/repo/testrepo10",
-    "technology": "Python"
+    "technology": "Python",
+    "published": "true"
   },
   "submissionId": 49,
   "name": "accelerated-numpy",

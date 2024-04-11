@@ -40,6 +40,8 @@ import {
   defaultValues
 } from '@/models/Filtration'
 import waitForExpect from 'wait-for-expect'
+import me from '@/__tests__/config/mockData/me.json'
+import { useMeStore } from '@/store/me'
 
 let wrapper: any
 const globalConfig = {
@@ -47,6 +49,7 @@ const globalConfig = {
   plugins: plugins
 }
 let userStore: any
+let meStore: any
 
 const EXAMPLE_USER_FILTRATION = UsersFiltration.parse({
   active: true,
@@ -61,6 +64,8 @@ beforeAll(() => {
 beforeEach(async () => {
   setActivePinia(createPinia())
   userStore = useUserStore()
+  meStore = useMeStore()
+  meStore.me = me.data
   wrapper = mount(FiltrationBarVue, {
     global: globalConfig
   })

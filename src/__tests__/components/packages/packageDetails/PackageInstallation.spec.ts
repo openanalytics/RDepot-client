@@ -31,7 +31,8 @@ import RPackage from '@/__tests__/config/mockData/RPackage.json'
 import { createPinia, setActivePinia } from 'pinia'
 import PackageInstallation from '@/components/packages/packageDetails/PackageInstallation.vue'
 import { usePackageDetailsStore } from '@/store/package_details'
-import { nextTick } from 'process'
+import { nextTick } from 'vue'
+import { useUtilities } from '@/composable/utilities'
 
 let wrapper: any
 let packageDetailsStore: any
@@ -67,6 +68,18 @@ describe('Package Installation', () => {
   it('display correct installation command Python', () => {
     expect(wrapper.find('#install-command').text()).toBe(
       `pip -v install --index-url ${pythonPackage.repository?.publicationUri} ${pythonPackage.name}`
+    )
+  })
+
+  it('display proper info when repository is not published', async () => {
+    const packageDetailsStore = usePackageDetailsStore()
+    const { deepCopy } = useUtilities()
+    const localPackage = deepCopy(RPackage)
+    localPackage.repository.published = false
+    packageDetailsStore.packageBag = localPackage
+    await nextTick(() => {})
+    expect(wrapper.text()).toBe(
+      'packages.installpackages.noInstallInstruction'
     )
   })
 

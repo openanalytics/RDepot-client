@@ -59,6 +59,12 @@ export interface RepositoryProjection {
   publicationUri?: string
 
   /**
+   * @type {boolean}
+   * @memberof RepositoryProjection
+   */
+  published?: boolean
+
+  /**
    * @type {string}
    * @memberof RepositoryProjection
    */

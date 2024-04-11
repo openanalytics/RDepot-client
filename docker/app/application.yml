@@ -40,8 +40,16 @@ spring:
     enabled: true
 
 # Authentication related properties
+keycloak:
+  jwk-set-uri: http://keycloak:8080/auth/realms/RDepot/protocol/openid-connect/certs
+  login-field: preferred_username
+
 app:
-  authentication: simple
+  authentication: keycloak
+  keycloak:
+    default:
+      admins:
+        - einstein
   simple:
     users:
       - login: einstein

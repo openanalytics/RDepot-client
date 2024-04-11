@@ -23,6 +23,7 @@
 <template>
   <div v-if="isSimpleAuthAvailable()">
     <validated-input-field
+      id="username-input"
       name="username"
       as="v-text-field"
       class="mt-10"
@@ -30,27 +31,26 @@
       color="oablue"
       required
       autofocus
-      id="username-input"
     />
 
     <validated-input-field
+      id="password-input"
       name="password"
       as="v-text-field"
       :label="$t('authorization.password')"
       type="password"
       color="oablue"
       required
-      id="password-input"
     />
 
     <v-row class="form-buttons my-10">
       <v-col>
         <v-btn
+          id="login-simple-button"
           style="width: 100%; justify-self: center"
           class="btn"
-          @click="loginSimple"
           color="oablue"
-          id="login-simple-button"
+          @click="loginSimple"
         >
           {{ $t('authorization.login') }}
         </v-btn>
@@ -92,7 +92,7 @@ onKeyStroke('Enter', () => {
 })
 
 async function loginSimple() {
-  validate()
+  await validate()
   if (meta.value.valid)
     authorizationStore.simpleLogin(values as Login)
 }

@@ -37,9 +37,13 @@ import { useSubmissionStore } from '@/store/submission'
 import SubmissionsListVue from '@/components/submissions/SubmissionList.vue'
 import SubmissionRowVue from '@/components/submissions/SubmissionRow.vue'
 import submissions from '@/__tests__/config/mockData/rSubmissions.json'
+import { useMeStore } from '@/store/me'
+import me from '@/__tests__/config/mockData/me.json'
 
 let wrapper: any
 let submissionStore: any
+let meStore: any
+
 const globalConfig = {
   mocks: mocks,
   plugins: plugins
@@ -48,6 +52,8 @@ beforeAll(() => {
   global.ResizeObserver = ResizeObserver
   setActivePinia(createPinia())
   submissionStore = useSubmissionStore()
+  meStore = useMeStore()
+  meStore.me = me.data
 })
 
 beforeEach(async () => {

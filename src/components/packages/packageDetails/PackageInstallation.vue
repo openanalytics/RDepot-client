@@ -24,36 +24,43 @@
   <div class="subtitle my-5">
     {{ $t('packages.install') }}
   </div>
-  <div class="text">
-    {{
-      $t('packages.installInstruction', [
-        packageBag?.technology
-      ])
-    }}
-  </div>
+  <div v-if="packageBag?.repository?.published">
+    <div class="text">
+      {{
+        $t('packages.installInstruction', [
+          packageBag?.technology
+        ])
+      }}
+    </div>
 
-  <div class="code mb-2 mt-4 mr-2 ml-1">
-    <code
-      id="install-command"
-      class="d-flex justify-lg-space-between pt-7"
-    >
-      {{ installCommand }}
-      <v-tooltip location="left">
-        <template #activator="{ props }">
-          <div id="tooltip-activator" v-bind="props">
-            <v-icon
-              @click="copyContent()"
-              icon="mdi-content-copy"
-              size="large"
-              start
-            />
-          </div>
-        </template>
-        <span id="tooltip-wait">{{
-          $t('packages.copy')
-        }}</span>
-      </v-tooltip>
-    </code>
+    <div class="code mb-2 mt-4 mr-2 ml-1">
+      <code
+        id="install-command"
+        class="d-flex justify-lg-space-between pt-7"
+      >
+        {{ installCommand }}
+        <v-tooltip location="left">
+          <template #activator="{ props }">
+            <div id="tooltip-activator" v-bind="props">
+              <v-icon
+                icon="mdi-content-copy"
+                size="large"
+                start
+                @click="copyContent()"
+              />
+            </div>
+          </template>
+          <span id="tooltip-wait">{{
+            $t('packages.copy')
+          }}</span>
+        </v-tooltip>
+      </code>
+    </div>
+  </div>
+  <div v-else>
+    <div class="text">
+      {{ $t('packages.noInstallInstruction') }}
+    </div>
   </div>
 </template>
 
