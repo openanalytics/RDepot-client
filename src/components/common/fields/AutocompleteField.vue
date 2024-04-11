@@ -96,7 +96,6 @@ function customFiltrate(
 }
 
 async function loadItems() {
-  console.log('load items')
   if (
     selectStore.paginationData.totalNumber < 0 ||
     !selectStore.shouldFetchNextPage
@@ -108,13 +107,9 @@ async function loadItems() {
 watchDebounced(
   queryTerm,
   () => {
-    console.log('debouncing!!')
     if (!selectStore.ifAllFetched) {
-      console.log(selectStore.items)
       emits('filtrate', queryTerm.value)
       selectStore.resetItems()
-      console.log(selectStore.items)
-
       selectStore.resetPagination()
       loadItems()
     }

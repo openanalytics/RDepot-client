@@ -124,6 +124,7 @@ export async function fetchRoles(): ValidatedRRoles {
 export async function fetchFullUsersList(
   page?: number,
   pageSize?: number,
+  filtration?: UsersFiltration,
   showProgress = false
 ): ValidatedUsers {
   if (!isAuthorized('GET', 'users')) {
@@ -136,7 +137,7 @@ export async function fetchFullUsersList(
       page,
       pageSize,
       ['name,asc'],
-      undefined,
+      filtration?.roles,
       undefined,
       undefined
     ],

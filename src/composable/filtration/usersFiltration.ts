@@ -28,11 +28,6 @@ import {
   UserObject,
   UserObjectCreate
 } from '@/store/select_pagination'
-import {
-  stringToRole,
-  isAtLeastPackageMaintainer,
-  isAtLeastRepositoryMaintainer
-} from '@/enum/UserRoles'
 
 export function useUsersFiltration() {
   const storeIdUser: SelectState = 'user'
@@ -46,45 +41,105 @@ export function useUsersFiltration() {
   }
 
   async function loadUsers() {
-    await userStore.fetchAllUsers()
-    selectStore.addItems(
-      userStore.userList.map((user: EntityModelUserDto) => {
-        return {
-          value: user.login,
-          title: user.name
-        } as UserObject
-      })
-    )
+    if (
+      selectStore.items.length !=
+        selectStore.paginationData.totalNumber ||
+      selectStore.paginationData.totalNumber == -1
+    ) {
+      selectStore.setPage(
+        selectStore.paginationData.page + 1
+      )
+      if (
+        selectStore.shouldFetchNextPage &&
+        ((selectStore.paginationData.totalNumber > 0 &&
+          selectStore.paginationData.page <=
+            Math.ceil(
+              selectStore.paginationData.totalNumber /
+                selectStore.pageSize
+            )) ||
+          selectStore.paginationData.totalNumber < 0)
+      ) {
+        await userStore
+          .fetchUsersList(
+            selectStore.paginationData.page - 1,
+            selectStore.pageSize
+          )
+          .then((res) => {
+            selectStore.paginationData.totalNumber =
+              res.totalNumber
+          })
+        selectStore.addItems(
+          userStore.userList.map(
+            (user: EntityModelUserDto) => {
+              return {
+                value: user.login,
+                title: user.name
+              } as UserObject
+            }
+          )
+        )
+      }
+    }
   }
 
   async function loadUsersObjects(desiredRoles?: string) {
-    selectStore.paginationData =
-      await userStore.fetchUsersList(
-        selectStore.paginationData.page
+    if (
+      selectStore.items.length !=
+        selectStore.paginationData.totalNumber ||
+      selectStore.paginationData.totalNumber == -1
+    ) {
+      selectStore.setPage(
+        selectStore.paginationData.page + 1
       )
-    selectStore.addItems(
-      userStore.userList
-        .filter((user) => {
-          switch (desiredRoles) {
-            case 'packageMaintainer':
-              return isAtLeastPackageMaintainer(
-                stringToRole(user.role || 'user')
-              )
-            case 'repositoryMaintainer':
-              return isAtLeastRepositoryMaintainer(
-                stringToRole(user.role || 'user')
-              )
-            default:
-              return true
-          }
-        })
-        .map((user: EntityModelUserDto) => {
-          return {
-            value: user.id,
-            title: user.name
-          } as UserObjectCreate
-        })
-    )
+      if (
+        selectStore.shouldFetchNextPage &&
+        ((selectStore.paginationData.totalNumber > 0 &&
+          selectStore.paginationData.page <=
+            Math.ceil(
+              selectStore.paginationData.totalNumber /
+                selectStore.pageSize
+            )) ||
+          selectStore.paginationData.totalNumber < 0)
+      ) {
+        switch (desiredRoles) {
+          case 'packageMaintainer':
+            userStore.filtration.roles = [
+              'packagemaintainer',
+              'repositorymaintainer',
+              'admin'
+            ]
+            break
+          case 'repositoryMaintainer':
+            userStore.filtration.roles = [
+              'repositorymaintainer',
+              'admin'
+            ]
+            break
+          default:
+            userStore.filtration.roles = undefined
+            break
+        }
+        await userStore
+          .fetchUsersList(
+            selectStore.paginationData.page - 1,
+            selectStore.pageSize
+          )
+          .then((res) => {
+            selectStore.paginationData.totalNumber =
+              res.totalNumber
+          })
+        selectStore.addItems(
+          userStore.userList.map(
+            (user: EntityModelUserDto) => {
+              return {
+                value: user.id,
+                title: user.name
+              } as UserObjectCreate
+            }
+          )
+        )
+      }
+    }
   }
 
   function filtrateUsers(value: string | undefined) {

@@ -41,16 +41,41 @@ export function usePackageMaintainersFiltration() {
   }
 
   async function loadMaintainers() {
-    selectStore.paginationData =
-      await packageMaintainerStore.fetchMaintainersList(
-        selectStore.paginationData.page
+    if (
+      selectStore.items.length !=
+        selectStore.paginationData.totalNumber ||
+      selectStore.paginationData.totalNumber == -1
+    ) {
+      selectStore.setPage(
+        selectStore.paginationData.page + 1
       )
-    selectStore.addItems(
-      packageMaintainerStore.maintainers.map(
-        (maintainer: EntityModelPackageMaintainerDto) =>
-          maintainer.user?.name
-      )
-    )
+      if (
+        selectStore.shouldFetchNextPage &&
+        ((selectStore.paginationData.totalNumber > 0 &&
+          selectStore.paginationData.page <=
+            Math.ceil(
+              selectStore.paginationData.totalNumber /
+                selectStore.pageSize
+            )) ||
+          selectStore.paginationData.totalNumber < 0)
+      ) {
+        await packageMaintainerStore
+          .fetchMaintainersList(
+            selectStore.paginationData.page - 1,
+            selectStore.pageSize
+          )
+          .then((res) => {
+            selectStore.paginationData.totalNumber =
+              res.totalNumber
+          })
+        selectStore.addItems(
+          packageMaintainerStore.maintainers.map(
+            (maintainer: EntityModelPackageMaintainerDto) =>
+              maintainer.user?.name
+          )
+        )
+      }
+    }
   }
 
   return {
