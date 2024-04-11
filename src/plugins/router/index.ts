@@ -24,6 +24,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { routes } from '@/plugins/router/routes'
 import { i18n } from '@/plugins/i18n'
 import { useAuthorizationStore } from '@/store/authorization'
+import { useMeStore } from '@/store/me'
 import * as helper from '@/plugins/router/helpers'
 import { Technologies } from '@/enum/Technologies'
 import getEnv from '@/utils/env'
@@ -51,6 +52,10 @@ router.beforeEach(async (to) => {
     if (!(await authorizationStore.isUserLoggedIn())) {
       helper.hideSidebar(true)
       return helper.redirectToLoginPage()
+    }
+    const meStore = useMeStore()
+    if (!meStore.me.role) {
+      await authorizationStore.postLoginOperations()
     }
     helper.hideSidebar(false)
   } else if (to.name == 'login') {
