@@ -57,6 +57,7 @@ pipeline {
         withChecks('UI Unit Tests') {
           junit "reports/test-report.xml"
         }
+      }
     }
     stage('Build & Publish') {
       when {
