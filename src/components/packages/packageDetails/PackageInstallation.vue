@@ -24,7 +24,7 @@
   <div class="subtitle my-5">
     {{ $t('packages.install') }}
   </div>
-  <div v-if="packageBag.repository.published">
+  <div v-if="packageBag?.repository?.published">
     <div class="text">
       {{
         $t('packages.installInstruction', [
@@ -43,10 +43,10 @@
           <template #activator="{ props }">
             <div id="tooltip-activator" v-bind="props">
               <v-icon
-                @click="copyContent()"
                 icon="mdi-content-copy"
                 size="large"
                 start
+                @click="copyContent()"
               />
             </div>
           </template>
