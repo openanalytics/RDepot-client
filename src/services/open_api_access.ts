@@ -32,6 +32,7 @@ import { i18n } from '@/plugins/i18n'
 import { useMeStore } from '@/store/me'
 
 export async function openApiRequest<T>(
+  // eslint-disable-next-line @typescript-eslint/ban-types
   callback: Function,
   parameters?: any[],
   showProgress = true,
