@@ -126,7 +126,6 @@
         v-if="title"
         :text="$t('columns.submissions.technology')"
         sortKey="columns.submissions.technology"
-        no-sort
         :justify="JustifyEnum.Enum.center"
       />
       <TextRecord v-else :text="submission?.technology">

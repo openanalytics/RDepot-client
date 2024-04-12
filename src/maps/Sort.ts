@@ -75,7 +75,10 @@ export const SORT_PARAMS: Map<string, string> = new Map<
   ],
   ['columns.submissions.submitter', 'submitter.name'],
   ['columns.submissions.approver', 'approver.name'],
-  ['columns.submissions.technology', 'technology'],
+  [
+    'columns.submissions.technology',
+    'packageBag.repository.technology'
+  ],
   ['columns.submissions.accepted', 'state'],
 
   ['columns.tokens.name', 'name'],

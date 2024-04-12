@@ -67,7 +67,6 @@
     >
       <SortTitle
         v-if="title"
-        no-sort
         :justify="JustifyEnum.Enum.center"
         :text="
           $t('columns.repositoryMaintainer.technology')
