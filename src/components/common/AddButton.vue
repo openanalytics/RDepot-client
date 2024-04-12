@@ -28,6 +28,7 @@
           id="add-maintainer"
           :disabled="configStore.declarativeMode"
           :component="OverlayEnum.enum.Create"
+          size="small"
         >
           <span class="pr-3">
             {{ $t('common.create') }}</span

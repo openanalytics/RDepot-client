@@ -129,7 +129,17 @@
         no-sort
         :justify="JustifyEnum.Enum.center"
       />
-      <TextRecord v-else :text="submission?.technology" />
+      <TextRecord v-else :text="submission?.technology">
+        <slot
+          ><v-chip
+            size="small"
+            color="oablue"
+            style="cursor: pointer"
+          >
+            {{ submission?.technology }}</v-chip
+          ></slot
+        ></TextRecord
+      >
     </v-col>
     <v-col
       id="submission-accepted"
@@ -144,7 +154,10 @@
         direction="desc"
       />
 
-      <v-tooltip location="right" v-else-if="submission">
+      <v-tooltip
+        location="bottom center"
+        v-else-if="submission"
+      >
         <template #activator="{ props }">
           <div
             id="tooltip-activator"

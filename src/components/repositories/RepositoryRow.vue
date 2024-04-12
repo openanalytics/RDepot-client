@@ -81,12 +81,24 @@
     >
       <SortTitle
         v-if="title"
+        :text="$t('columns.package.technology')"
+        sortKey="columns.package.technology"
         :justify="JustifyEnum.Enum.center"
-        :text="$t('columns.repository.technology')"
-        sortKey="columns.repository.technology"
       />
-      <TextRecord v-else :text="repository?.technology" />
+      <TextRecord v-else :text="repository?.technology">
+        <slot
+          ><v-chip
+            class="mr-5"
+            size="small"
+            color="oablue"
+            style="cursor: pointer"
+          >
+            {{ repository?.technology }}</v-chip
+          ></slot
+        >
+      </TextRecord>
     </v-col>
+
     <v-col
       id="repository-version"
       cols="lg-1 sm-2"

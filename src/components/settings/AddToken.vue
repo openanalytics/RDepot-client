@@ -27,19 +27,17 @@
   >
     <v-row>
       <v-spacer></v-spacer>
-      <div id="tooltip-activator" class="d-flex flex-row">
-        <v-btn
-          id="common-button"
-          color="oablue"
+      <div id="tooltip-activator" class="mr-10 mt-2">
+        <CommonButton
+          id="add-maintainer"
+          :component="OverlayEnum.enum.Create"
           size="small"
-          dark
-          dense
-          @click="openModal"
-          class="mx-3 ml-auto my-3"
         >
-          <span> {{ $t('common.create') }}</span>
-          <v-icon icon="mdi-plus" />
-        </v-btn>
+          <span class="pr-3">
+            {{ $t('common.create') }}</span
+          >
+          <v-icon icon="mdi-plus"
+        /></CommonButton>
       </div>
     </v-row>
   </v-container>
@@ -47,6 +45,7 @@
 
 <script setup lang="ts">
 import { useCommonStore } from '@/store/common'
+import CommonButton from '@/components/common/Button.vue'
 import { OverlayEnum } from '@/enum/Overlay'
 
 const commonStore = useCommonStore()

@@ -71,9 +71,48 @@
         v-if="title"
         :text="$t('columns.package.maintainer')"
         sortKey="columns.package.maintainer"
-        :justify="JustifyEnum.Enum.center"
       />
       <TextRecord v-else :text="packageBag?.user?.name" />
+    </VCol>
+
+    <VCol
+      id="package-row-repository"
+      cols="lg-1 sm-2"
+      class="d-flex align-center justify-center"
+    >
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.package.repository')"
+        sortKey="columns.package.repository"
+      />
+      <TextRecord
+        v-else
+        :text="packageBag?.repository?.name"
+      />
+    </VCol>
+    <VCol
+      id="package-row-technology"
+      cols="lg-1 sm-2"
+      class="d-flex align-center justify-center"
+    >
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.package.technology')"
+        sortKey="columns.package.technology"
+        :justify="JustifyEnum.Enum.center"
+      />
+      <TextRecord v-else :text="packageBag?.technology">
+        <slot
+          ><v-chip
+            class="mr-5"
+            size="small"
+            color="oablue"
+            style="cursor: pointer"
+          >
+            {{ packageBag?.technology }}</v-chip
+          ></slot
+        >
+      </TextRecord>
     </VCol>
 
     <VCol
@@ -85,14 +124,17 @@
         v-if="title"
         :text="$t('columns.package.state')"
         sortKey="columns.package.state"
-        :justify="JustifyEnum.Enum.center"
+        :justify="JustifyEnum.Enum['space-between']"
       />
-      <v-tooltip location="right" v-else-if="packageBag">
+      <v-tooltip
+        location="bottom center"
+        v-else-if="packageBag"
+      >
         <template #activator="{ props }">
           <div
             id="tooltip-activator"
             v-bind="props"
-            class="mt-2"
+            class="mt-2 mr-5"
           >
             <v-icon
               :icon="
@@ -128,37 +170,8 @@
     </VCol>
 
     <VCol
-      id="package-row-technology"
-      cols="lg-1 sm-2"
-      class="d-flex align-center justify-center"
-    >
-      <SortTitle
-        v-if="title"
-        :text="$t('columns.package.technology')"
-        sortKey="columns.package.technology"
-        :justify="JustifyEnum.Enum.center"
-      />
-      <TextRecord v-else :text="packageBag?.technology" />
-    </VCol>
-    <VCol
-      id="package-row-repository"
-      cols="lg-1 sm-2"
-      class="d-flex align-center justify-center"
-    >
-      <SortTitle
-        v-if="title"
-        :text="$t('columns.package.repository')"
-        sortKey="columns.package.repository"
-        :justify="JustifyEnum.Enum.center"
-      />
-      <TextRecord
-        v-else
-        :text="packageBag?.repository?.name"
-      />
-    </VCol>
-    <VCol
       id="package-row-active"
-      cols="lg-1"
+      cols="1"
       class="d-flex justify-center align-center"
     >
       <SortTitle
@@ -197,7 +210,7 @@
     </VCol>
     <VCol
       id="package-row-actions"
-      cols="lg-1"
+      cols="1"
       class="d-flex justify-center align-center"
     >
       <SortTitle
