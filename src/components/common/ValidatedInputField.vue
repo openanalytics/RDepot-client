@@ -49,6 +49,7 @@ import {
 } from 'vuetify/components'
 import { z } from 'zod'
 import AutocompleteField from '@/components/common/fields/AutocompleteField.vue'
+import ComboboxField from '@/components/common/fields/ComboboxField.vue'
 
 const props = defineProps<{
   name: string
@@ -62,7 +63,8 @@ const component = z.enum([
   'v-select',
   'v-switch',
   'v-combobox',
-  'autocomplete'
+  'autocomplete',
+  'combobox'
 ])
 type Component = z.infer<typeof component>
 
@@ -71,7 +73,8 @@ const toComponent = new Map<Component, any>([
   [component.enum['v-select'], VSelect],
   [component.enum['v-switch'], VSwitch],
   [component.enum['v-combobox'], VCombobox],
-  [component.enum['autocomplete'], AutocompleteField]
+  [component.enum['autocomplete'], AutocompleteField],
+  [component.enum['combobox'], ComboboxField]
 ])
 
 const as = toComponent.get(props.as)
