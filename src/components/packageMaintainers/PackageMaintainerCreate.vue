@@ -259,7 +259,7 @@ function updatePackageName(newValue: any) {
       ? {
           title: newValue,
           value: newValue,
-          props: { subtitle: ' ' }
+          props: { subtitle: 'a' }
         }
       : newValue
   )
