@@ -105,7 +105,11 @@ export const usePackageMaintainersStore = defineStore(
         pageSize = 8
       ) {
         const [maintainers, pageData] =
-          await fetchFullMaintainersList(page, pageSize)
+          await fetchFullMaintainersList(
+            page,
+            pageSize,
+            this.filtration
+          )
         this.maintainers = maintainers
         return pageData
       },
@@ -157,6 +161,10 @@ export const usePackageMaintainersStore = defineStore(
             PackageMaintainersFiltration.parse(payload)
         }
         await this.fetchMaintainers()
+      },
+      setFiltrationByName(payload: string | undefined) {
+        this.clearFiltration()
+        this.filtration.search = payload
       },
       clearFiltration() {
         const pagination = usePagination()

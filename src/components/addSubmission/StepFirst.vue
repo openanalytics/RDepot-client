@@ -25,7 +25,7 @@
     <AutocompleteField
       class="mt-5"
       @loadItems="loadRepositoriesObjects"
-      @filtrate="filtrateRepositories"
+      @filtrate="filtrateRepositoriesObjects"
       :storeId="storeId"
       :label="$t('addSubmission.step1Title')"
       filled
@@ -80,7 +80,7 @@ const { t } = useI18n()
 
 const {
   storeId,
-  filtrateRepositories,
+  filtrateRepositoriesObjects,
   loadRepositoriesObjects,
   resetPagination
 } = useRepositoriesFiltration()

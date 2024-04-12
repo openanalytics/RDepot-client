@@ -85,8 +85,15 @@ export function usePackagesFiltration() {
   function filtratePackagesObjects(
     value: string | undefined
   ) {
-    if (packagesStore.filtration.repository !== value) {
-      packagesStore.setFiltrationByRepositoryOnly(value)
+    if (value === undefined) {
+      // if (
+      //   packagesStore.filtration.repository === undefined
+      // ) {
+      //   packagesStore.clearFiltration()
+      // }
+    } else if (packagesStore.filtration.search !== value) {
+      resetPaginationPackages()
+      packagesStore.filtration.search = value
     }
   }
 

@@ -116,7 +116,7 @@ export function fetchFullPackagesList(
       undefined,
       undefined,
       undefined,
-      undefined,
+      filtration?.search,
       undefined
     ],
     showProgress

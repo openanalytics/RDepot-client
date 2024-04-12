@@ -129,7 +129,12 @@ export function useRepositoriesFiltration() {
   function filtrateRepositoriesObjects(
     value: string | undefined
   ) {
-    if (repositoriesStore.filtration.name !== value) {
+    if (value === undefined) {
+      repositoriesStore.clearFiltration()
+    } else if (
+      repositoriesStore.filtration.name !== value
+    ) {
+      resetPagination()
       repositoriesStore.setFiltrationByName(value)
     }
   }

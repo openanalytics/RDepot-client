@@ -143,7 +143,10 @@ export function useUsersFiltration() {
   }
 
   function filtrateUsers(value: string | undefined) {
-    if (userStore.filtration.search !== value) {
+    if (value === undefined) {
+      userStore.clearFiltration()
+    } else if (userStore.filtration.search !== value) {
+      resetPaginationUsers()
       userStore.setFiltrationByName(value)
     }
   }

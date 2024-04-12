@@ -95,6 +95,7 @@ export async function fetchAllPackageMaintainers(): ValidatedPackageMaintainers 
 export async function fetchFullMaintainersList(
   page?: number,
   pageSize?: number,
+  filtration?: PackageMaintainersFiltration,
   showProgress = false
 ): ValidatedPackageMaintainers {
   if (!isAuthorized('GET', 'packageMaintainers')) {
@@ -111,7 +112,7 @@ export async function fetchFullMaintainersList(
       undefined,
       undefined,
       undefined,
-      undefined
+      filtration?.search
     ],
     showProgress
   ).catch(() => {

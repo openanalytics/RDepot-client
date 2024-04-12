@@ -78,9 +78,21 @@ export function usePackageMaintainersFiltration() {
     }
   }
 
+  function filtrateMaintainers(value: string | undefined) {
+    if (value === undefined) {
+      packageMaintainerStore.clearFiltration()
+    } else if (
+      packageMaintainerStore.filtration.search !== value
+    ) {
+      resetPaginationMaintainers()
+      packageMaintainerStore.setFiltrationByName(value)
+    }
+  }
+
   return {
     storeIdMaintainer,
     loadMaintainers,
-    resetPaginationMaintainers
+    resetPaginationMaintainers,
+    filtrateMaintainers
   }
 }

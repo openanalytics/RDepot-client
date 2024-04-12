@@ -92,7 +92,7 @@
           clearable
           :label="$t('packages.filtration.repository')"
           @loadItems="loadRepositories"
-          @filtrate="filtrateRepositories"
+          @filtrate="filtrateRepositoriesObjects"
           :storeId="storeId"
           :template="true"
         >
@@ -172,8 +172,11 @@ const {
   selectDate,
   closeModal
 } = useDatePicker()
-const { storeId, filtrateRepositories, loadRepositories } =
-  useRepositoriesFiltration()
+const {
+  storeId,
+  filtrateRepositoriesObjects,
+  loadRepositories
+} = useRepositoriesFiltration()
 
 const submissionsStore = useSubmissionStore()
 

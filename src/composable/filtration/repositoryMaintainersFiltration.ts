@@ -79,9 +79,21 @@ export function useRepositoryMaintainersFiltration() {
     }
   }
 
+  function filtrateMaintainers(value: string | undefined) {
+    if (value === undefined) {
+      repositoryMaintainerStore.clearFiltration()
+    } else if (
+      repositoryMaintainerStore.filtration.search !== value
+    ) {
+      resetPaginationMaintainers()
+      repositoryMaintainerStore.setFiltrationByName(value)
+    }
+  }
+
   return {
     storeIdMaintainer,
     loadMaintainers,
-    resetPaginationMaintainers
+    resetPaginationMaintainers,
+    filtrateMaintainers
   }
 }

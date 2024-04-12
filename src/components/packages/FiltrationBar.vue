@@ -67,7 +67,7 @@
           clearable
           :label="$t('packages.filtration.repository')"
           @loadItems="loadRepositories"
-          @filtrate="filtrateRepositories"
+          @filtrate="filtrateRepositoriesObjects"
           :storeId="storeId"
           :template="true"
         >
@@ -145,6 +145,7 @@
           :label="$t('packages.filtration.maintainer')"
           @loadItems="loadMaintainers"
           :storeId="storeIdMaintainer"
+          @filtrate="filtrateMaintainers"
           :template="true"
         >
           <template #item="{ item, props }">
@@ -198,14 +199,15 @@ const { states, technologies } = useEnumFiltration()
 const meStore = useMeStore()
 const {
   storeId,
-  filtrateRepositories,
+  filtrateRepositoriesObjects,
   loadRepositories,
   resetPagination
 } = useRepositoriesFiltration()
 const {
   storeIdMaintainer,
   loadMaintainers,
-  resetPaginationMaintainers
+  resetPaginationMaintainers,
+  filtrateMaintainers
 } = usePackageMaintainersFiltration()
 const packageStore = usePackagesStore()
 

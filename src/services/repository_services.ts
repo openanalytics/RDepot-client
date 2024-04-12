@@ -129,12 +129,12 @@ export function fetchAllUndeletedRepositoriesServices(): ValidatedRepositories {
 export function fetchFullRepositoriesList(
   page?: number,
   pageSize?: number,
+  filtration?: RepositoriesFiltration,
   showProgress = false
 ): ValidatedRepositories {
   if (!isAuthorized('GET', 'repositories')) {
     return new Promise(() => validateRequest([]))
   }
-
   return openApiRequest<EntityModelRepositoryDto[]>(
     ApiV2RepositoryControllerApiFactory()
       .getAllRepositories,
@@ -147,7 +147,7 @@ export function fetchFullRepositoriesList(
       undefined,
       undefined,
       undefined,
-      undefined
+      filtration?.search
     ],
     showProgress
   ).catch(() => {

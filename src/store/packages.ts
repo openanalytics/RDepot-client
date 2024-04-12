@@ -240,6 +240,10 @@ export const usePackagesStore = defineStore(
         }
         await this.fetchPackages()
       },
+      setFiltrationByName(payload: string | undefined) {
+        this.clearFiltration()
+        this.filtration.search = payload
+      },
       setFiltrationByRepositoryOnly(payload?: string) {
         this.filtration = defaultValues(PackagesFiltration)
         this.filtration.repository = payload
