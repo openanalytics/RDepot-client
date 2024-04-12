@@ -215,7 +215,10 @@ const { meta, validateField, setFieldValue, values } =
           value: packageMaintainerSchema.shape.packageName,
           props: z.object({
             subtitle:
-              packageMaintainerSchema.shape.user.shape.name
+              packageMaintainerSchema.shape.user.shape.name,
+            repoId:
+              packageMaintainerSchema.shape.repository.shape
+                .id
           })
         })
       })
@@ -259,7 +262,7 @@ function updatePackageName(newValue: any) {
       ? {
           title: newValue,
           value: newValue,
-          props: { subtitle: 'a' }
+          props: { subtitle: 'a', repoId: 1 }
         }
       : newValue
   )

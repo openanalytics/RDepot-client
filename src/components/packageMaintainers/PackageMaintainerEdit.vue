@@ -179,7 +179,10 @@ const { meta, validateField, setFieldValue } = useForm({
         value: packageMaintainerSchema.shape.packageName,
         props: z.object({
           subtitle:
-            packageMaintainerSchema.shape.user.shape.name
+            packageMaintainerSchema.shape.user.shape.name,
+          repoId:
+            packageMaintainerSchema.shape.repository.shape
+              .id
         })
       })
     })
@@ -197,7 +200,10 @@ const { meta, validateField, setFieldValue } = useForm({
     package: {
       title: maintainer?.packageName,
       value: maintainer.packageName,
-      props: { subtitle: maintainer.user?.name }
+      props: {
+        subtitle: maintainer.user?.name,
+        repoId: maintainer.repository?.id
+      }
     }
   }
 })

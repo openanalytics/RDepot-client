@@ -73,7 +73,10 @@ export function usePackagesFiltration() {
               return {
                 title: packageBag.name,
                 value: packageBag.name,
-                props: { subtitle: packageBag.user?.name }
+                props: {
+                  subtitle: packageBag.user?.name,
+                  repoId: packageBag.repository?.id
+                }
               } as PackageObject
             }
           )

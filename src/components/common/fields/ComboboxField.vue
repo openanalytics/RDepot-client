@@ -23,7 +23,7 @@
 <template>
   <v-combobox
     :label="label"
-    :items="selectStore.items"
+    :items="selectStore.itemsFiltered"
     :custom-filter="customFiltrate"
     :loading="selectStore.pending"
     :menu-props="{
