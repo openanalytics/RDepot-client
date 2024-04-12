@@ -248,7 +248,7 @@ function setPackageName(newValue: any) {
       ? {
           title: newValue,
           value: newValue,
-          props: { subtitle: '' }
+          props: { subtitle: ' ' }
         }
       : newValue
   )

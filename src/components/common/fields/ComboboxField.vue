@@ -32,6 +32,7 @@
       width: '300px'
     }"
     @update:search="search"
+    :hide-no-data="false"
   >
     <template v-if="template" #item="{ item, props }">
       <slot name="item" :item="item" :props="props"> </slot>
