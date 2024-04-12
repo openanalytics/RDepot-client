@@ -82,7 +82,7 @@
       <SortTitle
         v-if="title"
         :text="$t('columns.users.active')"
-        sortKey="columns.users.active"
+        no-sort
         :justify="JustifyEnum.Enum.center"
       />
       <span v-else-if="user">

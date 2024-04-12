@@ -71,6 +71,7 @@
         v-if="title"
         :text="$t('columns.package.maintainer')"
         sortKey="columns.package.maintainer"
+        :justify="JustifyEnum.Enum.center"
       />
       <TextRecord v-else :text="packageBag?.user?.name" />
     </VCol>

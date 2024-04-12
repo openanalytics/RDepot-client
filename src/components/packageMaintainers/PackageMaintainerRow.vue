@@ -81,7 +81,7 @@
       <SortTitle
         v-if="title"
         :text="$t('columns.package.technology')"
-        sortKey="columns.package.technology"
+        no-sort
         :justify="JustifyEnum.Enum.center"
       />
       <TextRecord

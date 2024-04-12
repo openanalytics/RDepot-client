@@ -29,8 +29,8 @@ export const SORT_PARAMS: Map<string, string> = new Map<
   ['columns.package.title', 'title'],
   ['columns.package.maintainer', 'user.name'],
   ['columns.package.state', 'submission.state'],
-  ['columns.package.technology', 'resourceTechnology'],
-  ['columns.package.repository', 'repositoryGeneric'],
+  ['columns.package.technology', 'technology'],
+  ['columns.package.repository', 'repository'],
   ['columns.package.active', 'active'],
   ['columns.repository.name', 'name'],
   ['columns.repository.version', 'version'],
@@ -71,7 +71,7 @@ export const SORT_PARAMS: Map<string, string> = new Map<
   ['columns.submissions.version', 'packageBag.version'],
   [
     'columns.submissions.repository',
-    'packageBag.repositoryGeneric.name'
+    'packageBag.repository'
   ],
   ['columns.submissions.submitter', 'submitter.name'],
   ['columns.submissions.approver', 'approver.name'],
