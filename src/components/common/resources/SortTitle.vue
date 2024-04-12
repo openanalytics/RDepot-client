@@ -28,6 +28,7 @@
     class="flex-nowrap"
     :justify="justify"
   >
+    <span></span>
     <span class="font-weight-bold">{{ title }} </span>
     <v-btn
       v-if="!noSort"

@@ -56,24 +56,7 @@
         :text="packageMaintainer?.packageName"
       />
     </v-col>
-    <v-col
-      id="package-maintainer-technology"
-      cols="lg-1 sm-2"
-      class="d-flex align-center justify-center"
-    >
-      <SortTitle
-        v-if="title"
-        :justify="JustifyEnum.Enum.center"
-        no-sort
-        :text="$t('columns.packageMaintainer.technology')"
-        sortKey="columns.packageMaintainer.technology"
-      />
-      <TextRecord
-        v-else
-        :text="packageMaintainer?.repository?.technology"
-        no-margin
-      />
-    </v-col>
+
     <v-col
       id="package-maintainer-repository"
       cols="lg-1 sm-2"
@@ -89,6 +72,35 @@
         v-else
         :text="packageMaintainer?.repository?.name"
       />
+    </v-col>
+    <v-col
+      id="package-maintainer-technology"
+      cols="lg-1 sm-2"
+      class="d-flex align-center justify-center"
+    >
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.package.technology')"
+        sortKey="columns.package.technology"
+        :justify="JustifyEnum.Enum.center"
+      />
+      <TextRecord
+        v-else
+        :text="packageMaintainer?.repository?.technology"
+      >
+        <slot
+          ><v-chip
+            class="mr-5"
+            size="small"
+            color="oablue"
+            style="cursor: pointer"
+          >
+            {{
+              packageMaintainer?.repository?.technology
+            }}</v-chip
+          ></slot
+        >
+      </TextRecord>
     </v-col>
     <v-col
       id="package-maintainer-actions"

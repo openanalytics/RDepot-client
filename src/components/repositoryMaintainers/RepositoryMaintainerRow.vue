@@ -76,9 +76,20 @@
       />
       <TextRecord
         v-else
-        no-margin
         :text="repositoryMaintainer?.repository?.technology"
-      />
+      >
+        <slot
+          ><v-chip
+            size="small"
+            color="oablue"
+            style="cursor: pointer"
+          >
+            {{
+              repositoryMaintainer?.repository?.technology
+            }}</v-chip
+          ></slot
+        >
+      </TextRecord>
     </v-col>
 
     <v-col

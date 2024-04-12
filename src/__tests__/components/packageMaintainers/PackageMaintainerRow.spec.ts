@@ -179,9 +179,7 @@ describe('Repository Maintainers - maintainers row (title)', () => {
     const field = wrapper.find(
       '#package-maintainer-technology'
     )
-    expect(field.text()).toBe(
-      'Columns.packageMaintainer.technology'
-    )
+    expect(field.text()).toBe('Columns.package.technology')
   })
 
   it('repository title', () => {

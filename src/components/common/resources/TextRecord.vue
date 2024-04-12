@@ -21,15 +21,30 @@
 -->
 
 <template>
-  <span :class="[{ 'mr-8': !noMargin }]">
-    {{ prepareText() }}
-  </span>
+  <VTooltip location="bottom" :disabled="!showTooltip">
+    <template #activator="{ props }">
+      <slot :props="props">
+        <span
+          class="truncatedText"
+          v-bind="props"
+          :class="[{ 'mr-8': !noMargin }]"
+          ref="overflowEffect"
+        >
+          {{ text }}
+        </span>
+      </slot>
+    </template>
+    <span
+      >{{ hoverMessage ? hoverMessage : text }}
+      <br />
+    </span>
+  </VTooltip>
 </template>
 
 <script setup lang="ts">
-import { ref } from '@vue/reactivity'
+import { ref, computed } from 'vue'
 
-const props = defineProps({
+defineProps({
   text: {
     type: String
   },
@@ -37,25 +52,34 @@ const props = defineProps({
     type: Boolean,
     required: false,
     default: false
+  },
+  hoverMessage: {
+    type: String,
+    required: false
   }
 })
 
-const descMaxLength = ref(110)
+const overflowEffect = ref<HTMLSpanElement>()
 
-function prepareText(): string {
-  var text: string | undefined = props.text
-  if (text) {
-    if (text.length > descMaxLength.value) {
-      text.slice(0, descMaxLength.value) + '...'
-    }
-    return text
+const showTooltip = computed(() => {
+  if (overflowEffect.value) {
+    return (
+      overflowEffect.value.offsetWidth <
+      overflowEffect.value.scrollWidth
+    )
   }
-  return ''
-}
+  return false
+})
 </script>
 
-<style scoped>
+<style lang="scss">
 span {
-  line-height: 1.3;
+  z-index: 100;
+}
+
+.truncatedText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>
