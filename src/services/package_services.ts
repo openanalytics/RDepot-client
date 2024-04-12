@@ -96,6 +96,34 @@ export async function fetchPackagesServices(
 //     showProgress
 //   )
 // }
+export function fetchFullPackagesList(
+  page?: number,
+  pageSize?: number,
+  filtration?: PackagesFiltration,
+  showProgress = false
+): ValidatedPackages {
+  if (!isAuthorized('GET', 'packages')) {
+    return new Promise(() => validateRequest([]))
+  }
+
+  return openApiRequest<EntityModelPackageDto[]>(
+    ApiV2PackageControllerApiFactory().getAllPackages,
+    [
+      page,
+      pageSize,
+      ['name,asc'],
+      filtration?.repository,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined
+    ],
+    showProgress
+  ).catch(() => {
+    return validateRequest([])
+  })
+}
 
 export function fetchPackageServices(
   id: number,

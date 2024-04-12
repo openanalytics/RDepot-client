@@ -68,14 +68,29 @@
           </template>
         </validated-input-field>
         <validated-input-field
-          as="v-combobox"
-          name="packageName"
-          :modelValue="localMaintainer.packageName"
+          as="combobox"
+          name="package"
+          id="create-package-maintainer-package"
           @update:modelValue="setPackageName"
-          id="edit-package-maintainer-package"
-          :items="packages"
           :label="$t('maintainers.editform.package')"
-        />
+          :template="true"
+          filled
+          dense
+          clearable
+          persistent-hint
+          return-object
+          @loadItems="loadPackagesObjects"
+          @filtrate="filtratePackagesObjects"
+          :storeId="storeIdPackage"
+        >
+          <template #item="{ item, props }">
+            <v-list-item
+              v-bind="props"
+              v-intersect="loadPackagesObjects"
+            >
+            </v-list-item>
+          </template>
+        </validated-input-field>
       </v-card-text>
       <v-divider></v-divider>
       <v-divider></v-divider>
@@ -88,9 +103,9 @@
 import CardActions from '@/components/common/CardActions.vue'
 import { usePackageMaintainersStore } from '@/store/package_maintainers'
 import { toTypedSchema } from '@vee-validate/zod'
-import { Form, useForm } from 'vee-validate'
+import { useForm } from 'vee-validate'
 import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
-import { ref, onBeforeMount, computed } from 'vue'
+import { ref, onBeforeMount } from 'vue'
 import { packageMaintainerSchema } from '@/models/Schemas'
 import { z } from 'zod'
 import { useUtilities } from '@/composable/utilities'
@@ -98,8 +113,11 @@ import { useToast } from '@/composable/toasts'
 import { useI18n } from 'vue-i18n'
 import { Technologies } from '@/enum/Technologies'
 import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesFiltration'
+import { usePackagesFiltration } from '@/composable/filtration/packagesFiltration'
+import { usePackagesStore } from '@/store/packages'
 
 const maintainersStore = usePackageMaintainersStore()
+const packagesStore = usePackagesStore()
 const toasts = useToast()
 const { t } = useI18n()
 const buttons = [
@@ -126,37 +144,16 @@ const {
   resetPagination
 } = useRepositoriesFiltration()
 
-const packages = computed(() => {
-  return maintainersStore.packages
-    .filter((packageBag) => {
-      return (
-        packageBag.repository?.id ==
-        localMaintainer.value.repository?.id
-      )
-    })
-    .map((packageBag) => {
-      return {
-        title: packageBag.name,
-        value: packageBag.name,
-        props: {
-          disabled: packageBag.user === null ? false : true,
-          subtitle:
-            packageBag.user !== null
-              ? packageBag.user?.name
-              : ''
-        }
-      }
-    })
-    .filter((obj, pos, arr) => {
-      return (
-        arr.map((pack) => pack.title).indexOf(obj.title) ===
-        pos
-      )
-    })
-})
+const {
+  storeIdPackage,
+  loadPackagesObjects,
+  filtratePackagesObjects,
+  resetPaginationPackages
+} = usePackagesFiltration()
 
 let maintainer = maintainersStore.chosenMaintainer
 const localMaintainer = ref(maintainer)
+const localRepoName = ref(maintainer.repository?.name)
 
 const emit = defineEmits(['closeModal'])
 
@@ -177,21 +174,14 @@ const { meta, validateField, setFieldValue } = useForm({
               .technology
         })
       }),
-      packageName:
-        packageMaintainerSchema.shape.packageName.refine(
-          (val) => {
-            if (packages.value) {
-              return !packages.value.find(
-                (pack) => pack.value === val
-              )?.props.disabled
-            } else {
-              return false
-            }
-          },
-          t(
-            'package_maintainers.editform.packageHasMaintainer'
-          )
-        )
+      package: z.object({
+        title: packageMaintainerSchema.shape.packageName,
+        value: packageMaintainerSchema.shape.packageName,
+        props: z.object({
+          subtitle:
+            packageMaintainerSchema.shape.user.shape.name
+        })
+      })
     })
   ),
   initialValues: {
@@ -204,7 +194,11 @@ const { meta, validateField, setFieldValue } = useForm({
           ?.technology as Technologies
       }
     },
-    packageName: maintainer?.packageName
+    package: {
+      title: maintainer?.packageName,
+      value: maintainer.packageName,
+      props: { subtitle: maintainer.user?.name }
+    }
   }
 })
 const { deepCopy } = useUtilities()
@@ -230,13 +224,35 @@ function updateForm(newValue: any) {
   localMaintainer.value.repository!.id =
     newValue !== null ? newValue.value : undefined
   localMaintainer.value.packageName = ''
-  setFieldValue('packageName', '')
-  validateField('packageName')
+  localRepoName.value =
+    newValue !== null ? newValue.title : undefined
+  resetPaginationPackages()
+  packagesStore.filtration.repository = localRepoName.value
+    ? [localRepoName.value]
+    : undefined
+  setFieldValue('package', undefined)
+  validateField('package')
+  loadPackagesObjects()
 }
 
-function setPackageName(newValue: string) {
-  localMaintainer.value.packageName = newValue
-  validateField('packageName')
+function setPackageName(newValue: any) {
+  localMaintainer.value.packageName =
+    newValue.value !== null
+      ? typeof newValue === 'string'
+        ? newValue
+        : newValue.value
+      : ''
+  setFieldValue(
+    'package',
+    typeof newValue === 'string'
+      ? {
+          title: newValue,
+          value: newValue,
+          props: { subtitle: '' }
+        }
+      : newValue
+  )
+  validateField('package')
 }
 
 function changeDialogOptions() {
@@ -247,6 +263,10 @@ function changeDialogOptions() {
 onBeforeMount(() => {
   resetPagination()
   updateMaintainer()
-  maintainersStore.fetchPackages()
+  resetPaginationPackages()
+  packagesStore.filtration.repository = localMaintainer
+    .value.repository?.name
+    ? [localMaintainer.value.repository?.name]
+    : undefined
 })
 </script>

@@ -86,13 +86,29 @@
           </template>
         </validated-input-field>
         <validated-input-field
-          as="v-combobox"
-          name="packageName"
+          as="combobox"
+          name="package"
           id="create-package-maintainer-package"
           @update:modelValue="updatePackageName"
-          :items="packages"
           :label="$t('maintainers.editform.package')"
-        />
+          :template="true"
+          filled
+          dense
+          clearable
+          persistent-hint
+          return-object
+          @loadItems="loadPackagesObjects"
+          @filtrate="filtratePackagesObjects"
+          :storeId="storeIdPackage"
+        >
+          <template #item="{ item, props }">
+            <v-list-item
+              v-bind="props"
+              v-intersect="loadPackagesObjects"
+            >
+            </v-list-item>
+          </template>
+        </validated-input-field>
       </v-card-text>
       <v-card-text>
         <v-alert
@@ -116,17 +132,20 @@
 import CardActions from '@/components/common/CardActions.vue'
 import { usePackageMaintainersStore } from '@/store/package_maintainers'
 import { toTypedSchema } from '@vee-validate/zod'
-import { Form, useForm } from 'vee-validate'
+import { useForm } from 'vee-validate'
 import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
-import { onBeforeMount, computed } from 'vue'
+import { onBeforeMount } from 'vue'
 import { packageMaintainerSchema } from '@/models/Schemas'
 import { z } from 'zod'
 import { useToast } from '@/composable/toasts'
 import { useI18n } from 'vue-i18n'
 import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesFiltration'
 import { useUsersFiltration } from '@/composable/filtration/usersFiltration'
+import { usePackagesFiltration } from '@/composable/filtration/packagesFiltration'
+import { usePackagesStore } from '@/store/packages'
 
 const maintainersStore = usePackageMaintainersStore()
+const packagesStore = usePackagesStore()
 const toasts = useToast()
 const { t } = useI18n()
 const buttons = [
@@ -154,41 +173,18 @@ const {
 } = useRepositoriesFiltration()
 
 const {
+  storeIdPackage,
+  loadPackagesObjects,
+  filtratePackagesObjects,
+  resetPaginationPackages
+} = usePackagesFiltration()
+
+const {
   storeIdUser,
   loadUsersObjects,
   filtrateUsers,
   resetPaginationUsers
 } = useUsersFiltration()
-
-const packages = computed(() => {
-  return maintainersStore.packages
-    .filter((packageBag) => {
-      if (values.repository) {
-        const repoId = values.repository.value as Number
-        return packageBag.repository?.id === repoId
-      } else {
-        return false
-      }
-    })
-    .map((packageBag) => {
-      return {
-        title: packageBag.name,
-        value: packageBag.name,
-        props: {
-          subtitle:
-            packageBag.user !== null
-              ? packageBag.user?.name
-              : ''
-        }
-      }
-    })
-    .filter((obj, pos, arr) => {
-      return (
-        arr.map((pack) => pack.title).indexOf(obj.title) ===
-        pos
-      )
-    })
-})
 
 const emit = defineEmits(['closeModal'])
 
@@ -214,14 +210,20 @@ const { meta, validateField, setFieldValue, values } =
                 .technology
           })
         }),
-        packageName:
-          packageMaintainerSchema.shape.packageName
+        package: z.object({
+          title: packageMaintainerSchema.shape.packageName,
+          value: packageMaintainerSchema.shape.packageName,
+          props: z.object({
+            subtitle:
+              packageMaintainerSchema.shape.user.shape.name
+          })
+        })
       })
     ),
     initialValues: {
       user: undefined,
       repository: undefined,
-      packageName: undefined
+      package: undefined
     }
   })
 
@@ -229,7 +231,7 @@ async function createMaintainer() {
   if (meta.value.valid) {
     const maintainer = {
       user: { id: values.user?.value },
-      packageName: values.packageName,
+      packageName: values.package?.value,
       repository: { id: values.repository?.value }
     }
     await maintainersStore.createMaintainer(maintainer)
@@ -240,14 +242,26 @@ async function createMaintainer() {
 }
 
 function resetPackageName() {
-  setFieldValue('packageName', '')
-  validateField('packageName')
+  packagesStore.filtration.repository = values.repository
+    ?.title
+    ? [values.repository.title]
+    : undefined
+  resetPaginationPackages()
+  setFieldValue('package', undefined)
+  validateField('package')
+  loadPackagesObjects()
 }
 
 function updatePackageName(newValue: any) {
   setFieldValue(
-    'packageName',
-    typeof newValue === 'string' ? newValue : newValue.value
+    'package',
+    typeof newValue === 'string'
+      ? {
+          title: newValue,
+          value: newValue,
+          props: { subtitle: '' }
+        }
+      : newValue
   )
 }
 
@@ -258,6 +272,7 @@ function changeDialogOptions() {
 onBeforeMount(async () => {
   resetPagination()
   resetPaginationUsers()
-  maintainersStore.fetchPackages()
+  resetPaginationPackages()
+  packagesStore.filtration.repository = undefined
 })
 </script>

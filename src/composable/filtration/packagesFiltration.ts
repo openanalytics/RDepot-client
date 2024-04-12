@@ -24,37 +24,76 @@ import { EntityModelPackageDto } from '@/openapi'
 import { usePackagesStore } from '@/store/packages'
 import {
   useSelectStore,
-  SelectState
+  SelectState,
+  PackageObject
 } from '@/store/select_pagination'
 
 export function usePackagesFiltration() {
-  const storeId: SelectState = 'packages'
+  const storeIdPackage: SelectState = 'packages'
 
-  const selectStore = useSelectStore(storeId)
+  const selectStore = useSelectStore(storeIdPackage)
   const packagesStore = usePackagesStore()
 
-  async function loadPackages() {
-    selectStore.paginationData =
-      await packagesStore.fetchPageOfPackages(
-        selectStore.paginationData.page
-      )
-    selectStore.addItems(
-      packagesStore.packages.map(
-        (packageBag: EntityModelPackageDto) =>
-          packageBag.name
-      )
-    )
+  async function resetPaginationPackages() {
+    selectStore.resetPagination()
+    selectStore.resetItems()
   }
 
-  function filtratePackages(value: string | undefined) {
+  async function loadPackagesObjects() {
+    if (
+      selectStore.items.length !=
+        selectStore.paginationData.totalNumber ||
+      selectStore.paginationData.totalNumber == -1
+    ) {
+      selectStore.setPage(
+        selectStore.paginationData.page + 1
+      )
+      if (
+        selectStore.shouldFetchNextPage &&
+        ((selectStore.paginationData.totalNumber > 0 &&
+          selectStore.paginationData.page <=
+            Math.ceil(
+              selectStore.paginationData.totalNumber /
+                selectStore.pageSize
+            )) ||
+          selectStore.paginationData.totalNumber < 0)
+      ) {
+        await packagesStore
+          .fetchPackagesList(
+            selectStore.paginationData.page - 1,
+            selectStore.pageSize
+          )
+          .then((res) => {
+            selectStore.paginationData.totalNumber =
+              res.totalNumber
+          })
+        selectStore.addItems(
+          packagesStore.packages.map(
+            (packageBag: EntityModelPackageDto) => {
+              return {
+                title: packageBag.name,
+                value: packageBag.name,
+                props: { subtitle: packageBag.user?.name }
+              } as PackageObject
+            }
+          )
+        )
+      }
+    }
+  }
+
+  function filtratePackagesObjects(
+    value: string | undefined
+  ) {
     if (packagesStore.filtration.repository !== value) {
       packagesStore.setFiltrationByRepositoryOnly(value)
     }
   }
 
   return {
-    storeId,
-    loadPackages,
-    filtratePackages
+    storeIdPackage,
+    loadPackagesObjects,
+    filtratePackagesObjects,
+    resetPaginationPackages
   }
 }

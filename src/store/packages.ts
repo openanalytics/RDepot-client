@@ -38,7 +38,8 @@ import {
   updatePythonPackage,
   updateRPackage,
   deletePythonPackage,
-  deleteRPackage
+  deleteRPackage,
+  fetchFullPackagesList
 } from '@/services/package_services'
 import { useUtilities } from '@/composable/utilities'
 import { packagesFiltrationLabels } from '@/maps/Filtration'
@@ -100,6 +101,16 @@ export const usePackagesStore = defineStore(
         )
         pagination.newPageWithoutRefresh(pageData.page)
         pagination.totalNumber = pageData.totalNumber
+      },
+      async fetchPackagesList(page: number, pageSize = 8) {
+        const [repositories, pageData] =
+          await fetchFullPackagesList(
+            page,
+            pageSize,
+            this.filtration
+          )
+        this.packages = repositories
+        return pageData
       },
       async fetchData(
         page: number,

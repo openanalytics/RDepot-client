@@ -29,6 +29,7 @@ import * as helper from '@/plugins/router/helpers'
 import { Technologies } from '@/enum/Technologies'
 import getEnv from '@/utils/env'
 import { useUserStore } from '@/store/users'
+import { usePackagesStore } from '@/store/packages'
 
 const DEFAULT_TITLE = i18n.t('common.projectTitle')
 
@@ -73,7 +74,7 @@ router.beforeEach(async (to) => {
   helper.getDefaultFiltration(to)
 })
 
-router.beforeResolve(async (to) => {
+router.beforeResolve(async (to, from) => {
   switch (to.name) {
     case 'packageDetails':
       await helper.loadPackageDetails(
@@ -88,6 +89,11 @@ router.beforeResolve(async (to) => {
       break
     case 'users':
       useUserStore().clearFiltration()
+      break
+    case 'packages':
+      if (from.name === 'packageMaintainers') {
+        usePackagesStore().clearFiltration()
+      }
       break
     default:
       break

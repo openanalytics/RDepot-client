@@ -57,11 +57,19 @@ export type RepositoryObject = {
     technology: string
   }
 }
+export type PackageObject = {
+  title: string
+  value: string
+  props: {
+    subtitle: string
+  }
+}
 export type ItemType =
   | string
   | UserObject
   | UserObjectCreate
   | RepositoryObject
+  | PackageObject
   | undefined
 
 function defineSelectStore<SelectState>(id: SelectState) {
