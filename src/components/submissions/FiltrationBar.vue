@@ -38,7 +38,7 @@
           @update:modelValue="setFiltration"
           density="compact"
           hide-details
-          name="search"
+          name="fromDate"
           as="v-text-field"
           :label="
             $t('submissions.filtration.searchPlaceholder')
@@ -98,7 +98,7 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col sm="2">
+      <!-- <v-col sm="2">
         <validated-input-field
           @update:focused="selectFromDate"
           density="compact"
@@ -109,7 +109,7 @@
           color="oablue"
           id="filtration-fromDate"
         />
-      </v-col>
+      </v-col> -->
       <v-col sm="2">
         <validated-input-field
           @update:focused="selectToDate"

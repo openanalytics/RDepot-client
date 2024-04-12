@@ -163,7 +163,10 @@
     "422": "Nieudana walidacja",
     "500": "Serwer nie mógl zrealizować Twojego żądania",
     "oauth": "Błąd autoryzacji",
-    "oauthTitle": "Autoryzacja"
+    "oauthTitle": "Autoryzacja",
+    "message": {
+      "500": "Coś poszło nie tak. Skontaktuj się z administratorem RDepot."
+    }
   },
   "eventTypes": {
     "create": "Utworzenie",
