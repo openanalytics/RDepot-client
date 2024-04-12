@@ -62,6 +62,7 @@ export type PackageObject = {
   value: string
   props: {
     subtitle: string
+    repoId: number
   }
 }
 export type ItemType =
@@ -104,6 +105,18 @@ function defineSelectStore<SelectState>(id: SelectState) {
       set(value: ItemType[]) {
         itemsLocal.value = value
       }
+    })
+
+    const itemsFiltered = computed(() => {
+      return items.value.filter(
+        (value: PackageObject, index, self) =>
+          index ===
+          self.findIndex(
+            (item: PackageObject) =>
+              item.props.repoId === value.props.repoId &&
+              item.title === value.title
+          )
+      )
     })
 
     const pending = computed({
@@ -149,6 +162,7 @@ function defineSelectStore<SelectState>(id: SelectState) {
 
     return {
       items,
+      itemsFiltered,
       paginationData,
       resetPagination,
       addItems,
