@@ -71,7 +71,7 @@
           clearable
           :label="$t('packages.filtration.repository')"
           @loadItems="loadRepositories"
-          @filtrate="filtrateRepositories"
+          @filtrate="filtrateRepositoriesObjects"
           :storeId="storeId"
           :template="true"
         >
@@ -132,7 +132,7 @@ const { technologies } = useEnumFiltration()
 
 const {
   storeId,
-  filtrateRepositories,
+  filtrateRepositoriesObjects,
   loadRepositories,
   resetPagination
 } = useRepositoriesFiltration()

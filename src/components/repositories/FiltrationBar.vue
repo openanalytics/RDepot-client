@@ -74,6 +74,7 @@
           clearable
           :label="$t('packages.filtration.maintainer')"
           @loadItems="loadMaintainers"
+          @filtrate="filtrateMaintainers"
           :storeId="storeIdMaintainer"
           :template="true"
         >
@@ -156,7 +157,8 @@ const meStore = useMeStore()
 const {
   storeIdMaintainer,
   loadMaintainers,
-  resetPaginationMaintainers
+  resetPaginationMaintainers,
+  filtrateMaintainers
 } = useRepositoryMaintainersFiltration()
 const repositoryStore = useRepositoryStore()
 

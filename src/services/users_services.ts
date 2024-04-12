@@ -139,7 +139,7 @@ export async function fetchFullUsersList(
       ['name,asc'],
       filtration?.roles,
       undefined,
-      undefined
+      filtration?.search
     ],
     showProgress
   ).catch(() => {

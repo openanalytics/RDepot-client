@@ -48,7 +48,7 @@
           return-object
           :template="true"
           @loadItems="loadRepositoriesObjects"
-          @filtrate="filtrateRepositories"
+          @filtrate="filtrateRepositoriesObjects"
           :storeId="storeId"
         >
           <template #item="{ item, props }">
@@ -117,24 +117,13 @@ const buttons = [
 
 const {
   storeId,
-  filtrateRepositories,
+  filtrateRepositoriesObjects,
   loadRepositoriesObjects,
   resetPagination
 } = useRepositoriesFiltration()
 
 const maintainersStore = useRepositoryMaintainersStore()
 
-const repositories = computed(() => {
-  return maintainersStore.repositories.map((repo) => {
-    return {
-      title: repo.name,
-      value: repo.id,
-      props: {
-        technology: repo.technology
-      }
-    }
-  })
-})
 const { deepCopy } = useUtilities()
 let maintainer: EntityModelRepositoryMaintainerDto =
   deepCopy(maintainersStore.chosenMaintainer)

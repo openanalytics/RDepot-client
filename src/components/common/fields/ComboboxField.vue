@@ -25,7 +25,6 @@
     :label="label"
     :items="selectStore.items"
     :custom-filter="customFiltrate"
-    auto-select-first
     :loading="selectStore.pending"
     :menu-props="{
       location: 'bottom',
@@ -88,11 +87,12 @@ function customFiltrate(
   queryText: string,
   itemText: any
 ) {
-  return (
-    (selectStore.ifAllFetched &&
-      itemText.title.includes(queryText)) ||
-    false
-  )
+  return true
+  // return (
+  //   (selectStore.ifAllFetched &&
+  //     itemText.title.includes(queryText)) ||
+  //   true
+  // )
 }
 
 async function loadItems() {
@@ -106,13 +106,13 @@ async function loadItems() {
 
 watchDebounced(
   queryTerm,
-  () => {
-    if (!selectStore.ifAllFetched) {
-      emits('filtrate', queryTerm.value)
-      selectStore.resetItems()
-      selectStore.resetPagination()
-      loadItems()
-    }
+  async () => {
+    // if (!selectStore.ifAllFetched) {
+    selectStore.resetItems()
+    selectStore.resetPagination()
+    await emits('filtrate', queryTerm.value)
+    await loadItems()
+    // }
   },
   { debounce: 500, maxWait: 1000 }
 )

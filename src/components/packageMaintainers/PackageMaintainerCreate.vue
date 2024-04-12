@@ -66,7 +66,7 @@
           persistent-hint
           return-object
           @loadItems="loadRepositoriesObjects"
-          @filtrate="filtrateRepositories"
+          @filtrate="filtrateRepositoriesObjects"
           :storeId="storeId"
         >
           <template #item="{ item, props }">
@@ -167,7 +167,7 @@ const buttons = [
 
 const {
   storeId,
-  filtrateRepositories,
+  filtrateRepositoriesObjects,
   loadRepositoriesObjects,
   resetPagination
 } = useRepositoriesFiltration()

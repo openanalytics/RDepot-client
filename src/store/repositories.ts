@@ -88,7 +88,11 @@ export const useRepositoryStore = defineStore(
         pageSize = 8
       ) {
         const [repositories, pageData] =
-          await fetchFullRepositoriesList(page, pageSize)
+          await fetchFullRepositoriesList(
+            page,
+            pageSize,
+            this.filtration
+          )
         this.repositories = repositories
         return pageData
       },
@@ -189,7 +193,7 @@ export const useRepositoryStore = defineStore(
       },
       setFiltrationByName(payload: string | undefined) {
         this.clearFiltration()
-        this.filtration.name = payload
+        this.filtration.search = payload
       },
       setFiltrationByNameOnly(payload: string | undefined) {
         this.filtration.name = payload
