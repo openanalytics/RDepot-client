@@ -181,7 +181,7 @@ async function errorsHandler(error: AxiosError) {
       }
 
       case 500: {
-        toasts.error(i18n.t('errors.500'))
+        toasts.error(i18n.t('errors.message.500'))
         break
       }
     }

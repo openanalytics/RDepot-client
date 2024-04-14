@@ -162,6 +162,9 @@
     "405": "Prawdopodobny problem z konfiguracją serwera. Skontaktuj się z administratorem.",
     "422": "Nieudana walidacja",
     "500": "Serwer nie mógl zrealizować Twojego żądania",
+    "message": {
+      "500": "Coś poszło nie tak. Skontaktuj się z administratorem RDepot."
+    },
     "oauth": "Błąd autoryzacji",
     "oauthTitle": "Autoryzacja"
   },
