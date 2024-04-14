@@ -79,14 +79,20 @@
           clearable
           persistent-hint
           return-object
-          @loadItems="loadPackagesObjects"
+          @loadItems="
+            loadPackagesObjects(localMaintainer.user?.id)
+          "
           @filtrate="filtratePackagesObjects"
           :storeId="storeIdPackage"
         >
           <template #item="{ item, props }">
             <v-list-item
               v-bind="props"
-              v-intersect="loadPackagesObjects"
+              v-intersect="
+                loadPackagesObjects(
+                  localMaintainer.user?.id
+                )
+              "
             >
             </v-list-item>
           </template>
@@ -238,7 +244,7 @@ function updateForm(newValue: any) {
     : undefined
   setFieldValue('package', undefined)
   validateField('package')
-  loadPackagesObjects()
+  loadPackagesObjects(localMaintainer.value.user?.id)
 }
 
 function setPackageName(newValue: any) {

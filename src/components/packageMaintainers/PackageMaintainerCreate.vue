@@ -97,14 +97,18 @@
           clearable
           persistent-hint
           return-object
-          @loadItems="loadPackagesObjects"
+          @loadItems="
+            loadPackagesObjects(values.user?.value)
+          "
           @filtrate="filtratePackagesObjects"
           :storeId="storeIdPackage"
         >
           <template #item="{ item, props }">
             <v-list-item
               v-bind="props"
-              v-intersect="loadPackagesObjects"
+              v-intersect="
+                loadPackagesObjects(values.user?.value)
+              "
             >
             </v-list-item>
           </template>
@@ -252,7 +256,7 @@ function resetPackageName() {
   resetPaginationPackages()
   setFieldValue('package', undefined)
   validateField('package')
-  loadPackagesObjects()
+  loadPackagesObjects(values.user?.value)
 }
 
 function updatePackageName(newValue: any) {

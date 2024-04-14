@@ -39,7 +39,7 @@ export function usePackagesFiltration() {
     selectStore.resetItems()
   }
 
-  async function loadPackagesObjects() {
+  async function loadPackagesObjects(userId?: number) {
     if (
       selectStore.items.length !=
         selectStore.paginationData.totalNumber ||
@@ -75,7 +75,9 @@ export function usePackagesFiltration() {
                 value: packageBag.name,
                 props: {
                   subtitle: packageBag.user?.name,
-                  repoId: packageBag.repository?.id
+                  repoId: packageBag.repository?.id,
+                  disabled:
+                    packageBag.user?.id === userId || false
                 }
               } as PackageObject
             }
