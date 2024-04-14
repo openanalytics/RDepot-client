@@ -64,7 +64,7 @@ const steps = computed(() => {
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 span {
   font-size: 1.25em !important;
 }

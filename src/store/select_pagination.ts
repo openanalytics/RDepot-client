@@ -109,13 +109,24 @@ function defineSelectStore<SelectState>(id: SelectState) {
 
     const itemsFiltered = computed(() => {
       return items.value.filter(
-        (value: PackageObject, index, self) =>
+        (value, index, self) =>
           index ===
-          self.findIndex(
-            (item: PackageObject) =>
-              item.props.repoId === value.props.repoId &&
-              item.title === value.title
-          )
+          self.findIndex((item) => {
+            if (
+              typeof item === 'object' &&
+              'props' in item &&
+              'repoId' in item.props &&
+              typeof value === 'object' &&
+              'props' in value &&
+              'repoId' in value.props
+            ) {
+              return (
+                item.props.repoId === value?.props.repoId &&
+                item.title === value.title
+              )
+            }
+            return false
+          })
       )
     })
 

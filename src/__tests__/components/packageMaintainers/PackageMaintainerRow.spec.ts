@@ -54,7 +54,7 @@ describe('Repository Maintainers - maintainers row (maintainer)', () => {
   const maintainer: EntityModelPackageMaintainerDto =
     deepCopy(maintainers.data.content[0])
   beforeEach(async () => {
-    wrapper = mount(PackageMaintainersRow, {
+    wrapper = mount(PackageMaintainersRow as any, {
       global: globalConfig,
       props: {
         title: false,
@@ -101,7 +101,7 @@ describe('Repository Maintainers - maintainers row (maintainer)', () => {
 
 describe('Repository Maintainers - maintainers row (empty)', () => {
   beforeEach(async () => {
-    wrapper = mount(PackageMaintainersRow, {
+    wrapper = mount(PackageMaintainersRow as any, {
       global: globalConfig,
       props: {
         title: false
@@ -147,7 +147,7 @@ describe('Repository Maintainers - maintainers row (empty)', () => {
 
 describe('Repository Maintainers - maintainers row (title)', () => {
   beforeEach(async () => {
-    wrapper = mount(PackageMaintainersRow, {
+    wrapper = mount(PackageMaintainersRow as any, {
       global: globalConfig,
       props: {
         title: true

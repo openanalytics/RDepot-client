@@ -46,7 +46,13 @@
               text-color="white"
               class="text-body-1"
               size="x-small"
-              >{{ item.raw.props.technology }}</v-chip
+              >{{
+                typeof item.raw === 'object' &&
+                'props' in item.raw &&
+                'technology' in item.raw.props
+                  ? item.raw?.props.technology
+                  : ''
+              }}</v-chip
             >
           </template>
         </v-list-item>
