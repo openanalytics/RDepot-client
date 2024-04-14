@@ -57,7 +57,7 @@ describe('Packages - package row (packagebag)', () => {
   )
 
   beforeEach(async () => {
-    wrapper = mount(PackageRowVue, {
+    wrapper = mount(PackageRowVue as any, {
       global: globalConfig,
       props: {
         title: false,
@@ -122,7 +122,7 @@ describe('Packages - package row (packagebag)', () => {
 describe('Packages - package row (empty)', () => {
   beforeEach(async () => {
     setActivePinia(createPinia())
-    wrapper = mount(PackageRowVue, {
+    wrapper = mount(PackageRowVue as any, {
       global: globalConfig,
       props: {
         title: false
@@ -174,7 +174,7 @@ describe('Packages - package row (empty)', () => {
 
 describe('Packages - package row (title)', () => {
   beforeEach(async () => {
-    wrapper = mount(PackageRowVue, {
+    wrapper = mount(PackageRowVue as any, {
       global: globalConfig,
       props: {
         title: true

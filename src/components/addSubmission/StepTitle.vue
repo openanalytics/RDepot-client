@@ -65,9 +65,6 @@ const steps = computed(() => {
 </script>
 
 <style lang="scss">
-span {
-  font-size: 1.25em !important;
-}
 span.v-stepper__step__step {
   padding: 15px !important;
 }

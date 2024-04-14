@@ -55,7 +55,7 @@ describe('Submissions - submission row (ACCEPTED)', () => {
     submissions.data.content[4]
   )
   beforeEach(async () => {
-    wrapper = mount(SubmissionRowVue, {
+    wrapper = mount(SubmissionRowVue as any, {
       global: globalConfig,
       props: {
         title: false,
@@ -122,7 +122,7 @@ describe('Submissions - submission row (WAITING)', () => {
     submissions.data.content[2]
   )
   beforeEach(async () => {
-    wrapper = mount(SubmissionRowVue, {
+    wrapper = mount(SubmissionRowVue as any, {
       global: globalConfig,
       props: {
         title: false,
@@ -155,7 +155,7 @@ describe('Submissions - submission row (WAITING)', () => {
 
 describe('Submissions - submission row (empty)', () => {
   beforeEach(async () => {
-    wrapper = mount(SubmissionRowVue, {
+    wrapper = mount(SubmissionRowVue as any, {
       global: globalConfig,
       props: {
         title: false
@@ -214,7 +214,7 @@ describe('Submissions - submission row (empty)', () => {
 
 describe('Submissions - submission row (title)', () => {
   beforeEach(async () => {
-    wrapper = mount(SubmissionRowVue, {
+    wrapper = mount(SubmissionRowVue as any, {
       global: globalConfig,
       props: {
         title: true
