@@ -88,7 +88,7 @@ describe('Package Installation', () => {
     packageDetailsStore.packageBag = RPackage
     await nextTick(() => {})
     expect(wrapper.find('#install-command').text()).toBe(
-      `install.packages("${RPackage.name}", repos = c(rdepot = "${RPackage.repository.publicationUri}"), getOption("repos")))`
+      `install.packages("${RPackage.name}", repos = c(rdepot = "${RPackage.repository.publicationUri}", getOption("repos")))`
     )
   })
 })

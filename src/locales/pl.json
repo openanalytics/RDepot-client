@@ -262,7 +262,7 @@
     "description": "Opis",
     "details": "Szczegóły",
     "documentation": "Dokumentacja",
-    "download-code": "install.packages(\"{0}\", repos = c(rdepot = \"{1}\"), getOption(\"repos\")))",
+    "download-code": "install.packages(\"{0}\", repos = c(rdepot = \"{1}\", getOption(\"repos\")))",
     "downloads": "Do pobrania",
     "emailAuthors": "Emaile",
     "filtration": {
