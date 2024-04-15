@@ -49,7 +49,7 @@
         :title="$t('common.addPackage')"
         :value="$t('common.addPackage')"
         active-class="link-active"
-        to="/add-packages"
+        to="/upload-packages"
       ></v-list-item>
 
       <v-list-group

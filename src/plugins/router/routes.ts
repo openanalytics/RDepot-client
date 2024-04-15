@@ -20,7 +20,7 @@
  *
  */
 
-import { prepareAddPackageView } from './viewsPreperations'
+import { prepareUploadPackagesView } from './viewsPreparations'
 
 export const routes = [
   {
@@ -95,13 +95,13 @@ export const routes = [
         meta: { title: 'RDepot - package maintainers' }
       },
       {
-        path: '/add-packages',
+        path: '/upload-packages',
         name: 'addSubmission',
         component: () =>
           import('@/views/submissions/AddSubmission.vue'),
-        meta: { title: 'RDepot - add packages' },
+        meta: { title: 'RDepot - upload packages' },
         beforeEnter: () => {
-          prepareAddPackageView()
+          prepareUploadPackagesView()
         }
       },
       {

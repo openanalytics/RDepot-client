@@ -105,7 +105,6 @@
     "version": "Version"
   },
   "common": {
-    "addPackage": "Upload packages",
     "after": "After",
     "apply": "Apply",
     "before": "Before",
@@ -148,6 +147,7 @@
     "settings": "Settings",
     "submissions": "Submissions",
     "submit": "Submit",
+    "uploadPackages": "Upload packages",
     "users": "Users"
   },
   "dragzone": {

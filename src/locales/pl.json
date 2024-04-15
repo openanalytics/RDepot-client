@@ -105,7 +105,6 @@
     "version": "Wersja"
   },
   "common": {
-    "addPackage": "Dodaj pakiet",
     "after": "Po",
     "apply": "Zastosuj",
     "before": "Przed",
@@ -148,6 +147,7 @@
     "settings": "Ustawienia",
     "submissions": "Zgłoszenia",
     "submit": "Zatwierdź",
+    "uploadPackages": "Prześlij pakiety",
     "users": "Użytkownicy"
   },
   "dragzone": {

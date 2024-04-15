@@ -22,7 +22,7 @@
 
 import { useSubmissionStore } from '@/store/submission'
 
-export function prepareAddPackageView() {
+export function prepareUploadPackagesView() {
   const submissionStore = useSubmissionStore()
   submissionStore.updateStepperKey()
   submissionStore.repository = undefined

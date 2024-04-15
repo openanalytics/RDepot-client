@@ -175,8 +175,8 @@ describe('App router', () => {
     findComponentInWrapper(wrapper, 'packageMaintainers')
   })
 
-  it('renders add package view list via router', async () => {
-    await getRouterPath('/add-packages')
+  it('renders upload packages view via router', async () => {
+    await getRouterPath('/upload-packages')
     findComponentInWrapper(wrapper, 'addSubmission')
   })
 
