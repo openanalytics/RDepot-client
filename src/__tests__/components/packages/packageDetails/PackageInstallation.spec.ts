@@ -67,7 +67,7 @@ describe('Package Installation', () => {
 
   it('display correct installation command Python', () => {
     expect(wrapper.find('#install-command').text()).toBe(
-      `pip -v install --index-url ${pythonPackage.repository?.publicationUri} ${pythonPackage.name}`
+      `pip install --index-url ${pythonPackage.repository?.publicationUri} ${pythonPackage.name}`
     )
   })
 

@@ -285,7 +285,7 @@
     "imports": "Imports",
     "install": "Install",
     "installInstruction": "To install this package, start \"{0}\" and enter:",
-    "installPy-code": "pip -v install --index-url {0} {1}",
+    "installPy-code": "pip install --index-url {0} {1}",
     "license": "License",
     "list": "Packages",
     "maintainer": "Maintainer",
