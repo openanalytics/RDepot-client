@@ -69,17 +69,15 @@ export const useAuthorizationStore = defineStore(
 
     actions: {
       async postLoginOperations() {
-        const configStore = useConfigStore()
         const meStore = useMeStore()
         await meStore.getUserInfo()
+        const configStore = useConfigStore()
         configStore.fetchConfiguration()
       },
 
       async login() {
         this.chooseLoginType(LoginType.Enum.OICD)
-        authService.login().finally(async () => {
-          await this.postLoginOperations()
-        })
+        authService.login()
       },
 
       async simpleLogin(data: Login) {

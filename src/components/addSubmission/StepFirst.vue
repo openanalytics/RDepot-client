@@ -78,6 +78,7 @@ import { EntityModelRepositoryDto } from '@/openapi'
 import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesFiltration'
 import AutocompleteField from '@/components/common/fields/AutocompleteField.vue'
 import { onBeforeMount } from 'vue'
+import { useRepositoryStore } from '@/store/repositories'
 
 const emits = defineEmits(['next'])
 const submissionsStore = useSubmissionStore()
@@ -118,7 +119,10 @@ function nextStep() {
   }
 }
 
-onBeforeMount(() => resetPagination())
+onBeforeMount(() => {
+  useRepositoryStore().filtration.search = undefined
+  resetPagination()
+})
 </script>
 
 <style lang="scss">

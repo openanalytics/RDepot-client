@@ -29,6 +29,7 @@ import { usePackageDetailsStore } from '@/store/package_details'
 import { usePagination } from '@/store/pagination'
 import { useSortStore } from '@/store/sort'
 import { useCommonStore } from '@/store/common'
+import { useMeStore } from '@/store/me'
 
 export async function loadPackageDetails(
   id: number,
@@ -82,12 +83,17 @@ export async function handleLogout() {
   if (isOICDAuthAvailable()) {
     authService
       .handleLogoutRedirect()
-      .then(() => {
+      .then(async () => {
         window.history.replaceState(
           {},
           window.document.title,
           window.location.origin + window.location.pathname
         )
+        const meStore = useMeStore()
+        const authorizationStore = useAuthorizationStore()
+        if (!meStore.me.role) {
+          await authorizationStore.postLoginOperations()
+        }
       })
       .catch((error) => {
         console.log(error)
