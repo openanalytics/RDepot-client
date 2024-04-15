@@ -135,7 +135,7 @@
           <div
             id="tooltip-activator"
             v-bind="props"
-            class="mt-2 mr-5"
+            class="mr-5"
           >
             <v-icon
               :icon="

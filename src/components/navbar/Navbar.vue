@@ -39,7 +39,7 @@
           align="center"
           class="ml-2 logo-container"
           v-ripple
-          @click="router.push('packages')"
+          @click="router.push({ name: 'packages' })"
         >
           <v-img
             src="@/assets/logo.png"

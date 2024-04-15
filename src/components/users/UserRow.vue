@@ -83,6 +83,7 @@
         v-if="title"
         :text="$t('columns.users.active')"
         no-sort
+        sortKey="columns.users.active"
         :justify="JustifyEnum.Enum.center"
       />
       <span v-else-if="user">

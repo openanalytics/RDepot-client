@@ -143,7 +143,7 @@
     <v-col
       id="submission-accepted"
       cols="lg-1"
-      class="d-flex justify-center"
+      class="d-flex justify-center align-center"
     >
       <SortTitle
         v-if="title"
@@ -158,11 +158,7 @@
         v-else-if="submission"
       >
         <template #activator="{ props }">
-          <div
-            id="tooltip-activator"
-            v-bind="props"
-            class="mt-2"
-          >
+          <div id="tooltip-activator" v-bind="props">
             <v-icon
               :icon="
                 getStatusIcon(
