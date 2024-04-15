@@ -105,7 +105,7 @@
     "version": "Version"
   },
   "common": {
-    "addPackage": "Add package",
+    "addPackage": "Upload packages",
     "after": "After",
     "apply": "Apply",
     "before": "Before",
