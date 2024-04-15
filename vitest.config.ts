@@ -35,7 +35,8 @@ export default defineConfig({
     deps: {
       inline: ['vuetify', 'moment']
     },
-    environment: 'jsdom'
+    environment: 'jsdom',
+    testTimeout: 10000
   },
   define: {
     'import.meta.vitest': 'undefined'

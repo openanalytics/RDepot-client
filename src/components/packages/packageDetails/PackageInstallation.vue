@@ -26,11 +26,7 @@
   </div>
   <div v-if="packageBag?.repository?.published">
     <div class="text">
-      {{
-        $t('packages.installInstruction', [
-          packageBag?.technology
-        ])
-      }}
+      {{ installInstruction }}
     </div>
 
     <div class="code mb-2 mt-4 mr-2 ml-1">
@@ -38,7 +34,7 @@
         id="install-command"
         class="d-flex justify-lg-space-between pt-7"
       >
-        {{ installCommand }}
+        {{ installCode }}
         <v-tooltip location="left">
           <template #activator="{ props }">
             <div id="tooltip-activator" v-bind="props">
@@ -84,21 +80,25 @@ const packageBag = computed<EntityModelRPackageDto>(
     packageDetailsStore.packageBag as EntityModelRPackageDto
 )
 
-const installCommand = computed<string>(() => {
-  return packageBag.value.technology === 'R'
-    ? t('packages.download-code', [
-        packageBag.value.name,
-        packageBag.value.repository?.publicationUri
-      ])
-    : t('packages.installPy-code', [
-        packageBag.value.repository?.publicationUri,
-        packageBag.value.name
-      ])
+const installInstruction = computed<string>(() => {
+  return t(
+    `packages.installInstruction-${packageBag.value.technology}`
+  )
+})
+
+const installCode = computed<string>(() => {
+  return t(
+    `packages.installCode-${packageBag.value.technology}`,
+    [
+      packageBag.value.name,
+      packageBag.value.repository?.publicationUri
+    ]
+  )
 })
 
 function copyContent() {
   try {
-    copy(installCommand.value)
+    copy(installCode.value)
     toasts.success(t('common.copied'))
   } catch (error) {
     toasts.error(t('common.errors.copyFailed'))
