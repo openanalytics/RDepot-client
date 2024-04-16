@@ -46,8 +46,8 @@
       <v-list-item
         v-if="authorizationStore.can('POST', 'submissions')"
         prepend-icon="mdi-upload"
-        :title="$t('common.addPackage')"
-        :value="$t('common.addPackage')"
+        :title="$t('common.uploadPackages')"
+        :value="$t('common.uploadPackages')"
         active-class="link-active"
         to="/upload-packages"
       ></v-list-item>
