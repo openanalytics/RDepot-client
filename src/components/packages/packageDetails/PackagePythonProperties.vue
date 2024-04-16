@@ -43,40 +43,42 @@ const packageBag = computed(
     packageDetailsStore.packageBag as EntityModelPythonPackageDto
 )
 
-const details = [
-  {
-    translation: 'packages.version',
-    value: packageBag.value.version
-  },
-  {
-    translation: 'packages.platform',
-    value: packageBag.value.platform
-  },
-  {
-    translation: 'packages.projectUrl',
-    value: packageBag.value.projectUrl
-  },
-  {
-    translation: 'packages.providesExtra',
-    value: packageBag.value.providesExtra
-  },
-  {
-    translation: 'packages.requiresDist',
-    value: packageBag.value.requiresDist
-  },
-  {
-    translation: 'packages.requiresExternal',
-    value: packageBag.value.requiresExternal
-  },
-  {
-    translation: 'packages.requiresPython',
-    value: packageBag.value.requiresPython
-  },
-  {
-    translation: 'packages.license',
-    value: packageBag.value.license
-  }
-]
+const details = computed(() => {
+  return [
+    {
+      translation: 'packages.version',
+      value: packageBag.value.version
+    },
+    {
+      translation: 'packages.platform',
+      value: packageBag.value.platform
+    },
+    {
+      translation: 'packages.projectUrl',
+      value: packageBag.value.projectUrl
+    },
+    {
+      translation: 'packages.providesExtra',
+      value: packageBag.value.providesExtra
+    },
+    {
+      translation: 'packages.requiresDist',
+      value: packageBag.value.requiresDist
+    },
+    {
+      translation: 'packages.requiresExternal',
+      value: packageBag.value.requiresExternal
+    },
+    {
+      translation: 'packages.requiresPython',
+      value: packageBag.value.requiresPython
+    },
+    {
+      translation: 'packages.license',
+      value: packageBag.value.license
+    }
+  ]
+})
 </script>
 
 <style lang="scss">
