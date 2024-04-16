@@ -62,6 +62,7 @@ function chooseRepository(name: string) {
 }
 
 onMounted(() => {
+  repositoryStore.clearFiltration()
   updateData()
 })
 </script>
