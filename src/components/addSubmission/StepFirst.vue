@@ -120,7 +120,7 @@ function nextStep() {
 }
 
 onBeforeMount(() => {
-  useRepositoryStore().filtration.search = undefined
+  useRepositoryStore().clearFiltration()
   resetPagination()
 })
 </script>
