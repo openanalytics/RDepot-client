@@ -1,12 +1,11 @@
 #!/bin/bash
-#CONTAINER="oa-rdepot-app-without-snapshots";
 CONTAINER=$(docker ps | tr -s ' ' | cut -d' ' -f1,2 | grep "app$" | cut -d' ' -f1)
 CONTAINER_DB=$(docker ps | tr -s ' ' | cut -d' ' -f1,2 | grep "postgres" | cut -d' ' -f1)
 CONTAINER_REPO=$(docker ps | tr -s ' ' | cut -d' ' -f1,2 | grep "repo" | cut -d' ' -f1)
 while [ $# -gt 0 ]; do
     case "$1" in
         -s|--snapshots)
-            CONTAINER="oa-rdepot-app"
+            CONTAINER="oa-rdepot-backend"
             shift;;
         --)
             break;;
@@ -16,7 +15,7 @@ while [ $# -gt 0 ]; do
     esac
 done
 
-echo "RESTORING APP CONTAINER...";
+echo "RESTORING BACK-END CONTAINER...";
 
 docker exec $CONTAINER /bin/bash -c "rm -rf /opt/rdepot/repositories; rm -rf /opt/rdepot/generated; mkdir -p /opt/rdepot/repositories; mkdir -p /opt/rdepot/new; mkdir -p /opt/rdepot/generated; cp -fr /opt/testSourceFiles/info/* /opt/rdepot/repositories; cp -fr /opt/testGenerated/repository/* /opt/rdepot/generated; cp -fr /opt/newFiles/new/* /opt/rdepot/new"
 

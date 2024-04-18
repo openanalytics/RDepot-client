@@ -1,30 +1,37 @@
 version: '3'
 services:
   proxy:
-    image: registry.openanalytics.eu/proxy/library/nginx:alpine
+    image: nginx:alpine
     restart: unless-stopped
     container_name: oa-rdepot-proxy
     labels:
       eu.openanalytics.rdepot.container.name: 'oa-rdepot-proxy'
     volumes:
       - ./docker/proxy/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./docker/proxy/sites-enabled/rdepot:/etc/nginx/sites-enabled/rdepot:ro
+      - ./docker/proxy/rdepot.conf:/etc/nginx/sites-enabled/rdepot:ro
+      - repository:/opt/rdepot/repo/:ro
+      - logs:/var/log/nginx/
     depends_on:
-      - app
+      - backend
       - repo
+      - frontend
+      - keycloak
     ports:
-      - 8017:80
+      - ${RDEPOT_PORT}:80
     networks:
       oa-rdepot:
         aliases:
           - oa-rdepot-proxy
-  app:
-    image: registry.openanalytics.eu/openanalytics/rdepot-app:2.0.0-SNAPSHOT
+  backend:
+    image: openanalytics/rdepot-app:2.0.0-SNAPSHOT
     restart: unless-stopped
-    hostname: oa-rdepot-app
+    hostname: oa-rdepot-backend
     container_name: oa-rdepot-backend
     volumes:
-      - ./docker/app/application.yml:/opt/rdepot/application.yml
+      - ./docker/backend/application.yml:/opt/rdepot/application.yml
+      - repositories:/opt/rdepot/repositories/
+      - snapshots:/opt/rdepot/generated/
+      - queue:/opt/rdepot/new/
     depends_on:
       - db
     healthcheck:
@@ -38,69 +45,82 @@ services:
       retries: 10
     environment:
       - DB_URL=jdbc:postgresql://oa-rdepot-db:5432/rdepot
-      - DB_USERNAME=postgres
+      - DB_USERNAME=rdepot
     networks:
       oa-rdepot:
         aliases:
-          - oa-rdepot-app
-        ipv4_address: 192.168.49.21
+          - oa-rdepot-backend
   db:
-    image: registry.openanalytics.eu/proxy/library/postgres:alpine
+    image: postgres:alpine
     labels:
       eu.openanalytics.rdepot.container.name: 'oa-rdepot-db'
-    restart: always
+    restart: unless-stopped
     hostname: oa-rdepot-db
     container_name: oa-rdepot-db
     environment:
       - POSTGRES_PASSWORD=mysecretpassword
       - POSTGRES_DB=rdepot
+      - POSTGRES_USER=rdepot
     networks:
       oa-rdepot:
         aliases:
           - oa-rdepot-db
   repo:
-    image: registry.openanalytics.eu/openanalytics/rdepot-repo:2.0.0-SNAPSHOT
+    image: openanalytics/rdepot-repo:2.0.0-SNAPSHOT
     restart: unless-stopped
     container_name: oa-rdepot-repo
     labels:
       eu.openanalytics.rdepot.container.name: 'oa-rdepot-repo'
     hostname: oa-rdepot-repo
+    volumes:
+      - repository:/opt/rdepot/
     networks:
       oa-rdepot:
         aliases:
           - oa-rdepot-repo
-  client:
+  frontend:
     container_name: oa-rdepot-frontend
     build:
       context: .
     restart: unless-stopped
     labels:
-      eu.openanalytics.rdepot.container.name: 'oa-rdepot-client'
-    ports:
-      - '3001:80'
+      eu.openanalytics.rdepot.container.name: 'oa-rdepot-frontend'
     networks:
       oa-rdepot:
         aliases:
-          - oa-rdepot-client
+          - oa-rdepot-frontend
+    environment:
+      - VITE_LOGIN_SIMPLE=false
+      - VITE_LOGIN_OIDC=true
+      - VITE_URL_PREFIX=/
+      - VITE_SERVER_ADDRESS=http://localhost/backend
+      - VITE_KEYCLOAK_REALM_URI=http://localhost/keycloak/realms/RDepot
+      - VITE_KEYCLOAK_CLIENT_ID=oa-rdepot-frontend
+      - VITE_KEYCLOAK_REDIRECT_URI=http://localhost/auth
+      - VITE_KEYCLOAK_POST_LOGOUT_REDIRECT_URI=http://localhost/logout
+      - VITE_KEYCLOAK_RESPONSE_TYPE=code
+      - VITE_KEYCLOAK_SCOPE=openid
   keycloak:
-    image: quay.io/keycloak/keycloak:10.0.2
+    image: keycloak/keycloak:24.0
     restart: unless-stopped
     hostname: oa-rdepot-keycloak
     container_name: oa-rdepot-keycloak
-    ports:
-      - 8080:8080
     environment:
-      - DB_VENDOR=h2
-      - KEYCLOAK_USER=admin
-      - KEYCLOAK_PASSWORD=testpassword
-      - KEYCLOAK_IMPORT=/opt/rdepot/realm-rdepot.json
-      - PROXY_ADDRESS_FORWARDING=true
+      - KC_FILE=/tmp/rdepot.json
+      - KC_HTTP_RELATIVE_PATH=/keycloak
+      - KC_PROXY_HEADERS=xforwarded
+      - KC_HTTP_ENABLED=true
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
     volumes:
-      - ./docker/keycloak/realm-rdepot-vue.json:/opt/rdepot/realm-rdepot.json
+      - ./docker/keycloak/realm-rdepot-vue.json:/opt/keycloak/data/import/rdepot.json:ro
     networks:
       oa-rdepot:
-        ipv4_address: 192.168.49.17
-
+        aliases:
+          - oa-rdepot-keycloak
+    command:
+      - start-dev
+      - --import-realm
   ldap:
     build: ./docker/ldap
     restart: unless-stopped
@@ -111,9 +131,6 @@ services:
       - LDAP_ORGANISATION=Test Company
       - LDAP_DOMAIN=example.org
       - LDAP_ADMIN_PASSWORD=testpassword
-    volumes:
-      - ./docker/ldap/import/config:/etc/ldap/slapd.d/
-      - ./docker/ldap/import/db:/var/lib/ldap/
     networks:
       - oa-rdepot
 networks:
@@ -121,3 +138,9 @@ networks:
     ipam:
       config:
         - subnet: 192.168.49.0/24
+volumes:
+  repository:
+  repositories:
+  snapshots:
+  queue:
+  logs:
