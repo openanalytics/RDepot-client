@@ -47,13 +47,13 @@ spring:
     enabled: true
 
 # Authentication related properties
-keycloak:
+oauth2:
   jwk-set-uri: http://oa-rdepot-keycloak:8080/keycloak/realms/RDepot/protocol/openid-connect/certs
   login-field: preferred_username
 
 app:
-  authentication: keycloak
-  keycloak:
+  authentication: oauth2
+  oauth2:
     default:
       admins:
         - einstein

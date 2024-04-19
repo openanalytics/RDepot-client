@@ -31,14 +31,14 @@ import getEnv from '@/utils/env'
  * Config for the oidc client.
  */
 const settings = {
-  authority: getEnv('VITE_KEYCLOAK_REALM_URI'),
-  client_id: getEnv('VITE_KEYCLOAK_CLIENT_ID'),
-  redirect_uri: getEnv('VITE_KEYCLOAK_REDIRECT_URI'),
+  authority: getEnv('VITE_OIDC_AUTHORITY'),
+  client_id: getEnv('VITE_OIDC_CLIENT_ID'),
+  redirect_uri: getEnv('VITE_OIDC_REDIRECT_URI'),
   post_logout_redirect_uri: getEnv(
-    'VITE_KEYCLOAK_POST_LOGOUT_REDIRECT_URI'
+    'VITE_OIDC_POST_LOGOUT_REDIRECT_URI'
   ),
-  response_type: getEnv('VITE_KEYCLOAK_RESPONSE_TYPE'),
-  scope: getEnv('VITE_KEYCLOAK_SCOPE'),
+  response_type: getEnv('VITE_OIDC_RESPONSE_TYPE'),
+  scope: getEnv('VITE_OIDC_SCOPE'),
   automaticSilentRenew: true
 }
 

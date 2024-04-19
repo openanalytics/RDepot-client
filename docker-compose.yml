@@ -94,12 +94,12 @@ services:
       - VITE_LOGIN_OIDC=true
       - VITE_URL_PREFIX=/
       - VITE_SERVER_ADDRESS=http://localhost/backend
-      - VITE_KEYCLOAK_REALM_URI=http://localhost/keycloak/realms/RDepot
-      - VITE_KEYCLOAK_CLIENT_ID=oa-rdepot-frontend
-      - VITE_KEYCLOAK_REDIRECT_URI=http://localhost/auth
-      - VITE_KEYCLOAK_POST_LOGOUT_REDIRECT_URI=http://localhost/logout
-      - VITE_KEYCLOAK_RESPONSE_TYPE=code
-      - VITE_KEYCLOAK_SCOPE=openid
+      - VITE_OIDC_AUTHORITY=http://localhost/keycloak/realms/RDepot
+      - VITE_OIDC_CLIENT_ID=oa-rdepot-frontend
+      - VITE_OIDC_REDIRECT_URI=http://localhost/auth
+      - VITE_OIDC_POST_LOGOUT_REDIRECT_URI=http://localhost/logout
+      - VITE_OIDC_RESPONSE_TYPE=code
+      - VITE_OIDC_SCOPE=openid
   keycloak:
     image: keycloak/keycloak:24.0
     restart: unless-stopped

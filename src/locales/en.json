@@ -13,7 +13,7 @@
   "authorization": {
     "clear": "Clear",
     "error": "Unsuccessful login",
-    "keycloak": "Login via Keycloak",
+    "oidc": "Login via OIDC",
     "logged-in": "Logged in",
     "login": "Login",
     "not-logged-in": "Not logged in",

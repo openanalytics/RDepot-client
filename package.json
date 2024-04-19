@@ -30,7 +30,6 @@
     "@vueuse/core": "^9.13.0",
     "axios": "^1.2.2",
     "json-sort-cli": "^1.15.1",
-    "keycloak-js": "^20.0.2",
     "lodash": "^4.17.21",
     "lodash.clonedeep": "^4.5.0",
     "marked": "^5.1.1",
