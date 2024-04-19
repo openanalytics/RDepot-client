@@ -25,12 +25,12 @@
 interface ImportMetaEnv {
   readonly VITE_LOGIN_OIDC: string
   readonly VITE_LOGIN_SIMPLE: string
-  readonly VITE_KEYCLOAK_REALM_URI: string
-  readonly VITE_KEYCLOAK_CLIENT_ID: string
-  readonly VITE_KEYCLOAK_REDIRECT_URI: string
-  readonly VITE_KEYCLOAK_POST_LOGOUT_REDIRECT_URI: string
-  readonly VITE_KEYCLOAK_RESPONSE_TYPE: string
-  readonly VITE_KEYCLOAK_SCOPE: string
+  readonly VITE_OIDC_AUTHORITY: string
+  readonly VITE_OIDC_CLIENT_ID: string
+  readonly VITE_OIDC_REDIRECT_URI: string
+  readonly VITE_OIDC_POST_LOGOUT_REDIRECT_URI: string
+  readonly VITE_OIDC_RESPONSE_TYPE: string
+  readonly VITE_OIDC_SCOPE: string
   readonly VITE_DEV_MODE: string
   readonly VITE_URL_PREFIX: string
   readonly VITE_SERVER_ADDRESS: string

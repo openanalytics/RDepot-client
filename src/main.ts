@@ -34,12 +34,9 @@ import { createApp } from 'vue'
 
 // Plugins
 import { registerPlugins } from '@/plugins'
-// import keycloak from './plugins/keycloak'
 
 const app = createApp(App)
 
 registerPlugins(app)
-// app.provide('keycloak', JSON.stringify(keycloak))
-// app.config.globalProperties.$keycloak = keycloak
 
 app.mount('#app')
