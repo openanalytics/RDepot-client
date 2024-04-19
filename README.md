@@ -1,44 +1,16 @@
-# default
-
-## Project setup
+```
+ _____   ____              _
+| __  | |    \ ___ ___ ___| |_
+|    -| |  |  | -_| . | . |  _|
+|__|__| |____/|___|  _|___|_|
+                  |_|
 
 ```
-# yarn
-yarn
 
-# npm
-npm install
+# RDepot
 
-# pnpm
-pnpm install
-```
+Open Source Enterprise Management of R and Python Repositories
 
-### Compiles and hot-reloads for development
+Learn more at https://rdepot.io
 
-```
-# yarn
-yarn dev
-
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-```
-
-### Compiles and minifies for production
-
-```
-# yarn
-yarn build
-
-# npm
-npm run build
-
-# pnpm
-pnpm build
-```
-
-### Customize configuration
-
-See [Configuration Reference](https://vitejs.dev/config/).
+#### (c) Copyright Open Analytics NV, 2012-2024 - Apache License 2.0
