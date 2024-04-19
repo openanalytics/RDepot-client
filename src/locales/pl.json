@@ -1,0 +1,443 @@
+{
+  "action": {
+    "accept": "ZAAKCEPTUJ",
+    "cancel": "ANULUJ",
+    "reject": "ODRZUĆ"
+  },
+  "addSubmission": {
+    "generateManual": "Generuj dokumentację",
+    "step1Title": "Wybierz repozytorium",
+    "step2Title": "Wgraj pakiety {0}",
+    "step3Title": "Podsumowanie"
+  },
+  "authorization": {
+    "clear": "wyczyść",
+    "error": "Nieudane logowanie",
+    "keycloak": "Zaloguj przy użyciu Keycloak",
+    "logged-in": "Zalogowany",
+    "login": "zaloguj",
+    "not-logged-in": "Nie zalogowany",
+    "password": "Hasło",
+    "passwordError": "Hasło jest wymagane",
+    "success": "Udane logowanie",
+    "username": "Login",
+    "usernameError": "Login jest wymagany",
+    "wrongCredentials": "Błędne dane logowania, spróbuj ponownie"
+  },
+  "button": {
+    "continue": "Kontynuuj"
+  },
+  "columns": {
+    "accepted": "Status",
+    "actions": "Akcje",
+    "active": "Aktywny",
+    "approver": "Zatwierdzający",
+    "date": "Data",
+    "email": "Email",
+    "maintainer": "Opiekun",
+    "name": "Użytkownik",
+    "package": {
+      "active": "Aktywny",
+      "maintainer": "Opiekun",
+      "name": "Pakiet",
+      "repository": "Repozytorium",
+      "state": "Status",
+      "technology": "Technologia",
+      "title": "Tytuł",
+      "version": "Wersja"
+    },
+    "packageMaintainer": {
+      "name": "Opiekun",
+      "packageName": "Pakiet",
+      "repository": "Repozytorium",
+      "technology": "Technologia"
+    },
+    "packageName": "Pakiet",
+    "packagesNo": "# pakietu",
+    "publicationUri": "URI publikacji",
+    "published": "Opublikowano",
+    "repository": {
+      "name": "Repozytorium",
+      "packagesNo": "# pakietu",
+      "publicationUri": "URI publikacji",
+      "published": "Opublikowano",
+      "serverAddress": "Adres serwera",
+      "technology": "Technologia",
+      "version": "Wersja"
+    },
+    "repositoryMaintainer": {
+      "name": "Opiekun",
+      "repository": "Repozytorium",
+      "technology": "Technologia"
+    },
+    "repositoryName": "Repozytorium",
+    "role": "Rola",
+    "serverAddress": "Adres serwera",
+    "state": "Stan",
+    "submissions": {
+      "accepted": "Status",
+      "approver": "Zatwierdzający",
+      "date": "Data",
+      "package": "Pakiet",
+      "repository": "Repozytorium",
+      "submitter": "Zgłaszający",
+      "technology": "Technologia"
+    },
+    "submitter": "Zgłaszający",
+    "technology": "Technologia",
+    "title": "Tytuł",
+    "tokens": {
+      "active": "Aktywny",
+      "creationDate": "Data utworzenia",
+      "deleted": "Usunięty",
+      "expirationDate": "Data wygaśnięcia",
+      "name": "Nazwa",
+      "user": "Użytkownik"
+    },
+    "username": "Nazwa użytkownika",
+    "users": {
+      "active": "Aktywny",
+      "email": "Email",
+      "name": "Użytkownik",
+      "role": "Rola",
+      "username": "Nazwa użytkownika"
+    },
+    "version": "Wersja"
+  },
+  "common": {
+    "after": "Po",
+    "apply": "Zastosuj",
+    "before": "Przed",
+    "cancel": "Anuluj",
+    "clearForm": "Wyczyść formularz",
+    "click": "naciśnij",
+    "copied": "Kod został skopiowany",
+    "create": "Utwórz",
+    "current": "obecna",
+    "deactivate": "Dezaktywuj",
+    "deactivateQuestion": "Are you sure you want to deactivate {resource_name}?",
+    "delete": "Usuń",
+    "deleteQuestion": "Czy na pewno chcesz usunąć {resource_name}?",
+    "details": "Zobacz szczegóły",
+    "edit": "Edytuj",
+    "errors": {
+      "copyFailed": "Nieudane kopiowanie",
+      "email": "To powinien być adres email",
+      "required": "To pole jest wymagane",
+      "unauthorized": "Nie masz uprawnień do wykonania tej akcji.",
+      "url": "To powinien być url"
+    },
+    "events": "Zdarzenia",
+    "goBack": "Powrót",
+    "list": "Lista",
+    "logout": "Wyloguj",
+    "maintainers": "Opiekunowie",
+    "noListingResults": "Nie znaleziono żadnych wyników",
+    "notAuthorized": "Nie masz wystarczających uprawnień aby wykonać tę operację",
+    "notAvailable": "Niedostępne",
+    "ok": "Ok",
+    "or": "lub",
+    "packages": "Pakiety",
+    "projectTitle": "RDepot",
+    "repositories": "Repozytoria",
+    "reset": "Wyczyść",
+    "save": "Zapisz",
+    "search": "Wyszukaj",
+    "seepackages": "Zobacz pakiety w repozytorium",
+    "settings": "Ustawienia",
+    "submissions": "Zgłoszenia",
+    "submit": "Zatwierdź",
+    "uploadPackages": "Prześlij pakiety",
+    "users": "Użytkownicy"
+  },
+  "dragzone": {
+    "active": "Przeciągnij jeden lub więcej plików",
+    "click": "aby wybrać je ręcznie",
+    "dropzone": "drop zone",
+    "inactive": "Przeciągnij pliki aby je wgrać"
+  },
+  "errors": {
+    "401": "Nie można wykonać zapytania. Użytkownik nie jest zalogowany.",
+    "403": "Nie można wykonać zapytania. Użytkownik nie posiada odpowiednich uprawnień.",
+    "405": "Prawdopodobny problem z konfiguracją serwera. Skontaktuj się z administratorem.",
+    "422": "Nieudana walidacja",
+    "500": "Serwer nie mógl zrealizować Twojego żądania",
+    "message": {
+      "500": "Coś poszło nie tak. Skontaktuj się z administratorem RDepot."
+    },
+    "oauth": "Błąd autoryzacji",
+    "oauthTitle": "Autoryzacja"
+  },
+  "eventTypes": {
+    "create": "Utworzenie",
+    "delete": "Usunięcie",
+    "update": "Aktualizacja",
+    "upload": "Wgranie"
+  },
+  "events": {
+    "author": "Autor",
+    "description": "Opis",
+    "filtration": {
+      "eventType": "Typ zdarzenia"
+    },
+    "noEvents": "Brak dostępnych zdarzeń"
+  },
+  "filtration": {
+    "assignedToMe": "Przypisane do mnie",
+    "deleted": "Usunięte",
+    "eventType": "Typ zdarzenia",
+    "makeSure": "Ta akcja wyczyści wszystkie filtry",
+    "packageName": "Nazwa pakietu",
+    "packages": {
+      "name": "Nazwa pakietu"
+    },
+    "repositoryName": "Nazwa repozytorium",
+    "reset": "Resetuj",
+    "resourceId": "Id zasobu",
+    "resourceType": "Typ zasobu",
+    "state": "Stan",
+    "technologies": "Technologie",
+    "title": "Filtrowanie",
+    "userId": "Id użytkownika"
+  },
+  "maintainers": {
+    "createform": {
+      "disclaimer": "Tylko użytkownicy z rolą conajmniej opiekuna repozytorium dostępni.",
+      "disclaimerPackages": "Tylko użytkownicy z rolą conajmniej opiekuna pakietu dostępni.",
+      "disclaimerTitle": "Dostępni użytkownicy",
+      "title": "Utwórz opiekuna"
+    },
+    "delete": "Usuń opiekuna",
+    "deleteQuestion": "Czy na pewno chcesz usunąć {maintainer_name}?",
+    "deleted": "Ten opiekun jest usunięty",
+    "edit": "Edytuj opiekuna",
+    "editform": {
+      "package": "Pakiet",
+      "packageNotFound": "Pakiet nie znajduje się w repozytorium",
+      "repository": "Repozytorium",
+      "title": "Edytuj opiekuna",
+      "user": "Użytkownik"
+    },
+    "filtration": {
+      "deleted": "Usunięci"
+    }
+  },
+  "navbar": {
+    "changeLanguage": "lang"
+  },
+  "notifications": {
+    "acceptSubmission": "Zgłoszenie zaakceptowane",
+    "insufficientPermissions": "Wybrany użytkownik nie ma wystarczających uprawnień.",
+    "invalidform": "Przesłane dane są niepoprawne",
+    "successCancelSubmission": "Zgłoszenie anulowane",
+    "successCreateRepository": "Utworzono {repository_name}",
+    "successCreateSubmissiom": "Zgłoszenie utworzone",
+    "successDeletePackageManager": "Usunięto {maintainer_name}",
+    "successDeleteRepositoryMaintainer": "Usunięto {maintainer_name}",
+    "successDeleteRepositoryManager": "Usunięto {maintainer_name}",
+    "successFiltration": "Udane filtrowanie",
+    "successFiltrationReset": "Filtry wyczyszczone",
+    "successRejectSubmission": "Zgłoszenie odrzucone",
+    "successUpdatePackageManager": "Zaktualizowano {maintainer_name}",
+    "successUpdateRepositoryMaintainer": "Zaktualizowano {maintainer_name}",
+    "successUpdateRepositoryManager": "Zaktualizowano {maintainer_name}",
+    "successUpdateUser": "Dane użytkownika zaktualizowane"
+  },
+  "packageMaintainer": {
+    "create": "Stwórz opiekuna"
+  },
+  "package_maintainers": {
+    "editform": {
+      "packageHasMaintainer": "Ten pakiet ma już opiekuna",
+      "packageNotFound": "Pakiet jeszcze nie istnieje"
+    }
+  },
+  "packages": {
+    "approver": "Zatwierdzający",
+    "archive": "Archiwum",
+    "authors": "Autorzy",
+    "classifiers": "Klasyfikatory",
+    "copy": "Kopiuj",
+    "depends": "Zależności",
+    "description": "Opis",
+    "details": "Szczegóły",
+    "documentation": "Dokumentacja",
+    "downloads": "Do pobrania",
+    "emailAuthors": "Emaile",
+    "filtration": {
+      "deleted": "Usunięte",
+      "maintainer": "Opiekun",
+      "maintainers": {
+        "searchPlaceholder": "Opiekun, pakiet..."
+      },
+      "name": "Pakiet",
+      "repository": "Repozytorium",
+      "searchBox": "Pakiet...",
+      "submissionState": "Stan"
+    },
+    "generatemanual": "Generuj instrukcję",
+    "imports": "Importuje",
+    "install": "Instalacja",
+    "installCode-Python": "pip install --index-url {1} {0}",
+    "installCode-R": "install.packages(\"{0}\", repos = c(rdepot = \"{1}\", getOption(\"repos\")))",
+    "installInstruction-Python": "Aby zainstalować ten pakiet, wykonaj polecenie:",
+    "installInstruction-R": "Aby zainstalować ten pakiet, uruchom R i wprowadź komendę:",
+    "license": "Licencja",
+    "list": "Pakiety",
+    "maintainer": "Opiekun",
+    "maintainers": "Opiekunowie pakietów",
+    "noInstallInstruction": "Repozytorium nie zostało jeszcze opublikowane",
+    "noVignette": "Brak dostępnych winiet",
+    "oldSources": "Stare źródła",
+    "originalPackageData": "Jak opisano w pakiecie \"{0}\"",
+    "osxBinaries": "Pliki binarne OS X",
+    "package": {
+      "title": "Nazwa"
+    },
+    "platform": "Platforma",
+    "projectUrl": "URL projektu",
+    "providesExtra": "Dostarcza dodatkowe",
+    "referenceManual": "Instrukcja",
+    "replaceOptionDesc": "Podmień, jeżeli pakiet o tej samej nazwie i wersji istnieje już w wybranym repozytorium",
+    "requiresDist": "Wymaga dystrybucji",
+    "requiresExternal": "Zewnętrzne wymagania",
+    "requiresPython": "Wymaga python",
+    "sourceFile": "Plik źródłowy",
+    "submitter": "Zgłaszający",
+    "suggests": "Sugestie",
+    "systemRequirements": "Wymagania systemowe",
+    "title": "Tytuł",
+    "url": "URL",
+    "version": "Wersja",
+    "vignette": {
+      "download": "Pobierz",
+      "open": "Otwórz w nowej karcie"
+    },
+    "windowsBinaries": "Pliki binarne Windows",
+    "windowsBineries": "Pliki binarne Windows",
+    "withinRdepot": "Wewnątrz RDepot"
+  },
+  "pagination": {
+    "size": "Rozmiar strony"
+  },
+  "repositories": {
+    "creation": {
+      "duplicateName": "Repozytorium o tej nazwie już istnieje",
+      "name": "Nazwa",
+      "publicationUri": "URI publikacji",
+      "publicationUriPlaceholder": "http://localhost/repo/{'{name}'}",
+      "serverAddress": "Adres serwera",
+      "serverAddressPlaceholder": "http://oa-rdepot-repo:8080/{'{name}'}",
+      "technology": "Technologia",
+      "title": "Nowe repozytorium"
+    },
+    "declarative": {
+      "create": "Tworzenie repozytorium jest niedostępne w deklaratywnym trybie",
+      "delete": "Usuwanie jest niedostępne w deklaratywnym trybie",
+      "edit": "Edycja jest niedostępna w deklaratywnym trybie",
+      "publish": "Publikowanie jest niedostępne w deklaratywnym trybie"
+    },
+    "edit": {
+      "title": "Edytuj repozytorium"
+    },
+    "empty": "Nie wybrano repozytorium",
+    "filtration": {
+      "maintainers": {
+        "searchPlaceholder": "Opiekun, repozytorium..."
+      },
+      "name": "Nazwa",
+      "published": "Opublikowane",
+      "searchBox": "Repozytorium..."
+    },
+    "list": "Repozytoria",
+    "maintainers": "Opiekunowie repozytorium"
+  },
+  "repositorymaintainer": {
+    "duplicate": "Użytkownik jest już przypisany do wybranego repozytorium"
+  },
+  "resourceType": {
+    "accessToken": "Access token",
+    "package": "Pakiet",
+    "packageMaintainer": "Opiekun pakietu",
+    "repository": "Repozytorium",
+    "repositoryMaintainer": "Opiekun repozytorium",
+    "submission": "Zgłoszenie",
+    "user": "Użytkownik"
+  },
+  "role": {
+    "admin": "Administrator"
+  },
+  "settings": {
+    "create": "Nowy access token",
+    "deactivate": "Dezaktywuj token",
+    "deactivateQuestion": "Czy na pewno chcesz dezaktywować token <strong>{0}</strong>?",
+    "delete": "Usuń token",
+    "deleteQuestion": "Czy na pewno chcesz usunąć token <strong>{0}</strong>?",
+    "edit": "Edycja nazwy tokenu",
+    "expirationDate": "Czas aktywności",
+    "filtration": {
+      "active": "Aktywny",
+      "expired": "Przedawniony",
+      "searchPlaceholder": "Nazwa",
+      "searchPlaceholderAdmin": "Nazwa, nazwa użytkownika...",
+      "userLogin": "Użytkownicy"
+    },
+    "lang": "Język",
+    "message": {
+      "deactivated": "Token dezatywowany",
+      "deleted": "Token usunięty",
+      "edited": "Token pomyślnie edytowany"
+    },
+    "newToken": "Nowy token",
+    "save": "Zapisz zmiany",
+    "tab": {
+      "general": "Ogólne",
+      "table": "Ustawienia tabel",
+      "token": "Access tokeny"
+    },
+    "theme": "Motyw",
+    "themes": {
+      "dark": "ciemny",
+      "light": "jasny"
+    },
+    "tokenName": "Nazwa"
+  },
+  "states": {
+    "accepted": "ZAAKCEPTOWANY",
+    "cancelled": "ANULOWANY",
+    "rejected": "ODRZUCONY",
+    "waiting": "OCZEKUJE"
+  },
+  "submissions": {
+    "accepted": "zaakceptowane",
+    "addAnotherSubmission": "Dodaj następne pakiety",
+    "cancelled": "anulowane",
+    "choseFiles": "Wybierz pliki",
+    "filtration": {
+      "fromDate": "Data początkowa",
+      "package": "Pakiet",
+      "searchPlaceholder": "Pakiet, zgłaszający, zatwierdzający..",
+      "toDate": "Data końcowa"
+    },
+    "noPackageChosen": "Nie wybrano pakietów",
+    "rejected": "odrzucone",
+    "waitForAllRequestsToFulfill": "Zaczekaj na zakończenie wszystkich zgłoszeń",
+    "waitingForAction": "oczekuje na akcję",
+    "wrongExtension": "Wybierz pakiety o poprawnym rozszerzeniu (.tar.gz)"
+  },
+  "success": "Poprawnie wykonana operacja",
+  "users": {
+    "edit": {
+      "overlay": "Edytuj rolę {user_login}",
+      "role": "Rola",
+      "title": "Edytuj użytkownika",
+      "tooltip": "Edytuj użytkownika"
+    },
+    "filtration": {
+      "active": "Aktywny",
+      "roles": "Role",
+      "searchBox": "Użytkownik..."
+    },
+    "unableDeactivation": "Użytkownik nie może dezaktywować siebie"
+  }
+}

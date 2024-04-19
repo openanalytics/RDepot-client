@@ -1,0 +1,450 @@
+{
+  "action": {
+    "accept": "ACCEPT",
+    "cancel": "CANCEL",
+    "reject": "REJECT"
+  },
+  "addSubmission": {
+    "generateManual": "Generate manual",
+    "step1Title": "Choose repository",
+    "step2Title": "Upload {0} packages",
+    "step3Title": "Summary"
+  },
+  "authorization": {
+    "clear": "Clear",
+    "error": "Unsuccessful login",
+    "keycloak": "Login via Keycloak",
+    "logged-in": "Logged in",
+    "login": "Login",
+    "not-logged-in": "Not logged in",
+    "password": "Password",
+    "passwordError": "Password is required",
+    "success": "Successful login",
+    "username": "Login",
+    "usernameError": "Name is required",
+    "wrongCredentials": "Wrong credentials, please try again"
+  },
+  "button": {
+    "continue": "Continue"
+  },
+  "columns": {
+    "accepted": "Status",
+    "actions": "Actions",
+    "active": "Active",
+    "approver": "Approver",
+    "date": "Date",
+    "email": "Email",
+    "maintainer": "Maintainer",
+    "name": "Name",
+    "package": {
+      "active": "Active",
+      "maintainer": "Maintainer",
+      "name": "Package",
+      "repository": "Repository",
+      "state": "Status",
+      "technology": "Technology",
+      "title": "Title",
+      "version": "Version"
+    },
+    "packageMaintainer": {
+      "name": "Maintainer",
+      "packageName": "Package",
+      "repository": "Repository",
+      "technology": "Technology"
+    },
+    "packageName": "Package",
+    "packagesNo": "# packages",
+    "publicationUri": "Publication URI",
+    "published": "Published",
+    "repository": {
+      "name": "Repository",
+      "packagesNo": "# packages",
+      "publicationUri": "Publication URI",
+      "published": "Published",
+      "serverAddress": "Server address",
+      "technology": "Technology",
+      "version": "Version"
+    },
+    "repositoryMaintainer": {
+      "name": "Maintainer",
+      "repository": "Repository",
+      "technology": "Technology"
+    },
+    "repositoryName": "Repository",
+    "role": "Role",
+    "serverAddress": "Server address",
+    "state": "State",
+    "submissions": {
+      "accepted": "Status",
+      "approver": "Approver",
+      "date": "Date",
+      "package": "Package",
+      "repository": "Repository",
+      "submitter": "Submitter",
+      "technology": "Technology"
+    },
+    "submitter": "Submitter",
+    "technology": "Technology",
+    "title": "Title",
+    "tokens": {
+      "active": "Active",
+      "creationDate": "Creation date",
+      "deleted": "Deleted",
+      "expirationDate": "Expiration date",
+      "name": "Name",
+      "user": "User"
+    },
+    "username": "User name",
+    "users": {
+      "active": "Active",
+      "email": "Email",
+      "name": "User",
+      "role": "Role",
+      "username": "Username"
+    },
+    "version": "Version"
+  },
+  "common": {
+    "after": "After",
+    "apply": "Apply",
+    "before": "Before",
+    "cancel": "Cancel",
+    "clearForm": "Clear form",
+    "click": "click",
+    "copied": "Code succesfully copied to clipboard",
+    "create": "Create",
+    "current": "current",
+    "deactivate": "Deactivate",
+    "deactivateQuestion": "Are you sure you want to deactivate {resource_name}?",
+    "delete": "Delete",
+    "deleteQuestion": "Are you sure you want to delete {resource_name}?",
+    "details": "See details",
+    "edit": "Edit",
+    "errors": {
+      "copyFailed": "Copy failed",
+      "email": "This should be an email",
+      "required": "This field is required",
+      "unauthorized": "You are not authorized to perform this action",
+      "url": "This should be a url"
+    },
+    "events": "Events",
+    "goBack": "Go back",
+    "list": "List",
+    "logout": "Logout",
+    "maintainers": "Maintainers",
+    "noListingResults": "No results where found",
+    "notAuthorized": "You are not authorized to perform this action",
+    "notAvailable": "Not available",
+    "ok": "Ok",
+    "or": "or",
+    "packages": "Packages",
+    "projectTitle": "RDepot",
+    "repositories": "Repositories",
+    "reset": "Reset",
+    "save": "Save",
+    "search": "Search",
+    "seepackages": "See repository's packages",
+    "settings": "Settings",
+    "submissions": "Submissions",
+    "submit": "Submit",
+    "uploadPackages": "Upload packages",
+    "users": "Users"
+  },
+  "dragzone": {
+    "active": "Drag one or more files to this",
+    "click": "to select them manually",
+    "dropzone": "drop zone",
+    "inactive": "Drop files to upload them"
+  },
+  "errors": {
+    "401": "Cannot perform this request because user is not authenticated.",
+    "403": "Cannot perform this request because user is not authorized",
+    "405": "There seems to be a configuration issue on the back-end. Please contact your administrator for fixing this.",
+    "422": "Validation failed",
+    "500": "Internal server error",
+    "message": {
+      "500": "We are sorry, something went wrong! Please pass this message to an RDepot administrator."
+    },
+    "oauth": "Error with oauth",
+    "oauthTitle": "Authorization"
+  },
+  "eventTypes": {
+    "create": "Create",
+    "delete": "Delete",
+    "update": "Update",
+    "upload": "Upload"
+  },
+  "events": {
+    "author": "Author",
+    "description": "Description",
+    "filtration": {
+      "eventType": "Event Type",
+      "resourceId": "Resource Id",
+      "resourceType": "Resource Type",
+      "technology": "Technology",
+      "title": "Events filtration",
+      "userId": "User Id"
+    },
+    "noEvents": "No events available"
+  },
+  "filtration": {
+    "assignedToMe": "Assigned to me",
+    "deleted": "Deleted",
+    "eventType": "Event type",
+    "makeSure": "This action will clear all filtration",
+    "packageName": "Package name",
+    "packages": {
+      "name": "Name"
+    },
+    "repositoryName": "Repository name",
+    "reset": "Reset",
+    "resourceId": "Resource id",
+    "resourceType": "Resource type",
+    "state": "State",
+    "technologies": "Technologies",
+    "title": "Filtration",
+    "userId": "User id"
+  },
+  "maintainers": {
+    "createform": {
+      "disclaimer": "Only users with at least repository maintainer role available.",
+      "disclaimerPackages": "Only users with at least package maintainer role available.",
+      "disclaimerTitle": "Available users",
+      "title": "Create maintainer"
+    },
+    "delete": "Delete maintainer",
+    "deleteQuestion": "Are you sure you want to delete {maintainer_name}?",
+    "deleted": "This repository maintainer is deleted",
+    "edit": "Edit maintainer",
+    "editform": {
+      "package": "Package",
+      "packageNotFound": "Package not in repository",
+      "repository": "Repository",
+      "title": "Edit maintainer",
+      "user": "User"
+    },
+    "filtration": {
+      "deleted": "Deleted"
+    }
+  },
+  "navbar": {
+    "changeLanguage": "lang"
+  },
+  "notifications": {
+    "acceptSubmission": "Accept submission",
+    "insufficientPermissions": "User's permissions are not sufficient to create a maintainer.",
+    "invalidform": "The submitted form is not valid",
+    "successCancelSubmission": "Cancel submission",
+    "successCreateRepository": "Successfully created {repository_name}",
+    "successCreateSubmissiom": "Successfully created submission",
+    "successDeletePackageManager": "Successful deleted {maintainer_name}",
+    "successDeleteRepositoryMaintainer": "Successful deleted {maintainer_name}",
+    "successDeleteRepositoryManager": "Successful deleted {maintainer_name}",
+    "successFiltration": "Successful filtration action",
+    "successFiltrationReset": "Successful filtration reset",
+    "successRejectSubmission": "Reject submission",
+    "successUpdatePackageManager": "Successful updated {maintainer_name}",
+    "successUpdateRepositoryMaintainer": "Successful updated {maintainer_name}",
+    "successUpdateRepositoryManager": "Successful update {maintainer_name}",
+    "successUpdateUser": "Successfully updated user"
+  },
+  "packageMaintainer": {
+    "create": "Create maintainer"
+  },
+  "package_maintainers": {
+    "editform": {
+      "packageHasMaintainer": "This package has maintainer",
+      "packageNotFound": "Package doesn't exist yet"
+    }
+  },
+  "packages": {
+    "approver": "Approver",
+    "archive": "Archive",
+    "authors": "Authors",
+    "classifiers": "Classifiers",
+    "copy": "Copy",
+    "depends": "Depends",
+    "description": "Description",
+    "details": "Details",
+    "documentation": "Documentation",
+    "downloads": "Downloads",
+    "emailAuthors": "Emails",
+    "filtration": {
+      "deleted": "Deleted",
+      "maintainer": "Maintainer",
+      "maintainers": {
+        "searchPlaceholder": "Maintainer, package..."
+      },
+      "name": "Package",
+      "repository": "Repository",
+      "searchBox": "Package...",
+      "submissionState": "State"
+    },
+    "generatemanual": "Generate manual",
+    "imports": "Imports",
+    "install": "Install",
+    "installCode-Python": "pip install --index-url {1} {0}",
+    "installCode-R": "install.packages(\"{0}\", repos = c(rdepot = \"{1}\", getOption(\"repos\")))",
+    "installInstruction-Python": "To install this package, please execute:",
+    "installInstruction-R": "To install this package, start R and enter:",
+    "license": "License",
+    "list": "Packages",
+    "maintainer": "Maintainer",
+    "maintainers": "Package maintainers",
+    "noInstallInstruction": "The repository has not been published yet.",
+    "noVignette": "No vignettes available",
+    "oldSources": "Old sources",
+    "originalPackageData": "As described in \"{0}\" package",
+    "osxBinaries": "OS X binaries",
+    "package": {
+      "title": "Title"
+    },
+    "platform": "Platform",
+    "projectUrl": "Project URL",
+    "providesExtra": "Provides extra",
+    "referenceManual": "Reference Manual",
+    "replaceOptionDesc": "Replace if package with the same name and version already exists in chosen repository",
+    "requiresDist": "Requires distribution",
+    "requiresExternal": "Requires external",
+    "requiresPython": "Requires python",
+    "sourceFile": "Source file",
+    "submitter": "Submitter",
+    "suggests": "Suggests",
+    "systemRequirements": "System requirements",
+    "title": "Title",
+    "url": "URL",
+    "version": "Version",
+    "vignette": {
+      "download": "Download",
+      "open": "Open in new tab"
+    },
+    "windowsBinaries": "Windows binaries",
+    "windowsBineries": "Windows binaries",
+    "withinRdepot": "Within RDepot"
+  },
+  "pagination": {
+    "size": "Page size"
+  },
+  "repositories": {
+    "addRepository": "Create repository",
+    "creation": {
+      "duplicateName": "Repository name already exists",
+      "name": "Name",
+      "publicationUri": "Publication URI",
+      "publicationUriPlaceholder": "http://localhost/repo/{'{name}'}",
+      "serverAddress": "Server address",
+      "serverAddressPlaceholder": "http://oa-rdepot-repo:8080/{'{name}'}",
+      "technology": "Technology",
+      "title": "New repository"
+    },
+    "declarative": {
+      "create": "Create action is disabled in declarative mode",
+      "delete": "Delete action is disabled in declarative mode",
+      "edit": "Edit action is disabled in declarative mode",
+      "publish": "Publish action is disabled in declarative mode "
+    },
+    "edit": {
+      "title": "Edit repository"
+    },
+    "empty": "No repository chosen",
+    "filtration": {
+      "maintainers": {
+        "searchPlaceholder": "Maintainer, repository..."
+      },
+      "name": "Name",
+      "published": "Published",
+      "searchBox": "Repository..."
+    },
+    "list": "Repositories",
+    "maintainers": "Repository maintainers"
+  },
+  "repositorymaintainer": {
+    "duplicate": "User already assigned to this repository"
+  },
+  "resourceType": {
+    "accessToken": "Access token",
+    "package": "Package",
+    "packageMaintainer": "Package maintainer",
+    "repository": "Repository",
+    "repositoryMaintainer": "Repository maintainer",
+    "submission": "Submission",
+    "user": "User"
+  },
+  "role": {
+    "admin": "Admin"
+  },
+  "settings": {
+    "create": "New access token",
+    "deactivate": "Deactivate token",
+    "deactivateQuestion": "Are you sure you want to deactivate token <strong>{0}</strong>?",
+    "delete": "Delete token",
+    "deleteQuestion": "Are you sure you want to delete token <strong>{0}</strong>?",
+    "edit": "Edit token name",
+    "expirationDate": "Active days",
+    "filtration": {
+      "active": "Active",
+      "expired": "Expired",
+      "searchPlaceholder": "Name",
+      "searchPlaceholderAdmin": "Name, username...",
+      "userLogin": "Users"
+    },
+    "lang": "Language",
+    "message": {
+      "deactivated": "Token deactivated",
+      "delete": "Token deleted",
+      "edited": "Token edited"
+    },
+    "newToken": "New token",
+    "save": "Save changes",
+    "tab": {
+      "general": "General",
+      "table": "Table settings",
+      "token": "Access tokens"
+    },
+    "theme": "Theme",
+    "themes": {
+      "dark": "dark",
+      "light": "light"
+    },
+    "tokenName": "Name"
+  },
+  "states": {
+    "accepted": "ACCEPTED",
+    "cancelled": "CANCELLED",
+    "rejected": "REJECTED",
+    "waiting": "WAITING"
+  },
+  "submissions": {
+    "accepted": "accepted",
+    "addAnotherSubmission": "Upload other packages",
+    "cancelled": "cancelled",
+    "choseFiles": "Choose files",
+    "filtration": {
+      "fromDate": "From date",
+      "package": "Package",
+      "searchPlaceholder": "Package, submitter, approver...",
+      "toDate": "To date"
+    },
+    "noPackageChosen": "No packages choosen",
+    "rejected": "rejected",
+    "waitForAllRequestsToFulfill": "Wait until all submissions will end",
+    "waitingForAction": "waiting for an action",
+    "wrongExtension": "Choose packages that have correct extension (.tar.gz)"
+  },
+  "success": "Request processed successfully",
+  "tempo": "długie zdanie",
+  "users": {
+    "edit": {
+      "overlay": "Edit user role of {user_login}",
+      "role": "Role",
+      "title": "Edit user",
+      "tooltip": "Edit user"
+    },
+    "filtration": {
+      "active": "Active",
+      "roles": "Roles",
+      "searchBox": "User..."
+    },
+    "unableDeactivation": "Users cannot deactivate themselves"
+  }
+}

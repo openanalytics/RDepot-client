@@ -1,0 +1,214 @@
+<!--
+ R Depot
+ 
+ Copyright (C) 2012-2024 Open Analytics NV
+ 
+ ===========================================================================
+ 
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the Apache License as published by
+ The Apache Software Foundation, either version 2 of the License, or
+ (at your option) any later version.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ Apache License for more details.
+ 
+ You should have received a copy of the Apache License
+ along with this program. If not, see <http://www.apache.org/licenses/>
+ 
+-->
+
+<template>
+  <v-row
+    class="px-5"
+    :class="{ title: title }"
+    id="user-row"
+  >
+    <v-col
+      id="user-name"
+      cols="lg-3 sm-2"
+      class="d-flex align-center"
+    >
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.users.name')"
+        sortKey="columns.users.name"
+      />
+      <TextRecord v-else :text="user?.name" />
+    </v-col>
+    <v-col
+      id="user-email"
+      cols="lg-3"
+      class="d-flex align-center"
+    >
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.users.email')"
+        sortKey="columns.users.email"
+      />
+      <TextRecord v-else :text="user?.email" />
+    </v-col>
+    <v-col
+      id="user-username"
+      cols="lg-2 sm-2"
+      class="d-flex align-center"
+    >
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.users.username')"
+        sortKey="columns.users.username"
+      />
+      <TextRecord v-else :text="user?.login" />
+    </v-col>
+    <v-col
+      id="user-role"
+      cols="lg-2 sm-2"
+      class="d-flex align-center"
+    >
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.users.role')"
+        sortKey="columns.users.role"
+      />
+      <TextRecord v-else :text="getRole" />
+    </v-col>
+    <v-col
+      id="user-active"
+      cols="lg-1"
+      class="d-flex justify-center"
+    >
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.users.active')"
+        no-sort
+        sortKey="columns.users.active"
+        :justify="JustifyEnum.Enum.center"
+      />
+      <span v-else-if="user">
+        <v-tooltip
+          location="top"
+          :disabled="user.id !== meStore.me.id"
+        >
+          <template #activator="{ props }">
+            <span v-bind="props">
+              <v-checkbox
+                id="checkbox-active"
+                @click.stop
+                @change="updateUserActive()"
+                :readonly="
+                  !isAtLeastAdmin(
+                    meStore.userRole ? meStore.userRole : 0
+                  ) || user.id === meStore.me.id
+                "
+                :color="
+                  !isAtLeastAdmin(
+                    meStore.userRole ? meStore.userRole : 0
+                  ) || user.id === meStore.me.id
+                    ? 'grey'
+                    : 'oablue'
+                "
+                v-model="user.active"
+              />
+            </span>
+          </template>
+          <span>{{ $t('users.unableDeactivation') }}</span>
+        </v-tooltip>
+      </span>
+    </v-col>
+    <v-col
+      id="user-actions"
+      cols="lg-1"
+      class="d-flex justify-center"
+    >
+      <SortTitle
+        v-if="title"
+        :text="$t('columns.actions')"
+        sortKey="columns.actions"
+        :justify="JustifyEnum.Enum.center"
+        no-sort
+      />
+      <span
+        v-else-if="user"
+        class="d-flex justify-center align-center"
+      >
+        <edit-icon
+          :disabled="!canPatch(user?.links)"
+          @set-entity="setEditUser"
+          :text="$t('users.edit.tooltip')"
+        >
+        </edit-icon>
+      </span>
+    </v-col>
+  </v-row>
+</template>
+
+<script setup lang="ts">
+import SortTitle from '@/components/common/resources/SortTitle.vue'
+import EditIcon from '@/components/common/action_icons/EditIcon.vue'
+import TextRecord from '@/components/common/resources/TextRecord.vue'
+import { computed } from 'vue'
+import { EntityModelUserDto } from '@/openapi'
+import { roleToString } from '@/enum/UserRoles'
+import { useUserStore } from '@/store/users'
+import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
+import { JustifyEnum } from '@/enum/Justify'
+import { isAtLeastAdmin } from '@/enum/UserRoles'
+import { useMeStore } from '@/store/me'
+import { updateUser } from '@/services/users_services'
+import { useUtilities } from '@/composable/utilities'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+const meStore = useMeStore()
+const userStore = useUserStore()
+const props = defineProps({
+  title: {
+    type: Boolean,
+    default: false
+  },
+  user: Object as () => EntityModelUserDto | undefined
+})
+
+const { canPatch } = useUserAuthorities()
+
+const getRole = computed(() => {
+  switch (
+    roleToString.parse((props.user?.roleId || 1) - 1)
+  ) {
+    case 'admin':
+      return t('role.admin')
+    case 'user':
+      return t('resourceType.user')
+    case 'package maintainer':
+      return t('resourceType.packageMaintainer')
+    case 'repository maintainer':
+      return t('resourceType.repositoryMaintainer')
+  }
+})
+
+function setEditUser() {
+  if (props.user) {
+    userStore.chosenUser = props.user
+  }
+}
+const { deepCopy } = useUtilities()
+
+function updateUserActive(): void {
+  if (canPatch(props.user?.links)) {
+    if (props.user) {
+      const oldUser = deepCopy(props.user)
+      oldUser.active = !oldUser.active
+      updateUser(oldUser, props.user).then(
+        () => {
+          userStore.fetchUsers()
+        },
+        () => {
+          userStore.fetchUsers()
+        }
+      )
+    }
+  }
+}
+</script>

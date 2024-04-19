@@ -1,44 +1,84 @@
+<!--
+ R Depot
+ 
+ Copyright (C) 2012-2024 Open Analytics NV
+ 
+ ===========================================================================
+ 
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the Apache License as published by
+ The Apache Software Foundation, either version 2 of the License, or
+ (at your option) any later version.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ Apache License for more details.
+ 
+ You should have received a copy of the Apache License
+ along with this program. If not, see <http://www.apache.org/licenses/>
+ 
+-->
+
 <template>
-    <div class="locale-changer">
-      <v-row align="center" class="my-2">
-            <v-select
-            id="mySelect"
-            v-model="$i18n.locale"
-            :items="langs"
-            ></v-select>
-      </v-row>  
-    </div>
+  <v-menu offset-y>
+    <template #activator="{ props }">
+      <v-btn
+        id="languagesbutton"
+        color="oablue-darken-2"
+        variant="elevated"
+        v-bind="props"
+        class="px-0 custom-button"
+        depressed
+      >
+        {{ $i18n.locale }}
+      </v-btn>
+    </template>
+    <v-list>
+      <v-list-item
+        v-for="(item, index) in langs"
+        :key="index"
+        @click="
+          () => {
+            $i18n.locale = item.display
+            changeLanguage(item.name)
+          }
+        "
+        link
+      >
+        <v-list-item-title
+          v-text="item.display"
+        ></v-list-item-title>
+      </v-list-item>
+    </v-list>
+  </v-menu>
 </template>
 
-<script lang="ts">
-import Vue from 'vue'
-import { langs } from '@/locales/index'
+<script setup lang="ts">
+import langs from '@/locales/index'
+import { useAuthorizationStore } from '@/store/authorization'
 
-export default Vue.extend({
-    data() {
-        return {
-            langs: langs,
-        }
-    },
-})
+const authorizationStore = useAuthorizationStore()
+
+const changeLanguage = async (new_language: string) => {
+  if (await authorizationStore.isUserLoggedIn()) {
+    var new_settings =
+      authorizationStore.getCurrentSettings()
+    new_settings.language = new_language
+    authorizationStore.updateSettings(
+      authorizationStore.getCurrentSettings(),
+      new_settings
+    )
+  }
+}
 </script>
 
-<style lang="scss" >
-   .v-list-item__content div 
-    // .mdi-menu-down::before 
-    {
-        color: var(--v-text-base) !important;
-    }
+<style lang="scss">
+.v-list-item__content div {
+  color: var(--v-text-base) !important;
+}
 
-    // .theme--light.v-list-item:hover:before {
-    //     opacity: 0.14;
-    // }
-
-    // .theme--dark.v-text-field > .v-input__control > .v-input__slot:before{
-    //     border-color: var(--v-text-base);
-    // }
-
-    .locale-changer{
-        max-width: 80px;
-    }
+.locale-changer {
+  max-width: 80px;
+}
 </style>

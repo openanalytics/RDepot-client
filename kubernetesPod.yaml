@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    ci: rdepot-client-build
+    docker: kaniko-rdepot-client
+spec:
+  imagePullSecrets:
+    - name: registry-robot
+  volumes:
+    - name: kaniko-dockerconfig
+      secret:
+        secretName: registry-robot
+  containers:
+    - name: kaniko
+      image: gcr.io/kaniko-project/executor:v1.9.1-debug
+      command:
+        - cat
+      tty: true
+      volumeMounts:
+        - name: kaniko-dockerconfig
+          mountPath: /kaniko/.docker/config.json
+          subPath: .dockerconfigjson
+      resources:
+        requests:
+          memory: "2Gi"
+          ephemeral-storage: "1Gi"
+          cpu: 1
+        limits:
+          memory: "4Gi"
+          ephemeral-storage: "4Gi"
+          cpu: 2
+      imagePullPolicy: Always
+    - name: rdepot-client-build
+      image: registry.openanalytics.eu/proxy/library/node:lts-alpine
+      resources:
+        limits:
+          memory: "4Gi"
+          ephemeral-storage: "4Gi"
+          cpu: 2
+        requests:
+          memory: "2Gi"
+          ephemeral-storage: "1Gi"
+          cpu: 1
+      tty: true
+      securityContext:
+        privileged: true
+      env:
+        - name: COMPOSE_HTTP_TIMEOUT
+          value: 600
+      imagePullPolicy: Always

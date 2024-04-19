@@ -1,0 +1,167 @@
+{
+  "status": "SUCCESS",
+  "code": 200,
+  "message": "Your request has been processed successfully.",
+  "messageCode": "success.request.processed",
+  "data": {
+    "links": [
+      {
+        "rel": "self",
+        "href": "http://localhost:8017/api/v2/manager/package-maintainers?page=0&size=20"
+      }
+    ],
+    "content": [
+      {
+        "id": 1,
+        "user": {
+          "id": 6,
+          "name": "Galileo Galilei",
+          "login": "galieleo",
+          "email": "galieleo@ldap.forumsys.com"
+        },
+        "packageName": "accrued",
+        "repository": {
+          "id": 2,
+          "name": "testrepo1",
+          "publicationUri": "http://localhost/repo/testrepo1"
+        },
+        "deleted": false,
+        "description": "Package Maintainer [id: 1, user: User [id: 6, name: Galileo Galilei, login: galieleo, email: galieleo@ldap.forumsys.com], package: accrued, repository: Repository [id: 2, name: testrepo1, publication URI: http://localhost/repo/testrepo1]]",
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/package-maintainers/1"
+          },
+          {
+            "rel": "packageMaintainerList",
+            "href": "http://localhost:8017/api/v2/manager/package-maintainers"
+          },
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/package-maintainers/1",
+            "type": "PATCH"
+          },
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/package-maintainers/1",
+            "type": "DELETE"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "user": {
+          "id": 6,
+          "name": "Galileo Galilei",
+          "login": "galieleo",
+          "email": "galieleo@ldap.forumsys.com"
+        },
+        "packageName": "abc",
+        "repository": {
+          "id": 4,
+          "name": "testrepo3",
+          "publicationUri": "http://localhost/repo/testrepo3"
+        },
+        "deleted": false,
+        "description": "Package Maintainer [id: 2, user: User [id: 6, name: Galileo Galilei, login: galieleo, email: galieleo@ldap.forumsys.com], package: abc, repository: Repository [id: 4, name: testrepo3, publication URI: http://localhost/repo/testrepo3]]",
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/package-maintainers/2"
+          },
+          {
+            "rel": "packageMaintainerList",
+            "href": "http://localhost:8017/api/v2/manager/package-maintainers"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "user": {
+          "id": 6,
+          "name": "Galileo Galilei",
+          "login": "galieleo",
+          "email": "galieleo@ldap.forumsys.com"
+        },
+        "packageName": "A3",
+        "repository": {
+          "id": 4,
+          "name": "testrepo3",
+          "publicationUri": "http://localhost/repo/testrepo3"
+        },
+        "deleted": false,
+        "description": "Package Maintainer [id: 3, user: User [id: 6, name: Galileo Galilei, login: galieleo, email: galieleo@ldap.forumsys.com], package: A3, repository: Repository [id: 4, name: testrepo3, publication URI: http://localhost/repo/testrepo3]]",
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/package-maintainers/3"
+          },
+          {
+            "rel": "packageMaintainerList",
+            "href": "http://localhost:8017/api/v2/manager/package-maintainers"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "user": {
+          "id": 6,
+          "name": "Galileo Galilei",
+          "login": "galieleo",
+          "email": "galieleo@ldap.forumsys.com"
+        },
+        "packageName": "bea.R",
+        "repository": {
+          "id": 2,
+          "name": "testrepo1",
+          "publicationUri": "http://localhost/repo/testrepo1"
+        },
+        "deleted": true,
+        "description": "Package Maintainer [id: 4, user: User [id: 6, name: Galileo Galilei, login: galieleo, email: galieleo@ldap.forumsys.com], package: bea.R, repository: Repository [id: 2, name: testrepo1, publication URI: http://localhost/repo/testrepo1]]",
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/package-maintainers/4"
+          },
+          {
+            "rel": "packageMaintainerList",
+            "href": "http://localhost:8017/api/v2/manager/package-maintainers"
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "user": {
+          "id": 6,
+          "name": "Galileo Galilei",
+          "login": "galieleo",
+          "email": "galieleo@ldap.forumsys.com"
+        },
+        "packageName": "AnaCoDa",
+        "repository": {
+          "id": 5,
+          "name": "testrepo4",
+          "publicationUri": "http://localhost/repo/testrepo4"
+        },
+        "deleted": false,
+        "description": "Package Maintainer [id: 5, user: User [id: 6, name: Galileo Galilei, login: galieleo, email: galieleo@ldap.forumsys.com], package: AnaCoDa, repository: Repository [id: 5, name: testrepo4, publication URI: http://localhost/repo/testrepo4]]",
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/package-maintainers/5"
+          },
+          {
+            "rel": "packageMaintainerList",
+            "href": "http://localhost:8017/api/v2/manager/package-maintainers"
+          }
+        ]
+      }
+    ],
+    "page": {
+      "size": 20,
+      "totalElements": 5,
+      "totalPages": 1,
+      "number": 0
+    }
+  }
+}

@@ -1,0 +1,1284 @@
+{
+  "status": "SUCCESS",
+  "code": 200,
+  "message": "Your request has been processed successfully.",
+  "messageCode": "success.request.processed",
+  "data": {
+    "links": [
+      {
+        "rel": "first",
+        "href": "http://localhost:8017/api/v2/manager/r/submissions?page=0&size=20"
+      },
+      {
+        "rel": "self",
+        "href": "http://localhost:8017/api/v2/manager/r/submissions?page=0&size=20"
+      },
+      {
+        "rel": "next",
+        "href": "http://localhost:8017/api/v2/manager/r/submissions?page=1&size=20"
+      },
+      {
+        "rel": "last",
+        "href": "http://localhost:8017/api/v2/manager/r/submissions?page=1&size=20"
+      }
+    ],
+    "content": [
+      {
+        "id": 26,
+        "packageBag": {
+          "id": 26,
+          "user": {
+            "id": 4,
+            "name": "Albert Einstein",
+            "login": "einstein",
+            "email": "einstein@ldap.forumsys.com"
+          },
+          "repository": {
+            "id": 3,
+            "name": "testrepo2",
+            "publicationUri": "http://localhost/repo/testrepo2"
+          },
+          "submissionId": 26,
+          "name": "usl",
+          "version": "2.0.0",
+          "description": "The Universal Scalability Law (Gunther 2007)",
+          "author": "Neil J. Gunther [aut], Stefan Moeding [aut, cre]",
+          "title": "Analyze System Scalability with the Universal Scalability Law",
+          "url": null,
+          "source": "/opt/rdepot/new/54345476/usl_2.0.0.tar.gz",
+          "active": false,
+          "deleted": false,
+          "links": [
+            {
+              "rel": "self",
+              "href": "http://localhost:8017/api/v2/manager/r/packages/26"
+            },
+            {
+              "rel": "packageList",
+              "href": "http://localhost:8017/api/v2/manager/r/packages"
+            }
+          ]
+        },
+        "submitter": {
+          "id": 5,
+          "name": "Nikola Tesla",
+          "login": "tesla",
+          "email": "tesla@ldap.forumsys.com"
+        },
+        "approver": null,
+        "changes": null,
+        "state": "WAITING",
+        "created": "2023-12-12",
+        "description": "Submission [id: 26, package: The Universal Scalability Law (Gunther 2007), submitter: User [id: 5, name: Nikola Tesla, login: tesla, email: tesla@ldap.forumsys.com], approver: ]",
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/r/submissions/26"
+          },
+          {
+            "rel": "submissionList",
+            "href": "http://localhost:8017/api/v2/manager/r/submissions"
+          }
+        ]
+      },
+      {
+        "id": 19,
+        "packageBag": {
+          "id": 19,
+          "user": {
+            "id": 4,
+            "name": "Albert Einstein",
+            "login": "einstein",
+            "email": "einstein@ldap.forumsys.com"
+          },
+          "repository": {
+            "id": 3,
+            "name": "testrepo2",
+            "publicationUri": "http://localhost/repo/testrepo2"
+          },
+          "submissionId": 19,
+          "name": "visdat",
+          "version": "0.1.0",
+          "description": "Create preliminary exploratory data visualisations of an entire dataset to identify problems or unexpected features using 'ggplot2'.",
+          "author": "Nicholas Tierney [aut, cre]",
+          "title": "Preliminary Data Visualisation",
+          "url": "https://github.com/njtierney/visdat/",
+          "source": "/opt/rdepot/new/70032548/visdat_0.1.0.tar.gz",
+          "active": false,
+          "deleted": false,
+          "links": [
+            {
+              "rel": "self",
+              "href": "http://localhost:8017/api/v2/manager/r/packages/19"
+            },
+            {
+              "rel": "packageList",
+              "href": "http://localhost:8017/api/v2/manager/r/packages"
+            }
+          ]
+        },
+        "submitter": {
+          "id": 7,
+          "name": "Isaac Newton",
+          "login": "newton",
+          "email": "newton@ldap.forumsys.com"
+        },
+        "approver": null,
+        "changes": null,
+        "created": "2023-07-23",
+        "state": "WAITING",
+        "description": "Submission [id: 19, package: Create preliminary exploratory data visualisations of an entire dataset to identify problems or unexpected features using 'ggplot2'., submitter: User [id: 7, name: Isaac Newton, login: newton, email: newton@ldap.forumsys.com], approver: ]",
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/r/submissions/19"
+          },
+          {
+            "rel": "submissionList",
+            "href": "http://localhost:8017/api/v2/manager/r/submissions"
+          }
+        ]
+      },
+      {
+        "id": 31,
+        "packageBag": {
+          "id": 31,
+          "user": {
+            "id": 8,
+            "name": "Local Admin User",
+            "login": "admin",
+            "email": "admin@localhost"
+          },
+          "repository": {
+            "id": 5,
+            "name": "testrepo4",
+            "publicationUri": "http://localhost/repo/testrepo4"
+          },
+          "submissionId": 31,
+          "name": "abc",
+          "version": "1.0",
+          "description": "The 'abc' package provides various functions for parameter estimation and model selection in an ABC framework. Three main",
+          "author": "Katalin Csillery, with contributions from Michael Blum and Olivier Francois",
+          "title": "Functions to perform Approximate Bayesian Computation (ABC) using simulated data",
+          "url": null,
+          "source": "/opt/rdepot/new/51328701/abc_1.0.tar.gz",
+          "active": false,
+          "deleted": false,
+          "links": [
+            {
+              "rel": "self",
+              "href": "http://localhost:8017/api/v2/manager/r/packages/31"
+            },
+            {
+              "rel": "packageList",
+              "href": "http://localhost:8017/api/v2/manager/r/packages"
+            }
+          ]
+        },
+        "submitter": {
+          "id": 6,
+          "name": "Galileo Galilei",
+          "login": "galieleo",
+          "email": "galieleo@ldap.forumsys.com"
+        },
+        "approver": null,
+        "changes": null,
+        "created": "2023-07-23",
+        "state": "WAITING",
+        "description": "Submission [id: 31, package: The 'abc' package provides various functions for parameter estimation and model selection in an ABC framework. Three main, submitter: User [id: 6, name: Galileo Galilei, login: galieleo, email: galieleo@ldap.forumsys.com], approver: ]",
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/r/submissions/31"
+          },
+          {
+            "rel": "submissionList",
+            "href": "http://localhost:8017/api/v2/manager/r/submissions"
+          },
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/submissions/1",
+            "type": "PATCH",
+            "modifiableProperties": ["state"]
+          },
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/submissions/1",
+            "type": "DELETE"
+          }
+        ]
+      },
+      {
+        "id": 30,
+        "packageBag": {
+          "id": 30,
+          "user": {
+            "id": 8,
+            "name": "Local Admin User",
+            "login": "admin",
+            "email": "admin@localhost"
+          },
+          "repository": {
+            "id": 5,
+            "name": "testrepo4",
+            "publicationUri": "http://localhost/repo/testrepo4"
+          },
+          "submissionId": 30,
+          "name": "A3",
+          "version": "0.9.1",
+          "description": "This package supplies tools for tabulating and analyzing the results of predictive models. The methods employed are applicable to virtually any predictive model and make comparisons between different methodologies straightforward.",
+          "author": "Scott Fortmann-Roe",
+          "title": "A3: Accurate, Adaptable, and Accessible Error Metrics for Predictive Models",
+          "url": null,
+          "source": "/opt/rdepot/new/92253304/A3_0.9.1.tar.gz",
+          "active": false,
+          "deleted": false,
+          "links": [
+            {
+              "rel": "self",
+              "href": "http://localhost:8017/api/v2/manager/r/packages/30"
+            },
+            {
+              "rel": "packageList",
+              "href": "http://localhost:8017/api/v2/manager/r/packages"
+            }
+          ]
+        },
+        "submitter": {
+          "id": 6,
+          "name": "Galileo Galilei",
+          "login": "galieleo",
+          "email": "galieleo@ldap.forumsys.com"
+        },
+        "approver": null,
+        "changes": null,
+        "created": "2023-07-23",
+        "state": "WAITING",
+        "description": "Submission [id: 30, package: This package supplies tools for tabulating and analyzing the results of predictive models. The methods employed are applicable to virtually any predictive model and make comparisons between different methodologies straightforward., submitter: User [id: 6, name: Galileo Galilei, login: galieleo, email: galieleo@ldap.forumsys.com], approver: ]",
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/r/submissions/30"
+          },
+          {
+            "rel": "submissionList",
+            "href": "http://localhost:8017/api/v2/manager/r/submissions"
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "packageBag": {
+          "id": 4,
+          "user": {
+            "id": 4,
+            "name": "Albert Einstein",
+            "login": "einstein",
+            "email": "einstein@ldap.forumsys.com"
+          },
+          "repository": {
+            "id": 3,
+            "name": "testrepo2",
+            "publicationUri": "http://localhost/repo/testrepo2"
+          },
+          "submissionId": 5,
+          "name": "accrued",
+          "version": "1.3.5",
+          "description": "Package for visualizing data quality of partially accruing data.",
+          "author": "Julie Eaton and Ian Painter",
+          "title": "Data Quality Visualization Tools for Partially Accruing Data",
+          "url": null,
+          "source": "/opt/rdepot/repositories/3/99077116/accrued_1.3.5.tar.gz",
+          "active": true,
+          "deleted": false,
+          "links": [
+            {
+              "rel": "self",
+              "href": "http://localhost:8017/api/v2/manager/r/packages/4"
+            },
+            {
+              "rel": "packageList",
+              "href": "http://localhost:8017/api/v2/manager/r/packages"
+            }
+          ]
+        },
+        "submitter": {
+          "id": 4,
+          "name": "Albert Einstein",
+          "login": "einstein",
+          "email": "einstein@ldap.forumsys.com"
+        },
+        "approver": {
+          "id": 4,
+          "name": "Albert Einstein",
+          "login": "einstein",
+          "email": "einstein@ldap.forumsys.com"
+        },
+        "changes": null,
+        "created": "2023-07-23",
+        "state": "ACCEPTED",
+        "description": "Submission [id: 5, package: Package for visualizing data quality of partially accruing data., submitter: User [id: 4, name: Albert Einstein, login: einstein, email: einstein@ldap.forumsys.com], approver: User [id: 4, name: Albert Einstein, login: einstein, email: einstein@ldap.forumsys.com]]",
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/r/submissions/5"
+          },
+          {
+            "rel": "submissionList",
+            "href": "http://localhost:8017/api/v2/manager/r/submissions"
+          }
+        ]
+      },
+      {
+        "id": 18,
+        "packageBag": {
+          "id": 18,
+          "user": {
+            "id": 5,
+            "name": "Nikola Tesla",
+            "login": "tesla",
+            "email": "tesla@ldap.forumsys.com"
+          },
+          "repository": {
+            "id": 2,
+            "name": "testrepo1",
+            "publicationUri": "http://localhost/repo/testrepo1"
+          },
+          "submissionId": 18,
+          "name": "abc",
+          "version": "1.3",
+          "description": "The package implements several ABC algorithms for performing parameter estimation and model selection. Cross-validation tools are also available for measuring the accuracy of ABC estimates, and to calculate the misclassification probabilities of different models.",
+          "author": "Katalin Csillery, Michael Blum and Olivier Francois",
+          "title": "Tools for Approximate Bayesian Computation (ABC)",
+          "url": null,
+          "source": "/opt/rdepot/repositories/2/88170013/abc_1.3.tar.gz",
+          "active": true,
+          "deleted": false,
+          "links": [
+            {
+              "rel": "self",
+              "href": "http://localhost:8017/api/v2/manager/r/packages/18"
+            },
+            {
+              "rel": "packageList",
+              "href": "http://localhost:8017/api/v2/manager/r/packages"
+            }
+          ]
+        },
+        "submitter": {
+          "id": 7,
+          "name": "Isaac Newton",
+          "login": "newton",
+          "email": "newton@ldap.forumsys.com"
+        },
+        "approver": {
+          "id": 5,
+          "name": "Nikola Tesla",
+          "login": "tesla",
+          "email": "tesla@ldap.forumsys.com"
+        },
+        "changes": null,
+        "state": "ACCEPTED",
+        "description": "Submission [id: 18, package: The package implements several ABC algorithms for performing parameter estimation and model selection. Cross-validation tools are also available for measuring the accuracy of ABC estimates, and to calculate the misclassification probabilities of different models., submitter: User [id: 7, name: Isaac Newton, login: newton, email: newton@ldap.forumsys.com], approver: User [id: 5, name: Nikola Tesla, login: tesla, email: tesla@ldap.forumsys.com]]",
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/r/submissions/18"
+          },
+          {
+            "rel": "submissionList",
+            "href": "http://localhost:8017/api/v2/manager/r/submissions"
+          }
+        ]
+      },
+      {
+        "id": 16,
+        "packageBag": {
+          "id": 16,
+          "user": {
+            "id": 4,
+            "name": "Albert Einstein",
+            "login": "einstein",
+            "email": "einstein@ldap.forumsys.com"
+          },
+          "repository": {
+            "id": 2,
+            "name": "testrepo1",
+            "publicationUri": "http://localhost/repo/testrepo1"
+          },
+          "submissionId": 16,
+          "name": "A3",
+          "version": "0.9.1",
+          "description": "This package supplies tools for tabulating and analyzing the results of predictive models. The methods employed are applicable to virtually any predictive model and make comparisons between different methodologies straightforward.",
+          "author": "Scott Fortmann-Roe",
+          "title": "A3: Accurate, Adaptable, and Accessible Error Metrics for Predictive Models",
+          "url": null,
+          "source": "",
+          "active": false,
+          "deleted": false,
+          "links": [
+            {
+              "rel": "self",
+              "href": "http://localhost:8017/api/v2/manager/r/packages/16"
+            },
+            {
+              "rel": "packageList",
+              "href": "http://localhost:8017/api/v2/manager/r/packages"
+            }
+          ]
+        },
+        "submitter": {
+          "id": 7,
+          "name": "Isaac Newton",
+          "login": "newton",
+          "email": "newton@ldap.forumsys.com"
+        },
+        "approver": {
+          "id": 5,
+          "name": "Nikola Tesla",
+          "login": "tesla",
+          "email": "tesla@ldap.forumsys.com"
+        },
+        "changes": null,
+        "created": "2023-07-23",
+        "state": "REJECTED",
+        "description": "Submission [id: 16, package: This package supplies tools for tabulating and analyzing the results of predictive models. The methods employed are applicable to virtually any predictive model and make comparisons between different methodologies straightforward., submitter: User [id: 7, name: Isaac Newton, login: newton, email: newton@ldap.forumsys.com], approver: User [id: 5, name: Nikola Tesla, login: tesla, email: tesla@ldap.forumsys.com]]",
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/r/submissions/16"
+          },
+          {
+            "rel": "submissionList",
+            "href": "http://localhost:8017/api/v2/manager/r/submissions"
+          }
+        ]
+      },
+      {
+        "id": 15,
+        "packageBag": {
+          "id": 14,
+          "user": {
+            "id": 5,
+            "name": "Nikola Tesla",
+            "login": "tesla",
+            "email": "tesla@ldap.forumsys.com"
+          },
+          "repository": {
+            "id": 2,
+            "name": "testrepo1",
+            "publicationUri": "http://localhost/repo/testrepo1"
+          },
+          "submissionId": 15,
+          "name": "npordtests",
+          "version": "1.1",
+          "description": "Performs nonparametric tests for equality of location against ordered alternatives.",
+          "author": "Bulent Altunkaynak [aut, cre], Hamza Gamgam [aut]",
+          "title": "Nonparametric Tests for Equality of Location Against Ordered Alternatives",
+          "url": null,
+          "source": "/opt/rdepot/repositories/2/8436419/npordtests_1.1.tar.gz",
+          "active": false,
+          "deleted": true,
+          "links": [
+            {
+              "rel": "self",
+              "href": "http://localhost:8017/api/v2/manager/r/packages/14"
+            },
+            {
+              "rel": "packageList",
+              "href": "http://localhost:8017/api/v2/manager/r/packages"
+            }
+          ]
+        },
+        "submitter": {
+          "id": 4,
+          "name": "Albert Einstein",
+          "login": "einstein",
+          "email": "einstein@ldap.forumsys.com"
+        },
+        "approver": {
+          "id": 4,
+          "name": "Albert Einstein",
+          "login": "einstein",
+          "email": "einstein@ldap.forumsys.com"
+        },
+        "changes": null,
+        "created": "2023-07-23",
+        "state": "ACCEPTED",
+        "description": "Submission [id: 15, package: Performs nonparametric tests for equality of location against ordered alternatives., submitter: User [id: 4, name: Albert Einstein, login: einstein, email: einstein@ldap.forumsys.com], approver: User [id: 4, name: Albert Einstein, login: einstein, email: einstein@ldap.forumsys.com]]",
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/r/submissions/15"
+          },
+          {
+            "rel": "submissionList",
+            "href": "http://localhost:8017/api/v2/manager/r/submissions"
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "packageBag": {
+          "id": 8,
+          "user": {
+            "id": 4,
+            "name": "Albert Einstein",
+            "login": "einstein",
+            "email": "einstein@ldap.forumsys.com"
+          },
+          "repository": {
+            "id": 3,
+            "name": "testrepo2",
+            "publicationUri": "http://localhost/repo/testrepo2"
+          },
+          "submissionId": 6,
+          "name": "accrued",
+          "version": "1.2",
+          "description": "Package for visualizing data quality of partially accruing time series.",
+          "author": "Julie Eaton and Ian Painter",
+          "title": "Visualization tools for partially accruing data",
+          "url": null,
+          "source": "/opt/rdepot/repositories/3/83118397/accrued_1.2.tar.gz",
+          "active": true,
+          "deleted": false,
+          "links": [
+            {
+              "rel": "self",
+              "href": "http://localhost:8017/api/v2/manager/r/packages/8"
+            },
+            {
+              "rel": "packageList",
+              "href": "http://localhost:8017/api/v2/manager/r/packages"
+            }
+          ]
+        },
+        "submitter": {
+          "id": 4,
+          "name": "Albert Einstein",
+          "login": "einstein",
+          "email": "einstein@ldap.forumsys.com"
+        },
+        "approver": {
+          "id": 4,
+          "name": "Albert Einstein",
+          "login": "einstein",
+          "email": "einstein@ldap.forumsys.com"
+        },
+        "changes": null,
+        "created": "2023-07-23",
+        "state": "ACCEPTED",
+        "description": "Submission [id: 6, package: Package for visualizing data quality of partially accruing time series., submitter: User [id: 4, name: Albert Einstein, login: einstein, email: einstein@ldap.forumsys.com], approver: User [id: 4, name: Albert Einstein, login: einstein, email: einstein@ldap.forumsys.com]]",
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/r/submissions/6"
+          },
+          {
+            "rel": "submissionList",
+            "href": "http://localhost:8017/api/v2/manager/r/submissions"
+          }
+        ]
+      },
+      {
+        "id": 12,
+        "packageBag": {
+          "id": 12,
+          "user": {
+            "id": 6,
+            "name": "Galileo Galilei",
+            "login": "galieleo",
+            "email": "galieleo@ldap.forumsys.com"
+          },
+          "repository": {
+            "id": 4,
+            "name": "testrepo3",
+            "publicationUri": "http://localhost/repo/testrepo3"
+          },
+          "submissionId": 12,
+          "name": "abc",
+          "version": "1.0",
+          "description": "The 'abc' package provides various functions for parameter estimation and model selection in an ABC framework. Three main",
+          "author": "Katalin Csillery, with contributions from Michael Blum and Olivier Francois",
+          "title": "Functions to perform Approximate Bayesian Computation (ABC) using simulated data",
+          "url": null,
+          "source": "/opt/rdepot/repositories/4/49426769/abc_1.0.tar.gz",
+          "active": true,
+          "deleted": false,
+          "links": [
+            {
+              "rel": "self",
+              "href": "http://localhost:8017/api/v2/manager/r/packages/12"
+            },
+            {
+              "rel": "packageList",
+              "href": "http://localhost:8017/api/v2/manager/r/packages"
+            }
+          ]
+        },
+        "submitter": {
+          "id": 4,
+          "name": "Albert Einstein",
+          "login": "einstein",
+          "email": "einstein@ldap.forumsys.com"
+        },
+        "approver": {
+          "id": 4,
+          "name": "Albert Einstein",
+          "login": "einstein",
+          "email": "einstein@ldap.forumsys.com"
+        },
+        "changes": null,
+        "created": "2023-07-23",
+        "state": "ACCEPTED",
+        "description": "Submission [id: 12, package: The 'abc' package provides various functions for parameter estimation and model selection in an ABC framework. Three main, submitter: User [id: 4, name: Albert Einstein, login: einstein, email: einstein@ldap.forumsys.com], approver: User [id: 4, name: Albert Einstein, login: einstein, email: einstein@ldap.forumsys.com]]",
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/r/submissions/12"
+          },
+          {
+            "rel": "submissionList",
+            "href": "http://localhost:8017/api/v2/manager/r/submissions"
+          }
+        ]
+      },
+      {
+        "id": 27,
+        "packageBag": {
+          "id": 27,
+          "user": {
+            "id": 8,
+            "name": "Local Admin User",
+            "login": "admin",
+            "email": "admin@localhost"
+          },
+          "repository": {
+            "id": 6,
+            "name": "testrepo5",
+            "publicationUri": "http://localhost/repo/testrepo5"
+          },
+          "submissionId": 27,
+          "name": "usl",
+          "version": "2.0.0",
+          "description": "The Universal Scalability Law (Gunther 2007)",
+          "author": "Neil J. Gunther [aut], Stefan Moeding [aut, cre]",
+          "title": "Analyze System Scalability with the Universal Scalability Law",
+          "url": null,
+          "source": "/opt/rdepot/repositories/6/21695389/usl_2.0.0.tar.gz",
+          "active": false,
+          "deleted": true,
+          "links": [
+            {
+              "rel": "self",
+              "href": "http://localhost:8017/api/v2/manager/r/packages/27"
+            },
+            {
+              "rel": "packageList",
+              "href": "http://localhost:8017/api/v2/manager/r/packages"
+            }
+          ]
+        },
+        "submitter": {
+          "id": 4,
+          "name": "Albert Einstein",
+          "login": "einstein",
+          "email": "einstein@ldap.forumsys.com"
+        },
+        "approver": {
+          "id": 4,
+          "name": "Albert Einstein",
+          "login": "einstein",
+          "email": "einstein@ldap.forumsys.com"
+        },
+        "changes": null,
+        "created": "2023-07-23",
+        "state": "ACCEPTED",
+        "description": "Submission [id: 27, package: The Universal Scalability Law (Gunther 2007), submitter: User [id: 4, name: Albert Einstein, login: einstein, email: einstein@ldap.forumsys.com], approver: User [id: 4, name: Albert Einstein, login: einstein, email: einstein@ldap.forumsys.com]]",
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/r/submissions/27"
+          },
+          {
+            "rel": "submissionList",
+            "href": "http://localhost:8017/api/v2/manager/r/submissions"
+          }
+        ]
+      },
+      {
+        "id": 23,
+        "packageBag": {
+          "id": 22,
+          "user": {
+            "id": 4,
+            "name": "Albert Einstein",
+            "login": "einstein",
+            "email": "einstein@ldap.forumsys.com"
+          },
+          "repository": {
+            "id": 2,
+            "name": "testrepo1",
+            "publicationUri": "http://localhost/repo/testrepo1"
+          },
+          "submissionId": 23,
+          "name": "AnaCoDa",
+          "version": "0.1.2.3",
+          "description": "Is a collection of models to analyze genome scale codon data using a Bayesian framework. Provides visualization routines and checkpointing for model fittings. Currently published models to analyze gene data for selection on codon",
+          "author": "Cedric Landerer [aut, cre], Gabriel Hanas [ctb], Jeremy Rogers [ctb], Alex Cope [ctb], Denizhan Pak [ctb]",
+          "title": "Analysis of Codon Data under Stationarity using a Bayesian Framework",
+          "url": "https://github.com/clandere/AnaCoDa",
+          "source": "",
+          "active": false,
+          "deleted": false,
+          "links": [
+            {
+              "rel": "self",
+              "href": "http://localhost:8017/api/v2/manager/r/packages/22"
+            },
+            {
+              "rel": "packageList",
+              "href": "http://localhost:8017/api/v2/manager/r/packages"
+            }
+          ]
+        },
+        "submitter": {
+          "id": 6,
+          "name": "Galileo Galilei",
+          "login": "galieleo",
+          "email": "galieleo@ldap.forumsys.com"
+        },
+        "approver": {
+          "id": 6,
+          "name": "Galileo Galilei",
+          "login": "galieleo",
+          "email": "galieleo@ldap.forumsys.com"
+        },
+        "changes": null,
+        "created": "2023-07-23",
+        "state": "CANCELLED",
+        "description": "Submission [id: 23, package: Is a collection of models to analyze genome scale codon data using a Bayesian framework. Provides visualization routines and checkpointing for model fittings. Currently published models to analyze gene data for selection on codon, submitter: User [id: 6, name: Galileo Galilei, login: galieleo, email: galieleo@ldap.forumsys.com], approver: User [id: 6, name: Galileo Galilei, login: galieleo, email: galieleo@ldap.forumsys.com]]",
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/r/submissions/23"
+          },
+          {
+            "rel": "submissionList",
+            "href": "http://localhost:8017/api/v2/manager/r/submissions"
+          }
+        ]
+      },
+      {
+        "id": 24,
+        "packageBag": {
+          "id": 24,
+          "user": {
+            "id": 4,
+            "name": "Albert Einstein",
+            "login": "einstein",
+            "email": "einstein@ldap.forumsys.com"
+          },
+          "repository": {
+            "id": 5,
+            "name": "testrepo4",
+            "publicationUri": "http://localhost/repo/testrepo4"
+          },
+          "submissionId": 24,
+          "name": "Benchmarking",
+          "version": "0.10",
+          "description": "Estimates and graphs deterministic (DEA) frontier models with different technology assumptions (fdh, vrs, drs, crs, irs, add). Also handles possible slacks, peers and their weights (lambdas), optimal cost, revenue and profit allocation, super--efficiency, and mergers. A comparative method for estimating SFA efficiencies is included.",
+          "author": "Peter Bogetoft and Lars Otto",
+          "title": "Benchmark and frontier analysis using DEA and SFA",
+          "url": null,
+          "source": "",
+          "active": false,
+          "deleted": false,
+          "links": [
+            {
+              "rel": "self",
+              "href": "http://localhost:8017/api/v2/manager/r/packages/24"
+            },
+            {
+              "rel": "packageList",
+              "href": "http://localhost:8017/api/v2/manager/r/packages"
+            }
+          ]
+        },
+        "submitter": {
+          "id": 6,
+          "name": "Galileo Galilei",
+          "login": "galieleo",
+          "email": "galieleo@ldap.forumsys.com"
+        },
+        "approver": {
+          "id": 5,
+          "name": "Nikola Tesla",
+          "login": "tesla",
+          "email": "tesla@ldap.forumsys.com"
+        },
+        "changes": null,
+        "created": "2023-07-23",
+        "state": "REJECTED",
+        "description": "Submission [id: 24, package: Estimates and graphs deterministic (DEA) frontier models with different technology assumptions (fdh, vrs, drs, crs, irs, add). Also handles possible slacks, peers and their weights (lambdas), optimal cost, revenue and profit allocation, super--efficiency, and mergers. A comparative method for estimating SFA efficiencies is included., submitter: User [id: 6, name: Galileo Galilei, login: galieleo, email: galieleo@ldap.forumsys.com], approver: User [id: 5, name: Nikola Tesla, login: tesla, email: tesla@ldap.forumsys.com]]",
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/r/submissions/24"
+          },
+          {
+            "rel": "submissionList",
+            "href": "http://localhost:8017/api/v2/manager/r/submissions"
+          }
+        ]
+      },
+      {
+        "id": 11,
+        "packageBag": {
+          "id": 11,
+          "user": {
+            "id": 6,
+            "name": "Galileo Galilei",
+            "login": "galieleo",
+            "email": "galieleo@ldap.forumsys.com"
+          },
+          "repository": {
+            "id": 4,
+            "name": "testrepo3",
+            "publicationUri": "http://localhost/repo/testrepo3"
+          },
+          "submissionId": 11,
+          "name": "abc",
+          "version": "1.3",
+          "description": "The package implements several ABC algorithms for performing parameter estimation and model selection. Cross-validation tools are also available for measuring the accuracy of ABC estimates, and to calculate the misclassification probabilities of different models.",
+          "author": "Katalin Csillery, Michael Blum and Olivier Francois",
+          "title": "Tools for Approximate Bayesian Computation (ABC)",
+          "url": null,
+          "source": "/opt/rdepot/repositories/4/95296712/abc_1.3.tar.gz",
+          "active": false,
+          "deleted": false,
+          "links": [
+            {
+              "rel": "self",
+              "href": "http://localhost:8017/api/v2/manager/r/packages/11"
+            },
+            {
+              "rel": "packageList",
+              "href": "http://localhost:8017/api/v2/manager/r/packages"
+            }
+          ]
+        },
+        "submitter": {
+          "id": 4,
+          "name": "Albert Einstein",
+          "login": "einstein",
+          "email": "einstein@ldap.forumsys.com"
+        },
+        "approver": {
+          "id": 4,
+          "name": "Albert Einstein",
+          "login": "einstein",
+          "email": "einstein@ldap.forumsys.com"
+        },
+        "changes": null,
+        "created": "2023-07-23",
+        "state": "ACCEPTED",
+        "description": "Submission [id: 11, package: The package implements several ABC algorithms for performing parameter estimation and model selection. Cross-validation tools are also available for measuring the accuracy of ABC estimates, and to calculate the misclassification probabilities of different models., submitter: User [id: 4, name: Albert Einstein, login: einstein, email: einstein@ldap.forumsys.com], approver: User [id: 4, name: Albert Einstein, login: einstein, email: einstein@ldap.forumsys.com]]",
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/r/submissions/11"
+          },
+          {
+            "rel": "submissionList",
+            "href": "http://localhost:8017/api/v2/manager/r/submissions"
+          }
+        ]
+      },
+      {
+        "id": 8,
+        "packageBag": {
+          "id": 7,
+          "user": {
+            "id": 4,
+            "name": "Albert Einstein",
+            "login": "einstein",
+            "email": "einstein@ldap.forumsys.com"
+          },
+          "repository": {
+            "id": 3,
+            "name": "testrepo2",
+            "publicationUri": "http://localhost/repo/testrepo2"
+          },
+          "submissionId": 8,
+          "name": "accrued",
+          "version": "1.4",
+          "description": "Package for visualizing data quality of partially accruing data.",
+          "author": "Julie Eaton and Ian Painter",
+          "title": "Data Quality Visualization Tools for Partially Accruing Data",
+          "url": null,
+          "source": "/opt/rdepot/repositories/3/28075835/accrued_1.4.tar.gz",
+          "active": false,
+          "deleted": false,
+          "links": [
+            {
+              "rel": "self",
+              "href": "http://localhost:8017/api/v2/manager/r/packages/7"
+            },
+            {
+              "rel": "packageList",
+              "href": "http://localhost:8017/api/v2/manager/r/packages"
+            }
+          ]
+        },
+        "submitter": {
+          "id": 4,
+          "name": "Albert Einstein",
+          "login": "einstein",
+          "email": "einstein@ldap.forumsys.com"
+        },
+        "approver": {
+          "id": 4,
+          "name": "Albert Einstein",
+          "login": "einstein",
+          "email": "einstein@ldap.forumsys.com"
+        },
+        "changes": null,
+        "created": "2023-07-23",
+        "state": "ACCEPTED",
+        "description": "Submission [id: 8, package: Package for visualizing data quality of partially accruing data., submitter: User [id: 4, name: Albert Einstein, login: einstein, email: einstein@ldap.forumsys.com], approver: User [id: 4, name: Albert Einstein, login: einstein, email: einstein@ldap.forumsys.com]]",
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/r/submissions/8"
+          },
+          {
+            "rel": "submissionList",
+            "href": "http://localhost:8017/api/v2/manager/r/submissions"
+          }
+        ]
+      },
+      {
+        "id": 25,
+        "packageBag": {
+          "id": 25,
+          "user": {
+            "id": 5,
+            "name": "Nikola Tesla",
+            "login": "tesla",
+            "email": "tesla@ldap.forumsys.com"
+          },
+          "repository": {
+            "id": 2,
+            "name": "testrepo1",
+            "publicationUri": "http://localhost/repo/testrepo1"
+          },
+          "submissionId": 25,
+          "name": "usl",
+          "version": "2.0.0",
+          "description": "The Universal Scalability Law (Gunther 2007)",
+          "author": "Neil J. Gunther [aut], Stefan Moeding [aut, cre]",
+          "title": "Analyze System Scalability with the Universal Scalability Law",
+          "url": null,
+          "source": "/opt/rdepot/repositories/2/33930690/usl_2.0.0.tar.gz",
+          "active": true,
+          "deleted": false,
+          "links": [
+            {
+              "rel": "self",
+              "href": "http://localhost:8017/api/v2/manager/r/packages/25"
+            },
+            {
+              "rel": "packageList",
+              "href": "http://localhost:8017/api/v2/manager/r/packages"
+            }
+          ]
+        },
+        "submitter": {
+          "id": 5,
+          "name": "Nikola Tesla",
+          "login": "tesla",
+          "email": "tesla@ldap.forumsys.com"
+        },
+        "approver": {
+          "id": 5,
+          "name": "Nikola Tesla",
+          "login": "tesla",
+          "email": "tesla@ldap.forumsys.com"
+        },
+        "changes": null,
+        "created": "2023-07-23",
+        "state": "ACCEPTED",
+        "description": "Submission [id: 25, package: The Universal Scalability Law (Gunther 2007), submitter: User [id: 5, name: Nikola Tesla, login: tesla, email: tesla@ldap.forumsys.com], approver: User [id: 5, name: Nikola Tesla, login: tesla, email: tesla@ldap.forumsys.com]]",
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/r/submissions/25"
+          },
+          {
+            "rel": "submissionList",
+            "href": "http://localhost:8017/api/v2/manager/r/submissions"
+          }
+        ]
+      },
+      {
+        "id": 29,
+        "packageBag": {
+          "id": 29,
+          "user": {
+            "id": 8,
+            "name": "Local Admin User",
+            "login": "admin",
+            "email": "admin@localhost"
+          },
+          "repository": {
+            "id": 7,
+            "name": "testrepo6",
+            "publicationUri": "http://localhost/repo/testrepo6"
+          },
+          "submissionId": 29,
+          "name": "A3",
+          "version": "0.9.1",
+          "description": "This package supplies tools for tabulating and analyzing the results of predictive models. The methods employed are applicable to virtually any predictive model and make comparisons between different methodologies straightforward.",
+          "author": "Scott Fortmann-Roe",
+          "title": "A3: Accurate, Adaptable, and Accessible Error Metrics for Predictive Models",
+          "url": null,
+          "source": "/opt/rdepot/repositories/7/67484296/A3_0.9.1.tar.gz",
+          "active": false,
+          "deleted": true,
+          "links": [
+            {
+              "rel": "self",
+              "href": "http://localhost:8017/api/v2/manager/r/packages/29"
+            },
+            {
+              "rel": "packageList",
+              "href": "http://localhost:8017/api/v2/manager/r/packages"
+            }
+          ]
+        },
+        "submitter": {
+          "id": 4,
+          "name": "Albert Einstein",
+          "login": "einstein",
+          "email": "einstein@ldap.forumsys.com"
+        },
+        "approver": {
+          "id": 4,
+          "name": "Albert Einstein",
+          "login": "einstein",
+          "email": "einstein@ldap.forumsys.com"
+        },
+        "changes": null,
+        "created": "2023-07-23",
+        "state": "ACCEPTED",
+        "description": "Submission [id: 29, package: This package supplies tools for tabulating and analyzing the results of predictive models. The methods employed are applicable to virtually any predictive model and make comparisons between different methodologies straightforward., submitter: User [id: 4, name: Albert Einstein, login: einstein, email: einstein@ldap.forumsys.com], approver: User [id: 4, name: Albert Einstein, login: einstein, email: einstein@ldap.forumsys.com]]",
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/r/submissions/29"
+          },
+          {
+            "rel": "submissionList",
+            "href": "http://localhost:8017/api/v2/manager/r/submissions"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "packageBag": {
+          "id": 6,
+          "user": {
+            "id": 4,
+            "name": "Albert Einstein",
+            "login": "einstein",
+            "email": "einstein@ldap.forumsys.com"
+          },
+          "repository": {
+            "id": 3,
+            "name": "testrepo2",
+            "publicationUri": "http://localhost/repo/testrepo2"
+          },
+          "submissionId": 4,
+          "name": "accrued",
+          "version": "1.1",
+          "description": "Package for visualizing data quality of partially accruing time series.",
+          "author": "Julie Eaton and Ian Painter",
+          "title": "Visualization tools for partially accruing data",
+          "url": null,
+          "source": "/opt/rdepot/repositories/3/46950998/accrued_1.1.tar.gz",
+          "active": false,
+          "deleted": true,
+          "links": [
+            {
+              "rel": "self",
+              "href": "http://localhost:8017/api/v2/manager/r/packages/6"
+            },
+            {
+              "rel": "packageList",
+              "href": "http://localhost:8017/api/v2/manager/r/packages"
+            }
+          ]
+        },
+        "submitter": {
+          "id": 4,
+          "name": "Albert Einstein",
+          "login": "einstein",
+          "email": "einstein@ldap.forumsys.com"
+        },
+        "approver": {
+          "id": 4,
+          "name": "Albert Einstein",
+          "login": "einstein",
+          "email": "einstein@ldap.forumsys.com"
+        },
+        "changes": null,
+        "created": "2023-07-23",
+        "state": "ACCEPTED",
+        "description": "Submission [id: 4, package: Package for visualizing data quality of partially accruing time series., submitter: User [id: 4, name: Albert Einstein, login: einstein, email: einstein@ldap.forumsys.com], approver: User [id: 4, name: Albert Einstein, login: einstein, email: einstein@ldap.forumsys.com]]",
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/r/submissions/4"
+          },
+          {
+            "rel": "submissionList",
+            "href": "http://localhost:8017/api/v2/manager/r/submissions"
+          }
+        ]
+      },
+      {
+        "id": 21,
+        "packageBag": {
+          "id": 21,
+          "user": {
+            "id": 5,
+            "name": "Nikola Tesla",
+            "login": "tesla",
+            "email": "tesla@ldap.forumsys.com"
+          },
+          "repository": {
+            "id": 2,
+            "name": "testrepo1",
+            "publicationUri": "http://localhost/repo/testrepo1"
+          },
+          "submissionId": 21,
+          "name": "Benchmarking",
+          "version": "0.10",
+          "description": "Estimates and graphs deterministic (DEA) frontier models with different technology assumptions (fdh, vrs, drs, crs, irs, add). Also handles possible slacks, peers and their weights (lambdas), optimal cost, revenue and profit allocation, super--efficiency, and mergers. A comparative method for estimating SFA efficiencies is included.",
+          "author": "Peter Bogetoft and Lars Otto",
+          "title": "Benchmark and frontier analysis using DEA and SFA",
+          "url": null,
+          "source": "/opt/rdepot/repositories/2/71228208/Benchmarking_0.10.tar.gz",
+          "active": true,
+          "deleted": false,
+          "links": [
+            {
+              "rel": "self",
+              "href": "http://localhost:8017/api/v2/manager/r/packages/21"
+            },
+            {
+              "rel": "packageList",
+              "href": "http://localhost:8017/api/v2/manager/r/packages"
+            }
+          ]
+        },
+        "submitter": {
+          "id": 6,
+          "name": "Galileo Galilei",
+          "login": "galieleo",
+          "email": "galieleo@ldap.forumsys.com"
+        },
+        "approver": {
+          "id": 5,
+          "name": "Nikola Tesla",
+          "login": "tesla",
+          "email": "tesla@ldap.forumsys.com"
+        },
+        "changes": null,
+        "created": "2023-07-23",
+        "state": "ACCEPTED",
+        "description": "Submission [id: 21, package: Estimates and graphs deterministic (DEA) frontier models with different technology assumptions (fdh, vrs, drs, crs, irs, add). Also handles possible slacks, peers and their weights (lambdas), optimal cost, revenue and profit allocation, super--efficiency, and mergers. A comparative method for estimating SFA efficiencies is included., submitter: User [id: 6, name: Galileo Galilei, login: galieleo, email: galieleo@ldap.forumsys.com], approver: User [id: 5, name: Nikola Tesla, login: tesla, email: tesla@ldap.forumsys.com]]",
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/r/submissions/21"
+          },
+          {
+            "rel": "submissionList",
+            "href": "http://localhost:8017/api/v2/manager/r/submissions"
+          }
+        ]
+      },
+      {
+        "id": 14,
+        "packageBag": {
+          "id": 13,
+          "user": {
+            "id": 6,
+            "name": "Galileo Galilei",
+            "login": "galieleo",
+            "email": "galieleo@ldap.forumsys.com"
+          },
+          "repository": {
+            "id": 2,
+            "name": "testrepo1",
+            "publicationUri": "http://localhost/repo/testrepo1"
+          },
+          "submissionId": 14,
+          "name": "accrued",
+          "version": "1.0",
+          "description": "Package for visualizing data quality of partially accruing time series.",
+          "author": "Julie Eaton and Ian Painter",
+          "title": "Visualization tools for partially accruing data",
+          "url": null,
+          "source": "/opt/rdepot/repositories/2/40553654/accrued_1.0.tar.gz",
+          "active": false,
+          "deleted": false,
+          "links": [
+            {
+              "rel": "self",
+              "href": "http://localhost:8017/api/v2/manager/r/packages/13"
+            },
+            {
+              "rel": "packageList",
+              "href": "http://localhost:8017/api/v2/manager/r/packages"
+            }
+          ]
+        },
+        "submitter": {
+          "id": 4,
+          "name": "Albert Einstein",
+          "login": "einstein",
+          "email": "einstein@ldap.forumsys.com"
+        },
+        "approver": {
+          "id": 4,
+          "name": "Albert Einstein",
+          "login": "einstein",
+          "email": "einstein@ldap.forumsys.com"
+        },
+        "changes": null,
+        "created": "2023-07-23",
+        "state": "ACCEPTED",
+        "description": "Submission [id: 14, package: Package for visualizing data quality of partially accruing time series., submitter: User [id: 4, name: Albert Einstein, login: einstein, email: einstein@ldap.forumsys.com], approver: User [id: 4, name: Albert Einstein, login: einstein, email: einstein@ldap.forumsys.com]]",
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/r/submissions/14"
+          },
+          {
+            "rel": "submissionList",
+            "href": "http://localhost:8017/api/v2/manager/r/submissions"
+          }
+        ]
+      }
+    ],
+    "page": {
+      "size": 20,
+      "totalElements": 28,
+      "totalPages": 2,
+      "number": 0
+    }
+  }
+}

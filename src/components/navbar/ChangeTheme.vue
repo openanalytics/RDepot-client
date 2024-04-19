@@ -1,26 +1,88 @@
+<!--
+ R Depot
+ 
+ Copyright (C) 2012-2024 Open Analytics NV
+ 
+ ===========================================================================
+ 
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the Apache License as published by
+ The Apache Software Foundation, either version 2 of the License, or
+ (at your option) any later version.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ Apache License for more details.
+ 
+ You should have received a copy of the Apache License
+ along with this program. If not, see <http://www.apache.org/licenses/>
+ 
+-->
+
 <template>
-    <v-btn icon @click="toggleDarkMode" class="ma-2">
-        <v-icon color="text">mdi-theme-light-dark</v-icon>
-    </v-btn>
+  <div>
+    <v-switch
+      :key="commonStore.themeKey"
+      id="theme-switch"
+      density="compact"
+      @click="changeTheme"
+      color="primary"
+      :model-value="getTheme"
+      true-icon="mdi-weather-night"
+      false-icon="mdi-weather-sunny"
+      :inset="true"
+      :hide-details="true"
+      style="align-self: center"
+    ></v-switch>
+  </div>
 </template>
 
-<script lang="ts">
-import Vue from 'vue'
-import { langs } from '@/locales/index'
+<script setup lang="ts">
+import { useAuthorizationStore } from '@/store/authorization'
+import { useCommonStore } from '@/store/common'
+import { useMeStore } from '@/store/me'
+import { onUpdated, computed } from 'vue'
+import { useTheme } from 'vuetify/lib/framework.mjs'
 
-export default Vue.extend({
-    data() {
-        return {
-            langs: langs,
-        }
-    },
+const theme = useTheme()
+const commonStore = useCommonStore()
+const authorizationStore = useAuthorizationStore()
+const meStore = useMeStore()
 
-    methods: {
-        toggleDarkMode() {
-        this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
-        console.log('we are here', this.$vuetify.theme)
-        localStorage.setItem("darkTheme", this.$vuetify.theme.dark.toString());
-      },
-    }
+async function changeTheme() {
+  const new_theme = theme.global.current.value.dark
+    ? 'light'
+    : 'dark'
+
+  theme.global.name.value = new_theme
+  var new_settings = authorizationStore.getCurrentSettings()
+  new_settings.theme = new_theme
+  if (await authorizationStore.isUserLoggedIn()) {
+    await authorizationStore.updateSettings(
+      authorizationStore.getCurrentSettings(),
+      new_settings
+    )
+  }
+  commonStore.updateThemeKey()
+}
+
+const getTheme = computed(() => {
+  return theme.global.current.value.dark
+})
+
+onUpdated(() => {
+  if (meStore.me.userSettings?.theme)
+    theme.global.name.value = meStore.me.userSettings.theme
 })
 </script>
+
+<style lang="scss">
+.mdi-weather-night {
+  color: aliceblue;
+}
+
+.mdi-weather-sunny {
+  color: black;
+}
+</style>

@@ -1,44 +1,132 @@
-import { login } from "@/services";
-import { ActionContext } from "vuex";
-import { State } from ".";
-import { LoginApiData } from "@/models";
-import { LoginType } from "@/enum/LoginType";
+/*
+ * R Depot
+ *
+ * Copyright (C) 2012-2024 Open Analytics NV
+ *
+ * ===========================================================================
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the Apache License as published by
+ * The Apache Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * Apache License for more details.
+ *
+ * You should have received a copy of the Apache License
+ * along with this program. If not, see <http://www.apache.org/licenses/>
+ *
+ */
 
-export interface UserState{
-    userToken: String,
-    userName: String,
-    loginType: LoginType
+import { defineStore } from 'pinia'
+import {
+  fetchRoles,
+  fetchUsers,
+  updateUser,
+  fetchAllUsers,
+  fetchFullUsersList
+} from '@/services/users_services'
+import { EntityModelUserDto, RoleDto } from '@/openapi'
+import { Role } from '@/enum/UserRoles'
+import { usePagination } from '@/store/pagination'
+import {
+  defaultValues,
+  UsersFiltration
+} from '@/models/Filtration'
+
+interface State {
+  userToken: string
+  userName: string
+  userList: EntityModelUserDto[]
+  chosenUser: EntityModelUserDto
+  filtration: UsersFiltration
+  roles: RoleDto[]
 }
 
-type Context = ActionContext<UserState, State>;
-
-const users_state = {
-    state: () => ({
-        userToken: "",
-        userName: "",
-        loginType: LoginType.DEFAULT
-    }) as UserState,
-
-    mutations:{
-        setUserToken(state: UserState, payload: UserState) {
-            state.userToken = payload.userToken
-            localStorage.setItem("userToken", payload.userToken.toString())
-            localStorage.setItem("userName", payload.userName.toString())
-          },
-        setLoginType(state: UserState, payload: LoginType){
-            state.loginType = payload
-        }
-    },
-
-    actions:{
-        async login(context: Context, data: LoginApiData) {
-            var response = await login(data)
-            context.commit('setUserToken', {username: data.userName, token: response})
-        },  
-        chooseLoginType(context: Context, data: LoginType){
-            context.commit('setLoginType', data);
-        }
+export const useUserStore = defineStore('userStore', {
+  state: (): State => {
+    return {
+      userToken: '',
+      userName: '',
+      userList: [],
+      chosenUser: {},
+      filtration: defaultValues(UsersFiltration),
+      roles: []
     }
-}
-
-export default users_state
+  },
+  getters: {
+    isDefaultFiltration: (state) => {
+      return (
+        JSON.stringify(state.filtration) ===
+        JSON.stringify(defaultValues(UsersFiltration))
+      )
+    }
+  },
+  actions: {
+    async fetchUsers() {
+      const pagination = usePagination()
+      const [users, pageData] = await fetchUsers(
+        pagination.fetchPage,
+        pagination.pageSize,
+        this.filtration
+      )
+      this.userList = users
+      pagination.newPageWithoutRefresh(pageData.page)
+      pagination.totalNumber = pageData.totalNumber
+    },
+    async fetchAllUsers() {
+      const pagination = usePagination()
+      const [users, pageData] = await fetchAllUsers(
+        pagination.fetchPage,
+        pagination.pageSize,
+        undefined
+      )
+      this.userList = users
+      pagination.newPageWithoutRefresh(pageData.page)
+      pagination.totalNumber = pageData.totalNumber
+    },
+    async fetchUsersList(page: number, pageSize = 3) {
+      const [repositories, pageData] =
+        await fetchFullUsersList(
+          page,
+          pageSize,
+          this.filtration
+        )
+      this.userList = repositories
+      return pageData
+    },
+    async fetchRoles() {
+      if (this.roles.length === 0) {
+        const [roles] = await fetchRoles()
+        this.roles = roles
+      }
+    },
+    async setFiltration(payload: UsersFiltration) {
+      const pagination = usePagination()
+      pagination.resetPage()
+      if (UsersFiltration.safeParse(payload).success) {
+        this.filtration = UsersFiltration.parse(payload)
+      }
+      await this.fetchUsers()
+    },
+    setFiltrationByName(payload: string | undefined) {
+      this.clearFiltration()
+      this.filtration.search = payload
+    },
+    clearFiltration() {
+      const pagination = usePagination()
+      pagination.resetPage()
+      this.filtration = defaultValues(UsersFiltration)
+    },
+    async saveUser(newUser: EntityModelUserDto) {
+      await updateUser(this.chosenUser, newUser)
+    },
+    roleIdToRole(roleId: number) {
+      return this.roles.length !== 0
+        ? this.roles[Role.parse(roleId - 1)]
+        : {}
+    }
+  }
+})

@@ -1,51 +1,45 @@
-import Vue from 'vue'
+/*
+ * R Depot
+ *
+ * Copyright (C) 2012-2024 Open Analytics NV
+ *
+ * ===========================================================================
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the Apache License as published by
+ * The Apache Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * Apache License for more details.
+ *
+ * You should have received a copy of the Apache License
+ * along with this program. If not, see <http://www.apache.org/licenses/>
+ *
+ */
+
+/**
+ * main.ts
+ *
+ * Bootstraps Vuetify and other plugins then mounts the App`
+ */
+
+// Components
 import App from './App.vue'
-import router from './router'
-import store from './store'
-import vuetify from './plugins/vuetify'
-import Notifications from 'vue-notification'
-import VueI18n from 'vue-i18n'
-import { messages } from './locales/messages'
-import { keycloak, updateToken } from './plugins/keycloak'
-import { LoginType } from '@/enum/LoginType'
 
-Vue.use(Notifications)
-Vue.use(VueI18n)
+// Composables
+import { createApp } from 'vue'
 
-const i18n = new VueI18n({
-  locale: "en",
-  messages: messages
-})
+// Plugins
+import { registerPlugins } from '@/plugins'
+// import keycloak from './plugins/keycloak'
 
-if(localStorage.getItem("authorizationType") == LoginType.KEYCLOAK.toString()){
-  keycloak.init({ onLoad: "login-required", checkLoginIframe: false }).then((auth) => {
-    if (!auth) {
-      window.location.reload();
-    } else {
-      new Vue({
-        i18n,
-        router,
-        store,
-        vuetify,
-        render: h => h(App, { props: { keycloak: keycloak, } })
-      }).$mount('#app');
-      localStorage.setItem('vue-token', keycloak.token!);
-      localStorage.setItem('vue-refresh-token', keycloak.refreshToken!)
-    }
+const app = createApp(App)
 
-    setInterval(() => { updateToken }, 6000)
+registerPlugins(app)
+// app.provide('keycloak', JSON.stringify(keycloak))
+// app.config.globalProperties.$keycloak = keycloak
 
-  }).catch((e) => {
-    alert("Login Failure " + e)
-  })
-
-  Vue.prototype.$keycloak = keycloak
-} else{
-  new Vue({
-    i18n,
-    router,
-    store,
-    vuetify,
-    render: h => h(App)
-  }).$mount('#app');
-}
+app.mount('#app')
