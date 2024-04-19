@@ -13,10 +13,10 @@
   "authorization": {
     "clear": "wyczyść",
     "error": "Nieudane logowanie",
-    "oidc": "Zaloguj przy użyciu OIDC",
     "logged-in": "Zalogowany",
     "login": "zaloguj",
     "not-logged-in": "Nie zalogowany",
+    "oidc": "Zaloguj przy użyciu OIDC",
     "password": "Hasło",
     "passwordError": "Hasło jest wymagane",
     "success": "Udane logowanie",

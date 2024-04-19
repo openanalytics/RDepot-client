@@ -13,10 +13,10 @@
   "authorization": {
     "clear": "Clear",
     "error": "Unsuccessful login",
-    "oidc": "Login via OIDC",
     "logged-in": "Logged in",
     "login": "Login",
     "not-logged-in": "Not logged in",
+    "oidc": "Login via OIDC",
     "password": "Password",
     "passwordError": "Password is required",
     "success": "Successful login",
