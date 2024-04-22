@@ -104,7 +104,6 @@ export async function handleLogout() {
 
 export function checkUserAbility(pathName: string) {
   const authorizationStore = useAuthorizationStore()
-  console.log(pathName)
   switch (pathName) {
     case 'events':
       return authorizationStore.can('GET', 'events')
