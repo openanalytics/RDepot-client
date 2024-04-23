@@ -13,6 +13,7 @@ pipeline {
     NS = 'openanalytics'
     REGISTRY = 'registry.openanalytics.eu'
     IMAGE = 'rdepot-client'
+    CACHE_IMAGE = 'rdepot-client-cache'
     DOCKER_BUILDKIT = '1'
     NO_COLOR = 'true'
   }
@@ -74,7 +75,7 @@ pipeline {
                     -v info \
                     --context ${env.WORKSPACE} \
                     --cache=true \
-                    --cache-repo ${env.REGISTRY}/${env.NS}/${env.IMAGE} \
+                    --cache-repo ${env.REGISTRY}/${env.NS}/${env.CACHE_IMAGE} \
                     --destination ${env.REGISTRY}/${env.NS}/${env.IMAGE}:${env.TAG}
           """
         }
