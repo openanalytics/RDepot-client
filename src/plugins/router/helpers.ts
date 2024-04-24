@@ -66,12 +66,17 @@ export function resetStoreValues() {
 export async function handleAuthorization() {
   await authService
     .handleLoginRedirect()
-    .then(() => {
+    .then(async () => {
       window.history.replaceState(
         {},
         window.document.title,
         window.location.origin + window.location.pathname
       )
+      const meStore = useMeStore()
+      const authorizationStore = useAuthorizationStore()
+      if (!meStore.me.role) {
+        await authorizationStore.postLoginOperations()
+      }
     })
     .catch((error) => {
       console.log(error)
@@ -83,17 +88,13 @@ export async function handleLogout() {
   if (isOICDAuthAvailable()) {
     authService
       .handleLogoutRedirect()
-      .then(async () => {
+      .then(() => {
         window.history.replaceState(
           {},
           window.document.title,
           window.location.origin + window.location.pathname
         )
-        const meStore = useMeStore()
-        const authorizationStore = useAuthorizationStore()
-        if (!meStore.me.role) {
-          await authorizationStore.postLoginOperations()
-        }
+        localStorage.removeItem('me')
       })
       .catch((error) => {
         console.log(error)

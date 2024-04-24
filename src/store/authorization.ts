@@ -43,6 +43,7 @@ import router from '@/plugins/router'
 import { useOICDAuthorization } from '@/composable/auth/oicdAuthorization'
 import { useConfigStore } from './config'
 import { useMeStore } from './me'
+import { RouteRecordName } from 'vue-router'
 
 interface State {
   userToken: string
@@ -164,6 +165,23 @@ export const useAuthorizationStore = defineStore(
           meStore.me.userSettings ||
             this.getDefaultSettings()
         )
+      },
+
+      checkUserAbility(pathName: RouteRecordName) {
+        switch (pathName) {
+          case 'events':
+            return this.can('GET', 'events')
+          case 'addSubmission':
+            return this.can('POST', 'submissions')
+          case 'packageMaintainers':
+            return this.can('GET', 'packageMaintainers')
+          case 'repositoryMaintainers':
+            return this.can('GET', 'repositoryMaintainers')
+          case 'users':
+            return this.can('GET', 'users')
+          default:
+            return true
+        }
       },
 
       can(action: Action, subject: Subject): boolean {

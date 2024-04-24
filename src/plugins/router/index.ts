@@ -59,6 +59,12 @@ router.beforeEach(async (to) => {
     if (!meStore.me.role) {
       await authorizationStore.postLoginOperations()
     }
+    const canRedirect = authorizationStore.checkUserAbility(
+      to.name || ' '
+    )
+    if (!canRedirect) {
+      return '/packages'
+    }
     helper.hideSidebar(false)
   } else if (to.name == 'login') {
     if (await authorizationStore.isUserLoggedIn()) {
