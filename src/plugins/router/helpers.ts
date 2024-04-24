@@ -102,30 +102,6 @@ export async function handleLogout() {
   }
 }
 
-export function checkUserAbility(pathName: string) {
-  const authorizationStore = useAuthorizationStore()
-  switch (pathName) {
-    case 'events':
-      return authorizationStore.can('GET', 'events')
-    case 'addSubmission':
-      return authorizationStore.can('POST', 'submissions')
-    case 'packageMaintainers':
-      return authorizationStore.can(
-        'GET',
-        'packageMaintainers'
-      )
-    case 'repositoryMaintainers':
-      return authorizationStore.can(
-        'GET',
-        'repositoryMaintainers'
-      )
-    case 'users':
-      return authorizationStore.can('GET', 'users')
-    default:
-      return true
-  }
-}
-
 export function getDefaultFiltration(to: any) {
   const sortStore = useSortStore()
   const commonStore = useCommonStore()
