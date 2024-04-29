@@ -45,4 +45,7 @@ export interface PublicConfigurationDto {
    * @memberof PublicConfigurationDto
    */
   declarativeModeEnabled?: boolean
+  deletingPackagesEnabled: boolean
+  deletingRepositoriesEnabled?: boolean
+  replacingPackagesEnabled?: boolean
 }
