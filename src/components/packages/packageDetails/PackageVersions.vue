@@ -22,7 +22,7 @@
 
 <template>
   <div class="my-5 mx-1 mb-10" style="min-width: 200px">
-    <div class="title">Package versions</div>
+    <div class="title">{{ $t('packages.versions') }}</div>
     <ul
       v-for="packageBag in packageDetailsStore.packages"
       :key="packageBag.id"

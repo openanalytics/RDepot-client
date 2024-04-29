@@ -262,6 +262,7 @@
     "description": "Opis",
     "details": "Szczegóły",
     "documentation": "Dokumentacja",
+    "downloadButton": "Pobierz plik źródłowy",
     "downloads": "Do pobrania",
     "emailAuthors": "Emaile",
     "filtration": {
@@ -309,6 +310,7 @@
     "title": "Tytuł",
     "url": "URL",
     "version": "Wersja",
+    "versions": "Wersje pakietu",
     "vignette": {
       "download": "Pobierz",
       "open": "Otwórz w nowej karcie"
