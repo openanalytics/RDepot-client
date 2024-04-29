@@ -22,7 +22,7 @@
 
 <template>
   <v-btn class="my-3" width="250" @click="getSourceFile">
-    Download Source File
+    {{ $t('packages.downloadButton') }}
   </v-btn>
 </template>
 
