@@ -20,7 +20,6 @@
  *
  */
 
-import { setupServer } from 'msw/node'
 import { createPinia, setActivePinia } from 'pinia'
 import {
   beforeEach,
@@ -30,14 +29,12 @@ import {
   vi,
   afterAll
 } from 'vitest'
-import packages from '@/__tests__/config/mockData/packages.json'
 import repositories from '@/__tests__/config/mockData/repositories.json'
 import { useRepositoryStore } from '@/store/repositories'
 import { usePagination } from '@/store/pagination'
-import me from '@/__tests__/config/mockData/me.json'
 import { Technologies } from '@/enum/Technologies'
-import { http, HttpResponse } from 'msw'
 import { useMeStore } from '@/store/me'
+import { server } from '@/__tests__/config/backend/server'
 
 const defaultFiltration = {
   technologies: undefined,
@@ -55,27 +52,6 @@ const randomFiltration = {
   published: true,
   maintainer: ['tesla']
 }
-
-const server = setupServer(
-  http.get(
-    'http://localhost:8017/api/v2/manager/users/me',
-    () => {
-      return HttpResponse.json(me)
-    }
-  ),
-  http.get(
-    'http://localhost:8017/api/v2/manager/repositories',
-    () => {
-      return HttpResponse.json(repositories)
-    }
-  ),
-  http.get(
-    'http://localhost:8017/api/v2/manager/packages',
-    () => {
-      return HttpResponse.json(packages)
-    }
-  )
-)
 
 describe('Repository Store', () => {
   beforeEach(async () => {

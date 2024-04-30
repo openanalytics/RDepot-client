@@ -33,14 +33,12 @@ import {
 } from 'vitest'
 import repositoryMaintainers from '@/__tests__/config/mockData/repositoryMaintainers.json'
 import repositories from '@/__tests__/config/mockData/repositories.json'
-import packages from '@/__tests__/config/mockData/packages.json'
-import { setupServer } from 'msw/node'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
 import { usePagination } from '@/store/pagination'
 import { Technologies } from '@/enum/Technologies'
-import { http, HttpResponse } from 'msw'
-import me from '@/__tests__/config/mockData/me.json'
 import { useMeStore } from '@/store/me'
+import { server } from '@/__tests__/config/backend/server'
+import { failingServer } from '@/__tests__/config/backend/failingServer'
 
 const defaultFiltration = {
   deleted: false,
@@ -53,49 +51,6 @@ const randomFiltration = {
   technologies: [Technologies.enum.Python],
   search: 'ana'
 }
-
-const server = setupServer(
-  http.get(
-    'http://localhost:8017/api/v2/manager/users/me',
-    () => {
-      return HttpResponse.json(me)
-    }
-  ),
-  http.get(
-    'http://localhost:8017/api/v2/manager/repository-maintainers',
-    () => {
-      return HttpResponse.json(repositoryMaintainers)
-    }
-  ),
-  http.get(
-    'http://localhost:8017/api/v2/manager/repositories',
-    () => {
-      return HttpResponse.json(repositories)
-    }
-  ),
-  http.get(
-    'http://localhost:8017/api/v2/manager/packages',
-    () => {
-      return HttpResponse.json(packages)
-    }
-  ),
-  http.delete(
-    'http://localhost:8017/api/v2/manager/repository-maintainers/:maintainer_id',
-    () => {
-      return new HttpResponse(null, {
-        status: 202
-      })
-    }
-  ),
-  http.patch(
-    'http://localhost:8017/api/v2/manager/repository-maintainers/:maintainer_id',
-    () => {
-      return new HttpResponse(null, {
-        status: 202
-      })
-    }
-  )
-)
 
 describe('Repository Maintainers Store', () => {
   beforeAll(() => {
@@ -297,39 +252,6 @@ describe('Repository Maintainers Store', () => {
     expect(spy).toBeCalled()
   })
 })
-
-const failingServer = setupServer(
-  http.get(
-    'http://localhost:8017/api/v2/manager/repository-maintainers',
-    () => {
-      return new HttpResponse(null, {
-        status: 403
-      })
-    }
-  ),
-  http.get(
-    'http://localhost:8017/api/v2/manager/repositories',
-    () => {
-      return new HttpResponse(null, {
-        status: 403
-      })
-    }
-  ),
-  http.get(
-    'http://localhost:8017/api/v2/manager/packages',
-    () => {
-      return new HttpResponse(null, {
-        status: 403
-      })
-    }
-  ),
-  http.get(
-    'http://localhost:8017/api/v2/manager/users/me',
-    () => {
-      return HttpResponse.json(me)
-    }
-  )
-)
 
 describe('Repository Maintainers Store requests with failing backend', () => {
   beforeAll(() => {
