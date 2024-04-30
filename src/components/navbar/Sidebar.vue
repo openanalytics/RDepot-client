@@ -102,7 +102,7 @@
       >
         <template #activator="{ props }">
           <v-list-item
-            prepend-icon="mdi-source-repository"
+            prepend-icon="mdi-folder-network"
             v-bind="props"
             :title="$t('common.repositories')"
           ></v-list-item>
