@@ -163,7 +163,7 @@
     "422": "Nieudana walidacja",
     "500": "Serwer nie mógl zrealizować Twojego żądania",
     "message": {
-      "500": "Coś poszło nie tak. Skontaktuj się z administratorem RDepot."
+      "500": "Przepraszamy, coś poszło nie tak! \nPrzekaż tę wiadomość administratorowi RDepot.\n\n\nidentyfikator błędu:\n\n{traceId}\n\n\nczas wystąpienia:\n{znak czasu}"
     },
     "oauth": "Błąd autoryzacji",
     "oauthTitle": "Autoryzacja"

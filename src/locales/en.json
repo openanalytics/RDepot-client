@@ -163,7 +163,7 @@
     "422": "Validation failed",
     "500": "Internal server error",
     "message": {
-      "500": "We are sorry, something went wrong! Please pass this message to an RDepot administrator."
+      "500": "We are sorry, something went wrong! Please pass this message to an RDepot administrator.\n\ntrace ID:\n{traceId}\n\ntimestamp:\n{timestamp}"
     },
     "oauth": "Error with oauth",
     "oauthTitle": "Authorization"
