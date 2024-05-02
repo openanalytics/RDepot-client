@@ -102,6 +102,7 @@
         />
         <DeleteIcon
           :disabled="
+            !configStore.deletingRepositories ||
             !canDelete(item.links) ||
             configStore.declarativeMode
           "
