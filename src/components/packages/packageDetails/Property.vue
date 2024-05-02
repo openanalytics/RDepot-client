@@ -22,7 +22,11 @@
 
 <template>
   <div v-if="value" class="pt-2">
-    <div class="title" @click="collapse">
+    <div
+      class="title"
+      :style="collapsableHover"
+      @click="collapse"
+    >
       {{ title }}
       <v-icon
         v-if="collapsible"
@@ -73,6 +77,10 @@ const showContentStyle = computed(() => {
   return showContent.value
     ? 'display: table; overflow: hidden; transition: all 0.5s ease; padding-bottom: 20px;'
     : 'display: block; opacity: 0; max-height: 0px'
+})
+
+const collapsableHover = computed(() => {
+  return props.collapsible ? 'cursor: pointer;' : ''
 })
 
 const collapseIcon = computed(() => {

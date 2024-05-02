@@ -31,7 +31,11 @@
           class="classifier-key"
           v-for="(key, index) in Object.keys(categories)"
         >
-          <div class="title" @click="collapse(index)">
+          <div
+            class="title"
+            :style="collapsableHover"
+            @click="collapse(index)"
+          >
             {{ key }}
             <v-icon
               size="large"
@@ -112,6 +116,10 @@ const showContentStyle = ref(
     'display: block; opacity: 0; max-height: 0px'
   )
 )
+
+const collapsableHover = computed(() => {
+  return 'cursor: pointer;'
+})
 
 function collapse(index: number) {
   showContent.value[index] = !showContent.value[index]

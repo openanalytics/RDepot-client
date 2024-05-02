@@ -22,7 +22,11 @@
 
 <template>
   <div class="my-5 mx-1 mb-10" style="min-width: 200px">
-    <div class="title" @click="collapse">
+    <div
+      class="title"
+      @click="collapse"
+      :style="collapsableHover"
+    >
       {{ $t('packages.versions') }}
       <v-icon
         size="large"
@@ -71,6 +75,10 @@ const collapseIcon = computed(() => {
   return showContent.value
     ? 'mdi-menu-down'
     : 'mdi-menu-right'
+})
+
+const collapsableHover = computed(() => {
+  return 'cursor: pointer;'
 })
 
 const showContentStyle = computed(() => {
