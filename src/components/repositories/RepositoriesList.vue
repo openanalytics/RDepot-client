@@ -25,7 +25,7 @@
     :headers="filteredHeaders"
     v-model:items-per-page="pagination.pageSize"
     :items="repositoryStore.repositories"
-    :items-length="pagination.totalNumber"
+    :items-length="repositoryStore.totalNumber"
     item-value="id"
     sort-asc-icon="mdi-sort-ascending"
     sort-desc-icon="mdi-sort-descending"
@@ -123,7 +123,6 @@ import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
 import EditIcon from '@/components/common/action_icons/EditIcon.vue'
 import router from '@/plugins/router'
 import { useRepositoryStore } from '@/store/repositories'
-import { onMounted } from 'vue'
 import { usePackagesStore } from '@/store/packages'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
 import { usePagination } from '@/store/pagination'
@@ -267,11 +266,6 @@ function chooseRepositoryToUpdate(
 ) {
   repositoryStore.setChosenRepository(item.id)
 }
-
-onMounted(() => {
-  repositoryStore.clearFiltration()
-  repositoryStore.fetchRepositories()
-})
 </script>
 
 <style>

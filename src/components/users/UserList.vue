@@ -175,7 +175,6 @@ function fetchData(options: DataTableOptions) {
 }
 
 onMounted(() => {
-  updateData()
   userStore.fetchRoles()
 })
 </script>

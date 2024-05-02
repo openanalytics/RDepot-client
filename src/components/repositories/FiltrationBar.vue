@@ -21,8 +21,8 @@
 -->
 
 <template>
-  <v-container
-    class="v-expansion mx-8 d-flex ga-3 align-center"
+  <div
+    class="v-expansion d-flex py-3 ga-3 justify-space-between"
     style="padding-left: 0; padding-right: 0"
   >
     <validated-input-field
@@ -102,8 +102,7 @@
       :label="$t('packages.filtration.deleted')"
       as="v-switch"
       color="oablue"
-      max-width="110"
-      class="ml-2"
+      class="ml-2 flex-grow-0"
     ></validated-input-field>
 
     <validated-input-field
@@ -115,6 +114,7 @@
       :label="$t('repositories.filtration.published')"
       as="v-switch"
       color="oablue"
+      class="flex-grow-0"
     ></validated-input-field>
 
     <v-spacer />
@@ -123,7 +123,7 @@
       v-if="!repositoryStore.isDefaultFiltration"
       @resetValues="resetValues"
     />
-  </v-container>
+  </div>
 </template>
 
 <script setup lang="ts">

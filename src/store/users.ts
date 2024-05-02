@@ -46,6 +46,7 @@ interface State {
   filtration: UsersFiltration
   roles: RoleDto[]
   loading: boolean
+  totalNumber: number
 }
 
 export const useUserStore = defineStore('userStore', {
@@ -57,7 +58,8 @@ export const useUserStore = defineStore('userStore', {
       chosenUser: {},
       filtration: defaultValues(UsersFiltration),
       roles: [],
-      loading: false
+      loading: false,
+      totalNumber: 0
     }
   },
   getters: {
@@ -70,11 +72,8 @@ export const useUserStore = defineStore('userStore', {
   },
   actions: {
     async fetchUsersPage(options: DataTableOptions) {
-      if (options.sortBy.length == 0) {
-        options.sortBy = [{ key: 'name', order: 'asc' }]
-      }
       this.loading = true
-      const [users] = await fetch(
+      const [users, pageData] = await fetch(
         this.filtration,
         options.page - 1,
         options.itemsPerPage,
@@ -82,6 +81,7 @@ export const useUserStore = defineStore('userStore', {
           ',' +
           options.sortBy[0].order
       )
+      this.totalNumber = pageData.totalNumber
       this.loading = false
       this.users = users
     },

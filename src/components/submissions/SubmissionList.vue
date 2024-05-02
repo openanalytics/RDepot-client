@@ -25,7 +25,7 @@
     :headers="headers"
     v-model:items-per-page="pagination.pageSize"
     :items="submissionStore.submissions"
-    :items-length="pagination.totalNumber"
+    :items-length="submissionStore.totalNumber"
     item-value="name"
     sort-asc-icon="mdi-sort-ascending"
     sort-desc-icon="mdi-sort-descending"
@@ -131,7 +131,6 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue'
 import { useSubmissionStore } from '@/store/submission'
 import { usePagination } from '@/store/pagination'
 import { useSubmissionIcons } from '@/composable/submissions/statusIcons'
@@ -224,22 +223,15 @@ const headers = [
 
 function fetchData(options: DataTableOptions) {
   sortBy.value = getSort(options.sortBy, defaultSort)
+  sortBy.value = options.sortBy
   submissionStore.fetchSubmissionsPage(options)
 }
 
 const submissionStore = useSubmissionStore()
 const pagination = usePagination()
 
-function updateData(): void {
-  submissionStore.fetchSubmissions()
-}
-
 const { getStatusIcon, getStatusColor, getTooltipMessage } =
   useSubmissionIcons()
-
-onMounted(() => {
-  updateData()
-})
 </script>
 
 <style lang="scss">

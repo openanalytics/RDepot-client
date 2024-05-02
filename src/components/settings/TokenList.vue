@@ -25,7 +25,7 @@
     :headers="filteredHeaders"
     v-model:items-per-page="pagination.pageSize"
     :items="settingsStore.tokens"
-    :items-length="pagination.totalNumber"
+    :items-length="settingsStore.totalNumber"
     item-value="id"
     sort-asc-icon="mdi-sort-ascending"
     sort-desc-icon="mdi-sort-descending"
@@ -89,7 +89,6 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue'
 import { useSettingsStore } from '@/store/settings'
 import { i18n } from '@/plugins/i18n'
 import { usePagination } from '@/store/pagination'
@@ -116,10 +115,6 @@ const { canPatch, canDelete } = useUserAuthorities()
 const { getSort } = useSort()
 const defaultSort: Sort[] = [{ key: 'name', order: 'asc' }]
 const sortBy = ref(defaultSort)
-
-function updateData(): void {
-  settingsStore.fetchTokens()
-}
 
 const headers = [
   {
@@ -179,8 +174,4 @@ function fetchData(options: DataTableOptions) {
 function setEditEntity(item: EntityModelAccessTokenDto) {
   settingsStore.setChosenToken(item)
 }
-
-onMounted(() => {
-  updateData()
-})
 </script>

@@ -51,6 +51,7 @@ interface State {
   filtration: RepositoriesFiltration
   chosenRepository: EntityModelRRepositoryDto
   loading: boolean
+  totalNumber: number
 }
 
 export const useRepositoryStore = defineStore(
@@ -61,7 +62,8 @@ export const useRepositoryStore = defineStore(
         repositories: [],
         filtration: defaultValues(RepositoriesFiltration),
         chosenRepository: {},
-        loading: false
+        loading: false,
+        totalNumber: 0
       }
     },
     getters: {
@@ -78,11 +80,8 @@ export const useRepositoryStore = defineStore(
       async fetchRepositoriesPage(
         options: DataTableOptions
       ) {
-        if (options.sortBy.length == 0) {
-          options.sortBy = [{ key: 'name', order: 'asc' }]
-        }
         this.loading = true
-        const [repositories] = await fetch(
+        const [repositories, pageData] = await fetch(
           this.filtration,
           options.page - 1,
           options.itemsPerPage,
@@ -91,6 +90,7 @@ export const useRepositoryStore = defineStore(
             options.sortBy[0].order
         )
         this.loading = false
+        this.totalNumber = pageData.totalNumber
         this.repositories = repositories
       },
       async fetchRepositoriesList(
