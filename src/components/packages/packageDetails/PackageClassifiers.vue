@@ -29,10 +29,18 @@
       <ul>
         <div
           class="classifier-key"
-          v-for="key in Object.keys(categories)"
+          v-for="(key, index) in Object.keys(categories)"
         >
-          <div class="title">{{ key }}</div>
-          <ul class="py-2">
+          <div class="title" @click="collapse(index)">
+            {{ key }}
+            <v-icon
+              size="large"
+              color="oa-blue"
+              class="collapsibleIcon"
+              :icon="collapseIcon[index]"
+            />
+          </div>
+          <ul class="py-2" :style="showContentStyle[index]">
             <li
               class="classifier-value"
               v-for="value in categories[key]"
@@ -51,7 +59,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { EntityModelPythonPackageDto } from '@/openapi'
 import { usePackageDetailsStore } from '@/store/package_details'
 
@@ -86,6 +94,34 @@ const categories = computed(() => {
     })
   return categories
 })
+
+const showContent = ref(
+  new Array<boolean>(
+    Object.keys(categories.value).length
+  ).fill(false)
+)
+
+const collapseIcon = ref(
+  new Array(Object.keys(categories.value).length).fill(
+    'mdi-menu-right'
+  )
+)
+
+const showContentStyle = ref(
+  new Array(Object.keys(categories.value).length).fill(
+    'display: block; opacity: 0; max-height: 0px'
+  )
+)
+
+function collapse(index: number) {
+  showContent.value[index] = !showContent.value[index]
+  collapseIcon.value[index] = showContent.value[index]
+    ? 'mdi-menu-down'
+    : 'mdi-menu-right'
+  showContentStyle.value[index] = showContent.value[index]
+    ? 'display: table; overflow: hidden; transition: all 0.5s ease; padding-bottom: 20px;'
+    : 'display: block; opacity: 0; max-height: 0px'
+}
 </script>
 
 <style lang="scss">

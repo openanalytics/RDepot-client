@@ -22,23 +22,37 @@
 
 <template>
   <div v-if="value" class="pt-2">
-    <div class="title">
+    <div class="title" @click="collapse">
       {{ title }}
+      <v-icon
+        v-if="collapsible"
+        size="large"
+        color="oa-blue"
+        class="collapsibleIcon"
+        :icon="collapseIcon"
+      />
     </div>
-    <div class="value" v-html="text"></div>
+    <div
+      class="value"
+      :style="showContentStyle"
+      v-html="text"
+    ></div>
     <v-divider :thickness="boldDivider ? 5 : 3"></v-divider>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 
 const props = defineProps<{
   title: string
   value?: string
   split?: boolean
   boldDivider?: boolean
+  collapsible: boolean
 }>()
+
+const showContent = ref(props.collapsible ? false : true)
 
 const text = computed(() => {
   const commaRegex = /\,\\n+/gi
@@ -55,10 +69,28 @@ const text = computed(() => {
     .replaceAll('\\n', ' ')
 })
 
+const showContentStyle = computed(() => {
+  return showContent.value
+    ? 'display: table; overflow: hidden; transition: all 0.5s ease; padding-bottom: 20px;'
+    : 'display: block; opacity: 0; max-height: 0px'
+})
+
+const collapseIcon = computed(() => {
+  return showContent.value
+    ? 'mdi-menu-down'
+    : 'mdi-menu-right'
+})
+
 function splitValue() {
   const RE_GET_EXTENSION = '/,(?!\d+\])/' // /(?:\.([^.]+))?$/
 
   return props.value?.replaceAll(RE_GET_EXTENSION, '+')
+}
+
+function collapse() {
+  if (props.collapsible) {
+    showContent.value = !showContent.value
+  }
 }
 </script>
 
@@ -71,12 +103,15 @@ $background_color: rgba(var(--v-theme-about-background));
   color: $text_color_2;
   font-weight: 600;
   font-size: larger;
-}
-.value {
-  padding-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
 }
 
 hr_style {
   border-top: $text_color_2 solid 1px !important;
+}
+
+.collapsibleIcon {
+  justify-self: flex-end;
 }
 </style>
