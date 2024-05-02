@@ -37,7 +37,7 @@
       text
     }}</span>
     <span v-else>
-      {{ hoverMessage }}
+      {{ translatedHoverMessage }}
     </span>
   </v-tooltip>
 </template>
@@ -46,6 +46,7 @@
 import { OverlayEnum } from '@/enum/Overlay'
 import { i18n } from '@/plugins/i18n'
 import { useCommonStore } from '@/store/common'
+import { computed } from 'vue'
 
 const props = defineProps({
   text: {
@@ -58,8 +59,7 @@ const props = defineProps({
   },
   hoverMessage: {
     type: String,
-    reqiured: false,
-    default: i18n.t('common.notAuthorized')
+    reqiured: false
   }
 })
 
@@ -73,4 +73,10 @@ function edit() {
     commonStore.openOverlay(OverlayEnum.enum.Edit)
   }
 }
+
+const translatedHoverMessage = computed(() => {
+  return (
+    props.hoverMessage || i18n.t('common.notAuthorized')
+  )
+})
 </script>
