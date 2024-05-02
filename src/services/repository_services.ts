@@ -50,6 +50,36 @@ type ValidatedRepository = Promise<
   validatedData<EntityModelRepositoryDto>
 >
 
+export async function fetch(
+  filtration: RepositoriesFiltration,
+  page?: number,
+  pageSize?: number,
+  sort?: string,
+  showProgress = true
+): ValidatedRepositories {
+  if (!isAuthorized('GET', 'submissions')) {
+    return new Promise(() => validateRequest([]))
+  }
+  return openApiRequest<EntityModelRepositoryDto[]>(
+    ApiV2RepositoryControllerApiFactory()
+      .getAllRepositories,
+    [
+      page,
+      pageSize,
+      sort,
+      filtration?.deleted,
+      filtration?.technologies,
+      filtration?.published,
+      filtration?.maintainer,
+      filtration?.name,
+      filtration?.search
+    ],
+    showProgress
+  ).catch(() => {
+    return validateRequest([])
+  })
+}
+
 export function fetchRepositoriesServices(
   filtration?: RepositoriesFiltration,
   page?: number,

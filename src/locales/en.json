@@ -79,7 +79,9 @@
       "approver": "Approver",
       "date": "Date",
       "package": "Package",
+      "packageVersion": "Version",
       "repository": "Repository",
+      "status": "Status",
       "submitter": "Submitter",
       "technology": "Technology"
     },

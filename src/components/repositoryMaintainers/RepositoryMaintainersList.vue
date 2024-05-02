@@ -21,31 +21,134 @@
 -->
 
 <template>
-  <ResourcesList
-    :resources="repositoryMaintainersStore.maintainers"
+  <v-data-table-server
+    :headers="headers"
+    v-model:items-per-page="pagination.pageSize"
+    :items="repositoryMaintainersStore.maintainers"
+    :items-length="pagination.totalNumber"
+    item-value="id"
+    sort-asc-icon="mdi-sort-ascending"
+    sort-desc-icon="mdi-sort-descending"
+    color="oablue"
+    @update:options="fetchData"
+    :loading="repositoryMaintainersStore.loading"
+    :sort-by="sortBy"
+    :items-per-page-options="pagination.itemsPerPage"
   >
-    <template #title>
-      <RepositoryMaintainerRow title />
+    <template v-slot:loading>
+      <v-skeleton-loader
+        type="`table-row-divider@15`"
+      ></v-skeleton-loader>
     </template>
-    <template #expansion-row="slotProps">
-      <RepositoryMaintainerRow
-        :repositoryMaintainer="slotProps.resource"
-      />
-    </template>
-  </ResourcesList>
+    <template #item.repository.technology="{ value }">
+      <v-chip
+        class="mr-5"
+        size="small"
+        color="oablue"
+        style="cursor: pointer"
+      >
+        {{ value }}</v-chip
+      ></template
+    >
+    <template #item.actions="{ item }">
+      <span class="d-flex justify-center align-center">
+        <EditIcon
+          :disabled="!canPatch(item.links) || item.deleted"
+          :text="i18n.t('maintainers.edit')"
+          @set-entity="setEditMaintainer(item)"
+          :hoverMessage="
+            item.deleted
+              ? i18n.t('maintainers.deleted')
+              : undefined
+          "
+        >
+        </EditIcon>
+
+        <delete-icon
+          :disabled="!canDelete(item.links) || item.deleted"
+          :name="item.user?.name"
+          @setResourceId="setEditMaintainer(item)"
+          :hoverMessage="
+            item.deleted
+              ? i18n.t('maintainers.deleted')
+              : undefined
+          "
+        /> </span
+    ></template>
+  </v-data-table-server>
 </template>
 
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
-import RepositoryMaintainerRow from '@/components/repositoryMaintainers/RepositoryMaintainerRow.vue'
-import ResourcesList from '@/components/common/resources//ResourcesList.vue'
+import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
+import EditIcon from '@/components/common/action_icons/EditIcon.vue'
+import { usePagination } from '@/store/pagination'
+import {
+  DataTableOptions,
+  Sort
+} from '@/models/DataTableOptions'
+import { i18n } from '@/plugins/i18n'
+import { EntityModelRepositoryMaintainerDto } from '@/openapi'
+import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
+import { ref } from 'vue'
+import { useSort } from '@/composable/sort'
 
 const repositoryMaintainersStore =
   useRepositoryMaintainersStore()
+const { canPatch, canDelete } = useUserAuthorities()
+
+const { getSort } = useSort()
+const defaultSort: Sort[] = [{ key: 'user', order: 'asc' }]
+const sortBy = ref(defaultSort)
+
+const headers = [
+  {
+    title: i18n.t('columns.repositoryMaintainer.name'),
+    align: 'start',
+    key: 'user',
+    value: 'user.name',
+    width: 200
+  },
+  {
+    title: i18n.t(
+      'columns.repositoryMaintainer.repository'
+    ),
+    value: 'repository.name',
+    align: 'start',
+    key: 'repository'
+  },
+  {
+    title: i18n.t(
+      'columns.repositoryMaintainer.technology'
+    ),
+    align: 'center',
+    key: 'repository.technology',
+    width: 130
+  },
+  {
+    title: i18n.t('columns.actions'),
+    align: 'center',
+    key: 'actions',
+    width: 50,
+    sortable: false
+  }
+]
+const pagination = usePagination()
 
 function updateData(): void {
   repositoryMaintainersStore.fetchMaintainers()
+}
+
+function fetchData(options: DataTableOptions) {
+  sortBy.value = getSort(options.sortBy, defaultSort)
+  repositoryMaintainersStore.fetchMaintainersPage(options)
+}
+
+function setEditMaintainer(
+  item: EntityModelRepositoryMaintainerDto
+) {
+  repositoryMaintainersStore.setChosenMaintainer(item)
 }
 
 onMounted(() => {

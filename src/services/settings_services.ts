@@ -46,6 +46,34 @@ type ValidatedToken = Promise<
   validatedData<EntityModelAccessTokenDto>
 >
 
+export async function fetch(
+  filtration: TokensFiltration,
+  page?: number,
+  pageSize?: number,
+  sort?: string,
+  showProgress = true
+): ValidatedTokens {
+  if (!isAuthorized('GET', 'submissions')) {
+    return new Promise(() => validateRequest([]))
+  }
+  return openApiRequest<EntityModelAccessTokenDto[]>(
+    ApiV2AccessTokenControllerApiFactory()
+      .getAllAccessTokens,
+    [
+      page,
+      pageSize,
+      sort,
+      filtration?.search,
+      filtration?.userLogin,
+      filtration?.active,
+      filtration?.expired
+    ],
+    showProgress
+  ).catch(() => {
+    return validateRequest([])
+  })
+}
+
 export async function fetchTokens(
   filtration: TokensFiltration,
   logged_user_id?: number,

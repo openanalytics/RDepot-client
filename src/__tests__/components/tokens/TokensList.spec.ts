@@ -33,17 +33,17 @@ import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
 import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import { createPinia, setActivePinia } from 'pinia'
-import { usePackageMaintainersStore } from '@/store/package_maintainers'
-import PackageMaintainersListVue from '@/components/packageMaintainers/PackageMaintainersList.vue'
-import packageMaintainers from '@/__tests__/config/mockData/packageMaintainers.json'
-import me from '@/__tests__/config/mockData/me.json'
+import tokens from '@/__tests__/config/mockData/tokens.json'
 import { useMeStore } from '@/store/me'
+import me from '@/__tests__/config/mockData/me.json'
 import { nextTick } from 'vue'
 import { i18n } from '@/plugins/i18n'
+import { useSettingsStore } from '@/store/settings'
+import TokenList from '@/components/settings/TokenList.vue'
 
 let wrapper: any
-let packageMaintainersStore: any
 let meStore: any
+let settingStore: any
 
 const globalConfig = {
   mocks: mocks,
@@ -53,22 +53,20 @@ const globalConfig = {
 beforeAll(() => {
   global.ResizeObserver = ResizeObserver
   setActivePinia(createPinia())
-  packageMaintainersStore = usePackageMaintainersStore()
+  settingStore = useSettingsStore()
   meStore = useMeStore()
   meStore.me = me.data
 })
 
 beforeEach(async () => {
-  wrapper = mount(PackageMaintainersListVue, {
+  wrapper = mount(TokenList, {
     global: globalConfig
   })
-
-  packageMaintainersStore.maintainers =
-    packageMaintainers.data.content
-  packageMaintainersStore.loading = false
+  settingStore.tokens = tokens.data.content
+  settingStore.loading = false
 })
 
-describe('Package Maintainers - list', () => {
+describe('Tokens - list', () => {
   it('renders properly', () => {
     expect(wrapper.exists()).toBe(true)
   })
@@ -78,15 +76,15 @@ describe('Package Maintainers - list', () => {
     expect(dataTable.exists()).toBeTruthy()
   })
 
-  it('displays one row per each maintainer', async () => {
-    const maintainersRow = wrapper.findAllComponents('tr')
-    expect(maintainersRow.length).toEqual(
-      packageMaintainers.data.content.length
+  it('displays one row per each repository', async () => {
+    const repositoriesRows = wrapper.findAllComponents('tr')
+    expect(repositoriesRows.length).toEqual(
+      tokens.data.content.length
     )
   })
 
   it('displays no data available text', async () => {
-    packageMaintainersStore.maintainers = []
+    settingStore.tokens = []
     await nextTick()
     expect(wrapper.text()).toContain('No data available')
     expect(wrapper.findAllComponents('tr').length).toEqual(
@@ -94,7 +92,7 @@ describe('Package Maintainers - list', () => {
     )
   })
   it('displays loading info', async () => {
-    packageMaintainersStore.loading = true
+    settingStore.loading = true
     await nextTick()
     expect(
       wrapper
@@ -107,7 +105,7 @@ describe('Package Maintainers - list', () => {
   })
 })
 
-describe('Packages  maintainers - list headers', () => {
+describe('Tokens - list headers', () => {
   let headers: any
   beforeAll(() => {
     headers = wrapper.findAllComponents('th')
@@ -116,51 +114,46 @@ describe('Packages  maintainers - list headers', () => {
   it('displays all headers', () => {
     expect(headers.length).toEqual(5)
   })
-
-  it('displays maintainer column', () => {
+  it('displays name columns', () => {
     const col = headers[0]
     expect(col.text()).toEqual(
-      i18n.t('columns.packageMaintainer.name')
+      i18n.t('columns.tokens.name')
     )
     const sortIcon = col.findComponent(
       '.mdi-sort-ascending'
     )
     expect(sortIcon.exists()).toBeTruthy()
   })
-
-  it('displays package column', () => {
+  it('displays creation date column', () => {
     const col = headers[1]
     expect(col.text()).toEqual(
-      i18n.t('columns.packageMaintainer.packageName')
+      i18n.t('columns.tokens.creationDate')
     )
     const sortIcon = col.findComponent(
       '.mdi-sort-ascending'
     )
     expect(sortIcon.exists()).toBeTruthy()
   })
-
-  it('displays repository column', () => {
+  it('displays expiration date column', () => {
     const col = headers[2]
     expect(col.text()).toEqual(
-      i18n.t('columns.packageMaintainer.repository')
+      i18n.t('columns.tokens.expirationDate')
     )
     const sortIcon = col.findComponent(
       '.mdi-sort-ascending'
     )
     expect(sortIcon.exists()).toBeTruthy()
   })
-
-  it('displays technology column', () => {
+  it('displays active column', () => {
     const col = headers[3]
     expect(col.text()).toEqual(
-      i18n.t('columns.packageMaintainer.technology')
+      i18n.t('columns.tokens.active')
     )
     const sortIcon = col.findComponent(
       '.mdi-sort-ascending'
     )
     expect(sortIcon.exists()).toBeTruthy()
   })
-
   it('displays actions column', () => {
     const col = headers[4]
     expect(col.text()).toEqual(i18n.t('columns.actions'))
@@ -171,9 +164,9 @@ describe('Packages  maintainers - list headers', () => {
   })
 })
 
-describe('Package Maintainers - cells', () => {
+describe('Tokens - cells', () => {
   let cells: any
-  const maintainer = packageMaintainers.data.content[0]
+  const token = tokens.data.content[0]
 
   beforeAll(() => {
     cells = wrapper
@@ -181,37 +174,45 @@ describe('Package Maintainers - cells', () => {
       .findAllComponents('td')
   })
 
-  it('displays maintainer name', () => {
+  it('displays token name', () => {
     const cell = cells[0]
-    expect(cell.text()).toBe(maintainer.user.name)
+    expect(cell.text()).toBe(token.name)
   })
 
-  it('displays package name', () => {
+  it('displays creation date', () => {
     const cell = cells[1]
-    expect(cell.text()).toBe(maintainer.packageName)
-  })
-
-  it('displays repository name', () => {
-    const cell = cells[2]
-    expect(cell.text()).toBe(maintainer.repository.name)
-  })
-
-  it('displays technology', () => {
-    const cell = cells[3]
     const chip = cell.findComponent('.v-chip')
     expect(chip.exists()).toBeTruthy()
-    expect(chip.text()).toBe(
-      maintainer.repository.technology
+    expect(chip.text()).toBe(token.creationDate)
+  })
+
+  it('displays expiration date', () => {
+    const cell = cells[2]
+    const chip = cell.findComponent('.v-chip')
+    expect(chip.exists()).toBeTruthy()
+    expect(chip.text()).toBe(token.expirationDate)
+  })
+
+  it('displays active', () => {
+    const cell = cells[3]
+    const checkboxPublished = cell.find('#checkbox-active')
+    expect(checkboxPublished.element.checked).toEqual(
+      token.active
     )
   })
 
-  it('display delete action', () => {
+  it('displays edit icon', () => {
     const cell = cells[4]
-    expect(cell.find('#delete-icon').exists()).toBeTruthy()
+    expect(cell.find('#pencil-icon').exists()).toBe(true)
   })
 
-  it('display edit action', () => {
+  it('displays delete icon', () => {
     const cell = cells[4]
-    expect(cell.find('#pencil-icon').exists()).toBeTruthy()
+    expect(cell.find('#delete-icon').exists()).toBe(true)
+  })
+
+  it('displays deactivate icon', () => {
+    const cell = cells[4]
+    expect(cell.find('#cancel-icon').exists()).toBe(true)
   })
 })

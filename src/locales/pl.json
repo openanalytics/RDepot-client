@@ -79,7 +79,9 @@
       "approver": "Zatwierdzający",
       "date": "Data",
       "package": "Pakiet",
+      "packageVersion": "Wersja",
       "repository": "Repozytorium",
+      "status": "Status",
       "submitter": "Zgłaszający",
       "technology": "Technologia"
     },

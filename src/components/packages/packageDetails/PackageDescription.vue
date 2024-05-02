@@ -40,7 +40,9 @@
     <v-btn
       ref="button"
       color="oablue"
-      class="button mt-3"
+      size="x-small"
+      variant="text"
+      class="button mt-3 ml-3 my-3"
       @click="goToDetailsPage(packageBagShort || {})"
     >
       {{ $t('common.details') }}</v-btn
@@ -102,6 +104,7 @@ function goToDetailsPage({
   max-height: 250px;
   overflow: hidden;
   mask-size: auto 250px;
+  padding: 1rem;
   -webkit-mask-image: -webkit-gradient(
     linear,
     left 90%,

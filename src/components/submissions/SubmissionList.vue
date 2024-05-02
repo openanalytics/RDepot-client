@@ -21,29 +21,229 @@
 -->
 
 <template>
-  <ResourcesList :resources="submissionStore.submissions">
-    <template #title>
-      <SubmissionRow title />
+  <v-data-table-server
+    :headers="headers"
+    v-model:items-per-page="pagination.pageSize"
+    :items="submissionStore.submissions"
+    :items-length="pagination.totalNumber"
+    item-value="name"
+    sort-asc-icon="mdi-sort-ascending"
+    sort-desc-icon="mdi-sort-descending"
+    color="oablue"
+    @update:options="fetchData"
+    :loading="submissionStore.loading"
+    :sort-by="sortBy"
+    :items-per-page-options="pagination.itemsPerPage"
+  >
+    <template v-slot:loading>
+      <v-skeleton-loader
+        type="`table-row-divider@15`"
+      ></v-skeleton-loader>
     </template>
-    <template #expansion-row="slotProps">
-      <SubmissionRow :submission="slotProps.resource" />
+    <template #item.created="{ value }">
+      <v-chip
+        size="small"
+        style="cursor: pointer"
+        class="mr-3"
+      >
+        {{ value }}</v-chip
+      >
     </template>
-  </ResourcesList>
+    <template #item.packageBag.repository="{ value }">
+      {{ value }}
+    </template>
+    <template #item.packageBag.technology="{ value }">
+      <v-chip
+        size="small"
+        color="oablue"
+        class="mr-3"
+        style="cursor: pointer"
+      >
+        {{ value }}</v-chip
+      >
+    </template>
+    <template #item.state="{ value }">
+      <v-tooltip location="bottom center">
+        <template #activator="{ props }">
+          <div id="tooltip-activator" v-bind="props">
+            <v-icon
+              class="mr-3"
+              :icon="
+                getStatusIcon(
+                  value ||
+                    EntityModelSubmissionDtoStateEnum.WAITING
+                )
+              "
+              :color="
+                getStatusColor(
+                  value ||
+                    EntityModelSubmissionDtoStateEnum.WAITING
+                )
+              "
+            ></v-icon>
+          </div>
+        </template>
+        <span id="tooltip-wait">{{
+          getTooltipMessage(
+            value ||
+              EntityModelSubmissionDtoStateEnum.WAITING
+          )
+        }}</span>
+      </v-tooltip>
+    </template>
+    <template #item.actions="{ item }">
+      <span
+        v-if="
+          EntityModelSubmissionDtoStateEnum.WAITING &&
+          canPatch(item.links, 'state')
+        "
+        class="d-flex justify-center align-center"
+      >
+        <template
+          v-if="meStore.me?.id == item.submitter?.id"
+        >
+          <v-btn
+            id="cancel-button"
+            color="oared"
+            @click="cancelSubmission(item)"
+            >{{ $t('action.cancel') }}</v-btn
+          >
+        </template>
+        <template v-else>
+          <v-btn
+            id="accept-button"
+            color="success"
+            class="mx-1"
+            @click="acceptSubmission(item)"
+            >{{ $t('action.accept') }}</v-btn
+          >
+          <v-btn
+            e-else
+            id="reject-button"
+            color="oared"
+            @click="rejectSubmission(item)"
+            >{{ $t('action.reject') }}</v-btn
+          >
+        </template>
+      </span>
+    </template>
+  </v-data-table-server>
 </template>
 
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import { useSubmissionStore } from '@/store/submission'
-import SubmissionRow from '@/components/submissions/SubmissionRow.vue'
-import ResourcesList from '@/components/common/resources/ResourcesList.vue'
+import { usePagination } from '@/store/pagination'
+import { useSubmissionIcons } from '@/composable/submissions/statusIcons'
+import { EntityModelSubmissionDtoStateEnum } from '@/openapi'
+import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
+import { useSubmissionActions } from '@/composable/submissions/submissionActions'
+import { useMeStore } from '@/store/me'
+import {
+  DataTableOptions,
+  Sort
+} from '@/models/DataTableOptions'
+import { i18n } from '@/plugins/i18n'
+import { ref } from 'vue'
+import { useSort } from '@/composable/sort'
+
+const { canPatch } = useUserAuthorities()
+const meStore = useMeStore()
+
+const {
+  acceptSubmission,
+  cancelSubmission,
+  rejectSubmission
+} = useSubmissionActions()
+
+const { getSort } = useSort()
+const defaultSort: Sort[] = [
+  { key: 'state', order: 'desc' }
+]
+const sortBy = ref(defaultSort)
+
+const headers = [
+  {
+    title: i18n.t('columns.submissions.date'),
+    align: 'center',
+    key: 'created',
+    width: 100
+  },
+  {
+    title: i18n.t('columns.submissions.package'),
+    align: 'start',
+    key: 'packageBag.name',
+    width: 150
+  },
+
+  {
+    title: i18n.t('columns.submissions.packageVersion'),
+    align: 'center',
+    key: 'packageBag.version',
+    width: 100
+  },
+  {
+    title: i18n.t('columns.submissions.repository'),
+    align: 'start',
+    key: 'packageBag.repository',
+    value: 'packageBag.repository.name',
+    sort: 'packageBag.repository'
+  },
+  {
+    title: i18n.t('columns.submissions.submitter'),
+    align: 'center',
+    key: 'submitter.name',
+    width: 200
+  },
+  {
+    title: i18n.t('columns.submissions.approver'),
+    align: 'center',
+    key: 'approver.name',
+    width: 200
+  },
+  {
+    title: i18n.t('columns.submissions.technology'),
+    align: 'center',
+    key: 'packageBag.technology',
+    width: 100
+  },
+  {
+    title: i18n.t('columns.submissions.status'),
+    align: 'center',
+    key: 'state',
+    width: 100
+  },
+  {
+    title: i18n.t('columns.actions'),
+    align: 'center',
+    key: 'actions',
+    width: '230',
+    sortable: false
+  }
+]
+
+function fetchData(options: DataTableOptions) {
+  sortBy.value = getSort(options.sortBy, defaultSort)
+  submissionStore.fetchSubmissionsPage(options)
+}
 
 const submissionStore = useSubmissionStore()
+const pagination = usePagination()
 
 function updateData(): void {
   submissionStore.fetchSubmissions()
 }
 
+const { getStatusIcon, getStatusColor, getTooltipMessage } =
+  useSubmissionIcons()
+
 onMounted(() => {
   updateData()
 })
 </script>
+
+<style lang="scss">
+.empty-row {
+  border-bottom: unset !important;
+}
+</style>

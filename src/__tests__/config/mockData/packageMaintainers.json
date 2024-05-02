@@ -7,7 +7,7 @@
     "links": [
       {
         "rel": "self",
-        "href": "http://localhost:8017/api/v2/manager/package-maintainers?page=0&size=20"
+        "href": "http://localhost:8017/api/v2/manager/package-maintainers?deleted=false&page=0&size=15&sort=user,asc"
       }
     ],
     "content": [
@@ -23,10 +23,11 @@
         "repository": {
           "id": 2,
           "name": "testrepo1",
-          "publicationUri": "http://localhost/repo/testrepo1"
+          "publicationUri": "http://localhost/repo/testrepo1",
+          "published": true,
+          "technology": "R"
         },
         "deleted": false,
-        "description": "Package Maintainer [id: 1, user: User [id: 6, name: Galileo Galilei, login: galieleo, email: galieleo@ldap.forumsys.com], package: accrued, repository: Repository [id: 2, name: testrepo1, publication URI: http://localhost/repo/testrepo1]]",
         "links": [
           {
             "rel": "self",
@@ -60,10 +61,11 @@
         "repository": {
           "id": 4,
           "name": "testrepo3",
-          "publicationUri": "http://localhost/repo/testrepo3"
+          "publicationUri": "http://localhost/repo/testrepo3",
+          "published": false,
+          "technology": "R"
         },
         "deleted": false,
-        "description": "Package Maintainer [id: 2, user: User [id: 6, name: Galileo Galilei, login: galieleo, email: galieleo@ldap.forumsys.com], package: abc, repository: Repository [id: 4, name: testrepo3, publication URI: http://localhost/repo/testrepo3]]",
         "links": [
           {
             "rel": "self",
@@ -72,6 +74,16 @@
           {
             "rel": "packageMaintainerList",
             "href": "http://localhost:8017/api/v2/manager/package-maintainers"
+          },
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/package-maintainers/2",
+            "type": "PATCH"
+          },
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/package-maintainers/2",
+            "type": "DELETE"
           }
         ]
       },
@@ -87,10 +99,11 @@
         "repository": {
           "id": 4,
           "name": "testrepo3",
-          "publicationUri": "http://localhost/repo/testrepo3"
+          "publicationUri": "http://localhost/repo/testrepo3",
+          "published": false,
+          "technology": "R"
         },
         "deleted": false,
-        "description": "Package Maintainer [id: 3, user: User [id: 6, name: Galileo Galilei, login: galieleo, email: galieleo@ldap.forumsys.com], package: A3, repository: Repository [id: 4, name: testrepo3, publication URI: http://localhost/repo/testrepo3]]",
         "links": [
           {
             "rel": "self",
@@ -99,33 +112,16 @@
           {
             "rel": "packageMaintainerList",
             "href": "http://localhost:8017/api/v2/manager/package-maintainers"
-          }
-        ]
-      },
-      {
-        "id": 4,
-        "user": {
-          "id": 6,
-          "name": "Galileo Galilei",
-          "login": "galieleo",
-          "email": "galieleo@ldap.forumsys.com"
-        },
-        "packageName": "bea.R",
-        "repository": {
-          "id": 2,
-          "name": "testrepo1",
-          "publicationUri": "http://localhost/repo/testrepo1"
-        },
-        "deleted": true,
-        "description": "Package Maintainer [id: 4, user: User [id: 6, name: Galileo Galilei, login: galieleo, email: galieleo@ldap.forumsys.com], package: bea.R, repository: Repository [id: 2, name: testrepo1, publication URI: http://localhost/repo/testrepo1]]",
-        "links": [
-          {
-            "rel": "self",
-            "href": "http://localhost:8017/api/v2/manager/package-maintainers/4"
           },
           {
-            "rel": "packageMaintainerList",
-            "href": "http://localhost:8017/api/v2/manager/package-maintainers"
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/package-maintainers/3",
+            "type": "PATCH"
+          },
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/package-maintainers/3",
+            "type": "DELETE"
           }
         ]
       },
@@ -141,10 +137,11 @@
         "repository": {
           "id": 5,
           "name": "testrepo4",
-          "publicationUri": "http://localhost/repo/testrepo4"
+          "publicationUri": "http://localhost/repo/testrepo4",
+          "published": false,
+          "technology": "R"
         },
         "deleted": false,
-        "description": "Package Maintainer [id: 5, user: User [id: 6, name: Galileo Galilei, login: galieleo, email: galieleo@ldap.forumsys.com], package: AnaCoDa, repository: Repository [id: 5, name: testrepo4, publication URI: http://localhost/repo/testrepo4]]",
         "links": [
           {
             "rel": "self",
@@ -153,13 +150,213 @@
           {
             "rel": "packageMaintainerList",
             "href": "http://localhost:8017/api/v2/manager/package-maintainers"
+          },
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/package-maintainers/5",
+            "type": "PATCH"
+          },
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/package-maintainers/5",
+            "type": "DELETE"
+          }
+        ]
+      },
+      {
+        "id": 10,
+        "user": {
+          "id": 6,
+          "name": "Galileo Galilei",
+          "login": "galieleo",
+          "email": "galieleo@ldap.forumsys.com"
+        },
+        "packageName": "accelerated-numpy",
+        "repository": {
+          "id": 8,
+          "name": "testrepo8",
+          "publicationUri": "http://localhost/repo/testrepo8",
+          "published": true,
+          "technology": "Python"
+        },
+        "deleted": false,
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/package-maintainers/10"
+          },
+          {
+            "rel": "packageMaintainerList",
+            "href": "http://localhost:8017/api/v2/manager/package-maintainers"
+          },
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/package-maintainers/10",
+            "type": "PATCH"
+          },
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/package-maintainers/10",
+            "type": "DELETE"
+          }
+        ]
+      },
+      {
+        "id": 11,
+        "user": {
+          "id": 6,
+          "name": "Galileo Galilei",
+          "login": "galieleo",
+          "email": "galieleo@ldap.forumsys.com"
+        },
+        "packageName": "python-dateutil",
+        "repository": {
+          "id": 8,
+          "name": "testrepo8",
+          "publicationUri": "http://localhost/repo/testrepo8",
+          "published": true,
+          "technology": "Python"
+        },
+        "deleted": false,
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/package-maintainers/11"
+          },
+          {
+            "rel": "packageMaintainerList",
+            "href": "http://localhost:8017/api/v2/manager/package-maintainers"
+          },
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/package-maintainers/11",
+            "type": "PATCH"
+          },
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/package-maintainers/11",
+            "type": "DELETE"
+          }
+        ]
+      },
+      {
+        "id": 9,
+        "user": {
+          "id": 6,
+          "name": "Galileo Galilei",
+          "login": "galieleo",
+          "email": "galieleo@ldap.forumsys.com"
+        },
+        "packageName": "boto3",
+        "repository": {
+          "id": 8,
+          "name": "testrepo8",
+          "publicationUri": "http://localhost/repo/testrepo8",
+          "published": true,
+          "technology": "Python"
+        },
+        "deleted": false,
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/package-maintainers/9"
+          },
+          {
+            "rel": "packageMaintainerList",
+            "href": "http://localhost:8017/api/v2/manager/package-maintainers"
+          },
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/package-maintainers/9",
+            "type": "PATCH"
+          },
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/package-maintainers/9",
+            "type": "DELETE"
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "user": {
+          "id": 8,
+          "name": "Local Admin User",
+          "login": "admin",
+          "email": "admin@localhost"
+        },
+        "packageName": "pandas",
+        "repository": {
+          "id": 9,
+          "name": "testrepo9",
+          "publicationUri": "http://localhost/repo/testrepo9",
+          "published": false,
+          "technology": "Python"
+        },
+        "deleted": false,
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/package-maintainers/7"
+          },
+          {
+            "rel": "packageMaintainerList",
+            "href": "http://localhost:8017/api/v2/manager/package-maintainers"
+          },
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/package-maintainers/7",
+            "type": "PATCH"
+          },
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/package-maintainers/7",
+            "type": "DELETE"
+          }
+        ]
+      },
+      {
+        "id": 8,
+        "user": {
+          "id": 8,
+          "name": "Local Admin User",
+          "login": "admin",
+          "email": "admin@localhost"
+        },
+        "packageName": "pandas",
+        "repository": {
+          "id": 8,
+          "name": "testrepo8",
+          "publicationUri": "http://localhost/repo/testrepo8",
+          "published": true,
+          "technology": "Python"
+        },
+        "deleted": false,
+        "links": [
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/package-maintainers/8"
+          },
+          {
+            "rel": "packageMaintainerList",
+            "href": "http://localhost:8017/api/v2/manager/package-maintainers"
+          },
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/package-maintainers/8",
+            "type": "PATCH"
+          },
+          {
+            "rel": "self",
+            "href": "http://localhost:8017/api/v2/manager/package-maintainers/8",
+            "type": "DELETE"
           }
         ]
       }
     ],
     "page": {
-      "size": 20,
-      "totalElements": 5,
+      "size": 15,
+      "totalElements": 9,
       "totalPages": 1,
       "number": 0
     }

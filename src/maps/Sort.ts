@@ -88,6 +88,3 @@ export const SORT_PARAMS: Map<string, string> = new Map<
   ['columns.tokens.deleted', 'deleted'],
   ['columns.tokens.user', 'user.name']
 ])
-
-//TODO check sort by number of packages
-//TODO for now sort is with ASCII characters

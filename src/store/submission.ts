@@ -31,6 +31,7 @@ import {
 } from '@/models/Filtration'
 import {
   addSubmission,
+  fetch,
   fetchSubmissions,
   updateSubmission
 } from '@/services/submission_services'
@@ -41,6 +42,7 @@ import { usePagination } from '@/store/pagination'
 import { useToast } from '@/composable/toasts'
 import { i18n } from '@/plugins/i18n'
 import { useMeStore } from './me'
+import { DataTableOptions } from '@/models/DataTableOptions'
 
 export type PackagePromise = {
   promise: Promise<validatedData<EntityModelSubmissionDto>>
@@ -61,6 +63,7 @@ interface State {
   filtration: SubmissionsFiltration
   resolved: boolean
   stepperKey: number
+  loading: boolean
 }
 
 const { deepCopy } = useUtilities()
@@ -79,7 +82,8 @@ export const useSubmissionStore = defineStore(
         repository: undefined,
         filtration: defaultValues(SubmissionsFiltration),
         resolved: false,
-        stepperKey: 0
+        stepperKey: 0,
+        loading: false
       }
     },
     getters: {
@@ -93,19 +97,23 @@ export const useSubmissionStore = defineStore(
       }
     },
     actions: {
-      async fetchPageOfSubmissions(
-        page: number,
-        pageSize = 8
+      async fetchSubmissionsPage(
+        options: DataTableOptions
       ) {
-        const meStore = useMeStore()
-        const pageData = await this.fetchData(
-          page,
-          pageSize,
-          defaultValues(SubmissionsFiltration),
-          meStore.me.id,
-          false
+        if (options.sortBy.length == 0) {
+          options.sortBy = [{ key: 'state', order: 'desc' }]
+        }
+        this.loading = true
+        const [submissions] = await fetch(
+          this.filtration,
+          options.page - 1,
+          options.itemsPerPage,
+          options.sortBy[0].key +
+            ',' +
+            options.sortBy[0].order
         )
-        return pageData
+        this.loading = false
+        this.submissions = submissions
       },
       async fetchSubmissions() {
         const pagination = usePagination()

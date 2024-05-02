@@ -32,14 +32,12 @@
   </v-row>
   <FiltrationBar />
   <RepositoriesList :key="componentKey" />
-  <Pagination />
 </template>
 
 <script setup lang="ts">
 import RepositoriesModal from '@/components/repositories/RepositoriesModal.vue'
 import RepositoriesList from '@/components/repositories/RepositoriesList.vue'
 import AddButton from '@/components/common/AddButton.vue'
-import Pagination from '@/components/common/Pagination.vue'
 import FiltrationBar from '@/components/repositories/FiltrationBar.vue'
 import { useAuthorizationStore } from '@/store/authorization'
 import { computed } from 'vue'

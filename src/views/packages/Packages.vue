@@ -24,12 +24,10 @@
   <PackagesModal />
   <FiltrationBar />
   <PackagesList :key="componentKey" />
-  <Pagination />
 </template>
 
 <script setup lang="ts">
 import PackagesList from '@/components/packages/PackagesList.vue'
-import Pagination from '@/components/common/Pagination.vue'
 import FiltrationBar from '@/components/packages/FiltrationBar.vue'
 import PackagesModal from '@/components/packages/PackagesModal.vue'
 import { computed } from 'vue'

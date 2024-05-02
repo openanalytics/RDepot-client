@@ -35,10 +35,11 @@ import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import { createPinia, setActivePinia } from 'pinia'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
 import RepositoryMaintainersListVue from '@/components/repositoryMaintainers/RepositoryMaintainersList.vue'
-import RepositoryMaintainerRow from '@/components/repositoryMaintainers/RepositoryMaintainerRow.vue'
 import maintainers from '@/__tests__/config/mockData/repositoryMaintainers.json'
 import { useMeStore } from '@/store/me'
 import me from '@/__tests__/config/mockData/me.json'
+import { nextTick } from 'vue'
+import { i18n } from '@/plugins/i18n'
 
 let wrapper: any
 let repositoryMaintainersStore: any
@@ -64,6 +65,7 @@ beforeEach(async () => {
 
   repositoryMaintainersStore.maintainers =
     maintainers.data.content
+  repositoryMaintainersStore.loading = false
 })
 
 describe('Repository Maintainers - list', () => {
@@ -71,13 +73,129 @@ describe('Repository Maintainers - list', () => {
     expect(wrapper.exists()).toBe(true)
   })
 
-  it('displays one row for each maintainer + one for title', async () => {
-    const packagesFromWrapper = wrapper.findAllComponents(
-      RepositoryMaintainerRow
-    )
+  it('displays data-table', async () => {
+    const dataTable = wrapper.findComponent('.v-data-table')
+    expect(dataTable.exists()).toBeTruthy()
+  })
 
-    expect(packagesFromWrapper.length).toEqual(
-      maintainers.data.content.length + 1
+  it('displays one row per each maintainer', async () => {
+    const maintainersRow = wrapper.findAllComponents('tr')
+    expect(maintainersRow.length).toEqual(
+      maintainers.data.content.length
     )
+  })
+
+  it('displays no data available text', async () => {
+    repositoryMaintainersStore.maintainers = []
+    await nextTick()
+    expect(wrapper.text()).toContain('No data available')
+    expect(wrapper.findAllComponents('tr').length).toEqual(
+      1
+    )
+  })
+  it('displays loading info', async () => {
+    repositoryMaintainersStore.loading = true
+    await nextTick()
+    expect(
+      wrapper
+        .findComponent('.v-data-table-progress__loader')
+        .exists()
+    ).toBeTruthy()
+    expect(wrapper.findAllComponents('tr').length).toEqual(
+      1
+    )
+  })
+})
+
+describe('Repository  maintainers - list headers', () => {
+  let headers: any
+  beforeAll(() => {
+    headers = wrapper.findAllComponents('th')
+  })
+
+  it('displays all headers', () => {
+    expect(headers.length).toEqual(4)
+  })
+
+  it('displays maintainer column', () => {
+    const col = headers[0]
+    expect(col.text()).toEqual(
+      i18n.t('columns.repositoryMaintainer.name')
+    )
+    const sortIcon = col.findComponent(
+      '.mdi-sort-ascending'
+    )
+    expect(sortIcon.exists()).toBeTruthy()
+  })
+
+  it('displays repository column', () => {
+    const col = headers[1]
+    expect(col.text()).toEqual(
+      i18n.t('columns.repositoryMaintainer.repository')
+    )
+    const sortIcon = col.findComponent(
+      '.mdi-sort-ascending'
+    )
+    expect(sortIcon.exists()).toBeTruthy()
+  })
+
+  it('displays technology column', () => {
+    const col = headers[2]
+    expect(col.text()).toEqual(
+      i18n.t('columns.repositoryMaintainer.technology')
+    )
+    const sortIcon = col.findComponent(
+      '.mdi-sort-ascending'
+    )
+    expect(sortIcon.exists()).toBeTruthy()
+  })
+
+  it('displays actions column', () => {
+    const col = headers[3]
+    expect(col.text()).toEqual(i18n.t('columns.actions'))
+    const sortIcon = col.findComponent(
+      '.mdi-sort-ascending'
+    )
+    expect(sortIcon.exists()).toBeFalsy()
+  })
+})
+
+describe('Repository Maintainers - cells', () => {
+  let cells: any
+  const maintainer = maintainers.data.content[0]
+
+  beforeAll(() => {
+    cells = wrapper
+      .findAllComponents('tr')[0]
+      .findAllComponents('td')
+  })
+
+  it('displays maintainer name', () => {
+    const cell = cells[0]
+    expect(cell.text()).toBe(maintainer.user.name)
+  })
+
+  it('displays repository name', () => {
+    const cell = cells[1]
+    expect(cell.text()).toBe(maintainer.repository.name)
+  })
+
+  it('displays technology', () => {
+    const cell = cells[2]
+    const chip = cell.findComponent('.v-chip')
+    expect(chip.exists()).toBeTruthy()
+    expect(chip.text()).toBe(
+      maintainer.repository.technology
+    )
+  })
+
+  it('display delete action', () => {
+    const cell = cells[3]
+    expect(cell.find('#delete-icon').exists()).toBeTruthy()
+  })
+
+  it('display edit action', () => {
+    const cell = cells[3]
+    expect(cell.find('#pencil-icon').exists()).toBeTruthy()
   })
 })

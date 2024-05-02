@@ -45,4 +45,11 @@ import ProgressCircular from './components/common/progress/ProgressCircular.vue'
 #tooltip-activator {
   z-index: 100;
 }
+
+.mdi-sort-ascending,
+.mdi-sort-descending {
+  color: rgb(var(--v-theme-oablue));
+  margin-left: 2px;
+  font-size: 1rem;
+}
 </style>

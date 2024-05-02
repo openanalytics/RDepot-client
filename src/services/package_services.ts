@@ -54,6 +54,35 @@ type ValidatedPackagePython = Promise<
 
 type ValidatedVignette = Promise<validatedData<Vignette[]>>
 
+export async function fetch(
+  filtration: PackagesFiltration,
+  page?: number,
+  pageSize?: number,
+  sort?: string,
+  showProgress = true
+): ValidatedPackages {
+  if (!isAuthorized('GET', 'submissions')) {
+    return new Promise(() => validateRequest([]))
+  }
+  return openApiRequest<EntityModelPackageDto[]>(
+    ApiV2PackageControllerApiFactory().getAllPackages,
+    [
+      page,
+      pageSize,
+      sort,
+      filtration?.repository,
+      filtration?.deleted,
+      filtration?.submissionState,
+      filtration?.technologies,
+      filtration?.search,
+      filtration?.maintainer
+    ],
+    showProgress
+  ).catch(() => {
+    return validateRequest([])
+  })
+}
+
 export async function fetchPackagesServices(
   filtration?: PackagesFiltration,
   page?: number,
@@ -83,19 +112,6 @@ export async function fetchPackagesServices(
   })
 }
 
-// export function fetchPackageServices(
-//   id: number,
-//   showProgress = false
-// ): Promise<validatedData<EntityModelPackageDto>> {
-//   if (!isAuthorized('GET', 'packages')) {
-//     return new Promise(() => {})
-//   }
-//   return openApiRequest<EntityModelPackageDto>(
-//     ApiV2PackageControllerApiFactory().getPackageById,
-//     [id],
-//     showProgress
-//   )
-// }
 export function fetchFullPackagesList(
   page?: number,
   pageSize?: number,

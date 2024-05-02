@@ -20,21 +20,13 @@
  *
  */
 
-import { useUserStore } from '@/store/users'
-import { createPinia, setActivePinia } from 'pinia'
-import { beforeEach, describe, expect, it } from 'vitest'
+export type Sort = {
+  key: string
+  order: string
+}
 
-describe('User Store', () => {
-  beforeEach(async () => {
-    setActivePinia(createPinia())
-  })
-
-  it('Starting values', () => {
-    const user_store = useUserStore()
-    expect(user_store.userToken).toEqual('')
-    expect(user_store.userName).toEqual('')
-    expect(user_store.users).toEqual([])
-    expect(user_store.chosenUser).toEqual({})
-    expect(user_store.roles).toEqual([])
-  })
-})
+export type DataTableOptions = {
+  page: number
+  itemsPerPage: number
+  sortBy: Sort[]
+}

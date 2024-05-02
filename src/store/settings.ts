@@ -34,7 +34,8 @@ import {
   createToken,
   deleteToken,
   editToken,
-  deactivateToken
+  deactivateToken,
+  fetch
 } from '@/services/settings_services'
 import { useUtilities } from '@/composable/utilities'
 import { validatedData } from '@/services/open_api_access'
@@ -45,6 +46,7 @@ import { useCommonStore } from '@/store/common'
 import { OverlayEnum } from '@/enum/Overlay'
 import { UserSettingsProjection } from '@/openapi/models/user-settings-projection'
 import { useMeStore } from './me'
+import { DataTableOptions } from '@/models/DataTableOptions'
 
 export type PackagePromise = {
   promise: Promise<validatedData<EntityModelAccessTokenDto>>
@@ -63,6 +65,7 @@ interface State {
   newToken?: string
   currentToken: EntityModelAccessTokenDto
   newSettings?: UserSettingsProjection
+  loading: boolean
 }
 
 const { deepCopy } = useUtilities()
@@ -79,7 +82,8 @@ export const useSettingsStore = defineStore(
         pageSize: 0,
         newToken: '',
         currentToken: {},
-        newSettings: undefined
+        newSettings: undefined,
+        loading: false
       }
     },
     getters: {
@@ -91,6 +95,22 @@ export const useSettingsStore = defineStore(
       }
     },
     actions: {
+      async fetchTokensPage(options: DataTableOptions) {
+        if (options.sortBy.length == 0) {
+          options.sortBy = [{ key: 'user', order: 'asc' }]
+        }
+        this.loading = true
+        const [tokens] = await fetch(
+          this.filtration,
+          options.page - 1,
+          options.itemsPerPage,
+          options.sortBy[0].key +
+            ',' +
+            options.sortBy[0].order
+        )
+        this.loading = false
+        this.tokens = tokens
+      },
       async fetchTokens() {
         const pagination = usePagination()
         const meStore = useMeStore()
