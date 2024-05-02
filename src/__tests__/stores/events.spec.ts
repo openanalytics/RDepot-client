@@ -31,13 +31,11 @@ import {
   it,
   vi
 } from 'vitest'
-import { setupServer } from 'msw/node'
 import events from '@/__tests__/config/mockData/events.json'
 import { Technologies } from '@/enum/Technologies'
 import { EventsFiltration } from '@/models/Filtration'
-import { http, HttpResponse } from 'msw'
-import me from '@/__tests__/config/mockData/me.json'
 import { useMeStore } from '@/store/me'
+import { server } from '@/__tests__/config/backend/server'
 
 const defaultFiltration = {
   eventType: undefined,
@@ -56,20 +54,6 @@ const randomFiltration = {
   fromDate: '2019-05-03',
   toDate: '2022-09-20'
 }
-const server = setupServer(
-  http.get(
-    'http://localhost:8017/api/v2/manager/users/me',
-    () => {
-      return HttpResponse.json(me)
-    }
-  ),
-  http.get(
-    'http://localhost:8017/api/v2/manager/events',
-    () => {
-      return HttpResponse.json(events)
-    }
-  )
-)
 
 describe('Event Store', () => {
   beforeAll(() => {

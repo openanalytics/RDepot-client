@@ -30,6 +30,7 @@ import { useBlob } from '@/composable/blob'
 import { useToast } from '@/composable/toasts'
 import { i18n } from '@/plugins/i18n'
 import { useMeStore } from '@/store/me'
+import { BackendError } from '@/models/errors/BackendError'
 
 export async function openApiRequest<T>(
   // eslint-disable-next-line @typescript-eslint/ban-types
@@ -136,14 +137,16 @@ async function resolved(
   )
 }
 
-async function rejected(result: AxiosError) {
+async function rejected(result: AxiosError<BackendError>) {
   const common_store = useCommonStore()
   common_store.setProgressCircularActive(false)
   await errorsHandler(result)
   throw result
 }
 
-async function errorsHandler(error: AxiosError) {
+async function errorsHandler(
+  error: AxiosError<BackendError>
+) {
   const toasts = useToast()
   if (!error.response?.status) {
     toasts.error(i18n.t('errors.405'))
@@ -181,7 +184,9 @@ async function errorsHandler(error: AxiosError) {
       }
 
       case 500: {
-        toasts.error(i18n.t('errors.message.500'))
+        if (error.response?.data) {
+          toasts.error500(error)
+        }
         break
       }
     }

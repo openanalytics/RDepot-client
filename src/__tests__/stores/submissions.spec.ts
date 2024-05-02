@@ -37,8 +37,6 @@ import {
 } from '@/openapi'
 import packages from '@/__tests__/config/mockData/packages.json'
 import submissions from '@/__tests__/config/mockData/submissions.json'
-import me from '@/__tests__/config/mockData/me.json'
-import { setupServer } from 'msw/node'
 import { useUtilities } from '@/composable/utilities'
 import {
   SubmissionsFiltration,
@@ -46,8 +44,9 @@ import {
 } from '@/models/Filtration'
 import { usePagination } from '@/store/pagination'
 import { Technologies } from '@/enum/Technologies'
-import { http, HttpResponse } from 'msw'
 import { useMeStore } from '@/store/me'
+import { server } from '@/__tests__/config/backend/server'
+import { failingServer } from '@/__tests__/config/backend/failingServer'
 
 const { deepCopyAny } = useUtilities()
 const files = [
@@ -70,32 +69,6 @@ const randomFiltration = {
   fromDate: '2019-05-03',
   toDate: '2022-09-20'
 } as SubmissionsFiltration
-
-const server = setupServer(
-  http.get(
-    'http://localhost:8017/api/v2/manager/users/me',
-    () => {
-      return HttpResponse.json(me)
-    }
-  ),
-  http.get(
-    'http://localhost:8017/api/v2/manager/submissions',
-    () => {
-      return HttpResponse.json(submissions)
-    }
-  ),
-  http.patch(
-    'http://localhost:8017/api/v2/manager/r/submissions/:submission_id',
-    ({ params }) => {
-      const { submission_id } = params
-      return HttpResponse.json({
-        data: submissions.data.content.find(
-          (elem) => elem.id.toString() === submission_id
-        )
-      })
-    }
-  )
-)
 
 describe('Submissions Store', () => {
   beforeEach(async () => {
@@ -248,31 +221,6 @@ describe('Submissions Store', () => {
     )
   })
 })
-
-const failingServer = setupServer(
-  http.get(
-    'http://localhost:8017/api/v2/manager/submissions',
-    () => {
-      return new HttpResponse(null, {
-        status: 403
-      })
-    }
-  ),
-  http.patch(
-    'http://localhost:8017/api/v2/manager/r/submissions/:submission_id',
-    () => {
-      return new HttpResponse(null, {
-        status: 403
-      })
-    }
-  ),
-  http.get(
-    'http://localhost:8017/api/v2/manager/users/me',
-    () => {
-      return HttpResponse.json(me)
-    }
-  )
-)
 
 describe('Testing submissions store with failing backend', () => {
   beforeEach(async () => {

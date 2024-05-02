@@ -35,16 +35,15 @@ import {
 import packageMaintainers from '@/__tests__/config/mockData/packageMaintainers.json'
 import repositories from '@/__tests__/config/mockData/repositories.json'
 import packages from '@/__tests__/config/mockData/packages.json'
-import { setupServer } from 'msw/node'
 import { usePagination } from '@/store/pagination'
 import { Technologies } from '@/enum/Technologies'
 import {
   PackageMaintainersFiltration,
   defaultValues
 } from '@/models/Filtration'
-import { http, HttpResponse } from 'msw'
-import me from '@/__tests__/config/mockData/me.json'
 import { useMeStore } from '@/store/me'
+import { server } from '@/__tests__/config/backend/server'
+import { failingServer } from '@/__tests__/config/backend/failingServer'
 
 const defaultFiltration = defaultValues(
   PackageMaintainersFiltration
@@ -57,49 +56,6 @@ const randomFiltration = {
     Technologies.enum.R
   ]
 }
-
-const server = setupServer(
-  http.get(
-    'http://localhost:8017/api/v2/manager/users/me',
-    () => {
-      return HttpResponse.json(me)
-    }
-  ),
-  http.get(
-    'http://localhost:8017/api/v2/manager/package-maintainers',
-    () => {
-      return HttpResponse.json(packageMaintainers)
-    }
-  ),
-  http.get(
-    'http://localhost:8017/api/v2/manager/repositories',
-    () => {
-      return HttpResponse.json(repositories)
-    }
-  ),
-  http.get(
-    'http://localhost:8017/api/v2/manager/packages',
-    () => {
-      return HttpResponse.json(packages)
-    }
-  ),
-  http.delete(
-    'http://localhost:8017/api/v2/manager/package-maintainers/3',
-    () => {
-      return new HttpResponse(null, {
-        status: 202
-      })
-    }
-  ),
-  http.patch(
-    'http://localhost:8017/api/v2/manager/package-maintainers/3',
-    () => {
-      return new HttpResponse(null, {
-        status: 202
-      })
-    }
-  )
-)
 
 describe('Package Maintainers Store', () => {
   beforeAll(() => {
@@ -318,39 +274,6 @@ describe('Package Maintainers Store', () => {
     expect(spy).toBeCalled()
   })
 })
-
-const failingServer = setupServer(
-  http.get(
-    'http://localhost:8017/api/v2/manager/package-maintainers',
-    () => {
-      return new HttpResponse(null, {
-        status: 403
-      })
-    }
-  ),
-  http.get(
-    'http://localhost:8017/api/v2/manager/repositories',
-    () => {
-      return new HttpResponse(null, {
-        status: 403
-      })
-    }
-  ),
-  http.get(
-    'http://localhost:8017/api/v2/manager/packages',
-    () => {
-      return new HttpResponse(null, {
-        status: 403
-      })
-    }
-  ),
-  http.get(
-    'http://localhost:8017/api/v2/manager/users/me',
-    () => {
-      return HttpResponse.json(me)
-    }
-  )
-)
 
 describe('Package Maintainers Store requests with failing backend', () => {
   beforeAll(() => {

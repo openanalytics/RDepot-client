@@ -22,7 +22,6 @@
 
 import { useMeStore } from '@/store/me'
 import me from '@/__tests__/config/mockData/me.json'
-import { setupServer } from 'msw/node'
 import { createPinia, setActivePinia } from 'pinia'
 import {
   describe,
@@ -32,17 +31,8 @@ import {
   beforeAll,
   afterAll
 } from 'vitest'
-import { http, HttpResponse } from 'msw'
 import { useAuthorizationStore } from '@/store/authorization'
-
-const server = setupServer(
-  http.get(
-    'http://localhost:8017/api/v2/manager/users/me',
-    () => {
-      return HttpResponse.json(me)
-    }
-  )
-)
+import { server } from '@/__tests__/config/backend/server'
 
 describe('Logged user store tests', () => {
   beforeAll(() => {

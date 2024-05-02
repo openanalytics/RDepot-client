@@ -21,7 +21,6 @@
  */
 
 import { usePackagesStore } from '@/store/packages'
-import { setupServer } from 'msw/node'
 import { createPinia, setActivePinia } from 'pinia'
 import {
   beforeEach,
@@ -32,7 +31,6 @@ import {
   afterAll
 } from 'vitest'
 import packages from '@/__tests__/config/mockData/packages.json'
-import submissions from '@/__tests__/config/mockData/submissions.json'
 import repositories from '@/__tests__/config/mockData/repositories.json'
 import { usePagination } from '@/store/pagination'
 import { Technologies } from '@/enum/Technologies'
@@ -41,9 +39,8 @@ import {
   defaultValues
 } from '@/models/Filtration'
 import { useUtilities } from '@/composable/utilities'
-import { http, HttpResponse } from 'msw'
-import me from '@/__tests__/config/mockData/me.json'
 import { useMeStore } from '@/store/me'
+import { server } from '@/__tests__/config/backend/server'
 
 const defaultFiltration = defaultValues(PackagesFiltration)
 
@@ -56,59 +53,6 @@ const randomFiltration = {
   maintainer: ['newton'],
   search: 'a'
 }
-
-const server = setupServer(
-  http.get(
-    'http://localhost:8017/api/v2/manager/users/me',
-    () => {
-      return HttpResponse.json(me)
-    }
-  ),
-  http.get(
-    'http://localhost:8017/api/v2/manager/packages',
-    () => {
-      return HttpResponse.json(packages)
-    }
-  ),
-  http.get(
-    'http://localhost:8017/api/v2/manager/submissions',
-    () => {
-      return HttpResponse.json(submissions)
-    }
-  ),
-  http.get(
-    'http://localhost:8017/api/v2/manager/r/packages/:package_id',
-    ({ params }) => {
-      const { package_id } = params
-      return HttpResponse.json({
-        data: packages.data.content.find(
-          (elem) =>
-            elem.id.toString() === package_id.toString()
-        )
-      })
-    }
-  ),
-  http.get(
-    'http://localhost:8017/api/v2/manager/submissions/:submission_id',
-    ({ params }) => {
-      const { submission_id } = params
-      return HttpResponse.json({
-        data: submissions.data.content.find(
-          (elem) =>
-            elem.id.toString() === submission_id.toString()
-        )
-      })
-    }
-  ),
-  http.patch(
-    'http://localhost:8017/api/v2/manager/r/packages/:package_id',
-    () => {
-      return new HttpResponse(null, {
-        status: 202
-      })
-    }
-  )
-)
 
 describe('Package Store', () => {
   beforeEach(async () => {
