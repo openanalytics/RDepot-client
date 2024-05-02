@@ -40,7 +40,7 @@
         :key="index"
         @click="
           () => {
-            $i18n.locale = item.display
+            $i18n.locale = item.abbreviation
             changeLanguage(item.name)
           }
         "
