@@ -22,95 +22,79 @@
 
 <template>
   <v-container
-    class="v-expansion mx-8"
+    class="v-expansion mx-8 d-flex ga-3"
     style="padding-left: 0; padding-right: 0"
   >
-    <v-row>
-      <v-col sm="5">
-        <validated-input-field
-          @update:modelValue="setFiltration"
-          density="compact"
-          hide-details
-          name="search"
-          as="v-text-field"
-          :label="
-            $t('settings.filtration.searchPlaceholder')
-          "
-          color="oablue"
-          id="filtration-search"
-        />
-      </v-col>
-      <v-col
-        sm="3"
-        v-if="
-          isAtLeastAdmin(
-            meStore.userRole ? meStore.userRole : 0
-          )
-        "
-      >
-        <validated-input-field
-          @update:modelValue="setFiltration"
-          density="compact"
-          hide-details
-          chips
-          closable-chips
-          name="userLogin"
-          as="autocomplete"
-          multiple
-          clearable
-          :label="$t('settings.filtration.userLogin')"
-          @loadItems="loadUsers"
-          :storeId="storeIdUser"
-          :template="true"
-        >
-          <template #item="{ item, props }">
-            <v-list-item
-              v-bind="props"
-              v-intersect="loadUsers"
-            >
-              <template v-slot:prepend="{ isActive }">
-                <v-list-item-action start>
-                  <v-checkbox-btn
-                    :model-value="isActive"
-                  ></v-checkbox-btn>
-                </v-list-item-action>
-              </template>
-            </v-list-item>
+    <validated-input-field
+      @update:modelValue="setFiltration"
+      density="compact"
+      hide-details
+      name="search"
+      as="v-text-field"
+      :label="$t('settings.filtration.searchPlaceholder')"
+      color="oablue"
+      id="filtration-search"
+    />
+
+    <validated-input-field
+      v-if="
+        isAtLeastAdmin(
+          meStore.userRole ? meStore.userRole : 0
+        )
+      "
+      @update:modelValue="setFiltration"
+      density="compact"
+      hide-details
+      chips
+      closable-chips
+      name="userLogin"
+      as="autocomplete"
+      multiple
+      clearable
+      :label="$t('settings.filtration.userLogin')"
+      @loadItems="loadUsers"
+      :storeId="storeIdUser"
+      :template="true"
+    >
+      <template #item="{ item, props }">
+        <v-list-item v-bind="props" v-intersect="loadUsers">
+          <template v-slot:prepend="{ isActive }">
+            <v-list-item-action start>
+              <v-checkbox-btn
+                :model-value="isActive"
+              ></v-checkbox-btn>
+            </v-list-item-action>
           </template>
-        </validated-input-field>
-      </v-col>
-      <v-col sm="1">
-        <validated-input-field
-          @change="setFiltration"
-          density="compact"
-          hide-details
-          id="filtration-active"
-          name="active"
-          :label="$t('settings.filtration.active')"
-          as="v-switch"
-          color="oablue"
-        ></validated-input-field>
-      </v-col>
-      <v-col sm="1">
-        <validated-input-field
-          @change="setFiltration"
-          density="compact"
-          hide-details
-          id="filtration-expired"
-          name="expired"
-          :label="$t('settings.filtration.expired')"
-          as="v-switch"
-          color="oablue"
-        ></validated-input-field>
-      </v-col>
-      <v-spacer />
-      <v-col sm="1" class="reset-button">
-        <ResetButton
-          v-if="!settingsStore.isDefaultFiltration"
-          @resetValues="resetValues"
-        />
-      </v-col>
-    </v-row>
+        </v-list-item>
+      </template>
+    </validated-input-field>
+
+    <validated-input-field
+      @change="setFiltration"
+      density="compact"
+      hide-details
+      id="filtration-active"
+      name="active"
+      :label="$t('settings.filtration.active')"
+      as="v-switch"
+      color="oablue"
+    ></validated-input-field>
+
+    <validated-input-field
+      @change="setFiltration"
+      density="compact"
+      hide-details
+      id="filtration-expired"
+      name="expired"
+      :label="$t('settings.filtration.expired')"
+      as="v-switch"
+      color="oablue"
+    ></validated-input-field>
+    <v-spacer />
+    <ResetButton
+      v-if="!settingsStore.isDefaultFiltration"
+      @resetValues="resetValues"
+    />
   </v-container>
 </template>
 
@@ -166,11 +150,6 @@ onBeforeMount(() => resetPaginationUsers())
 </script>
 
 <style lang="scss">
-.reset-button {
-  display: grid;
-  align-content: center;
-}
-
 .v-selection-control .v-label {
   white-space: nowrap;
 }

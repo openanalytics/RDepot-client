@@ -31,6 +31,7 @@
       color="oablue"
       required
       autofocus
+      max-width="unset"
     />
 
     <validated-input-field
@@ -41,6 +42,7 @@
       type="password"
       color="oablue"
       required
+      max-width="unset"
     />
 
     <v-row class="form-buttons my-10">

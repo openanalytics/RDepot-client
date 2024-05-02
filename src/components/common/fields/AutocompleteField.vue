@@ -28,8 +28,7 @@
     :loading="selectStore.pending"
     :menu-props="{
       location: 'bottom',
-      height: '200px',
-      width: '300px'
+      maxHeight: '200px'
     }"
     @update:search="search"
   >
@@ -88,11 +87,6 @@ function customFiltrate(
   itemText: any
 ) {
   return true
-  // return (
-  //   (selectStore.ifAllFetched &&
-  //     itemText.title.includes(queryText)) ||
-  //   true
-  // )
 }
 
 async function loadItems() {
@@ -107,12 +101,10 @@ async function loadItems() {
 watchDebounced(
   queryTerm,
   async () => {
-    // if (!selectStore.ifAllFetched) {
     selectStore.resetItems()
     selectStore.resetPagination()
-    await emits('filtrate', queryTerm.value)
+    emits('filtrate', queryTerm.value)
     await loadItems()
-    // }
   },
   { debounce: 500, maxWait: 1000 }
 )
