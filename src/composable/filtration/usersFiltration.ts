@@ -69,7 +69,7 @@ export function useUsersFiltration() {
               res.totalNumber
           })
         selectStore.addItems(
-          userStore.userList.map(
+          userStore.users.map(
             (user: EntityModelUserDto) => {
               return {
                 value: user.login,
@@ -129,7 +129,7 @@ export function useUsersFiltration() {
               res.totalNumber
           })
         selectStore.addItems(
-          userStore.userList.map(
+          userStore.users.map(
             (user: EntityModelUserDto) => {
               return {
                 value: user.id,

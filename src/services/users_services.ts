@@ -45,6 +45,32 @@ type ValidatedUser = Promise<
 
 type ValidatedRRoles = Promise<validatedData<RoleDto[]>>
 
+export async function fetch(
+  filtration: UsersFiltration,
+  page?: number,
+  pageSize?: number,
+  sort?: string,
+  showProgress = true
+): ValidatedUsers {
+  if (!isAuthorized('GET', 'submissions')) {
+    return new Promise(() => validateRequest([]))
+  }
+  return openApiRequest<EntityModelUserDto[]>(
+    ApiV2UserControllerApiFactory().getAllUsers,
+    [
+      page,
+      pageSize,
+      sort,
+      filtration?.roles,
+      filtration?.active,
+      filtration?.search
+    ],
+    showProgress
+  ).catch(() => {
+    return validateRequest([])
+  })
+}
+
 export async function fetchUsers(
   page?: number,
   pageSize?: number,

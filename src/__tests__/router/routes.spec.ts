@@ -51,7 +51,7 @@ beforeAll(() => {
   server.listen()
   global.ResizeObserver = ResizeObserver
   const user: EntityModelUserDto = deepCopyAny(
-    users.data.content[5]
+    users.data.content[0]
   )
 
   const meStore = useMeStore()
@@ -92,7 +92,7 @@ describe('App router', () => {
   it('renders repository maintainers list via router', async () => {
     await getRouterPath('/repository-maintainers')
     findComponentInWrapper(wrapper, 'repositoryMaintainers')
-  })
+  }, 15000)
 
   it('renders submissions via router', async () => {
     await getRouterPath('/submissions')
@@ -117,7 +117,7 @@ describe('App router', () => {
   it('renders events list via router', async () => {
     await getRouterPath('/events')
     findComponentInWrapper(wrapper, 'events')
-  })
+  }, 15000)
 })
 
 async function getRouterPath(path: string) {

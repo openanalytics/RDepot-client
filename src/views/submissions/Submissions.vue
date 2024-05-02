@@ -23,12 +23,10 @@
 <template>
   <FiltrationBar />
   <submission-list :key="componentKey" />
-  <Pagination />
 </template>
 
 <script setup lang="ts">
 import SubmissionList from '@/components/submissions/SubmissionList.vue'
-import Pagination from '@/components/common/Pagination.vue'
 import FiltrationBar from '@/components/submissions/FiltrationBar.vue'
 import { computed } from 'vue'
 import { useCommonStore } from '@/store/common'

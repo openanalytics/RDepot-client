@@ -29,123 +29,110 @@
     @resetDate="resetDate"
   />
   <v-container
-    class="v-expansion mx-8"
+    class="v-expansion mx-8 d-flex ga-3"
     style="padding-left: 0; padding-right: 0"
   >
-    <v-row>
-      <v-col sm="5">
-        <validated-input-field
-          @update:modelValue="setFiltration"
-          density="compact"
-          hide-details
-          name="search"
-          as="v-text-field"
-          :label="
-            $t('submissions.filtration.searchPlaceholder')
-          "
-          color="oablue"
-          id="filtration-search"
-        />
-      </v-col>
-      <v-col sm="2">
-        <validated-input-field
-          @update:modelValue="setFiltration"
-          density="compact"
-          hide-details
-          chips
-          closable-chips
-          id="filtration-technology"
-          :items="technologies"
-          name="technologies"
-          multiple
-          clearable
-          as="v-select"
-          :label="$t('filtration.technologies')"
-        ></validated-input-field>
-      </v-col>
-      <v-col sm="2">
-        <validated-input-field
-          @update:modelValue="setFiltration"
-          density="compact"
-          hide-details
-          chips
-          closable-chips
-          id="filtration-state"
-          :items="states"
-          name="state"
-          multiple
-          clearable
-          as="v-select"
-          :label="$t('filtration.state')"
-        ></validated-input-field>
-      </v-col>
-      <v-col sm="3">
-        <validated-input-field
-          @update:modelValue="setFiltration"
-          density="compact"
-          hide-details
-          chips
-          closable-chips
-          name="repository"
-          as="autocomplete"
-          multiple
-          clearable
-          :label="$t('packages.filtration.repository')"
-          @loadItems="loadRepositories"
-          @filtrate="filtrateRepositoriesObjects"
-          :storeId="storeId"
-          :template="true"
+    <validated-input-field
+      @update:modelValue="setFiltration"
+      density="compact"
+      hide-details
+      name="search"
+      as="v-text-field"
+      :label="
+        $t('submissions.filtration.searchPlaceholder')
+      "
+      color="oablue"
+      id="filtration-search"
+    />
+
+    <validated-input-field
+      @update:modelValue="setFiltration"
+      density="compact"
+      hide-details
+      chips
+      closable-chips
+      id="filtration-technology"
+      :items="technologies"
+      name="technologies"
+      multiple
+      clearable
+      as="v-select"
+      :label="$t('filtration.technologies')"
+    ></validated-input-field>
+
+    <validated-input-field
+      @update:modelValue="setFiltration"
+      density="compact"
+      hide-details
+      chips
+      closable-chips
+      id="filtration-state"
+      :items="states"
+      name="state"
+      multiple
+      clearable
+      as="v-select"
+      :label="$t('filtration.state')"
+    ></validated-input-field>
+
+    <validated-input-field
+      @update:modelValue="setFiltration"
+      density="compact"
+      hide-details
+      chips
+      closable-chips
+      name="repository"
+      as="autocomplete"
+      multiple
+      clearable
+      :label="$t('packages.filtration.repository')"
+      @loadItems="loadRepositories"
+      @filtrate="filtrateRepositoriesObjects"
+      :storeId="storeId"
+      :template="true"
+    >
+      <template #item="{ props }">
+        <v-list-item
+          v-bind="props"
+          v-intersect="loadRepositories"
         >
-          <template #item="{ item, props }">
-            <v-list-item
-              v-bind="props"
-              v-intersect="loadRepositories"
-            >
-              <template v-slot:prepend="{ isActive }">
-                <v-list-item-action start>
-                  <v-checkbox-btn
-                    :model-value="isActive"
-                  ></v-checkbox-btn>
-                </v-list-item-action>
-              </template>
-            </v-list-item>
+          <template v-slot:prepend="{ isActive }">
+            <v-list-item-action start>
+              <v-checkbox-btn
+                :model-value="isActive"
+              ></v-checkbox-btn>
+            </v-list-item-action>
           </template>
-        </validated-input-field>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col sm="2">
-        <validated-input-field
-          @update:focused="selectFromDate"
-          density="compact"
-          hide-details
-          name="fromDate"
-          as="v-text-field"
-          :label="$t('submissions.filtration.fromDate')"
-          color="oablue"
-          id="filtration-fromDate"
-        />
-      </v-col>
-      <v-col sm="2">
-        <validated-input-field
-          @update:focused="selectToDate"
-          density="compact"
-          hide-details
-          name="toDate"
-          as="v-text-field"
-          :label="$t('submissions.filtration.toDate')"
-          color="oablue"
-          id="filtration-toDate"
-        />
-      </v-col>
-      <v-spacer />
-      <v-col sm="1" class="reset-button">
-        <ResetButton
-          v-if="!submissionsStore.isDefaultFiltration"
-          @resetValues="resetValues"
-        />
-      </v-col>
-    </v-row>
+        </v-list-item>
+      </template>
+    </validated-input-field>
+
+    <validated-input-field
+      @update:focused="selectFromDate"
+      density="compact"
+      hide-details
+      name="fromDate"
+      as="v-text-field"
+      :label="$t('submissions.filtration.fromDate')"
+      color="oablue"
+      id="filtration-fromDate"
+    />
+
+    <validated-input-field
+      @update:focused="selectToDate"
+      density="compact"
+      hide-details
+      name="toDate"
+      as="v-text-field"
+      :label="$t('submissions.filtration.toDate')"
+      color="oablue"
+      id="filtration-toDate"
+    />
+    <v-spacer />
+    <ResetButton
+      v-if="!submissionsStore.isDefaultFiltration"
+      @resetValues="resetValues"
+    />
   </v-container>
 </template>
 
@@ -232,10 +219,3 @@ function resetDate() {
   setFiltration()
 }
 </script>
-
-<style lang="scss">
-.reset-button {
-  display: grid;
-  align-content: center;
-}
-</style>

@@ -33,6 +33,13 @@ export const usePagination = defineStore(
     const localPageSize = ref<number>(10)
     const localTotalNumber = ref<number>(0)
 
+    const itemsPerPage = [
+      { value: 15, title: '15' },
+      { value: 30, title: '30' },
+      { value: 50, title: '50' },
+      { value: 100, title: '100' }
+    ]
+
     const page = computed({
       get: () => {
         return localPage.value
@@ -114,6 +121,7 @@ export const usePagination = defineStore(
       fetchPage,
       newPageSize,
       totalNumber,
+      itemsPerPage,
       howManyPages,
       totalVisiblePages,
       newPageWithoutRefresh,

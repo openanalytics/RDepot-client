@@ -54,7 +54,7 @@ const mdDescription = computed(() => {
 })
 </script>
 
-<style local lang="scss">
+<style local lang="scss" scoped>
 $code_color: rgba(var(--v-theme-code));
 
 code {

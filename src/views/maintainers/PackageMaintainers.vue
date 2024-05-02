@@ -37,14 +37,12 @@
   </v-row>
   <FiltrationBar />
   <PackageMaintainersList :key="componentKey" />
-  <Pagination />
 </template>
 
 <script setup lang="ts">
 import MaintainersModal from '@/components/packageMaintainers/PackageMaintainersModal.vue'
 import PackageMaintainersList from '@/components/packageMaintainers/PackageMaintainersList.vue'
 import FiltrationBar from '@/components/packageMaintainers/FiltrationBar.vue'
-import Pagination from '@/components/common/Pagination.vue'
 import { computed } from 'vue'
 import { useCommonStore } from '@/store/common'
 import { useAuthorizationStore } from '@/store/authorization'

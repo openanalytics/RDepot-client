@@ -29,90 +29,81 @@
     @resetDate="resetDate"
   />
   <v-container
-    class="v-expansion mx-8"
+    class="v-expansion mx-8 d-flex ga-3"
     style="padding-left: 0; padding-right: 0"
   >
-    <v-row>
-      <v-col sm="2">
-        <validated-input-field
-          @update:modelValue="setFiltration"
-          density="compact"
-          hide-details
-          chips
-          closable-chips
-          id="filtration-technology"
-          :items="technologies"
-          name="technologies"
-          multiple
-          clearable
-          as="v-select"
-          :label="$t('filtration.technologies')"
-        ></validated-input-field>
-      </v-col>
-      <v-col sm="2">
-        <validated-input-field
-          @update:modelValue="setFiltration"
-          density="compact"
-          hide-details
-          chips
-          closable-chips
-          id="filtration-event-type"
-          :items="eventTypes"
-          name="eventType"
-          as="v-select"
-          clearable
-          multiple
-          :label="$t('events.filtration.eventType')"
-        ></validated-input-field>
-      </v-col>
-      <v-col sm="2">
-        <validated-input-field
-          @update:modelValue="setFiltration"
-          density="compact"
-          hide-details
-          chips
-          closable-chips
-          id="filtration-resource-type"
-          :items="resourceTypes"
-          name="resourceType"
-          multiple
-          clearable
-          as="v-select"
-          :label="$t('filtration.resourceType')"
-        ></validated-input-field>
-      </v-col>
-      <v-col sm="2">
-        <validated-input-field
-          @update:focused="selectFromDate"
-          density="compact"
-          hide-details
-          name="fromDate"
-          as="v-text-field"
-          :label="$t('submissions.filtration.fromDate')"
-          color="oablue"
-          id="filtration-fromDate"
-        />
-      </v-col>
-      <v-col sm="2">
-        <validated-input-field
-          @update:focused="selectToDate"
-          density="compact"
-          hide-details
-          name="toDate"
-          as="v-text-field"
-          :label="$t('submissions.filtration.toDate')"
-          color="oablue"
-          id="filtration-toDate"
-        />
-      </v-col>
-      <v-spacer />
-      <v-col sm="1" class="reset-button">
-        <ResetButton
-          v-if="!eventStore.isDefaultFiltration"
-          @resetValues="resetValues"
-        />
-      </v-col>
-    </v-row>
+    <validated-input-field
+      @update:modelValue="setFiltration"
+      density="compact"
+      hide-details
+      chips
+      closable-chips
+      id="filtration-technology"
+      :items="technologies"
+      name="technologies"
+      multiple
+      clearable
+      as="v-select"
+      :label="$t('filtration.technologies')"
+    ></validated-input-field>
+
+    <validated-input-field
+      @update:modelValue="setFiltration"
+      density="compact"
+      hide-details
+      chips
+      closable-chips
+      id="filtration-event-type"
+      :items="eventTypes"
+      name="eventType"
+      as="v-select"
+      clearable
+      multiple
+      :label="$t('events.filtration.eventType')"
+    ></validated-input-field>
+
+    <validated-input-field
+      @update:modelValue="setFiltration"
+      density="compact"
+      hide-details
+      chips
+      closable-chips
+      id="filtration-resource-type"
+      :items="resourceTypes"
+      name="resourceType"
+      multiple
+      clearable
+      as="v-select"
+      :label="$t('filtration.resourceType')"
+    ></validated-input-field>
+
+    <validated-input-field
+      @update:focused="selectFromDate"
+      density="compact"
+      hide-details
+      name="fromDate"
+      as="v-text-field"
+      :label="$t('submissions.filtration.fromDate')"
+      color="oablue"
+      id="filtration-fromDate"
+    />
+
+    <validated-input-field
+      @update:focused="selectToDate"
+      density="compact"
+      hide-details
+      name="toDate"
+      as="v-text-field"
+      :label="$t('submissions.filtration.toDate')"
+      color="oablue"
+      id="filtration-toDate"
+    />
+
+    <v-spacer />
+    <ResetButton
+      v-if="!eventStore.isDefaultFiltration"
+      @resetValues="resetValues"
+    />
   </v-container>
 </template>
 
@@ -191,10 +182,3 @@ function resetDate() {
   setFiltration()
 }
 </script>
-
-<style lang="scss">
-.reset-button {
-  display: grid;
-  align-content: center;
-}
-</style>

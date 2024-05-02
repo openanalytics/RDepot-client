@@ -22,156 +22,139 @@
 
 <template>
   <v-container
-    class="v-expansion mx-8"
+    class="v-expansion mx-8 d-flex ga-3"
     style="padding-left: 0; padding-right: 0"
   >
-    <v-row>
-      <v-col sm="4">
-        <validated-input-field
-          @update:modelValue="setFiltration"
-          density="compact"
-          hide-details
-          name="search"
-          as="v-text-field"
-          :label="$t('packages.filtration.searchBox')"
-          color="oablue"
-          id="filtration-search"
-        />
-      </v-col>
-      <v-col sm="2">
-        <validated-input-field
-          @update:modelValue="setFiltration"
-          density="compact"
-          hide-details
-          chips
-          closable-chips
-          id="filtration-technology"
-          :items="technologies"
-          name="technologies"
-          multiple
-          clearable
-          as="v-select"
-          :label="$t('filtration.technologies')"
-        ></validated-input-field>
-      </v-col>
-      <v-col sm="3">
-        <validated-input-field
-          @update:modelValue="setFiltration"
-          density="compact"
-          hide-details
-          chips
-          closable-chips
-          name="repository"
-          as="autocomplete"
-          multiple
-          clearable
-          :label="$t('packages.filtration.repository')"
-          @loadItems="loadRepositories"
-          @filtrate="filtrateRepositoriesObjects"
-          :storeId="storeId"
-          :template="true"
+    <validated-input-field
+      @update:modelValue="setFiltration"
+      density="compact"
+      hide-details
+      name="search"
+      as="v-text-field"
+      :label="$t('packages.filtration.searchBox')"
+      id="filtration-search"
+    />
+
+    <validated-input-field
+      chips
+      closable-chips
+      density="compact"
+      @update:modelValue="setFiltration"
+      hide-details
+      id="filtration-technology"
+      :items="technologies"
+      name="technologies"
+      multiple
+      clearable
+      as="v-select"
+      :label="$t('filtration.technologies')"
+    ></validated-input-field>
+
+    <validated-input-field
+      @update:modelValue="setFiltration"
+      density="compact"
+      hide-details
+      chips
+      closable-chips
+      name="repository"
+      as="autocomplete"
+      multiple
+      clearable
+      :label="$t('packages.filtration.repository')"
+      @loadItems="loadRepositories"
+      @filtrate="filtrateRepositoriesObjects"
+      :storeId="storeId"
+      :template="true"
+    >
+      <template #item="{ props }">
+        <v-list-item
+          v-bind="props"
+          v-intersect="loadRepositories"
         >
-          <template #item="{ item, props }">
-            <v-list-item
-              v-bind="props"
-              v-intersect="loadRepositories"
-            >
-              <template v-slot:prepend="{ isActive }">
-                <v-list-item-action start>
-                  <v-checkbox-btn
-                    :model-value="isActive"
-                  ></v-checkbox-btn>
-                </v-list-item-action>
-              </template>
-            </v-list-item>
+          <template v-slot:prepend="{ isActive }">
+            <v-list-item-action start>
+              <v-checkbox-btn
+                :model-value="isActive"
+              ></v-checkbox-btn>
+            </v-list-item-action>
           </template>
-        </validated-input-field>
-      </v-col>
-      <v-col sm="2">
-        <validated-input-field
-          @update:modelValue="setFiltration"
-          density="compact"
-          hide-details
-          chips
-          closable-chips
-          id="filtration-submissionState"
-          :items="states"
-          name="submissionState"
-          multiple
-          clearable
-          as="v-select"
-          :label="$t('packages.filtration.submissionState')"
-        ></validated-input-field>
-      </v-col>
-      <v-col
-        sm="1"
-        v-if="
-          isAtLeastAdmin(
-            meStore.userRole ? meStore.userRole : 0
-          )
-        "
-      >
-        <validated-input-field
-          @change="setFiltration"
-          density="compact"
-          hide-details
-          id="filtration-deleted"
-          name="deleted"
-          :label="$t('packages.filtration.deleted')"
-          as="v-switch"
-          color="oablue"
-        ></validated-input-field>
-      </v-col>
-    </v-row>
-    <v-row justify="start">
-      <v-col
-        sm="3"
-        v-if="
-          isAtLeastRepositoryMaintainer(
-            meStore.userRole ? meStore.userRole : 0
-          )
-        "
-      >
-        <validated-input-field
-          @update:modelValue="setFiltration"
-          density="compact"
-          hide-details
-          chips
-          closable-chips
-          name="maintainer"
-          as="autocomplete"
-          multiple
-          clearable
-          :label="$t('packages.filtration.maintainer')"
-          @loadItems="loadMaintainers"
-          :storeId="storeIdMaintainer"
-          @filtrate="filtrateMaintainers"
-          :template="true"
+        </v-list-item>
+      </template>
+    </validated-input-field>
+
+    <validated-input-field
+      @update:modelValue="setFiltration"
+      density="compact"
+      hide-details
+      chips
+      closable-chips
+      id="filtration-submissionState"
+      :items="states"
+      name="submissionState"
+      multiple
+      clearable
+      as="v-select"
+      :label="$t('packages.filtration.submissionState')"
+    ></validated-input-field>
+
+    <validated-input-field
+      v-if="
+        isAtLeastRepositoryMaintainer(
+          meStore.userRole ? meStore.userRole : 0
+        )
+      "
+      @update:modelValue="setFiltration"
+      density="compact"
+      hide-details
+      chips
+      closable-chips
+      name="maintainer"
+      as="autocomplete"
+      multiple
+      clearable
+      :label="$t('packages.filtration.maintainer')"
+      @loadItems="loadMaintainers"
+      :storeId="storeIdMaintainer"
+      @filtrate="filtrateMaintainers"
+      :template="true"
+    >
+      <template #item="{ props }">
+        <v-list-item
+          v-bind="props"
+          v-intersect="loadMaintainers"
         >
-          <template #item="{ item, props }">
-            <v-list-item
-              v-bind="props"
-              v-intersect="loadMaintainers"
-            >
-              <template v-slot:prepend="{ isActive }">
-                <v-list-item-action start>
-                  <v-checkbox-btn
-                    :model-value="isActive"
-                  ></v-checkbox-btn>
-                </v-list-item-action>
-              </template>
-            </v-list-item>
+          <template v-slot:prepend="{ isActive }">
+            <v-list-item-action start>
+              <v-checkbox-btn
+                :model-value="isActive"
+              ></v-checkbox-btn>
+            </v-list-item-action>
           </template>
-        </validated-input-field>
-      </v-col>
-      <v-spacer />
-      <v-col sm="1" class="reset-button">
-        <ResetButton
-          v-if="!packageStore.isDefaultFiltration"
-          @resetValues="resetValues"
-        />
-      </v-col>
-    </v-row>
+        </v-list-item>
+      </template>
+    </validated-input-field>
+
+    <validated-input-field
+      @change="setFiltration"
+      density="compact"
+      hide-details
+      id="filtration-deleted"
+      name="deleted"
+      :label="$t('packages.filtration.deleted')"
+      as="v-switch"
+      color="oablue"
+      v-if="
+        isAtLeastAdmin(
+          meStore.userRole ? meStore.userRole : 0
+        )
+      "
+    ></validated-input-field>
+
+    <v-spacer />
+    <ResetButton
+      v-if="!packageStore.isDefaultFiltration"
+      @resetValues="resetValues"
+    />
   </v-container>
 </template>
 
@@ -230,10 +213,3 @@ onBeforeMount(() => {
   resetPagination()
 })
 </script>
-
-<style lang="scss">
-.reset-button {
-  display: grid;
-  align-content: center;
-}
-</style>

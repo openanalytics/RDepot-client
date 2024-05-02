@@ -37,7 +37,7 @@
       $t('common.delete')
     }}</span>
     <span v-else>
-      {{ hoverMessage }}
+      {{ translatedHoverMessage }}
     </span>
   </VTooltip>
 </template>
@@ -46,6 +46,7 @@
 import { OverlayEnum } from '@/enum/Overlay'
 import { i18n } from '@/plugins/i18n'
 import { useCommonStore } from '@/store/common'
+import { computed } from 'vue'
 
 const emits = defineEmits(['setResourceId'])
 
@@ -63,8 +64,7 @@ const props = defineProps({
   },
   hoverMessage: {
     type: String,
-    reqiured: false,
-    default: i18n.t('common.notAuthorized')
+    reqiured: false
   }
 })
 
@@ -81,4 +81,10 @@ function deleteDialog() {
     commonStore.openOverlay(OverlayEnum.enum.Delete)
   }
 }
+
+const translatedHoverMessage = computed(() => {
+  return (
+    props.hoverMessage || i18n.t('common.notAuthorized')
+  )
+})
 </script>

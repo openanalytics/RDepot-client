@@ -52,7 +52,7 @@
     </v-col>
     <v-col
       id="package-description"
-      cols="lg-8\7 sm-2"
+      cols="lg-8 sm-2"
       class="d-flex align-center"
     >
       <SortTitle

@@ -27,7 +27,11 @@
     @blur="handleBlur"
     :error-messages="errors"
     v-bind="attrs"
+    color="oablue"
     :template="template"
+    :style="{
+      maxWidth: fieldMaxWidth + 'px'
+    }"
   >
     <template
       v-if="template && as !== 'autocomplete'"
@@ -50,13 +54,17 @@ import {
 import { z } from 'zod'
 import AutocompleteField from '@/components/common/fields/AutocompleteField.vue'
 import ComboboxField from '@/components/common/fields/ComboboxField.vue'
+import { computed } from 'vue'
 
 const props = defineProps<{
   name: string
   as: Component
   attrs?: Object
   template?: boolean
+  maxWidth?: number | string
 }>()
+
+const fieldMaxWidth = computed(() => props.maxWidth || 250)
 
 const component = z.enum([
   'v-text-field',

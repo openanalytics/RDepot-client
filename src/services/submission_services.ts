@@ -46,6 +46,35 @@ type ValidatedSubmission = Promise<
   validatedData<EntityModelSubmissionDto>
 >
 
+export async function fetch(
+  filtration: SubmissionsFiltration,
+  page?: number,
+  pageSize?: number,
+  sort?: string,
+  showProgress = true
+): ValidatedSubmissions {
+  if (!isAuthorized('GET', 'submissions')) {
+    return new Promise(() => validateRequest([]))
+  }
+  return openApiRequest<EntityModelSubmissionDto[]>(
+    ApiV2SubmissionControllerApiFactory().getAllSubmissions,
+    [
+      page,
+      pageSize,
+      sort,
+      filtration?.state,
+      filtration?.technologies,
+      filtration?.repository,
+      filtration?.fromDate,
+      filtration?.toDate,
+      filtration?.search
+    ],
+    showProgress
+  ).catch(() => {
+    return validateRequest([])
+  })
+}
+
 export async function fetchSubmissions(
   filtration: SubmissionsFiltration,
   logged_user_id?: number,
