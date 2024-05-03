@@ -28,7 +28,7 @@ interface Lang {
 
 const langs: Lang[] = [
   { abbreviation: 'en', display: 'English', name: 'en-US' },
-  { abbreviation: 'pl', display: 'Polish', name: 'pl-PL' }
+  { abbreviation: 'pl', display: 'Polski', name: 'pl-PL' }
 ]
 
 export default langs
