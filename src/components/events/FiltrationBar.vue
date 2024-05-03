@@ -27,6 +27,8 @@
     @updateDate="updateDate"
     @closeModal="closeModal"
     @resetDate="resetDate"
+    :direction="changedDate"
+    :allowedDates="allowedDates"
   />
   <div
     class="v-expansion d-flex py-3 ga-3 justify-space-between"
@@ -120,6 +122,7 @@ import { useEventsStore } from '@/store/events'
 import DatePicker from '@/components/common/DatePicker.vue'
 import { useDatePicker } from '@/composable/datePicker'
 import ResetButton from '@/components/common/ResetButton.vue'
+import { computed } from 'vue'
 
 const { technologies, resourceTypes, eventTypes } =
   useEnumFiltration()
@@ -137,6 +140,14 @@ const eventStore = useEventsStore()
 const { setValues, values, setFieldValue } = useForm({
   validationSchema: toTypedSchema(EventsFiltration),
   initialValues: eventStore.filtration
+})
+
+const allowedDates = computed(() => {
+  return changedDate.value === 'from'
+    ? values.toDate
+    : changedDate.value === 'to'
+    ? values.fromDate
+    : undefined
 })
 
 function setFiltration() {
