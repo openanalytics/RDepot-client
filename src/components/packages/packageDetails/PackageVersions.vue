@@ -44,6 +44,7 @@
       <li
         class="classifier-value"
         :class="{ hover: mainId != packageBag.id }"
+        :style="showListStyle"
         @click="navigate(packageBag.id)"
       >
         {{ packageBag.version }}
@@ -85,6 +86,12 @@ const showContentStyle = computed(() => {
   return showContent.value
     ? 'display: table; overflow: hidden; transition: all 0.5s ease; padding-bottom: 20px;'
     : 'display: block; opacity: 0; max-height: 0px'
+})
+
+const showListStyle = computed(() => {
+  return showContent.value
+    ? 'display: list-item;'
+    : 'display: list-item; max-height: 0px'
 })
 
 function navigate(id?: number) {

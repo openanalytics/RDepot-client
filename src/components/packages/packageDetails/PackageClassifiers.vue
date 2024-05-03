@@ -31,31 +31,10 @@
           class="classifier-key"
           v-for="(key, index) in Object.keys(categories)"
         >
-          <div
-            class="title"
-            :style="collapsableHover"
-            @click="collapse(index)"
-          >
-            {{ key }}
-            <v-icon
-              size="large"
-              color="oa-blue"
-              class="collapsibleIcon"
-              :icon="collapseIcon[index]"
-            />
-          </div>
-          <ul class="py-2" :style="showContentStyle[index]">
-            <li
-              class="classifier-value"
-              v-for="value in categories[key]"
-            >
-              {{ value }}
-            </li>
-          </ul>
-          <v-divider
-            :thickness="3"
-            class="py-2"
-          ></v-divider>
+          <Classifier
+            :title="key"
+            :value="categories[key]"
+          />
         </div>
       </ul>
     </div>
@@ -63,9 +42,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import { EntityModelPythonPackageDto } from '@/openapi'
 import { usePackageDetailsStore } from '@/store/package_details'
+import Classifier from '@/components/packages/packageDetails/Classifier.vue'
 
 const packageDetailsStore = usePackageDetailsStore()
 
@@ -98,38 +78,6 @@ const categories = computed(() => {
     })
   return categories
 })
-
-const showContent = ref(
-  new Array<boolean>(
-    Object.keys(categories.value).length
-  ).fill(false)
-)
-
-const collapseIcon = ref(
-  new Array(Object.keys(categories.value).length).fill(
-    'mdi-menu-right'
-  )
-)
-
-const showContentStyle = ref(
-  new Array(Object.keys(categories.value).length).fill(
-    'display: block; opacity: 0; max-height: 0px'
-  )
-)
-
-const collapsableHover = computed(() => {
-  return 'cursor: pointer;'
-})
-
-function collapse(index: number) {
-  showContent.value[index] = !showContent.value[index]
-  collapseIcon.value[index] = showContent.value[index]
-    ? 'mdi-menu-down'
-    : 'mdi-menu-right'
-  showContentStyle.value[index] = showContent.value[index]
-    ? 'display: table; overflow: hidden; transition: all 0.5s ease; padding-bottom: 20px;'
-    : 'display: block; opacity: 0; max-height: 0px'
-}
 </script>
 
 <style lang="scss">
