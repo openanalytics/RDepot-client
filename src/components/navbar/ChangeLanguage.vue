@@ -21,7 +21,7 @@
 -->
 
 <template>
-  <v-menu offset-y>
+  <v-menu offset-y location="bottom end">
     <template #activator="{ props }">
       <v-btn
         id="languagesbutton"

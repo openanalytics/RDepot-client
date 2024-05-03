@@ -21,6 +21,7 @@
  */
 
 interface Lang {
+  abbreviation: string
   display: string
   name: string
 }
