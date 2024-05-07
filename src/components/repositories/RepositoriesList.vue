@@ -111,6 +111,8 @@
           :hoverMessage="
             configStore.declarativeMode
               ? $t('repositories.declarative.delete')
+              : !configStore.deletingRepositories
+              ? $t('config.deletingRepositories')
               : undefined
           "
         /> </span

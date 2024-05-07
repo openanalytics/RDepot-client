@@ -98,10 +98,11 @@ export const useAuthorizationStore = defineStore(
         const { logout } = useSimpleAuthorization()
         logout()
         this.$reset()
-        await router.push({ name: 'login' })
         const meStore = useMeStore()
         this.ability = undefined
         meStore.userRole = undefined
+        meStore.me = {}
+        await router.push({ name: 'login' })
         localStorage.removeItem('me')
       },
 

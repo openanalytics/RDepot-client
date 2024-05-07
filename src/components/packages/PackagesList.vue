@@ -116,6 +116,11 @@
           (!canDelete(item.links) && !item.deleted)
         "
         :name="item.name"
+        :hoverMessage="
+          !configStore.deletingPackages
+            ? $t('config.deletingPackages')
+            : undefined
+        "
         @setResourceId="choosePackage(item)"
       />
     </template>

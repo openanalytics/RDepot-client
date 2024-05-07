@@ -152,6 +152,10 @@
     "uploadPackages": "Upload packages",
     "users": "Users"
   },
+  "config": {
+    "deletingPackages": "Package deletion is disabled due to the configuration",
+    "deletingRepositories": "Repository deletion is disabled due to the configuration"
+  },
   "dragzone": {
     "active": "Drag one or more files to this",
     "click": "to select them manually",

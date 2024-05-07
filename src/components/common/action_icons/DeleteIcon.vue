@@ -83,6 +83,7 @@ function deleteDialog() {
 }
 
 const translatedHoverMessage = computed(() => {
+  console.log(props.hoverMessage)
   return (
     props.hoverMessage || i18n.t('common.notAuthorized')
   )
