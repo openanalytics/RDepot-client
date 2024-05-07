@@ -22,15 +22,29 @@
 
 <template>
   <div class="my-5 mx-1 mb-10" style="min-width: 200px">
-    <div class="title">{{ $t('packages.versions') }}</div>
+    <div
+      class="title"
+      @click="collapse"
+      :style="collapsableHover"
+    >
+      {{ $t('packages.versions') }}
+      <v-icon
+        size="large"
+        color="oa-blue"
+        class="collapsibleIcon"
+        :icon="collapseIcon"
+      />
+    </div>
     <ul
       v-for="packageBag in packageDetailsStore.packages"
       :key="packageBag.id"
       class="my-5"
+      :style="showContentStyle"
     >
       <li
         class="classifier-value"
         :class="{ hover: mainId != packageBag.id }"
+        :style="showListStyle"
         @click="navigate(packageBag.id)"
       >
         {{ packageBag.version }}
@@ -49,13 +63,35 @@
 <script setup lang="ts">
 import router from '@/plugins/router'
 import { usePackageDetailsStore } from '@/store/package_details'
-import { computed } from 'vue'
-import { compile } from 'vue'
+import { computed, ref } from 'vue'
 
 const packageDetailsStore = usePackageDetailsStore()
+const showContent = ref(false)
 
 const mainId = computed(() => {
   return packageDetailsStore.packageBag?.id
+})
+
+const collapseIcon = computed(() => {
+  return showContent.value
+    ? 'mdi-menu-down'
+    : 'mdi-menu-right'
+})
+
+const collapsableHover = computed(() => {
+  return 'cursor: pointer;'
+})
+
+const showContentStyle = computed(() => {
+  return showContent.value
+    ? 'display: table; overflow: hidden; transition: all 0.5s ease; padding-bottom: 20px;'
+    : 'display: block; opacity: 0; max-height: 0px'
+})
+
+const showListStyle = computed(() => {
+  return showContent.value
+    ? 'display: list-item;'
+    : 'display: list-item; max-height: 0px'
 })
 
 function navigate(id?: number) {
@@ -69,6 +105,10 @@ function navigate(id?: number) {
       }
     })
   }
+}
+
+function collapse() {
+  showContent.value = !showContent.value
 }
 </script>
 
