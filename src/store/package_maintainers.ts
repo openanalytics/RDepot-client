@@ -57,6 +57,7 @@ interface State {
   packages: EntityModelRPackageDto[]
   chosenMaintainer: EntityModelPackageMaintainerDto
   loading: boolean
+  totalNumber: number
 }
 
 const { deepCopy } = useUtilities()
@@ -73,7 +74,8 @@ export const usePackageMaintainersStore = defineStore(
         repositories: [],
         packages: [],
         chosenMaintainer: {},
-        loading: false
+        loading: false,
+        totalNumber: 0
       }
     },
     getters: {
@@ -90,11 +92,8 @@ export const usePackageMaintainersStore = defineStore(
       async fetchMaintainersPage(
         options: DataTableOptions
       ) {
-        if (options.sortBy.length == 0) {
-          options.sortBy = [{ key: 'user', order: 'asc' }]
-        }
         this.loading = true
-        const [maintainers] = await fetch(
+        const [maintainers, pageData] = await fetch(
           this.filtration,
           options.page - 1,
           options.itemsPerPage,
@@ -103,6 +102,7 @@ export const usePackageMaintainersStore = defineStore(
             options.sortBy[0].order
         )
         this.loading = false
+        this.totalNumber = pageData.totalNumber
         this.maintainers = maintainers
       },
       async fetchMaintainers() {

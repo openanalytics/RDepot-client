@@ -66,6 +66,7 @@ interface State {
   currentToken: EntityModelAccessTokenDto
   newSettings?: UserSettingsProjection
   loading: boolean
+  totalNumber: number
 }
 
 const { deepCopy } = useUtilities()
@@ -83,7 +84,8 @@ export const useSettingsStore = defineStore(
         newToken: '',
         currentToken: {},
         newSettings: undefined,
-        loading: false
+        loading: false,
+        totalNumber: 0
       }
     },
     getters: {
@@ -96,11 +98,8 @@ export const useSettingsStore = defineStore(
     },
     actions: {
       async fetchTokensPage(options: DataTableOptions) {
-        if (options.sortBy.length == 0) {
-          options.sortBy = [{ key: 'user', order: 'asc' }]
-        }
         this.loading = true
-        const [tokens] = await fetch(
+        const [tokens, pageData] = await fetch(
           this.filtration,
           options.page - 1,
           options.itemsPerPage,
@@ -109,6 +108,7 @@ export const useSettingsStore = defineStore(
             options.sortBy[0].order
         )
         this.loading = false
+        this.totalNumber = pageData.totalNumber
         this.tokens = tokens
       },
       async fetchTokens() {

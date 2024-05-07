@@ -25,7 +25,7 @@
     :headers="headers"
     v-model:items-per-page="pagination.pageSize"
     :items="packageMaintainersStore.maintainers"
-    :items-length="pagination.totalNumber"
+    :items-length="packageMaintainersStore.totalNumber"
     item-value="id"
     sort-asc-icon="mdi-sort-ascending"
     sort-desc-icon="mdi-sort-descending"
@@ -76,7 +76,6 @@
 
 <script setup lang="ts">
 import { usePackageMaintainersStore } from '@/store/package_maintainers'
-import { onMounted } from 'vue'
 import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
 import EditIcon from '@/components/common/action_icons/EditIcon.vue'
 import { usePagination } from '@/store/pagination'
@@ -133,10 +132,6 @@ const headers = [
   }
 ]
 
-function updateData(): void {
-  packageMaintainersStore.fetchMaintainers()
-}
-
 function fetchData(options: DataTableOptions) {
   sortBy.value = getSort(options.sortBy, defaultSort)
   packageMaintainersStore.fetchMaintainersPage(options)
@@ -161,8 +156,4 @@ function getEditMessage(
     maintainerName: item.user?.id
   })
 }
-
-onMounted(() => {
-  updateData()
-})
 </script>

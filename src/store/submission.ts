@@ -64,6 +64,7 @@ interface State {
   resolved: boolean
   stepperKey: number
   loading: boolean
+  totalNumber: number
 }
 
 const { deepCopy } = useUtilities()
@@ -83,7 +84,8 @@ export const useSubmissionStore = defineStore(
         filtration: defaultValues(SubmissionsFiltration),
         resolved: false,
         stepperKey: 0,
-        loading: false
+        loading: false,
+        totalNumber: 0
       }
     },
     getters: {
@@ -100,11 +102,8 @@ export const useSubmissionStore = defineStore(
       async fetchSubmissionsPage(
         options: DataTableOptions
       ) {
-        if (options.sortBy.length == 0) {
-          options.sortBy = [{ key: 'state', order: 'desc' }]
-        }
         this.loading = true
-        const [submissions] = await fetch(
+        const [submissions, pageData] = await fetch(
           this.filtration,
           options.page - 1,
           options.itemsPerPage,
@@ -113,6 +112,7 @@ export const useSubmissionStore = defineStore(
             options.sortBy[0].order
         )
         this.loading = false
+        this.totalNumber = pageData.totalNumber
         this.submissions = submissions
       },
       async fetchSubmissions() {

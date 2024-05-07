@@ -25,7 +25,7 @@
     :headers="headers"
     v-model:items-per-page="pagination.pageSize"
     :items="repositoryMaintainersStore.maintainers"
-    :items-length="pagination.totalNumber"
+    :items-length="repositoryMaintainersStore.totalNumber"
     item-value="id"
     sort-asc-icon="mdi-sort-ascending"
     sort-desc-icon="mdi-sort-descending"

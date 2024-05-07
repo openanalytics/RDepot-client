@@ -56,6 +56,7 @@ interface State {
   repositories: EntityModelRepositoryDto[]
   chosenMaintainer: EntityModelPackageMaintainerDto
   loading: boolean
+  totalNumber: number
 }
 
 export const useRepositoryMaintainersStore = defineStore(
@@ -69,7 +70,8 @@ export const useRepositoryMaintainersStore = defineStore(
         ),
         repositories: [],
         chosenMaintainer: {},
-        loading: false
+        loading: false,
+        totalNumber: 0
       }
     },
     getters: {
@@ -86,11 +88,8 @@ export const useRepositoryMaintainersStore = defineStore(
       async fetchMaintainersPage(
         options: DataTableOptions
       ) {
-        if (options.sortBy.length == 0) {
-          options.sortBy = [{ key: 'user', order: 'asc' }]
-        }
         this.loading = true
-        const [maintainers] = await fetch(
+        const [maintainers, pageData] = await fetch(
           this.filtration,
           options.page - 1,
           options.itemsPerPage,
@@ -99,6 +98,7 @@ export const useRepositoryMaintainersStore = defineStore(
             options.sortBy[0].order
         )
         this.loading = false
+        this.totalNumber = pageData.totalNumber
         this.maintainers = maintainers
       },
       async fetchMaintainers() {

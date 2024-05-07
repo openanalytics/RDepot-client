@@ -21,8 +21,8 @@
 -->
 
 <template>
-  <v-container
-    class="v-expansion mx-8 d-flex ga-3"
+  <div
+    class="v-expansion d-flex py-3 ga-3 justify-space-between"
     style="padding-left: 0; padding-right: 0"
   >
     <validated-input-field
@@ -148,6 +148,7 @@
           meStore.userRole ? meStore.userRole : 0
         )
       "
+      class="flex-grow-0"
     ></validated-input-field>
 
     <v-spacer />
@@ -155,7 +156,7 @@
       v-if="!packageStore.isDefaultFiltration"
       @resetValues="resetValues"
     />
-  </v-container>
+  </div>
 </template>
 
 <script setup lang="ts">
