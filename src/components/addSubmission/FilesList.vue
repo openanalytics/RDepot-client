@@ -72,7 +72,10 @@
             class="mr-3"
             color="oared"
           />
-          <ReplaceOption :file="file" />
+          <ReplaceOption
+            :disabled="!configStore.replacingPackages"
+            :file="file"
+          />
         </template>
 
         <template
@@ -119,9 +122,11 @@ import { useSubmissionStore } from '@/store/submission'
 import { computed } from 'vue'
 import ReplaceOption from './ReplaceOption.vue'
 import { useFiles } from '@/composable/file'
+import { useConfigStore } from '@/store/config'
 
 const submissionsStore = useSubmissionStore()
 const filesStore = useFilesListStore()
+const configStore = useConfigStore()
 const { formatFilename } = useFiles()
 const chosenRepository = computed(() => {
   return submissionsStore.repository
