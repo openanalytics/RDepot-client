@@ -154,7 +154,8 @@
   },
   "config": {
     "deletingPackages": "Package deletion is disabled due to the configuration",
-    "deletingRepositories": "Repository deletion is disabled due to the configuration"
+    "deletingRepositories": "Repository deletion is disabled due to the configuration",
+    "replacingPackages": "Existing package replacement is disabled due to the configuration"
   },
   "dragzone": {
     "active": "Drag one or more files to this",

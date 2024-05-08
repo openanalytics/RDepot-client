@@ -154,7 +154,8 @@
   },
   "config": {
     "deletingPackages": "Usuwanie pakietu nieaktywne z powodu konfiguracji",
-    "deletingRepositories": "Usuwanie repozytorium nieaktywne z powodu konfiguracji"
+    "deletingRepositories": "Usuwanie repozytorium nieaktywne z powodu konfiguracji",
+    "replacingPackages": "Podmiana istniejącego pakietu nieaktywna z powodu konfiguracji"
   },
   "dragzone": {
     "active": "Przeciągnij jeden lub więcej plików",
