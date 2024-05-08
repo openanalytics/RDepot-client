@@ -102,6 +102,7 @@
         />
         <DeleteIcon
           :disabled="
+            !configStore.deletingRepositories ||
             !canDelete(item.links) ||
             configStore.declarativeMode
           "
@@ -110,6 +111,8 @@
           :hoverMessage="
             configStore.declarativeMode
               ? $t('repositories.declarative.delete')
+              : !configStore.deletingRepositories
+              ? $t('config.deletingRepositories')
               : undefined
           "
         /> </span

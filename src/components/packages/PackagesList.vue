@@ -111,8 +111,16 @@
     >
     <template #item.actions="{ item }">
       <DeleteIcon
-        :disabled="!canDelete(item.links) && !item.deleted"
+        :disabled="
+          !configStore.deletingPackages ||
+          (!canDelete(item.links) && !item.deleted)
+        "
         :name="item.name"
+        :hoverMessage="
+          !configStore.deletingPackages
+            ? $t('config.deletingPackages')
+            : undefined
+        "
         @setResourceId="choosePackage(item)"
       />
     </template>
@@ -148,6 +156,7 @@ import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
 import { ref, computed } from 'vue'
 import { Sort } from '@/models/DataTableOptions'
 import { useSort } from '@/composable/sort'
+import { useConfigStore } from '@/store/config'
 
 const exp = ref<string[]>([])
 
@@ -168,6 +177,7 @@ const expanded = computed({
 const packagesStore = usePackagesStore()
 const pagination = usePagination()
 const { canDelete, canPatch } = useUserAuthorities()
+const configStore = useConfigStore()
 
 const headers = [
   {
