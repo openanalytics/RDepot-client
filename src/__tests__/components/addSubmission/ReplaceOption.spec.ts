@@ -54,7 +54,7 @@ beforeAll(() => {
 beforeEach(async () => {
   setActivePinia(createPinia())
   wrapper = mount(ReplaceOption, {
-    props: { file: localFile },
+    props: { file: localFile, disabled: false },
     global: globalConfig
   })
 })
