@@ -82,6 +82,7 @@ import { usePagination } from '@/store/pagination'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
 import { i18n } from '@/plugins/i18n'
 import {
+  DataTableHeaders,
   DataTableOptions,
   Sort
 } from '@/models/DataTableOptions'
@@ -97,7 +98,7 @@ const { getSort } = useSort()
 const defaultSort: Sort[] = [{ key: 'user', order: 'asc' }]
 const sortBy = ref(defaultSort)
 
-const headers = [
+const headers: DataTableHeaders[] = [
   {
     title: i18n.t('columns.packageMaintainer.name'),
     align: 'start',

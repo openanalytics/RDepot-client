@@ -149,7 +149,10 @@ import {
 } from '@/openapi'
 import PackageDescription from './packageDetails/PackageDescription.vue'
 import { usePagination } from '@/store/pagination'
-import { DataTableOptions } from '@/models/DataTableOptions'
+import {
+  DataTableHeaders,
+  DataTableOptions
+} from '@/models/DataTableOptions'
 import { i18n } from '@/plugins/i18n'
 import { useSubmissionIcons } from '@/composable/submissions/statusIcons'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
@@ -179,7 +182,7 @@ const pagination = usePagination()
 const { canDelete, canPatch } = useUserAuthorities()
 const configStore = useConfigStore()
 
-const headers = [
+const headers: DataTableHeaders[] = [
   {
     title: i18n.t('columns.package.name'),
     align: 'start',

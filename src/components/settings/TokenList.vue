@@ -94,6 +94,7 @@ import { i18n } from '@/plugins/i18n'
 import { usePagination } from '@/store/pagination'
 import { useMeStore } from '@/store/me'
 import {
+  DataTableHeaders,
   DataTableOptions,
   Sort
 } from '@/models/DataTableOptions'
@@ -116,7 +117,7 @@ const { getSort } = useSort()
 const defaultSort: Sort[] = [{ key: 'name', order: 'asc' }]
 const sortBy = ref(defaultSort)
 
-const headers = [
+const headers: DataTableHeaders[] = [
   {
     title: i18n.t('columns.tokens.name'),
     align: 'start',

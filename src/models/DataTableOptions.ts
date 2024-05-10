@@ -22,11 +22,37 @@
 
 export type Sort = {
   key: string
-  order: string
+  order?: boolean | 'asc' | 'desc'
 }
 
 export type DataTableOptions = {
   page: number
   itemsPerPage: number
   sortBy: Sort[]
+}
+
+type SelectItemKey<T = Record<string, any>> =
+  | boolean
+  | null
+  | undefined // Ignored
+  | string // Lookup by key, can use dot notation for nested objects
+  | readonly (string | number)[] // Nested lookup by key, each array item is a key in the next level
+  | ((item: T, fallback?: any) => any)
+
+export type DataTableHeaders<T = Record<string, any>> = {
+  key?:
+    | 'data-table-group'
+    | 'data-table-select'
+    | 'data-table-expand'
+    | string
+  value?: SelectItemKey<T>
+  title?: string
+  fixed?: boolean
+  align?: 'start' | 'end' | 'center'
+  width?: number | string
+  minWidth?: string
+  maxWidth?: string
+  nowrap?: boolean
+  headerProps?: Record<string, any>
+  sortable?: boolean
 }

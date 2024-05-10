@@ -139,6 +139,7 @@ import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
 import { useSubmissionActions } from '@/composable/submissions/submissionActions'
 import { useMeStore } from '@/store/me'
 import {
+  DataTableHeaders,
   DataTableOptions,
   Sort
 } from '@/models/DataTableOptions'
@@ -161,7 +162,7 @@ const defaultSort: Sort[] = [
 ]
 const sortBy = ref(defaultSort)
 
-const headers = [
+const headers: DataTableHeaders[] = [
   {
     title: i18n.t('columns.submissions.date'),
     align: 'center',
@@ -185,8 +186,7 @@ const headers = [
     title: i18n.t('columns.submissions.repository'),
     align: 'start',
     key: 'packageBag.repository',
-    value: 'packageBag.repository.name',
-    sort: 'packageBag.repository'
+    value: 'packageBag.repository.name'
   },
   {
     title: i18n.t('columns.submissions.submitter'),

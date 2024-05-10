@@ -137,7 +137,9 @@ async function resolved(
   )
 }
 
-async function rejected(result: AxiosError<BackendError>) {
+async function rejected(
+  result: AxiosError<BackendError | any>
+) {
   const common_store = useCommonStore()
   common_store.setProgressCircularActive(false)
   await errorsHandler(result)
@@ -145,7 +147,7 @@ async function rejected(result: AxiosError<BackendError>) {
 }
 
 async function errorsHandler(
-  error: AxiosError<BackendError>
+  error: AxiosError<BackendError | any>
 ) {
   const toasts = useToast()
   if (!error.response?.status) {
