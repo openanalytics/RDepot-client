@@ -25,7 +25,7 @@
     :headers="headers"
     v-model:items-per-page="pagination.pageSize"
     :items="userStore.users"
-    :items-length="pagination.totalNumber"
+    :items-length="userStore.totalNumber"
     item-value="id"
     sort-asc-icon="mdi-sort-ascending"
     sort-desc-icon="mdi-sort-descending"
@@ -143,10 +143,6 @@ const headers: DataTableHeaders[] = [
     sortable: false
   }
 ]
-
-function updateData(): void {
-  userStore.fetchUsers()
-}
 
 const { canPatch } = useUserAuthorities()
 
