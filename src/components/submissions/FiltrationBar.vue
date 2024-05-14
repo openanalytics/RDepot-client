@@ -27,6 +27,8 @@
     @updateDate="updateDate"
     @closeModal="closeModal"
     @resetDate="resetDate"
+    :direction="changedDate"
+    :allowedDates="allowedDates"
   />
   <div
     class="v-expansion d-flex py-3 ga-3 justify-space-between"
@@ -150,6 +152,7 @@ import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesF
 import DatePicker from '@/components/common/DatePicker.vue'
 import { useDatePicker } from '@/composable/datePicker'
 import ResetButton from '@/components/common/ResetButton.vue'
+import { computed } from 'vue'
 
 const { states, technologies } = useEnumFiltration()
 const {
@@ -184,6 +187,14 @@ function resetValues() {
     values as SubmissionsFiltration
   )
 }
+
+const allowedDates = computed(() => {
+  return changedDate.value === 'from'
+    ? values.toDate
+    : changedDate.value === 'to'
+    ? values.fromDate
+    : undefined
+})
 
 function selectFromDate(e: boolean) {
   selectDate(e, 'from', values.fromDate)

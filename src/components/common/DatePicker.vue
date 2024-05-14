@@ -27,6 +27,7 @@
         <v-date-picker
           @update:modelValue="updateDate"
           :modelValue="previousDate"
+          :allowedDates="checkAllowedDates"
         ></v-date-picker>
       </v-card-text>
       <v-card-actions>
@@ -58,7 +59,9 @@ const props = defineProps({
     type: Date,
     required: false,
     default: new Date()
-  }
+  },
+  direction: { type: String, default: '' },
+  allowedDates: { type: String, default: '' }
 })
 
 const emits = defineEmits<{
@@ -77,6 +80,23 @@ const show = computed({
     emits('update:modelValue', value)
   }
 })
+
+function checkAllowedDates(val: Date) {
+  if (props.allowedDates) {
+    if (props.direction === 'to') {
+      return (
+        val.getTime() >
+        new Date(props.allowedDates).getTime()
+      )
+    } else if (props.direction === 'from') {
+      return (
+        val.getTime() <
+        new Date(props.allowedDates).getTime()
+      )
+    }
+  }
+  return true
+}
 
 function updateDate(value: Date) {
   emits('updateDate', value)
