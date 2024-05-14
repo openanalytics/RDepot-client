@@ -60,7 +60,21 @@ pipeline {
         }
       }
     }
-    stage('Build & Publish') {
+    stage('Build') {
+      steps {
+        container('kaniko') {
+          sh """
+          /kaniko/executor \
+                    -v info \
+                    --context ${env.WORKSPACE} \
+                    --cache=true \
+                    --cache-repo ${env.REGISTRY}/${env.NS}/${env.CACHE_IMAGE} \
+                    --no-push
+          """
+        }
+      }
+    }
+    stage('Publish') {
       when {
         anyOf {
           branch 'develop'
