@@ -81,14 +81,17 @@ const show = computed({
   }
 })
 
-function checkAllowedDates(val: Date) {
+function checkAllowedDates(val: Date | unknown): boolean {
   if (props.allowedDates) {
-    if (props.direction === 'to') {
+    if (props.direction === 'to' && val instanceof Date) {
       return (
         val.getTime() >
         new Date(props.allowedDates).getTime()
       )
-    } else if (props.direction === 'from') {
+    } else if (
+      props.direction === 'from' &&
+      val instanceof Date
+    ) {
       return (
         val.getTime() <
         new Date(props.allowedDates).getTime()
