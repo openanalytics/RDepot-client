@@ -102,6 +102,7 @@
         />
         <DeleteIcon
           :disabled="
+            !configStore.deletingRepositories ||
             !canDelete(item.links) ||
             configStore.declarativeMode
           "
@@ -110,6 +111,8 @@
           :hoverMessage="
             configStore.declarativeMode
               ? $t('repositories.declarative.delete')
+              : !configStore.deletingRepositories
+              ? $t('config.deletingRepositories')
               : undefined
           "
         /> </span
@@ -128,6 +131,7 @@ import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
 import { usePagination } from '@/store/pagination'
 import { i18n } from '@/plugins/i18n'
 import {
+  DataTableHeaders,
   DataTableOptions,
   Sort
 } from '@/models/DataTableOptions'
@@ -152,7 +156,7 @@ const { getSort } = useSort()
 const defaultSort: Sort[] = [{ key: 'name', order: 'asc' }]
 const sortBy = ref(defaultSort)
 
-const headers = [
+const headers: DataTableHeaders[] = [
   {
     title: i18n.t('columns.repository.name'),
     align: 'start',

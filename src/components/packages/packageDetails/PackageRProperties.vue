@@ -25,6 +25,7 @@
     <Property
       :title="$t(translation)"
       :value="value || 'not provided'"
+      :collapsible="false"
     />
   </template>
 </template>
@@ -42,22 +43,24 @@ const packageBag = computed<EntityModelRPackageDto>(
     packageDetailsStore.packageBag as EntityModelRPackageDto
 )
 
-const details = [
-  {
-    translation: 'packages.version',
-    value: packageBag.value.version
-  },
-  {
-    translation: 'packages.systemRequirements',
-    value: packageBag.value.systemRequirements
-  },
-  {
-    translation: 'packages.license',
-    value: packageBag.value.license
-  },
-  {
-    translation: 'packages.url',
-    value: packageBag.value.url
-  }
-]
+const details = computed(() => {
+  return [
+    {
+      translation: 'packages.version',
+      value: packageBag.value.version
+    },
+    {
+      translation: 'packages.systemRequirements',
+      value: packageBag.value.systemRequirements
+    },
+    {
+      translation: 'packages.license',
+      value: packageBag.value.license
+    },
+    {
+      translation: 'packages.url',
+      value: packageBag.value.url
+    }
+  ]
+})
 </script>

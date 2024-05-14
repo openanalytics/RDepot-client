@@ -111,8 +111,16 @@
     >
     <template #item.actions="{ item }">
       <DeleteIcon
-        :disabled="!canDelete(item.links) && !item.deleted"
+        :disabled="
+          !configStore.deletingPackages ||
+          (!canDelete(item.links) && !item.deleted)
+        "
         :name="item.name"
+        :hoverMessage="
+          !configStore.deletingPackages
+            ? $t('config.deletingPackages')
+            : undefined
+        "
         @setResourceId="choosePackage(item)"
       />
     </template>
@@ -141,13 +149,17 @@ import {
 } from '@/openapi'
 import PackageDescription from './packageDetails/PackageDescription.vue'
 import { usePagination } from '@/store/pagination'
-import { DataTableOptions } from '@/models/DataTableOptions'
+import {
+  DataTableHeaders,
+  DataTableOptions
+} from '@/models/DataTableOptions'
 import { i18n } from '@/plugins/i18n'
 import { useSubmissionIcons } from '@/composable/submissions/statusIcons'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
 import { ref, computed } from 'vue'
 import { Sort } from '@/models/DataTableOptions'
 import { useSort } from '@/composable/sort'
+import { useConfigStore } from '@/store/config'
 
 const exp = ref<string[]>([])
 
@@ -168,8 +180,9 @@ const expanded = computed({
 const packagesStore = usePackagesStore()
 const pagination = usePagination()
 const { canDelete, canPatch } = useUserAuthorities()
+const configStore = useConfigStore()
 
-const headers = [
+const headers: DataTableHeaders[] = [
   {
     title: i18n.t('columns.package.name'),
     align: 'start',

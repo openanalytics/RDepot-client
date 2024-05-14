@@ -24,24 +24,27 @@
   <div v-if="value" class="pt-2">
     <div
       class="title"
-      :style="collapsableHover"
+      style="cursor: pointer"
       @click="collapse"
     >
       {{ title }}
       <v-icon
-        v-if="collapsible"
         size="large"
         color="oa-blue"
         class="collapsibleIcon"
         :icon="collapseIcon"
       />
     </div>
-    <div
-      class="value"
-      :style="showContentStyle"
-      v-html="text"
-    ></div>
-    <v-divider :thickness="boldDivider ? 5 : 3"></v-divider>
+    <ul :style="showContentStyle">
+      <li
+        :style="showListStyle"
+        class="classifier-value"
+        v-for="(val, index) in value"
+      >
+        {{ val }}
+      </li>
+    </ul>
+    <v-divider :thickness="3"></v-divider>
   </div>
 </template>
 
@@ -50,28 +53,10 @@ import { computed, ref } from 'vue'
 
 const props = defineProps<{
   title: string
-  value?: string
-  split?: boolean
-  boldDivider?: boolean
-  collapsible: boolean
+  value?: string[]
 }>()
 
-const showContent = ref(props.collapsible ? false : true)
-
-const text = computed(() => {
-  const commaRegex = /\,\\n+/gi
-  const dotRegex = /\.\\n+/gi
-  if (props.split) {
-    return splitValue()
-      ?.replaceAll(commaRegex, ',<br/>')
-      .replaceAll(dotRegex, ',<br/>')
-      .replaceAll('\\n', ' ')
-  }
-  return props.value
-    ?.replaceAll(commaRegex, ',<br/>')
-    .replaceAll(dotRegex, ',<br/>')
-    .replaceAll('\\n', ' ')
-})
+const showContent = ref(false)
 
 const showContentStyle = computed(() => {
   return showContent.value
@@ -79,8 +64,10 @@ const showContentStyle = computed(() => {
     : 'display: block; opacity: 0; max-height: 0px'
 })
 
-const collapsableHover = computed(() => {
-  return props.collapsible ? 'cursor: pointer;' : ''
+const showListStyle = computed(() => {
+  return showContent.value
+    ? 'display: list-item;'
+    : 'display: list-item; max-height: 0px'
 })
 
 const collapseIcon = computed(() => {
@@ -89,16 +76,8 @@ const collapseIcon = computed(() => {
     : 'mdi-menu-right'
 })
 
-function splitValue() {
-  const RE_GET_EXTENSION = '/,(?!\d+\])/' // /(?:\.([^.]+))?$/
-
-  return props.value?.replaceAll(RE_GET_EXTENSION, '+')
-}
-
 function collapse() {
-  if (props.collapsible) {
-    showContent.value = !showContent.value
-  }
+  showContent.value = !showContent.value
 }
 </script>
 

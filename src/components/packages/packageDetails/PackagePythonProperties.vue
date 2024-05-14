@@ -26,6 +26,7 @@
       <Property
         :title="$t(translation)"
         :value="value || 'not provided'"
+        :collapsible="false"
       />
     </template>
   </div>

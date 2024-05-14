@@ -85,6 +85,7 @@ import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
 import EditIcon from '@/components/common/action_icons/EditIcon.vue'
 import { usePagination } from '@/store/pagination'
 import {
+  DataTableHeaders,
   DataTableOptions,
   Sort
 } from '@/models/DataTableOptions'
@@ -102,7 +103,7 @@ const { getSort } = useSort()
 const defaultSort: Sort[] = [{ key: 'user', order: 'asc' }]
 const sortBy = ref(defaultSort)
 
-const headers = [
+const headers: DataTableHeaders[] = [
   {
     title: i18n.t('columns.repositoryMaintainer.name'),
     align: 'start',

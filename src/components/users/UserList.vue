@@ -95,6 +95,7 @@ import { useUtilities } from '@/composable/utilities'
 import { isAtLeastAdmin } from '@/enum/UserRoles'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
 import {
+  DataTableHeaders,
   DataTableOptions,
   Sort
 } from '@/models/DataTableOptions'
@@ -110,7 +111,7 @@ const { getSort } = useSort()
 const defaultSort: Sort[] = [{ key: 'login', order: 'asc' }]
 const sortBy = ref(defaultSort)
 
-const headers = [
+const headers: DataTableHeaders[] = [
   {
     title: i18n.t('columns.users.username'),
     align: 'start',

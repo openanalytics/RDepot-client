@@ -21,7 +21,7 @@
 -->
 
 <template>
-  <v-menu offset-y>
+  <v-menu offset-y location="bottom end">
     <template #activator="{ props }">
       <v-btn
         id="languagesbutton"
@@ -40,7 +40,7 @@
         :key="index"
         @click="
           () => {
-            $i18n.locale = item.display
+            $i18n.locale = item.abbreviation
             changeLanguage(item.name)
           }
         "

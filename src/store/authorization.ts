@@ -102,6 +102,7 @@ export const useAuthorizationStore = defineStore(
         const meStore = useMeStore()
         this.ability = undefined
         meStore.userRole = undefined
+        meStore.me = {}
         localStorage.removeItem('me')
       },
 
