@@ -200,7 +200,8 @@ const headers: DataTableHeaders[] = [
     title: i18n.t('columns.package.title'),
     align: 'start',
     key: 'title',
-    width: 500
+    width: 500,
+    sortable: false
   },
   {
     title: i18n.t('columns.package.maintainer'),

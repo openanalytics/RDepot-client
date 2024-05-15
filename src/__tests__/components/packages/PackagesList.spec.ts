@@ -146,7 +146,7 @@ describe('Packages - list headers', () => {
     const sortIcon = col.findComponent(
       '.mdi-sort-ascending'
     )
-    expect(sortIcon.exists()).toBeTruthy()
+    expect(sortIcon.exists()).toBeFalsy()
   })
   it('displays maintainer column', () => {
     const col = headers[3]
