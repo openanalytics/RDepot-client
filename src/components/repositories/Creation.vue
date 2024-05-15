@@ -34,6 +34,7 @@
           :label="$t('repositories.creation.name')"
           :loading="loading"
           lazy-validation
+          max-width="unset"
         ></validated-input-field>
         <validated-input-field
           name="publicationUri"
@@ -41,10 +42,12 @@
           :label="
             $t('repositories.creation.publicationUri')
           "
+          max-width="unset"
         ></validated-input-field>
         <validated-input-field
           name="serverAddress"
           as="v-text-field"
+          max-width="unset"
           :label="$t('repositories.creation.serverAddress')"
         ></validated-input-field>
         <validated-input-field
@@ -52,6 +55,7 @@
           name="technology"
           as="v-select"
           :label="$t('repositories.creation.technology')"
+          max-width="unset"
         ></validated-input-field>
       </v-card-text>
       <v-divider></v-divider>

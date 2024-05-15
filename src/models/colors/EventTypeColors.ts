@@ -20,11 +20,11 @@
  *
  */
 
-export const eventsIcons = new Map<string, string>([
-  ['update', 'mdi-update'],
-  ['removed', 'mdi-delete-forever'],
-  ['upload', 'mdi-cloud-upload'],
-  ['create', 'mdi-cake-variant'],
-  ['edited', 'mdi-lead-pencil'],
-  ['delete', 'mdi-delete-forever']
+export const eventTypeColors = new Map<string, string>([
+  ['update', 'success'],
+  ['removed', 'oared'],
+  ['upload', 'success'],
+  ['create', 'success'],
+  ['edited', 'success'],
+  ['delete', 'oared']
 ])

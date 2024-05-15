@@ -44,6 +44,7 @@
           @filtrate="filtrateUsers"
           :storeId="storeIdUser"
           :template="true"
+          max-width="unset"
         >
           <template #item="{ item, props }">
             <v-list-item
@@ -69,6 +70,7 @@
           @loadItems="loadRepositoriesObjects"
           @filtrate="filtrateRepositoriesObjects"
           :storeId="storeId"
+          max-width="unset"
         >
           <template #item="{ item, props }">
             <v-list-item

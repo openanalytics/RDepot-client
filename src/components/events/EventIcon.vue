@@ -21,26 +21,45 @@
 -->
 
 <template>
-  <div v-if="props.date" class="dateDot">
-    <div v-if="isFullDate(props.date)" class="day">
-      {{ props.date }}
+  <div
+    v-if="date"
+    class="dateDot"
+    @click="emit('hideDate', date)"
+  >
+    <div v-if="isFullDate(date)">
+      <v-chip color="oablue" variant="elevated">
+        {{ date }}</v-chip
+      >
     </div>
-    <div v-if="isYearAndMonthDate(props.date)">
-      <div class="year" v-if="props.date">
-        {{ getFullYear(props.date) }}
-        <div class="month">
-          {{ getMonthName(props.date) }}
+    <div v-if="isYearAndMonthDate(date)">
+      <v-card elevation="2">
+        <div
+          class="year d-flex align-center flex-column px-2 pt-2 pb-3"
+          v-if="date"
+        >
+          {{ getFullYear(date) }}
+          <div class="month py-1 px-0">
+            <v-chip color="oablue" variant="elevated">
+              {{ getMonthName(date) }}</v-chip
+            >
+          </div>
         </div>
-      </div>
+      </v-card>
     </div>
   </div>
-  <div v-else-if="props.event && props.event?.eventType">
-    <v-icon
-      size="20"
-      center
-      :icon="eventsIcons.get(props.event.eventType)"
-    >
-    </v-icon>
+  <div v-else-if="event && event?.eventType">
+    <v-tooltip location="bottom">
+      <template #activator="{ props }">
+        <v-icon
+          size="20"
+          center
+          v-bind="props"
+          :icon="eventsIcons.get(event.eventType)"
+        >
+        </v-icon>
+      </template>
+      {{ event.eventType }}
+    </v-tooltip>
   </div>
 </template>
 
@@ -51,7 +70,9 @@ import moment from 'moment'
 import 'moment/dist/locale/pl'
 import { i18n } from '@/plugins/i18n'
 
-const props = defineProps({
+const emit = defineEmits(['hideDate'])
+
+defineProps({
   date: String,
   event: Object as () => EntityModelNewsfeedEventDto
 })

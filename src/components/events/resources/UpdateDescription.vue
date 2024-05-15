@@ -21,30 +21,56 @@
 -->
 
 <template>
-  <ul>
-    <li v-for="property in event.changedProperties">
-      {{ property.property }}
-      <ul style="margin-left: 3%">
-        <li>
-          {{ $t('common.before') }}:
-          {{ property.valueBefore }}
-        </li>
-        <li>
-          {{ $t('common.after') }}:
-          {{ property.valueAfter }}
-        </li>
-      </ul>
-    </li>
-  </ul>
+  <div class="mb-10">
+    <strong>{{ i18n.t('updatedProperties.title') }}</strong>
+    <div
+      v-for="(property, i) in event.changedProperties"
+      :key="i"
+      class="d-flex align-center my-2"
+    >
+      <div style="width: fit-content">
+        <v-chip size="small" color="oablue" variant="flat">
+          {{
+            getTranslationWithFallbackValue(
+              property.property
+            )
+          }}
+        </v-chip>
+      </div>
+
+      <TruncatedText
+        :value="
+          getTranslationWithFallbackValue(
+            property.valueBefore
+          )
+        "
+      />
+      <v-icon size="small" class="mx-3"
+        >mdi-arrow-right</v-icon
+      >
+      <TruncatedText
+        :value="
+          getTranslationWithFallbackValue(
+            property.valueAfter
+          )
+        "
+      />
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
+import TruncatedText from '@/components/common/tooltips/TruncatedText.vue'
+import { useTranslations } from '@/composable/translations/translations'
 import { EntityModelNewsfeedEventDto } from '@/openapi'
+import { i18n } from '@/plugins/i18n'
 
-const props = defineProps({
+defineProps({
   event: {
     type: Object as () => EntityModelNewsfeedEventDto,
     required: true
   }
 })
+const { getTranslationWithFallbackValue } =
+  useTranslations()
 </script>

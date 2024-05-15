@@ -21,44 +21,99 @@
 -->
 
 <template>
-  <p class="value" v-if="event && eventType === 'update'">
-    <UpdateDescription :event="event"></UpdateDescription>
-  </p>
-  <ul v-else class="value">
-    <li>
-      {{ $t('columns.users.username') }}:
-      <strong>{{
-        event?.relatedResource?.user?.name
-      }}</strong>
-    </li>
-    <li>
-      {{ $t('columns.users.email') }}:
-      {{ event?.relatedResource?.user?.email }}
-    </li>
-    <li>
-      {{ $t('columns.package.repository') }}:
-      {{ event?.relatedResource?.repository?.name }}
-    </li>
-    <li>
-      {{ $t('columns.package.technology') }}:
-      {{ event?.relatedResource?.repository?.technology }}
-    </li>
-  </ul>
+  <v-card-title class="d-flex justify-lg-space-between">
+    {{ relatedResource?.user?.name }} ({{
+      relatedResource?.user?.login
+    }})
+    <span class="d-flex ga-3">
+      <EventTag
+        :value="getTime(event)"
+        size="small"
+        disableCopying
+        disableTooltip
+      />
+    </span>
+  </v-card-title>
+  <v-card-subtitle
+    >{{ resourceType }}
+    <EventTypeTag :eventType="event?.eventType" />
+  </v-card-subtitle>
+
+  <v-divider class="my-2 mx-2" />
+  <v-card-text>
+    <p
+      class="value"
+      v-if="event && event.eventType === 'update'"
+    >
+      <UpdateDescription :event="event"></UpdateDescription>
+    </p>
+
+    <div
+      class="d-flex flex-wrap ga-1"
+      style="max-width: 80%"
+    >
+      <EventTag
+        v-if="relatedResource?.deleted"
+        :value="
+          i18n.t('columns.repositoryMaintainer.deleted')
+        "
+        color="oared"
+        disableCopying
+        disableTooltip
+      />
+
+      <EventTag
+        :value="relatedResource?.repository?.name"
+        :hoverMessage="
+          i18n.t('columns.repositoryMaintainer.repository')
+        "
+      />
+
+      <EventTag
+        :value="relatedResource?.repository?.publicationUri"
+        :hoverMessage="
+          i18n.t('columns.repository.publicationUri')
+        "
+      />
+
+      <EventTag
+        v-if="relatedResource?.repository?.published"
+        :value="i18n.t('columns.repository.published')"
+        disableCopying
+        disableTooltip
+      />
+
+      <EventTag
+        :value="relatedResource?.user?.email"
+        :hoverMessage="i18n.t('columns.users.email')"
+      />
+    </div>
+  </v-card-text>
 </template>
 
 <script setup lang="ts">
-import { EntityModelNewsfeedEventDto } from '@/openapi'
+import {
+  EntityModelNewsfeedEventDto,
+  EntityModelRepositoryMaintainerDto
+} from '@/openapi'
 import UpdateDescription from '@/components/events/resources/UpdateDescription.vue'
+import { useDates } from '@/composable/date'
+import EventTag from '../EventTag.vue'
+import { i18n } from '@/plugins/i18n'
+import { computed } from 'vue'
+import EventTypeTag from './EventTypeTag.vue'
 
 const props = defineProps({
-  event: Object as () => EntityModelNewsfeedEventDto,
-  eventType: String
+  event: Object as () => EntityModelNewsfeedEventDto
 })
-</script>
 
-<style lang="scss">
-.value {
-  flex-basis: 70%;
-  margin: 10px 0;
-}
-</style>
+const relatedResource: EntityModelRepositoryMaintainerDto =
+  props.event
+    ?.relatedResource as EntityModelRepositoryMaintainerDto
+
+const { getTime } = useDates()
+
+const resourceType = computed(() =>
+  i18n.t('resourceType.repositoryMaintainer').toUpperCase()
+)
+</script>

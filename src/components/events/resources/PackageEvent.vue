@@ -21,37 +21,127 @@
 -->
 
 <template>
-  <p class="value" v-if="event && eventType === 'update'">
-    <UpdateDescription :event="event"></UpdateDescription>
-  </p>
-  <ul class="value" v-else>
-    <li>
-      {{ $t('columns.submissions.package') }}:
-      <strong>{{ event?.relatedResource?.name }}</strong>
-    </li>
-    <li>
-      {{ $t('columns.package.version') }}:
-      {{ event?.relatedResource?.version }}
-    </li>
-    <li>
-      {{ $t('columns.package.repository') }}:
-      {{ event?.relatedResource?.repository?.name }}
-    </li>
-    <li>
-      {{ $t('columns.package.technology') }}:
-      {{ event?.relatedResource?.technology }}
-    </li>
-  </ul>
+  <v-card-title class="d-flex justify-lg-space-between">
+    {{ relatedResource?.name }}
+    <span class="d-flex ga-3">
+      <EventTag
+        :value="`v ${relatedResource?.version}`"
+        size="small"
+        disableCopying
+        disableTooltip
+      />
+
+      <EventTag
+        :value="relatedResource?.technology"
+        size="small"
+        disableCopying
+        disableTooltip
+      />
+
+      <EventTag
+        :value="getTime(event)"
+        size="small"
+        disableCopying
+        disableTooltip
+      />
+    </span>
+  </v-card-title>
+  <v-card-subtitle
+    >{{ resourceType }}
+    <EventTypeTag :eventType="event?.eventType" />
+  </v-card-subtitle>
+
+  <v-divider class="my-2 mx-2" />
+  <v-card-text>
+    <p
+      class="value"
+      v-if="event && event.eventType === 'update'"
+    >
+      <UpdateDescription :event="event"></UpdateDescription>
+    </p>
+    <div
+      class="d-flex flex-wrap ga-1"
+      style="max-width: 80%"
+    >
+      <EventTag
+        :value="relatedResource?.submission?.state"
+        :prependIcon="
+          getStatusIcon(relatedResource?.submission?.state)
+        "
+        :color="
+          getStatusColor(relatedResource?.submission?.state)
+        "
+        disableCopying
+        disableTooltip
+      />
+
+      <EventTag
+        v-if="relatedResource?.deleted"
+        :value="i18n.t('columns.tokens.deleted')"
+        color="oared"
+        disableCopying
+        disableTooltip
+      />
+
+      <EventTag
+        :value="relatedResource?.user?.login"
+        :hoverMessage="i18n.t('columns.package.maintainer')"
+      />
+      <EventTag
+        :value="relatedResource?.repository?.name"
+        :hoverMessage="i18n.t('columns.package.repository')"
+      />
+
+      <EventTag
+        v-if="relatedResource?.repository?.published"
+        :value="i18n.t('columns.repository.published')"
+        disableCopying
+        disableTooltip
+      />
+
+      <EventTag
+        v-if="relatedResource?.active"
+        :value="i18n.t('columns.active')"
+        disableCopying
+        disableTooltip
+      />
+
+      <EventTag
+        v-if="relatedResource?.source"
+        :value="relatedResource?.source"
+        :hoverMessage="i18n.t('columns.package.source')"
+      />
+    </div>
+  </v-card-text>
 </template>
 
 <script setup lang="ts">
-import { EntityModelNewsfeedEventDto } from '@/openapi'
+import {
+  EntityModelNewsfeedEventDto,
+  EntityModelPackageDto
+} from '@/openapi'
 import UpdateDescription from '@/components/events/resources/UpdateDescription.vue'
+import { useDates } from '@/composable/date'
+import { useSubmissionIcons } from '@/composable/submissions/statusIcons'
+import EventTag from '../EventTag.vue'
+import { i18n } from '@/plugins/i18n'
+import { computed } from 'vue'
+import EventTypeTag from './EventTypeTag.vue'
 
 const props = defineProps({
-  event: Object as () => EntityModelNewsfeedEventDto,
-  eventType: String
+  event: Object as () => EntityModelNewsfeedEventDto
 })
+
+const relatedResource: EntityModelPackageDto = props.event
+  ?.relatedResource as EntityModelPackageDto
+
+const { getTime } = useDates()
+const { getStatusIcon, getStatusColor } =
+  useSubmissionIcons()
+
+const resourceType = computed(() =>
+  i18n.t('resourceType.package').toUpperCase()
+)
 </script>
 
 <style lang="scss">

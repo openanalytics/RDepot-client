@@ -34,6 +34,7 @@
           id="edit-package-maintainer-user"
           :label="$t('maintainers.editform.user')"
           disabled
+          max-width="unset"
         />
         <validated-input-field
           as="autocomplete"
@@ -50,6 +51,7 @@
           @loadItems="loadRepositoriesObjects"
           @filtrate="filtrateRepositoriesObjects"
           :storeId="storeId"
+          max-width="unset"
         >
           <template #item="{ item, props }">
             <v-list-item
@@ -84,6 +86,7 @@
           "
           @filtrate="filtratePackagesObjects"
           :storeId="storeIdPackage"
+          max-width="unset"
         >
           <template #item="{ item, props }">
             <v-list-item

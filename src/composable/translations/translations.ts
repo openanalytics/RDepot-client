@@ -20,11 +20,18 @@
  *
  */
 
-export const eventsIcons = new Map<string, string>([
-  ['update', 'mdi-update'],
-  ['removed', 'mdi-delete-forever'],
-  ['upload', 'mdi-cloud-upload'],
-  ['create', 'mdi-cake-variant'],
-  ['edited', 'mdi-lead-pencil'],
-  ['delete', 'mdi-delete-forever']
-])
+import { i18n } from '@/plugins/i18n'
+
+export function useTranslations() {
+  function getTranslationWithFallbackValue(
+    value?: string,
+    key = 'updatedProperties'
+  ): string {
+    const translation: string = i18n.t(`${key}.${value}`)
+    if (translation.startsWith(key)) {
+      return value || ''
+    }
+    return translation
+  }
+  return { getTranslationWithFallbackValue }
+}

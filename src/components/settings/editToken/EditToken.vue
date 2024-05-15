@@ -35,6 +35,7 @@
       name="name"
       :label="$t('settings.tokenName')"
       as="v-text-field"
+      maxWidth="unset"
     ></validated-input-field>
   </token-edit-card>
 </template>

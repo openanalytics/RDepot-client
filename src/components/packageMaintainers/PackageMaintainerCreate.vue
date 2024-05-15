@@ -42,8 +42,9 @@
           @filtrate="filtrateUsers"
           :storeId="storeIdUser"
           :template="true"
+          max-width="unset"
         >
-          <template #item="{ item, props }">
+          <template #item="{ props }">
             <v-list-item
               v-bind="props"
               v-intersect="
@@ -68,6 +69,7 @@
           @loadItems="loadRepositoriesObjects"
           @filtrate="filtrateRepositoriesObjects"
           :storeId="storeId"
+          max-width="unset"
         >
           <template #item="{ item, props }">
             <v-list-item
@@ -102,8 +104,9 @@
           "
           @filtrate="filtratePackagesObjects"
           :storeId="storeIdPackage"
+          max-width="unset"
         >
-          <template #item="{ item, props }">
+          <template #item="{ props }">
             <v-list-item
               v-bind="props"
               v-intersect="

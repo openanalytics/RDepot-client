@@ -22,9 +22,7 @@
 
 <template>
   <v-timeline
-    v-if="
-      groupedEvents != undefined && groupedEvents.length > 0
-    "
+    v-if="eventsStore.eventsGroupedByMonthAndDay.size > 0"
     :side="smAndDown ? 'end' : undefined"
     ref="eventsTimeline"
     id="eventsTimeline"
@@ -32,32 +30,60 @@
     class="timeline"
     align="center"
   >
-    <v-timeline-item
-      v-for="(item, i) in groupedEvents"
+    <template
+      v-for="(
+        monthEvents, i
+      ) in eventsStore.eventsGroupedByMonthAndDay"
       :key="i"
-      :dot-color="getDotColor(item)"
-      class="default"
-      :class="{
-        day: item && !item.eventType
-      }"
-      @click="clickDot(item)"
-      :width="eventBoxWidth"
-      :hide-dot="!item"
-      :min-height="
-        item ? (isYearAndMonthDate(item) ? '90' : '0') : '0'
-      "
     >
-      <template #icon>
-        <EventIcon
-          :event="item.eventType ? item : undefined"
-          :date="!item.eventType ? item : undefined"
-        />
+      <v-timeline-item
+        dot-color="rgba(0,0,0,0)"
+        min-height="100"
+      >
+        <template #icon>
+          <EventIcon
+            :event="undefined"
+            :date="monthEvents[0]"
+            @click="hideMonth(monthEvents[0])"
+          />
+        </template>
+      </v-timeline-item>
+      <v-timeline-item hide-dot />
+
+      <template
+        v-for="(dayEvents, j) in monthEvents[1]"
+        :key="j"
+        v-if="!hiddenMonths.includes(monthEvents[0])"
+      >
+        <v-timeline-item dot-color="rgba(0,0,0,0)">
+          <template #icon>
+            <EventIcon
+              :event="undefined"
+              :date="dayEvents[0]"
+              @click="hideDay(dayEvents[0])"
+            />
+          </template>
+        </v-timeline-item>
+        <v-timeline-item hide-dot />
+        <v-timeline-item
+          v-for="(event, idx) in dayEvents[1]"
+          :key="idx"
+          v-if="!hiddenDays.includes(dayEvents[0])"
+          :dot-color="getDotColor(event)"
+          :width="eventBoxWidth"
+        >
+          <template #icon>
+            <EventIcon
+              :event="event.eventType ? event : undefined"
+            />
+          </template>
+          <EventBox
+            :event="event"
+            v-if="event && event.eventType"
+          ></EventBox>
+        </v-timeline-item>
       </template>
-      <EventBox
-        v-if="item && item.eventType"
-        :event="item"
-      ></EventBox>
-    </v-timeline-item>
+    </template>
   </v-timeline>
   <NoEvents
     v-else-if="!commonStore.progressCircularActive"
@@ -67,7 +93,6 @@
 <script setup lang="ts">
 import EventBox from './EventBox.vue'
 import EventIcon from './EventIcon.vue'
-import { EntityModelNewsfeedEventDto } from '@/openapi'
 import { useEventsStore } from '@/store/events'
 import {
   computed,
@@ -77,17 +102,11 @@ import {
   onBeforeUnmount
 } from 'vue'
 import { useDisplay } from 'vuetify/lib/framework.mjs'
-import { useTheme } from 'vuetify'
-import { useDates } from '@/composable/date'
 import NoEvents from './NoEvents.vue'
 import { useCommonStore } from '@/store/common'
-import moment from 'moment'
 
-const { current } = useTheme()
 const { xlAndUp, lgAndUp, mdAndUp, smAndDown } =
   useDisplay()
-const { isYearAndMonthDate, getMonthAndYear, getDate } =
-  useDates()
 
 const commonStore = useCommonStore()
 const eventsStore = useEventsStore()
@@ -106,22 +125,8 @@ const eventBoxWidth = computed(() => {
 
 function getDotColor(item: any) {
   return item && !item.eventType
-    ? current.value.colors.background
+    ? 'rgba(0, 0, 0, 0)'
     : 'oablue'
-}
-
-function clickDot(item: any) {
-  item && item.eventType ? ' ' : hideDates(item)
-}
-
-function hideDates(date: string) {
-  if (date.toString() != 'false') {
-    if (date.length == 10) {
-      hideDay(date)
-    } else {
-      hideMonth(date)
-    }
-  }
 }
 
 function hideDay(day: string) {
@@ -144,68 +149,6 @@ function hideMonth(date: string) {
       1
     )
   }
-}
-
-const groupedEvents = computed(function () {
-  if (
-    eventsStore.events != undefined &&
-    eventsStore.events.length > 0
-  ) {
-    const localEvents: any[] = []
-    const eventsGroupedByDate = groupByDate(
-      eventsStore.events
-    )
-
-    const dateFormat = 'yyyy.MM.DD'
-    var firstDate = eventsGroupedByDate.keys().next().value
-    var dateTime = moment(firstDate, dateFormat)
-    var monthYear = getMonthAndYear(dateTime)
-    localEvents.push(false)
-    localEvents.push(monthYear)
-    localEvents.push(null)
-
-    eventsGroupedByDate.forEach((events, date) => {
-      if (
-        monthYear !=
-        getMonthAndYear(moment(date, dateFormat))
-      ) {
-        monthYear = getMonthAndYear(
-          moment(date, dateFormat)
-        )
-        localEvents.push(false)
-        localEvents.push(monthYear)
-        localEvents.push(false)
-      }
-
-      if (hiddenMonths.value.indexOf(monthYear) == -1) {
-        localEvents.push(false)
-        localEvents.push(date)
-        localEvents.push(false)
-        if (hiddenDays.value.indexOf(date) == -1) {
-          events.forEach(
-            (event: EntityModelNewsfeedEventDto) => {
-              localEvents.push(event)
-            }
-          )
-        }
-      }
-    })
-    return localEvents
-  }
-})
-
-function groupByDate(
-  events: EntityModelNewsfeedEventDto[]
-) {
-  const groupedMap = events.reduce(
-    (entryMap, e) =>
-      entryMap.set(getDate(e), [
-        ...(entryMap.get(getDate(e)) || []),
-        e
-      ]),
-    new Map()
-  )
-  return groupedMap
 }
 
 const eventsTimeline = ref<HTMLDivElement>()
@@ -262,28 +205,18 @@ onBeforeUnmount(() => {
 }
 
 .dateDot {
-  width: 200px;
-  background-color: rgb(var(--v-theme-oared));
+  background-color: rgba(var(--v-theme-background));
   opacity: 0.8;
-  border-radius: 16px;
   transition: transform 0.3s ease-in-out;
 
   &:hover {
     transform: scale(1.05);
     cursor: pointer;
   }
-  .day {
-    padding: 10px;
-  }
   .year {
     font-size: 2em;
-    padding: 5px 5px 10px 5px;
     .month {
-      text-align: center;
-      border-top: solid 2px;
-      border-bottom: solid 2px;
       font-size: 1rem !important;
-      padding: 5px 0;
     }
   }
 }

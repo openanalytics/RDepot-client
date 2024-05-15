@@ -31,6 +31,7 @@ import {
 } from '@/models/Filtration'
 import { fetchEventsServices } from '@/services/events_services'
 import { eventsFiltrationLabels } from '@/maps/Filtration'
+import { useDates } from '@/composable/date'
 
 interface State {
   page?: number
@@ -60,6 +61,54 @@ export const useEventsStore = defineStore('events_store', {
         JSON.stringify(state.filtration) ===
         JSON.stringify(defaultValues(EventsFiltration))
       )
+    },
+    eventsGroupedByMonthAndDay(
+      state
+    ): Map<
+      string,
+      Map<string, EntityModelNewsfeedEventDto[]>
+    > {
+      const { getDate, getMonthAndYear } = useDates()
+
+      const mapByMonths = state.events.reduce(
+        (entryMap, e) =>
+          entryMap.set(
+            getMonthAndYear(e.time || '00.00.00'),
+            [
+              ...(entryMap.get(
+                getMonthAndYear(e.time || '00.00.00')
+              ) || []),
+              e
+            ]
+          ),
+        new Map<string, EntityModelNewsfeedEventDto[]>()
+      )
+
+      const mapOfMonthsAndDays: Map<
+        string,
+        Map<string, EntityModelNewsfeedEventDto[]>
+      > = new Map()
+
+      mapByMonths.forEach(
+        (value: EntityModelNewsfeedEventDto[], key) => {
+          console.log(key)
+          console.log(value)
+          const monthDividedByDays: Map<
+            string,
+            EntityModelNewsfeedEventDto[]
+          > = value.reduce(
+            (entryMap, e) =>
+              entryMap.set(getDate(e), [
+                ...(entryMap.get(getDate(e)) || []),
+                e
+              ]),
+            new Map<string, EntityModelNewsfeedEventDto[]>()
+          )
+          mapOfMonthsAndDays.set(key, monthDividedByDays)
+        }
+      )
+
+      return mapOfMonthsAndDays
     }
   },
   actions: {
