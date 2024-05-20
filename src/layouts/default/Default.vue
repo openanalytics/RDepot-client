@@ -21,11 +21,19 @@
 -->
 
 <template>
-  <v-app>
-    <default-view />
-  </v-app>
+  <Navbar style="max-width: 100%; position: sticky" />
+  <Sidebar
+    style="height: calc(100vh - 64px); position: fixed"
+  />
+  <v-main
+    style="--v-layout-top: 15px; --v-layout-bottom: 15px"
+    class="mx-5"
+  >
+    <router-view />
+  </v-main>
 </template>
 
 <script lang="ts" setup>
-import DefaultView from './View.vue'
+import Navbar from '@/components/navbar/Navbar.vue'
+import Sidebar from '@/components/navbar/Sidebar.vue'
 </script>

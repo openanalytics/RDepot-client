@@ -35,12 +35,7 @@ export const routes = [
           return 'packages'
         }
       },
-      {
-        path: '/login',
-        name: 'login',
-        component: () => import('@/views/users/Login.vue'),
-        meta: { title: 'RDepot - login' }
-      },
+
       {
         path: '/users',
         name: 'users',
@@ -124,6 +119,19 @@ export const routes = [
         component: () =>
           import('@/views/settings/AccessTokens.vue'),
         meta: { title: 'RDepot - access tokens' }
+      }
+    ]
+  },
+  {
+    path: '/login',
+    component: () =>
+      import('@/layouts/default/Content.vue'),
+    children: [
+      {
+        path: '',
+        name: 'login',
+        component: () => import('@/views/users/Login.vue'),
+        meta: { title: 'RDepot - login' }
       }
     ]
   }

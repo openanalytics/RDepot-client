@@ -47,11 +47,6 @@ export async function loadRepositoryDetails(name: string) {
   })
 }
 
-export function hideSidebar(value: boolean) {
-  const authorizationStore = useAuthorizationStore()
-  authorizationStore.hideSidebar(value)
-}
-
 export async function redirectToLoginPage() {
   return '/login'
 }

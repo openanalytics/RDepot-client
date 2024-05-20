@@ -50,7 +50,6 @@ interface State {
   userLogin: string
   userId: number
   loginType: LoginType
-  sidebar: boolean
   ability?: Ability
 }
 
@@ -63,7 +62,6 @@ export const useAuthorizationStore = defineStore(
         userLogin: '',
         userId: 8,
         loginType: LoginType.Enum.OICD,
-        sidebar: false,
         ability: undefined
       }
     },
@@ -198,10 +196,6 @@ export const useAuthorizationStore = defineStore(
         return this.ability
           ? this.ability?.can(action, subject)
           : false
-      },
-
-      hideSidebar(value: boolean) {
-        this.sidebar = !value
       }
     }
   }

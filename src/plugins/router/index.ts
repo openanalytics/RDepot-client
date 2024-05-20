@@ -43,16 +43,13 @@ router.beforeEach(async (to) => {
   authorizationStore.getUserSettings()
   if (to.fullPath.startsWith('/auth')) {
     await helper.handleAuthorization()
-    helper.hideSidebar(false)
     helper.getDefaultFiltration(to)
     return '/packages'
   } else if (to.fullPath.startsWith('/logout')) {
     helper.handleLogout()
-    helper.hideSidebar(true)
     return '/'
   } else if (to.name != 'login') {
     if (!(await authorizationStore.isUserLoggedIn())) {
-      helper.hideSidebar(true)
       return helper.redirectToLoginPage()
     }
     const meStore = useMeStore()
@@ -65,13 +62,10 @@ router.beforeEach(async (to) => {
     if (!canRedirect) {
       return '/packages'
     }
-    helper.hideSidebar(false)
   } else if (to.name == 'login') {
     if (await authorizationStore.isUserLoggedIn()) {
-      helper.hideSidebar(false)
       return '/packages'
     }
-    helper.hideSidebar(true)
   }
   helper.resetStoreValues()
   document.title = to.meta.title

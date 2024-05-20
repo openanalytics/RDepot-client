@@ -21,25 +21,12 @@
 -->
 
 <template>
-  <v-app>
-    <ProgressCircular />
+  <Navbar style="max-width: 100%; position: sticky" />
+  <v-main style="--v-layout-top: 15px" class="mx-5">
     <router-view />
-  </v-app>
+  </v-main>
 </template>
 
-<script setup lang="ts">
-import ProgressCircular from './components/common/progress/ProgressCircular.vue'
+<script lang="ts" setup>
+import Navbar from '@/components/navbar/Navbar.vue'
 </script>
-
-<style lang="scss">
-#tooltip-activator {
-  z-index: 100;
-}
-
-.mdi-sort-ascending,
-.mdi-sort-descending {
-  color: rgb(var(--v-theme-oablue));
-  margin-left: 2px;
-  font-size: 1rem;
-}
-</style>

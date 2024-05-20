@@ -25,11 +25,7 @@
     <v-row justify="space-around" align="center">
       <v-row justify="start" align="center" class="ml-4">
         <v-app-bar-nav-icon
-          v-show="
-            mobile &&
-            showHamburger &&
-            currentRoute !== 'login'
-          "
+          v-show="mobile && currentRoute !== 'login'"
           color="oablue-darken-2"
           @click.stop="showSidebar"
         ></v-app-bar-nav-icon>
@@ -65,20 +61,14 @@ import ChangeTheme from '@/components/navbar/ChangeTheme.vue'
 import { useCommonStore } from '@/store/common'
 import { useDisplay } from 'vuetify/lib/framework.mjs'
 import { computed } from 'vue'
-import { useAuthorizationStore } from '@/store/authorization'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
 const commonStore = useCommonStore()
-const authorizationStore = useAuthorizationStore()
 const { mobile } = useDisplay()
 
 const currentRoute = computed(() => {
   return router.currentRoute.value.name
-})
-
-const showHamburger = computed(() => {
-  return authorizationStore.sidebar
 })
 
 function showSidebar() {

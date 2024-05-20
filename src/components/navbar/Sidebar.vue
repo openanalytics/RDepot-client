@@ -25,7 +25,6 @@
     v-model="drawer"
     :location="xs ? 'start' : 'left'"
     :touchless="mobile ? false : true"
-    v-if="showSidebar"
   >
     <v-list nav open-strategy="single">
       <v-list-item
@@ -208,10 +207,6 @@ const getUserLogin = computed(() => {
   return meStore.me.name
 })
 
-const showSidebar = computed(() => {
-  return authorizationStore.sidebar
-})
-
 const getSubtitle = computed(() => {
   return meStore.me.name
     ? i18n.t('authorization.logged-in')
@@ -231,10 +226,3 @@ function logout() {
   authorizationStore.logout()
 }
 </script>
-
-<style>
-.rdepot-sidebar {
-  font-weight: bolder;
-  color: blue;
-}
-</style>
