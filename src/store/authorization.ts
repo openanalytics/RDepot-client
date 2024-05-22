@@ -40,7 +40,7 @@ import {
 import { defineStore } from 'pinia'
 import { authService } from '@/plugins/oauth'
 import router from '@/plugins/router'
-import { useOICDAuthorization } from '@/composable/auth/oicdAuthorization'
+import { useOIDCAuthorization } from '@/composable/auth/oidcAuthorization'
 import { useConfigStore } from './config'
 import { useMeStore } from './me'
 import { RouteRecordName } from 'vue-router'
@@ -61,7 +61,7 @@ export const useAuthorizationStore = defineStore(
         userToken: '',
         userLogin: '',
         userId: 8,
-        loginType: LoginType.Enum.OICD,
+        loginType: LoginType.Enum.OIDC,
         ability: undefined
       }
     },
@@ -75,7 +75,7 @@ export const useAuthorizationStore = defineStore(
       },
 
       async login() {
-        this.chooseLoginType(LoginType.Enum.OICD)
+        this.chooseLoginType(LoginType.Enum.OIDC)
         authService.login()
       },
 
@@ -90,7 +90,7 @@ export const useAuthorizationStore = defineStore(
       },
 
       async logout() {
-        if (this.loginType == LoginType.Enum.OICD) {
+        if (this.loginType == LoginType.Enum.OIDC) {
           authService.logout()
         }
         const { logout } = useSimpleAuthorization()
@@ -106,12 +106,12 @@ export const useAuthorizationStore = defineStore(
 
       async isUserLoggedIn(): Promise<boolean> {
         this.getTokenFromLocalStorage()
-        const { isUserLoggedInOICD } =
-          useOICDAuthorization()
+        const { isUserLoggedInOIDC } =
+          useOIDCAuthorization()
         const { isSimpleAuthAvailable } =
           useSimpleAuthorization()
         return (
-          (await isUserLoggedInOICD()) ||
+          (await isUserLoggedInOIDC()) ||
           (isSimpleAuthAvailable() && this.userToken != '')
         )
       },

@@ -23,16 +23,14 @@
 import { Technologies } from '@/enum/Technologies'
 import { EntityModelSubmissionDtoStateEnum } from '@/openapi'
 import { ref, computed } from 'vue'
-import { useI18n } from 'vue-i18n'
+import { i18n } from '@/plugins/i18n'
 
 export function useEnumFiltration() {
-  const { t } = useI18n()
-
   const states = computed(() =>
     Object.values(EntityModelSubmissionDtoStateEnum).map(
       (state) => {
         return {
-          title: t('states.' + state.toLowerCase()),
+          title: i18n.t('states.' + state.toLowerCase()),
           value: state
         }
       }
@@ -43,50 +41,50 @@ export function useEnumFiltration() {
 
   const resourceTypes = computed(() => [
     {
-      title: t('resourceType.package'),
+      title: i18n.t('resourceType.package'),
       value: 'package'
     },
     {
-      title: t('resourceType.repository'),
+      title: i18n.t('resourceType.repository'),
       value: 'repository'
     },
-    { title: t('resourceType.user'), value: 'user' },
+    { title: i18n.t('resourceType.user'), value: 'user' },
     {
-      title: t('resourceType.submission'),
+      title: i18n.t('resourceType.submission'),
       value: 'submission'
     },
     {
-      title: t('resourceType.packageMaintainer'),
+      title: i18n.t('resourceType.packageMaintainer'),
       value: 'packageMaintainer'
     },
     {
-      title: t('resourceType.repositoryMaintainer'),
+      title: i18n.t('resourceType.repositoryMaintainer'),
       value: 'repositoryMaintainer'
     },
     {
-      title: t('resourceType.accessToken'),
+      title: i18n.t('resourceType.accessToken'),
       value: 'accessToken'
     }
   ])
 
   const roles = computed(() => [
-    { title: t('role.admin'), value: 'admin' },
-    { title: t('resourceType.user'), value: 'user' },
+    { title: i18n.t('role.admin'), value: 'admin' },
+    { title: i18n.t('resourceType.user'), value: 'user' },
     {
-      title: t('resourceType.packageMaintainer'),
+      title: i18n.t('resourceType.packageMaintainer'),
       value: 'packagemaintainer'
     },
     {
-      title: t('resourceType.repositoryMaintainer'),
+      title: i18n.t('resourceType.repositoryMaintainer'),
       value: 'repositorymaintainer'
     }
   ])
 
   const eventTypes = computed(() => [
-    { title: t('eventTypes.create'), value: 'create' },
-    { title: t('eventTypes.update'), value: 'update' },
-    { title: t('eventTypes.delete'), value: 'delete' },
-    { title: t('eventTypes.upload'), value: 'upload' }
+    { title: i18n.t('eventTypes.create'), value: 'create' },
+    { title: i18n.t('eventTypes.update'), value: 'update' },
+    { title: i18n.t('eventTypes.delete'), value: 'delete' },
+    { title: i18n.t('eventTypes.upload'), value: 'upload' }
   ])
 
   return {

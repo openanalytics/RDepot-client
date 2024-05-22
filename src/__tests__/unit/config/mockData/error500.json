@@ -1,0 +1,26 @@
+{
+  "message": "something",
+  "code": "401",
+  "response": {
+    "config": {},
+    "data": {
+      "response": {
+        "code": 500,
+        "data": {
+          "data": {
+            "traceId": "123",
+            "timestamp": "432432432"
+          }
+        },
+        "message": "message",
+        "messageCode": "code",
+        "status": "ERROR"
+      }
+    },
+    "headers": {},
+    "status": 500,
+    "statusText": "error"
+  },
+  "stack": "error",
+  "name": "error"
+}

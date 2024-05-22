@@ -21,7 +21,7 @@
  */
 
 import { authService } from '@/plugins/oauth'
-import { useOICDAuthorization } from '@/composable/auth/oicdAuthorization'
+import { useOIDCAuthorization } from '@/composable/auth/oidcAuthorization'
 import { usePackagesStore } from '@/store/packages'
 import { useAuthorizationStore } from '@/store/authorization'
 import { Technologies } from '@/enum/Technologies'
@@ -79,8 +79,8 @@ export async function handleAuthorization() {
 }
 
 export async function handleLogout() {
-  const { isOICDAuthAvailable } = useOICDAuthorization()
-  if (isOICDAuthAvailable()) {
+  const { isOIDCAuthAvailable } = useOIDCAuthorization()
+  if (isOIDCAuthAvailable()) {
     authService
       .handleLogoutRedirect()
       .then(() => {

@@ -30,7 +30,7 @@ export function useDates() {
 
   function getMonthAndYear(date: string): string {
     const newDate: Moment = moment(date)
-    return newDate.format('yyy.MM')
+    return newDate.format('yyyy.MM')
   }
 
   function padTo2Digits(num: number) {

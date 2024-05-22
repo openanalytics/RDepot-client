@@ -22,5 +22,5 @@
 
 import { z } from 'zod'
 
-export const LoginType = z.enum(['SIMPLE', 'OICD'])
+export const LoginType = z.enum(['SIMPLE', 'OIDC'])
 export type LoginType = z.infer<typeof LoginType>
