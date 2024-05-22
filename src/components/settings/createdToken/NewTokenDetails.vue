@@ -21,14 +21,14 @@
 -->
 
 <template>
-  <v-card class="pa-5" width="400">
+  <v-card class="pa-5" width="400" id="newTokenDetails">
     <v-card-title>
       {{ $t('settings.newToken') }}
     </v-card-title>
     <v-divider></v-divider>
     <v-card-text>
-      <div class="code mb-2 mt-4 mr-2 ml-1">
-        <code class="d-flex justify-lg-space-between pt-5">
+      <div class="code mt-5 mb-5">
+        <code class="d-flex justify-lg-space-between pt-2">
           {{ settingsStore.newToken }}
           <v-tooltip location="right">
             <template #activator="{ props }">
@@ -52,6 +52,14 @@
         </code>
       </div>
     </v-card-text>
+    <v-alert
+      variant="tonal"
+      color="oablue"
+      class="mb-5"
+      border="start"
+    >
+      {{ t('settings.token.copyWarning') }}
+    </v-alert>
     <v-divider></v-divider>
     <card-actions :buttons="buttons"></card-actions>
   </v-card>
@@ -111,5 +119,13 @@ $code_color: rgba(var(--v-theme-code));
   box-shadow: 2px 2px 6px 0px rgba(66, 68, 90, 1);
   max-width: 1200px;
   font-size: 0.9em;
+}
+</style>
+
+<style lang="scss">
+#newTokenDetails {
+  .v-card-text {
+    padding: 1rem 0 !important;
+  }
 }
 </style>

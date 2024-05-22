@@ -425,6 +425,9 @@
       "dark": "dark",
       "light": "light"
     },
+    "token": {
+      "copyWarning": "Make sure to copy the access token now. You won’t be able to see it again!"
+    },
     "tokenName": "Name"
   },
   "states": {

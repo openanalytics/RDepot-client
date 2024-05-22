@@ -419,6 +419,9 @@
       "dark": "ciemny",
       "light": "jasny"
     },
+    "token": {
+      "copyWarning": "Upewnij się, że skopiowałeś token. Nie będzie on widoczny później."
+    },
     "tokenName": "Nazwa"
   },
   "states": {
