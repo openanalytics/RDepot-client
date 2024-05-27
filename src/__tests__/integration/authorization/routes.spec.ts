@@ -35,7 +35,7 @@ const {
 const firefox = require('selenium-webdriver/firefox')
 // const repositoryMaintainer = users.data.content[1]
 
-let driver
+let driver: any
 const PASSWORD = 'testpassword'
 
 beforeEach(async () => {

@@ -26,7 +26,3 @@ export default function getEnv(name: string) {
     import.meta.env[name]
   )
 }
-
-export function setEnv(name: string, value: string) {
-  import.meta.env[name] = value
-}
