@@ -36,10 +36,15 @@
     :sort-by="sortBy"
     :items-per-page-options="pagination.itemsPerPage"
   >
-    <template v-slot:loading>
-      <v-skeleton-loader
-        type="`table-row-divider@15`"
-      ></v-skeleton-loader>
+    <template #top>
+      <div class="d-flex justify-space-between mx-3 my-5">
+        <h2>{{ i18n.t('repositories.list') }}</h2>
+        <AddButton
+          v-if="
+            authorizationStore.can('POST', 'repository')
+          "
+        />
+      </div>
     </template>
     <template #item.technology="{ value }">
       <v-chip
@@ -56,7 +61,11 @@
         :disabled="!isDisabled(item)"
       >
         <template #activator="{ props }">
-          <span v-bind="props">
+          <span
+            v-bind="props"
+            style="width: 100%"
+            class="d-flex justify-center"
+          >
             <v-checkbox-btn
               id="checkbox-published"
               hide-details
@@ -72,7 +81,7 @@
                   ? 'grey'
                   : 'oablue'
               "
-              class="mr-8"
+              class="mr-5"
               @click.stop
             >
             </v-checkbox-btn>
@@ -143,6 +152,9 @@ import { isAtLeastRepositoryMaintainer } from '@/enum/UserRoles'
 import { useMeStore } from '@/store/me'
 import { ref } from 'vue'
 import { useSort } from '@/composable/sort'
+import RepositoriesModal from './RepositoriesModal.vue'
+import AddButton from '@/components/common/buttons/AddButton.vue'
+import { useAuthorizationStore } from '@/store/authorization'
 
 const packagesStore = usePackagesStore()
 const { deepCopy } = useUtilities()
@@ -151,6 +163,7 @@ const pagination = usePagination()
 const { canDelete, canPatch } = useUserAuthorities()
 const configStore = useConfigStore()
 const meStore = useMeStore()
+const authorizationStore = useAuthorizationStore()
 
 const { getSort } = useSort()
 const defaultSort: Sort[] = [{ key: 'name', order: 'asc' }]

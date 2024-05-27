@@ -38,7 +38,7 @@
 
 <script setup lang="ts">
 import { useCommonStore } from '@/store/common'
-import Overlay from '@/components/common/Overlay.vue'
+import Overlay from '@/components/common/overlay/Overlay.vue'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
 import RepositoryMaintainerEdit from '@/components/repositoryMaintainers/RepositoryMaintainerEdit.vue'
 import RepositoryMaintainerCreate from '@/components/repositoryMaintainers/RepositoryMaintainerCreate.vue'

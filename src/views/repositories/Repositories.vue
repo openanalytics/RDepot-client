@@ -22,14 +22,6 @@
 
 <template>
   <RepositoriesModal />
-  <v-row class="my-3">
-    <v-spacer />
-    <div class="mr-12 pr-5">
-      <AddButton
-        v-if="authorizationStore.can('POST', 'repository')"
-      />
-    </div>
-  </v-row>
   <FiltrationBar />
   <RepositoriesList :key="componentKey" />
 </template>
@@ -37,9 +29,7 @@
 <script setup lang="ts">
 import RepositoriesModal from '@/components/repositories/RepositoriesModal.vue'
 import RepositoriesList from '@/components/repositories/RepositoriesList.vue'
-import AddButton from '@/components/common/AddButton.vue'
 import FiltrationBar from '@/components/repositories/FiltrationBar.vue'
-import { useAuthorizationStore } from '@/store/authorization'
 import { computed } from 'vue'
 import { useCommonStore } from '@/store/common'
 
@@ -47,5 +37,4 @@ const commonStore = useCommonStore()
 const componentKey = computed(() => {
   return commonStore.key
 })
-const authorizationStore = useAuthorizationStore()
 </script>

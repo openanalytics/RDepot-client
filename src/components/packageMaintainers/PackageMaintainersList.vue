@@ -35,10 +35,18 @@
     :sort-by="sortBy"
     :items-per-page-options="pagination.itemsPerPage"
   >
-    <template v-slot:loading>
-      <v-skeleton-loader
-        type="`table-row-divider@15`"
-      ></v-skeleton-loader>
+    <template #top>
+      <div class="d-flex justify-space-between mx-3 my-5">
+        <h2>{{ i18n.t('packages.maintainers') }}</h2>
+        <AddMaintainerButton
+          v-if="
+            authorizationStore.can(
+              'POST',
+              'packageMaintainers'
+            )
+          "
+        />
+      </div>
     </template>
     <template #item.repository.technology="{ value }">
       <v-chip
@@ -89,10 +97,13 @@ import {
 import { EntityModelPackageMaintainerDto } from '@/openapi'
 import { ref } from 'vue'
 import { useSort } from '@/composable/sort'
+import AddMaintainerButton from '@/components/common/buttons/AddMaintainerButton.vue'
+import { useAuthorizationStore } from '@/store/authorization'
 
 const packageMaintainersStore = usePackageMaintainersStore()
 const pagination = usePagination()
 const { canPatch, canDelete } = useUserAuthorities()
+const authorizationStore = useAuthorizationStore()
 
 const { getSort } = useSort()
 const defaultSort: Sort[] = [{ key: 'user', order: 'asc' }]

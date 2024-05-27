@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import TopScrollButton from '@/components/common/TopScrollButton.vue'
+import TopScrollButton from '@/components/common/buttons/TopScrollButton.vue'
 import EventsTimeLine from '@/components/events/EventsTimeLine.vue'
 import FiltrationBar from '@/components/events/FiltrationBar.vue'
 import { useEventsStore } from '@/store/events'

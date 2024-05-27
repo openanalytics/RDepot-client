@@ -37,7 +37,7 @@
 import EventTag from '../EventTag.vue'
 import { computed } from 'vue'
 import { useTranslations } from '@/composable/translations/translations'
-import { eventTypeColors } from '@/models/colors/EventTypeColors'
+import eventTypeColors from '@/maps/events/EventTypeColors'
 
 const props = defineProps({
   eventType: String

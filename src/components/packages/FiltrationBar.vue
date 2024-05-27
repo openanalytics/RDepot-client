@@ -160,7 +160,7 @@
 </template>
 
 <script setup lang="ts">
-import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
+import ValidatedInputField from '@/components/common/fields/ValidatedInputField.vue'
 import {
   defaultValues,
   PackagesFiltration
@@ -175,7 +175,7 @@ import {
   isAtLeastRepositoryMaintainer,
   isAtLeastAdmin
 } from '@/enum/UserRoles'
-import ResetButton from '@/components/common/ResetButton.vue'
+import ResetButton from '@/components/common/buttons/ResetButton.vue'
 import { useMeStore } from '@/store/me'
 import { onBeforeMount } from 'vue'
 

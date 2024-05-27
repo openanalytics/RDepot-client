@@ -340,6 +340,7 @@
     "size": "Rozmiar strony"
   },
   "repositories": {
+    "addRepository": "Utwórz repozytorium",
     "creation": {
       "duplicateName": "Repozytorium o tej nazwie już istnieje",
       "name": "Nazwa",
@@ -443,6 +444,9 @@
     },
     "noPackageChosen": "Nie wybrano pakietów",
     "rejected": "odrzucone",
+    "replace": {
+      "duplication": "Pakiet o tej samej nazwie i wersji już istnieje w wybranym repozytorium. Proszę ponownie przejść przez proces przesyłania i kliknąć 'zamień', aby go nadpisać."
+    },
     "waitForAllRequestsToFulfill": "Zaczekaj na zakończenie wszystkich zgłoszeń",
     "waitingForAction": "oczekuje na akcję",
     "wrongExtension": "Wybierz pakiety o poprawnym rozszerzeniu (.tar.gz)"

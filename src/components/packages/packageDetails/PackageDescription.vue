@@ -58,7 +58,7 @@ import {
 import { computed } from 'vue'
 import { usePackageDetailsStore } from '@/store/package_details'
 import { Technologies } from '@/enum/Technologies'
-import MarkdownDescription from '@/components/common/MarkdownDescription.vue'
+import MarkdownDescription from '@/components/common/markdown/MarkdownDescription.vue'
 import router from '@/plugins/router'
 
 var props = defineProps<{

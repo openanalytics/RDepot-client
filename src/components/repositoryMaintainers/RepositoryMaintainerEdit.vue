@@ -77,12 +77,12 @@
 </template>
 
 <script setup lang="ts">
-import CardActions from '@/components/common/CardActions.vue'
+import CardActions from '@/components/common/overlay/CardActions.vue'
 import { EntityModelRepositoryMaintainerDto } from '@/openapi'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
 import { computed, onBeforeMount } from 'vue'
 import { Form, useForm } from 'vee-validate'
-import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
+import ValidatedInputField from '@/components/common/fields/ValidatedInputField.vue'
 import { toTypedSchema } from '@vee-validate/zod'
 import { repositoryMaintainerSchema } from '@/models/Schemas'
 import { z } from 'zod'

@@ -43,10 +43,10 @@
 </template>
 
 <script setup lang="ts">
-import CardActions from '@/components/common/CardActions.vue'
+import CardActions from '@/components/common/overlay/CardActions.vue'
 import { ref } from 'vue'
 import { Form, useForm } from 'vee-validate'
-import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
+import ValidatedInputField from '@/components/common/fields/ValidatedInputField.vue'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useUserStore } from '@/store/users'
 import { UserRoleSchema } from '@/models/Schemas'

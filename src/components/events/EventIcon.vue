@@ -64,7 +64,7 @@
 </template>
 
 <script setup lang="ts">
-import { eventsIcons } from '@/models/EventTypeIcon'
+import eventsIcons from '@/maps/events/EventTypeIcon'
 import { EntityModelNewsfeedEventDto } from '@/openapi'
 import moment from 'moment'
 import 'moment/dist/locale/pl'

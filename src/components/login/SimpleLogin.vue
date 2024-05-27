@@ -62,7 +62,7 @@
 </template>
 
 <script setup lang="ts">
-import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
+import ValidatedInputField from '@/components/common/fields/ValidatedInputField.vue'
 import { useI18n } from 'vue-i18n'
 import { z } from 'zod'
 import { toTypedSchema } from '@vee-validate/zod'

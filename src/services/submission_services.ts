@@ -178,6 +178,10 @@ export async function addSubmission(
   return openApiRequest<EntityModelSubmissionDto>(
     submissionApi,
     [repository, file, generateManual, replace],
+    false,
+    undefined,
+    undefined,
+    undefined,
     false
   )
 }

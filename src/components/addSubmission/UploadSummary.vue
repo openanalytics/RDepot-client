@@ -60,6 +60,25 @@
           {{ error }}
         </div>
       </v-tooltip>
+
+      <v-tooltip
+        v-if="promise.state == 'warning'"
+        max-width="400"
+        location="left"
+        content-class="custom-tooltip warning-tooltip"
+      >
+        <template #activator="{ props }">
+          <v-icon
+            size="large"
+            color="warning"
+            id="submission-success-icon"
+            icon="mdi-check-circle-outline"
+            class="hover"
+            v-bind="props"
+          ></v-icon>
+        </template>
+        {{ $t('submissions.replace.duplication') }}
+      </v-tooltip>
     </template>
 
     <template #append v-if="technology != 'Python'">
@@ -138,6 +157,9 @@ function downloadManual(id: string, fileName: string) {
   padding: 10px 30px !important;
 }
 
+.warning-tooltip {
+  background-color: rgb(var(--v-theme-warning)) !important;
+}
 .hover {
   cursor: pointer;
 }

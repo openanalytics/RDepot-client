@@ -25,5 +25,5 @@
 </template>
 
 <script setup lang="ts">
-import SettingsTokens from '@/components/settings/SettingsTokens.vue'
+import SettingsTokens from '@/components/accessTokens/SettingsTokens.vue'
 </script>
