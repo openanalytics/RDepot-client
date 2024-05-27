@@ -5,9 +5,11 @@ api-token:
     - RDepot
   lifetime: 5
 
-allowed-origin: http://localhost
+allowed-origin: '*'
+# http://192.168.49.11:8017
 
 server:
+  port: 8017
   servlet:
     context-path: /backend
 
@@ -52,7 +54,12 @@ oauth2:
   login-field: preferred_username
 
 app:
-  authentication: oauth2
+  authentication: simple
+  simple:
+    users:
+      - login: einstein
+        password: testpassword
+        name: Albert Einstein
   oauth2:
     default:
       admins:

@@ -32,7 +32,7 @@ const {
   // Key,
   until
 } = require('selenium-webdriver')
-const firefox = require('selenium-webdriver/firefox')
+// const chrome = require('selenium-webdriver/chrome')
 // const repositoryMaintainer = users.data.content[1]
 
 let driver: any
@@ -41,10 +41,10 @@ const PASSWORD = 'testpassword'
 beforeEach(async () => {
   setActivePinia(createPinia())
   driver = await new Builder()
-    .forBrowser(Browser.FIREFOX)
-    .setFirefoxOptions(
-      new firefox.Options().addArguments('--headless')
-    )
+    .forBrowser(Browser.CHROME)
+    .setChromeOptions
+    // new chrome.Options().addArguments('--headless')
+    ()
     .build()
 })
 
@@ -260,7 +260,7 @@ beforeEach(async () => {
 describe('Admin access', () => {
   it('Login page', async () => {
     try {
-      await driver.get('http://localhost:3001/login')
+      await driver.get('http://192.168.49.13:80/login')
       driver
         .findElement(By.id('username-input'))
         .sendKeys('einstein')
@@ -286,7 +286,7 @@ describe('Admin access', () => {
         )
       ).toBeTruthy()
     } finally {
-      await driver.quit()
+      // await driver.quit()
     }
   })
   //   it('Package page', async () => {
