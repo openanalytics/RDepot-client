@@ -31,14 +31,14 @@ import {
   beforeAll,
   afterAll
 } from 'vitest'
-import repositoryMaintainers from '@/__tests__/unit/config/mockData/repositoryMaintainers.json'
-import repositories from '@/__tests__/unit/config/mockData/repositories.json'
+import repositoryMaintainers from '@/__tests__/config/mockData/repositoryMaintainers.json'
+import repositories from '@/__tests__/config/mockData/repositories.json'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
 import { usePagination } from '@/store/pagination'
 import { Technologies } from '@/enum/Technologies'
 import { useMeStore } from '@/store/me'
-import { server } from '@/__tests__/unit/config/backend/server'
-import { failingServer } from '@/__tests__/unit/config/backend/failingServer'
+import { server } from '@/__tests__/config/backend/server'
+import { failingServer } from '@/__tests__/config/backend/failingServer'
 
 const defaultFiltration = {
   deleted: false,

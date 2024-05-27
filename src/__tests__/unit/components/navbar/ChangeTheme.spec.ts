@@ -23,8 +23,8 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 
 import { mount } from '@vue/test-utils'
-import { plugins } from '@/__tests__/unit/config/plugins'
-import { mocks } from '@/__tests__/unit/config/mocks'
+import { plugins } from '@/__tests__/config/plugins'
+import { mocks } from '@/__tests__/config/mocks'
 import ChangeThemeVue from '@/components/navbar/ChangeTheme.vue'
 import { createPinia, setActivePinia } from 'pinia'
 

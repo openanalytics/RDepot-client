@@ -24,7 +24,7 @@ import { describe, it, expect, beforeEach } from 'vitest'
 
 import { createPinia, setActivePinia } from 'pinia'
 import { useDates } from '@/composable/date'
-import events from '@/__tests__/unit/config/mockData/events.json'
+import events from '@/__tests__/config/mockData/events.json'
 import { EntityModelNewsfeedEventDto } from '@/openapi'
 
 beforeEach(async () => {

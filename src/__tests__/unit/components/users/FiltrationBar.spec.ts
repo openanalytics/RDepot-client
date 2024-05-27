@@ -29,9 +29,9 @@ import {
 } from 'vitest'
 
 import { mount } from '@vue/test-utils'
-import { plugins } from '@/__tests__/unit/config/plugins'
-import { mocks } from '@/__tests__/unit/config/mocks'
-import { ResizeObserver } from '@/__tests__/unit/config/ResizeObserver'
+import { plugins } from '@/__tests__/config/plugins'
+import { mocks } from '@/__tests__/config/mocks'
+import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import FiltrationBarVue from '@/components/users/FiltrationBar.vue'
 import { createPinia, setActivePinia } from 'pinia'
 import { useUserStore } from '@/store/users'
@@ -40,7 +40,7 @@ import {
   defaultValues
 } from '@/models/Filtration'
 import waitForExpect from 'wait-for-expect'
-import me from '@/__tests__/unit/config/mockData/me.json'
+import me from '@/__tests__/config/mockData/me.json'
 import { useMeStore } from '@/store/me'
 
 let wrapper: any

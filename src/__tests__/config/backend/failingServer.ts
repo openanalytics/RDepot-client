@@ -22,7 +22,7 @@
 
 import { http, HttpResponse } from 'msw'
 import { setupServer } from 'msw/node'
-import me from '@/__tests__/unit/config/mockData/me.json'
+import me from '@/__tests__/config/mockData/me.json'
 
 export const failingServer = setupServer(
   http.get(

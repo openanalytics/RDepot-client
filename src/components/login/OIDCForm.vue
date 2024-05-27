@@ -26,6 +26,7 @@
       color="background"
       @click="loginOIDC"
       class="loginTypeButton"
+      id="OIDC-button"
     >
       <div class="loginType">
         {{ $t('authorization.oidc') }}

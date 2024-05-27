@@ -29,12 +29,12 @@ import {
   vi,
   afterAll
 } from 'vitest'
-import repositories from '@/__tests__/unit/config/mockData/repositories.json'
+import repositories from '@/__tests__/config/mockData/repositories.json'
 import { useRepositoryStore } from '@/store/repositories'
 import { usePagination } from '@/store/pagination'
 import { Technologies } from '@/enum/Technologies'
 import { useMeStore } from '@/store/me'
-import { server } from '@/__tests__/unit/config/backend/server'
+import { server } from '@/__tests__/config/backend/server'
 
 const defaultFiltration = {
   technologies: undefined,

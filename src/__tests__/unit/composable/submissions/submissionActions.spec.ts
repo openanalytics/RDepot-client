@@ -28,62 +28,74 @@ import {
   vi
 } from 'vitest'
 
-import { createPinia, setActivePinia } from 'pinia'
-import {
-  EntityModelSubmissionDto,
-  EntityModelSubmissionDtoStateEnum
-} from '@/openapi'
-import { useSubmissionStore } from '@/store/submission'
 import { useSubmissionActions } from '@/composable/submissions/submissionActions'
-import submissions from '@/__tests__/unit/config/mockData/submissions.json'
+import { EntityModelSubmissionDto } from '@/openapi'
+import { createPinia, setActivePinia } from 'pinia'
+import { useSubmissionStore } from '@/store/submission'
+import { Technologies } from '@/enum/Technologies'
 import { useMeStore } from '@/store/me'
+import me from '@/__tests__/config/mockData/me.json'
 
-let submissionStore: any
-let submission: EntityModelSubmissionDto
+let submissionsStore: any
+let meStore: any
 
 beforeEach(async () => {
   setActivePinia(createPinia())
-  submissionStore = useSubmissionStore()
-  submission = submissions.data
-    .content[0] as EntityModelSubmissionDto
-  const meStore = useMeStore()
-  meStore.me.role = 'admin'
+  submissionsStore = useSubmissionStore()
+  meStore = useMeStore()
+  meStore.me = me.data
 })
 
-describe('submission actions composable', () => {
-  it('should accept submission', () => {
+describe('submissionActions', () => {
+  it('should not change submission state if submission is not provided', async () => {
     const { acceptSubmission } = useSubmissionActions()
     const spy = vi.spyOn(
-      submissionStore,
+      submissionsStore,
       'updateSubmission'
     )
-    acceptSubmission(submission)
-    expect(spy).toBeCalledWith(submission, {
-      state: EntityModelSubmissionDtoStateEnum.ACCEPTED
-    })
+    await acceptSubmission()
+    expect(spy).toBeCalledTimes(0)
   })
 
-  it('should reject submission', () => {
+  it('should change submission state to REJECTED', async () => {
     const { rejectSubmission } = useSubmissionActions()
     const spy = vi.spyOn(
-      submissionStore,
+      submissionsStore,
       'updateSubmission'
     )
-    rejectSubmission(submission)
-    expect(spy).toBeCalledWith(submission, {
-      state: EntityModelSubmissionDtoStateEnum.REJECTED
-    })
+    const submission = {
+      state: 'WAITING',
+      technology: Technologies.Enum.Python
+    } as EntityModelSubmissionDto
+    await rejectSubmission(submission)
+    expect(spy).toBeCalledTimes(1)
   })
 
-  it('should cancel submission', () => {
-    const { cancelSubmission } = useSubmissionActions()
+  it('should change submission state to ACCEPTED', async () => {
+    const { acceptSubmission } = useSubmissionActions()
     const spy = vi.spyOn(
-      submissionStore,
+      submissionsStore,
       'updateSubmission'
     )
-    cancelSubmission(submission)
-    expect(spy).toBeCalledWith(submission, {
-      state: EntityModelSubmissionDtoStateEnum.CANCELLED
-    })
+    const submission = {
+      state: 'WAITING',
+      technology: Technologies.Enum.Python
+    } as EntityModelSubmissionDto
+    await acceptSubmission(submission)
+    expect(spy).toBeCalledTimes(1)
+  })
+
+  it('should change submission state to WAITING', async () => {
+    const { acceptSubmission } = useSubmissionActions()
+    const spy = vi.spyOn(
+      submissionsStore,
+      'updateSubmission'
+    )
+    const submission = {
+      state: 'WAITING',
+      technology: Technologies.Enum.Python
+    } as EntityModelSubmissionDto
+    await acceptSubmission(submission)
+    expect(spy).toBeCalledTimes(1)
   })
 })

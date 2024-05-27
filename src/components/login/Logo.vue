@@ -23,6 +23,7 @@
 <template>
   <v-img
     src="@/assets/logo.png"
+    id="logo-oa"
     class="my-3 mb-5"
     contain
     height="200"

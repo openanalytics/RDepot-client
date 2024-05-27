@@ -31,11 +31,11 @@ import {
   it,
   vi
 } from 'vitest'
-import events from '@/__tests__/unit/config/mockData/events.json'
+import events from '@/__tests__/config/mockData/events.json'
 import { Technologies } from '@/enum/Technologies'
 import { EventsFiltration } from '@/models/Filtration'
 import { useMeStore } from '@/store/me'
-import { server } from '@/__tests__/unit/config/backend/server'
+import { server } from '@/__tests__/config/backend/server'
 
 const defaultFiltration = {
   eventType: undefined,
