@@ -23,7 +23,7 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 
 import { mount } from '@vue/test-utils'
-import QuestionCard from '@/components/common/QuestionCard.vue'
+import QuestionCard from '@/components/common/overlay/QuestionCard.vue'
 import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
 
