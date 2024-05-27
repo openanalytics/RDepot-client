@@ -231,7 +231,8 @@ describe('Upload summary - success', () => {
     promise.response = [
       { id: 1 },
       pagination,
-      submissions.data.links
+      submissions.data.links,
+      'success'
     ]
     promise.error = []
   })

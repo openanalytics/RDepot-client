@@ -266,8 +266,12 @@ export const useSubmissionStore = defineStore(
         this.promises.forEach(async (promise) => {
           await promise.promise
             .then((response) => {
+              console.log(promise.promise)
               promise.response = response
-              promise.state = 'success'
+              promise.state =
+                response[3] == 'SUCCESS'
+                  ? 'success'
+                  : 'warning'
             })
             .catch((err) => {
               promise.state = 'error'
