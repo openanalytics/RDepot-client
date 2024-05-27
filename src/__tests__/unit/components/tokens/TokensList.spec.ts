@@ -38,12 +38,12 @@ import { useMeStore } from '@/store/me'
 import me from '@/__tests__/unit/config/mockData/me.json'
 import { nextTick } from 'vue'
 import { i18n } from '@/plugins/i18n'
-import { useSettingsStore } from '@/store/settings'
-import TokenList from '@/components/settings/TokenList.vue'
+import TokenList from '@/components/accessTokens/TokenList.vue'
+import { useAccessTokensStore } from '@/store/access_tokens'
 
 let wrapper: any
 let meStore: any
-let settingStore: any
+let accessTokensStore: any
 
 const globalConfig = {
   mocks: mocks,
@@ -53,7 +53,7 @@ const globalConfig = {
 beforeAll(() => {
   global.ResizeObserver = ResizeObserver
   setActivePinia(createPinia())
-  settingStore = useSettingsStore()
+  accessTokensStore = useAccessTokensStore()
   meStore = useMeStore()
   meStore.me = me.data
 })
@@ -62,8 +62,8 @@ beforeEach(async () => {
   wrapper = mount(TokenList, {
     global: globalConfig
   })
-  settingStore.tokens = tokens.data.content
-  settingStore.loading = false
+  accessTokensStore.tokens = tokens.data.content
+  accessTokensStore.loading = false
 })
 
 describe('Tokens - list', () => {
@@ -84,7 +84,7 @@ describe('Tokens - list', () => {
   })
 
   it('displays no data available text', async () => {
-    settingStore.tokens = []
+    accessTokensStore.tokens = []
     await nextTick()
     expect(wrapper.text()).toContain('No data available')
     expect(wrapper.findAllComponents('tr').length).toEqual(

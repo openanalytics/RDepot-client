@@ -103,7 +103,7 @@ import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
 import { ref } from 'vue'
 import { useSort } from '@/composable/sort'
 import { useAuthorizationStore } from '@/store/authorization'
-import AddMaintainerButton from '../common/AddMaintainerButton.vue'
+import AddMaintainerButton from '@/components/common/buttons/AddMaintainerButton.vue'
 
 const repositoryMaintainersStore =
   useRepositoryMaintainersStore()

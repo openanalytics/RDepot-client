@@ -28,7 +28,7 @@
 
 <script setup lang="ts">
 import { useCommonStore } from '@/store/common'
-import Overlay from '@/components/common/Overlay.vue'
+import Overlay from '@/components/common/overlay/Overlay.vue'
 import { usePackagesStore } from '@/store/packages'
 
 const packagesStore = usePackagesStore()

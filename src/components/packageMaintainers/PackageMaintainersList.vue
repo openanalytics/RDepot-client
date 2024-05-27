@@ -97,7 +97,7 @@ import {
 import { EntityModelPackageMaintainerDto } from '@/openapi'
 import { ref } from 'vue'
 import { useSort } from '@/composable/sort'
-import AddMaintainerButton from '../common/AddMaintainerButton.vue'
+import AddMaintainerButton from '@/components/common/buttons/AddMaintainerButton.vue'
 import { useAuthorizationStore } from '@/store/authorization'
 
 const packageMaintainersStore = usePackageMaintainersStore()

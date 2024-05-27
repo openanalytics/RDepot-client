@@ -22,7 +22,7 @@
 
 import { describe, it, expect, beforeEach } from 'vitest'
 
-import Overlay from '@/components/common/Overlay.vue'
+import Overlay from '@/components/common/overlay/Overlay.vue'
 import { createPinia, setActivePinia } from 'pinia'
 import { shallowMount } from '@vue/test-utils'
 import { useCommonStore } from '@/store/common'

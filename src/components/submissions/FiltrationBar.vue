@@ -139,7 +139,7 @@
 </template>
 
 <script setup lang="ts">
-import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
+import ValidatedInputField from '@/components/common/fields/ValidatedInputField.vue'
 import {
   defaultValues,
   SubmissionsFiltration
@@ -149,9 +149,9 @@ import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useSubmissionStore } from '@/store/submission'
 import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesFiltration'
-import DatePicker from '@/components/common/DatePicker.vue'
+import DatePicker from '@/components/common/fields/DatePicker.vue'
 import { useDatePicker } from '@/composable/datePicker'
-import ResetButton from '@/components/common/ResetButton.vue'
+import ResetButton from '@/components/common/buttons/ResetButton.vue'
 import { computed } from 'vue'
 
 const { states, technologies } = useEnumFiltration()

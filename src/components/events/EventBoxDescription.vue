@@ -30,48 +30,13 @@
 
 <script setup lang="ts">
 import { EntityModelNewsfeedEventDto } from '@/openapi'
-import PackageEvent from '@/components/events/resources/PackageEvent.vue'
-import RepositoryEvent from '@/components/events/resources/RepositoryEvent.vue'
-import UserEvent from '@/components/events/resources/UserEvent.vue'
-import SubmissionEvent from '@/components/events/resources/SubmissionEvent.vue'
-import AccessTokenEvent from '@/components/events/resources/AccessTokenEvent.vue'
-import PackageMaintainerEvent from '@/components/events/resources/PackageMaintainerEvent.vue'
-import RepositoryMaintainerEvent from '@/components/events/resources/RepositoryMaintainerEvent.vue'
-import { z } from 'zod'
+import toComponent from '@/maps/events/EventResource'
 
 const props = defineProps({
   event: Object as () => EntityModelNewsfeedEventDto,
   eventType: String,
   resourceType: String
 })
-
-const component = z.enum([
-  'PACKAGE',
-  'REPOSITORY',
-  'USER',
-  'SUBMISSION',
-  'ACCESS TOKEN',
-  'PACKAGE MAINTAINER',
-  'REPOSITORY MAINTAINER'
-])
-
-type Component = z.infer<typeof component>
-
-const toComponent = new Map<Component, any>([
-  [component.enum['PACKAGE'], PackageEvent],
-  [component.enum['REPOSITORY'], RepositoryEvent],
-  [component.enum['USER'], UserEvent],
-  [component.enum['SUBMISSION'], SubmissionEvent],
-  [component.enum['ACCESS TOKEN'], AccessTokenEvent],
-  [
-    component.enum['PACKAGE MAINTAINER'],
-    PackageMaintainerEvent
-  ],
-  [
-    component.enum['REPOSITORY MAINTAINER'],
-    RepositoryMaintainerEvent
-  ]
-])
 
 const as = toComponent.get(
   props.resourceType || toComponent.get('PACKAGE')

@@ -153,7 +153,7 @@ import { useMeStore } from '@/store/me'
 import { ref } from 'vue'
 import { useSort } from '@/composable/sort'
 import RepositoriesModal from './RepositoriesModal.vue'
-import AddButton from '../common/AddButton.vue'
+import AddButton from '@/components/common/buttons/AddButton.vue'
 import { useAuthorizationStore } from '@/store/authorization'
 
 const packagesStore = usePackagesStore()

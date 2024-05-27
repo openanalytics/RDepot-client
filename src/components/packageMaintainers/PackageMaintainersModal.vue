@@ -37,7 +37,7 @@
 
 <script setup lang="ts">
 import { useCommonStore } from '@/store/common'
-import Overlay from '@/components/common/Overlay.vue'
+import Overlay from '@/components/common/overlay/Overlay.vue'
 import { usePackageMaintainersStore } from '@/store/package_maintainers'
 import PackageMaintainerEdit from '@/components/packageMaintainers/PackageMaintainerEdit.vue'
 import PackageMaintainerCreate from '@/components/packageMaintainers/PackageMaintainerCreate.vue'

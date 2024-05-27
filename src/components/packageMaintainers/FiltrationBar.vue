@@ -109,7 +109,7 @@
 </template>
 
 <script setup lang="ts">
-import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
+import ValidatedInputField from '@/components/common/fields/ValidatedInputField.vue'
 import {
   defaultValues,
   PackageMaintainersFiltration
@@ -119,7 +119,7 @@ import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesF
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { usePackageMaintainersStore } from '@/store/package_maintainers'
-import ResetButton from '@/components/common/ResetButton.vue'
+import ResetButton from '@/components/common/buttons/ResetButton.vue'
 import { onBeforeMount } from 'vue'
 
 const { technologies } = useEnumFiltration()

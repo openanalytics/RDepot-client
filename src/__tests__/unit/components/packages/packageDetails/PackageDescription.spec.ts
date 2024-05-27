@@ -29,7 +29,7 @@ import pythonPackage from '@/__tests__/unit/config/mockData/pythonPackage.json'
 import { createPinia, setActivePinia } from 'pinia'
 import PackageDescription from '@/components/packages/packageDetails/PackageDescription.vue'
 import { usePackageDetailsStore } from '@/store/package_details'
-import MarkdownDescription from '@/components/common/MarkdownDescription.vue'
+import MarkdownDescription from '@/components/common/markdown/MarkdownDescription.vue'
 import { nextTick } from 'process'
 
 let wrapper: any

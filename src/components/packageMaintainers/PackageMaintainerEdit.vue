@@ -109,11 +109,11 @@
 </template>
 
 <script setup lang="ts">
-import CardActions from '@/components/common/CardActions.vue'
+import CardActions from '@/components/common/overlay/CardActions.vue'
 import { usePackageMaintainersStore } from '@/store/package_maintainers'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useForm } from 'vee-validate'
-import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
+import ValidatedInputField from '@/components/common/fields/ValidatedInputField.vue'
 import { ref, onBeforeMount } from 'vue'
 import { packageMaintainerSchema } from '@/models/Schemas'
 import { z } from 'zod'

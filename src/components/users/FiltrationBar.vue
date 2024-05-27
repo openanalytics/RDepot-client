@@ -71,7 +71,7 @@
 </template>
 
 <script setup lang="ts">
-import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
+import ValidatedInputField from '@/components/common/fields/ValidatedInputField.vue'
 import {
   defaultValues,
   UsersFiltration
@@ -80,7 +80,7 @@ import { useEnumFiltration } from '@/composable/filtration/enumFiltration'
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useUserStore } from '@/store/users'
-import ResetButton from '@/components/common/ResetButton.vue'
+import ResetButton from '@/components/common/buttons/ResetButton.vue'
 
 const { roles } = useEnumFiltration()
 
