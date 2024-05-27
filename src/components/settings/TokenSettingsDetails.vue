@@ -21,13 +21,11 @@
 -->
 
 <template>
-  <AddToken />
   <FiltrationBar />
   <TokenList :key="componentKey" />
 </template>
 
 <script setup lang="ts">
-import AddToken from '@/components/settings/AddToken.vue'
 import FiltrationBar from '@/components/settings/FiltrationBar.vue'
 import TokenList from '@/components/settings/TokenList.vue'
 import { computed } from 'vue'

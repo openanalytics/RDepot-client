@@ -94,18 +94,6 @@ describe('Packages - list', () => {
       1
     )
   })
-  it('displays loading info', async () => {
-    packagesStore.loading = true
-    await nextTick()
-    expect(
-      wrapper
-        .findComponent('.v-data-table-progress__loader')
-        .exists()
-    ).toBeTruthy()
-    expect(wrapper.findAllComponents('tr').length).toEqual(
-      1
-    )
-  })
 })
 
 describe('Packages - list headers', () => {

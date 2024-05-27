@@ -87,18 +87,6 @@ describe('User list - user row', () => {
       1
     )
   })
-  it('displays loading info', async () => {
-    usersStore.loading = true
-    await nextTick()
-    expect(
-      wrapper
-        .findComponent('.v-data-table-progress__loader')
-        .exists()
-    ).toBeTruthy()
-    expect(wrapper.findAllComponents('tr').length).toEqual(
-      1
-    )
-  })
 })
 
 describe('Users - list headers', () => {

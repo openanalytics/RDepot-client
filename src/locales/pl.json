@@ -340,6 +340,7 @@
     "size": "Rozmiar strony"
   },
   "repositories": {
+    "addRepository": "Utwórz repozytorium",
     "creation": {
       "duplicateName": "Repozytorium o tej nazwie już istnieje",
       "name": "Nazwa",

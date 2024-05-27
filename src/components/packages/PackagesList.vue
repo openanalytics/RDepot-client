@@ -37,10 +37,10 @@
     :sort-by="sortBy"
     :items-per-page-options="pagination.itemsPerPage"
   >
-    <template v-slot:loading>
-      <v-skeleton-loader
-        type="`table-row-divider@15`"
-      ></v-skeleton-loader>
+    <template #top>
+      <div class="d-flex justify-space-between mx-3 my-5">
+        <h2>{{ i18n.t('packages.list') }}</h2>
+      </div>
     </template>
     <template #item.technology="{ value }">
       <v-chip
@@ -90,7 +90,11 @@
         :disabled="canPatch(item.links)"
       >
         <template #activator="{ props }">
-          <span v-bind="props">
+          <span
+            v-bind="props"
+            style="width: 100%"
+            class="d-flex justify-center"
+          >
             <v-checkbox-btn
               hide-details
               id="checkbox-active"
@@ -101,6 +105,7 @@
               :color="
                 !canPatch(item?.links) ? 'grey' : 'oablue'
               "
+              class="mr-5"
             />
           </span>
         </template>

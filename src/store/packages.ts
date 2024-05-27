@@ -89,17 +89,17 @@ export const usePackagesStore = defineStore(
           options.sortBy = [{ key: 'name', order: 'asc' }]
         }
         this.loading = true
-        const [packages] = await fetch(
+        fetch(
           this.filtration,
           options.page - 1,
           options.itemsPerPage,
           options.sortBy[0].key +
             ',' +
             options.sortBy[0].order
-        )
-
-        this.packages = packages
-        this.loading = false
+        ).then((packages) => {
+          this.packages = packages[0]
+          this.loading = false
+        })
       },
       async fetchPackages(filtration?: PackagesFiltration) {
         const pagination = usePagination()
@@ -127,7 +127,6 @@ export const usePackagesStore = defineStore(
         filtration: PackagesFiltration,
         showProgress = true
       ) {
-        this.packages = []
         const [packages, pageData] =
           await fetchPackagesServices(
             filtration,

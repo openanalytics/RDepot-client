@@ -89,9 +89,9 @@ export const useRepositoryStore = defineStore(
             ',' +
             options.sortBy[0].order
         )
-        this.loading = false
         this.totalNumber = pageData.totalNumber
         this.repositories = repositories
+        this.loading = false
       },
       async fetchRepositoriesList(
         page: number,

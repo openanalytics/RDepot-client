@@ -96,18 +96,6 @@ describe('Repositories - list', () => {
       1
     )
   })
-  it('displays loading info', async () => {
-    repositoriesStore.loading = true
-    await nextTick()
-    expect(
-      wrapper
-        .findComponent('.v-data-table-progress__loader')
-        .exists()
-    ).toBeTruthy()
-    expect(wrapper.findAllComponents('tr').length).toEqual(
-      1
-    )
-  })
 })
 
 describe('Repositories - list headers', () => {

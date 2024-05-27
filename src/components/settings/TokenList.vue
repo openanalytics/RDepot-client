@@ -35,10 +35,11 @@
     :sort-by="sortBy"
     :items-per-page-options="pagination.itemsPerPage"
   >
-    <template v-slot:loading>
-      <v-skeleton-loader
-        type="`table-row-divider@15`"
-      ></v-skeleton-loader>
+    <template #top>
+      <div class="d-flex justify-space-between mx-3 my-5">
+        <h2>{{ i18n.t('settings.tab.token') }}</h2>
+        <AddToken />
+      </div>
     </template>
 
     <template #item.creationDate="{ value }">
@@ -107,6 +108,7 @@ import { isAtLeastAdmin } from '@/enum/UserRoles'
 import { computed } from 'vue'
 import { ref } from 'vue'
 import { useSort } from '@/composable/sort'
+import AddToken from './AddToken.vue'
 const settingsStore = useSettingsStore()
 
 const pagination = usePagination()

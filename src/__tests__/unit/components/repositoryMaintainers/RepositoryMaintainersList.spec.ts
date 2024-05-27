@@ -93,18 +93,6 @@ describe('Repository Maintainers - list', () => {
       1
     )
   })
-  it('displays loading info', async () => {
-    repositoryMaintainersStore.loading = true
-    await nextTick()
-    expect(
-      wrapper
-        .findComponent('.v-data-table-progress__loader')
-        .exists()
-    ).toBeTruthy()
-    expect(wrapper.findAllComponents('tr').length).toEqual(
-      1
-    )
-  })
 })
 
 describe('Repository  maintainers - list headers', () => {

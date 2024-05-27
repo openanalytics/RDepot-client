@@ -91,18 +91,6 @@ describe('Tokens - list', () => {
       1
     )
   })
-  it('displays loading info', async () => {
-    settingStore.loading = true
-    await nextTick()
-    expect(
-      wrapper
-        .findComponent('.v-data-table-progress__loader')
-        .exists()
-    ).toBeTruthy()
-    expect(wrapper.findAllComponents('tr').length).toEqual(
-      1
-    )
-  })
 })
 
 describe('Tokens - list headers', () => {

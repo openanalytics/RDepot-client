@@ -21,17 +21,14 @@
 -->
 
 <template>
-  <v-container
-    class="v-expansion mx-8"
-    style="padding-left: 0; padding-right: 0"
-  >
-    <v-row>
-      <v-spacer></v-spacer>
-      <div id="tooltip-activator" class="mr-10 mt-2">
+  <v-tooltip location="left">
+    <template #activator="{ props }">
+      <div id="tooltip-activator">
         <CommonButton
           id="add-maintainer"
           :component="OverlayEnum.enum.Create"
           size="small"
+          v-bind="props"
         >
           <span class="pr-3">
             {{ $t('common.create') }}</span
@@ -39,18 +36,14 @@
           <v-icon icon="mdi-plus"
         /></CommonButton>
       </div>
-    </v-row>
-  </v-container>
+    </template>
+    <span id="tooltip-wait"
+      ><span>{{ $t('settings.create') }}</span>
+    </span>
+  </v-tooltip>
 </template>
 
 <script setup lang="ts">
-import { useCommonStore } from '@/store/common'
 import CommonButton from '@/components/common/Button.vue'
 import { OverlayEnum } from '@/enum/Overlay'
-
-const commonStore = useCommonStore()
-
-function openModal() {
-  commonStore.openOverlay(OverlayEnum.enum.Create)
-}
 </script>
