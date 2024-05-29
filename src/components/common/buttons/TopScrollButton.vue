@@ -50,7 +50,7 @@ import { ref } from 'vue'
 
 const showFab = ref(false)
 
-function onScroll(e: Event) {
+function onScroll() {
   if (typeof window === 'undefined') return
   const top = window.scrollY || 0
   showFab.value = top > 20

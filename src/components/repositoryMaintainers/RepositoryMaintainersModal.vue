@@ -21,24 +21,24 @@
 -->
 
 <template>
-  <Overlay v-on:action="performAction()">
-    <template v-slot:props="{ closeModal }">
+  <ModalOverlay @action="performAction()">
+    <template #props="{ closeModal }">
       <RepositoryMaintainerEdit
         v-if="commonStore.isEdit()"
         :blocked-field="editBlockedField"
-        @closeModal="closeModal"
+        @close-modal="closeModal"
       />
       <RepositoryMaintainerCreate
         v-if="commonStore.isCreate()"
-        @closeModal="closeModal"
+        @close-modal="closeModal"
       />
     </template>
-  </Overlay>
+  </ModalOverlay>
 </template>
 
 <script setup lang="ts">
 import { useCommonStore } from '@/store/common'
-import Overlay from '@/components/common/overlay/Overlay.vue'
+import ModalOverlay from '@/components/common/overlay/ModalOverlay.vue'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
 import RepositoryMaintainerEdit from '@/components/repositoryMaintainers/RepositoryMaintainerEdit.vue'
 import RepositoryMaintainerCreate from '@/components/repositoryMaintainers/RepositoryMaintainerCreate.vue'
@@ -46,7 +46,7 @@ import RepositoryMaintainerCreate from '@/components/repositoryMaintainers/Repos
 const maintainersStore = useRepositoryMaintainersStore()
 const commonStore = useCommonStore()
 
-const props = defineProps({
+defineProps({
   editBlockedField: {
     required: false,
     default: 'user',

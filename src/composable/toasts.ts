@@ -26,7 +26,7 @@ import vuetify from '@/plugins/vuetify'
 import { AxiosError, AxiosResponse } from 'axios'
 import { ResponseDtoObject } from '@/openapi'
 import { i18n } from '@/plugins/i18n'
-import Toast500 from '@/components/common/toasts/Toast500.vue'
+import Toast500Error from '@/components/common/toasts/Toast500Error.vue'
 import { BackendError } from '@/models/errors/BackendError'
 
 export function useToast() {
@@ -61,7 +61,7 @@ export function useToast() {
   }
 
   function error500(err: AxiosError<BackendError>): void {
-    toast.error(Toast500, {
+    toast.error(Toast500Error, {
       icon: false,
       closeOnClick: false,
       autoClose: 10000,

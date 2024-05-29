@@ -38,17 +38,17 @@
       <v-list-item
         v-for="(item, index) in langs"
         :key="index"
+        link
         @click="
           () => {
             $i18n.locale = item.abbreviation
             changeLanguage(item.name)
           }
         "
-        link
       >
         <v-list-item-title
-          v-text="item.display"
-        ></v-list-item-title>
+          >{{ item.display }}
+        </v-list-item-title>
       </v-list-item>
     </v-list>
   </v-menu>

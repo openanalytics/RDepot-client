@@ -29,21 +29,24 @@
       <EventTag
         size="small"
         :value="getTime(event)"
-        disableCopying
-        disableTooltip
+        disable-copying
+        disable-tooltip
       />
     </span>
   </v-card-title>
   <v-card-subtitle
     >{{ resourceType }}
-    <EventTypeTag :eventType="event?.eventType" />
+    <EventTypeTag
+      v-if="event.eventType"
+      :event-type="event.eventType"
+    />
   </v-card-subtitle>
 
   <v-divider class="my-2 mx-2" />
   <v-card-text>
     <p
-      class="value"
       v-if="event && event.eventType === 'update'"
+      class="value"
     >
       <UpdateDescription :event="event"></UpdateDescription>
     </p>
@@ -55,35 +58,37 @@
         v-if="relatedResource?.deleted"
         :value="i18n.t('columns.users.deleted')"
         color="oared"
-        disableCopying
-        disableTooltip
+        disable-copying
+        disable-tooltip
       />
 
       <EventTag
         v-if="relatedResource?.active"
         :value="i18n.t('columns.users.active')"
-        disableCopying
-        disableTooltip
+        disable-copying
+        disable-tooltip
       />
 
       <EventTag
         :value="relatedResource?.role"
-        :hoverMessage="i18n.t('columns.users.role')"
+        :hover-message="i18n.t('columns.users.role')"
       />
 
       <EventTag
         :value="relatedResource?.email"
-        :hoverMessage="i18n.t('columns.users.email')"
+        :hover-message="i18n.t('columns.users.email')"
       />
 
       <EventTag
         :value="relatedResource?.lastLoggedInOn"
-        :hoverMessage="i18n.t('columns.users.lastLoggedIn')"
+        :hover-message="
+          i18n.t('columns.users.lastLoggedIn')
+        "
       />
 
       <EventTag
         :value="relatedResource?.createdOn"
-        :hoverMessage="i18n.t('columns.users.createdOn')"
+        :hover-message="i18n.t('columns.users.createdOn')"
       />
     </div>
   </v-card-text>
@@ -101,12 +106,15 @@ import { i18n } from '@/plugins/i18n'
 import { computed } from 'vue'
 import EventTypeTag from './EventTypeTag.vue'
 
-const props = defineProps({
-  event: Object as () => EntityModelNewsfeedEventDto
+const componentProps = defineProps({
+  event: {
+    type: Object as () => EntityModelNewsfeedEventDto,
+    required: true
+  }
 })
 
-const relatedResource: EntityModelUserDto = props.event
-  ?.relatedResource as EntityModelUserDto
+const relatedResource: EntityModelUserDto = componentProps
+  .event?.relatedResource as EntityModelUserDto
 
 const { getTime } = useDates()
 

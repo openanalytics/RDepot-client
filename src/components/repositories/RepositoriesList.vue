@@ -22,19 +22,19 @@
 
 <template>
   <v-data-table-server
+    :items-per-page="pagination.pageSize"
     :headers="filteredHeaders"
-    v-model:items-per-page="pagination.pageSize"
     :items="repositoryStore.repositories"
     :items-length="repositoryStore.totalNumber"
     item-value="id"
     sort-asc-icon="mdi-sort-ascending"
     sort-desc-icon="mdi-sort-descending"
     color="oablue"
-    @update:options="fetchData"
     :loading="repositoryStore.loading"
-    @click:row="navigate"
     :sort-by="sortBy"
     :items-per-page-options="pagination.itemsPerPage"
+    @update:options="fetchData"
+    @click:row="navigate"
   >
     <template #top>
       <div class="d-flex justify-space-between mx-3 my-5">
@@ -46,7 +46,7 @@
         />
       </div>
     </template>
-    <template #item.technology="{ value }">
+    <template #[`item.technology`]="{ value }">
       <v-chip
         class="mr-5"
         size="small"
@@ -55,7 +55,7 @@
       >
         {{ value }}</v-chip
       ></template
-    ><template #item.published="{ item }">
+    ><template #[`item.published`]="{ item }">
       <v-tooltip
         location="top"
         :disabled="!isDisabled(item)"
@@ -68,9 +68,8 @@
           >
             <v-checkbox-btn
               id="checkbox-published"
-              hide-details
               v-model="item.published"
-              @change="updateRepositoryPublished(item)"
+              hide-details
               :readonly="
                 !canPatch(item.links) ||
                 configStore.declarativeMode
@@ -82,7 +81,7 @@
                   : 'oablue'
               "
               class="mr-5"
-              @click.stop
+              @click.stop="updateRepositoryPublished(item)"
             >
             </v-checkbox-btn>
           </span>
@@ -94,36 +93,37 @@
           $t('repositories.declarative.publish')
         }}</span>
       </v-tooltip></template
-    ><template #item.actions="{ item }">
+    ><template #[`item.actions`]="{ item }">
       <span class="d-flex justify-center align-center">
         <EditIcon
           :disabled="
             !canPatch(item.links) ||
             configStore.declarativeMode
           "
-          @set-entity="chooseRepositoryToUpdate(item)"
           :text="$t('common.edit')"
-          :hoverMessage="
+          :hover-message="
             configStore.declarativeMode
               ? $t('repositories.declarative.edit')
               : undefined
           "
+          @set-entity="chooseRepositoryToUpdate(item)"
         />
         <DeleteIcon
+          v-if="item.name"
           :disabled="
             !configStore.deletingRepositories ||
             !canDelete(item.links) ||
             configStore.declarativeMode
           "
           :name="item.name"
-          @setResourceId="chooseRepository"
-          :hoverMessage="
+          :hover-message="
             configStore.declarativeMode
               ? $t('repositories.declarative.delete')
               : !configStore.deletingRepositories
               ? $t('config.deletingRepositories')
               : undefined
           "
+          @set-resource-id="chooseRepository"
         /> </span
     ></template>
   </v-data-table-server>
@@ -152,7 +152,6 @@ import { isAtLeastRepositoryMaintainer } from '@/enum/UserRoles'
 import { useMeStore } from '@/store/me'
 import { ref } from 'vue'
 import { useSort } from '@/composable/sort'
-import RepositoriesModal from './RepositoriesModal.vue'
 import AddButton from '@/components/common/buttons/AddButton.vue'
 import { useAuthorizationStore } from '@/store/authorization'
 
@@ -221,13 +220,17 @@ const headers: DataTableHeaders[] = [
   }
 ]
 
+function resetElementWidth() {
+  headers[1].width = undefined
+}
+
 const filteredHeaders = computed(() => {
   if (
     !isAtLeastRepositoryMaintainer(
       meStore.userRole ? meStore.userRole : 0
     )
   ) {
-    headers[1].width = undefined
+    resetElementWidth()
     return headers.filter(
       (header) => header.key != 'serverAddress'
     )

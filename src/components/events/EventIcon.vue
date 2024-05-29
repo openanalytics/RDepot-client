@@ -34,8 +34,8 @@
     <div v-if="isYearAndMonthDate(date)">
       <v-card elevation="2">
         <div
-          class="year d-flex align-center flex-column px-2 pt-2 pb-3"
           v-if="date"
+          class="year d-flex align-center flex-column px-2 pt-2 pb-3"
         >
           {{ getFullYear(date) }}
           <div class="month py-1 px-0">
@@ -73,8 +73,14 @@ import { i18n } from '@/plugins/i18n'
 const emit = defineEmits(['hideDate'])
 
 defineProps({
-  date: String,
-  event: Object as () => EntityModelNewsfeedEventDto
+  date: { type: String, required: false, default: null },
+  event: {
+    type: Object as () => EntityModelNewsfeedEventDto,
+    required: false,
+    default: () => {
+      ;('')
+    }
+  }
 })
 
 function getFullYear(date: string) {

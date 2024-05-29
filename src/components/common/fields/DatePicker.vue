@@ -25,17 +25,17 @@
     <v-card v-click-outside="closeModal">
       <v-card-text>
         <v-date-picker
-          @update:modelValue="updateDate"
-          :modelValue="previousDate"
-          :allowedDates="checkAllowedDates"
+          :model-value="previousDate"
+          :allowed-dates="checkAllowedDates"
+          @update:model-value="updateDate"
         ></v-date-picker>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn
           :text="t('common.reset')"
-          @click="resetDate"
           color="error"
+          @click="resetDate"
         ></v-btn>
         <v-spacer></v-spacer>
         <v-btn
@@ -52,7 +52,7 @@
 import { useI18n } from 'vue-i18n'
 import { computed } from 'vue'
 
-const props = defineProps({
+const componentProps = defineProps({
   modelValue: { type: Boolean },
   previousDate: {
     type: Date,
@@ -73,7 +73,7 @@ const emits = defineEmits<{
 const { t } = useI18n()
 const show = computed({
   get() {
-    return props.modelValue
+    return componentProps.modelValue
   },
   set(value) {
     emits('update:modelValue', value)
@@ -81,19 +81,22 @@ const show = computed({
 })
 
 function checkAllowedDates(val: Date | unknown): boolean {
-  if (props.allowedDates) {
-    if (props.direction === 'to' && val instanceof Date) {
+  if (componentProps.allowedDates) {
+    if (
+      componentProps.direction === 'to' &&
+      val instanceof Date
+    ) {
       return (
         val.getTime() >
-        new Date(props.allowedDates).getTime()
+        new Date(componentProps.allowedDates).getTime()
       )
     } else if (
-      props.direction === 'from' &&
+      componentProps.direction === 'from' &&
       val instanceof Date
     ) {
       return (
         val.getTime() <
-        new Date(props.allowedDates).getTime()
+        new Date(componentProps.allowedDates).getTime()
       )
     }
   }

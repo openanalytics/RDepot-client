@@ -23,13 +23,13 @@
 <template>
   <Overlay @action="resetToken()">
     <template #props="{ closeModal }">
-      <NewTokenDetails @closeModal="closeModal" />
+      <NewTokenDetails @close-modal="closeModal" />
     </template>
   </Overlay>
 </template>
 
 <script setup lang="ts">
-import Overlay from '@/components/common/overlay/Overlay.vue'
+import Overlay from '@/components/common/overlay/ModalOverlay.vue'
 import NewTokenDetails from '@/components/accessTokens/createdToken/NewTokenDetails.vue'
 import { useAccessTokensStore } from '@/store/access_tokens'
 

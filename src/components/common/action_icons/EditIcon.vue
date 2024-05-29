@@ -25,15 +25,15 @@
     <template #activator="{ props }">
       <v-icon
         id="pencil-icon"
-        @click.stop
-        @click="edit"
         v-bind="props"
         class="ml-3"
         :color="disabled ? 'grey' : 'oablue'"
+        @click.stop
+        @click="edit"
         >mdi-pencil</v-icon
       >
     </template>
-    <span id="action-delete" v-if="!disabled">{{
+    <span v-if="!disabled" id="action-delete">{{
       text
     }}</span>
     <span v-else>
@@ -48,7 +48,7 @@ import { i18n } from '@/plugins/i18n'
 import { useCommonStore } from '@/store/common'
 import { computed } from 'vue'
 
-const props = defineProps({
+const componentProps = defineProps({
   text: {
     type: String,
     required: true
@@ -59,7 +59,8 @@ const props = defineProps({
   },
   hoverMessage: {
     type: String,
-    reqiured: false
+    required: false,
+    default: ''
   }
 })
 
@@ -67,16 +68,17 @@ const emits = defineEmits(['setEntity'])
 const commonStore = useCommonStore()
 
 function edit() {
-  if (!props.disabled) {
+  if (!componentProps.disabled) {
     emits('setEntity')
-    commonStore.setOverlayText(props.text)
+    commonStore.setOverlayText(componentProps.text)
     commonStore.openOverlay(OverlayEnum.enum.Edit)
   }
 }
 
 const translatedHoverMessage = computed(() => {
   return (
-    props.hoverMessage || i18n.t('common.notAuthorized')
+    componentProps.hoverMessage ||
+    i18n.t('common.notAuthorized')
   )
 })
 </script>

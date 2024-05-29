@@ -56,7 +56,7 @@
 import { EntityModelPackageDto } from '@/openapi'
 import { computed, ref } from 'vue'
 import { usePackageDetailsStore } from '@/store/package_details'
-import Property from './Property.vue'
+import Property from './PackageProperty.vue'
 
 const packageDetailsStore = usePackageDetailsStore()
 const submission = ref(packageDetailsStore.submission)

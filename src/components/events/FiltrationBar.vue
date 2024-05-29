@@ -23,88 +23,88 @@
 <template>
   <DatePicker
     v-model="showDatepicker"
-    :previousDate="fromDatePicker"
-    @updateDate="updateDate"
-    @closeModal="closeModal"
-    @resetDate="resetDate"
+    :previous-date="fromDatePicker"
     :direction="changedDate"
-    :allowedDates="allowedDates"
+    :allowed-dates="allowedDates"
+    @update-date="updateDate"
+    @close-modal="closeModal"
+    @reset-date="resetDate"
   />
   <div
     class="v-expansion d-flex py-3 ga-3 justify-space-between"
     style="padding-left: 0; padding-right: 0"
   >
     <validated-input-field
-      @update:modelValue="setFiltration"
+      id="filtration-technology"
       density="compact"
       hide-details
       chips
       closable-chips
-      id="filtration-technology"
       :items="technologies"
       name="technologies"
       multiple
       clearable
       as="v-select"
       :label="$t('filtration.technologies')"
+      @update:model-value="setFiltration"
     ></validated-input-field>
 
     <validated-input-field
-      @update:modelValue="setFiltration"
+      id="filtration-event-type"
       density="compact"
       hide-details
       chips
       closable-chips
-      id="filtration-event-type"
       :items="eventTypes"
       name="eventType"
       as="v-select"
       clearable
       multiple
       :label="$t('events.filtration.eventType')"
+      @update:model-value="setFiltration"
     ></validated-input-field>
 
     <validated-input-field
-      @update:modelValue="setFiltration"
+      id="filtration-resource-type"
       density="compact"
       hide-details
       chips
       closable-chips
-      id="filtration-resource-type"
       :items="resourceTypes"
       name="resourceType"
       multiple
       clearable
       as="v-select"
       :label="$t('filtration.resourceType')"
+      @update:model-value="setFiltration"
     ></validated-input-field>
 
     <validated-input-field
-      @update:focused="selectFromDate"
+      id="filtration-fromDate"
       density="compact"
       hide-details
       name="fromDate"
       as="v-text-field"
       :label="$t('submissions.filtration.fromDate')"
       color="oablue"
-      id="filtration-fromDate"
+      @update:focused="selectFromDate"
     />
 
     <validated-input-field
-      @update:focused="selectToDate"
+      id="filtration-toDate"
       density="compact"
       hide-details
       name="toDate"
       as="v-text-field"
       :label="$t('submissions.filtration.toDate')"
       color="oablue"
-      id="filtration-toDate"
+      @update:focused="selectToDate"
     />
 
     <v-spacer />
     <ResetButton
       v-if="!eventStore.isDefaultFiltration"
-      @resetValues="resetValues"
+      @reset-values="resetValues"
     />
   </div>
 </template>
@@ -143,11 +143,14 @@ const { setValues, values, setFieldValue } = useForm({
 })
 
 const allowedDates = computed(() => {
-  return changedDate.value === 'from'
-    ? values.toDate
-    : changedDate.value === 'to'
-    ? values.fromDate
-    : undefined
+  switch (changedDate.value) {
+    case 'from':
+      return values.toDate
+    case 'to':
+      return values.fromDate
+    default:
+  }
+  return undefined
 })
 
 function setFiltration() {

@@ -24,7 +24,6 @@
   <component
     :is="as"
     v-model="value"
-    @blur="handleBlur"
     :error-messages="errors"
     v-bind="attrs"
     color="oablue"
@@ -32,6 +31,7 @@
     :style="{
       maxWidth: fieldMaxWidth + 'px'
     }"
+    @blur="handleBlur"
   >
     <template
       v-if="template && as !== 'autocomplete'"
@@ -56,15 +56,17 @@ import AutocompleteField from '@/components/common/fields/AutocompleteField.vue'
 import ComboboxField from '@/components/common/fields/ComboboxField.vue'
 import { computed } from 'vue'
 
-const props = defineProps<{
+const componentProps = defineProps<{
   name: string
   as: Component
-  attrs?: Object
+  attrs?: object
   template?: boolean
   maxWidth?: number | string
 }>()
 
-const fieldMaxWidth = computed(() => props.maxWidth || 250)
+const fieldMaxWidth = computed(
+  () => componentProps.maxWidth || 250
+)
 
 const component = z.enum([
   'v-text-field',
@@ -85,9 +87,9 @@ const toComponent = new Map<Component, any>([
   [component.enum['combobox'], ComboboxField]
 ])
 
-const as = toComponent.get(props.as)
+const as = toComponent.get(componentProps.as)
 const { value, handleBlur, errors } = useField(
-  toRef(props, 'name'),
+  toRef(componentProps, 'name'),
   undefined
 )
 </script>

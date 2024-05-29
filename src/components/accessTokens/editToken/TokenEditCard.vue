@@ -22,13 +22,19 @@
 
 <template>
   <v-card class="pa-5" width="400">
-    <v-card-title> {{ props.title }} </v-card-title>
+    <v-card-title>
+      {{ componentProps.title }}
+    </v-card-title>
     <v-divider></v-divider>
     <v-card-text :class="{ customHeight: !long }">
       <slot> </slot>
     </v-card-text>
     <v-divider></v-divider>
-    <card-actions :buttons="buttons"></card-actions>
+    <card-actions
+      :buttons="buttons"
+      @clicked="handleCardActions"
+    >
+    </card-actions>
   </v-card>
 </template>
 
@@ -36,7 +42,7 @@
 import { i18n } from '@/plugins/i18n'
 import CardActions from '@/components/common/overlay/CardActions.vue'
 
-const props = defineProps({
+const componentProps = defineProps({
   title: {
     type: String,
     required: true
@@ -51,29 +57,35 @@ const props = defineProps({
 const buttons = [
   {
     id: 'cancel-button',
-    text: i18n.t('common.cancel'),
-    handler: () => cancel()
+    text: i18n.t('common.cancel')
   },
   {
     id: 'edit-button',
-    text: i18n.t('common.apply'),
-    handler: () => editToken()
+    text: i18n.t('common.apply')
   }
 ]
+
+async function handleCardActions(buttonId: string) {
+  switch (buttonId) {
+    case 'cancel-button': {
+      emit('cancel')
+      break
+    }
+    case 'edit-button': {
+      await emit('editToken')
+      break
+    }
+    default: {
+      break
+    }
+  }
+}
 
 const emit = defineEmits<{
   (event: 'closeModal'): Promise<void>
   (event: 'cancel'): void
   (event: 'editToken'): Promise<void>
 }>()
-
-async function editToken() {
-  await emit('editToken')
-}
-
-function cancel() {
-  emit('cancel')
-}
 </script>
 
 <style>

@@ -21,37 +21,12 @@
 -->
 
 <template>
-  <v-container class="login">
-    <form
-      as="v-form"
-      ref="form_id"
-      lazy-validation
-      class="form-login"
-    >
-      <Logo />
-      <LoginForm />
-    </form>
-  </v-container>
+  <Navbar style="max-width: 100%; position: sticky" />
+  <v-main style="--v-layout-top: 15px" class="mx-5">
+    <router-view />
+  </v-main>
 </template>
 
-<script setup lang="ts">
-import Logo from '@/components/login/Logo.vue'
-import LoginForm from '@/components/login/LoginForm.vue'
+<script lang="ts" setup>
+import Navbar from '@/components/navbar/AppNavbar.vue'
 </script>
-
-<style scoped lang="scss">
-.login {
-  max-width: 90%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  .form-login {
-    max-width: 500px;
-    width: 80%;
-    margin: 150px auto 100px auto !important;
-  }
-}
-</style>

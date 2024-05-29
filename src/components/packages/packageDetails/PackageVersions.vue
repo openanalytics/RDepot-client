@@ -24,8 +24,8 @@
   <div class="my-5 mx-1 mb-10" style="min-width: 200px">
     <div
       class="title"
-      @click="collapse"
       :style="collapsableHover"
+      @click="collapse"
     >
       {{ $t('packages.versions') }}
       <v-icon

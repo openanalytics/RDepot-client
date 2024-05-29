@@ -36,23 +36,21 @@
         v-if="!!filesStore.files.length"
         class="text-overline"
       >
-        <template #default color="oared">
-          <v-btn
-            @click="resetPackages()"
-            size="x-small"
-            color="oared mb-1"
-            class="reset-opacity"
-            variant="outlined"
-            >{{ $t('common.reset') }}</v-btn
-          >
-        </template>
+        <v-btn
+          size="x-small"
+          color="oared mb-1"
+          class="reset-opacity"
+          variant="outlined"
+          @click="resetPackages()"
+          >{{ $t('common.reset') }}</v-btn
+        >
 
         <template
-          #append
           v-if="
             submissionsStore.repository?.technology !=
             'Python'
           "
+          #append
         >
           {{ $t('packages.generatemanual') }}
         </template>
@@ -65,12 +63,12 @@
       >
         <template #prepend>
           <v-btn
-            @click="filesStore.removeFile(file)"
             variant="plain"
             icon="mdi-delete"
             size="medium"
             class="mr-3"
             color="oared"
+            @click="filesStore.removeFile(file)"
           />
           <ReplaceOption
             :disabled="!configStore.replacingPackages"
@@ -79,11 +77,11 @@
         </template>
 
         <template
-          #append
           v-if="
             submissionsStore.repository?.technology !=
             'Python'
           "
+          #append
         >
           <v-btn
             v-if="

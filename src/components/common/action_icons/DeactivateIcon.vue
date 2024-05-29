@@ -25,11 +25,10 @@
     <template #activator="{ props }">
       <VIcon
         id="cancel-icon"
-        @click.stop
-        @click="deactivateDialog"
         v-bind="props"
         color="oared"
-        :class="class"
+        @click.stop
+        @click="deactivateDialog"
         >mdi-cancel</VIcon
       >
     </template>
@@ -46,13 +45,10 @@ import { useCommonStore } from '@/store/common'
 
 const emits = defineEmits(['setResourceId'])
 
-const props = defineProps({
+const componentProps = defineProps({
   name: {
-    type: String
-  },
-  class: {
     type: String,
-    default: 'ml-3'
+    required: true
   }
 })
 
@@ -62,7 +58,7 @@ function deactivateDialog() {
   emits('setResourceId')
   commonStore.setOverlayText(
     i18n.t('common.deactivateQuestion', {
-      resource_name: props.name
+      resource_name: componentProps.name
     })
   )
   commonStore.openOverlay(OverlayEnum.enum.Deactivate)

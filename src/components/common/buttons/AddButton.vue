@@ -48,7 +48,7 @@
 </template>
 
 <script setup lang="ts">
-import CommonButton from '@/components/common/buttons/Button.vue'
+import CommonButton from '@/components/common/buttons/CommonButton.vue'
 import { OverlayEnum } from '@/enum/Overlay'
 import { useConfigStore } from '@/store/config'
 

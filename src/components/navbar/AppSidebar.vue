@@ -70,9 +70,9 @@
 
         <v-list-item
           v-if="authorizationStore.can('GET', 'packages')"
+          id="sidebarpackageslist"
           :title="$t('common.list')"
           :value="$t('packages.list')"
-          id="sidebarpackageslist"
           active-class="link-active"
           to="/packages"
         ></v-list-item>
@@ -123,9 +123,9 @@
               'repositoryMaintainers'
             )
           "
+          id="sidebarrepositorymintainers"
           :title="$t('common.maintainers')"
           :value="$t('repositories.maintainers')"
-          id="sidebarrepositorymintainers"
           active-class="link-active"
           to="/repository-maintainers"
         ></v-list-item>
@@ -177,7 +177,7 @@
       ></v-list-item>
     </v-list>
 
-    <template v-slot:append>
+    <template #append>
       <v-list-item style="font-size: 0.7rem">
         v2.1.0
         <span v-if="getEnv('VITE_DEV_MODE') === 'true'"

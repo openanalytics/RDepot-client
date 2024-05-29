@@ -32,9 +32,9 @@ import { marked } from 'marked'
 import { useUtilities } from '@/composable/utilities'
 import { computed } from 'vue'
 
-const props = defineProps<{
+const componentProps = defineProps<{
   description: string
-  short?: Boolean
+  short?: boolean
   packageId?: number
 }>()
 
@@ -48,7 +48,8 @@ marked.use({
 
 const mdDescription = computed(() => {
   return marked.parse(
-    props.description.replaceAll('\\n', '\n') || '',
+    componentProps.description.replaceAll('\\n', '\n') ||
+      '',
     { breaks: true, gfm: true }
   )
 })

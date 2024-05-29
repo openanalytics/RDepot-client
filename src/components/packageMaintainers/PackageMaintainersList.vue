@@ -22,18 +22,18 @@
 
 <template>
   <v-data-table-server
+    :items-per-page="pagination.pageSize"
     :headers="headers"
-    v-model:items-per-page="pagination.pageSize"
     :items="packageMaintainersStore.maintainers"
     :items-length="packageMaintainersStore.totalNumber"
     item-value="id"
     sort-asc-icon="mdi-sort-ascending"
     sort-desc-icon="mdi-sort-descending"
     color="oablue"
-    @update:options="fetchData"
     :loading="packageMaintainersStore.loading"
     :sort-by="sortBy"
     :items-per-page-options="pagination.itemsPerPage"
+    @update:options="fetchData"
   >
     <template #top>
       <div class="d-flex justify-space-between mx-3 my-5">
@@ -48,7 +48,7 @@
         />
       </div>
     </template>
-    <template #item.repository.technology="{ value }">
+    <template #[`item.repository.technology`]="{ value }">
       <v-chip
         class="mr-5"
         size="small"
@@ -58,26 +58,27 @@
         {{ value }}</v-chip
       ></template
     >
-    <template #item.actions="{ item }">
+    <template #[`item.actions`]="{ item }">
       <span class="d-flex justify-end align-center">
         <EditIcon
           :disabled="!canPatch(item.links) || item.deleted"
-          @set-entity="setEditEntity(item)"
           :text="getEditMessage(item)"
-          :hoverMessage="
+          :hover-message="
             item.deleted
               ? i18n.t('maintainers.deleted')
               : undefined
-          " />
+          "
+          @set-entity="setEditEntity(item)" />
         <DeleteIcon
+          v-if="item.user?.name"
           :disabled="!canDelete(item.links) || item.deleted"
           :name="item.user?.name"
-          @setResourceId="chooseMaintainer(item)"
-          :hoverMessage="
+          :hover-message="
             item.deleted
               ? i18n.t('maintainers.deleted')
               : undefined
-          " /></span
+          "
+          @set-resource-id="chooseMaintainer(item)" /></span
     ></template>
   </v-data-table-server>
 </template>

@@ -25,7 +25,7 @@ import { describe, it, expect, beforeEach } from 'vitest'
 import { shallowMount } from '@vue/test-utils'
 import { plugins } from '@/__tests__/unit/config/plugins'
 import { mocks } from '@/__tests__/unit/config/mocks'
-import CommonButton from '@/components/common/buttons/Button.vue'
+import CommonButton from '@/components/common/buttons/CommonButton.vue'
 import { useCommonStore } from '@/store/common'
 import { createPinia, setActivePinia } from 'pinia'
 import { i18n } from '@/plugins/i18n'
@@ -49,7 +49,7 @@ beforeEach(async () => {
   })
 })
 
-describe('Button', () => {
+describe('CommonButton', () => {
   it('renders properly', () => {
     expect(wrapper.exists()).toBe(true)
   })

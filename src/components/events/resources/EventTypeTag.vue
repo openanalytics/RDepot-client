@@ -27,8 +27,8 @@
       eventType ? eventTypeColors.get(eventType) : 'oablue'
     "
     size="default"
-    disableCopying
-    disableTooltip
+    disable-copying
+    disable-tooltip
     variant="outlined"
   />
 </template>
@@ -39,8 +39,11 @@ import { computed } from 'vue'
 import { useTranslations } from '@/composable/translations/translations'
 import eventTypeColors from '@/maps/events/EventTypeColors'
 
-const props = defineProps({
-  eventType: String
+const componentProps = defineProps({
+  eventType: {
+    type: String,
+    required: true
+  }
 })
 
 const { getTranslationWithFallbackValue } =
@@ -48,7 +51,7 @@ const { getTranslationWithFallbackValue } =
 
 const value = computed(() =>
   getTranslationWithFallbackValue(
-    props.eventType,
+    componentProps.eventType,
     'eventTypes'
   ).toLowerCase()
 )

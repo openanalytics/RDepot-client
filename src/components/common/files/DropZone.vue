@@ -25,13 +25,13 @@
     <div
       class="px-5 py-5 width"
       :data-active="active"
+      :class="{ active: active }"
       @dragenter.prevent="activate"
       @dragover.prevent="activate"
       @dragleave.prevent="setInactive"
       @drop.prevent="onDrop"
-      :class="{ active: active }"
     >
-      <slot :dropZoneActive="active"></slot>
+      <slot :drop-zone-active="active"></slot>
     </div>
   </div>
 </template>

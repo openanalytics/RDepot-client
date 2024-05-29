@@ -53,11 +53,17 @@ import { i18n } from '@/plugins/i18n'
 import { useClipboard } from '@vueuse/core'
 import { computed } from 'vue'
 
-const props = defineProps({
-  closeToast: Function as PropType<
-    (e?: MouseEvent) => void
-  >,
-  toastProps: Object as PropType<ToastOptions<BackendError>>
+const componentProps = defineProps({
+  closeToast: {
+    type: Function as PropType<(e?: MouseEvent) => void>,
+    required: false,
+    default: undefined
+  },
+  toastProps: {
+    type: Object as PropType<ToastOptions<BackendError>>,
+    required: false,
+    default: undefined
+  }
 })
 
 const { copy, copied } = useClipboard()
@@ -65,9 +71,11 @@ const { copy, copied } = useClipboard()
 const message = computed(() =>
   i18n.t('errors.message.500', {
     traceId:
-      props.toastProps?.data?.response.data.data.traceId,
+      componentProps.toastProps?.data?.response.data.data
+        .traceId,
     timestamp:
-      props.toastProps?.data?.response.data.data.timestamp
+      componentProps.toastProps?.data?.response.data.data
+        .timestamp
   })
 )
 </script>

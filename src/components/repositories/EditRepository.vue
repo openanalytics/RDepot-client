@@ -21,14 +21,16 @@
 -->
 
 <template>
-  <form as="v-form" lazy-validation>
+  <Form as="v-form" lazy-validation>
     <v-card class="pa-5" width="400">
       <v-card-title>
-        {{ $t('repositories.creation.title') }}
+        {{ $t('repositories.edit.title') }}
       </v-card-title>
       <v-divider></v-divider>
       <v-card-text>
         <validated-input-field
+          id="edit-name"
+          v-model="localRepository.name"
           name="name"
           as="v-text-field"
           :label="$t('repositories.creation.name')"
@@ -37,6 +39,8 @@
           max-width="unset"
         ></validated-input-field>
         <validated-input-field
+          id="edit-publication-uri"
+          v-model="localRepository.publicationUri"
           name="publicationUri"
           as="v-text-field"
           :label="
@@ -45,12 +49,17 @@
           max-width="unset"
         ></validated-input-field>
         <validated-input-field
+          id="edit-server-address"
+          v-model="localRepository.serverAddress"
           name="serverAddress"
           as="v-text-field"
-          max-width="unset"
           :label="$t('repositories.creation.serverAddress')"
+          max-width="unset"
         ></validated-input-field>
         <validated-input-field
+          id="edit-technology"
+          v-model="localRepository.technology"
+          disabled
           :items="technologySelect"
           name="technology"
           as="v-select"
@@ -59,9 +68,12 @@
         ></validated-input-field>
       </v-card-text>
       <v-divider></v-divider>
-      <card-actions :buttons="buttons" />
+      <card-actions
+        :buttons="buttons"
+        @clicked="handleCardActions"
+      />
     </v-card>
-  </form>
+  </Form>
 </template>
 
 <script setup lang="ts">
@@ -76,8 +88,15 @@ import CardActions from '@/components/common/overlay/CardActions.vue'
 import { z } from 'zod'
 import { useToast } from '@/composable/toasts'
 import { useI18n } from 'vue-i18n'
+import { EntityModelRepositoryDto } from '@/openapi'
+import { useUtilities } from '@/composable/utilities'
 
+const { deepCopy } = useUtilities()
 const repositoryStore = useRepositoryStore()
+const repository: EntityModelRepositoryDto = deepCopy(
+  repositoryStore.chosenRepository
+)
+const localRepository = ref(repository)
 
 const technologySelect = ref(Technologies.options)
 const { t } = useI18n()
@@ -85,21 +104,35 @@ const { t } = useI18n()
 const buttons = [
   {
     id: 'cancel-button',
-    text: t('common.cancel'),
-    handler: changeDialogOptions
+    text: t('common.cancel')
   },
   {
     id: 'set-filtration',
-    text: t('common.create'),
-    handler: createRepository
+    text: t('common.save')
   }
 ]
+
+function handleCardActions(buttonId: string) {
+  switch (buttonId) {
+    case 'cancel-button': {
+      emit('closeModal')
+      break
+    }
+    case 'set-filtration': {
+      updateRepository()
+      break
+    }
+    default: {
+      break
+    }
+  }
+}
 
 const loading = ref(false)
 let previousVal = ''
 let previousReturn = true
 
-const { meta, values } = useForm({
+const { meta } = useForm({
   validationSchema: toTypedSchema(
     z.object({
       name: repositorySchema.shape.name.refine(
@@ -108,16 +141,7 @@ const { meta, values } = useForm({
             return previousReturn
           }
           previousVal = value
-          loading.value = true
-          const repositoryWithSameName =
-            await repositoryStore.fetchRepository(
-              value,
-              false
-            )
-          loading.value = false
-          previousReturn =
-            repositoryWithSameName.length === 0
-          return previousReturn
+          return await isRepositoryNameIsDuplicated(value)
         },
         t('repositories.creation.duplicateName')
       ),
@@ -125,23 +149,45 @@ const { meta, values } = useForm({
       serverAddress: repositorySchema.shape.serverAddress,
       technology: repositorySchema.shape.technology
     })
-  )
+  ),
+  initialValues: {
+    name: repository.name,
+    publicationUri: repository.publicationUri,
+    serverAddress: repository.serverAddress,
+    technology: repository.technology as Technologies
+  }
 })
 
 const emit = defineEmits(['closeModal'])
 const toasts = useToast()
 
-function createRepository() {
+async function isRepositoryNameIsDuplicated(
+  repoName: string
+) {
+  loading.value = true
+  const repositoriesWithSameName =
+    await repositoryStore.fetchRepository(repoName)
+  loading.value = false
+  if (isRepositoryInTheReposList(repositoriesWithSameName))
+    return false
+  return repositoriesWithSameName.length === 0
+}
+
+function isRepositoryInTheReposList(
+  repoList: EntityModelRepositoryDto[]
+) {
+  return repoList.find(
+    (repo) => repo.id == localRepository.value.id
+  )
+}
+
+function updateRepository() {
   if (meta.value.valid) {
-    repositoryStore.createRepository(values)
-    changeDialogOptions()
+    repositoryStore.updateRepository(localRepository.value)
+    emit('closeModal')
   } else {
     toasts.warning(t('notifications.invalidform'))
   }
-}
-
-function changeDialogOptions() {
-  emit('closeModal')
 }
 
 onMounted(() => {})

@@ -25,14 +25,15 @@
   <Sidebar
     style="height: calc(100vh - 64px); position: fixed"
   />
-  <v-main style="--v-layout-top: 15px" class="mx-5">
+  <v-main
+    style="--v-layout-top: 15px; --v-layout-bottom: 15px"
+    class="mx-5"
+  >
     <router-view />
   </v-main>
 </template>
 
 <script lang="ts" setup>
-import Navbar from '@/components/navbar/Navbar.vue'
-import Sidebar from '@/components/navbar/Sidebar.vue'
-
-//
+import Navbar from '@/components/navbar/AppNavbar.vue'
+import Sidebar from '@/components/navbar/AppSidebar.vue'
 </script>

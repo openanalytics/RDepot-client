@@ -26,7 +26,7 @@
     style="padding-left: 0; padding-right: 0"
   >
     <validated-input-field
-      @update:modelValue="setFiltration"
+      id="filtration-search"
       density="compact"
       hide-details
       name="search"
@@ -37,26 +37,25 @@
         )
       "
       color="oablue"
-      id="filtration-search"
+      @update:model-value="setFiltration"
     />
 
     <validated-input-field
-      @update:modelValue="setFiltration"
+      id="filtration-technology"
       density="compact"
       hide-details
       chips
       closable-chips
-      id="filtration-technology"
       :items="technologies"
       name="technologies"
       multiple
       clearable
       as="v-select"
       :label="$t('filtration.technologies')"
+      @update:model-value="setFiltration"
     ></validated-input-field>
 
     <validated-input-field
-      @update:modelValue="setFiltration"
       density="compact"
       hide-details
       chips
@@ -66,17 +65,18 @@
       multiple
       clearable
       :label="$t('packages.filtration.repository')"
-      @loadItems="loadRepositories"
-      @filtrate="filtrateRepositoriesObjects"
-      :storeId="storeId"
+      :store-id="storeId"
       :template="true"
+      @update:model-value="setFiltration"
+      @load-items="loadRepositories"
+      @filtrate="filtrateRepositoriesObjects"
     >
-      <template #item="{ item, props }">
+      <template #item="{ props }">
         <v-list-item
-          v-bind="props"
           v-intersect="loadRepositories"
+          v-bind="props"
         >
-          <template v-slot:prepend="{ isActive }">
+          <template #prepend="{ isActive }">
             <v-list-item-action start>
               <v-checkbox-btn
                 :model-value="isActive"
@@ -88,22 +88,22 @@
     </validated-input-field>
 
     <validated-input-field
-      @change="setFiltration"
+      id="filtration-deleted"
       density="compact"
       hide-details
-      id="filtration-deleted"
       name="deleted"
       :label="$t('packages.filtration.deleted')"
       as="v-switch"
       color="oablue"
       class="flex-grow-0"
+      @change="setFiltration"
     ></validated-input-field>
 
     <v-spacer />
 
     <ResetButton
       v-if="!packageMaintainerStore.isDefaultFiltration"
-      @resetValues="resetValues"
+      @reset-values="resetValues"
     />
   </div>
 </template>

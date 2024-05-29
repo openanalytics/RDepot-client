@@ -22,27 +22,27 @@
 
 <template>
   <v-data-table-server
+    v-model:expanded="expanded"
+    :items-per-page="pagination.pageSize"
     :headers="headers"
-    v-model:items-per-page="pagination.pageSize"
     :items="packagesStore.packages"
     :items-length="pagination.totalNumber"
     item-value="id"
     sort-asc-icon="mdi-sort-ascending"
     sort-desc-icon="mdi-sort-descending"
     color="oablue"
-    @update:options="fetchData"
     :loading="packagesStore.loading"
-    v-model:expanded="expanded"
     expand-on-click
     :sort-by="sortBy"
     :items-per-page-options="pagination.itemsPerPage"
+    @update:options="fetchData"
   >
     <template #top>
       <div class="d-flex justify-space-between mx-3 my-5">
         <h2>{{ i18n.t('packages.list') }}</h2>
       </div>
     </template>
-    <template #item.technology="{ value }">
+    <template #[`item.technology`]="{ value }">
       <v-chip
         class="mr-5"
         size="small"
@@ -52,7 +52,7 @@
         {{ value }}</v-chip
       ></template
     >
-    <template #item.submission.state="{ value }">
+    <template #[`item.submission.state`]="{ value }">
       <v-tooltip location="bottom center">
         <template #activator="{ props }">
           <div
@@ -84,7 +84,7 @@
         }}</span>
       </v-tooltip></template
     >
-    <template #item.active="{ item }">
+    <template #[`item.active`]="{ item }">
       <v-tooltip
         location="top"
         :disabled="canPatch(item.links)"
@@ -96,16 +96,16 @@
             class="d-flex justify-center"
           >
             <v-checkbox-btn
-              hide-details
               id="checkbox-active"
-              @click.stop
               v-model="item.active"
-              @change="updatePackageActive(item)"
+              hide-details
               :readonly="!canPatch(item?.links)"
               :color="
                 !canPatch(item?.links) ? 'grey' : 'oablue'
               "
               class="mr-5"
+              @click.stop
+              @change="updatePackageActive(item)"
             />
           </span>
         </template>
@@ -114,28 +114,29 @@
         }}</span>
       </v-tooltip></template
     >
-    <template #item.actions="{ item }">
+    <template #[`item.actions`]="{ item }">
       <DeleteIcon
+        v-if="item.name"
         :disabled="
           !configStore.deletingPackages ||
           (!canDelete(item.links) && !item.deleted)
         "
         :name="item.name"
-        :hoverMessage="
+        :hover-message="
           !configStore.deletingPackages
             ? $t('config.deletingPackages')
             : undefined
         "
-        @setResourceId="choosePackage(item)"
+        @set-resource-id="choosePackage(item)"
       />
     </template>
-    <template v-slot:expanded-row="{ columns, item }">
+    <template #expanded-row="{ columns, item }">
       <td :colspan="columns.length">
         <div class="additional-row">
           <v-card class="additional-row expanded-package">
             <PackageDescription
               class="short expanded-package"
-              :packageBagShort="(item as EntityModelPackageDto)"
+              :package-bag-short="(item as EntityModelPackageDto)"
             />
           </v-card>
         </div>

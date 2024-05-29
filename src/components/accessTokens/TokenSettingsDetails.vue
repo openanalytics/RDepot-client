@@ -26,8 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import FiltrationBar from '@/components/accessTokens/FiltrationBar.vue'
-import TokenList from '@/components/accessTokens/TokenList.vue'
+import TokenList from './TokenList.vue'
 import { computed } from 'vue'
 import { useCommonStore } from '@/store/common'
 

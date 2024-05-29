@@ -23,9 +23,9 @@
 <template>
   <v-timeline
     v-if="eventsStore.eventsGroupedByMonthAndDay.size > 0"
-    :side="smAndDown ? 'end' : undefined"
-    ref="eventsTimeline"
     id="eventsTimeline"
+    ref="eventsTimeline"
+    :side="smAndDown ? 'end' : undefined"
     truncate-line="both"
     class="timeline"
     align="center"
@@ -42,6 +42,7 @@
       >
         <template #icon>
           <EventIcon
+            v-if="monthEvents[0]"
             :event="undefined"
             :date="monthEvents[0]"
             @click="hideMonth(monthEvents[0])"
@@ -51,39 +52,46 @@
       <v-timeline-item hide-dot />
 
       <template
-        v-for="(dayEvents, j) in monthEvents[1]"
-        :key="j"
         v-if="!hiddenMonths.includes(monthEvents[0])"
       >
-        <v-timeline-item dot-color="rgba(0,0,0,0)">
-          <template #icon>
-            <EventIcon
-              :event="undefined"
-              :date="dayEvents[0]"
-              @click="hideDay(dayEvents[0])"
-            />
-          </template>
-        </v-timeline-item>
-        <v-timeline-item hide-dot />
-        <v-timeline-item
-          v-for="(event, idx) in dayEvents[1]"
-          :key="idx"
-          v-if="!hiddenDays.includes(dayEvents[0])"
-          :dot-color="getDotColor(event)"
-          :width="eventBoxWidth"
+        <template
+          v-for="(dayEvents, j) in monthEvents[1]"
+          :key="j"
         >
-          <template #icon>
-            <EventIcon
-              :event="event.eventType ? event : undefined"
-            />
+          <v-timeline-item dot-color="rgba(0,0,0,0)">
+            <template #icon>
+              <EventIcon
+                :event="undefined"
+                :date="dayEvents[0]"
+                @click="hideDay(dayEvents[0])"
+              />
+            </template>
+          </v-timeline-item>
+          <v-timeline-item hide-dot />
+          <template
+            v-if="!hiddenDays.includes(dayEvents[0])"
+          >
+            <v-timeline-item
+              v-for="(event, k) in dayEvents[1]"
+              :key="k"
+              :dot-color="getDotColor(event)"
+              :width="eventBoxWidth"
+            >
+              <template #icon>
+                <EventIcon
+                  :event="
+                    event.eventType ? event : undefined
+                  "
+                />
+              </template>
+              <EventBox
+                v-if="event && event.eventType"
+                :event="event"
+              ></EventBox>
+            </v-timeline-item>
           </template>
-          <EventBox
-            :event="event"
-            v-if="event && event.eventType"
-          ></EventBox>
-        </v-timeline-item>
-      </template>
-    </template>
+        </template> </template
+    ></template>
   </v-timeline>
   <NoEvents
     v-else-if="!commonStore.progressCircularActive"
@@ -92,7 +100,6 @@
 
 <script setup lang="ts">
 import EventBox from './EventBox.vue'
-import EventIcon from './EventIcon.vue'
 import { useEventsStore } from '@/store/events'
 import {
   computed,
@@ -104,6 +111,7 @@ import {
 import { useDisplay } from 'vuetify/lib/framework.mjs'
 import NoEvents from './NoEvents.vue'
 import { useCommonStore } from '@/store/common'
+import EventIcon from './EventIcon.vue'
 
 const { xlAndUp, lgAndUp, mdAndUp, smAndDown } =
   useDisplay()
@@ -114,13 +122,10 @@ const hiddenDays = ref<string[]>([])
 const hiddenMonths = ref<string[]>([])
 
 const eventBoxWidth = computed(() => {
-  return xlAndUp.value
-    ? '650'
-    : lgAndUp.value
-    ? '500'
-    : mdAndUp.value
-    ? '450'
-    : '400'
+  if (xlAndUp.value) return '650'
+  if (lgAndUp.value) return '500'
+  if (mdAndUp.value) return '450'
+  return '400'
 })
 
 function getDotColor(item: any) {

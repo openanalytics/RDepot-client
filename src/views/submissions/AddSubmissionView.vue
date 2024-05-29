@@ -21,12 +21,11 @@
 -->
 
 <template>
-  <Navbar style="max-width: 100%; position: sticky" />
-  <v-main style="--v-layout-top: 15px" class="mx-5">
-    <router-view />
-  </v-main>
+  <div class="d-flex justify-center mt-10">
+    <UploadSubmissionStepper class="mx-15 mt-10 stepper" />
+  </div>
 </template>
 
-<script lang="ts" setup>
-import Navbar from '@/components/navbar/Navbar.vue'
+<script setup lang="ts">
+import UploadSubmissionStepper from '@/components/addSubmission/UploadSubmissionStepper.vue'
 </script>

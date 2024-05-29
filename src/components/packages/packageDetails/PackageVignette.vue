@@ -32,7 +32,7 @@
 
         <v-menu open-on-hover activator="parent">
           <v-list>
-            <v-list-item @click="openVignette" value="open">
+            <v-list-item value="open" @click="openVignette">
               <template #prepend>
                 <v-icon icon="mdi-open-in-new"></v-icon>
               </template>
@@ -41,8 +41,8 @@
               }}</v-list-item-title>
             </v-list-item>
             <v-list-item
-              @click="downloadVignette"
               value="download"
+              @click="downloadVignette"
             >
               <template #prepend>
                 <v-icon icon="mdi-download"></v-icon>
@@ -56,7 +56,7 @@
       </v-btn>
     </template>
     <div>
-      {{ props.fileName }}
+      {{ componentProps.fileName }}
     </div>
   </v-tooltip>
 </template>
@@ -68,7 +68,7 @@ import { usePackageDetailsStore } from '@/store/package_details'
 import { i18n } from '@/plugins/i18n'
 import { useFiles } from '@/composable/file'
 
-var props = defineProps<{
+const componentProps = defineProps<{
   fileName?: string
   title?: string
 }>()
@@ -83,23 +83,23 @@ const packageBag = computed(
 const { formatCutFilename } = useFiles()
 
 const formattedName = computed(() => {
-  return formatCutFilename(props.fileName || '')
+  return formatCutFilename(componentProps.fileName || '')
 })
 
 async function openVignette() {
-  if (packageBag.value.id && props.fileName) {
+  if (packageBag.value.id && componentProps.fileName) {
     await packageDetailsStore.openVignette(
       packageBag.value.id.toString(),
-      props.fileName
+      componentProps.fileName
     )
   }
 }
 
 async function downloadVignette() {
-  if (packageBag.value.id && props.fileName) {
+  if (packageBag.value.id && componentProps.fileName) {
     await packageDetailsStore.downloadVignette(
       packageBag.value.id.toString(),
-      props.fileName
+      componentProps.fileName
     )
   }
 }

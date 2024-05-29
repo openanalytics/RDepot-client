@@ -22,12 +22,12 @@
 
 <template>
   <div
-    class="document"
-    @click="getManual"
     v-if="
       packageDetailsStore.packageBag?.technology ==
       Technologies.enum.R
     "
+    class="document"
+    @click="getManual"
   >
     <v-btn class="my-3" width="250">
       {{ $t('packages.referenceManual') }}

@@ -22,25 +22,25 @@
 
 <template>
   <v-data-table-server
+    :items-per-page="pagination.pageSize"
     :headers="headers"
-    v-model:items-per-page="pagination.pageSize"
     :items="submissionStore.submissions"
     :items-length="submissionStore.totalNumber"
     item-value="name"
     sort-asc-icon="mdi-sort-ascending"
     sort-desc-icon="mdi-sort-descending"
     color="oablue"
-    @update:options="fetchData"
     :loading="submissionStore.loading"
     :sort-by="sortBy"
     :items-per-page-options="pagination.itemsPerPage"
+    @update:options="fetchData"
   >
     <template #top>
       <div class="d-flex justify-space-between mx-3 my-5">
         <h2>{{ i18n.t('common.submissions') }}</h2>
       </div>
     </template>
-    <template #item.created="{ value }">
+    <template #[`item.created`]="{ value }">
       <v-chip
         size="small"
         style="cursor: pointer"
@@ -49,10 +49,10 @@
         {{ value }}</v-chip
       >
     </template>
-    <template #item.packageBag.repository="{ value }">
+    <template #[`item.packageBag.repository`]="{ value }">
       {{ value }}
     </template>
-    <template #item.packageBag.technology="{ value }">
+    <template #[`item.packageBag.technology`]="{ value }">
       <v-chip
         size="small"
         color="oablue"
@@ -62,7 +62,7 @@
         {{ value }}</v-chip
       >
     </template>
-    <template #item.state="{ value }">
+    <template #[`item.state`]="{ value }">
       <v-tooltip location="bottom center">
         <template #activator="{ props }">
           <div id="tooltip-activator" v-bind="props">
@@ -91,7 +91,7 @@
         }}</span>
       </v-tooltip>
     </template>
-    <template #item.actions="{ item }">
+    <template #[`item.actions`]="{ item }">
       <span
         v-if="
           EntityModelSubmissionDtoStateEnum.WAITING &&
@@ -118,8 +118,8 @@
             >{{ $t('action.accept') }}</v-btn
           >
           <v-btn
-            e-else
             id="reject-button"
+            e-else
             color="oared"
             @click="rejectSubmission(item)"
             >{{ $t('action.reject') }}</v-btn

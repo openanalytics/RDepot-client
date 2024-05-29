@@ -22,25 +22,25 @@
 
 <template>
   <v-data-table-server
+    :items-per-page="pagination.pageSize"
     :headers="headers"
-    v-model:items-per-page="pagination.pageSize"
     :items="userStore.users"
     :items-length="userStore.totalNumber"
     item-value="id"
     sort-asc-icon="mdi-sort-ascending"
     sort-desc-icon="mdi-sort-descending"
     color="oablue"
-    @update:options="fetchData"
     :loading="userStore.loading"
     :sort-by="sortBy"
     :items-per-page-options="pagination.itemsPerPage"
+    @update:options="fetchData"
   >
     <template #top>
       <div class="d-flex justify-space-between mx-3 my-5">
         <h2>{{ i18n.t('common.users') }}</h2>
       </div>
     </template>
-    <template #item.active="{ item }">
+    <template #[`item.active`]="{ item }">
       <v-tooltip
         location="top"
         :disabled="item.id !== meStore.me.id"
@@ -49,9 +49,8 @@
           <span v-bind="props">
             <v-checkbox-btn
               id="checkbox-active"
-              @click.stop
+              v-model="item.active"
               hide-details
-              @change="updateUserActive(item)"
               class="mr-4"
               :readonly="
                 !isAtLeastAdmin(
@@ -65,19 +64,20 @@
                   ? 'grey'
                   : 'oablue'
               "
-              v-model="item.active"
+              @click.stop
+              @change="updateUserActive(item)"
             />
           </span>
         </template>
         <span>{{ $t('users.unableDeactivation') }}</span>
       </v-tooltip></template
     >
-    <template #item.actions="{ item }">
+    <template #[`item.actions`]="{ item }">
       <span class="d-flex justify-center align-center">
         <EditIcon
           :disabled="!canPatch(item.links)"
-          @set-entity="setEditUser(item)"
           :text="$t('common.edit')"
+          @set-entity="setEditUser(item)"
         /> </span
     ></template>
   </v-data-table-server>

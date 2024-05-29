@@ -31,10 +31,10 @@
         ></v-app-bar-nav-icon>
 
         <v-row
+          v-ripple
           justify="start"
           align="center"
           class="ml-2 logo-container"
-          v-ripple
           @click="router.push({ name: 'packages' })"
         >
           <v-img

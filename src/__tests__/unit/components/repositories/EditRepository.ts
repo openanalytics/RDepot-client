@@ -33,7 +33,7 @@ import { plugins } from '@/__tests__/unit/config/plugins'
 import { mocks } from '@/__tests__/unit/config/mocks'
 import { ResizeObserver } from '@/__tests__/unit/config/ResizeObserver'
 import { createPinia, setActivePinia } from 'pinia'
-import Edit from '@/components/repositories/Edit.vue'
+import Edit from '@/components/repositories/EditRepository.vue'
 
 let wrapper: any
 const globalConfig = {
@@ -45,7 +45,7 @@ beforeAll(() => {
   global.ResizeObserver = ResizeObserver
 })
 
-describe('Edit Repository', () => {
+describe('EditRepository', () => {
   beforeEach(async () => {
     setActivePinia(createPinia())
     wrapper = mount(Edit, {

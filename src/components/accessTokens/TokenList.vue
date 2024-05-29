@@ -22,18 +22,18 @@
 
 <template>
   <v-data-table-server
-    :headers="filteredHeaders"
     v-model:items-per-page="pagination.pageSize"
+    :headers="filteredHeaders"
     :items="accessTokensStore.tokens"
     :items-length="accessTokensStore.totalNumber"
     item-value="id"
     sort-asc-icon="mdi-sort-ascending"
     sort-desc-icon="mdi-sort-descending"
     color="oablue"
-    @update:options="fetchData"
     :loading="accessTokensStore.loading"
     :sort-by="sortBy"
     :items-per-page-options="pagination.itemsPerPage"
+    @update:options="fetchData"
   >
     <template #top>
       <div class="d-flex justify-space-between mx-3 my-5">
@@ -42,7 +42,7 @@
       </div>
     </template>
 
-    <template #item.creationDate="{ value }">
+    <template #[`item.creationDate`]="{ value }">
       <v-chip
         size="small"
         style="cursor: pointer"
@@ -52,7 +52,7 @@
       >
     </template>
 
-    <template #item.expirationDate="{ value }">
+    <template #[`item.expirationDate`]="{ value }">
       <v-chip
         size="small"
         style="cursor: pointer"
@@ -61,30 +61,32 @@
         {{ value }}</v-chip
       >
     </template>
-    <template #item.active="{ item }">
+    <template #[`item.active`]="{ item }">
       <v-checkbox-btn
         id="checkbox-active"
+        v-model="item.active"
         class="mr-8"
         color="oablue"
-        v-model="item.active"
         disabled
       />
     </template>
 
-    <template #item.actions="{ item }">
+    <template #[`item.actions`]="{ item }">
       <span class="d-flex justify-center align-center">
-        <edit-icon
+        <EditIcon
           :disabled="!canPatch(item.links) && item.active"
-          @set-entity="setEditEntity(item)"
-          :text="$t('common.edit')" />
-        <delete-icon
+          :text="$t('common.edit')"
+          @set-entity="setEditEntity(item)" />
+        <DeleteIcon
+          v-if="item.name"
           :disabled="!canDelete(item.links)"
           :name="item.name"
-          @setResourceId="setEditEntity(item)" />
-        <deactivate-icon
+          @set-resource-id="setEditEntity(item)" />
+        <DeactivateIcon
+          v-if="item.name"
           :disabled="!canPatch(item.links) && item.active"
           :name="item.name"
-          @setResourceId="setEditEntity(item)" /></span
+          @set-resource-id="setEditEntity(item)" /></span
     ></template>
   </v-data-table-server>
 </template>
@@ -159,11 +161,15 @@ const headers: DataTableHeaders[] = [
   }
 ]
 
+function resetElementWidth() {
+  headers[0].width = undefined
+}
+
 const filteredHeaders = computed(() => {
   if (
     !isAtLeastAdmin(meStore.userRole ? meStore.userRole : 0)
   ) {
-    headers[0].width = undefined
+    resetElementWidth()
     return headers.filter((header) => header.key != 'user')
   }
   return headers

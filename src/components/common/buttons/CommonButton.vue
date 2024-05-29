@@ -26,8 +26,8 @@
     color="oablue"
     dark
     dense
-    @click="openModal"
     class="mx-3"
+    @click="openModal"
   >
     <slot>{{ $t('filtration.title') }}</slot>
   </v-btn>
@@ -39,7 +39,7 @@ import { i18n } from '@/plugins/i18n'
 import { useCommonStore } from '@/store/common'
 import { PropType } from 'vue'
 
-const props = defineProps({
+const componentProps = defineProps({
   component: {
     type: String as PropType<OverlayEnum>,
     required: true
@@ -50,6 +50,6 @@ const commonStore = useCommonStore()
 
 function openModal() {
   commonStore.setOverlayText(i18n.t('filtration.makeSure'))
-  commonStore.openOverlay(props.component)
+  commonStore.openOverlay(componentProps.component)
 }
 </script>

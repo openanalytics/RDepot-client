@@ -35,7 +35,7 @@
 import { i18n } from '@/plugins/i18n'
 import { computed } from 'vue'
 
-const props = defineProps({
+const componentProps = defineProps({
   value: {
     type: String,
     required: true
@@ -48,12 +48,23 @@ const props = defineProps({
 })
 
 const isDisabled = computed<boolean>(
-  () => props.value.length < props.maxLength
+  () =>
+    componentProps.value.length < componentProps.maxLength
 )
-const displayValue = computed<String>(() => {
-  if (props.value.length > props.maxLength) {
-    return props.value.substring(0, props.maxLength) + '...'
+const displayValue = computed<string>(() => {
+  if (
+    componentProps.value.length > componentProps.maxLength
+  ) {
+    return (
+      componentProps.value.substring(
+        0,
+        componentProps.maxLength
+      ) + '...'
+    )
   } else
-    return props.value || i18n.t('updatedProperties.unset')
+    return (
+      componentProps.value ||
+      i18n.t('updatedProperties.unset')
+    )
 })
 </script>
