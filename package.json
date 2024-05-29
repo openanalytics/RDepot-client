@@ -9,6 +9,7 @@
     "lint:check": "eslint-output --ignore-path .gitignore --max-warnings 0",
     "lint:staged": "eslint --fix $(git diff --diff-filter=d --cached --name-only)",
     "license:check": "node ./license_checker.js",
+    "test:setup": "./test.sh",
     "test:unit": "vitest --dir ./src/__tests__/unit",
     "test:unit:once": "vitest run --dir ./src/__tests__/unit",
     "test:unit:once:junit": "vitest --dir ./src/__tests__/unit --reporter=junit --outputFile.junit=reports/test-report-unit.xml --reporter=default run",

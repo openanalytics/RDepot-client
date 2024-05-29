@@ -62,14 +62,10 @@ pipeline {
     }
     stage('Integration Test') {
       steps {
-        sh '''#!/bin/bash
-          docker-compose -f docker-compose-test.yml up -d
-          until [ "$(docker inspect -f {{.State.Health.Status}} oa-rdepot-backend)" == "healthy" ]; do
-              sleep 1.0;
-          done;
-          echo "Backend is ready"
+        sh """
+          npm run test:setup
           npm run test:integration:once:junit
-          '''
+          """
         withChecks('UI Integration Tests') {
           junit "reports/test-report-integration.xml"
         }
