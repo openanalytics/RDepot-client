@@ -62,7 +62,7 @@ pipeline {
     }
     stage('Integration Test') {
       steps {
-        bash """
+        sh """
           ./test.sh
           npm run test:integration:once:junit
           """
