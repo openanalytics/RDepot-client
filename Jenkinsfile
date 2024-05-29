@@ -60,17 +60,18 @@ pipeline {
         }
       }
     }
-    // stage('Integration Test') {
-    //   steps {
-    //     sh """
-    //       npm run test:setup
-    //       npm run test:integration:once:junit
-    //       """
-    //     withChecks('UI Integration Tests') {
-    //       junit "reports/test-report-integration.xml"
-    //     }
-    //   }
-    // }
+    stage('Integration Test') {
+      steps {
+        sh """
+          npm run test:setup
+          npm run test:integration:once:junit
+          npm run test:cleanup
+          """
+        withChecks('UI Integration Tests') {
+          junit "reports/test-report-integration.xml"
+        }
+      }
+    }
     stage('Build') {
       steps {
         container('kaniko') {
