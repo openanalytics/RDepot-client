@@ -56,7 +56,18 @@ pipeline {
       steps {
         sh "npm run test:unit:once:junit"
         withChecks('UI Unit Tests') {
-          junit "reports/test-report.xml"
+          junit "reports/test-report-unit.xml"
+        }
+      }
+    }
+    stage('Integration Test') {
+      steps {
+        bash """
+          ./test.sh
+          npm run test:integration:once:junit
+          """
+        withChecks('UI Integration Tests') {
+          junit "reports/test-report-integration.xml"
         }
       }
     }

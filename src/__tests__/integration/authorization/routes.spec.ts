@@ -32,235 +32,236 @@ const {
   // Key,
   until
 } = require('selenium-webdriver')
-// const chrome = require('selenium-webdriver/chrome')
+const chrome = require('selenium-webdriver/chrome')
 // const repositoryMaintainer = users.data.content[1]
 
 let driver: any
+const url = 'http://172.17.0.1:3001'
 const PASSWORD = 'testpassword'
 
 beforeEach(async () => {
   setActivePinia(createPinia())
   driver = await new Builder()
     .forBrowser(Browser.CHROME)
-    .setChromeOptions
-    // new chrome.Options().addArguments('--headless')
-    ()
+    .setChromeOptions(
+      new chrome.Options().addArguments('--headless')
+    )
     .build()
 })
 
-// describe('Unauthenticated access', () => {
-//   it('Login page', async () => {
-//     try {
-//       await driver.get('http://localhost:3001/login')
-//       expect(
-//         await driver.findElement(By.id('logo-oa'))
-//       ).toBeTruthy()
-//       expect(
-//         await driver.wait(
-//           until.titleIs('RDepot - login'),
-//           1000
-//         )
-//       ).toBeTruthy()
-//     } finally {
-//       await driver.quit()
-//     }
-//   }),
-//     it('Package page', async () => {
-//       try {
-//         await driver.get('http://localhost:3001/packages')
-//         expect(
-//           await driver.findElement(By.id('logo-oa'))
-//         ).toBeTruthy()
-//         expect(
-//           await driver.wait(
-//             until.titleIs('RDepot - login'),
-//             1000
-//           )
-//         ).toBeTruthy()
-//       } finally {
-//         await driver.quit()
-//       }
-//     }),
-//     it('Package maintainers page', async () => {
-//       try {
-//         await driver.get(
-//           'http://localhost:3001/package-maintainers'
-//         )
-//         expect(
-//           await driver.findElement(By.id('logo-oa'))
-//         ).toBeTruthy()
-//         expect(
-//           await driver.wait(
-//             until.titleIs('RDepot - login'),
-//             1000
-//           )
-//         ).toBeTruthy()
-//       } finally {
-//         await driver.quit()
-//       }
-//     }),
-//     it('Repositories page', async () => {
-//       try {
-//         await driver.get(
-//           'http://localhost:3001/repositories'
-//         )
-//         expect(
-//           await driver.findElement(By.id('logo-oa'))
-//         ).toBeTruthy()
-//         expect(
-//           await driver.wait(
-//             until.titleIs('RDepot - login'),
-//             1000
-//           )
-//         ).toBeTruthy()
-//       } finally {
-//         await driver.quit()
-//       }
-//     }),
-//     it('Repository maintainers page', async () => {
-//       try {
-//         await driver.get(
-//           'http://localhost:3001/repository-maintainers'
-//         )
-//         expect(
-//           await driver.findElement(By.id('logo-oa'))
-//         ).toBeTruthy()
-//         expect(
-//           await driver.wait(
-//             until.titleIs('RDepot - login'),
-//             1000
-//           )
-//         ).toBeTruthy()
-//       } finally {
-//         await driver.quit()
-//       }
-//     }),
-//     it('Users page', async () => {
-//       try {
-//         await driver.get('http://localhost:3001/users')
-//         expect(
-//           await driver.findElement(By.id('logo-oa'))
-//         ).toBeTruthy()
-//         expect(
-//           await driver.wait(
-//             until.titleIs('RDepot - login'),
-//             1000
-//           )
-//         ).toBeTruthy()
-//       } finally {
-//         await driver.quit()
-//       }
-//     }),
-//     it('Home page', async () => {
-//       try {
-//         await driver.get('http://localhost:3001/')
-//         expect(
-//           await driver.findElement(By.id('logo-oa'))
-//         ).toBeTruthy()
-//         expect(
-//           await driver.wait(
-//             until.titleIs('RDepot - login'),
-//             1000
-//           )
-//         ).toBeTruthy()
-//       } finally {
-//         await driver.quit()
-//       }
-//     }),
-//     it('Submissions page', async () => {
-//       try {
-//         await driver.get(
-//           'http://localhost:3001/submissions'
-//         )
-//         expect(
-//           await driver.findElement(By.id('logo-oa'))
-//         ).toBeTruthy()
-//         expect(
-//           await driver.wait(
-//             until.titleIs('RDepot - login'),
-//             1000
-//           )
-//         ).toBeTruthy()
-//       } finally {
-//         await driver.quit()
-//       }
-//     }),
-//     it('Upload package page', async () => {
-//       try {
-//         await driver.get(
-//           'http://localhost:3001/upload-packages'
-//         )
-//         expect(
-//           await driver.findElement(By.id('logo-oa'))
-//         ).toBeTruthy()
-//         expect(
-//           await driver.wait(
-//             until.titleIs('RDepot - login'),
-//             1000
-//           )
-//         ).toBeTruthy()
-//       } finally {
-//         await driver.quit()
-//       }
-//     }),
-//     it('Events page', async () => {
-//       try {
-//         await driver.get('http://localhost:3001/events')
-//         expect(
-//           await driver.findElement(By.id('logo-oa'))
-//         ).toBeTruthy()
-//         expect(
-//           await driver.wait(
-//             until.titleIs('RDepot - login'),
-//             1000
-//           )
-//         ).toBeTruthy()
-//       } finally {
-//         await driver.quit()
-//       }
-//     }),
-//     it('Access tokens page', async () => {
-//       try {
-//         await driver.get(
-//           'http://localhost:3001/settings-tokens'
-//         )
-//         expect(
-//           await driver.findElement(By.id('logo-oa'))
-//         ).toBeTruthy()
-//         expect(
-//           await driver.wait(
-//             until.titleIs('RDepot - login'),
-//             1000
-//           )
-//         ).toBeTruthy()
-//       } finally {
-//         await driver.quit()
-//       }
-//     }),
-//     it('Settings page', async () => {
-//       try {
-//         await driver.get(
-//           'http://localhost:3001/settings-general'
-//         )
-//         expect(
-//           await driver.findElement(By.id('logo-oa'))
-//         ).toBeTruthy()
-//         expect(
-//           await driver.wait(
-//             until.titleIs('RDepot - login'),
-//             1000
-//           )
-//         ).toBeTruthy()
-//       } finally {
-//         await driver.quit()
-//       }
-//     })
-// })
+describe('Unauthenticated access', () => {
+  it('Login page', async () => {
+    try {
+      await driver.get('http://localhost:3001/login')
+      expect(
+        await driver.findElement(By.id('logo-oa'))
+      ).toBeTruthy()
+      expect(
+        await driver.wait(
+          until.titleIs('RDepot - login'),
+          1000
+        )
+      ).toBeTruthy()
+    } finally {
+      await driver.quit()
+    }
+  })
+  // it('Package page', async () => {
+  //   try {
+  //     await driver.get('http://localhost:3001/packages')
+  //     expect(
+  //       await driver.findElement(By.id('logo-oa'))
+  //     ).toBeTruthy()
+  //     expect(
+  //       await driver.wait(
+  //         until.titleIs('RDepot - login'),
+  //         1000
+  //       )
+  //     ).toBeTruthy()
+  //   } finally {
+  //     await driver.quit()
+  //   }
+  // }),
+  // it('Package maintainers page', async () => {
+  //   try {
+  //     await driver.get(
+  //       'http://localhost:3001/package-maintainers'
+  //     )
+  //     expect(
+  //       await driver.findElement(By.id('logo-oa'))
+  //     ).toBeTruthy()
+  //     expect(
+  //       await driver.wait(
+  //         until.titleIs('RDepot - login'),
+  //         1000
+  //       )
+  //     ).toBeTruthy()
+  //   } finally {
+  //     await driver.quit()
+  //   }
+  // }),
+  // it('Repositories page', async () => {
+  //   try {
+  //     await driver.get(
+  //       'http://localhost:3001/repositories'
+  //     )
+  //     expect(
+  //       await driver.findElement(By.id('logo-oa'))
+  //     ).toBeTruthy()
+  //     expect(
+  //       await driver.wait(
+  //         until.titleIs('RDepot - login'),
+  //         1000
+  //       )
+  //     ).toBeTruthy()
+  //   } finally {
+  //     await driver.quit()
+  //   }
+  // }),
+  // it('Repository maintainers page', async () => {
+  //   try {
+  //     await driver.get(
+  //       'http://localhost:3001/repository-maintainers'
+  //     )
+  //     expect(
+  //       await driver.findElement(By.id('logo-oa'))
+  //     ).toBeTruthy()
+  //     expect(
+  //       await driver.wait(
+  //         until.titleIs('RDepot - login'),
+  //         1000
+  //       )
+  //     ).toBeTruthy()
+  //   } finally {
+  //     await driver.quit()
+  //   }
+  // }),
+  // it('Users page', async () => {
+  //   try {
+  //     await driver.get('http://localhost:3001/users')
+  //     expect(
+  //       await driver.findElement(By.id('logo-oa'))
+  //     ).toBeTruthy()
+  //     expect(
+  //       await driver.wait(
+  //         until.titleIs('RDepot - login'),
+  //         1000
+  //       )
+  //     ).toBeTruthy()
+  //   } finally {
+  //     await driver.quit()
+  //   }
+  // }),
+  // it('Home page', async () => {
+  //   try {
+  //     await driver.get('http://localhost:3001/')
+  //     expect(
+  //       await driver.findElement(By.id('logo-oa'))
+  //     ).toBeTruthy()
+  //     expect(
+  //       await driver.wait(
+  //         until.titleIs('RDepot - login'),
+  //         1000
+  //       )
+  //     ).toBeTruthy()
+  //   } finally {
+  //     await driver.quit()
+  //   }
+  // }),
+  // it('Submissions page', async () => {
+  //   try {
+  //     await driver.get(
+  //       'http://localhost:3001/submissions'
+  //     )
+  //     expect(
+  //       await driver.findElement(By.id('logo-oa'))
+  //     ).toBeTruthy()
+  //     expect(
+  //       await driver.wait(
+  //         until.titleIs('RDepot - login'),
+  //         1000
+  //       )
+  //     ).toBeTruthy()
+  //   } finally {
+  //     await driver.quit()
+  //   }
+  // }),
+  // it('Upload package page', async () => {
+  //   try {
+  //     await driver.get(
+  //       'http://localhost:3001/upload-packages'
+  //     )
+  //     expect(
+  //       await driver.findElement(By.id('logo-oa'))
+  //     ).toBeTruthy()
+  //     expect(
+  //       await driver.wait(
+  //         until.titleIs('RDepot - login'),
+  //         1000
+  //       )
+  //     ).toBeTruthy()
+  //   } finally {
+  //     await driver.quit()
+  //   }
+  // }),
+  // it('Events page', async () => {
+  //   try {
+  //     await driver.get('http://localhost:3001/events')
+  //     expect(
+  //       await driver.findElement(By.id('logo-oa'))
+  //     ).toBeTruthy()
+  //     expect(
+  //       await driver.wait(
+  //         until.titleIs('RDepot - login'),
+  //         1000
+  //       )
+  //     ).toBeTruthy()
+  //   } finally {
+  //     await driver.quit()
+  //   }
+  // }),
+  // it('Access tokens page', async () => {
+  //   try {
+  //     await driver.get(
+  //       'http://localhost:3001/settings-tokens'
+  //     )
+  //     expect(
+  //       await driver.findElement(By.id('logo-oa'))
+  //     ).toBeTruthy()
+  //     expect(
+  //       await driver.wait(
+  //         until.titleIs('RDepot - login'),
+  //         1000
+  //       )
+  //     ).toBeTruthy()
+  //   } finally {
+  //     await driver.quit()
+  //   }
+  // }),
+  // it('Settings page', async () => {
+  //   try {
+  //     await driver.get(
+  //       'http://localhost:3001/settings-general'
+  //     )
+  //     expect(
+  //       await driver.findElement(By.id('logo-oa'))
+  //     ).toBeTruthy()
+  //     expect(
+  //       await driver.wait(
+  //         until.titleIs('RDepot - login'),
+  //         1000
+  //       )
+  //     ).toBeTruthy()
+  //   } finally {
+  //     await driver.quit()
+  //   }
+  // })
+})
 
 describe('Admin access', () => {
   it('Login page', async () => {
     try {
-      await driver.get('http://192.168.49.13:80/login')
+      await driver.get(url + '/login')
       driver
         .findElement(By.id('username-input'))
         .sendKeys('einstein')
@@ -286,7 +287,7 @@ describe('Admin access', () => {
         )
       ).toBeTruthy()
     } finally {
-      // await driver.quit()
+      await driver.quit()
     }
   })
   //   it('Package page', async () => {
