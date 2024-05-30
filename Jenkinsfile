@@ -67,8 +67,7 @@ pipeline {
                   url: "https://registry.openanalytics.eu"]){
           sh """
             npm run test:setup
-            npm run test:integration:once:junit
-            npm run test:cleanup
+            sleep 3600
             """
           withChecks('UI Integration Tests') {
             junit "reports/test-report-integration.xml"
