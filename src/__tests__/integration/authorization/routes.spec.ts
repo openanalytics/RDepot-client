@@ -39,6 +39,11 @@ let driver: any
 const url = 'http://172.17.0.1:3001'
 const PASSWORD = 'testpassword'
 
+const logging = require('selenium-webdriver/lib/logging')
+const logger = logging.getLogger('webdriver')
+logger.setLevel(logging.Level.FINEST)
+logging.installConsoleHandler()
+
 beforeEach(async () => {
   setActivePinia(createPinia())
   driver = await new Builder()
