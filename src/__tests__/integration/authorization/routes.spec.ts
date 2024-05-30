@@ -43,6 +43,7 @@ beforeEach(async () => {
   setActivePinia(createPinia())
   driver = await new Builder()
     .forBrowser(Browser.CHROME)
+    .usingServer('http://172.17.0.1:4444/wd/hub')
     .setChromeOptions(
       new chrome.Options().addArguments('--headless')
     )
@@ -52,14 +53,14 @@ beforeEach(async () => {
 describe('Unauthenticated access', () => {
   it('Login page', async () => {
     try {
-      await driver.get('http://localhost:3001/login')
+      await driver.get(url + '/login')
       expect(
         await driver.findElement(By.id('logo-oa'))
       ).toBeTruthy()
       expect(
         await driver.wait(
           until.titleIs('RDepot - login'),
-          1000
+          2000
         )
       ).toBeTruthy()
     } finally {
@@ -274,7 +275,7 @@ describe('Admin access', () => {
       expect(
         await driver.wait(
           until.titleIs('RDepot - packages'),
-          1000
+          2000
         )
       ).toBeTruthy()
       await driver
