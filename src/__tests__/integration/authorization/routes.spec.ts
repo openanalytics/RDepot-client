@@ -20,24 +20,24 @@
  *
  */
 
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, beforeEach } from 'vitest'
 // import me from '@/__tests__/config/mockData/me.json'
 // import users from '@/__tests__/config/mockData/users.json'
 import { createPinia, setActivePinia } from 'pinia'
 
 const {
   Builder,
-  Browser,
-  By,
+  Browser
+  // By,
   // Key,
-  until
+  // until
 } = require('selenium-webdriver')
 const chrome = require('selenium-webdriver/chrome')
 // const repositoryMaintainer = users.data.content[1]
 
 let driver: any
 const url = 'http://172.17.0.1:3001'
-const PASSWORD = 'testpassword'
+// const PASSWORD = 'testpassword'
 
 beforeEach(async () => {
   setActivePinia(createPinia())
@@ -45,7 +45,14 @@ beforeEach(async () => {
     .forBrowser(Browser.CHROME)
     .usingServer('http://172.17.0.1:4444/wd/hub')
     .setChromeOptions(
-      new chrome.Options().addArguments('--headless')
+      new chrome.Options().addArguments(
+        '--headless',
+        '--no-sandbox',
+        '--disable-dev-shm-usage',
+        '--disable-gpu',
+        '--disable-extensions',
+        '--remote-debugging-port=9222'
+      )
     )
     .build()
 })
