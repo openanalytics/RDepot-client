@@ -20,7 +20,7 @@
  *
  */
 
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, beforeEach } from 'vitest'
 // import me from '@/__tests__/config/mockData/me.json'
 // import users from '@/__tests__/config/mockData/users.json'
 import { createPinia, setActivePinia } from 'pinia'
