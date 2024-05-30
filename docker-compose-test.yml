@@ -15,7 +15,6 @@ services:
       - backend
       - repo
       - frontend
-      - keycloak
     ports:
       - 8017:80
     networks:
