@@ -20,24 +20,25 @@
  *
  */
 
-import { describe, it, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 // import me from '@/__tests__/config/mockData/me.json'
 // import users from '@/__tests__/config/mockData/users.json'
 import { createPinia, setActivePinia } from 'pinia'
+import waitForExpect from 'wait-for-expect'
 
 const {
   Builder,
-  Browser
-  // By,
+  Browser,
+  By,
   // Key,
-  // until
+  until
 } = require('selenium-webdriver')
 const chrome = require('selenium-webdriver/chrome')
 // const repositoryMaintainer = users.data.content[1]
 
 let driver: any
 const url = 'http://172.17.0.1:3001'
-// const PASSWORD = 'testpassword'
+const PASSWORD = 'testpassword'
 
 beforeEach(async () => {
   setActivePinia(createPinia())
@@ -279,21 +280,25 @@ describe('Admin access', () => {
       driver
         .findElement(By.id('login-simple-button'))
         .click()
-      expect(
-        await driver.wait(
-          until.titleIs('RDepot - packages'),
-          2000
-        )
-      ).toBeTruthy()
+      await waitForExpect(() => {
+        expect(
+          driver.wait(
+            until.titleIs('RDepot - packages'),
+            2000
+          )
+        ).toBeTruthy()
+      })
       await driver
         .findElement(By.id('sidebaruploadpackages'))
         .click()
-      expect(
-        await driver.wait(
-          until.titleIs('RDepot - upload packages'),
-          5000
-        )
-      ).toBeTruthy()
+      await waitForExpect(() => {
+        expect(
+          driver.wait(
+            until.titleIs('RDepot - upload packages'),
+            5000
+          )
+        ).toBeTruthy()
+      })
     } finally {
       await driver.quit()
     }
