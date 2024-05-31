@@ -56,7 +56,23 @@ pipeline {
       steps {
         sh "npm run test:unit:once:junit"
         withChecks('UI Unit Tests') {
-          junit "reports/test-report.xml"
+          junit "reports/test-report-unit.xml"
+        }
+      }
+    }
+    stage('Integration Test') {
+      steps {
+        withDockerRegistry([
+                  credentialsId: "oa-sa-jenkins-registry",
+                  url: "https://registry.openanalytics.eu"]){
+          sh """
+            npm run test:setup
+            npm run test:integration:once:junit
+            npm run test:cleanup
+            """
+          withChecks('UI Integration Tests') {
+            junit "reports/test-report-integration.xml"
+          }
         }
       }
     }

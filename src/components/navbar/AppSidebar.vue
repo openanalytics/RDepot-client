@@ -44,6 +44,7 @@
       </v-list-item>
       <v-list-item
         v-if="authorizationStore.can('POST', 'submissions')"
+        id="sidebaruploadpackages"
         prepend-icon="mdi-upload"
         :title="$t('common.uploadPackages')"
         :value="$t('common.uploadPackages')"

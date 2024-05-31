@@ -29,10 +29,10 @@ import {
 } from 'vitest'
 
 import { mount } from '@vue/test-utils'
-import { plugins } from '@/__tests__/unit/config/plugins'
-import { mocks } from '@/__tests__/unit/config/mocks'
+import { plugins } from '@/__tests__/config/plugins'
+import { mocks } from '@/__tests__/config/mocks'
 import ChangeLanguageVue from '@/components/navbar/ChangeLanguage.vue'
-import { ResizeObserver } from '@/__tests__/unit/config/ResizeObserver'
+import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import { createPinia, setActivePinia } from 'pinia'
 
 let wrapper: any

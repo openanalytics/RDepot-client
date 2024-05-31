@@ -22,6 +22,7 @@
 
 <template>
   <v-img
+    id="logo-oa"
     src="@/assets/logo.png"
     class="my-3 mb-5"
     contain

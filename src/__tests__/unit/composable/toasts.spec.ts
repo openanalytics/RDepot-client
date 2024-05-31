@@ -32,7 +32,7 @@ import { createPinia, setActivePinia } from 'pinia'
 import { useToast } from '@/composable/toasts'
 import { AxiosError } from 'axios'
 import { BackendError } from '@/models/errors/BackendError'
-import error500Json from '@/__tests__/unit/config/mockData/error500.json'
+import error500Json from '@/__tests__/config/mockData/error500.json'
 
 beforeEach(async () => {
   setActivePinia(createPinia())

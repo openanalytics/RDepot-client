@@ -23,6 +23,7 @@
 <template>
   <v-row v-show="isOIDCAuthAvailable()">
     <v-btn
+      id="OIDC-button"
       color="background"
       class="loginTypeButton"
       @click="loginOIDC"

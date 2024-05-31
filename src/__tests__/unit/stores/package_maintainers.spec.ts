@@ -32,9 +32,9 @@ import {
   beforeAll,
   afterAll
 } from 'vitest'
-import packageMaintainers from '@/__tests__/unit/config/mockData/packageMaintainers.json'
-import repositories from '@/__tests__/unit/config/mockData/repositories.json'
-import packages from '@/__tests__/unit/config/mockData/packages.json'
+import packageMaintainers from '@/__tests__/config/mockData/packageMaintainers.json'
+import repositories from '@/__tests__/config/mockData/repositories.json'
+import packages from '@/__tests__/config/mockData/packages.json'
 import { usePagination } from '@/store/pagination'
 import { Technologies } from '@/enum/Technologies'
 import {
@@ -42,8 +42,8 @@ import {
   defaultValues
 } from '@/models/Filtration'
 import { useMeStore } from '@/store/me'
-import { server } from '@/__tests__/unit/config/backend/server'
-import { failingServer } from '@/__tests__/unit/config/backend/failingServer'
+import { server } from '@/__tests__/config/backend/server'
+import { failingServer } from '@/__tests__/config/backend/failingServer'
 
 const defaultFiltration = defaultValues(
   PackageMaintainersFiltration

@@ -30,9 +30,9 @@ import {
 } from 'vitest'
 
 import { mount } from '@vue/test-utils'
-import { plugins } from '@/__tests__/unit/config/plugins'
-import { mocks } from '@/__tests__/unit/config/mocks'
-import { ResizeObserver } from '@/__tests__/unit/config/ResizeObserver'
+import { plugins } from '@/__tests__/config/plugins'
+import { mocks } from '@/__tests__/config/mocks'
+import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import { createPinia, setActivePinia } from 'pinia'
 import CreateRepository from '@/components/repositories/CreateRepository.vue'
 import { Technologies } from '@/enum/Technologies'
@@ -40,7 +40,7 @@ import { nextTick } from 'vue'
 import { HashMethods } from '@/enum/HashMethods'
 import { useRepositoryStore } from '@/store/repositories'
 import { useMeStore } from '@/store/me'
-import me from '@/__tests__/unit/config/mockData/me.json'
+import me from '@/__tests__/config/mockData/me.json'
 
 let wrapper: any
 let repositoryStore: any

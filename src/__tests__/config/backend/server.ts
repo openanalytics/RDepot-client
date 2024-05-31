@@ -22,15 +22,15 @@
 
 import { http, HttpResponse } from 'msw'
 import { setupServer } from 'msw/node'
-import me from '@/__tests__/unit/config/mockData/me.json'
-import packages from '@/__tests__/unit/config/mockData/packages.json'
-import repositories from '@/__tests__/unit/config/mockData/repositories.json'
-import repositoryMaintainers from '@/__tests__/unit/config/mockData/repositoryMaintainers.json'
-import packageMaintainers from '@/__tests__/unit/config/mockData/packageMaintainers.json'
-import submissions from '@/__tests__/unit/config/mockData/submissions.json'
-import roles from '@/__tests__/unit/config/mockData/roles.json'
-import events from '@/__tests__/unit/config/mockData/events.json'
-import users from '@/__tests__/unit/config/mockData/users.json'
+import me from '@/__tests__/config/mockData/me.json'
+import packages from '@/__tests__/config/mockData/packages.json'
+import repositories from '@/__tests__/config/mockData/repositories.json'
+import repositoryMaintainers from '@/__tests__/config/mockData/repositoryMaintainers.json'
+import packageMaintainers from '@/__tests__/config/mockData/packageMaintainers.json'
+import submissions from '@/__tests__/config/mockData/submissions.json'
+import roles from '@/__tests__/config/mockData/roles.json'
+import events from '@/__tests__/config/mockData/events.json'
+import users from '@/__tests__/config/mockData/users.json'
 
 export const server = setupServer(
   http.get(

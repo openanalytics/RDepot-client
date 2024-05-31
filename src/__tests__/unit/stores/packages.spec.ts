@@ -30,8 +30,8 @@ import {
   vi,
   afterAll
 } from 'vitest'
-import packages from '@/__tests__/unit/config/mockData/packages.json'
-import repositories from '@/__tests__/unit/config/mockData/repositories.json'
+import packages from '@/__tests__/config/mockData/packages.json'
+import repositories from '@/__tests__/config/mockData/repositories.json'
 import { usePagination } from '@/store/pagination'
 import { Technologies } from '@/enum/Technologies'
 import {
@@ -40,7 +40,7 @@ import {
 } from '@/models/Filtration'
 import { useUtilities } from '@/composable/utilities'
 import { useMeStore } from '@/store/me'
-import { server } from '@/__tests__/unit/config/backend/server'
+import { server } from '@/__tests__/config/backend/server'
 
 const defaultFiltration = defaultValues(PackagesFiltration)
 

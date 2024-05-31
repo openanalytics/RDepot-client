@@ -22,7 +22,7 @@
 
 <template>
   <component
-    :is="as"
+    :is="isas"
     v-model="value"
     :error-messages="errors"
     v-bind="attrs"
@@ -87,7 +87,7 @@ const toComponent = new Map<Component, any>([
   [component.enum['combobox'], ComboboxField]
 ])
 
-const as = toComponent.get(componentProps.as)
+const isas = toComponent.get(componentProps.as)
 const { value, handleBlur, errors } = useField(
   toRef(componentProps, 'name'),
   undefined

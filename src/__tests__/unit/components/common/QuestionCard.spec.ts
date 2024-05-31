@@ -24,8 +24,8 @@ import { describe, it, expect, beforeEach } from 'vitest'
 
 import { mount } from '@vue/test-utils'
 import QuestionCard from '@/components/common/overlay/QuestionCard.vue'
-import { plugins } from '@/__tests__/unit/config/plugins'
-import { mocks } from '@/__tests__/unit/config/mocks'
+import { plugins } from '@/__tests__/config/plugins'
+import { mocks } from '@/__tests__/config/mocks'
 
 let wrapper: any
 const MESSAGE = 'Do you want to reset the form?'

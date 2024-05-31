@@ -23,8 +23,8 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 
 import { mount } from '@vue/test-utils'
-import { plugins } from '@/__tests__/unit/config/plugins'
-import { mocks } from '@/__tests__/unit/config/mocks'
+import { plugins } from '@/__tests__/config/plugins'
+import { mocks } from '@/__tests__/config/mocks'
 import EditIcon from '@/components/common/action_icons/EditIcon.vue'
 import { useCommonStore } from '@/store/common'
 import { createPinia, setActivePinia } from 'pinia'

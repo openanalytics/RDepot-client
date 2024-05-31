@@ -29,12 +29,12 @@ import {
 } from 'vitest'
 
 import { mount } from '@vue/test-utils'
-import { plugins } from '@/__tests__/unit/config/plugins'
-import { mocks } from '@/__tests__/unit/config/mocks'
+import { plugins } from '@/__tests__/config/plugins'
+import { mocks } from '@/__tests__/config/mocks'
 import ProgressCircularVue from '@/components/common/progress/ProgressCircular.vue'
 import { createPinia, setActivePinia } from 'pinia'
 import { useCommonStore } from '@/store/common'
-import { ResizeObserver } from '@/__tests__/unit/config/ResizeObserver'
+import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 
 let wrapper: any
 const globalConfig = {

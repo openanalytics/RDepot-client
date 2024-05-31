@@ -21,7 +21,7 @@
  */
 
 import { useMeStore } from '@/store/me'
-import me from '@/__tests__/unit/config/mockData/me.json'
+import me from '@/__tests__/config/mockData/me.json'
 import { createPinia, setActivePinia } from 'pinia'
 import {
   describe,
@@ -32,7 +32,7 @@ import {
   afterAll
 } from 'vitest'
 import { useAuthorizationStore } from '@/store/authorization'
-import { server } from '@/__tests__/unit/config/backend/server'
+import { server } from '@/__tests__/config/backend/server'
 
 describe('Logged user store tests', () => {
   beforeAll(() => {

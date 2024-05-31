@@ -35,8 +35,8 @@ import {
   EntityModelRepositoryDto,
   EntityModelSubmissionDtoStateEnum
 } from '@/openapi'
-import packages from '@/__tests__/unit/config/mockData/packages.json'
-import submissions from '@/__tests__/unit/config/mockData/submissions.json'
+import packages from '@/__tests__/config/mockData/packages.json'
+import submissions from '@/__tests__/config/mockData/submissions.json'
 import { useUtilities } from '@/composable/utilities'
 import {
   SubmissionsFiltration,
@@ -45,8 +45,8 @@ import {
 import { usePagination } from '@/store/pagination'
 import { Technologies } from '@/enum/Technologies'
 import { useMeStore } from '@/store/me'
-import { server } from '@/__tests__/unit/config/backend/server'
-import { failingServer } from '@/__tests__/unit/config/backend/failingServer'
+import { server } from '@/__tests__/config/backend/server'
+import { failingServer } from '@/__tests__/config/backend/failingServer'
 
 const { deepCopyAny } = useUtilities()
 const files = [
