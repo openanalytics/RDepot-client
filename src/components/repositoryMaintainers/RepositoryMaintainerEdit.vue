@@ -21,7 +21,7 @@
 -->
 
 <template>
-  <Form ref="form" as="v-form" lazy-validation>
+  <form ref="form" as="v-form" lazy-validation>
     <v-card class="pa-5" width="400">
       <v-card-title>
         {{ $t('maintainers.editform.title') }}
@@ -76,7 +76,7 @@
         @clicked="handleCardActions"
       />
     </v-card>
-  </Form>
+  </form>
 </template>
 
 <script setup lang="ts">
@@ -84,7 +84,7 @@ import CardActions from '@/components/common/overlay/CardActions.vue'
 import { EntityModelRepositoryMaintainerDto } from '@/openapi'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
 import { onBeforeMount } from 'vue'
-import { Form, useForm } from 'vee-validate'
+import { useForm } from 'vee-validate'
 import ValidatedInputField from '@/components/common/fields/ValidatedInputField.vue'
 import { toTypedSchema } from '@vee-validate/zod'
 import { repositoryMaintainerSchema } from '@/models/Schemas'

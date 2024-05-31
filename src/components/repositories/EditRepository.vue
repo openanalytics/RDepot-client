@@ -21,7 +21,7 @@
 -->
 
 <template>
-  <Form as="v-form" lazy-validation>
+  <form as="v-form" lazy-validation>
     <v-card class="pa-5" width="400">
       <v-card-title>
         {{ $t('repositories.edit.title') }}
@@ -73,7 +73,7 @@
         @clicked="handleCardActions"
       />
     </v-card>
-  </Form>
+  </form>
 </template>
 
 <script setup lang="ts">
@@ -82,7 +82,7 @@ import { ref, onMounted } from 'vue'
 import { Technologies } from '@/enum/Technologies'
 import { repositorySchema } from '@/models/Schemas'
 import { toTypedSchema } from '@vee-validate/zod/dist/vee-validate-zod'
-import { Form, useForm } from 'vee-validate'
+import { useForm } from 'vee-validate'
 import ValidatedInputField from '@/components/common/fields/ValidatedInputField.vue'
 import CardActions from '@/components/common/overlay/CardActions.vue'
 import { z } from 'zod'

@@ -21,7 +21,7 @@
 -->
 
 <template>
-  <Form as="v-form" lazy-validation>
+  <form as="v-form" lazy-validation>
     <v-card class="pa-5" width="400">
       <v-card-title>
         {{ $t('repositories.creation.title') }}
@@ -29,6 +29,7 @@
       <v-divider></v-divider>
       <v-card-text>
         <validated-input-field
+          id="create-name"
           name="name"
           as="v-text-field"
           :label="$t('repositories.creation.name')"
@@ -37,6 +38,7 @@
           max-width="unset"
         ></validated-input-field>
         <validated-input-field
+          id="create-publication-uri"
           name="publicationUri"
           as="v-text-field"
           :label="
@@ -45,16 +47,27 @@
           max-width="unset"
         ></validated-input-field>
         <validated-input-field
+          id="create-server-address"
           name="serverAddress"
           as="v-text-field"
           max-width="unset"
           :label="$t('repositories.creation.serverAddress')"
         ></validated-input-field>
         <validated-input-field
-          :items="technologySelect"
+          id="create-technology"
+          :items="technologies"
           name="technology"
           as="v-select"
           :label="$t('repositories.creation.technology')"
+          max-width="unset"
+        ></validated-input-field>
+        <validated-input-field
+          v-if="values.technology == 'Python'"
+          id="create-hash-method"
+          :items="hashMethods"
+          name="hashMethod"
+          as="v-select"
+          :label="$t('repositories.creation.hash')"
           max-width="unset"
         ></validated-input-field>
       </v-card-text>
@@ -64,25 +77,29 @@
         @clicked="handleCardActions"
       />
     </v-card>
-  </Form>
+  </form>
 </template>
 
 <script setup lang="ts">
 import { useRepositoryStore } from '@/store/repositories'
 import { ref, onMounted } from 'vue'
 import { Technologies } from '@/enum/Technologies'
+import { HashMethods } from '@/enum/HashMethods'
 import { repositorySchema } from '@/models/Schemas'
 import { toTypedSchema } from '@vee-validate/zod/dist/vee-validate-zod'
-import { Form, useForm } from 'vee-validate'
+import { useForm } from 'vee-validate'
 import ValidatedInputField from '@/components/common/fields/ValidatedInputField.vue'
 import CardActions from '@/components/common/overlay/CardActions.vue'
 import { z } from 'zod'
 import { useToast } from '@/composable/toasts'
 import { useI18n } from 'vue-i18n'
+import { watch } from 'vue'
 
 const repositoryStore = useRepositoryStore()
 
-const technologySelect = ref(Technologies.options)
+const technologies = ref(Technologies.options)
+const hashMethods = ref(HashMethods.options)
+
 const { t } = useI18n()
 
 const buttons = [
@@ -91,7 +108,7 @@ const buttons = [
     text: t('common.cancel')
   },
   {
-    id: 'set-filtration',
+    id: 'create-repository',
     text: t('common.create')
   }
 ]
@@ -102,7 +119,7 @@ function handleCardActions(buttonId: string) {
       emit('closeModal')
       break
     }
-    case 'set-filtration': {
+    case 'create-repository': {
       createRepository()
       break
     }
@@ -116,40 +133,56 @@ const loading = ref(false)
 let previousVal = ''
 let previousReturn = true
 
-const { meta, values } = useForm({
-  validationSchema: toTypedSchema(
-    z.object({
-      name: repositorySchema.shape.name.refine(
-        async (value) => {
-          if (previousVal === value) {
+const { meta, values, setFieldValue, setTouched } = useForm(
+  {
+    validationSchema: toTypedSchema(
+      z.object({
+        name: repositorySchema.shape.name.refine(
+          async (value) => {
+            if (previousVal === value) {
+              return previousReturn
+            }
+            previousVal = value
+            loading.value = true
+            const repositoryWithSameName =
+              await repositoryStore.fetchRepository(
+                value,
+                false
+              )
+            loading.value = false
+            previousReturn =
+              repositoryWithSameName.length === 0
             return previousReturn
-          }
-          previousVal = value
-          loading.value = true
-          const repositoryWithSameName =
-            await repositoryStore.fetchRepository(
-              value,
-              false
-            )
-          loading.value = false
-          previousReturn =
-            repositoryWithSameName.length === 0
-          return previousReturn
-        },
-        t('repositories.creation.duplicateName')
-      ),
-      publicationUri: repositorySchema.shape.publicationUri,
-      serverAddress: repositorySchema.shape.serverAddress,
-      technology: repositorySchema.shape.technology
-    })
-  )
-})
+          },
+          t('repositories.creation.duplicateName')
+        ),
+        publicationUri:
+          repositorySchema.shape.publicationUri,
+        serverAddress: repositorySchema.shape.serverAddress,
+        technology: repositorySchema.shape.technology,
+        hashMethod: repositorySchema.shape.hashMethod
+      })
+    )
+  }
+)
+
+watch(
+  () => values.technology,
+  (nevValue: Technologies | undefined) => {
+    if (nevValue == Technologies.Enum.Python) {
+      setFieldValue('hashMethod', HashMethods.Values.MD5)
+      setTouched(true)
+    } else {
+      setFieldValue('hashMethod', undefined)
+    }
+  }
+)
 
 const emit = defineEmits(['closeModal'])
 const toasts = useToast()
 
 function createRepository() {
-  if (meta.value.valid) {
+  if (meta.value.valid && meta.value.touched) {
     repositoryStore.createRepository(values)
     emit('closeModal')
   } else {

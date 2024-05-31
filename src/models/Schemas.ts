@@ -20,6 +20,7 @@
  *
  */
 
+import { HashMethods } from '@/enum/HashMethods'
 import { Technologies } from '@/enum/Technologies'
 import { i18n } from '@/plugins/i18n'
 import z from 'zod'
@@ -54,6 +55,7 @@ export const repositorySchema = z.object({
   published: z.boolean().default(false),
   synchronizing: z.boolean().default(false),
   technology: Technologies,
+  hashMethod: HashMethods.optional(),
   links: z.array(linkSchema).optional()
 })
 
