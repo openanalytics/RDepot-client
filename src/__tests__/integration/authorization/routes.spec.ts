@@ -42,7 +42,7 @@ const chrome = require('selenium-webdriver/chrome')
 let driver: any
 const url = 'http://172.17.0.1:3001'
 const PASSWORD = 'testpassword'
-const delay = (ms) =>
+const delay = (ms: number) =>
   new Promise((res) => setTimeout(res, ms))
 beforeEach(async () => {
   // setActivePinia(createPinia())
