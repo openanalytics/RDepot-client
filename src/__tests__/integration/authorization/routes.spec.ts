@@ -51,7 +51,7 @@ beforeEach(async () => {
     .usingServer('http://172.17.0.1:4444/wd/hub')
     .setChromeOptions(
       new chrome.Options().addArguments(
-        // '--headless',
+        '--headless',
         '--no-sandbox',
         '--disable-dev-shm-usage',
         '--disable-gpu',
@@ -303,6 +303,7 @@ describe('Admin access', () => {
       )
     ).toBeTruthy()
     driver.findElement(By.id('login-simple-button')).click()
+    await delay(2000)
     expect(
       driver.wait(
         until.elementLocated(
@@ -311,11 +312,11 @@ describe('Admin access', () => {
         8000
       )
     ).toBeTruthy()
-    await delay(1000)
+    await delay(2000)
     driver
       .findElement(By.id('sidebaruploadpackages'))
       .click()
-    await delay(1000)
+    await delay(2000)
     expect(
       driver.wait(
         until.titleIs('RDepot - upload packages'),
