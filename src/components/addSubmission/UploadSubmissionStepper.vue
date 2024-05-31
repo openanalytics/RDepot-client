@@ -30,8 +30,8 @@
     >
       <v-window-item :value="el">
         <component
-          :key="submissionStore.stepperKey"
           :is="components[el - 1]"
+          :key="submissionStore.stepperKey"
           @next="changeValue"
         ></component>
       </v-window-item>

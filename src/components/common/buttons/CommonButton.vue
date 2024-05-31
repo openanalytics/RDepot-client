@@ -21,11 +21,35 @@
 -->
 
 <template>
-  <div class="d-flex justify-center mt-10">
-    <Stepper class="mx-15 mt-10 stepper"></Stepper>
-  </div>
+  <v-btn
+    id="common-button"
+    color="oablue"
+    dark
+    dense
+    class="mx-3"
+    @click="openModal"
+  >
+    <slot>{{ $t('filtration.title') }}</slot>
+  </v-btn>
 </template>
 
 <script setup lang="ts">
-import Stepper from '@/components/addSubmission/Stepper.vue'
+import { OverlayEnum } from '@/enum/Overlay'
+import { i18n } from '@/plugins/i18n'
+import { useCommonStore } from '@/store/common'
+import { PropType } from 'vue'
+
+const componentProps = defineProps({
+  component: {
+    type: String as PropType<OverlayEnum>,
+    required: true
+  }
+})
+
+const commonStore = useCommonStore()
+
+function openModal() {
+  commonStore.setOverlayText(i18n.t('filtration.makeSure'))
+  commonStore.openOverlay(componentProps.component)
+}
 </script>

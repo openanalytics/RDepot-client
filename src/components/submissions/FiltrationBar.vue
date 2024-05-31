@@ -23,19 +23,19 @@
 <template>
   <DatePicker
     v-model="showDatepicker"
-    :previousDate="fromDatePicker"
-    @updateDate="updateDate"
-    @closeModal="closeModal"
-    @resetDate="resetDate"
+    :previous-date="fromDatePicker"
     :direction="changedDate"
-    :allowedDates="allowedDates"
+    :allowed-dates="allowedDates"
+    @update-date="updateDate"
+    @close-modal="closeModal"
+    @reset-date="resetDate"
   />
   <div
     class="v-expansion d-flex py-3 ga-3 justify-space-between"
     style="padding-left: 0; padding-right: 0"
   >
     <validated-input-field
-      @update:modelValue="setFiltration"
+      id="filtration-search"
       density="compact"
       hide-details
       name="search"
@@ -44,41 +44,40 @@
         $t('submissions.filtration.searchPlaceholder')
       "
       color="oablue"
-      id="filtration-search"
+      @update:model-value="setFiltration"
     />
 
     <validated-input-field
-      @update:modelValue="setFiltration"
+      id="filtration-technology"
       density="compact"
       hide-details
       chips
       closable-chips
-      id="filtration-technology"
       :items="technologies"
       name="technologies"
       multiple
       clearable
       as="v-select"
       :label="$t('filtration.technologies')"
+      @update:model-value="setFiltration"
     ></validated-input-field>
 
     <validated-input-field
-      @update:modelValue="setFiltration"
+      id="filtration-state"
       density="compact"
       hide-details
       chips
       closable-chips
-      id="filtration-state"
       :items="states"
       name="state"
       multiple
       clearable
       as="v-select"
       :label="$t('filtration.state')"
+      @update:model-value="setFiltration"
     ></validated-input-field>
 
     <validated-input-field
-      @update:modelValue="setFiltration"
       density="compact"
       hide-details
       chips
@@ -88,17 +87,18 @@
       multiple
       clearable
       :label="$t('packages.filtration.repository')"
-      @loadItems="loadRepositories"
-      @filtrate="filtrateRepositoriesObjects"
-      :storeId="storeId"
+      :store-id="storeId"
       :template="true"
+      @update:model-value="setFiltration"
+      @load-items="loadRepositories"
+      @filtrate="filtrateRepositoriesObjects"
     >
       <template #item="{ props }">
         <v-list-item
-          v-bind="props"
           v-intersect="loadRepositories"
+          v-bind="props"
         >
-          <template v-slot:prepend="{ isActive }">
+          <template #prepend="{ isActive }">
             <v-list-item-action start>
               <v-checkbox-btn
                 :model-value="isActive"
@@ -110,30 +110,30 @@
     </validated-input-field>
 
     <validated-input-field
-      @update:focused="selectFromDate"
+      id="filtration-fromDate"
       density="compact"
       hide-details
       name="fromDate"
       as="v-text-field"
       :label="$t('submissions.filtration.fromDate')"
       color="oablue"
-      id="filtration-fromDate"
+      @update:focused="selectFromDate"
     />
 
     <validated-input-field
-      @update:focused="selectToDate"
+      id="filtration-toDate"
       density="compact"
       hide-details
       name="toDate"
       as="v-text-field"
       :label="$t('submissions.filtration.toDate')"
       color="oablue"
-      id="filtration-toDate"
+      @update:focused="selectToDate"
     />
     <v-spacer />
     <ResetButton
       v-if="!submissionsStore.isDefaultFiltration"
-      @resetValues="resetValues"
+      @reset-values="resetValues"
     />
   </div>
 </template>
@@ -189,11 +189,17 @@ function resetValues() {
 }
 
 const allowedDates = computed(() => {
-  return changedDate.value === 'from'
-    ? values.toDate
-    : changedDate.value === 'to'
-    ? values.fromDate
-    : undefined
+  switch (changedDate.value) {
+    case 'from': {
+      return values.toDate
+    }
+    case 'to': {
+      return values.fromDate
+    }
+    default: {
+      return undefined
+    }
+  }
 })
 
 function selectFromDate(e: boolean) {

@@ -26,7 +26,7 @@ export const routes = [
   {
     path: '/',
     component: () =>
-      import('@/layouts/default/Default.vue'),
+      import('@/layouts/default/DefaultView.vue'),
     children: [
       {
         path: '',
@@ -39,14 +39,17 @@ export const routes = [
       {
         path: '/users',
         name: 'users',
-        component: () => import('@/views/users/Users.vue'),
+        component: () =>
+          import('@/views/users/UsersView.vue'),
         meta: { title: 'RDepot - users', sidebar: 'users' }
       },
       {
         path: '/repositories',
         name: 'repositories',
         component: () =>
-          import('@/views/repositories/Repositories.vue'),
+          import(
+            '@/views/repositories/RepositoriesView.vue'
+          ),
         meta: { title: 'RDepot - repositories' }
       },
       {
@@ -54,7 +57,7 @@ export const routes = [
         name: 'repositoryMaintainers',
         component: () =>
           import(
-            '@/views/maintainers/RepositoryMaintainers.vue'
+            '@/views/maintainers/RepositoryMaintainersView.vue'
           ),
         meta: { title: 'RDepot - repository maintainers' }
       },
@@ -62,21 +65,21 @@ export const routes = [
         path: '/submissions',
         name: 'submissions',
         component: () =>
-          import('@/views/submissions/Submissions.vue'),
+          import('@/views/submissions/SubmissionsView.vue'),
         meta: { title: 'RDepot - submissions' }
       },
       {
         path: '/packages',
         name: 'packages',
         component: () =>
-          import('@/views/packages/Packages.vue'),
+          import('@/views/packages/PackagesView.vue'),
         meta: { title: 'RDepot - packages' }
       },
       {
         path: '/packages/:technology/:id',
         name: 'packageDetails',
         component: () =>
-          import('@/views/packages/PackageDetails.vue'),
+          import('@/views/packages/PackageDetailsView.vue'),
         meta: { title: 'RDepot - package details' },
         props: true
       },
@@ -85,7 +88,7 @@ export const routes = [
         name: 'packageMaintainers',
         component: () =>
           import(
-            '@/views/maintainers/PackageMaintainers.vue'
+            '@/views/maintainers/PackageMaintainersView.vue'
           ),
         meta: { title: 'RDepot - package maintainers' }
       },
@@ -93,7 +96,9 @@ export const routes = [
         path: '/upload-packages',
         name: 'addSubmission',
         component: () =>
-          import('@/views/submissions/AddSubmission.vue'),
+          import(
+            '@/views/submissions/AddSubmissionView.vue'
+          ),
         meta: { title: 'RDepot - upload packages' },
         beforeEnter: () => {
           prepareUploadPackagesView()
@@ -103,21 +108,23 @@ export const routes = [
         path: '/events',
         name: 'events',
         component: () =>
-          import('@/views/events/Events.vue'),
+          import('@/views/events/EventsView.vue'),
         meta: { title: 'RDepot - events' }
       },
       {
         path: '/settings-general',
         name: 'settingsGeneral',
         component: () =>
-          import('@/views/settings/General.vue'),
+          import(
+            '@/views/settings/GeneralSettingsView.vue'
+          ),
         meta: { title: 'RDepot - settings' }
       },
       {
         path: '/settings-tokens',
         name: 'settingsTokens',
         component: () =>
-          import('@/views/settings/AccessTokens.vue'),
+          import('@/views/settings/AccessTokensView.vue'),
         meta: { title: 'RDepot - access tokens' }
       }
     ]
@@ -125,12 +132,13 @@ export const routes = [
   {
     path: '/login',
     component: () =>
-      import('@/layouts/default/Content.vue'),
+      import('@/layouts/default/ContentView.vue'),
     children: [
       {
         path: '',
         name: 'login',
-        component: () => import('@/views/users/Login.vue'),
+        component: () =>
+          import('@/views/users/LoginView.vue'),
         meta: { title: 'RDepot - login' }
       }
     ]

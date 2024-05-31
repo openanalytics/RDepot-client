@@ -26,14 +26,14 @@
     style="padding-left: 0; padding-right: 0"
   >
     <validated-input-field
-      @update:modelValue="setFiltration"
+      id="filtration-search"
       density="compact"
       hide-details
       name="search"
       as="v-text-field"
       :label="$t('settings.filtration.searchPlaceholder')"
       color="oablue"
-      id="filtration-search"
+      @update:model-value="setFiltration"
     />
 
     <validated-input-field
@@ -42,7 +42,6 @@
           meStore.userRole ? meStore.userRole : 0
         )
       "
-      @update:modelValue="setFiltration"
       density="compact"
       hide-details
       chips
@@ -52,13 +51,14 @@
       multiple
       clearable
       :label="$t('settings.filtration.userLogin')"
-      @loadItems="loadUsers"
-      :storeId="storeIdUser"
+      :store-id="storeIdUser"
       :template="true"
+      @update:model-value="setFiltration"
+      @load-items="loadUsers"
     >
       <template #item="{ props }">
-        <v-list-item v-bind="props" v-intersect="loadUsers">
-          <template v-slot:prepend="{ isActive }">
+        <v-list-item v-intersect="loadUsers" v-bind="props">
+          <template #prepend="{ isActive }">
             <v-list-item-action start>
               <v-checkbox-btn
                 :model-value="isActive"
@@ -70,32 +70,32 @@
     </validated-input-field>
 
     <validated-input-field
-      @change="setFiltration"
+      id="filtration-active"
       density="compact"
       hide-details
-      id="filtration-active"
       name="active"
       :label="$t('settings.filtration.active')"
       as="v-switch"
       color="oablue"
       class="flex-grow-0"
+      @change="setFiltration"
     ></validated-input-field>
 
     <validated-input-field
-      @change="setFiltration"
+      id="filtration-expired"
       density="compact"
       hide-details
-      id="filtration-expired"
       name="expired"
       :label="$t('settings.filtration.expired')"
       as="v-switch"
       color="oablue"
       class="flex-grow-0"
+      @change="setFiltration"
     ></validated-input-field>
     <v-spacer />
     <ResetButton
       v-if="!accessTokensStore.isDefaultFiltration"
-      @resetValues="resetValues"
+      @reset-values="resetValues"
     />
   </div>
 </template>

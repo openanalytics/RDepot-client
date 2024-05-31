@@ -21,19 +21,19 @@
 -->
 
 <template>
-  <Overlay>
+  <ModalOverlay>
     <template #props="{ closeModal }">
       <UserEdit
         v-if="commonStore.isEdit()"
-        @closeModal="closeModal"
+        @close-modal="closeModal"
       />
     </template>
-  </Overlay>
+  </ModalOverlay>
 </template>
 
 <script setup lang="ts">
 import { useCommonStore } from '@/store/common'
-import Overlay from '@/components/common/overlay/Overlay.vue'
+import ModalOverlay from '@/components/common/overlay/ModalOverlay.vue'
 import UserEdit from '@/components/users/UserEdit.vue'
 
 const commonStore = useCommonStore()

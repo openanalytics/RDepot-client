@@ -24,18 +24,18 @@
   <token-edit-card
     :title="$t('settings.edit')"
     long
-    @editToken="editToken()"
+    @edit-token="editToken()"
     @cancel="cancelModal()"
   >
     <validated-input-field
       id="token-name"
+      v-model="localToken.name"
       type="text"
       clearable
-      v-model="localToken.name"
       name="name"
       :label="$t('settings.tokenName')"
       as="v-text-field"
-      maxWidth="unset"
+      max-width="unset"
     ></validated-input-field>
   </token-edit-card>
 </template>
@@ -58,7 +58,7 @@ const { deepCopy } = useUtilities()
 let token = deepCopy(accessTokensStore.currentToken)
 const localToken = ref(token)
 
-const { values, meta, validate } = useForm({
+const { meta, validate } = useForm({
   validationSchema: toTypedSchema(
     z.object({
       name: z.string().nonempty()

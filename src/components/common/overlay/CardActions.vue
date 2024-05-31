@@ -23,13 +23,13 @@
 <template>
   <v-card-actions>
     <v-row :justify="justify" class="mt-1">
-      <template v-for="button in buttons">
+      <template v-for="(button, i) in buttons" :key="i">
         <v-spacer v-if="button.spacer" />
         <v-btn
           :id="button.id"
           :color="color + ' darken-2'"
-          @click="button.handler"
           class="mx-1"
+          @click="emit('clicked', button.id)"
         >
           <small>{{ button.text }}</small>
         </v-btn>
@@ -39,6 +39,8 @@
 </template>
 
 <script setup lang="ts">
+const emit = defineEmits(['clicked'])
+
 type Justify =
   | 'start'
   | 'end'
@@ -48,7 +50,7 @@ type Justify =
   | 'space-evenly'
   | 'stretch'
 
-const props = withDefaults(
+withDefaults(
   defineProps<{
     justify?: Justify
     color?: string
@@ -56,7 +58,6 @@ const props = withDefaults(
       id?: string
       spacer?: boolean
       text: string
-      handler: Function
     }[]
   }>(),
   { justify: 'space-between', color: 'oablue' }

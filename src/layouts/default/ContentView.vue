@@ -28,5 +28,5 @@
 </template>
 
 <script lang="ts" setup>
-import Navbar from '@/components/navbar/Navbar.vue'
+import Navbar from '@/components/navbar/AppNavbar.vue'
 </script>

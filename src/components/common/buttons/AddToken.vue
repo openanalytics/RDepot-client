@@ -45,6 +45,5 @@
 
 <script setup lang="ts">
 import { OverlayEnum } from '@/enum/Overlay'
-
-import CommonButton from '@/components/common/buttons/Button.vue'
+import CommonButton from '@/components/common/buttons/CommonButton.vue'
 </script>

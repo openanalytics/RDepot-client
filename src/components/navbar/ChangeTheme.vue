@@ -23,10 +23,9 @@
 <template>
   <div>
     <v-switch
-      :key="commonStore.themeKey"
       id="theme-switch"
+      :key="commonStore.themeKey"
       density="compact"
-      @click="changeTheme"
       color="primary"
       :model-value="getTheme"
       true-icon="mdi-weather-night"
@@ -34,6 +33,7 @@
       :inset="true"
       :hide-details="true"
       style="align-self: center"
+      @click="changeTheme"
     ></v-switch>
   </div>
 </template>

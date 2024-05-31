@@ -22,8 +22,8 @@
 
 <template>
   <v-btn
-    class="my-2"
     id="reset-button"
+    class="my-2"
     density="compact"
     color="oablue"
     @click="resetValues"
@@ -33,8 +33,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-
 const emits = defineEmits(['resetValues'])
 
 function resetValues() {

@@ -3,4 +3,5 @@
 
 npm run prettier:changes
 npm run lint
+npm run lint:vue
 npm run json:sort

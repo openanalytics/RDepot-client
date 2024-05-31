@@ -37,9 +37,10 @@
     </div>
     <ul :style="showContentStyle">
       <li
+        v-for="(val, idx) in value"
+        :key="idx"
         :style="showListStyle"
         class="classifier-value"
-        v-for="(val, index) in value"
       >
         {{ val }}
       </li>
@@ -51,7 +52,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 
-const props = defineProps<{
+defineProps<{
   title: string
   value?: string[]
 }>()

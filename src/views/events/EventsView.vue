@@ -21,37 +21,13 @@
 -->
 
 <template>
-  <v-container class="login">
-    <form
-      as="v-form"
-      ref="form_id"
-      lazy-validation
-      class="form-login"
-    >
-      <Logo />
-      <LoginForm />
-    </form>
-  </v-container>
+  <TopScrollButton />
+  <FiltrationBar />
+  <EventsTimeLine />
 </template>
 
 <script setup lang="ts">
-import Logo from '@/components/login/Logo.vue'
-import LoginForm from '@/components/login/LoginForm.vue'
+import TopScrollButton from '@/components/common/buttons/TopScrollButton.vue'
+import EventsTimeLine from '@/components/events/EventsTimeLine.vue'
+import FiltrationBar from '@/components/events/FiltrationBar.vue'
 </script>
-
-<style scoped lang="scss">
-.login {
-  max-width: 90%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  .form-login {
-    max-width: 500px;
-    width: 80%;
-    margin: 150px auto 100px auto !important;
-  }
-}
-</style>

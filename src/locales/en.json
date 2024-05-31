@@ -348,6 +348,7 @@
     "addRepository": "Create repository",
     "creation": {
       "duplicateName": "Repository name already exists",
+      "hash": "Hash method",
       "name": "Name",
       "publicationUri": "Publication URI",
       "publicationUriPlaceholder": "http://localhost/repo/{'{name}'}",

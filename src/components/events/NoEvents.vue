@@ -22,7 +22,7 @@
 
 <template>
   <div>
-    <v-card class="elevation-2" v-ripple rounded>
+    <v-card v-ripple class="elevation-2" rounded>
       <v-card-text>{{ $t('events.noEvents') }}</v-card-text>
     </v-card>
   </div>

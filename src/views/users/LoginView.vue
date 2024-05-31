@@ -21,13 +21,37 @@
 -->
 
 <template>
-  <v-img
-    src="@/assets/logo.png"
-    id="logo-oa"
-    class="my-3 mb-5"
-    contain
-    height="200"
-  />
+  <v-container class="login">
+    <form
+      ref="form_id"
+      as="v-form"
+      lazy-validation
+      class="form-login"
+    >
+      <Logo />
+      <LoginForm />
+    </form>
+  </v-container>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import Logo from '@/components/login/OALogo.vue'
+import LoginForm from '@/components/login/LoginForm.vue'
+</script>
+
+<style scoped lang="scss">
+.login {
+  max-width: 90%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .form-login {
+    max-width: 500px;
+    width: 80%;
+    margin: 150px auto 100px auto !important;
+  }
+}
+</style>

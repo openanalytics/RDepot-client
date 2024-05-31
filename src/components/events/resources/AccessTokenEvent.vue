@@ -26,22 +26,25 @@
     <span class="d-flex ga-3">
       <EventTag
         size="small"
-        disableCopying
-        disableTooltip
+        disable-copying
+        disable-tooltip
         :value="getTime(event)"
       />
     </span>
   </v-card-title>
   <v-card-subtitle
     >{{ resourceType }}
-    <EventTypeTag :eventType="event?.eventType" />
+    <EventTypeTag
+      v-if="event.eventType"
+      :event-type="event.eventType"
+    />
   </v-card-subtitle>
 
   <v-divider class="my-2 mx-2" />
   <v-card-text>
     <p
-      class="value"
       v-if="event && event?.eventType === 'update'"
+      class="value"
     >
       <UpdateDescription :event="event"></UpdateDescription>
     </p>
@@ -53,42 +56,42 @@
         v-if="relatedResource?.deleted"
         :value="i18n.t('columns.tokens.deleted')"
         color="oared"
-        disableCopying
-        disableTooltip
+        disable-copying
+        disable-tooltip
       />
 
       <EventTag
         v-if="relatedResource?.active"
         :value="i18n.t('columns.tokens.active')"
-        disableCopying
-        disableTooltip
+        disable-copying
+        disable-tooltip
       />
 
       <EventTag
         :value="relatedResource?.creationDate"
-        :hoverMessage="i18n.t('columns.users.createdOn')"
+        :hover-message="i18n.t('columns.users.createdOn')"
       />
 
       <EventTag
         :value="relatedResource?.expirationDate"
-        :hoverMessage="
+        :hover-message="
           i18n.t('columns.users.expirationDate')
         "
       />
 
       <EventTag
         :value="relatedResource?.user?.name"
-        :hoverMessage="i18n.t('columns.users.name')"
+        :hover-message="i18n.t('columns.users.name')"
       />
 
       <EventTag
         :value="relatedResource?.user?.login"
-        :hoverMessage="i18n.t('columns.users.username')"
+        :hover-message="i18n.t('columns.users.username')"
       />
 
       <EventTag
         :value="relatedResource?.user?.email"
-        :hoverMessage="i18n.t('columns.users.email')"
+        :hover-message="i18n.t('columns.users.email')"
       />
     </div>
   </v-card-text>
@@ -106,12 +109,16 @@ import { i18n } from '@/plugins/i18n'
 import { computed } from 'vue'
 import EventTypeTag from './EventTypeTag.vue'
 
-const props = defineProps({
-  event: Object as () => EntityModelNewsfeedEventDto
+const componentProps = defineProps({
+  event: {
+    type: Object as () => EntityModelNewsfeedEventDto,
+    required: true
+  }
 })
 
-const relatedResource: EntityModelAccessTokenDto = props
-  .event?.relatedResource as EntityModelAccessTokenDto
+const relatedResource: EntityModelAccessTokenDto =
+  componentProps.event
+    ?.relatedResource as EntityModelAccessTokenDto
 
 const { getTime } = useDates()
 

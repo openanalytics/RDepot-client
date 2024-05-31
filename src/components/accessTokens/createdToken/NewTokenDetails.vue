@@ -21,7 +21,7 @@
 -->
 
 <template>
-  <v-card class="pa-5" width="400" id="newTokenDetails">
+  <v-card id="newTokenDetails" class="pa-5" width="400">
     <v-card-title>
       {{ $t('settings.newToken') }}
     </v-card-title>
@@ -38,10 +38,10 @@
                 class="pl-3"
               >
                 <v-icon
-                  @click="copyContent()"
                   icon="mdi-content-copy"
                   size="large"
                   start
+                  @click="copyContent()"
                 />
               </div>
             </template>
@@ -61,7 +61,10 @@
       {{ t('settings.token.copyWarning') }}
     </v-alert>
     <v-divider></v-divider>
-    <card-actions :buttons="buttons"></card-actions>
+    <card-actions
+      :buttons="buttons"
+      @clicked="handleCardActions"
+    ></card-actions>
   </v-card>
 </template>
 
@@ -99,6 +102,18 @@ const buttons = [
     handler: () => closeModal()
   }
 ]
+
+function handleCardActions(buttonId: string) {
+  switch (buttonId) {
+    case 'ok-button': {
+      closeModal()
+      break
+    }
+    default: {
+      break
+    }
+  }
+}
 
 function closeModal() {
   emit('closeModal')

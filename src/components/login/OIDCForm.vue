@@ -23,10 +23,10 @@
 <template>
   <v-row v-show="isOIDCAuthAvailable()">
     <v-btn
-      color="background"
-      @click="loginOIDC"
-      class="loginTypeButton"
       id="OIDC-button"
+      color="background"
+      class="loginTypeButton"
+      @click="loginOIDC"
     >
       <div class="loginType">
         {{ $t('authorization.oidc') }}
@@ -68,7 +68,7 @@ onMounted(() => {
     .then((isLoggedIn) => {
       isUserLoggedIn.value = isLoggedIn
     })
-    .catch((error) => {
+    .catch(() => {
       toasts.error(t('errors.oauth'))
     })
 

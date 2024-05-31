@@ -23,12 +23,12 @@
 <template>
   <v-card class="pa-5" width="400">
     <v-card-title>
-      {{ props.title }}
+      {{ componentProps.title }}
     </v-card-title>
     <v-divider></v-divider>
     <v-card-text>
       <p
-        v-html="
+        v-dompurify-html="
           $t('settings.deleteQuestion', [
             accessTokensStore.currentToken?.name
           ])
@@ -36,7 +36,10 @@
       ></p>
     </v-card-text>
     <v-divider></v-divider>
-    <card-actions :buttons="buttons"></card-actions>
+    <card-actions
+      :buttons="buttons"
+      @clicked="handleCardActions"
+    ></card-actions>
   </v-card>
 </template>
 
@@ -45,7 +48,7 @@ import CardActions from '@/components/common/overlay/CardActions.vue'
 import { useI18n } from 'vue-i18n'
 import { useAccessTokensStore } from '@/store/access_tokens'
 
-const props = defineProps({
+const componentProps = defineProps({
   title: {
     type: String,
     required: true
@@ -65,20 +68,28 @@ const emit = defineEmits(['cancel', 'deleteToken'])
 const buttons = [
   {
     id: 'cancel-button',
-    text: t('common.cancel'),
-    handler: () => cancel()
+    text: t('common.cancel')
   },
   {
     id: 'ok-button',
-    text: t('common.ok'),
-    handler: () => deleteToken()
+    text: t('common.ok')
   }
 ]
 
-function cancel() {
-  emit('cancel')
-}
-function deleteToken() {
-  emit('deleteToken')
+function handleCardActions(buttonId: string) {
+  switch (buttonId) {
+    case 'cancel-button': {
+      emit('cancel')
+      break
+    }
+
+    case 'ok-button': {
+      emit('deleteToken')
+      break
+    }
+    default: {
+      break
+    }
+  }
 }
 </script>

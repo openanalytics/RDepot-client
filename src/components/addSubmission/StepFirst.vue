@@ -24,24 +24,24 @@
   <v-card class="mb-12 px-10 py-5 step" height="250px">
     <AutocompleteField
       class="mt-5"
-      @loadItems="loadRepositoriesObjects"
-      @filtrate="filtrateRepositoriesObjects"
-      :storeId="storeId"
+      :store-id="storeId"
       :label="$t('addSubmission.step1Title')"
       filled
       dense
       clearable
       persistent-hint
       return-object
-      @update:model-value="changeRepository"
       :template="true"
+      @load-items="loadRepositoriesObjects"
+      @filtrate="filtrateRepositoriesObjects"
+      @update:model-value="changeRepository"
     >
       <template #item="{ item, props }">
         <v-list-item
-          v-bind="props"
           v-intersect="loadRepositoriesObjects"
+          v-bind="props"
         >
-          <template v-slot:append>
+          <template #append>
             <v-chip
               text-color="white"
               class="text-body-1"

@@ -22,15 +22,15 @@
 
 <template>
   <v-overlay
-    :absolute="absolute"
     v-model="commonStore.overlayModel"
+    :absolute="absolute"
     :opacity="commonStore.overlayOpacity"
-    @click:outside="closeModal"
     location-strategy="connected"
     scroll-strategy="none"
     class="d-flex justify-center align-center"
+    @click:outside="closeModal"
   >
-    <slot name="props" :closeModal="closeModal">
+    <slot name="props" :close-modal="closeModal">
       <QuestionCard
         :text="commonStore.overlayText"
         @reset="reset"

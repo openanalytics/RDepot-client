@@ -28,36 +28,39 @@
       <EventTag
         :value="`v ${relatedResource?.version}`"
         size="small"
-        disableCopying
-        disableTooltip
+        disable-copying
+        disable-tooltip
       />
 
       <EventTag
         :value="relatedResource?.technology"
         size="small"
-        disableCopying
-        disableTooltip
+        disable-copying
+        disable-tooltip
       />
 
       <EventTag
         :value="getTime(event)"
         size="small"
-        disableCopying
-        disableTooltip
+        disable-copying
+        disable-tooltip
       />
     </span>
   </v-card-title>
   <v-card-subtitle
     >{{ resourceType }}
-    <EventTypeTag :eventType="event?.eventType" />
+    <EventTypeTag
+      v-if="event.eventType"
+      :event-type="event.eventType"
+    />
   </v-card-subtitle>
 
   <v-divider class="my-2 mx-2" />
 
   <v-card-text>
     <p
-      class="value"
       v-if="event && event.eventType === 'update'"
+      class="value"
     >
       <UpdateDescription :event="event"></UpdateDescription>
     </p>
@@ -70,22 +73,22 @@
         v-if="relatedResource.deleted"
         :value="i18n.t('columns.repository.deleted')"
         color="oared"
-        disableCopying
-        disableTooltip
+        disable-copying
+        disable-tooltip
       />
 
       <EventTag
         v-if="relatedResource.published"
         :value="i18n.t('columns.repository.published')"
-        disableCopying
-        disableTooltip
+        disable-copying
+        disable-tooltip
       />
 
       <EventTag
         v-if="relatedResource.synchronizing"
         :value="i18n.t('columns.repository.synchronizing')"
-        disableCopying
-        disableTooltip
+        disable-copying
+        disable-tooltip
       />
 
       <EventTag
@@ -95,14 +98,14 @@
           )
         "
         :value="relatedResource.serverAddress"
-        :hoverMessage="
+        :hover-message="
           i18n.t('columns.repository.serverAddress')
         "
       />
 
       <EventTag
         :value="relatedResource.publicationUri"
-        :hoverMessage="
+        :hover-message="
           i18n.t('columns.repository.publicationUri')
         "
       />
@@ -124,12 +127,16 @@ import { i18n } from '@/plugins/i18n'
 import { computed } from 'vue'
 import EventTypeTag from './EventTypeTag.vue'
 
-const props = defineProps({
-  event: Object as () => EntityModelNewsfeedEventDto
+const componentProps = defineProps({
+  event: {
+    type: Object as () => EntityModelNewsfeedEventDto,
+    required: true
+  }
 })
 
-const relatedResource: EntityModelRepositoryDto = props
-  .event?.relatedResource as EntityModelRepositoryDto
+const relatedResource: EntityModelRepositoryDto =
+  componentProps.event
+    ?.relatedResource as EntityModelRepositoryDto
 
 const meStore = useMeStore()
 

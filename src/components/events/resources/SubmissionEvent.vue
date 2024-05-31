@@ -28,28 +28,31 @@
         v-if="relatedResource?.packageBag"
         :value="`v ${relatedResource?.packageBag.version}`"
         size="small"
-        disableCopying
-        disableTooltip
+        disable-copying
+        disable-tooltip
       />
 
       <EventTag
         :value="relatedResource?.technology"
         size="small"
-        disableCopying
-        disableTooltip
+        disable-copying
+        disable-tooltip
       />
 
       <EventTag
         :value="getTime(event)"
         size="small"
-        disableCopying
-        disableTooltip
+        disable-copying
+        disable-tooltip
       />
     </span>
   </v-card-title>
   <v-card-subtitle
     >{{ resourceType }}
-    <EventTypeTag :eventType="event?.eventType" />
+    <EventTypeTag
+      v-if="event.eventType"
+      :event-type="event.eventType"
+    />
   </v-card-subtitle>
 
   <v-divider class="my-2 mx-2" />
@@ -65,8 +68,8 @@
         persistent-placeholder
       ></v-text-field>
       <v-text-field
-        id="approver"
         v-if="relatedResource?.approver"
+        id="approver"
         :placeholder="relatedResource?.approver?.name"
         :label="i18n.t('columns.submissions.approver')"
         disabled
@@ -75,8 +78,8 @@
       ></v-text-field>
     </div>
     <p
-      class="value"
       v-if="event && event.eventType === 'update'"
+      class="value"
     >
       <UpdateDescription :event="event"></UpdateDescription>
     </p>
@@ -95,21 +98,23 @@
           getStatusIcon(relatedResource?.state)
         "
         :color="getStatusColor(relatedResource?.state)"
-        disableCopying
-        disableTooltip
+        disable-copying
+        disable-tooltip
       />
 
       <EventTag
         v-if="relatedResource?.packageBag?.deleted"
         :value="i18n.t('columns.submissions.deleted')"
         color="oared"
-        disableCopying
-        disableTooltip
+        disable-copying
+        disable-tooltip
       />
 
       <EventTag
         :value="relatedResource?.packageBag?.user?.login"
-        :hoverMessage="i18n.t('columns.package.maintainer')"
+        :hover-message="
+          i18n.t('columns.package.maintainer')
+        "
       />
 
       <EventTag
@@ -117,7 +122,9 @@
         :value="
           relatedResource?.packageBag?.repository?.name
         "
-        :hoverMessage="i18n.t('columns.package.repository')"
+        :hover-message="
+          i18n.t('columns.package.repository')
+        "
       />
 
       <EventTag
@@ -132,13 +139,13 @@
       <EventTag
         v-if="relatedResource?.packageBag?.active"
         :value="i18n.t('columns.active')"
-        disableCopying
-        disableTooltip
+        disable-copying
+        disable-tooltip
       />
 
       <EventTag
         :value="relatedResource?.packageBag?.source"
-        :hoverMessage="i18n.t('columns.package.source')"
+        :hover-message="i18n.t('columns.package.source')"
       />
     </div>
   </v-card-text>
@@ -158,12 +165,16 @@ import { i18n } from '@/plugins/i18n'
 import EventTypeTag from './EventTypeTag.vue'
 import { useTranslations } from '@/composable/translations/translations'
 
-const props = defineProps({
-  event: Object as () => EntityModelNewsfeedEventDto
+const componentProps = defineProps({
+  event: {
+    type: Object as () => EntityModelNewsfeedEventDto,
+    required: true
+  }
 })
 
-const relatedResource: EntityModelSubmissionDto = props
-  .event?.relatedResource as EntityModelSubmissionDto
+const relatedResource: EntityModelSubmissionDto =
+  componentProps.event
+    ?.relatedResource as EntityModelSubmissionDto
 
 const { getTime } = useDates()
 const { getStatusIcon, getStatusColor } =

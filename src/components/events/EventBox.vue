@@ -21,7 +21,7 @@
 -->
 
 <template>
-  <v-card class="eventCard elevation-2" v-ripple rounded>
+  <v-card v-ripple class="eventCard elevation-2" rounded>
     <v-icon
       style="
         position: absolute;
@@ -36,9 +36,10 @@
       >{{ getIcon(event?.resourceType) }}</v-icon
     >
     <EventBoxDescription
+      v-if="eventType && resourceType"
       :event="event"
-      :eventType="eventType"
-      :resourceType="resourceType"
+      :event-type="eventType"
+      :resource-type="resourceType"
     />
   </v-card>
 </template>
@@ -47,21 +48,26 @@
 import { EntityModelNewsfeedEventDto } from '@/openapi'
 import { computed } from 'vue'
 import EventBoxDescription from '@/components/events/EventBoxDescription.vue'
-import { useI18n } from 'vue-i18n'
 import { useIcons } from '@/composable/icons'
 
-const props = defineProps({
-  event: Object as () => EntityModelNewsfeedEventDto
+const componentProps = defineProps({
+  event: {
+    type: Object as () => EntityModelNewsfeedEventDto,
+    required: true
+  }
 })
 
 const { getIcon } = useIcons()
 
 const resourceType = computed(() => {
-  return props.event?.resourceType?.replaceAll('_', ' ')
+  return componentProps.event?.resourceType?.replaceAll(
+    '_',
+    ' '
+  )
 })
 
 const eventType = computed(() => {
-  return props.event?.eventType
+  return componentProps.event?.eventType
 })
 </script>
 

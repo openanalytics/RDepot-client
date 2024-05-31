@@ -60,10 +60,19 @@ const allowedVariants = z.enum([
 type AllowedVariants = z.infer<typeof allowedVariants>
 
 defineProps({
-  value: { type: Object as () => string, required: false },
+  value: {
+    type: Object as () => string,
+    required: false,
+    default: () => {
+      ;('')
+    }
+  },
   hoverMessage: {
     type: Object as () => string,
-    required: false
+    required: false,
+    default: () => {
+      ;('')
+    }
   },
   color: {
     type: String,
@@ -87,11 +96,13 @@ defineProps({
   },
   prependIcon: {
     type: String,
-    required: false
+    required: false,
+    default: ''
   },
   appendIcon: {
     type: String,
-    required: false
+    required: false,
+    default: ''
   },
   variant: {
     type: String as PropType<AllowedVariants>,

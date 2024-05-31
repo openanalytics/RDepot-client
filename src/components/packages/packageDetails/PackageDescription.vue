@@ -31,11 +31,11 @@
     ></MarkdownDescription>
     <div
       v-else
-      class="text my-5"
       v-dompurify-html="RDescription"
+      class="text my-5"
     ></div>
   </div>
-  <div class="center" v-if="packageBagShort">
+  <div v-if="packageBagShort" class="center">
     <v-divider :thickness="3"></v-divider>
     <v-btn
       ref="button"

@@ -21,16 +21,13 @@
 -->
 
 <template>
-  <TopScrollButton />
-  <FiltrationBar />
-  <EventsTimeLine />
+  <v-img
+    id="logo-oa"
+    src="@/assets/logo.png"
+    class="my-3 mb-5"
+    contain
+    height="200"
+  />
 </template>
 
-<script setup lang="ts">
-import TopScrollButton from '@/components/common/buttons/TopScrollButton.vue'
-import EventsTimeLine from '@/components/events/EventsTimeLine.vue'
-import FiltrationBar from '@/components/events/FiltrationBar.vue'
-import { useEventsStore } from '@/store/events'
-
-const eventsStore = useEventsStore()
-</script>
+<script setup lang="ts"></script>

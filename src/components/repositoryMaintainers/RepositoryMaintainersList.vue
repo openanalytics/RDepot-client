@@ -22,18 +22,18 @@
 
 <template>
   <v-data-table-server
+    items-per-page="pagination.pageSize"
     :headers="headers"
-    v-model:items-per-page="pagination.pageSize"
     :items="repositoryMaintainersStore.maintainers"
     :items-length="repositoryMaintainersStore.totalNumber"
     item-value="id"
     sort-asc-icon="mdi-sort-ascending"
     sort-desc-icon="mdi-sort-descending"
     color="oablue"
-    @update:options="fetchData"
     :loading="repositoryMaintainersStore.loading"
     :sort-by="sortBy"
     :items-per-page-options="pagination.itemsPerPage"
+    @update:options="fetchData"
   >
     <template #top>
       <div class="d-flex justify-space-between mx-3 my-5">
@@ -48,7 +48,7 @@
         />
       </div>
     </template>
-    <template #item.repository.technology="{ value }">
+    <template #[`item.repository.technology`]="{ value }">
       <v-chip
         class="mr-5"
         size="small"
@@ -58,29 +58,30 @@
         {{ value }}</v-chip
       ></template
     >
-    <template #item.actions="{ item }">
+    <template #[`item.actions`]="{ item }">
       <span class="d-flex justify-center align-center">
         <EditIcon
           :disabled="!canPatch(item.links) || item.deleted"
           :text="i18n.t('maintainers.edit')"
-          @set-entity="setEditMaintainer(item)"
-          :hoverMessage="
+          :hover-message="
             item.deleted
               ? i18n.t('maintainers.deleted')
               : undefined
           "
+          @set-entity="setEditMaintainer(item)"
         >
         </EditIcon>
 
         <delete-icon
+          v-if="item.user?.name"
           :disabled="!canDelete(item.links) || item.deleted"
           :name="item.user?.name"
-          @setResourceId="setEditMaintainer(item)"
-          :hoverMessage="
+          :hover-message="
             item.deleted
               ? i18n.t('maintainers.deleted')
               : undefined
           "
+          @set-resource-id="setEditMaintainer(item)"
         /> </span
     ></template>
   </v-data-table-server>

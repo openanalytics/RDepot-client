@@ -23,10 +23,14 @@
 <template>
   <v-card class="pa-5">
     <v-card-title>
-      {{ props.text }}
+      {{ componentProps.text }}
     </v-card-title>
     <v-divider />
-    <card-actions :buttons="buttons"> </card-actions>
+    <card-actions
+      :buttons="buttons"
+      @clicked="handleCardActions"
+    >
+    </card-actions>
   </v-card>
 </template>
 
@@ -34,30 +38,40 @@
 import CardActions from '@/components/common/overlay/CardActions.vue'
 import { i18n } from '@/plugins/i18n'
 
-const props = defineProps({
-  text: String
+const emits = defineEmits(['cancel', 'reset'])
+
+const componentProps = defineProps({
+  text: {
+    type: String,
+    required: true
+  }
 })
 
 const buttons = [
   {
     id: 'cancel-action',
-    text: i18n.t('common.cancel'),
-    handler: cancel
+    text: i18n.t('common.cancel')
   },
   {
     id: 'apply-action',
-    text: i18n.t('common.apply'),
-    handler: reset
+    text: i18n.t('common.apply')
   }
 ]
 
-const emits = defineEmits(['cancel', 'reset'])
+function handleCardActions(buttonId: string) {
+  switch (buttonId) {
+    case 'cancel-action': {
+      emits('cancel')
+      break
+    }
 
-function cancel() {
-  emits('cancel')
-}
-
-function reset() {
-  emits('reset')
+    case 'apply-action': {
+      emits('reset')
+      break
+    }
+    default: {
+      break
+    }
+  }
 }
 </script>

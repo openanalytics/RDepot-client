@@ -24,14 +24,13 @@
   <form as="v-form" lazy-validation>
     <v-card class="pa-5" width="400">
       <v-card-title>
-        {{ $t('repositories.edit.title') }}
+        {{ $t('repositories.creation.title') }}
       </v-card-title>
       <v-divider></v-divider>
       <v-card-text>
         <validated-input-field
+          id="create-name"
           name="name"
-          id="edit-name"
-          v-model="localRepository.name"
           as="v-text-field"
           :label="$t('repositories.creation.name')"
           :loading="loading"
@@ -39,36 +38,44 @@
           max-width="unset"
         ></validated-input-field>
         <validated-input-field
+          id="create-publication-uri"
           name="publicationUri"
-          id="edit-publication-uri"
           as="v-text-field"
-          v-model="localRepository.publicationUri"
           :label="
             $t('repositories.creation.publicationUri')
           "
           max-width="unset"
         ></validated-input-field>
         <validated-input-field
+          id="create-server-address"
           name="serverAddress"
-          id="edit-server-address"
-          v-model="localRepository.serverAddress"
           as="v-text-field"
-          :label="$t('repositories.creation.serverAddress')"
           max-width="unset"
+          :label="$t('repositories.creation.serverAddress')"
         ></validated-input-field>
         <validated-input-field
-          id="edit-technology"
-          disabled
-          :items="technologySelect"
-          v-model="localRepository.technology"
+          id="create-technology"
+          :items="technologies"
           name="technology"
           as="v-select"
           :label="$t('repositories.creation.technology')"
           max-width="unset"
         ></validated-input-field>
+        <validated-input-field
+          v-if="values.technology == 'Python'"
+          id="create-hash-method"
+          :items="hashMethods"
+          name="hashMethod"
+          as="v-select"
+          :label="$t('repositories.creation.hash')"
+          max-width="unset"
+        ></validated-input-field>
       </v-card-text>
       <v-divider></v-divider>
-      <card-actions :buttons="buttons" />
+      <card-actions
+        :buttons="buttons"
+        @clicked="handleCardActions"
+      />
     </v-card>
   </form>
 </template>
@@ -77,104 +84,110 @@
 import { useRepositoryStore } from '@/store/repositories'
 import { ref, onMounted } from 'vue'
 import { Technologies } from '@/enum/Technologies'
+import { HashMethods } from '@/enum/HashMethods'
 import { repositorySchema } from '@/models/Schemas'
 import { toTypedSchema } from '@vee-validate/zod/dist/vee-validate-zod'
-import { Form, useForm } from 'vee-validate'
+import { useForm } from 'vee-validate'
 import ValidatedInputField from '@/components/common/fields/ValidatedInputField.vue'
 import CardActions from '@/components/common/overlay/CardActions.vue'
 import { z } from 'zod'
 import { useToast } from '@/composable/toasts'
 import { useI18n } from 'vue-i18n'
-import { EntityModelRepositoryDto } from '@/openapi'
-import { useUtilities } from '@/composable/utilities'
+import { watch } from 'vue'
 
-const { deepCopy } = useUtilities()
 const repositoryStore = useRepositoryStore()
-const repository: EntityModelRepositoryDto = deepCopy(
-  repositoryStore.chosenRepository
-)
-const localRepository = ref(repository)
 
-const technologySelect = ref(Technologies.options)
+const technologies = ref(Technologies.options)
+const hashMethods = ref(HashMethods.options)
+
 const { t } = useI18n()
 
 const buttons = [
   {
     id: 'cancel-button',
-    text: t('common.cancel'),
-    handler: changeDialogOptions
+    text: t('common.cancel')
   },
   {
-    id: 'set-filtration',
-    text: t('common.save'),
-    handler: updateRepository
+    id: 'create-repository',
+    text: t('common.create')
   }
 ]
+
+function handleCardActions(buttonId: string) {
+  switch (buttonId) {
+    case 'cancel-button': {
+      emit('closeModal')
+      break
+    }
+    case 'create-repository': {
+      createRepository()
+      break
+    }
+    default: {
+      break
+    }
+  }
+}
 
 const loading = ref(false)
 let previousVal = ''
 let previousReturn = true
 
-const { meta } = useForm({
-  validationSchema: toTypedSchema(
-    z.object({
-      name: repositorySchema.shape.name.refine(
-        async (value) => {
-          if (previousVal === value) {
+const { meta, values, setFieldValue, setTouched } = useForm(
+  {
+    validationSchema: toTypedSchema(
+      z.object({
+        name: repositorySchema.shape.name.refine(
+          async (value) => {
+            if (previousVal === value) {
+              return previousReturn
+            }
+            previousVal = value
+            loading.value = true
+            const repositoryWithSameName =
+              await repositoryStore.fetchRepository(
+                value,
+                false
+              )
+            loading.value = false
+            previousReturn =
+              repositoryWithSameName.length === 0
             return previousReturn
-          }
-          previousVal = value
-          return await isRepositoryNameIsDuplicated(value)
-        },
-        t('repositories.creation.duplicateName')
-      ),
-      publicationUri: repositorySchema.shape.publicationUri,
-      serverAddress: repositorySchema.shape.serverAddress,
-      technology: repositorySchema.shape.technology
-    })
-  ),
-  initialValues: {
-    name: repository.name,
-    publicationUri: repository.publicationUri,
-    serverAddress: repository.serverAddress,
-    technology: repository.technology as Technologies
+          },
+          t('repositories.creation.duplicateName')
+        ),
+        publicationUri:
+          repositorySchema.shape.publicationUri,
+        serverAddress: repositorySchema.shape.serverAddress,
+        technology: repositorySchema.shape.technology,
+        hashMethod: repositorySchema.shape.hashMethod
+      })
+    )
   }
-})
+)
+
+watch(
+  () => values.technology,
+  (nevValue: Technologies | undefined) => {
+    if (nevValue == Technologies.Enum.Python) {
+      setFieldValue('hashMethod', HashMethods.Values.MD5)
+      setTouched(true)
+    } else {
+      setFieldValue('hashMethod', undefined)
+    }
+  }
+)
 
 const emit = defineEmits(['closeModal'])
 const toasts = useToast()
 
-async function isRepositoryNameIsDuplicated(
-  repoName: string
-) {
-  loading.value = true
-  const repositoriesWithSameName =
-    await repositoryStore.fetchRepository(repoName)
-  loading.value = false
-  if (isRepositoryInTheReposList(repositoriesWithSameName))
-    return false
-  return repositoriesWithSameName.length === 0
-}
-
-function isRepositoryInTheReposList(
-  repoList: EntityModelRepositoryDto[]
-) {
-  return repoList.find(
-    (repo) => repo.id == localRepository.value.id
-  )
-}
-
-function updateRepository() {
-  if (meta.value.valid) {
-    repositoryStore.updateRepository(localRepository.value)
-    changeDialogOptions()
+function createRepository() {
+  if (meta.value.valid && meta.value.touched) {
+    repositoryStore.createRepository(values)
+    emit('closeModal')
   } else {
     toasts.warning(t('notifications.invalidform'))
   }
-}
-
-function changeDialogOptions() {
-  emit('closeModal')
 }
 
 onMounted(() => {})

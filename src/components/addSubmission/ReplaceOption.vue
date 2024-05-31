@@ -22,14 +22,14 @@
 
 <template>
   <v-tooltip location="top">
-    <template v-slot:activator="{ props }">
+    <template #activator="{ props }">
       <VIcon
         id="replace-button"
-        @click.stop
-        @click="replacePackage"
         v-bind="props"
         :color="disabled ? 'grey' : 'oablue'"
         class="mr-8"
+        @click.stop
+        @click="replacePackage"
         >{{ replaceIcon }}</VIcon
       >
     </template>
@@ -44,7 +44,7 @@ import { useSubmissionStore } from '@/store/submission'
 import { computed } from 'vue'
 import { i18n } from '@/plugins/i18n'
 
-const props = defineProps({
+const componentProps = defineProps({
   file: { type: File, required: true },
   disabled: { type: Boolean, required: true }
 })
@@ -52,21 +52,23 @@ const props = defineProps({
 const submissionsStore = useSubmissionStore()
 
 const translatedHoverMessage = computed(() => {
-  return props.disabled
+  return componentProps.disabled
     ? i18n.t('config.replacingPackages')
     : i18n.t('packages.replaceOptionDesc')
 })
 
 const replaceIcon = computed(() => {
-  return submissionsStore.getReplaceForPackage(props.file)
+  return submissionsStore.getReplaceForPackage(
+    componentProps.file
+  )
     ? 'mdi-file-replace'
     : 'mdi-file-replace-outline'
 })
 
 function replacePackage() {
-  if (!props.disabled) {
+  if (!componentProps.disabled) {
     submissionsStore.updateReplaceOptionForPackage(
-      props.file
+      componentProps.file
     )
   }
 }

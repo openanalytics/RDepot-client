@@ -28,7 +28,7 @@ import { mocks } from '@/__tests__/config/mocks'
 import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import pythonPackage from '@/__tests__/config/mockData/pythonPackage.json'
 import { createPinia, setActivePinia } from 'pinia'
-import Property from '@/components/packages/packageDetails/Property.vue'
+import Property from '@/components/packages/packageDetails/PackageProperty.vue'
 import PackageSubmission from '@/components/packages/packageDetails/PackageSubmission.vue'
 import { usePackageDetailsStore } from '@/store/package_details'
 

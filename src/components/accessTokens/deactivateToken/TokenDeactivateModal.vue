@@ -21,18 +21,18 @@
 -->
 
 <template>
-  <Overlay>
+  <ModalOverlay>
     <template #props="{ closeModal }">
       <DeactivateToken
-        @closeModal="closeModal"
-        @deactivateToken="deactivateToken"
+        @close-modal="closeModal"
+        @deactivate-token="deactivateToken"
       />
     </template>
-  </Overlay>
+  </ModalOverlay>
 </template>
 
 <script setup lang="ts">
-import Overlay from '@/components/common/overlay/Overlay.vue'
+import ModalOverlay from '@/components/common/ModalOverlay.vue'
 import DeactivateToken from '@/components/accessTokens/deactivateToken/DeactivateToken.vue'
 import { useUtilities } from '@/composable/utilities'
 import { useAccessTokensStore } from '@/store/access_tokens'

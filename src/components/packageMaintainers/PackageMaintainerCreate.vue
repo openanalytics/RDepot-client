@@ -21,7 +21,7 @@
 -->
 
 <template>
-  <form as="v-form" ref="form">
+  <form ref="form" as="v-form">
     <v-card class="pa-5" width="400">
       <v-card-title>
         {{ $t('maintainers.createform.title') }}
@@ -29,36 +29,37 @@
       <v-divider></v-divider>
       <v-card-text style="height: 300px">
         <validated-input-field
+          id="create-package-maintainer-user"
           as="autocomplete"
           name="user"
-          id="create-package-maintainer-user"
           :label="$t('maintainers.editform.user')"
           filled
           dense
           clearable
           persistent-hint
           return-object
-          @loadItems="loadUsersObjects('packageMaintainer')"
-          @filtrate="filtrateUsers"
-          :storeId="storeIdUser"
+          :store-id="storeIdUser"
           :template="true"
           max-width="unset"
+          @load-items="
+            loadUsersObjects('packageMaintainer')
+          "
+          @filtrate="filtrateUsers"
         >
           <template #item="{ props }">
             <v-list-item
-              v-bind="props"
               v-intersect="
                 loadUsersObjects('packageMaintainer')
               "
+              v-bind="props"
             >
             </v-list-item>
           </template>
         </validated-input-field>
         <validated-input-field
+          id="create-package-maintainer-repository"
           as="autocomplete"
           name="repository"
-          @update:modelValue="resetPackageName"
-          id="create-package-maintainer-repository"
           :label="$t('maintainers.editform.repository')"
           :template="true"
           filled
@@ -66,17 +67,18 @@
           clearable
           persistent-hint
           return-object
-          @loadItems="loadRepositoriesObjects"
-          @filtrate="filtrateRepositoriesObjects"
-          :storeId="storeId"
+          :store-id="storeId"
           max-width="unset"
+          @update:model-value="resetPackageName"
+          @load-items="loadRepositoriesObjects"
+          @filtrate="filtrateRepositoriesObjects"
         >
           <template #item="{ item, props }">
             <v-list-item
-              v-bind="props"
               v-intersect="loadRepositoriesObjects"
+              v-bind="props"
             >
-              <template v-slot:append>
+              <template #append>
                 <v-chip
                   text-color="white"
                   class="text-body-1"
@@ -88,10 +90,9 @@
           </template>
         </validated-input-field>
         <validated-input-field
+          id="create-package-maintainer-package"
           as="combobox"
           name="package"
-          id="create-package-maintainer-package"
-          @update:modelValue="updatePackageName"
           :label="$t('maintainers.editform.package')"
           :template="true"
           filled
@@ -99,19 +100,20 @@
           clearable
           persistent-hint
           return-object
-          @loadItems="
+          :store-id="storeIdPackage"
+          max-width="unset"
+          @update:model-value="updatePackageName"
+          @load-items="
             loadPackagesObjects(values.user?.value)
           "
           @filtrate="filtratePackagesObjects"
-          :storeId="storeIdPackage"
-          max-width="unset"
         >
           <template #item="{ props }">
             <v-list-item
-              v-bind="props"
               v-intersect="
                 loadPackagesObjects(values.user?.value)
               "
+              v-bind="props"
             >
             </v-list-item>
           </template>
@@ -130,7 +132,10 @@
         ></v-alert>
       </v-card-text>
       <v-divider></v-divider>
-      <card-actions :buttons="buttons" />
+      <card-actions
+        :buttons="buttons"
+        @clicked="handleCardActions"
+      />
     </v-card>
   </form>
 </template>
@@ -157,20 +162,31 @@ const toasts = useToast()
 const { t } = useI18n()
 const buttons = [
   {
-    id: 'cancelbutton',
-    text: t('common.cancel'),
-    handler: () => {
-      changeDialogOptions()
-    }
+    id: 'cancel-button',
+    text: t('common.cancel')
   },
   {
-    id: 'createbutton',
-    text: t('common.save'),
-    handler: () => {
-      createMaintainer()
-    }
+    id: 'create-button',
+    text: t('common.save')
   }
 ]
+
+function handleCardActions(buttonId: string) {
+  switch (buttonId) {
+    case 'cancel-button': {
+      emit('closeModal')
+      break
+    }
+
+    case 'create-button': {
+      createMaintainer()
+      break
+    }
+    default: {
+      break
+    }
+  }
+}
 
 const {
   storeId,
@@ -262,17 +278,18 @@ function resetPackageName() {
   loadPackagesObjects(values.user?.value)
 }
 
+function getFieldValue(newValue: any) {
+  if (typeof newValue === 'string') {
+    return {
+      title: newValue,
+      value: newValue,
+      props: { subtitle: 'a', repoId: 1 }
+    }
+  } else return newValue
+}
+
 function updatePackageName(newValue: any) {
-  setFieldValue(
-    'package',
-    typeof newValue === 'string'
-      ? {
-          title: newValue,
-          value: newValue,
-          props: { subtitle: 'a', repoId: 1 }
-        }
-      : newValue
-  )
+  setFieldValue('package', getFieldValue(newValue))
 }
 
 function changeDialogOptions() {

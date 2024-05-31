@@ -22,7 +22,7 @@
 
 import { describe, it, expect, beforeEach } from 'vitest'
 
-import Overlay from '@/components/common/overlay/Overlay.vue'
+import ModalOverlay from '@/components/common/overlay/ModalOverlay.vue'
 import { createPinia, setActivePinia } from 'pinia'
 import { shallowMount } from '@vue/test-utils'
 import { useCommonStore } from '@/store/common'
@@ -31,11 +31,11 @@ import UserEdit from '@/components/users/UserEdit.vue'
 let wrapper: any
 let commonStore: any
 
-describe('Overlay - chosen component', () => {
+describe('ModalOverlay - chosen component', () => {
   beforeEach(async () => {
     setActivePinia(createPinia())
     commonStore = useCommonStore()
-    wrapper = shallowMount(Overlay, {
+    wrapper = shallowMount(ModalOverlay, {
       data() {
         return {}
       },
@@ -68,7 +68,7 @@ describe('Overlay - chosen component', () => {
 describe('Overlay - default', () => {
   beforeEach(async () => {
     setActivePinia(createPinia())
-    wrapper = shallowMount(Overlay)
+    wrapper = shallowMount(ModalOverlay)
   })
 
   it('renders properly', () => {

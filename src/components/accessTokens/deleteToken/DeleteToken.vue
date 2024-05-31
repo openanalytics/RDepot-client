@@ -24,18 +24,16 @@
   <delete-token-card
     :title="$t('settings.delete')"
     long
-    @deleteToken="deleteToken()"
+    @delete-token="deleteToken()"
     @cancel="cancelModal()"
   >
   </delete-token-card>
 </template>
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n'
 import DeleteTokenCard from '@/components/accessTokens/deleteToken/DeleteTokenCard.vue'
 import { useAccessTokensStore } from '@/store/access_tokens'
 
-const { t } = useI18n()
 const accessTokensStore = useAccessTokensStore()
 
 const emit = defineEmits(['closeModal'])

@@ -343,6 +343,7 @@
     "addRepository": "Utwórz repozytorium",
     "creation": {
       "duplicateName": "Repozytorium o tej nazwie już istnieje",
+      "hash": "Metoda szyfrowania",
       "name": "Nazwa",
       "publicationUri": "URI publikacji",
       "publicationUriPlaceholder": "http://localhost/repo/{'{name}'}",

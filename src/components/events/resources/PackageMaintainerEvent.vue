@@ -29,21 +29,24 @@
       <EventTag
         :value="getTime(event)"
         size="small"
-        disableCopying
-        disableTooltip
+        disable-copying
+        disable-tooltip
       />
     </span>
   </v-card-title>
   <v-card-subtitle
     >{{ resourceType }}
-    <EventTypeTag :eventType="event?.eventType" />
+    <EventTypeTag
+      v-if="event.eventType"
+      :event-type="event.eventType"
+    />
   </v-card-subtitle>
 
   <v-divider class="my-2 mx-2" />
   <v-card-text>
     <p
-      class="value"
       v-if="event && event.eventType === 'update'"
+      class="value"
     >
       <UpdateDescription :event="event"></UpdateDescription>
     </p>
@@ -58,20 +61,20 @@
             i18n.t('columns.packageMaintainer.deleted')
           "
           color="oared"
-          disableCopying
-          disableTooltip
+          disable-copying
+          disable-tooltip
         />
 
         <EventTag
           :value="relatedResource?.packageName"
-          :hoverMessage="
+          :hover-message="
             i18n.t('columns.packageMaintainer.packageName')
           "
         />
 
         <EventTag
           :value="relatedResource?.repository?.name"
-          :hoverMessage="
+          :hover-message="
             i18n.t('columns.packageMaintainer.repository')
           "
         />
@@ -80,7 +83,7 @@
           :value="
             relatedResource?.repository?.publicationUri
           "
-          :hoverMessage="
+          :hover-message="
             i18n.t('columns.repository.publicationUri')
           "
         />
@@ -88,13 +91,13 @@
         <EventTag
           v-if="relatedResource?.repository?.published"
           :value="i18n.t('columns.repository.published')"
-          disableCopying
-          disableTooltip
+          disable-copying
+          disable-tooltip
         />
 
         <EventTag
           :value="relatedResource?.user?.email"
-          :hoverMessage="i18n.t('columns.users.email')"
+          :hover-message="i18n.t('columns.users.email')"
         />
       </div>
     </v-expand-transition>
@@ -113,12 +116,15 @@ import { i18n } from '@/plugins/i18n'
 import { computed } from 'vue'
 import EventTypeTag from './EventTypeTag.vue'
 
-const props = defineProps({
-  event: Object as () => EntityModelNewsfeedEventDto
+const componentProps = defineProps({
+  event: {
+    type: Object as () => EntityModelNewsfeedEventDto,
+    required: true
+  }
 })
 
 const relatedResource: EntityModelPackageMaintainerDto =
-  props.event
+  componentProps.event
     ?.relatedResource as EntityModelPackageMaintainerDto
 
 const { getTime } = useDates()

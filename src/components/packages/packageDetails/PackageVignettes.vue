@@ -23,8 +23,8 @@
 <template>
   <div v-if="packageDetailsStore.vignettes">
     <div
-      class="title"
       v-if="packageDetailsStore.vignettes.length > 0"
+      class="title"
     >
       {{ $t('packages.documentation') }}
     </div>
@@ -33,7 +33,7 @@
         vignette, index
       ) in packageDetailsStore.vignettes"
       :key="index"
-      :fileName="vignette.fileName"
+      :file-name="vignette.fileName"
       :title="vignette.title"
       class="d-flex flex-column"
     >

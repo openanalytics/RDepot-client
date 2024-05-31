@@ -37,9 +37,9 @@
       />
     </div>
     <div
+      v-dompurify-html="text"
       class="value"
       :style="showContentStyle"
-      v-html="text"
     ></div>
     <v-divider :thickness="boldDivider ? 5 : 3"></v-divider>
   </div>
@@ -48,7 +48,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 
-const props = defineProps<{
+const componentProps = defineProps<{
   title: string
   value?: string
   split?: boolean
@@ -56,18 +56,20 @@ const props = defineProps<{
   collapsible: boolean
 }>()
 
-const showContent = ref(props.collapsible ? false : true)
+const showContent = ref(
+  componentProps.collapsible ? false : true
+)
 
 const text = computed(() => {
-  const commaRegex = /\,\\n+/gi
+  const commaRegex = /,\\n+/gi
   const dotRegex = /\.\\n+/gi
-  if (props.split) {
+  if (componentProps.split) {
     return splitValue()
       ?.replaceAll(commaRegex, ',<br/>')
       .replaceAll(dotRegex, ',<br/>')
       .replaceAll('\\n', ' ')
   }
-  return props.value
+  return componentProps.value
     ?.replaceAll(commaRegex, ',<br/>')
     .replaceAll(dotRegex, ',<br/>')
     .replaceAll('\\n', ' ')
@@ -80,7 +82,9 @@ const showContentStyle = computed(() => {
 })
 
 const collapsableHover = computed(() => {
-  return props.collapsible ? 'cursor: pointer;' : ''
+  return componentProps.collapsible
+    ? 'cursor: pointer;'
+    : ''
 })
 
 const collapseIcon = computed(() => {
@@ -90,13 +94,16 @@ const collapseIcon = computed(() => {
 })
 
 function splitValue() {
-  const RE_GET_EXTENSION = '/,(?!\d+\])/' // /(?:\.([^.]+))?$/
+  const RE_GET_EXTENSION = '/,(?!d+])/' // /(?:\.([^.]+))?$/
 
-  return props.value?.replaceAll(RE_GET_EXTENSION, '+')
+  return componentProps.value?.replaceAll(
+    RE_GET_EXTENSION,
+    '+'
+  )
 }
 
 function collapse() {
-  if (props.collapsible) {
+  if (componentProps.collapsible) {
     showContent.value = !showContent.value
   }
 }

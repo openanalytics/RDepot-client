@@ -21,7 +21,7 @@
 -->
 
 <template>
-  <form as="v-form" ref="form" lazy-validation>
+  <form ref="form" as="v-form" lazy-validation>
     <v-card class="pa-5" width="400">
       <v-card-title>
         {{ $t('maintainers.editform.title') }}
@@ -29,17 +29,17 @@
       <v-divider></v-divider>
       <v-card-text style="height: 300px">
         <validated-input-field
+          id="edit-package-maintainer-user"
           name="userlogin"
           as="v-text-field"
-          id="edit-package-maintainer-user"
           :label="$t('maintainers.editform.user')"
           :disabled="blockedField == 'user'"
           max-width="unset"
         />
         <validated-input-field
+          id="edit-package-maintainer-repository"
           name="repository"
           as="autocomplete"
-          id="edit-package-maintainer-repository"
           :label="$t('maintainers.editform.repository')"
           :disabled="blockedField == 'repository'"
           filled
@@ -48,17 +48,17 @@
           persistent-hint
           return-object
           :template="true"
-          @loadItems="loadRepositoriesObjects"
-          @filtrate="filtrateRepositoriesObjects"
-          :storeId="storeId"
+          :store-id="storeId"
           max-width="unset"
+          @load-items="loadRepositoriesObjects"
+          @filtrate="filtrateRepositoriesObjects"
         >
           <template #item="{ item, props }">
             <v-list-item
-              v-bind="props"
               v-intersect="loadRepositoriesObjects"
+              v-bind="props"
             >
-              <template v-slot:append>
+              <template #append>
                 <v-chip
                   text-color="white"
                   class="text-body-1"
@@ -71,7 +71,10 @@
         </validated-input-field>
       </v-card-text>
       <v-divider></v-divider>
-      <card-actions :buttons="buttons" />
+      <card-actions
+        :buttons="buttons"
+        @clicked="handleCardActions"
+      />
     </v-card>
   </form>
 </template>
@@ -80,8 +83,8 @@
 import CardActions from '@/components/common/overlay/CardActions.vue'
 import { EntityModelRepositoryMaintainerDto } from '@/openapi'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
-import { computed, onBeforeMount } from 'vue'
-import { Form, useForm } from 'vee-validate'
+import { onBeforeMount } from 'vue'
+import { useForm } from 'vee-validate'
 import ValidatedInputField from '@/components/common/fields/ValidatedInputField.vue'
 import { toTypedSchema } from '@vee-validate/zod'
 import { repositoryMaintainerSchema } from '@/models/Schemas'
@@ -94,7 +97,7 @@ import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesF
 
 const { t } = useI18n()
 
-const props = defineProps({
+defineProps({
   blockedField: {
     required: false,
     default: 'user',
@@ -107,15 +110,30 @@ const props = defineProps({
 const buttons = [
   {
     id: 'cancel-button',
-    text: t('common.cancel'),
-    handler: changeDialogOptions
+    text: t('common.cancel')
   },
   {
     id: 'set-filtration',
-    text: t('common.save'),
-    handler: setMaintainer
+    text: t('common.save')
   }
 ]
+
+function handleCardActions(buttonId: string) {
+  switch (buttonId) {
+    case 'cancel-button': {
+      emit('closeModal')
+      break
+    }
+
+    case 'set-filtration': {
+      setMaintainer()
+      break
+    }
+    default: {
+      break
+    }
+  }
+}
 
 const {
   storeId,
@@ -173,7 +191,7 @@ function setMaintainer() {
       maintainer.repository.id = values.repository?.value
     }
     maintainersStore.updateMaintainer(maintainer)
-    changeDialogOptions()
+    emit('closeModal')
   } else {
     toasts.warning(t('notifications.invalidform'))
   }
@@ -182,8 +200,4 @@ function setMaintainer() {
 onBeforeMount(() => {
   resetPagination
 })
-
-function changeDialogOptions() {
-  emit('closeModal')
-}
 </script>

@@ -28,7 +28,7 @@
     <v-divider></v-divider>
     <v-card-text>
       <p
-        v-html="
+        v-dompurify-html="
           $t('settings.deactivateQuestion', [
             accessTokensStore.currentToken?.name
           ])
@@ -36,7 +36,10 @@
       ></p>
     </v-card-text>
     <v-divider></v-divider>
-    <card-actions :buttons="buttons"></card-actions>
+    <card-actions
+      :buttons="buttons"
+      @clicked="handleCardActions"
+    ></card-actions>
   </v-card>
 </template>
 
@@ -53,20 +56,28 @@ const emit = defineEmits(['closeModal', 'deactivateToken'])
 const buttons = [
   {
     id: 'cancel-button',
-    text: t('common.cancel'),
-    handler: () => closeModal()
+    text: t('common.cancel')
   },
   {
     id: 'ok-button',
-    text: t('common.ok'),
-    handler: () => deactivateToken()
+    text: t('common.ok')
   }
 ]
 
-function closeModal() {
-  emit('closeModal')
-}
-function deactivateToken() {
-  emit('deactivateToken')
+function handleCardActions(buttonId: string) {
+  switch (buttonId) {
+    case 'cancel-button': {
+      emit('closeModal')
+      break
+    }
+
+    case 'ok-button': {
+      emit('deactivateToken')
+      break
+    }
+    default: {
+      break
+    }
+  }
 }
 </script>

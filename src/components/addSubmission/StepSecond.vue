@@ -33,9 +33,9 @@
   >
     <FilesList />
     <DropZone
+      v-slot="{ dropZoneActive }"
       class="drop-area"
       @new-files="filesStore.updateFilesAddNew"
-      #default="{ dropZoneActive }"
       @click="open()"
     >
       <label for="file-input">

@@ -21,7 +21,7 @@
 -->
 
 <template>
-  <form as="v-form" ref="form">
+  <form ref="form" as="v-form">
     <v-card class="pa-5" width="400">
       <v-card-title>
         {{ $t('maintainers.editform.title') }}
@@ -29,18 +29,17 @@
       <v-divider></v-divider>
       <v-card-text style="height: 300px">
         <validated-input-field
+          id="edit-package-maintainer-user"
           as="v-text-field"
           name="username"
-          id="edit-package-maintainer-user"
           :label="$t('maintainers.editform.user')"
           disabled
           max-width="unset"
         />
         <validated-input-field
+          id="edit-package-maintainer-repository"
           as="autocomplete"
           name="repository"
-          @update:modelValue="updateForm"
-          id="edit-package-maintainer-repository"
           :label="$t('maintainers.editform.repository')"
           :template="true"
           filled
@@ -48,17 +47,18 @@
           clearable
           persistent-hint
           return-object
-          @loadItems="loadRepositoriesObjects"
-          @filtrate="filtrateRepositoriesObjects"
-          :storeId="storeId"
+          :store-id="storeId"
           max-width="unset"
+          @update:model-value="updateForm"
+          @load-items="loadRepositoriesObjects"
+          @filtrate="filtrateRepositoriesObjects"
         >
           <template #item="{ item, props }">
             <v-list-item
-              v-bind="props"
               v-intersect="loadRepositoriesObjects"
+              v-bind="props"
             >
-              <template v-slot:append>
+              <template #append>
                 <v-chip
                   text-color="white"
                   class="text-body-1"
@@ -70,10 +70,9 @@
           </template>
         </validated-input-field>
         <validated-input-field
+          id="create-package-maintainer-package"
           as="combobox"
           name="package"
-          id="create-package-maintainer-package"
-          @update:modelValue="setPackageName"
           :label="$t('maintainers.editform.package')"
           :template="true"
           filled
@@ -81,21 +80,22 @@
           clearable
           persistent-hint
           return-object
-          @loadItems="
+          :store-id="storeIdPackage"
+          max-width="unset"
+          @update:model-value="setPackageName"
+          @load-items="
             loadPackagesObjects(localMaintainer.user?.id)
           "
           @filtrate="filtratePackagesObjects"
-          :storeId="storeIdPackage"
-          max-width="unset"
         >
-          <template #item="{ item, props }">
+          <template #item="{ props }">
             <v-list-item
-              v-bind="props"
               v-intersect="
                 loadPackagesObjects(
                   localMaintainer.user?.id
                 )
               "
+              v-bind="props"
             >
             </v-list-item>
           </template>
@@ -103,7 +103,11 @@
       </v-card-text>
       <v-divider></v-divider>
       <v-divider></v-divider>
-      <card-actions :buttons="buttons" />
+      <card-actions
+        :buttons="buttons"
+        @clicked="handleCardActions"
+      ></card-actions
+      >/>
     </v-card>
   </form>
 </template>
@@ -131,20 +135,30 @@ const toasts = useToast()
 const { t } = useI18n()
 const buttons = [
   {
-    id: 'cancelbutton',
-    text: t('common.cancel'),
-    handler: () => {
-      changeDialogOptions()
-    }
+    id: 'cancel-button',
+    text: t('common.cancel')
   },
   {
-    id: 'setfiltration',
-    text: t('common.save'),
-    handler: () => {
-      editMaintainer()
-    }
+    id: 'set-filtration',
+    text: t('common.save')
   }
 ]
+
+function handleCardActions(buttonId: string) {
+  switch (buttonId) {
+    case 'cancel-button': {
+      changeDialogOptions()
+      break
+    }
+    case 'set-filtration': {
+      editMaintainer()
+      break
+    }
+    default: {
+      break
+    }
+  }
+}
 
 const {
   storeId,
@@ -257,17 +271,18 @@ function setPackageName(newValue: any) {
         ? newValue
         : newValue.value
       : ''
-  setFieldValue(
-    'package',
-    typeof newValue === 'string'
-      ? {
-          title: newValue,
-          value: newValue,
-          props: { subtitle: 'a' }
-        }
-      : newValue
-  )
+  setFieldValue('package', getFieldValue(newValue))
   validateField('package')
+}
+
+function getFieldValue(newValue: any) {
+  if (typeof newValue === 'string') {
+    return {
+      title: newValue,
+      value: newValue,
+      props: { subtitle: 'a' }
+    }
+  } else return newValue
 }
 
 function changeDialogOptions() {

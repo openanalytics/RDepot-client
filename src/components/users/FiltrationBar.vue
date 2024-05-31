@@ -26,46 +26,46 @@
     style="padding-left: 0; padding-right: 0"
   >
     <validated-input-field
-      @update:modelValue="setFiltration"
+      id="filtration-search"
       density="compact"
       hide-details
       name="search"
       as="v-text-field"
       :label="$t('users.filtration.searchBox')"
       color="oablue"
-      id="filtration-search"
+      @update:model-value="setFiltration"
     />
 
     <validated-input-field
-      @update:modelValue="setFiltration"
+      id="filtration-roles"
       density="compact"
       hide-details
       chips
       closable-chips
-      id="filtration-roles"
       :items="roles"
       name="roles"
       multiple
       clearable
       as="v-select"
       :label="$t('users.filtration.roles')"
+      @update:model-value="setFiltration"
     ></validated-input-field>
 
     <validated-input-field
-      @change="setFiltration"
+      id="filtration-active"
       density="compact"
       hide-details
-      id="filtration-active"
       name="active"
       :label="$t('users.filtration.active')"
       as="v-switch"
       color="oablue"
       class="flex-grow-0"
+      @change="setFiltration"
     ></validated-input-field>
     <v-spacer />
     <ResetButton
       v-if="!userStore.isDefaultFiltration"
-      @resetValues="resetValues"
+      @reset-values="resetValues"
     />
   </div>
 </template>

@@ -26,32 +26,31 @@
     style="padding-left: 0; padding-right: 0"
   >
     <validated-input-field
-      @update:modelValue="setFiltration"
+      id="filtration-search"
       density="compact"
       hide-details
       name="search"
       as="v-text-field"
       :label="$t('packages.filtration.searchBox')"
-      id="filtration-search"
+      @update:model-value="setFiltration"
     />
 
     <validated-input-field
+      id="filtration-technology"
       chips
       closable-chips
       density="compact"
-      @update:modelValue="setFiltration"
       hide-details
-      id="filtration-technology"
       :items="technologies"
       name="technologies"
       multiple
       clearable
       as="v-select"
       :label="$t('filtration.technologies')"
+      @update:model-value="setFiltration"
     ></validated-input-field>
 
     <validated-input-field
-      @update:modelValue="setFiltration"
       density="compact"
       hide-details
       chips
@@ -61,17 +60,18 @@
       multiple
       clearable
       :label="$t('packages.filtration.repository')"
-      @loadItems="loadRepositories"
-      @filtrate="filtrateRepositoriesObjects"
-      :storeId="storeId"
+      :store-id="storeId"
       :template="true"
+      @update:model-value="setFiltration"
+      @load-items="loadRepositories"
+      @filtrate="filtrateRepositoriesObjects"
     >
       <template #item="{ props }">
         <v-list-item
-          v-bind="props"
           v-intersect="loadRepositories"
+          v-bind="props"
         >
-          <template v-slot:prepend="{ isActive }">
+          <template #prepend="{ isActive }">
             <v-list-item-action start>
               <v-checkbox-btn
                 :model-value="isActive"
@@ -83,18 +83,18 @@
     </validated-input-field>
 
     <validated-input-field
-      @update:modelValue="setFiltration"
+      id="filtration-submissionState"
       density="compact"
       hide-details
       chips
       closable-chips
-      id="filtration-submissionState"
       :items="states"
       name="submissionState"
       multiple
       clearable
       as="v-select"
       :label="$t('packages.filtration.submissionState')"
+      @update:model-value="setFiltration"
     ></validated-input-field>
 
     <validated-input-field
@@ -103,7 +103,6 @@
           meStore.userRole ? meStore.userRole : 0
         )
       "
-      @update:modelValue="setFiltration"
       density="compact"
       hide-details
       chips
@@ -113,17 +112,18 @@
       multiple
       clearable
       :label="$t('packages.filtration.maintainer')"
-      @loadItems="loadMaintainers"
-      :storeId="storeIdMaintainer"
-      @filtrate="filtrateMaintainers"
+      :store-id="storeIdMaintainer"
       :template="true"
+      @update:model-value="setFiltration"
+      @load-items="loadMaintainers"
+      @filtrate="filtrateMaintainers"
     >
       <template #item="{ props }">
         <v-list-item
-          v-bind="props"
           v-intersect="loadMaintainers"
+          v-bind="props"
         >
-          <template v-slot:prepend="{ isActive }">
+          <template #prepend="{ isActive }">
             <v-list-item-action start>
               <v-checkbox-btn
                 :model-value="isActive"
@@ -135,26 +135,26 @@
     </validated-input-field>
 
     <validated-input-field
-      @change="setFiltration"
-      density="compact"
-      hide-details
-      id="filtration-deleted"
-      name="deleted"
-      :label="$t('packages.filtration.deleted')"
-      as="v-switch"
-      color="oablue"
       v-if="
         isAtLeastAdmin(
           meStore.userRole ? meStore.userRole : 0
         )
       "
+      id="filtration-deleted"
+      density="compact"
+      hide-details
+      name="deleted"
+      :label="$t('packages.filtration.deleted')"
+      as="v-switch"
+      color="oablue"
       class="flex-grow-0"
+      @change="setFiltration"
     ></validated-input-field>
 
     <v-spacer />
     <ResetButton
       v-if="!packageStore.isDefaultFiltration"
-      @resetValues="resetValues"
+      @reset-values="resetValues"
     />
   </div>
 </template>

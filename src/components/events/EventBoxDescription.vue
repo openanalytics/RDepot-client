@@ -24,7 +24,7 @@
   <component
     :is="as"
     :event="event"
-    :eventType="eventType"
+    :event-type="eventType"
   ></component>
 </template>
 
@@ -32,13 +32,16 @@
 import { EntityModelNewsfeedEventDto } from '@/openapi'
 import toComponent from '@/maps/events/EventResource'
 
-const props = defineProps({
-  event: Object as () => EntityModelNewsfeedEventDto,
-  eventType: String,
-  resourceType: String
+const componentProps = defineProps({
+  event: {
+    type: Object as () => EntityModelNewsfeedEventDto,
+    required: true
+  },
+  eventType: { type: String, required: true },
+  resourceType: { type: String, required: true }
 })
 
 const as = toComponent.get(
-  props.resourceType || toComponent.get('PACKAGE')
+  componentProps.resourceType || toComponent.get('PACKAGE')
 )
 </script>

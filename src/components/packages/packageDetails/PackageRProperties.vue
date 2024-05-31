@@ -21,7 +21,10 @@
 -->
 
 <template>
-  <template v-for="{ translation, value } in details">
+  <template
+    v-for="({ translation, value }, idx) in details"
+    :key="idx"
+  >
     <Property
       :title="$t(translation)"
       :value="value || 'not provided'"
@@ -34,7 +37,7 @@
 import { EntityModelRPackageDto } from '@/openapi'
 import { computed } from 'vue'
 import { usePackageDetailsStore } from '@/store/package_details'
-import Property from '@/components/packages/packageDetails/Property.vue'
+import Property from '@/components/packages/packageDetails/PackageProperty.vue'
 
 const packageDetailsStore = usePackageDetailsStore()
 

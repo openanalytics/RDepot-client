@@ -24,7 +24,7 @@
   <token-card
     :title="$t('settings.create')"
     long
-    @createToken="createToken()"
+    @create-token="createToken()"
     @cancel="cancelModal()"
   >
     <validated-input-field
@@ -34,7 +34,7 @@
       name="name"
       :label="$t('settings.tokenName')"
       as="v-text-field"
-      maxWidth="unset"
+      max-width="unset"
     ></validated-input-field>
 
     <validated-input-field
@@ -44,7 +44,7 @@
       min="0"
       :label="$t('settings.expirationDate')"
       as="v-text-field"
-      maxWidth="unset"
+      max-width="unset"
     ></validated-input-field>
   </token-card>
 </template>

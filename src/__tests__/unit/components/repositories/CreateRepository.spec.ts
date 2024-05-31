@@ -1,0 +1,192 @@
+/*
+ * R Depot
+ *
+ * Copyright (C) 2012-2024 Open Analytics NV
+ *
+ * ===========================================================================
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the Apache License as published by
+ * The Apache Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * Apache License for more details.
+ *
+ * You should have received a copy of the Apache License
+ * along with this program. If not, see <http://www.apache.org/licenses/>
+ *
+ */
+
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  beforeAll,
+  vi
+} from 'vitest'
+
+import { mount } from '@vue/test-utils'
+import { plugins } from '@/__tests__/config/plugins'
+import { mocks } from '@/__tests__/config/mocks'
+import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
+import { createPinia, setActivePinia } from 'pinia'
+import CreateRepository from '@/components/repositories/CreateRepository.vue'
+import { Technologies } from '@/enum/Technologies'
+import { nextTick } from 'vue'
+import { HashMethods } from '@/enum/HashMethods'
+import { useRepositoryStore } from '@/store/repositories'
+import { useMeStore } from '@/store/me'
+import me from '@/__tests__/config/mockData/me.json'
+
+let wrapper: any
+let repositoryStore: any
+let meStore: any
+
+const globalConfig = {
+  mocks: mocks,
+  plugins: plugins
+}
+
+beforeAll(() => {
+  global.ResizeObserver = ResizeObserver
+})
+
+describe('CreateRepository', () => {
+  beforeEach(async () => {
+    setActivePinia(createPinia())
+    repositoryStore = useRepositoryStore()
+    meStore = useMeStore()
+    meStore.me = me.data
+    wrapper = mount(CreateRepository, {
+      global: globalConfig
+    })
+  })
+
+  it('renders properly', () => {
+    expect(wrapper.exists()).toBe(true)
+  })
+
+  it('all fields are correctly displayed', () => {
+    expect(
+      wrapper.findAll('.v-field__field').length
+    ).toEqual(4)
+    expect(wrapper.find('#create-name')).toBeTruthy()
+    expect(
+      wrapper.find('#create-publication-uri')
+    ).toBeTruthy()
+    expect(
+      wrapper.find('#crete-server-address')
+    ).toBeTruthy()
+    expect(wrapper.find('#create-technology')).toBeTruthy()
+  })
+
+  it('hash method field is not displayed', () => {
+    expect(
+      wrapper.find('#create-hash-method').exists()
+    ).toBeFalsy()
+  })
+
+  it('all fields are enabled', () => {
+    expect(
+      wrapper.find('#create-name').isDisabled()
+    ).toBeFalsy()
+    expect(
+      wrapper.find('#create-publication-uri').isDisabled()
+    ).toBeFalsy()
+    expect(
+      wrapper.find('#create-server-address').isDisabled()
+    ).toBeFalsy()
+    expect(
+      wrapper.find('#create-technology').isDisabled()
+    ).toBeFalsy()
+  })
+
+  it('hash method field is displayed with a default value when technology is Python', async () => {
+    wrapper.vm.setFieldValue(
+      'technology',
+      Technologies.Enum.Python
+    )
+    await nextTick()
+    expect(
+      wrapper.find('#create-hash-method').exists()
+    ).toBeTruthy()
+    expect(wrapper.vm.values.hashMethod).toEqual(
+      HashMethods.Enum.MD5
+    )
+  })
+
+  it('hash method field is not displayed when technology is R', async () => {
+    wrapper.vm.setFieldValue(
+      'technology',
+      Technologies.Enum.R
+    )
+    await nextTick()
+    expect(
+      wrapper.find('#create-hash-method').exists()
+    ).toBeFalsy()
+  })
+
+  it('should not call create repository if form is empty', async () => {
+    const spy = vi.spyOn(
+      repositoryStore,
+      'createRepository'
+    )
+    const createButton = wrapper.find('#create-repository')
+    await createButton.trigger('click')
+    await nextTick()
+    expect(spy).toBeCalledTimes(0)
+  })
+
+  it('should not call create repository if form is invalid', async () => {
+    const spy = vi.spyOn(
+      repositoryStore,
+      'createRepository'
+    )
+    wrapper.vm.setFieldValue(
+      'technology',
+      Technologies.Enum.R
+    )
+    wrapper.vm.setFieldValue('name', 'testName')
+    wrapper.vm.setFieldValue(
+      'serverAddress',
+      'invalid address'
+    )
+    wrapper.vm.setFieldValue(
+      'publicationUri',
+      'invalid publication uri'
+    )
+    await nextTick()
+    const createButton = wrapper.find('#create-repository')
+    await createButton.trigger('click')
+    await nextTick()
+    expect(spy).toBeCalledTimes(0)
+  })
+
+  it('should call create repository if form is valid', async () => {
+    const spy = vi.fn(() => {})
+    repositoryStore.createRepository = spy
+    wrapper.vm.setFieldValue(
+      'technology',
+      Technologies.Enum.R
+    )
+    wrapper.vm.setFieldValue('name', 'testName')
+    wrapper.vm.setFieldValue(
+      'serverAddress',
+      'http://localhost:8080/repo/testRepo'
+    )
+    wrapper.vm.setFieldValue(
+      'publicationUri',
+      'http://oa-repo-app:8080/testRepo'
+    )
+    wrapper.vm.setTouched(true)
+    await nextTick()
+    const createButton = wrapper.find('#create-repository')
+    await createButton.trigger('click')
+    await nextTick()
+    expect(spy).toHaveBeenCalledOnce()
+  })
+})

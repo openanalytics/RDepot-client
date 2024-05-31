@@ -21,14 +21,14 @@
 -->
 
 <template>
-  <Overlay>
+  <ModalOverlay>
     <template #props="{ closeModal }">
-      <DeleteToken @closeModal="closeModal" />
+      <DeleteToken @close-modal="closeModal" />
     </template>
-  </Overlay>
+  </ModalOverlay>
 </template>
 
 <script setup lang="ts">
-import Overlay from '@/components/common/overlay/Overlay.vue'
+import ModalOverlay from '@/components/common/overlay/ModalOverlay.vue'
 import DeleteToken from '@/components/accessTokens/deleteToken/DeleteToken.vue'
 </script>

@@ -21,7 +21,7 @@
 -->
 
 <template>
-  <form as="v-form" ref="form" lazy-validation>
+  <form ref="form" as="v-form" lazy-validation>
     <v-card class="pa-5" width="400">
       <v-card-title>
         {{ $t('users.edit.title') }}
@@ -29,15 +29,19 @@
       <v-divider></v-divider>
       <v-card-text style="height: 300px">
         <validated-input-field
+          id="edit-user-role"
           name="role"
           as="v-select"
-          id="edit-user-role"
           :items="roles"
           :label="$t('users.edit.role')"
+          max-width="unset"
         />
       </v-card-text>
       <v-divider></v-divider>
-      <card-actions :buttons="buttons" />
+      <card-actions
+        :buttons="buttons"
+        @clicked="handleCardActions"
+      />
     </v-card>
   </form>
 </template>
@@ -45,7 +49,7 @@
 <script setup lang="ts">
 import CardActions from '@/components/common/overlay/CardActions.vue'
 import { ref } from 'vue'
-import { Form, useForm } from 'vee-validate'
+import { useForm } from 'vee-validate'
 import ValidatedInputField from '@/components/common/fields/ValidatedInputField.vue'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useUserStore } from '@/store/users'
@@ -59,7 +63,7 @@ import { stringToRole } from '@/enum/UserRoles'
 
 const { t } = useI18n()
 
-const props = defineProps({
+defineProps({
   blockedField: {
     required: false,
     default: 'user',
@@ -74,15 +78,29 @@ const { roles } = useEnumFiltration()
 const buttons = [
   {
     id: 'cancel-button',
-    text: t('common.cancel'),
-    handler: changeDialogOptions
+    text: t('common.cancel')
   },
   {
     id: 'set-role',
-    text: t('common.save'),
-    handler: setRole
+    text: t('common.save')
   }
 ]
+
+function handleCardActions(buttonId: string) {
+  switch (buttonId) {
+    case 'cancel-button': {
+      emit('closeModal')
+      break
+    }
+    case 'set-role': {
+      setRole()
+      break
+    }
+    default: {
+      break
+    }
+  }
+}
 
 const userStore = useUserStore()
 
@@ -114,13 +132,9 @@ async function setRole() {
     newUser.roleId = stringToRole(values.role || 'user') + 1
     await userStore.saveUser(newUser)
     await userStore.fetchUsers()
-    changeDialogOptions()
+    emit('closeModal')
   } else {
     toasts.warning(t('notifications.invalidform'))
   }
-}
-
-function changeDialogOptions() {
-  emit('closeModal')
 }
 </script>
