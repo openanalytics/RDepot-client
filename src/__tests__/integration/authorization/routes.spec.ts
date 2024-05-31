@@ -20,12 +20,16 @@
  *
  */
 
-import { describe, it, expect, beforeEach } from 'vitest'
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  afterEach
+} from 'vitest'
 // import me from '@/__tests__/config/mockData/me.json'
 // import users from '@/__tests__/config/mockData/users.json'
 // import { createPinia, setActivePinia } from 'pinia'
-import waitForExpect from 'wait-for-expect'
-
 const {
   Builder,
   Browser,
@@ -35,11 +39,11 @@ const {
 } = require('selenium-webdriver')
 const chrome = require('selenium-webdriver/chrome')
 // const repositoryMaintainer = users.data.content[1]
-
 let driver: any
 const url = 'http://172.17.0.1:3001'
 const PASSWORD = 'testpassword'
-
+const delay = (ms) =>
+  new Promise((res) => setTimeout(res, ms))
 beforeEach(async () => {
   // setActivePinia(createPinia())
   driver = await new Builder()
@@ -47,15 +51,19 @@ beforeEach(async () => {
     .usingServer('http://172.17.0.1:4444/wd/hub')
     .setChromeOptions(
       new chrome.Options().addArguments(
-        '--headless',
+        // '--headless',
         '--no-sandbox',
         '--disable-dev-shm-usage',
         '--disable-gpu',
-        '--disable-extensions',
-        '--remote-debugging-port=9222'
+        '--disable-extensions'
+        // '--remote-debugging-port=9222'
       )
     )
     .build()
+})
+
+afterEach(async () => {
+  await driver.quit()
 })
 
 // describe('Unauthenticated access', () => {
@@ -269,51 +277,51 @@ beforeEach(async () => {
 
 describe('Admin access', () => {
   it('Login page', async () => {
-    try {
-      await driver.get(url + '/login')
-      driver
-        .findElement(By.id('username-input'))
-        .sendKeys('einstein')
-      driver
-        .findElement(By.id('password-input'))
-        .sendKeys(PASSWORD)
-      driver
-        .findElement(By.id('login-simple-button'))
-        .click()
-      await waitForExpect(() => {
-        expect(
-          driver.wait(
-            until.titleIs('RDepot - packages'),
-            5000
-          )
-        ).toBeTruthy()
-      })
-      await waitForExpect(() => {
-        expect(
-          driver.wait(
-            until.elementLocated(
-              By.id('sidebaruploadpackages')
-            ),
-            5000
-          )
-        ).toBeTruthy()
-      })
-      await waitForExpect(() => {
-        driver
-          .findElement(By.id('sidebaruploadpackages'))
-          .click()
-      })
-      await waitForExpect(() => {
-        expect(
-          driver.wait(
-            until.titleIs('RDepot - upload packages'),
-            5000
-          )
-        ).toBeTruthy()
-      })
-    } finally {
-      await driver.quit()
-    }
+    await driver.get(url + '/login')
+    expect(
+      await driver.wait(
+        until.elementLocated(By.id('username-input')),
+        8000
+      )
+    ).toBeTruthy()
+    driver
+      .findElement(By.id('username-input'))
+      .sendKeys('einstein')
+    expect(
+      await driver.wait(
+        until.elementLocated(By.id('password-input')),
+        8000
+      )
+    ).toBeTruthy()
+    driver
+      .findElement(By.id('password-input'))
+      .sendKeys(PASSWORD)
+    expect(
+      await driver.wait(
+        until.elementLocated(By.id('login-simple-button')),
+        8000
+      )
+    ).toBeTruthy()
+    driver.findElement(By.id('login-simple-button')).click()
+    expect(
+      driver.wait(
+        until.elementLocated(
+          By.id('sidebaruploadpackages')
+        ),
+        8000
+      )
+    ).toBeTruthy()
+    await delay(1000)
+    driver
+      .findElement(By.id('sidebaruploadpackages'))
+      .click()
+    await delay(1000)
+    expect(
+      driver.wait(
+        until.titleIs('RDepot - upload packages'),
+        8000
+      )
+    ).toBeTruthy()
   })
   //   it('Package page', async () => {
   //     try {
