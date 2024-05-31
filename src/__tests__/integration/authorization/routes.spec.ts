@@ -42,8 +42,6 @@ const chrome = require('selenium-webdriver/chrome')
 let driver: any
 const url = 'http://172.17.0.1:3001'
 const PASSWORD = 'testpassword'
-const delay = (ms: number) =>
-  new Promise((res) => setTimeout(res, ms))
 beforeEach(async () => {
   // setActivePinia(createPinia())
   driver = await new Builder()
@@ -278,51 +276,39 @@ afterEach(async () => {
 describe('Admin access', () => {
   it('Login page', async () => {
     await driver.get(url + '/login')
-    expect(
-      await driver.wait(
-        until.elementLocated(By.id('username-input')),
-        8000
-      )
-    ).toBeTruthy()
+    await driver.wait(
+      until.elementLocated(By.id('username-input')),
+      8000
+    )
     driver
       .findElement(By.id('username-input'))
       .sendKeys('einstein')
-    expect(
-      await driver.wait(
-        until.elementLocated(By.id('password-input')),
-        8000
-      )
-    ).toBeTruthy()
+    await driver.wait(
+      until.elementLocated(By.id('password-input')),
+      8000
+    )
     driver
       .findElement(By.id('password-input'))
       .sendKeys(PASSWORD)
-    expect(
-      await driver.wait(
-        until.elementLocated(By.id('login-simple-button')),
-        8000
-      )
-    ).toBeTruthy()
+    await driver.wait(
+      until.elementLocated(By.id('login-simple-button')),
+      8000
+    )
     driver.findElement(By.id('login-simple-button')).click()
-    await delay(2000)
-    expect(
-      driver.wait(
-        until.elementLocated(
-          By.id('sidebaruploadpackages')
-        ),
-        8000
-      )
-    ).toBeTruthy()
-    await delay(2000)
+    await driver.wait(
+      until.elementLocated(By.id('sidebaruploadpackages')),
+      8000
+    )
     driver
       .findElement(By.id('sidebaruploadpackages'))
       .click()
-    await delay(2000)
-    expect(
-      driver.wait(
-        until.titleIs('RDepot - upload packages'),
-        8000
-      )
-    ).toBeTruthy()
+    await driver.wait(
+      until.titleIs('RDepot - upload packages'),
+      8000
+    )
+    expect(await driver.getTitle()).toBe(
+      'RDepot - upload packages'
+    )
   })
   //   it('Package page', async () => {
   //     try {
