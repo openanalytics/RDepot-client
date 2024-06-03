@@ -22,7 +22,7 @@ services:
         aliases:
           - oa-rdepot-proxy
   backend:
-    image: registry.openanalytics.eu/openanalytics/rdepot-app:2.1.0-SNAPSHOT
+    image: registry.openanalytics.eu/openanalytics/rdepot-app:2.1.0
     restart: unless-stopped
     hostname: oa-rdepot-backend
     container_name: oa-rdepot-backend
@@ -68,7 +68,7 @@ services:
         aliases:
           - oa-rdepot-db
   repo:
-    image: registry.openanalytics.eu/openanalytics/rdepot-repo:2.1.0-SNAPSHOT
+    image: registry.openanalytics.eu/openanalytics/rdepot-repo:2.1.0
     restart: unless-stopped
     container_name: oa-rdepot-repo
     labels:
