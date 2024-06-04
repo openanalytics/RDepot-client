@@ -148,3 +148,40 @@ export async function prepareStores(to: any, from: any) {
       break
   }
 }
+
+export async function checkAuthorization(to: any) {
+  const authorizationStore = useAuthorizationStore()
+  authorizationStore.getUserSettings()
+  if (to.fullPath.startsWith('/auth')) {
+    await handleAuthorization()
+    getDefaultFiltration(to)
+    return '/packages'
+  } else if (to.fullPath.startsWith('/logout')) {
+    handleLogout()
+    return '/'
+  } else if (to.name != 'login') {
+    return await authorizeInternalPath(to)
+  } else if (to.name == 'login') {
+    if (await authorizationStore.isUserLoggedIn()) {
+      return '/packages'
+    }
+  }
+}
+
+export async function authorizeInternalPath(to: any) {
+  const authorizationStore = useAuthorizationStore()
+  if (!(await authorizationStore.isUserLoggedIn())) {
+    return redirectToLoginPage()
+  }
+  const meStore = useMeStore()
+  if (!meStore.me.role) {
+    await authorizationStore.postLoginOperations()
+  }
+  const canRedirect = authorizationStore.checkUserAbility(
+    to.name || ' '
+  )
+  if (!canRedirect) {
+    return '/packages'
+  }
+  return undefined
+}

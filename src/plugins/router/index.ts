@@ -23,8 +23,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { routes } from '@/plugins/router/routes'
 import { i18n } from '@/plugins/i18n'
-import { useAuthorizationStore } from '@/store/authorization'
-import { useMeStore } from '@/store/me'
 import * as helper from '@/plugins/router/helpers'
 import getEnv from '@/utils/env'
 
@@ -36,34 +34,8 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to) => {
-  const authorizationStore = useAuthorizationStore()
-  authorizationStore.getUserSettings()
-  if (to.fullPath.startsWith('/auth')) {
-    await helper.handleAuthorization()
-    helper.getDefaultFiltration(to)
-    return '/packages'
-  } else if (to.fullPath.startsWith('/logout')) {
-    helper.handleLogout()
-    return '/'
-  } else if (to.name != 'login') {
-    if (!(await authorizationStore.isUserLoggedIn())) {
-      return helper.redirectToLoginPage()
-    }
-    const meStore = useMeStore()
-    if (!meStore.me.role) {
-      await authorizationStore.postLoginOperations()
-    }
-    const canRedirect = authorizationStore.checkUserAbility(
-      to.name || ' '
-    )
-    if (!canRedirect) {
-      return '/packages'
-    }
-  } else if (to.name == 'login') {
-    if (await authorizationStore.isUserLoggedIn()) {
-      return '/packages'
-    }
-  }
+  const path = await helper.checkAuthorization(to)
+  if (path !== undefined) return path
   helper.resetStoreValues()
   document.title = to.meta.title
     ? (to.meta.title as string)
