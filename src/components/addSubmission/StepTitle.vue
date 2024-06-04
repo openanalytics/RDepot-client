@@ -24,6 +24,7 @@
   <v-timeline direction="horizontal" side="start">
     <v-timeline-item
       v-for="(t, index) in steps"
+      :key="index"
       :dot-color="
         e1 >= index + 1 ? 'oablue' : 'oablue-darken-2'
       "

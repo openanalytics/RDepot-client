@@ -22,41 +22,56 @@
 
 <template>
   <v-tooltip location="top">
-    <template v-slot:activator="{ props }">
-      <v-btn
+    <template #activator="{ props }">
+      <VIcon
         id="replace-button"
         v-bind="props"
-        @click="
-          submissionsStore.updateReplaceOptionForPackage(
-            file
-          )
-        "
-        :icon="
-          submissionsStore.getReplaceForPackage(file)
-            ? 'mdi-file-replace'
-            : 'mdi-file-replace-outline'
-        "
-        variant="plain"
+        :color="disabled ? 'grey' : 'oablue'"
         class="mr-8"
-        color="oablue"
-        size="small"
+        @click.stop
+        @click="replacePackage"
+        >{{ replaceIcon }}</VIcon
       >
-      </v-btn>
     </template>
     <div class="tooltip">
-      {{ $t('packages.replaceOptionDesc') }}
+      {{ translatedHoverMessage }}
     </div>
   </v-tooltip>
 </template>
 
 <script setup lang="ts">
 import { useSubmissionStore } from '@/store/submission'
+import { computed } from 'vue'
+import { i18n } from '@/plugins/i18n'
 
-const props = defineProps({
-  file: { type: File, required: true }
+const componentProps = defineProps({
+  file: { type: File, required: true },
+  disabled: { type: Boolean, required: true }
 })
 
 const submissionsStore = useSubmissionStore()
+
+const translatedHoverMessage = computed(() => {
+  return componentProps.disabled
+    ? i18n.t('config.replacingPackages')
+    : i18n.t('packages.replaceOptionDesc')
+})
+
+const replaceIcon = computed(() => {
+  return submissionsStore.getReplaceForPackage(
+    componentProps.file
+  )
+    ? 'mdi-file-replace'
+    : 'mdi-file-replace-outline'
+})
+
+function replacePackage() {
+  if (!componentProps.disabled) {
+    submissionsStore.updateReplaceOptionForPackage(
+      componentProps.file
+    )
+  }
+}
 </script>
 
 <style lang="scss" scoped>

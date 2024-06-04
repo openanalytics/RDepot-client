@@ -22,22 +22,22 @@
 
 <template>
   <v-list-item id="submission-package">
-    <template #title :color="getColor">
+    <template #title>
       {{ formatFilename(promise.packageBag.name) }}
     </template>
 
     <template #prepend>
       <v-progress-circular
-        indeterminate="disable-shrink"
         v-if="promise.state == 'pending'"
+        indeterminate="disable-shrink"
         model-value="20"
         class="mr-5"
       ></v-progress-circular>
       <v-icon
         v-if="promise.state == 'success'"
+        id="submission-success-icon"
         size="large"
         color="green"
-        id="submission-success-icon"
         icon="mdi-check-circle-outline"
       />
       <v-tooltip
@@ -48,21 +48,43 @@
       >
         <template #activator="{ props }">
           <v-icon
-            color="red"
             v-bind="props"
+            id="submission-error-icon"
+            color="red"
             class="hover"
             size="large"
-            id="submission-error-icon"
             icon="mdi-close-circle-outline"
           ></v-icon>
         </template>
-        <div v-for="error in promise.error">
+        <div
+          v-for="(error, idx) in promise.error"
+          :key="idx"
+        >
           {{ error }}
         </div>
       </v-tooltip>
+
+      <v-tooltip
+        v-if="promise.state == 'warning'"
+        max-width="400"
+        location="left"
+        content-class="custom-tooltip warning-tooltip"
+      >
+        <template #activator="{ props }">
+          <v-icon
+            id="submission-success-icon"
+            size="large"
+            color="warning"
+            icon="mdi-check-circle-outline"
+            class="hover"
+            v-bind="props"
+          ></v-icon>
+        </template>
+        {{ $t('submissions.replace.duplication') }}
+      </v-tooltip>
     </template>
 
-    <template #append v-if="technology != 'Python'">
+    <template v-if="technology != 'Python'" #append>
       <v-btn
         v-if="
           !generateManual &&
@@ -70,27 +92,31 @@
           promise.response &&
           promise.response[0].id
         "
+        id="download-manual-icon"
         icon="mdi-download"
         variant="text"
-        id="download-manual-icon"
         @click="
-          downloadManual(
-            promise.response[0].id.toString(),
-            `${promise.response[0].packageBag?.name}_${promise.response[0].packageBag?.version}_manual`
-          )
+          promise &&
+          promise.response &&
+          promise.response[0].id
+            ? downloadManual(
+                promise.response[0].id.toString(),
+                `${promise.response[0].packageBag?.name}_${promise.response[0].packageBag?.version}_manual`
+              )
+            : null
         "
       ></v-btn>
       <v-btn
         v-if="!generateManual"
+        id="generate-manual-icon-marked"
         disabled
         icon="mdi-checkbox-marked-outline"
         variant="text"
-        id="generate-manual-icon-marked"
       ></v-btn>
       <v-btn
         v-else
-        icon="mdi-checkbox-blank-outline"
         id="generate-manual-icon-blank"
+        icon="mdi-checkbox-blank-outline"
         variant="text"
         disabled
       >
@@ -101,25 +127,16 @@
 
 <script setup lang="ts">
 import { PackagePromise } from '@/store/submission'
-import { computed } from 'vue'
 import { usePackagesStore } from '@/store/packages'
 import { useFiles } from '@/composable/file'
 
-var props = defineProps<{
+defineProps<{
   promise: PackagePromise
   generateManual: boolean
   technology?: string
 }>()
 
 const packagesStore = usePackagesStore()
-
-const getColor = computed(() => {
-  return props.promise.state == 'success'
-    ? 'green'
-    : props.promise.state == 'error'
-    ? 'red'
-    : 'primary'
-})
 
 const { formatFilename } = useFiles()
 
@@ -138,6 +155,9 @@ function downloadManual(id: string, fileName: string) {
   padding: 10px 30px !important;
 }
 
+.warning-tooltip {
+  background-color: rgb(var(--v-theme-warning)) !important;
+}
 .hover {
   cursor: pointer;
 }

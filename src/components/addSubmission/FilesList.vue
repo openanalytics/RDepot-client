@@ -36,23 +36,21 @@
         v-if="!!filesStore.files.length"
         class="text-overline"
       >
-        <template #default color="oared">
-          <v-btn
-            @click="resetPackages()"
-            size="x-small"
-            color="oared mb-1"
-            class="reset-opacity"
-            variant="outlined"
-            >{{ $t('common.reset') }}</v-btn
-          >
-        </template>
+        <v-btn
+          size="x-small"
+          color="oared mb-1"
+          class="reset-opacity"
+          variant="outlined"
+          @click="resetPackages()"
+          >{{ $t('common.reset') }}</v-btn
+        >
 
         <template
-          #append
           v-if="
             submissionsStore.repository?.technology !=
             'Python'
           "
+          #append
         >
           {{ $t('packages.generatemanual') }}
         </template>
@@ -65,22 +63,25 @@
       >
         <template #prepend>
           <v-btn
-            @click="filesStore.removeFile(file)"
             variant="plain"
             icon="mdi-delete"
             size="medium"
             class="mr-3"
             color="oared"
+            @click="filesStore.removeFile(file)"
           />
-          <ReplaceOption :file="file" />
+          <ReplaceOption
+            :disabled="!configStore.replacingPackages"
+            :file="file"
+          />
         </template>
 
         <template
-          #append
           v-if="
             submissionsStore.repository?.technology !=
             'Python'
           "
+          #append
         >
           <v-btn
             v-if="
@@ -119,9 +120,11 @@ import { useSubmissionStore } from '@/store/submission'
 import { computed } from 'vue'
 import ReplaceOption from './ReplaceOption.vue'
 import { useFiles } from '@/composable/file'
+import { useConfigStore } from '@/store/config'
 
 const submissionsStore = useSubmissionStore()
 const filesStore = useFilesListStore()
+const configStore = useConfigStore()
 const { formatFilename } = useFiles()
 const chosenRepository = computed(() => {
   return submissionsStore.repository

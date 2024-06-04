@@ -21,26 +21,26 @@
 -->
 
 <template>
-  <Overlay v-on:action="performAction()">
-    <template v-slot:props="{ closeModal }">
+  <ModalOverlay @action="performAction()">
+    <template #props="{ closeModal }">
       <Creation
         v-if="commonStore.isCreate()"
-        @closeModal="closeModal"
+        @close-modal="closeModal"
       />
       <Edit
         v-if="commonStore.isEdit()"
-        @closeModal="closeModal"
+        @close-modal="closeModal"
       />
     </template>
-  </Overlay>
+  </ModalOverlay>
 </template>
 
 <script setup lang="ts">
 import { useCommonStore } from '@/store/common'
-import Overlay from '@/components/common/Overlay.vue'
-import Creation from '@/components/repositories/Creation.vue'
+import ModalOverlay from '@/components/common/overlay/ModalOverlay.vue'
+import Creation from '@/components/repositories/CreateRepository.vue'
 import { useRepositoryStore } from '@/store/repositories'
-import Edit from './Edit.vue'
+import Edit from './EditRepository.vue'
 
 const repositoriesStore = useRepositoryStore()
 const commonStore = useCommonStore()

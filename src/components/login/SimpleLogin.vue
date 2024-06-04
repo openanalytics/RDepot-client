@@ -31,6 +31,7 @@
       color="oablue"
       required
       autofocus
+      max-width="unset"
     />
 
     <validated-input-field
@@ -41,6 +42,7 @@
       type="password"
       color="oablue"
       required
+      max-width="unset"
     />
 
     <v-row class="form-buttons my-10">
@@ -60,7 +62,7 @@
 </template>
 
 <script setup lang="ts">
-import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
+import ValidatedInputField from '@/components/common/fields/ValidatedInputField.vue'
 import { useI18n } from 'vue-i18n'
 import { z } from 'zod'
 import { toTypedSchema } from '@vee-validate/zod'

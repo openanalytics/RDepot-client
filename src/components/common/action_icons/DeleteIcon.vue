@@ -25,19 +25,18 @@
     <template #activator="{ props }">
       <VIcon
         id="delete-icon"
-        @click.stop
-        @click="deleteDialog"
         v-bind="props"
         :color="disabled ? 'grey' : 'oared'"
-        :class="class"
+        @click.stop
+        @click="deleteDialog"
         >mdi-trash-can</VIcon
       >
     </template>
-    <span id="action-delete" v-if="!disabled">{{
+    <span v-if="!disabled" id="action-delete">{{
       $t('common.delete')
     }}</span>
     <span v-else>
-      {{ hoverMessage }}
+      {{ translatedHoverMessage }}
     </span>
   </VTooltip>
 </template>
@@ -46,16 +45,14 @@
 import { OverlayEnum } from '@/enum/Overlay'
 import { i18n } from '@/plugins/i18n'
 import { useCommonStore } from '@/store/common'
+import { computed } from 'vue'
 
 const emits = defineEmits(['setResourceId'])
 
-const props = defineProps({
+const componentProps = defineProps({
   name: {
-    type: String
-  },
-  class: {
     type: String,
-    default: 'ml-3'
+    required: true
   },
   disabled: {
     type: Boolean,
@@ -63,22 +60,29 @@ const props = defineProps({
   },
   hoverMessage: {
     type: String,
-    reqiured: false,
-    default: i18n.t('common.notAuthorized')
+    required: false,
+    default: ''
   }
 })
 
 const commonStore = useCommonStore()
 
 function deleteDialog() {
-  if (!props.disabled) {
+  if (!componentProps.disabled) {
     emits('setResourceId')
     commonStore.setOverlayText(
       i18n.t('common.deleteQuestion', {
-        resource_name: props.name
+        resource_name: componentProps.name
       })
     )
     commonStore.openOverlay(OverlayEnum.enum.Delete)
   }
 }
+
+const translatedHoverMessage = computed(() => {
+  return (
+    componentProps.hoverMessage ||
+    i18n.t('common.notAuthorized')
+  )
+})
 </script>

@@ -43,29 +43,29 @@ router.beforeEach(async (to) => {
   authorizationStore.getUserSettings()
   if (to.fullPath.startsWith('/auth')) {
     await helper.handleAuthorization()
-    helper.hideSidebar(false)
     helper.getDefaultFiltration(to)
     return '/packages'
   } else if (to.fullPath.startsWith('/logout')) {
     helper.handleLogout()
-    helper.hideSidebar(true)
     return '/'
   } else if (to.name != 'login') {
     if (!(await authorizationStore.isUserLoggedIn())) {
-      helper.hideSidebar(true)
       return helper.redirectToLoginPage()
     }
     const meStore = useMeStore()
     if (!meStore.me.role) {
       await authorizationStore.postLoginOperations()
     }
-    helper.hideSidebar(false)
-  } else if (to.name == 'login') {
-    if (await authorizationStore.isUserLoggedIn()) {
-      helper.hideSidebar(false)
+    const canRedirect = authorizationStore.checkUserAbility(
+      to.name || ' '
+    )
+    if (!canRedirect) {
       return '/packages'
     }
-    helper.hideSidebar(true)
+  } else if (to.name == 'login') {
+    if (await authorizationStore.isUserLoggedIn()) {
+      return '/packages'
+    }
   }
   helper.resetStoreValues()
   document.title = to.meta.title

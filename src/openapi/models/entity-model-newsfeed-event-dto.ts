@@ -34,8 +34,15 @@
  */
 
 import { ChangedVariableDto } from './changed-variable-dto'
+import { EntityModelAccessTokenDto } from './entity-model-access-token-dto'
+import { EntityModelPackageDto } from './entity-model-package-dto'
+import { EntityModelPackageMaintainerDto } from './entity-model-package-maintainer-dto'
+import { EntityModelRepositoryDto } from './entity-model-repository-dto'
+import { EntityModelRepositoryMaintainerDto } from './entity-model-repository-maintainer-dto'
+import { EntityModelSubmissionDto } from './entity-model-submission-dto'
 import { IDto } from './idto'
 import { Link } from './link'
+import { ResponseDtoEntityModelPackageMaintainerDtoStatusEnum } from './response-dto-entity-model-package-maintainer-dto'
 import { UserProjection } from './user-projection'
 /**
  *
@@ -96,7 +103,13 @@ export interface EntityModelNewsfeedEventDto {
    * @type {IDto}
    * @memberof EntityModelNewsfeedEventDto
    */
-  relatedResource?: IDto
+  relatedResource?:
+    | EntityModelRepositoryDto
+    | EntityModelAccessTokenDto
+    | EntityModelSubmissionDto
+    | EntityModelPackageMaintainerDto
+    | EntityModelRepositoryMaintainerDto
+    | EntityModelPackageDto
 
   /**
    * @type {Array<Link>}

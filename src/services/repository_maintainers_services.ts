@@ -42,6 +42,35 @@ type ValidatedRepositoryMaintainer = Promise<
   validatedData<EntityModelRepositoryMaintainerDto>
 >
 
+export async function fetch(
+  filtration: RepositoryMaintainersFiltration,
+  page?: number,
+  pageSize?: number,
+  sort?: string,
+  showProgress = true
+): ValidatedRepositoryMaintainers {
+  if (!isAuthorized('GET', 'submissions')) {
+    return new Promise(() => validateRequest([]))
+  }
+  return openApiRequest<
+    EntityModelRepositoryMaintainerDto[]
+  >(
+    ApiV2RepositoryMaintainerControllerApiFactory()
+      .getAllRepositoryMaintainers,
+    [
+      page,
+      pageSize,
+      sort,
+      filtration?.deleted,
+      filtration?.technologies,
+      filtration?.search
+    ],
+    showProgress
+  ).catch(() => {
+    return validateRequest([])
+  })
+}
+
 export async function fetchRepositoryMaintainersServices(
   filtration: RepositoryMaintainersFiltration,
   page?: number,

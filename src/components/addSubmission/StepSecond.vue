@@ -33,9 +33,9 @@
   >
     <FilesList />
     <DropZone
+      v-slot="{ dropZoneActive }"
       class="drop-area"
       @new-files="filesStore.updateFilesAddNew"
-      #default="{ dropZoneActive }"
       @click="open()"
     >
       <label for="file-input">
@@ -84,7 +84,7 @@ import { ref } from 'vue'
 import { useFileDialog } from '@vueuse/core'
 import { watch } from 'vue'
 import { onMounted } from 'vue'
-import DropZone from '@/components/addSubmission/DropZone.vue'
+import DropZone from '@/components/common/files/DropZone.vue'
 import FilesList from '@/components/addSubmission/FilesList.vue'
 import { useFilesListStore } from '@/store/local_files'
 import { useI18n } from 'vue-i18n'

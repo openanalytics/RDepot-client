@@ -21,7 +21,7 @@
  */
 
 import { authService } from '@/plugins/oauth'
-import { useOICDAuthorization } from '@/composable/auth/oicdAuthorization'
+import { useOIDCAuthorization } from '@/composable/auth/oidcAuthorization'
 import { usePackagesStore } from '@/store/packages'
 import { useAuthorizationStore } from '@/store/authorization'
 import { Technologies } from '@/enum/Technologies'
@@ -47,11 +47,6 @@ export async function loadRepositoryDetails(name: string) {
   })
 }
 
-export function hideSidebar(value: boolean) {
-  const authorizationStore = useAuthorizationStore()
-  authorizationStore.hideSidebar(value)
-}
-
 export async function redirectToLoginPage() {
   return '/login'
 }
@@ -66,12 +61,17 @@ export function resetStoreValues() {
 export async function handleAuthorization() {
   await authService
     .handleLoginRedirect()
-    .then(() => {
+    .then(async () => {
       window.history.replaceState(
         {},
         window.document.title,
         window.location.origin + window.location.pathname
       )
+      const meStore = useMeStore()
+      const authorizationStore = useAuthorizationStore()
+      if (!meStore.me.role) {
+        await authorizationStore.postLoginOperations()
+      }
     })
     .catch((error) => {
       console.log(error)
@@ -79,21 +79,17 @@ export async function handleAuthorization() {
 }
 
 export async function handleLogout() {
-  const { isOICDAuthAvailable } = useOICDAuthorization()
-  if (isOICDAuthAvailable()) {
+  const { isOIDCAuthAvailable } = useOIDCAuthorization()
+  if (isOIDCAuthAvailable()) {
     authService
       .handleLogoutRedirect()
-      .then(async () => {
+      .then(() => {
         window.history.replaceState(
           {},
           window.document.title,
           window.location.origin + window.location.pathname
         )
-        const meStore = useMeStore()
-        const authorizationStore = useAuthorizationStore()
-        if (!meStore.me.role) {
-          await authorizationStore.postLoginOperations()
-        }
+        localStorage.removeItem('me')
       })
       .catch((error) => {
         console.log(error)

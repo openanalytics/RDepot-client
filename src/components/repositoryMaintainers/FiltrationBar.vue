@@ -21,70 +21,63 @@
 -->
 
 <template>
-  <v-container
-    class="v-expansion mx-8"
+  <div
+    class="v-expansion d-flex py-3 ga-3 justify-space-between"
     style="padding-left: 0; padding-right: 0"
   >
-    <v-row>
-      <v-col sm="5">
-        <validated-input-field
-          @update:modelValue="setFiltration"
-          density="compact"
-          hide-details
-          name="search"
-          as="v-text-field"
-          :label="
-            $t(
-              'repositories.filtration.maintainers.searchPlaceholder'
-            )
-          "
-          color="oablue"
-          id="filtration-search"
-        />
-      </v-col>
-      <v-col sm="2">
-        <validated-input-field
-          @update:modelValue="setFiltration"
-          density="compact"
-          hide-details
-          id="filtration-technology"
-          :items="technologies"
-          name="technologies"
-          multiple
-          clearable
-          as="v-select"
-          :label="$t('filtration.technologies')"
-        ></validated-input-field>
-      </v-col>
-      <v-col sm="1">
-        <validated-input-field
-          @change="setFiltration"
-          density="compact"
-          hide-details
-          chips
-          closable-chips
-          id="filtration-deleted"
-          name="deleted"
-          :label="$t('packages.filtration.deleted')"
-          as="v-switch"
-          color="oablue"
-        ></validated-input-field>
-      </v-col>
-      <v-spacer />
-      <v-col sm="1" class="reset-button">
-        <ResetButton
-          v-if="
-            !repositoryMaintainerStore.isDefaultFiltration
-          "
-          @resetValues="resetValues"
-        />
-      </v-col>
-    </v-row>
-  </v-container>
+    <validated-input-field
+      id="filtration-search"
+      density="compact"
+      hide-details
+      name="search"
+      as="v-text-field"
+      :label="
+        $t(
+          'repositories.filtration.maintainers.searchPlaceholder'
+        )
+      "
+      color="oablue"
+      @update:model-value="setFiltration"
+    />
+
+    <validated-input-field
+      id="filtration-technology"
+      density="compact"
+      hide-details
+      :items="technologies"
+      name="technologies"
+      multiple
+      clearable
+      as="v-select"
+      :label="$t('filtration.technologies')"
+      @update:model-value="setFiltration"
+    ></validated-input-field>
+
+    <validated-input-field
+      id="filtration-deleted"
+      density="compact"
+      hide-details
+      chips
+      closable-chips
+      name="deleted"
+      :label="$t('packages.filtration.deleted')"
+      as="v-switch"
+      color="oablue"
+      class="flex-grow-0"
+      @change="setFiltration"
+    ></validated-input-field>
+
+    <v-spacer />
+
+    <ResetButton
+      v-if="!repositoryMaintainerStore.isDefaultFiltration"
+      @reset-values="resetValues"
+    />
+  </div>
 </template>
 
 <script setup lang="ts">
-import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
+import ValidatedInputField from '@/components/common/fields/ValidatedInputField.vue'
 import {
   defaultValues,
   RepositoryMaintainersFiltration
@@ -93,7 +86,7 @@ import { useEnumFiltration } from '@/composable/filtration/enumFiltration'
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
-import ResetButton from '@/components/common/ResetButton.vue'
+import ResetButton from '@/components/common/buttons/ResetButton.vue'
 
 const { technologies } = useEnumFiltration()
 
@@ -120,10 +113,3 @@ function resetValues() {
   )
 }
 </script>
-
-<style lang="scss">
-.reset-button {
-  display: grid;
-  align-content: center;
-}
-</style>

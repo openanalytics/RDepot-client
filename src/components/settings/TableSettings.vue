@@ -41,7 +41,7 @@
             v-model="currentSettings.language"
             :label="$t('settings.lang')"
             :items="languages"
-            @update:modelValue="changedData"
+            @update:model-value="changedData"
           ></v-select>
         </v-col>
         <v-col cols="2">
@@ -50,7 +50,7 @@
             v-model="currentSettings.theme"
             :label="$t('settings.theme')"
             :items="themes"
-            @update:modelValue="changedData"
+            @update:model-value="changedData"
           ></v-select>
         </v-col>
       </v-row>

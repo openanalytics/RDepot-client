@@ -21,10 +21,14 @@
 -->
 
 <template>
-  <template v-for="{ translation, value } in details">
+  <template
+    v-for="({ translation, value }, idx) in details"
+    :key="idx"
+  >
     <Property
       :title="$t(translation)"
       :value="value || 'not provided'"
+      :collapsible="false"
     />
   </template>
 </template>
@@ -33,7 +37,7 @@
 import { EntityModelRPackageDto } from '@/openapi'
 import { computed } from 'vue'
 import { usePackageDetailsStore } from '@/store/package_details'
-import Property from '@/components/packages/packageDetails/Property.vue'
+import Property from '@/components/packages/packageDetails/PackageProperty.vue'
 
 const packageDetailsStore = usePackageDetailsStore()
 
@@ -42,22 +46,24 @@ const packageBag = computed<EntityModelRPackageDto>(
     packageDetailsStore.packageBag as EntityModelRPackageDto
 )
 
-const details = [
-  {
-    translation: 'packages.version',
-    value: packageBag.value.version
-  },
-  {
-    translation: 'packages.systemRequirements',
-    value: packageBag.value.systemRequirements
-  },
-  {
-    translation: 'packages.license',
-    value: packageBag.value.license
-  },
-  {
-    translation: 'packages.url',
-    value: packageBag.value.url
-  }
-]
+const details = computed(() => {
+  return [
+    {
+      translation: 'packages.version',
+      value: packageBag.value.version
+    },
+    {
+      translation: 'packages.systemRequirements',
+      value: packageBag.value.systemRequirements
+    },
+    {
+      translation: 'packages.license',
+      value: packageBag.value.license
+    },
+    {
+      translation: 'packages.url',
+      value: packageBag.value.url
+    }
+  ]
+})
 </script>

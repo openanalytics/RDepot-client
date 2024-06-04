@@ -40,16 +40,16 @@ import {
 import { defineStore } from 'pinia'
 import { authService } from '@/plugins/oauth'
 import router from '@/plugins/router'
-import { useOICDAuthorization } from '@/composable/auth/oicdAuthorization'
+import { useOIDCAuthorization } from '@/composable/auth/oidcAuthorization'
 import { useConfigStore } from './config'
 import { useMeStore } from './me'
+import { RouteRecordName } from 'vue-router'
 
 interface State {
   userToken: string
   userLogin: string
   userId: number
   loginType: LoginType
-  sidebar: boolean
   ability?: Ability
 }
 
@@ -61,8 +61,7 @@ export const useAuthorizationStore = defineStore(
         userToken: '',
         userLogin: '',
         userId: 8,
-        loginType: LoginType.Enum.OICD,
-        sidebar: false,
+        loginType: LoginType.Enum.OIDC,
         ability: undefined
       }
     },
@@ -76,7 +75,7 @@ export const useAuthorizationStore = defineStore(
       },
 
       async login() {
-        this.chooseLoginType(LoginType.Enum.OICD)
+        this.chooseLoginType(LoginType.Enum.OIDC)
         authService.login()
       },
 
@@ -91,7 +90,7 @@ export const useAuthorizationStore = defineStore(
       },
 
       async logout() {
-        if (this.loginType == LoginType.Enum.OICD) {
+        if (this.loginType == LoginType.Enum.OIDC) {
           authService.logout()
         }
         const { logout } = useSimpleAuthorization()
@@ -101,17 +100,18 @@ export const useAuthorizationStore = defineStore(
         const meStore = useMeStore()
         this.ability = undefined
         meStore.userRole = undefined
+        meStore.me = {}
         localStorage.removeItem('me')
       },
 
       async isUserLoggedIn(): Promise<boolean> {
         this.getTokenFromLocalStorage()
-        const { isUserLoggedInOICD } =
-          useOICDAuthorization()
+        const { isUserLoggedInOIDC } =
+          useOIDCAuthorization()
         const { isSimpleAuthAvailable } =
           useSimpleAuthorization()
         return (
-          (await isUserLoggedInOICD()) ||
+          (await isUserLoggedInOIDC()) ||
           (isSimpleAuthAvailable() && this.userToken != '')
         )
       },
@@ -166,6 +166,23 @@ export const useAuthorizationStore = defineStore(
         )
       },
 
+      checkUserAbility(pathName: RouteRecordName) {
+        switch (pathName) {
+          case 'events':
+            return this.can('GET', 'events')
+          case 'addSubmission':
+            return this.can('POST', 'submissions')
+          case 'packageMaintainers':
+            return this.can('GET', 'packageMaintainers')
+          case 'repositoryMaintainers':
+            return this.can('GET', 'repositoryMaintainers')
+          case 'users':
+            return this.can('GET', 'users')
+          default:
+            return true
+        }
+      },
+
       can(action: Action, subject: Subject): boolean {
         const meStore = useMeStore()
         if (
@@ -179,10 +196,6 @@ export const useAuthorizationStore = defineStore(
         return this.ability
           ? this.ability?.can(action, subject)
           : false
-      },
-
-      hideSidebar(value: boolean) {
-        this.sidebar = !value
       }
     }
   }

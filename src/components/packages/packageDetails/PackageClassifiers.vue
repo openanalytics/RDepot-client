@@ -28,22 +28,14 @@
     <div class="d-flex pb-5" style="flex-direction: column">
       <ul>
         <div
+          v-for="(key, idx) in Object.keys(categories)"
+          :key="idx"
           class="classifier-key"
-          v-for="key in Object.keys(categories)"
         >
-          <div class="title">{{ key }}</div>
-          <ul class="py-2">
-            <li
-              class="classifier-value"
-              v-for="value in categories[key]"
-            >
-              {{ value }}
-            </li>
-          </ul>
-          <v-divider
-            :thickness="3"
-            class="py-2"
-          ></v-divider>
+          <Classifier
+            :title="key"
+            :value="categories[key]"
+          />
         </div>
       </ul>
     </div>
@@ -54,6 +46,7 @@
 import { computed } from 'vue'
 import { EntityModelPythonPackageDto } from '@/openapi'
 import { usePackageDetailsStore } from '@/store/package_details'
+import Classifier from '@/components/packages/packageDetails/PythonClassifier.vue'
 
 const packageDetailsStore = usePackageDetailsStore()
 

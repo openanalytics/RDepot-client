@@ -23,101 +23,94 @@
 <template>
   <DatePicker
     v-model="showDatepicker"
-    :previousDate="fromDatePicker"
-    @updateDate="updateDate"
-    @closeModal="closeModal"
-    @resetDate="resetDate"
+    :previous-date="fromDatePicker"
+    :direction="changedDate"
+    :allowed-dates="allowedDates"
+    @update-date="updateDate"
+    @close-modal="closeModal"
+    @reset-date="resetDate"
   />
-  <v-container
-    class="v-expansion mx-8"
+  <div
+    class="v-expansion d-flex py-3 ga-3 justify-space-between"
     style="padding-left: 0; padding-right: 0"
   >
-    <v-row>
-      <v-col sm="2">
-        <validated-input-field
-          @update:modelValue="setFiltration"
-          density="compact"
-          hide-details
-          chips
-          closable-chips
-          id="filtration-technology"
-          :items="technologies"
-          name="technologies"
-          multiple
-          clearable
-          as="v-select"
-          :label="$t('filtration.technologies')"
-        ></validated-input-field>
-      </v-col>
-      <v-col sm="2">
-        <validated-input-field
-          @update:modelValue="setFiltration"
-          density="compact"
-          hide-details
-          chips
-          closable-chips
-          id="filtration-event-type"
-          :items="eventTypes"
-          name="eventType"
-          as="v-select"
-          clearable
-          multiple
-          :label="$t('events.filtration.eventType')"
-        ></validated-input-field>
-      </v-col>
-      <v-col sm="2">
-        <validated-input-field
-          @update:modelValue="setFiltration"
-          density="compact"
-          hide-details
-          chips
-          closable-chips
-          id="filtration-resource-type"
-          :items="resourceTypes"
-          name="resourceType"
-          multiple
-          clearable
-          as="v-select"
-          :label="$t('filtration.resourceType')"
-        ></validated-input-field>
-      </v-col>
-      <v-col sm="2">
-        <validated-input-field
-          @update:focused="selectFromDate"
-          density="compact"
-          hide-details
-          name="fromDate"
-          as="v-text-field"
-          :label="$t('submissions.filtration.fromDate')"
-          color="oablue"
-          id="filtration-fromDate"
-        />
-      </v-col>
-      <v-col sm="2">
-        <validated-input-field
-          @update:focused="selectToDate"
-          density="compact"
-          hide-details
-          name="toDate"
-          as="v-text-field"
-          :label="$t('submissions.filtration.toDate')"
-          color="oablue"
-          id="filtration-toDate"
-        />
-      </v-col>
-      <v-spacer />
-      <v-col sm="1" class="reset-button">
-        <ResetButton
-          v-if="!eventStore.isDefaultFiltration"
-          @resetValues="resetValues"
-        />
-      </v-col>
-    </v-row>
-  </v-container>
+    <validated-input-field
+      id="filtration-technology"
+      density="compact"
+      hide-details
+      chips
+      closable-chips
+      :items="technologies"
+      name="technologies"
+      multiple
+      clearable
+      as="v-select"
+      :label="$t('filtration.technologies')"
+      @update:model-value="setFiltration"
+    ></validated-input-field>
+
+    <validated-input-field
+      id="filtration-event-type"
+      density="compact"
+      hide-details
+      chips
+      closable-chips
+      :items="eventTypes"
+      name="eventType"
+      as="v-select"
+      clearable
+      multiple
+      :label="$t('events.filtration.eventType')"
+      @update:model-value="setFiltration"
+    ></validated-input-field>
+
+    <validated-input-field
+      id="filtration-resource-type"
+      density="compact"
+      hide-details
+      chips
+      closable-chips
+      :items="resourceTypes"
+      name="resourceType"
+      multiple
+      clearable
+      as="v-select"
+      :label="$t('filtration.resourceType')"
+      @update:model-value="setFiltration"
+    ></validated-input-field>
+
+    <validated-input-field
+      id="filtration-fromDate"
+      density="compact"
+      hide-details
+      name="fromDate"
+      as="v-text-field"
+      :label="$t('submissions.filtration.fromDate')"
+      color="oablue"
+      @update:focused="selectFromDate"
+    />
+
+    <validated-input-field
+      id="filtration-toDate"
+      density="compact"
+      hide-details
+      name="toDate"
+      as="v-text-field"
+      :label="$t('submissions.filtration.toDate')"
+      color="oablue"
+      @update:focused="selectToDate"
+    />
+
+    <v-spacer />
+    <ResetButton
+      v-if="!eventStore.isDefaultFiltration"
+      @reset-values="resetValues"
+    />
+  </div>
 </template>
 
 <script setup lang="ts">
-import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
+import ValidatedInputField from '@/components/common/fields/ValidatedInputField.vue'
 import {
   defaultValues,
   EventsFiltration
@@ -126,9 +119,10 @@ import { useEnumFiltration } from '@/composable/filtration/enumFiltration'
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useEventsStore } from '@/store/events'
-import DatePicker from '@/components/common/DatePicker.vue'
+import DatePicker from '@/components/common/fields/DatePicker.vue'
 import { useDatePicker } from '@/composable/datePicker'
-import ResetButton from '@/components/common/ResetButton.vue'
+import ResetButton from '@/components/common/buttons/ResetButton.vue'
+import { computed } from 'vue'
 
 const { technologies, resourceTypes, eventTypes } =
   useEnumFiltration()
@@ -146,6 +140,17 @@ const eventStore = useEventsStore()
 const { setValues, values, setFieldValue } = useForm({
   validationSchema: toTypedSchema(EventsFiltration),
   initialValues: eventStore.filtration
+})
+
+const allowedDates = computed(() => {
+  switch (changedDate.value) {
+    case 'from':
+      return values.toDate
+    case 'to':
+      return values.fromDate
+    default:
+  }
+  return undefined
 })
 
 function setFiltration() {
@@ -191,10 +196,3 @@ function resetDate() {
   setFiltration()
 }
 </script>
-
-<style lang="scss">
-.reset-button {
-  display: grid;
-  align-content: center;
-}
-</style>

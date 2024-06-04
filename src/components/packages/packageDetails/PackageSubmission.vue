@@ -27,6 +27,7 @@
       :value="packageBag.author"
       split
       bold-divider
+      collapsible
     />
   </div>
   <div class="text mt-3">
@@ -36,14 +37,17 @@
     <Property
       :title="$t('packages.submitter')"
       :value="submission?.submitter?.name"
+      collapsible
     />
     <Property
       :title="$t('packages.approver')"
       :value="submission?.approver?.name"
+      collapsible
     />
     <Property
       :title="$t('packages.maintainer')"
       :value="packageBag.user?.name"
+      collapsible
     />
   </div>
 </template>
@@ -52,7 +56,7 @@
 import { EntityModelPackageDto } from '@/openapi'
 import { computed, ref } from 'vue'
 import { usePackageDetailsStore } from '@/store/package_details'
-import Property from './Property.vue'
+import Property from './PackageProperty.vue'
 
 const packageDetailsStore = usePackageDetailsStore()
 const submission = ref(packageDetailsStore.submission)

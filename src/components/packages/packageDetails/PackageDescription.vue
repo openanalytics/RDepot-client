@@ -31,16 +31,18 @@
     ></MarkdownDescription>
     <div
       v-else
-      class="text my-5"
       v-dompurify-html="RDescription"
+      class="text my-5"
     ></div>
   </div>
-  <div class="center" v-if="packageBagShort">
+  <div v-if="packageBagShort" class="center">
     <v-divider :thickness="3"></v-divider>
     <v-btn
       ref="button"
       color="oablue"
-      class="button mt-3"
+      size="x-small"
+      variant="text"
+      class="button mt-3 ml-3 my-3"
       @click="goToDetailsPage(packageBagShort || {})"
     >
       {{ $t('common.details') }}</v-btn
@@ -56,7 +58,7 @@ import {
 import { computed } from 'vue'
 import { usePackageDetailsStore } from '@/store/package_details'
 import { Technologies } from '@/enum/Technologies'
-import MarkdownDescription from '@/components/common/MarkdownDescription.vue'
+import MarkdownDescription from '@/components/common/markdown/MarkdownDescription.vue'
 import router from '@/plugins/router'
 
 var props = defineProps<{
@@ -102,6 +104,7 @@ function goToDetailsPage({
   max-height: 250px;
   overflow: hidden;
   mask-size: auto 250px;
+  padding: 1rem;
   -webkit-mask-image: -webkit-gradient(
     linear,
     left 90%,

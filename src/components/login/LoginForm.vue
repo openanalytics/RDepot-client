@@ -22,10 +22,10 @@
 
 <template>
   <SimpleLogin />
-  <OICDForm />
+  <OIDCForm />
 </template>
 
 <script setup lang="ts">
 import SimpleLogin from '@/components/login/SimpleLogin.vue'
-import OICDForm from '@/components/login/OICDForm.vue'
+import OIDCForm from '@/components/login/OIDCForm.vue'
 </script>

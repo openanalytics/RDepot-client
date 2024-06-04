@@ -36,7 +36,8 @@ import {
   fetchRepositoryMaintainersServices,
   updateRepositoryMaintainer,
   createRepositoryMaintainer,
-  fetchFullMaintainersList
+  fetchFullMaintainersList,
+  fetch
 } from '@/services/repository_maintainers_services'
 import {
   fetchRepositoriesServices,
@@ -45,6 +46,7 @@ import {
 import { useUtilities } from '@/composable/utilities'
 import { repositoryMaintainersFiltrationLabels } from '@/maps/Filtration'
 import { usePagination } from '@/store/pagination'
+import { DataTableOptions } from '@/models/DataTableOptions'
 
 const { deepCopy } = useUtilities()
 
@@ -53,6 +55,8 @@ interface State {
   filtration: RepositoryMaintainersFiltration
   repositories: EntityModelRepositoryDto[]
   chosenMaintainer: EntityModelPackageMaintainerDto
+  loading: boolean
+  totalNumber: number
 }
 
 export const useRepositoryMaintainersStore = defineStore(
@@ -65,7 +69,9 @@ export const useRepositoryMaintainersStore = defineStore(
           RepositoryMaintainersFiltration
         ),
         repositories: [],
-        chosenMaintainer: {}
+        chosenMaintainer: {},
+        loading: false,
+        totalNumber: 0
       }
     },
     getters: {
@@ -79,6 +85,22 @@ export const useRepositoryMaintainersStore = defineStore(
       }
     },
     actions: {
+      async fetchMaintainersPage(
+        options: DataTableOptions
+      ) {
+        this.loading = true
+        const [maintainers, pageData] = await fetch(
+          this.filtration,
+          options.page - 1,
+          options.itemsPerPage,
+          options.sortBy[0].key +
+            ',' +
+            options.sortBy[0].order
+        )
+        this.loading = false
+        this.totalNumber = pageData.totalNumber
+        this.maintainers = maintainers
+      },
       async fetchMaintainers() {
         const pagination = usePagination()
         const [maintainers, pageData] =

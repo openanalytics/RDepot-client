@@ -43,6 +43,34 @@ type ValidatedPackageMaintainer = Promise<
   validatedData<EntityModelPackageMaintainerDto>
 >
 
+export async function fetch(
+  filtration: PackageMaintainersFiltration,
+  page?: number,
+  pageSize?: number,
+  sort?: string,
+  showProgress = true
+): ValidatedPackageMaintainers {
+  if (!isAuthorized('GET', 'submissions')) {
+    return new Promise(() => validateRequest([]))
+  }
+  return openApiRequest<EntityModelPackageMaintainerDto[]>(
+    ApiV2PackageMaintainerControllerApiFactory()
+      .getAllPackageMaintainers,
+    [
+      page,
+      pageSize,
+      sort,
+      filtration?.deleted,
+      filtration?.technologies,
+      filtration?.repository,
+      filtration?.search
+    ],
+    showProgress
+  ).catch(() => {
+    return validateRequest([])
+  })
+}
+
 export async function fetchPackageMaintainersService(
   filtration?: PackageMaintainersFiltration,
   page?: number,

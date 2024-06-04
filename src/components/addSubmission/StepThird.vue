@@ -36,11 +36,11 @@
             {{ $t('columns.package.name') }}
           </template>
           <template
-            #append
             v-if="
               submissionsStore.repository?.technology !=
               'Python'
             "
+            #append
           >
             {{ $t('addSubmission.generateManual') }}
           </template>
@@ -49,7 +49,7 @@
           v-for="(promise, i) in submissionsStore.promises"
           :key="i"
           :promise="promise"
-          :generateManual="
+          :generate-manual="
             submissionsStore.getGenerateManualForPackage(
               promise.packageBag
             )
@@ -63,8 +63,8 @@
   </v-card>
   <div class="d-flex justify-center">
     <v-tooltip
-      location="center"
       v-if="!submissionsStore.resolved"
+      location="center"
     >
       <template #activator="{ props }">
         <div id="tooltip-activator" v-bind="props">
@@ -86,7 +86,7 @@
       v-else
       id="back-button"
       color="oablue"
-      @click="$emit('next', 1)"
+      @click="emits('next', 1)"
     >
       {{ $t('submissions.addAnotherSubmission') }}
     </v-btn>
@@ -97,6 +97,8 @@
 import { useSubmissionStore } from '@/store/submission'
 import { computed } from 'vue'
 import UploadSummary from '@/components/addSubmission/UploadSummary.vue'
+
+const emits = defineEmits(['next'])
 
 const submissionsStore = useSubmissionStore()
 const chosenRepository = computed(() => {

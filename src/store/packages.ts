@@ -39,13 +39,15 @@ import {
   updateRPackage,
   deletePythonPackage,
   deleteRPackage,
-  fetchFullPackagesList
+  fetchFullPackagesList,
+  fetch
 } from '@/services/package_services'
 import { useUtilities } from '@/composable/utilities'
 import { packagesFiltrationLabels } from '@/maps/Filtration'
 import { fetchSubmission } from '@/services/submission_services'
 import { usePagination } from './pagination'
 import { Technologies } from '@/enum/Technologies'
+import { DataTableOptions } from '@/models/DataTableOptions'
 
 interface State {
   packages: EntityModelPackageDto[]
@@ -54,6 +56,7 @@ interface State {
   filtration: PackagesFiltration
   chosenPackage?: EntityModelPackageDto
   next?: boolean
+  loading: boolean
 }
 
 const { deepCopy } = useUtilities()
@@ -68,7 +71,8 @@ export const usePackagesStore = defineStore(
         submission: {},
         filtration: defaultValues(PackagesFiltration),
         chosenPackage: undefined,
-        next: false
+        next: false,
+        loading: false
       }
     },
     getters: {
@@ -80,17 +84,22 @@ export const usePackagesStore = defineStore(
       }
     },
     actions: {
-      async fetchPageOfPackages(
-        page: number,
-        pageSize = 8
-      ) {
-        const pageData = await this.fetchData(
-          page,
-          pageSize,
-          defaultValues(PackagesFiltration),
-          false
-        )
-        return pageData
+      async fetchPackagesPage(options: DataTableOptions) {
+        if (options.sortBy.length == 0) {
+          options.sortBy = [{ key: 'name', order: 'asc' }]
+        }
+        this.loading = true
+        fetch(
+          this.filtration,
+          options.page - 1,
+          options.itemsPerPage,
+          options.sortBy[0].key +
+            ',' +
+            options.sortBy[0].order
+        ).then((packages) => {
+          this.packages = packages[0]
+          this.loading = false
+        })
       },
       async fetchPackages(filtration?: PackagesFiltration) {
         const pagination = usePagination()
@@ -103,13 +112,13 @@ export const usePackagesStore = defineStore(
         pagination.totalNumber = pageData.totalNumber
       },
       async fetchPackagesList(page: number, pageSize = 8) {
-        const [repositories, pageData] =
+        const [packages, pageData] =
           await fetchFullPackagesList(
             page,
             pageSize,
             this.filtration
           )
-        this.packages = repositories
+        this.packages = packages
         return pageData
       },
       async fetchData(
@@ -118,7 +127,6 @@ export const usePackagesStore = defineStore(
         filtration: PackagesFiltration,
         showProgress = true
       ) {
-        this.packages = []
         const [packages, pageData] =
           await fetchPackagesServices(
             filtration,
@@ -149,14 +157,6 @@ export const usePackagesStore = defineStore(
           await fetchPackageServices(
             id,
             Technologies.Enum.R
-          )
-        )[0]
-      },
-      async fetchPythonPackage(id: number) {
-        this.package = (
-          await fetchPackageServices(
-            id,
-            Technologies.Enum.Python
           )
         )[0]
       },

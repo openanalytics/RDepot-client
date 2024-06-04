@@ -21,14 +21,12 @@
 -->
 
 <template>
-  <Overlay v-on:action="performAction()">
-    <template v-slot:props="{ closeModal }"> </template>
-  </Overlay>
+  <ModalOverlay @action="performAction()"> </ModalOverlay>
 </template>
 
 <script setup lang="ts">
 import { useCommonStore } from '@/store/common'
-import Overlay from '@/components/common/Overlay.vue'
+import ModalOverlay from '@/components/common/overlay/ModalOverlay.vue'
 import { usePackagesStore } from '@/store/packages'
 
 const packagesStore = usePackagesStore()

@@ -34,6 +34,7 @@ import {
   fetchAllUndeletedRepositoriesServices
 } from '@/services'
 import {
+  fetch,
   fetchFullRepositoriesList,
   updateRepository
 } from '@/services/repository_services'
@@ -41,6 +42,7 @@ import { createRepository } from '@/services/repository_services'
 import { useUtilities } from '@/composable/utilities'
 import { repositoriesFiltrationLabels } from '@/maps/Filtration'
 import { usePagination } from '@/store/pagination'
+import { DataTableOptions } from '@/models/DataTableOptions'
 
 const { deepCopy } = useUtilities()
 
@@ -48,6 +50,8 @@ interface State {
   repositories: EntityModelRepositoryDto[]
   filtration: RepositoriesFiltration
   chosenRepository: EntityModelRRepositoryDto
+  loading: boolean
+  totalNumber: number
 }
 
 export const useRepositoryStore = defineStore(
@@ -57,7 +61,9 @@ export const useRepositoryStore = defineStore(
       return {
         repositories: [],
         filtration: defaultValues(RepositoriesFiltration),
-        chosenRepository: {}
+        chosenRepository: {},
+        loading: false,
+        totalNumber: 0
       }
     },
     getters: {
@@ -71,17 +77,21 @@ export const useRepositoryStore = defineStore(
       }
     },
     actions: {
-      async fetchPageOfRepositories(
-        page: number,
-        pageSize = 8
+      async fetchRepositoriesPage(
+        options: DataTableOptions
       ) {
-        const pageData = await this.fetchData(
-          page,
-          pageSize,
-          defaultValues(RepositoriesFiltration),
-          false
+        this.loading = true
+        const [repositories, pageData] = await fetch(
+          this.filtration,
+          options.page - 1,
+          options.itemsPerPage,
+          options.sortBy[0].key +
+            ',' +
+            options.sortBy[0].order
         )
-        return pageData
+        this.totalNumber = pageData.totalNumber
+        this.repositories = repositories
+        this.loading = false
       },
       async fetchRepositoriesList(
         page: number,
@@ -182,7 +192,7 @@ export const useRepositoryStore = defineStore(
       },
       async setFiltration(payload: RepositoriesFiltration) {
         const pagination = usePagination()
-        pagination.resetPage()
+        pagination.page = 1
         if (
           RepositoriesFiltration.safeParse(payload).success
         ) {
@@ -200,7 +210,7 @@ export const useRepositoryStore = defineStore(
       },
       clearFiltration() {
         const pagination = usePagination()
-        pagination.resetPage()
+        pagination.page = 1
         this.filtration = defaultValues(
           RepositoriesFiltration
         )

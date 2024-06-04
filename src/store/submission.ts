@@ -31,6 +31,7 @@ import {
 } from '@/models/Filtration'
 import {
   addSubmission,
+  fetch,
   fetchSubmissions,
   updateSubmission
 } from '@/services/submission_services'
@@ -41,6 +42,7 @@ import { usePagination } from '@/store/pagination'
 import { useToast } from '@/composable/toasts'
 import { i18n } from '@/plugins/i18n'
 import { useMeStore } from './me'
+import { DataTableOptions } from '@/models/DataTableOptions'
 
 export type PackagePromise = {
   promise: Promise<validatedData<EntityModelSubmissionDto>>
@@ -61,6 +63,8 @@ interface State {
   filtration: SubmissionsFiltration
   resolved: boolean
   stepperKey: number
+  loading: boolean
+  totalNumber: number
 }
 
 const { deepCopy } = useUtilities()
@@ -79,7 +83,9 @@ export const useSubmissionStore = defineStore(
         repository: undefined,
         filtration: defaultValues(SubmissionsFiltration),
         resolved: false,
-        stepperKey: 0
+        stepperKey: 0,
+        loading: false,
+        totalNumber: 0
       }
     },
     getters: {
@@ -93,19 +99,21 @@ export const useSubmissionStore = defineStore(
       }
     },
     actions: {
-      async fetchPageOfSubmissions(
-        page: number,
-        pageSize = 8
+      async fetchSubmissionsPage(
+        options: DataTableOptions
       ) {
-        const meStore = useMeStore()
-        const pageData = await this.fetchData(
-          page,
-          pageSize,
-          defaultValues(SubmissionsFiltration),
-          meStore.me.id,
-          false
+        this.loading = true
+        const [submissions, pageData] = await fetch(
+          this.filtration,
+          options.page - 1,
+          options.itemsPerPage,
+          options.sortBy[0].key +
+            ',' +
+            options.sortBy[0].order
         )
-        return pageData
+        this.loading = false
+        this.totalNumber = pageData.totalNumber
+        this.submissions = submissions
       },
       async fetchSubmissions() {
         const pagination = usePagination()
@@ -258,8 +266,12 @@ export const useSubmissionStore = defineStore(
         this.promises.forEach(async (promise) => {
           await promise.promise
             .then((response) => {
+              console.log(promise.promise)
               promise.response = response
-              promise.state = 'success'
+              promise.state =
+                response[3] == 'SUCCESS'
+                  ? 'success'
+                  : 'warning'
             })
             .catch((err) => {
               promise.state = 'error'

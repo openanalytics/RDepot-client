@@ -21,154 +21,58 @@
 -->
 
 <template>
-  <v-card
-    class="eventCard elevation-2"
-    v-ripple
-    rounded
-    :style="{
-      borderLeft:
-        '10px solid ' + borderColor + ' !important'
-    }"
-  >
-    <v-card-title
-      style="padding: 0"
-      class="d-flex justify-space-between align-items-start"
+  <v-card v-ripple class="eventCard elevation-2" rounded>
+    <v-icon
+      style="
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        opacity: 0.4;
+        z-index: 100;
+      "
+      color="oablue"
+      size="60"
+      class="mb-1 mr-1"
+      >{{ getIcon(event?.resourceType) }}</v-icon
     >
-      <div class="title">
-        {{ resourceTypeTitle }} -
-        {{ $t('eventTypes.' + eventType) }}
-      </div>
-      <div class="date">
-        <div>
-          {{ time }}
-        </div>
-      </div>
-    </v-card-title>
-    <v-card-text class="eventCard">
-      <div class="by-user d-flex">
-        <span class="subtitle">
-          {{ $t('events.author') }}</span
-        >
-        <p class="value">
-          {{ login }} <br />
-          {{ email }}
-        </p>
-      </div>
-      <v-divider></v-divider>
-      <div class="desc d-flex">
-        <span class="subtitle">
-          {{ $t('events.description') }}</span
-        >
-        <EventBoxDescription
-          :event="event"
-          :eventType="eventType"
-          :resourceType="resourceType"
-        />
-      </div>
-    </v-card-text>
+    <EventBoxDescription
+      v-if="eventType && resourceType"
+      :event="event"
+      :event-type="eventType"
+      :resource-type="resourceType"
+    />
   </v-card>
 </template>
 
 <script setup lang="ts">
 import { EntityModelNewsfeedEventDto } from '@/openapi'
 import { computed } from 'vue'
-import { useDates } from '@/composable/date'
 import EventBoxDescription from '@/components/events/EventBoxDescription.vue'
-import { useI18n } from 'vue-i18n'
+import { useIcons } from '@/composable/icons'
 
-const props = defineProps({
-  event: Object as () => EntityModelNewsfeedEventDto
-})
-
-const { padTo2Digits } = useDates()
-
-const time = computed(function () {
-  if (props.event?.time) {
-    let date: Date = new Date(props.event.time)
-    let time: String =
-      padTo2Digits(date.getHours()) +
-      ':' +
-      padTo2Digits(date.getMinutes())
-    return time
-  } else {
-    return null
+const componentProps = defineProps({
+  event: {
+    type: Object as () => EntityModelNewsfeedEventDto,
+    required: true
   }
 })
 
-const { t } = useI18n()
-
-const resourceTypeTitle = computed(() => {
-  switch (props.event?.resourceType) {
-    case 'PACKAGE':
-      return t('resourceType.package').toUpperCase()
-    case 'REPOSITORY':
-      return t('resourceType.repository').toUpperCase()
-    case 'USER':
-      return t('resourceType.user').toUpperCase()
-    case 'SUBMISSION':
-      return t('resourceType.submission').toUpperCase()
-    case 'ACCESS_TOKEN':
-      return t('resourceType.accessToken').toUpperCase()
-    case 'PACKAGE_MAINTAINER':
-      return t(
-        'resourceType.packageMaintainer'
-      ).toUpperCase()
-    case 'REPOSITORY_MAINTAINER':
-      return t(
-        'resourceType.repositoryMaintainer'
-      ).toUpperCase()
-    default:
-      return ''
-  }
-  const resourceTypes = {
-    REPOSITORY: 'repository',
-    USER: 'user',
-    SUBMISSION: 'submission',
-    ACCESS_TOKEN: 'accessToken',
-    PACKAGE_MAINTAINER: 'packageMaintainer',
-    REPOSITORY_MAINTAINER: 'repositoryMaintainer'
-  }
-})
+const { getIcon } = useIcons()
 
 const resourceType = computed(() => {
-  return props.event?.resourceType?.replaceAll('_', ' ')
+  return componentProps.event?.resourceType?.replaceAll(
+    '_',
+    ' '
+  )
 })
 
 const eventType = computed(() => {
-  return props.event?.eventType
-})
-
-const login = computed(() => {
-  return props.event?.user?.login
-})
-
-const email = computed(() => {
-  return props.event?.user?.email
-})
-
-const description = computed(() => {
-  return props.event?.changedProperties
-})
-
-const borderColor = computed(() => {
-  switch (props.event?.eventType) {
-    case 'create':
-    case 'upload':
-      return 'green'
-    case 'update':
-      return 'yellow'
-    case 'delete':
-      return 'red'
-    default:
-      return 'black'
-  }
+  return componentProps.event?.eventType
 })
 </script>
 
 <style lang="scss">
 .eventCard {
-  // max-width: 500px;
-
   .title {
     padding: 0.5em;
     margin-left: 10px;

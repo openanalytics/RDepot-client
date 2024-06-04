@@ -41,12 +41,14 @@
       "maintainer": "Opiekun",
       "name": "Pakiet",
       "repository": "Repozytorium",
+      "source": "Źródło",
       "state": "Status",
       "technology": "Technologia",
       "title": "Tytuł",
       "version": "Wersja"
     },
     "packageMaintainer": {
+      "deleted": "Usunięte",
       "name": "Opiekun",
       "packageName": "Pakiet",
       "repository": "Repozytorium",
@@ -57,15 +59,18 @@
     "publicationUri": "URI publikacji",
     "published": "Opublikowano",
     "repository": {
+      "deleted": "Usunięte",
       "name": "Repozytorium",
       "packagesNo": "# pakietu",
       "publicationUri": "URI publikacji",
       "published": "Opublikowano",
       "serverAddress": "Adres serwera",
+      "synchronizing": "Synchronizacja",
       "technology": "Technologia",
       "version": "Wersja"
     },
     "repositoryMaintainer": {
+      "deleted": "Usunięte",
       "name": "Opiekun",
       "repository": "Repozytorium",
       "technology": "Technologia"
@@ -78,8 +83,11 @@
       "accepted": "Status",
       "approver": "Zatwierdzający",
       "date": "Data",
+      "deleted": "Usunięte",
       "package": "Pakiet",
+      "packageVersion": "Wersja",
       "repository": "Repozytorium",
+      "status": "Status",
       "submitter": "Zgłaszający",
       "technology": "Technologia"
     },
@@ -97,7 +105,11 @@
     "username": "Nazwa użytkownika",
     "users": {
       "active": "Aktywny",
+      "createdOn": "Data utworzenia",
+      "deleted": "Usunięte",
       "email": "Email",
+      "expirationDate": "Data wygaśnięcia",
+      "lastLoggedIn": "Ostatnie logowanie",
       "name": "Użytkownik",
       "role": "Rola",
       "username": "Nazwa użytkownika"
@@ -150,6 +162,11 @@
     "uploadPackages": "Prześlij pakiety",
     "users": "Użytkownicy"
   },
+  "config": {
+    "deletingPackages": "Usuwanie pakietu nieaktywne z powodu konfiguracji",
+    "deletingRepositories": "Usuwanie repozytorium nieaktywne z powodu konfiguracji",
+    "replacingPackages": "Podmiana istniejącego pakietu nieaktywna z powodu konfiguracji"
+  },
   "dragzone": {
     "active": "Przeciągnij jeden lub więcej plików",
     "click": "aby wybrać je ręcznie",
@@ -163,7 +180,7 @@
     "422": "Nieudana walidacja",
     "500": "Serwer nie mógl zrealizować Twojego żądania",
     "message": {
-      "500": "Coś poszło nie tak. Skontaktuj się z administratorem RDepot."
+      "500": "Przepraszamy, coś poszło nie tak! \nPrzekaż tę wiadomość administratorowi RDepot.\n\n\nidentyfikator błędu:\n\n{traceId}\n\n\nczas wystąpienia:\n{znak czasu}"
     },
     "oauth": "Błąd autoryzacji",
     "oauthTitle": "Autoryzacja"
@@ -262,6 +279,7 @@
     "description": "Opis",
     "details": "Szczegóły",
     "documentation": "Dokumentacja",
+    "downloadButton": "Pobierz plik źródłowy",
     "downloads": "Do pobrania",
     "emailAuthors": "Emaile",
     "filtration": {
@@ -309,6 +327,7 @@
     "title": "Tytuł",
     "url": "URL",
     "version": "Wersja",
+    "versions": "Wersje pakietu",
     "vignette": {
       "download": "Pobierz",
       "open": "Otwórz w nowej karcie"
@@ -321,8 +340,10 @@
     "size": "Rozmiar strony"
   },
   "repositories": {
+    "addRepository": "Utwórz repozytorium",
     "creation": {
       "duplicateName": "Repozytorium o tej nazwie już istnieje",
+      "hash": "Metoda szyfrowania",
       "name": "Nazwa",
       "publicationUri": "URI publikacji",
       "publicationUriPlaceholder": "http://localhost/repo/{'{name}'}",
@@ -400,6 +421,9 @@
       "dark": "ciemny",
       "light": "jasny"
     },
+    "token": {
+      "copyWarning": "Upewnij się, że skopiowałeś token. Nie będzie on widoczny później."
+    },
     "tokenName": "Nazwa"
   },
   "states": {
@@ -421,11 +445,35 @@
     },
     "noPackageChosen": "Nie wybrano pakietów",
     "rejected": "odrzucone",
+    "replace": {
+      "duplication": "Pakiet o tej samej nazwie i wersji już istnieje w wybranym repozytorium. Proszę ponownie przejść przez proces przesyłania i kliknąć 'zamień', aby go nadpisać."
+    },
     "waitForAllRequestsToFulfill": "Zaczekaj na zakończenie wszystkich zgłoszeń",
     "waitingForAction": "oczekuje na akcję",
     "wrongExtension": "Wybierz pakiety o poprawnym rozszerzeniu (.tar.gz)"
   },
   "success": "Poprawnie wykonana operacja",
+  "updatedProperties": {
+    "accepted": "ZAAKCEPTOWANY",
+    "active": "aktywny",
+    "added": "dodany",
+    "approver_id": "identyfikator zatwierdzającego",
+    "cancelled": "ANULOWANY",
+    "false": "fałsz",
+    "last logged in": "ostatnie logowanie",
+    "maintainer": "opiekun",
+    "published": "opublikowany",
+    "rejected": "ODRZUCONY",
+    "source": "źródło",
+    "state": "status",
+    "submitted": "wysłany",
+    "synchronizing": "synchronizacja",
+    "title": "Zmiany",
+    "true": "prawda",
+    "unset": "nieustawiony",
+    "version": "wersja",
+    "waiting": "OCZEKUJE"
+  },
   "users": {
     "edit": {
       "overlay": "Edytuj rolę {user_login}",

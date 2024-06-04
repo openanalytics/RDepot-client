@@ -30,6 +30,7 @@ import { useBlob } from '@/composable/blob'
 import { useToast } from '@/composable/toasts'
 import { i18n } from '@/plugins/i18n'
 import { useMeStore } from '@/store/me'
+import { BackendError } from '@/models/errors/BackendError'
 
 export async function openApiRequest<T>(
   // eslint-disable-next-line @typescript-eslint/ban-types
@@ -38,7 +39,8 @@ export async function openApiRequest<T>(
   showProgress = true,
   blob = false,
   open = false,
-  fileName = ''
+  fileName = '',
+  ifToast = true
 ): Promise<validatedData<T>> {
   if (showProgress) {
     turnOnProgress()
@@ -53,10 +55,11 @@ export async function openApiRequest<T>(
           rejected(error)
         })
     } else {
-      return callback(
-        ...parameters,
-        await getHeaders()
-      ).then(resolved, rejected)
+      return callback(...parameters, await getHeaders())
+        .then((result: AxiosResponse<ResponseDtoObject>) =>
+          resolved(result, ifToast)
+        )
+        .catch((error: AxiosError) => rejected(error))
     }
   } else {
     return callback(await getHeaders()).then(
@@ -120,30 +123,38 @@ async function resolvedBlob(
 }
 
 async function resolved(
-  result: AxiosResponse<ResponseDtoObject>
+  result: AxiosResponse<ResponseDtoObject>,
+  ifToast = true
 ): Promise<validatedData<any>> {
   const common_store = useCommonStore()
   common_store.setProgressCircularActive(false)
-  const toasts = useToast()
-  toasts.notifyAPISuccess(result)
+  if (ifToast) {
+    const toasts = useToast()
+    toasts.notifyAPISuccess(result)
+  }
   const data = result.data.data?.content
     ? result.data.data?.content
     : result.data.data
   return validateRequest(
     data,
     result.data.data?.page,
-    result.data.data?.links
+    result.data.data?.links,
+    result.data.status
   )
 }
 
-async function rejected(result: AxiosError) {
+async function rejected(
+  result: AxiosError<BackendError | any>
+) {
   const common_store = useCommonStore()
   common_store.setProgressCircularActive(false)
   await errorsHandler(result)
   throw result
 }
 
-async function errorsHandler(error: AxiosError) {
+async function errorsHandler(
+  error: AxiosError<BackendError | any>
+) {
   const toasts = useToast()
   if (!error.response?.status) {
     toasts.error(i18n.t('errors.405'))
@@ -181,7 +192,9 @@ async function errorsHandler(error: AxiosError) {
       }
 
       case 500: {
-        toasts.error(i18n.t('errors.message.500'))
+        if (error.response?.data) {
+          toasts.error500(error)
+        }
         break
       }
     }
@@ -193,12 +206,18 @@ export interface Pagination {
   page: number
 }
 
-export type validatedData<T> = [T, Pagination, Array<Link>]
+export type validatedData<T> = [
+  T,
+  Pagination,
+  Array<Link>,
+  string
+]
 
 export function validateRequest<T>(
   content: T,
   paginationData?: PageMetadata,
-  links?: Array<Link>
+  links?: Array<Link>,
+  status?: string
 ): validatedData<T> {
   return [
     content,
@@ -206,6 +225,7 @@ export function validateRequest<T>(
       page: paginationData?.number || 0,
       totalNumber: paginationData?.totalElements || 0
     },
-    links || []
+    links || [],
+    status || 'undefined'
   ]
 }

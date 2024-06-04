@@ -21,16 +21,18 @@
  */
 
 import { EntityModelNewsfeedEventDto } from '@/openapi'
-import { Moment } from 'moment'
+import moment, { Moment } from 'moment'
 
 export function useDates() {
   function isYearAndMonthDate(date: string): boolean {
     return date.length == 7
   }
 
-  function getMonthAndYear(date: Moment): string {
-    return date.format('yyyy.MM')
+  function getMonthAndYear(date: string): string {
+    const newDate: Moment = moment(date)
+    return newDate.format('yyyy.MM')
   }
+
   function padTo2Digits(num: number) {
     return num.toString().padStart(2, '0')
   }
@@ -53,7 +55,23 @@ export function useDates() {
     return 'null'
   }
 
+  function getTime(
+    event: EntityModelNewsfeedEventDto | undefined
+  ): string {
+    if (event?.time) {
+      const date: Date = new Date(event.time)
+      const time: string =
+        padTo2Digits(date.getHours()) +
+        ':' +
+        padTo2Digits(date.getMinutes())
+      return time
+    } else {
+      return ''
+    }
+  }
+
   return {
+    getTime,
     isYearAndMonthDate,
     getMonthAndYear,
     getDate,

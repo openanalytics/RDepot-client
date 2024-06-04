@@ -6,10 +6,25 @@
   },
   "extends": [
     "eslint:recommended",
+    "plugin:vue/recommended",
     "plugin:vue/vue3-recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended"
   ],
+  "settings": {
+    "import/resolver": {
+      "alias": {
+        "map": [
+          ["@", "./src"] //default @ -> ./src alias in Vue, it exists even if vue.config.js is not present
+          /*
+           *... add your own webpack aliases if you have them in vue.config.js/other webpack config file
+           * if you forget to add them, eslint-plugin-import will not throw linting error in .vue imports that contain the webpack alias you forgot to add
+           */
+        ],
+        "extensions": [".vue", ".json", ".js"]
+      }
+    }
+  },
   "overrides": [
     {
       "files": ["*.json"],
@@ -53,6 +68,10 @@
       { "allowSingleLine": true }
     ],
     "no-undef": "off",
-    "no-empty": "warn"
+    "no-empty": "warn",
+    "vue/no-multiple-template-root": "off",
+    "vue/no-v-model-argument": "off",
+    "vue/no-v-for-template-key": "off",
+    "vue/no-v-for-template-key-on-child": "error"
   }
 }

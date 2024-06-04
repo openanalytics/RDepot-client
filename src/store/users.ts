@@ -26,7 +26,8 @@ import {
   fetchUsers,
   updateUser,
   fetchAllUsers,
-  fetchFullUsersList
+  fetchFullUsersList,
+  fetch
 } from '@/services/users_services'
 import { EntityModelUserDto, RoleDto } from '@/openapi'
 import { Role } from '@/enum/UserRoles'
@@ -35,14 +36,17 @@ import {
   defaultValues,
   UsersFiltration
 } from '@/models/Filtration'
+import { DataTableOptions } from '@/models/DataTableOptions'
 
 interface State {
   userToken: string
   userName: string
-  userList: EntityModelUserDto[]
+  users: EntityModelUserDto[]
   chosenUser: EntityModelUserDto
   filtration: UsersFiltration
   roles: RoleDto[]
+  loading: boolean
+  totalNumber: number
 }
 
 export const useUserStore = defineStore('userStore', {
@@ -50,10 +54,12 @@ export const useUserStore = defineStore('userStore', {
     return {
       userToken: '',
       userName: '',
-      userList: [],
+      users: [],
       chosenUser: {},
       filtration: defaultValues(UsersFiltration),
-      roles: []
+      roles: [],
+      loading: false,
+      totalNumber: 0
     }
   },
   getters: {
@@ -65,6 +71,20 @@ export const useUserStore = defineStore('userStore', {
     }
   },
   actions: {
+    async fetchUsersPage(options: DataTableOptions) {
+      this.loading = true
+      const [users, pageData] = await fetch(
+        this.filtration,
+        options.page - 1,
+        options.itemsPerPage,
+        options.sortBy[0].key +
+          ',' +
+          options.sortBy[0].order
+      )
+      this.totalNumber = pageData.totalNumber
+      this.loading = false
+      this.users = users
+    },
     async fetchUsers() {
       const pagination = usePagination()
       const [users, pageData] = await fetchUsers(
@@ -72,7 +92,7 @@ export const useUserStore = defineStore('userStore', {
         pagination.pageSize,
         this.filtration
       )
-      this.userList = users
+      this.users = users
       pagination.newPageWithoutRefresh(pageData.page)
       pagination.totalNumber = pageData.totalNumber
     },
@@ -83,7 +103,7 @@ export const useUserStore = defineStore('userStore', {
         pagination.pageSize,
         undefined
       )
-      this.userList = users
+      this.users = users
       pagination.newPageWithoutRefresh(pageData.page)
       pagination.totalNumber = pageData.totalNumber
     },
@@ -94,7 +114,7 @@ export const useUserStore = defineStore('userStore', {
           pageSize,
           this.filtration
         )
-      this.userList = repositories
+      this.users = repositories
       return pageData
     },
     async fetchRoles() {

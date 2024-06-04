@@ -21,23 +21,23 @@
 -->
 
 <template>
-  <Overlay v-on:action="overlayEvent()">
-    <template v-slot:props="{ closeModal }">
+  <ModalOverlay @action="overlayEvent()">
+    <template #props="{ closeModal }">
       <PackageMaintainerEdit
         v-if="commonStore.isEdit()"
-        @closeModal="closeModal"
+        @close-modal="closeModal"
       />
       <PackageMaintainerCreate
         v-if="commonStore.isCreate()"
-        @closeModal="closeModal"
+        @close-modal="closeModal"
       />
     </template>
-  </Overlay>
+  </ModalOverlay>
 </template>
 
 <script setup lang="ts">
 import { useCommonStore } from '@/store/common'
-import Overlay from '@/components/common/Overlay.vue'
+import ModalOverlay from '@/components/common/overlay/ModalOverlay.vue'
 import { usePackageMaintainersStore } from '@/store/package_maintainers'
 import PackageMaintainerEdit from '@/components/packageMaintainers/PackageMaintainerEdit.vue'
 import PackageMaintainerCreate from '@/components/packageMaintainers/PackageMaintainerCreate.vue'

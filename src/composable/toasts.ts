@@ -23,9 +23,11 @@
 import { toast, type ToastOptions } from 'vue3-toastify'
 import getEnv from '@/utils/env'
 import vuetify from '@/plugins/vuetify'
-import { AxiosResponse } from 'axios'
+import { AxiosError, AxiosResponse } from 'axios'
 import { ResponseDtoObject } from '@/openapi'
 import { i18n } from '@/plugins/i18n'
+import Toast500Error from '@/components/common/toasts/Toast500Error.vue'
+import { BackendError } from '@/models/errors/BackendError'
 
 export function useToast() {
   function success(message: string, icon?: string): void {
@@ -56,6 +58,15 @@ export function useToast() {
     toast.error(message, {
       icon: icon
     } as ToastOptions)
+  }
+
+  function error500(err: AxiosError<BackendError>): void {
+    toast.error(Toast500Error, {
+      icon: false,
+      closeOnClick: false,
+      autoClose: 10000,
+      data: err
+    })
   }
 
   function devToast(message: string, type: string): void {
@@ -113,6 +124,7 @@ export function useToast() {
     error,
     warning,
     devToast,
+    error500,
     getToastTheme,
     notifyAPISuccess
   }

@@ -21,7 +21,7 @@
 -->
 
 <template>
-  <form as="v-form" ref="form" lazy-validation>
+  <form ref="form" as="v-form" lazy-validation>
     <v-card class="pa-5" width="400">
       <v-card-title>
         {{ $t('maintainers.createform.title') }}
@@ -29,36 +29,37 @@
       <v-divider></v-divider>
       <v-card-text>
         <validated-input-field
+          id="edit-repository-maintainer-user"
           name="user"
           as="autocomplete"
-          id="edit-repository-maintainer-user"
           :label="$t('maintainers.editform.user')"
           filled
           dense
           clearable
           persistent-hint
           return-object
-          @loadItems="
+          :store-id="storeIdUser"
+          :template="true"
+          max-width="unset"
+          @load-items="
             loadUsersObjects('repositoryMaintainer')
           "
           @filtrate="filtrateUsers"
-          :storeId="storeIdUser"
-          :template="true"
         >
-          <template #item="{ item, props }">
+          <template #item="{ props }">
             <v-list-item
-              v-bind="props"
               v-intersect="
                 loadUsersObjects('repositoryMaintainer')
               "
+              v-bind="props"
             >
             </v-list-item>
           </template>
         </validated-input-field>
         <validated-input-field
+          id="edit-repository-maintainer-repository"
           name="repository"
           as="autocomplete"
-          id="edit-repository-maintainer-repository"
           :label="$t('maintainers.editform.repository')"
           filled
           dense
@@ -66,16 +67,17 @@
           persistent-hint
           return-object
           :template="true"
-          @loadItems="loadRepositoriesObjects"
+          :store-id="storeId"
+          max-width="unset"
+          @load-items="loadRepositoriesObjects"
           @filtrate="filtrateRepositoriesObjects"
-          :storeId="storeId"
         >
           <template #item="{ item, props }">
             <v-list-item
-              v-bind="props"
               v-intersect="loadRepositoriesObjects"
+              v-bind="props"
             >
-              <template v-slot:append>
+              <template #append>
                 <v-chip
                   text-color="white"
                   class="text-body-1"
@@ -98,17 +100,20 @@
         ></v-alert>
       </v-card-text>
       <v-divider></v-divider>
-      <card-actions :buttons="buttons" />
+      <card-actions
+        :buttons="buttons"
+        @clicked="handleCardActions"
+      />
     </v-card>
   </form>
 </template>
 
 <script setup lang="ts">
-import CardActions from '@/components/common/CardActions.vue'
+import CardActions from '@/components/common/overlay/CardActions.vue'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
 import { onBeforeMount } from 'vue'
-import { Form, useForm } from 'vee-validate'
-import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
+import { useForm } from 'vee-validate'
+import ValidatedInputField from '@/components/common/fields/ValidatedInputField.vue'
 import { toTypedSchema } from '@vee-validate/zod'
 import { repositoryMaintainerSchema } from '@/models/Schemas'
 import { z } from 'zod'
@@ -122,15 +127,30 @@ const { t } = useI18n()
 const buttons = [
   {
     id: 'cancel-button',
-    text: t('common.cancel'),
-    handler: changeDialogOptions
+    text: t('common.cancel')
   },
   {
     id: 'set-filtration',
-    text: t('common.save'),
-    handler: setMaintainer
+    text: t('common.save')
   }
 ]
+
+function handleCardActions(buttonId: string) {
+  switch (buttonId) {
+    case 'cancel-button': {
+      emit('closeModal')
+      break
+    }
+
+    case 'set-filtration': {
+      setMaintainer()
+      break
+    }
+    default: {
+      break
+    }
+  }
+}
 
 const {
   storeId,
@@ -190,8 +210,8 @@ function setMaintainer() {
     }
     maintainersStore
       .createMaintainer(maintainer)
-      .then((res) => {
-        changeDialogOptions()
+      .then(() => {
+        emit('closeModal')
       })
       .catch((err) => {
         if (
@@ -214,8 +234,4 @@ onBeforeMount(() => {
   resetPagination()
   resetPaginationUsers()
 })
-
-function changeDialogOptions() {
-  emit('closeModal')
-}
 </script>

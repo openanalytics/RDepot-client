@@ -25,12 +25,18 @@ import { defineStore } from 'pinia'
 
 interface State {
   declarativeMode: boolean
+  deletingPackages: boolean
+  deletingRepositories: boolean
+  replacingPackages: boolean
 }
 
 export const useConfigStore = defineStore('configStore', {
   state: (): State => {
     return {
-      declarativeMode: false
+      declarativeMode: false,
+      deletingPackages: true,
+      deletingRepositories: true,
+      replacingPackages: true
     }
   },
   actions: {
@@ -38,6 +44,12 @@ export const useConfigStore = defineStore('configStore', {
       const [config] = await fetchConfiguration()
       this.declarativeMode =
         config.declarativeModeEnabled || false
+      this.deletingPackages =
+        config.deletingPackagesEnabled || true
+      this.deletingRepositories =
+        config.deletingRepositoriesEnabled || true
+      this.replacingPackages =
+        config.replacingPackagesEnabled || true
     }
   }
 })

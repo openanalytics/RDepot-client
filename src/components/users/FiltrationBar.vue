@@ -21,64 +21,57 @@
 -->
 
 <template>
-  <v-container
-    class="v-expansion mx-8"
+  <div
+    class="v-expansion d-flex py-3 ga-3 justify-space-between"
     style="padding-left: 0; padding-right: 0"
   >
-    <v-row>
-      <v-col sm="4">
-        <validated-input-field
-          @update:modelValue="setFiltration"
-          density="compact"
-          hide-details
-          name="search"
-          as="v-text-field"
-          :label="$t('users.filtration.searchBox')"
-          color="oablue"
-          id="filtration-search"
-        />
-      </v-col>
-      <v-col sm="2">
-        <validated-input-field
-          @update:modelValue="setFiltration"
-          density="compact"
-          hide-details
-          chips
-          closable-chips
-          id="filtration-roles"
-          :items="roles"
-          name="roles"
-          multiple
-          clearable
-          as="v-select"
-          :label="$t('users.filtration.roles')"
-        ></validated-input-field>
-      </v-col>
-      <v-col sm="1">
-        <validated-input-field
-          @change="setFiltration"
-          density="compact"
-          hide-details
-          id="filtration-active"
-          name="active"
-          :label="$t('users.filtration.active')"
-          as="v-switch"
-          color="oablue"
-        ></validated-input-field>
-      </v-col>
-      <v-spacer />
-      <v-col sm="1" class="reset-button">
-        <ResetButton
-          v-if="!userStore.isDefaultFiltration"
-          @resetValues="resetValues"
-        />
-      </v-col>
-    </v-row>
-  </v-container>
+    <validated-input-field
+      id="filtration-search"
+      density="compact"
+      hide-details
+      name="search"
+      as="v-text-field"
+      :label="$t('users.filtration.searchBox')"
+      color="oablue"
+      @update:model-value="setFiltration"
+    />
+
+    <validated-input-field
+      id="filtration-roles"
+      density="compact"
+      hide-details
+      chips
+      closable-chips
+      :items="roles"
+      name="roles"
+      multiple
+      clearable
+      as="v-select"
+      :label="$t('users.filtration.roles')"
+      @update:model-value="setFiltration"
+    ></validated-input-field>
+
+    <validated-input-field
+      id="filtration-active"
+      density="compact"
+      hide-details
+      name="active"
+      :label="$t('users.filtration.active')"
+      as="v-switch"
+      color="oablue"
+      class="flex-grow-0"
+      @change="setFiltration"
+    ></validated-input-field>
+    <v-spacer />
+    <ResetButton
+      v-if="!userStore.isDefaultFiltration"
+      @reset-values="resetValues"
+    />
+  </div>
 </template>
 
 <script setup lang="ts">
-import ValidatedInputField from '@/components/common/ValidatedInputField.vue'
+import ValidatedInputField from '@/components/common/fields/ValidatedInputField.vue'
 import {
   defaultValues,
   UsersFiltration
@@ -87,7 +80,7 @@ import { useEnumFiltration } from '@/composable/filtration/enumFiltration'
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useUserStore } from '@/store/users'
-import ResetButton from '@/components/common/ResetButton.vue'
+import ResetButton from '@/components/common/buttons/ResetButton.vue'
 
 const { roles } = useEnumFiltration()
 
@@ -107,10 +100,3 @@ function resetValues() {
   userStore.setFiltration(values as UsersFiltration)
 }
 </script>
-
-<style lang="scss">
-.reset-button {
-  display: grid;
-  align-content: center;
-}
-</style>

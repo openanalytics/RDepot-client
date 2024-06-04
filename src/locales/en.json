@@ -41,12 +41,14 @@
       "maintainer": "Maintainer",
       "name": "Package",
       "repository": "Repository",
+      "source": "Source",
       "state": "Status",
       "technology": "Technology",
       "title": "Title",
       "version": "Version"
     },
     "packageMaintainer": {
+      "deleted": "Deleted",
       "name": "Maintainer",
       "packageName": "Package",
       "repository": "Repository",
@@ -57,15 +59,18 @@
     "publicationUri": "Publication URI",
     "published": "Published",
     "repository": {
+      "deleted": "Deleted",
       "name": "Repository",
       "packagesNo": "# packages",
       "publicationUri": "Publication URI",
       "published": "Published",
       "serverAddress": "Server address",
+      "synchronizing": "Synchronizing",
       "technology": "Technology",
       "version": "Version"
     },
     "repositoryMaintainer": {
+      "deleted": "Deleted",
       "name": "Maintainer",
       "repository": "Repository",
       "technology": "Technology"
@@ -78,8 +83,11 @@
       "accepted": "Status",
       "approver": "Approver",
       "date": "Date",
+      "deleted": "Deleted",
       "package": "Package",
+      "packageVersion": "Version",
       "repository": "Repository",
+      "status": "Status",
       "submitter": "Submitter",
       "technology": "Technology"
     },
@@ -97,7 +105,11 @@
     "username": "User name",
     "users": {
       "active": "Active",
+      "createdOn": "Created on",
+      "deleted": "Deleted",
       "email": "Email",
+      "expirationDate": "Expiration date",
+      "lastLoggedIn": "Last logged in",
       "name": "User",
       "role": "Role",
       "username": "Username"
@@ -150,6 +162,11 @@
     "uploadPackages": "Upload packages",
     "users": "Users"
   },
+  "config": {
+    "deletingPackages": "Package deletion is disabled due to the configuration",
+    "deletingRepositories": "Repository deletion is disabled due to the configuration",
+    "replacingPackages": "Existing package replacement is disabled due to the configuration"
+  },
   "dragzone": {
     "active": "Drag one or more files to this",
     "click": "to select them manually",
@@ -163,7 +180,7 @@
     "422": "Validation failed",
     "500": "Internal server error",
     "message": {
-      "500": "We are sorry, something went wrong! Please pass this message to an RDepot administrator."
+      "500": "We are sorry, something went wrong! Please pass this message to an RDepot administrator.\n\ntrace ID:\n{traceId}\n\ntimestamp:\n{timestamp}"
     },
     "oauth": "Error with oauth",
     "oauthTitle": "Authorization"
@@ -267,6 +284,7 @@
     "description": "Description",
     "details": "Details",
     "documentation": "Documentation",
+    "downloadButton": "Download Source File",
     "downloads": "Downloads",
     "emailAuthors": "Emails",
     "filtration": {
@@ -314,6 +332,7 @@
     "title": "Title",
     "url": "URL",
     "version": "Version",
+    "versions": "Package versions",
     "vignette": {
       "download": "Download",
       "open": "Open in new tab"
@@ -329,6 +348,7 @@
     "addRepository": "Create repository",
     "creation": {
       "duplicateName": "Repository name already exists",
+      "hash": "Hash method",
       "name": "Name",
       "publicationUri": "Publication URI",
       "publicationUriPlaceholder": "http://localhost/repo/{'{name}'}",
@@ -406,6 +426,9 @@
       "dark": "dark",
       "light": "light"
     },
+    "token": {
+      "copyWarning": "Make sure to copy the access token now. You won’t be able to see it again!"
+    },
     "tokenName": "Name"
   },
   "states": {
@@ -427,12 +450,35 @@
     },
     "noPackageChosen": "No packages choosen",
     "rejected": "rejected",
+    "replace": {
+      "duplication": "A package with the same name and version already exists in the selected repository. Please go through the upload process again and click 'replace' to overwrite it."
+    },
     "waitForAllRequestsToFulfill": "Wait until all submissions will end",
     "waitingForAction": "waiting for an action",
     "wrongExtension": "Choose packages that have correct extension (.tar.gz)"
   },
   "success": "Request processed successfully",
-  "tempo": "długie zdanie",
+  "updatedProperties": {
+    "accepted": "ACCEPTED",
+    "active": "active",
+    "added": "added",
+    "approver_id": "approver id",
+    "cancelled": "CANCELLED",
+    "false": "false",
+    "last logged in": "last logged in",
+    "maintainer": "maintainer",
+    "published": "published",
+    "rejected": "REJECTED",
+    "source": "source",
+    "state": "state",
+    "submitted": "submitted",
+    "synchronizing": "synchronizing",
+    "title": "Updated properties",
+    "true": "true",
+    "unset": "unset",
+    "version": "version",
+    "waiting": "WAITING"
+  },
   "users": {
     "edit": {
       "overlay": "Edit user role of {user_login}",

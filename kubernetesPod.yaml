@@ -32,7 +32,7 @@ spec:
           cpu: 2
       imagePullPolicy: Always
     - name: rdepot-client-build
-      image: registry.openanalytics.eu/proxy/library/node:lts-alpine
+      image: registry.openanalytics.eu/openanalytics/rdepot-client-build:latest
       resources:
         limits:
           memory: "4Gi"

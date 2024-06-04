@@ -22,10 +22,14 @@
 
 <template>
   <div class="d-flex" style="flex-direction: column">
-    <template v-for="{ translation, value } in details">
+    <template
+      v-for="({ translation, value }, idx) in details"
+      :key="idx"
+    >
       <Property
         :title="$t(translation)"
         :value="value || 'not provided'"
+        :collapsible="false"
       />
     </template>
   </div>
@@ -35,7 +39,7 @@
 import { EntityModelPythonPackageDto } from '@/openapi'
 import { computed } from 'vue'
 import { usePackageDetailsStore } from '@/store/package_details'
-import Property from '@/components/packages/packageDetails/Property.vue'
+import Property from '@/components/packages/packageDetails/PackageProperty.vue'
 
 const packageDetailsStore = usePackageDetailsStore()
 const packageBag = computed(

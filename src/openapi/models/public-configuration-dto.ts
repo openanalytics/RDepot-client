@@ -19,6 +19,7 @@
  * along with this program. If not, see <http://www.apache.org/licenses/>
  *
  */
+
 /* tslint:disable */
 /* eslint-disable */
 /**
@@ -45,4 +46,7 @@ export interface PublicConfigurationDto {
    * @memberof PublicConfigurationDto
    */
   declarativeModeEnabled?: boolean
+  deletingPackagesEnabled?: boolean
+  deletingRepositoriesEnabled?: boolean
+  replacingPackagesEnabled?: boolean
 }

@@ -13,6 +13,7 @@ pipeline {
     NS = 'openanalytics'
     REGISTRY = 'registry.openanalytics.eu'
     IMAGE = 'rdepot-client'
+    CACHE_IMAGE = 'rdepot-client-cache'
     DOCKER_BUILDKIT = '1'
     NO_COLOR = 'true'
   }
@@ -55,11 +56,41 @@ pipeline {
       steps {
         sh "npm run test:unit:once:junit"
         withChecks('UI Unit Tests') {
-          junit "reports/test-report.xml"
+          junit "reports/test-report-unit.xml"
         }
       }
     }
-    stage('Build & Publish') {
+    stage('Integration Test') {
+      steps {
+        withDockerRegistry([
+                  credentialsId: "oa-sa-jenkins-registry",
+                  url: "https://registry.openanalytics.eu"]){
+          sh """
+            npm run test:setup
+            npm run test:integration:once:junit
+            npm run test:cleanup
+            """
+          withChecks('UI Integration Tests') {
+            junit "reports/test-report-integration.xml"
+          }
+        }
+      }
+    }
+    stage('Build') {
+      steps {
+        container('kaniko') {
+          sh """
+          /kaniko/executor \
+                    -v info \
+                    --context ${env.WORKSPACE} \
+                    --cache=true \
+                    --cache-repo ${env.REGISTRY}/${env.NS}/${env.CACHE_IMAGE} \
+                    --no-push
+          """
+        }
+      }
+    }
+    stage('Publish') {
       when {
         anyOf {
           branch 'develop'
@@ -74,7 +105,7 @@ pipeline {
                     -v info \
                     --context ${env.WORKSPACE} \
                     --cache=true \
-                    --cache-repo ${env.REGISTRY}/${env.NS}/${env.IMAGE} \
+                    --cache-repo ${env.REGISTRY}/${env.NS}/${env.CACHE_IMAGE} \
                     --destination ${env.REGISTRY}/${env.NS}/${env.IMAGE}:${env.TAG}
           """
         }

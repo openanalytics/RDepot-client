@@ -19,12 +19,18 @@
  * along with this program. If not, see <http://www.apache.org/licenses/>
  *
  */
-import { EntityModelSubmissionDtoStateEnum } from '@/openapi'
+
+import {
+  EntityModelSubmissionDtoStateEnum,
+  SubmissionProjectionStateEnum
+} from '@/openapi'
 import { i18n } from '@/plugins/i18n'
 
 export function useSubmissionIcons() {
   function getStatusIcon(
-    state: EntityModelSubmissionDtoStateEnum
+    state?:
+      | EntityModelSubmissionDtoStateEnum
+      | SubmissionProjectionStateEnum
   ) {
     switch (state) {
       case EntityModelSubmissionDtoStateEnum.ACCEPTED:
@@ -35,11 +41,15 @@ export function useSubmissionIcons() {
         return 'mdi-close-circle-outline'
       case EntityModelSubmissionDtoStateEnum.CANCELLED:
         return 'mdi-close-circle-outline'
+      default:
+        return
     }
   }
 
   function getStatusColor(
-    state: EntityModelSubmissionDtoStateEnum
+    state?:
+      | EntityModelSubmissionDtoStateEnum
+      | SubmissionProjectionStateEnum
   ) {
     switch (state) {
       case EntityModelSubmissionDtoStateEnum.ACCEPTED:
@@ -50,6 +60,8 @@ export function useSubmissionIcons() {
         return 'error'
       case EntityModelSubmissionDtoStateEnum.CANCELLED:
         return 'error'
+      default:
+        return
     }
   }
 
