@@ -26,10 +26,7 @@ import { i18n } from '@/plugins/i18n'
 import { useAuthorizationStore } from '@/store/authorization'
 import { useMeStore } from '@/store/me'
 import * as helper from '@/plugins/router/helpers'
-import { Technologies } from '@/enum/Technologies'
 import getEnv from '@/utils/env'
-import { useUserStore } from '@/store/users'
-import { usePackagesStore } from '@/store/packages'
 
 const DEFAULT_TITLE = i18n.t('common.projectTitle')
 
@@ -75,29 +72,7 @@ router.beforeEach(async (to) => {
 })
 
 router.beforeResolve(async (to, from) => {
-  switch (to.name) {
-    case 'packageDetails':
-      await helper.loadPackageDetails(
-        Number(to.params.id),
-        to.params.technology as Technologies
-      )
-      break
-    case 'repositoryDetails':
-      await helper.loadRepositoryDetails(
-        String(to.params.name)
-      )
-      break
-    case 'users':
-      useUserStore().clearFiltration()
-      break
-    case 'packages':
-      if (from.name === 'packageMaintainers') {
-        usePackagesStore().clearFiltration()
-      }
-      break
-    default:
-      break
-  }
+  await helper.prepareStores(to, from)
   return true
 })
 

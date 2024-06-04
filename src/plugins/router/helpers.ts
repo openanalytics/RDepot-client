@@ -30,6 +30,7 @@ import { usePagination } from '@/store/pagination'
 import { useSortStore } from '@/store/sort'
 import { useCommonStore } from '@/store/common'
 import { useMeStore } from '@/store/me'
+import { useUserStore } from '@/store/users'
 
 export async function loadPackageDetails(
   id: number,
@@ -118,6 +119,30 @@ export function getDefaultFiltration(to: any) {
       sortStore.setDefaultFields('state', 'desc')
       sortStore.resetSort()
       commonStore.setActiveId('state')
+      break
+    default:
+      break
+  }
+}
+
+export async function prepareStores(to: any, from: any) {
+  switch (to.name) {
+    case 'packageDetails':
+      await loadPackageDetails(
+        Number(to.params.id),
+        to.params.technology as Technologies
+      )
+      break
+    case 'repositoryDetails':
+      await loadRepositoryDetails(String(to.params.name))
+      break
+    case 'users':
+      useUserStore().clearFiltration()
+      break
+    case 'packages':
+      if (from.name === 'packageMaintainers') {
+        usePackagesStore().clearFiltration()
+      }
       break
     default:
       break
