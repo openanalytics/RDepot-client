@@ -42,7 +42,6 @@ export const useConfigStore = defineStore('configStore', {
   actions: {
     async fetchConfiguration() {
       const [config] = await fetchConfiguration()
-      console.log(config)
       this.declarativeMode =
         config.declarativeModeEnabled || false
       this.deletingPackages =
