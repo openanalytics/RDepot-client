@@ -42,14 +42,15 @@ export const useConfigStore = defineStore('configStore', {
   actions: {
     async fetchConfiguration() {
       const [config] = await fetchConfiguration()
+      console.log(config)
       this.declarativeMode =
         config.declarativeModeEnabled || false
       this.deletingPackages =
-        config.deletingPackagesEnabled || true
+        config.deletingPackagesEnabled || false
       this.deletingRepositories =
-        config.deletingRepositoriesEnabled || true
+        config.deletingRepositoriesEnabled || false
       this.replacingPackages =
-        config.replacingPackagesEnabled || true
+        config.replacingPackagesEnabled || false
     }
   }
 })
