@@ -34,7 +34,7 @@
     @blur="handleBlur"
   >
     <template
-      v-if="template && as !== 'autocomplete'"
+      v-if="template && isas !== 'autocomplete'"
       #item="{ item, props }"
     >
       <slot name="item" :item="item" :props="props"> </slot>
