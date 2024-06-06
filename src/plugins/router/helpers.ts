@@ -31,6 +31,7 @@ import { useSortStore } from '@/store/sort'
 import { useCommonStore } from '@/store/common'
 import { useMeStore } from '@/store/me'
 import { useUserStore } from '@/store/users'
+import { useConfigStore } from '@/store/config'
 
 export async function loadPackageDetails(
   id: number,
@@ -163,6 +164,8 @@ export async function checkAuthorization(to: any) {
     return await authorizeInternalPath(to)
   } else if (to.name == 'login') {
     if (await authorizationStore.isUserLoggedIn()) {
+      const configStore = useConfigStore()
+      configStore.fetchConfiguration()
       return '/packages'
     }
   }
@@ -176,6 +179,9 @@ export async function authorizeInternalPath(to: any) {
   const meStore = useMeStore()
   if (!meStore.me.role) {
     await authorizationStore.postLoginOperations()
+  } else {
+    const configStore = useConfigStore()
+    configStore.fetchConfiguration()
   }
   const canRedirect = authorizationStore.checkUserAbility(
     to.name || ' '
