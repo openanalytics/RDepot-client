@@ -24,7 +24,7 @@ export default new Map<string, string>([
   ['update', 'mdi-update'],
   ['removed', 'mdi-delete-forever'],
   ['upload', 'mdi-cloud-upload'],
-  ['create', 'mdi-cake-variant'],
+  ['create', 'mdi-file-plus'],
   ['edited', 'mdi-lead-pencil'],
   ['delete', 'mdi-delete-forever']
 ])
