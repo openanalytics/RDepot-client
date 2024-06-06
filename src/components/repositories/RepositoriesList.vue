@@ -266,7 +266,7 @@ function updateRepositoryPublished(
   if (!isDisabled(item) && canPatch(item.links)) {
     const oldRepository = deepCopy(item)
     oldRepository.published = !oldRepository.published
-    updateRepository(oldRepository, item).then(
+    updateRepository(item, oldRepository).then(
       () => {
         repositoryStore.fetchRepositories()
       },

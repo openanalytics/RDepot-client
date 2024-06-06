@@ -45,11 +45,11 @@ export const useConfigStore = defineStore('configStore', {
       this.declarativeMode =
         config.declarativeModeEnabled || false
       this.deletingPackages =
-        config.deletingPackagesEnabled || true
+        config.deletingPackagesEnabled || false
       this.deletingRepositories =
-        config.deletingRepositoriesEnabled || true
+        config.deletingRepositoriesEnabled || false
       this.replacingPackages =
-        config.replacingPackagesEnabled || true
+        config.replacingPackagesEnabled || false
     }
   }
 })

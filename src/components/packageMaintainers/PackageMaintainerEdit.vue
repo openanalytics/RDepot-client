@@ -106,8 +106,7 @@
       <card-actions
         :buttons="buttons"
         @clicked="handleCardActions"
-      ></card-actions
-      >/>
+      ></card-actions>
     </v-card>
   </form>
 </template>
