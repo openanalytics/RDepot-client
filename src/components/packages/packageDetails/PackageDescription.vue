@@ -27,7 +27,7 @@
         packageBag.technology == Technologies.enum.Python
       "
       :description="packageBag.description || ''"
-      short
+      :short="packageBagShort !== undefined"
     ></MarkdownDescription>
     <div
       v-else
