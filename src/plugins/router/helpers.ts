@@ -29,7 +29,6 @@ import { usePackageDetailsStore } from '@/store/package_details'
 import { usePagination } from '@/store/pagination'
 import { useSortStore } from '@/store/sort'
 import { useCommonStore } from '@/store/common'
-import { useMeStore } from '@/store/me'
 import { useUserStore } from '@/store/users'
 
 export async function loadPackageDetails(
@@ -172,8 +171,7 @@ export async function authorizeInternalPath(to: any) {
   if (!(await authorizationStore.isUserLoggedIn())) {
     return redirectToLoginPage()
   }
-  const meStore = useMeStore()
-  if (!meStore.me.role) {
+  if (!authorizationStore.me.role) {
     await authorizationStore.postLoginOperations()
   }
   const canRedirect = authorizationStore.checkUserAbility(
