@@ -39,7 +39,7 @@ import {
   defaultValues
 } from '@/models/Filtration'
 import { useUtilities } from '@/composable/utilities'
-import { useMeStore } from '@/store/me'
+import { useAuthorizationStore } from '@/store/authorization'
 import { server } from '@/__tests__/config/backend/server'
 
 const defaultFiltration = defaultValues(PackagesFiltration)
@@ -58,8 +58,8 @@ describe('Package Store', () => {
   beforeEach(async () => {
     setActivePinia(createPinia())
     server.listen()
-    const meStore = useMeStore()
-    await meStore.getUserInfo()
+    const authorizationStore = useAuthorizationStore()
+    await authorizationStore.getUserInfo()
   })
 
   afterAll(() => {

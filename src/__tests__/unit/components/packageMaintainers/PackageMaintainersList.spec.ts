@@ -37,13 +37,13 @@ import { usePackageMaintainersStore } from '@/store/package_maintainers'
 import PackageMaintainersListVue from '@/components/packageMaintainers/PackageMaintainersList.vue'
 import packageMaintainers from '@/__tests__/config/mockData/packageMaintainers.json'
 import me from '@/__tests__/config/mockData/me.json'
-import { useMeStore } from '@/store/me'
+import { useAuthorizationStore } from '@/store/authorization'
 import { nextTick } from 'vue'
 import { i18n } from '@/plugins/i18n'
 
 let wrapper: any
 let packageMaintainersStore: any
-let meStore: any
+let authorizationStore: any
 
 const globalConfig = {
   mocks: mocks,
@@ -54,8 +54,8 @@ beforeAll(() => {
   global.ResizeObserver = ResizeObserver
   setActivePinia(createPinia())
   packageMaintainersStore = usePackageMaintainersStore()
-  meStore = useMeStore()
-  meStore.me = me.data
+  authorizationStore = useAuthorizationStore()
+  authorizationStore.me = me.data
 })
 
 beforeEach(async () => {

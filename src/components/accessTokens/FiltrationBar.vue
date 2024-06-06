@@ -39,7 +39,9 @@
     <validated-input-field
       v-if="
         isAtLeastAdmin(
-          meStore.userRole ? meStore.userRole : 0
+          authorizationStore.userRole
+            ? authorizationStore.userRole
+            : 0
         )
       "
       density="compact"
@@ -112,11 +114,11 @@ import { isAtLeastAdmin } from '@/enum/UserRoles'
 import { useUsersFiltration } from '@/composable/filtration/usersFiltration'
 import { onMounted } from 'vue'
 import ResetButton from '@/components/common/buttons/ResetButton.vue'
-import { useMeStore } from '@/store/me'
 import { onBeforeMount } from 'vue'
 import { useAccessTokensStore } from '@/store/access_tokens'
+import { useAuthorizationStore } from '@/store/authorization'
 
-const meStore = useMeStore()
+const authorizationStore = useAuthorizationStore()
 const accessTokensStore = useAccessTokensStore()
 
 const { storeIdUser, loadUsers, resetPaginationUsers } =
@@ -143,11 +145,15 @@ function resetValues() {
 onMounted(() => {
   if (
     isAtLeastAdmin(
-      meStore.userRole ? meStore.userRole : 0
+      authorizationStore.userRole
+        ? authorizationStore.userRole
+        : 0
     ) &&
-    meStore.me.login
+    authorizationStore.me.login
   ) {
-    setFieldValue('userLogin', [meStore.me.login])
+    setFieldValue('userLogin', [
+      authorizationStore.me.login
+    ])
     setFiltration()
   }
 })

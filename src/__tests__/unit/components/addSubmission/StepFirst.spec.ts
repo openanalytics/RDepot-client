@@ -36,7 +36,7 @@ import { createPinia, setActivePinia } from 'pinia'
 import { useSubmissionStore } from '@/store/submission'
 import StepFirstVue from '@/components/addSubmission/StepFirst.vue'
 import me from '@/__tests__/config/mockData/me.json'
-import { useMeStore } from '@/store/me'
+import { useAuthorizationStore } from '@/store/authorization'
 
 let wrapper: any
 const globalConfig = {
@@ -44,7 +44,7 @@ const globalConfig = {
   plugins: plugins
 }
 let submissionStore: any
-let meStore: any
+let authorizationStore: any
 
 beforeAll(() => {
   global.ResizeObserver = ResizeObserver
@@ -53,8 +53,8 @@ beforeAll(() => {
 beforeEach(async () => {
   setActivePinia(createPinia())
   submissionStore = useSubmissionStore()
-  meStore = useMeStore()
-  meStore.me = me.data
+  authorizationStore = useAuthorizationStore()
+  authorizationStore.me = me.data
   wrapper = mount(StepFirstVue, {
     global: globalConfig
   })

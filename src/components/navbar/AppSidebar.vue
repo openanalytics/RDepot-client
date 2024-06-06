@@ -198,18 +198,16 @@ import { useAuthorizationStore } from '@/store/authorization'
 import { computed } from 'vue'
 import { useDisplay } from 'vuetify/lib/framework.mjs'
 import getEnv from '@/utils/env'
-import { useMeStore } from '@/store/me'
 
 const { xs, mobile } = useDisplay()
 const authorizationStore = useAuthorizationStore()
-const meStore = useMeStore()
 const commonStore = useCommonStore()
 const getUserLogin = computed(() => {
-  return meStore.me.name
+  return authorizationStore.me.name
 })
 
 const getSubtitle = computed(() => {
-  return meStore.me.name
+  return authorizationStore.me.name
     ? i18n.t('authorization.logged-in')
     : i18n.t('authorization.not-logged-in')
 })

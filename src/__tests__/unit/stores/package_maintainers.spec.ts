@@ -41,7 +41,7 @@ import {
   PackageMaintainersFiltration,
   defaultValues
 } from '@/models/Filtration'
-import { useMeStore } from '@/store/me'
+import { useAuthorizationStore } from '@/store/authorization'
 import { server } from '@/__tests__/config/backend/server'
 import { failingServer } from '@/__tests__/config/backend/failingServer'
 
@@ -65,8 +65,8 @@ describe('Package Maintainers Store', () => {
   beforeEach(async () => {
     setActivePinia(createPinia())
     server.resetHandlers()
-    const meStore = useMeStore()
-    await meStore.getUserInfo()
+    const authorizationStore = useAuthorizationStore()
+    await authorizationStore.getUserInfo()
   })
 
   afterEach(() => {
@@ -283,8 +283,8 @@ describe('Package Maintainers Store requests with failing backend', () => {
   beforeEach(async () => {
     setActivePinia(createPinia())
     failingServer.resetHandlers()
-    const meStore = useMeStore()
-    await meStore.getUserInfo()
+    const authorizationStore = useAuthorizationStore()
+    await authorizationStore.getUserInfo()
   })
 
   afterAll(() => {

@@ -33,7 +33,7 @@ import repositories from '@/__tests__/config/mockData/repositories.json'
 import { useRepositoryStore } from '@/store/repositories'
 import { usePagination } from '@/store/pagination'
 import { Technologies } from '@/enum/Technologies'
-import { useMeStore } from '@/store/me'
+import { useAuthorizationStore } from '@/store/authorization'
 import { server } from '@/__tests__/config/backend/server'
 
 const defaultFiltration = {
@@ -57,8 +57,8 @@ describe('Repository Store', () => {
   beforeEach(async () => {
     setActivePinia(createPinia())
     server.listen()
-    const meStore = useMeStore()
-    await meStore.getUserInfo()
+    const authorizationStore = useAuthorizationStore()
+    await authorizationStore.getUserInfo()
   })
 
   afterAll(() => {

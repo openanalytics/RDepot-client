@@ -100,7 +100,9 @@
         class="d-flex justify-center align-center"
       >
         <template
-          v-if="meStore.me?.id == item.submitter?.id"
+          v-if="
+            authorizationStore.me?.id == item.submitter?.id
+          "
         >
           <v-btn
             id="cancel-button"
@@ -137,7 +139,6 @@ import { useSubmissionIcons } from '@/composable/submissions/statusIcons'
 import { EntityModelSubmissionDtoStateEnum } from '@/openapi'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
 import { useSubmissionActions } from '@/composable/submissions/submissionActions'
-import { useMeStore } from '@/store/me'
 import {
   DataTableHeaders,
   DataTableOptions,
@@ -146,9 +147,10 @@ import {
 import { i18n } from '@/plugins/i18n'
 import { ref } from 'vue'
 import { useSort } from '@/composable/sort'
+import { useAuthorizationStore } from '@/store/authorization'
 
 const { canPatch } = useUserAuthorities()
-const meStore = useMeStore()
+const authorizationStore = useAuthorizationStore()
 
 const {
   acceptSubmission,

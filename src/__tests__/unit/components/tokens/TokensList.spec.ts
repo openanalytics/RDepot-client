@@ -34,7 +34,7 @@ import { mocks } from '@/__tests__/config/mocks'
 import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import { createPinia, setActivePinia } from 'pinia'
 import tokens from '@/__tests__/config/mockData/tokens.json'
-import { useMeStore } from '@/store/me'
+import { useAuthorizationStore } from '@/store/authorization'
 import me from '@/__tests__/config/mockData/me.json'
 import { nextTick } from 'vue'
 import { i18n } from '@/plugins/i18n'
@@ -42,7 +42,7 @@ import TokenList from '@/components/accessTokens/TokenList.vue'
 import { useAccessTokensStore } from '@/store/access_tokens'
 
 let wrapper: any
-let meStore: any
+let authorizationStore: any
 let accessTokensStore: any
 
 const globalConfig = {
@@ -54,8 +54,8 @@ beforeAll(() => {
   global.ResizeObserver = ResizeObserver
   setActivePinia(createPinia())
   accessTokensStore = useAccessTokensStore()
-  meStore = useMeStore()
-  meStore.me = me.data
+  authorizationStore = useAuthorizationStore()
+  authorizationStore.me = me.data
 })
 
 beforeEach(async () => {

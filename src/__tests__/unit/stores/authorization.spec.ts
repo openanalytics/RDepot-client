@@ -32,8 +32,8 @@ import {
   beforeAll,
   afterAll
 } from 'vitest'
-import { useMeStore } from '@/store/me'
 import { server } from '@/__tests__/config/backend/server'
+import me from '@/__tests__/config/mockData/me.json'
 
 describe('Logged user store tests', () => {
   beforeAll(() => {
@@ -55,11 +55,15 @@ describe('Logged user store tests', () => {
     expect(authorizationStore.userToken).toBe('')
     expect(authorizationStore.userLogin).toBe('')
     expect(authorizationStore.userId).toBe(8)
+    expect(Object.keys(authorizationStore.me).length).toBe(
+      0
+    )
+    expect(authorizationStore.userRole).toBe(undefined)
   })
 
   it('get current settings', () => {
-    const meStore = useMeStore()
-    meStore.me = {
+    const authorizationStore = useAuthorizationStore()
+    authorizationStore.me = {
       userSettings: {
         language: 'pl',
         pageSize: 2,
@@ -67,13 +71,28 @@ describe('Logged user store tests', () => {
       }
     }
 
-    const authorizationStore = useAuthorizationStore()
     const current_settings =
       authorizationStore.getCurrentSettings()
 
     expect(current_settings.language).toBe('pl')
     expect(current_settings.pageSize).toBe(2)
     expect(current_settings.theme).toBe('light')
+  })
+
+  it('alert logout if role has changed', () => {
+    const authorizationStore = useAuthorizationStore()
+    authorizationStore.me.role = 'admin'
+    expect(
+      authorizationStore.checkRoles('repositorymaintainer')
+    ).toBeFalsy()
+  })
+
+  it('do not alert logout if role has not changed', () => {
+    const authorizationStore = useAuthorizationStore()
+    authorizationStore.me.role = 'admin'
+    expect(
+      authorizationStore.checkRoles('admin')
+    ).toBeTruthy()
   })
 
   it('get current settings when settings are empty', () => {
@@ -87,11 +106,20 @@ describe('Logged user store tests', () => {
 
   it('call logout if user role has changed', async () => {
     const authorizationStore = useAuthorizationStore()
-    const meStore = useMeStore()
-    meStore.me.role = 'packagemaintainer'
+    authorizationStore.me.role = 'packagemaintainer'
 
     const spy = vi.spyOn(authorizationStore, 'logout')
-    await meStore.getUserInfo()
+    await authorizationStore.getUserInfo()
     expect(spy).toBeCalledTimes(1)
+  })
+
+  it('fetch information about logged in user', async () => {
+    const authorizationStore = useAuthorizationStore()
+    const data_about_user = me.data
+
+    await authorizationStore.getUserInfo()
+    expect(authorizationStore.me).toStrictEqual(
+      data_about_user
+    )
   })
 })

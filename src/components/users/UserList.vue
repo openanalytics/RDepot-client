@@ -43,7 +43,7 @@
     <template #[`item.active`]="{ item }">
       <v-tooltip
         location="top"
-        :disabled="item.id !== meStore.me.id"
+        :disabled="item.id !== authorizationStore.me.id"
       >
         <template #activator="{ props }">
           <span v-bind="props">
@@ -54,13 +54,17 @@
               class="mr-4"
               :readonly="
                 !isAtLeastAdmin(
-                  meStore.userRole ? meStore.userRole : 0
-                ) || item.id === meStore.me.id
+                  authorizationStore.userRole
+                    ? authorizationStore.userRole
+                    : 0
+                ) || item.id === authorizationStore.me.id
               "
               :color="
                 !isAtLeastAdmin(
-                  meStore.userRole ? meStore.userRole : 0
-                ) || item.id === meStore.me.id
+                  authorizationStore.userRole
+                    ? authorizationStore.userRole
+                    : 0
+                ) || item.id === authorizationStore.me.id
                   ? 'grey'
                   : 'oablue'
               "
@@ -99,12 +103,12 @@ import {
   DataTableOptions,
   Sort
 } from '@/models/DataTableOptions'
-import { useMeStore } from '@/store/me'
+import { useAuthorizationStore } from '@/store/authorization'
 import { ref } from 'vue'
 import { useSort } from '@/composable/sort'
 
 const pagination = usePagination()
-const meStore = useMeStore()
+const authorizationStore = useAuthorizationStore()
 const userStore = useUserStore()
 
 const { getSort } = useSort()
