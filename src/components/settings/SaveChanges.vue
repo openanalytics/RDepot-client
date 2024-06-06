@@ -61,7 +61,7 @@ async function saveSettings() {
   if (settingsStore.newSettings?.language) {
     t.locale.value = langs.filter(
       (x) => x.name === settingsStore.newSettings?.language
-    )[0].display
+    )[0].abbreviation
   }
   settingsStore.saveChanges()
 }
