@@ -31,7 +31,29 @@
         prepend-icon="mdi-account"
         :title="getUserLogin"
         :subtitle="getSubtitle"
-      ></v-list-item>
+      >
+        <template #append>
+          <v-tooltip location="right">
+            <template #activator="{ props }">
+              <div
+                id="tooltip-activator"
+                v-bind="props"
+                class="pl-3"
+              >
+                <v-btn
+                  color="grey-lighten-1"
+                  icon="mdi-logout"
+                  variant="text"
+                  @click="logout"
+                ></v-btn>
+              </div>
+            </template>
+            <span id="tooltip-logout">{{
+              $t('common.logout')
+            }}</span>
+          </v-tooltip>
+        </template>
+      </v-list-item>
       <v-divider class="pb-3"></v-divider>
       <v-list-item
         v-if="authorizationStore.can('GET', 'events')"
@@ -158,12 +180,6 @@
           to="/settings-tokens"
         ></v-list-item>
       </v-list-group>
-      <v-list-item
-        prepend-icon="mdi-logout"
-        :title="$t('common.logout')"
-        :value="$t('common.logout')"
-        @click="logout"
-      ></v-list-item>
     </v-list>
 
     <template #append>
