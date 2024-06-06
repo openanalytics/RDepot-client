@@ -30,6 +30,8 @@ import { usePagination } from '@/store/pagination'
 import { useSortStore } from '@/store/sort'
 import { useCommonStore } from '@/store/common'
 import { useMeStore } from '@/store/me'
+import { useUserStore } from '@/store/users'
+import { useConfigStore } from '@/store/config'
 
 export async function loadPackageDetails(
   id: number,
@@ -122,4 +124,70 @@ export function getDefaultFiltration(to: any) {
     default:
       break
   }
+}
+
+export async function prepareStores(to: any, from: any) {
+  switch (to.name) {
+    case 'packageDetails':
+      await loadPackageDetails(
+        Number(to.params.id),
+        to.params.technology as Technologies
+      )
+      break
+    case 'repositoryDetails':
+      await loadRepositoryDetails(String(to.params.name))
+      break
+    case 'users':
+      useUserStore().clearFiltration()
+      break
+    case 'packages':
+      if (from.name === 'packageMaintainers') {
+        usePackagesStore().clearFiltration()
+      }
+      break
+    default:
+      break
+  }
+}
+
+export async function checkAuthorization(to: any) {
+  const authorizationStore = useAuthorizationStore()
+  authorizationStore.getUserSettings()
+  if (to.fullPath.startsWith('/auth')) {
+    await handleAuthorization()
+    getDefaultFiltration(to)
+    return '/packages'
+  } else if (to.fullPath.startsWith('/logout')) {
+    handleLogout()
+    return '/'
+  } else if (to.name != 'login') {
+    return await authorizeInternalPath(to)
+  } else if (to.name == 'login') {
+    if (await authorizationStore.isUserLoggedIn()) {
+      const configStore = useConfigStore()
+      configStore.fetchConfiguration()
+      return '/packages'
+    }
+  }
+}
+
+export async function authorizeInternalPath(to: any) {
+  const authorizationStore = useAuthorizationStore()
+  if (!(await authorizationStore.isUserLoggedIn())) {
+    return redirectToLoginPage()
+  }
+  const meStore = useMeStore()
+  if (!meStore.me.role) {
+    await authorizationStore.postLoginOperations()
+  } else {
+    const configStore = useConfigStore()
+    configStore.fetchConfiguration()
+  }
+  const canRedirect = authorizationStore.checkUserAbility(
+    to.name || ' '
+  )
+  if (!canRedirect) {
+    return '/packages'
+  }
+  return undefined
 }

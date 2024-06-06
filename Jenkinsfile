@@ -52,7 +52,21 @@ pipeline {
           allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true])
         }
     }
-    stage('Unit Test') {
+    stage('Build') {
+      steps {
+        container('kaniko') {
+          sh """
+          /kaniko/executor \
+                    -v info \
+                    --context ${env.WORKSPACE} \
+                    --cache=true \
+                    --cache-repo ${env.REGISTRY}/${env.NS}/${env.CACHE_IMAGE} \
+                    --no-push
+          """
+        }
+      }
+    }
+    stage('Unit Tests') {
       steps {
         sh "npm run test:unit:once:junit"
         withChecks('UI Unit Tests') {
@@ -60,7 +74,7 @@ pipeline {
         }
       }
     }
-    stage('Integration Test') {
+    stage('Integration Tests') {
       steps {
         withDockerRegistry([
                   credentialsId: "oa-sa-jenkins-registry",
@@ -73,20 +87,6 @@ pipeline {
           withChecks('UI Integration Tests') {
             junit "reports/test-report-integration.xml"
           }
-        }
-      }
-    }
-    stage('Build') {
-      steps {
-        container('kaniko') {
-          sh """
-          /kaniko/executor \
-                    -v info \
-                    --context ${env.WORKSPACE} \
-                    --cache=true \
-                    --cache-repo ${env.REGISTRY}/${env.NS}/${env.CACHE_IMAGE} \
-                    --no-push
-          """
         }
       }
     }
