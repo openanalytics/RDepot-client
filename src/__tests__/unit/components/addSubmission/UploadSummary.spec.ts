@@ -39,7 +39,7 @@ import submissions from '@/__tests__/config/mockData/submissions.json'
 import { PackagePromise } from '@/store/submission'
 import { usePackagesStore } from '@/store/packages'
 import { VProgressCircular } from 'vuetify/components'
-import { useMeStore } from '@/store/me'
+import { useAuthorizationStore } from '@/store/authorization'
 import me from '@/__tests__/config/mockData/me.json'
 
 let wrapper: any
@@ -49,7 +49,7 @@ const globalConfig = {
 }
 
 let packageStore: any
-let meStore: any
+let authorizationStore: any
 
 const file: File = {
   name: 'A3_1.0.0.tar.gz',
@@ -72,8 +72,8 @@ describe('Upload summary - pending', () => {
   beforeEach(async () => {
     setActivePinia(createPinia())
     packageStore = usePackagesStore()
-    meStore = useMeStore()
-    meStore.me = me.data
+    authorizationStore = useAuthorizationStore()
+    authorizationStore.me = me.data
     wrapper = mount(UploadSummary, {
       global: globalConfig,
       props: {
@@ -149,8 +149,8 @@ describe('Upload summary - error', () => {
   beforeEach(async () => {
     setActivePinia(createPinia())
     packageStore = usePackagesStore()
-    meStore = useMeStore()
-    meStore.me = me.data
+    authorizationStore = useAuthorizationStore()
+    authorizationStore.me = me.data
     wrapper = mount(UploadSummary, {
       global: globalConfig,
       props: {
@@ -240,8 +240,8 @@ describe('Upload summary - success', () => {
   beforeEach(async () => {
     setActivePinia(createPinia())
     packageStore = usePackagesStore()
-    meStore = useMeStore()
-    meStore.me = me.data
+    authorizationStore = useAuthorizationStore()
+    authorizationStore.me = me.data
     wrapper = mount(UploadSummary, {
       global: globalConfig,
       props: {

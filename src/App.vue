@@ -29,6 +29,15 @@
 
 <script setup lang="ts">
 import ProgressCircular from './components/common/progress/ProgressCircular.vue'
+import { onBeforeMount } from 'vue'
+import { useTheme } from 'vuetify/lib/framework.mjs'
+import { useAuthorizationStore } from './store/authorization'
+
+onBeforeMount(() => {
+  const theme = useTheme()
+  theme.global.name.value =
+    useAuthorizationStore().me.userSettings?.theme || 'dark'
+})
 </script>
 
 <style lang="scss">

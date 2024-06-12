@@ -94,7 +94,9 @@
       <EventTag
         v-if="
           isAtLeastRepositoryMaintainer(
-            meStore.userRole ? meStore.userRole : 0
+            authorizationStore.userRole
+              ? authorizationStore.userRole
+              : 0
           )
         "
         :value="relatedResource.serverAddress"
@@ -121,11 +123,11 @@ import {
 import UpdateDescription from '@/components/events/resources/UpdateDescription.vue'
 import { useDates } from '@/composable/date'
 import { isAtLeastRepositoryMaintainer } from '@/enum/UserRoles'
-import { useMeStore } from '@/store/me'
 import EventTag from '../EventTag.vue'
 import { i18n } from '@/plugins/i18n'
 import { computed } from 'vue'
 import EventTypeTag from './EventTypeTag.vue'
+import { useAuthorizationStore } from '@/store/authorization'
 
 const componentProps = defineProps({
   event: {
@@ -138,7 +140,7 @@ const relatedResource: EntityModelRepositoryDto =
   componentProps.event
     ?.relatedResource as EntityModelRepositoryDto
 
-const meStore = useMeStore()
+const authorizationStore = useAuthorizationStore()
 
 const { getTime } = useDates()
 

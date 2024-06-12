@@ -30,14 +30,14 @@ import {
 
 import { createPinia, setActivePinia } from 'pinia'
 import { useSelectStore } from '@/store/select_pagination'
-import { useMeStore } from '@/store/me'
+import { useAuthorizationStore } from '@/store/authorization'
 import { usePackagesFiltration } from '@/composable/filtration/packagesFiltration'
 import { usePackagesStore } from '@/store/packages'
 
 beforeEach(async () => {
   setActivePinia(createPinia())
-  const meStore = useMeStore()
-  meStore.me.role = 'admin'
+  const authorizationStore = useAuthorizationStore()
+  authorizationStore.me.role = 'admin'
 })
 
 describe('package filtration filtration composable', () => {

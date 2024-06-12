@@ -33,17 +33,17 @@ import { EntityModelSubmissionDto } from '@/openapi'
 import { createPinia, setActivePinia } from 'pinia'
 import { useSubmissionStore } from '@/store/submission'
 import { Technologies } from '@/enum/Technologies'
-import { useMeStore } from '@/store/me'
+import { useAuthorizationStore } from '@/store/authorization'
 import me from '@/__tests__/config/mockData/me.json'
 
 let submissionsStore: any
-let meStore: any
+let authorizationStore: any
 
 beforeEach(async () => {
   setActivePinia(createPinia())
   submissionsStore = useSubmissionStore()
-  meStore = useMeStore()
-  meStore.me = me.data
+  authorizationStore = useAuthorizationStore()
+  authorizationStore.me = me.data
 })
 
 describe('submissionActions', () => {

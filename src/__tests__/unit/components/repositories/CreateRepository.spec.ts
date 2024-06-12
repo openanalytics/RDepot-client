@@ -39,12 +39,12 @@ import { Technologies } from '@/enum/Technologies'
 import { nextTick } from 'vue'
 import { HashMethods } from '@/enum/HashMethods'
 import { useRepositoryStore } from '@/store/repositories'
-import { useMeStore } from '@/store/me'
+import { useAuthorizationStore } from '@/store/authorization'
 import me from '@/__tests__/config/mockData/me.json'
 
 let wrapper: any
 let repositoryStore: any
-let meStore: any
+let authorizationStore: any
 
 const globalConfig = {
   mocks: mocks,
@@ -59,8 +59,8 @@ describe('CreateRepository', () => {
   beforeEach(async () => {
     setActivePinia(createPinia())
     repositoryStore = useRepositoryStore()
-    meStore = useMeStore()
-    meStore.me = me.data
+    authorizationStore = useAuthorizationStore()
+    authorizationStore.me = me.data
     wrapper = mount(CreateRepository, {
       global: globalConfig
     })

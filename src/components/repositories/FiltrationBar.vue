@@ -54,7 +54,9 @@
     <validated-input-field
       v-if="
         isAtLeastAdmin(
-          meStore.userRole ? meStore.userRole : 0
+          authorizationStore.userRole
+            ? authorizationStore.userRole
+            : 0
         )
       "
       density="compact"
@@ -91,7 +93,9 @@
     <validated-input-field
       v-if="
         isAtLeastAdmin(
-          meStore.userRole ? meStore.userRole : 0
+          authorizationStore.userRole
+            ? authorizationStore.userRole
+            : 0
         )
       "
       id="filtration-deleted"
@@ -139,11 +143,11 @@ import { toTypedSchema } from '@vee-validate/zod'
 import { useRepositoryStore } from '@/store/repositories'
 import { isAtLeastAdmin } from '@/enum/UserRoles'
 import ResetButton from '@/components/common/buttons/ResetButton.vue'
-import { useMeStore } from '@/store/me'
 import { onBeforeMount } from 'vue'
+import { useAuthorizationStore } from '@/store/authorization'
 
 const { technologies } = useEnumFiltration()
-const meStore = useMeStore()
+const authorizationStore = useAuthorizationStore()
 
 const {
   storeIdMaintainer,

@@ -37,13 +37,13 @@ import { createPinia, setActivePinia } from 'pinia'
 import { nextTick } from 'vue'
 import { useUserStore } from '@/store/users'
 import { i18n } from '@/plugins/i18n'
-import { useMeStore } from '@/store/me'
+import { useAuthorizationStore } from '@/store/authorization'
 import me from '@/__tests__/config/mockData/me.json'
 import UserList from '@/components/users/UserList.vue'
 
 let wrapper: any
 let usersStore: any
-let meStore: any
+let authorizationStore: any
 
 const globalConfig = {
   mocks: mocks,
@@ -54,8 +54,8 @@ beforeAll(() => {
   config.global.renderStubDefaultSlot = true
   setActivePinia(createPinia())
   usersStore = useUserStore()
-  meStore = useMeStore()
-  meStore.me = me.data
+  authorizationStore = useAuthorizationStore()
+  authorizationStore.me = me.data
 })
 
 beforeEach(async () => {
@@ -181,7 +181,7 @@ describe('Users - cells', () => {
   })
 
   it('active field with oneself', async () => {
-    meStore.me = user
+    authorizationStore.me = user
     await nextTick()
     const checkboxActive = cells[3].find('#checkbox-active')
     expect(checkboxActive.element.checked).toBe(user.active)

@@ -29,7 +29,6 @@ import { useAuthorizationStore } from '@/store/authorization'
 import { useBlob } from '@/composable/blob'
 import { useToast } from '@/composable/toasts'
 import { i18n } from '@/plugins/i18n'
-import { useMeStore } from '@/store/me'
 import { BackendError } from '@/models/errors/BackendError'
 
 export async function openApiRequest<T>(
@@ -176,8 +175,8 @@ async function errorsHandler(
         break
       }
       case 403: {
-        const authorizationStore = useMeStore()
-        authorizationStore.getUserInfo()
+        const authorizationStore = useAuthorizationStore()
+        await authorizationStore.getUserInfo()
         break
       }
       case 405: {

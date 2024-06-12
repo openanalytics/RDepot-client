@@ -33,7 +33,7 @@ import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
 import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import { createPinia, setActivePinia } from 'pinia'
-import { useMeStore } from '@/store/me'
+import { useAuthorizationStore } from '@/store/authorization'
 import me from '@/__tests__/config/mockData/me.json'
 import events from '@/__tests__/config/mockData/events.json'
 import AccessTokenEvent from '@/components/events/resources/AccessTokenEvent.vue'
@@ -50,7 +50,7 @@ const globalConfig = {
   mocks: mocks,
   plugins: plugins
 }
-let meStore: any
+let authorizationStore: any
 let event: EntityModelNewsfeedEventDto = events.data
   .content[1] as EntityModelNewsfeedEventDto
 let chips: any
@@ -64,8 +64,8 @@ beforeAll(() => {
 describe('Events - Access Token (active, !deleted)', () => {
   beforeEach(async () => {
     setActivePinia(createPinia())
-    meStore = useMeStore()
-    meStore.me = me.data
+    authorizationStore = useAuthorizationStore()
+    authorizationStore.me = me.data
     wrapper = mount(AccessTokenEvent, {
       props: {
         event: event
@@ -161,8 +161,8 @@ describe('Events - Access Token (!active, !deleted)', () => {
 
   beforeEach(async () => {
     setActivePinia(createPinia())
-    meStore = useMeStore()
-    meStore.me = me.data
+    authorizationStore = useAuthorizationStore()
+    authorizationStore.me = me.data
     wrapper = mount(AccessTokenEvent, {
       props: {
         event: event
@@ -204,8 +204,8 @@ describe('Events - Access Token (active, deleted)', () => {
 
   beforeEach(async () => {
     setActivePinia(createPinia())
-    meStore = useMeStore()
-    meStore.me = me.data
+    authorizationStore = useAuthorizationStore()
+    authorizationStore.me = me.data
     wrapper = mount(AccessTokenEvent, {
       props: {
         event: event

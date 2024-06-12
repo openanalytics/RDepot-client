@@ -36,7 +36,7 @@ import repositories from '@/__tests__/config/mockData/repositories.json'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
 import { usePagination } from '@/store/pagination'
 import { Technologies } from '@/enum/Technologies'
-import { useMeStore } from '@/store/me'
+import { useAuthorizationStore } from '@/store/authorization'
 import { server } from '@/__tests__/config/backend/server'
 import { failingServer } from '@/__tests__/config/backend/failingServer'
 
@@ -60,8 +60,8 @@ describe('Repository Maintainers Store', () => {
   beforeEach(async () => {
     setActivePinia(createPinia())
     server.resetHandlers()
-    const meStore = useMeStore()
-    await meStore.getUserInfo()
+    const authorizationStore = useAuthorizationStore()
+    await authorizationStore.getUserInfo()
   })
 
   afterEach(() => {
@@ -261,8 +261,8 @@ describe('Repository Maintainers Store requests with failing backend', () => {
   beforeEach(async () => {
     setActivePinia(createPinia())
     failingServer.resetHandlers()
-    const meStore = useMeStore()
-    await meStore.getUserInfo()
+    const authorizationStore = useAuthorizationStore()
+    await authorizationStore.getUserInfo()
   })
 
   afterAll(() => {

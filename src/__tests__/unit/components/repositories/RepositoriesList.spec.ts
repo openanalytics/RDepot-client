@@ -36,14 +36,14 @@ import { createPinia, setActivePinia } from 'pinia'
 import RepositoriesListVue from '@/components/repositories/RepositoriesList.vue'
 import repositories from '@/__tests__/config/mockData/repositories.json'
 import { useRepositoryStore } from '@/store/repositories'
-import { useMeStore } from '@/store/me'
+import { useAuthorizationStore } from '@/store/authorization'
 import me from '@/__tests__/config/mockData/me.json'
 import { nextTick } from 'vue'
 import { i18n } from '@/plugins/i18n'
 import { usePagination } from '@/store/pagination'
 
 let wrapper: any
-let meStore: any
+let authorizationStore: any
 let repositoriesStore: any
 
 const globalConfig = {
@@ -55,8 +55,8 @@ beforeAll(() => {
   global.ResizeObserver = ResizeObserver
   setActivePinia(createPinia())
   repositoriesStore = useRepositoryStore()
-  meStore = useMeStore()
-  meStore.me = me.data
+  authorizationStore = useAuthorizationStore()
+  authorizationStore.me = me.data
   const pagination = usePagination()
   pagination.page = 0
   pagination.pageSize = 10
@@ -238,7 +238,7 @@ describe('Repositories - role based cells', () => {
   const repository = repositories.data.content[0]
 
   it('displays serverAddress (repo maintainer))', async () => {
-    meStore.userRole = 2
+    authorizationStore.userRole = 2
     await nextTick()
     cells = wrapper
       .findAllComponents('tr')[0]
@@ -247,7 +247,7 @@ describe('Repositories - role based cells', () => {
     expect(cell.text()).toBe(repository.serverAddress)
   })
   it('!displays serverAddress (package maintainer))', async () => {
-    meStore.userRole = 1
+    authorizationStore.userRole = 1
     await nextTick()
     cells = wrapper
       .findAllComponents('tr')[0]
