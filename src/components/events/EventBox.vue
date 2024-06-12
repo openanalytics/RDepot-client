@@ -33,7 +33,14 @@
       color="oablue"
       size="60"
       class="mb-1 mr-1"
-      >{{ getIcon(event?.resourceType) }}</v-icon
+      >{{ getIcon(event?.resourceType)[0] }}</v-icon
+    >
+    <v-icon
+      v-if="getIcon(event?.resourceType).length > 1"
+      color="oablue"
+      size="40"
+      class="mb-1 mr-1 nestedIcon"
+      >{{ getIcon(event?.resourceType)[1] }}</v-icon
     >
     <EventBoxDescription
       v-if="eventType && resourceType"
@@ -99,5 +106,25 @@ const eventType = computed(() => {
     flex-basis: 70%;
     margin: 10px 0;
   }
+}
+
+.nestedIcon {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  opacity: 0.6;
+  z-index: 100;
+}
+
+.nestedIcon.v-theme--dark {
+  color: white;
+  text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000,
+    0 -1px #000;
+}
+
+.nestedIcon.v-theme--light {
+  color: white;
+  text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000,
+    0 -1px #000;
 }
 </style>
