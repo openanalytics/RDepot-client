@@ -41,7 +41,7 @@ import { validatedData } from '@/services/open_api_access'
 import { usePagination } from '@/store/pagination'
 import { useToast } from '@/composable/toasts'
 import { i18n } from '@/plugins/i18n'
-import { useMeStore } from './me'
+import { useAuthorizationStore } from './authorization'
 import { DataTableOptions } from '@/models/DataTableOptions'
 
 export type PackagePromise = {
@@ -117,12 +117,12 @@ export const useSubmissionStore = defineStore(
       },
       async fetchSubmissions() {
         const pagination = usePagination()
-        const meStore = useMeStore()
+        const authorizationStore = useAuthorizationStore()
         const pageData = await this.fetchData(
           pagination.fetchPage,
           pagination.pageSize,
           this.filtration,
-          meStore.me.id
+          authorizationStore.me.id
         )
         pagination.newPageWithoutRefresh(pageData.page)
         pagination.totalNumber = pageData.totalNumber
@@ -157,8 +157,10 @@ export const useSubmissionStore = defineStore(
         await updateSubmission(
           oldSubmission,
           newSubmission
-        ).then(async () => {
-          await this.fetchSubmissions()
+        ).then(async (response) => {
+          if (Object.keys(response[0]).length > 0) {
+            await this.fetchSubmissions()
+          }
         })
       },
       updateReplaceOptionForPackage(file: File) {

@@ -42,7 +42,7 @@ import {
   PackagesFiltration
 } from '@/models/Filtration'
 import waitForExpect from 'wait-for-expect'
-import { useMeStore } from '@/store/me'
+import { useAuthorizationStore } from '@/store/authorization'
 import me from '@/__tests__/config/mockData/me.json'
 
 let wrapper: any
@@ -51,7 +51,7 @@ const globalConfig = {
   plugins: plugins
 }
 let packagesStore: any
-let meStore: any
+let authorizationStore: any
 
 const EXAMPLE_PACKAGES_FILTRATION =
   PackagesFiltration.parse({
@@ -70,8 +70,8 @@ beforeAll(() => {
 beforeEach(async () => {
   setActivePinia(createPinia())
   packagesStore = usePackagesStore()
-  meStore = useMeStore()
-  meStore.me = me.data
+  authorizationStore = useAuthorizationStore()
+  authorizationStore.me = me.data
   wrapper = mount(FiltrationBarVue, {
     global: globalConfig
   })

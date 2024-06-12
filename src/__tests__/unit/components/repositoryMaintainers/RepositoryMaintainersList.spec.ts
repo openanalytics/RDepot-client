@@ -36,14 +36,14 @@ import { createPinia, setActivePinia } from 'pinia'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
 import RepositoryMaintainersListVue from '@/components/repositoryMaintainers/RepositoryMaintainersList.vue'
 import maintainers from '@/__tests__/config/mockData/repositoryMaintainers.json'
-import { useMeStore } from '@/store/me'
+import { useAuthorizationStore } from '@/store/authorization'
 import me from '@/__tests__/config/mockData/me.json'
 import { nextTick } from 'vue'
 import { i18n } from '@/plugins/i18n'
 
 let wrapper: any
 let repositoryMaintainersStore: any
-let meStore: any
+let authorizationStore: any
 const globalConfig = {
   mocks: mocks,
   plugins: plugins
@@ -52,8 +52,8 @@ const globalConfig = {
 beforeAll(() => {
   global.ResizeObserver = ResizeObserver
   setActivePinia(createPinia())
-  meStore = useMeStore()
-  meStore.me = me.data
+  authorizationStore = useAuthorizationStore()
+  authorizationStore.me = me.data
   repositoryMaintainersStore =
     useRepositoryMaintainersStore()
 })

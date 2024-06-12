@@ -29,7 +29,6 @@ import { usePackageDetailsStore } from '@/store/package_details'
 import { usePagination } from '@/store/pagination'
 import { useSortStore } from '@/store/sort'
 import { useCommonStore } from '@/store/common'
-import { useMeStore } from '@/store/me'
 import { useUserStore } from '@/store/users'
 import { useConfigStore } from '@/store/config'
 
@@ -69,9 +68,8 @@ export async function handleAuthorization() {
         window.document.title,
         window.location.origin + window.location.pathname
       )
-      const meStore = useMeStore()
       const authorizationStore = useAuthorizationStore()
-      if (!meStore.me.role) {
+      if (!authorizationStore.me.role) {
         await authorizationStore.postLoginOperations()
       }
     })
@@ -91,7 +89,7 @@ export async function handleLogout() {
           window.document.title,
           window.location.origin + window.location.pathname
         )
-        localStorage.removeItem('me')
+        localStorage.removeItem('authorizationStore')
       })
       .catch((error) => {
         console.log(error)
@@ -176,8 +174,7 @@ export async function authorizeInternalPath(to: any) {
   if (!(await authorizationStore.isUserLoggedIn())) {
     return redirectToLoginPage()
   }
-  const meStore = useMeStore()
-  if (!meStore.me.role) {
+  if (!authorizationStore.me.role) {
     await authorizationStore.postLoginOperations()
   } else {
     const configStore = useConfigStore()

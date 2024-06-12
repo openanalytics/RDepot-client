@@ -31,7 +31,7 @@ import {
 import { createPinia, setActivePinia } from 'pinia'
 import { useUserSettings } from '@/composable/user/userSettings'
 import { useCommonStore } from '@/store/common'
-import { useMeStore } from '@/store/me'
+import { useAuthorizationStore } from '@/store/authorization'
 import { i18n } from '@/plugins/i18n'
 import { usePagination } from '@/store/pagination'
 
@@ -52,8 +52,10 @@ describe('user settings composable', () => {
 
   it('should set pl language', () => {
     const { getUserSettings } = useUserSettings()
-    const meStore = useMeStore()
-    meStore.me = { userSettings: { language: 'pl-PL' } }
+    const authorizationStore = useAuthorizationStore()
+    authorizationStore.me = {
+      userSettings: { language: 'pl-PL' }
+    }
 
     getUserSettings()
     expect(i18n.locale.value).toEqual('pl')
@@ -61,8 +63,10 @@ describe('user settings composable', () => {
 
   it('should set en language', () => {
     const { getUserSettings } = useUserSettings()
-    const meStore = useMeStore()
-    meStore.me = { userSettings: { language: 'en-EN' } }
+    const authorizationStore = useAuthorizationStore()
+    authorizationStore.me = {
+      userSettings: { language: 'en-EN' }
+    }
 
     i18n.locale.value = 'pl'
 
@@ -73,8 +77,10 @@ describe('user settings composable', () => {
   it('should set page size', async () => {
     const { getUserSettings } = useUserSettings()
     const { pageSize } = usePagination()
-    const meStore = useMeStore()
-    meStore.me = { userSettings: { pageSize: 10 } }
+    const authorizationStore = useAuthorizationStore()
+    authorizationStore.me = {
+      userSettings: { pageSize: 10 }
+    }
     getUserSettings()
     expect(pageSize).toEqual(10)
   })

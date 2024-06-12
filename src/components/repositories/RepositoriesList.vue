@@ -149,7 +149,6 @@ import { useUtilities } from '@/composable/utilities'
 import { updateRepository } from '@/services/repository_services'
 import { computed } from 'vue'
 import { isAtLeastRepositoryMaintainer } from '@/enum/UserRoles'
-import { useMeStore } from '@/store/me'
 import { ref } from 'vue'
 import { useSort } from '@/composable/sort'
 import AddButton from '@/components/common/buttons/AddButton.vue'
@@ -161,7 +160,6 @@ const repositoryStore = useRepositoryStore()
 const pagination = usePagination()
 const { canDelete, canPatch } = useUserAuthorities()
 const configStore = useConfigStore()
-const meStore = useMeStore()
 const authorizationStore = useAuthorizationStore()
 
 const { getSort } = useSort()
@@ -227,7 +225,9 @@ function resetElementWidth() {
 const filteredHeaders = computed(() => {
   if (
     !isAtLeastRepositoryMaintainer(
-      meStore.userRole ? meStore.userRole : 0
+      authorizationStore.userRole
+        ? authorizationStore.userRole
+        : 0
     )
   ) {
     resetElementWidth()
