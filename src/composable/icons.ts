@@ -28,28 +28,31 @@ export function useIcons() {
   ) {
     switch (resourceType) {
       case EntityModelNewsfeedEventDtoResourceTypeEnum.PACKAGE: {
-        return 'mdi-package'
+        return ['mdi-package']
       }
       case EntityModelNewsfeedEventDtoResourceTypeEnum.REPOSITORY: {
-        return 'mdi-folder-network'
+        return ['mdi-folder-network']
       }
       case EntityModelNewsfeedEventDtoResourceTypeEnum.USER: {
-        return 'mdi-account-multiple'
+        return ['mdi-account-multiple']
       }
       case EntityModelNewsfeedEventDtoResourceTypeEnum.PACKAGEMAINTAINER: {
-        return 'mdi-account-multiple'
+        return ['mdi-package', 'mdi-account-multiple']
       }
       case EntityModelNewsfeedEventDtoResourceTypeEnum.REPOSITORYMAINTAINER: {
-        return 'mdi-account-multiple'
+        return [
+          'mdi-folder-network',
+          'mdi-account-multiple'
+        ]
       }
       case EntityModelNewsfeedEventDtoResourceTypeEnum.SUBMISSION: {
-        return 'mdi-email'
+        return ['mdi-email']
       }
       case EntityModelNewsfeedEventDtoResourceTypeEnum.ACCESSTOKEN: {
-        return 'mdi-key'
+        return ['mdi-key']
       }
       default:
-        return ''
+        return ['']
     }
   }
 
