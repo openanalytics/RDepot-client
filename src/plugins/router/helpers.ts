@@ -163,7 +163,7 @@ export async function checkAuthorization(to: any) {
   } else if (to.name == 'login') {
     if (await authorizationStore.isUserLoggedIn()) {
       const configStore = useConfigStore()
-      configStore.fetchConfiguration()
+      await configStore.fetchConfiguration()
       return '/packages'
     }
   }
@@ -178,7 +178,7 @@ export async function authorizeInternalPath(to: any) {
     await authorizationStore.postLoginOperations()
   } else {
     const configStore = useConfigStore()
-    configStore.fetchConfiguration()
+    await configStore.fetchConfiguration()
   }
   const canRedirect = authorizationStore.checkUserAbility(
     to.name || ' '
