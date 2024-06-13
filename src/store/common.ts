@@ -29,8 +29,7 @@ interface State {
   progress: boolean
   totalVisiblePages: number
   overlayText: string
-  overlayModel: boolean
-  overlayOpacity: number
+  overlay: boolean
   overlayComponent?: OverlayEnum
   key: number
   activeId: string
@@ -45,37 +44,32 @@ export const useCommonStore = defineStore('commonStore', {
       progress: false,
       totalVisiblePages: 10,
       overlayText: '',
-      overlayOpacity: 0.8,
-      overlayModel: false,
+      overlay: false,
       activeId: 'name',
       overlayComponent: undefined,
       key: 0,
       themeKey: 0
     }
   },
+  getters: {
+    isCreate: (state) =>
+      state.overlayComponent == OverlayEnum.enum.Create,
+    isEdit: (state) =>
+      state.overlayComponent == OverlayEnum.enum.Edit,
+    isDelete: (state) =>
+      state.overlayComponent == OverlayEnum.enum.Delete,
+    isCreated: (state) =>
+      state.overlayComponent == OverlayEnum.enum.Created,
+    isDeactivate: (state) =>
+      state.overlayComponent == OverlayEnum.enum.Deactivate
+  },
   actions: {
-    setProgressCircularActive(payload: boolean) {
-      this.progressCircularActive = payload
-    },
-    setDrawer(payload: boolean) {
-      this.drawer = payload
-    },
-    setOverlayText(payload: string) {
-      this.overlayText = payload
-    },
-    setOverlayModel(payload: boolean) {
-      this.overlayModel = payload
-    },
-    setOverlayOpacity(payload: number) {
-      this.overlayOpacity = payload
-    },
-    setOverlayComponent(payload: OverlayEnum) {
+    openOverlay(payload: OverlayEnum) {
+      this.overlay = true
       this.overlayComponent = payload
     },
-    openOverlay(payload: OverlayEnum, opacity = 0.8) {
-      this.setOverlayModel(true)
-      this.setOverlayOpacity(opacity)
-      this.setOverlayComponent(payload)
+    closeOverlay() {
+      this.overlay = false
     },
     updateKey() {
       this.key += 1
@@ -89,41 +83,6 @@ export const useCommonStore = defineStore('commonStore', {
       if (this.themeKey > 100) {
         this.themeKey = 0
       }
-    },
-
-    setActiveId(payload: string) {
-      this.activeId = payload
-    },
-    isFiltration() {
-      return (
-        this.overlayComponent == OverlayEnum.enum.Filtration
-      )
-    },
-    isCreate() {
-      return (
-        this.overlayComponent == OverlayEnum.enum.Create
-      )
-    },
-    isReset() {
-      return this.overlayComponent == OverlayEnum.enum.Reset
-    },
-    isEdit() {
-      return this.overlayComponent == OverlayEnum.enum.Edit
-    },
-    isDelete() {
-      return (
-        this.overlayComponent == OverlayEnum.enum.Delete
-      )
-    },
-    isCreated() {
-      return (
-        this.overlayComponent == OverlayEnum.enum.Created
-      )
-    },
-    isDeactivate() {
-      return (
-        this.overlayComponent == OverlayEnum.enum.Deactivate
-      )
     }
   }
 })

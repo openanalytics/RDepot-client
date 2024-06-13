@@ -61,6 +61,6 @@ describe('CommonButton', () => {
     expect(commonStore.overlayText).toEqual(
       i18n.t('filtration.makeSure')
     )
-    expect(commonStore.overlayModel).toBe(true)
+    expect(commonStore.overlay).toBe(true)
   })
 })

@@ -221,7 +221,7 @@ const drawer = computed({
     return commonStore.drawer
   },
   set(value: boolean) {
-    commonStore.setDrawer(value)
+    commonStore.drawer = value
   }
 })
 

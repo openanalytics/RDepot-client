@@ -21,22 +21,22 @@
 -->
 
 <template>
-  <TokenModal v-if="commonStore.isCreate()" />
-  <CreatedTokenModal v-if="commonStore.isCreated()" />
-  <TokenDeleteModal v-if="commonStore.isDelete()" />
-  <TokenEditModal v-if="commonStore.isEdit()" />
-  <TokenDeactivateModal v-if="commonStore.isDeactivate()" />
+  <CreateTokenModal v-if="commonStore.isCreate" />
+  <NewTokenDetailsModal v-if="commonStore.isCreated" />
+  <DeleteTokenModal v-if="commonStore.isDelete" />
+  <EditTokenModal v-if="commonStore.isEdit" />
+  <DeactivateTokenModal v-if="commonStore.isDeactivate" />
   <TokenSettingsDetails />
 </template>
 
 <script setup lang="ts">
-import TokenModal from '@/components/accessTokens/createToken/TokenModal.vue'
-import TokenDeleteModal from '@/components/accessTokens/deleteToken/TokenDeleteModal.vue'
-import TokenEditModal from '@/components/accessTokens/editToken/TokenEditModal.vue'
-import TokenDeactivateModal from '@/components/accessTokens/deactivateToken/TokenDeactivateModal.vue'
-import CreatedTokenModal from '@/components/accessTokens/createdToken/CreatedTokenModal.vue'
 import { useCommonStore } from '@/store/common'
 import TokenSettingsDetails from '@/components/accessTokens/TokenSettingsDetails.vue'
+import DeactivateTokenModal from '@/components/accessTokens/modals/DeactivateTokenModal.vue'
+import NewTokenDetailsModal from '@/components/accessTokens/modals/NewTokenDetailsModal.vue'
+import CreateTokenModal from '@/components/accessTokens/modals/CreateTokenModal.vue'
+import DeleteTokenModal from '@/components/accessTokens/modals/DeleteTokenModal.vue'
+import EditTokenModal from '@/components/accessTokens/modals/EditTokenModal.vue'
 
 const commonStore = useCommonStore()
 </script>

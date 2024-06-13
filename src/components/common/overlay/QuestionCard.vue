@@ -26,17 +26,15 @@
       {{ componentProps.text }}
     </v-card-title>
     <v-divider />
-    <card-actions
-      :buttons="buttons"
-      @clicked="handleCardActions"
-    >
-    </card-actions>
+    <CardActions
+      @cancel="emits('cancel')"
+      @submit="emits('reset')"
+    />
   </v-card>
 </template>
 
 <script setup lang="ts">
 import CardActions from '@/components/common/overlay/CardActions.vue'
-import { i18n } from '@/plugins/i18n'
 
 const emits = defineEmits(['cancel', 'reset'])
 
@@ -46,32 +44,4 @@ const componentProps = defineProps({
     required: true
   }
 })
-
-const buttons = [
-  {
-    id: 'cancel-action',
-    text: i18n.t('common.cancel')
-  },
-  {
-    id: 'apply-action',
-    text: i18n.t('common.apply')
-  }
-]
-
-function handleCardActions(buttonId: string) {
-  switch (buttonId) {
-    case 'cancel-action': {
-      emits('cancel')
-      break
-    }
-
-    case 'apply-action': {
-      emits('reset')
-      break
-    }
-    default: {
-      break
-    }
-  }
-}
 </script>

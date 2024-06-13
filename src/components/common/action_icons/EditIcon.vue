@@ -70,7 +70,7 @@ const commonStore = useCommonStore()
 function edit() {
   if (!componentProps.disabled) {
     emits('setEntity')
-    commonStore.setOverlayText(componentProps.text)
+    commonStore.overlayText = componentProps.text
     commonStore.openOverlay(OverlayEnum.enum.Edit)
   }
 }

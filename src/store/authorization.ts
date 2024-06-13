@@ -43,6 +43,7 @@ import router from '@/plugins/router'
 import { useOIDCAuthorization } from '@/composable/auth/oidcAuthorization'
 import { useConfigStore } from './config'
 import { RouteRecordName } from 'vue-router'
+import { useCommonStore } from './common'
 import { EntityModelUserDto } from '@/openapi'
 import vuetify from '@/plugins/vuetify'
 
@@ -73,6 +74,8 @@ export const useAuthorizationStore = defineStore(
 
     actions: {
       async postLoginOperations() {
+        const commonStore = useCommonStore()
+        commonStore.closeOverlay()
         await this.getUserInfo()
         vuetify.theme.global.name.value =
           this.me.userSettings?.theme || 'dark'

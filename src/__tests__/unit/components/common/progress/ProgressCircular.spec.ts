@@ -35,6 +35,7 @@ import ProgressCircularVue from '@/components/common/progress/ProgressCircular.v
 import { createPinia, setActivePinia } from 'pinia'
 import { useCommonStore } from '@/store/common'
 import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
+import { nextTick } from 'vue'
 
 let wrapper: any
 const globalConfig = {
@@ -61,13 +62,15 @@ describe('Progress Circular', () => {
   })
 
   it('is not showing if nothing is loading', async () => {
-    await commonStore.setProgressCircularActive(false)
+    commonStore.progressCircularActive = false
+    await nextTick()
     const content = wrapper.find('#progress-circular')
     expect(content.isVisible()).toBeFalsy()
   })
 
   it('is showing progress if something is loading', async () => {
-    await commonStore.setProgressCircularActive(true)
+    commonStore.progressCircularActive = true
+    await nextTick()
     const content = wrapper.find('#progress-circular')
     expect(content.isVisible()).toBeTruthy()
   })

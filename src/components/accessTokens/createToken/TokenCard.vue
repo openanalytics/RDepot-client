@@ -30,15 +30,13 @@
       <slot> </slot>
     </v-card-text>
     <v-divider></v-divider>
-    <card-actions
-      :buttons="buttons"
-      @clicked="handleCardActions"
-    ></card-actions>
-  </v-card>
+    <CardActions
+      @cancel="emit('cancel')"
+      @submit="createToken"
+  /></v-card>
 </template>
 
 <script setup lang="ts">
-import { i18n } from '@/plugins/i18n'
 import CardActions from '@/components/common/overlay/CardActions.vue'
 
 const componentProps = defineProps({
@@ -53,32 +51,8 @@ const componentProps = defineProps({
   }
 })
 
-const buttons = [
-  {
-    id: 'cancel-button',
-    text: i18n.t('common.cancel')
-  },
-  {
-    id: 'create-button',
-    text: i18n.t('common.apply')
-  }
-]
-
-async function handleCardActions(buttonId: string) {
-  switch (buttonId) {
-    case 'cancel-button': {
-      emit('cancel')
-      break
-    }
-
-    case 'create-button': {
-      await emit('createToken')
-      break
-    }
-    default: {
-      break
-    }
-  }
+async function createToken() {
+  await emit('createToken')
 }
 
 const emit = defineEmits<{

@@ -105,19 +105,19 @@ export function getDefaultFiltration(to: any) {
     case 'packageMaintainers':
       sortStore.setDefaultFields('user.name', 'asc')
       sortStore.resetSort()
-      commonStore.setActiveId('user.name')
+      commonStore.activeId = 'user.name'
       break
     case 'packages':
     case 'repositories':
     case 'users':
       sortStore.setDefaultFields('name', 'asc')
       sortStore.resetSort()
-      commonStore.setActiveId('name')
+      commonStore.activeId = 'name'
       break
     case 'submissions':
       sortStore.setDefaultFields('state', 'desc')
       sortStore.resetSort()
-      commonStore.setActiveId('state')
+      commonStore.activeId = 'state'
       break
     default:
       break

@@ -22,19 +22,17 @@
 
 <template>
   <v-overlay
-    v-model="commonStore.overlayModel"
-    :absolute="absolute"
-    :opacity="commonStore.overlayOpacity"
+    v-model="commonStore.overlay"
+    opacity="0.8"
     location-strategy="connected"
     scroll-strategy="none"
     class="d-flex justify-center align-center"
-    @click:outside="closeModal"
+    @click:outside="commonStore.closeOverlay"
   >
-    <slot name="props" :close-modal="closeModal">
+    <slot name="props">
       <QuestionCard
         :text="commonStore.overlayText"
         @reset="reset"
-        @cancel="closeModal"
       />
     </slot>
   </v-overlay>
@@ -49,8 +47,6 @@ const emits = defineEmits(['action'])
 
 const commonStore = useCommonStore()
 
-const absolute = false
-
 onMounted(() => {
   document.addEventListener('keyup', (e) => {
     if (e.code == 'Escape') {
@@ -64,12 +60,8 @@ function onKeyup() {
 }
 
 async function reset() {
-  closeModal()
+  commonStore.closeOverlay()
   emits('action')
-}
-
-function closeModal() {
-  commonStore.setOverlayModel(false)
 }
 </script>
 

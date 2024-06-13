@@ -49,7 +49,7 @@ const componentProps = defineProps({
 const commonStore = useCommonStore()
 
 function openModal() {
-  commonStore.setOverlayText(i18n.t('filtration.makeSure'))
+  commonStore.overlayText = i18n.t('filtration.makeSure')
   commonStore.openOverlay(componentProps.component)
 }
 </script>

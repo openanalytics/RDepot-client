@@ -173,7 +173,7 @@ export const useAccessTokensStore = defineStore(
           async (success) => {
             if (success) {
               const commonStore = useCommonStore()
-              commonStore.setOverlayModel(false)
+              commonStore.closeOverlay()
               this.newToken = success[0].value
               commonStore.openOverlay(
                 OverlayEnum.enum.Created
@@ -193,7 +193,7 @@ export const useAccessTokensStore = defineStore(
                 i18n.t('settings.message.deleted')
               )
               const commonStore = useCommonStore()
-              commonStore.setOverlayModel(false)
+              commonStore.closeOverlay()
               await this.fetchTokens()
             }
           )
@@ -238,7 +238,7 @@ export const useAccessTokensStore = defineStore(
                 i18n.t('settings.message.deactivated')
               )
               const commonStore = useCommonStore()
-              commonStore.setOverlayModel(false)
+              commonStore.closeOverlay()
               await this.fetchTokens()
             }
           }

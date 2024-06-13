@@ -23,23 +23,41 @@
 <template>
   <v-card-actions>
     <v-row :justify="justify" class="mt-1">
+      <v-btn
+        v-if="cancelButton"
+        id="cancel-button"
+        color="oablue darken-2"
+        class="mx-1"
+        @click="cancel"
+        >{{ i18n.t('common.cancel') }}</v-btn
+      >
       <template v-for="(button, i) in buttons" :key="i">
-        <v-spacer v-if="button.spacer" />
         <v-btn
           :id="button.id"
-          :color="color + ' darken-2'"
           class="mx-1"
           @click="emit('clicked', button.id)"
         >
           <small>{{ button.text }}</small>
         </v-btn>
       </template>
+      <v-btn
+        v-if="submitButton"
+        id="submit-button"
+        color="oablue darken-2"
+        class="mx-1"
+        @click="emit('submit')"
+        >{{ i18n.t('common.submit') }}</v-btn
+      >
     </v-row>
   </v-card-actions>
 </template>
 
 <script setup lang="ts">
-const emit = defineEmits(['clicked'])
+import { i18n } from '@/plugins/i18n'
+import { useCommonStore } from '@/store/common'
+
+const emit = defineEmits(['clicked', 'cancel', 'submit'])
+const commonStore = useCommonStore()
 
 type Justify =
   | 'start'
@@ -52,14 +70,26 @@ type Justify =
 
 withDefaults(
   defineProps<{
+    cancelButton?: boolean
+    submitButton?: boolean
+    submitText?: string
     justify?: Justify
-    color?: string
-    buttons: {
+    buttons?: {
       id?: string
-      spacer?: boolean
       text: string
     }[]
   }>(),
-  { justify: 'space-between', color: 'oablue' }
+  {
+    justify: 'space-between',
+    cancelButton: true,
+    submitButton: true,
+    submitText: i18n.t('common.submit'),
+    buttons: undefined
+  }
 )
+
+function cancel() {
+  commonStore.closeOverlay()
+  emit('cancel')
+}
 </script>

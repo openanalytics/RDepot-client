@@ -30,11 +30,10 @@
       <slot> </slot>
     </v-card-text>
     <v-divider></v-divider>
-    <card-actions
+    <CardActions
       :buttons="buttons"
       @clicked="handleCardActions"
-    >
-    </card-actions>
+    />
   </v-card>
 </template>
 

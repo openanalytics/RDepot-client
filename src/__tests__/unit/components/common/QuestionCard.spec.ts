@@ -26,6 +26,7 @@ import { mount } from '@vue/test-utils'
 import QuestionCard from '@/components/common/overlay/QuestionCard.vue'
 import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
+import { createPinia, setActivePinia } from 'pinia'
 
 let wrapper: any
 const MESSAGE = 'Do you want to reset the form?'
@@ -35,6 +36,7 @@ const globalConfig = {
 }
 
 beforeEach(async () => {
+  setActivePinia(createPinia())
   wrapper = mount(QuestionCard, {
     global: globalConfig,
     props: { text: MESSAGE }
@@ -47,15 +49,15 @@ describe('QuestionCard', () => {
     expect(wrapper.vm.text).toBe(MESSAGE)
   })
 
-  it('emit fasle on cancel action', async () => {
-    const content = wrapper.find('#cancel-action')
+  it('emit false on cancel action', async () => {
+    const content = wrapper.find('#cancel-button')
     expect(content.exists()).toBeTruthy()
     await content.trigger('click')
     expect(wrapper.emitted().cancel).toBeTruthy()
   })
 
   it('emit true on apply action', async () => {
-    const content = wrapper.find('#apply-action')
+    const content = wrapper.find('#submit-button')
     expect(content.exists()).toBeTruthy()
     await content.trigger('click')
     expect(wrapper.emitted().reset).toBeTruthy()

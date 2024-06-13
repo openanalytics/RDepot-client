@@ -67,8 +67,7 @@ describe('Edit icon', () => {
     expect(icon.exists()).toBeTruthy()
     await icon.trigger('click')
     expect(commonStore.overlayText).toEqual(ICON_TEXT)
-    expect(commonStore.overlayModel).toBeTruthy()
-    expect(commonStore.overlayOpacity).toEqual(0.8)
+    expect(commonStore.overlay).toBeTruthy()
     expect(commonStore.overlayComponent).toEqual(
       OverlayEnum.Enum.Edit
     )

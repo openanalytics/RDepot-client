@@ -26,7 +26,7 @@ import ModalOverlay from '@/components/common/overlay/ModalOverlay.vue'
 import { createPinia, setActivePinia } from 'pinia'
 import { shallowMount } from '@vue/test-utils'
 import { useCommonStore } from '@/store/common'
-import UserEdit from '@/components/users/UserEdit.vue'
+import UserEdit from '@/components/users/modals/UserEdit.vue'
 
 let wrapper: any
 let commonStore: any
@@ -60,7 +60,7 @@ describe('ModalOverlay - chosen component', () => {
       code: 'Escape'
     })
     await document.dispatchEvent(event)
-    expect(commonStore.overlayModel).toBe(false)
+    expect(commonStore.overlay).toBe(false)
     expect(wrapper.emitted().action).toBeTruthy()
   })
 })

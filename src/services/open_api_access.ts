@@ -70,7 +70,7 @@ export async function openApiRequest<T>(
 
 function turnOnProgress() {
   const commonStore = useCommonStore()
-  commonStore.setProgressCircularActive(true)
+  commonStore.progressCircularActive = true
 }
 
 async function resolvedBlob(
@@ -116,8 +116,8 @@ async function resolvedBlob(
     default:
       break
   }
-  const common_store = useCommonStore()
-  common_store.setProgressCircularActive(false)
+  const commonStore = useCommonStore()
+  commonStore.progressCircularActive = false
   return validateRequest([])
 }
 
@@ -125,8 +125,8 @@ async function resolved(
   result: AxiosResponse<ResponseDtoObject>,
   ifToast = true
 ): Promise<validatedData<any>> {
-  const common_store = useCommonStore()
-  common_store.setProgressCircularActive(false)
+  const commonStore = useCommonStore()
+  commonStore.progressCircularActive = false
   if (ifToast) {
     const toasts = useToast()
     toasts.notifyAPISuccess(result)
@@ -145,8 +145,8 @@ async function resolved(
 async function rejected(
   result: AxiosError<BackendError | any>
 ) {
-  const common_store = useCommonStore()
-  common_store.setProgressCircularActive(false)
+  const commonStore = useCommonStore()
+  commonStore.progressCircularActive = false
   await errorsHandler(result)
   throw result
 }
