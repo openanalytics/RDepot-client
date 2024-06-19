@@ -28,7 +28,7 @@
         style="cursor: pointer"
         @click="collapse"
       >
-        {{ $t('packages.versions') }}
+        {{ $t('packages.withinPackage') }}
         <v-icon
           size="large"
           class="collapsibleIcon"
@@ -36,102 +36,42 @@
         />
       </div>
     </v-card-title>
-    <v-card-text>
-      <div class="my-5 mx-1 mb-10" style="min-width: 200px">
-        <ul
-          v-for="packageBag in packageDetailsStore.packages"
-          :key="packageBag.id"
-          class="my-5"
-          :style="showContentStyle"
-        >
-          <li
-            class="classifier-value"
-            :class="{ hover: mainId != packageBag.id }"
-            :style="showListStyle"
-            @click="navigate(packageBag.id)"
-          >
-            {{ packageBag.version }}
-            <span
-              v-if="
-                packageBag.version ==
-                packageDetailsStore.packageBag?.version
-              "
-              >({{ $t('common.current') }})</span
-            >
-          </li>
-        </ul>
+    <v-card-text :style="showContentStyle">
+      <div class="d-flex" style="flex-direction: column">
+        <Property
+          :title="$t('packages.authors')"
+          :value="packageBag.author"
+          split
+          collapsible
+        />
       </div>
     </v-card-text>
   </v-card>
 </template>
 
 <script setup lang="ts">
-import router from '@/plugins/router'
-import { usePackageDetailsStore } from '@/store/package_details'
+import { EntityModelPackageDto } from '@/openapi'
 import { computed } from 'vue'
+import { usePackageDetailsStore } from '@/store/package_details'
+import Property from './PackageProperty.vue'
 import { useCollapse } from '@/composable/collapse'
 
 const packageDetailsStore = usePackageDetailsStore()
 
-const mainId = computed(() => {
-  return packageDetailsStore.packageBag?.id
-})
+const packageBag = computed<EntityModelPackageDto>(
+  () =>
+    packageDetailsStore.packageBag as EntityModelPackageDto
+)
 
-const {
-  showContentStyle,
-  showListStyle,
-  collapseIcon,
-  collapse
-} = useCollapse(false)
-
-function navigate(id?: number) {
-  if (id) {
-    router.push({
-      name: 'packageDetails',
-      params: {
-        id: id,
-        technology:
-          packageDetailsStore.packageBag?.technology
-      }
-    })
-  }
-}
+const { showContentStyle, collapseIcon, collapse } =
+  useCollapse(true)
 </script>
 
-<style lang="scss" scoped>
+<style scoped lang="scss">
 $text_color: rgba(var(--v-theme-about-package));
 $background_color: rgba(var(--v-theme-about-background));
+$text_color_2: rgba(var(--v-theme-oablue-darken));
 
-.hover {
-  &:hover {
-    cursor: pointer;
-  }
-}
-
-.classifier-value {
-  display: list-item;
-  list-style-type: disc;
-  padding-left: 10px;
-  margin-left: 20px;
-}
-
-h1,
-.package_title {
-  font-size: 3rem;
-  line-height: 1.4;
-  font-weight: 500;
-  color: $text_color;
-}
-
-h2,
-.subtitle {
-  font-size: 2rem;
-  line-height: 1.4;
-  font-weight: 500;
-  color: $text_color;
-}
-
-p,
 .text {
   color: $text_color;
   font-size: 1.125rem;
@@ -161,15 +101,6 @@ p,
   padding: 3px;
   margin: 1px;
   color: $text_color;
-}
-
-.document {
-  color: rgb(var(--v-theme-oared));
-  transition: all 0.2s ease;
-  text-decoration: none;
-  &:hover {
-    cursor: pointer;
-  }
 }
 
 .rdepot-section {

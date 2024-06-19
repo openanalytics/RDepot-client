@@ -21,67 +21,14 @@
 -->
 
 <template>
-  <v-card color="background" elevation="15">
-    <v-card-title>
-      <div class="rdepot-section">
-        {{ $t('packages.withinPackage') }}
-      </div>
-    </v-card-title>
-    <v-card-text>
-      <div class="d-flex" style="flex-direction: column">
-        <Property
-          :title="$t('packages.authors')"
-          :value="packageBag.author"
-          split
-          collapsible
-        />
-      </div>
-    </v-card-text>
-  </v-card>
+  <PackageMetadata />
   <br />
-  <v-card color="background" elevation="15">
-    <v-card-title>
-      <div class="rdepot-section">
-        {{ $t('packages.withinRdepot') }}
-      </div>
-    </v-card-title>
-    <v-card-text>
-      <div class="d-flex" style="flex-direction: column">
-        <Property
-          :title="$t('packages.submitter')"
-          :value="submission?.submitter?.name"
-          collapsible
-          show-divider
-        />
-        <Property
-          :title="$t('packages.approver')"
-          :value="submission?.approver?.name"
-          collapsible
-          show-divider
-        />
-        <Property
-          :title="$t('packages.maintainer')"
-          :value="packageBag.user?.name"
-          collapsible
-        />
-      </div>
-    </v-card-text>
-  </v-card>
+  <PackageRDepot />
 </template>
 
 <script setup lang="ts">
-import { EntityModelPackageDto } from '@/openapi'
-import { computed, ref } from 'vue'
-import { usePackageDetailsStore } from '@/store/package_details'
-import Property from './PackageProperty.vue'
-
-const packageDetailsStore = usePackageDetailsStore()
-const submission = ref(packageDetailsStore.submission)
-
-const packageBag = computed<EntityModelPackageDto>(
-  () =>
-    packageDetailsStore.packageBag as EntityModelPackageDto
-)
+import PackageMetadata from './PackageMetadata.vue'
+import PackageRDepot from './PackageRDepot.vue'
 </script>
 
 <style scoped lang="scss">
@@ -122,5 +69,7 @@ $text_color_2: rgba(var(--v-theme-oablue-darken));
 
 .rdepot-section {
   color: $text_color;
+  display: flex;
+  justify-content: space-between;
 }
 </style>

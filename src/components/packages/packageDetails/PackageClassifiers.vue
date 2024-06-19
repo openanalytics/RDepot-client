@@ -22,13 +22,22 @@
 
 <template>
   <template v-if="packageBag.classifiers">
-    <v-card color="background" elevation="15">
+    <v-card color="background" elevation="10">
       <v-card-title>
-        <div class="rdepot-section">
+        <div
+          class="rdepot-section"
+          style="cursor: pointer"
+          @click="collapse"
+        >
           {{ $t('packages.classifiers') }}
+          <v-icon
+            size="large"
+            class="collapsibleIcon"
+            :icon="collapseIcon"
+          />
         </div>
       </v-card-title>
-      <v-card-text>
+      <v-card-text :style="showContentStyle">
         <div
           class="d-flex pb-5"
           style="flex-direction: column"
@@ -42,6 +51,9 @@
               <Classifier
                 :title="key"
                 :value="categories[key]"
+                :show-divider="
+                  Object.keys(categories).length > idx + 1
+                "
               />
             </div>
           </ul>
@@ -56,6 +68,7 @@ import { computed } from 'vue'
 import { EntityModelPythonPackageDto } from '@/openapi'
 import { usePackageDetailsStore } from '@/store/package_details'
 import Classifier from '@/components/packages/packageDetails/PythonClassifier.vue'
+import { useCollapse } from '@/composable/collapse'
 
 const packageDetailsStore = usePackageDetailsStore()
 
@@ -88,6 +101,9 @@ const categories = computed(() => {
     })
   return categories
 })
+
+const { showContentStyle, collapseIcon, collapse } =
+  useCollapse(true)
 </script>
 
 <style lang="scss">
@@ -103,5 +119,7 @@ $background_color: rgba(var(--v-theme-about-background));
 
 .rdepot-section {
   color: $text_color;
+  display: flex;
+  justify-content: space-between;
 }
 </style>

@@ -45,41 +45,28 @@
         {{ val }}
       </li>
     </ul>
-    <v-divider :thickness="3"></v-divider>
+    <v-divider
+      v-if="showDivider"
+      :thickness="3"
+    ></v-divider>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { useCollapse } from '@/composable/collapse'
 
 defineProps<{
   title: string
   value?: string[]
+  showDivider?: boolean
 }>()
 
-const showContent = ref(false)
-
-const showContentStyle = computed(() => {
-  return showContent.value
-    ? 'display: table; overflow: hidden; transition: all 0.5s ease; padding-bottom: 20px;'
-    : 'display: block; opacity: 0; max-height: 0px'
-})
-
-const showListStyle = computed(() => {
-  return showContent.value
-    ? 'display: list-item;'
-    : 'display: list-item; max-height: 0px'
-})
-
-const collapseIcon = computed(() => {
-  return showContent.value
-    ? 'mdi-menu-down'
-    : 'mdi-menu-right'
-})
-
-function collapse() {
-  showContent.value = !showContent.value
-}
+const {
+  showContentStyle,
+  showListStyle,
+  collapseIcon,
+  collapse
+} = useCollapse(false)
 </script>
 
 <style lang="scss">
