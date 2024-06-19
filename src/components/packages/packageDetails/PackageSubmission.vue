@@ -51,13 +51,13 @@
           :title="$t('packages.submitter')"
           :value="submission?.submitter?.name"
           collapsible
-          showDivider
+          show-divider
         />
         <Property
           :title="$t('packages.approver')"
           :value="submission?.approver?.name"
           collapsible
-          showDivider
+          show-divider
         />
         <Property
           :title="$t('packages.maintainer')"
