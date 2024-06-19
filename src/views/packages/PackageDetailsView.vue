@@ -36,8 +36,11 @@
       <PackageDownloads />
       <PackageManual />
       <PackageVignettes />
+      <br />
       <PackageSubmission />
+      <br />
       <PackageVersions />
+      <br />
       <PackageClassifiers />
     </div>
   </div>

@@ -21,43 +21,52 @@
 -->
 
 <template>
-  <div class="my-5 mx-1 mb-10" style="min-width: 200px">
-    <div
-      class="title"
-      :style="collapsableHover"
-      @click="collapse"
-    >
-      {{ $t('packages.versions') }}
-      <v-icon
-        size="large"
-        color="oa-blue"
-        class="collapsibleIcon"
-        :icon="collapseIcon"
-      />
-    </div>
-    <ul
-      v-for="packageBag in packageDetailsStore.packages"
-      :key="packageBag.id"
-      class="my-5"
-      :style="showContentStyle"
-    >
-      <li
-        class="classifier-value"
-        :class="{ hover: mainId != packageBag.id }"
-        :style="showListStyle"
-        @click="navigate(packageBag.id)"
-      >
-        {{ packageBag.version }}
-        <span
-          v-if="
-            packageBag.version ==
-            packageDetailsStore.packageBag?.version
-          "
-          >({{ $t('common.current') }})</span
+  <v-card color="background" elevation="15">
+    <v-card-title>
+      <div class="rdepot-section">
+        {{ $t('packages.details') }}
+      </div>
+    </v-card-title>
+    <v-card-text>
+      <div class="my-5 mx-1 mb-10" style="min-width: 200px">
+        <div
+          class="title"
+          :style="collapsableHover"
+          @click="collapse"
         >
-      </li>
-    </ul>
-  </div>
+          {{ $t('packages.versions') }}
+          <v-icon
+            size="large"
+            color="oa-blue"
+            class="collapsibleIcon"
+            :icon="collapseIcon"
+          />
+        </div>
+        <ul
+          v-for="packageBag in packageDetailsStore.packages"
+          :key="packageBag.id"
+          class="my-5"
+          :style="showContentStyle"
+        >
+          <li
+            class="classifier-value"
+            :class="{ hover: mainId != packageBag.id }"
+            :style="showListStyle"
+            @click="navigate(packageBag.id)"
+          >
+            {{ packageBag.version }}
+            <span
+              v-if="
+                packageBag.version ==
+                packageDetailsStore.packageBag?.version
+              "
+              >({{ $t('common.current') }})</span
+            >
+          </li>
+        </ul>
+      </div>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script setup lang="ts">

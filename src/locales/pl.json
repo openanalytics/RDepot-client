@@ -334,7 +334,8 @@
     },
     "windowsBinaries": "Pliki binarne Windows",
     "windowsBineries": "Pliki binarne Windows",
-    "withinRdepot": "Wewnątrz RDepot"
+    "withinRdepot": "Wewnątrz RDepot",
+    "withinPackage": "Wewnątrz pakietu"
   },
   "pagination": {
     "size": "Rozmiar strony"

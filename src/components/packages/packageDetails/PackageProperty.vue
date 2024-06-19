@@ -41,7 +41,10 @@
       class="value"
       :style="showContentStyle"
     ></div>
-    <v-divider :thickness="boldDivider ? 5 : 3"></v-divider>
+    <v-divider
+      v-if="showDivider"
+      :thickness="boldDivider ? 5 : 3"
+    ></v-divider>
   </div>
 </template>
 
@@ -54,6 +57,7 @@ const componentProps = defineProps<{
   split?: boolean
   boldDivider?: boolean
   collapsible: boolean
+  showDivider?: boolean
 }>()
 
 const showContent = ref(

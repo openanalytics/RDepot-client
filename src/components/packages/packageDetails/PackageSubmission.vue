@@ -21,35 +21,52 @@
 -->
 
 <template>
-  <div class="d-flex" style="flex-direction: column">
-    <Property
-      :title="$t('packages.authors')"
-      :value="packageBag.author"
-      split
-      bold-divider
-      collapsible
-    />
-  </div>
-  <div class="text mt-3">
-    {{ $t('packages.withinRdepot') }}:
-  </div>
-  <div class="d-flex" style="flex-direction: column">
-    <Property
-      :title="$t('packages.submitter')"
-      :value="submission?.submitter?.name"
-      collapsible
-    />
-    <Property
-      :title="$t('packages.approver')"
-      :value="submission?.approver?.name"
-      collapsible
-    />
-    <Property
-      :title="$t('packages.maintainer')"
-      :value="packageBag.user?.name"
-      collapsible
-    />
-  </div>
+  <v-card color="background" elevation="15">
+    <v-card-title>
+      <div class="rdepot-section">
+        {{ $t('packages.withinPackage') }}
+      </div>
+    </v-card-title>
+    <v-card-text>
+      <div class="d-flex" style="flex-direction: column">
+        <Property
+          :title="$t('packages.authors')"
+          :value="packageBag.author"
+          split
+          collapsible
+        />
+      </div>
+    </v-card-text>
+  </v-card>
+  <br />
+  <v-card color="background" elevation="15">
+    <v-card-title>
+      <div class="rdepot-section">
+        {{ $t('packages.withinRdepot') }}
+      </div>
+    </v-card-title>
+    <v-card-text>
+      <div class="d-flex" style="flex-direction: column">
+        <Property
+          :title="$t('packages.submitter')"
+          :value="submission?.submitter?.name"
+          collapsible
+          showDivider
+        />
+        <Property
+          :title="$t('packages.approver')"
+          :value="submission?.approver?.name"
+          collapsible
+          showDivider
+        />
+        <Property
+          :title="$t('packages.maintainer')"
+          :value="packageBag.user?.name"
+          collapsible
+        />
+      </div>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script setup lang="ts">
@@ -70,6 +87,7 @@ const packageBag = computed<EntityModelPackageDto>(
 <style scoped lang="scss">
 $text_color: rgba(var(--v-theme-about-package));
 $background_color: rgba(var(--v-theme-about-background));
+$text_color_2: rgba(var(--v-theme-oablue-darken));
 
 .text {
   color: $text_color;
@@ -99,6 +117,10 @@ $background_color: rgba(var(--v-theme-about-background));
 .col_desc {
   padding: 3px;
   margin: 1px;
+  color: $text_color;
+}
+
+.rdepot-section {
   color: $text_color;
 }
 </style>

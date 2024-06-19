@@ -22,23 +22,32 @@
 
 <template>
   <template v-if="packageBag.classifiers">
-    <h2 class="my-5">
-      {{ $t('packages.classifiers') }}
-    </h2>
-    <div class="d-flex pb-5" style="flex-direction: column">
-      <ul>
-        <div
-          v-for="(key, idx) in Object.keys(categories)"
-          :key="idx"
-          class="classifier-key"
-        >
-          <Classifier
-            :title="key"
-            :value="categories[key]"
-          />
+    <v-card color="background" elevation="15">
+      <v-card-title>
+        <div class="rdepot-section">
+          {{ $t('packages.classifiers') }}
         </div>
-      </ul>
-    </div>
+      </v-card-title>
+      <v-card-text>
+        <div
+          class="d-flex pb-5"
+          style="flex-direction: column"
+        >
+          <ul>
+            <div
+              v-for="(key, idx) in Object.keys(categories)"
+              :key="idx"
+              class="classifier-key"
+            >
+              <Classifier
+                :title="key"
+                :value="categories[key]"
+              />
+            </div>
+          </ul>
+        </div>
+      </v-card-text>
+    </v-card>
   </template>
 </template>
 
@@ -90,5 +99,9 @@ $background_color: rgba(var(--v-theme-about-background));
   list-style-type: disc;
   padding-left: 10px;
   margin-left: 20px;
+}
+
+.rdepot-section {
+  color: $text_color;
 }
 </style>

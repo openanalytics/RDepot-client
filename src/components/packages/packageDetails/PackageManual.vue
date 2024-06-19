@@ -29,7 +29,10 @@
     class="document"
     @click="getManual"
   >
-    <v-btn class="my-3" width="250">
+    <v-btn
+      class="my-3"
+      style="min-width: 200px; width: 100%"
+    >
       {{ $t('packages.referenceManual') }}
     </v-btn>
   </div>

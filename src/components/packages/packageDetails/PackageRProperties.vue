@@ -29,6 +29,7 @@
       :title="$t(translation)"
       :value="value || 'not provided'"
       :collapsible="false"
+      showDivider
     />
   </template>
 </template>
