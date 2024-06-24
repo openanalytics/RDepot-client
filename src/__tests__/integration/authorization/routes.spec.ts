@@ -40,16 +40,16 @@ const {
 const chrome = require('selenium-webdriver/chrome')
 // const repositoryMaintainer = users.data.content[1]
 let driver: any
-const url = 'http://172.17.0.1:3001'
+const url = 'http://192.168.49.20'
 const PASSWORD = 'testpassword'
 beforeEach(async () => {
   // setActivePinia(createPinia())
   driver = await new Builder()
     .forBrowser(Browser.CHROME)
-    .usingServer('http://172.17.0.1:4444/wd/hub')
+    .usingServer('http://192.168.49.12:4444/wd/hub')
     .setChromeOptions(
       new chrome.Options().addArguments(
-        '--headless',
+        // '--headless',
         '--no-sandbox',
         '--disable-dev-shm-usage',
         '--disable-gpu',
@@ -224,30 +224,7 @@ describe('Unauthenticated access', () => {
 
 describe('Admin access', () => {
   it('Login page', async () => {
-    await driver.get(url + '/login')
-    await driver.wait(
-      until.elementLocated(By.id('username-input')),
-      8000
-    )
-    driver
-      .findElement(By.id('username-input'))
-      .sendKeys('einstein')
-    await driver.wait(
-      until.elementLocated(By.id('password-input')),
-      8000
-    )
-    driver
-      .findElement(By.id('password-input'))
-      .sendKeys(PASSWORD)
-    await driver.wait(
-      until.elementLocated(By.id('login-simple-button')),
-      8000
-    )
-    driver.findElement(By.id('login-simple-button')).click()
-    await driver.wait(
-      until.elementLocated(By.id('sidebaruploadpackages')),
-      8000
-    )
+    await login('einstein', PASSWORD)
     driver
       .findElement(By.id('sidebaruploadpackages'))
       .click()
@@ -475,3 +452,34 @@ describe('Admin access', () => {
 //     }
 //   })
 // })
+// const delay = (delayInms: number) => {
+//   return new Promise((resolve) =>
+//     setTimeout(resolve, delayInms)
+//   )
+// }
+async function login(username: string, password: string) {
+  await driver.get(url + '/login')
+  await driver.wait(
+    until.elementLocated(By.id('username-input')),
+    8000
+  )
+  driver
+    .findElement(By.id('username-input'))
+    .sendKeys(username)
+  await driver.wait(
+    until.elementLocated(By.id('password-input')),
+    8000
+  )
+  driver
+    .findElement(By.id('password-input'))
+    .sendKeys(password)
+  await driver.wait(
+    until.elementLocated(By.id('login-simple-button')),
+    8000
+  )
+  driver.findElement(By.id('login-simple-button')).click()
+  await driver.wait(
+    until.elementLocated(By.id('sidebaruploadpackages')),
+    8000
+  )
+}
