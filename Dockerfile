@@ -1,5 +1,5 @@
 # build stage
-FROM registry.openanalytics.eu/proxy/library/node:lts-alpine as build-stage
+FROM registry.openanalytics.eu/proxy/library/node:lts-alpine3.20 as build-stage
 WORKDIR /app
 COPY package*.json ./
 RUN npm install 
