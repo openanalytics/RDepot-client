@@ -116,7 +116,11 @@ function savePackagesInStore() {
 }
 
 function checkValidity(file: File) {
-  return filesStore.checkValidity(file, 'application/gzip')
+  return filesStore.checkValidity(
+    file,
+    'application/gzip',
+    '.tar.gz'
+  )
 }
 
 onMounted(() => {

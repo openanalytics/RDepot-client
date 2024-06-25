@@ -115,6 +115,39 @@ services:
       - 4444:4444
     networks:
       - oa-rdepot
+  keycloak:
+    image: keycloak/keycloak:24.0
+    restart: unless-stopped
+    hostname: oa-rdepot-keycloak
+    container_name: oa-rdepot-keycloak
+    environment:
+      - KC_FILE=/tmp/rdepot.json
+      - KC_HTTP_RELATIVE_PATH=/keycloak
+      - KC_PROXY_HEADERS=xforwarded
+      - KC_HTTP_ENABLED=true
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+    volumes:
+      - ./docker/keycloak/realm-rdepot-vue.json:/opt/keycloak/data/import/rdepot.json:ro
+    networks:
+      oa-rdepot:
+        aliases:
+          - oa-rdepot-keycloak
+    command:
+      - start-dev
+      - --import-realm
+  ldap:
+    build: ./docker/ldap
+    restart: unless-stopped
+    hostname: oa-rdepot-ldap
+    container_name: oa-rdepot-ldap
+    environment:
+      - LDAP_TLS=false
+      - LDAP_ORGANISATION=Test Company
+      - LDAP_DOMAIN=example.org
+      - LDAP_ADMIN_PASSWORD=testpassword
+    networks:
+      - oa-rdepot
 networks:
   oa-rdepot:
     ipam:

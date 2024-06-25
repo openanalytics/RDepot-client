@@ -43,8 +43,15 @@ export const useFilesListStore = defineStore('filesStore', {
     }
   },
   actions: {
-    checkValidity(file: File, format: string) {
-      return file['type'] === format
+    checkValidity(
+      file: File,
+      format: string,
+      fileExtension: string
+    ) {
+      return (
+        file['name'].endsWith(fileExtension) ||
+        file['type'] === format
+      )
     },
     removeFile(file: File) {
       this.files.forEach((fileLocal: File, i: number) => {
