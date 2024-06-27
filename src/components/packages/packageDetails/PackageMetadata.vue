@@ -21,22 +21,11 @@
 -->
 
 <template>
-  <v-card color="background" elevation="10">
-    <v-card-title>
-      <div
-        class="rdepot-section"
-        style="cursor: pointer"
-        @click="collapse"
-      >
-        {{ $t('packages.withinPackage') }}
-        <v-icon
-          size="large"
-          class="collapsibleIcon"
-          :icon="collapseIcon"
-        />
-      </div>
-    </v-card-title>
-    <v-card-text :style="showContentStyle">
+  <v-expansion-panel value="Metadata">
+    <v-expansion-panel-title class="title">
+      {{ $t('packages.withinPackage') }}
+    </v-expansion-panel-title>
+    <v-expansion-panel-text>
       <div class="d-flex" style="flex-direction: column">
         <Property
           :title="$t('packages.authors')"
@@ -45,8 +34,8 @@
           collapsible
         />
       </div>
-    </v-card-text>
-  </v-card>
+    </v-expansion-panel-text>
+  </v-expansion-panel>
 </template>
 
 <script setup lang="ts">
@@ -54,7 +43,6 @@ import { EntityModelPackageDto } from '@/openapi'
 import { computed } from 'vue'
 import { usePackageDetailsStore } from '@/store/package_details'
 import Property from './PackageProperty.vue'
-import { useCollapse } from '@/composable/collapse'
 
 const packageDetailsStore = usePackageDetailsStore()
 
@@ -62,15 +50,12 @@ const packageBag = computed<EntityModelPackageDto>(
   () =>
     packageDetailsStore.packageBag as EntityModelPackageDto
 )
-
-const { showContentStyle, collapseIcon, collapse } =
-  useCollapse(true)
 </script>
 
 <style scoped lang="scss">
 $text_color: rgba(var(--v-theme-about-package));
 $background_color: rgba(var(--v-theme-about-background));
-$text_color_2: rgba(var(--v-theme-oablue-darken));
+$text_color_2: rgba(var(--v-theme-oablue));
 
 .text {
   color: $text_color;
@@ -103,8 +88,10 @@ $text_color_2: rgba(var(--v-theme-oablue-darken));
   color: $text_color;
 }
 
-.rdepot-section {
-  color: $text_color;
+.title {
+  color: $text_color_2;
+  font-weight: 600;
+  font-size: larger;
   display: flex;
   justify-content: space-between;
 }

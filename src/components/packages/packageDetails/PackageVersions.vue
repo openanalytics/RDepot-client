@@ -21,33 +21,20 @@
 -->
 
 <template>
-  <v-card color="background" elevation="10">
-    <v-card-title>
-      <div
-        class="rdepot-section"
-        style="cursor: pointer"
-        @click="collapse"
-      >
-        {{ $t('packages.versions') }}
-        <v-icon
-          size="large"
-          class="collapsibleIcon"
-          :icon="collapseIcon"
-        />
-      </div>
-    </v-card-title>
-    <v-card-text>
-      <div class="my-5 mx-1 mb-10" style="min-width: 200px">
+  <v-expansion-panel value="Versions">
+    <v-expansion-panel-title class="title">
+      {{ $t('packages.versions') }}
+    </v-expansion-panel-title>
+    <v-expansion-panel-text>
+      <div class="d-flex" style="flex-direction: column">
         <ul
           v-for="packageBag in packageDetailsStore.packages"
           :key="packageBag.id"
           class="my-5"
-          :style="showContentStyle"
         >
           <li
             class="classifier-value"
             :class="{ hover: mainId != packageBag.id }"
-            :style="showListStyle"
             @click="navigate(packageBag.id)"
           >
             {{ packageBag.version }}
@@ -61,28 +48,20 @@
           </li>
         </ul>
       </div>
-    </v-card-text>
-  </v-card>
+    </v-expansion-panel-text>
+  </v-expansion-panel>
 </template>
 
 <script setup lang="ts">
 import router from '@/plugins/router'
 import { usePackageDetailsStore } from '@/store/package_details'
 import { computed } from 'vue'
-import { useCollapse } from '@/composable/collapse'
 
 const packageDetailsStore = usePackageDetailsStore()
 
 const mainId = computed(() => {
   return packageDetailsStore.packageBag?.id
 })
-
-const {
-  showContentStyle,
-  showListStyle,
-  collapseIcon,
-  collapse
-} = useCollapse(false)
 
 function navigate(id?: number) {
   if (id) {
@@ -101,6 +80,7 @@ function navigate(id?: number) {
 <style lang="scss" scoped>
 $text_color: rgba(var(--v-theme-about-package));
 $background_color: rgba(var(--v-theme-about-background));
+$text_color_2: rgba(var(--v-theme-oablue));
 
 .hover {
   &:hover {
@@ -172,8 +152,10 @@ p,
   }
 }
 
-.rdepot-section {
-  color: $text_color;
+.title {
+  color: $text_color_2;
+  font-weight: 600;
+  font-size: larger;
   display: flex;
   justify-content: space-between;
 }

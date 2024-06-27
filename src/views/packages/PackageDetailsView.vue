@@ -36,12 +36,11 @@
       <PackageDownloads />
       <PackageManual />
       <PackageVignettes />
-      <br />
-      <PackageSubmission />
-      <br />
-      <PackageVersions />
-      <br />
-      <PackageClassifiers />
+      <v-expansion-panels v-model="packagePanels" multiple>
+        <PackageSubmission />
+        <PackageVersions />
+        <PackageClassifiers />
+      </v-expansion-panels>
     </div>
   </div>
 </template>
@@ -57,4 +56,12 @@ import PackageVersions from '@/components/packages/packageDetails/PackageVersion
 import PackageTitle from '@/components/packages/packageDetails/PackageTitle.vue'
 import PackageManual from '@/components/packages/packageDetails/PackageManual.vue'
 import PackageVignettes from '@/components/packages/packageDetails/PackageVignettes.vue'
+import { ref } from 'vue'
+
+const packagePanels = ref([
+  'Metadata',
+  'MetadataRdepot',
+  'Versions',
+  'Classifiers'
+])
 </script>

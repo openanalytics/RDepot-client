@@ -22,26 +22,12 @@
 
 <template>
   <template v-if="packageBag.classifiers">
-    <v-card color="background" elevation="10">
-      <v-card-title>
-        <div
-          class="rdepot-section"
-          style="cursor: pointer"
-          @click="collapse"
-        >
-          {{ $t('packages.classifiers') }}
-          <v-icon
-            size="large"
-            class="collapsibleIcon"
-            :icon="collapseIcon"
-          />
-        </div>
-      </v-card-title>
-      <v-card-text :style="showContentStyle">
-        <div
-          class="d-flex pb-5"
-          style="flex-direction: column"
-        >
+    <v-expansion-panel value="Classifiers">
+      <v-expansion-panel-title class="title">
+        {{ $t('packages.classifiers') }}
+      </v-expansion-panel-title>
+      <v-expansion-panel-text>
+        <div class="d-flex" style="flex-direction: column">
           <ul>
             <div
               v-for="(key, idx) in Object.keys(categories)"
@@ -51,15 +37,12 @@
               <Classifier
                 :title="key"
                 :value="categories[key]"
-                :show-divider="
-                  Object.keys(categories).length > idx + 1
-                "
               />
             </div>
           </ul>
         </div>
-      </v-card-text>
-    </v-card>
+      </v-expansion-panel-text>
+    </v-expansion-panel>
   </template>
 </template>
 
@@ -68,7 +51,6 @@ import { computed } from 'vue'
 import { EntityModelPythonPackageDto } from '@/openapi'
 import { usePackageDetailsStore } from '@/store/package_details'
 import Classifier from '@/components/packages/packageDetails/PythonClassifier.vue'
-import { useCollapse } from '@/composable/collapse'
 
 const packageDetailsStore = usePackageDetailsStore()
 
@@ -101,14 +83,12 @@ const categories = computed(() => {
     })
   return categories
 })
-
-const { showContentStyle, collapseIcon, collapse } =
-  useCollapse(true)
 </script>
 
 <style lang="scss">
 $text_color: rgba(var(--v-theme-about-package));
 $background_color: rgba(var(--v-theme-about-background));
+$text_color_2: rgba(var(--v-theme-oablue));
 
 .classifier-value {
   display: list-item;
@@ -117,8 +97,10 @@ $background_color: rgba(var(--v-theme-about-background));
   margin-left: 20px;
 }
 
-.rdepot-section {
-  color: $text_color;
+.title {
+  color: $text_color_2;
+  font-weight: 600;
+  font-size: larger;
   display: flex;
   justify-content: space-between;
 }

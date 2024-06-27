@@ -22,51 +22,33 @@
 
 <template>
   <div v-if="value" class="pt-2">
-    <div
-      class="title"
-      style="cursor: pointer"
-      @click="collapse"
-    >
-      {{ title }}
-      <v-icon
-        size="large"
-        color="oa-blue"
-        class="collapsibleIcon"
-        :icon="collapseIcon"
-      />
-    </div>
-    <ul :style="showContentStyle">
-      <li
-        v-for="(val, idx) in value"
-        :key="idx"
-        :style="showListStyle"
-        class="classifier-value"
-      >
-        {{ val }}
-      </li>
-    </ul>
-    <v-divider
-      v-if="showDivider"
-      :thickness="3"
-    ></v-divider>
+    <v-expansion-panels>
+      <v-expansion-panel>
+        <v-expansion-panel-title>
+          {{ title }}
+        </v-expansion-panel-title>
+        <v-expansion-panel-text>
+          <ul>
+            <li
+              v-for="(val, idx) in value"
+              :key="idx"
+              class="classifier-value"
+            >
+              {{ val }}
+            </li>
+          </ul>
+        </v-expansion-panel-text>
+      </v-expansion-panel>
+    </v-expansion-panels>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useCollapse } from '@/composable/collapse'
-
 defineProps<{
   title: string
   value?: string[]
   showDivider?: boolean
 }>()
-
-const {
-  showContentStyle,
-  showListStyle,
-  collapseIcon,
-  collapse
-} = useCollapse(false)
 </script>
 
 <style lang="scss">
@@ -84,9 +66,5 @@ $background_color: rgba(var(--v-theme-about-background));
 
 hr_style {
   border-top: $text_color_2 solid 1px !important;
-}
-
-.collapsibleIcon {
-  justify-self: flex-end;
 }
 </style>

@@ -22,7 +22,6 @@
 
 <template>
   <PackageMetadata />
-  <br />
   <PackageRDepot />
 </template>
 
