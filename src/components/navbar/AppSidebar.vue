@@ -57,6 +57,7 @@
       <v-divider class="pb-3"></v-divider>
       <v-list-item
         v-if="authorizationStore.can('GET', 'events')"
+        id="sidebar-events"
         prepend-icon="mdi-timetable"
         :title="$t('common.events')"
         :value="$t('common.events')"
@@ -66,7 +67,7 @@
       </v-list-item>
       <v-list-item
         v-if="authorizationStore.can('POST', 'submissions')"
-        id="sidebaruploadpackages"
+        id="sidebar-upload-packages"
         prepend-icon="mdi-upload"
         :title="$t('common.uploadPackages')"
         :value="$t('common.uploadPackages')"
@@ -91,6 +92,7 @@
             'packageMaintainers'
           )
         "
+        id="sidebar-package-maintainers-list"
         :title="$t('packages.maintainers')"
         :value="$t('packages.maintainers')"
         active-class="link-active"
@@ -108,6 +110,7 @@
 
       <v-list-item
         v-if="authorizationStore.can('GET', 'repositories')"
+        id="sidebar-repositories-list"
         :title="$t('repositories.list')"
         :value="$t('repositories.list')"
         prepend-icon="mdi-folder-network"
@@ -122,7 +125,7 @@
             'repositoryMaintainers'
           )
         "
-        id="sidebarrepositorymintainers"
+        id="sidebar-repository-maintainers-list"
         :title="$t('repositories.maintainers')"
         :value="$t('repositories.maintainers')"
         active-class="link-active"
@@ -143,6 +146,7 @@
 
       <v-list-item
         v-if="authorizationStore.can('GET', 'users')"
+        id="sidebar-users"
         prepend-icon="mdi-account-multiple"
         :title="$t('common.users')"
         :value="$t('common.users')"
@@ -152,6 +156,7 @@
 
       <v-list-item
         v-if="authorizationStore.can('GET', 'submissions')"
+        id="sidebar-submissions"
         prepend-icon="mdi-email"
         :title="$t('common.submissions')"
         :value="$t('common.submissions')"
@@ -168,12 +173,14 @@
         </template>
 
         <v-list-item
+          id="sidebar-settings-general"
           :title="$t('settings.tab.general')"
           :value="$t('settings.tab.general')"
           active-class="link-active"
           to="/settings-general"
         ></v-list-item>
         <v-list-item
+          id="sidebar-settings-access-tokens"
           :title="$t('settings.tab.token')"
           :value="$t('settings.tab.token')"
           active-class="link-active"
