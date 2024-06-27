@@ -21,35 +21,28 @@
 -->
 
 <template>
-  <v-expansion-panel value="Versions">
-    <v-expansion-panel-title class="title">
-      {{ $t('packages.versions') }}
-    </v-expansion-panel-title>
-    <v-expansion-panel-text>
-      <div class="d-flex" style="flex-direction: column">
-        <ul
-          v-for="packageBag in packageDetailsStore.packages"
-          :key="packageBag.id"
-          class="my-5"
+  <div class="d-flex" style="flex-direction: column">
+    <ul
+      v-for="packageBag in packageDetailsStore.packages"
+      :key="packageBag.id"
+      class="my-5"
+    >
+      <li
+        class="classifier-value"
+        :class="{ hover: mainId != packageBag.id }"
+        @click="navigate(packageBag.id)"
+      >
+        {{ packageBag.version }}
+        <span
+          v-if="
+            packageBag.version ==
+            packageDetailsStore.packageBag?.version
+          "
+          >({{ $t('common.current') }})</span
         >
-          <li
-            class="classifier-value"
-            :class="{ hover: mainId != packageBag.id }"
-            @click="navigate(packageBag.id)"
-          >
-            {{ packageBag.version }}
-            <span
-              v-if="
-                packageBag.version ==
-                packageDetailsStore.packageBag?.version
-              "
-              >({{ $t('common.current') }})</span
-            >
-          </li>
-        </ul>
-      </div>
-    </v-expansion-panel-text>
-  </v-expansion-panel>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script setup lang="ts">

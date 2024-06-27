@@ -21,32 +21,25 @@
 -->
 
 <template>
-  <v-expansion-panel value="MetadataRdepot">
-    <v-expansion-panel-title class="title">
-      {{ $t('packages.withinRdepot') }}
-    </v-expansion-panel-title>
-    <v-expansion-panel-text>
-      <div class="d-flex" style="flex-direction: column">
-        <Property
-          :title="$t('packages.submitter')"
-          :value="submission?.submitter?.name"
-          collapsible
-          show-divider
-        />
-        <Property
-          :title="$t('packages.approver')"
-          :value="submission?.approver?.name"
-          collapsible
-          show-divider
-        />
-        <Property
-          :title="$t('packages.maintainer')"
-          :value="packageBag.user?.name"
-          collapsible
-        />
-      </div>
-    </v-expansion-panel-text>
-  </v-expansion-panel>
+  <div class="d-flex" style="flex-direction: column">
+    <Property
+      :title="$t('packages.submitter')"
+      :value="submission?.submitter?.name"
+      collapsible
+      show-divider
+    />
+    <Property
+      :title="$t('packages.approver')"
+      :value="submission?.approver?.name"
+      collapsible
+      show-divider
+    />
+    <Property
+      :title="$t('packages.maintainer')"
+      :value="packageBag.user?.name"
+      collapsible
+    />
+  </div>
 </template>
 
 <script setup lang="ts">

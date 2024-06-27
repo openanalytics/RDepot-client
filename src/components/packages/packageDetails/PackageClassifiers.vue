@@ -21,29 +21,17 @@
 -->
 
 <template>
-  <template v-if="packageBag.classifiers">
-    <v-expansion-panel value="Classifiers">
-      <v-expansion-panel-title class="title">
-        {{ $t('packages.classifiers') }}
-      </v-expansion-panel-title>
-      <v-expansion-panel-text>
-        <div class="d-flex" style="flex-direction: column">
-          <ul>
-            <div
-              v-for="(key, idx) in Object.keys(categories)"
-              :key="idx"
-              class="classifier-key"
-            >
-              <Classifier
-                :title="key"
-                :value="categories[key]"
-              />
-            </div>
-          </ul>
-        </div>
-      </v-expansion-panel-text>
-    </v-expansion-panel>
-  </template>
+  <div class="d-flex" style="flex-direction: column">
+    <ul>
+      <div
+        v-for="(key, idx) in Object.keys(categories)"
+        :key="idx"
+        class="classifier-key"
+      >
+        <Classifier :title="key" :value="categories[key]" />
+      </div>
+    </ul>
+  </div>
 </template>
 
 <script setup lang="ts">

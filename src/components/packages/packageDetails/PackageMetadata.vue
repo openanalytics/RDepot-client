@@ -21,21 +21,14 @@
 -->
 
 <template>
-  <v-expansion-panel value="Metadata">
-    <v-expansion-panel-title class="title">
-      {{ $t('packages.withinPackage') }}
-    </v-expansion-panel-title>
-    <v-expansion-panel-text>
-      <div class="d-flex" style="flex-direction: column">
-        <Property
-          :title="$t('packages.authors')"
-          :value="packageBag.author"
-          split
-          collapsible
-        />
-      </div>
-    </v-expansion-panel-text>
-  </v-expansion-panel>
+  <div class="d-flex" style="flex-direction: column">
+    <Property
+      :title="$t('packages.authors')"
+      :value="packageBag.author"
+      split
+      collapsible
+    />
+  </div>
 </template>
 
 <script setup lang="ts">
