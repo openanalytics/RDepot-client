@@ -21,7 +21,11 @@
 -->
 
 <template>
-  <v-btn class="my-3" width="250" @click="getSourceFile">
+  <v-btn
+    class="my-3"
+    style="min-width: 200px; width: 100%"
+    @click="getSourceFile"
+  >
     {{ $t('packages.downloadButton') }}
   </v-btn>
 </template>

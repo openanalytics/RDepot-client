@@ -339,6 +339,7 @@
     },
     "windowsBinaries": "Windows binaries",
     "windowsBineries": "Windows binaries",
+    "withinPackage": "Package metadata",
     "withinRdepot": "Within RDepot"
   },
   "pagination": {

@@ -23,26 +23,16 @@
 <template>
   <div class="d-flex" style="flex-direction: column">
     <Property
-      :title="$t('packages.authors')"
-      :value="packageBag.author"
-      split
-      bold-divider
-      collapsible
-    />
-  </div>
-  <div class="text mt-3">
-    {{ $t('packages.withinRdepot') }}:
-  </div>
-  <div class="d-flex" style="flex-direction: column">
-    <Property
       :title="$t('packages.submitter')"
       :value="submission?.submitter?.name"
       collapsible
+      show-divider
     />
     <Property
       :title="$t('packages.approver')"
       :value="submission?.approver?.name"
       collapsible
+      show-divider
     />
     <Property
       :title="$t('packages.maintainer')"
@@ -70,6 +60,7 @@ const packageBag = computed<EntityModelPackageDto>(
 <style scoped lang="scss">
 $text_color: rgba(var(--v-theme-about-package));
 $background_color: rgba(var(--v-theme-about-background));
+$text_color_2: rgba(var(--v-theme-oablue));
 
 .text {
   color: $text_color;
@@ -100,5 +91,13 @@ $background_color: rgba(var(--v-theme-about-background));
   padding: 3px;
   margin: 1px;
   color: $text_color;
+}
+
+.title {
+  color: $text_color_2;
+  font-weight: 600;
+  font-size: larger;
+  display: flex;
+  justify-content: space-between;
 }
 </style>

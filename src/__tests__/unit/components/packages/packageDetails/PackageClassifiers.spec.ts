@@ -55,12 +55,14 @@ describe('Package Classifiers', () => {
   })
 
   it('display all classifiers titles', async () => {
-    const ulComponents = wrapper.findAll('ul')
-    expect(ulComponents).toHaveLength(7)
+    const ulComponents = wrapper.findAll(
+      '.v-expansion-panel'
+    )
+    expect(ulComponents).toHaveLength(6)
   })
 
   it('display all classifiers values', async () => {
     const liComponents = wrapper.findAll('li')
-    expect(liComponents).toHaveLength(14)
+    expect(liComponents).toHaveLength(0)
   })
 })

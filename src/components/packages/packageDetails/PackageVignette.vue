@@ -27,7 +27,11 @@
     content-class="custom-tooltip"
   >
     <template #activator="{ props }">
-      <v-btn v-bind="props" class="my-3" width="250">
+      <v-btn
+        v-bind="props"
+        class="my-3"
+        style="min-width: 200px; width: 100%"
+      >
         {{ formattedName }}
 
         <v-menu open-on-hover activator="parent">

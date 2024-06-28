@@ -21,25 +21,17 @@
 -->
 
 <template>
-  <template v-if="packageBag.classifiers">
-    <h2 class="my-5">
-      {{ $t('packages.classifiers') }}
-    </h2>
-    <div class="d-flex pb-5" style="flex-direction: column">
-      <ul>
-        <div
-          v-for="(key, idx) in Object.keys(categories)"
-          :key="idx"
-          class="classifier-key"
-        >
-          <Classifier
-            :title="key"
-            :value="categories[key]"
-          />
-        </div>
-      </ul>
-    </div>
-  </template>
+  <div class="d-flex" style="flex-direction: column">
+    <ul>
+      <div
+        v-for="(key, idx) in Object.keys(categories)"
+        :key="idx"
+        class="classifier-key"
+      >
+        <Classifier :title="key" :value="categories[key]" />
+      </div>
+    </ul>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -84,11 +76,20 @@ const categories = computed(() => {
 <style lang="scss">
 $text_color: rgba(var(--v-theme-about-package));
 $background_color: rgba(var(--v-theme-about-background));
+$text_color_2: rgba(var(--v-theme-oablue));
 
 .classifier-value {
   display: list-item;
   list-style-type: disc;
   padding-left: 10px;
   margin-left: 20px;
+}
+
+.title {
+  color: $text_color_2;
+  font-weight: 600;
+  font-size: larger;
+  display: flex;
+  justify-content: space-between;
 }
 </style>
