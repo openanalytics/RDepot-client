@@ -24,7 +24,7 @@
   <div v-if="value" class="pt-2">
     <v-expansion-panels v-if="collapsible">
       <v-expansion-panel>
-        <v-expansion-panel-title>
+        <v-expansion-panel-title class="panel-subtitle">
           {{ title }}
         </v-expansion-panel-title>
         <v-expansion-panel-text>
@@ -86,11 +86,12 @@ function splitValue() {
 $text_color: rgba(var(--v-theme-oablue-darken-2));
 $text_color_2: rgba(var(--v-theme-oablue));
 $background_color: rgba(var(--v-theme-about-background));
+$background_color_2: rgba(var(--v-theme-about-package));
 
 .title {
   color: $text_color_2;
   font-weight: 600;
-  font-size: larger;
+  font-size: 1.25rem;
   display: flex;
   justify-content: space-between;
 }
@@ -99,7 +100,10 @@ hr_style {
   border-top: $text_color_2 solid 1px !important;
 }
 
-.collapsibleIcon {
-  justify-self: flex-end;
+.panel-subtitle {
+  color: $background_color_2;
+  font-weight: 600;
+  display: flex;
+  font-size: 1.2rem !important;
 }
 </style>
