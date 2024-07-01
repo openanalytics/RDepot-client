@@ -20,18 +20,11 @@
  *
  */
 
-import {
-  describe,
-  it,
-  expect,
-  beforeEach,
-  beforeAll
-} from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 
 import { mount } from '@vue/test-utils'
 import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
-import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import FiltrationBarVue from '@/components/repositoryMaintainers/FiltrationBar.vue'
 import { createPinia, setActivePinia } from 'pinia'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
@@ -58,10 +51,6 @@ const EXAMPLE_REPOSITORY_MAINTAINER_FILTRATION =
     technologies: [Technologies.enum.Python],
     search: 'ana'
   })
-
-beforeAll(() => {
-  global.ResizeObserver = ResizeObserver
-})
 
 beforeEach(async () => {
   setActivePinia(createPinia())

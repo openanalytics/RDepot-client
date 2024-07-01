@@ -22,6 +22,7 @@
 
 <template>
   <v-autocomplete
+    v-model="value"
     :label="label"
     :items="selectStore.items"
     :loading="selectStore.pending"
@@ -70,6 +71,8 @@ const selectStore = useSelectStore(componentProps.storeId)
 
 const queryTerm = ref<string | undefined>('')
 
+const value = ref<string>()
+
 function search(value: string) {
   if (queryTerm.value !== value) {
     if (value == '') {
@@ -92,10 +95,22 @@ async function loadItems() {
 watchDebounced(
   queryTerm,
   async () => {
-    selectStore.resetItems()
-    selectStore.resetPagination()
-    emits('filtrate', queryTerm.value)
-    await loadItems()
+    const item = selectStore.items.find((item) => {
+      if (typeof item === 'string') return undefined
+      else {
+        if (
+          item?.value == value.value &&
+          item?.title == queryTerm.value
+        )
+          return item
+      }
+    })
+    if (item) {
+      selectStore.resetItems()
+      selectStore.resetPagination()
+      emits('filtrate', queryTerm.value)
+      await loadItems()
+    }
   },
   { debounce: 500, maxWait: 1000 }
 )

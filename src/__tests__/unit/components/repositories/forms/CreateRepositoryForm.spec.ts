@@ -25,14 +25,12 @@ import {
   it,
   expect,
   beforeEach,
-  beforeAll,
   vi
 } from 'vitest'
 
 import { mount } from '@vue/test-utils'
 import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
-import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import { createPinia, setActivePinia } from 'pinia'
 import CreateRepositoryForm from '@/components/repositories/forms/CreateRepositoryForm.vue'
 import { Technologies } from '@/enum/Technologies'
@@ -50,10 +48,6 @@ const globalConfig = {
   mocks: mocks,
   plugins: plugins
 }
-
-beforeAll(() => {
-  global.ResizeObserver = ResizeObserver
-})
 
 describe('CreateRepository', () => {
   beforeEach(async () => {

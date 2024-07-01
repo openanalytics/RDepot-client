@@ -79,6 +79,7 @@
     <template #[`item.actions`]="{ item }">
       <span class="d-flex justify-center align-center">
         <EditIcon
+          :icon-id="`edit-user-${item.id}`"
           :disabled="!canPatch(item.links)"
           :text="$t('common.edit')"
           @set-entity="setEditUser(item)"

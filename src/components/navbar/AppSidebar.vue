@@ -41,6 +41,7 @@
                 class="pl-3"
               >
                 <v-btn
+                  id="logout-button"
                   color="grey-lighten-1"
                   icon="mdi-logout"
                   variant="text"
@@ -92,7 +93,7 @@
             'packageMaintainers'
           )
         "
-        id="sidebar-package-maintainers-list"
+        id="sidebar-package-maintainers"
         :title="$t('packages.maintainers')"
         :value="$t('packages.maintainers')"
         active-class="link-active"
@@ -125,7 +126,7 @@
             'repositoryMaintainers'
           )
         "
-        id="sidebar-repository-maintainers-list"
+        id="sidebar-repository-maintainers"
         :title="$t('repositories.maintainers')"
         :value="$t('repositories.maintainers')"
         active-class="link-active"
@@ -146,7 +147,7 @@
 
       <v-list-item
         v-if="authorizationStore.can('GET', 'users')"
-        id="sidebar-users"
+        id="sidebar-users-page"
         prepend-icon="mdi-account-multiple"
         :title="$t('common.users')"
         :value="$t('common.users')"

@@ -69,7 +69,7 @@ describe('package maintainer filtration composable', () => {
     const packageMaintainerStore =
       usePackageMaintainersStore()
     selectStore.paginationData.totalNumber = 2
-    selectStore.paginationData.page = 1
+    selectStore.paginationData.page = 0
     selectStore.pageSize = 1
     const spy = vi.spyOn(
       packageMaintainerStore,

@@ -25,7 +25,6 @@ import { describe, it, expect, beforeAll } from 'vitest'
 import { mount, config } from '@vue/test-utils'
 import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
-import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import pythonPackage from '@/__tests__/config/mockData/pythonPackage.json'
 import { createPinia, setActivePinia } from 'pinia'
 import PackageClassifiers from '@/components/packages/packageDetails/PackageClassifiers.vue'
@@ -39,7 +38,6 @@ const globalConfig = {
   plugins: plugins
 }
 beforeAll(() => {
-  global.ResizeObserver = ResizeObserver
   config.global.renderStubDefaultSlot = true
   setActivePinia(createPinia())
   packageDetailsStore = usePackageDetailsStore()
@@ -55,12 +53,14 @@ describe('Package Classifiers', () => {
   })
 
   it('display all classifiers titles', async () => {
-    const ulComponents = wrapper.findAll('ul')
-    expect(ulComponents).toHaveLength(7)
+    const ulComponents = wrapper.findAll(
+      '.v-expansion-panel'
+    )
+    expect(ulComponents).toHaveLength(6)
   })
 
   it('display all classifiers values', async () => {
     const liComponents = wrapper.findAll('li')
-    expect(liComponents).toHaveLength(14)
+    expect(liComponents).toHaveLength(0)
   })
 })

@@ -32,6 +32,10 @@ services:
       - repositories:/opt/rdepot/repositories/
       - snapshots:/opt/rdepot/generated/
       - queue:/opt/rdepot/new/
+      - ./docker/testData/itestSourceFiles:/opt/testSourceFiles:ro
+      - ./docker/testData/itestGenerated:/opt/testGenerated:ro
+      - ./docker/testData/itestNewFiles:/opt/newFiles:ro
+      - ./docker/testData/itestTrashFiles:/opt/trashFiles:ro
     ports:
       - 8080:8080
     depends_on:
@@ -64,6 +68,9 @@ services:
       - POSTGRES_PASSWORD=mysecretpassword
       - POSTGRES_DB=rdepot
       - POSTGRES_USER=rdepot
+    volumes:
+      - ./docker/db/initial_scripts/:/docker-entrypoint-initdb.d/:ro
+      - ./docker/db/sql_files/:/opt/sql_files/:ro
     networks:
       oa-rdepot:
         aliases:
@@ -118,7 +125,7 @@ services:
       oa-rdepot:
         ipv4_address: 192.168.49.12
   keycloak:
-    image: keycloak/keycloak:24.0
+    image: registry.openanalytics.eu/proxy/keycloak/keycloak:24.0
     restart: unless-stopped
     hostname: oa-rdepot-keycloak
     container_name: oa-rdepot-keycloak

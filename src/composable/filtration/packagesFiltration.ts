@@ -20,44 +20,98 @@
  *
  */
 
-import { EntityModelPackageDto } from '@/openapi'
+import {
+  EntityModelPackageDto,
+  PackageMaintainerDto
+} from '@/openapi'
+import { usePackageMaintainersStore } from '@/store/package_maintainers'
 import { usePackagesStore } from '@/store/packages'
 import {
   useSelectStore,
   SelectState,
   PackageObject
 } from '@/store/select_pagination'
+import {} from '@vueuse/core'
 
 export function usePackagesFiltration() {
   const storeIdPackage: SelectState = 'packages'
 
   const selectStore = useSelectStore(storeIdPackage)
   const packagesStore = usePackagesStore()
-
+  const packageMaintainerStore =
+    usePackageMaintainersStore()
   async function resetPaginationPackages() {
     selectStore.resetPagination()
     selectStore.resetItems()
   }
 
-  async function loadPackagesObjects(userId?: number) {
+  function preparePackageObject(
+    packageBag: EntityModelPackageDto,
+    packageMaintainedByUser?: PackageMaintainerDto
+  ): PackageObject {
+    return {
+      title: packageBag.name,
+      value: packageBag.name,
+      props: {
+        id: `select-input-package-${packageBag.name}-${packageBag.version}-${packageBag.repository?.name}`,
+        subtitle: [
+          packageMaintainedByUser?.user?.name,
+          packageBag.user?.name
+        ]
+          .filter(function (val) {
+            return val
+          })
+          .join(', '),
+        repoId: packageBag.repository?.id,
+        disabled:
+          packageMaintainedByUser?.user?.name || false
+      }
+    } as PackageObject
+  }
+
+  async function preparePackages(
+    userName: string,
+    repositoryName: string
+  ) {
+    const packagesMaintainedByUser =
+      await packageMaintainerStore.fetchAndReturnAllMaintainers(
+        {
+          deleted: false,
+          search: userName,
+          repository: [repositoryName]
+        }
+      )
+
+    return packagesStore.packages.map(
+      (packageBag: EntityModelPackageDto) => {
+        const packageMaintainedByUser =
+          packagesMaintainedByUser.find(
+            (maintainedPackage) =>
+              maintainedPackage.packageName ==
+              packageBag.name
+          )
+        if (packageBag.user?.name == userName) {
+          packageBag.user = {}
+        }
+        return preparePackageObject(
+          packageBag,
+          packageMaintainedByUser
+        )
+      }
+    )
+  }
+
+  async function loadPackagesObjects(
+    userName: string,
+    repositoryName: string
+  ) {
     if (
       selectStore.items.length !=
         selectStore.paginationData.totalNumber ||
       selectStore.paginationData.totalNumber == -1
     ) {
-      selectStore.setPage(
-        selectStore.paginationData.page + 1
-      )
-      if (
-        selectStore.shouldFetchNextPage &&
-        ((selectStore.paginationData.totalNumber > 0 &&
-          selectStore.paginationData.page <=
-            Math.ceil(
-              selectStore.paginationData.totalNumber /
-                selectStore.pageSize
-            )) ||
-          selectStore.paginationData.totalNumber < 0)
-      ) {
+      selectStore.nextPage()
+      if (selectStore.fetchNextPageCondition) {
         await packagesStore
           .fetchPackagesList(
             selectStore.paginationData.page - 1,
@@ -68,20 +122,7 @@ export function usePackagesFiltration() {
               res.totalNumber
           })
         selectStore.addItems(
-          packagesStore.packages.map(
-            (packageBag: EntityModelPackageDto) => {
-              return {
-                title: packageBag.name,
-                value: packageBag.name,
-                props: {
-                  subtitle: packageBag.user?.name,
-                  repoId: packageBag.repository?.id,
-                  disabled:
-                    packageBag.user?.id === userId || false
-                }
-              } as PackageObject
-            }
-          )
+          await preparePackages(userName, repositoryName)
         )
       }
     }
@@ -91,11 +132,7 @@ export function usePackagesFiltration() {
     value: string | undefined
   ) {
     if (value === undefined) {
-      // if (
-      //   packagesStore.filtration.repository === undefined
-      // ) {
-      //   packagesStore.clearFiltration()
-      // }
+      packagesStore.filtration.search = undefined
     } else if (packagesStore.filtration.search !== value) {
       resetPaginationPackages()
       packagesStore.filtration.search = value

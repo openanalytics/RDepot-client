@@ -22,70 +22,40 @@
 
 <template>
   <div v-if="value" class="pt-2">
-    <div
-      class="title"
-      style="cursor: pointer"
-      @click="collapse"
-    >
-      {{ title }}
-      <v-icon
-        size="large"
-        color="oa-blue"
-        class="collapsibleIcon"
-        :icon="collapseIcon"
-      />
-    </div>
-    <ul :style="showContentStyle">
-      <li
-        v-for="(val, idx) in value"
-        :key="idx"
-        :style="showListStyle"
-        class="classifier-value"
-      >
-        {{ val }}
-      </li>
-    </ul>
-    <v-divider :thickness="3"></v-divider>
+    <v-expansion-panels>
+      <v-expansion-panel>
+        <v-expansion-panel-title class="panel-subtitle">
+          {{ title }}
+        </v-expansion-panel-title>
+        <v-expansion-panel-text>
+          <ul>
+            <li
+              v-for="(val, idx) in value"
+              :key="idx"
+              class="classifier-value"
+            >
+              {{ val }}
+            </li>
+          </ul>
+        </v-expansion-panel-text>
+      </v-expansion-panel>
+    </v-expansion-panels>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-
 defineProps<{
   title: string
   value?: string[]
+  showDivider?: boolean
 }>()
-
-const showContent = ref(false)
-
-const showContentStyle = computed(() => {
-  return showContent.value
-    ? 'display: table; overflow: hidden; transition: all 0.5s ease; padding-bottom: 20px;'
-    : 'display: block; opacity: 0; max-height: 0px'
-})
-
-const showListStyle = computed(() => {
-  return showContent.value
-    ? 'display: list-item;'
-    : 'display: list-item; max-height: 0px'
-})
-
-const collapseIcon = computed(() => {
-  return showContent.value
-    ? 'mdi-menu-down'
-    : 'mdi-menu-right'
-})
-
-function collapse() {
-  showContent.value = !showContent.value
-}
 </script>
 
 <style lang="scss">
 $text_color: rgba(var(--v-theme-oablue-darken-2));
 $text_color_2: rgba(var(--v-theme-oablue));
 $background_color: rgba(var(--v-theme-about-background));
+$background_color_2: rgba(var(--v-theme-about-package));
 
 .title {
   color: $text_color_2;
@@ -99,7 +69,10 @@ hr_style {
   border-top: $text_color_2 solid 1px !important;
 }
 
-.collapsibleIcon {
-  justify-self: flex-end;
+.panel-subtitle {
+  color: $background_color_2;
+  font-weight: 600;
+  display: flex;
+  font-size: 1.2rem !important;
 }
 </style>

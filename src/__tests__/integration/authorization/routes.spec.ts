@@ -20,44 +20,28 @@
  *
  */
 
+import { describe, it, beforeEach, afterEach } from 'vitest'
 import {
-  describe,
-  it,
-  expect,
-  beforeEach,
-  afterEach
-} from 'vitest'
-// import me from '@/__tests__/config/mockData/me.json'
-// import users from '@/__tests__/config/mockData/users.json'
-// import { createPinia, setActivePinia } from 'pinia'
-const {
-  Builder,
-  Browser,
-  By,
-  // Key,
-  until
-} = require('selenium-webdriver')
-const chrome = require('selenium-webdriver/chrome')
-// const repositoryMaintainer = users.data.content[1]
+  UPLOAD_PACKAGES_SIDEBAR_ID,
+  PACKAGE_MAINTAINERS_SIDEBAR_ID,
+  EVENTS_SIDEBAR_ID,
+  REPOSITORIES_SIDEBAR_ID,
+  REPOSITORY_MAINTAINERS_SIDEBAR_ID,
+  USERS_SIDEBAR_ID,
+  SUBMISSIONS_SIDEBAR_ID
+} from '../helpers/elementsIds'
+import { login } from '../helpers/login'
+import {
+  goToPageURL,
+  createDriver,
+  goToPage
+} from '../helpers/helpers'
+const { By, until } = require('selenium-webdriver')
+
 let driver: any
-const url = 'http://192.168.49.20'
-const PASSWORD = 'testpassword'
+
 beforeEach(async () => {
-  // setActivePinia(createPinia())
-  driver = await new Builder()
-    .forBrowser(Browser.CHROME)
-    .usingServer('http://192.168.49.12:4444/wd/hub')
-    .setChromeOptions(
-      new chrome.Options().addArguments(
-        // '--headless',
-        '--no-sandbox',
-        '--disable-dev-shm-usage',
-        '--disable-gpu',
-        '--disable-extensions'
-        // '--remote-debugging-port=9222'
-      )
-    )
-    .build()
+  driver = await createDriver()
 })
 
 afterEach(async () => {
@@ -66,7 +50,7 @@ afterEach(async () => {
 
 describe('Unauthenticated access', () => {
   it('Login page', async () => {
-    await driver.get(url + '/login')
+    await goToPageURL(driver, '/login', 'RDepot - login')
     expect(
       await driver.findElement(By.id('logo-oa'))
     ).toBeTruthy()
@@ -79,10 +63,8 @@ describe('Unauthenticated access', () => {
   })
 
   it('Package page', async () => {
-    await driver.get(url + '/packages')
-    expect(
-      await driver.findElement(By.id('logo-oa'))
-    ).toBeTruthy()
+    await goToPageURL(driver, '/packages', 'RDepot - login')
+    await driver.findElement(By.id('logo-oa'))
     expect(
       await driver.wait(
         until.titleIs('RDepot - login'),
@@ -92,7 +74,11 @@ describe('Unauthenticated access', () => {
   })
 
   it('Package maintainers page', async () => {
-    await driver.get(url + '/package-maintainers')
+    await goToPageURL(
+      driver,
+      '/package-maintainers',
+      'RDepot - login'
+    )
     expect(
       await driver.findElement(By.id('logo-oa'))
     ).toBeTruthy()
@@ -105,7 +91,11 @@ describe('Unauthenticated access', () => {
   })
 
   it('Repositories page', async () => {
-    await driver.get(url + '/repositories')
+    await goToPageURL(
+      driver,
+      '/repositories',
+      'RDepot - login'
+    )
     expect(
       await driver.findElement(By.id('logo-oa'))
     ).toBeTruthy()
@@ -118,7 +108,11 @@ describe('Unauthenticated access', () => {
   })
 
   it('Repository maintainers page', async () => {
-    await driver.get(url + '/repository-maintainers')
+    await goToPageURL(
+      driver,
+      '/repository-maintainers',
+      'RDepot - login'
+    )
     expect(
       await driver.findElement(By.id('logo-oa'))
     ).toBeTruthy()
@@ -131,7 +125,7 @@ describe('Unauthenticated access', () => {
   })
 
   it('Users page', async () => {
-    await driver.get(url + '/users')
+    await goToPageURL(driver, '/users', 'RDepot - login')
     expect(
       await driver.findElement(By.id('logo-oa'))
     ).toBeTruthy()
@@ -144,7 +138,7 @@ describe('Unauthenticated access', () => {
   })
 
   it('Home page', async () => {
-    await driver.get(url + '/')
+    await goToPageURL(driver, '/', 'RDepot - login')
     expect(
       await driver.findElement(By.id('logo-oa'))
     ).toBeTruthy()
@@ -157,7 +151,11 @@ describe('Unauthenticated access', () => {
   })
 
   it('Submissions page', async () => {
-    await driver.get(url + '/submissions')
+    await goToPageURL(
+      driver,
+      '/submissions',
+      'RDepot - login'
+    )
     expect(
       await driver.findElement(By.id('logo-oa'))
     ).toBeTruthy()
@@ -170,7 +168,11 @@ describe('Unauthenticated access', () => {
   })
 
   it('Upload package page', async () => {
-    await driver.get(url + '/upload-packages')
+    await goToPageURL(
+      driver,
+      '/upload-packages',
+      'RDepot - login'
+    )
     expect(
       await driver.findElement(By.id('logo-oa'))
     ).toBeTruthy()
@@ -183,7 +185,7 @@ describe('Unauthenticated access', () => {
   })
 
   it('Events page', async () => {
-    await driver.get(url + '/events')
+    await goToPageURL(driver, '/events', 'RDepot - login')
     expect(
       await driver.findElement(By.id('logo-oa'))
     ).toBeTruthy()
@@ -196,7 +198,11 @@ describe('Unauthenticated access', () => {
   })
 
   it('Access tokens page', async () => {
-    await driver.get(url + '/settings-tokens')
+    await goToPageURL(
+      driver,
+      '/settings-tokens',
+      'RDepot - login'
+    )
     expect(
       await driver.findElement(By.id('logo-oa'))
     ).toBeTruthy()
@@ -209,7 +215,11 @@ describe('Unauthenticated access', () => {
   })
 
   it('Settings page', async () => {
-    await driver.get(url + '/settings-general')
+    await goToPageURL(
+      driver,
+      '/settings-general',
+      'RDepot - login'
+    )
     expect(
       await driver.findElement(By.id('logo-oa'))
     ).toBeTruthy()
@@ -224,99 +234,70 @@ describe('Unauthenticated access', () => {
 
 describe('Admin access', () => {
   it('Upload packages page', async () => {
-    await login('einstein', PASSWORD)
-    await driver
-      .findElement(By.id('sidebar-upload-packages'))
-      .click()
-    await driver.wait(
-      until.titleIs('RDepot - upload packages'),
-      8000
-    )
-    expect(await driver.getTitle()).toBe(
+    await login(driver, 'einstein')
+    await goToPage(
+      driver,
+      UPLOAD_PACKAGES_SIDEBAR_ID,
       'RDepot - upload packages'
     )
   })
   it('Package maintainers page', async () => {
-    await login('einstein', PASSWORD)
-    await driver
-      .findElement(
-        By.id('sidebar-package-maintainers-list')
-      )
-      .click()
-    await driver.wait(
-      until.titleIs('RDepot - package maintainers'),
-      8000
-    )
-    expect(await driver.getTitle()).toBe(
+    await login(driver, 'einstein')
+    await goToPage(
+      driver,
+      PACKAGE_MAINTAINERS_SIDEBAR_ID,
       'RDepot - package maintainers'
     )
   })
   it('Events page', async () => {
-    await login('einstein', PASSWORD)
-    await driver
-      .findElement(By.id('sidebar-events'))
-      .click()
-    await driver.wait(
-      until.titleIs('RDepot - events'),
-      8000
+    await login(driver, 'einstein')
+    await goToPage(
+      driver,
+      EVENTS_SIDEBAR_ID,
+      'RDepot - events'
     )
-    expect(await driver.getTitle()).toBe('RDepot - events')
   })
   it('Repositories page', async () => {
-    await login('einstein', PASSWORD)
-    await driver
-      .findElement(By.id('sidebar-repositories-list'))
-      .click()
-    await driver.wait(
-      until.titleIs('RDepot - repositories'),
-      8000
-    )
-    expect(await driver.getTitle()).toBe(
+    await login(driver, 'einstein')
+    await goToPage(
+      driver,
+      REPOSITORIES_SIDEBAR_ID,
       'RDepot - repositories'
     )
   })
   it('Repository maintainers page', async () => {
-    await login('einstein', PASSWORD)
-    await driver
-      .findElement(
-        By.id('sidebar-repository-maintainers-list')
-      )
-      .click()
-    await driver.wait(
-      until.titleIs('RDepot - repository maintainers'),
-      8000
-    )
-    expect(await driver.getTitle()).toBe(
+    await login(driver, 'einstein')
+    await goToPage(
+      driver,
+      REPOSITORY_MAINTAINERS_SIDEBAR_ID,
       'RDepot - repository maintainers'
     )
   })
   it('Users page', async () => {
-    await login('einstein', PASSWORD)
-    await driver.findElement(By.id('sidebar-users')).click()
-    await driver.wait(until.titleIs('RDepot - users'), 8000)
-    expect(await driver.getTitle()).toBe('RDepot - users')
+    await login(driver, 'einstein')
+    await goToPage(
+      driver,
+      USERS_SIDEBAR_ID,
+      'RDepot - users'
+    )
   })
   it('Home page', async () => {
-    await login('einstein', PASSWORD)
+    await login(driver, 'einstein')
     expect(await driver.getTitle()).toBe(
       'RDepot - packages'
     )
   })
   it('Submissions page', async () => {
-    await login('einstein', PASSWORD)
-    await driver
-      .findElement(By.id('sidebar-submissions'))
-      .click()
-    await driver.wait(
-      until.titleIs('RDepot - submissions'),
-      8000
-    )
-    expect(await driver.getTitle()).toBe(
+    await login(driver, 'einstein')
+    await goToPage(
+      driver,
+      SUBMISSIONS_SIDEBAR_ID,
       'RDepot - submissions'
     )
   })
   it('Access tokens page', async () => {
-    await login('einstein', PASSWORD)
+    await login(driver, 'einstein')
+
     await driver
       .findElement(By.id('v-list-group--id-Symbol(38)'))
       .click()
@@ -344,7 +325,8 @@ describe('Admin access', () => {
     )
   })
   it('Settings page', async () => {
-    await login('einstein', PASSWORD)
+    await login(driver, 'einstein')
+
     await driver
       .findElement(By.id('v-list-group--id-Symbol(38)'))
       .click()
@@ -372,30 +354,3 @@ describe('Admin access', () => {
     )
   })
 })
-
-async function login(username: string, password: string) {
-  await driver.get(url + '/login')
-  await driver.wait(
-    until.elementLocated(By.id('username-input')),
-    8000
-  )
-  driver
-    .findElement(By.id('username-input'))
-    .sendKeys(username)
-  await driver.wait(
-    until.elementLocated(By.id('password-input')),
-    8000
-  )
-  driver
-    .findElement(By.id('password-input'))
-    .sendKeys(password)
-  await driver.wait(
-    until.elementLocated(By.id('login-simple-button')),
-    8000
-  )
-  driver.findElement(By.id('login-simple-button')).click()
-  await driver.wait(
-    until.elementLocated(By.id('sidebar-upload-packages')),
-    8000
-  )
-}

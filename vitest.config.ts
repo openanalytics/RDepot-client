@@ -23,21 +23,31 @@
 /// <reference types="vitest" />
 import { fileURLToPath, URL } from 'url'
 
-import { defineConfig } from 'vite'
+import {
+  defineConfig as defineViteConfig,
+  mergeConfig
+} from 'vite'
+import { defineConfig as defineVitestConfig } from 'vitest/config'
+
 import vue from '@vitejs/plugin-vue'
 
-// https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [vue()],
+const viteConfig = defineVitestConfig({
   test: {
+    environment: 'jsdom',
     globals: true,
     includeSource: ['src/**/*.{js,ts,vue}'],
-    deps: {
-      inline: ['vuetify', 'moment']
+    server: {
+      deps: {
+        inline: ['vuetify', 'moment']
+      }
     },
-    environment: 'jsdom',
-    testTimeout: 20000
-  },
+    testTimeout: 20000,
+    setupFiles: ['./src/__tests__/config/globalMocks.ts']
+  }
+})
+// https://vitejs.dev/config/
+const vitestConfig = defineViteConfig({
+  plugins: [vue()],
   define: {
     'import.meta.vitest': 'undefined'
   },
@@ -47,3 +57,5 @@ export default defineConfig({
     }
   }
 })
+
+export default mergeConfig(viteConfig, vitestConfig)

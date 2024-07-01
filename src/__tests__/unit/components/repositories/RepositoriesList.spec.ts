@@ -31,7 +31,6 @@ import {
 import { mount } from '@vue/test-utils'
 import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
-import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import { createPinia, setActivePinia } from 'pinia'
 import RepositoriesListVue from '@/components/repositories/RepositoriesList.vue'
 import repositories from '@/__tests__/config/mockData/repositories.json'
@@ -51,24 +50,21 @@ const globalConfig = {
   plugins: plugins
 }
 
-beforeAll(() => {
-  global.ResizeObserver = ResizeObserver
+beforeEach(async () => {
   setActivePinia(createPinia())
-  repositoriesStore = useRepositoryStore()
   authorizationStore = useAuthorizationStore()
   authorizationStore.me = me.data
   const pagination = usePagination()
   pagination.page = 0
   pagination.pageSize = 10
   pagination.totalNumber = 23
-})
-
-beforeEach(async () => {
+  repositoriesStore = useRepositoryStore()
+  await nextTick(() => {})
   wrapper = mount(RepositoriesListVue, {
     global: globalConfig
   })
-  repositoriesStore.repositories = repositories.data.content
   repositoriesStore.loading = false
+  repositoriesStore.repositories = repositories.data.content
 })
 
 describe('Repositories - list', () => {
@@ -100,6 +96,7 @@ describe('Repositories - list', () => {
 
 describe('Repositories - list headers', () => {
   let headers: any
+
   beforeAll(() => {
     headers = wrapper.findAllComponents('th')
   })

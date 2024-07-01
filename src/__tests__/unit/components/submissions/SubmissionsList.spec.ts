@@ -31,7 +31,6 @@ import {
 import { mount } from '@vue/test-utils'
 import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
-import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import { createPinia, setActivePinia } from 'pinia'
 import { useSubmissionStore } from '@/store/submission'
 import SubmissionsListVue from '@/components/submissions/SubmissionList.vue'
@@ -50,7 +49,6 @@ const globalConfig = {
   plugins: plugins
 }
 beforeAll(() => {
-  global.ResizeObserver = ResizeObserver
   setActivePinia(createPinia())
   submissionStore = useSubmissionStore()
   authorizationStore = useAuthorizationStore()

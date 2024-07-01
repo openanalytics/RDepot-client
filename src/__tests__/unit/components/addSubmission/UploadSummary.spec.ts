@@ -25,14 +25,12 @@ import {
   it,
   expect,
   beforeEach,
-  beforeAll,
   vi
 } from 'vitest'
 
 import { mount } from '@vue/test-utils'
 import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
-import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import { createPinia, setActivePinia } from 'pinia'
 import UploadSummary from '@/components/addSubmission/UploadSummary.vue'
 import submissions from '@/__tests__/config/mockData/submissions.json'
@@ -63,10 +61,6 @@ const promise: PackagePromise = {
   error: [],
   response: undefined
 }
-
-beforeAll(() => {
-  global.ResizeObserver = ResizeObserver
-})
 
 describe('Upload summary - pending', () => {
   beforeEach(async () => {

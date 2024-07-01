@@ -31,7 +31,6 @@ import {
 import { mount, config } from '@vue/test-utils'
 import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
-import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import users from '@/__tests__/config/mockData/users.json'
 import { createPinia, setActivePinia } from 'pinia'
 import { nextTick } from 'vue'
@@ -50,7 +49,6 @@ const globalConfig = {
   plugins: plugins
 }
 beforeAll(() => {
-  global.ResizeObserver = ResizeObserver
   config.global.renderStubDefaultSlot = true
   setActivePinia(createPinia())
   usersStore = useUserStore()
@@ -177,7 +175,7 @@ describe('Users - cells', () => {
 
   it('display edit action', () => {
     const cell = cells[4]
-    expect(cell.find('#pencil-icon').exists()).toBeTruthy()
+    expect(cell.find('#edit-user-4').exists()).toBeTruthy()
   })
 
   it('active field with oneself', async () => {
@@ -189,6 +187,7 @@ describe('Users - cells', () => {
       !user.active
     )
   })
+
   it('active field with different user', async () => {
     await nextTick()
     const checkboxActive = cells[3].find('#checkbox-active')

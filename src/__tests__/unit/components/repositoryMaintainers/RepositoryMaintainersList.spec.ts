@@ -31,7 +31,6 @@ import {
 import { mount } from '@vue/test-utils'
 import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
-import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import { createPinia, setActivePinia } from 'pinia'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
 import RepositoryMaintainersListVue from '@/components/repositoryMaintainers/RepositoryMaintainersList.vue'
@@ -49,16 +48,13 @@ const globalConfig = {
   plugins: plugins
 }
 
-beforeAll(() => {
-  global.ResizeObserver = ResizeObserver
+beforeEach(async () => {
   setActivePinia(createPinia())
-  authorizationStore = useAuthorizationStore()
-  authorizationStore.me = me.data
   repositoryMaintainersStore =
     useRepositoryMaintainersStore()
-})
-
-beforeEach(async () => {
+  authorizationStore = useAuthorizationStore()
+  authorizationStore.me = me.data
+  await nextTick(() => {})
   wrapper = mount(RepositoryMaintainersListVue, {
     global: globalConfig
   })
@@ -184,6 +180,12 @@ describe('Repository Maintainers - cells', () => {
 
   it('display edit action', () => {
     const cell = cells[3]
-    expect(cell.find('#pencil-icon').exists()).toBeTruthy()
+    expect(
+      cell
+        .find(
+          '#edit-repository-maintainer-Albert-Einstein-testrepo10'
+        )
+        .exists()
+    ).toBeTruthy()
   })
 })

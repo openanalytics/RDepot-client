@@ -39,11 +39,7 @@
     <template #top>
       <div class="d-flex justify-space-between mx-3 my-5">
         <h2>{{ i18n.t('repositories.list') }}</h2>
-        <AddButton
-          v-if="
-            authorizationStore.can('POST', 'repository')
-          "
-        />
+        <AddButton v-if="postCondition" />
       </div>
     </template>
     <template #[`item.technology`]="{ value }">
@@ -165,6 +161,10 @@ const authorizationStore = useAuthorizationStore()
 const { getSort } = useSort()
 const defaultSort: Sort[] = [{ key: 'name', order: 'asc' }]
 const sortBy = ref(defaultSort)
+
+const postCondition = computed(() =>
+  authorizationStore.can('POST', 'repository')
+)
 
 const headers: DataTableHeaders[] = [
   {

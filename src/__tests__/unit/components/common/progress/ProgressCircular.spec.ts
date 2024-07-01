@@ -20,13 +20,7 @@
  *
  */
 
-import {
-  describe,
-  it,
-  expect,
-  beforeEach,
-  beforeAll
-} from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 
 import { mount } from '@vue/test-utils'
 import { plugins } from '@/__tests__/config/plugins'
@@ -34,7 +28,6 @@ import { mocks } from '@/__tests__/config/mocks'
 import ProgressCircularVue from '@/components/common/progress/ProgressCircular.vue'
 import { createPinia, setActivePinia } from 'pinia'
 import { useCommonStore } from '@/store/common'
-import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import { nextTick } from 'vue'
 
 let wrapper: any
@@ -43,10 +36,6 @@ const globalConfig = {
   plugins: plugins
 }
 let commonStore: any
-
-beforeAll(() => {
-  global.ResizeObserver = ResizeObserver
-})
 
 beforeEach(async () => {
   setActivePinia(createPinia())

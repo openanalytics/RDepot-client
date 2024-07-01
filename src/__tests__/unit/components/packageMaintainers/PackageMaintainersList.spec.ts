@@ -31,7 +31,6 @@ import {
 import { mount } from '@vue/test-utils'
 import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
-import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import { createPinia, setActivePinia } from 'pinia'
 import { usePackageMaintainersStore } from '@/store/package_maintainers'
 import PackageMaintainersListVue from '@/components/packageMaintainers/PackageMaintainersList.vue'
@@ -50,15 +49,12 @@ const globalConfig = {
   plugins: plugins
 }
 
-beforeAll(() => {
-  global.ResizeObserver = ResizeObserver
+beforeEach(async () => {
   setActivePinia(createPinia())
   packageMaintainersStore = usePackageMaintainersStore()
   authorizationStore = useAuthorizationStore()
   authorizationStore.me = me.data
-})
-
-beforeEach(async () => {
+  await nextTick(() => {})
   wrapper = mount(PackageMaintainersListVue, {
     global: globalConfig
   })
@@ -200,6 +196,12 @@ describe('Package Maintainers - cells', () => {
 
   it('display edit action', () => {
     const cell = cells[4]
-    expect(cell.find('#pencil-icon').exists()).toBeTruthy()
+    expect(
+      cell
+        .find(
+          '#edit-package-maintainer-Galileo-Galilei-accrued-testrepo1'
+        )
+        .exists()
+    ).toBeTruthy()
   })
 })

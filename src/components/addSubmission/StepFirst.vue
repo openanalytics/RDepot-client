@@ -89,7 +89,7 @@ const {
   storeId,
   filtrateRepositoriesObjects,
   loadRepositoriesObjects,
-  resetPagination
+  resetRepositoriesPagination
 } = useRepositoriesFiltration()
 
 type SelectRepository = {
@@ -121,7 +121,7 @@ function nextStep() {
 
 onBeforeMount(() => {
   useRepositoryStore().clearFiltration()
-  resetPagination()
+  resetRepositoriesPagination()
 })
 </script>
 
