@@ -28,13 +28,16 @@ import {
   REPOSITORIES_SIDEBAR_ID,
   REPOSITORY_MAINTAINERS_SIDEBAR_ID,
   USERS_SIDEBAR_ID,
-  SUBMISSIONS_SIDEBAR_ID
+  SUBMISSIONS_SIDEBAR_ID,
+  SETTINGS_LIST_SIDEBAR_ID
 } from '../helpers/elementsIds'
 import { login } from '../helpers/login'
 import {
   goToPageURL,
   createDriver,
-  goToPage
+  goToPage,
+  clickOnButton,
+  clickOnElementByXpath
 } from '../helpers/helpers'
 const { By, until } = require('selenium-webdriver')
 
@@ -283,12 +286,17 @@ describe('Admin access', () => {
   })
   it('Home page', async () => {
     await login(driver, 'einstein')
-    expect(await driver.getTitle()).toBe(
-      'RDepot - packages'
+    await driver.wait(
+      until.titleIs('RDepot - packages'),
+      8000
     )
   })
   it('Submissions page', async () => {
     await login(driver, 'einstein')
+    await clickOnElementByXpath(
+      driver,
+      "//div[@data-testid='toast-body']"
+    )
     await goToPage(
       driver,
       SUBMISSIONS_SIDEBAR_ID,
@@ -297,10 +305,13 @@ describe('Admin access', () => {
   })
   it('Access tokens page', async () => {
     await login(driver, 'einstein')
+    await clickOnElementByXpath(
+      driver,
+      "//div[@data-testid='toast-body']"
+    )
 
-    await driver
-      .findElement(By.id('v-list-group--id-Symbol(38)'))
-      .click()
+    await clickOnButton(driver, SETTINGS_LIST_SIDEBAR_ID)
+
     await driver
       .findElement(By.id('sidebar-settings-access-tokens'))
       .then(async function (element: any) {
@@ -327,9 +338,12 @@ describe('Admin access', () => {
   it('Settings page', async () => {
     await login(driver, 'einstein')
 
-    await driver
-      .findElement(By.id('v-list-group--id-Symbol(38)'))
-      .click()
+    await clickOnElementByXpath(
+      driver,
+      "//div[@data-testid='toast-body']"
+    )
+
+    await clickOnButton(driver, SETTINGS_LIST_SIDEBAR_ID)
 
     await driver
       .findElement(By.id('sidebar-settings-general'))

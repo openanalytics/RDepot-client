@@ -82,6 +82,29 @@ export async function clickOnButton(
   await driver.findElement(By.id(buttonId)).click()
 }
 
+export async function clickOnElementByClass(
+  driver: typeof Builder,
+  className: string
+) {
+  await driver.wait(
+    until.elementLocated(By.className(className)),
+    8000
+  )
+
+  await driver.findElement(By.className(className)).click()
+}
+
+export async function clickOnElementByXpath(
+  driver: typeof Builder,
+  xpath: string
+) {
+  await driver.wait(
+    until.elementLocated(By.xpath(xpath)),
+    8000
+  )
+  await driver.findElement(By.xpath(xpath)).click()
+}
+
 export async function clickOnButtonByXpath(
   driver: typeof Builder,
   buttonXpath: string

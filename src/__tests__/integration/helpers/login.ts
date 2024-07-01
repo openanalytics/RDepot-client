@@ -63,4 +63,9 @@ export async function login(
   await driver
     .findElement(By.id(SUBMIT_LOGIN_BUTTON_ID))
     .click()
+
+  await driver.wait(
+    until.titleIs('RDepot - packages'),
+    8000
+  )
 }

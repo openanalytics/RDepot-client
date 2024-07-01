@@ -164,11 +164,14 @@
         active-class="link-active"
         to="/submissions"
       ></v-list-item>
-      <v-list-group tag="Settings">
+      <v-list-group>
         <template #activator="{ props }">
           <v-list-item
             prepend-icon="mdi-cog"
-            v-bind="props"
+            v-bind="{
+              ...props,
+              id: 'sidebar-settings-list'
+            }"
             :title="$t('common.settings')"
           ></v-list-item>
         </template>

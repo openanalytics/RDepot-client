@@ -79,6 +79,8 @@ export const REPOSITORIES_SIDEBAR_ID =
 export const EVENTS_SIDEBAR_ID = 'sidebar-events'
 export const UPLOAD_PACKAGES_SIDEBAR_ID =
   'sidebar-upload-packages'
+export const SETTINGS_LIST_SIDEBAR_ID =
+  'sidebar-settings-list'
 
 //login form
 export const USERNAME_INPUT_ID = 'username-input'
