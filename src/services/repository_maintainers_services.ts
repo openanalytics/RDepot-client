@@ -121,9 +121,9 @@ export async function fetchAllRepositoryMaintainers(): ValidatedRepositoryMainta
 }
 
 export async function fetchFullMaintainersList(
+  filtration?: RepositoryMaintainersFiltration,
   page?: number,
   pageSize?: number,
-  filtration?: RepositoryMaintainersFiltration,
   showProgress = false
 ): ValidatedRepositoryMaintainers {
   if (!isAuthorized('GET', 'repositoryMaintainers')) {

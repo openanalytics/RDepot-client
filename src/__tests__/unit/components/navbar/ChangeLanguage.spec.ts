@@ -20,19 +20,12 @@
  *
  */
 
-import {
-  describe,
-  it,
-  expect,
-  beforeEach,
-  beforeAll
-} from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 
 import { mount } from '@vue/test-utils'
 import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
 import ChangeLanguageVue from '@/components/navbar/ChangeLanguage.vue'
-import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import { createPinia, setActivePinia } from 'pinia'
 
 let wrapper: any
@@ -43,7 +36,6 @@ const globalConfig = {
 
 beforeAll(() => {
   setActivePinia(createPinia())
-  global.ResizeObserver = ResizeObserver
 })
 
 beforeEach(async () => {

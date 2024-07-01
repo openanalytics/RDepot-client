@@ -99,7 +99,7 @@ describe('user filtration filtration composable', () => {
     selectStore.items = [{ title: 'title', value: 'value' }]
     const userStore = useUserStore()
     selectStore.paginationData.totalNumber = 2
-    selectStore.paginationData.page = 1
+    selectStore.paginationData.page = 0
     selectStore.pageSize = 1
     const spy = vi.spyOn(userStore, 'fetchUsersList')
     loadUsers()

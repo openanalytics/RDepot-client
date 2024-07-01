@@ -160,6 +160,10 @@ function defineSelectStore<SelectState>(id: SelectState) {
       paginationDataLocal.value.page = payload
     }
 
+    function nextPage() {
+      setPage(paginationData.value.page + 1)
+    }
+
     function addItems(payload: ItemType[]) {
       itemsLocal.value = [
         ...itemsLocal.value,
@@ -170,6 +174,17 @@ function defineSelectStore<SelectState>(id: SelectState) {
     function resetItems() {
       itemsLocal.value = []
     }
+
+    const fetchNextPageCondition = computed(
+      () =>
+        shouldFetchNextPage.value &&
+        ((paginationData.value.totalNumber > 0 &&
+          paginationData.value.page <=
+            Math.ceil(
+              paginationData.value.totalNumber / pageSize
+            )) ||
+          paginationData.value.totalNumber < 0)
+    )
 
     return {
       items,
@@ -182,7 +197,9 @@ function defineSelectStore<SelectState>(id: SelectState) {
       ifAllFetched,
       pageSize,
       shouldFetchNextPage,
-      setPage
+      setPage,
+      nextPage,
+      fetchNextPageCondition
     }
   })
 }

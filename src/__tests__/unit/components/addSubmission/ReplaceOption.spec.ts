@@ -20,18 +20,11 @@
  *
  */
 
-import {
-  describe,
-  it,
-  expect,
-  beforeEach,
-  beforeAll
-} from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 
 import { mount } from '@vue/test-utils'
 import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
-import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import { createPinia, setActivePinia } from 'pinia'
 import ReplaceOption from '@/components/addSubmission/ReplaceOption.vue'
 import { useSubmissionStore } from '@/store/submission'
@@ -46,10 +39,6 @@ const localFile = new File(
   ['packageFile'],
   'A3_1.0.0.tar.gz'
 )
-
-beforeAll(() => {
-  global.ResizeObserver = ResizeObserver
-})
 
 beforeEach(async () => {
   setActivePinia(createPinia())

@@ -96,7 +96,11 @@
             class="d-flex justify-center"
           >
             <v-checkbox-btn
-              id="checkbox-active"
+              :id="`checkbox-active-${
+                item.name
+              }-${item.version?.replaceAll('.', '-')}-${
+                item.repository?.name
+              }`"
               v-model="item.active"
               hide-details
               :readonly="!canPatch(item?.links)"

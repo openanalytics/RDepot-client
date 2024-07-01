@@ -124,12 +124,30 @@ export const useRepositoryMaintainersStore = defineStore(
       ) {
         const [maintainers, pageData] =
           await fetchFullMaintainersList(
+            this.filtration,
             page,
-            pageSize,
-            this.filtration
+            pageSize
           )
         this.maintainers = maintainers
         return pageData
+      },
+      async fetchAndReturnAllMaintainers(
+        filtration: RepositoryMaintainersFiltration
+      ) {
+        let page = 0
+        const [maintainers, pageData] =
+          await fetchFullMaintainersList(filtration, page)
+        let result: EntityModelRepositoryMaintainerDto[] =
+          maintainers
+        while (pageData.totalNumber > result.length) {
+          await fetchFullMaintainersList(
+            filtration,
+            ++page
+          ).then(([maintainers]) => {
+            result = [...result, ...maintainers]
+          })
+        }
+        return maintainers
       },
       async fetchRepositories() {
         const [repositories] =

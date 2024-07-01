@@ -51,6 +51,7 @@
     ></validated-input-field>
 
     <validated-input-field
+      id="filtration-repository"
       density="compact"
       hide-details
       chips
@@ -105,6 +106,7 @@
             : 0
         )
       "
+      id="filtration-maintainer"
       density="compact"
       hide-details
       chips
@@ -189,7 +191,7 @@ const {
   storeId,
   filtrateRepositoriesObjects,
   loadRepositories,
-  resetPagination
+  resetRepositoriesPagination
 } = useRepositoriesFiltration()
 const {
   storeIdMaintainer,
@@ -215,6 +217,6 @@ function resetValues() {
 
 onBeforeMount(() => {
   resetPaginationMaintainers()
-  resetPagination()
+  resetRepositoriesPagination()
 })
 </script>

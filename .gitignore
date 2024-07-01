@@ -27,3 +27,5 @@ pnpm-debug.log*
 *.sln
 *.sw?
 reports
+
+/docker/testData

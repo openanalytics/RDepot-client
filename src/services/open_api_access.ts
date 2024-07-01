@@ -186,7 +186,12 @@ async function errorsHandler(
         break
       }
       case 422: {
-        toasts.error(i18n.t('errors.422'))
+        console.log(error.response)
+        toasts.error(
+          i18n.t('errors.422') +
+            '\n' +
+            error.response.data.data[0]
+        )
         break
       }
 

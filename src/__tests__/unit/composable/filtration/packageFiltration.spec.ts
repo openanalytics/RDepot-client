@@ -65,10 +65,10 @@ describe('package filtration filtration composable', () => {
     selectStore.items = [{ title: 'title', value: 'value' }]
     const packagesStore = usePackagesStore()
     selectStore.paginationData.totalNumber = 2
-    selectStore.paginationData.page = 1
+    selectStore.paginationData.page = 0
     selectStore.pageSize = 1
     const spy = vi.spyOn(packagesStore, 'fetchPackagesList')
-    loadPackagesObjects()
+    loadPackagesObjects('Albert Einstein', 'testrepo3')
     expect(spy).toHaveBeenCalledOnce()
   })
 
@@ -78,7 +78,7 @@ describe('package filtration filtration composable', () => {
     selectStore.items = [{ title: 'title', value: 'value' }]
     const packagesStore = usePackagesStore()
     const spy = vi.spyOn(packagesStore, 'fetchPackagesList')
-    loadPackagesObjects()
+    loadPackagesObjects('Albert Einstein', 'testrepo3')
     expect(spy).toHaveBeenCalledOnce()
   })
 
@@ -91,7 +91,7 @@ describe('package filtration filtration composable', () => {
     selectStore.paginationData.page = 1
     selectStore.pageSize = 1
     const spy = vi.spyOn(packagesStore, 'fetchPackagesList')
-    loadPackagesObjects()
+    loadPackagesObjects('Albert Einstein', 'testrepo3')
     expect(spy).toHaveBeenCalledTimes(0)
   })
 

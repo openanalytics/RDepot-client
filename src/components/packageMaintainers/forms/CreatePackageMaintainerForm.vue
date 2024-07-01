@@ -22,11 +22,12 @@
 
 <template>
   <form ref="form" as="v-form">
-    <v-card class="pa-5" width="400">
-      <v-card-title>
-        {{ $t('maintainers.createform.title') }}
-      </v-card-title>
-      <v-divider></v-divider>
+    <v-card
+      class="pa-5"
+      width="400"
+      :title="$t('maintainers.createform.title')"
+    >
+      <v-divider />
       <v-card-text style="height: 300px">
         <validated-input-field
           id="create-package-maintainer-user"
@@ -41,15 +42,18 @@
           :store-id="storeIdUser"
           :template="true"
           max-width="unset"
+          @update:model-value="resetPackageName"
           @load-items="
-            loadUsersObjects('packageMaintainer')
+            loadUsersObjects(Role.enum.packageMaintainer)
           "
-          @filtrate="filtrateUsers"
+          @filtrate="filtrateUsers(undefined)"
         >
           <template #item="{ props }">
             <v-list-item
               v-intersect="
-                loadUsersObjects('packageMaintainer')
+                loadUsersObjects(
+                  Role.enum.packageMaintainer
+                )
               "
               v-bind="props"
             >
@@ -71,11 +75,11 @@
           max-width="unset"
           @update:model-value="resetPackageName"
           @load-items="loadRepositoriesObjects"
-          @filtrate="filtrateRepositoriesObjects"
+          @filtrate="filtrateRepositoriesObjects(undefined)"
         >
           <template #item="{ item, props }">
             <v-list-item
-              v-intersect="loadRepositoriesObjects"
+              v-intersect="loadRepositoriesObjects()"
               v-bind="props"
             >
               <template #append>
@@ -91,6 +95,14 @@
         </validated-input-field>
         <validated-input-field
           id="create-package-maintainer-package"
+          :disabled="isPackageFieldDisabled"
+          :hint="
+            isPackageFieldDisabled
+              ? t(
+                  'maintainers.createform.disabledPackageMessage'
+                )
+              : undefined
+          "
           as="combobox"
           name="package"
           :label="$t('maintainers.editform.package')"
@@ -103,16 +115,12 @@
           :store-id="storeIdPackage"
           max-width="unset"
           @update:model-value="updatePackageName"
-          @load-items="
-            loadPackagesObjects(values.user?.value)
-          "
-          @filtrate="filtratePackagesObjects"
+          @load-items="loadPackages"
+          @filtrate="filtratePackagesObjects(undefined)"
         >
           <template #item="{ props }">
             <v-list-item
-              v-intersect="
-                loadPackagesObjects(values.user?.value)
-              "
+              v-intersect="loadPackages"
               v-bind="props"
             >
             </v-list-item>
@@ -132,7 +140,10 @@
         ></v-alert>
       </v-card-text>
       <v-divider></v-divider>
-      <CardActions @submit="createMaintainer" />
+      <CardActions
+        :valid="meta.valid"
+        @submit="createMaintainer"
+      />
     </v-card>
   </form>
 </template>
@@ -153,6 +164,10 @@ import { useUsersFiltration } from '@/composable/filtration/usersFiltration'
 import { usePackagesFiltration } from '@/composable/filtration/packagesFiltration'
 import { usePackagesStore } from '@/store/packages'
 import { useCommonStore } from '@/store/common'
+import { onBeforeUnmount } from 'vue'
+import { computed } from 'vue'
+import { i18n } from '@/plugins/i18n'
+import { Role } from '@/enum/UserRoles'
 
 const maintainersStore = usePackageMaintainersStore()
 const packagesStore = usePackagesStore()
@@ -164,7 +179,7 @@ const {
   storeId,
   filtrateRepositoriesObjects,
   loadRepositoriesObjects,
-  resetPagination
+  resetRepositoriesPagination
 } = useRepositoriesFiltration()
 
 const {
@@ -181,39 +196,86 @@ const {
   resetPaginationUsers
 } = useUsersFiltration()
 
-const { meta, validateField, setFieldValue, values } =
-  useForm({
+const isPackageFieldDisabled = computed<boolean>(
+  () => !(values.user && values.repository)
+)
+
+function loadPackages() {
+  if (values.user?.title && values.repository?.title) {
+    loadPackagesObjects(
+      values.user.title,
+      values.repository.title
+    )
+  }
+}
+
+const { meta, setFieldValue, values, resetField } = useForm(
+  {
     validationSchema: toTypedSchema(
       z.object({
-        user: z.object({
-          title:
-            packageMaintainerSchema.shape.user.shape.name,
-          value: packageMaintainerSchema.shape.user.shape.id
-        }),
-        repository: z.object({
-          title:
-            packageMaintainerSchema.shape.repository.shape
-              .name,
-          value:
-            packageMaintainerSchema.shape.repository.shape
-              .id,
-          props: z.object({
-            technology:
-              packageMaintainerSchema.shape.repository.shape
-                .technology
-          })
-        }),
-        package: z.object({
-          title: packageMaintainerSchema.shape.packageName,
-          value: packageMaintainerSchema.shape.packageName,
-          props: z.object({
-            subtitle:
+        user: z.object(
+          {
+            title:
               packageMaintainerSchema.shape.user.shape.name,
-            repoId:
+            value:
+              packageMaintainerSchema.shape.user.shape.id
+          },
+          {
+            required_error: i18n.t(
+              'common.errors.required'
+            ),
+            invalid_type_error: i18n.t(
+              'common.errors.required'
+            )
+          }
+        ),
+        repository: z.object(
+          {
+            title:
               packageMaintainerSchema.shape.repository.shape
-                .id
-          })
-        })
+                .name,
+            value:
+              packageMaintainerSchema.shape.repository.shape
+                .id,
+            props: z.object({
+              technology:
+                packageMaintainerSchema.shape.repository
+                  .shape.technology
+            })
+          },
+          {
+            required_error: i18n.t(
+              'common.errors.required'
+            ),
+            invalid_type_error: i18n.t(
+              'common.errors.required'
+            )
+          }
+        ),
+        package: z.object(
+          {
+            title:
+              packageMaintainerSchema.shape.packageName,
+            value:
+              packageMaintainerSchema.shape.packageName,
+            props: z.object({
+              subtitle:
+                packageMaintainerSchema.shape.user.shape
+                  .name,
+              repoId:
+                packageMaintainerSchema.shape.repository
+                  .shape.id
+            })
+          },
+          {
+            required_error: i18n.t(
+              'common.errors.required'
+            ),
+            invalid_type_error: i18n.t(
+              'common.errors.required'
+            )
+          }
+        )
       })
     ),
     initialValues: {
@@ -221,7 +283,8 @@ const { meta, validateField, setFieldValue, values } =
       repository: undefined,
       package: undefined
     }
-  })
+  }
+)
 
 async function createMaintainer() {
   if (meta.value.valid) {
@@ -231,6 +294,9 @@ async function createMaintainer() {
       repository: { id: values.repository?.value }
     }
     await maintainersStore.createMaintainer(maintainer)
+    filtratePackagesObjects(undefined)
+    filtrateRepositoriesObjects(undefined)
+    filtrateUsers(undefined)
     commonStore.overlay = false
   } else {
     toasts.warning(t('notifications.invalidform'))
@@ -243,9 +309,9 @@ function resetPackageName() {
     ? [values.repository.title]
     : undefined
   resetPaginationPackages()
-  setFieldValue('package', undefined)
-  validateField('package')
-  loadPackagesObjects(values.user?.value)
+  resetField('package')
+  filtratePackagesObjects(undefined)
+  loadPackages()
 }
 
 function getFieldValue(newValue: any) {
@@ -262,10 +328,20 @@ function updatePackageName(newValue: any) {
   setFieldValue('package', getFieldValue(newValue))
 }
 
+function clearFiltration() {
+  filtrateUsers(undefined)
+  filtratePackagesObjects(undefined)
+  filtrateRepositoriesObjects(undefined)
+}
+
+onBeforeUnmount(() => {
+  clearFiltration()
+})
+
 onBeforeMount(async () => {
-  resetPagination()
+  resetRepositoriesPagination()
   resetPaginationUsers()
   resetPaginationPackages()
-  packagesStore.filtration.repository = undefined
+  clearFiltration()
 })
 </script>

@@ -224,6 +224,8 @@
   },
   "maintainers": {
     "createform": {
+      "disabledPackageMessage": "Choose user and repository to enable",
+      "disabledRepositoryMessage": "Choose user to enable",
       "disclaimer": "Only users with at least repository maintainer role available.",
       "disclaimerPackages": "Only users with at least package maintainer role available.",
       "disclaimerTitle": "Available users",

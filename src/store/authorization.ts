@@ -45,7 +45,6 @@ import { useConfigStore } from './config'
 import { RouteRecordName } from 'vue-router'
 import { useCommonStore } from './common'
 import { EntityModelUserDto } from '@/openapi'
-import vuetify from '@/plugins/vuetify'
 
 interface State {
   userToken: string
@@ -74,11 +73,9 @@ export const useAuthorizationStore = defineStore(
 
     actions: {
       async postLoginOperations() {
+        await this.getUserInfo()
         const commonStore = useCommonStore()
         commonStore.closeOverlay()
-        await this.getUserInfo()
-        vuetify.theme.global.name.value =
-          this.me.userSettings?.theme || 'dark'
         const configStore = useConfigStore()
         configStore.fetchConfiguration()
       },
@@ -190,7 +187,7 @@ export const useAuthorizationStore = defineStore(
 
       can(action: Action, subject: Subject): boolean {
         if (
-          this.me &&
+          JSON.stringify(this.me) !== '{}' &&
           typeof this.ability?.can !== 'function'
         ) {
           this.ability = defineAbilityFor(

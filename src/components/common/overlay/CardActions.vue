@@ -43,6 +43,7 @@
       <v-btn
         v-if="submitButton"
         id="submit-button"
+        :disabled="!valid"
         color="oablue darken-2"
         class="mx-1"
         @click="emit('submit')"
@@ -74,6 +75,7 @@ withDefaults(
     submitButton?: boolean
     submitText?: string
     justify?: Justify
+    valid?: boolean
     buttons?: {
       id?: string
       text: string
@@ -84,6 +86,7 @@ withDefaults(
     cancelButton: true,
     submitButton: true,
     submitText: i18n.t('common.submit'),
+    valid: true,
     buttons: undefined
   }
 )

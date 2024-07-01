@@ -20,8 +20,12 @@
  *
  */
 
-import { EntityModelRepositoryDto } from '@/openapi'
+import {
+  EntityModelRepositoryDto,
+  EntityModelRepositoryMaintainerDto
+} from '@/openapi'
 import { useRepositoryStore } from '@/store/repositories'
+import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
 import {
   useSelectStore,
   SelectState,
@@ -33,8 +37,10 @@ export function useRepositoriesFiltration() {
 
   const selectStore = useSelectStore(storeId)
   const repositoriesStore = useRepositoryStore()
+  const repositoryMaintainerStore =
+    useRepositoryMaintainersStore()
 
-  async function resetPagination() {
+  async function resetRepositoriesPagination() {
     selectStore.resetPagination()
     selectStore.resetItems()
   }
@@ -45,19 +51,8 @@ export function useRepositoriesFiltration() {
         selectStore.paginationData.totalNumber ||
       selectStore.paginationData.totalNumber == -1
     ) {
-      selectStore.setPage(
-        selectStore.paginationData.page + 1
-      )
-      if (
-        selectStore.shouldFetchNextPage &&
-        ((selectStore.paginationData.totalNumber > 0 &&
-          selectStore.paginationData.page <=
-            Math.ceil(
-              selectStore.paginationData.totalNumber /
-                selectStore.pageSize
-            )) ||
-          selectStore.paginationData.totalNumber < 0)
-      ) {
+      selectStore.nextPage()
+      if (selectStore.fetchNextPageCondition) {
         await repositoriesStore
           .fetchRepositoriesList(
             selectStore.paginationData.page - 1,
@@ -77,25 +72,63 @@ export function useRepositoriesFiltration() {
     }
   }
 
-  async function loadRepositoriesObjects() {
+  function prepareRepositoryObject(
+    repository: EntityModelRepositoryDto,
+    repositoryMaintainedByUser?: EntityModelRepositoryMaintainerDto
+  ): RepositoryObject {
+    return {
+      title: repository.name,
+      value: repository.id,
+      props: {
+        id: `select-input-repository-${repository.name}`,
+        technology: repository.technology,
+        subtitle: repositoryMaintainedByUser?.user?.name,
+        disabled:
+          repositoryMaintainedByUser?.user?.name || false
+      }
+    } as RepositoryObject
+  }
+
+  async function prepareRepositories(userName?: string) {
+    let repositoriesMaintainedByUser: EntityModelRepositoryMaintainerDto[] =
+      []
+    if (userName) {
+      repositoriesMaintainedByUser =
+        await repositoryMaintainerStore.fetchAndReturnAllMaintainers(
+          {
+            deleted: false,
+            search: userName,
+            technologies: undefined
+          }
+        )
+    }
+
+    return repositoriesStore.repositories.map(
+      (repository: EntityModelRepositoryDto) => {
+        const repositoryMaintainedByUser =
+          repositoriesMaintainedByUser.find(
+            (maintainedRepository) =>
+              maintainedRepository.repository?.id ==
+              repository.id
+          )
+        return prepareRepositoryObject(
+          repository,
+          repositoryMaintainedByUser
+        )
+      }
+    )
+  }
+
+  async function loadRepositoriesObjects(
+    userName?: string
+  ) {
     if (
       selectStore.items.length !=
         selectStore.paginationData.totalNumber ||
       selectStore.paginationData.totalNumber == -1
     ) {
-      selectStore.setPage(
-        selectStore.paginationData.page + 1
-      )
-      if (
-        selectStore.shouldFetchNextPage &&
-        ((selectStore.paginationData.totalNumber > 0 &&
-          selectStore.paginationData.page <=
-            Math.ceil(
-              selectStore.paginationData.totalNumber /
-                selectStore.pageSize
-            )) ||
-          selectStore.paginationData.totalNumber < 0)
-      ) {
+      selectStore.nextPage()
+      if (selectStore.fetchNextPageCondition) {
         await repositoriesStore
           .fetchRepositoriesList(
             selectStore.paginationData.page - 1,
@@ -106,15 +139,7 @@ export function useRepositoriesFiltration() {
               res.totalNumber
           })
         selectStore.addItems(
-          repositoriesStore.repositories.map(
-            (repository: EntityModelRepositoryDto) => {
-              return {
-                title: repository.name,
-                value: repository.id,
-                props: { technology: repository.technology }
-              } as RepositoryObject
-            }
-          )
+          await prepareRepositories(userName)
         )
       }
     }
@@ -134,7 +159,7 @@ export function useRepositoriesFiltration() {
     } else if (
       repositoriesStore.filtration.name !== value
     ) {
-      resetPagination()
+      resetRepositoriesPagination()
       repositoriesStore.setFiltrationByName(value)
     }
   }
@@ -143,7 +168,7 @@ export function useRepositoriesFiltration() {
     storeId,
     loadRepositories,
     loadRepositoriesObjects,
-    resetPagination,
+    resetRepositoriesPagination,
     filtrateRepositories,
     filtrateRepositoriesObjects
   }

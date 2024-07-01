@@ -20,18 +20,11 @@
  *
  */
 
-import {
-  describe,
-  it,
-  expect,
-  beforeEach,
-  beforeAll
-} from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 
 import { mount } from '@vue/test-utils'
 import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
-import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import { createPinia, setActivePinia } from 'pinia'
 import { useAuthorizationStore } from '@/store/authorization'
 import me from '@/__tests__/config/mockData/me.json'
@@ -57,10 +50,6 @@ const event: EntityModelNewsfeedEventDto = events.data
 let chips: any
 const relatedResource: EntityModelRepositoryDto =
   event.relatedResource as EntityModelRepositoryDto
-
-beforeAll(() => {
-  global.ResizeObserver = ResizeObserver
-})
 
 describe('Events - Repository', () => {
   beforeEach(async () => {

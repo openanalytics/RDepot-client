@@ -219,6 +219,7 @@
   },
   "maintainers": {
     "createform": {
+      "disabledPackageMessage": "Wybierz użytkownika i repozytorium aby odblokować",
       "disclaimer": "Tylko użytkownicy z rolą conajmniej opiekuna repozytorium dostępni.",
       "disclaimerPackages": "Tylko użytkownicy z rolą conajmniej opiekuna pakietu dostępni.",
       "disclaimerTitle": "Dostępni użytkownicy",

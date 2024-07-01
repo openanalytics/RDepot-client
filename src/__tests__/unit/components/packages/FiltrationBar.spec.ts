@@ -20,19 +20,12 @@
  *
  */
 
-import {
-  describe,
-  it,
-  expect,
-  beforeEach,
-  beforeAll
-} from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 
 import flushPromises from 'flush-promises'
 import { mount } from '@vue/test-utils'
 import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
-import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import FiltrationBarVue from '@/components/packages/FiltrationBar.vue'
 import { createPinia, setActivePinia } from 'pinia'
 import { usePackagesStore } from '@/store/packages'
@@ -62,10 +55,6 @@ const EXAMPLE_PACKAGES_FILTRATION =
     maintainer: ['newton'],
     search: 'a'
   })
-
-beforeAll(() => {
-  global.ResizeObserver = ResizeObserver
-})
 
 beforeEach(async () => {
   setActivePinia(createPinia())

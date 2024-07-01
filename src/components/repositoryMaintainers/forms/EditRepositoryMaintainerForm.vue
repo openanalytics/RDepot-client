@@ -29,17 +29,26 @@
       <v-divider></v-divider>
       <v-card-text style="height: 300px">
         <validated-input-field
-          id="edit-package-maintainer-user"
-          name="userlogin"
+          id="edit-repository-maintainer-user"
+          name="user"
           as="v-text-field"
           :label="$t('maintainers.editform.user')"
           disabled
           max-width="unset"
+          @update:model-value="resetRepository"
         />
         <validated-input-field
-          id="edit-package-maintainer-repository"
+          id="edit-repository-maintainer-repository"
           name="repository"
           as="autocomplete"
+          :disabled="!values.user"
+          :hint="
+            !values.user
+              ? $t(
+                  'maintainers.createform.disabledRepositoryMessage'
+                )
+              : ''
+          "
           :label="$t('maintainers.editform.repository')"
           filled
           dense
@@ -49,12 +58,18 @@
           :template="true"
           :store-id="storeId"
           max-width="unset"
-          @load-items="loadRepositoriesObjects"
+          @load-items="
+            loadRepositoriesObjects(maintainer.user?.name)
+          "
           @filtrate="filtrateRepositoriesObjects"
         >
           <template #item="{ item, props }">
             <v-list-item
-              v-intersect="loadRepositoriesObjects"
+              v-intersect="
+                loadRepositoriesObjects(
+                  maintainer.user?.name
+                )
+              "
               v-bind="props"
             >
               <template #append>
@@ -69,8 +84,21 @@
           </template>
         </validated-input-field>
       </v-card-text>
+      <v-card-text>
+        <v-alert
+          style="font-size: 0.75rem"
+          :text="t('maintainers.createform.disclaimer')"
+          variant="tonal"
+          border="start"
+          density="compact"
+          color="oablue"
+        ></v-alert>
+      </v-card-text>
       <v-divider></v-divider>
-      <CardActions @submit="setMaintainer" />
+      <CardActions
+        :valid="isFormValid"
+        @submit="setMaintainer"
+      />
     </v-card>
   </form>
 </template>
@@ -79,7 +107,7 @@
 import CardActions from '@/components/common/overlay/CardActions.vue'
 import { EntityModelRepositoryMaintainerDto } from '@/openapi'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
-import { onBeforeMount } from 'vue'
+import { computed, onBeforeMount } from 'vue'
 import { useForm } from 'vee-validate'
 import ValidatedInputField from '@/components/common/fields/ValidatedInputField.vue'
 import { toTypedSchema } from '@vee-validate/zod'
@@ -91,6 +119,7 @@ import { useI18n } from 'vue-i18n'
 import { Technologies } from '@/enum/Technologies'
 import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesFiltration'
 import { useCommonStore } from '@/store/common'
+import { i18n } from '@/plugins/i18n'
 
 const { t } = useI18n()
 const commonStore = useCommonStore()
@@ -99,7 +128,7 @@ const {
   storeId,
   filtrateRepositoriesObjects,
   loadRepositoriesObjects,
-  resetPagination
+  resetRepositoriesPagination
 } = useRepositoriesFiltration()
 
 const maintainersStore = useRepositoryMaintainersStore()
@@ -108,28 +137,40 @@ const { deepCopy } = useUtilities()
 let maintainer: EntityModelRepositoryMaintainerDto =
   deepCopy(maintainersStore.chosenMaintainer)
 
-const { meta, values } = useForm({
+const isFormValid = computed(
+  () => meta.value.valid && isFieldDirty('repository')
+)
+
+const { meta, values, resetField, isFieldDirty } = useForm({
   validationSchema: toTypedSchema(
     z.object({
-      userlogin:
-        repositoryMaintainerSchema.shape.user.shape.login,
-      repository: z.object({
-        title:
-          repositoryMaintainerSchema.shape.repository.shape
-            .name,
-        value:
-          repositoryMaintainerSchema.shape.repository.shape
-            .id,
-        props: z.object({
-          technology:
+      user: repositoryMaintainerSchema.shape.user.shape
+        .name,
+      repository: z.object(
+        {
+          title:
             repositoryMaintainerSchema.shape.repository
-              .shape.technology
-        })
-      })
+              .shape.name,
+          value:
+            repositoryMaintainerSchema.shape.repository
+              .shape.id,
+          props: z.object({
+            technology:
+              repositoryMaintainerSchema.shape.repository
+                .shape.technology
+          })
+        },
+        {
+          required_error: i18n.t('common.errors.required'),
+          invalid_type_error: i18n.t(
+            'common.errors.required'
+          )
+        }
+      )
     })
   ),
   initialValues: {
-    userlogin: maintainer.user?.login,
+    user: maintainer.user?.name,
     repository: {
       title: maintainer.repository?.name,
       value: maintainer.repository?.id,
@@ -142,6 +183,13 @@ const { meta, values } = useForm({
 })
 
 const toasts = useToast()
+
+function resetRepository() {
+  resetRepositoriesPagination()
+  resetField('repository')
+  filtrateRepositoriesObjects(undefined)
+  loadRepositoriesObjects(maintainer.user?.name)
+}
 
 function setMaintainer() {
   if (meta.value.valid) {
@@ -156,6 +204,6 @@ function setMaintainer() {
 }
 
 onBeforeMount(() => {
-  resetPagination
+  resetRepositoriesPagination()
 })
 </script>

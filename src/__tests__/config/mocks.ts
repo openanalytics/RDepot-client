@@ -20,7 +20,20 @@
  *
  */
 
+import { vi } from 'vitest'
+
 export const mocks = {
   $t: (msg: string) => msg,
   $i18n: (msg: string) => msg
+}
+
+export function mockMatchMedia() {
+  vi.mock('vue3-toastify')
+  Object.defineProperty(window, 'matchMedia', {
+    value: vi.fn(() => ({
+      matches: true,
+      addListener: vi.fn(),
+      removeListener: vi.fn()
+    }))
+  })
 }

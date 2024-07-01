@@ -46,19 +46,8 @@ export function usePackageMaintainersFiltration() {
         selectStore.paginationData.totalNumber ||
       selectStore.paginationData.totalNumber == -1
     ) {
-      selectStore.setPage(
-        selectStore.paginationData.page + 1
-      )
-      if (
-        selectStore.shouldFetchNextPage &&
-        ((selectStore.paginationData.totalNumber > 0 &&
-          selectStore.paginationData.page <=
-            Math.ceil(
-              selectStore.paginationData.totalNumber /
-                selectStore.pageSize
-            )) ||
-          selectStore.paginationData.totalNumber < 0)
-      ) {
+      selectStore.nextPage()
+      if (selectStore.fetchNextPageCondition) {
         await packageMaintainerStore
           .fetchMaintainersList(
             selectStore.paginationData.page - 1,

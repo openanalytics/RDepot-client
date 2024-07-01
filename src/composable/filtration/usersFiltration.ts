@@ -28,6 +28,7 @@ import {
   UserObject,
   UserObjectCreate
 } from '@/store/select_pagination'
+import { Role, roleToStringBackend } from '@/enum/UserRoles'
 
 export function useUsersFiltration() {
   const storeIdUser: SelectState = 'user'
@@ -46,19 +47,8 @@ export function useUsersFiltration() {
         selectStore.paginationData.totalNumber ||
       selectStore.paginationData.totalNumber == -1
     ) {
-      selectStore.setPage(
-        selectStore.paginationData.page + 1
-      )
-      if (
-        selectStore.shouldFetchNextPage &&
-        ((selectStore.paginationData.totalNumber > 0 &&
-          selectStore.paginationData.page <=
-            Math.ceil(
-              selectStore.paginationData.totalNumber /
-                selectStore.pageSize
-            )) ||
-          selectStore.paginationData.totalNumber < 0)
-      ) {
+      selectStore.nextPage()
+      if (selectStore.fetchNextPageCondition) {
         await userStore
           .fetchUsersList(
             selectStore.paginationData.page - 1,
@@ -73,7 +63,13 @@ export function useUsersFiltration() {
             (user: EntityModelUserDto) => {
               return {
                 value: user.login,
-                title: user.name
+                title: user.name,
+                props: {
+                  id: `select-input-user-${user.name?.replace(
+                    ' ',
+                    '-'
+                  )}`
+                }
               } as UserObject
             }
           )
@@ -82,7 +78,32 @@ export function useUsersFiltration() {
     }
   }
 
-  async function loadUsersObjects(desiredRoles?: string) {
+  function setUsersFiltration(isAtLeastRole?: Role) {
+    switch (isAtLeastRole) {
+      case Role.enum.packageMaintainer:
+        userStore.filtration.roles = [
+          roleToStringBackend(Role.enum.packageMaintainer),
+          roleToStringBackend(
+            Role.enum.repositoryMaintainer
+          ),
+          roleToStringBackend(Role.enum.admin)
+        ]
+        break
+      case Role.enum.repositoryMaintainer:
+        userStore.filtration.roles = [
+          roleToStringBackend(
+            Role.enum.repositoryMaintainer
+          ),
+          roleToStringBackend(Role.enum.admin)
+        ]
+        break
+      default:
+        userStore.filtration.roles = undefined
+        break
+    }
+  }
+
+  async function loadUsersObjects(isAtLeastRole?: Role) {
     if (
       selectStore.items.length !=
         selectStore.paginationData.totalNumber ||
@@ -101,24 +122,7 @@ export function useUsersFiltration() {
             )) ||
           selectStore.paginationData.totalNumber < 0)
       ) {
-        switch (desiredRoles) {
-          case 'packageMaintainer':
-            userStore.filtration.roles = [
-              'packagemaintainer',
-              'repositorymaintainer',
-              'admin'
-            ]
-            break
-          case 'repositoryMaintainer':
-            userStore.filtration.roles = [
-              'repositorymaintainer',
-              'admin'
-            ]
-            break
-          default:
-            userStore.filtration.roles = undefined
-            break
-        }
+        setUsersFiltration(isAtLeastRole)
         await userStore
           .fetchUsersList(
             selectStore.paginationData.page - 1,
@@ -133,7 +137,13 @@ export function useUsersFiltration() {
             (user: EntityModelUserDto) => {
               return {
                 value: user.id,
-                title: user.name
+                title: user.name,
+                props: {
+                  id: `select-input-user-${user.name?.replace(
+                    ' ',
+                    '-'
+                  )}`
+                }
               } as UserObjectCreate
             }
           )

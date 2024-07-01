@@ -42,18 +42,20 @@ beforeEach(async () => {
 
 describe('repositories filtration composable', () => {
   it('should trigger reset items during pagination reset', () => {
-    const { resetPagination } = useRepositoriesFiltration()
+    const { resetRepositoriesPagination } =
+      useRepositoriesFiltration()
     const selectStore: any = useSelectStore('repositories')
     const spy = vi.spyOn(selectStore, 'resetItems')
-    resetPagination()
+    resetRepositoriesPagination()
     expect(spy).toHaveBeenCalledOnce()
   })
 
   it('should trigger reset pagination during pagination reset', () => {
-    const { resetPagination } = useRepositoriesFiltration()
+    const { resetRepositoriesPagination } =
+      useRepositoriesFiltration()
     const selectStore = useSelectStore('repositories')
     const spy = vi.spyOn(selectStore, 'resetPagination')
-    resetPagination()
+    resetRepositoriesPagination()
     expect(spy).toHaveBeenCalledOnce()
   })
 
@@ -63,7 +65,7 @@ describe('repositories filtration composable', () => {
     selectStore.items = [{ title: 'title', value: 'value' }]
     const repositoriesStore = useRepositoryStore()
     selectStore.paginationData.totalNumber = 2
-    selectStore.paginationData.page = 1
+    selectStore.paginationData.page = 0
     selectStore.pageSize = 1
     const spy = vi.spyOn(
       repositoriesStore,
@@ -109,7 +111,7 @@ describe('repositories filtration composable', () => {
     selectStore.items = [{ title: 'title', value: 'value' }]
     const repositoriesStore = useRepositoryStore()
     selectStore.paginationData.totalNumber = 2
-    selectStore.paginationData.page = 1
+    selectStore.paginationData.page = 0
     selectStore.pageSize = 1
     const spy = vi.spyOn(
       repositoriesStore,

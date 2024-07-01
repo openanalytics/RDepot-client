@@ -20,18 +20,11 @@
  *
  */
 
-import {
-  describe,
-  it,
-  expect,
-  beforeEach,
-  beforeAll
-} from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 
 import { mount } from '@vue/test-utils'
 import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
-import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import FiltrationBarVue from '@/components/events/FiltrationBar.vue'
 import { createPinia, setActivePinia } from 'pinia'
 import { useEventsStore } from '@/store/events'
@@ -60,10 +53,6 @@ const EXAMPLE_EVENT_FILTRATION = EventsFiltration.parse({
   resourceType: ['submission'],
   fromDate: '2019-05-03',
   toDate: '2022-09-20'
-})
-
-beforeAll(() => {
-  global.ResizeObserver = ResizeObserver
 })
 
 beforeEach(async () => {

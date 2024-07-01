@@ -20,44 +20,18 @@
  *
  */
 
-import {
-  describe,
-  it,
-  expect,
-  beforeEach,
-  afterEach
-} from 'vitest'
+import { describe, it, beforeEach, afterEach } from 'vitest'
+import { createDriver } from '../helpers/helpers'
+import { login } from '../helpers/login'
 // import me from '@/__tests__/config/mockData/me.json'
 // import users from '@/__tests__/config/mockData/users.json'
 // import { createPinia, setActivePinia } from 'pinia'
-const {
-  Builder,
-  Browser,
-  By,
-  // Key,
-  until
-} = require('selenium-webdriver')
-const chrome = require('selenium-webdriver/chrome')
 // const repositoryMaintainer = users.data.content[1]
 let driver: any
-const url = 'http://172.17.0.1:3001'
-const PASSWORD = 'testpassword'
+
 beforeEach(async () => {
   // setActivePinia(createPinia())
-  driver = await new Builder()
-    .forBrowser(Browser.CHROME)
-    .usingServer('http://172.17.0.1:4444/wd/hub')
-    .setChromeOptions(
-      new chrome.Options().addArguments(
-        '--headless',
-        '--no-sandbox',
-        '--disable-dev-shm-usage',
-        '--disable-gpu',
-        '--disable-extensions'
-        // '--remote-debugging-port=9222'
-      )
-    )
-    .build()
+  driver = await createDriver()
 })
 
 afterEach(async () => {
@@ -275,40 +249,7 @@ afterEach(async () => {
 
 describe('Admin access', () => {
   it('Login page', async () => {
-    await driver.get(url + '/login')
-    await driver.wait(
-      until.elementLocated(By.id('username-input')),
-      8000
-    )
-    driver
-      .findElement(By.id('username-input'))
-      .sendKeys('einstein')
-    await driver.wait(
-      until.elementLocated(By.id('password-input')),
-      8000
-    )
-    driver
-      .findElement(By.id('password-input'))
-      .sendKeys(PASSWORD)
-    await driver.wait(
-      until.elementLocated(By.id('login-simple-button')),
-      8000
-    )
-    driver.findElement(By.id('login-simple-button')).click()
-    await driver.wait(
-      until.elementLocated(By.id('sidebaruploadpackages')),
-      8000
-    )
-    driver
-      .findElement(By.id('sidebaruploadpackages'))
-      .click()
-    await driver.wait(
-      until.titleIs('RDepot - upload packages'),
-      8000
-    )
-    expect(await driver.getTitle()).toBe(
-      'RDepot - upload packages'
-    )
+    await login(driver, 'einstein')
   })
   //   it('Package page', async () => {
   //     try {
