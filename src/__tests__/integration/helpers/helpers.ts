@@ -29,6 +29,7 @@ const {
   Browser
 } = require('selenium-webdriver')
 const chrome = require('selenium-webdriver/chrome')
+const BASE_URL = 'http://192.168.49.20'
 
 export async function createDriver() {
   return await new Builder()
@@ -60,6 +61,15 @@ export async function goToPage(
   await driver.wait(until.titleIs(pageTitle), 8000)
 }
 
+export async function goToPageURL(
+  driver: typeof Builder,
+  url: string,
+  pageTitle: string
+) {
+  await driver.get(BASE_URL + url)
+  await driver.wait(until.titleIs(pageTitle), 8000)
+}
+
 export async function clickOnButton(
   driver: typeof Builder,
   buttonId: string
@@ -70,6 +80,29 @@ export async function clickOnButton(
   )
 
   await driver.findElement(By.id(buttonId)).click()
+}
+
+export async function clickOnElementByClass(
+  driver: typeof Builder,
+  className: string
+) {
+  await driver.wait(
+    until.elementLocated(By.className(className)),
+    8000
+  )
+
+  await driver.findElement(By.className(className)).click()
+}
+
+export async function clickOnElementByXpath(
+  driver: typeof Builder,
+  xpath: string
+) {
+  await driver.wait(
+    until.elementLocated(By.xpath(xpath)),
+    8000
+  )
+  await driver.findElement(By.xpath(xpath)).click()
 }
 
 export async function clickOnButtonByXpath(
