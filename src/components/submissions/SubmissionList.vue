@@ -92,41 +92,67 @@
       </v-tooltip>
     </template>
     <template #[`item.actions`]="{ item }">
-      <span
-        v-if="
-          EntityModelSubmissionDtoStateEnum.WAITING &&
-          canPatch(item.links, 'state')
-        "
-        class="d-flex justify-center align-center"
-      >
-        <template
+      <span class="d-flex justify-end align-right">
+        <span
           v-if="
-            authorizationStore.me?.id == item.submitter?.id
+            item.state ===
+              EntityModelSubmissionDtoStateEnum.WAITING &&
+            canPatch(item.links, 'state')
           "
+          class="d-flex justify-center align-center"
         >
-          <v-btn
-            id="cancel-button"
-            color="oared"
-            @click="cancelSubmission(item)"
-            >{{ $t('action.cancel') }}</v-btn
+          <template
+            v-if="
+              authorizationStore.me?.id ==
+              item.submitter?.id
+            "
           >
-        </template>
-        <template v-else>
-          <v-btn
-            id="accept-button"
-            color="success"
-            class="mx-1"
-            @click="acceptSubmission(item)"
-            >{{ $t('action.accept') }}</v-btn
-          >
-          <v-btn
-            id="reject-button"
-            e-else
-            color="oared"
-            @click="rejectSubmission(item)"
-            >{{ $t('action.reject') }}</v-btn
-          >
-        </template>
+            <IconButton
+              id="cancel-button"
+              :tooltip="$t('action.cancel')"
+              icon="mdi-email-remove-outline"
+              size="small"
+              color="oared"
+              @click="cancelSubmission(item)"
+            />
+          </template>
+          <template v-else>
+            <IconButton
+              id="accept-button"
+              :tooltip="$t('action.accept')"
+              icon="mdi-email-check-outline"
+              size="small"
+              color="success"
+              @click="acceptSubmission(item)"
+            />
+            <IconButton
+              id="reject-button"
+              :tooltip="$t('action.reject')"
+              icon="mdi-email-remove-outline"
+              size="small"
+              color="oared"
+              @click="rejectSubmission(item)"
+            />
+          </template>
+        </span>
+        <span
+          v-if="
+            (item.state ===
+              EntityModelSubmissionDtoStateEnum.WAITING &&
+              canPatch(item.links, 'state')) ||
+            item.state ===
+              EntityModelSubmissionDtoStateEnum.ACCEPTED
+          "
+          class="d-flex justify-center align-center"
+        >
+          <IconButton
+            id="download-button"
+            :tooltip="$t('action.download')"
+            icon="mdi-download-outline"
+            size="small"
+            @click="downloadSubmission(item)"
+          />
+        </span>
       </span>
     </template>
   </v-data-table-server>
@@ -148,6 +174,7 @@ import { i18n } from '@/plugins/i18n'
 import { ref } from 'vue'
 import { useSort } from '@/composable/sort'
 import { useAuthorizationStore } from '@/store/authorization'
+import IconButton from '@/components/common/buttons/IconButton.vue'
 
 const { canPatch } = useUserAuthorities()
 const authorizationStore = useAuthorizationStore()
@@ -155,7 +182,8 @@ const authorizationStore = useAuthorizationStore()
 const {
   acceptSubmission,
   cancelSubmission,
-  rejectSubmission
+  rejectSubmission,
+  downloadSubmission
 } = useSubmissionActions()
 
 const { getSort } = useSort()

@@ -1,8 +1,9 @@
 {
   "action": {
-    "accept": "ACCEPT",
-    "cancel": "CANCEL",
-    "reject": "REJECT"
+    "accept": "Accept",
+    "cancel": "Cancel",
+    "download": "Download",
+    "reject": "Reject"
   },
   "addSubmission": {
     "generateManual": "Generate manual",

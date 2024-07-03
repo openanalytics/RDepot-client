@@ -1,8 +1,9 @@
 {
   "action": {
-    "accept": "ZAAKCEPTUJ",
-    "cancel": "ANULUJ",
-    "reject": "ODRZUĆ"
+    "accept": "Zaakceptuj",
+    "cancel": "Anuluj",
+    "download": "Pobierz",
+    "reject": "Odrzuć"
   },
   "addSubmission": {
     "generateManual": "Generuj dokumentację",
