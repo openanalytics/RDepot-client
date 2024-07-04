@@ -67,6 +67,9 @@ export const ALBERT_EINSTEIN_TESTREPO10_ID =
 export const NIKOLA_TESLA_TESTREPO1_ID =
   'edit-repository-maintainer-Nikola-Tesla-testrepo1'
 
+//navbar
+export const OA_LOGO_ID = 'logo-oa'
+
 //sidebar
 export const PACKAGE_MAINTAINERS_SIDEBAR_ID =
   'sidebar-package-maintainers'

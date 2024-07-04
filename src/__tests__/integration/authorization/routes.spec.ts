@@ -29,7 +29,8 @@ import {
   REPOSITORY_MAINTAINERS_SIDEBAR_ID,
   USERS_SIDEBAR_ID,
   SUBMISSIONS_SIDEBAR_ID,
-  SETTINGS_LIST_SIDEBAR_ID
+  SETTINGS_LIST_SIDEBAR_ID,
+  OA_LOGO_ID
 } from '../helpers/elementsIds'
 import { login } from '../helpers/login'
 import {
@@ -54,9 +55,10 @@ afterEach(async () => {
 describe('Unauthenticated access', () => {
   it('Login page', async () => {
     await goToPageURL(driver, '/login', 'RDepot - login')
-    expect(
-      await driver.findElement(By.id('logo-oa'))
-    ).toBeTruthy()
+    await driver.wait(
+      until.elementLocated(By.id(OA_LOGO_ID)),
+      8000
+    )
     expect(
       await driver.wait(
         until.titleIs('RDepot - login'),
@@ -67,7 +69,10 @@ describe('Unauthenticated access', () => {
 
   it('Package page', async () => {
     await goToPageURL(driver, '/packages', 'RDepot - login')
-    await driver.findElement(By.id('logo-oa'))
+    await driver.wait(
+      until.elementLocated(By.id(OA_LOGO_ID)),
+      8000
+    )
     expect(
       await driver.wait(
         until.titleIs('RDepot - login'),
@@ -82,9 +87,10 @@ describe('Unauthenticated access', () => {
       '/package-maintainers',
       'RDepot - login'
     )
-    expect(
-      await driver.findElement(By.id('logo-oa'))
-    ).toBeTruthy()
+    await driver.wait(
+      until.elementLocated(By.id(OA_LOGO_ID)),
+      8000
+    )
     expect(
       await driver.wait(
         until.titleIs('RDepot - login'),
@@ -99,9 +105,10 @@ describe('Unauthenticated access', () => {
       '/repositories',
       'RDepot - login'
     )
-    expect(
-      await driver.findElement(By.id('logo-oa'))
-    ).toBeTruthy()
+    await driver.wait(
+      until.elementLocated(By.id(OA_LOGO_ID)),
+      8000
+    )
     expect(
       await driver.wait(
         until.titleIs('RDepot - login'),
@@ -116,9 +123,10 @@ describe('Unauthenticated access', () => {
       '/repository-maintainers',
       'RDepot - login'
     )
-    expect(
-      await driver.findElement(By.id('logo-oa'))
-    ).toBeTruthy()
+    await driver.wait(
+      until.elementLocated(By.id(OA_LOGO_ID)),
+      8000
+    )
     expect(
       await driver.wait(
         until.titleIs('RDepot - login'),
@@ -129,9 +137,10 @@ describe('Unauthenticated access', () => {
 
   it('Users page', async () => {
     await goToPageURL(driver, '/users', 'RDepot - login')
-    expect(
-      await driver.findElement(By.id('logo-oa'))
-    ).toBeTruthy()
+    await driver.wait(
+      until.elementLocated(By.id(OA_LOGO_ID)),
+      8000
+    )
     expect(
       await driver.wait(
         until.titleIs('RDepot - login'),
@@ -142,9 +151,10 @@ describe('Unauthenticated access', () => {
 
   it('Home page', async () => {
     await goToPageURL(driver, '/', 'RDepot - login')
-    expect(
-      await driver.findElement(By.id('logo-oa'))
-    ).toBeTruthy()
+    await driver.wait(
+      until.elementLocated(By.id(OA_LOGO_ID)),
+      8000
+    )
     expect(
       await driver.wait(
         until.titleIs('RDepot - login'),
@@ -159,9 +169,10 @@ describe('Unauthenticated access', () => {
       '/submissions',
       'RDepot - login'
     )
-    expect(
-      await driver.findElement(By.id('logo-oa'))
-    ).toBeTruthy()
+    await driver.wait(
+      until.elementLocated(By.id(OA_LOGO_ID)),
+      8000
+    )
     expect(
       await driver.wait(
         until.titleIs('RDepot - login'),
@@ -176,9 +187,10 @@ describe('Unauthenticated access', () => {
       '/upload-packages',
       'RDepot - login'
     )
-    expect(
-      await driver.findElement(By.id('logo-oa'))
-    ).toBeTruthy()
+    await driver.wait(
+      until.elementLocated(By.id(OA_LOGO_ID)),
+      8000
+    )
     expect(
       await driver.wait(
         until.titleIs('RDepot - login'),
@@ -189,9 +201,10 @@ describe('Unauthenticated access', () => {
 
   it('Events page', async () => {
     await goToPageURL(driver, '/events', 'RDepot - login')
-    expect(
-      await driver.findElement(By.id('logo-oa'))
-    ).toBeTruthy()
+    await driver.wait(
+      until.elementLocated(By.id(OA_LOGO_ID)),
+      8000
+    )
     expect(
       await driver.wait(
         until.titleIs('RDepot - login'),
@@ -206,9 +219,10 @@ describe('Unauthenticated access', () => {
       '/settings-tokens',
       'RDepot - login'
     )
-    expect(
-      await driver.findElement(By.id('logo-oa'))
-    ).toBeTruthy()
+    await driver.wait(
+      until.elementLocated(By.id(OA_LOGO_ID)),
+      8000
+    )
     expect(
       await driver.wait(
         until.titleIs('RDepot - login'),
@@ -223,9 +237,10 @@ describe('Unauthenticated access', () => {
       '/settings-general',
       'RDepot - login'
     )
-    expect(
-      await driver.findElement(By.id('logo-oa'))
-    ).toBeTruthy()
+    await driver.wait(
+      until.elementLocated(By.id(OA_LOGO_ID)),
+      8000
+    )
     expect(
       await driver.wait(
         until.titleIs('RDepot - login'),
