@@ -140,3 +140,15 @@ export const EDIT_REPOSITORY_MAINTAINER_USER_INPUT_ID =
   'edit-repository-maintainer-user'
 export const EDIT_REPOSITORY_MAINTAINER_SUBMIT_ID =
   'submit-button'
+
+//submissions
+export const DOWNLOAD_WAITING_SUBMISSION_ID =
+  'download-button-19'
+export const DOWNLOAD_ACCEPTED_SUBMISSION_ID =
+  'download-button-8'
+export const WAITING_FOR_APPROVE_SUBMISSION_ID =
+  'accept-button-26'
+export const WAITING_FOR_REJECT_SUBMISSION_ID =
+  'reject-button-46'
+export const WAITING_FOR_CANCEL_SUBMISSION_ID =
+  'cancel-button-45'

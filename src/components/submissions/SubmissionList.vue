@@ -108,7 +108,7 @@
             "
           >
             <IconButton
-              id="cancel-button"
+              :id="`cancel-button-${item.id}`"
               :tooltip="$t('action.cancel')"
               icon="mdi-email-remove-outline"
               size="small"
@@ -118,7 +118,7 @@
           </template>
           <template v-else>
             <IconButton
-              id="accept-button"
+              :id="`accept-button-${item.id}`"
               :tooltip="$t('action.accept')"
               icon="mdi-email-check-outline"
               size="small"
@@ -126,7 +126,7 @@
               @click="acceptSubmission(item)"
             />
             <IconButton
-              id="reject-button"
+              :id="`reject-button-${item.id}`"
               :tooltip="$t('action.reject')"
               icon="mdi-email-remove-outline"
               size="small"
@@ -146,7 +146,7 @@
           class="d-flex justify-center align-center"
         >
           <IconButton
-            id="download-button"
+            :id="`download-button-${item.id}`"
             :tooltip="$t('action.download')"
             icon="mdi-download-outline"
             size="small"
