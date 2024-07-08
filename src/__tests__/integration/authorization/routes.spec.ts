@@ -37,8 +37,7 @@ import {
   goToPageURL,
   createDriver,
   goToPage,
-  clickOnButton,
-  clickOnElementByXpath
+  clickOnButton
 } from '../helpers/helpers'
 const { By, until } = require('selenium-webdriver')
 
@@ -308,10 +307,6 @@ describe('Admin access', () => {
   })
   it('Submissions page', async () => {
     await login(driver, 'einstein')
-    await clickOnElementByXpath(
-      driver,
-      "//div[@data-testid='toast-body']"
-    )
     await goToPage(
       driver,
       SUBMISSIONS_SIDEBAR_ID,
@@ -320,11 +315,6 @@ describe('Admin access', () => {
   })
   it('Access tokens page', async () => {
     await login(driver, 'einstein')
-    await clickOnElementByXpath(
-      driver,
-      "//div[@data-testid='toast-body']"
-    )
-
     await clickOnButton(driver, SETTINGS_LIST_SIDEBAR_ID)
 
     await driver
@@ -352,11 +342,6 @@ describe('Admin access', () => {
   })
   it('Settings page', async () => {
     await login(driver, 'einstein')
-
-    await clickOnElementByXpath(
-      driver,
-      "//div[@data-testid='toast-body']"
-    )
 
     await clickOnButton(driver, SETTINGS_LIST_SIDEBAR_ID)
 

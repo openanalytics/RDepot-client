@@ -150,8 +150,8 @@ export const DOWNLOAD_WAITING_SUBMISSION_ID =
 export const DOWNLOAD_ACCEPTED_SUBMISSION_ID =
   'download-button-8'
 export const WAITING_FOR_APPROVE_SUBMISSION_ID =
-  'accept-button-26'
+  'accept-button-31'
 export const WAITING_FOR_REJECT_SUBMISSION_ID =
-  'reject-button-46'
+  'reject-button-30'
 export const WAITING_FOR_CANCEL_SUBMISSION_ID =
-  'cancel-button-45'
+  'cancel-button-19'

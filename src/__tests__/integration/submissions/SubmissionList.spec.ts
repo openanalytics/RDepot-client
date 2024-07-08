@@ -42,6 +42,7 @@ import {
   createDriver,
   goToPage
 } from '../helpers/helpers'
+const { By } = require('selenium-webdriver')
 
 let driver: any
 
@@ -69,6 +70,7 @@ describe('Submissions actions', () => {
       driver,
       DOWNLOAD_WAITING_SUBMISSION_ID
     )
+    //TODO check if file is downloaded
 
     // await driver.wait(
     //   until.elementLocated(
@@ -89,6 +91,7 @@ describe('Submissions actions', () => {
       driver,
       DOWNLOAD_ACCEPTED_SUBMISSION_ID
     )
+    //TODO check if file is downloaded
 
     // await driver.wait(
     //   until.elementLocated(
@@ -109,7 +112,7 @@ describe('Submissions actions', () => {
       driver,
       WAITING_FOR_APPROVE_SUBMISSION_ID
     )
-
+    //TODO
     // await driver.wait(
     //   until.elementLocated(
     //     By.id(CREATE_PACKAGE_MAINTAINER_REPOSITORY_INPUT_ID)
@@ -129,7 +132,17 @@ describe('Submissions actions', () => {
       driver,
       WAITING_FOR_REJECT_SUBMISSION_ID
     )
+    //TODO move ids and package names to elementsIDs
+    driver
+      .findElement(By.id('filtration-search'))
+      .sendKeys('abc')
 
+    driver
+      .findElement(By.id('filtration-repository'))
+      .click()
+
+    //TODO get id of repository4, check if action buttons visible
+    // driver.findElement(By.id('input-168')).click()
     // await driver.wait(
     //   until.elementLocated(
     //     By.id(CREATE_PACKAGE_MAINTAINER_REPOSITORY_INPUT_ID)
@@ -149,6 +162,7 @@ describe('Submissions actions', () => {
       driver,
       WAITING_FOR_CANCEL_SUBMISSION_ID
     )
+    //TODO
 
     // await driver.wait(
     //   until.elementLocated(

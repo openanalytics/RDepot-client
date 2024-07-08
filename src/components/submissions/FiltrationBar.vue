@@ -78,6 +78,7 @@
     ></validated-input-field>
 
     <validated-input-field
+      id="filtration-repository"
       density="compact"
       hide-details
       chips
