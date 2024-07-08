@@ -24,7 +24,9 @@
   <h2 class="my-5">
     {{ packageBag.name }}
   </h2>
-  <h3 color="text">{{ packageBag.title }}</h3>
+  <h3 color="text">
+    {{ packageBag.title?.replaceAll('\\n', ' ') }}
+  </h3>
 </template>
 
 <script setup lang="ts">

@@ -149,3 +149,49 @@ export const EDIT_REPOSITORY_MAINTAINER_USER_INPUT_ID =
   'edit-repository-maintainer-user'
 export const EDIT_REPOSITORY_MAINTAINER_SUBMIT_ID =
   'submit-button'
+
+//packages list
+export const PACKAGE_DETAILS_BUTTON_ID =
+  'see-package-details-button'
+export const PACKAGES_LIST_A3_092_TESTREPO3_ID =
+  'packages-list-A3-0.9.2-testrepo3'
+export const PACKAGES_LIST_ACCELERATED_NUMPY_010_TESTREPO8_ID =
+  'packages-list-accelerated-numpy-0.1.0-testrepo8'
+
+//r package details
+export const R_PACKAGE_VERSION_PROPERTY_ID =
+  'r-package-version-property'
+export const R_PACKAGE_SYSTEM_REQUIREMENTS_PROPERTY_ID =
+  'r-package-system-requirements-property'
+export const R_PACKAGE_LICENSE_PROPERTY_ID =
+  'r-package-license-property'
+export const R_PACKAGE_URL_PROPERTY_ID =
+  'r-package-url-property'
+export const R_PACKAGE_DEPENDS_PROPERTY_ID =
+  'r-package-depends-property'
+export const R_PACKAGE_IMPORTS_PROPERTY_ID =
+  'r-package-imports-property'
+export const R_PACKAGE_SUGGESTS_PROPERTY_ID =
+  'r-package-suggests-property'
+export const R_PACKAGE_MD5SUM_PROPERTY_ID =
+  'r-package-md5sum-property'
+
+//python package details
+export const PYTHON_PACKAGE_VERSION_PROPERTY_ID =
+  'python-package-version-property'
+export const PYTHON_PACKAGE_PLATFORM_PROPERTY_ID =
+  'python-package-platform-property'
+export const PYTHON_PACKAGE_PROJECT_URL_PROPERTY_ID =
+  'python-package-project-url-property'
+export const PYTHON_PACKAGE_PROVIDES_EXTRA_PROPERTY_ID =
+  'python-package-provides-extra-property'
+export const PYTHON_PACKAGE_REQUIRES_DIST_PROPERTY_ID =
+  'python-package-requires-dist-property'
+export const PYTHON_PACKAGE_REQUIRES_EXTERNAL_PROPERTY_ID =
+  'python-package-requires-external-property'
+export const PYTHON_PACKAGE_REQUIRES_PYTHON_PROPERTY_ID =
+  'python-package-requires-Python-property'
+export const PYTHON_PACKAGE_LICENSE_PROPERTY_ID =
+  'python-package-license-property'
+export const PYTHON_PACKAGE_HASH_PROPERTY_ID =
+  'python-package-hash-property'

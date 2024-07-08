@@ -42,6 +42,7 @@
         <h2>{{ i18n.t('packages.list') }}</h2>
       </div>
     </template>
+
     <template #[`item.technology`]="{ value }">
       <v-chip
         class="mr-5"

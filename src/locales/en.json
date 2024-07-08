@@ -268,7 +268,8 @@
     "successUpdateUser": "Successfully updated user"
   },
   "package": {
-    "noDescriptionProvided": "No description provided"
+    "noDescriptionProvided": "No description provided",
+    "propertyNotProvided": "not provided"
   },
   "packageMaintainer": {
     "create": "Create maintainer"
@@ -304,6 +305,7 @@
       "submissionState": "State"
     },
     "generatemanual": "Generate manual",
+    "hash": "Hash",
     "imports": "Imports",
     "install": "Install",
     "installCode-Python": "pip install --index-url {1} {0}",
@@ -314,6 +316,7 @@
     "list": "Packages",
     "maintainer": "Maintainer",
     "maintainers": "Package maintainers",
+    "md5sum": "MD5Sum",
     "noInstallInstruction": "The repository has not been published yet.",
     "noVignette": "No vignettes available",
     "oldSources": "Old sources",
@@ -348,7 +351,7 @@
     "withinRdepot": "Within RDepot"
   },
   "pagination": {
-    "size": "Page size"
+    "size": "Items per page (pagination)"
   },
   "repositories": {
     "addRepository": "Create repository",

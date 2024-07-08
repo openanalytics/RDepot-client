@@ -38,6 +38,7 @@
   <div v-if="packageBagShort" class="center">
     <v-divider :thickness="3"></v-divider>
     <v-btn
+      id="see-package-details-button"
       ref="button"
       color="oablue"
       size="x-small"
