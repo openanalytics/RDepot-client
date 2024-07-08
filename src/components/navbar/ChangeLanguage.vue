@@ -24,7 +24,7 @@
   <v-menu offset-y location="bottom end">
     <template #activator="{ props }">
       <v-btn
-        id="languagesbutton"
+        id="change-language-navbar-button"
         color="oablue-darken-2"
         variant="elevated"
         v-bind="props"
@@ -37,6 +37,7 @@
     <v-list>
       <v-list-item
         v-for="(item, index) in langs"
+        :id="item.name"
         :key="index"
         link
         @click="

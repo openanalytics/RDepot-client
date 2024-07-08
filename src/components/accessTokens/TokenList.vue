@@ -121,7 +121,7 @@ const { getSort } = useSort()
 const defaultSort: Sort[] = [{ key: 'name', order: 'asc' }]
 const sortBy = ref(defaultSort)
 
-const headers: DataTableHeaders[] = [
+const headers = computed<DataTableHeaders[]>(() => [
   {
     title: i18n.t('columns.tokens.name'),
     align: 'start',
@@ -159,10 +159,10 @@ const headers: DataTableHeaders[] = [
     width: 50,
     sortable: false
   }
-]
+])
 
 function resetElementWidth() {
-  headers[0].width = undefined
+  headers.value[0].width = undefined
 }
 
 const filteredHeaders = computed(() => {
@@ -174,9 +174,11 @@ const filteredHeaders = computed(() => {
     )
   ) {
     resetElementWidth()
-    return headers.filter((header) => header.key != 'user')
+    return headers.value.filter(
+      (header) => header.key != 'user'
+    )
   }
-  return headers
+  return headers.value
 })
 
 function fetchData(options: DataTableOptions) {

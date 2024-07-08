@@ -69,6 +69,10 @@ export const NIKOLA_TESLA_TESTREPO1_ID =
 
 //navbar
 export const OA_LOGO_ID = 'logo-oa'
+export const CHANGE_LANGUAGE_NAVBAR_ID =
+  'change-language-navbar-button'
+export const POLISH_LANGUAGE_ID = 'pl-PL'
+export const ENGLISH_LANGUAGE_ID = 'en-US'
 
 //sidebar
 export const PACKAGE_MAINTAINERS_SIDEBAR_ID =
@@ -84,6 +88,8 @@ export const UPLOAD_PACKAGES_SIDEBAR_ID =
   'sidebar-upload-packages'
 export const SETTINGS_LIST_SIDEBAR_ID =
   'sidebar-settings-list'
+export const ACCESS_TOKENS_SIDEBAR_ID =
+  'sidebar-settings-access-tokens'
 
 //login form
 export const USERNAME_INPUT_ID = 'username-input'

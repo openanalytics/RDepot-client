@@ -105,7 +105,7 @@ import {
   Sort
 } from '@/models/DataTableOptions'
 import { useAuthorizationStore } from '@/store/authorization'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useSort } from '@/composable/sort'
 
 const pagination = usePagination()
@@ -116,7 +116,7 @@ const { getSort } = useSort()
 const defaultSort: Sort[] = [{ key: 'login', order: 'asc' }]
 const sortBy = ref(defaultSort)
 
-const headers: DataTableHeaders[] = [
+const headers = computed<DataTableHeaders[]>(() => [
   {
     title: i18n.t('columns.users.username'),
     align: 'start',
@@ -147,7 +147,7 @@ const headers: DataTableHeaders[] = [
     width: 50,
     sortable: false
   }
-]
+])
 
 const { canPatch } = useUserAuthorities()
 

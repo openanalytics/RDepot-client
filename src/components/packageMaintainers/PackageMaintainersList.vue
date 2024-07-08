@@ -112,7 +112,7 @@ const postCondition = computed(() =>
   authorizationStore.can('POST', 'packageMaintainers')
 )
 
-const headers: DataTableHeaders[] = [
+const headers = computed<DataTableHeaders[]>(() => [
   {
     title: i18n.t('columns.packageMaintainer.name'),
     align: 'start',
@@ -145,8 +145,7 @@ const headers: DataTableHeaders[] = [
     key: 'actions',
     sortable: false
   }
-]
-
+])
 function fetchData(options: DataTableOptions) {
   sortBy.value = getSort(options.sortBy, defaultSort)
   packageMaintainersStore.fetchMaintainersPage(options)

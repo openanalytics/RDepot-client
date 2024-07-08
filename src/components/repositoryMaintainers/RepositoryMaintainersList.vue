@@ -117,7 +117,7 @@ const postCondition = computed(() =>
   authorizationStore.can('POST', 'repositoryMaintainers')
 )
 
-const headers: DataTableHeaders[] = [
+const headers = computed<DataTableHeaders[]>(() => [
   {
     title: i18n.t('columns.repositoryMaintainer.name'),
     align: 'start',
@@ -148,7 +148,8 @@ const headers: DataTableHeaders[] = [
     width: 50,
     sortable: false
   }
-]
+])
+
 const pagination = usePagination()
 
 function updateData(): void {

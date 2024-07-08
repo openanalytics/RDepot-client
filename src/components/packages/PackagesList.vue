@@ -192,7 +192,7 @@ const pagination = usePagination()
 const { canDelete, canPatch } = useUserAuthorities()
 const configStore = useConfigStore()
 
-const headers: DataTableHeaders[] = [
+const headers = computed<DataTableHeaders[]>(() => [
   {
     title: i18n.t('columns.package.name'),
     align: 'start',
@@ -251,7 +251,7 @@ const headers: DataTableHeaders[] = [
     width: 100,
     sortable: false
   }
-]
+])
 
 const { getStatusIcon, getStatusColor, getTooltipMessage } =
   useSubmissionIcons()
