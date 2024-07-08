@@ -45,6 +45,7 @@ import { useConfigStore } from './config'
 import { RouteRecordName } from 'vue-router'
 import { useCommonStore } from './common'
 import { EntityModelUserDto } from '@/openapi'
+import vuetify from '@/plugins/vuetify'
 
 interface State {
   userToken: string
@@ -74,6 +75,8 @@ export const useAuthorizationStore = defineStore(
     actions: {
       async postLoginOperations() {
         await this.getUserInfo()
+        vuetify.theme.global.name.value =
+          this.me.userSettings?.theme || 'dark'
         const commonStore = useCommonStore()
         commonStore.closeOverlay()
         const configStore = useConfigStore()
