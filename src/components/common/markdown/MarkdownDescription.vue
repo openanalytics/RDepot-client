@@ -23,7 +23,11 @@
 <template>
   <div
     v-dompurify-html="mdDescription"
-    :class="['text my-5', short ? ' short' : '']"
+    :class="[
+      'text',
+      short ? ' short' : '',
+      description ? 'my-5' : ''
+    ]"
   ></div>
 </template>
 
@@ -31,9 +35,10 @@
 import { marked } from 'marked'
 import { useUtilities } from '@/composable/utilities'
 import { computed } from 'vue'
+import { i18n } from '@/plugins/i18n'
 
 const componentProps = defineProps<{
-  description: string
+  description?: string
   short?: boolean
   packageId?: number
 }>()
@@ -47,9 +52,11 @@ marked.use({
 })
 
 const mdDescription = computed(() => {
+  const description =
+    componentProps.description ||
+    i18n.t('package.noDescriptionProvided')
   return marked.parse(
-    componentProps.description.replaceAll('\\n', '\n') ||
-      '',
+    description.replaceAll('\\n', '\n') || '',
     { breaks: true, gfm: true }
   )
 })

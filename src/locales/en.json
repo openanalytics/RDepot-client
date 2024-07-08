@@ -267,6 +267,9 @@
     "successUpdateRepositoryManager": "Successful update {maintainer_name}",
     "successUpdateUser": "Successfully updated user"
   },
+  "package": {
+    "noDescriptionProvided": "No description provided"
+  },
   "packageMaintainer": {
     "create": "Create maintainer"
   },

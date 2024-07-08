@@ -35,7 +35,11 @@ export async function login(
   driver: typeof Builder,
   login: string
 ) {
-  driver.manage().window().maximize()
+  await driver
+    .manage()
+    .window()
+    .setRect({ width: 1920, height: 1053 })
+
   await driver.get(url + '/login')
 
   await driver.wait(

@@ -26,7 +26,7 @@
       v-if="
         packageBag.technology == Technologies.enum.Python
       "
-      :description="packageBag.description || ''"
+      :description="packageBag.description"
       :short="packageBagShort !== undefined"
     ></MarkdownDescription>
     <div
@@ -104,7 +104,7 @@ function goToDetailsPage({
   max-height: 250px;
   overflow: hidden;
   mask-size: auto 250px;
-  padding: 1rem;
+  padding: 0.5rem 1rem;
   -webkit-mask-image: -webkit-gradient(
     linear,
     left 90%,

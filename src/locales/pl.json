@@ -261,6 +261,9 @@
     "successUpdateRepositoryManager": "Zaktualizowano {maintainer_name}",
     "successUpdateUser": "Dane użytkownika zaktualizowane"
   },
+  "package": {
+    "noDescriptionProvided": "Brak dostępnego opisu"
+  },
   "packageMaintainer": {
     "create": "Stwórz opiekuna"
   },
