@@ -142,7 +142,7 @@ import {
 } from '@/models/DataTableOptions'
 import { useConfigStore } from '@/store/config'
 import { useUtilities } from '@/composable/utilities'
-import { updateRepository } from '@/services/repository_services'
+import { updateRepository } from '@/services/repositoryServices'
 import { computed } from 'vue'
 import { isAtLeastRepositoryMaintainer } from '@/enum/UserRoles'
 import { ref } from 'vue'

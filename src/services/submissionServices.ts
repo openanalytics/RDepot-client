@@ -31,12 +31,12 @@ import {
   openApiRequest,
   validatedData,
   validateRequest
-} from './open_api_access'
+} from './openApiAccess'
 import { createPatch } from 'rfc6902'
 import { useSortStore } from '@/store/sort'
 import { isAuthorized } from '@/plugins/casl'
 import { Technologies } from '@/enum/Technologies'
-import { getConfiguration } from './api_config'
+import { getConfiguration } from './apiConfig'
 
 type ValidatedSubmissions = Promise<
   validatedData<EntityModelSubmissionDto[]>

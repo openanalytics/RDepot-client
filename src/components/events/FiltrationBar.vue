@@ -21,7 +21,7 @@
 -->
 
 <template>
-  <DatePicker
+  <DatePickerField
     v-model="showDatepicker"
     :previous-date="fromDatePicker"
     :direction="changedDate"
@@ -119,7 +119,7 @@ import { useEnumFiltration } from '@/composable/filtration/enumFiltration'
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useEventsStore } from '@/store/events'
-import DatePicker from '@/components/common/fields/DatePicker.vue'
+import DatePickerField from '@/components/common/fields/DatePickerField.vue'
 import { useDatePicker } from '@/composable/datePicker'
 import ResetButton from '@/components/common/buttons/ResetButton.vue'
 import { computed } from 'vue'

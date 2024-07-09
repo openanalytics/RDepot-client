@@ -36,9 +36,9 @@ import {
   editToken,
   deactivateToken,
   fetch
-} from '@/services/settings_services'
+} from '@/services/settingsServices'
 import { useUtilities } from '@/composable/utilities'
-import { validatedData } from '@/services/open_api_access'
+import { validatedData } from '@/services/openApiAccess'
 import { usePagination } from '@/store/pagination'
 import { useToast } from '@/composable/toasts'
 import { i18n } from '@/plugins/i18n'

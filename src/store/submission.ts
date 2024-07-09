@@ -34,10 +34,10 @@ import {
   fetch,
   fetchSubmissions,
   updateSubmission
-} from '@/services/submission_services'
+} from '@/services/submissionServices'
 import { useUtilities } from '@/composable/utilities'
 import { submissionsFiltrationLabels } from '@/maps/Filtration'
-import { validatedData } from '@/services/open_api_access'
+import { validatedData } from '@/services/openApiAccess'
 import { usePagination } from '@/store/pagination'
 import { useToast } from '@/composable/toasts'
 import { i18n } from '@/plugins/i18n'

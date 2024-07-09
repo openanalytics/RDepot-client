@@ -29,9 +29,9 @@ import {
 } from 'vitest'
 
 import { createPinia, setActivePinia } from 'pinia'
-import { useSelectStore } from '@/store/select_pagination'
+import { useSelectStore } from '@/store/selectPagination'
 import { usePackageMaintainersFiltration } from '@/composable/filtration/packageMaintainersFiltration'
-import { usePackageMaintainersStore } from '@/store/package_maintainers'
+import { usePackageMaintainersStore } from '@/store/packageMaintainers'
 import { useAuthorizationStore } from '@/store/authorization'
 
 beforeEach(async () => {

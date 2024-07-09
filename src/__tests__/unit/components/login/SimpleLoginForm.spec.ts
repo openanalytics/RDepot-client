@@ -23,7 +23,7 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 
 import { mount } from '@vue/test-utils'
-import SimpleLogin from '@/components/login/SimpleLogin.vue'
+import SimpleLoginForm from '@/components/login/forms/SimpleLoginForm.vue'
 import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
 import users from '@/__tests__/config/mockData/loginUsers.json'
@@ -41,12 +41,12 @@ const { deepCopyAny } = useUtilities()
 
 beforeEach(async () => {
   setActivePinia(createPinia())
-  wrapper = mount(SimpleLogin, {
+  wrapper = mount(SimpleLoginForm, {
     global: globalConfig
   })
 })
 
-describe('SimpleLogin', () => {
+describe('SimpleLoginForm', () => {
   const userCorrect = deepCopyAny(users.content[0])
   it('renders properly', () => {
     expect(wrapper.exists()).toBe(true)

@@ -64,7 +64,7 @@
 import { EntityModelRPackageDto } from '@/openapi'
 import { computed } from 'vue'
 import { useClipboard } from '@vueuse/core'
-import { usePackageDetailsStore } from '@/store/package_details'
+import { usePackageDetailsStore } from '@/store/packageDetails'
 import { useToast } from '@/composable/toasts'
 import { useI18n } from 'vue-i18n'
 

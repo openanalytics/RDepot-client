@@ -68,7 +68,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { EntityModelPythonPackageDto } from '@/openapi'
-import { usePackageDetailsStore } from '@/store/package_details'
+import { usePackageDetailsStore } from '@/store/packageDetails'
 import { i18n } from '@/plugins/i18n'
 import { useFiles } from '@/composable/file'
 

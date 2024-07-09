@@ -23,7 +23,7 @@
 import { useCommonStore } from '@/store/common'
 import { AxiosError, AxiosResponse } from 'axios'
 import { Link, PageMetadata } from '@/openapi'
-import { getHeaders } from './api_config'
+import { getHeaders } from './apiConfig'
 import { ResponseDtoObject } from '@/openapi/models'
 import { useAuthorizationStore } from '@/store/authorization'
 import { useBlob } from '@/composable/blob'

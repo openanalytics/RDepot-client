@@ -37,8 +37,8 @@ import {
   fetch,
   fetchFullRepositoriesList,
   updateRepository
-} from '@/services/repository_services'
-import { createRepository } from '@/services/repository_services'
+} from '@/services/repositoryServices'
+import { createRepository } from '@/services/repositoryServices'
 import { useUtilities } from '@/composable/utilities'
 import { repositoriesFiltrationLabels } from '@/maps/Filtration'
 import { usePagination } from '@/store/pagination'

@@ -29,10 +29,10 @@ import {
 } from 'vitest'
 
 import { createPinia, setActivePinia } from 'pinia'
-import { useSelectStore } from '@/store/select_pagination'
+import { useSelectStore } from '@/store/selectPagination'
 import { useAuthorizationStore } from '@/store/authorization'
 import { useRepositoryMaintainersFiltration } from '@/composable/filtration/repositoryMaintainersFiltration'
-import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
+import { useRepositoryMaintainersStore } from '@/store/repositoryMaintainers'
 
 beforeEach(async () => {
   setActivePinia(createPinia())

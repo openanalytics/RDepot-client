@@ -21,11 +21,11 @@
  */
 
 import { EntityModelRepositoryMaintainerDto } from '@/openapi'
-import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
+import { useRepositoryMaintainersStore } from '@/store/repositoryMaintainers'
 import {
   useSelectStore,
   SelectState
-} from '@/store/select_pagination'
+} from '@/store/selectPagination'
 
 export function useRepositoryMaintainersFiltration() {
   const storeIdMaintainer: SelectState =

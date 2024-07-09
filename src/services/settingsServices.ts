@@ -30,7 +30,7 @@ import {
   openApiRequest,
   validatedData,
   validateRequest
-} from './open_api_access'
+} from './openApiAccess'
 import { tokenSchema } from '@/models/Schemas'
 import { createPatch } from 'rfc6902'
 import { useSortStore } from '@/store/sort'

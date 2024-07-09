@@ -28,7 +28,7 @@ import {
   openApiRequest,
   validatedData,
   validateRequest
-} from './open_api_access'
+} from './openApiAccess'
 import { isAuthorized } from '@/plugins/casl'
 
 type ValidatedConfig = Promise<

@@ -42,8 +42,8 @@ import {
   downloadSourceFile,
   fetchPackageServices,
   fetchVignettes
-} from '@/services/package_services'
-import { fetchSubmission } from '@/services/submission_services'
+} from '@/services/packageServices'
+import { fetchSubmission } from '@/services/submissionServices'
 import { Technologies } from '@/enum/Technologies'
 
 interface State {

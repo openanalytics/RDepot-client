@@ -29,7 +29,7 @@ import {
   EventsFiltration,
   defaultValues
 } from '@/models/Filtration'
-import { fetchEventsServices } from '@/services/events_services'
+import { fetchEventsServices } from '@/services/eventsServices'
 import { eventsFiltrationLabels } from '@/maps/Filtration'
 import { useDates } from '@/composable/date'
 

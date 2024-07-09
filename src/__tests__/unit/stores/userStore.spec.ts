@@ -30,11 +30,11 @@ describe('User Store', () => {
   })
 
   it('Starting values', () => {
-    const user_store = useUserStore()
-    expect(user_store.userToken).toEqual('')
-    expect(user_store.userName).toEqual('')
-    expect(user_store.users).toEqual([])
-    expect(user_store.chosenUser).toEqual({})
-    expect(user_store.roles).toEqual([])
+    const userStore = useUserStore()
+    expect(userStore.userToken).toEqual('')
+    expect(userStore.userName).toEqual('')
+    expect(userStore.users).toEqual([])
+    expect(userStore.chosenUser).toEqual({})
+    expect(userStore.roles).toEqual([])
   })
 })

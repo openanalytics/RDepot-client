@@ -36,7 +36,7 @@ import {
 import {
   getMyData,
   updateUserSettings
-} from '@/services/logged_user_service'
+} from '@/services/loggedUserService'
 import { defineStore } from 'pinia'
 import { authService } from '@/plugins/oauth'
 import router from '@/plugins/router'

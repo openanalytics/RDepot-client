@@ -20,7 +20,7 @@
  *
  */
 
-import { useSelectStore } from '@/store/select_pagination'
+import { useSelectStore } from '@/store/selectPagination'
 import { createPinia, setActivePinia } from 'pinia'
 import { beforeEach, describe, expect, it } from 'vitest'
 

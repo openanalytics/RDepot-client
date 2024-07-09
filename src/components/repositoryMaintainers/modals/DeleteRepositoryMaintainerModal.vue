@@ -26,7 +26,7 @@
 
 <script setup lang="ts">
 import ModalOverlay from '@/components/common/overlay/ModalOverlay.vue'
-import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
+import { useRepositoryMaintainersStore } from '@/store/repositoryMaintainers'
 
 const maintainersStore = useRepositoryMaintainersStore()
 

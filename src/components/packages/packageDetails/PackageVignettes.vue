@@ -45,7 +45,7 @@
 </template>
 
 <script setup lang="ts">
-import { usePackageDetailsStore } from '@/store/package_details'
+import { usePackageDetailsStore } from '@/store/packageDetails'
 import PackageVignette from '@/components/packages/packageDetails/PackageVignette.vue'
 
 const packageDetailsStore = usePackageDetailsStore()

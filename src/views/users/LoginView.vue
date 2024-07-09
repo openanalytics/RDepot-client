@@ -36,7 +36,7 @@
 
 <script setup lang="ts">
 import Logo from '@/components/login/OALogo.vue'
-import LoginForm from '@/components/login/LoginForm.vue'
+import LoginForm from '@/components/login/forms/LoginTemplate.vue'
 </script>
 
 <style scoped lang="scss">

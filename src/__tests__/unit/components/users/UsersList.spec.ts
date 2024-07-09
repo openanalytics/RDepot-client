@@ -38,7 +38,7 @@ import { useUserStore } from '@/store/users'
 import { i18n } from '@/plugins/i18n'
 import { useAuthorizationStore } from '@/store/authorization'
 import me from '@/__tests__/config/mockData/me.json'
-import UserList from '@/components/users/UserList.vue'
+import UsersList from '@/components/users/UsersList.vue'
 
 let wrapper: any
 let usersStore: any
@@ -57,7 +57,7 @@ beforeAll(() => {
 })
 
 beforeEach(async () => {
-  wrapper = mount(UserList, {
+  wrapper = mount(UsersList, {
     global: globalConfig
   })
   usersStore.users = users.data.content

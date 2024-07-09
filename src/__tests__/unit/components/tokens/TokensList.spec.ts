@@ -37,8 +37,8 @@ import { useAuthorizationStore } from '@/store/authorization'
 import me from '@/__tests__/config/mockData/me.json'
 import { nextTick } from 'vue'
 import { i18n } from '@/plugins/i18n'
-import TokenList from '@/components/accessTokens/TokenList.vue'
-import { useAccessTokensStore } from '@/store/access_tokens'
+import TokensList from '@/components/accessTokens/TokensList.vue'
+import { useAccessTokensStore } from '@/store/accessTokens'
 
 let wrapper: any
 let authorizationStore: any
@@ -57,7 +57,7 @@ beforeAll(() => {
 })
 
 beforeEach(async () => {
-  wrapper = mount(TokenList, {
+  wrapper = mount(TokensList, {
     global: globalConfig
   })
   accessTokensStore.tokens = tokens.data.content

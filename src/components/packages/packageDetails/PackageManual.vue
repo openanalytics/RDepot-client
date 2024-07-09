@@ -40,7 +40,7 @@
 
 <script setup lang="ts">
 import { Technologies } from '@/enum/Technologies'
-import { usePackageDetailsStore } from '@/store/package_details'
+import { usePackageDetailsStore } from '@/store/packageDetails'
 
 const packageDetailsStore = usePackageDetailsStore()
 
