@@ -43,8 +43,10 @@ import {
   goToPage
 } from '../helpers/helpers'
 const { By } = require('selenium-webdriver')
+const fs = require('fs')
 
 let driver: any
+const pathToFileOrDir = '/home/seleuser/Downloads/'
 
 beforeAll(async () => {
   await restoreData()
@@ -58,6 +60,12 @@ afterEach(async () => {
   await driver.quit()
 })
 
+const delay = (delayInms: number) => {
+  return new Promise((resolve) =>
+    setTimeout(resolve, delayInms)
+  )
+}
+
 describe('Submissions actions', () => {
   it('download waiting submission', async () => {
     await login(driver, 'einstein')
@@ -70,14 +78,10 @@ describe('Submissions actions', () => {
       driver,
       DOWNLOAD_WAITING_SUBMISSION_ID
     )
-    //TODO check if file is downloaded
-
-    // await driver.wait(
-    //   until.elementLocated(
-    //     By.id(CREATE_PACKAGE_MAINTAINER_REPOSITORY_INPUT_ID)
-    //   ),
-    //   8000
-    // )
+    await delay(2000)
+    expect(
+      fs.existsSync(pathToFileOrDir + 'visdat_0.1.0.tar.gz')
+    ).toBe(true)
   })
 
   it('download accepted submission', async () => {
@@ -91,14 +95,10 @@ describe('Submissions actions', () => {
       driver,
       DOWNLOAD_ACCEPTED_SUBMISSION_ID
     )
-    //TODO check if file is downloaded
-
-    // await driver.wait(
-    //   until.elementLocated(
-    //     By.id(CREATE_PACKAGE_MAINTAINER_REPOSITORY_INPUT_ID)
-    //   ),
-    //   8000
-    // )
+    await delay(2000)
+    expect(
+      fs.existsSync(pathToFileOrDir + 'visdat_0.1.0.tar.gz')
+    ).toBe(true)
   })
 
   it('accept submission', async () => {
