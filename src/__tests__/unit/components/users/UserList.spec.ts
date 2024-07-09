@@ -31,31 +31,29 @@ import {
 import { mount, config } from '@vue/test-utils'
 import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
-import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import users from '@/__tests__/config/mockData/users.json'
 import { createPinia, setActivePinia } from 'pinia'
 import { nextTick } from 'vue'
 import { useUserStore } from '@/store/users'
 import { i18n } from '@/plugins/i18n'
-import { useMeStore } from '@/store/me'
+import { useAuthorizationStore } from '@/store/authorization'
 import me from '@/__tests__/config/mockData/me.json'
 import UserList from '@/components/users/UserList.vue'
 
 let wrapper: any
 let usersStore: any
-let meStore: any
+let authorizationStore: any
 
 const globalConfig = {
   mocks: mocks,
   plugins: plugins
 }
 beforeAll(() => {
-  global.ResizeObserver = ResizeObserver
   config.global.renderStubDefaultSlot = true
   setActivePinia(createPinia())
   usersStore = useUserStore()
-  meStore = useMeStore()
-  meStore.me = me.data
+  authorizationStore = useAuthorizationStore()
+  authorizationStore.me = me.data
 })
 
 beforeEach(async () => {
@@ -177,11 +175,11 @@ describe('Users - cells', () => {
 
   it('display edit action', () => {
     const cell = cells[4]
-    expect(cell.find('#pencil-icon').exists()).toBeTruthy()
+    expect(cell.find('#edit-user-4').exists()).toBeTruthy()
   })
 
   it('active field with oneself', async () => {
-    meStore.me = user
+    authorizationStore.me = user
     await nextTick()
     const checkboxActive = cells[3].find('#checkbox-active')
     expect(checkboxActive.element.checked).toBe(user.active)
@@ -189,6 +187,7 @@ describe('Users - cells', () => {
       !user.active
     )
   })
+
   it('active field with different user', async () => {
     await nextTick()
     const checkboxActive = cells[3].find('#checkbox-active')

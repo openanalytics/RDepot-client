@@ -51,6 +51,7 @@
     ></validated-input-field>
 
     <validated-input-field
+      id="filtration-repository"
       density="compact"
       hide-details
       chips
@@ -100,9 +101,12 @@
     <validated-input-field
       v-if="
         isAtLeastRepositoryMaintainer(
-          meStore.userRole ? meStore.userRole : 0
+          authorizationStore.userRole
+            ? authorizationStore.userRole
+            : 0
         )
       "
+      id="filtration-maintainer"
       density="compact"
       hide-details
       chips
@@ -137,7 +141,9 @@
     <validated-input-field
       v-if="
         isAtLeastAdmin(
-          meStore.userRole ? meStore.userRole : 0
+          authorizationStore.userRole
+            ? authorizationStore.userRole
+            : 0
         )
       "
       id="filtration-deleted"
@@ -176,16 +182,16 @@ import {
   isAtLeastAdmin
 } from '@/enum/UserRoles'
 import ResetButton from '@/components/common/buttons/ResetButton.vue'
-import { useMeStore } from '@/store/me'
 import { onBeforeMount } from 'vue'
+import { useAuthorizationStore } from '@/store/authorization'
 
 const { states, technologies } = useEnumFiltration()
-const meStore = useMeStore()
+const authorizationStore = useAuthorizationStore()
 const {
   storeId,
   filtrateRepositoriesObjects,
   loadRepositories,
-  resetPagination
+  resetRepositoriesPagination
 } = useRepositoriesFiltration()
 const {
   storeIdMaintainer,
@@ -211,6 +217,6 @@ function resetValues() {
 
 onBeforeMount(() => {
   resetPaginationMaintainers()
-  resetPagination()
+  resetRepositoriesPagination()
 })
 </script>

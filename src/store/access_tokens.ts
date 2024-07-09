@@ -44,8 +44,8 @@ import { useToast } from '@/composable/toasts'
 import { i18n } from '@/plugins/i18n'
 import { useCommonStore } from '@/store/common'
 import { OverlayEnum } from '@/enum/Overlay'
-import { useMeStore } from './me'
 import { DataTableOptions } from '@/models/DataTableOptions'
+import { useAuthorizationStore } from './authorization'
 
 export type PackagePromise = {
   promise: Promise<validatedData<EntityModelAccessTokenDto>>
@@ -106,12 +106,12 @@ export const useAccessTokensStore = defineStore(
       },
       async fetchTokens() {
         const pagination = usePagination()
-        const meStore = useMeStore()
+        const authorizationStore = useAuthorizationStore()
         const pageData = await this.fetchData(
           pagination.fetchPage,
           pagination.pageSize,
           this.filtration,
-          meStore.me.id
+          authorizationStore.me.id
         )
         pagination.newPageWithoutRefresh(pageData.page)
         pagination.totalNumber = pageData.totalNumber
@@ -173,7 +173,7 @@ export const useAccessTokensStore = defineStore(
           async (success) => {
             if (success) {
               const commonStore = useCommonStore()
-              commonStore.setOverlayModel(false)
+              commonStore.closeOverlay()
               this.newToken = success[0].value
               commonStore.openOverlay(
                 OverlayEnum.enum.Created
@@ -193,7 +193,7 @@ export const useAccessTokensStore = defineStore(
                 i18n.t('settings.message.deleted')
               )
               const commonStore = useCommonStore()
-              commonStore.setOverlayModel(false)
+              commonStore.closeOverlay()
               await this.fetchTokens()
             }
           )
@@ -238,7 +238,7 @@ export const useAccessTokensStore = defineStore(
                 i18n.t('settings.message.deactivated')
               )
               const commonStore = useCommonStore()
-              commonStore.setOverlayModel(false)
+              commonStore.closeOverlay()
               await this.fetchTokens()
             }
           }

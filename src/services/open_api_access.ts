@@ -29,7 +29,6 @@ import { useAuthorizationStore } from '@/store/authorization'
 import { useBlob } from '@/composable/blob'
 import { useToast } from '@/composable/toasts'
 import { i18n } from '@/plugins/i18n'
-import { useMeStore } from '@/store/me'
 import { BackendError } from '@/models/errors/BackendError'
 
 export async function openApiRequest<T>(
@@ -71,7 +70,7 @@ export async function openApiRequest<T>(
 
 function turnOnProgress() {
   const commonStore = useCommonStore()
-  commonStore.setProgressCircularActive(true)
+  commonStore.progressCircularActive = true
 }
 
 async function resolvedBlob(
@@ -117,8 +116,8 @@ async function resolvedBlob(
     default:
       break
   }
-  const common_store = useCommonStore()
-  common_store.setProgressCircularActive(false)
+  const commonStore = useCommonStore()
+  commonStore.progressCircularActive = false
   return validateRequest([])
 }
 
@@ -126,8 +125,8 @@ async function resolved(
   result: AxiosResponse<ResponseDtoObject>,
   ifToast = true
 ): Promise<validatedData<any>> {
-  const common_store = useCommonStore()
-  common_store.setProgressCircularActive(false)
+  const commonStore = useCommonStore()
+  commonStore.progressCircularActive = false
   if (ifToast) {
     const toasts = useToast()
     toasts.notifyAPISuccess(result)
@@ -146,8 +145,8 @@ async function resolved(
 async function rejected(
   result: AxiosError<BackendError | any>
 ) {
-  const common_store = useCommonStore()
-  common_store.setProgressCircularActive(false)
+  const commonStore = useCommonStore()
+  commonStore.progressCircularActive = false
   await errorsHandler(result)
   throw result
 }
@@ -176,8 +175,8 @@ async function errorsHandler(
         break
       }
       case 403: {
-        const authorizationStore = useMeStore()
-        authorizationStore.getUserInfo()
+        const authorizationStore = useAuthorizationStore()
+        await authorizationStore.getUserInfo()
         break
       }
       case 405: {
@@ -187,7 +186,12 @@ async function errorsHandler(
         break
       }
       case 422: {
-        toasts.error(i18n.t('errors.422'))
+        console.log(error.response)
+        toasts.error(
+          i18n.t('errors.422') +
+            '\n' +
+            error.response.data.data[0]
+        )
         break
       }
 

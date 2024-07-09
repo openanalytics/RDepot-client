@@ -20,20 +20,13 @@
  *
  */
 
-import {
-  describe,
-  it,
-  expect,
-  beforeEach,
-  beforeAll
-} from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 
 import { mount } from '@vue/test-utils'
 import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
-import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import { createPinia, setActivePinia } from 'pinia'
-import { useMeStore } from '@/store/me'
+import { useAuthorizationStore } from '@/store/authorization'
 import me from '@/__tests__/config/mockData/me.json'
 import events from '@/__tests__/config/mockData/events.json'
 import {
@@ -50,22 +43,18 @@ const globalConfig = {
   mocks: mocks,
   plugins: plugins
 }
-let meStore: any
+let authorizationStore: any
 const event: EntityModelNewsfeedEventDto = events.data
   .content[11] as EntityModelNewsfeedEventDto
 let chips: any
 const relatedResource: EntityModelPackageMaintainerDto =
   event.relatedResource as EntityModelPackageMaintainerDto
 
-beforeAll(() => {
-  global.ResizeObserver = ResizeObserver
-})
-
 describe('Events - Repository Maintainer', () => {
   beforeEach(async () => {
     setActivePinia(createPinia())
-    meStore = useMeStore()
-    meStore.me = me.data
+    authorizationStore = useAuthorizationStore()
+    authorizationStore.me = me.data
     wrapper = mount(PackageMaintainerEvent, {
       props: {
         event: event

@@ -56,11 +56,13 @@ const commonStore = useCommonStore()
 
 function deactivateDialog() {
   emits('setResourceId')
-  commonStore.setOverlayText(
-    i18n.t('common.deactivateQuestion', {
+  commonStore.overlayText = i18n.t(
+    'common.deactivateQuestion',
+    {
       resource_name: componentProps.name
-    })
+    }
   )
+
   commonStore.openOverlay(OverlayEnum.enum.Deactivate)
 }
 </script>

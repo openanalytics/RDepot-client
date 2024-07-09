@@ -29,7 +29,6 @@ import { usePackageDetailsStore } from '@/store/package_details'
 import { usePagination } from '@/store/pagination'
 import { useSortStore } from '@/store/sort'
 import { useCommonStore } from '@/store/common'
-import { useMeStore } from '@/store/me'
 import { useUserStore } from '@/store/users'
 import { useConfigStore } from '@/store/config'
 
@@ -69,9 +68,8 @@ export async function handleAuthorization() {
         window.document.title,
         window.location.origin + window.location.pathname
       )
-      const meStore = useMeStore()
       const authorizationStore = useAuthorizationStore()
-      if (!meStore.me.role) {
+      if (!authorizationStore.me.role) {
         await authorizationStore.postLoginOperations()
       }
     })
@@ -91,7 +89,7 @@ export async function handleLogout() {
           window.document.title,
           window.location.origin + window.location.pathname
         )
-        localStorage.removeItem('me')
+        localStorage.removeItem('authorizationStore')
       })
       .catch((error) => {
         console.log(error)
@@ -107,19 +105,19 @@ export function getDefaultFiltration(to: any) {
     case 'packageMaintainers':
       sortStore.setDefaultFields('user.name', 'asc')
       sortStore.resetSort()
-      commonStore.setActiveId('user.name')
+      commonStore.activeId = 'user.name'
       break
     case 'packages':
     case 'repositories':
     case 'users':
       sortStore.setDefaultFields('name', 'asc')
       sortStore.resetSort()
-      commonStore.setActiveId('name')
+      commonStore.activeId = 'name'
       break
     case 'submissions':
       sortStore.setDefaultFields('state', 'desc')
       sortStore.resetSort()
-      commonStore.setActiveId('state')
+      commonStore.activeId = 'state'
       break
     default:
       break
@@ -165,7 +163,7 @@ export async function checkAuthorization(to: any) {
   } else if (to.name == 'login') {
     if (await authorizationStore.isUserLoggedIn()) {
       const configStore = useConfigStore()
-      configStore.fetchConfiguration()
+      await configStore.fetchConfiguration()
       return '/packages'
     }
   }
@@ -176,12 +174,11 @@ export async function authorizeInternalPath(to: any) {
   if (!(await authorizationStore.isUserLoggedIn())) {
     return redirectToLoginPage()
   }
-  const meStore = useMeStore()
-  if (!meStore.me.role) {
+  if (!authorizationStore.me.role) {
     await authorizationStore.postLoginOperations()
   } else {
     const configStore = useConfigStore()
-    configStore.fetchConfiguration()
+    await configStore.fetchConfiguration()
   }
   const canRedirect = authorizationStore.checkUserAbility(
     to.name || ' '

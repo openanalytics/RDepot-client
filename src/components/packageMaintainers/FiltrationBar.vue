@@ -128,7 +128,7 @@ const {
   storeId,
   filtrateRepositoriesObjects,
   loadRepositories,
-  resetPagination
+  resetRepositoriesPagination
 } = useRepositoriesFiltration()
 
 const packageMaintainerStore = usePackageMaintainersStore()
@@ -153,7 +153,7 @@ function resetValues() {
   )
 }
 
-onBeforeMount(() => resetPagination())
+onBeforeMount(() => resetRepositoriesPagination())
 </script>
 
 <style lang="scss">

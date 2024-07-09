@@ -224,6 +224,8 @@
   },
   "maintainers": {
     "createform": {
+      "disabledPackageMessage": "Choose user and repository to enable",
+      "disabledRepositoryMessage": "Choose user to enable",
       "disclaimer": "Only users with at least repository maintainer role available.",
       "disclaimerPackages": "Only users with at least package maintainer role available.",
       "disclaimerTitle": "Available users",
@@ -265,6 +267,10 @@
     "successUpdateRepositoryManager": "Successful update {maintainer_name}",
     "successUpdateUser": "Successfully updated user"
   },
+  "package": {
+    "noDescriptionProvided": "No description provided",
+    "propertyNotProvided": "not provided"
+  },
   "packageMaintainer": {
     "create": "Create maintainer"
   },
@@ -299,6 +305,7 @@
       "submissionState": "State"
     },
     "generatemanual": "Generate manual",
+    "hash": "Hash",
     "imports": "Imports",
     "install": "Install",
     "installCode-Python": "pip install --index-url {1} {0}",
@@ -309,6 +316,7 @@
     "list": "Packages",
     "maintainer": "Maintainer",
     "maintainers": "Package maintainers",
+    "md5sum": "MD5Sum",
     "noInstallInstruction": "The repository has not been published yet.",
     "noVignette": "No vignettes available",
     "oldSources": "Old sources",
@@ -339,10 +347,11 @@
     },
     "windowsBinaries": "Windows binaries",
     "windowsBineries": "Windows binaries",
+    "withinPackage": "Package metadata",
     "withinRdepot": "Within RDepot"
   },
   "pagination": {
-    "size": "Page size"
+    "size": "Items per page (pagination)"
   },
   "repositories": {
     "addRepository": "Create repository",

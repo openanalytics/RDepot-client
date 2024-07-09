@@ -31,34 +31,30 @@ import {
 import { mount } from '@vue/test-utils'
 import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
-import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import { createPinia, setActivePinia } from 'pinia'
 import { usePackageMaintainersStore } from '@/store/package_maintainers'
 import PackageMaintainersListVue from '@/components/packageMaintainers/PackageMaintainersList.vue'
 import packageMaintainers from '@/__tests__/config/mockData/packageMaintainers.json'
 import me from '@/__tests__/config/mockData/me.json'
-import { useMeStore } from '@/store/me'
+import { useAuthorizationStore } from '@/store/authorization'
 import { nextTick } from 'vue'
 import { i18n } from '@/plugins/i18n'
 
 let wrapper: any
 let packageMaintainersStore: any
-let meStore: any
+let authorizationStore: any
 
 const globalConfig = {
   mocks: mocks,
   plugins: plugins
 }
 
-beforeAll(() => {
-  global.ResizeObserver = ResizeObserver
+beforeEach(async () => {
   setActivePinia(createPinia())
   packageMaintainersStore = usePackageMaintainersStore()
-  meStore = useMeStore()
-  meStore.me = me.data
-})
-
-beforeEach(async () => {
+  authorizationStore = useAuthorizationStore()
+  authorizationStore.me = me.data
+  await nextTick(() => {})
   wrapper = mount(PackageMaintainersListVue, {
     global: globalConfig
   })
@@ -200,6 +196,12 @@ describe('Package Maintainers - cells', () => {
 
   it('display edit action', () => {
     const cell = cells[4]
-    expect(cell.find('#pencil-icon').exists()).toBeTruthy()
+    expect(
+      cell
+        .find(
+          '#edit-package-maintainer-Galileo-Galilei-accrued-testrepo1'
+        )
+        .exists()
+    ).toBeTruthy()
   })
 })

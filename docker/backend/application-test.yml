@@ -5,7 +5,7 @@ api-token:
     - RDepot
   lifetime: 5
 
-allowed-origin: http://172.17.0.1:3001
+allowed-origin: http://192.168.49.20
 
 server:
   servlet:
@@ -47,10 +47,6 @@ spring:
     enabled: true
 
 # Authentication related properties
-oauth2:
-  jwk-set-uri: http://oa-rdepot-keycloak:8080/keycloak/realms/RDepot/protocol/openid-connect/certs
-  login-field: preferred_username
-
 app:
   authentication: simple
   simple:

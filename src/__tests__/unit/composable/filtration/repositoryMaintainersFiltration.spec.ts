@@ -30,14 +30,14 @@ import {
 
 import { createPinia, setActivePinia } from 'pinia'
 import { useSelectStore } from '@/store/select_pagination'
-import { useMeStore } from '@/store/me'
+import { useAuthorizationStore } from '@/store/authorization'
 import { useRepositoryMaintainersFiltration } from '@/composable/filtration/repositoryMaintainersFiltration'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
 
 beforeEach(async () => {
   setActivePinia(createPinia())
-  const meStore = useMeStore()
-  meStore.me.role = 'admin'
+  const authorizationStore = useAuthorizationStore()
+  authorizationStore.me.role = 'admin'
 })
 
 describe('repository maintainer filtration composable', () => {
@@ -73,7 +73,7 @@ describe('repository maintainer filtration composable', () => {
     const repositoryMaintainerStore =
       useRepositoryMaintainersStore()
     selectStore.paginationData.totalNumber = 2
-    selectStore.paginationData.page = 1
+    selectStore.paginationData.page = 0
     selectStore.pageSize = 1
     const spy = vi.spyOn(
       repositoryMaintainerStore,

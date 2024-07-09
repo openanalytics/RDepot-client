@@ -22,16 +22,16 @@
 
 <template>
   <FiltrationBar />
-  <UserModal />
+  <EditUserModal v-if="commonStore.isEdit" />
   <UserList :key="componentKey" />
 </template>
 
 <script setup lang="ts">
 import UserList from '@/components/users/UserList.vue'
 import FiltrationBar from '@/components/users/FiltrationBar.vue'
-import UserModal from '@/components/users/UserModal.vue'
 import { computed } from 'vue'
 import { useCommonStore } from '@/store/common'
+import EditUserModal from '@/components/users/modals/EditUserModal.vue'
 
 const commonStore = useCommonStore()
 const componentKey = computed(() => {

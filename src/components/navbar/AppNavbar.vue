@@ -72,7 +72,7 @@ const currentRoute = computed(() => {
 })
 
 function showSidebar() {
-  commonStore.setDrawer(!commonStore.drawer)
+  commonStore.drawer = !commonStore.drawer
 }
 </script>
 

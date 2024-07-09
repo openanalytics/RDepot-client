@@ -22,7 +22,7 @@
 
 <template>
   <v-data-table-server
-    items-per-page="pagination.pageSize"
+    :items-per-page="pagination.pageSize"
     :headers="headers"
     :items="repositoryMaintainersStore.maintainers"
     :items-length="repositoryMaintainersStore.totalNumber"
@@ -38,14 +38,7 @@
     <template #top>
       <div class="d-flex justify-space-between mx-3 my-5">
         <h2>{{ i18n.t('repositories.maintainers') }}</h2>
-        <AddMaintainerButton
-          v-if="
-            authorizationStore.can(
-              'POST',
-              'repositoryMaintainers'
-            )
-          "
-        />
+        <AddMaintainerButton v-if="postCondition" />
       </div>
     </template>
     <template #[`item.repository.technology`]="{ value }">
@@ -68,6 +61,10 @@
               ? i18n.t('maintainers.deleted')
               : undefined
           "
+          :icon-id="`edit-repository-maintainer-${item.user?.name?.replace(
+            ' ',
+            '-'
+          )}-${item.repository?.name}`"
           @set-entity="setEditMaintainer(item)"
         >
         </EditIcon>
@@ -105,6 +102,7 @@ import { ref } from 'vue'
 import { useSort } from '@/composable/sort'
 import { useAuthorizationStore } from '@/store/authorization'
 import AddMaintainerButton from '@/components/common/buttons/AddMaintainerButton.vue'
+import { computed } from 'vue'
 
 const repositoryMaintainersStore =
   useRepositoryMaintainersStore()
@@ -115,7 +113,11 @@ const { getSort } = useSort()
 const defaultSort: Sort[] = [{ key: 'user', order: 'asc' }]
 const sortBy = ref(defaultSort)
 
-const headers: DataTableHeaders[] = [
+const postCondition = computed(() =>
+  authorizationStore.can('POST', 'repositoryMaintainers')
+)
+
+const headers = computed<DataTableHeaders[]>(() => [
   {
     title: i18n.t('columns.repositoryMaintainer.name'),
     align: 'start',
@@ -146,7 +148,8 @@ const headers: DataTableHeaders[] = [
     width: 50,
     sortable: false
   }
-]
+])
+
 const pagination = usePagination()
 
 function updateData(): void {

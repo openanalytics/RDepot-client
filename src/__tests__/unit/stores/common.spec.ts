@@ -35,38 +35,31 @@ describe('Common Store', () => {
     expect(commonStore.progressCircularActive).toBeFalsy()
     expect(commonStore.drawer).toBeTruthy()
     expect(commonStore.overlayText).toBe('')
-    expect(commonStore.overlayOpacity).toBe(0.8)
     expect(commonStore.overlayComponent).toBe(undefined)
     expect(commonStore.key).toBe(0)
   })
 
   it('Edit progress circular active', () => {
     const commonStore = useCommonStore()
-    commonStore.setProgressCircularActive(true)
+    commonStore.progressCircularActive = true
     expect(commonStore.progressCircularActive).toBeTruthy()
   })
 
   it('Edit drawer', () => {
     const commonStore = useCommonStore()
-    commonStore.setDrawer(false)
+    commonStore.drawer = false
     expect(commonStore.drawer).toBeFalsy()
   })
 
   it('Edit overlay text', () => {
     const commonStore = useCommonStore()
-    commonStore.setOverlayText('true')
+    commonStore.overlayText = 'true'
     expect(commonStore.overlayText).toBe('true')
-  })
-
-  it('Edit overlay opacity', () => {
-    const commonStore = useCommonStore()
-    commonStore.setOverlayOpacity(0.5)
-    expect(commonStore.overlayOpacity).toBe(0.5)
   })
 
   it('Edit overlay component', () => {
     const commonStore = useCommonStore()
-    commonStore.setOverlayComponent(OverlayEnum.enum.Edit)
+    commonStore.overlayComponent = OverlayEnum.enum.Edit
     expect(commonStore.overlayComponent).toBe(
       OverlayEnum.enum.Edit
     )

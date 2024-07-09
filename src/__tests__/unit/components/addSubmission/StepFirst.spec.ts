@@ -20,23 +20,16 @@
  *
  */
 
-import {
-  describe,
-  it,
-  expect,
-  beforeEach,
-  beforeAll
-} from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 
 import { mount } from '@vue/test-utils'
 import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
-import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import { createPinia, setActivePinia } from 'pinia'
 import { useSubmissionStore } from '@/store/submission'
 import StepFirstVue from '@/components/addSubmission/StepFirst.vue'
 import me from '@/__tests__/config/mockData/me.json'
-import { useMeStore } from '@/store/me'
+import { useAuthorizationStore } from '@/store/authorization'
 
 let wrapper: any
 const globalConfig = {
@@ -44,17 +37,13 @@ const globalConfig = {
   plugins: plugins
 }
 let submissionStore: any
-let meStore: any
-
-beforeAll(() => {
-  global.ResizeObserver = ResizeObserver
-})
+let authorizationStore: any
 
 beforeEach(async () => {
   setActivePinia(createPinia())
   submissionStore = useSubmissionStore()
-  meStore = useMeStore()
-  meStore.me = me.data
+  authorizationStore = useAuthorizationStore()
+  authorizationStore.me = me.data
   wrapper = mount(StepFirstVue, {
     global: globalConfig
   })

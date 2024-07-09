@@ -24,7 +24,7 @@ import { useSimpleAuthorization } from '@/composable/auth/simpleAuthorization'
 import { useUserSettings } from '@/composable/user/userSettings'
 import { useUtilities } from '@/composable/utilities'
 import { LoginType } from '@/enum/LoginType'
-import { stringToRole } from '@/enum/UserRoles'
+import { Role, stringToRole } from '@/enum/UserRoles'
 import { Login } from '@/models/users/Login'
 import { UserSettingsProjection } from '@/openapi/models/user-settings-projection'
 import {
@@ -42,8 +42,10 @@ import { authService } from '@/plugins/oauth'
 import router from '@/plugins/router'
 import { useOIDCAuthorization } from '@/composable/auth/oidcAuthorization'
 import { useConfigStore } from './config'
-import { useMeStore } from './me'
 import { RouteRecordName } from 'vue-router'
+import { useCommonStore } from './common'
+import { EntityModelUserDto } from '@/openapi'
+import vuetify from '@/plugins/vuetify'
 
 interface State {
   userToken: string
@@ -51,6 +53,8 @@ interface State {
   userId: number
   loginType: LoginType
   ability?: Ability
+  me: EntityModelUserDto
+  userRole?: Role
 }
 
 export const useAuthorizationStore = defineStore(
@@ -62,14 +66,19 @@ export const useAuthorizationStore = defineStore(
         userLogin: '',
         userId: 8,
         loginType: LoginType.Enum.OIDC,
-        ability: undefined
+        ability: undefined,
+        me: {},
+        userRole: undefined
       }
     },
 
     actions: {
       async postLoginOperations() {
-        const meStore = useMeStore()
-        await meStore.getUserInfo()
+        await this.getUserInfo()
+        vuetify.theme.global.name.value =
+          this.me.userSettings?.theme || 'dark'
+        const commonStore = useCommonStore()
+        commonStore.closeOverlay()
         const configStore = useConfigStore()
         configStore.fetchConfiguration()
       },
@@ -97,11 +106,10 @@ export const useAuthorizationStore = defineStore(
         logout()
         this.$reset()
         await router.push({ name: 'login' })
-        const meStore = useMeStore()
         this.ability = undefined
-        meStore.userRole = undefined
-        meStore.me = {}
-        localStorage.removeItem('me')
+        this.userRole = undefined
+        this.me = {}
+        localStorage.removeItem('authorizationStore')
       },
 
       async isUserLoggedIn(): Promise<boolean> {
@@ -139,14 +147,13 @@ export const useAuthorizationStore = defineStore(
         oldSettings: UserSettingsProjection,
         newSettings: UserSettingsProjection
       ) {
-        const meStore = useMeStore()
         await updateUserSettings(
           oldSettings,
           newSettings,
-          meStore.me
+          this.me
         )
         const [me] = await getMyData()
-        meStore.me = me
+        this.me = me
       },
 
       getDefaultSettings(): UserSettingsProjection {
@@ -158,11 +165,9 @@ export const useAuthorizationStore = defineStore(
       },
 
       getCurrentSettings(): UserSettingsProjection {
-        const meStore = useMeStore()
         const { deepCopy } = useUtilities()
         return deepCopy(
-          meStore.me.userSettings ||
-            this.getDefaultSettings()
+          this.me.userSettings || this.getDefaultSettings()
         )
       },
 
@@ -184,19 +189,55 @@ export const useAuthorizationStore = defineStore(
       },
 
       can(action: Action, subject: Subject): boolean {
-        const meStore = useMeStore()
         if (
-          meStore.me &&
+          JSON.stringify(this.me) !== '{}' &&
           typeof this.ability?.can !== 'function'
         ) {
           this.ability = defineAbilityFor(
-            stringToRole(meStore.me.role || '')
+            stringToRole(this.me.role || '')
           )
         }
         return this.ability
           ? this.ability?.can(action, subject)
           : false
+      },
+
+      checkRoles(role: string | undefined) {
+        if (
+          this.me.role != role &&
+          this.me.role != undefined
+        ) {
+          if (role) {
+            alert(
+              'role has changed from ' +
+                this.me.role +
+                ' to ' +
+                role
+            )
+          }
+          return false
+        }
+        return true
+      },
+
+      async getUserInfo() {
+        const [me] = await getMyData()
+        if (me) {
+          if (me.role) {
+            this.ability = defineAbilityFor(
+              stringToRole(me.role)
+            )
+            this.userRole = stringToRole(me.role)
+          }
+          if (this.checkRoles(me.role)) {
+            this.me = me
+            this.getUserSettings()
+          } else {
+            this.logout()
+          }
+        }
       }
-    }
+    },
+    persist: true
   }
 )

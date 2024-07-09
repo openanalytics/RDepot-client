@@ -21,7 +21,15 @@
 -->
 
 <template>
-  <MaintainersModal />
+  <DeleteRepositoryMaintainerModal
+    v-if="commonStore.isDelete"
+  />
+  <EditRepositoryMaintainerModal
+    v-if="commonStore.isEdit"
+  />
+  <CreateRepositoryMaintainerModal
+    v-if="commonStore.isCreate"
+  />
   <FiltrationBar />
   <RepositoryMaintainersList :key="componentKey" />
 </template>
@@ -29,9 +37,11 @@
 <script setup lang="ts">
 import FiltrationBar from '@/components/repositoryMaintainers/FiltrationBar.vue'
 import RepositoryMaintainersList from '@/components/repositoryMaintainers/RepositoryMaintainersList.vue'
-import MaintainersModal from '@/components/repositoryMaintainers/RepositoryMaintainersModal.vue'
+import DeleteRepositoryMaintainerModal from '@/components/repositoryMaintainers/modals/DeleteRepositoryMaintainerModal.vue'
 import { computed } from 'vue'
 import { useCommonStore } from '@/store/common'
+import EditRepositoryMaintainerModal from '@/components/repositoryMaintainers/modals/EditRepositoryMaintainerModal.vue'
+import CreateRepositoryMaintainerModal from '@/components/repositoryMaintainers/modals/CreateRepositoryMaintainerModal.vue'
 
 const commonStore = useCommonStore()
 const componentKey = computed(() => {

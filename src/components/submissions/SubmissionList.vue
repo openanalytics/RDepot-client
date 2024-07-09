@@ -100,7 +100,9 @@
         class="d-flex justify-center align-center"
       >
         <template
-          v-if="meStore.me?.id == item.submitter?.id"
+          v-if="
+            authorizationStore.me?.id == item.submitter?.id
+          "
         >
           <v-btn
             id="cancel-button"
@@ -137,18 +139,18 @@ import { useSubmissionIcons } from '@/composable/submissions/statusIcons'
 import { EntityModelSubmissionDtoStateEnum } from '@/openapi'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
 import { useSubmissionActions } from '@/composable/submissions/submissionActions'
-import { useMeStore } from '@/store/me'
 import {
   DataTableHeaders,
   DataTableOptions,
   Sort
 } from '@/models/DataTableOptions'
 import { i18n } from '@/plugins/i18n'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useSort } from '@/composable/sort'
+import { useAuthorizationStore } from '@/store/authorization'
 
 const { canPatch } = useUserAuthorities()
-const meStore = useMeStore()
+const authorizationStore = useAuthorizationStore()
 
 const {
   acceptSubmission,
@@ -162,7 +164,7 @@ const defaultSort: Sort[] = [
 ]
 const sortBy = ref(defaultSort)
 
-const headers: DataTableHeaders[] = [
+const headers = computed<DataTableHeaders[]>(() => [
   {
     title: i18n.t('columns.submissions.date'),
     align: 'center',
@@ -219,7 +221,7 @@ const headers: DataTableHeaders[] = [
     width: '230',
     sortable: false
   }
-]
+])
 
 function fetchData(options: DataTableOptions) {
   sortBy.value = getSort(options.sortBy, defaultSort)

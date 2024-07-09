@@ -33,63 +33,65 @@ beforeEach(async () => {
 describe('icons composable', () => {
   it('should return package icon', () => {
     const { getIcon } = useIcons()
-    const icon: string = getIcon(
+    const icon: string[] = getIcon(
       EntityModelNewsfeedEventDtoResourceTypeEnum.PACKAGE
     )
-    expect(icon).toEqual('mdi-package')
+    expect(icon[0]).toEqual('mdi-package')
   })
 
   it('should return repository icon', () => {
     const { getIcon } = useIcons()
-    const icon: string = getIcon(
+    const icon: string[] = getIcon(
       EntityModelNewsfeedEventDtoResourceTypeEnum.REPOSITORY
     )
-    expect(icon).toEqual('mdi-folder-network')
+    expect(icon[0]).toEqual('mdi-folder-network')
   })
 
   it('should return user icon', () => {
     const { getIcon } = useIcons()
-    const icon: string = getIcon(
+    const icon: string[] = getIcon(
       EntityModelNewsfeedEventDtoResourceTypeEnum.USER
     )
-    expect(icon).toEqual('mdi-account-multiple')
+    expect(icon[0]).toEqual('mdi-account-multiple')
   })
 
   it('should return package maintainer icon', () => {
     const { getIcon } = useIcons()
-    const icon: string = getIcon(
+    const icon: string[] = getIcon(
       EntityModelNewsfeedEventDtoResourceTypeEnum.PACKAGEMAINTAINER
     )
-    expect(icon).toEqual('mdi-account-multiple')
+    expect(icon[0]).toEqual('mdi-package')
+    expect(icon[1]).toEqual('mdi-account-multiple')
   })
 
   it('should return repository maintainer icon', () => {
     const { getIcon } = useIcons()
-    const icon: string = getIcon(
+    const icon: string[] = getIcon(
       EntityModelNewsfeedEventDtoResourceTypeEnum.REPOSITORYMAINTAINER
     )
-    expect(icon).toEqual('mdi-account-multiple')
+    expect(icon[0]).toEqual('mdi-folder-network')
+    expect(icon[1]).toEqual('mdi-account-multiple')
   })
 
   it('should return submission icon', () => {
     const { getIcon } = useIcons()
-    const icon: string = getIcon(
+    const icon: string[] = getIcon(
       EntityModelNewsfeedEventDtoResourceTypeEnum.SUBMISSION
     )
-    expect(icon).toEqual('mdi-email')
+    expect(icon[0]).toEqual('mdi-email')
   })
 
   it('should return access token icon', () => {
     const { getIcon } = useIcons()
-    const icon: string = getIcon(
+    const icon: string[] = getIcon(
       EntityModelNewsfeedEventDtoResourceTypeEnum.ACCESSTOKEN
     )
-    expect(icon).toEqual('mdi-key')
+    expect(icon[0]).toEqual('mdi-key')
   })
 
   it('should return empty string when no parameter is used', () => {
     const { getIcon } = useIcons()
-    const icon: string = getIcon()
-    expect(icon).toEqual('')
+    const icon: string[] = getIcon()
+    expect(icon[0]).toEqual('')
   })
 })

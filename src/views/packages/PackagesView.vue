@@ -21,7 +21,7 @@
 -->
 
 <template>
-  <PackagesModal />
+  <DeletePackageModal />
   <FiltrationBar />
   <PackagesList :key="componentKey" />
 </template>
@@ -29,7 +29,7 @@
 <script setup lang="ts">
 import PackagesList from '@/components/packages/PackagesList.vue'
 import FiltrationBar from '@/components/packages/FiltrationBar.vue'
-import PackagesModal from '@/components/packages/PackagesModal.vue'
+import DeletePackageModal from '@/components/packages/modals/DeletePackageModal.vue'
 import { computed } from 'vue'
 import { useCommonStore } from '@/store/common'
 

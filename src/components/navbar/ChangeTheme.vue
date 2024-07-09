@@ -41,14 +41,12 @@
 <script setup lang="ts">
 import { useAuthorizationStore } from '@/store/authorization'
 import { useCommonStore } from '@/store/common'
-import { useMeStore } from '@/store/me'
 import { onUpdated, computed } from 'vue'
 import { useTheme } from 'vuetify/lib/framework.mjs'
 
 const theme = useTheme()
 const commonStore = useCommonStore()
 const authorizationStore = useAuthorizationStore()
-const meStore = useMeStore()
 
 async function changeTheme() {
   const new_theme = theme.global.current.value.dark
@@ -72,8 +70,9 @@ const getTheme = computed(() => {
 })
 
 onUpdated(() => {
-  if (meStore.me.userSettings?.theme)
-    theme.global.name.value = meStore.me.userSettings.theme
+  if (authorizationStore.me.userSettings?.theme)
+    theme.global.name.value =
+      authorizationStore.me.userSettings.theme
 })
 </script>
 

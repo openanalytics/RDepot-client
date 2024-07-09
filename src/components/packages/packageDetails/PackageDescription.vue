@@ -26,7 +26,7 @@
       v-if="
         packageBag.technology == Technologies.enum.Python
       "
-      :description="packageBag.description || ''"
+      :description="packageBag.description"
       :short="packageBagShort !== undefined"
     ></MarkdownDescription>
     <div
@@ -38,6 +38,7 @@
   <div v-if="packageBagShort" class="center">
     <v-divider :thickness="3"></v-divider>
     <v-btn
+      id="see-package-details-button"
       ref="button"
       color="oablue"
       size="x-small"
@@ -104,7 +105,7 @@ function goToDetailsPage({
   max-height: 250px;
   overflow: hidden;
   mask-size: auto 250px;
-  padding: 1rem;
+  padding: 0.5rem 1rem;
   -webkit-mask-image: -webkit-gradient(
     linear,
     left 90%,

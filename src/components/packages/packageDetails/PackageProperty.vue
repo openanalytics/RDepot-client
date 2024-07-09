@@ -22,31 +22,31 @@
 
 <template>
   <div v-if="value" class="pt-2">
-    <div
-      class="title"
-      :style="collapsableHover"
-      @click="collapse"
-    >
-      {{ title }}
-      <v-icon
-        v-if="collapsible"
-        size="large"
-        color="oa-blue"
-        class="collapsibleIcon"
-        :icon="collapseIcon"
-      />
+    <v-expansion-panels v-if="collapsible">
+      <v-expansion-panel>
+        <v-expansion-panel-title class="panel-subtitle">
+          {{ title }}
+        </v-expansion-panel-title>
+        <v-expansion-panel-text>
+          <div v-dompurify-html="text" class="value"></div>
+        </v-expansion-panel-text>
+      </v-expansion-panel>
+    </v-expansion-panels>
+    <div v-else>
+      <div class="title">
+        {{ title }}
+      </div>
+      <div v-dompurify-html="text" class="value"></div>
+      <v-divider
+        v-if="showDivider"
+        :thickness="boldDivider ? 5 : 3"
+      ></v-divider>
     </div>
-    <div
-      v-dompurify-html="text"
-      class="value"
-      :style="showContentStyle"
-    ></div>
-    <v-divider :thickness="boldDivider ? 5 : 3"></v-divider>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 
 const componentProps = defineProps<{
   title: string
@@ -54,11 +54,8 @@ const componentProps = defineProps<{
   split?: boolean
   boldDivider?: boolean
   collapsible: boolean
+  showDivider?: boolean
 }>()
-
-const showContent = ref(
-  componentProps.collapsible ? false : true
-)
 
 const text = computed(() => {
   const commaRegex = /,\\n+/gi
@@ -75,24 +72,6 @@ const text = computed(() => {
     .replaceAll('\\n', ' ')
 })
 
-const showContentStyle = computed(() => {
-  return showContent.value
-    ? 'display: table; overflow: hidden; transition: all 0.5s ease; padding-bottom: 20px;'
-    : 'display: block; opacity: 0; max-height: 0px'
-})
-
-const collapsableHover = computed(() => {
-  return componentProps.collapsible
-    ? 'cursor: pointer;'
-    : ''
-})
-
-const collapseIcon = computed(() => {
-  return showContent.value
-    ? 'mdi-menu-down'
-    : 'mdi-menu-right'
-})
-
 function splitValue() {
   const RE_GET_EXTENSION = '/,(?!d+])/' // /(?:\.([^.]+))?$/
 
@@ -101,23 +80,18 @@ function splitValue() {
     '+'
   )
 }
-
-function collapse() {
-  if (componentProps.collapsible) {
-    showContent.value = !showContent.value
-  }
-}
 </script>
 
 <style lang="scss">
 $text_color: rgba(var(--v-theme-oablue-darken-2));
 $text_color_2: rgba(var(--v-theme-oablue));
 $background_color: rgba(var(--v-theme-about-background));
+$background_color_2: rgba(var(--v-theme-about-package));
 
 .title {
   color: $text_color_2;
   font-weight: 600;
-  font-size: larger;
+  font-size: 1.25rem;
   display: flex;
   justify-content: space-between;
 }
@@ -126,7 +100,10 @@ hr_style {
   border-top: $text_color_2 solid 1px !important;
 }
 
-.collapsibleIcon {
-  justify-self: flex-end;
+.panel-subtitle {
+  color: $background_color_2;
+  font-weight: 600;
+  display: flex;
+  font-size: 1.2rem !important;
 }
 </style>

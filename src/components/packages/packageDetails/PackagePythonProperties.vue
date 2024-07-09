@@ -23,13 +23,15 @@
 <template>
   <div class="d-flex" style="flex-direction: column">
     <template
-      v-for="({ translation, value }, idx) in details"
+      v-for="({ translation, value, id }, idx) in details"
       :key="idx"
     >
       <Property
+        :id="id"
         :title="$t(translation)"
-        :value="value || 'not provided'"
+        :value="value || $t('package.propertyNotProvided')"
         :collapsible="false"
+        show-divider
       />
     </template>
   </div>
@@ -51,35 +53,48 @@ const details = computed(() => {
   return [
     {
       translation: 'packages.version',
-      value: packageBag.value.version
+      value: packageBag.value.version,
+      id: 'python-package-version-property'
     },
     {
       translation: 'packages.platform',
-      value: packageBag.value.platform
+      value: packageBag.value.platform,
+      id: 'python-package-platform-property'
     },
     {
       translation: 'packages.projectUrl',
-      value: packageBag.value.projectUrl
+      value: packageBag.value.projectUrl,
+      id: 'python-package-project-url-property'
     },
     {
       translation: 'packages.providesExtra',
-      value: packageBag.value.providesExtra
+      value: packageBag.value.providesExtra,
+      id: 'python-package-provides-extra-property'
     },
     {
       translation: 'packages.requiresDist',
-      value: packageBag.value.requiresDist
+      value: packageBag.value.requiresDist,
+      id: 'python-package-requires-dist-property'
     },
     {
       translation: 'packages.requiresExternal',
-      value: packageBag.value.requiresExternal
+      value: packageBag.value.requiresExternal,
+      id: 'python-package-requires-external-property'
     },
     {
       translation: 'packages.requiresPython',
-      value: packageBag.value.requiresPython
+      value: packageBag.value.requiresPython,
+      id: 'python-package-requires-Python-property'
     },
     {
       translation: 'packages.license',
-      value: packageBag.value.license
+      value: packageBag.value.license,
+      id: 'python-package-license-property'
+    },
+    {
+      translation: 'packages.hash',
+      value: packageBag.value.hash,
+      id: 'python-package-hash-property'
     }
   ]
 })

@@ -31,34 +31,30 @@ import {
 import { mount } from '@vue/test-utils'
 import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
-import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import { createPinia, setActivePinia } from 'pinia'
 import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
 import RepositoryMaintainersListVue from '@/components/repositoryMaintainers/RepositoryMaintainersList.vue'
 import maintainers from '@/__tests__/config/mockData/repositoryMaintainers.json'
-import { useMeStore } from '@/store/me'
+import { useAuthorizationStore } from '@/store/authorization'
 import me from '@/__tests__/config/mockData/me.json'
 import { nextTick } from 'vue'
 import { i18n } from '@/plugins/i18n'
 
 let wrapper: any
 let repositoryMaintainersStore: any
-let meStore: any
+let authorizationStore: any
 const globalConfig = {
   mocks: mocks,
   plugins: plugins
 }
 
-beforeAll(() => {
-  global.ResizeObserver = ResizeObserver
+beforeEach(async () => {
   setActivePinia(createPinia())
-  meStore = useMeStore()
-  meStore.me = me.data
   repositoryMaintainersStore =
     useRepositoryMaintainersStore()
-})
-
-beforeEach(async () => {
+  authorizationStore = useAuthorizationStore()
+  authorizationStore.me = me.data
+  await nextTick(() => {})
   wrapper = mount(RepositoryMaintainersListVue, {
     global: globalConfig
   })
@@ -184,6 +180,12 @@ describe('Repository Maintainers - cells', () => {
 
   it('display edit action', () => {
     const cell = cells[3]
-    expect(cell.find('#pencil-icon').exists()).toBeTruthy()
+    expect(
+      cell
+        .find(
+          '#edit-repository-maintainer-Albert-Einstein-testrepo10'
+        )
+        .exists()
+    ).toBeTruthy()
   })
 })

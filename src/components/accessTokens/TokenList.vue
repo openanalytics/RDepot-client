@@ -94,7 +94,7 @@
 <script setup lang="ts">
 import { i18n } from '@/plugins/i18n'
 import { usePagination } from '@/store/pagination'
-import { useMeStore } from '@/store/me'
+import { useAuthorizationStore } from '@/store/authorization'
 import {
   DataTableHeaders,
   DataTableOptions,
@@ -109,19 +109,19 @@ import { isAtLeastAdmin } from '@/enum/UserRoles'
 import { computed } from 'vue'
 import { ref } from 'vue'
 import { useSort } from '@/composable/sort'
-const accessTokensStore = useAccessTokensStore()
 import AddToken from '@/components/common/buttons/AddToken.vue'
 import { useAccessTokensStore } from '@/store/access_tokens'
 
 const pagination = usePagination()
-const meStore = useMeStore()
+const authorizationStore = useAuthorizationStore()
+const accessTokensStore = useAccessTokensStore()
 const { canPatch, canDelete } = useUserAuthorities()
 
 const { getSort } = useSort()
 const defaultSort: Sort[] = [{ key: 'name', order: 'asc' }]
 const sortBy = ref(defaultSort)
 
-const headers: DataTableHeaders[] = [
+const headers = computed<DataTableHeaders[]>(() => [
   {
     title: i18n.t('columns.tokens.name'),
     align: 'start',
@@ -159,20 +159,26 @@ const headers: DataTableHeaders[] = [
     width: 50,
     sortable: false
   }
-]
+])
 
 function resetElementWidth() {
-  headers[0].width = undefined
+  headers.value[0].width = undefined
 }
 
 const filteredHeaders = computed(() => {
   if (
-    !isAtLeastAdmin(meStore.userRole ? meStore.userRole : 0)
+    !isAtLeastAdmin(
+      authorizationStore.userRole
+        ? authorizationStore.userRole
+        : 0
+    )
   ) {
     resetElementWidth()
-    return headers.filter((header) => header.key != 'user')
+    return headers.value.filter(
+      (header) => header.key != 'user'
+    )
   }
-  return headers
+  return headers.value
 })
 
 function fetchData(options: DataTableOptions) {

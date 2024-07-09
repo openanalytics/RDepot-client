@@ -42,6 +42,16 @@ export type StringUserRoles = z.infer<
   typeof StringUserRoles
 >
 
+const StringUserRolesBackend = z.enum([
+  'user',
+  'packagemaintainer',
+  'repositorymaintainer',
+  'admin'
+])
+export type StringUserRolesBackend = z.infer<
+  typeof StringUserRolesBackend
+>
+
 export const roleToString = Role.transform(
   (arg): StringUserRoles => {
     if (arg === 0) {
@@ -68,6 +78,24 @@ export const stringToRole = (arg: string): Role => {
       return 2
     case 'admin':
       return 3
+    default:
+      throw Error('Undefined role: ' + arg)
+  }
+}
+
+export const roleToStringBackend = (
+  arg: Role
+): StringUserRolesBackend => {
+  switch (arg) {
+    case 0:
+      return StringUserRolesBackend.enum.user
+    case 1:
+      return StringUserRolesBackend.enum.packagemaintainer
+    case 2:
+      return StringUserRolesBackend.enum
+        .repositorymaintainer
+    case 3:
+      return StringUserRolesBackend.enum.admin
     default:
       throw Error('Undefined role: ' + arg)
   }

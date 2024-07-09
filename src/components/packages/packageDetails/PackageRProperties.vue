@@ -22,13 +22,15 @@
 
 <template>
   <template
-    v-for="({ translation, value }, idx) in details"
+    v-for="({ translation, value, id }, idx) in details"
     :key="idx"
   >
     <Property
+      :id="id"
       :title="$t(translation)"
-      :value="value || 'not provided'"
+      :value="value || $t('package.propertyNotProvided')"
       :collapsible="false"
+      show-divider
     />
   </template>
 </template>
@@ -50,19 +52,43 @@ const details = computed(() => {
   return [
     {
       translation: 'packages.version',
-      value: packageBag.value.version
+      value: packageBag.value.version,
+      id: 'r-package-version-property'
     },
     {
       translation: 'packages.systemRequirements',
-      value: packageBag.value.systemRequirements
+      value: packageBag.value.systemRequirements,
+      id: 'r-package-system-requirements-property'
     },
     {
       translation: 'packages.license',
-      value: packageBag.value.license
+      value: packageBag.value.license,
+      id: 'r-package-license-property'
     },
     {
       translation: 'packages.url',
-      value: packageBag.value.url
+      value: packageBag.value.url,
+      id: 'r-package-url-property'
+    },
+    {
+      translation: 'packages.depends',
+      value: packageBag.value.depends,
+      id: 'r-package-depends-property'
+    },
+    {
+      translation: 'packages.imports',
+      value: packageBag.value.imports,
+      id: 'r-package-imports-property'
+    },
+    {
+      translation: 'packages.suggests',
+      value: packageBag.value.suggests,
+      id: 'r-package-suggests-property'
+    },
+    {
+      translation: 'packages.md5sum',
+      value: packageBag.value.md5sum,
+      id: 'r-package-md5sum-property'
     }
   ]
 })

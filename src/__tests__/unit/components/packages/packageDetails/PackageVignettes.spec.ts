@@ -25,7 +25,6 @@ import { describe, it, expect, beforeAll } from 'vitest'
 import { mount, config } from '@vue/test-utils'
 import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
-import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import { createPinia, setActivePinia } from 'pinia'
 import PackageVignettes from '@/components/packages/packageDetails/PackageVignettes.vue'
 import { usePackageDetailsStore } from '@/store/package_details'
@@ -41,7 +40,6 @@ const globalConfig = {
   plugins: plugins
 }
 beforeAll(() => {
-  global.ResizeObserver = ResizeObserver
   config.global.renderStubDefaultSlot = true
   setActivePinia(createPinia())
   packageDetailsStore = usePackageDetailsStore()

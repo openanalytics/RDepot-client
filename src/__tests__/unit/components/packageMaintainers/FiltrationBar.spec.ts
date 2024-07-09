@@ -20,18 +20,11 @@
  *
  */
 
-import {
-  describe,
-  it,
-  expect,
-  beforeEach,
-  beforeAll
-} from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 
 import { mount } from '@vue/test-utils'
 import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
-import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import FiltrationBarVue from '@/components/packageMaintainers/FiltrationBar.vue'
 import { createPinia, setActivePinia } from 'pinia'
 import { usePackageMaintainersStore } from '@/store/package_maintainers'
@@ -42,11 +35,11 @@ import {
 } from '@/models/Filtration'
 import flushPromises from 'flush-promises'
 import waitForExpect from 'wait-for-expect'
-import { useMeStore } from '@/store/me'
+import { useAuthorizationStore } from '@/store/authorization'
 import me from '@/__tests__/config/mockData/me.json'
 
 let wrapper: any
-let meStore: any
+let authorizationStore: any
 const globalConfig = {
   mocks: mocks,
   plugins: plugins
@@ -61,15 +54,11 @@ const packageMaintainersStoreFiltration =
     repository: ['repository1']
   })
 
-beforeAll(() => {
-  global.ResizeObserver = ResizeObserver
-})
-
 beforeEach(async () => {
   setActivePinia(createPinia())
   packageMaintainersStore = usePackageMaintainersStore()
-  meStore = useMeStore()
-  meStore.me = me.data
+  authorizationStore = useAuthorizationStore()
+  authorizationStore.me = me.data
   wrapper = mount(FiltrationBarVue, {
     global: globalConfig
   })

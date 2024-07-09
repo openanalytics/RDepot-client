@@ -31,35 +31,34 @@ import {
 import { mount } from '@vue/test-utils'
 import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
-import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import { createPinia, setActivePinia } from 'pinia'
 import { usePackagesStore } from '@/store/packages'
 import PackagesListVue from '@/components/packages/PackagesList.vue'
 import packages from '@/__tests__/config/mockData/packages.json'
-import { useMeStore } from '@/store/me'
+import { useAuthorizationStore } from '@/store/authorization'
 import me from '@/__tests__/config/mockData/me.json'
 import { i18n } from '@/plugins/i18n'
 import { usePagination } from '@/store/pagination'
 import { nextTick } from 'vue'
 
 let wrapper: any
-let meStore: any
+let authorizationStore: any
 let packagesStore: any
+
 const globalConfig = {
   mocks: mocks,
   plugins: plugins
 }
 
 beforeAll(() => {
-  global.ResizeObserver = ResizeObserver
   setActivePinia(createPinia())
   packagesStore = usePackagesStore()
   const pagination = usePagination()
   pagination.page = 0
   pagination.pageSize = 10
   pagination.totalNumber = 23
-  meStore = useMeStore()
-  meStore.me = me.data
+  authorizationStore = useAuthorizationStore()
+  authorizationStore.me = me.data
 })
 
 beforeEach(() => {
@@ -281,8 +280,9 @@ describe('Packages - cells', () => {
     expect(icon.exists()).toBeTruthy()
   })
   it('displays active column', () => {
-    const row = acceptedCells[7]
-    const checkboxActive = row.find('#checkbox-active')
+    const checkboxActive = wrapper.find(
+      '#checkbox-active-accrued-1-4-testrepo2'
+    )
     expect(checkboxActive.element.checked).toEqual(
       packageBag.active
     )

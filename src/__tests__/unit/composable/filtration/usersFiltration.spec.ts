@@ -30,14 +30,14 @@ import {
 
 import { createPinia, setActivePinia } from 'pinia'
 import { useSelectStore } from '@/store/select_pagination'
-import { useMeStore } from '@/store/me'
+import { useAuthorizationStore } from '@/store/authorization'
 import { useUsersFiltration } from '@/composable/filtration/usersFiltration'
 import { useUserStore } from '@/store/users'
 
 beforeEach(async () => {
   setActivePinia(createPinia())
-  const meStore = useMeStore()
-  meStore.me.role = 'admin'
+  const authorizationStore = useAuthorizationStore()
+  authorizationStore.me.role = 'admin'
 })
 
 describe('user filtration filtration composable', () => {
@@ -99,7 +99,7 @@ describe('user filtration filtration composable', () => {
     selectStore.items = [{ title: 'title', value: 'value' }]
     const userStore = useUserStore()
     selectStore.paginationData.totalNumber = 2
-    selectStore.paginationData.page = 1
+    selectStore.paginationData.page = 0
     selectStore.pageSize = 1
     const spy = vi.spyOn(userStore, 'fetchUsersList')
     loadUsers()

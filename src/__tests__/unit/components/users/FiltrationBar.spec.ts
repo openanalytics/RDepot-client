@@ -20,18 +20,11 @@
  *
  */
 
-import {
-  describe,
-  it,
-  expect,
-  beforeEach,
-  beforeAll
-} from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 
 import { mount } from '@vue/test-utils'
 import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
-import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import FiltrationBarVue from '@/components/users/FiltrationBar.vue'
 import { createPinia, setActivePinia } from 'pinia'
 import { useUserStore } from '@/store/users'
@@ -41,7 +34,7 @@ import {
 } from '@/models/Filtration'
 import waitForExpect from 'wait-for-expect'
 import me from '@/__tests__/config/mockData/me.json'
-import { useMeStore } from '@/store/me'
+import { useAuthorizationStore } from '@/store/authorization'
 
 let wrapper: any
 const globalConfig = {
@@ -49,7 +42,7 @@ const globalConfig = {
   plugins: plugins
 }
 let userStore: any
-let meStore: any
+let authorizationStore: any
 
 const EXAMPLE_USER_FILTRATION = UsersFiltration.parse({
   active: true,
@@ -57,15 +50,11 @@ const EXAMPLE_USER_FILTRATION = UsersFiltration.parse({
   search: 'tesla'
 })
 
-beforeAll(() => {
-  global.ResizeObserver = ResizeObserver
-})
-
 beforeEach(async () => {
   setActivePinia(createPinia())
   userStore = useUserStore()
-  meStore = useMeStore()
-  meStore.me = me.data
+  authorizationStore = useAuthorizationStore()
+  authorizationStore.me = me.data
   wrapper = mount(FiltrationBarVue, {
     global: globalConfig
   })

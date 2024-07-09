@@ -31,10 +31,34 @@
         prepend-icon="mdi-account"
         :title="getUserLogin"
         :subtitle="getSubtitle"
-      ></v-list-item>
+      >
+        <template #append>
+          <v-tooltip location="right">
+            <template #activator="{ props }">
+              <div
+                id="tooltip-activator"
+                v-bind="props"
+                class="pl-3"
+              >
+                <v-btn
+                  id="logout-button"
+                  color="grey-lighten-1"
+                  icon="mdi-logout"
+                  variant="text"
+                  @click="logout"
+                ></v-btn>
+              </div>
+            </template>
+            <span id="tooltip-logout">{{
+              $t('common.logout')
+            }}</span>
+          </v-tooltip>
+        </template>
+      </v-list-item>
       <v-divider class="pb-3"></v-divider>
       <v-list-item
         v-if="authorizationStore.can('GET', 'events')"
+        id="sidebar-events"
         prepend-icon="mdi-timetable"
         :title="$t('common.events')"
         :value="$t('common.events')"
@@ -44,7 +68,7 @@
       </v-list-item>
       <v-list-item
         v-if="authorizationStore.can('POST', 'submissions')"
-        id="sidebaruploadpackages"
+        id="sidebar-upload-packages"
         prepend-icon="mdi-upload"
         :title="$t('common.uploadPackages')"
         :value="$t('common.uploadPackages')"
@@ -52,87 +76,78 @@
         to="/upload-packages"
       ></v-list-item>
 
-      <v-list-group
+      <v-list-item
+        v-if="authorizationStore.can('GET', 'packages')"
+        id="sidebarpackageslist"
+        prepend-icon="mdi-package"
+        :title="$t('packages.list')"
+        :value="$t('packages.list')"
+        active-class="link-active"
+        to="/packages"
+      ></v-list-item>
+
+      <v-list-item
         v-if="
           authorizationStore.can(
             'GET',
             'packageMaintainers'
-          ) || authorizationStore.can('GET', 'packages')
+          )
         "
-        tag="Packages"
+        id="sidebar-package-maintainers"
+        :title="$t('packages.maintainers')"
+        :value="$t('packages.maintainers')"
+        active-class="link-active"
+        to="/package-maintainers"
       >
-        <template #activator="{ props }">
-          <v-list-item
-            v-bind="props"
-            prepend-icon="mdi-package"
-            :title="$t('common.packages')"
-          ></v-list-item>
+        <template #prepend>
+          <v-icon icon="mdi-package" size="22"></v-icon>
+          <v-icon
+            class="nestedIcon"
+            icon="mdi-account-multiple"
+            size="22"
+          ></v-icon>
         </template>
+      </v-list-item>
 
-        <v-list-item
-          v-if="authorizationStore.can('GET', 'packages')"
-          id="sidebarpackageslist"
-          :title="$t('common.list')"
-          :value="$t('packages.list')"
-          active-class="link-active"
-          to="/packages"
-        ></v-list-item>
-        <v-list-item
-          v-if="
-            authorizationStore.can(
-              'GET',
-              'packageMaintainers'
-            )
-          "
-          :title="$t('common.maintainers')"
-          :value="$t('packages.maintainers')"
-          active-class="link-active"
-          to="/package-maintainers"
-        ></v-list-item>
-      </v-list-group>
-      <v-list-group
+      <v-list-item
+        v-if="authorizationStore.can('GET', 'repositories')"
+        id="sidebar-repositories-list"
+        :title="$t('repositories.list')"
+        :value="$t('repositories.list')"
+        prepend-icon="mdi-folder-network"
+        active-class="link-active"
+        to="/repositories"
+      ></v-list-item>
+
+      <v-list-item
         v-if="
-          authorizationStore.can('GET', 'repositories') ||
           authorizationStore.can(
             'GET',
             'repositoryMaintainers'
           )
         "
-        tag="Repositories"
+        id="sidebar-repository-maintainers"
+        :title="$t('repositories.maintainers')"
+        :value="$t('repositories.maintainers')"
+        active-class="link-active"
+        to="/repository-maintainers"
       >
-        <template #activator="{ props }">
-          <v-list-item
-            prepend-icon="mdi-folder-network"
-            v-bind="props"
-            :title="$t('common.repositories')"
-          ></v-list-item>
+        <template #prepend>
+          <v-icon
+            icon="mdi-folder-network"
+            size="22"
+          ></v-icon>
+          <v-icon
+            class="nestedIcon"
+            icon="mdi-account-multiple"
+            size="22"
+          ></v-icon>
         </template>
+      </v-list-item>
 
-        <v-list-item
-          v-if="
-            authorizationStore.can('GET', 'repositories')
-          "
-          :title="$t('common.list')"
-          :value="$t('repositories.list')"
-          active-class="link-active"
-          to="/repositories"
-        ></v-list-item>
-        <v-list-item
-          v-if="
-            authorizationStore.can(
-              'GET',
-              'repositoryMaintainers'
-            )
-          "
-          id="sidebarrepositorymintainers"
-          :title="$t('common.maintainers')"
-          :value="$t('repositories.maintainers')"
-          active-class="link-active"
-          to="/repository-maintainers"
-        ></v-list-item>
-      </v-list-group>
       <v-list-item
         v-if="authorizationStore.can('GET', 'users')"
+        id="sidebar-users-page"
         prepend-icon="mdi-account-multiple"
         :title="$t('common.users')"
         :value="$t('common.users')"
@@ -142,45 +157,45 @@
 
       <v-list-item
         v-if="authorizationStore.can('GET', 'submissions')"
+        id="sidebar-submissions"
         prepend-icon="mdi-email"
         :title="$t('common.submissions')"
         :value="$t('common.submissions')"
         active-class="link-active"
         to="/submissions"
       ></v-list-item>
-      <v-list-group tag="Settings">
+      <v-list-group>
         <template #activator="{ props }">
           <v-list-item
             prepend-icon="mdi-cog"
-            v-bind="props"
+            v-bind="{
+              ...props,
+              id: 'sidebar-settings-list'
+            }"
             :title="$t('common.settings')"
           ></v-list-item>
         </template>
 
         <v-list-item
+          id="sidebar-settings-general"
           :title="$t('settings.tab.general')"
           :value="$t('settings.tab.general')"
           active-class="link-active"
           to="/settings-general"
         ></v-list-item>
         <v-list-item
+          id="sidebar-settings-access-tokens"
           :title="$t('settings.tab.token')"
           :value="$t('settings.tab.token')"
           active-class="link-active"
           to="/settings-tokens"
         ></v-list-item>
       </v-list-group>
-      <v-list-item
-        prepend-icon="mdi-logout"
-        :title="$t('common.logout')"
-        :value="$t('common.logout')"
-        @click="logout"
-      ></v-list-item>
     </v-list>
 
     <template #append>
       <v-list-item style="font-size: 0.7rem">
-        v2.1.1
+        v2.2.0
         <span v-if="getEnv('VITE_DEV_MODE') === 'true'"
           >({{
             getEnv('VITE_CURRENT_COMMIT_VERSION')
@@ -198,18 +213,16 @@ import { useAuthorizationStore } from '@/store/authorization'
 import { computed } from 'vue'
 import { useDisplay } from 'vuetify/lib/framework.mjs'
 import getEnv from '@/utils/env'
-import { useMeStore } from '@/store/me'
 
 const { xs, mobile } = useDisplay()
 const authorizationStore = useAuthorizationStore()
-const meStore = useMeStore()
 const commonStore = useCommonStore()
 const getUserLogin = computed(() => {
-  return meStore.me.name
+  return authorizationStore.me.name
 })
 
 const getSubtitle = computed(() => {
-  return meStore.me.name
+  return authorizationStore.me.name
     ? i18n.t('authorization.logged-in')
     : i18n.t('authorization.not-logged-in')
 })
@@ -219,7 +232,7 @@ const drawer = computed({
     return commonStore.drawer
   },
   set(value: boolean) {
-    commonStore.setDrawer(value)
+    commonStore.drawer = value
   }
 })
 
@@ -227,3 +240,25 @@ function logout() {
   authorizationStore.logout()
 }
 </script>
+
+<style scoped lang="scss">
+.nestedIcon {
+  position: absolute;
+  left: 17px;
+  top: 21px;
+  z-index: 1;
+  opacity: 0.9;
+}
+
+.nestedIcon.v-theme--dark {
+  color: white;
+  text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000,
+    0 -1px #000;
+}
+
+.nestedIcon.v-theme--light {
+  color: white;
+  text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000,
+    0 -1px #000;
+}
+</style>

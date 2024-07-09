@@ -43,7 +43,7 @@
     <template #[`item.active`]="{ item }">
       <v-tooltip
         location="top"
-        :disabled="item.id !== meStore.me.id"
+        :disabled="item.id !== authorizationStore.me.id"
       >
         <template #activator="{ props }">
           <span v-bind="props">
@@ -54,13 +54,17 @@
               class="mr-4"
               :readonly="
                 !isAtLeastAdmin(
-                  meStore.userRole ? meStore.userRole : 0
-                ) || item.id === meStore.me.id
+                  authorizationStore.userRole
+                    ? authorizationStore.userRole
+                    : 0
+                ) || item.id === authorizationStore.me.id
               "
               :color="
                 !isAtLeastAdmin(
-                  meStore.userRole ? meStore.userRole : 0
-                ) || item.id === meStore.me.id
+                  authorizationStore.userRole
+                    ? authorizationStore.userRole
+                    : 0
+                ) || item.id === authorizationStore.me.id
                   ? 'grey'
                   : 'oablue'
               "
@@ -75,6 +79,7 @@
     <template #[`item.actions`]="{ item }">
       <span class="d-flex justify-center align-center">
         <EditIcon
+          :icon-id="`edit-user-${item.id}`"
           :disabled="!canPatch(item.links)"
           :text="$t('common.edit')"
           @set-entity="setEditUser(item)"
@@ -99,19 +104,19 @@ import {
   DataTableOptions,
   Sort
 } from '@/models/DataTableOptions'
-import { useMeStore } from '@/store/me'
-import { ref } from 'vue'
+import { useAuthorizationStore } from '@/store/authorization'
+import { ref, computed } from 'vue'
 import { useSort } from '@/composable/sort'
 
 const pagination = usePagination()
-const meStore = useMeStore()
+const authorizationStore = useAuthorizationStore()
 const userStore = useUserStore()
 
 const { getSort } = useSort()
 const defaultSort: Sort[] = [{ key: 'login', order: 'asc' }]
 const sortBy = ref(defaultSort)
 
-const headers: DataTableHeaders[] = [
+const headers = computed<DataTableHeaders[]>(() => [
   {
     title: i18n.t('columns.users.username'),
     align: 'start',
@@ -142,7 +147,7 @@ const headers: DataTableHeaders[] = [
     width: 50,
     sortable: false
   }
-]
+])
 
 const { canPatch } = useUserAuthorities()
 

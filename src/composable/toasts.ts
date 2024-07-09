@@ -64,7 +64,7 @@ export function useToast() {
     toast.error(Toast500Error, {
       icon: false,
       closeOnClick: false,
-      autoClose: 10000,
+      autoClose: 8000,
       data: err
     })
   }

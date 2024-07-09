@@ -21,17 +21,21 @@
 -->
 
 <template>
-  <RepositoriesModal />
+  <DeleteRepositoryModal v-if="commonStore.isDelete" />
+  <CreateRepositoryModal v-if="commonStore.isCreate" />
+  <EditRepositoryModal v-if="commonStore.isEdit" />
   <FiltrationBar />
   <RepositoriesList :key="componentKey" />
 </template>
 
 <script setup lang="ts">
-import RepositoriesModal from '@/components/repositories/RepositoriesModal.vue'
 import RepositoriesList from '@/components/repositories/RepositoriesList.vue'
 import FiltrationBar from '@/components/repositories/FiltrationBar.vue'
 import { computed } from 'vue'
 import { useCommonStore } from '@/store/common'
+import DeleteRepositoryModal from '@/components/repositories/modals/DeleteRepositoryModal.vue'
+import CreateRepositoryModal from '@/components/repositories/modals/CreateRepositoryModal.vue'
+import EditRepositoryModal from '@/components/repositories/modals/EditRepositoryModal.vue'
 
 const commonStore = useCommonStore()
 const componentKey = computed(() => {

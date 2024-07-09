@@ -42,6 +42,7 @@
         <h2>{{ i18n.t('packages.list') }}</h2>
       </div>
     </template>
+
     <template #[`item.technology`]="{ value }">
       <v-chip
         class="mr-5"
@@ -96,7 +97,11 @@
             class="d-flex justify-center"
           >
             <v-checkbox-btn
-              id="checkbox-active"
+              :id="`checkbox-active-${
+                item.name
+              }-${item.version?.replaceAll('.', '-')}-${
+                item.repository?.name
+              }`"
               v-model="item.active"
               hide-details
               :readonly="!canPatch(item?.links)"
@@ -188,7 +193,7 @@ const pagination = usePagination()
 const { canDelete, canPatch } = useUserAuthorities()
 const configStore = useConfigStore()
 
-const headers: DataTableHeaders[] = [
+const headers = computed<DataTableHeaders[]>(() => [
   {
     title: i18n.t('columns.package.name'),
     align: 'start',
@@ -247,7 +252,7 @@ const headers: DataTableHeaders[] = [
     width: 100,
     sortable: false
   }
-]
+])
 
 const { getStatusIcon, getStatusColor, getTooltipMessage } =
   useSubmissionIcons()

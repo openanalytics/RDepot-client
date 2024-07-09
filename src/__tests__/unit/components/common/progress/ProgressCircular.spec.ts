@@ -20,13 +20,7 @@
  *
  */
 
-import {
-  describe,
-  it,
-  expect,
-  beforeEach,
-  beforeAll
-} from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 
 import { mount } from '@vue/test-utils'
 import { plugins } from '@/__tests__/config/plugins'
@@ -34,7 +28,7 @@ import { mocks } from '@/__tests__/config/mocks'
 import ProgressCircularVue from '@/components/common/progress/ProgressCircular.vue'
 import { createPinia, setActivePinia } from 'pinia'
 import { useCommonStore } from '@/store/common'
-import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
+import { nextTick } from 'vue'
 
 let wrapper: any
 const globalConfig = {
@@ -42,10 +36,6 @@ const globalConfig = {
   plugins: plugins
 }
 let commonStore: any
-
-beforeAll(() => {
-  global.ResizeObserver = ResizeObserver
-})
 
 beforeEach(async () => {
   setActivePinia(createPinia())
@@ -61,13 +51,15 @@ describe('Progress Circular', () => {
   })
 
   it('is not showing if nothing is loading', async () => {
-    await commonStore.setProgressCircularActive(false)
+    commonStore.progressCircularActive = false
+    await nextTick()
     const content = wrapper.find('#progress-circular')
     expect(content.isVisible()).toBeFalsy()
   })
 
   it('is showing progress if something is loading', async () => {
-    await commonStore.setProgressCircularActive(true)
+    commonStore.progressCircularActive = true
+    await nextTick()
     const content = wrapper.find('#progress-circular')
     expect(content.isVisible()).toBeTruthy()
   })

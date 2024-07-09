@@ -39,11 +39,7 @@
     <template #top>
       <div class="d-flex justify-space-between mx-3 my-5">
         <h2>{{ i18n.t('repositories.list') }}</h2>
-        <AddButton
-          v-if="
-            authorizationStore.can('POST', 'repository')
-          "
-        />
+        <AddButton v-if="postCondition" />
       </div>
     </template>
     <template #[`item.technology`]="{ value }">
@@ -149,7 +145,6 @@ import { useUtilities } from '@/composable/utilities'
 import { updateRepository } from '@/services/repository_services'
 import { computed } from 'vue'
 import { isAtLeastRepositoryMaintainer } from '@/enum/UserRoles'
-import { useMeStore } from '@/store/me'
 import { ref } from 'vue'
 import { useSort } from '@/composable/sort'
 import AddButton from '@/components/common/buttons/AddButton.vue'
@@ -161,14 +156,17 @@ const repositoryStore = useRepositoryStore()
 const pagination = usePagination()
 const { canDelete, canPatch } = useUserAuthorities()
 const configStore = useConfigStore()
-const meStore = useMeStore()
 const authorizationStore = useAuthorizationStore()
 
 const { getSort } = useSort()
 const defaultSort: Sort[] = [{ key: 'name', order: 'asc' }]
 const sortBy = ref(defaultSort)
 
-const headers: DataTableHeaders[] = [
+const postCondition = computed(() =>
+  authorizationStore.can('POST', 'repository')
+)
+
+const headers = computed<DataTableHeaders[]>(() => [
   {
     title: i18n.t('columns.repository.name'),
     align: 'start',
@@ -218,24 +216,26 @@ const headers: DataTableHeaders[] = [
     width: 100,
     sortable: false
   }
-]
+])
 
 function resetElementWidth() {
-  headers[1].width = undefined
+  headers.value[1].width = undefined
 }
 
 const filteredHeaders = computed(() => {
   if (
     !isAtLeastRepositoryMaintainer(
-      meStore.userRole ? meStore.userRole : 0
+      authorizationStore.userRole
+        ? authorizationStore.userRole
+        : 0
     )
   ) {
     resetElementWidth()
-    return headers.filter(
+    return headers.value.filter(
       (header) => header.key != 'serverAddress'
     )
   }
-  return headers
+  return headers.value
 })
 
 function fetchData(options: DataTableOptions) {

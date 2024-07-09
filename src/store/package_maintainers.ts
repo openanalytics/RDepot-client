@@ -117,6 +117,29 @@ export const usePackageMaintainersStore = defineStore(
         pagination.totalNumber = pageData.totalNumber
         this.maintainers = maintainers
       },
+
+      async fetchAndReturnAllMaintainers(
+        filtration: PackageMaintainersFiltration
+      ) {
+        let page = 0
+        const [maintainers, pageData] =
+          await fetchPackageMaintainersService(
+            filtration,
+            page
+          )
+        let result: EntityModelPackageMaintainerDto[] =
+          maintainers
+        while (pageData.totalNumber > result.length) {
+          await fetchPackageMaintainersService(
+            filtration,
+            ++page
+          ).then(([maintainers]) => {
+            result = [...result, ...maintainers]
+          })
+        }
+        return maintainers
+      },
+
       async fetchAllMaintainers() {
         const [maintainers] =
           await fetchAllPackageMaintainers()

@@ -31,19 +31,18 @@ import {
 import { mount } from '@vue/test-utils'
 import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
-import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import { createPinia, setActivePinia } from 'pinia'
 import RepositoriesListVue from '@/components/repositories/RepositoriesList.vue'
 import repositories from '@/__tests__/config/mockData/repositories.json'
 import { useRepositoryStore } from '@/store/repositories'
-import { useMeStore } from '@/store/me'
+import { useAuthorizationStore } from '@/store/authorization'
 import me from '@/__tests__/config/mockData/me.json'
 import { nextTick } from 'vue'
 import { i18n } from '@/plugins/i18n'
 import { usePagination } from '@/store/pagination'
 
 let wrapper: any
-let meStore: any
+let authorizationStore: any
 let repositoriesStore: any
 
 const globalConfig = {
@@ -51,24 +50,21 @@ const globalConfig = {
   plugins: plugins
 }
 
-beforeAll(() => {
-  global.ResizeObserver = ResizeObserver
+beforeEach(async () => {
   setActivePinia(createPinia())
-  repositoriesStore = useRepositoryStore()
-  meStore = useMeStore()
-  meStore.me = me.data
+  authorizationStore = useAuthorizationStore()
+  authorizationStore.me = me.data
   const pagination = usePagination()
   pagination.page = 0
   pagination.pageSize = 10
   pagination.totalNumber = 23
-})
-
-beforeEach(async () => {
+  repositoriesStore = useRepositoryStore()
+  await nextTick(() => {})
   wrapper = mount(RepositoriesListVue, {
     global: globalConfig
   })
-  repositoriesStore.repositories = repositories.data.content
   repositoriesStore.loading = false
+  repositoriesStore.repositories = repositories.data.content
 })
 
 describe('Repositories - list', () => {
@@ -100,6 +96,7 @@ describe('Repositories - list', () => {
 
 describe('Repositories - list headers', () => {
   let headers: any
+
   beforeAll(() => {
     headers = wrapper.findAllComponents('th')
   })
@@ -238,7 +235,7 @@ describe('Repositories - role based cells', () => {
   const repository = repositories.data.content[0]
 
   it('displays serverAddress (repo maintainer))', async () => {
-    meStore.userRole = 2
+    authorizationStore.userRole = 2
     await nextTick()
     cells = wrapper
       .findAllComponents('tr')[0]
@@ -247,7 +244,7 @@ describe('Repositories - role based cells', () => {
     expect(cell.text()).toBe(repository.serverAddress)
   })
   it('!displays serverAddress (package maintainer))', async () => {
-    meStore.userRole = 1
+    authorizationStore.userRole = 1
     await nextTick()
     cells = wrapper
       .findAllComponents('tr')[0]

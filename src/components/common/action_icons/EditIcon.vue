@@ -24,7 +24,7 @@
   <v-tooltip location="top">
     <template #activator="{ props }">
       <v-icon
-        id="pencil-icon"
+        :id="iconId"
         v-bind="props"
         class="ml-3"
         :color="disabled ? 'grey' : 'oablue'"
@@ -61,6 +61,11 @@ const componentProps = defineProps({
     type: String,
     required: false,
     default: ''
+  },
+  iconId: {
+    type: String,
+    required: false,
+    default: 'pencil-icon'
   }
 })
 
@@ -70,7 +75,7 @@ const commonStore = useCommonStore()
 function edit() {
   if (!componentProps.disabled) {
     emits('setEntity')
-    commonStore.setOverlayText(componentProps.text)
+    commonStore.overlayText = componentProps.text
     commonStore.openOverlay(OverlayEnum.enum.Edit)
   }
 }

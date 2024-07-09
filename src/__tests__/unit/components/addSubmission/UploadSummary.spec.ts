@@ -25,21 +25,19 @@ import {
   it,
   expect,
   beforeEach,
-  beforeAll,
   vi
 } from 'vitest'
 
 import { mount } from '@vue/test-utils'
 import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
-import { ResizeObserver } from '@/__tests__/config/ResizeObserver'
 import { createPinia, setActivePinia } from 'pinia'
 import UploadSummary from '@/components/addSubmission/UploadSummary.vue'
 import submissions from '@/__tests__/config/mockData/submissions.json'
 import { PackagePromise } from '@/store/submission'
 import { usePackagesStore } from '@/store/packages'
 import { VProgressCircular } from 'vuetify/components'
-import { useMeStore } from '@/store/me'
+import { useAuthorizationStore } from '@/store/authorization'
 import me from '@/__tests__/config/mockData/me.json'
 
 let wrapper: any
@@ -49,7 +47,7 @@ const globalConfig = {
 }
 
 let packageStore: any
-let meStore: any
+let authorizationStore: any
 
 const file: File = {
   name: 'A3_1.0.0.tar.gz',
@@ -64,16 +62,12 @@ const promise: PackagePromise = {
   response: undefined
 }
 
-beforeAll(() => {
-  global.ResizeObserver = ResizeObserver
-})
-
 describe('Upload summary - pending', () => {
   beforeEach(async () => {
     setActivePinia(createPinia())
     packageStore = usePackagesStore()
-    meStore = useMeStore()
-    meStore.me = me.data
+    authorizationStore = useAuthorizationStore()
+    authorizationStore.me = me.data
     wrapper = mount(UploadSummary, {
       global: globalConfig,
       props: {
@@ -149,8 +143,8 @@ describe('Upload summary - error', () => {
   beforeEach(async () => {
     setActivePinia(createPinia())
     packageStore = usePackagesStore()
-    meStore = useMeStore()
-    meStore.me = me.data
+    authorizationStore = useAuthorizationStore()
+    authorizationStore.me = me.data
     wrapper = mount(UploadSummary, {
       global: globalConfig,
       props: {
@@ -240,8 +234,8 @@ describe('Upload summary - success', () => {
   beforeEach(async () => {
     setActivePinia(createPinia())
     packageStore = usePackagesStore()
-    meStore = useMeStore()
-    meStore.me = me.data
+    authorizationStore = useAuthorizationStore()
+    authorizationStore.me = me.data
     wrapper = mount(UploadSummary, {
       global: globalConfig,
       props: {

@@ -38,14 +38,7 @@
     <template #top>
       <div class="d-flex justify-space-between mx-3 my-5">
         <h2>{{ i18n.t('packages.maintainers') }}</h2>
-        <AddMaintainerButton
-          v-if="
-            authorizationStore.can(
-              'POST',
-              'packageMaintainers'
-            )
-          "
-        />
+        <AddMaintainerButton v-if="postCondition" />
       </div>
     </template>
     <template #[`item.repository.technology`]="{ value }">
@@ -68,6 +61,10 @@
               ? i18n.t('maintainers.deleted')
               : undefined
           "
+          :icon-id="`edit-package-maintainer-${item.user?.name?.replace(
+            ' ',
+            '-'
+          )}-${item.packageName}-${item.repository?.name}`"
           @set-entity="setEditEntity(item)" />
         <DeleteIcon
           v-if="item.user?.name"
@@ -100,6 +97,7 @@ import { ref } from 'vue'
 import { useSort } from '@/composable/sort'
 import AddMaintainerButton from '@/components/common/buttons/AddMaintainerButton.vue'
 import { useAuthorizationStore } from '@/store/authorization'
+import { computed } from 'vue'
 
 const packageMaintainersStore = usePackageMaintainersStore()
 const pagination = usePagination()
@@ -110,7 +108,11 @@ const { getSort } = useSort()
 const defaultSort: Sort[] = [{ key: 'user', order: 'asc' }]
 const sortBy = ref(defaultSort)
 
-const headers: DataTableHeaders[] = [
+const postCondition = computed(() =>
+  authorizationStore.can('POST', 'packageMaintainers')
+)
+
+const headers = computed<DataTableHeaders[]>(() => [
   {
     title: i18n.t('columns.packageMaintainer.name'),
     align: 'start',
@@ -143,8 +145,7 @@ const headers: DataTableHeaders[] = [
     key: 'actions',
     sortable: false
   }
-]
-
+])
 function fetchData(options: DataTableOptions) {
   sortBy.value = getSort(options.sortBy, defaultSort)
   packageMaintainersStore.fetchMaintainersPage(options)
