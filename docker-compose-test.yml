@@ -8,7 +8,7 @@ services:
       eu.openanalytics.rdepot.container.name: 'oa-rdepot-proxy'
     volumes:
       - ./docker/proxy/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./docker/proxy/rdepot.conf:/etc/nginx/sites-enabled/rdepot:ro
+      - ./docker/proxy/rdepot-test.conf:/etc/nginx/sites-enabled/rdepot:ro
       - repository:/opt/rdepot/repo/:ro
       - logs:/var/log/nginx/
     depends_on:
@@ -108,12 +108,6 @@ services:
       - VITE_LOGIN_OIDC=false
       - VITE_URL_PREFIX=/
       - VITE_SERVER_ADDRESS=http://192.168.49.20/backend
-      - VITE_OIDC_AUTHORITY=http://localhost/keycloak/realms/RDepot
-      - VITE_OIDC_CLIENT_ID=oa-rdepot-frontend
-      - VITE_OIDC_REDIRECT_URI=http://localhost/auth
-      - VITE_OIDC_POST_LOGOUT_REDIRECT_URI=http://localhost/logout
-      - VITE_OIDC_RESPONSE_TYPE=code
-      - VITE_OIDC_SCOPE=openid
   selenium:
     image: registry.openanalytics.eu/proxy/selenium/standalone-chrome:125.0
     restart: unless-stopped
@@ -124,39 +118,6 @@ services:
     networks:
       oa-rdepot:
         ipv4_address: 192.168.49.12
-  keycloak:
-    image: registry.openanalytics.eu/proxy/keycloak/keycloak:24.0
-    restart: unless-stopped
-    hostname: oa-rdepot-keycloak
-    container_name: oa-rdepot-keycloak
-    environment:
-      - KC_FILE=/tmp/rdepot.json
-      - KC_HTTP_RELATIVE_PATH=/keycloak
-      - KC_PROXY_HEADERS=xforwarded
-      - KC_HTTP_ENABLED=true
-      - KEYCLOAK_ADMIN=admin
-      - KEYCLOAK_ADMIN_PASSWORD=admin
-    volumes:
-      - ./docker/keycloak/realm-rdepot-vue.json:/opt/keycloak/data/import/rdepot.json:ro
-    networks:
-      oa-rdepot:
-        aliases:
-          - oa-rdepot-keycloak
-    command:
-      - start-dev
-      - --import-realm
-  ldap:
-    build: ./docker/ldap
-    restart: unless-stopped
-    hostname: oa-rdepot-ldap
-    container_name: oa-rdepot-ldap
-    environment:
-      - LDAP_TLS=false
-      - LDAP_ORGANISATION=Test Company
-      - LDAP_DOMAIN=example.org
-      - LDAP_ADMIN_PASSWORD=testpassword
-    networks:
-      - oa-rdepot
 networks:
   oa-rdepot:
     ipam:
