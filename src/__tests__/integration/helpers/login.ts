@@ -25,6 +25,7 @@ import {
   SUBMIT_LOGIN_BUTTON_ID,
   USERNAME_INPUT_ID
 } from './elementsIds'
+import { clickOnElementByXpath } from './helpers'
 
 const { Builder, By, until } = require('selenium-webdriver')
 const url = 'http://192.168.49.20'
@@ -38,6 +39,7 @@ export async function login(
     .manage()
     .window()
     .setRect({ width: 1920, height: 1053 })
+
   await driver.get(url + '/login')
 
   await driver.wait(
@@ -70,5 +72,10 @@ export async function login(
   await driver.wait(
     until.titleIs('RDepot - packages'),
     8000
+  )
+
+  await clickOnElementByXpath(
+    driver,
+    "//div[@data-testid='toast-body']"
   )
 }

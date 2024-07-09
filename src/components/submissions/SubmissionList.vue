@@ -171,7 +171,7 @@ import {
   Sort
 } from '@/models/DataTableOptions'
 import { i18n } from '@/plugins/i18n'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useSort } from '@/composable/sort'
 import { useAuthorizationStore } from '@/store/authorization'
 import IconButton from '@/components/common/buttons/IconButton.vue'
@@ -192,7 +192,7 @@ const defaultSort: Sort[] = [
 ]
 const sortBy = ref(defaultSort)
 
-const headers: DataTableHeaders[] = [
+const headers = computed<DataTableHeaders[]>(() => [
   {
     title: i18n.t('columns.submissions.date'),
     align: 'center',
@@ -249,7 +249,7 @@ const headers: DataTableHeaders[] = [
     width: '230',
     sortable: false
   }
-]
+])
 
 function fetchData(options: DataTableOptions) {
   sortBy.value = getSort(options.sortBy, defaultSort)

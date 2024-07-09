@@ -166,7 +166,7 @@ const postCondition = computed(() =>
   authorizationStore.can('POST', 'repository')
 )
 
-const headers: DataTableHeaders[] = [
+const headers = computed<DataTableHeaders[]>(() => [
   {
     title: i18n.t('columns.repository.name'),
     align: 'start',
@@ -216,10 +216,10 @@ const headers: DataTableHeaders[] = [
     width: 100,
     sortable: false
   }
-]
+])
 
 function resetElementWidth() {
-  headers[1].width = undefined
+  headers.value[1].width = undefined
 }
 
 const filteredHeaders = computed(() => {
@@ -231,11 +231,11 @@ const filteredHeaders = computed(() => {
     )
   ) {
     resetElementWidth()
-    return headers.filter(
+    return headers.value.filter(
       (header) => header.key != 'serverAddress'
     )
   }
-  return headers
+  return headers.value
 })
 
 function fetchData(options: DataTableOptions) {

@@ -149,3 +149,23 @@ export async function checkIfHasClass(
     expect(elementsClass).not.contains(className)
   }
 }
+
+export async function clickOnMenuItemById(
+  driver: typeof Builder,
+  id: string
+) {
+  await driver
+    .findElement(By.id(id))
+    .then(async function (element: any) {
+      await driver.wait(function () {
+        return element
+          .isDisplayed()
+          .then(function (displayed: any) {
+            if (!displayed) return false
+
+            return element.isEnabled()
+          })
+      })
+      await element.click()
+    })
+}

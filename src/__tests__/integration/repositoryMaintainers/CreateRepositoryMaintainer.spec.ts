@@ -169,9 +169,7 @@ describe('Create Repository Maintainer', () => {
     )
 
     const disabledRepoItem = await driver
-      .findElement(
-        By.id('select-input-repository-testrepo10')
-      )
+      .findElement(By.id(TEST_REPO_10_ID))
       .getAttribute('outerHTML')
 
     expect(disabledRepoItem).toContain('Albert Einstein')

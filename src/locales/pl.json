@@ -262,6 +262,10 @@
     "successUpdateRepositoryManager": "Zaktualizowano {maintainer_name}",
     "successUpdateUser": "Dane użytkownika zaktualizowane"
   },
+  "package": {
+    "noDescriptionProvided": "Brak dostępnego opisu",
+    "propertyNotProvided": "brak informacji"
+  },
   "packageMaintainer": {
     "create": "Stwórz opiekuna"
   },
@@ -296,6 +300,7 @@
       "submissionState": "Stan"
     },
     "generatemanual": "Generuj instrukcję",
+    "hash": "Hash",
     "imports": "Importuje",
     "install": "Instalacja",
     "installCode-Python": "pip install --index-url {1} {0}",
@@ -306,6 +311,7 @@
     "list": "Pakiety",
     "maintainer": "Opiekun",
     "maintainers": "Opiekunowie pakietów",
+    "md5sum": "MD5Sum",
     "noInstallInstruction": "Repozytorium nie zostało jeszcze opublikowane",
     "noVignette": "Brak dostępnych winiet",
     "oldSources": "Stare źródła",
@@ -340,7 +346,7 @@
     "withinRdepot": "Wewnątrz RDepot"
   },
   "pagination": {
-    "size": "Rozmiar strony"
+    "size": "Rozmiar strony (paginacja)"
   },
   "repositories": {
     "addRepository": "Utwórz repozytorium",
