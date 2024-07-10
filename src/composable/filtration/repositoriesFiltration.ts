@@ -54,7 +54,7 @@ export function useRepositoriesFiltration() {
       selectStore.nextPage()
       if (selectStore.fetchNextPageCondition) {
         await repositoriesStore
-          .fetchRepositoriesList(
+          .getList(
             selectStore.paginationData.page - 1,
             selectStore.pageSize
           )
@@ -130,7 +130,7 @@ export function useRepositoriesFiltration() {
       selectStore.nextPage()
       if (selectStore.fetchNextPageCondition) {
         await repositoriesStore
-          .fetchRepositoriesList(
+          .getList(
             selectStore.paginationData.page - 1,
             selectStore.pageSize
           )
@@ -147,7 +147,7 @@ export function useRepositoriesFiltration() {
 
   function filtrateRepositories(value: string | undefined) {
     if (repositoriesStore.filtration.name !== value) {
-      repositoriesStore.setFiltrationByName(value)
+      repositoriesStore.setFiltrationBy('search', value)
     }
   }
 
@@ -160,7 +160,7 @@ export function useRepositoriesFiltration() {
       repositoriesStore.filtration.name !== value
     ) {
       resetRepositoriesPagination()
-      repositoriesStore.setFiltrationByName(value)
+      repositoriesStore.setFiltrationBy('search', value)
     }
   }
 

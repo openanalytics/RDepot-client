@@ -137,7 +137,7 @@ async function isRepositoryNameIsDuplicated(
 ) {
   loading.value = true
   const repositoriesWithSameName =
-    await repositoryStore.fetchRepository(repoName)
+    await repositoryStore.get(repoName)
   loading.value = false
   if (isRepositoryInTheReposList(repositoriesWithSameName))
     return false
@@ -154,7 +154,7 @@ function isRepositoryInTheReposList(
 
 function updateRepository() {
   if (meta.value.valid) {
-    repositoryStore.updateRepository(localRepository.value)
+    repositoryStore.patch(localRepository.value)
     commonStore.closeOverlay()
   } else {
     toasts.warning(t('notifications.invalidform'))
