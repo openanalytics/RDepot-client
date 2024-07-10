@@ -96,10 +96,7 @@ describe('Repository Maintainers Store', () => {
     const repositoryMaintainersStore =
       useRepositoryMaintainersStore()
     const paginationStore = usePagination()
-    const spy = vi.spyOn(
-      repositoryMaintainersStore,
-      'fetchMaintainers'
-    )
+    const spy = vi.spyOn(repositoryMaintainersStore, 'get')
     paginationStore.page = 2
 
     expect(spy).toHaveBeenCalledTimes(0)
@@ -132,10 +129,7 @@ describe('Repository Maintainers Store', () => {
     const repositoryMaintainersStore =
       useRepositoryMaintainersStore()
     const paginationStore = usePagination()
-    const spy = vi.spyOn(
-      repositoryMaintainersStore,
-      'fetchMaintainers'
-    )
+    const spy = vi.spyOn(repositoryMaintainersStore, 'get')
 
     repositoryMaintainersStore.filtration = randomFiltration
     paginationStore.page = 2
@@ -159,7 +153,7 @@ describe('Repository Maintainers Store', () => {
     repositoryMaintainersStore.maintainers =
       repositoryMaintainers.data.content
 
-    repositoryMaintainersStore.setChosenMaintainer(
+    repositoryMaintainersStore.setChosen(
       repositoryMaintainers.data.content[3]
     )
 
@@ -179,9 +173,7 @@ describe('Repository Maintainers Store', () => {
       repositoryMaintainers.data.content[3]
     changedMaintainer.deleted = !changedMaintainer.deleted
 
-    repositoryMaintainersStore.setChosenMaintainer(
-      changedMaintainer
-    )
+    repositoryMaintainersStore.setChosen(changedMaintainer)
 
     expect(
       repositoryMaintainersStore.maintainers[3]
@@ -192,7 +184,7 @@ describe('Repository Maintainers Store', () => {
     const repositoryMaintainersStore =
       useRepositoryMaintainersStore()
 
-    await repositoryMaintainersStore.fetchMaintainers()
+    await repositoryMaintainersStore.get()
 
     expect(
       repositoryMaintainersStore.maintainers
@@ -203,7 +195,7 @@ describe('Repository Maintainers Store', () => {
     const repositoryMaintainersStore =
       useRepositoryMaintainersStore()
 
-    await repositoryMaintainersStore.fetchRepositories()
+    await repositoryMaintainersStore.getRepositories()
 
     expect(
       repositoryMaintainersStore.repositories
@@ -216,17 +208,14 @@ describe('Repository Maintainers Store', () => {
     // vi.mock('@kyvg/vue3-notification')
     vi.mock('vue3-toastify')
     const notify = await import('vue3-toastify')
-    const spy = vi.spyOn(
-      repositoryMaintainersStore,
-      'fetchMaintainers'
-    )
+    const spy = vi.spyOn(repositoryMaintainersStore, 'get')
 
-    repositoryMaintainersStore.fetchMaintainers()
-    repositoryMaintainersStore.setChosenMaintainer(
+    repositoryMaintainersStore.get()
+    repositoryMaintainersStore.setChosen(
       repositoryMaintainers.data.content[2]
     )
 
-    await repositoryMaintainersStore.deleteMaintainer()
+    await repositoryMaintainersStore.delete()
 
     expect(spy).toBeCalled()
     // expect(notify.notify).toBeCalledWith('success')
@@ -236,16 +225,13 @@ describe('Repository Maintainers Store', () => {
   it('Save chosen maintainer', async () => {
     const repositoryMaintainersStore =
       useRepositoryMaintainersStore()
-    const spy = vi.spyOn(
-      repositoryMaintainersStore,
-      'fetchMaintainers'
-    )
+    const spy = vi.spyOn(repositoryMaintainersStore, 'get')
 
-    repositoryMaintainersStore.fetchMaintainers()
-    repositoryMaintainersStore.setChosenMaintainer(
+    repositoryMaintainersStore.get()
+    repositoryMaintainersStore.setChosen(
       repositoryMaintainers.data.content[2]
     )
-    await repositoryMaintainersStore.updateMaintainer({
+    await repositoryMaintainersStore.patch({
       id: repositoryMaintainers.data.content[2].id
     })
 
@@ -273,7 +259,7 @@ describe('Repository Maintainers Store requests with failing backend', () => {
     const repositoryMaintainersStore =
       useRepositoryMaintainersStore()
 
-    await repositoryMaintainersStore.fetchMaintainers()
+    await repositoryMaintainersStore.get()
     expect(
       repositoryMaintainersStore.maintainers
     ).toStrictEqual([])
@@ -283,7 +269,7 @@ describe('Repository Maintainers Store requests with failing backend', () => {
     const repositoryMaintainersStore =
       useRepositoryMaintainersStore()
 
-    await repositoryMaintainersStore.fetchRepositories()
+    await repositoryMaintainersStore.getRepositories()
 
     expect(
       repositoryMaintainersStore.repositories
@@ -294,7 +280,7 @@ describe('Repository Maintainers Store requests with failing backend', () => {
     const repositoryMaintainersStore =
       useRepositoryMaintainersStore()
 
-    await repositoryMaintainersStore.fetchRepositories()
+    await repositoryMaintainersStore.getRepositories()
 
     expect(
       repositoryMaintainersStore.repositories

@@ -49,7 +49,7 @@ export function usePackageMaintainersFiltration() {
       selectStore.nextPage()
       if (selectStore.fetchNextPageCondition) {
         await packageMaintainerStore
-          .fetchMaintainersList(
+          .getList(
             selectStore.paginationData.page - 1,
             selectStore.pageSize
           )
@@ -74,7 +74,10 @@ export function usePackageMaintainersFiltration() {
       packageMaintainerStore.filtration.search !== value
     ) {
       resetPaginationMaintainers()
-      packageMaintainerStore.setFiltrationByName(value)
+      packageMaintainerStore.setFiltrationBy(
+        'search',
+        value
+      )
     }
   }
 

@@ -259,9 +259,7 @@ function updateMaintainer() {
 
 async function editMaintainer() {
   if (meta.value.valid) {
-    await maintainersStore.updateMaintainer(
-      localMaintainer.value
-    )
+    await maintainersStore.patch(localMaintainer.value)
     changeDialogOptions()
   } else {
     toasts.warning(t('notifications.invalidform'))

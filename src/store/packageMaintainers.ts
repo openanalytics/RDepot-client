@@ -33,12 +33,10 @@ import {
 } from '@/models/Filtration'
 import {
   fetchPackagesServices,
-  fetchRepositoriesServices,
-  fetchAllRepositoriesServices
+  fetchRepositoriesServices
 } from '@/services'
 import {
   deletePackageMaintainerService,
-  fetchAllPackageMaintainers,
   fetchPackageMaintainersService,
   updatePackageMaintainerService,
   createPackageMaintainerService,
@@ -89,9 +87,7 @@ export const usePackageMaintainersStore = defineStore(
       }
     },
     actions: {
-      async fetchMaintainersPage(
-        options: DataTableOptions
-      ) {
+      async getPage(options: DataTableOptions) {
         this.loading = true
         const [maintainers, pageData] = await fetch(
           this.filtration,
@@ -105,7 +101,17 @@ export const usePackageMaintainersStore = defineStore(
         this.totalNumber = pageData.totalNumber
         this.maintainers = maintainers
       },
-      async fetchMaintainers() {
+      async getList(page: number, pageSize = 8) {
+        const [maintainers, pageData] =
+          await fetchFullMaintainersList(
+            page,
+            pageSize,
+            this.filtration
+          )
+        this.maintainers = maintainers
+        return pageData
+      },
+      async get() {
         const pagination = usePagination()
         const [maintainers, pageData] =
           await fetchPackageMaintainersService(
@@ -117,7 +123,6 @@ export const usePackageMaintainersStore = defineStore(
         pagination.totalNumber = pageData.totalNumber
         this.maintainers = maintainers
       },
-
       async fetchAndReturnAllMaintainers(
         filtration: PackageMaintainersFiltration
       ) {
@@ -139,46 +144,55 @@ export const usePackageMaintainersStore = defineStore(
         }
         return maintainers
       },
-
-      async fetchAllMaintainers() {
-        const [maintainers] =
-          await fetchAllPackageMaintainers()
-        this.maintainers = maintainers
-      },
-      async fetchMaintainersList(
-        page: number,
-        pageSize = 8
-      ) {
-        const [maintainers, pageData] =
-          await fetchFullMaintainersList(
-            page,
-            pageSize,
-            this.filtration
-          )
-        this.maintainers = maintainers
-        return pageData
-      },
-      async fetchRepositories() {
+      async getRepositories() {
         const [repositories] =
           await fetchRepositoriesServices()
         this.repositories = repositories
       },
-      async fetchAllRepositories() {
-        const [repositories] =
-          await fetchAllRepositoriesServices()
-        this.repositories = repositories
-      },
-      async fetchPackages() {
+      async getPackages() {
         const [packages] = await fetchPackagesServices()
         this.packages = packages
       },
-      setChosenMaintainer(
-        payload: EntityModelPackageMaintainerDto
-      ) {
-        this.chosenMaintainer = payload
-        this.saveMaintainer()
+      async deleteSoft() {
+        if (this.chosenMaintainer) {
+          this.patch({ deleted: true })
+        }
       },
-      saveMaintainer() {
+      async delete() {
+        deletePackageMaintainerService(
+          this.chosenMaintainer
+        ).then(async (success) => {
+          if (success) await this.get()
+        })
+      },
+      async patch(
+        newValues: Partial<PackageMaintainerDto>
+      ) {
+        const newMaintainer = {
+          ...deepCopy(this.chosenMaintainer),
+          ...newValues
+        }
+        updatePackageMaintainerService(
+          this.chosenMaintainer,
+          newMaintainer
+        ).then(async (success) => {
+          if (success) await this.get()
+        })
+      },
+      async create(
+        maintainer: Partial<PackageMaintainerDto>
+      ) {
+        createPackageMaintainerService(maintainer).then(
+          async (success) => {
+            if (success) await this.get()
+          }
+        )
+      },
+      setChosen(payload: EntityModelPackageMaintainerDto) {
+        this.chosenMaintainer = payload
+        this.save()
+      },
+      save() {
         this.maintainers = this.maintainers.map(
           (maintainer: EntityModelPackageMaintainerDto) => {
             if (maintainer.id == this.chosenMaintainer.id) {
@@ -187,11 +201,6 @@ export const usePackageMaintainersStore = defineStore(
             return maintainer
           }
         )
-      },
-      async softDelete() {
-        if (this.chosenMaintainer) {
-          this.updateMaintainer({ deleted: true })
-        }
       },
       async setFiltration(
         payload: PackageMaintainersFiltration
@@ -205,11 +214,14 @@ export const usePackageMaintainersStore = defineStore(
           this.filtration =
             PackageMaintainersFiltration.parse(payload)
         }
-        await this.fetchMaintainers()
+        await this.get()
       },
-      setFiltrationByName(payload: string | undefined) {
+      setFiltrationBy(
+        field: string,
+        payload: string | string[] | undefined
+      ) {
         this.clearFiltration()
-        this.filtration.search = payload
+        this.filtration[field] = payload
       },
       clearFiltration() {
         const pagination = usePagination()
@@ -220,37 +232,7 @@ export const usePackageMaintainersStore = defineStore(
       },
       async clearFiltrationAndFetch() {
         this.clearFiltration()
-        await this.fetchMaintainers()
-      },
-      async deleteChosenMaintainer() {
-        deletePackageMaintainerService(
-          this.chosenMaintainer
-        ).then(async (success) => {
-          if (success) await this.fetchMaintainers()
-        })
-      },
-      async updateMaintainer(
-        newValues: Partial<PackageMaintainerDto>
-      ) {
-        const newMaintainer = {
-          ...deepCopy(this.chosenMaintainer),
-          ...newValues
-        }
-        updatePackageMaintainerService(
-          this.chosenMaintainer,
-          newMaintainer
-        ).then(async (success) => {
-          if (success) await this.fetchMaintainers()
-        })
-      },
-      async createMaintainer(
-        maintainer: Partial<PackageMaintainerDto>
-      ) {
-        createPackageMaintainerService(maintainer).then(
-          async (success) => {
-            if (success) await this.fetchMaintainers()
-          }
-        )
+        await this.get()
       },
       getLabels() {
         return packageMaintainersFiltrationLabels

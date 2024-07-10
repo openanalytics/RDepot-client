@@ -167,10 +167,7 @@ describe('CreatePackageMaintainer', () => {
   })
 
   it('submit action triggers create maintainer action', async () => {
-    const spy = vi.spyOn(
-      packageMaintainerStore,
-      'createMaintainer'
-    )
+    const spy = vi.spyOn(packageMaintainerStore, 'create')
     wrapper.vm.setFieldValue('repository', {
       title: 'testrepo3',
       value: 10

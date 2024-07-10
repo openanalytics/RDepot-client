@@ -31,6 +31,6 @@ import { usePackageMaintainersStore } from '@/store/packageMaintainers'
 const maintainersStore = usePackageMaintainersStore()
 
 async function overlayEvent() {
-  maintainersStore.softDelete()
+  maintainersStore.deleteSoft()
 }
 </script>

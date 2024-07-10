@@ -49,7 +49,7 @@ export function useRepositoryMaintainersFiltration() {
       selectStore.nextPage()
       if (selectStore.fetchNextPageCondition) {
         await repositoryMaintainerStore
-          .fetchMaintainersList(
+          .getList(
             selectStore.paginationData.page - 1,
             selectStore.pageSize
           )
@@ -75,7 +75,10 @@ export function useRepositoryMaintainersFiltration() {
       repositoryMaintainerStore.filtration.search !== value
     ) {
       resetPaginationMaintainers()
-      repositoryMaintainerStore.setFiltrationByName(value)
+      repositoryMaintainerStore.setFiltrationBy(
+        'search',
+        value
+      )
     }
   }
 

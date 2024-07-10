@@ -153,18 +153,18 @@ const headers = computed<DataTableHeaders[]>(() => [
 const pagination = usePagination()
 
 function updateData(): void {
-  repositoryMaintainersStore.fetchMaintainers()
+  repositoryMaintainersStore.get()
 }
 
 function fetchData(options: DataTableOptions) {
   sortBy.value = getSort(options.sortBy, defaultSort)
-  repositoryMaintainersStore.fetchMaintainersPage(options)
+  repositoryMaintainersStore.getPage(options)
 }
 
 function setEditMaintainer(
   item: EntityModelRepositoryMaintainerDto
 ) {
-  repositoryMaintainersStore.setChosenMaintainer(item)
+  repositoryMaintainersStore.setChosen(item)
 }
 
 onMounted(() => {
