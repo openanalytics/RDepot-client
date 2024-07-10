@@ -157,9 +157,9 @@ describe('Package Store', () => {
     const packageStore = usePackagesStore()
 
     packageStore.filtration = randomFiltration
-    packageStore.setFiltrationBy('repository', [
-      repositories.data.content[0].name
-    ])
+    packageStore.setFiltrationBy({
+      repository: [repositories.data.content[0].name]
+    })
 
     expect(
       packageStore.filtration.repository

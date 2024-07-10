@@ -157,7 +157,7 @@ export function useUsersFiltration() {
       userStore.clearFiltration()
     } else if (userStore.filtration.search !== value) {
       resetPaginationUsers()
-      userStore.setFiltrationBy('search', value)
+      userStore.setFiltrationBy({ search: value })
     }
   }
 

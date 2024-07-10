@@ -123,7 +123,7 @@ export const usePackageMaintainersStore = defineStore(
         pagination.totalNumber = pageData.totalNumber
         this.maintainers = maintainers
       },
-      async fetchAndReturnAllMaintainers(
+      async getAll(
         filtration: PackageMaintainersFiltration
       ) {
         let page = 0
@@ -216,12 +216,12 @@ export const usePackageMaintainersStore = defineStore(
         }
         await this.get()
       },
-      setFiltrationBy(
-        field: string,
-        payload: string | string[] | undefined
-      ) {
+      setFiltrationBy(filtration: object) {
         this.clearFiltration()
-        this.filtration[field] = payload
+        this.filtration = {
+          ...defaultValues(PackageMaintainersFiltration),
+          ...(filtration as PackageMaintainersFiltration)
+        }
       },
       clearFiltration() {
         const pagination = usePagination()

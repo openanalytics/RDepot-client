@@ -212,12 +212,12 @@ export const usePackagesStore = defineStore(
         }
         await this.getPackages()
       },
-      setFiltrationBy(
-        field: string,
-        payload: string | string[] | undefined
-      ) {
+      setFiltrationBy(filtration: object) {
         this.clearFiltration()
-        this.filtration[field] = payload
+        this.filtration = {
+          ...defaultValues(PackagesFiltration),
+          ...(filtration as PackagesFiltration)
+        }
       },
       clearFiltration() {
         const pagination = usePagination()

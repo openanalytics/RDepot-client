@@ -75,10 +75,9 @@ export function useRepositoryMaintainersFiltration() {
       repositoryMaintainerStore.filtration.search !== value
     ) {
       resetPaginationMaintainers()
-      repositoryMaintainerStore.setFiltrationBy(
-        'search',
-        value
-      )
+      repositoryMaintainerStore.setFiltrationBy({
+        search: value
+      })
     }
   }
 

@@ -187,12 +187,12 @@ export const useRepositoryStore = defineStore(
         }
         await this.getRepositories()
       },
-      setFiltrationBy(
-        field: string,
-        payload: string | undefined
-      ) {
+      setFiltrationBy(filtration: object) {
         this.clearFiltration()
-        this.filtration[field] = payload
+        this.filtration = {
+          ...defaultValues(RepositoriesFiltration),
+          ...(filtration as RepositoriesFiltration)
+        }
       },
       clearFiltration() {
         const pagination = usePagination()

@@ -117,7 +117,7 @@ export const useRepositoryMaintainersStore = defineStore(
         pagination.totalNumber = pageData.totalNumber
         this.maintainers = maintainers
       },
-      async fetchAndReturnAllMaintainers(
+      async getAll(
         filtration: RepositoryMaintainersFiltration
       ) {
         let page = 0
@@ -207,12 +207,12 @@ export const useRepositoryMaintainersStore = defineStore(
         }
         await this.get()
       },
-      setFiltrationBy(
-        field: string,
-        payload: string | string[] | undefined
-      ) {
+      setFiltrationBy(filtration: object) {
         this.clearFiltration()
-        this.filtration[field] = payload
+        this.filtration = {
+          ...defaultValues(RepositoryMaintainersFiltration),
+          ...(filtration as RepositoryMaintainersFiltration)
+        }
       },
       clearFiltration() {
         const pagination = usePagination()

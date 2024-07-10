@@ -122,12 +122,12 @@ export const useUserStore = defineStore('userStore', {
       }
       await this.get()
     },
-    setFiltrationBy(
-      field: string,
-      payload: string | string[] | undefined
-    ) {
+    setFiltrationBy(filtration: object) {
       this.clearFiltration()
-      this.filtration[field] = payload
+      this.filtration = {
+        ...defaultValues(UsersFiltration),
+        ...(filtration as UsersFiltration)
+      }
     },
     clearFiltration() {
       const pagination = usePagination()

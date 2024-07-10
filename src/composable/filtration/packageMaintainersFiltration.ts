@@ -74,10 +74,9 @@ export function usePackageMaintainersFiltration() {
       packageMaintainerStore.filtration.search !== value
     ) {
       resetPaginationMaintainers()
-      packageMaintainerStore.setFiltrationBy(
-        'search',
-        value
-      )
+      packageMaintainerStore.setFiltrationBy({
+        search: value
+      })
     }
   }
 

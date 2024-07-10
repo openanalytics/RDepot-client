@@ -74,13 +74,11 @@ export function usePackagesFiltration() {
     repositoryName: string
   ) {
     const packagesMaintainedByUser =
-      await packageMaintainerStore.fetchAndReturnAllMaintainers(
-        {
-          deleted: false,
-          search: userName,
-          repository: [repositoryName]
-        }
-      )
+      await packageMaintainerStore.getAll({
+        deleted: false,
+        search: userName,
+        repository: [repositoryName]
+      })
 
     return packagesStore.packages.map(
       (packageBag: EntityModelPackageDto) => {

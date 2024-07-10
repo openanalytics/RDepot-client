@@ -94,13 +94,11 @@ export function useRepositoriesFiltration() {
       []
     if (userName) {
       repositoriesMaintainedByUser =
-        await repositoryMaintainerStore.fetchAndReturnAllMaintainers(
-          {
-            deleted: false,
-            search: userName,
-            technologies: undefined
-          }
-        )
+        await repositoryMaintainerStore.getAll({
+          deleted: false,
+          search: userName,
+          technologies: undefined
+        })
     }
 
     return repositoriesStore.repositories.map(
@@ -147,7 +145,7 @@ export function useRepositoriesFiltration() {
 
   function filtrateRepositories(value: string | undefined) {
     if (repositoriesStore.filtration.name !== value) {
-      repositoriesStore.setFiltrationBy('search', value)
+      repositoriesStore.setFiltrationBy({ search: value })
     }
   }
 
@@ -160,7 +158,7 @@ export function useRepositoriesFiltration() {
       repositoriesStore.filtration.name !== value
     ) {
       resetRepositoriesPagination()
-      repositoriesStore.setFiltrationBy('search', value)
+      repositoriesStore.setFiltrationBy({ search: value })
     }
   }
 
