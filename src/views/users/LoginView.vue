@@ -29,14 +29,14 @@
       class="form-login"
     >
       <Logo />
-      <LoginForm />
+      <LoginTemplate />
     </form>
   </v-container>
 </template>
 
 <script setup lang="ts">
 import Logo from '@/components/login/OALogo.vue'
-import LoginForm from '@/components/login/forms/LoginTemplate.vue'
+import LoginTemplate from '@/components/login/LoginTemplate.vue'
 </script>
 
 <style scoped lang="scss">
