@@ -31,6 +31,6 @@ import { usePackagesStore } from '@/store/packages'
 const packagesStore = usePackagesStore()
 
 async function performAction() {
-  await packagesStore.deletePackage()
+  await packagesStore.delete()
 }
 </script>

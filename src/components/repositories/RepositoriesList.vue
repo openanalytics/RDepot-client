@@ -278,7 +278,7 @@ function updateRepositoryPublished(
 }
 
 function chooseRepository(name: string) {
-  packagesStore.setFiltrationByRepositoryOnly(name)
+  packagesStore.setFiltrationBy('repository', [name])
 }
 
 function chooseRepositoryToUpdate(

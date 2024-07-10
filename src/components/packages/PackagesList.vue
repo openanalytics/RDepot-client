@@ -274,11 +274,11 @@ function updatePackageActive(item: EntityModelPackageDto) {
 function fetchData(options: DataTableOptions) {
   expanded.value = []
   sortBy.value = getSort(options.sortBy, defaultSort)
-  packagesStore.fetchPackagesPage(options)
+  packagesStore.getPage(options)
 }
 
 onMounted(async () => {
-  packagesStore.fetchPackages()
+  packagesStore.getPackages()
 })
 </script>
 

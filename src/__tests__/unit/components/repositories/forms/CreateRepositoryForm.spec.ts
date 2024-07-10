@@ -127,10 +127,7 @@ describe('CreateRepository', () => {
   })
 
   it('should not call create repository if form is empty', async () => {
-    const spy = vi.spyOn(
-      repositoryStore,
-      'createRepository'
-    )
+    const spy = vi.spyOn(repositoryStore, 'create')
     const createButton = wrapper.find('#submit-button')
     await createButton.trigger('click')
     await nextTick()
@@ -138,10 +135,7 @@ describe('CreateRepository', () => {
   })
 
   it('should not call create repository if form is invalid', async () => {
-    const spy = vi.spyOn(
-      repositoryStore,
-      'createRepository'
-    )
+    const spy = vi.spyOn(repositoryStore, 'create')
     wrapper.vm.setFieldValue(
       'technology',
       Technologies.Enum.R
@@ -164,7 +158,7 @@ describe('CreateRepository', () => {
 
   it('should call create repository if form is valid', async () => {
     const spy = vi.fn(() => {})
-    repositoryStore.createRepository = spy
+    repositoryStore.create = spy
     wrapper.vm.setFieldValue(
       'technology',
       Technologies.Enum.R

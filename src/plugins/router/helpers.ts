@@ -42,7 +42,7 @@ export async function loadPackageDetails(
 
 export async function loadRepositoryDetails(name: string) {
   const packageStore = usePackagesStore()
-  return packageStore.fetchPackages({
+  return packageStore.getPackages({
     repository: [name],
     deleted: false
   })

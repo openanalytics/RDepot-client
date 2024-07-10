@@ -113,7 +113,7 @@ export function usePackagesFiltration() {
       selectStore.nextPage()
       if (selectStore.fetchNextPageCondition) {
         await packagesStore
-          .fetchPackagesList(
+          .getList(
             selectStore.paginationData.page - 1,
             selectStore.pageSize
           )
