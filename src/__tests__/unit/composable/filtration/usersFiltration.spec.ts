@@ -29,7 +29,7 @@ import {
 } from 'vitest'
 
 import { createPinia, setActivePinia } from 'pinia'
-import { useSelectStore } from '@/store/select_pagination'
+import { useSelectStore } from '@/store/selectPagination'
 import { useAuthorizationStore } from '@/store/authorization'
 import { useUsersFiltration } from '@/composable/filtration/usersFiltration'
 import { useUserStore } from '@/store/users'

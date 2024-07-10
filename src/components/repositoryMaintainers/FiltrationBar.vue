@@ -85,7 +85,7 @@ import {
 import { useEnumFiltration } from '@/composable/filtration/enumFiltration'
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
-import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
+import { useRepositoryMaintainersStore } from '@/store/repositoryMaintainers'
 import ResetButton from '@/components/common/buttons/ResetButton.vue'
 
 const { technologies } = useEnumFiltration()

@@ -26,7 +26,7 @@ import ModalOverlay from '@/components/common/overlay/ModalOverlay.vue'
 import { createPinia, setActivePinia } from 'pinia'
 import { shallowMount } from '@vue/test-utils'
 import { useCommonStore } from '@/store/common'
-import UserEdit from '@/components/users/modals/UserEdit.vue'
+import EditUserModal from '@/components/users/modals/EditUserModal.vue'
 
 let wrapper: any
 let commonStore: any
@@ -40,7 +40,7 @@ describe('ModalOverlay - chosen component', () => {
         return {}
       },
       slots: {
-        props: UserEdit
+        props: EditUserModal
       }
     })
   })
@@ -51,7 +51,7 @@ describe('ModalOverlay - chosen component', () => {
 
   it('renders chosen component', () => {
     expect(
-      wrapper.findComponent('user-edit-stub').exists()
+      wrapper.findComponent('edit-user-modal-stub').exists()
     ).toBe(true)
   })
 

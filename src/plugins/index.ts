@@ -34,7 +34,7 @@ import { abilitiesPlugin } from '@casl/vue'
 import type { App } from 'vue'
 import { i18nInstance } from './i18n'
 import { caslAbility } from './casl'
-import { VueDOMPurifyHTMLconfig } from './vue_dompurify_html'
+import { VueDOMPurifyHTMLconfig } from './vueDompurifyHtml'
 import VueDOMPurifyHTML from 'vue-dompurify-html'
 import Vue3Toastify, {
   toast,

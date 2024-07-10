@@ -44,7 +44,7 @@ import {
   createPackageMaintainerService,
   fetchFullMaintainersList,
   fetch
-} from '@/services/package_maintainers_service'
+} from '@/services/packageMaintainersService'
 import { useUtilities } from '@/composable/utilities'
 import { packageMaintainersFiltrationLabels } from '@/maps/Filtration'
 import { usePagination } from '@/store/pagination'

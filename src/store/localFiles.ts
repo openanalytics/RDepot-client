@@ -22,7 +22,7 @@
 
 import { EntityModelSubmissionDto } from '@/openapi'
 import { defineStore } from 'pinia'
-import { validatedData } from '@/services/open_api_access'
+import { validatedData } from '@/services/openApiAccess'
 
 export type PackagePromise = {
   promise: Promise<validatedData<EntityModelSubmissionDto>>

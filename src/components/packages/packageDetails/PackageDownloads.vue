@@ -33,7 +33,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { EntityModelPythonPackageDto } from '@/openapi'
-import { usePackageDetailsStore } from '@/store/package_details'
+import { usePackageDetailsStore } from '@/store/packageDetails'
 
 const packageDetailsStore = usePackageDetailsStore()
 

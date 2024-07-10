@@ -27,7 +27,7 @@ import {
   SelectState,
   UserObject,
   UserObjectCreate
-} from '@/store/select_pagination'
+} from '@/store/selectPagination'
 import { Role, roleToStringBackend } from '@/enum/UserRoles'
 
 export function useUsersFiltration() {

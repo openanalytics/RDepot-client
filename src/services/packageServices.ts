@@ -36,7 +36,7 @@ import {
   openApiRequest,
   validatedData,
   validateRequest
-} from '@/services/open_api_access'
+} from '@/services/openApiAccess'
 import { useSortStore } from '@/store/sort'
 import { createPatch } from 'rfc6902'
 

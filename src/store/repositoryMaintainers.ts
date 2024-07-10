@@ -38,7 +38,7 @@ import {
   createRepositoryMaintainer,
   fetchFullMaintainersList,
   fetch
-} from '@/services/repository_maintainers_services'
+} from '@/services/repositoryMaintainersServices'
 import {
   fetchRepositoriesServices,
   fetchAllRepositoriesServices

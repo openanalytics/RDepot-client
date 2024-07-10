@@ -33,7 +33,7 @@ import {
 } from 'vitest'
 import repositoryMaintainers from '@/__tests__/config/mockData/repositoryMaintainers.json'
 import repositories from '@/__tests__/config/mockData/repositories.json'
-import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
+import { useRepositoryMaintainersStore } from '@/store/repositoryMaintainers'
 import { usePagination } from '@/store/pagination'
 import { Technologies } from '@/enum/Technologies'
 import { useAuthorizationStore } from '@/store/authorization'

@@ -20,7 +20,7 @@
  *
  */
 
-import { usePackageMaintainersStore } from '@/store/package_maintainers'
+import { usePackageMaintainersStore } from '@/store/packageMaintainers'
 import { createPinia, setActivePinia } from 'pinia'
 import {
   beforeEach,

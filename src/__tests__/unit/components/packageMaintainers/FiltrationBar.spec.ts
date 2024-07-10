@@ -27,7 +27,7 @@ import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
 import FiltrationBarVue from '@/components/packageMaintainers/FiltrationBar.vue'
 import { createPinia, setActivePinia } from 'pinia'
-import { usePackageMaintainersStore } from '@/store/package_maintainers'
+import { usePackageMaintainersStore } from '@/store/packageMaintainers'
 import { Technologies } from '@/enum/Technologies'
 import {
   PackageMaintainersFiltration,

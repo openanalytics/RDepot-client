@@ -118,7 +118,7 @@ import { useEnumFiltration } from '@/composable/filtration/enumFiltration'
 import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesFiltration'
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
-import { usePackageMaintainersStore } from '@/store/package_maintainers'
+import { usePackageMaintainersStore } from '@/store/packageMaintainers'
 import ResetButton from '@/components/common/buttons/ResetButton.vue'
 import { onBeforeMount } from 'vue'
 

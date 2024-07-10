@@ -41,10 +41,10 @@ import {
   deleteRPackage,
   fetchFullPackagesList,
   fetch
-} from '@/services/package_services'
+} from '@/services/packageServices'
 import { useUtilities } from '@/composable/utilities'
 import { packagesFiltrationLabels } from '@/maps/Filtration'
-import { fetchSubmission } from '@/services/submission_services'
+import { fetchSubmission } from '@/services/submissionServices'
 import { usePagination } from './pagination'
 import { Technologies } from '@/enum/Technologies'
 import { DataTableOptions } from '@/models/DataTableOptions'

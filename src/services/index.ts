@@ -24,8 +24,8 @@ import {
   fetchRepositoriesServices,
   fetchAllRepositoriesServices,
   fetchAllUndeletedRepositoriesServices
-} from './repository_services'
-import { fetchPackagesServices } from './package_services'
+} from './repositoryServices'
+import { fetchPackagesServices } from './packageServices'
 export {
   fetchRepositoriesServices,
   fetchPackagesServices,

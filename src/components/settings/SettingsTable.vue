@@ -68,7 +68,7 @@ import { ref, computed } from 'vue'
 import langs from '@/locales/index'
 import { useSettingsStore } from '@/store/settings'
 import { useAuthorizationStore } from '@/store/authorization'
-import SaveChanges from '@/components/settings/SaveChanges.vue'
+import SaveChanges from '@/components/settings/SaveChangesButton.vue'
 
 const { t } = useI18n()
 

@@ -20,7 +20,7 @@
  *
  */
 
-import { Pagination } from '@/services/open_api_access'
+import { Pagination } from '@/services/openApiAccess'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 

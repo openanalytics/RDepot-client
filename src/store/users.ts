@@ -28,7 +28,7 @@ import {
   fetchAllUsers,
   fetchFullUsersList,
   fetch
-} from '@/services/users_services'
+} from '@/services/usersServices'
 import { EntityModelUserDto, RoleDto } from '@/openapi'
 import { Role } from '@/enum/UserRoles'
 import { usePagination } from '@/store/pagination'

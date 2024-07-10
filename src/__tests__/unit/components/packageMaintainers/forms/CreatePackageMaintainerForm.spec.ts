@@ -36,7 +36,7 @@ import CreatePackageMaintainerForm from '@/components/packageMaintainers/forms/C
 import { nextTick } from 'vue'
 import { useAuthorizationStore } from '@/store/authorization'
 import me from '@/__tests__/config/mockData/me.json'
-import { usePackageMaintainersStore } from '@/store/package_maintainers'
+import { usePackageMaintainersStore } from '@/store/packageMaintainers'
 
 let wrapper: any
 let authorizationStore: any

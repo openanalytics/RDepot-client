@@ -59,7 +59,7 @@ import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { z } from 'zod'
 import { CreateToken } from '@/models/Token'
-import { useAccessTokensStore } from '@/store/access_tokens'
+import { useAccessTokensStore } from '@/store/accessTokens'
 import { useCommonStore } from '@/store/common'
 import CardActions from '@/components/common/overlay/CardActions.vue'
 

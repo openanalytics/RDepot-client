@@ -29,7 +29,7 @@ import {
   openApiRequest,
   validateRequest,
   validatedData
-} from './open_api_access'
+} from './openApiAccess'
 import { isAuthorized } from '@/plugins/casl'
 
 type ValidatedNewsFeed = Promise<

@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import SubmissionList from '@/components/submissions/SubmissionList.vue'
+import SubmissionList from '@/components/submissions/SubmissionsList.vue'
 import FiltrationBar from '@/components/submissions/FiltrationBar.vue'
 import { computed } from 'vue'
 import { useCommonStore } from '@/store/common'

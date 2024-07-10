@@ -74,7 +74,7 @@ import CardActions from '@/components/common/overlay/CardActions.vue'
 import { useClipboard } from '@vueuse/core'
 import { useToast } from '@/composable/toasts'
 import { useI18n } from 'vue-i18n'
-import { useAccessTokensStore } from '@/store/access_tokens'
+import { useAccessTokensStore } from '@/store/accessTokens'
 import { useCommonStore } from '@/store/common'
 import { i18n } from '@/plugins/i18n'
 

@@ -51,7 +51,7 @@ import { toTypedSchema } from '@vee-validate/zod'
 import { ref } from 'vue'
 import { z } from 'zod'
 import { useUtilities } from '@/composable/utilities'
-import { useAccessTokensStore } from '@/store/access_tokens'
+import { useAccessTokensStore } from '@/store/accessTokens'
 import CardActions from '@/components/common/overlay/CardActions.vue'
 import { useCommonStore } from '@/store/common'
 

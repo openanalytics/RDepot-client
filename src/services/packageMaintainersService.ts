@@ -30,7 +30,7 @@ import {
   openApiRequest,
   validateRequest,
   validatedData
-} from '@/services/open_api_access'
+} from '@/services/openApiAccess'
 import { createPatch } from 'rfc6902'
 import { useSortStore } from '@/store/sort'
 import { isAuthorized } from '@/plugins/casl'

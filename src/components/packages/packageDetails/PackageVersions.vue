@@ -47,7 +47,7 @@
 
 <script setup lang="ts">
 import router from '@/plugins/router'
-import { usePackageDetailsStore } from '@/store/package_details'
+import { usePackageDetailsStore } from '@/store/packageDetails'
 import { computed } from 'vue'
 
 const packageDetailsStore = usePackageDetailsStore()

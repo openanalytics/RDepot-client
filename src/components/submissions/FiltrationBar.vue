@@ -21,7 +21,7 @@
 -->
 
 <template>
-  <DatePicker
+  <DatePickerField
     v-model="showDatepicker"
     :previous-date="fromDatePicker"
     :direction="changedDate"
@@ -149,7 +149,7 @@ import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useSubmissionStore } from '@/store/submission'
 import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesFiltration'
-import DatePicker from '@/components/common/fields/DatePicker.vue'
+import DatePickerField from '@/components/common/fields/DatePickerField.vue'
 import { useDatePicker } from '@/composable/datePicker'
 import ResetButton from '@/components/common/buttons/ResetButton.vue'
 import { computed } from 'vue'

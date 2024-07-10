@@ -25,7 +25,7 @@ import {
   openApiRequest,
   validateRequest,
   validatedData
-} from './open_api_access'
+} from './openApiAccess'
 import { createPatch } from 'rfc6902'
 import {
   ApiV2UserControllerApiFactory,

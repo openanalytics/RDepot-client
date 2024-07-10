@@ -110,7 +110,7 @@ import { computed } from 'vue'
 import { ref } from 'vue'
 import { useSort } from '@/composable/sort'
 import AddToken from '@/components/common/buttons/AddToken.vue'
-import { useAccessTokensStore } from '@/store/access_tokens'
+import { useAccessTokensStore } from '@/store/accessTokens'
 
 const pagination = usePagination()
 const authorizationStore = useAuthorizationStore()

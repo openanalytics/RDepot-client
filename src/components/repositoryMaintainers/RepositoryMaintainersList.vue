@@ -86,7 +86,7 @@
 
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
+import { useRepositoryMaintainersStore } from '@/store/repositoryMaintainers'
 import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
 import EditIcon from '@/components/common/action_icons/EditIcon.vue'
 import { usePagination } from '@/store/pagination'
