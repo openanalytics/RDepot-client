@@ -51,7 +51,7 @@ describe('ModalOverlay - chosen component', () => {
 
   it('renders chosen component', () => {
     expect(
-      wrapper.findComponent('user-edit-stub').exists()
+      wrapper.findComponent('edit-user-modal-stub').exists()
     ).toBe(true)
   })
 
