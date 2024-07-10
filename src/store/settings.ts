@@ -43,8 +43,7 @@ export const useSettingsStore = defineStore(
       saveChanges() {
         this.changes = false
         this.newSettings = undefined
-      },
-      fetchSettings() {}
+      }
     }
   }
 )

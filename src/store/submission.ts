@@ -99,9 +99,7 @@ export const useSubmissionStore = defineStore(
       }
     },
     actions: {
-      async fetchSubmissionsPage(
-        options: DataTableOptions
-      ) {
+      async getPage(options: DataTableOptions) {
         this.loading = true
         const [submissions, pageData] = await fetch(
           this.filtration,
@@ -115,7 +113,7 @@ export const useSubmissionStore = defineStore(
         this.totalNumber = pageData.totalNumber
         this.submissions = submissions
       },
-      async fetchSubmissions() {
+      async get() {
         const pagination = usePagination()
         const authorizationStore = useAuthorizationStore()
         const pageData = await this.fetchData(
@@ -145,8 +143,7 @@ export const useSubmissionStore = defineStore(
         this.submissions = submissions
         return pageData
       },
-
-      async updateSubmission(
+      async patch(
         oldSubmission: EntityModelSubmissionDto,
         newValues: Partial<EntityModelSubmissionDto>
       ) {
@@ -159,7 +156,7 @@ export const useSubmissionStore = defineStore(
           newSubmission
         ).then(async (response) => {
           if (Object.keys(response[0]).length > 0) {
-            await this.fetchSubmissions()
+            await this.get()
           }
         })
       },
@@ -212,36 +209,6 @@ export const useSubmissionStore = defineStore(
       ) {
         this.repository = payload
       },
-      async setFiltration(payload: SubmissionsFiltration) {
-        const pagination = usePagination()
-        pagination.resetPage()
-        if (
-          SubmissionsFiltration.safeParse(payload).success
-        ) {
-          this.filtration =
-            SubmissionsFiltration.parse(payload)
-        }
-        await this.fetchSubmissions()
-        const toasts = useToast()
-        toasts.success(
-          i18n.t('notifications.successFiltration')
-        )
-      },
-      clearFiltration() {
-        const pagination = usePagination()
-        pagination.resetPage()
-        this.filtration = defaultValues(
-          SubmissionsFiltration
-        )
-      },
-      async clearFiltrationAndFetch() {
-        this.clearFiltration()
-        await this.fetchSubmissions()
-        const toasts = useToast()
-        toasts.success(
-          i18n.t('notifications.successFiltrationReset')
-        )
-      },
       updateStepperKey() {
         this.stepperKey += 1
         if (this.stepperKey > 100) {
@@ -289,6 +256,36 @@ export const useSubmissionStore = defineStore(
               }
             })
         })
+      },
+      async setFiltration(payload: SubmissionsFiltration) {
+        const pagination = usePagination()
+        pagination.resetPage()
+        if (
+          SubmissionsFiltration.safeParse(payload).success
+        ) {
+          this.filtration =
+            SubmissionsFiltration.parse(payload)
+        }
+        await this.get()
+        const toasts = useToast()
+        toasts.success(
+          i18n.t('notifications.successFiltration')
+        )
+      },
+      clearFiltration() {
+        const pagination = usePagination()
+        pagination.resetPage()
+        this.filtration = defaultValues(
+          SubmissionsFiltration
+        )
+      },
+      async clearFiltrationAndFetch() {
+        this.clearFiltration()
+        await this.get()
+        const toasts = useToast()
+        toasts.success(
+          i18n.t('notifications.successFiltrationReset')
+        )
       },
       getLabels() {
         return submissionsFiltrationLabels

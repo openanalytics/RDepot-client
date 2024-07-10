@@ -183,10 +183,10 @@ const filteredHeaders = computed(() => {
 
 function fetchData(options: DataTableOptions) {
   sortBy.value = getSort(options.sortBy, defaultSort)
-  accessTokensStore.fetchTokensPage(options)
+  accessTokensStore.getPage(options)
 }
 
 function setEditEntity(item: EntityModelAccessTokenDto) {
-  accessTokensStore.setChosenToken(item)
+  accessTokensStore.setChosen(item)
 }
 </script>

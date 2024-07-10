@@ -168,14 +168,14 @@ async function loadMoreEvents() {
     element.getBoundingClientRect().bottom <
       window.innerHeight
   ) {
-    await eventsStore.fetchNextPageEvents()
+    await eventsStore.getPage()
   }
 }
 
 var lastScrollTop = 0
 
 onMounted(async () => {
-  await eventsStore.fetchEvents()
+  await eventsStore.get()
   nextTick(() => {
     window.addEventListener('scroll', () => {
       var st =
