@@ -70,10 +70,6 @@ export type Ability = PureAbility<
 export const Ability = PureAbility as AbilityClass<Ability>
 
 export function defineAbilityFor(role: Role) {
-  console.log([
-    ...FrontendRoute.options,
-    ...BackendRoute.options
-  ])
   const { can, build } = new AbilityBuilder(Ability)
   if (isAtLeastUser(role)) {
     can('GET', [
