@@ -37,36 +37,21 @@ import { z } from 'zod'
 import { RouteRecordName } from 'vue-router'
 import { useAuthorizationStore } from '@/store/authorization'
 
-const FrontendRoute = z.enum([
-  'Home',
-  'login',
-  'repositories',
-  'repositoryDetails',
-  'repositoryMaintainers',
-  'submissions',
-  'packages',
-  'packageDetails',
-  'packageMaintainers',
-  'addSubmission',
-  'events',
-  'settings',
-  'config'
-])
+const FrontendRoute = z.enum(['Home', 'packageDetails'])
 
 const BackendRoute = z.enum([
+  'config',
   'events',
   'login',
-  'Home',
-  'users',
-  'packages',
   'packageMaintainers',
+  'packages',
+  'package',
   'repositories',
   'repositoryMaintainers',
-  'package',
   'repository',
-  'submissions',
   'settings',
-  'config'
+  'submissions',
+  'users'
 ])
 
 const Subject = z.enum([
@@ -85,6 +70,10 @@ export type Ability = PureAbility<
 export const Ability = PureAbility as AbilityClass<Ability>
 
 export function defineAbilityFor(role: Role) {
+  console.log([
+    ...FrontendRoute.options,
+    ...BackendRoute.options
+  ])
   const { can, build } = new AbilityBuilder(Ability)
   if (isAtLeastUser(role)) {
     can('GET', [
@@ -94,41 +83,41 @@ export function defineAbilityFor(role: Role) {
       'packages',
       'packageDetails',
       'repositories',
-      'repositoryDetails',
       'package',
       'repository',
-      'config'
+      'config',
+      'submissions',
+      'settings'
     ])
-
-    can(['GET', 'PATCH', 'POST'], 'submissions')
-    can(['GET', 'POST'], 'settings')
+    can('PATCH', 'submissions')
+    can('POST', ['submissions', 'settings'])
   }
 
   if (isAtLeastPackageMaintainer(role)) {
     can('PATCH', 'package')
-    can('GET', 'addSubmission')
   }
 
   if (isAtLeastRepositoryMaintainer(role)) {
-    can(['GET', 'POST', 'PATCH'], 'packageMaintainers')
-
-    can('PATCH', 'repository')
+    can('GET', 'packageMaintainers')
+    can('PATCH', ['packageMaintainers', 'repository'])
+    can('POST', 'packageMaintainers')
   }
 
   if (isAtLeastAdmin(role)) {
-    can(['GET', 'POST', 'PATCH', 'DELETE'], 'users')
-
-    can(
-      ['GET', 'POST', 'PATCH', 'DELETE'],
-      'repositoryMaintainers'
-    )
-
-    can(['POST', 'DELETE'], 'repository')
-
+    can('GET', ['users', 'repositoryMaintainers'])
     can('DELETE', [
+      'users',
+      'repositoryMaintainers',
+      'repository',
       'packageMaintainers',
       'package',
       'submissions'
+    ])
+    can('PATCH', ['users', 'repositoryMaintainers'])
+    can('POST', [
+      'users',
+      'repositoryMaintainers',
+      'repository'
     ])
   }
 

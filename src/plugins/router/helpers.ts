@@ -40,14 +40,6 @@ export async function loadPackageDetails(
   return packageDetailsStore.get(id, technology)
 }
 
-export async function loadRepositoryDetails(name: string) {
-  const packageStore = usePackagesStore()
-  return packageStore.getPackages({
-    repository: [name],
-    deleted: false
-  })
-}
-
 export async function redirectToLoginPage() {
   return '/login'
 }
@@ -131,9 +123,6 @@ export async function prepareStores(to: any, from: any) {
         Number(to.params.id),
         to.params.technology as Technologies
       )
-      break
-    case 'repositoryDetails':
-      await loadRepositoryDetails(String(to.params.name))
       break
     case 'users':
       useUserStore().clearFiltration()
