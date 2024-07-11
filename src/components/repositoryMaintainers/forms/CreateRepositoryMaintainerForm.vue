@@ -226,7 +226,7 @@ function setMaintainer() {
       repository: { id: values.repository?.value }
     }
     maintainersStore
-      .createMaintainer(maintainer)
+      .create(maintainer)
       .then(() => {
         commonStore.closeOverlay()
       })

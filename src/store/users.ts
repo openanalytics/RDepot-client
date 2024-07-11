@@ -25,7 +25,6 @@ import {
   fetchRoles,
   fetchUsers,
   updateUser,
-  fetchAllUsers,
   fetchFullUsersList,
   fetch
 } from '@/services/usersServices'
@@ -71,7 +70,7 @@ export const useUserStore = defineStore('userStore', {
     }
   },
   actions: {
-    async fetchUsersPage(options: DataTableOptions) {
+    async getPage(options: DataTableOptions) {
       this.loading = true
       const [users, pageData] = await fetch(
         this.filtration,
@@ -85,7 +84,17 @@ export const useUserStore = defineStore('userStore', {
       this.loading = false
       this.users = users
     },
-    async fetchUsers() {
+    async getList(page: number, pageSize = 3) {
+      const [repositories, pageData] =
+        await fetchFullUsersList(
+          page,
+          pageSize,
+          this.filtration
+        )
+      this.users = repositories
+      return pageData
+    },
+    async get() {
       const pagination = usePagination()
       const [users, pageData] = await fetchUsers(
         pagination.fetchPage,
@@ -96,32 +105,14 @@ export const useUserStore = defineStore('userStore', {
       pagination.newPageWithoutRefresh(pageData.page)
       pagination.totalNumber = pageData.totalNumber
     },
-    async fetchAllUsers() {
-      const pagination = usePagination()
-      const [users, pageData] = await fetchAllUsers(
-        pagination.fetchPage,
-        pagination.pageSize,
-        undefined
-      )
-      this.users = users
-      pagination.newPageWithoutRefresh(pageData.page)
-      pagination.totalNumber = pageData.totalNumber
-    },
-    async fetchUsersList(page: number, pageSize = 3) {
-      const [repositories, pageData] =
-        await fetchFullUsersList(
-          page,
-          pageSize,
-          this.filtration
-        )
-      this.users = repositories
-      return pageData
-    },
-    async fetchRoles() {
+    async getRoles() {
       if (this.roles.length === 0) {
         const [roles] = await fetchRoles()
         this.roles = roles
       }
+    },
+    async save(newUser: EntityModelUserDto) {
+      await updateUser(this.chosenUser, newUser)
     },
     async setFiltration(payload: UsersFiltration) {
       const pagination = usePagination()
@@ -129,19 +120,19 @@ export const useUserStore = defineStore('userStore', {
       if (UsersFiltration.safeParse(payload).success) {
         this.filtration = UsersFiltration.parse(payload)
       }
-      await this.fetchUsers()
+      await this.get()
     },
-    setFiltrationByName(payload: string | undefined) {
+    setFiltrationBy(filtration: object) {
       this.clearFiltration()
-      this.filtration.search = payload
+      this.filtration = {
+        ...defaultValues(UsersFiltration),
+        ...(filtration as UsersFiltration)
+      }
     },
     clearFiltration() {
       const pagination = usePagination()
       pagination.resetPage()
       this.filtration = defaultValues(UsersFiltration)
-    },
-    async saveUser(newUser: EntityModelUserDto) {
-      await updateUser(this.chosenUser, newUser)
     },
     roleIdToRole(roleId: number) {
       return this.roles.length !== 0

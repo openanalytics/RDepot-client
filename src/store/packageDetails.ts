@@ -69,10 +69,7 @@ export const usePackageDetailsStore = defineStore(
       }
     },
     actions: {
-      async fetchPackage(
-        id: number,
-        technology: Technologies
-      ) {
+      async get(id: number, technology: Technologies) {
         this.packages = []
         const [packageBag] = await fetchPackageServices(
           id,
@@ -86,18 +83,19 @@ export const usePackageDetailsStore = defineStore(
         if (packageBag.submission?.id != undefined) {
           this.submission = (await fetchSubmission(id))[0]
         }
-        this.fetchAllPackageVersions()
+        this.getPackageVersions()
         if (
           this.packageBag.id &&
           this.packageBag.technology === 'R'
         ) {
-          this.fetchVignettes(this.packageBag.id)
+          this.getVignettes(this.packageBag.id)
         }
       },
-      async fetchAllPackageVersions(
-        page = 0,
-        pageSize = 10
-      ) {
+      async getVignettes(id: number) {
+        const [vignettes] = await fetchVignettes(id)
+        this.vignettes = vignettes
+      },
+      async getPackageVersions(page = 0, pageSize = 10) {
         if (this.packageBag) {
           const filtration = defaultValues(
             PackagesFiltration
@@ -117,11 +115,11 @@ export const usePackageDetailsStore = defineStore(
             )
           this.packages = [...this.packages, ...packages]
           if (this.packages.length < pageData.totalNumber) {
-            this.fetchAllPackageVersions(pageData.page + 1)
+            this.getPackageVersions(pageData.page + 1)
           }
         }
       },
-      async downloadManual(id: string, fileName: string) {
+      async getManual(id: string, fileName: string) {
         await downloadReferenceManual(id, fileName).then()
       },
       async openVignette(id: string, fileName: string) {
@@ -137,7 +135,7 @@ export const usePackageDetailsStore = defineStore(
           ).then()
         }
       },
-      async downloadVignette(id: string, fileName: string) {
+      async getVignette(id: string, fileName: string) {
         if (fileName.split('.html').length > 1) {
           await downloadVignetteHtml(
             id,
@@ -150,7 +148,7 @@ export const usePackageDetailsStore = defineStore(
           ).then()
         }
       },
-      async downloadSourceFile(
+      async getSourceFile(
         id: string,
         name: string,
         version: string,
@@ -162,10 +160,6 @@ export const usePackageDetailsStore = defineStore(
           version,
           technology
         ).then()
-      },
-      async fetchVignettes(id: number) {
-        const [vignettes] = await fetchVignettes(id)
-        this.vignettes = vignettes
       }
     }
   }

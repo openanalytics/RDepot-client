@@ -240,7 +240,7 @@ const filteredHeaders = computed(() => {
 
 function fetchData(options: DataTableOptions) {
   sortBy.value = getSort(options.sortBy, defaultSort)
-  repositoryStore.fetchRepositoriesPage(options)
+  repositoryStore.getPage(options)
 }
 
 function navigate(_event: Event, dataTableRepo: any) {
@@ -268,23 +268,23 @@ function updateRepositoryPublished(
     oldRepository.published = !oldRepository.published
     updateRepository(item, oldRepository).then(
       () => {
-        repositoryStore.fetchRepositories()
+        repositoryStore.getRepositories()
       },
       () => {
-        repositoryStore.fetchRepositories()
+        repositoryStore.getRepositories()
       }
     )
   }
 }
 
 function chooseRepository(name: string) {
-  packagesStore.setFiltrationByRepositoryOnly(name)
+  packagesStore.setFiltrationBy({ repository: [name] })
 }
 
 function chooseRepositoryToUpdate(
   item: EntityModelRepositoryDto
 ) {
-  repositoryStore.setChosenRepository(item.id)
+  repositoryStore.setChosen(item.id)
 }
 </script>
 

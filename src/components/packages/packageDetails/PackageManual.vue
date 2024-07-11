@@ -49,7 +49,7 @@ async function getManual() {
     packageDetailsStore.packageBag &&
     packageDetailsStore.packageBag.id
   ) {
-    await packageDetailsStore.downloadManual(
+    await packageDetailsStore.getManual(
       packageDetailsStore.packageBag.id.toString(),
       `${packageDetailsStore.packageBag.name}_${packageDetailsStore.packageBag.version}_manual`
     )

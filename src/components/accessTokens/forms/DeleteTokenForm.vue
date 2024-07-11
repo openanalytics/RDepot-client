@@ -48,6 +48,6 @@ import { useAccessTokensStore } from '@/store/accessTokens'
 const accessTokensStore = useAccessTokensStore()
 
 function deleteToken() {
-  accessTokensStore.deleteToken()
+  accessTokensStore.delete()
 }
 </script>

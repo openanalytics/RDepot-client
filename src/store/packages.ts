@@ -32,8 +32,6 @@ import {
 } from '@/openapi'
 import {
   downloadReferenceManual,
-  downloadVignetteHtml,
-  downloadSourceFile,
   fetchPackageServices,
   updatePythonPackage,
   updateRPackage,
@@ -84,7 +82,7 @@ export const usePackagesStore = defineStore(
       }
     },
     actions: {
-      async fetchPackagesPage(options: DataTableOptions) {
+      async getPage(options: DataTableOptions) {
         if (options.sortBy.length == 0) {
           options.sortBy = [{ key: 'name', order: 'asc' }]
         }
@@ -101,7 +99,29 @@ export const usePackagesStore = defineStore(
           this.loading = false
         })
       },
-      async fetchPackages(filtration?: PackagesFiltration) {
+      async getList(page: number, pageSize = 8) {
+        const [packages, pageData] =
+          await fetchFullPackagesList(
+            page,
+            pageSize,
+            this.filtration
+          )
+        this.packages = packages
+        return pageData
+      },
+      async get(id: number, technology: Technologies) {
+        this.package = (
+          await fetchPackageServices(id, technology)
+        )[0]
+        if (this.package?.submission?.id) {
+          this.submission = (
+            await fetchSubmission(
+              this.package.submission.id
+            )
+          )[0]
+        }
+      },
+      async getPackages(filtration?: PackagesFiltration) {
         const pagination = usePagination()
         const pageData = await this.fetchData(
           pagination.fetchPage,
@@ -111,15 +131,10 @@ export const usePackagesStore = defineStore(
         pagination.newPageWithoutRefresh(pageData.page)
         pagination.totalNumber = pageData.totalNumber
       },
-      async fetchPackagesList(page: number, pageSize = 8) {
-        const [packages, pageData] =
-          await fetchFullPackagesList(
-            page,
-            pageSize,
-            this.filtration
-          )
-        this.packages = packages
-        return pageData
+      async getManual(id: string, fileName: string) {
+        await downloadReferenceManual(id, fileName).then(
+          () => {}
+        )
       },
       async fetchData(
         page: number,
@@ -137,28 +152,31 @@ export const usePackagesStore = defineStore(
         this.packages = packages
         return pageData
       },
-      async fetchPackage(
-        id: number,
-        technology: Technologies
-      ) {
-        this.package = (
-          await fetchPackageServices(id, technology)
-        )[0]
-        if (this.package?.submission?.id) {
-          this.submission = (
-            await fetchSubmission(
-              this.package.submission.id
-            )
-          )[0]
+      async delete() {
+        if (this.chosenPackage) {
+          const newPackage = deepCopy(this.chosenPackage)
+          newPackage.deleted = true
+          if (
+            this.chosenPackage.technology ===
+            Technologies.enum.Python
+          ) {
+            await deletePythonPackage(
+              this.chosenPackage,
+              newPackage
+            ).then(async (success) => {
+              if (success) await this.getPackages()
+            })
+          } else {
+            if (this.chosenPackage.id) {
+              await deleteRPackage(
+                this.chosenPackage,
+                newPackage
+              ).then(async (success) => {
+                if (success) await this.getPackages()
+              })
+            }
+          }
         }
-      },
-      async fetchRPackage(id: number) {
-        this.package = (
-          await fetchPackageServices(
-            id,
-            Technologies.Enum.R
-          )
-        )[0]
       },
       async activatePackage(
         newPackage: EntityModelPackageDto
@@ -172,64 +190,18 @@ export const usePackagesStore = defineStore(
             oldPackage,
             newPackage
           ).then(async (success) => {
-            if (success) await this.fetchPackages()
+            if (success) await this.getPackages()
           })
         } else {
           await updateRPackage(oldPackage, newPackage).then(
             async (success) => {
-              if (success) await this.fetchPackages()
+              if (success) await this.getPackages()
             }
           )
         }
       },
-      async downloadManual(id: string, fileName: string) {
-        await downloadReferenceManual(id, fileName).then(
-          () => {}
-        )
-      },
-      async downloadVignette(id: string, fileName: string) {
-        await downloadVignetteHtml(id, fileName).then(
-          () => {}
-        )
-      },
-      async downloadSourceFile(
-        id: string,
-        name: string,
-        version: string,
-        technology: string
-      ) {
-        await downloadSourceFile(
-          id,
-          name,
-          version,
-          technology
-        ).then(() => {})
-      },
-      async deletePackage() {
-        if (this.chosenPackage) {
-          const newPackage = deepCopy(this.chosenPackage)
-          newPackage.deleted = true
-          if (
-            this.chosenPackage.technology ===
-            Technologies.enum.Python
-          ) {
-            await deletePythonPackage(
-              this.chosenPackage,
-              newPackage
-            ).then(async (success) => {
-              if (success) await this.fetchPackages()
-            })
-          } else {
-            if (this.chosenPackage.id) {
-              await deleteRPackage(
-                this.chosenPackage,
-                newPackage
-              ).then(async (success) => {
-                if (success) await this.fetchPackages()
-              })
-            }
-          }
-        }
+      setChosen(payload?: EntityModelPackageDto) {
+        this.chosenPackage = payload
       },
       async setFiltration(payload: PackagesFiltration) {
         const pagination = usePagination()
@@ -238,22 +210,14 @@ export const usePackagesStore = defineStore(
           this.filtration =
             PackagesFiltration.parse(payload)
         }
-        await this.fetchPackages()
+        await this.getPackages()
       },
-      setFiltrationByName(payload: string | undefined) {
+      setFiltrationBy(filtration: object) {
         this.clearFiltration()
-        this.filtration.search = payload
-      },
-      setFiltrationByRepositoryOnly(payload?: string) {
-        this.filtration = defaultValues(PackagesFiltration)
-        this.filtration.repository = payload
-          ? [payload]
-          : undefined
-      },
-      setFiltrationWithoutRefresh(
-        payload: PackagesFiltration
-      ) {
-        this.filtration = payload
+        this.filtration = {
+          ...defaultValues(PackagesFiltration),
+          ...(filtration as PackagesFiltration)
+        }
       },
       clearFiltration() {
         const pagination = usePagination()
@@ -262,10 +226,7 @@ export const usePackagesStore = defineStore(
       },
       async clearFiltrationAndFetch() {
         this.clearFiltration()
-        await this.fetchPackages()
-      },
-      setChosenPackage(payload?: EntityModelPackageDto) {
-        this.chosenPackage = payload
+        await this.getPackages()
       },
       getLabels() {
         return packagesFiltrationLabels

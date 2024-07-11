@@ -37,12 +37,12 @@ export async function loadPackageDetails(
   technology: Technologies
 ) {
   const packageDetailsStore = usePackageDetailsStore()
-  return packageDetailsStore.fetchPackage(id, technology)
+  return packageDetailsStore.get(id, technology)
 }
 
 export async function loadRepositoryDetails(name: string) {
   const packageStore = usePackagesStore()
-  return packageStore.fetchPackages({
+  return packageStore.getPackages({
     repository: [name],
     deleted: false
   })

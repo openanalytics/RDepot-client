@@ -86,7 +86,7 @@ describe('Event Store', () => {
 
   it('Edit filtration', () => {
     const eventsStore = useEventsStore()
-    const spy = vi.spyOn(eventsStore, 'fetchEvents')
+    const spy = vi.spyOn(eventsStore, 'get')
     const filtration = randomFiltration
 
     expect(spy).toHaveBeenCalledTimes(0)
@@ -116,7 +116,7 @@ describe('Event Store', () => {
 
   it('Clear filtration and fetch events', () => {
     const eventsStore = useEventsStore()
-    const spy = vi.spyOn(eventsStore, 'fetchEvents')
+    const spy = vi.spyOn(eventsStore, 'get')
     eventsStore.filtration = randomFiltration
 
     expect(spy).toHaveBeenCalledTimes(0)
@@ -134,7 +134,7 @@ describe('Event Store', () => {
   it('Fetch events', async () => {
     const eventsStore = useEventsStore()
 
-    await eventsStore.fetchEvents()
+    await eventsStore.get()
 
     expect(eventsStore.events).toStrictEqual(
       events.data.content
@@ -143,12 +143,12 @@ describe('Event Store', () => {
 
   it('Fetch next page with undefined next and page 0', async () => {
     const eventsStore = useEventsStore()
-    const spy = vi.spyOn(eventsStore, 'fetchEvents')
+    const spy = vi.spyOn(eventsStore, 'get')
 
     expect(eventsStore.next).toBe(undefined)
     expect(eventsStore.page).toBe(0)
 
-    await eventsStore.fetchNextPageEvents()
+    await eventsStore.getPage()
 
     expect(eventsStore.next).toBe(undefined)
     expect(eventsStore.page).toBe(0)
@@ -157,9 +157,9 @@ describe('Event Store', () => {
 
   it('Fetch next page with non-undefined next and page 0', async () => {
     const eventsStore = useEventsStore()
-    const spy = vi.spyOn(eventsStore, 'fetchEvents')
+    const spy = vi.spyOn(eventsStore, 'get')
 
-    await eventsStore.fetchEvents()
+    await eventsStore.get()
 
     expect(eventsStore.next).toBeTruthy()
     expect(eventsStore.page).toBe(events.data.page.number)
@@ -168,7 +168,7 @@ describe('Event Store', () => {
     )
     expect(spy).toBeCalledTimes(1)
 
-    await eventsStore.fetchNextPageEvents()
+    await eventsStore.getPage()
 
     expect(eventsStore.next).toBeTruthy()
     expect(eventsStore.page).toBe(events.data.page.number)

@@ -90,7 +90,7 @@ export const useAccessTokensStore = defineStore(
       }
     },
     actions: {
-      async fetchTokensPage(options: DataTableOptions) {
+      async getPage(options: DataTableOptions) {
         this.loading = true
         const [tokens, pageData] = await fetch(
           this.filtration,
@@ -104,7 +104,7 @@ export const useAccessTokensStore = defineStore(
         this.totalNumber = pageData.totalNumber
         this.tokens = tokens
       },
-      async fetchTokens() {
+      async get() {
         const pagination = usePagination()
         const authorizationStore = useAuthorizationStore()
         const pageData = await this.fetchData(
@@ -133,58 +133,7 @@ export const useAccessTokensStore = defineStore(
         this.tokens = tokens
         return pageData
       },
-      async setFiltration(payload: TokensFiltration) {
-        const pagination = usePagination()
-        pagination.resetPage()
-        if (TokensFiltration.safeParse(payload).success) {
-          this.filtration = TokensFiltration.parse(payload)
-        }
-        await this.fetchTokens()
-        const toasts = useToast()
-        toasts.success(
-          i18n.t('notifications.successFiltration')
-        )
-      },
-      clearFiltration() {
-        const pagination = usePagination()
-        pagination.resetPage()
-        this.filtration = defaultValues(TokensFiltration)
-      },
-      setChosenToken(payload: EntityModelAccessTokenDto) {
-        this.currentToken = payload
-        this.saveToken()
-      },
-      saveToken() {
-        this.tokens = this.tokens.map(
-          (token: EntityModelAccessTokenDto) => {
-            if (token.id == this.currentToken.id) {
-              return this.currentToken
-            }
-            return token
-          }
-        )
-      },
-
-      resetNewToken() {
-        setTimeout(() => (this.newToken = ''), 200)
-      },
-      async createToken(newToken: CreateAccessTokenDto) {
-        await createToken(newToken)?.then(
-          async (success) => {
-            if (success) {
-              const commonStore = useCommonStore()
-              commonStore.closeOverlay()
-              this.newToken = success[0].value
-              commonStore.openOverlay(
-                OverlayEnum.enum.Created
-              )
-              await this.fetchTokens()
-            }
-          }
-        )
-      },
-
-      async deleteToken() {
+      async delete() {
         if (this.currentToken?.id) {
           await deleteToken(this.currentToken.id).then(
             async () => {
@@ -194,14 +143,13 @@ export const useAccessTokensStore = defineStore(
               )
               const commonStore = useCommonStore()
               commonStore.closeOverlay()
-              await this.fetchTokens()
+              await this.get()
             }
           )
         }
         this.currentToken = {}
       },
-
-      async editToken(
+      async patch(
         oldToken: EntityModelAccessTokenDto,
         newValues: Partial<EntityModelAccessTokenDto>
       ) {
@@ -216,13 +164,27 @@ export const useAccessTokensStore = defineStore(
               toast.success(
                 i18n.t('settings.message.edited')
               )
-              await this.fetchTokens()
+              await this.get()
             }
           }
         )
       },
-
-      async deactivateToken(
+      async create(newToken: CreateAccessTokenDto) {
+        await createToken(newToken)?.then(
+          async (success) => {
+            if (success) {
+              const commonStore = useCommonStore()
+              commonStore.closeOverlay()
+              this.newToken = success[0].value
+              commonStore.openOverlay(
+                OverlayEnum.enum.Created
+              )
+              await this.get()
+            }
+          }
+        )
+      },
+      async deactivate(
         oldToken: EntityModelAccessTokenDto,
         newValues: Partial<EntityModelAccessTokenDto>
       ) {
@@ -239,10 +201,44 @@ export const useAccessTokensStore = defineStore(
               )
               const commonStore = useCommonStore()
               commonStore.closeOverlay()
-              await this.fetchTokens()
+              await this.get()
             }
           }
         )
+      },
+      reset() {
+        setTimeout(() => (this.newToken = ''), 200)
+      },
+      setChosen(payload: EntityModelAccessTokenDto) {
+        this.currentToken = payload
+        this.save()
+      },
+      save() {
+        this.tokens = this.tokens.map(
+          (token: EntityModelAccessTokenDto) => {
+            if (token.id == this.currentToken.id) {
+              return this.currentToken
+            }
+            return token
+          }
+        )
+      },
+      async setFiltration(payload: TokensFiltration) {
+        const pagination = usePagination()
+        pagination.resetPage()
+        if (TokensFiltration.safeParse(payload).success) {
+          this.filtration = TokensFiltration.parse(payload)
+        }
+        await this.get()
+        const toasts = useToast()
+        toasts.success(
+          i18n.t('notifications.successFiltration')
+        )
+      },
+      clearFiltration() {
+        const pagination = usePagination()
+        pagination.resetPage()
+        this.filtration = defaultValues(TokensFiltration)
       }
     }
   }

@@ -180,10 +180,10 @@ function updateUserActive(item: EntityModelUserDto): void {
     oldUser.active = !oldUser.active
     updateUser(oldUser, item).then(
       () => {
-        userStore.fetchUsers()
+        userStore.get()
       },
       () => {
-        userStore.fetchUsers()
+        userStore.get()
       }
     )
   }
@@ -191,10 +191,10 @@ function updateUserActive(item: EntityModelUserDto): void {
 
 function fetchData(options: DataTableOptions) {
   sortBy.value = getSort(options.sortBy, defaultSort)
-  userStore.fetchUsersPage(options)
+  userStore.getPage(options)
 }
 
 onMounted(() => {
-  userStore.fetchRoles()
+  userStore.getRoles()
 })
 </script>

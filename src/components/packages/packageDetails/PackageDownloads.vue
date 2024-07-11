@@ -49,7 +49,7 @@ async function getSourceFile() {
     packageBag.value.version &&
     packageBag.value.technology
   ) {
-    await packageDetailsStore.downloadSourceFile(
+    await packageDetailsStore.getSourceFile(
       packageBag.value.id.toString(),
       packageBag.value.name,
       packageBag.value.version,

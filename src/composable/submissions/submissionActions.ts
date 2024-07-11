@@ -60,7 +60,7 @@ export function useSubmissionActions() {
   ) {
     const submissionStore = useSubmissionStore()
     if (submission) {
-      await submissionStore.updateSubmission(submission, {
+      await submissionStore.patch(submission, {
         state: state
       })
     }

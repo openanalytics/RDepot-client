@@ -293,7 +293,7 @@ async function createMaintainer() {
       packageName: values.package?.value,
       repository: { id: values.repository?.value }
     }
-    await maintainersStore.createMaintainer(maintainer)
+    await maintainersStore.create(maintainer)
     filtratePackagesObjects(undefined)
     filtrateRepositoriesObjects(undefined)
     filtrateUsers(undefined)

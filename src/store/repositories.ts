@@ -29,10 +29,7 @@ import {
   RepositoriesFiltration,
   defaultValues
 } from '@/models/Filtration'
-import {
-  fetchRepositoriesServices,
-  fetchAllUndeletedRepositoriesServices
-} from '@/services'
+import { fetchRepositoriesServices } from '@/services'
 import {
   fetch,
   fetchFullRepositoriesList,
@@ -77,9 +74,7 @@ export const useRepositoryStore = defineStore(
       }
     },
     actions: {
-      async fetchRepositoriesPage(
-        options: DataTableOptions
-      ) {
+      async getPage(options: DataTableOptions) {
         this.loading = true
         const [repositories, pageData] = await fetch(
           this.filtration,
@@ -93,10 +88,7 @@ export const useRepositoryStore = defineStore(
         this.repositories = repositories
         this.loading = false
       },
-      async fetchRepositoriesList(
-        page: number,
-        pageSize = 8
-      ) {
+      async getList(page: number, pageSize = 8) {
         const [repositories, pageData] =
           await fetchFullRepositoriesList(
             page,
@@ -106,7 +98,19 @@ export const useRepositoryStore = defineStore(
         this.repositories = repositories
         return pageData
       },
-      async fetchRepositories() {
+      async get(name: string, showProgress = true) {
+        const [repository] =
+          await fetchRepositoriesServices(
+            {
+              name: name
+            } as RepositoriesFiltration,
+            undefined,
+            undefined,
+            showProgress
+          )
+        return repository
+      },
+      async getRepositories() {
         const pagination = usePagination()
         const pageData = await this.fetchData(
           pagination.fetchPage,
@@ -115,18 +119,6 @@ export const useRepositoryStore = defineStore(
         )
         pagination.newPageWithoutRefresh(pageData.page)
         pagination.totalNumber = pageData.totalNumber
-      },
-      async fetchAllRepositories() {
-        const pagination = usePagination()
-        const pageData = await this.fetchAllData()
-        pagination.newPageWithoutRefresh(pageData.page)
-        pagination.totalNumber = pageData.totalNumber
-      },
-      async fetchAllData() {
-        const [repositories, pageData] =
-          await fetchAllUndeletedRepositoriesServices()
-        this.repositories = repositories
-        return pageData
       },
       async fetchData(
         page: number,
@@ -144,27 +136,12 @@ export const useRepositoryStore = defineStore(
         this.repositories = repositories
         return pageData
       },
-      async fetchRepository(
-        name: string,
-        showProgress = true
-      ) {
-        const [repository] =
-          await fetchRepositoriesServices(
-            {
-              name: name
-            } as RepositoriesFiltration,
-            undefined,
-            undefined,
-            showProgress
-          )
-        return repository
-      },
-      async softDelete() {
+      async deleteSoft() {
         if (this.chosenRepository) {
-          this.updateRepository({ deleted: true })
+          this.patch({ deleted: true })
         }
       },
-      async updateRepository(
+      async patch(
         newValues: Partial<EntityModelRRepositoryDto>
       ) {
         const newRepository = {
@@ -175,10 +152,19 @@ export const useRepositoryStore = defineStore(
           this.chosenRepository,
           newRepository
         ).then(() => {
-          this.fetchRepositories()
+          this.getRepositories()
         })
       },
-      setChosenRepository(id: number | undefined) {
+      async create(
+        newRepository: EntityModelRepositoryDto
+      ) {
+        await createRepository(newRepository)?.then(
+          async (success) => {
+            if (success) await this.getRepositories()
+          }
+        )
+      },
+      setChosen(id: number | undefined) {
         let flag = true
         this.repositories.forEach((repository) => {
           if (repository.id == id) {
@@ -199,14 +185,14 @@ export const useRepositoryStore = defineStore(
           this.filtration =
             RepositoriesFiltration.parse(payload)
         }
-        await this.fetchRepositories()
+        await this.getRepositories()
       },
-      setFiltrationByName(payload: string | undefined) {
+      setFiltrationBy(filtration: object) {
         this.clearFiltration()
-        this.filtration.search = payload
-      },
-      setFiltrationByNameOnly(payload: string | undefined) {
-        this.filtration.name = payload
+        this.filtration = {
+          ...defaultValues(RepositoriesFiltration),
+          ...(filtration as RepositoriesFiltration)
+        }
       },
       clearFiltration() {
         const pagination = usePagination()
@@ -217,16 +203,7 @@ export const useRepositoryStore = defineStore(
       },
       async clearFiltrationAndFetch() {
         this.clearFiltration()
-        await this.fetchRepositories()
-      },
-      async createRepository(
-        newRepository: EntityModelRepositoryDto
-      ) {
-        await createRepository(newRepository)?.then(
-          async (success) => {
-            if (success) await this.fetchRepositories()
-          }
-        )
+        await this.getRepositories()
       },
       getLabels() {
         return repositoriesFiltrationLabels

@@ -77,7 +77,7 @@ describe('repository maintainer filtration composable', () => {
     selectStore.pageSize = 1
     const spy = vi.spyOn(
       repositoryMaintainerStore,
-      'fetchMaintainersList'
+      'getList'
     )
     loadMaintainers()
     expect(spy).toHaveBeenCalledOnce()
@@ -94,7 +94,7 @@ describe('repository maintainer filtration composable', () => {
       useRepositoryMaintainersStore()
     const spy = vi.spyOn(
       repositoryMaintainerStore,
-      'fetchMaintainersList'
+      'getList'
     )
     loadMaintainers()
     expect(spy).toHaveBeenCalledOnce()
@@ -114,7 +114,7 @@ describe('repository maintainer filtration composable', () => {
     selectStore.pageSize = 1
     const spy = vi.spyOn(
       repositoryMaintainerStore,
-      'fetchMaintainersList'
+      'getList'
     )
     loadMaintainers()
     expect(spy).toHaveBeenCalledTimes(0)
@@ -140,7 +140,7 @@ describe('repository maintainer filtration composable', () => {
       useRepositoryMaintainersStore()
     const spy = vi.spyOn(
       repositoryMaintainerStore,
-      'setFiltrationByName'
+      'setFiltrationBy'
     )
     filtrateMaintainers(undefined)
     expect(spy).toHaveBeenCalledTimes(0)
@@ -154,7 +154,7 @@ describe('repository maintainer filtration composable', () => {
     repositoryMaintainerStore.filtration.search = 'value'
     const spy = vi.spyOn(
       repositoryMaintainerStore,
-      'setFiltrationByName'
+      'setFiltrationBy'
     )
     filtrateMaintainers('value2')
     expect(spy).toHaveBeenCalledOnce()
@@ -169,7 +169,7 @@ describe('repository maintainer filtration composable', () => {
     repositoryMaintainerStore.filtration.search = 'value'
     const spy = vi.spyOn(
       repositoryMaintainerStore,
-      'setFiltrationByName'
+      'setFiltrationBy'
     )
     filtrateMaintainers('value')
     expect(spy).toHaveBeenCalledTimes(0)

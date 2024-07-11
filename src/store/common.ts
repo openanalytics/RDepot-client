@@ -77,7 +77,6 @@ export const useCommonStore = defineStore('commonStore', {
         this.key = 0
       }
     },
-
     updateThemeKey() {
       this.themeKey += 1
       if (this.themeKey > 100) {

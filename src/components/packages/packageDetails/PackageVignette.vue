@@ -101,7 +101,7 @@ async function openVignette() {
 
 async function downloadVignette() {
   if (packageBag.value.id && componentProps.fileName) {
-    await packageDetailsStore.downloadVignette(
+    await packageDetailsStore.getVignette(
       packageBag.value.id.toString(),
       componentProps.fileName
     )

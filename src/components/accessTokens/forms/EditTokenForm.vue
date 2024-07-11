@@ -75,7 +75,7 @@ function editToken() {
   validate()
   if (meta.value.valid) {
     const newToken = deepCopy(localToken.value)
-    accessTokensStore.editToken(
+    accessTokensStore.patch(
       deepCopy(accessTokensStore.currentToken),
       newToken
     )

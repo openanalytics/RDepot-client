@@ -97,7 +97,7 @@ function copyContent() {
 
 function closeModal() {
   commonStore.closeOverlay()
-  accessTokensStore.resetNewToken()
+  accessTokensStore.reset()
 }
 </script>
 

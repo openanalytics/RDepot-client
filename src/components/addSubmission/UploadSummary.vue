@@ -141,7 +141,7 @@ const packagesStore = usePackagesStore()
 const { formatFilename } = useFiles()
 
 function downloadManual(id: string, fileName: string) {
-  packagesStore.downloadManual(id, fileName)
+  packagesStore.getManual(id, fileName)
 }
 </script>
 
