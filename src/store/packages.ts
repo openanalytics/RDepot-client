@@ -38,7 +38,8 @@ import {
   deletePythonPackage,
   deleteRPackage,
   fetchFullPackagesList,
-  fetch
+  fetch,
+  deletePackage
 } from '@/services/packageServices'
 import { useUtilities } from '@/composable/utilities'
 import { packagesFiltrationLabels } from '@/maps/Filtration'
@@ -46,15 +47,29 @@ import { fetchSubmission } from '@/services/submissionServices'
 import { usePagination } from './pagination'
 import { Technologies } from '@/enum/Technologies'
 import { DataTableOptions } from '@/models/DataTableOptions'
+import { validatedData } from '@/services/openApiAccess'
+import { useToast } from '@/composable/toasts'
+
+export type PackagePromise = {
+  promise: Promise<validatedData<EntityModelPackageDto>>
+  packageBag: EntityModelPackageDto
+  state: string
+  error: string[]
+  response?: validatedData<EntityModelSubmissionDto>
+}
 
 interface State {
   packages: EntityModelPackageDto[]
+  packagesToDelete: EntityModelPackageDto[]
+  packagesSelected: EntityModelPackageDto[]
   package?: EntityModelPackageDto
   submission?: EntityModelSubmissionDto
   filtration: PackagesFiltration
   chosenPackage?: EntityModelPackageDto
+  promises: PackagePromise[]
   next?: boolean
   loading: boolean
+  resolved: boolean
 }
 
 const { deepCopy } = useUtilities()
@@ -65,10 +80,14 @@ export const usePackagesStore = defineStore(
     state: (): State => {
       return {
         packages: [],
+        packagesToDelete: [],
+        packagesSelected: [],
+        promises: [],
         package: {},
         submission: {},
         filtration: defaultValues(PackagesFiltration),
         chosenPackage: undefined,
+        resolved: false,
         next: false,
         loading: false
       }
@@ -154,22 +173,24 @@ export const usePackagesStore = defineStore(
       },
       async delete() {
         if (this.chosenPackage) {
-          const newPackage = deepCopy(this.chosenPackage)
+          const oldPackage: EntityModelPackageDto =
+            deepCopy(this.chosenPackage)
+          const newPackage = deepCopy(oldPackage)
           newPackage.deleted = true
           if (
-            this.chosenPackage.technology ===
+            oldPackage.technology ===
             Technologies.enum.Python
           ) {
             await deletePythonPackage(
-              this.chosenPackage,
+              oldPackage,
               newPackage
             ).then(async (success) => {
               if (success) await this.getPackages()
             })
           } else {
-            if (this.chosenPackage.id) {
+            if (oldPackage.id) {
               await deleteRPackage(
-                this.chosenPackage,
+                oldPackage,
                 newPackage
               ).then(async (success) => {
                 if (success) await this.getPackages()
@@ -230,6 +251,72 @@ export const usePackagesStore = defineStore(
       },
       getLabels() {
         return packagesFiltrationLabels
+      },
+      async deletePackages() {
+        console.log('delete packge:')
+        const toasts = useToast()
+        this.promises = this.packagesToDelete.map(
+          (packageBag) => {
+            return {
+              promise: deletePackage(packageBag),
+              packageBag: packageBag,
+              state: 'pending',
+              error: [],
+              response: undefined
+            }
+          }
+        )
+        console.log('promises')
+        console.log(this.promises)
+        let fulfilled = 0
+        let errors = 0
+        this.promises.forEach(async (promise) => {
+          await promise.promise
+            .then((response) => {
+              console.log('promsie made')
+              console.log(response)
+              promise.response = response
+              promise.state =
+                response[3] == 'SUCCESS'
+                  ? 'success'
+                  : 'warning'
+            })
+            .catch((err) => {
+              console.log('some err')
+              promise.state = 'error'
+              errors++
+              if (err.response?.data.data) {
+                promise.error = err.response.data.data
+                toasts.error(
+                  `${promise.packageBag.name} - ${err.response.data.data}`
+                )
+              } else if (err.response?.data) {
+                promise.error = err.response.data
+                toasts.error(
+                  `${promise.packageBag.name} - ${err.response.data}`
+                )
+              }
+            })
+            .finally(() => {
+              if (++fulfilled == this.promises.length) {
+                if (errors > 0) {
+                  toasts.warning(
+                    `Deleted ${
+                      fulfilled - errors
+                    } packages, failed with deletion of ${errors} packages`
+                  )
+                } else {
+                  toasts.success(
+                    `Deleted all selected packages (${fulfilled})`
+                  )
+                }
+                this.resolved = true
+                this.promises = []
+                this.packagesToDelete = []
+                this.getPackages()
+              }
+            })
+        })
       }
     }
   }

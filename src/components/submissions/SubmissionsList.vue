@@ -225,7 +225,6 @@ const headers = computed<DataTableHeaders[]>(() => [
 
 function fetchData(options: DataTableOptions) {
   sortBy.value = getSort(options.sortBy, defaultSort)
-  sortBy.value = options.sortBy
   submissionStore.getPage(options)
 }
 

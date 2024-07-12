@@ -151,12 +151,30 @@ export const EDIT_REPOSITORY_MAINTAINER_SUBMIT_ID =
   'submit-button'
 
 //packages list
+export const PACKAGES_LIST_SELECT_ALL_ID =
+  'packages-select-all'
+export const PACKAGES_MULTI_ACTIONS_ID =
+  'packages-multi-actions'
+export const PACKAGES_MULTI_DELETE_ID =
+  'packages-multi-delete'
 export const PACKAGE_DETAILS_BUTTON_ID =
   'see-package-details-button'
 export const PACKAGES_LIST_A3_092_TESTREPO3_ID =
-  'packages-list-A3-0.9.2-testrepo3'
+  'packages-list-A3-0-9-2-testrepo3'
 export const PACKAGES_LIST_ACCELERATED_NUMPY_010_TESTREPO8_ID =
-  'packages-list-accelerated-numpy-0.1.0-testrepo8'
+  'packages-list-accelerated-numpy-0-1-0-testrepo8'
+export const PACKAGES_LIST_DELETE_MODAL =
+  'delete-packages-modal'
+export const PACKAGES_LIST_DELETE_A3_092_TESTREPO3_ID =
+  'delete-icon-A3-0-9-2-testrepo3'
+export const PACKAGES_LIST_DELETE_ACCELERATED_NUMPY_010_TESTREPO8_ID =
+  'delete-icon-accelerated-numpy-0-1-0-testrepo8'
+export const PACKAGES_LIST_CHECKBOX_ACTIONS_A3_091_TESTREPO3_ID =
+  'checkbox-actions-A3-0-9-1-testrepo3'
+export const PACKAGES_LIST_CHECKBOX_ACTIONS_ACCELERATED_NUMPY_010_TESTREPO8_ID =
+  'checkbox-actions-accelerated-numpy-0-1-0-testrepo8'
+export const PACKAGES_LIST_CHECKBOX_ACTIONS_ANACODA_0213_TESTREPO4_ID =
+  'checkbox-actions-AnaCoDa-0-1-2-3-testrepo4'
 
 //r package details
 export const R_PACKAGE_VERSION_PROPERTY_ID =
@@ -195,3 +213,7 @@ export const PYTHON_PACKAGE_LICENSE_PROPERTY_ID =
   'python-package-license-property'
 export const PYTHON_PACKAGE_HASH_PROPERTY_ID =
   'python-package-hash-property'
+
+// card actions
+export const SUBMIT_BUTTON_ID = 'submit-button'
+export const CANCEL_BUTTON_ID = 'cancel-button'

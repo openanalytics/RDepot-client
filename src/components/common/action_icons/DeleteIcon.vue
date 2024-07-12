@@ -24,7 +24,7 @@
   <VTooltip location="top">
     <template #activator="{ props }">
       <VIcon
-        id="delete-icon"
+        :id="id"
         v-bind="props"
         :color="disabled ? 'grey' : 'oared'"
         @click.stop
@@ -62,6 +62,16 @@ const componentProps = defineProps({
     type: String,
     required: false,
     default: ''
+  },
+  overlayText: {
+    type: String,
+    required: false,
+    default: ''
+  },
+  id: {
+    type: String,
+    required: false,
+    default: 'delete-icon'
   }
 })
 
@@ -70,13 +80,11 @@ const commonStore = useCommonStore()
 function deleteDialog() {
   if (!componentProps.disabled) {
     emits('setResourceId')
-    commonStore.overlayText = i18n.t(
-      'common.deleteQuestion',
-      {
+    commonStore.overlayText =
+      componentProps.overlayText ||
+      i18n.t('common.deleteQuestion', {
         resource_name: componentProps.name
-      }
-    )
-
+      })
     commonStore.openOverlay(OverlayEnum.enum.Delete)
   }
 }
