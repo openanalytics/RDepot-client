@@ -39,7 +39,9 @@ import { nextTick } from 'vue'
 import { i18n } from '@/plugins/i18n'
 import TokensList from '@/components/accessTokens/TokensList.vue'
 import { useAccessTokensStore } from '@/store/accessTokens'
+import { useDates } from '@/composable/date'
 
+const { formatDate } = useDates()
 let wrapper: any
 let authorizationStore: any
 let accessTokensStore: any
@@ -169,14 +171,18 @@ describe('Tokens - cells', () => {
     const cell = cells[1]
     const chip = cell.findComponent('.v-chip')
     expect(chip.exists()).toBeTruthy()
-    expect(chip.text()).toBe(token.creationDate)
+    expect(chip.text()).toBe(
+      formatDate(new Date(token.creationDate))
+    )
   })
 
   it('displays expiration date', () => {
     const cell = cells[2]
     const chip = cell.findComponent('.v-chip')
     expect(chip.exists()).toBeTruthy()
-    expect(chip.text()).toBe(token.expirationDate)
+    expect(chip.text()).toBe(
+      formatDate(new Date(token.expirationDate))
+    )
   })
 
   it('displays active', () => {

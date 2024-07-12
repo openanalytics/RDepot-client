@@ -48,7 +48,7 @@
         style="cursor: pointer"
         class="mr-3"
       >
-        {{ value }}</v-chip
+        {{ formatDate(new Date(value)) }}</v-chip
       >
     </template>
 
@@ -58,7 +58,7 @@
         style="cursor: pointer"
         class="mr-3"
       >
-        {{ value }}</v-chip
+        {{ formatDate(new Date(value)) }}</v-chip
       >
     </template>
     <template #[`item.active`]="{ item }">
@@ -111,7 +111,9 @@ import { ref } from 'vue'
 import { useSort } from '@/composable/sort'
 import AddToken from '@/components/common/buttons/AddToken.vue'
 import { useAccessTokensStore } from '@/store/accessTokens'
+import { useDates } from '@/composable/date'
 
+const { formatDate } = useDates()
 const pagination = usePagination()
 const authorizationStore = useAuthorizationStore()
 const accessTokensStore = useAccessTokensStore()
