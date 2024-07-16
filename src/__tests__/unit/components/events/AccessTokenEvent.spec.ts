@@ -104,14 +104,22 @@ describe('Events - Access Token (active, !deleted)', () => {
   it('display token creation date', () => {
     expect(chips[3].exists()).toBeTruthy()
     expect(chips[3].text()).toBe(
-      formatDate(new Date(relatedResource.creationDate))
+      formatDate(
+        new Date(
+          relatedResource.creationDate || '2024-01-19'
+        )
+      )
     )
   })
 
   it('display token expiration date', () => {
     expect(chips[4].exists()).toBeTruthy()
     expect(chips[4].text()).toBe(
-      formatDate(new Date(relatedResource.expirationDate))
+      formatDate(
+        new Date(
+          relatedResource.expirationDate || '2124-12-31'
+        )
+      )
     )
   })
 
