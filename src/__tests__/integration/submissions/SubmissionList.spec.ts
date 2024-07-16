@@ -29,8 +29,8 @@ import {
 } from 'vitest'
 import {
   SUBMISSIONS_SIDEBAR_ID,
-  DOWNLOAD_WAITING_SUBMISSION_ID,
-  DOWNLOAD_WAITING_SUBMISSION_FILENAME
+  DOWNLOAD_SUBMISSION_ID,
+  DOWNLOAD_SUBMISSION_FILENAME
 } from '../helpers/elementsIds'
 import { restoreData } from '../helpers/restoreData'
 import { login } from '../helpers/login'
@@ -87,36 +87,15 @@ describe('Submissions actions', () => {
       SUBMISSIONS_SIDEBAR_ID,
       'RDepot - submissions'
     )
-    await clickOnButton(
-      driver,
-      DOWNLOAD_WAITING_SUBMISSION_ID
-    )
+    await clickOnButton(driver, DOWNLOAD_SUBMISSION_ID)
     await delay(5000)
 
     expect(
       fs.existsSync(
-        pathToFileOrDir +
-          DOWNLOAD_WAITING_SUBMISSION_FILENAME
+        pathToFileOrDir + DOWNLOAD_SUBMISSION_FILENAME
       )
     ).toBe(true)
   })
-
-  // it('download accepted submission', async () => {
-  //   await login(driver, 'einstein')
-  //   await goToPage(
-  //     driver,
-  //     SUBMISSIONS_SIDEBAR_ID,
-  //     'RDepot - submissions'
-  //   )
-  //   await clickOnButton(
-  //     driver,
-  //     DOWNLOAD_ACCEPTED_SUBMISSION_ID
-  //   )
-  //   await delay(20000)
-  //   expect(
-  //     fs.existsSync(pathToFileOrDir + 'visdat_0.1.0.tar.gz')
-  //   ).toBe(true)
-  // })
 
   // it('accept submission', async () => {
   //   await login(driver, 'einstein')
@@ -125,17 +104,48 @@ describe('Submissions actions', () => {
   //     SUBMISSIONS_SIDEBAR_ID,
   //     'RDepot - submissions'
   //   )
+  //   await delay(5000)
   //   await clickOnButton(
   //     driver,
   //     WAITING_FOR_APPROVE_SUBMISSION_ID
   //   )
-  //   //TODO
-  //   // await driver.wait(
-  //   //   until.elementLocated(
-  //   //     By.id(CREATE_PACKAGE_MAINTAINER_REPOSITORY_INPUT_ID)
-  //   //   ),
-  //   //   8000
-  //   // )
+  //   await delay(5000)
+
+  //   await driver.wait(
+  //     until.elementLocated(By.id(FILTRATION_SEARCH_ID)),
+  //     8000
+  //   )
+  //   await delay(5000)
+
+  //   driver
+  //     .findElement(By.id(FILTRATION_SEARCH_ID))
+  //     .sendKeys('visdat')
+  //   await delay(5000)
+
+  //   expect(
+  //     driver.findElement(
+  //       By.id(WAITING_FOR_APPROVE_SUBMISSION_ID)
+  //     )
+  //   ).toBe(false)
+  //   expect(
+  //     driver.findElement(By.id(DOWNLOAD_SUBMISSION_ID))
+  //   ).toBe(true)
+  // })
+
+  // it('download accepted submission', async () => {
+  //   await login(driver, 'einstein')
+  //   await goToPage(
+  //     driver,
+  //     SUBMISSIONS_SIDEBAR_ID,
+  //     'RDepot - submissions'
+  //   )
+  //   await clickOnButton(driver, DOWNLOAD_SUBMISSION_ID)
+  //   await delay(20000)
+  //   expect(
+  //     fs.existsSync(
+  //       pathToFileOrDir + DOWNLOAD_SUBMISSION_FILENAME
+  //     )
+  //   ).toBe(true)
   // })
 
   // it('reject submission', async () => {

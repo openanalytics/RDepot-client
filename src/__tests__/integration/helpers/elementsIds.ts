@@ -151,14 +151,11 @@ export const EDIT_REPOSITORY_MAINTAINER_SUBMIT_ID =
   'submit-button'
 
 //submissions
-export const DOWNLOAD_WAITING_SUBMISSION_ID =
-  'download-button-19'
-export const DOWNLOAD_WAITING_SUBMISSION_FILENAME =
+export const DOWNLOAD_SUBMISSION_ID = 'download-button-19'
+export const DOWNLOAD_SUBMISSION_FILENAME =
   'visdat_0.1.0.tar.gz'
-export const DOWNLOAD_ACCEPTED_SUBMISSION_ID =
-  'download-button-8'
 export const WAITING_FOR_APPROVE_SUBMISSION_ID =
-  'accept-button-31'
+  'accept-button-19'
 export const WAITING_FOR_REJECT_SUBMISSION_ID =
   'reject-button-30'
 export const WAITING_FOR_CANCEL_SUBMISSION_ID =
@@ -209,3 +206,5 @@ export const PYTHON_PACKAGE_LICENSE_PROPERTY_ID =
   'python-package-license-property'
 export const PYTHON_PACKAGE_HASH_PROPERTY_ID =
   'python-package-hash-property'
+
+export const FILTRATION_SEARCH_ID = 'filtration-search'
