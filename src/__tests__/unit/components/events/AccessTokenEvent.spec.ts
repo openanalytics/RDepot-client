@@ -38,6 +38,7 @@ import { useDates } from '@/composable/date'
 import { i18n } from '@/plugins/i18n'
 import UpdateDescription from '@/components/events/resources/UpdateDescription.vue'
 
+const { formatDate } = useDates()
 let wrapper: any
 const globalConfig = {
   mocks: mocks,
@@ -103,14 +104,14 @@ describe('Events - Access Token (active, !deleted)', () => {
   it('display token creation date', () => {
     expect(chips[3].exists()).toBeTruthy()
     expect(chips[3].text()).toBe(
-      relatedResource.creationDate
+      formatDate(new Date(relatedResource.creationDate))
     )
   })
 
   it('display token expiration date', () => {
     expect(chips[4].exists()).toBeTruthy()
     expect(chips[4].text()).toBe(
-      relatedResource.expirationDate
+      formatDate(new Date(relatedResource.expirationDate))
     )
   })
 

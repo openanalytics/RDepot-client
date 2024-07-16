@@ -160,7 +160,10 @@
     "submissions": "Submissions",
     "submit": "Submit",
     "uploadPackages": "Upload packages",
-    "users": "Users"
+    "users": "Users",
+    "eventsTag": {
+      "copied": "Copied!"
+    }
   },
   "config": {
     "deletingPackages": "Package deletion is disabled due to the configuration",

@@ -38,6 +38,7 @@ import { i18n } from '@/plugins/i18n'
 import UpdateDescription from '@/components/events/resources/UpdateDescription.vue'
 import UserEvent from '@/components/events/resources/UserEvent.vue'
 
+const { formatDate } = useDates()
 let wrapper: any
 const globalConfig = {
   mocks: mocks,
@@ -115,13 +116,15 @@ describe('Events - User', () => {
   it('display last logged in date', () => {
     expect(chips[5].exists()).toBeTruthy()
     expect(chips[5].text()).toBe(
-      relatedResource.lastLoggedInOn
+      formatDate(new Date(relatedResource.lastLoggedInOn))
     )
   })
 
   it('display user creation date', () => {
     expect(chips[6].exists()).toBeTruthy()
-    expect(chips[6].text()).toBe(relatedResource.createdOn)
+    expect(chips[6].text()).toBe(
+      formatDate(new Date(relatedResource.createdOn))
+    )
   })
 
   it('display changes', () => {
