@@ -46,7 +46,7 @@
         style="cursor: pointer"
         class="mr-3"
       >
-        {{ value }}</v-chip
+        {{ formatDate(new Date(value)) }}</v-chip
       >
     </template>
     <template #[`item.packageBag.repository`]="{ value }">
@@ -148,7 +148,9 @@ import { i18n } from '@/plugins/i18n'
 import { ref, computed } from 'vue'
 import { useSort } from '@/composable/sort'
 import { useAuthorizationStore } from '@/store/authorization'
+import { useDates } from '@/composable/date'
 
+const { formatDate } = useDates()
 const { canPatch } = useUserAuthorities()
 const authorizationStore = useAuthorizationStore()
 

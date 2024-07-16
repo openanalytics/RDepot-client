@@ -161,7 +161,10 @@
     "submissions": "Zgłoszenia",
     "submit": "Zatwierdź",
     "uploadPackages": "Prześlij pakiety",
-    "users": "Użytkownicy"
+    "users": "Użytkownicy",
+    "eventsTag": {
+      "copied": "Skopiowano!"
+    }
   },
   "config": {
     "deletingPackages": "Usuwanie pakietu nieaktywne z powodu konfiguracji",

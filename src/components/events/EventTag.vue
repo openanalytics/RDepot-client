@@ -21,9 +21,9 @@
 -->
 
 <template>
-  <v-snackbar v-model="copied" location="right bottom"
-    >copied!</v-snackbar
-  >
+  <v-snackbar v-model="copied" location="right bottom">{{
+    $t('common.eventsTag.copied')
+  }}</v-snackbar>
   <v-tooltip :disabled="disableTooltip || !hoverMessage">
     <template #activator="{ props }">
       <v-chip
@@ -36,7 +36,11 @@
         v-bind="props"
         @click="disableCopying || !value ? '' : copy(value)"
       >
-        {{ value }}
+        {{
+          tagType === 'date'
+            ? formatDate(new Date(value))
+            : value
+        }}
       </v-chip>
     </template>
     <span>{{ hoverMessage }}</span>
@@ -47,7 +51,9 @@
 import { useClipboard } from '@vueuse/core'
 import { PropType } from 'vue'
 import { z } from 'zod'
+import { useDates } from '@/composable/date'
 
+const { formatDate } = useDates()
 const allowedVariants = z.enum([
   'tonal',
   'flat',
@@ -108,6 +114,11 @@ defineProps({
     type: String as PropType<AllowedVariants>,
     required: false,
     default: 'tonal'
+  },
+  tagType: {
+    type: String,
+    required: false,
+    default: 'string'
   }
 })
 
