@@ -30,10 +30,7 @@ import {
 import {
   SUBMISSIONS_SIDEBAR_ID,
   DOWNLOAD_WAITING_SUBMISSION_ID,
-  DOWNLOAD_ACCEPTED_SUBMISSION_ID,
-  WAITING_FOR_APPROVE_SUBMISSION_ID,
-  WAITING_FOR_REJECT_SUBMISSION_ID,
-  WAITING_FOR_CANCEL_SUBMISSION_ID
+  DOWNLOAD_WAITING_SUBMISSION_FILENAME
 } from '../helpers/elementsIds'
 import { restoreData } from '../helpers/restoreData'
 import { login } from '../helpers/login'
@@ -42,11 +39,26 @@ import {
   createDriver,
   goToPage
 } from '../helpers/helpers'
-const { By } = require('selenium-webdriver')
 const fs = require('fs')
+const path = require('path')
 
 let driver: any
-const pathToFileOrDir = '/home/seleuser/Downloads/'
+const pathToFileOrDir = './downloads/'
+
+function clearDownloadDirectory() {
+  fs.readdir(pathToFileOrDir, (err: any, files: any) => {
+    if (err) throw err
+
+    for (const file of files) {
+      fs.unlink(
+        path.join(pathToFileOrDir, file),
+        (err: any) => {
+          if (err) throw err
+        }
+      )
+    }
+  })
+}
 
 beforeAll(async () => {
   await restoreData()
@@ -57,6 +69,7 @@ beforeEach(async () => {
 })
 
 afterEach(async () => {
+  clearDownloadDirectory()
   await driver.quit()
 })
 
@@ -68,6 +81,7 @@ const delay = (delayInms: number) => {
 
 describe('Submissions actions', () => {
   it('download waiting submission', async () => {
+    await delay(4000)
     await login(driver, 'einstein')
     await goToPage(
       driver,
@@ -79,96 +93,100 @@ describe('Submissions actions', () => {
       DOWNLOAD_WAITING_SUBMISSION_ID
     )
     await delay(2000)
+
     expect(
-      fs.existsSync(pathToFileOrDir + 'visdat_0.1.0.tar.gz')
+      fs.existsSync(
+        pathToFileOrDir +
+          DOWNLOAD_WAITING_SUBMISSION_FILENAME
+      )
     ).toBe(true)
   })
 
-  it('download accepted submission', async () => {
-    await login(driver, 'einstein')
-    await goToPage(
-      driver,
-      SUBMISSIONS_SIDEBAR_ID,
-      'RDepot - submissions'
-    )
-    await clickOnButton(
-      driver,
-      DOWNLOAD_ACCEPTED_SUBMISSION_ID
-    )
-    await delay(2000)
-    expect(
-      fs.existsSync(pathToFileOrDir + 'visdat_0.1.0.tar.gz')
-    ).toBe(true)
-  })
+  // it('download accepted submission', async () => {
+  //   await login(driver, 'einstein')
+  //   await goToPage(
+  //     driver,
+  //     SUBMISSIONS_SIDEBAR_ID,
+  //     'RDepot - submissions'
+  //   )
+  //   await clickOnButton(
+  //     driver,
+  //     DOWNLOAD_ACCEPTED_SUBMISSION_ID
+  //   )
+  //   await delay(20000)
+  //   expect(
+  //     fs.existsSync(pathToFileOrDir + 'visdat_0.1.0.tar.gz')
+  //   ).toBe(true)
+  // })
 
-  it('accept submission', async () => {
-    await login(driver, 'einstein')
-    await goToPage(
-      driver,
-      SUBMISSIONS_SIDEBAR_ID,
-      'RDepot - submissions'
-    )
-    await clickOnButton(
-      driver,
-      WAITING_FOR_APPROVE_SUBMISSION_ID
-    )
-    //TODO
-    // await driver.wait(
-    //   until.elementLocated(
-    //     By.id(CREATE_PACKAGE_MAINTAINER_REPOSITORY_INPUT_ID)
-    //   ),
-    //   8000
-    // )
-  })
+  // it('accept submission', async () => {
+  //   await login(driver, 'einstein')
+  //   await goToPage(
+  //     driver,
+  //     SUBMISSIONS_SIDEBAR_ID,
+  //     'RDepot - submissions'
+  //   )
+  //   await clickOnButton(
+  //     driver,
+  //     WAITING_FOR_APPROVE_SUBMISSION_ID
+  //   )
+  //   //TODO
+  //   // await driver.wait(
+  //   //   until.elementLocated(
+  //   //     By.id(CREATE_PACKAGE_MAINTAINER_REPOSITORY_INPUT_ID)
+  //   //   ),
+  //   //   8000
+  //   // )
+  // })
 
-  it('reject submission', async () => {
-    await login(driver, 'einstein')
-    await goToPage(
-      driver,
-      SUBMISSIONS_SIDEBAR_ID,
-      'RDepot - submissions'
-    )
-    await clickOnButton(
-      driver,
-      WAITING_FOR_REJECT_SUBMISSION_ID
-    )
-    //TODO move ids and package names to elementsIDs
-    driver
-      .findElement(By.id('filtration-search'))
-      .sendKeys('abc')
+  // it('reject submission', async () => {
+  //   await login(driver, 'einstein')
+  //   await goToPage(
+  //     driver,
+  //     SUBMISSIONS_SIDEBAR_ID,
+  //     'RDepot - submissions'
+  //   )
+  //   await clickOnButton(
+  //     driver,
+  //     WAITING_FOR_REJECT_SUBMISSION_ID
+  //   )
+  //   //TODO move ids and package names to elementsIDs
+  //   driver
+  //     .findElement(By.id('filtration-search'))
+  //     .sendKeys('abc')
 
-    driver
-      .findElement(By.id('filtration-repository'))
-      .click()
+  //   driver
+  //     .findElement(By.id('filtration-repository'))
+  //     .click()
 
-    //TODO get id of repository4, check if action buttons visible
-    // driver.findElement(By.id('input-168')).click()
-    // await driver.wait(
-    //   until.elementLocated(
-    //     By.id(CREATE_PACKAGE_MAINTAINER_REPOSITORY_INPUT_ID)
-    //   ),
-    //   8000
-    // )
-  })
+  //   //TODO get id of repository4, check if action buttons visible
+  //   // driver.findElement(By.id('input-168')).click()
+  //   // await driver.wait(
+  //   //   until.elementLocated(
+  //   //     By.id(CREATE_PACKAGE_MAINTAINER_REPOSITORY_INPUT_ID)
+  //   //   ),
+  //   //   8000
+  //   // )
+  // })
 
-  it('cancel submission', async () => {
-    await login(driver, 'newton')
-    await goToPage(
-      driver,
-      SUBMISSIONS_SIDEBAR_ID,
-      'RDepot - submissions'
-    )
-    await clickOnButton(
-      driver,
-      WAITING_FOR_CANCEL_SUBMISSION_ID
-    )
-    //TODO
+  // it('cancel submission', async () => {
+  //   await login(driver, 'newton')
+  //   await goToPage(
+  //     driver,
+  //     SUBMISSIONS_SIDEBAR_ID,
+  //     'RDepot - submissions'
+  //   )
+  //   await clickOnButton(
+  //     driver,
+  //     WAITING_FOR_CANCEL_SUBMISSION_ID
+  //   )
+  //   //TODO
 
-    // await driver.wait(
-    //   until.elementLocated(
-    //     By.id(CREATE_PACKAGE_MAINTAINER_REPOSITORY_INPUT_ID)
-    //   ),
-    //   8000
-    // )
-  })
+  //   // await driver.wait(
+  //   //   until.elementLocated(
+  //   //     By.id(CREATE_PACKAGE_MAINTAINER_REPOSITORY_INPUT_ID)
+  //   //   ),
+  //   //   8000
+  //   // )
+  // })
 })

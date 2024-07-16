@@ -38,13 +38,55 @@ export async function createDriver() {
     .setChromeOptions(
       new chrome.Options().addArguments(
         '--headless',
+        '--test-type',
         '--no-sandbox',
         '--disable-dev-shm-usage',
         '--disable-gpu',
-        '--disable-extensions'
-        // '--remote-debugging-port=9222'
+        '--disable-extensions',
+        // '--remote-debugging-port=9222',
+        '--allow-running-insecure-content',
+        `--unsafely-treat-insecure-origin-as-secure=${BASE_URL}`
       )
     )
+    .withCapabilities({
+      args: [
+        'disable-infobars',
+        'enable-automation',
+        'disable-popup-blocking'
+      ],
+      excludeSwitches: [
+        'disable-infobars',
+        'enable-automation',
+        'disable-popup-blocking'
+      ],
+      prefs: {
+        download: {
+          dir: '/home/seleuser/Downloads',
+          default_directory: '/home/seleuser/Downloads',
+          prompt_for_download: 'false',
+          open_pdf_in_system_reader: false,
+          manager: {
+            useWindow: false,
+            showWhenStarting: false
+          }
+        },
+        helperApps: {
+          neverAsk: {
+            saveToDisk: '*'
+          }
+        },
+        plugins: {
+          always_open_pdf_externally: true
+        },
+        credentials_enable_service: false,
+        profile: {
+          password_manager_enabled: false,
+          default_content_settings: {
+            popups: 0
+          }
+        }
+      }
+    })
     .build()
 }
 
