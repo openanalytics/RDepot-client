@@ -81,7 +81,6 @@ const delay = (delayInms: number) => {
 
 describe('Submissions actions', () => {
   it('download waiting submission', async () => {
-    await delay(4000)
     await login(driver, 'einstein')
     await goToPage(
       driver,
@@ -92,7 +91,7 @@ describe('Submissions actions', () => {
       driver,
       DOWNLOAD_WAITING_SUBMISSION_ID
     )
-    await delay(2000)
+    await delay(5000)
 
     expect(
       fs.existsSync(

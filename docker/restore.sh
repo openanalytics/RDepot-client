@@ -4,7 +4,6 @@ rm -rf docker/testData
 cp -rf src/__tests__/integration/testData docker/
 cd docker/testData && tar -xzf itestSource.tar.gz
 rm -rf downloads/
-docker restart oa-rdepot-backend
 
 CONTAINER=$(docker ps | tr -s ' ' | cut -d' ' -f1,2 | grep "app" | cut -d' ' -f1)
 CONTAINER_DB=$(docker ps | tr -s ' ' | cut -d' ' -f1,2 | grep "postgres" | cut -d' ' -f1)

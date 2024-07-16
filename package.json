@@ -10,7 +10,7 @@
     "lint:check": "eslint-output --ignore-path .gitignore --max-warnings 0",
     "lint:staged": "eslint --fix $(git diff --diff-filter=d --cached --name-only)",
     "license:check": "node ./license_checker.js",
-    "test:setup": "sh test.sh && npm run restore",
+    "test:setup": "sh test.sh",
     "test:cleanup": "docker-compose -f docker-compose-test.yml down",
     "test:unit": "vitest --dir ./src/__tests__/unit",
     "test:unit:once": "vitest run --dir ./src/__tests__/unit",
