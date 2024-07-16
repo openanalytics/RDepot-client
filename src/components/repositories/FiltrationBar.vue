@@ -26,7 +26,7 @@
     style="padding-left: 0; padding-right: 0"
   >
     <validated-input-field
-      id="filtration-search"
+      id="repositories-filtration-search"
       density="compact"
       hide-details
       name="search"
@@ -37,7 +37,7 @@
     />
 
     <validated-input-field
-      id="filtration-technology"
+      id="repositories-filtration-technology"
       density="compact"
       hide-details
       chips
@@ -59,6 +59,7 @@
             : 0
         )
       "
+      id="repositories-filtration-maintainer"
       density="compact"
       hide-details
       chips
@@ -98,7 +99,7 @@
             : 0
         )
       "
-      id="filtration-deleted"
+      id="repositories-filtration-deleted"
       density="compact"
       hide-details
       name="deleted"
@@ -110,7 +111,7 @@
     ></validated-input-field>
 
     <validated-input-field
-      id="filtration-published"
+      id="repositories-filtration-published"
       density="compact"
       hide-details
       name="published"
@@ -143,7 +144,6 @@ import { toTypedSchema } from '@vee-validate/zod'
 import { useRepositoryStore } from '@/store/repositories'
 import { isAtLeastAdmin } from '@/enum/UserRoles'
 import ResetButton from '@/components/common/buttons/ResetButton.vue'
-import { onBeforeMount } from 'vue'
 import { useAuthorizationStore } from '@/store/authorization'
 
 const { technologies } = useEnumFiltration()
@@ -152,7 +152,6 @@ const authorizationStore = useAuthorizationStore()
 const {
   storeIdMaintainer,
   loadMaintainers,
-  resetPaginationMaintainers,
   filtrateMaintainers
 } = useRepositoryMaintainersFiltration()
 const repositoryStore = useRepositoryStore()
@@ -174,6 +173,4 @@ function resetValues() {
     values as RepositoriesFiltration
   )
 }
-
-onBeforeMount(() => resetPaginationMaintainers())
 </script>

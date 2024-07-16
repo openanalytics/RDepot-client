@@ -26,7 +26,7 @@
     style="padding-left: 0; padding-right: 0"
   >
     <validated-input-field
-      id="filtration-search"
+      id="repository-maintainers-filtration-search"
       density="compact"
       hide-details
       name="search"
@@ -41,7 +41,7 @@
     />
 
     <validated-input-field
-      id="filtration-technology"
+      id="repository-maintainers-filtration-technology"
       density="compact"
       hide-details
       :items="technologies"
@@ -54,7 +54,7 @@
     ></validated-input-field>
 
     <validated-input-field
-      id="filtration-deleted"
+      id="repository-maintainers-filtration-deleted"
       density="compact"
       hide-details
       chips

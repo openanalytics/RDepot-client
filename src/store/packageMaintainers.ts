@@ -207,6 +207,7 @@ export const usePackageMaintainersStore = defineStore(
       ) {
         const pagination = usePagination()
         pagination.resetPage()
+
         if (
           PackageMaintainersFiltration.safeParse(payload)
             .success
