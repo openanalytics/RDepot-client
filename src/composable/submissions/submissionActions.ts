@@ -25,7 +25,7 @@ import {
   EntityModelSubmissionDtoStateEnum
 } from '@/openapi'
 import { useSubmissionStore } from '@/store/submission'
-import { usePackageDetailsStore } from '@/store/package_details'
+import { usePackageDetailsStore } from '@/store/packageDetails'
 
 export function useSubmissionActions() {
   async function acceptSubmission(
@@ -42,7 +42,7 @@ export function useSubmissionActions() {
   ) {
     if (submission && submission.packageBag) {
       const packageDetailsStore = usePackageDetailsStore()
-      await packageDetailsStore.downloadSourceFile(
+      await packageDetailsStore.getSourceFile(
         submission.packageBag?.id?.toString() || '',
         submission.packageBag?.name || '',
         submission.packageBag?.version || '',
