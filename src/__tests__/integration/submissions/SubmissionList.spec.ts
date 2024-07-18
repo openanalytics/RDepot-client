@@ -31,7 +31,7 @@ import {
   SUBMISSIONS_SIDEBAR_ID,
   DOWNLOAD_SUBMISSION_ID,
   DOWNLOAD_SUBMISSION_FILENAME,
-  FILTRATION_SEARCH_ID,
+  SUBMISSIONS_FILTRATION_SEARCH_FIELD_ID,
   WAITING_FOR_APPROVE_SUBMISSION_ID,
   WAITING_FOR_REJECT_SUBMISSION_ID,
   WAITING_FOR_CANCEL_SUBMISSION_ID
@@ -118,12 +118,16 @@ describe('Submissions actions', () => {
     await delay(2000)
 
     await driver.wait(
-      until.elementLocated(By.id(FILTRATION_SEARCH_ID)),
+      until.elementLocated(
+        By.id(SUBMISSIONS_FILTRATION_SEARCH_FIELD_ID)
+      ),
       8000
     )
 
     driver
-      .findElement(By.id(FILTRATION_SEARCH_ID))
+      .findElement(
+        By.id(SUBMISSIONS_FILTRATION_SEARCH_FIELD_ID)
+      )
       .sendKeys('visdat')
     await delay(2000)
     let exists = await driver
@@ -147,12 +151,16 @@ describe('Submissions actions', () => {
       'RDepot - submissions'
     )
     await driver.wait(
-      until.elementLocated(By.id(FILTRATION_SEARCH_ID)),
+      until.elementLocated(
+        By.id(SUBMISSIONS_FILTRATION_SEARCH_FIELD_ID)
+      ),
       8000
     )
 
     driver
-      .findElement(By.id(FILTRATION_SEARCH_ID))
+      .findElement(
+        By.id(SUBMISSIONS_FILTRATION_SEARCH_FIELD_ID)
+      )
       .sendKeys('visdat')
     await delay(2000)
     await clickOnButton(driver, DOWNLOAD_SUBMISSION_ID)
@@ -178,7 +186,9 @@ describe('Submissions actions', () => {
     await delay(2000)
 
     driver
-      .findElement(By.id(FILTRATION_SEARCH_ID))
+      .findElement(
+        By.id(SUBMISSIONS_FILTRATION_SEARCH_FIELD_ID)
+      )
       .sendKeys('requests')
     await delay(2000)
 
@@ -202,7 +212,9 @@ describe('Submissions actions', () => {
     )
     await delay(2000)
     driver
-      .findElement(By.id(FILTRATION_SEARCH_ID))
+      .findElement(
+        By.id(SUBMISSIONS_FILTRATION_SEARCH_FIELD_ID)
+      )
       .sendKeys('requests')
     await delay(2000)
 
