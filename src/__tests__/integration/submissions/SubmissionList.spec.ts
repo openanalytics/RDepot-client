@@ -182,7 +182,7 @@ describe('Submissions actions', () => {
       .sendKeys('requests')
     await delay(2000)
 
-    let exists = await driver
+    const exists = await driver
       .findElements(By.id(WAITING_FOR_REJECT_SUBMISSION_ID))
       .then((found: any) => !!found.length)
 
@@ -206,7 +206,7 @@ describe('Submissions actions', () => {
       .sendKeys('requests')
     await delay(2000)
 
-    let exists = await driver
+    const exists = await driver
       .findElements(By.id(WAITING_FOR_CANCEL_SUBMISSION_ID))
       .then((found: any) => !!found.length)
 
