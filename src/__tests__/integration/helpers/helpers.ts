@@ -144,7 +144,11 @@ export async function clickOnElementByXpath(
     until.elementLocated(By.xpath(xpath)),
     8000
   )
-  await driver.findElement(By.xpath(xpath)).click()
+  try {
+    await driver.findElement(By.xpath(xpath)).click()
+  } catch {
+  } finally {
+  }
 }
 
 export async function clickOnButtonByXpath(

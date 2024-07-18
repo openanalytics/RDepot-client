@@ -16,7 +16,7 @@
     "test:unit:once": "vitest run --dir ./src/__tests__/unit",
     "test:unit:once:junit": "vitest --dir ./src/__tests__/unit --reporter=junit --outputFile.junit=reports/test-report-unit.xml --reporter=default run",
     "test:unit:ui": "vitest --ui --dir ./src/__tests__/unit --sequence.concurrent",
-    "test:integration": "vitest --dir ./src/__tests__/integration/submissions --no-file-parallelism",
+    "test:integration": "vitest --dir ./src/__tests__/integration --no-file-parallelism",
     "test:integration:once": "vitest run --dir ./src/__tests__/integration --no-file-parallelism",
     "test:integration:once:junit": "npm run restore && vitest --dir ./src/__tests__/integration --reporter=junit --outputFile.junit=reports/test-report-integration.xml --reporter=default run --no-file-parallelism",
     "test:integration:ui": "npm run restore && vitest --ui --sequence.concurrent=false --dir ./src/__tests__/integration --no-file-parallelism",
