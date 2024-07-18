@@ -211,3 +211,13 @@ export async function clickOnMenuItemById(
       await element.click()
     })
 }
+
+export async function setInputValue(
+  driver: typeof Builder,
+  id: string,
+  value: string
+) {
+  await driver.wait(until.elementLocated(By.id(id)), 8000)
+
+  await driver.findElement(By.id(id)).sendKeys(value)
+}

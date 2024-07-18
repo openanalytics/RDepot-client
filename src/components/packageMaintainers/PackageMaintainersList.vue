@@ -81,7 +81,7 @@
 </template>
 
 <script setup lang="ts">
-import { usePackageMaintainersStore } from '@/store/package_maintainers'
+import { usePackageMaintainersStore } from '@/store/packageMaintainers'
 import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
 import EditIcon from '@/components/common/action_icons/EditIcon.vue'
 import { usePagination } from '@/store/pagination'
@@ -148,19 +148,19 @@ const headers = computed<DataTableHeaders[]>(() => [
 ])
 function fetchData(options: DataTableOptions) {
   sortBy.value = getSort(options.sortBy, defaultSort)
-  packageMaintainersStore.fetchMaintainersPage(options)
+  packageMaintainersStore.getPage(options)
 }
 
 function chooseMaintainer(
   item: EntityModelPackageMaintainerDto
 ) {
-  packageMaintainersStore.setChosenMaintainer(item)
+  packageMaintainersStore.setChosen(item)
 }
 
 function setEditEntity(
   item: EntityModelPackageMaintainerDto
 ) {
-  packageMaintainersStore.setChosenMaintainer(item)
+  packageMaintainersStore.setChosen(item)
 }
 
 function getEditMessage(

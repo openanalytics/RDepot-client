@@ -150,7 +150,7 @@
 
 <script setup lang="ts">
 import CardActions from '@/components/common/overlay/CardActions.vue'
-import { usePackageMaintainersStore } from '@/store/package_maintainers'
+import { usePackageMaintainersStore } from '@/store/packageMaintainers'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useForm } from 'vee-validate'
 import ValidatedInputField from '@/components/common/fields/ValidatedInputField.vue'
@@ -293,7 +293,7 @@ async function createMaintainer() {
       packageName: values.package?.value,
       repository: { id: values.repository?.value }
     }
-    await maintainersStore.createMaintainer(maintainer)
+    await maintainersStore.create(maintainer)
     filtratePackagesObjects(undefined)
     filtrateRepositoriesObjects(undefined)
     filtrateUsers(undefined)

@@ -33,7 +33,10 @@
       <QuestionCard
         :text="commonStore.overlayText"
         @reset="reset"
-      />
+        ><template #desc>
+          <slot name="desc"></slot>
+        </template>
+      </QuestionCard>
     </slot>
   </v-overlay>
 </template>

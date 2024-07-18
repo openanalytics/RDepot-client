@@ -20,7 +20,7 @@
  *
  */
 
-import { fetchConfiguration } from '@/services/config_services'
+import { fetchConfiguration } from '@/services/configServices'
 import { defineStore } from 'pinia'
 
 interface State {

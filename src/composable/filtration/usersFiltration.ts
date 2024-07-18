@@ -27,7 +27,7 @@ import {
   SelectState,
   UserObject,
   UserObjectCreate
-} from '@/store/select_pagination'
+} from '@/store/selectPagination'
 import { Role, roleToStringBackend } from '@/enum/UserRoles'
 
 export function useUsersFiltration() {
@@ -50,7 +50,7 @@ export function useUsersFiltration() {
       selectStore.nextPage()
       if (selectStore.fetchNextPageCondition) {
         await userStore
-          .fetchUsersList(
+          .getList(
             selectStore.paginationData.page - 1,
             selectStore.pageSize
           )
@@ -124,7 +124,7 @@ export function useUsersFiltration() {
       ) {
         setUsersFiltration(isAtLeastRole)
         await userStore
-          .fetchUsersList(
+          .getList(
             selectStore.paginationData.page - 1,
             selectStore.pageSize
           )
@@ -157,7 +157,7 @@ export function useUsersFiltration() {
       userStore.clearFiltration()
     } else if (userStore.filtration.search !== value) {
       resetPaginationUsers()
-      userStore.setFiltrationByName(value)
+      userStore.setFiltrationBy({ search: value })
     }
   }
 

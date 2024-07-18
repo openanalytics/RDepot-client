@@ -29,9 +29,9 @@ import {
 } from 'vitest'
 
 import { createPinia, setActivePinia } from 'pinia'
-import { useSelectStore } from '@/store/select_pagination'
+import { useSelectStore } from '@/store/selectPagination'
 import { usePackageMaintainersFiltration } from '@/composable/filtration/packageMaintainersFiltration'
-import { usePackageMaintainersStore } from '@/store/package_maintainers'
+import { usePackageMaintainersStore } from '@/store/packageMaintainers'
 import { useAuthorizationStore } from '@/store/authorization'
 
 beforeEach(async () => {
@@ -71,10 +71,7 @@ describe('package maintainer filtration composable', () => {
     selectStore.paginationData.totalNumber = 2
     selectStore.paginationData.page = 0
     selectStore.pageSize = 1
-    const spy = vi.spyOn(
-      packageMaintainerStore,
-      'fetchMaintainersList'
-    )
+    const spy = vi.spyOn(packageMaintainerStore, 'getList')
     loadMaintainers()
     expect(spy).toHaveBeenCalledOnce()
   })
@@ -86,10 +83,7 @@ describe('package maintainer filtration composable', () => {
     selectStore.items = [{ title: 'title', value: 'value' }]
     const packageMaintainerStore =
       usePackageMaintainersStore()
-    const spy = vi.spyOn(
-      packageMaintainerStore,
-      'fetchMaintainersList'
-    )
+    const spy = vi.spyOn(packageMaintainerStore, 'getList')
     loadMaintainers()
     expect(spy).toHaveBeenCalledOnce()
   })
@@ -104,10 +98,7 @@ describe('package maintainer filtration composable', () => {
     selectStore.paginationData.totalNumber = 1
     selectStore.paginationData.page = 1
     selectStore.pageSize = 1
-    const spy = vi.spyOn(
-      packageMaintainerStore,
-      'fetchMaintainersList'
-    )
+    const spy = vi.spyOn(packageMaintainerStore, 'getList')
     loadMaintainers()
     expect(spy).toHaveBeenCalledTimes(0)
   })
@@ -132,7 +123,7 @@ describe('package maintainer filtration composable', () => {
       usePackageMaintainersStore()
     const spy = vi.spyOn(
       packageMaintainerStore,
-      'setFiltrationByName'
+      'setFiltrationBy'
     )
     filtrateMaintainers(undefined)
     expect(spy).toHaveBeenCalledTimes(0)
@@ -147,7 +138,7 @@ describe('package maintainer filtration composable', () => {
     packageMaintainerStore.filtration.search = 'value'
     const spy = vi.spyOn(
       packageMaintainerStore,
-      'setFiltrationByName'
+      'setFiltrationBy'
     )
     filtrateMaintainers('value2')
     expect(spy).toHaveBeenCalledOnce()
@@ -162,7 +153,7 @@ describe('package maintainer filtration composable', () => {
     packageMaintainerStore.filtration.search = 'value'
     const spy = vi.spyOn(
       packageMaintainerStore,
-      'setFiltrationByName'
+      'setFiltrationBy'
     )
     filtrateMaintainers('value')
     expect(spy).toHaveBeenCalledTimes(0)

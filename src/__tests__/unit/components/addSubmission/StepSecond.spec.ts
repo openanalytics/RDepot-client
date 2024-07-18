@@ -35,7 +35,7 @@ import { createPinia, setActivePinia } from 'pinia'
 import StepSecondVue from '@/components/addSubmission/StepSecond.vue'
 import { useSubmissionStore } from '@/store/submission'
 import { nextTick } from 'process'
-import { useFilesListStore } from '@/store/local_files'
+import { useFilesListStore } from '@/store/localFiles'
 
 let wrapper: any
 const globalConfig = {

@@ -33,13 +33,15 @@ import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
 import { createPinia, setActivePinia } from 'pinia'
 import { useSubmissionStore } from '@/store/submission'
-import SubmissionsListVue from '@/components/submissions/SubmissionList.vue'
+import SubmissionsListVue from '@/components/submissions/SubmissionsList.vue'
 import submissions from '@/__tests__/config/mockData/rSubmissions.json'
 import { useAuthorizationStore } from '@/store/authorization'
 import me from '@/__tests__/config/mockData/me.json'
 import { nextTick } from 'vue'
 import { i18n } from '@/plugins/i18n'
+import { useDates } from '@/composable/date'
 
+const { formatDate } = useDates()
 let wrapper: any
 let submissionStore: any
 let authorizationStore: any
@@ -211,7 +213,9 @@ describe('Submissions - cells', () => {
     const cell = cells[0]
     const chip = cell.findComponent('.v-chip')
     expect(chip.exists()).toBeTruthy()
-    expect(chip.text()).toBe(submission.created)
+    expect(chip.text()).toBe(
+      formatDate(new Date(submission.created))
+    )
   })
 
   it('displays package', () => {

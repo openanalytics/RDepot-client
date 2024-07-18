@@ -36,7 +36,7 @@ import CreatePackageMaintainerForm from '@/components/packageMaintainers/forms/C
 import { nextTick } from 'vue'
 import { useAuthorizationStore } from '@/store/authorization'
 import me from '@/__tests__/config/mockData/me.json'
-import { usePackageMaintainersStore } from '@/store/package_maintainers'
+import { usePackageMaintainersStore } from '@/store/packageMaintainers'
 
 let wrapper: any
 let authorizationStore: any
@@ -167,10 +167,7 @@ describe('CreatePackageMaintainer', () => {
   })
 
   it('submit action triggers create maintainer action', async () => {
-    const spy = vi.spyOn(
-      packageMaintainerStore,
-      'createMaintainer'
-    )
+    const spy = vi.spyOn(packageMaintainerStore, 'create')
     wrapper.vm.setFieldValue('repository', {
       title: 'testrepo3',
       value: 10

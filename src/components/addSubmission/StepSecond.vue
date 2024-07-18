@@ -86,7 +86,7 @@ import { watch } from 'vue'
 import { onMounted } from 'vue'
 import DropZone from '@/components/common/files/DropZone.vue'
 import FilesList from '@/components/addSubmission/FilesList.vue'
-import { useFilesListStore } from '@/store/local_files'
+import { useFilesListStore } from '@/store/localFiles'
 import { useI18n } from 'vue-i18n'
 import { useToast } from '@/composable/toasts'
 

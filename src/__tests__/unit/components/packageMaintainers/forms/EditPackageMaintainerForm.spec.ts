@@ -36,7 +36,7 @@ import EditPackageMaintainerForm from '@/components/packageMaintainers/forms/Edi
 import { nextTick } from 'vue'
 import { useAuthorizationStore } from '@/store/authorization'
 import me from '@/__tests__/config/mockData/me.json'
-import { usePackageMaintainersStore } from '@/store/package_maintainers'
+import { usePackageMaintainersStore } from '@/store/packageMaintainers'
 import packageMaintainers from '@/__tests__/config/mockData/packageMaintainers.json'
 
 let wrapper: any

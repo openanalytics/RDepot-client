@@ -26,11 +26,11 @@
       {{ $t('common.settings') }}
     </h2>
   </div>
-  <TableSettings />
+  <SettingsTable />
 </template>
 
 <script setup lang="ts">
-import TableSettings from '@/components/settings/TableSettings.vue'
+import SettingsTable from '@/components/settings/SettingsTable.vue'
 </script>
 
 <style scoped type="scss">

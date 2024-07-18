@@ -1,6 +1,6 @@
 {
   "name": "rdepot-client",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
@@ -56,7 +56,7 @@
     "vue-i18n": "^9.2.2",
     "vue-router": "^4.0.0",
     "vue3-toastify": "^0.1.14",
-    "vuetify": "^3.5.0",
+    "vuetify": "^3.6.11",
     "wait-for-expect": "^3.0.2",
     "webfontloader": "^1.0.0",
     "zod": "^3.21.4"

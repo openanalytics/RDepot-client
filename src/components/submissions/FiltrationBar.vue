@@ -21,7 +21,7 @@
 -->
 
 <template>
-  <DatePicker
+  <DatePickerField
     v-model="showDatepicker"
     :previous-date="fromDatePicker"
     :direction="changedDate"
@@ -35,7 +35,7 @@
     style="padding-left: 0; padding-right: 0"
   >
     <validated-input-field
-      id="filtration-search"
+      id="submissions-filtration-search"
       density="compact"
       hide-details
       name="search"
@@ -48,7 +48,7 @@
     />
 
     <validated-input-field
-      id="filtration-technology"
+      id="submissions-filtration-technology"
       density="compact"
       hide-details
       chips
@@ -63,7 +63,7 @@
     ></validated-input-field>
 
     <validated-input-field
-      id="filtration-state"
+      id="submissions-filtration-state"
       density="compact"
       hide-details
       chips
@@ -78,7 +78,7 @@
     ></validated-input-field>
 
     <validated-input-field
-      id="filtration-repository"
+      id="submissions-filtration-repository"
       density="compact"
       hide-details
       chips
@@ -94,10 +94,16 @@
       @load-items="loadRepositories"
       @filtrate="filtrateRepositoriesObjects"
     >
-      <template #item="{ props }">
+      <template #item="{ props, item }">
         <v-list-item
           v-intersect="loadRepositories"
-          v-bind="props"
+          v-bind="{
+            ...props,
+            id: `submissions-filtration-repository-${item.title.replaceAll(
+              ' ',
+              '-'
+            )}`
+          }"
         >
           <template #prepend="{ isActive }">
             <v-list-item-action start>
@@ -111,7 +117,7 @@
     </validated-input-field>
 
     <validated-input-field
-      id="filtration-fromDate"
+      id="submissions-filtration-from-date"
       density="compact"
       hide-details
       name="fromDate"
@@ -122,7 +128,7 @@
     />
 
     <validated-input-field
-      id="filtration-toDate"
+      id="submissions-filtration-to-date"
       density="compact"
       hide-details
       name="toDate"
@@ -150,7 +156,7 @@ import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useSubmissionStore } from '@/store/submission'
 import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesFiltration'
-import DatePicker from '@/components/common/fields/DatePicker.vue'
+import DatePickerField from '@/components/common/fields/DatePickerField.vue'
 import { useDatePicker } from '@/composable/datePicker'
 import ResetButton from '@/components/common/buttons/ResetButton.vue'
 import { computed } from 'vue'

@@ -131,6 +131,7 @@
     "deactivateQuestion": "Are you sure you want to deactivate {resource_name}?",
     "delete": "Delete",
     "deleteQuestion": "Are you sure you want to delete {resource_name}?",
+    "deleteResourcesQuestion": "Are you sure you want to delete the following {resource_type_plural}?",
     "details": "See details",
     "edit": "Edit",
     "errors": {
@@ -161,7 +162,10 @@
     "submissions": "Submissions",
     "submit": "Submit",
     "uploadPackages": "Upload packages",
-    "users": "Users"
+    "users": "Users",
+    "eventsTag": {
+      "copied": "Copied!"
+    }
   },
   "config": {
     "deletingPackages": "Package deletion is disabled due to the configuration",
@@ -269,6 +273,7 @@
     "successUpdateUser": "Successfully updated user"
   },
   "package": {
+    "chooseOneToEnable": "choose at least one package to enable",
     "noDescriptionProvided": "No description provided",
     "propertyNotProvided": "not provided"
   },

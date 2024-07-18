@@ -40,7 +40,7 @@
 
 <script setup lang="ts">
 import { Technologies } from '@/enum/Technologies'
-import { usePackageDetailsStore } from '@/store/package_details'
+import { usePackageDetailsStore } from '@/store/packageDetails'
 
 const packageDetailsStore = usePackageDetailsStore()
 
@@ -49,7 +49,7 @@ async function getManual() {
     packageDetailsStore.packageBag &&
     packageDetailsStore.packageBag.id
   ) {
-    await packageDetailsStore.downloadManual(
+    await packageDetailsStore.getManual(
       packageDetailsStore.packageBag.id.toString(),
       `${packageDetailsStore.packageBag.name}_${packageDetailsStore.packageBag.version}_manual`
     )

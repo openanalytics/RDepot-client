@@ -21,11 +21,17 @@
 -->
 
 <template>
-  <v-card class="pa-5">
+  <v-card
+    class="pa-5"
+    style="height: 100%; max-height: 90vh"
+  >
     <v-card-title>
       {{ componentProps.text }}
     </v-card-title>
     <v-divider />
+    <v-card-text>
+      <slot name="desc"></slot>
+    </v-card-text>
     <CardActions
       @cancel="emits('cancel')"
       @submit="emits('reset')"

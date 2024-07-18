@@ -43,11 +43,11 @@
 
 <script setup lang="ts">
 import CardActions from '@/components/common/overlay/CardActions.vue'
-import { useAccessTokensStore } from '@/store/access_tokens'
+import { useAccessTokensStore } from '@/store/accessTokens'
 
 const accessTokensStore = useAccessTokensStore()
 
 function deleteToken() {
-  accessTokensStore.deleteToken()
+  accessTokensStore.delete()
 }
 </script>

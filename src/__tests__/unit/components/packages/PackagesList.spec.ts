@@ -40,6 +40,10 @@ import me from '@/__tests__/config/mockData/me.json'
 import { i18n } from '@/plugins/i18n'
 import { usePagination } from '@/store/pagination'
 import { nextTick } from 'vue'
+import {
+  PACKAGES_LIST_SELECT_ALL_ID,
+  PACKAGES_MULTI_ACTIONS_ID
+} from '@/__tests__/integration/helpers/elementsIds'
 
 let wrapper: any
 let authorizationStore: any
@@ -103,10 +107,23 @@ describe('Packages - list headers', () => {
   })
 
   it('displays all headers', () => {
-    expect(headers.length).toEqual(9)
+    expect(headers.length).toEqual(10)
   })
+
+  it('displays multi action column', () => {
+    const cell = headers[0]
+    expect(
+      cell
+        .find(`#${PACKAGES_LIST_SELECT_ALL_ID}`)
+        .isVisible()
+    ).toBe(true)
+    expect(
+      cell.find(`#${PACKAGES_MULTI_ACTIONS_ID}`).isVisible()
+    ).toBe(true)
+  })
+
   it('displays package column', () => {
-    const col = headers[0]
+    const col = headers[1]
     expect(col.text()).toEqual(
       i18n.t('columns.package.name')
     )
@@ -116,7 +133,7 @@ describe('Packages - list headers', () => {
     expect(sortIcon.exists()).toBeTruthy()
   })
   it('displays version column', () => {
-    const col = headers[1]
+    const col = headers[2]
     expect(col.text()).toEqual(
       i18n.t('columns.package.version')
     )
@@ -126,7 +143,7 @@ describe('Packages - list headers', () => {
     expect(sortIcon.exists()).toBeTruthy()
   })
   it('displays title column', () => {
-    const col = headers[2]
+    const col = headers[3]
     expect(col.text()).toEqual(
       i18n.t('columns.package.title')
     )
@@ -136,7 +153,7 @@ describe('Packages - list headers', () => {
     expect(sortIcon.exists()).toBeFalsy()
   })
   it('displays maintainer column', () => {
-    const col = headers[3]
+    const col = headers[4]
     expect(col.text()).toEqual(
       i18n.t('columns.package.maintainer')
     )
@@ -146,7 +163,7 @@ describe('Packages - list headers', () => {
     expect(sortIcon.exists()).toBeTruthy()
   })
   it('displays repository  column', () => {
-    const col = headers[4]
+    const col = headers[5]
     expect(col.text()).toEqual(
       i18n.t('columns.package.repository')
     )
@@ -156,7 +173,7 @@ describe('Packages - list headers', () => {
     expect(sortIcon.exists()).toBeTruthy()
   })
   it('displays technology column', () => {
-    const col = headers[5]
+    const col = headers[6]
     expect(col.text()).toEqual(
       i18n.t('columns.package.technology')
     )
@@ -166,7 +183,7 @@ describe('Packages - list headers', () => {
     expect(sortIcon.exists()).toBeTruthy()
   })
   it('displays status column', () => {
-    const col = headers[6]
+    const col = headers[7]
     expect(col.text()).toEqual(
       i18n.t('columns.package.state')
     )
@@ -176,7 +193,7 @@ describe('Packages - list headers', () => {
     expect(sortIcon.exists()).toBeTruthy()
   })
   it('displays active column', () => {
-    const col = headers[7]
+    const col = headers[8]
     expect(col.text()).toEqual(
       i18n.t('columns.package.active')
     )
@@ -187,7 +204,7 @@ describe('Packages - list headers', () => {
   })
 
   it('displays actions column', () => {
-    const col = headers[8]
+    const col = headers[9]
     expect(col.text()).toEqual(i18n.t('columns.actions'))
     const sortIcon = col.findComponent(
       '.mdi-sort-ascending'
@@ -225,55 +242,70 @@ describe('Packages - cells', () => {
       [cancelledPackageIndex].findAllComponents('td')
   })
 
-  it('displays package name', () => {
+  it('displays multi action checkbox', () => {
     const cell = acceptedCells[0]
+    expect(
+      cell
+        .find(
+          `#checkbox-actions-${
+            packageBag.name
+          }-${packageBag.version.replaceAll('.', '-')}-${
+            packageBag.repository?.name
+          }`
+        )
+        .isVisible()
+    ).toBe(true)
+  })
+
+  it('displays package name', () => {
+    const cell = acceptedCells[1]
     expect(cell.text()).toBe(packageBag.name)
   })
   it('displays version', () => {
-    const cell = acceptedCells[1]
+    const cell = acceptedCells[2]
     expect(cell.text()).toBe(packageBag.version)
   })
   it('displays title', () => {
-    const cell = acceptedCells[2]
+    const cell = acceptedCells[3]
     expect(cell.text()).toBe(packageBag.title)
   })
   it('displays maintainer', () => {
-    const cell = acceptedCells[3]
+    const cell = acceptedCells[4]
     expect(cell.text()).toBe(packageBag.user.name)
   })
   it('displays repository', () => {
-    const cell = acceptedCells[4]
+    const cell = acceptedCells[5]
     expect(cell.text()).toBe(packageBag.repository.name)
   })
   it('displays technology', () => {
-    const cell = acceptedCells[5]
+    const cell = acceptedCells[6]
     const chip = cell.findComponent('.v-chip')
     expect(chip.exists()).toBeTruthy()
     expect(chip.text()).toBe(packageBag.technology)
   })
   it('displays status (accepted)', () => {
-    const cell = acceptedCells[6]
+    const cell = acceptedCells[7]
     const icon = cell.findComponent(
       '.mdi-check-circle-outline'
     )
     expect(icon.exists()).toBeTruthy()
   })
   it('displays status (waiting)', () => {
-    const cell = waitingCells[6]
+    const cell = waitingCells[7]
     const icon = cell.findComponent(
       '.mdi-progress-question'
     )
     expect(icon.exists()).toBeTruthy()
   })
   it('displays status (rejected)', () => {
-    const cell = rejectedCells[6]
+    const cell = rejectedCells[7]
     const icon = cell.findComponent(
       '.mdi-close-circle-outline'
     )
     expect(icon.exists()).toBeTruthy()
   })
   it('displays status (cancelled)', () => {
-    const cell = cancelledCells[6]
+    const cell = cancelledCells[7]
     const icon = cell.findComponent(
       '.mdi-close-circle-outline'
     )
@@ -289,8 +321,16 @@ describe('Packages - cells', () => {
   })
 
   it('displays actions column', () => {
-    expect(wrapper.find('#delete-icon').isVisible()).toBe(
-      true
-    )
+    expect(
+      wrapper
+        .find(
+          `#delete-icon-${
+            packageBag.name
+          }-${packageBag.version.replaceAll('.', '-')}-${
+            packageBag.repository?.name
+          }`
+        )
+        .isVisible()
+    ).toBe(true)
   })
 })

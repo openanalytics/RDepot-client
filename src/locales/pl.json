@@ -131,6 +131,7 @@
     "deactivateQuestion": "Are you sure you want to deactivate {resource_name}?",
     "delete": "Usuń",
     "deleteQuestion": "Czy na pewno chcesz usunąć {resource_name}?",
+    "deleteResourcesQuestion": "Czy na pewno chcesz usunąć niżej wymienione {resource_type_plural}?",
     "details": "Zobacz szczegóły",
     "edit": "Edytuj",
     "errors": {
@@ -161,7 +162,10 @@
     "submissions": "Zgłoszenia",
     "submit": "Zatwierdź",
     "uploadPackages": "Prześlij pakiety",
-    "users": "Użytkownicy"
+    "users": "Użytkownicy",
+    "eventsTag": {
+      "copied": "Skopiowano!"
+    }
   },
   "config": {
     "deletingPackages": "Usuwanie pakietu nieaktywne z powodu konfiguracji",
@@ -263,6 +267,7 @@
     "successUpdateUser": "Dane użytkownika zaktualizowane"
   },
   "package": {
+    "chooseOneToEnable": "wybierz co najmniej jedną paczkę aby odblokować",
     "noDescriptionProvided": "Brak dostępnego opisu",
     "propertyNotProvided": "brak informacji"
   },

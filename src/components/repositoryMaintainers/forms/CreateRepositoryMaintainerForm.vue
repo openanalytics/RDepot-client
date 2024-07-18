@@ -121,7 +121,7 @@
 
 <script setup lang="ts">
 import CardActions from '@/components/common/overlay/CardActions.vue'
-import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
+import { useRepositoryMaintainersStore } from '@/store/repositoryMaintainers'
 import { onBeforeMount } from 'vue'
 import { useForm } from 'vee-validate'
 import ValidatedInputField from '@/components/common/fields/ValidatedInputField.vue'
@@ -226,7 +226,7 @@ function setMaintainer() {
       repository: { id: values.repository?.value }
     }
     maintainersStore
-      .createMaintainer(maintainer)
+      .create(maintainer)
       .then(() => {
         commonStore.closeOverlay()
       })

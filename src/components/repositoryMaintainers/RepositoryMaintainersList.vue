@@ -86,7 +86,7 @@
 
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
+import { useRepositoryMaintainersStore } from '@/store/repositoryMaintainers'
 import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
 import EditIcon from '@/components/common/action_icons/EditIcon.vue'
 import { usePagination } from '@/store/pagination'
@@ -153,18 +153,18 @@ const headers = computed<DataTableHeaders[]>(() => [
 const pagination = usePagination()
 
 function updateData(): void {
-  repositoryMaintainersStore.fetchMaintainers()
+  repositoryMaintainersStore.get()
 }
 
 function fetchData(options: DataTableOptions) {
   sortBy.value = getSort(options.sortBy, defaultSort)
-  repositoryMaintainersStore.fetchMaintainersPage(options)
+  repositoryMaintainersStore.getPage(options)
 }
 
 function setEditMaintainer(
   item: EntityModelRepositoryMaintainerDto
 ) {
-  repositoryMaintainersStore.setChosenMaintainer(item)
+  repositoryMaintainersStore.setChosen(item)
 }
 
 onMounted(() => {

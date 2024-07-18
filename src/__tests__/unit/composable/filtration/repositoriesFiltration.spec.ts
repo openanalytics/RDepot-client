@@ -29,7 +29,7 @@ import {
 } from 'vitest'
 
 import { createPinia, setActivePinia } from 'pinia'
-import { useSelectStore } from '@/store/select_pagination'
+import { useSelectStore } from '@/store/selectPagination'
 import { useAuthorizationStore } from '@/store/authorization'
 import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesFiltration'
 import { useRepositoryStore } from '@/store/repositories'
@@ -67,10 +67,7 @@ describe('repositories filtration composable', () => {
     selectStore.paginationData.totalNumber = 2
     selectStore.paginationData.page = 0
     selectStore.pageSize = 1
-    const spy = vi.spyOn(
-      repositoriesStore,
-      'fetchRepositoriesList'
-    )
+    const spy = vi.spyOn(repositoriesStore, 'getList')
     loadRepositories()
     expect(spy).toHaveBeenCalledOnce()
   })
@@ -80,10 +77,7 @@ describe('repositories filtration composable', () => {
     const selectStore = useSelectStore('repositories')
     selectStore.items = [{ title: 'title', value: 'value' }]
     const repositoriesStore = useRepositoryStore()
-    const spy = vi.spyOn(
-      repositoriesStore,
-      'fetchRepositoriesList'
-    )
+    const spy = vi.spyOn(repositoriesStore, 'getList')
     loadRepositories()
     expect(spy).toHaveBeenCalledOnce()
   })
@@ -96,10 +90,7 @@ describe('repositories filtration composable', () => {
     selectStore.paginationData.totalNumber = 1
     selectStore.paginationData.page = 1
     selectStore.pageSize = 1
-    const spy = vi.spyOn(
-      repositoriesStore,
-      'fetchRepositoriesList'
-    )
+    const spy = vi.spyOn(repositoriesStore, 'getList')
     loadRepositories()
     expect(spy).toHaveBeenCalledTimes(0)
   })
@@ -113,10 +104,7 @@ describe('repositories filtration composable', () => {
     selectStore.paginationData.totalNumber = 2
     selectStore.paginationData.page = 0
     selectStore.pageSize = 1
-    const spy = vi.spyOn(
-      repositoriesStore,
-      'fetchRepositoriesList'
-    )
+    const spy = vi.spyOn(repositoriesStore, 'getList')
     loadRepositoriesObjects()
     expect(spy).toHaveBeenCalledOnce()
   })
@@ -127,10 +115,7 @@ describe('repositories filtration composable', () => {
     const selectStore = useSelectStore('repositories')
     selectStore.items = [{ title: 'title', value: 'value' }]
     const repositoriesStore = useRepositoryStore()
-    const spy = vi.spyOn(
-      repositoriesStore,
-      'fetchRepositoriesList'
-    )
+    const spy = vi.spyOn(repositoriesStore, 'getList')
     loadRepositoriesObjects()
     expect(spy).toHaveBeenCalledOnce()
   })
@@ -144,10 +129,7 @@ describe('repositories filtration composable', () => {
     selectStore.paginationData.totalNumber = 1
     selectStore.paginationData.page = 1
     selectStore.pageSize = 1
-    const spy = vi.spyOn(
-      repositoriesStore,
-      'fetchRepositoriesList'
-    )
+    const spy = vi.spyOn(repositoriesStore, 'getList')
     loadRepositoriesObjects()
     expect(spy).toHaveBeenCalledTimes(0)
   })
@@ -170,7 +152,7 @@ describe('repositories filtration composable', () => {
     const repositoriesStore = useRepositoryStore()
     const spy = vi.spyOn(
       repositoriesStore,
-      'setFiltrationByName'
+      'setFiltrationBy'
     )
     filtrateRepositoriesObjects(undefined)
     expect(spy).toHaveBeenCalledTimes(0)
@@ -182,7 +164,7 @@ describe('repositories filtration composable', () => {
     const repositoriesStore = useRepositoryStore()
     const spy = vi.spyOn(
       repositoriesStore,
-      'setFiltrationByName'
+      'setFiltrationBy'
     )
     repositoriesStore.filtration.name = 'value'
     filtrateRepositoriesObjects('value2')
@@ -195,7 +177,7 @@ describe('repositories filtration composable', () => {
     const repositoriesStore = useRepositoryStore()
     const spy = vi.spyOn(
       repositoriesStore,
-      'setFiltrationByName'
+      'setFiltrationBy'
     )
     repositoriesStore.filtration.name = 'value'
     filtrateRepositoriesObjects('value')
@@ -208,7 +190,7 @@ describe('repositories filtration composable', () => {
     const repositoriesStore = useRepositoryStore()
     const spy = vi.spyOn(
       repositoriesStore,
-      'setFiltrationByName'
+      'setFiltrationBy'
     )
     repositoriesStore.filtration.name = 'value'
     filtrateRepositoriesObjects('value')
@@ -221,7 +203,7 @@ describe('repositories filtration composable', () => {
     const repositoriesStore = useRepositoryStore()
     const spy = vi.spyOn(
       repositoriesStore,
-      'setFiltrationByName'
+      'setFiltrationBy'
     )
     filtrateRepositories(undefined)
     expect(spy).toHaveBeenCalledTimes(0)
@@ -233,7 +215,7 @@ describe('repositories filtration composable', () => {
     const repositoriesStore = useRepositoryStore()
     const spy = vi.spyOn(
       repositoriesStore,
-      'setFiltrationByName'
+      'setFiltrationBy'
     )
     repositoriesStore.filtration.name = 'value'
     filtrateRepositories('value')
@@ -246,7 +228,7 @@ describe('repositories filtration composable', () => {
     const repositoriesStore = useRepositoryStore()
     const spy = vi.spyOn(
       repositoriesStore,
-      'setFiltrationByName'
+      'setFiltrationBy'
     )
     repositoriesStore.filtration.name = 'value'
     filtrateRepositories('value2')

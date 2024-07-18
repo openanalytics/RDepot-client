@@ -115,7 +115,7 @@
 </template>
 
 <script setup lang="ts">
-import { useFilesListStore } from '@/store/local_files'
+import { useFilesListStore } from '@/store/localFiles'
 import { useSubmissionStore } from '@/store/submission'
 import { computed } from 'vue'
 import ReplaceOption from './ReplaceOption.vue'

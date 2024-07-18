@@ -108,10 +108,7 @@ describe('Submissions Store', () => {
   it('Clear filtration and fetch', async () => {
     const submissionStore = useSubmissionStore()
     const pagination = usePagination()
-    const spy = vi.spyOn(
-      submissionStore,
-      'fetchSubmissions'
-    )
+    const spy = vi.spyOn(submissionStore, 'get')
     submissionStore.filtration = randomFiltration
     pagination.page = 2
 
@@ -179,7 +176,7 @@ describe('Submissions Store', () => {
   it('Fetch submissions', async () => {
     const submissionStore = useSubmissionStore()
 
-    await submissionStore.fetchSubmissions()
+    await submissionStore.get()
 
     expect(submissionStore.submissions).toStrictEqual(
       submissions.data.content
@@ -203,15 +200,12 @@ describe('Submissions Store', () => {
 
   it('Update submissions', async () => {
     const submissionStore = useSubmissionStore()
-    const spy = vi.spyOn(
-      submissionStore,
-      'fetchSubmissions'
-    )
+    const spy = vi.spyOn(submissionStore, 'get')
     const submission = deepCopyAny(
       submissions.data.content[0]
     )
 
-    await submissionStore.updateSubmission(submission, {
+    await submissionStore.patch(submission, {
       state: EntityModelSubmissionDtoStateEnum.CANCELLED
     })
 
@@ -240,7 +234,7 @@ describe('Testing submissions store with failing backend', () => {
     const submissionStore = useSubmissionStore()
 
     vi.mock('vue3-toastify')
-    await submissionStore.fetchSubmissions()
+    await submissionStore.get()
 
     expect(submissionStore.submissions).toStrictEqual([])
     // expect(toast).toBeCalled()
@@ -256,7 +250,7 @@ describe('Testing submissions store with failing backend', () => {
       submissions.data.content[0]
     )
 
-    await submissionStore.updateSubmission(submission, {
+    await submissionStore.patch(submission, {
       state: EntityModelSubmissionDtoStateEnum.CANCELLED
     })
 

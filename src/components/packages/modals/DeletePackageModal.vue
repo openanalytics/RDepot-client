@@ -21,7 +21,25 @@
 -->
 
 <template>
-  <ModalOverlay @action="performAction()"> </ModalOverlay>
+  <ModalOverlay
+    id="delete-packages-modal"
+    @action="performAction()"
+  >
+    <template #desc>
+      <v-virtual-scroll
+        :max-height="300"
+        :items="packagesStore.packagesToDelete"
+      >
+        <template #default="{ item }">
+          <v-list-item
+            :title="`${item.name} v.${item.version}`"
+            :subtitle="item.repository?.name"
+          >
+          </v-list-item>
+        </template>
+      </v-virtual-scroll>
+    </template>
+  </ModalOverlay>
 </template>
 
 <script setup lang="ts">
@@ -31,6 +49,6 @@ import { usePackagesStore } from '@/store/packages'
 const packagesStore = usePackagesStore()
 
 async function performAction() {
-  await packagesStore.deletePackage()
+  await packagesStore.deletePackages()
 }
 </script>

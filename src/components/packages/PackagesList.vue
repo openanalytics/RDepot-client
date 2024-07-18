@@ -23,8 +23,11 @@
 <template>
   <v-data-table-server
     v-model:expanded="expanded"
+    v-model="packagesStore.packagesSelected"
+    :show-select="!packagesStore.filtration.deleted"
+    return-object
     :items-per-page="pagination.pageSize"
-    :headers="headers"
+    :headers="filteredHeaders"
     :items="packagesStore.packages"
     :items-length="pagination.totalNumber"
     item-value="id"
@@ -37,6 +40,116 @@
     :items-per-page-options="pagination.itemsPerPage"
     @update:options="fetchData"
   >
+    <template
+      #[`header.data-table-select`]="{
+        selectAll,
+        allSelected,
+        someSelected
+      }"
+    >
+      <div class="d-flex align-center">
+        <v-checkbox-btn
+          id="packages-select-all"
+          :model-value="allSelected"
+          :indeterminate="someSelected && !allSelected"
+          @update:model-value="selectAll"
+        />
+        <v-speed-dial
+          location="bottom center"
+          location-strategy="connected"
+          transition="fade-transition"
+          scroll-strategy="close"
+        >
+          <template #activator="{ props: activatorProps }">
+            <v-btn
+              id="packages-multi-actions"
+              variant="text"
+              size="x-small"
+              icon="mdi-dots-vertical"
+              color="oablue"
+              v-bind="activatorProps"
+              style="margin-left: -10px"
+            >
+            </v-btn>
+          </template>
+          <v-tooltip location="right">
+            <template
+              #activator="{ props: tooltipActivator }"
+            >
+              <div v-bind="tooltipActivator">
+                <v-btn
+                  id="packages-multi-delete"
+                  key="1"
+                  icon="mdi-trash-can"
+                  color="oared"
+                  :disabled="
+                    packagesStore.packagesSelected.length ==
+                    0
+                  "
+                  size="small"
+                  @click="openDeletePackagesModal"
+                ></v-btn>
+              </div>
+            </template>
+            <span
+              >{{ i18n.t('common.delete') }}
+              <span
+                v-if="
+                  packagesStore.packagesSelected.length == 0
+                "
+                >({{ i18n.t('package.chooseOneToEnable') }})
+              </span></span
+            >
+          </v-tooltip>
+        </v-speed-dial>
+      </div>
+    </template>
+    <template
+      #[`item.data-table-select`]="{
+        item,
+        toggleSelect,
+        internalItem,
+        isSelected
+      }"
+    >
+      <template
+        v-if="
+          packagesStore.promises.find(
+            (promise) => promise.packageBag.id == item.id
+          )
+        "
+      >
+        <v-progress-circular
+          indeterminate="disable-shrink"
+          model-value="20"
+          class="mr-5"
+        ></v-progress-circular>
+      </template>
+      <template v-else>
+        <v-checkbox-btn
+          v-if="isSelected(internalItem)"
+          :id="`checkbox-actions-${
+            item.name
+          }-${item.version?.replaceAll('.', '-')}-${
+            item.repository?.name
+          }`"
+          :model-value="true"
+          @click.stop
+          @update:model-value="toggleSelect(internalItem)"
+        />
+        <v-checkbox-btn
+          v-else
+          :id="`checkbox-actions-${
+            item.name
+          }-${item.version?.replaceAll('.', '-')}-${
+            item.repository?.name
+          }`"
+          :model-value="false"
+          @click.stop
+          @update:model-value="toggleSelect(internalItem)"
+        />
+      </template>
+    </template>
     <template #top>
       <div class="d-flex justify-space-between mx-3 my-5">
         <h2>{{ i18n.t('packages.list') }}</h2>
@@ -121,7 +234,12 @@
     >
     <template #[`item.actions`]="{ item }">
       <DeleteIcon
-        v-if="item.name"
+        v-if="item.name && !item.deleted"
+        :id="`delete-icon-${
+          item.name
+        }-${item.version?.replaceAll('.', '-')}-${
+          item.repository?.name
+        }`"
         :disabled="
           !configStore.deletingPackages ||
           (!canDelete(item.links) && !item.deleted)
@@ -131,6 +249,13 @@
           !configStore.deletingPackages
             ? $t('config.deletingPackages')
             : undefined
+        "
+        :overlay-text="
+          i18n.t('common.deleteResourcesQuestion', {
+            resource_type_plural: i18n
+              .t('common.packages')
+              .toLocaleLowerCase()
+          })
         "
         @set-resource-id="choosePackage(item)"
       />
@@ -171,6 +296,8 @@ import { ref, computed } from 'vue'
 import { Sort } from '@/models/DataTableOptions'
 import { useSort } from '@/composable/sort'
 import { useConfigStore } from '@/store/config'
+import { useCommonStore } from '@/store/common'
+import { OverlayEnum } from '@/enum/Overlay'
 
 const exp = ref<string[]>([])
 
@@ -189,6 +316,7 @@ const expanded = computed({
 })
 
 const packagesStore = usePackagesStore()
+const commonStore = useCommonStore()
 const pagination = usePagination()
 const { canDelete, canPatch } = useUserAuthorities()
 const configStore = useConfigStore()
@@ -254,11 +382,37 @@ const headers = computed<DataTableHeaders[]>(() => [
   }
 ])
 
+const filteredHeaders = computed(() => {
+  if (packagesStore.filtration.deleted) {
+    return headers.value.filter(
+      (header) =>
+        header.key != 'actions' &&
+        header.key != 'data-table-select'
+    )
+  }
+  return headers.value
+})
+
 const { getStatusIcon, getStatusColor, getTooltipMessage } =
   useSubmissionIcons()
 
 function choosePackage(item: EntityModelPackageDto) {
-  packagesStore.chosenPackage = item
+  packagesStore.packagesToDelete = [item]
+}
+
+function openDeletePackagesModal() {
+  packagesStore.packagesToDelete =
+    packagesStore.packagesSelected
+
+  commonStore.overlayText = i18n.t(
+    'common.deleteResourcesQuestion',
+    {
+      resource_type_plural: i18n
+        .t('common.packages')
+        .toLocaleLowerCase()
+    }
+  )
+  commonStore.openOverlay(OverlayEnum.enum.Delete)
 }
 
 function updatePackageActive(item: EntityModelPackageDto) {
@@ -274,11 +428,11 @@ function updatePackageActive(item: EntityModelPackageDto) {
 function fetchData(options: DataTableOptions) {
   expanded.value = []
   sortBy.value = getSort(options.sortBy, defaultSort)
-  packagesStore.fetchPackagesPage(options)
+  packagesStore.getPage(options)
 }
 
 onMounted(async () => {
-  packagesStore.fetchPackages()
+  packagesStore.getPackages()
 })
 </script>
 
