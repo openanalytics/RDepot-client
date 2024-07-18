@@ -144,11 +144,11 @@ export async function clickOnElementByXpath(
     until.elementLocated(By.xpath(xpath)),
     8000
   )
+  /* eslint-disable */
   try {
     await driver.findElement(By.xpath(xpath)).click()
-  } catch {
-  } finally {
-  }
+  } catch {}
+  /* eslint-enable */
 }
 
 export async function clickOnButtonByXpath(
