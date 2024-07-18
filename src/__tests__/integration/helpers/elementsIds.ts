@@ -157,9 +157,9 @@ export const DOWNLOAD_SUBMISSION_FILENAME =
 export const WAITING_FOR_APPROVE_SUBMISSION_ID =
   'accept-button-19'
 export const WAITING_FOR_REJECT_SUBMISSION_ID =
-  'reject-button-30'
+  'reject-button-46'
 export const WAITING_FOR_CANCEL_SUBMISSION_ID =
-  'cancel-button-19'
+  'cancel-button-45'
 
 //packages list
 export const PACKAGE_DETAILS_BUTTON_ID =

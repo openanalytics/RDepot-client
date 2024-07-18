@@ -30,7 +30,11 @@ import {
 import {
   SUBMISSIONS_SIDEBAR_ID,
   DOWNLOAD_SUBMISSION_ID,
-  DOWNLOAD_SUBMISSION_FILENAME
+  DOWNLOAD_SUBMISSION_FILENAME,
+  FILTRATION_SEARCH_ID,
+  WAITING_FOR_APPROVE_SUBMISSION_ID,
+  WAITING_FOR_REJECT_SUBMISSION_ID,
+  WAITING_FOR_CANCEL_SUBMISSION_ID
 } from '../helpers/elementsIds'
 import { restoreData } from '../helpers/restoreData'
 import { login } from '../helpers/login'
@@ -39,6 +43,9 @@ import {
   createDriver,
   goToPage
 } from '../helpers/helpers'
+
+const { By, until } = require('selenium-webdriver')
+
 const fs = require('fs')
 const path = require('path')
 
@@ -97,105 +104,112 @@ describe('Submissions actions', () => {
     ).toBe(true)
   })
 
-  // it('accept submission', async () => {
-  //   await login(driver, 'einstein')
-  //   await goToPage(
-  //     driver,
-  //     SUBMISSIONS_SIDEBAR_ID,
-  //     'RDepot - submissions'
-  //   )
-  //   await delay(5000)
-  //   await clickOnButton(
-  //     driver,
-  //     WAITING_FOR_APPROVE_SUBMISSION_ID
-  //   )
-  //   await delay(5000)
+  it('accept submission', async () => {
+    await login(driver, 'einstein')
+    await goToPage(
+      driver,
+      SUBMISSIONS_SIDEBAR_ID,
+      'RDepot - submissions'
+    )
+    await clickOnButton(
+      driver,
+      WAITING_FOR_APPROVE_SUBMISSION_ID
+    )
+    await delay(2000)
 
-  //   await driver.wait(
-  //     until.elementLocated(By.id(FILTRATION_SEARCH_ID)),
-  //     8000
-  //   )
-  //   await delay(5000)
+    await driver.wait(
+      until.elementLocated(By.id(FILTRATION_SEARCH_ID)),
+      8000
+    )
 
-  //   driver
-  //     .findElement(By.id(FILTRATION_SEARCH_ID))
-  //     .sendKeys('visdat')
-  //   await delay(5000)
+    driver
+      .findElement(By.id(FILTRATION_SEARCH_ID))
+      .sendKeys('visdat')
+    await delay(2000)
+    let exists = await driver
+      .findElements(
+        By.id(WAITING_FOR_APPROVE_SUBMISSION_ID)
+      )
+      .then((found: any) => !!found.length)
 
-  //   expect(
-  //     driver.findElement(
-  //       By.id(WAITING_FOR_APPROVE_SUBMISSION_ID)
-  //     )
-  //   ).toBe(false)
-  //   expect(
-  //     driver.findElement(By.id(DOWNLOAD_SUBMISSION_ID))
-  //   ).toBe(true)
-  // })
+    expect(exists).toBe(false)
+    exists = await driver
+      .findElements(By.id(DOWNLOAD_SUBMISSION_ID))
+      .then((found: any) => !!found.length)
+    expect(exists).toBe(true)
+  })
 
-  // it('download accepted submission', async () => {
-  //   await login(driver, 'einstein')
-  //   await goToPage(
-  //     driver,
-  //     SUBMISSIONS_SIDEBAR_ID,
-  //     'RDepot - submissions'
-  //   )
-  //   await clickOnButton(driver, DOWNLOAD_SUBMISSION_ID)
-  //   await delay(20000)
-  //   expect(
-  //     fs.existsSync(
-  //       pathToFileOrDir + DOWNLOAD_SUBMISSION_FILENAME
-  //     )
-  //   ).toBe(true)
-  // })
+  it('download accepted submission', async () => {
+    await login(driver, 'einstein')
+    await goToPage(
+      driver,
+      SUBMISSIONS_SIDEBAR_ID,
+      'RDepot - submissions'
+    )
+    await driver.wait(
+      until.elementLocated(By.id(FILTRATION_SEARCH_ID)),
+      8000
+    )
 
-  // it('reject submission', async () => {
-  //   await login(driver, 'einstein')
-  //   await goToPage(
-  //     driver,
-  //     SUBMISSIONS_SIDEBAR_ID,
-  //     'RDepot - submissions'
-  //   )
-  //   await clickOnButton(
-  //     driver,
-  //     WAITING_FOR_REJECT_SUBMISSION_ID
-  //   )
-  //   //TODO move ids and package names to elementsIDs
-  //   driver
-  //     .findElement(By.id('filtration-search'))
-  //     .sendKeys('abc')
+    driver
+      .findElement(By.id(FILTRATION_SEARCH_ID))
+      .sendKeys('visdat')
+    await delay(2000)
+    await clickOnButton(driver, DOWNLOAD_SUBMISSION_ID)
+    await delay(2000)
+    expect(
+      fs.existsSync(
+        pathToFileOrDir + DOWNLOAD_SUBMISSION_FILENAME
+      )
+    ).toBe(true)
+  })
 
-  //   driver
-  //     .findElement(By.id('filtration-repository'))
-  //     .click()
+  it('reject submission', async () => {
+    await login(driver, 'einstein')
+    await goToPage(
+      driver,
+      SUBMISSIONS_SIDEBAR_ID,
+      'RDepot - submissions'
+    )
+    await clickOnButton(
+      driver,
+      WAITING_FOR_REJECT_SUBMISSION_ID
+    )
+    await delay(2000)
 
-  //   //TODO get id of repository4, check if action buttons visible
-  //   // driver.findElement(By.id('input-168')).click()
-  //   // await driver.wait(
-  //   //   until.elementLocated(
-  //   //     By.id(CREATE_PACKAGE_MAINTAINER_REPOSITORY_INPUT_ID)
-  //   //   ),
-  //   //   8000
-  //   // )
-  // })
+    driver
+      .findElement(By.id(FILTRATION_SEARCH_ID))
+      .sendKeys('requests')
+    await delay(2000)
 
-  // it('cancel submission', async () => {
-  //   await login(driver, 'newton')
-  //   await goToPage(
-  //     driver,
-  //     SUBMISSIONS_SIDEBAR_ID,
-  //     'RDepot - submissions'
-  //   )
-  //   await clickOnButton(
-  //     driver,
-  //     WAITING_FOR_CANCEL_SUBMISSION_ID
-  //   )
-  //   //TODO
+    let exists = await driver
+      .findElements(By.id(WAITING_FOR_REJECT_SUBMISSION_ID))
+      .then((found: any) => !!found.length)
 
-  //   // await driver.wait(
-  //   //   until.elementLocated(
-  //   //     By.id(CREATE_PACKAGE_MAINTAINER_REPOSITORY_INPUT_ID)
-  //   //   ),
-  //   //   8000
-  //   // )
-  // })
+    expect(exists).toBe(false)
+  })
+
+  it('cancel submission', async () => {
+    await login(driver, 'newton')
+    await goToPage(
+      driver,
+      SUBMISSIONS_SIDEBAR_ID,
+      'RDepot - submissions'
+    )
+    await clickOnButton(
+      driver,
+      WAITING_FOR_CANCEL_SUBMISSION_ID
+    )
+    await delay(2000)
+    driver
+      .findElement(By.id(FILTRATION_SEARCH_ID))
+      .sendKeys('requests')
+    await delay(2000)
+
+    let exists = await driver
+      .findElements(By.id(WAITING_FOR_CANCEL_SUBMISSION_ID))
+      .then((found: any) => !!found.length)
+
+    expect(exists).toBe(false)
+  })
 })
