@@ -61,9 +61,10 @@ export async function createDriver() {
       ],
       prefs: {
         download: {
-          dir: '/home/seleuser/Downloads',
-          default_directory: '/home/seleuser/Downloads',
+          default_directory: '/home/seluser/Downloads',
+          dir: '/home/seluser/Downloads',
           prompt_for_download: 'false',
+          directory_upgrade: true,
           open_pdf_in_system_reader: false,
           manager: {
             useWindow: false,
@@ -72,7 +73,7 @@ export async function createDriver() {
         },
         helperApps: {
           neverAsk: {
-            saveToDisk: '*'
+            saveToDisk: 'application/gzip'
           }
         },
         plugins: {
