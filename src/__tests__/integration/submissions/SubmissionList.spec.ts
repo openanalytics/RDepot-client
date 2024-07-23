@@ -30,7 +30,7 @@ import {
 import {
   SUBMISSIONS_SIDEBAR_ID,
   DOWNLOAD_SUBMISSION_ID,
-  DOWNLOAD_SUBMISSION_FILENAME,
+  DOWNLOAD_SUBMISSION_FILENAME_ID,
   SUBMISSIONS_FILTRATION_SEARCH_FIELD_ID,
   WAITING_FOR_APPROVE_SUBMISSION_ID,
   WAITING_FOR_REJECT_SUBMISSION_ID,
@@ -41,31 +41,16 @@ import { login } from '../helpers/login'
 import {
   clickOnButton,
   createDriver,
-  goToPage
+  goToPage,
+  clearDownloadDirectory
 } from '../helpers/helpers'
 
 const { By, until } = require('selenium-webdriver')
 
 const fs = require('fs')
-const path = require('path')
 
 let driver: any
 const pathToFileOrDir = './downloads/'
-
-function clearDownloadDirectory() {
-  fs.readdir(pathToFileOrDir, (err: any, files: any) => {
-    if (err) throw err
-
-    for (const file of files) {
-      fs.unlink(
-        path.join(pathToFileOrDir, file),
-        (err: any) => {
-          if (err) throw err
-        }
-      )
-    }
-  })
-}
 
 beforeAll(async () => {
   await restoreData()
@@ -99,7 +84,7 @@ describe('Submissions actions', () => {
 
     expect(
       fs.existsSync(
-        pathToFileOrDir + DOWNLOAD_SUBMISSION_FILENAME
+        pathToFileOrDir + DOWNLOAD_SUBMISSION_FILENAME_ID
       )
     ).toBe(true)
   })
@@ -167,7 +152,7 @@ describe('Submissions actions', () => {
     await delay(2000)
     expect(
       fs.existsSync(
-        pathToFileOrDir + DOWNLOAD_SUBMISSION_FILENAME
+        pathToFileOrDir + DOWNLOAD_SUBMISSION_FILENAME_ID
       )
     ).toBe(true)
   })

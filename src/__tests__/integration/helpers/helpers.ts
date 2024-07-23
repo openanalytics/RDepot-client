@@ -30,6 +30,8 @@ const {
 } = require('selenium-webdriver')
 const chrome = require('selenium-webdriver/chrome')
 const BASE_URL = 'http://192.168.49.20'
+const path = require('path')
+const fs = require('fs')
 
 export async function createDriver() {
   return await new Builder()
@@ -225,4 +227,20 @@ export async function setInputValue(
   await driver.wait(until.elementLocated(By.id(id)), 8000)
 
   await driver.findElement(By.id(id)).sendKeys(value)
+}
+
+export function clearDownloadDirectory() {
+  const pathToFileOrDir = './downloads/'
+  fs.readdir(pathToFileOrDir, (err: any, files: any) => {
+    if (err) throw err
+
+    for (const file of files) {
+      fs.unlink(
+        path.join(pathToFileOrDir, file),
+        (err: any) => {
+          if (err) throw err
+        }
+      )
+    }
+  })
 }
