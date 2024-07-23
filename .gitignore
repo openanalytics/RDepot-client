@@ -29,3 +29,4 @@ pnpm-debug.log*
 reports
 
 /docker/testData
+/downloads

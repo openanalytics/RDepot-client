@@ -298,12 +298,12 @@ describe('Submissions - cells', () => {
 
   it('displays accept action', () => {
     const cell = cells[8]
-    const button = cell.findComponent('#accept-button')
+    const button = cell.findComponent('#accept-button-19')
     expect(button.exists()).toBeTruthy()
   })
   it('displays reject action', () => {
     const cell = cells[8]
-    const button = cell.findComponent('#reject-button')
+    const button = cell.findComponent('#reject-button-19')
     expect(button.exists()).toBeTruthy()
   })
 })

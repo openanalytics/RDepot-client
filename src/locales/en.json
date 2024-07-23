@@ -1,8 +1,9 @@
 {
   "action": {
-    "accept": "ACCEPT",
-    "cancel": "CANCEL",
-    "reject": "REJECT"
+    "accept": "Accept",
+    "cancel": "Cancel",
+    "download": "Download",
+    "reject": "Reject"
   },
   "addSubmission": {
     "generateManual": "Generate manual",
@@ -141,6 +142,9 @@
       "url": "This should be a url"
     },
     "events": "Events",
+    "eventsTag": {
+      "copied": "Copied!"
+    },
     "goBack": "Go back",
     "list": "List",
     "logout": "Logout",
@@ -161,10 +165,7 @@
     "submissions": "Submissions",
     "submit": "Submit",
     "uploadPackages": "Upload packages",
-    "users": "Users",
-    "eventsTag": {
-      "copied": "Copied!"
-    }
+    "users": "Users"
   },
   "config": {
     "deletingPackages": "Package deletion is disabled due to the configuration",

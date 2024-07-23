@@ -1,8 +1,9 @@
 {
   "action": {
-    "accept": "ZAAKCEPTUJ",
-    "cancel": "ANULUJ",
-    "reject": "ODRZUĆ"
+    "accept": "Zaakceptuj",
+    "cancel": "Anuluj",
+    "download": "Pobierz",
+    "reject": "Odrzuć"
   },
   "addSubmission": {
     "generateManual": "Generuj dokumentację",
@@ -141,6 +142,9 @@
       "url": "To powinien być url"
     },
     "events": "Zdarzenia",
+    "eventsTag": {
+      "copied": "Skopiowano!"
+    },
     "goBack": "Powrót",
     "list": "Lista",
     "logout": "Wyloguj",
@@ -161,10 +165,7 @@
     "submissions": "Zgłoszenia",
     "submit": "Zatwierdź",
     "uploadPackages": "Prześlij pakiety",
-    "users": "Użytkownicy",
-    "eventsTag": {
-      "copied": "Skopiowano!"
-    }
+    "users": "Użytkownicy"
   },
   "config": {
     "deletingPackages": "Usuwanie pakietu nieaktywne z powodu konfiguracji",

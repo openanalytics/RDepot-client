@@ -150,6 +150,17 @@ export const EDIT_REPOSITORY_MAINTAINER_USER_INPUT_ID =
 export const EDIT_REPOSITORY_MAINTAINER_SUBMIT_ID =
   'submit-button'
 
+//submissions
+export const DOWNLOAD_SUBMISSION_ID = 'download-button-19'
+export const DOWNLOAD_SUBMISSION_FILENAME_ID =
+  'visdat_0.1.0.tar.gz'
+export const WAITING_FOR_APPROVE_SUBMISSION_ID =
+  'accept-button-19'
+export const WAITING_FOR_REJECT_SUBMISSION_ID =
+  'reject-button-46'
+export const WAITING_FOR_CANCEL_SUBMISSION_ID =
+  'cancel-button-45'
+
 //packages list
 export const PACKAGES_LIST_SELECT_ALL_ID =
   'packages-select-all'
