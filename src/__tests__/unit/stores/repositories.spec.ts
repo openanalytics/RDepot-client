@@ -82,7 +82,7 @@ describe('Repository Store', () => {
   it('Fetch repositories', async () => {
     const repositoriesStore = useRepositoryStore()
 
-    await repositoriesStore.fetchRepositories()
+    await repositoriesStore.getRepositories()
 
     expect(repositoriesStore.repositories).toStrictEqual(
       repositories.data.content
@@ -94,7 +94,7 @@ describe('Repository Store', () => {
     const paginationStore = usePagination()
     const spy = vi.spyOn(
       repositoriesStore,
-      'fetchRepositories'
+      'getRepositories'
     )
     paginationStore.page = 2
 
@@ -126,7 +126,7 @@ describe('Repository Store', () => {
     const paginationStore = usePagination()
     const spy = vi.spyOn(
       repositoriesStore,
-      'fetchRepositories'
+      'getRepositories'
     )
     repositoriesStore.filtration = randomFiltration
     paginationStore.page = 2

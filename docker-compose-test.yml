@@ -119,6 +119,8 @@ services:
     restart: unless-stopped
     hostname: oa-rdepot-selenium
     container_name: oa-rdepot-selenium
+    volumes:
+      - ./downloads:/home/seluser/Downloads
     ports:
       - 4444:4444
     networks:

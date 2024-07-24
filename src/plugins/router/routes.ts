@@ -20,7 +20,13 @@
  *
  */
 
-import { prepareUploadPackagesView } from './viewsPreparations'
+import {
+  prepareUploadPackagesView,
+  preparePackagesView,
+  prepareSubmissionsView,
+  prepareRepositoriesView,
+  preparePackageMaintainersView
+} from './viewsPreparations'
 
 export const routes = [
   {
@@ -50,7 +56,10 @@ export const routes = [
           import(
             '@/views/repositories/RepositoriesView.vue'
           ),
-        meta: { title: 'RDepot - repositories' }
+        meta: { title: 'RDepot - repositories' },
+        beforeEnter: () => {
+          prepareRepositoriesView()
+        }
       },
       {
         path: '/repository-maintainers',
@@ -66,14 +75,20 @@ export const routes = [
         name: 'submissions',
         component: () =>
           import('@/views/submissions/SubmissionsView.vue'),
-        meta: { title: 'RDepot - submissions' }
+        meta: { title: 'RDepot - submissions' },
+        beforeEnter: () => {
+          prepareSubmissionsView()
+        }
       },
       {
         path: '/packages',
         name: 'packages',
         component: () =>
           import('@/views/packages/PackagesView.vue'),
-        meta: { title: 'RDepot - packages' }
+        meta: { title: 'RDepot - packages' },
+        beforeEnter: () => {
+          preparePackagesView()
+        }
       },
       {
         path: '/packages/:technology/:id',
@@ -90,7 +105,10 @@ export const routes = [
           import(
             '@/views/maintainers/PackageMaintainersView.vue'
           ),
-        meta: { title: 'RDepot - package maintainers' }
+        meta: { title: 'RDepot - package maintainers' },
+        beforeEnter: () => {
+          preparePackageMaintainersView()
+        }
       },
       {
         path: '/upload-packages',

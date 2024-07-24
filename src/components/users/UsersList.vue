@@ -40,18 +40,28 @@
         <h2>{{ i18n.t('common.users') }}</h2>
       </div>
     </template>
+    <template #[`item.role`]="{ item }">
+      {{
+        roles.filter((r) => r.value === item.role)[0].title
+      }}
+    </template>
     <template #[`item.active`]="{ item }">
       <v-tooltip
         location="top"
         :disabled="item.id !== authorizationStore.me.id"
       >
         <template #activator="{ props }">
-          <span v-bind="props">
+          <span
+            v-bind="props"
+            style="width: 100%"
+            class="d-flex justify-center"
+          >
             <v-checkbox-btn
               id="checkbox-active"
               v-model="item.active"
               hide-details
-              class="mr-4"
+              style="justify-content: center"
+              class="mr-5"
               :readonly="
                 !isAtLeastAdmin(
                   authorizationStore.userRole
@@ -107,6 +117,7 @@ import {
 import { useAuthorizationStore } from '@/store/authorization'
 import { ref, computed } from 'vue'
 import { useSort } from '@/composable/sort'
+import { useEnumFiltration } from '@/composable/filtration/enumFiltration'
 
 const pagination = usePagination()
 const authorizationStore = useAuthorizationStore()
@@ -115,6 +126,7 @@ const userStore = useUserStore()
 const { getSort } = useSort()
 const defaultSort: Sort[] = [{ key: 'login', order: 'asc' }]
 const sortBy = ref(defaultSort)
+const { roles } = useEnumFiltration()
 
 const headers = computed<DataTableHeaders[]>(() => [
   {
@@ -133,6 +145,12 @@ const headers = computed<DataTableHeaders[]>(() => [
     title: i18n.t('columns.users.email'),
     align: 'start',
     key: 'email'
+  },
+  {
+    title: i18n.t('columns.users.role'),
+    align: 'start',
+    key: 'role',
+    width: 200
   },
   {
     title: i18n.t('columns.users.active'),
@@ -162,10 +180,10 @@ function updateUserActive(item: EntityModelUserDto): void {
     oldUser.active = !oldUser.active
     updateUser(oldUser, item).then(
       () => {
-        userStore.fetchUsers()
+        userStore.get()
       },
       () => {
-        userStore.fetchUsers()
+        userStore.get()
       }
     )
   }
@@ -173,10 +191,10 @@ function updateUserActive(item: EntityModelUserDto): void {
 
 function fetchData(options: DataTableOptions) {
   sortBy.value = getSort(options.sortBy, defaultSort)
-  userStore.fetchUsersPage(options)
+  userStore.getPage(options)
 }
 
 onMounted(() => {
-  userStore.fetchRoles()
+  userStore.getRoles()
 })
 </script>

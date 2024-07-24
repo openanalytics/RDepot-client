@@ -1,8 +1,9 @@
 {
   "action": {
-    "accept": "ACCEPT",
-    "cancel": "CANCEL",
-    "reject": "REJECT"
+    "accept": "Accept",
+    "cancel": "Cancel",
+    "download": "Download",
+    "reject": "Reject"
   },
   "addSubmission": {
     "generateManual": "Generate manual",
@@ -130,6 +131,7 @@
     "deactivateQuestion": "Are you sure you want to deactivate {resource_name}?",
     "delete": "Delete",
     "deleteQuestion": "Are you sure you want to delete {resource_name}?",
+    "deleteResourcesQuestion": "Are you sure you want to delete the following {resource_type_plural}?",
     "details": "See details",
     "edit": "Edit",
     "errors": {
@@ -140,6 +142,9 @@
       "url": "This should be a url"
     },
     "events": "Events",
+    "eventsTag": {
+      "copied": "Copied!"
+    },
     "goBack": "Go back",
     "list": "List",
     "logout": "Logout",
@@ -268,6 +273,7 @@
     "successUpdateUser": "Successfully updated user"
   },
   "package": {
+    "chooseOneToEnable": "choose at least one package to enable",
     "noDescriptionProvided": "No description provided",
     "propertyNotProvided": "not provided"
   },

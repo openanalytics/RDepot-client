@@ -20,6 +20,7 @@
  *
  */
 
+import { useUtilities } from '@/composable/utilities'
 import { Technologies } from '@/enum/Technologies'
 import { PackagesFiltration } from '@/models/Filtration'
 import {
@@ -347,9 +348,49 @@ export async function fetchVignettes(
 //   })
 // }
 
+export async function deletePackage(
+  oldPackage: EntityModelPackageDto,
+  ifToast = false
+): Promise<validatedData<EntityModelPackageDto>> {
+  // if (!isAuthorized('PATCH', 'packages')) {
+  //   return new Promise(() => false)
+  // }
+  const { deepCopy } = useUtilities()
+
+  let packagesApi
+  const newPackage: EntityModelPackageDto =
+    deepCopy(oldPackage)
+  newPackage.deleted = true
+
+  const patch_body = createPatch(oldPackage, newPackage)
+  if (oldPackage.technology === Technologies.enum.R) {
+    packagesApi =
+      RPackageControllerApiFactory().updatePackage
+  } else if (
+    oldPackage.technology === Technologies.enum.Python
+  ) {
+    packagesApi =
+      PythonPackageControllerApiFactory()
+        .updatePythonPackage
+  } else {
+    return new Promise(() => false)
+  }
+
+  return openApiRequest<EntityModelPackageDto>(
+    packagesApi,
+    [patch_body, oldPackage.id!],
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    ifToast
+  )
+}
+
 export async function deletePythonPackage(
   oldPackage: EntityModelPackageDto,
-  newPackage: EntityModelPackageDto
+  newPackage: EntityModelPackageDto,
+  ifToast = false
 ) {
   // if (!isAuthorized('PATCH', 'packages')) {
   //   return new Promise(() => false)
@@ -359,7 +400,12 @@ export async function deletePythonPackage(
 
   return openApiRequest<EntityModelPackageDto>(
     PythonPackageControllerApiFactory().updatePythonPackage,
-    [patch_body, oldPackage.id!]
+    [patch_body, oldPackage.id!],
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    ifToast
   ).catch(() => {
     return validateRequest({})
   })
@@ -367,7 +413,8 @@ export async function deletePythonPackage(
 
 export async function deleteRPackage(
   oldPackage: EntityModelPackageDto,
-  newPackage: EntityModelPackageDto
+  newPackage: EntityModelPackageDto,
+  ifToast = false
 ) {
   // if (!isAuthorized('PATCH', 'packages')) {
   //   return new Promise(() => false)
@@ -376,7 +423,12 @@ export async function deleteRPackage(
   const patch_body = createPatch(oldPackage, newPackage)
   return openApiRequest<EntityModelPackageDto>(
     RPackageControllerApiFactory().updatePackage,
-    [patch_body, oldPackage.id!]
+    [patch_body, oldPackage.id!],
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    ifToast
   ).catch(() => {
     return validateRequest({})
   })

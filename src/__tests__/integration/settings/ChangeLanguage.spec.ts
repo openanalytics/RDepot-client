@@ -287,9 +287,10 @@ describe('Change language with navbar button', () => {
       'RDepot - users'
     )
 
-    const englishHeaders = 'UsernameUserEmailActiveActions'
+    const englishHeaders =
+      'UsernameUserEmailRoleActiveActions'
     const polishHeaders =
-      'NazwaużytkownikaUżytkownikEmailAktywnyAkcje'
+      'NazwaużytkownikaUżytkownikEmailRolaAktywnyAkcje'
 
     let appHeaders = await driver
       .findElement(By.xpath('//thead'))

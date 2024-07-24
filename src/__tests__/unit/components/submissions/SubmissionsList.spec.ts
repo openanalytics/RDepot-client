@@ -39,7 +39,9 @@ import { useAuthorizationStore } from '@/store/authorization'
 import me from '@/__tests__/config/mockData/me.json'
 import { nextTick } from 'vue'
 import { i18n } from '@/plugins/i18n'
+import { useDates } from '@/composable/date'
 
+const { formatDate } = useDates()
 let wrapper: any
 let submissionStore: any
 let authorizationStore: any
@@ -211,7 +213,9 @@ describe('Submissions - cells', () => {
     const cell = cells[0]
     const chip = cell.findComponent('.v-chip')
     expect(chip.exists()).toBeTruthy()
-    expect(chip.text()).toBe(submission.created)
+    expect(chip.text()).toBe(
+      formatDate(new Date(submission.created))
+    )
   })
 
   it('displays package', () => {
@@ -294,12 +298,12 @@ describe('Submissions - cells', () => {
 
   it('displays accept action', () => {
     const cell = cells[8]
-    const button = cell.findComponent('#accept-button')
+    const button = cell.findComponent('#accept-button-19')
     expect(button.exists()).toBeTruthy()
   })
   it('displays reject action', () => {
     const cell = cells[8]
-    const button = cell.findComponent('#reject-button')
+    const button = cell.findComponent('#reject-button-19')
     expect(button.exists()).toBeTruthy()
   })
 })

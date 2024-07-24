@@ -148,19 +148,19 @@ const headers = computed<DataTableHeaders[]>(() => [
 ])
 function fetchData(options: DataTableOptions) {
   sortBy.value = getSort(options.sortBy, defaultSort)
-  packageMaintainersStore.fetchMaintainersPage(options)
+  packageMaintainersStore.getPage(options)
 }
 
 function chooseMaintainer(
   item: EntityModelPackageMaintainerDto
 ) {
-  packageMaintainersStore.setChosenMaintainer(item)
+  packageMaintainersStore.setChosen(item)
 }
 
 function setEditEntity(
   item: EntityModelPackageMaintainerDto
 ) {
-  packageMaintainersStore.setChosenMaintainer(item)
+  packageMaintainersStore.setChosen(item)
 }
 
 function getEditMessage(

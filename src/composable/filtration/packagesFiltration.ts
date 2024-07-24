@@ -74,13 +74,11 @@ export function usePackagesFiltration() {
     repositoryName: string
   ) {
     const packagesMaintainedByUser =
-      await packageMaintainerStore.fetchAndReturnAllMaintainers(
-        {
-          deleted: false,
-          search: userName,
-          repository: [repositoryName]
-        }
-      )
+      await packageMaintainerStore.getAll({
+        deleted: false,
+        search: userName,
+        repository: [repositoryName]
+      })
 
     return packagesStore.packages.map(
       (packageBag: EntityModelPackageDto) => {
@@ -113,7 +111,7 @@ export function usePackagesFiltration() {
       selectStore.nextPage()
       if (selectStore.fetchNextPageCondition) {
         await packagesStore
-          .fetchPackagesList(
+          .getList(
             selectStore.paginationData.page - 1,
             selectStore.pageSize
           )

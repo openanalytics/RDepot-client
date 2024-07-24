@@ -30,6 +30,8 @@ const {
 } = require('selenium-webdriver')
 const chrome = require('selenium-webdriver/chrome')
 const BASE_URL = 'http://192.168.49.20'
+const path = require('path')
+const fs = require('fs')
 
 export async function createDriver() {
   return await new Builder()
@@ -37,14 +39,57 @@ export async function createDriver() {
     .usingServer('http://192.168.49.12:4444/wd/hub')
     .setChromeOptions(
       new chrome.Options().addArguments(
-        '--headless',
+        '--headless=new',
+        '--test-type',
         '--no-sandbox',
         '--disable-dev-shm-usage',
         '--disable-gpu',
-        '--disable-extensions'
-        // '--remote-debugging-port=9222'
+        '--disable-extensions',
+        // '--remote-debugging-port=9222',
+        '--allow-running-insecure-content',
+        `--unsafely-treat-insecure-origin-as-secure=${BASE_URL}`
       )
     )
+    .withCapabilities({
+      args: [
+        'disable-infobars',
+        'enable-automation',
+        'disable-popup-blocking'
+      ],
+      excludeSwitches: [
+        'disable-infobars',
+        'enable-automation',
+        'disable-popup-blocking'
+      ],
+      prefs: {
+        download: {
+          default_directory: '/home/seluser/Downloads',
+          dir: '/home/seluser/Downloads',
+          prompt_for_download: 'false',
+          directory_upgrade: true,
+          open_pdf_in_system_reader: false,
+          manager: {
+            useWindow: false,
+            showWhenStarting: false
+          }
+        },
+        helperApps: {
+          neverAsk: {
+            saveToDisk: 'application/gzip'
+          }
+        },
+        plugins: {
+          always_open_pdf_externally: true
+        },
+        credentials_enable_service: false,
+        profile: {
+          password_manager_enabled: false,
+          default_content_settings: {
+            popups: 0
+          }
+        }
+      }
+    })
     .build()
 }
 
@@ -102,7 +147,11 @@ export async function clickOnElementByXpath(
     until.elementLocated(By.xpath(xpath)),
     8000
   )
-  await driver.findElement(By.xpath(xpath)).click()
+  /* eslint-disable */
+  try {
+    await driver.findElement(By.xpath(xpath)).click()
+  } catch {}
+  /* eslint-enable */
 }
 
 export async function clickOnButtonByXpath(
@@ -168,4 +217,30 @@ export async function clickOnMenuItemById(
       })
       await element.click()
     })
+}
+
+export async function setInputValue(
+  driver: typeof Builder,
+  id: string,
+  value: string
+) {
+  await driver.wait(until.elementLocated(By.id(id)), 8000)
+
+  await driver.findElement(By.id(id)).sendKeys(value)
+}
+
+export function clearDownloadDirectory() {
+  const pathToFileOrDir = './downloads/'
+  fs.readdir(pathToFileOrDir, (err: any, files: any) => {
+    if (err) throw err
+
+    for (const file of files) {
+      fs.unlink(
+        path.join(pathToFileOrDir, file),
+        (err: any) => {
+          if (err) throw err
+        }
+      )
+    }
+  })
 }

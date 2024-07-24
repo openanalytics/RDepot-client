@@ -65,7 +65,7 @@ describe('user filtration filtration composable', () => {
     selectStore.paginationData.totalNumber = 2
     selectStore.paginationData.page = 1
     selectStore.pageSize = 1
-    const spy = vi.spyOn(userStore, 'fetchUsersList')
+    const spy = vi.spyOn(userStore, 'getList')
     loadUsersObjects()
     expect(spy).toHaveBeenCalledOnce()
   })
@@ -75,7 +75,7 @@ describe('user filtration filtration composable', () => {
     const selectStore = useSelectStore('user')
     selectStore.items = [{ title: 'title', value: 'value' }]
     const userStore = useUserStore()
-    const spy = vi.spyOn(userStore, 'fetchUsersList')
+    const spy = vi.spyOn(userStore, 'getList')
     loadUsersObjects()
     expect(spy).toHaveBeenCalledOnce()
   })
@@ -88,7 +88,7 @@ describe('user filtration filtration composable', () => {
     selectStore.paginationData.totalNumber = 1
     selectStore.paginationData.page = 1
     selectStore.pageSize = 1
-    const spy = vi.spyOn(userStore, 'fetchUsersList')
+    const spy = vi.spyOn(userStore, 'getList')
     loadUsersObjects()
     expect(spy).toHaveBeenCalledTimes(0)
   })
@@ -101,7 +101,7 @@ describe('user filtration filtration composable', () => {
     selectStore.paginationData.totalNumber = 2
     selectStore.paginationData.page = 0
     selectStore.pageSize = 1
-    const spy = vi.spyOn(userStore, 'fetchUsersList')
+    const spy = vi.spyOn(userStore, 'getList')
     loadUsers()
     expect(spy).toHaveBeenCalledOnce()
   })
@@ -111,7 +111,7 @@ describe('user filtration filtration composable', () => {
     const selectStore = useSelectStore('user')
     selectStore.items = [{ title: 'title', value: 'value' }]
     const userStore = useUserStore()
-    const spy = vi.spyOn(userStore, 'fetchUsersList')
+    const spy = vi.spyOn(userStore, 'getList')
     loadUsers()
     expect(spy).toHaveBeenCalledOnce()
   })
@@ -124,7 +124,7 @@ describe('user filtration filtration composable', () => {
     selectStore.paginationData.totalNumber = 1
     selectStore.paginationData.page = 1
     selectStore.pageSize = 1
-    const spy = vi.spyOn(userStore, 'fetchUsersList')
+    const spy = vi.spyOn(userStore, 'getList')
     loadUsers()
     expect(spy).toHaveBeenCalledTimes(0)
   })
@@ -140,7 +140,7 @@ describe('user filtration filtration composable', () => {
   it('should not set new filtration if value equals to undefined', () => {
     const { filtrateUsers } = useUsersFiltration()
     const userStore = useUserStore()
-    const spy = vi.spyOn(userStore, 'setFiltrationByName')
+    const spy = vi.spyOn(userStore, 'setFiltrationBy')
     filtrateUsers(undefined)
     expect(spy).toHaveBeenCalledTimes(0)
   })
@@ -149,7 +149,7 @@ describe('user filtration filtration composable', () => {
     const { filtrateUsers } = useUsersFiltration()
     const userStore = useUserStore()
     userStore.filtration.search = 'value'
-    const spy = vi.spyOn(userStore, 'setFiltrationByName')
+    const spy = vi.spyOn(userStore, 'setFiltrationBy')
     filtrateUsers('value2')
     expect(spy).toHaveBeenCalledOnce()
   })
@@ -158,7 +158,7 @@ describe('user filtration filtration composable', () => {
     const { filtrateUsers } = useUsersFiltration()
     const userStore = useUserStore()
     userStore.filtration.search = 'value'
-    const spy = vi.spyOn(userStore, 'setFiltrationByName')
+    const spy = vi.spyOn(userStore, 'setFiltrationBy')
     filtrateUsers('value')
     expect(spy).toHaveBeenCalledTimes(0)
   })

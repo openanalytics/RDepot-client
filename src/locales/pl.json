@@ -1,8 +1,9 @@
 {
   "action": {
-    "accept": "ZAAKCEPTUJ",
-    "cancel": "ANULUJ",
-    "reject": "ODRZUĆ"
+    "accept": "Zaakceptuj",
+    "cancel": "Anuluj",
+    "download": "Pobierz",
+    "reject": "Odrzuć"
   },
   "addSubmission": {
     "generateManual": "Generuj dokumentację",
@@ -130,6 +131,7 @@
     "deactivateQuestion": "Are you sure you want to deactivate {resource_name}?",
     "delete": "Usuń",
     "deleteQuestion": "Czy na pewno chcesz usunąć {resource_name}?",
+    "deleteResourcesQuestion": "Czy na pewno chcesz usunąć niżej wymienione {resource_type_plural}?",
     "details": "Zobacz szczegóły",
     "edit": "Edytuj",
     "errors": {
@@ -140,6 +142,9 @@
       "url": "To powinien być url"
     },
     "events": "Zdarzenia",
+    "eventsTag": {
+      "copied": "Skopiowano!"
+    },
     "goBack": "Powrót",
     "list": "Lista",
     "logout": "Wyloguj",
@@ -262,6 +267,7 @@
     "successUpdateUser": "Dane użytkownika zaktualizowane"
   },
   "package": {
+    "chooseOneToEnable": "wybierz co najmniej jedną paczkę aby odblokować",
     "noDescriptionProvided": "Brak dostępnego opisu",
     "propertyNotProvided": "brak informacji"
   },

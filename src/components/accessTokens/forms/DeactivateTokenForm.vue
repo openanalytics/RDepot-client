@@ -55,7 +55,7 @@ const accessTokensStore = useAccessTokensStore()
 function deactivateToken() {
   let newToken = deepCopy(accessTokensStore.currentToken)
   newToken.active = false
-  accessTokensStore.deactivateToken(
+  accessTokensStore.deactivate(
     deepCopy(accessTokensStore.currentToken),
     newToken
   )

@@ -33,12 +33,10 @@ import {
 } from '@/models/Filtration'
 import {
   fetchPackagesServices,
-  fetchRepositoriesServices,
-  fetchAllRepositoriesServices
+  fetchRepositoriesServices
 } from '@/services'
 import {
   deletePackageMaintainerService,
-  fetchAllPackageMaintainers,
   fetchPackageMaintainersService,
   updatePackageMaintainerService,
   createPackageMaintainerService,
@@ -89,9 +87,7 @@ export const usePackageMaintainersStore = defineStore(
       }
     },
     actions: {
-      async fetchMaintainersPage(
-        options: DataTableOptions
-      ) {
+      async getPage(options: DataTableOptions) {
         this.loading = true
         const [maintainers, pageData] = await fetch(
           this.filtration,
@@ -105,7 +101,17 @@ export const usePackageMaintainersStore = defineStore(
         this.totalNumber = pageData.totalNumber
         this.maintainers = maintainers
       },
-      async fetchMaintainers() {
+      async getList(page: number, pageSize = 8) {
+        const [maintainers, pageData] =
+          await fetchFullMaintainersList(
+            page,
+            pageSize,
+            this.filtration
+          )
+        this.maintainers = maintainers
+        return pageData
+      },
+      async get() {
         const pagination = usePagination()
         const [maintainers, pageData] =
           await fetchPackageMaintainersService(
@@ -114,11 +120,10 @@ export const usePackageMaintainersStore = defineStore(
             pagination.pageSize
           )
         pagination.newPageWithoutRefresh(pageData.page)
-        pagination.totalNumber = pageData.totalNumber
+        this.totalNumber = pageData.totalNumber
         this.maintainers = maintainers
       },
-
-      async fetchAndReturnAllMaintainers(
+      async getAll(
         filtration: PackageMaintainersFiltration
       ) {
         let page = 0
@@ -139,97 +144,28 @@ export const usePackageMaintainersStore = defineStore(
         }
         return maintainers
       },
-
-      async fetchAllMaintainers() {
-        const [maintainers] =
-          await fetchAllPackageMaintainers()
-        this.maintainers = maintainers
-      },
-      async fetchMaintainersList(
-        page: number,
-        pageSize = 8
-      ) {
-        const [maintainers, pageData] =
-          await fetchFullMaintainersList(
-            page,
-            pageSize,
-            this.filtration
-          )
-        this.maintainers = maintainers
-        return pageData
-      },
-      async fetchRepositories() {
+      async getRepositories() {
         const [repositories] =
           await fetchRepositoriesServices()
         this.repositories = repositories
       },
-      async fetchAllRepositories() {
-        const [repositories] =
-          await fetchAllRepositoriesServices()
-        this.repositories = repositories
-      },
-      async fetchPackages() {
+      async getPackages() {
         const [packages] = await fetchPackagesServices()
         this.packages = packages
       },
-      setChosenMaintainer(
-        payload: EntityModelPackageMaintainerDto
-      ) {
-        this.chosenMaintainer = payload
-        this.saveMaintainer()
-      },
-      saveMaintainer() {
-        this.maintainers = this.maintainers.map(
-          (maintainer: EntityModelPackageMaintainerDto) => {
-            if (maintainer.id == this.chosenMaintainer.id) {
-              return this.chosenMaintainer
-            }
-            return maintainer
-          }
-        )
-      },
-      async softDelete() {
+      async deleteSoft() {
         if (this.chosenMaintainer) {
-          this.updateMaintainer({ deleted: true })
+          this.patch({ deleted: true })
         }
       },
-      async setFiltration(
-        payload: PackageMaintainersFiltration
-      ) {
-        const pagination = usePagination()
-        pagination.resetPage()
-        if (
-          PackageMaintainersFiltration.safeParse(payload)
-            .success
-        ) {
-          this.filtration =
-            PackageMaintainersFiltration.parse(payload)
-        }
-        await this.fetchMaintainers()
-      },
-      setFiltrationByName(payload: string | undefined) {
-        this.clearFiltration()
-        this.filtration.search = payload
-      },
-      clearFiltration() {
-        const pagination = usePagination()
-        pagination.resetPage()
-        this.filtration = defaultValues(
-          PackageMaintainersFiltration
-        )
-      },
-      async clearFiltrationAndFetch() {
-        this.clearFiltration()
-        await this.fetchMaintainers()
-      },
-      async deleteChosenMaintainer() {
+      async delete() {
         deletePackageMaintainerService(
           this.chosenMaintainer
         ).then(async (success) => {
-          if (success) await this.fetchMaintainers()
+          if (success) await this.get()
         })
       },
-      async updateMaintainer(
+      async patch(
         newValues: Partial<PackageMaintainerDto>
       ) {
         const newMaintainer = {
@@ -240,17 +176,64 @@ export const usePackageMaintainersStore = defineStore(
           this.chosenMaintainer,
           newMaintainer
         ).then(async (success) => {
-          if (success) await this.fetchMaintainers()
+          if (success) await this.get()
         })
       },
-      async createMaintainer(
+      async create(
         maintainer: Partial<PackageMaintainerDto>
       ) {
         createPackageMaintainerService(maintainer).then(
           async (success) => {
-            if (success) await this.fetchMaintainers()
+            if (success) await this.get()
           }
         )
+      },
+      setChosen(payload: EntityModelPackageMaintainerDto) {
+        this.chosenMaintainer = payload
+        this.save()
+      },
+      save() {
+        this.maintainers = this.maintainers.map(
+          (maintainer: EntityModelPackageMaintainerDto) => {
+            if (maintainer.id == this.chosenMaintainer.id) {
+              return this.chosenMaintainer
+            }
+            return maintainer
+          }
+        )
+      },
+      async setFiltration(
+        payload: PackageMaintainersFiltration
+      ) {
+        const pagination = usePagination()
+        pagination.resetPage()
+
+        if (
+          PackageMaintainersFiltration.safeParse(payload)
+            .success
+        ) {
+          this.filtration =
+            PackageMaintainersFiltration.parse(payload)
+        }
+        await this.get()
+      },
+      setFiltrationBy(filtration: object) {
+        this.clearFiltration()
+        this.filtration = {
+          ...defaultValues(PackageMaintainersFiltration),
+          ...(filtration as PackageMaintainersFiltration)
+        }
+      },
+      clearFiltration() {
+        const pagination = usePagination()
+        pagination.resetPage()
+        this.filtration = defaultValues(
+          PackageMaintainersFiltration
+        )
+      },
+      async clearFiltrationAndFetch() {
+        this.clearFiltration()
+        await this.get()
       },
       getLabels() {
         return packageMaintainersFiltrationLabels

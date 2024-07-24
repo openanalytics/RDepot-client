@@ -32,17 +32,13 @@ import {
 } from '@/models/Filtration'
 import {
   deletedRepositoryMaintainer,
-  fetchAllRepositoryMaintainers,
   fetchRepositoryMaintainersServices,
   updateRepositoryMaintainer,
   createRepositoryMaintainer,
   fetchFullMaintainersList,
   fetch
 } from '@/services/repositoryMaintainersServices'
-import {
-  fetchRepositoriesServices,
-  fetchAllRepositoriesServices
-} from '@/services'
+import { fetchRepositoriesServices } from '@/services'
 import { useUtilities } from '@/composable/utilities'
 import { repositoryMaintainersFiltrationLabels } from '@/maps/Filtration'
 import { usePagination } from '@/store/pagination'
@@ -85,9 +81,7 @@ export const useRepositoryMaintainersStore = defineStore(
       }
     },
     actions: {
-      async fetchMaintainersPage(
-        options: DataTableOptions
-      ) {
+      async getPage(options: DataTableOptions) {
         this.loading = true
         const [maintainers, pageData] = await fetch(
           this.filtration,
@@ -101,27 +95,7 @@ export const useRepositoryMaintainersStore = defineStore(
         this.totalNumber = pageData.totalNumber
         this.maintainers = maintainers
       },
-      async fetchMaintainers() {
-        const pagination = usePagination()
-        const [maintainers, pageData] =
-          await fetchRepositoryMaintainersServices(
-            this.filtration,
-            pagination.fetchPage,
-            pagination.pageSize
-          )
-        pagination.newPageWithoutRefresh(pageData.page)
-        pagination.totalNumber = pageData.totalNumber
-        this.maintainers = maintainers
-      },
-      async fetchAllMaintainers() {
-        const [maintainers] =
-          await fetchAllRepositoryMaintainers()
-        this.maintainers = maintainers
-      },
-      async fetchMaintainersList(
-        page: number,
-        pageSize = 8
-      ) {
+      async getList(page: number, pageSize = 8) {
         const [maintainers, pageData] =
           await fetchFullMaintainersList(
             this.filtration,
@@ -131,7 +105,19 @@ export const useRepositoryMaintainersStore = defineStore(
         this.maintainers = maintainers
         return pageData
       },
-      async fetchAndReturnAllMaintainers(
+      async get() {
+        const pagination = usePagination()
+        const [maintainers, pageData] =
+          await fetchRepositoryMaintainersServices(
+            this.filtration,
+            pagination.fetchPage,
+            pagination.pageSize
+          )
+        pagination.newPageWithoutRefresh(pageData.page)
+        this.totalNumber = pageData.totalNumber
+        this.maintainers = maintainers
+      },
+      async getAll(
         filtration: RepositoryMaintainersFiltration
       ) {
         let page = 0
@@ -149,22 +135,26 @@ export const useRepositoryMaintainersStore = defineStore(
         }
         return maintainers
       },
-      async fetchRepositories() {
+      async getRepositories() {
         const [repositories] =
           await fetchRepositoriesServices()
         this.repositories = repositories
       },
-      async fetchAllRepositories() {
-        const [repositories] =
-          await fetchAllRepositoriesServices()
-        this.repositories = repositories
+      async deleteSoft() {
+        if (this.chosenMaintainer) {
+          this.patch({ deleted: true })
+        }
       },
-      async setChosenMaintainer(
-        payload: EntityModelPackageMaintainerDto
-      ) {
-        this.chosenMaintainer = payload
+      async delete() {
+        if (this.chosenMaintainer) {
+          await deletedRepositoryMaintainer(
+            this.chosenMaintainer
+          ).then(async (success) => {
+            if (success) await this.get()
+          })
+        }
       },
-      async updateMaintainer(
+      async patch(
         newValues: Partial<EntityModelPackageMaintainerDto>
       ) {
         if (
@@ -180,39 +170,29 @@ export const useRepositoryMaintainersStore = defineStore(
             this.chosenMaintainer,
             newMaintainer
           ).then(async (success) => {
-            if (success) await this.fetchMaintainers()
+            if (success) await this.get()
           })
         }
       },
-      async createMaintainer(
+      async create(
         maintainer: Partial<EntityModelPackageMaintainerDto>
       ) {
         await createRepositoryMaintainer(maintainer).then(
           async (success) => {
-            if (success) await this.fetchMaintainers()
+            if (success) await this.get()
           }
         )
       },
-      async deleteMaintainer() {
-        if (this.chosenMaintainer) {
-          await deletedRepositoryMaintainer(
-            this.chosenMaintainer
-          ).then(async (success) => {
-            if (success) await this.fetchMaintainers()
-          })
-        }
-      },
-      async softDelete() {
-        if (this.chosenMaintainer) {
-          this.updateMaintainer({ deleted: true })
-        }
+      async setChosen(
+        payload: EntityModelPackageMaintainerDto
+      ) {
+        this.chosenMaintainer = payload
       },
       async setPage(payload: number) {
         const pagination = usePagination()
         pagination.page = payload
-        this.fetchMaintainers()
+        this.get()
       },
-
       async setFiltration(
         payload: RepositoryMaintainersFiltration
       ) {
@@ -225,11 +205,14 @@ export const useRepositoryMaintainersStore = defineStore(
           this.filtration =
             RepositoryMaintainersFiltration.parse(payload)
         }
-        await this.fetchMaintainers()
+        await this.get()
       },
-      setFiltrationByName(payload: string | undefined) {
+      setFiltrationBy(filtration: object) {
         this.clearFiltration()
-        this.filtration.search = payload
+        this.filtration = {
+          ...defaultValues(RepositoryMaintainersFiltration),
+          ...(filtration as RepositoryMaintainersFiltration)
+        }
       },
       clearFiltration() {
         const pagination = usePagination()
@@ -240,7 +223,7 @@ export const useRepositoryMaintainersStore = defineStore(
       },
       async clearFiltrationAndFetch() {
         this.clearFiltration()
-        await this.fetchMaintainers()
+        await this.get()
       },
       getLabels() {
         return repositoryMaintainersFiltrationLabels

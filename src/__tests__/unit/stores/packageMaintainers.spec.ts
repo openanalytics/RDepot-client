@@ -93,6 +93,9 @@ describe('Package Maintainers Store', () => {
       []
     )
     expect(
+      packageMaintainersStore.totalNumber
+    ).toStrictEqual(0)
+    expect(
       packageMaintainersStore.chosenMaintainer
     ).toStrictEqual({})
   })
@@ -102,10 +105,7 @@ describe('Package Maintainers Store', () => {
       usePackageMaintainersStore()
     const paginationStore = usePagination()
     paginationStore.page = 2
-    const spy = vi.spyOn(
-      packageMaintainersStore,
-      'fetchMaintainers'
-    )
+    const spy = vi.spyOn(packageMaintainersStore, 'get')
     expect(spy).toHaveBeenCalledTimes(0)
 
     packageMaintainersStore.setFiltration(randomFiltration)
@@ -137,10 +137,7 @@ describe('Package Maintainers Store', () => {
       usePackageMaintainersStore()
     const paginationStore = usePagination()
     paginationStore.page = 2
-    const spy = vi.spyOn(
-      packageMaintainersStore,
-      'fetchMaintainers'
-    )
+    const spy = vi.spyOn(packageMaintainersStore, 'get')
 
     packageMaintainersStore.filtration = randomFiltration
     await packageMaintainersStore.clearFiltrationAndFetch()
@@ -158,16 +155,13 @@ describe('Package Maintainers Store', () => {
   it('Set chosen maintainer without changes', () => {
     const packageMaintainersStore =
       usePackageMaintainersStore()
-    const spy = vi.spyOn(
-      packageMaintainersStore,
-      'saveMaintainer'
-    )
+    const spy = vi.spyOn(packageMaintainersStore, 'save')
     packageMaintainersStore.maintainers =
       packageMaintainers.data.content
 
     expect(spy).toHaveBeenCalledTimes(0)
 
-    packageMaintainersStore.setChosenMaintainer(
+    packageMaintainersStore.setChosen(
       packageMaintainers.data.content[3]
     )
 
@@ -180,10 +174,7 @@ describe('Package Maintainers Store', () => {
   it('Set chosen maintainer with changes', () => {
     const packageMaintainersStore =
       usePackageMaintainersStore()
-    const spy = vi.spyOn(
-      packageMaintainersStore,
-      'saveMaintainer'
-    )
+    const spy = vi.spyOn(packageMaintainersStore, 'save')
     packageMaintainersStore.maintainers =
       packageMaintainers.data.content
 
@@ -192,9 +183,7 @@ describe('Package Maintainers Store', () => {
     changedMaintainer.deleted = !changedMaintainer.deleted
     expect(spy).toHaveBeenCalledTimes(0)
 
-    packageMaintainersStore.setChosenMaintainer(
-      changedMaintainer
-    )
+    packageMaintainersStore.setChosen(changedMaintainer)
 
     expect(
       packageMaintainersStore.maintainers[3]
@@ -206,18 +195,24 @@ describe('Package Maintainers Store', () => {
     const packageMaintainersStore =
       usePackageMaintainersStore()
 
-    await packageMaintainersStore.fetchMaintainers()
+    await packageMaintainersStore.get()
 
     expect(
       packageMaintainersStore.maintainers
     ).toStrictEqual(packageMaintainers.data.content)
+
+    expect(
+      packageMaintainersStore.totalNumber
+    ).toStrictEqual(
+      packageMaintainers.data.page.totalElements
+    )
   })
 
   it('Fetch repositories', async () => {
     const packageMaintainersStore =
       usePackageMaintainersStore()
 
-    await packageMaintainersStore.fetchRepositories()
+    await packageMaintainersStore.getRepositories()
 
     expect(
       packageMaintainersStore.repositories
@@ -228,7 +223,7 @@ describe('Package Maintainers Store', () => {
     const packageMaintainersStore =
       usePackageMaintainersStore()
 
-    await packageMaintainersStore.fetchPackages()
+    await packageMaintainersStore.getPackages()
 
     expect(packageMaintainersStore.packages).toStrictEqual(
       packages.data.content
@@ -238,17 +233,14 @@ describe('Package Maintainers Store', () => {
   it('Delete chosen maintainer', async () => {
     const packageMaintainersStore =
       usePackageMaintainersStore()
-    const spy = vi.spyOn(
-      packageMaintainersStore,
-      'fetchMaintainers'
-    )
+    const spy = vi.spyOn(packageMaintainersStore, 'get')
 
-    packageMaintainersStore.fetchMaintainers()
-    packageMaintainersStore.setChosenMaintainer(
+    packageMaintainersStore.get()
+    packageMaintainersStore.setChosen(
       packageMaintainers.data.content[2]
     )
 
-    await packageMaintainersStore.deleteChosenMaintainer()
+    await packageMaintainersStore.delete()
 
     expect(spy).toBeCalled()
   })
@@ -256,20 +248,15 @@ describe('Package Maintainers Store', () => {
   it('Edit chosen maintainer', async () => {
     const packageMaintainersStore =
       usePackageMaintainersStore()
-    const spy = vi.spyOn(
-      packageMaintainersStore,
-      'fetchMaintainers'
-    )
+    const spy = vi.spyOn(packageMaintainersStore, 'get')
 
-    packageMaintainersStore.fetchMaintainers()
-    packageMaintainersStore.setChosenMaintainer(
+    packageMaintainersStore.get()
+    packageMaintainersStore.setChosen(
       packageMaintainers.data.content[2]
     )
     const newMaintainer = packageMaintainers.data.content[3]
     newMaintainer.id = packageMaintainers.data.content[2].id
-    await packageMaintainersStore.updateMaintainer(
-      newMaintainer
-    )
+    await packageMaintainersStore.patch(newMaintainer)
 
     expect(spy).toBeCalled()
   })
@@ -294,7 +281,7 @@ describe('Package Maintainers Store requests with failing backend', () => {
   it('Fetch maintainers', async () => {
     const packageMaintainersStore =
       usePackageMaintainersStore()
-    await packageMaintainersStore.fetchMaintainers()
+    await packageMaintainersStore.get()
     expect(
       packageMaintainersStore.maintainers
     ).toStrictEqual([])
@@ -303,7 +290,7 @@ describe('Package Maintainers Store requests with failing backend', () => {
   it('Fetch repositories', async () => {
     const packageMaintainersStore =
       usePackageMaintainersStore()
-    await packageMaintainersStore.fetchRepositories()
+    await packageMaintainersStore.getRepositories()
     expect(
       packageMaintainersStore.repositories
     ).toStrictEqual([])
@@ -313,7 +300,7 @@ describe('Package Maintainers Store requests with failing backend', () => {
     const packageMaintainersStore =
       usePackageMaintainersStore()
 
-    await packageMaintainersStore.fetchPackages()
+    await packageMaintainersStore.getPackages()
 
     expect(packageMaintainersStore.packages).toStrictEqual(
       []

@@ -74,24 +74,26 @@ describe('Package Store', () => {
       defaultFiltration
     )
     expect(packageStore.next).toStrictEqual(false)
+    expect(packageStore.totalNumber).toStrictEqual(0)
   })
 
   it('Fetch packages', async () => {
     const packageStore = usePackagesStore()
 
-    await packageStore.fetchPackages()
+    await packageStore.getPackages()
 
     expect(packageStore.packages).toStrictEqual(
       packages.data.content
+    )
+
+    expect(packageStore.totalNumber).toStrictEqual(
+      packages.data.page.totalElements
     )
   })
 
   it('Fetch package', async () => {
     const packageStore = usePackagesStore()
-    await packageStore.fetchPackage(
-      packages.data.content[2].id,
-      'R'
-    )
+    await packageStore.get(packages.data.content[2].id, 'R')
 
     expect(packageStore.package).toStrictEqual(
       packages.data.content[2]
@@ -100,7 +102,7 @@ describe('Package Store', () => {
 
   it('Activate package', async () => {
     const packageStore = usePackagesStore()
-    const spy = vi.spyOn(packageStore, 'fetchPackages')
+    const spy = vi.spyOn(packageStore, 'getPackages')
     const newPackage = deepCopyAny(packages.data.content[2])
 
     await packageStore.activatePackage(newPackage)
@@ -110,7 +112,7 @@ describe('Package Store', () => {
 
   it('Edit filtration', () => {
     const packageStore = usePackagesStore()
-    const spy = vi.spyOn(packageStore, 'fetchPackages')
+    const spy = vi.spyOn(packageStore, 'getPackages')
     const pagination = usePagination()
     pagination.page = 2
 
@@ -139,7 +141,7 @@ describe('Package Store', () => {
 
   it('Clear filtration and fetch events', async () => {
     const packageStore = usePackagesStore()
-    const spy = vi.spyOn(packageStore, 'fetchPackages')
+    const spy = vi.spyOn(packageStore, 'getPackages')
     const pagination = usePagination()
     pagination.page = 2
 
@@ -160,9 +162,9 @@ describe('Package Store', () => {
     const packageStore = usePackagesStore()
 
     packageStore.filtration = randomFiltration
-    packageStore.setFiltrationByRepositoryOnly(
-      repositories.data.content[0].name
-    )
+    packageStore.setFiltrationBy({
+      repository: [repositories.data.content[0].name]
+    })
 
     expect(
       packageStore.filtration.repository

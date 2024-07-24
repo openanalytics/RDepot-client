@@ -196,7 +196,7 @@ function setMaintainer() {
     if (maintainer.repository) {
       maintainer.repository.id = values.repository?.value
     }
-    maintainersStore.updateMaintainer(maintainer)
+    maintainersStore.patch(maintainer)
     commonStore.closeOverlay()
   } else {
     toasts.warning(t('notifications.invalidform'))

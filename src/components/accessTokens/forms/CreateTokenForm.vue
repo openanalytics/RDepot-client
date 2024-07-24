@@ -78,7 +78,7 @@ const { values, meta, validate } = useForm({
 function createToken() {
   validate()
   if (meta.value.valid) {
-    accessTokensStore.createToken(values as CreateToken)
+    accessTokensStore.create(values as CreateToken)
     commonStore.closeOverlay()
   }
 }

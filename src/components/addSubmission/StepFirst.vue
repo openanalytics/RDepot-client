@@ -23,6 +23,7 @@
 <template>
   <v-card class="mb-12 px-10 py-5 step" height="250px">
     <AutocompleteField
+      id="upload-submission-repository-field"
       class="mt-5"
       :store-id="storeId"
       :label="$t('addSubmission.step1Title')"
@@ -39,7 +40,10 @@
       <template #item="{ item, props }">
         <v-list-item
           v-intersect="loadRepositoriesObjects"
-          v-bind="props"
+          v-bind="{
+            ...props,
+            id: `upload-submission-repository-${item.title}`
+          }"
         >
           <template #append>
             <v-chip

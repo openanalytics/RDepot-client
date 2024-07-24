@@ -39,10 +39,12 @@ import { i18n } from '@/plugins/i18n'
 import { useAuthorizationStore } from '@/store/authorization'
 import me from '@/__tests__/config/mockData/me.json'
 import UsersList from '@/components/users/UsersList.vue'
+import { useEnumFiltration } from '@/composable/filtration/enumFiltration'
 
 let wrapper: any
 let usersStore: any
 let authorizationStore: any
+const { roles } = useEnumFiltration()
 
 const globalConfig = {
   mocks: mocks,
@@ -94,7 +96,7 @@ describe('Users - list headers', () => {
   })
 
   it('displays all headers', () => {
-    expect(headers.length).toEqual(5)
+    expect(headers.length).toEqual(6)
   })
 
   it('displays username column', () => {
@@ -127,9 +129,17 @@ describe('Users - list headers', () => {
     )
     expect(sortIcon.exists()).toBeTruthy()
   })
+  it('displays role column', () => {
+    const col = headers[3]
+    expect(col.text()).toEqual(i18n.t('columns.users.role'))
+    const sortIcon = col.findComponent(
+      '.mdi-sort-ascending'
+    )
+    expect(sortIcon.exists()).toBeTruthy()
+  })
 
   it('displays active column', () => {
-    const col = headers[3]
+    const col = headers[4]
     expect(col.text()).toEqual(
       i18n.t('columns.users.active')
     )
@@ -165,8 +175,16 @@ describe('Users - cells', () => {
     expect(cell.text()).toBe(user.email)
   })
 
-  it('displays active', () => {
+  it('displays role', () => {
     const cell = cells[3]
+    const role = roles.value.filter(
+      (r) => r.value === user.role
+    )[0].title
+    expect(cell.text()).toBe(role)
+  })
+
+  it('displays active', () => {
+    const cell = cells[4]
     const checkboxPublished = cell.find('#checkbox-active')
     expect(checkboxPublished.element.checked).toEqual(
       user.active
@@ -174,14 +192,14 @@ describe('Users - cells', () => {
   })
 
   it('display edit action', () => {
-    const cell = cells[4]
+    const cell = cells[5]
     expect(cell.find('#edit-user-4').exists()).toBeTruthy()
   })
 
   it('active field with oneself', async () => {
     authorizationStore.me = user
     await nextTick()
-    const checkboxActive = cells[3].find('#checkbox-active')
+    const checkboxActive = cells[4].find('#checkbox-active')
     expect(checkboxActive.element.checked).toBe(user.active)
     expect(checkboxActive.element.disabled).toBe(
       !user.active
@@ -190,7 +208,7 @@ describe('Users - cells', () => {
 
   it('active field with different user', async () => {
     await nextTick()
-    const checkboxActive = cells[3].find('#checkbox-active')
+    const checkboxActive = cells[4].find('#checkbox-active')
     expect(checkboxActive.element.checked).toBe(user.active)
     expect(checkboxActive.element.disabled).toBe(
       !user.active

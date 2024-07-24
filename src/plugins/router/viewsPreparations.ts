@@ -20,6 +20,12 @@
  *
  */
 
+import { usePackageMaintainersFiltration } from '@/composable/filtration/packageMaintainersFiltration'
+import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesFiltration'
+import { useRepositoryMaintainersFiltration } from '@/composable/filtration/repositoryMaintainersFiltration'
+import { usePackageMaintainersStore } from '@/store/packageMaintainers'
+import { useRepositoryStore } from '@/store/repositories'
+import { useRepositoryMaintainersStore } from '@/store/repositoryMaintainers'
 import { useSubmissionStore } from '@/store/submission'
 
 export function prepareUploadPackagesView() {
@@ -27,4 +33,45 @@ export function prepareUploadPackagesView() {
   submissionStore.updateStepperKey()
   submissionStore.repository = undefined
   submissionStore.packages = []
+}
+
+export function preparePackagesView() {
+  const repositoryStore = useRepositoryStore()
+  const packageMaintainerStore =
+    usePackageMaintainersStore()
+  const { resetRepositoriesPagination } =
+    useRepositoriesFiltration()
+  const { resetPaginationMaintainers } =
+    usePackageMaintainersFiltration()
+  repositoryStore.clearFiltration()
+  packageMaintainerStore.clearFiltration()
+  resetPaginationMaintainers()
+  resetRepositoriesPagination()
+}
+
+export function prepareSubmissionsView() {
+  const repositoryStore = useRepositoryStore()
+  const { resetRepositoriesPagination } =
+    useRepositoriesFiltration()
+  repositoryStore.clearFiltration()
+  resetRepositoriesPagination()
+}
+
+export function preparePackageMaintainersView() {
+  const repositoryStore = useRepositoryStore()
+  const { resetRepositoriesPagination } =
+    useRepositoriesFiltration()
+  repositoryStore.clearFiltration()
+  resetRepositoriesPagination()
+}
+
+export function prepareRepositoriesView() {
+  const repositoryStore = useRepositoryStore()
+  const repositoryMaintainersStore =
+    useRepositoryMaintainersStore()
+  const { resetPaginationMaintainers } =
+    useRepositoryMaintainersFiltration()
+  repositoryMaintainersStore.clearFiltration()
+  repositoryStore.clearFiltration()
+  resetPaginationMaintainers()
 }

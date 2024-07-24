@@ -21,33 +21,59 @@
 -->
 
 <template>
-  <v-card
-    class="pa-5"
-    style="height: 100%; max-height: 90vh"
-  >
-    <v-card-title>
-      {{ componentProps.text }}
-    </v-card-title>
-    <v-divider />
-    <v-card-text>
-      <slot name="desc"></slot>
-    </v-card-text>
-    <CardActions
-      @cancel="emits('cancel')"
-      @submit="emits('reset')"
-    />
-  </v-card>
+  <v-tooltip location="top">
+    <template #activator="{ props }">
+      <div
+        id="tooltip-activator"
+        v-bind="props"
+        class="pl-3"
+      >
+        <v-btn
+          :id="id"
+          :color="color"
+          :icon="icon"
+          :size="size"
+          @click="emit('click')"
+        />
+      </div>
+    </template>
+    <span id="tooltip-wait">{{
+      componentProps.tooltip
+    }}</span>
+  </v-tooltip>
 </template>
 
 <script setup lang="ts">
-import CardActions from '@/components/common/overlay/CardActions.vue'
-
-const emits = defineEmits(['cancel', 'reset'])
-
 const componentProps = defineProps({
-  text: {
+  tooltip: {
     type: String,
     required: true
+  },
+  icon: {
+    type: String,
+    required: false,
+    default: 'mdi-check'
+  },
+  color: {
+    type: String,
+    required: false,
+    default: 'default'
+  },
+  size: {
+    type: String,
+    required: false,
+    default: 'small'
+  },
+  id: {
+    type: String,
+    required: false,
+    default: 'icon-button'
   }
 })
+
+const emit = defineEmits<{
+  (event: 'click'): void
+}>()
 </script>
+
+<style lang="scss"></style>

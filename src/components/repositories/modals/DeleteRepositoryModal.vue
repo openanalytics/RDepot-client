@@ -31,6 +31,6 @@ import { useRepositoryStore } from '@/store/repositories'
 const repositoriesStore = useRepositoryStore()
 
 async function performAction() {
-  await repositoriesStore.softDelete()
+  await repositoriesStore.deleteSoft()
 }
 </script>
