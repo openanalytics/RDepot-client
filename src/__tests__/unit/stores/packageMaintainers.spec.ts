@@ -93,6 +93,9 @@ describe('Package Maintainers Store', () => {
       []
     )
     expect(
+      packageMaintainersStore.totalNumber
+    ).toStrictEqual(0)
+    expect(
       packageMaintainersStore.chosenMaintainer
     ).toStrictEqual({})
   })
@@ -197,6 +200,12 @@ describe('Package Maintainers Store', () => {
     expect(
       packageMaintainersStore.maintainers
     ).toStrictEqual(packageMaintainers.data.content)
+
+    expect(
+      packageMaintainersStore.totalNumber
+    ).toStrictEqual(
+      packageMaintainers.data.page.totalElements
+    )
   })
 
   it('Fetch repositories', async () => {

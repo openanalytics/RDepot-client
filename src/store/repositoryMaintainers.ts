@@ -114,7 +114,7 @@ export const useRepositoryMaintainersStore = defineStore(
             pagination.pageSize
           )
         pagination.newPageWithoutRefresh(pageData.page)
-        pagination.totalNumber = pageData.totalNumber
+        this.totalNumber = pageData.totalNumber
         this.maintainers = maintainers
       },
       async getAll(

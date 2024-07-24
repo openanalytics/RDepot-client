@@ -90,6 +90,9 @@ describe('Repository Maintainers Store', () => {
     expect(
       repositoryMaintainersStore.chosenMaintainer
     ).toStrictEqual({})
+    expect(
+      repositoryMaintainersStore.totalNumber
+    ).toStrictEqual(0)
   })
 
   it('Edit filtration', () => {
@@ -189,6 +192,12 @@ describe('Repository Maintainers Store', () => {
     expect(
       repositoryMaintainersStore.maintainers
     ).toStrictEqual(repositoryMaintainers.data.content)
+
+    expect(
+      repositoryMaintainersStore.totalNumber
+    ).toStrictEqual(
+      repositoryMaintainers.data.page.totalElements
+    )
   })
 
   it('Fetch repositories', async () => {

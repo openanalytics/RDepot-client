@@ -103,7 +103,7 @@ export const useUserStore = defineStore('userStore', {
       )
       this.users = users
       pagination.newPageWithoutRefresh(pageData.page)
-      pagination.totalNumber = pageData.totalNumber
+      this.totalNumber = pageData.totalNumber
     },
     async getRoles() {
       if (this.roles.length === 0) {

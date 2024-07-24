@@ -67,6 +67,7 @@ interface State {
   filtration: PackagesFiltration
   chosenPackage?: EntityModelPackageDto
   promises: PackagePromise[]
+  totalNumber: number
   next?: boolean
   loading: boolean
   resolved: boolean
@@ -87,6 +88,7 @@ export const usePackagesStore = defineStore(
         submission: {},
         filtration: defaultValues(PackagesFiltration),
         chosenPackage: undefined,
+        totalNumber: 0,
         resolved: false,
         next: false,
         loading: false
@@ -148,7 +150,7 @@ export const usePackagesStore = defineStore(
           filtration || this.filtration
         )
         pagination.newPageWithoutRefresh(pageData.page)
-        pagination.totalNumber = pageData.totalNumber
+        this.totalNumber = pageData.totalNumber
       },
       async getManual(id: string, fileName: string) {
         await downloadReferenceManual(id, fileName).then(
@@ -266,15 +268,11 @@ export const usePackagesStore = defineStore(
             }
           }
         )
-        console.log('promises')
-        console.log(this.promises)
         let fulfilled = 0
         let errors = 0
         this.promises.forEach(async (promise) => {
           await promise.promise
             .then((response) => {
-              console.log('promsie made')
-              console.log(response)
               promise.response = response
               promise.state =
                 response[3] == 'SUCCESS'

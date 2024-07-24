@@ -89,6 +89,7 @@ describe('Submissions Store', () => {
     expect(submissionStore.filtration).toStrictEqual(
       defaultFiltration
     )
+    expect(submissionStore.totalNumber).toEqual(0)
   })
 
   it('Clear filtration', () => {
@@ -121,6 +122,9 @@ describe('Submissions Store', () => {
     expect(spy).toBeCalled()
     expect(submissionStore.submissions).toStrictEqual(
       submissions.data.content
+    )
+    expect(submissionStore.totalNumber).toStrictEqual(
+      submissions.data.page.totalElements
     )
   })
 

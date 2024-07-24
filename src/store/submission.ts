@@ -124,6 +124,7 @@ export const useSubmissionStore = defineStore(
         )
         pagination.newPageWithoutRefresh(pageData.page)
         pagination.totalNumber = pageData.totalNumber
+        this.totalNumber = pageData.totalNumber
       },
       async fetchData(
         page: number,

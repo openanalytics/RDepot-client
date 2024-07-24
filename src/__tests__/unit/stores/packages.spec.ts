@@ -74,6 +74,7 @@ describe('Package Store', () => {
       defaultFiltration
     )
     expect(packageStore.next).toStrictEqual(false)
+    expect(packageStore.totalNumber).toStrictEqual(0)
   })
 
   it('Fetch packages', async () => {
@@ -83,6 +84,10 @@ describe('Package Store', () => {
 
     expect(packageStore.packages).toStrictEqual(
       packages.data.content
+    )
+
+    expect(packageStore.totalNumber).toStrictEqual(
+      packages.data.page.totalElements
     )
   })
 

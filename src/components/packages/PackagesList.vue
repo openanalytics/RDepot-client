@@ -29,7 +29,7 @@
     :items-per-page="pagination.pageSize"
     :headers="filteredHeaders"
     :items="packagesStore.packages"
-    :items-length="pagination.totalNumber"
+    :items-length="packagesStore.totalNumber"
     item-value="id"
     sort-asc-icon="mdi-sort-ascending"
     sort-desc-icon="mdi-sort-descending"
