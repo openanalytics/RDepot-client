@@ -139,6 +139,24 @@ export async function clickOnElementByClass(
   await driver.findElement(By.className(className)).click()
 }
 
+export async function clickOnElementById(
+  driver: typeof Builder,
+  id: string
+) {
+  await driver.wait(until.elementLocated(By.id(id)), 8000)
+
+  await driver.findElement(By.id(id)).click()
+}
+
+export async function clickOnElementByCss(
+  driver: typeof Builder,
+  css: string
+) {
+  await driver.wait(until.elementLocated(By.css(css)), 8000)
+
+  await driver.findElement(By.css(css)).click()
+}
+
 export async function clickOnElementByXpath(
   driver: typeof Builder,
   xpath: string
@@ -243,4 +261,10 @@ export function clearDownloadDirectory() {
       )
     }
   })
+}
+
+export const delay = (delayInms: number) => {
+  return new Promise((resolve) =>
+    setTimeout(resolve, delayInms)
+  )
 }

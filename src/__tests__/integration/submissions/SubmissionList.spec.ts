@@ -42,7 +42,8 @@ import {
   clickOnButton,
   createDriver,
   goToPage,
-  clearDownloadDirectory
+  clearDownloadDirectory,
+  delay
 } from '../helpers/helpers'
 
 const { By, until } = require('selenium-webdriver')
@@ -64,12 +65,6 @@ afterEach(async () => {
   clearDownloadDirectory()
   await driver.quit()
 })
-
-const delay = (delayInms: number) => {
-  return new Promise((resolve) =>
-    setTimeout(resolve, delayInms)
-  )
-}
 
 describe('Submissions actions', () => {
   it('download waiting submission', async () => {
