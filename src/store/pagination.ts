@@ -33,13 +33,28 @@ export const usePagination = defineStore(
     const localPageSize = ref<number>(10)
     const localTotalNumber = ref<number>(0)
 
-    const itemsPerPage = [
-      { value: 15, title: '15' },
-      { value: 20, title: '20' },
-      { value: 30, title: '30' },
-      { value: 50, title: '50' },
-      { value: 100, title: '100' }
-    ]
+    const itemsPerPage = computed(() => {
+      const defaultValues = [
+        { value: 15, title: '15' },
+        { value: 20, title: '20' },
+        { value: 30, title: '30' },
+        { value: 50, title: '50' },
+        { value: 100, title: '100' }
+      ]
+      const userValue = {
+        value: pageSize.value,
+        title: pageSize.value.toString()
+      }
+
+      return defaultValues
+        .concat([userValue])
+        .filter(
+          (value, index, self) =>
+            index ===
+            self.findIndex((t) => t.value === value.value)
+        )
+        .sort(({ value: a }, { value: b }) => a - b)
+    })
 
     const page = computed({
       get: () => {
