@@ -87,16 +87,26 @@ function checkAllowedDates(val: Date | unknown): boolean {
       val instanceof Date
     ) {
       return (
-        val.getTime() >
-        new Date(componentProps.allowedDates).getTime()
+        val.getTime() >=
+        new Date(componentProps.allowedDates).setHours(
+          0,
+          0,
+          0,
+          0
+        )
       )
     } else if (
       componentProps.direction === 'from' &&
       val instanceof Date
     ) {
       return (
-        val.getTime() <
-        new Date(componentProps.allowedDates).getTime()
+        val.getTime() <=
+        new Date(componentProps.allowedDates).setHours(
+          0,
+          0,
+          0,
+          0
+        )
       )
     }
   }

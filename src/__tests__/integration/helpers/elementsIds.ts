@@ -295,6 +295,24 @@ export const SUBMISSIONS_FILTRATION_FROM_DATE_FIELD_ID =
 export const SUBMISSIONS_FILTRATION_TO_DATE_FIELD_ID =
   'submissions-filtration-to-date'
 
+//EVENTS FILTRATION
+export const EVENTS_FILTRATION_TECHNOLOGY_ID =
+  'events-filtration-technology'
+export const EVENTS_FILTRATION_EVENT_TYPE_ID =
+  'events-filtration-event-type'
+export const EVENTS_FILTRATION_RESOURCE_TYPE_ID =
+  'events-filtration-resource-type'
+export const EVENTS_FILTRATION_FROM_DATE_FIELD_ID =
+  'events-filtration-from-date'
+export const EVENTS_FILTRATION_TO_DATE_FIELD_ID =
+  'events-filtration-to-date'
+
 // card actions
 export const SUBMIT_BUTTON_ID = 'submit-button'
 export const CANCEL_BUTTON_ID = 'cancel-button'
+
+//REPOSITORIES LIST
+export const DELETE_REPO_2_ICON_ID =
+  'delete-repository-icon-2'
+export const DELETE_REPOSITORY_SUBMIT_ID = 'submit-button'
+export const DELETE_REPOSITORY_CANCEL_ID = 'cancel-button'

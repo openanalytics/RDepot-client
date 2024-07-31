@@ -35,7 +35,7 @@
     style="padding-left: 0; padding-right: 0"
   >
     <validated-input-field
-      id="filtration-technology"
+      id="events-filtration-technology"
       density="compact"
       hide-details
       chips
@@ -50,7 +50,7 @@
     ></validated-input-field>
 
     <validated-input-field
-      id="filtration-event-type"
+      id="events-filtration-event-type"
       density="compact"
       hide-details
       chips
@@ -65,7 +65,7 @@
     ></validated-input-field>
 
     <validated-input-field
-      id="filtration-resource-type"
+      id="events-filtration-resource-type"
       density="compact"
       hide-details
       chips
@@ -80,7 +80,7 @@
     ></validated-input-field>
 
     <validated-input-field
-      id="filtration-fromDate"
+      id="events-filtration-from-date"
       density="compact"
       hide-details
       name="fromDate"
@@ -91,7 +91,7 @@
     />
 
     <validated-input-field
-      id="filtration-toDate"
+      id="events-filtration-to-date"
       density="compact"
       hide-details
       name="toDate"

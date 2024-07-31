@@ -106,6 +106,7 @@
         />
         <DeleteIcon
           v-if="item.name"
+          :id="`delete-repository-icon-${item.id}`"
           :disabled="
             !configStore.deletingRepositories ||
             !canDelete(item.links) ||
@@ -119,7 +120,7 @@
               ? $t('config.deletingRepositories')
               : undefined
           "
-          @set-resource-id="chooseRepository"
+          @set-resource-id="chooseRepositoryToUpdate(item)"
         /> </span
     ></template>
   </v-data-table-server>
@@ -223,6 +224,12 @@ function resetElementWidth() {
 }
 
 const filteredHeaders = computed(() => {
+  let filteredHeaders = headers.value
+  if (repositoryStore.filtration.deleted) {
+    filteredHeaders = headers.value.filter(
+      (header) => header.key != 'actions'
+    )
+  }
   if (
     !isAtLeastRepositoryMaintainer(
       authorizationStore.userRole
@@ -231,11 +238,11 @@ const filteredHeaders = computed(() => {
     )
   ) {
     resetElementWidth()
-    return headers.value.filter(
+    return filteredHeaders.filter(
       (header) => header.key != 'serverAddress'
     )
   }
-  return headers.value
+  return filteredHeaders
 })
 
 function fetchData(options: DataTableOptions) {
