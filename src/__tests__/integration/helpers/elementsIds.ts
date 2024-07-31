@@ -72,7 +72,7 @@ export const OA_LOGO_ID = 'logo-oa'
 export const CHANGE_LANGUAGE_NAVBAR_ID =
   'change-language-navbar-button'
 export const POLISH_LANGUAGE_ID = 'pl-PL'
-export const ENGLISH_LANGUAGE_ID = 'en-US'
+export const ENGLISH_LANGUAGE_ID = 'en-EN'
 
 //sidebar
 export const PACKAGE_MAINTAINERS_SIDEBAR_ID =
@@ -316,3 +316,6 @@ export const DELETE_REPO_2_ICON_ID =
   'delete-repository-icon-2'
 export const DELETE_REPOSITORY_SUBMIT_ID = 'submit-button'
 export const DELETE_REPOSITORY_CANCEL_ID = 'cancel-button'
+
+// SETTINGS FIELD
+export const PAGE_SIZE_ID = 'page-size-input'
