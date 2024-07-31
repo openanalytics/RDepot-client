@@ -310,3 +310,9 @@ export const EVENTS_FILTRATION_TO_DATE_FIELD_ID =
 // card actions
 export const SUBMIT_BUTTON_ID = 'submit-button'
 export const CANCEL_BUTTON_ID = 'cancel-button'
+
+//REPOSITORIES LIST
+export const DELETE_REPO_2_ICON_ID =
+  'delete-repository-icon-2'
+export const DELETE_REPOSITORY_SUBMIT_ID = 'submit-button'
+export const DELETE_REPOSITORY_CANCEL_ID = 'cancel-button'

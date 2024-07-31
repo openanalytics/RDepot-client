@@ -40,6 +40,7 @@ import me from '@/__tests__/config/mockData/me.json'
 import { nextTick } from 'vue'
 import { i18n } from '@/plugins/i18n'
 import { usePagination } from '@/store/pagination'
+import { DELETE_REPO_2_ICON_ID } from '@/__tests__/integration/helpers/elementsIds'
 
 let wrapper: any
 let authorizationStore: any
@@ -226,7 +227,11 @@ describe('Repositories - cells', () => {
 
   it('displays actions', () => {
     const cell = cells[6]
-    expect(cell.find('#delete-icon').exists()).toBe(true)
+    console.log(cell.html())
+    expect(
+      cell.find(`#${DELETE_REPO_2_ICON_ID}`).exists()
+    ).toBeTruthy()
+    expect(cell.find('#pencil-icon').exists()).toBe(true)
   })
 })
 
@@ -251,5 +256,32 @@ describe('Repositories - role based cells', () => {
       .findAllComponents('td')
     const cell = cells[2]
     expect(cell.text()).not.toBe(repository.serverAddress)
+  })
+})
+
+describe('Repositories - filtration based cells', () => {
+  let cells: any
+
+  it('displays actions column', async () => {
+    repositoriesStore.setFiltrationBy({ deleted: false })
+    await nextTick()
+    cells = wrapper
+      .findAllComponents('tr')[0]
+      .findAllComponents('td')
+    const cell = cells[6]
+    console.log(cell.html())
+    expect(
+      cell.find(`#${DELETE_REPO_2_ICON_ID}`).exists()
+    ).toBeTruthy()
+    expect(cells.length).toEqual(7)
+  })
+  it('!displays action column', async () => {
+    repositoriesStore.setFiltrationBy({ deleted: true })
+    await nextTick()
+    console.log(repositoriesStore.filtration)
+    cells = wrapper
+      .findAllComponents('tr')[0]
+      .findAllComponents('td')
+    expect(cells.length).toEqual(6)
   })
 })
