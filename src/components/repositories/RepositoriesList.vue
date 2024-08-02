@@ -232,9 +232,7 @@ const filteredHeaders = computed(() => {
   }
   if (
     !isAtLeastRepositoryMaintainer(
-      authorizationStore.userRole
-        ? authorizationStore.userRole
-        : 0
+      authorizationStore.userRole || 0
     )
   ) {
     resetElementWidth()

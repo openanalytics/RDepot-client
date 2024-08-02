@@ -43,13 +43,30 @@ import { useToast } from '@/composable/toasts'
 import { i18n } from '@/plugins/i18n'
 import { useAuthorizationStore } from './authorization'
 import { DataTableOptions } from '@/models/DataTableOptions'
+import { SubmissionEditOptions } from '@/enum/SubmissionEditOptions'
+import { useSubmissionActions } from '@/composable/submissions/submissionActions'
+import { useSubmissionAuthorizationCheck } from '@/composable/submissions/submissionAuthorities'
 
 export type PackagePromise = {
   promise: Promise<validatedData<EntityModelSubmissionDto>>
-  packageBag: File
+  packageBag?: File
+  entity?: EntityModelSubmissionDto
   state: string
   error: string[]
   response?: validatedData<EntityModelSubmissionDto>
+}
+
+export type EditSubmissions = {
+  submissions: EntityModelSubmissionDto[]
+  editOption: SubmissionEditOptions
+  pending: boolean
+  warnings?: EditSubmissionWarnings
+  displayWarning?: boolean
+}
+
+export type EditSubmissionWarnings = {
+  notMutableState: EntityModelSubmissionDto[]
+  notAuthorizedToEditAndMutableState: EntityModelSubmissionDto[]
 }
 
 interface State {
@@ -60,6 +77,9 @@ interface State {
   promises: PackagePromise[]
   repository?: EntityModelRepositoryDto
   submissions: EntityModelSubmissionDto[]
+  selected: EntityModelSubmissionDto[]
+  submissionsToEdit?: EditSubmissions
+  submissionsToEditWarnings?: EditSubmissionWarnings
   filtration: SubmissionsFiltration
   resolved: boolean
   stepperKey: number
@@ -80,6 +100,9 @@ export const useSubmissionStore = defineStore(
         replace: [],
         promises: [],
         submissions: [],
+        selected: [],
+        submissionsToEdit: undefined,
+        submissionsToEditWarnings: undefined,
         repository: undefined,
         filtration: defaultValues(SubmissionsFiltration),
         resolved: false,
@@ -256,6 +279,88 @@ export const useSubmissionStore = defineStore(
               }
             })
         })
+      },
+      prepareToEdit(editOption: SubmissionEditOptions) {
+        const { getSubmissionsWarnings } =
+          useSubmissionAuthorizationCheck()
+        this.submissionsToEdit = {
+          submissions: this.selected,
+          editOption: editOption,
+          pending: false,
+          warnings: getSubmissionsWarnings(
+            this.selected,
+            editOption
+          ),
+          displayWarning: false
+        }
+      },
+      async edit() {
+        const { editSubmission } = useSubmissionActions()
+        const toasts = useToast()
+        if (this.submissionsToEdit) {
+          this.submissionsToEdit.pending = true
+          const promises =
+            this.submissionsToEdit.submissions.map(
+              (submission) => {
+                return {
+                  promise: editSubmission(
+                    submission,
+                    this.submissionsToEdit?.editOption
+                  ),
+                  packageBag: submission,
+                  state: 'pending',
+                  error: [],
+                  response: undefined
+                }
+              }
+            ) || []
+          let fulfilled = 0
+          let errors = 0
+          promises.forEach(async (promise) => {
+            await promise.promise
+              .catch((err) => {
+                promise.state = 'error'
+                if (err.response?.data.data) {
+                  errors++
+                  promise.error = err.response.data.data
+                  toasts.error(
+                    `${promise.packageBag?.packageBag?.name} - ${err.response.data.data}`
+                  )
+                } else if (err.response?.data) {
+                  errors++
+                  promise.error = err.response.data
+                  toasts.error(
+                    `${promise.packageBag?.packageBag?.name} - ${err.response.data.data}`
+                  )
+                }
+              })
+              .finally(() => {
+                if (++fulfilled == promises.length) {
+                  this.resolved = true
+                  if (errors > 0) {
+                    toasts.warning(
+                      `Edited ${
+                        fulfilled - errors
+                      } submissions, failed with edition of ${errors} packages`
+                    )
+                  } else {
+                    toasts.success(
+                      'Edited all selected and available submissions'
+                    )
+                  }
+                  this.resolved = true
+                  this.selected = []
+                  if (this.submissionsToEdit) {
+                    this.submissionsToEdit.displayWarning =
+                      true
+                    this.submissionsToEdit.submissions = []
+                    this.submissionsToEdit.pending = false
+                  }
+                  this.get()
+                }
+              })
+          })
+        }
       },
       async setFiltration(payload: SubmissionsFiltration) {
         const pagination = usePagination()

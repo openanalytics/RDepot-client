@@ -21,7 +21,10 @@
 -->
 
 <template>
-  <v-list-item id="submission-package">
+  <v-list-item
+    v-if="promise.packageBag"
+    id="submission-package"
+  >
     <template #title>
       {{ formatFilename(promise.packageBag.name) }}
     </template>

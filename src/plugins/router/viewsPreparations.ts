@@ -50,11 +50,13 @@ export function preparePackagesView() {
 }
 
 export function prepareSubmissionsView() {
+  const submissionStore = useSubmissionStore()
   const repositoryStore = useRepositoryStore()
   const { resetRepositoriesPagination } =
     useRepositoriesFiltration()
   repositoryStore.clearFiltration()
   resetRepositoriesPagination()
+  submissionStore.submissionsToEdit = undefined
 }
 
 export function preparePackageMaintainersView() {

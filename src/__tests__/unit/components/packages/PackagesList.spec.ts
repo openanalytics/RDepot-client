@@ -286,7 +286,7 @@ describe('Packages - cells', () => {
   it('displays status (accepted)', () => {
     const cell = acceptedCells[7]
     const icon = cell.findComponent(
-      '.mdi-check-circle-outline'
+      '.mdi-email-check-outline'
     )
     expect(icon.exists()).toBeTruthy()
   })
@@ -300,15 +300,13 @@ describe('Packages - cells', () => {
   it('displays status (rejected)', () => {
     const cell = rejectedCells[7]
     const icon = cell.findComponent(
-      '.mdi-close-circle-outline'
+      '.mdi-email-remove-outline'
     )
     expect(icon.exists()).toBeTruthy()
   })
   it('displays status (cancelled)', () => {
     const cell = cancelledCells[7]
-    const icon = cell.findComponent(
-      '.mdi-close-circle-outline'
-    )
+    const icon = cell.findComponent('.mdi-cancel')
     expect(icon.exists()).toBeTruthy()
   })
   it('displays active column', () => {

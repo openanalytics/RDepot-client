@@ -20,18 +20,44 @@
  *
  */
 
+import { SubmissionEditOptions } from '@/enum/SubmissionEditOptions'
 import {
   EntityModelSubmissionDto,
   EntityModelSubmissionDtoStateEnum
 } from '@/openapi'
 import { useSubmissionStore } from '@/store/submission'
+import { useSubmissionAuthorizationCheck } from './submissionAuthorities'
 import { usePackageDetailsStore } from '@/store/packageDetails'
 
 export function useSubmissionActions() {
+  async function editSubmission(
+    submission?: EntityModelSubmissionDto,
+    editOption?: SubmissionEditOptions
+  ) {
+    const { isAuthorizedToChangeState } =
+      useSubmissionAuthorizationCheck()
+    if (isAuthorizedToChangeState(submission, editOption)) {
+      switch (editOption) {
+        case SubmissionEditOptions.Enum.accept: {
+          return acceptSubmission(submission)
+        }
+        case SubmissionEditOptions.Enum.reject: {
+          return rejectSubmission(submission)
+        }
+        case SubmissionEditOptions.Enum.cancel: {
+          return cancelSubmission(submission)
+        }
+        default: {
+          return
+        }
+      }
+    } else return
+  }
+
   async function acceptSubmission(
     submission?: EntityModelSubmissionDto
   ) {
-    changeSubmissionState(
+    return changeSubmissionState(
       EntityModelSubmissionDtoStateEnum.ACCEPTED,
       submission
     )
@@ -55,7 +81,7 @@ export function useSubmissionActions() {
   async function rejectSubmission(
     submission?: EntityModelSubmissionDto
   ) {
-    changeSubmissionState(
+    return changeSubmissionState(
       EntityModelSubmissionDtoStateEnum.REJECTED,
       submission
     )
@@ -64,7 +90,7 @@ export function useSubmissionActions() {
   async function cancelSubmission(
     submission?: EntityModelSubmissionDto
   ) {
-    changeSubmissionState(
+    return changeSubmissionState(
       EntityModelSubmissionDtoStateEnum.CANCELLED,
       submission
     )
@@ -76,13 +102,14 @@ export function useSubmissionActions() {
   ) {
     const submissionStore = useSubmissionStore()
     if (submission) {
-      await submissionStore.patch(submission, {
+      return submissionStore.patch(submission, {
         state: state
       })
     }
   }
 
   return {
+    editSubmission,
     acceptSubmission,
     rejectSubmission,
     cancelSubmission,

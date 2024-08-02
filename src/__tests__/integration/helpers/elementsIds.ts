@@ -311,6 +311,39 @@ export const EVENTS_FILTRATION_TO_DATE_FIELD_ID =
 export const SUBMIT_BUTTON_ID = 'submit-button'
 export const CANCEL_BUTTON_ID = 'cancel-button'
 
+//submissions list
+export const SUBMISSIONS_LIST_SELECT_ALL_ID =
+  'submissions-select-all'
+export const SUBMISSIONS_MULTI_ACTIONS_ID =
+  'submissions-multi-actions'
+export const SUBMISSIONS_MULTI_ACCEPT_ID =
+  'submissions-multi-accept'
+export const SUBMISSIONS_MULTI_REJECT_ID =
+  'submissions-multi-reject'
+export const SUBMISSIONS_MULTI_CANCEL_ID =
+  'submissions-multi-cancel'
+export const SUBMISSIONS_LIST_MODAL_ID =
+  'edit-submissions-modal'
+export const SUBMISSIONS_LIST_ACCEPT_VISDAT_010_TESTREPO2_ID =
+  'accept-icon-visdat-1-0-1-testrepo2'
+export const SUBMISSIONS_LIST_REJECT_VISDAT_010_TESTREPO2_ID =
+  'reject-icon-visdat-0-1-0-testrepo2'
+export const SUBMISSIONS_LIST_CANCEL_VISDAT_010_TESTREPO2_ID =
+  'cancel-icon-visdat-1-0-1-testrepo2'
+export const SUBMISSIONS_LIST_ACTIONS_VISDAT_010_TESTREPO2_ID =
+  'checkbox-actions-submission-visdat-0-1-0-testrepo2'
+export const SUBMISSIONS_LIST_ACTIONS_REQUESTS_2281_TESTREPO8_ID =
+  'checkbox-actions-submission-requests-2-28-1-testrepo8'
+export const SUBMISSIONS_LIST_ACTIONS_REQUESTS_2191_TESTREPO8_ID =
+  'checkbox-actions-submission-requests-2-19-1-testrepo8'
+export const SUBMISSIONS_LIST_ACTIONS_BENCHMARKING_010_TESTREPO4_ID =
+  'checkbox-actions-submission-Benchmarking-0-10-testrepo4'
+export const SUBMISSIONS_LIST_ACTIONS_A3_091_TESTREPO4_ID =
+  'checkbox-actions-submission-A3-0-9-1-testrepo4'
+export const SUBMISSIONS_LIST_ACTIONS_ABC_10_TESTREPO4_ID =
+  'checkbox-actions-submission-abc-1-0-testrepo4'
+export const SUBMISSIONS_LIST_ACTIONS_WHEEL_0380_TESTREPO10_ID =
+  'checkbox-actions-submission-wheel-0-38-0-testrepo10'
 //REPOSITORIES LIST
 export const DELETE_REPO_2_ICON_ID =
   'delete-repository-icon-2'

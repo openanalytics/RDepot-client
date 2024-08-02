@@ -45,19 +45,23 @@
             {{ $t('addSubmission.generateManual') }}
           </template>
         </v-list-item>
-        <UploadSummary
+        <template
           v-for="(promise, i) in submissionsStore.promises"
-          :key="i"
-          :promise="promise"
-          :generate-manual="
-            submissionsStore.getGenerateManualForPackage(
-              promise.packageBag
-            )
-          "
-          :technology="
-            submissionsStore.repository?.technology
-          "
-        />
+        >
+          <UploadSummary
+            v-if="promise.packageBag"
+            :key="i"
+            :promise="promise"
+            :generate-manual="
+              submissionsStore.getGenerateManualForPackage(
+                promise.packageBag
+              )
+            "
+            :technology="
+              submissionsStore.repository?.technology
+            "
+          />
+        </template>
       </v-list>
     </v-card-text>
   </v-card>

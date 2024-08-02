@@ -38,7 +38,7 @@ describe('status icons composable', () => {
       getStatusIcon(
         EntityModelSubmissionDtoStateEnum.ACCEPTED
       )
-    ).toEqual('mdi-check-circle-outline')
+    ).toEqual('mdi-email-check-outline')
   })
   it('should return icon for waiting submission', () => {
     const { getStatusIcon } = useSubmissionIcons()
@@ -55,7 +55,7 @@ describe('status icons composable', () => {
       getStatusIcon(
         EntityModelSubmissionDtoStateEnum.REJECTED
       )
-    ).toEqual('mdi-close-circle-outline')
+    ).toEqual('mdi-email-remove-outline')
   })
 
   it('should return icon for cancelled submission', () => {
@@ -64,7 +64,7 @@ describe('status icons composable', () => {
       getStatusIcon(
         EntityModelSubmissionDtoStateEnum.CANCELLED
       )
-    ).toEqual('mdi-close-circle-outline')
+    ).toEqual('mdi-cancel')
   })
 
   it('should return color for accepted submission', () => {

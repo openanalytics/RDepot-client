@@ -134,6 +134,7 @@
     "deleteResourcesQuestion": "Czy na pewno chcesz usunąć niżej wymienione {resource_type_plural}?",
     "details": "Zobacz szczegóły",
     "edit": "Edytuj",
+    "editResourceQuestion": "Jesteś pewien że chcesz wykonać operację {edit_action} ?",
     "errors": {
       "copyFailed": "Nieudane kopiowanie",
       "email": "To powinien być adres email",
@@ -457,6 +458,14 @@
       "searchPlaceholder": "Pakiet, zgłaszający, zatwierdzający..",
       "toDate": "Data końcowa"
     },
+    "multiAction": {
+      "noSubmissionAvailable": "Brak odpowiednich zgłoszeń",
+      "notEdited": "Nie edytowano",
+      "notMutable": "Zgłoszenie nie może zostać {actionType} ponieważ jego stan to {currentState}",
+      "onSubmissionAvailableText": "Żadne wybrane zgłoszenie nie może zostać {actionType} ze względu na jego status lub uprawnienia.",
+      "onSubmissionAvailableTitle": "Wybierz inne zgłoszenia",
+      "warning": "Niektóre zgłoszenia nie mogą wykonać operacji {actionType}. "
+    },
     "noPackageChosen": "Nie wybrano pakietów",
     "rejected": "odrzucone",
     "replace": {
@@ -468,16 +477,16 @@
   },
   "success": "Poprawnie wykonana operacja",
   "updatedProperties": {
-    "accepted": "ZAAKCEPTOWANY",
+    "accepted": "ZAAKCEPTOWANE",
     "active": "aktywny",
     "added": "dodany",
     "approver_id": "identyfikator zatwierdzającego",
-    "cancelled": "ANULOWANY",
+    "cancelled": "ANULOWANE",
     "false": "fałsz",
     "last logged in": "ostatnie logowanie",
     "maintainer": "opiekun",
     "published": "opublikowany",
-    "rejected": "ODRZUCONY",
+    "rejected": "ODRZUCONE",
     "source": "źródło",
     "state": "status",
     "submitted": "wysłany",

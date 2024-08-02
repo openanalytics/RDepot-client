@@ -255,7 +255,6 @@ export const usePackagesStore = defineStore(
         return packagesFiltrationLabels
       },
       async deletePackages() {
-        console.log('delete packge:')
         const toasts = useToast()
         this.promises = this.packagesToDelete.map(
           (packageBag) => {
@@ -280,7 +279,6 @@ export const usePackagesStore = defineStore(
                   : 'warning'
             })
             .catch((err) => {
-              console.log('some err')
               promise.state = 'error'
               errors++
               if (err.response?.data.data) {
@@ -311,6 +309,7 @@ export const usePackagesStore = defineStore(
                 this.resolved = true
                 this.promises = []
                 this.packagesToDelete = []
+                this.packagesSelected = []
                 this.getPackages()
               }
             })

@@ -39,6 +39,10 @@ import { useAuthorizationStore } from '@/store/authorization'
 import me from '@/__tests__/config/mockData/me.json'
 import { nextTick } from 'vue'
 import { i18n } from '@/plugins/i18n'
+import {
+  SUBMISSIONS_LIST_SELECT_ALL_ID,
+  SUBMISSIONS_MULTI_ACTIONS_ID
+} from '@/__tests__/integration/helpers/elementsIds'
 import { useDates } from '@/composable/date'
 
 const { formatDate } = useDates()
@@ -99,10 +103,25 @@ describe('Submissions - list headers', () => {
   })
 
   it('displays all headers', () => {
-    expect(headers.length).toEqual(9)
+    expect(headers.length).toEqual(10)
   })
+
+  it('displays multi action column', () => {
+    const cell = headers[0]
+    expect(
+      cell
+        .find(`#${SUBMISSIONS_LIST_SELECT_ALL_ID}`)
+        .isVisible()
+    ).toBe(true)
+    expect(
+      cell
+        .find(`#${SUBMISSIONS_MULTI_ACTIONS_ID}`)
+        .isVisible()
+    ).toBe(true)
+  })
+
   it('displays date column', () => {
-    const col = headers[0]
+    const col = headers[1]
     expect(col.text()).toEqual(
       i18n.t('columns.submissions.date')
     )
@@ -113,7 +132,7 @@ describe('Submissions - list headers', () => {
   })
 
   it('displays package column', () => {
-    const col = headers[1]
+    const col = headers[2]
     expect(col.text()).toEqual(
       i18n.t('columns.submissions.package')
     )
@@ -124,7 +143,7 @@ describe('Submissions - list headers', () => {
   })
 
   it('displays version column', () => {
-    const col = headers[2]
+    const col = headers[3]
     expect(col.text()).toEqual(
       i18n.t('columns.submissions.packageVersion')
     )
@@ -135,7 +154,7 @@ describe('Submissions - list headers', () => {
   })
 
   it('displays repository column', () => {
-    const col = headers[3]
+    const col = headers[4]
     expect(col.text()).toEqual(
       i18n.t('columns.submissions.repository')
     )
@@ -146,7 +165,7 @@ describe('Submissions - list headers', () => {
   })
 
   it('displays submitter column', () => {
-    const col = headers[4]
+    const col = headers[5]
     expect(col.text()).toEqual(
       i18n.t('columns.submissions.submitter')
     )
@@ -157,7 +176,7 @@ describe('Submissions - list headers', () => {
   })
 
   it('displays approver column', () => {
-    const col = headers[5]
+    const col = headers[6]
     expect(col.text()).toEqual(
       i18n.t('columns.submissions.approver')
     )
@@ -168,7 +187,7 @@ describe('Submissions - list headers', () => {
   })
 
   it('displays technology column', () => {
-    const col = headers[6]
+    const col = headers[7]
     expect(col.text()).toEqual(
       i18n.t('columns.submissions.technology')
     )
@@ -179,7 +198,7 @@ describe('Submissions - list headers', () => {
   })
 
   it('displays status column', () => {
-    const col = headers[7]
+    const col = headers[8]
     expect(col.text()).toEqual(
       i18n.t('columns.submissions.status')
     )
@@ -190,7 +209,7 @@ describe('Submissions - list headers', () => {
   })
 
   it('displays date column', () => {
-    const col = headers[8]
+    const col = headers[9]
     expect(col.text()).toEqual(i18n.t('columns.actions'))
     const sortIcon = col.findComponent(
       '.mdi-sort-ascending'
@@ -209,8 +228,24 @@ describe('Submissions - cells', () => {
       .findAllComponents('td')
   })
 
-  it('displays date', () => {
+  it('displays multi action checkbox', () => {
     const cell = cells[0]
+    expect(
+      cell
+        .find(
+          `#checkbox-actions-submission-${
+            submission.packageBag.name
+          }-${submission.packageBag.version.replaceAll(
+            '.',
+            '-'
+          )}-${submission.packageBag.repository?.name}`
+        )
+        .isVisible()
+    ).toBe(true)
+  })
+
+  it('displays date', () => {
+    const cell = cells[1]
     const chip = cell.findComponent('.v-chip')
     expect(chip.exists()).toBeTruthy()
     expect(chip.text()).toBe(
@@ -219,36 +254,36 @@ describe('Submissions - cells', () => {
   })
 
   it('displays package', () => {
-    const cell = cells[1]
+    const cell = cells[2]
     expect(cell.text()).toBe(submission.packageBag.name)
   })
 
   it('displays version', () => {
-    const cell = cells[2]
+    const cell = cells[3]
     expect(cell.text()).toBe(submission.packageBag.version)
   })
 
   it('displays repository', () => {
-    const cell = cells[3]
+    const cell = cells[4]
     expect(cell.text()).toBe(
       submission.packageBag.repository.name
     )
   })
 
   it('displays submitter', () => {
-    const cell = cells[4]
+    const cell = cells[5]
     expect(cell.text()).toBe(submission.submitter.name)
   })
 
   it('displays approver', () => {
-    const cell = cells[5]
+    const cell = cells[6]
     expect(cell.text()).toBe(
       submission.approver?.name || ''
     )
   })
 
   it('displays technology', () => {
-    const cell = cells[6]
+    const cell = cells[7]
     const chip = cell.findComponent('.v-chip')
     expect(chip.exists()).toBeTruthy()
     expect(chip.text()).toBe(
@@ -257,52 +292,20 @@ describe('Submissions - cells', () => {
   })
 
   it('displays status', () => {
-    const cell = cells[7]
+    const cell = cells[8]
     const icon = cell.findComponent(
       '.mdi-progress-question'
     )
     expect(icon.exists()).toBeTruthy()
   })
 
-  // it('displays status', () => {
-  //   const cell = cells[7]
-  //   const icon = cell.findComponent(
-  //     '.mdi-progress-question'
-  //   )
-  //   expect(icon.exists()).toBeTruthy()
-  // })
-
-  // it('displays status', () => {
-  //   const cell = cells[6]
-  //   const icon = cell.findComponent(
-  //     '.mdi-progress-question'
-  //   )
-  //   expect(icon.exists()).toBeTruthy()
-  // })
-
-  // it('displays status', () => {
-  //   const cell = cells[6]
-  //   const icon = cell.findComponent(
-  //     '.mdi-progress-question'
-  //   )
-  //   expect(icon.exists()).toBeTruthy()
-  // })
-
-  // it('displays status', () => {
-  //   const cell = cells[6]
-  //   const icon = cell.findComponent(
-  //     '.mdi-progress-question'
-  //   )
-  //   expect(icon.exists()).toBeTruthy()
-  // })
-
   it('displays accept action', () => {
-    const cell = cells[8]
+    const cell = cells[9]
     const button = cell.findComponent('#accept-button-19')
     expect(button.exists()).toBeTruthy()
   })
   it('displays reject action', () => {
-    const cell = cells[8]
+    const cell = cells[9]
     const button = cell.findComponent('#reject-button-19')
     expect(button.exists()).toBeTruthy()
   })

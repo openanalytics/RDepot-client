@@ -22,7 +22,10 @@
 
 <template>
   <v-data-table-server
+    v-model="submissionStore.selected"
     :items-per-page="pagination.pageSize"
+    show-select
+    return-object
     :headers="headers"
     :items="submissionStore.submissions"
     :items-length="submissionStore.totalNumber"
@@ -35,6 +38,239 @@
     :items-per-page-options="pagination.itemsPerPage"
     @update:options="fetchData"
   >
+    <template
+      #[`header.data-table-select`]="{
+        selectAll,
+        allSelected,
+        someSelected
+      }"
+    >
+      <div class="d-flex align-center">
+        <v-checkbox-btn
+          id="submissions-select-all"
+          :model-value="allSelected"
+          :indeterminate="someSelected && !allSelected"
+          @update:model-value="selectAll"
+        />
+        <v-speed-dial
+          location="bottom center"
+          location-strategy="connected"
+          transition="fade-transition"
+          scroll-strategy="close"
+        >
+          <template #activator="{ props: activatorProps }">
+            <v-btn
+              id="submissions-multi-actions"
+              variant="text"
+              size="x-small"
+              icon="mdi-dots-vertical"
+              color="oablue"
+              v-bind="activatorProps"
+              style="margin-left: -10px"
+            >
+            </v-btn>
+          </template>
+          <v-tooltip location="right">
+            <template
+              #activator="{ props: tooltipActivator }"
+            >
+              <div v-bind="tooltipActivator">
+                <v-btn
+                  id="submissions-multi-accept"
+                  key="1"
+                  icon="mdi-email-check-outline"
+                  color="success"
+                  :disabled="
+                    submissionStore.selected.length == 0
+                  "
+                  size="small"
+                  @click="
+                    openEditDialog(
+                      SubmissionEditOptions.enum.accept
+                    )
+                  "
+                ></v-btn>
+              </div>
+            </template>
+            <span
+              >{{ i18n.t('action.accept') }}
+              <span
+                v-if="submissionStore.selected.length == 0"
+                >({{ i18n.t('package.chooseOneToEnable') }})
+              </span></span
+            >
+          </v-tooltip>
+          <v-tooltip location="right">
+            <template
+              #activator="{ props: tooltipActivator }"
+            >
+              <div v-bind="tooltipActivator">
+                <v-btn
+                  id="submissions-multi-reject"
+                  key="2"
+                  icon="mdi-email-remove-outline"
+                  color="oared"
+                  :disabled="
+                    submissionStore.selected.length == 0
+                  "
+                  size="small"
+                  @click="
+                    openEditDialog(
+                      SubmissionEditOptions.enum.reject
+                    )
+                  "
+                ></v-btn>
+              </div>
+            </template>
+            <span
+              >{{ i18n.t('action.reject') }}
+              <span
+                v-if="submissionStore.selected.length == 0"
+                >({{ i18n.t('package.chooseOneToEnable') }})
+              </span></span
+            >
+          </v-tooltip>
+          <v-tooltip location="right">
+            <template
+              #activator="{ props: tooltipActivator }"
+            >
+              <div v-bind="tooltipActivator">
+                <v-btn
+                  id="submissions-multi-cancel"
+                  key="3"
+                  icon="mdi-cancel"
+                  color="oared"
+                  :disabled="
+                    submissionStore.selected.length == 0
+                  "
+                  size="small"
+                  @click="
+                    openEditDialog(
+                      SubmissionEditOptions.enum.cancel
+                    )
+                  "
+                ></v-btn>
+              </div>
+            </template>
+            <span
+              >{{ i18n.t('action.cancel') }}
+              <span
+                v-if="submissionStore.selected.length == 0"
+                >({{ i18n.t('package.chooseOneToEnable') }})
+              </span></span
+            >
+          </v-tooltip>
+        </v-speed-dial>
+      </div>
+    </template>
+    <template
+      #[`item.data-table-select`]="{
+        item,
+        toggleSelect,
+        internalItem,
+        isSelected
+      }"
+    >
+      <template
+        v-if="
+          submissionStore.submissionsToEdit?.submissions.find(
+            (submission) => submission.id == item.id
+          ) && submissionStore.submissionsToEdit?.pending
+        "
+      >
+        <v-progress-circular
+          indeterminate="disable-shrink"
+          model-value="20"
+          class="mr-5"
+          size="small"
+        ></v-progress-circular>
+      </template>
+      <template v-else>
+        <span class="d-flex align-center">
+          <v-checkbox-btn
+            v-if="isSelected(internalItem)"
+            :id="`checkbox-actions-submission-${
+              item.packageBag?.name
+            }-${item.packageBag?.version?.replaceAll(
+              '.',
+              '-'
+            )}-${item.packageBag?.repository?.name}`"
+            :model-value="true"
+            @click.stop
+            @update:model-value="toggleSelect(internalItem)"
+          />
+          <v-checkbox-btn
+            v-else
+            :id="`checkbox-actions-submission-${
+              item.packageBag?.name
+            }-${item.packageBag?.version?.replaceAll(
+              '.',
+              '-'
+            )}-${item.packageBag?.repository?.name}`"
+            :model-value="false"
+            @click.stop
+            @update:model-value="toggleSelect(internalItem)"
+          />
+          <v-tooltip
+            v-if="
+              submissionStore.submissionsToEdit?.warnings?.notAuthorizedToEditAndMutableState.find(
+                (submission) => submission.id == item.id
+              ) &&
+              submissionStore.submissionsToEdit
+                ?.displayWarning
+            "
+          >
+            <template #activator="{ props }">
+              <v-icon
+                v-bind="props"
+                icon="mdi-alert-decagram"
+                color="warning"
+              ></v-icon>
+            </template>
+            <span>
+              {{
+                i18n.t('submissions.multiAction.notEdited')
+              }}
+              ({{ i18n.t('common.errors.unauthorized') }})
+            </span>
+          </v-tooltip>
+
+          <v-tooltip
+            v-if="
+              submissionStore.submissionsToEdit?.warnings?.notMutableState.find(
+                (submission) => submission.id == item.id
+              ) &&
+              submissionStore.submissionsToEdit
+                ?.displayWarning
+            "
+          >
+            <template #activator="{ props }">
+              <v-icon
+                v-bind="props"
+                icon="mdi-alert-decagram"
+                color="warning"
+              ></v-icon>
+            </template>
+            <span>
+              {{
+                i18n.t('submissions.multiAction.notEdited')
+              }}
+              ({{
+                i18n.t(
+                  'submissions.multiAction.notMutable',
+                  {
+                    actionType: editActionWarning,
+                    currentState: getTooltipMessage(
+                      item.state
+                    )
+                  }
+                )
+              }})
+            </span>
+          </v-tooltip>
+        </span>
+      </template>
+    </template>
     <template #top>
       <div class="d-flex justify-space-between mx-3 my-5">
         <h2>{{ i18n.t('common.submissions') }}</h2>
@@ -165,6 +401,7 @@ import { useSubmissionIcons } from '@/composable/submissions/statusIcons'
 import { EntityModelSubmissionDtoStateEnum } from '@/openapi'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
 import { useSubmissionActions } from '@/composable/submissions/submissionActions'
+import { useCommonStore } from '@/store/common'
 import {
   DataTableHeaders,
   DataTableOptions,
@@ -174,12 +411,23 @@ import { i18n } from '@/plugins/i18n'
 import { ref, computed } from 'vue'
 import { useSort } from '@/composable/sort'
 import { useAuthorizationStore } from '@/store/authorization'
+import { OverlayEnum } from '@/enum/Overlay'
+import { SubmissionEditOptions } from '@/enum/SubmissionEditOptions'
 import IconButton from '@/components/common/buttons/IconButton.vue'
 import { useDates } from '@/composable/date'
+import { useSubmissionActionTranslations } from '@/composable/submissions/submissionActionTranslations'
 
 const { formatDate } = useDates()
 const { canPatch } = useUserAuthorities()
 const authorizationStore = useAuthorizationStore()
+const submissionStore = useSubmissionStore()
+const commonStore = useCommonStore()
+const pagination = usePagination()
+
+const { getStatusIcon, getStatusColor, getTooltipMessage } =
+  useSubmissionIcons()
+const { editActionWarning } =
+  useSubmissionActionTranslations()
 
 const {
   acceptSubmission,
@@ -258,11 +506,10 @@ function fetchData(options: DataTableOptions) {
   submissionStore.getPage(options)
 }
 
-const submissionStore = useSubmissionStore()
-const pagination = usePagination()
-
-const { getStatusIcon, getStatusColor, getTooltipMessage } =
-  useSubmissionIcons()
+function openEditDialog(editOption: SubmissionEditOptions) {
+  submissionStore.prepareToEdit(editOption)
+  commonStore.openOverlay(OverlayEnum.enum.Edit)
+}
 </script>
 
 <style lang="scss">
