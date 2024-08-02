@@ -32,7 +32,6 @@ import {
 import {
   addSubmission,
   fetch,
-  fetchSubmissions,
   updateSubmission
 } from '@/services/submissionServices'
 import { useUtilities } from '@/composable/utilities'
@@ -41,8 +40,8 @@ import { validatedData } from '@/services/openApiAccess'
 import { usePagination } from '@/store/pagination'
 import { useToast } from '@/composable/toasts'
 import { i18n } from '@/plugins/i18n'
-import { useAuthorizationStore } from './authorization'
 import { DataTableOptions } from '@/models/DataTableOptions'
+import { useSortStore } from './sort'
 
 export type PackagePromise = {
   promise: Promise<validatedData<EntityModelSubmissionDto>>
@@ -105,9 +104,11 @@ export const useSubmissionStore = defineStore(
           this.filtration,
           options.page - 1,
           options.itemsPerPage,
-          options.sortBy[0].key +
-            ',' +
-            options.sortBy[0].order
+          [
+            options.sortBy[0].key +
+              ',' +
+              options.sortBy[0].order
+          ]
         )
         this.loading = false
         this.totalNumber = pageData.totalNumber
@@ -115,12 +116,10 @@ export const useSubmissionStore = defineStore(
       },
       async get() {
         const pagination = usePagination()
-        const authorizationStore = useAuthorizationStore()
         const pageData = await this.fetchData(
           pagination.fetchPage,
           pagination.pageSize,
-          this.filtration,
-          authorizationStore.me.id
+          this.filtration
         )
         pagination.newPageWithoutRefresh(pageData.page)
         pagination.totalNumber = pageData.totalNumber
@@ -130,17 +129,20 @@ export const useSubmissionStore = defineStore(
         page: number,
         pageSize: number,
         filtration: SubmissionsFiltration,
-        user_id?: number,
         showProgress = true
       ) {
-        const [submissions, pageData] =
-          await fetchSubmissions(
-            filtration,
-            user_id,
-            page,
-            pageSize,
-            showProgress
-          )
+        const sort = useSortStore()
+        let sortBy = sort.getSortBy()
+        if (sort.field == 'name') {
+          sortBy = ['packageBag,' + sort.direction]
+        }
+        const [submissions, pageData] = await fetch(
+          filtration,
+          page,
+          pageSize,
+          sortBy,
+          showProgress
+        )
         this.submissions = submissions
         return pageData
       },

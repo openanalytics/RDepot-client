@@ -33,7 +33,6 @@ import {
   validateRequest
 } from './openApiAccess'
 import { createPatch } from 'rfc6902'
-import { useSortStore } from '@/store/sort'
 import { isAuthorized } from '@/plugins/casl'
 import { Technologies } from '@/enum/Technologies'
 import { getConfiguration } from './apiConfig'
@@ -50,7 +49,7 @@ export async function fetch(
   filtration: SubmissionsFiltration,
   page?: number,
   pageSize?: number,
-  sort?: string,
+  sort?: string[],
   showProgress = true
 ): ValidatedSubmissions {
   if (!isAuthorized('GET', 'submissions')) {
@@ -62,40 +61,6 @@ export async function fetch(
       page,
       pageSize,
       sort,
-      filtration?.state,
-      filtration?.technologies,
-      filtration?.repository,
-      filtration?.fromDate,
-      filtration?.toDate,
-      filtration?.search
-    ],
-    showProgress
-  ).catch(() => {
-    return validateRequest([])
-  })
-}
-
-export async function fetchSubmissions(
-  filtration: SubmissionsFiltration,
-  logged_user_id?: number,
-  page?: number,
-  pageSize?: number,
-  showProgress = true
-): ValidatedSubmissions {
-  if (!isAuthorized('GET', 'submissions')) {
-    return new Promise(() => validateRequest([]))
-  }
-  const sort = useSortStore()
-  let sortBy = sort.getSortBy()
-  if (sort.field == 'name') {
-    sortBy = ['packageBag,' + sort.direction]
-  }
-  return openApiRequest<EntityModelSubmissionDto[]>(
-    ApiV2SubmissionControllerApiFactory().getAllSubmissions,
-    [
-      page,
-      pageSize,
-      sortBy,
       filtration?.state,
       filtration?.technologies,
       filtration?.repository,
