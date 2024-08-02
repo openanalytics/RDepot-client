@@ -24,7 +24,6 @@ import {
   defaultValues,
   PackagesFiltration
 } from '@/models/Filtration'
-import { fetchPackagesServices } from '@/services'
 import { defineStore } from 'pinia'
 import {
   EntityModelPackageDto,
@@ -37,7 +36,6 @@ import {
   updateRPackage,
   deletePythonPackage,
   deleteRPackage,
-  fetchFullPackagesList,
   fetch,
   deletePackage
 } from '@/services/packageServices'
@@ -49,6 +47,7 @@ import { Technologies } from '@/enum/Technologies'
 import { DataTableOptions } from '@/models/DataTableOptions'
 import { validatedData } from '@/services/openApiAccess'
 import { useToast } from '@/composable/toasts'
+import { useSortStore } from '@/store/sort'
 
 export type PackagePromise = {
   promise: Promise<validatedData<EntityModelPackageDto>>
@@ -112,21 +111,32 @@ export const usePackagesStore = defineStore(
           this.filtration,
           options.page - 1,
           options.itemsPerPage,
-          options.sortBy[0].key +
-            ',' +
-            options.sortBy[0].order
+          [
+            options.sortBy[0].key +
+              ',' +
+              options.sortBy[0].order
+          ]
         ).then((packages) => {
           this.packages = packages[0]
           this.loading = false
         })
       },
       async getList(page: number, pageSize = 8) {
-        const [packages, pageData] =
-          await fetchFullPackagesList(
-            page,
-            pageSize,
-            this.filtration
-          )
+        const filtration = {
+          repository: this.filtration.repository,
+          deleted: undefined,
+          maintainer: undefined,
+          technologies: undefined,
+          search: this.filtration.search,
+          submissionState: undefined
+        }
+        const [packages, pageData] = await fetch(
+          filtration,
+          page,
+          pageSize,
+          ['name,asc'],
+          false
+        )
         this.packages = packages
         return pageData
       },
@@ -163,13 +173,14 @@ export const usePackagesStore = defineStore(
         filtration: PackagesFiltration,
         showProgress = true
       ) {
-        const [packages, pageData] =
-          await fetchPackagesServices(
-            filtration,
-            page,
-            pageSize,
-            showProgress
-          )
+        const sort = useSortStore()
+        const [packages, pageData] = await fetch(
+          filtration,
+          page,
+          pageSize,
+          sort.getSortBy(),
+          showProgress
+        )
         this.packages = packages
         return pageData
       },

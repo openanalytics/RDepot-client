@@ -38,7 +38,6 @@ import {
   validatedData,
   validateRequest
 } from '@/services/openApiAccess'
-import { useSortStore } from '@/store/sort'
 import { createPatch } from 'rfc6902'
 
 type ValidatedPackages = Promise<
@@ -59,7 +58,7 @@ export async function fetch(
   filtration: PackagesFiltration,
   page?: number,
   pageSize?: number,
-  sort?: string,
+  sort?: string[],
   showProgress = true
 ): ValidatedPackages {
   if (!isAuthorized('GET', 'submissions')) {
@@ -77,64 +76,6 @@ export async function fetch(
       filtration?.technologies,
       filtration?.search,
       filtration?.maintainer
-    ],
-    showProgress
-  ).catch(() => {
-    return validateRequest([])
-  })
-}
-
-export async function fetchPackagesServices(
-  filtration?: PackagesFiltration,
-  page?: number,
-  pageSize?: number,
-  showProgress = false
-): ValidatedPackages {
-  if (!isAuthorized('GET', 'packages')) {
-    return new Promise(() => validateRequest)
-  }
-  const sort = useSortStore()
-  return openApiRequest<EntityModelPackageDto[]>(
-    ApiV2PackageControllerApiFactory().getAllPackages,
-    [
-      page,
-      pageSize,
-      sort.getSortBy(),
-      filtration?.repository,
-      filtration?.deleted,
-      filtration?.submissionState,
-      filtration?.technologies,
-      filtration?.search,
-      filtration?.maintainer
-    ],
-    showProgress
-  ).catch(() => {
-    return validateRequest([])
-  })
-}
-
-export function fetchFullPackagesList(
-  page?: number,
-  pageSize?: number,
-  filtration?: PackagesFiltration,
-  showProgress = false
-): ValidatedPackages {
-  if (!isAuthorized('GET', 'packages')) {
-    return new Promise(() => validateRequest([]))
-  }
-
-  return openApiRequest<EntityModelPackageDto[]>(
-    ApiV2PackageControllerApiFactory().getAllPackages,
-    [
-      page,
-      pageSize,
-      ['name,asc'],
-      filtration?.repository,
-      undefined,
-      undefined,
-      undefined,
-      filtration?.search,
-      undefined
     ],
     showProgress
   ).catch(() => {

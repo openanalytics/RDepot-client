@@ -31,7 +31,7 @@ import {
   PackageMaintainersFiltration,
   defaultValues
 } from '@/models/Filtration'
-import { fetchPackagesServices } from '@/services'
+import { fetch as fetchPackages } from '@/services/packageServices'
 import { fetch as fetchRepositories } from '@/services/repositoryServices'
 import {
   deletePackageMaintainerService,
@@ -158,7 +158,7 @@ export const usePackageMaintainersStore = defineStore(
         return maintainers
       },
       async getRepositories() {
-        const sortStore = useSortStore()
+        const sort = useSortStore()
         const [repositories] = await fetchRepositories(
           {
             technologies: undefined,
@@ -170,12 +170,27 @@ export const usePackageMaintainersStore = defineStore(
           },
           undefined,
           undefined,
-          sortStore.getSortBy()
+          sort.getSortBy(),
+          false
         )
         this.repositories = repositories
       },
       async getPackages() {
-        const [packages] = await fetchPackagesServices()
+        const sort = useSortStore()
+        const [packages] = await fetchPackages(
+          {
+            repository: undefined,
+            deleted: undefined,
+            submissionState: undefined,
+            technologies: undefined,
+            search: undefined,
+            maintainer: undefined
+          },
+          undefined,
+          undefined,
+          sort.getSortBy(),
+          false
+        )
         this.packages = packages
       },
       async deleteSoft() {

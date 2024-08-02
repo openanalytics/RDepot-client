@@ -40,7 +40,7 @@ const PackagesFiltration = z
         }
         return val
       }),
-    deleted: z.boolean(),
+    deleted: z.boolean().optional(),
     repository: z
       .array(z.string())
       .optional()
