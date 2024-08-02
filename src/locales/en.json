@@ -426,7 +426,6 @@
     "lang": "Language",
     "message": {
       "deactivated": "Token deactivated",
-      "delete": "Token deleted",
       "deleted": "Token deleted",
       "edited": "Token edited"
     },
