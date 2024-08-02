@@ -32,10 +32,8 @@ import {
 } from '@/models/Filtration'
 import {
   deletedRepositoryMaintainer,
-  fetchRepositoryMaintainersServices,
   updateRepositoryMaintainer,
   createRepositoryMaintainer,
-  fetchFullMaintainersList,
   fetch
 } from '@/services/repositoryMaintainersServices'
 import { fetch as fetchRepositories } from '@/services/repositoryServices'
@@ -88,32 +86,39 @@ export const useRepositoryMaintainersStore = defineStore(
           this.filtration,
           options.page - 1,
           options.itemsPerPage,
-          options.sortBy[0].key +
-            ',' +
-            options.sortBy[0].order
+          [
+            options.sortBy[0].key +
+              ',' +
+              options.sortBy[0].order
+          ]
         )
         this.loading = false
         this.totalNumber = pageData.totalNumber
         this.maintainers = maintainers
       },
       async getList(page: number, pageSize = 8) {
-        const [maintainers, pageData] =
-          await fetchFullMaintainersList(
-            this.filtration,
-            page,
-            pageSize
-          )
+        const filtration = deepCopy(this.filtration)
+        filtration.deleted = undefined
+        filtration.technologies = undefined
+        const [maintainers, pageData] = await fetch(
+          filtration,
+          page,
+          pageSize,
+          ['user.name,asc'],
+          false
+        )
         this.maintainers = maintainers
         return pageData
       },
       async get() {
         const pagination = usePagination()
-        const [maintainers, pageData] =
-          await fetchRepositoryMaintainersServices(
-            this.filtration,
-            pagination.fetchPage,
-            pagination.pageSize
-          )
+        const sort = useSortStore()
+        const [maintainers, pageData] = await fetch(
+          this.filtration,
+          pagination.fetchPage,
+          pagination.pageSize,
+          sort.getSortBy()
+        )
         pagination.newPageWithoutRefresh(pageData.page)
         this.totalNumber = pageData.totalNumber
         this.maintainers = maintainers
@@ -122,14 +127,24 @@ export const useRepositoryMaintainersStore = defineStore(
         filtration: RepositoryMaintainersFiltration
       ) {
         let page = 0
-        const [maintainers, pageData] =
-          await fetchFullMaintainersList(filtration, page)
+        filtration.deleted = undefined
+        filtration.technologies = undefined
+        const [maintainers, pageData] = await fetch(
+          filtration,
+          page,
+          undefined,
+          ['user.name,asc'],
+          false
+        )
         let result: EntityModelRepositoryMaintainerDto[] =
           maintainers
         while (pageData.totalNumber > result.length) {
-          await fetchFullMaintainersList(
+          await fetch(
             filtration,
-            ++page
+            ++page,
+            undefined,
+            ['user.name,asc'],
+            false
           ).then(([maintainers]) => {
             result = [...result, ...maintainers]
           })
