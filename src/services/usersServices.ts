@@ -31,7 +31,6 @@ import {
   validateRequest,
   validatedData
 } from './openApiAccess'
-import { useSortStore } from '@/store/sort'
 import { isAuthorized } from '@/plugins/casl'
 import { createPatch } from 'rfc6902'
 
@@ -49,10 +48,10 @@ export async function fetch(
   filtration: UsersFiltration,
   page?: number,
   pageSize?: number,
-  sort?: string,
+  sort?: string[],
   showProgress = true
 ): ValidatedUsers {
-  if (!isAuthorized('GET', 'submissions')) {
+  if (!isAuthorized('GET', 'users')) {
     return new Promise(() => validateRequest([]))
   }
   return openApiRequest<EntityModelUserDto[]>(
@@ -66,55 +65,6 @@ export async function fetch(
       filtration?.search
     ],
     showProgress
-  ).catch(() => {
-    return validateRequest([])
-  })
-}
-
-export async function fetchUsers(
-  page?: number,
-  pageSize?: number,
-  filtration?: UsersFiltration
-): ValidatedUsers {
-  if (!isAuthorized('GET', 'users')) {
-    return new Promise(() => validateRequest([]))
-  }
-  const sort = useSortStore()
-  return openApiRequest<EntityModelUserDto[]>(
-    ApiV2UserControllerApiFactory().getAllUsers,
-    [
-      page,
-      pageSize,
-      sort.getSortBy(),
-      filtration?.roles,
-      filtration?.active,
-      filtration?.search
-    ]
-  ).catch(() => {
-    return validateRequest([])
-  })
-}
-
-export async function fetchAllUsers(
-  page?: number,
-  pageSize?: number,
-  filtration?: UsersFiltration
-): ValidatedUsers {
-  if (!isAuthorized('GET', 'users')) {
-    return new Promise(() => validateRequest([]))
-  }
-
-  return openApiRequest<EntityModelUserDto[]>(
-    ApiV2UserControllerApiFactory().getAllUsers,
-    [
-      page,
-      pageSize,
-      ['name,asc'],
-      filtration?.roles,
-      filtration?.active,
-      filtration?.search
-    ],
-    false
   ).catch(() => {
     return validateRequest([])
   })
@@ -142,32 +92,6 @@ export async function fetchRoles(): ValidatedRRoles {
   }
   return openApiRequest<RoleDto[]>(
     ApiV2UserControllerApiFactory().getRoles
-  ).catch(() => {
-    return validateRequest([])
-  })
-}
-
-export async function fetchFullUsersList(
-  page?: number,
-  pageSize?: number,
-  filtration?: UsersFiltration,
-  showProgress = false
-): ValidatedUsers {
-  if (!isAuthorized('GET', 'users')) {
-    return new Promise(() => validateRequest([]))
-  }
-
-  return openApiRequest<EntityModelUserDto[]>(
-    ApiV2UserControllerApiFactory().getAllUsers,
-    [
-      page,
-      pageSize,
-      ['name,asc'],
-      filtration?.roles,
-      undefined,
-      filtration?.search
-    ],
-    showProgress
   ).catch(() => {
     return validateRequest([])
   })
