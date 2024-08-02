@@ -427,7 +427,8 @@
     "message": {
       "deactivated": "Token deactivated",
       "delete": "Token deleted",
-      "edited": "Token edited"
+      "edited": "Token edited",
+      "deleted": "Token deleted"
     },
     "newToken": "New token",
     "save": "Save changes",

@@ -30,7 +30,6 @@ import {
   defaultValues
 } from '@/models/Filtration'
 import {
-  fetchTokens,
   createToken,
   deleteToken,
   editToken,
@@ -45,7 +44,7 @@ import { i18n } from '@/plugins/i18n'
 import { useCommonStore } from '@/store/common'
 import { OverlayEnum } from '@/enum/Overlay'
 import { DataTableOptions } from '@/models/DataTableOptions'
-import { useAuthorizationStore } from './authorization'
+import { useSortStore } from './sort'
 
 export type PackagePromise = {
   promise: Promise<validatedData<EntityModelAccessTokenDto>>
@@ -96,9 +95,11 @@ export const useAccessTokensStore = defineStore(
           this.filtration,
           options.page - 1,
           options.itemsPerPage,
-          options.sortBy[0].key +
-            ',' +
-            options.sortBy[0].order
+          [
+            options.sortBy[0].key +
+              ',' +
+              options.sortBy[0].order
+          ]
         )
         this.loading = false
         this.totalNumber = pageData.totalNumber
@@ -106,12 +107,10 @@ export const useAccessTokensStore = defineStore(
       },
       async get() {
         const pagination = usePagination()
-        const authorizationStore = useAuthorizationStore()
         const pageData = await this.fetchData(
           pagination.fetchPage,
           pagination.pageSize,
-          this.filtration,
-          authorizationStore.me.id
+          this.filtration
         )
         pagination.newPageWithoutRefresh(pageData.page)
         pagination.totalNumber = pageData.totalNumber
@@ -120,14 +119,18 @@ export const useAccessTokensStore = defineStore(
         page: number,
         pageSize: number,
         filtration: TokensFiltration,
-        user_id?: number,
         showProgress = true
       ) {
-        const [tokens, pageData] = await fetchTokens(
+        const sort = useSortStore()
+        let sortBy = sort.getSortBy()
+        if (sort.field == 'name') {
+          sortBy = ['name,' + sort.direction]
+        }
+        const [tokens, pageData] = await fetch(
           filtration,
-          user_id,
           page,
           pageSize,
+          sortBy,
           showProgress
         )
         this.tokens = tokens
