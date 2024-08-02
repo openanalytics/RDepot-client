@@ -38,11 +38,12 @@ import {
   fetchFullMaintainersList,
   fetch
 } from '@/services/repositoryMaintainersServices'
-import { fetchRepositoriesServices } from '@/services'
+import { fetch as fetchRepositories } from '@/services/repositoryServices'
 import { useUtilities } from '@/composable/utilities'
 import { repositoryMaintainersFiltrationLabels } from '@/maps/Filtration'
 import { usePagination } from '@/store/pagination'
 import { DataTableOptions } from '@/models/DataTableOptions'
+import { useSortStore } from './sort'
 
 const { deepCopy } = useUtilities()
 
@@ -136,8 +137,20 @@ export const useRepositoryMaintainersStore = defineStore(
         return maintainers
       },
       async getRepositories() {
-        const [repositories] =
-          await fetchRepositoriesServices()
+        const sortStore = useSortStore()
+        const [repositories] = await fetchRepositories(
+          {
+            technologies: undefined,
+            search: undefined,
+            name: undefined,
+            deleted: undefined,
+            published: undefined,
+            maintainer: undefined
+          },
+          undefined,
+          undefined,
+          sortStore.getSortBy()
+        )
         this.repositories = repositories
       },
       async deleteSoft() {

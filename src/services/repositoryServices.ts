@@ -35,7 +35,6 @@ import {
   validatedData,
   validateRequest
 } from './openApiAccess'
-import { useSortStore } from '@/store/sort'
 import { repositorySchema } from '@/models/Schemas'
 import { createPatch } from 'rfc6902'
 import { isAuthorized } from '@/plugins/casl'
@@ -54,7 +53,7 @@ export async function fetch(
   filtration: RepositoriesFiltration,
   page?: number,
   pageSize?: number,
-  sort?: string,
+  sort?: string[],
   showProgress = true
 ): ValidatedRepositories {
   if (!isAuthorized('GET', 'submissions')) {
@@ -72,111 +71,6 @@ export async function fetch(
       filtration?.published,
       filtration?.maintainer,
       filtration?.name,
-      filtration?.search
-    ],
-    showProgress
-  ).catch(() => {
-    return validateRequest([])
-  })
-}
-
-export function fetchRepositoriesServices(
-  filtration?: RepositoriesFiltration,
-  page?: number,
-  pageSize?: number,
-  showProgress = true
-): ValidatedRepositories {
-  if (!isAuthorized('GET', 'repositories')) {
-    return new Promise(() => validateRequest([]))
-  }
-  const sort = useSortStore()
-  return openApiRequest<EntityModelRepositoryDto[]>(
-    ApiV2RepositoryControllerApiFactory()
-      .getAllRepositories,
-    [
-      page,
-      pageSize,
-      sort.getSortBy(),
-      filtration?.deleted,
-      filtration?.technologies,
-      filtration?.published,
-      filtration?.maintainer,
-      filtration?.name,
-      filtration?.search
-    ],
-    showProgress
-  ).catch(() => {
-    return validateRequest([])
-  })
-}
-
-export function fetchAllRepositoriesServices(): ValidatedRepositories {
-  if (!isAuthorized('GET', 'repositories')) {
-    return new Promise(() => validateRequest([]))
-  }
-  return openApiRequest<EntityModelRepositoryDto[]>(
-    ApiV2RepositoryControllerApiFactory()
-      .getAllRepositories,
-    [
-      undefined,
-      undefined,
-      ['name,asc'],
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      undefined
-    ],
-    false
-  ).catch(() => {
-    return validateRequest([])
-  })
-}
-export function fetchAllUndeletedRepositoriesServices(): ValidatedRepositories {
-  if (!isAuthorized('GET', 'repositories')) {
-    return new Promise(() => validateRequest([]))
-  }
-  return openApiRequest<EntityModelRepositoryDto[]>(
-    ApiV2RepositoryControllerApiFactory()
-      .getAllRepositories,
-    [
-      undefined,
-      undefined,
-      ['name,asc'],
-      false,
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      undefined
-    ],
-    false
-  ).catch(() => {
-    return validateRequest([])
-  })
-}
-export function fetchFullRepositoriesList(
-  page?: number,
-  pageSize?: number,
-  filtration?: RepositoriesFiltration,
-  showProgress = false
-): ValidatedRepositories {
-  if (!isAuthorized('GET', 'repositories')) {
-    return new Promise(() => validateRequest([]))
-  }
-  return openApiRequest<EntityModelRepositoryDto[]>(
-    ApiV2RepositoryControllerApiFactory()
-      .getAllRepositories,
-    [
-      page,
-      pageSize,
-      ['name,asc'],
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      undefined,
       filtration?.search
     ],
     showProgress

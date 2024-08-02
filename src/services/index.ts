@@ -20,15 +20,5 @@
  *
  */
 
-import {
-  fetchRepositoriesServices,
-  fetchAllRepositoriesServices,
-  fetchAllUndeletedRepositoriesServices
-} from './repositoryServices'
 import { fetchPackagesServices } from './packageServices'
-export {
-  fetchRepositoriesServices,
-  fetchPackagesServices,
-  fetchAllRepositoriesServices,
-  fetchAllUndeletedRepositoriesServices
-}
+export { fetchPackagesServices }

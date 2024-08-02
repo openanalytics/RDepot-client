@@ -31,10 +31,8 @@ import {
   PackageMaintainersFiltration,
   defaultValues
 } from '@/models/Filtration'
-import {
-  fetchPackagesServices,
-  fetchRepositoriesServices
-} from '@/services'
+import { fetchPackagesServices } from '@/services'
+import { fetch as fetchRepositories } from '@/services/repositoryServices'
 import {
   deletePackageMaintainerService,
   fetchPackageMaintainersService,
@@ -47,6 +45,7 @@ import { useUtilities } from '@/composable/utilities'
 import { packageMaintainersFiltrationLabels } from '@/maps/Filtration'
 import { usePagination } from '@/store/pagination'
 import { DataTableOptions } from '@/models/DataTableOptions'
+import { useSortStore } from './sort'
 
 interface State {
   maintainers: EntityModelPackageMaintainerDto[]
@@ -145,8 +144,20 @@ export const usePackageMaintainersStore = defineStore(
         return maintainers
       },
       async getRepositories() {
-        const [repositories] =
-          await fetchRepositoriesServices()
+        const sortStore = useSortStore()
+        const [repositories] = await fetchRepositories(
+          {
+            technologies: undefined,
+            search: undefined,
+            name: undefined,
+            deleted: undefined,
+            published: undefined,
+            maintainer: undefined
+          },
+          undefined,
+          undefined,
+          sortStore.getSortBy()
+        )
         this.repositories = repositories
       },
       async getPackages() {
