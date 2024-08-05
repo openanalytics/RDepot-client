@@ -39,7 +39,7 @@ export async function createDriver() {
     .usingServer('http://192.168.49.12:4444/wd/hub')
     .setChromeOptions(
       new chrome.Options().addArguments(
-        // '--headless=new',
+        '--headless=new',
         '--test-type',
         '--no-sandbox',
         '--disable-dev-shm-usage',
