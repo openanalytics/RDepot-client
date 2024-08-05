@@ -14,11 +14,11 @@ server:
 repository-snapshots: false
 
 default-user-configuration:
-  language: en-US
+  language: en-EN
   theme: light
   page-size: 10
   supported-languages:
-    - en-US
+    - en-EN
     - pl-PL
   supported-themes:
     - light
