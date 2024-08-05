@@ -94,7 +94,6 @@ const languages = computed(() => {
 
 function changedData() {
   settingsStore.changes = true
-  console.log(currentSettings.value.language)
   settingsStore.newSettings = {
     pageSize: currentSettings.value.pageSize,
     language: currentSettings.value.language,
