@@ -21,36 +21,14 @@
 -->
 
 <template>
-  <v-card class="pa-5" style="height: 100%">
-    <v-card-title>
-      {{ componentProps.text }}
-    </v-card-title>
-    <v-divider />
-    <v-card-text>
-      <slot name="desc"></slot>
-    </v-card-text>
-    <CardActions
-      :valid="valid"
-      @cancel="emits('cancel')"
-      @submit="emits('reset')"
-    />
-  </v-card>
+  <ModalOverlay id="edit-submissions-modal">
+    <template #props>
+      <EditSubmissionCard />
+    </template>
+  </ModalOverlay>
 </template>
 
 <script setup lang="ts">
-import CardActions from '@/components/common/overlay/CardActions.vue'
-
-const emits = defineEmits(['cancel', 'reset'])
-
-const componentProps = defineProps({
-  text: {
-    type: String,
-    required: true
-  },
-  valid: {
-    type: Boolean,
-    required: false,
-    default: true
-  }
-})
+import EditSubmissionCard from '@/components/submissions/cards/EditSubmissionCard.vue'
+import ModalOverlay from '@/components/common/overlay/ModalOverlay.vue'
 </script>

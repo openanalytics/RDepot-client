@@ -134,6 +134,7 @@
     "deleteResourcesQuestion": "Are you sure you want to delete the following {resource_type_plural}?",
     "details": "See details",
     "edit": "Edit",
+    "editResourceQuestion": "Are you sure you want to {edit_action} the following {resource_type_plural}?",
     "errors": {
       "copyFailed": "Copy failed",
       "email": "This should be an email",
@@ -463,7 +464,15 @@
       "searchPlaceholder": "Package, submitter, approver...",
       "toDate": "To date"
     },
-    "noPackageChosen": "No packages choosen",
+    "multiAction": {
+      "noSubmissionAvailable": "No valid submissions selected",
+      "notEdited": "Not edited",
+      "notMutable": "Cannot be {actionType} as it has been {currentState} already",
+      "onSubmissionAvailableText": "You didn't select any valid submissions to be {actionType}. Please select other submissions and try again.",
+      "onSubmissionAvailableTitle": "Please select other submissions",
+      "warning": "Some submissions are not listed because they cannot be {actionType}."
+    },
+    "noPackageChosen": "No packages chosen",
     "rejected": "rejected",
     "replace": {
       "duplication": "A package with the same name and version already exists in the selected repository. Please go through the upload process again and click 'replace' to overwrite it."

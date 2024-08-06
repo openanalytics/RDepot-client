@@ -34,13 +34,13 @@ export function useSubmissionIcons() {
   ) {
     switch (state) {
       case EntityModelSubmissionDtoStateEnum.ACCEPTED:
-        return 'mdi-check-circle-outline'
+        return 'mdi-email-check-outline'
       case EntityModelSubmissionDtoStateEnum.WAITING:
         return 'mdi-progress-question'
       case EntityModelSubmissionDtoStateEnum.REJECTED:
-        return 'mdi-close-circle-outline'
+        return 'mdi-email-remove-outline'
       case EntityModelSubmissionDtoStateEnum.CANCELLED:
-        return 'mdi-close-circle-outline'
+        return 'mdi-cancel'
       default:
         return
     }
@@ -66,7 +66,7 @@ export function useSubmissionIcons() {
   }
 
   function getTooltipMessage(
-    state: EntityModelSubmissionDtoStateEnum
+    state?: EntityModelSubmissionDtoStateEnum
   ) {
     switch (state) {
       case EntityModelSubmissionDtoStateEnum.ACCEPTED:
@@ -77,6 +77,8 @@ export function useSubmissionIcons() {
         return i18n.t('submissions.rejected')
       case EntityModelSubmissionDtoStateEnum.CANCELLED:
         return i18n.t('submissions.cancelled')
+      default:
+        return
     }
   }
 

@@ -111,7 +111,7 @@ describe('Upload summary - pending', () => {
 
   it('file name is displayed', () => {
     const text = wrapper.text()
-    expect(text).toContain(promise.packageBag.name)
+    expect(text).toContain(promise.packageBag?.name)
   })
 
   it('generate manual checkbox has proper value', async () => {
@@ -188,7 +188,7 @@ describe('Upload summary - error', () => {
 
   it('file name is displayed', () => {
     const text = wrapper.text()
-    expect(text).toContain(promise.packageBag.name)
+    expect(text).toContain(promise.packageBag?.name)
   })
 
   it('generate manual checkbox has proper value', async () => {
@@ -291,7 +291,7 @@ describe('Upload summary - success', () => {
 
   it('file name is displayed', () => {
     const text = wrapper.text()
-    expect(text).toContain(promise.packageBag.name)
+    expect(text).toContain(promise.packageBag?.name)
   })
 
   it('generate manual checkbox has proper value', async () => {
@@ -346,7 +346,7 @@ describe('Upload summary - success, no manual', () => {
 
   it('file name is displayed', () => {
     const text = wrapper.text()
-    expect(text).toContain(promise.packageBag.name)
+    expect(text).toContain(promise.packageBag?.name)
   })
 
   it('generate manual checkbox has proper value', async () => {

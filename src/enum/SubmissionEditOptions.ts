@@ -20,26 +20,13 @@
  *
  */
 
-interface Lang {
-  abbreviation: string
-  display: string
-  name: string
-  value: string
-}
+import { z } from 'zod'
 
-const langs: Lang[] = [
-  {
-    abbreviation: 'en',
-    display: 'English',
-    name: 'en-EN',
-    value: 'en-EN'
-  },
-  {
-    abbreviation: 'pl',
-    display: 'Polski',
-    name: 'pl-PL',
-    value: 'pl-PL'
-  }
-]
-
-export default langs
+export const SubmissionEditOptions = z.enum([
+  'accept',
+  'reject',
+  'cancel'
+])
+export type SubmissionEditOptions = z.infer<
+  typeof SubmissionEditOptions
+>

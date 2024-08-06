@@ -123,6 +123,7 @@
           indeterminate="disable-shrink"
           model-value="20"
           class="mr-5"
+          size="small"
         ></v-progress-circular>
       </template>
       <template v-else>
