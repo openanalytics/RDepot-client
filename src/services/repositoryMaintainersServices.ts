@@ -41,7 +41,7 @@ type ValidatedRepositoryMaintainer = Promise<
   validatedData<EntityModelRepositoryMaintainerDto>
 >
 
-export async function fetch(
+export async function fetchRepositoryMaintainersService(
   filtration: RepositoryMaintainersFiltration,
   page?: number,
   pageSize?: number,

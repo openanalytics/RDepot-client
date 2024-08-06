@@ -31,7 +31,7 @@ import {
 } from '@/models/Filtration'
 import {
   addSubmission,
-  fetch,
+  fetchSubmissionsService,
   updateSubmission
 } from '@/services/submissionServices'
 import { useUtilities } from '@/composable/utilities'
@@ -123,16 +123,18 @@ export const useSubmissionStore = defineStore(
     actions: {
       async getPage(options: DataTableOptions) {
         this.loading = true
-        const [submissions, pageData] = await fetch(
-          this.filtration,
-          options.page - 1,
-          options.itemsPerPage,
-          [
-            options.sortBy[0].key +
-              ',' +
-              options.sortBy[0].order
-          ]
-        )
+        console.log(options)
+        const [submissions, pageData] =
+          await fetchSubmissionsService(
+            this.filtration,
+            options.page - 1,
+            options.itemsPerPage,
+            [
+              options.sortBy[0].key +
+                ',' +
+                options.sortBy[0].order
+            ]
+          )
         this.loading = false
         this.totalNumber = pageData.totalNumber
         this.submissions = submissions
@@ -159,13 +161,14 @@ export const useSubmissionStore = defineStore(
         if (sort.field == 'name') {
           sortBy = ['packageBag,' + sort.direction]
         }
-        const [submissions, pageData] = await fetch(
-          filtration,
-          page,
-          pageSize,
-          sortBy,
-          showProgress
-        )
+        const [submissions, pageData] =
+          await fetchSubmissionsService(
+            filtration,
+            page,
+            pageSize,
+            sortBy,
+            showProgress
+          )
         this.submissions = submissions
         return pageData
       },

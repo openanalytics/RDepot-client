@@ -49,7 +49,7 @@ type ValidatedRepository = Promise<
   validatedData<EntityModelRepositoryDto>
 >
 
-export async function fetch(
+export async function fetchRepositoriesService(
   filtration: RepositoriesFiltration,
   page?: number,
   pageSize?: number,

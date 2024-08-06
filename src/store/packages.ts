@@ -31,12 +31,12 @@ import {
 } from '@/openapi'
 import {
   downloadReferenceManual,
-  fetchPackageServices,
+  fetchPackageService,
   updatePythonPackage,
   updateRPackage,
   deletePythonPackage,
   deleteRPackage,
-  fetch,
+  fetchPackagesService,
   deletePackage
 } from '@/services/packageServices'
 import { useUtilities } from '@/composable/utilities'
@@ -107,7 +107,7 @@ export const usePackagesStore = defineStore(
           options.sortBy = [{ key: 'name', order: 'asc' }]
         }
         this.loading = true
-        fetch(
+        fetchPackagesService(
           this.filtration,
           options.page - 1,
           options.itemsPerPage,
@@ -130,19 +130,20 @@ export const usePackagesStore = defineStore(
           search: this.filtration.search,
           submissionState: undefined
         }
-        const [packages, pageData] = await fetch(
-          filtration,
-          page,
-          pageSize,
-          ['name,asc'],
-          false
-        )
+        const [packages, pageData] =
+          await fetchPackagesService(
+            filtration,
+            page,
+            pageSize,
+            ['name,asc'],
+            false
+          )
         this.packages = packages
         return pageData
       },
       async get(id: number, technology: Technologies) {
         this.package = (
-          await fetchPackageServices(id, technology)
+          await fetchPackageService(id, technology)
         )[0]
         if (this.package?.submission?.id) {
           this.submission = (
@@ -174,13 +175,14 @@ export const usePackagesStore = defineStore(
         showProgress = true
       ) {
         const sort = useSortStore()
-        const [packages, pageData] = await fetch(
-          filtration,
-          page,
-          pageSize,
-          sort.getSortBy(),
-          showProgress
-        )
+        const [packages, pageData] =
+          await fetchPackagesService(
+            filtration,
+            page,
+            pageSize,
+            sort.getSortBy(),
+            showProgress
+          )
         this.packages = packages
         return pageData
       },

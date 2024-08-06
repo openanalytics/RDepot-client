@@ -42,7 +42,7 @@ type ValidatedPackageMaintainer = Promise<
   validatedData<EntityModelPackageMaintainerDto>
 >
 
-export async function fetch(
+export async function fetchPackageMaintainerService(
   filtration: PackageMaintainersFiltration,
   page?: number,
   pageSize?: number,

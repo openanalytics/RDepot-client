@@ -36,7 +36,7 @@ type ValidatedNewsFeed = Promise<
   validatedData<EntityModelNewsfeedEventDto>
 >
 
-export async function fetch(
+export async function fetchEventsService(
   filtration: EventsFiltration,
   page?: number,
   pageSize?: number

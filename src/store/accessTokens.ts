@@ -34,7 +34,7 @@ import {
   deleteToken,
   editToken,
   deactivateToken,
-  fetch
+  fetchSettingsService
 } from '@/services/settingsServices'
 import { useUtilities } from '@/composable/utilities'
 import { validatedData } from '@/services/openApiAccess'
@@ -91,16 +91,17 @@ export const useAccessTokensStore = defineStore(
     actions: {
       async getPage(options: DataTableOptions) {
         this.loading = true
-        const [tokens, pageData] = await fetch(
-          this.filtration,
-          options.page - 1,
-          options.itemsPerPage,
-          [
-            options.sortBy[0].key +
-              ',' +
-              options.sortBy[0].order
-          ]
-        )
+        const [tokens, pageData] =
+          await fetchSettingsService(
+            this.filtration,
+            options.page - 1,
+            options.itemsPerPage,
+            [
+              options.sortBy[0].key +
+                ',' +
+                options.sortBy[0].order
+            ]
+          )
         this.loading = false
         this.totalNumber = pageData.totalNumber
         this.tokens = tokens
@@ -126,13 +127,14 @@ export const useAccessTokensStore = defineStore(
         if (sort.field == 'name') {
           sortBy = ['name,' + sort.direction]
         }
-        const [tokens, pageData] = await fetch(
-          filtration,
-          page,
-          pageSize,
-          sortBy,
-          showProgress
-        )
+        const [tokens, pageData] =
+          await fetchSettingsService(
+            filtration,
+            page,
+            pageSize,
+            sortBy,
+            showProgress
+          )
         this.tokens = tokens
         return pageData
       },

@@ -24,7 +24,7 @@ import { defineStore } from 'pinia'
 import {
   fetchRoles,
   updateUser,
-  fetch
+  fetchUsersService
 } from '@/services/usersServices'
 import { EntityModelUserDto, RoleDto } from '@/openapi'
 import { Role } from '@/enum/UserRoles'
@@ -74,7 +74,7 @@ export const useUserStore = defineStore('userStore', {
   actions: {
     async getPage(options: DataTableOptions) {
       this.loading = true
-      const [users, pageData] = await fetch(
+      const [users, pageData] = await fetchUsersService(
         this.filtration,
         options.page - 1,
         options.itemsPerPage,
@@ -91,7 +91,7 @@ export const useUserStore = defineStore('userStore', {
     async getList(page: number, pageSize = 3) {
       const filtration = deepCopy(this.filtration)
       filtration.active = undefined
-      const [users, pageData] = await fetch(
+      const [users, pageData] = await fetchUsersService(
         this.filtration,
         page,
         pageSize,
@@ -104,7 +104,7 @@ export const useUserStore = defineStore('userStore', {
     async get() {
       const pagination = usePagination()
       const sort = useSortStore()
-      const [users, pageData] = await fetch(
+      const [users, pageData] = await fetchUsersService(
         this.filtration,
         pagination.fetchPage,
         pagination.pageSize,

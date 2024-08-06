@@ -44,7 +44,7 @@ type ValidatedUser = Promise<
 
 type ValidatedRRoles = Promise<validatedData<RoleDto[]>>
 
-export async function fetch(
+export async function fetchUsersService(
   filtration: UsersFiltration,
   page?: number,
   pageSize?: number,

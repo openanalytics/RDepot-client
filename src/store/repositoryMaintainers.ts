@@ -34,9 +34,9 @@ import {
   deletedRepositoryMaintainer,
   updateRepositoryMaintainer,
   createRepositoryMaintainer,
-  fetch
+  fetchRepositoryMaintainersService
 } from '@/services/repositoryMaintainersServices'
-import { fetch as fetchRepositories } from '@/services/repositoryServices'
+import { fetchRepositoriesService } from '@/services/repositoryServices'
 import { useUtilities } from '@/composable/utilities'
 import { repositoryMaintainersFiltrationLabels } from '@/maps/Filtration'
 import { usePagination } from '@/store/pagination'
@@ -82,16 +82,17 @@ export const useRepositoryMaintainersStore = defineStore(
     actions: {
       async getPage(options: DataTableOptions) {
         this.loading = true
-        const [maintainers, pageData] = await fetch(
-          this.filtration,
-          options.page - 1,
-          options.itemsPerPage,
-          [
-            options.sortBy[0].key +
-              ',' +
-              options.sortBy[0].order
-          ]
-        )
+        const [maintainers, pageData] =
+          await fetchRepositoryMaintainersService(
+            this.filtration,
+            options.page - 1,
+            options.itemsPerPage,
+            [
+              options.sortBy[0].key +
+                ',' +
+                options.sortBy[0].order
+            ]
+          )
         this.loading = false
         this.totalNumber = pageData.totalNumber
         this.maintainers = maintainers
@@ -100,25 +101,27 @@ export const useRepositoryMaintainersStore = defineStore(
         const filtration = deepCopy(this.filtration)
         filtration.deleted = undefined
         filtration.technologies = undefined
-        const [maintainers, pageData] = await fetch(
-          filtration,
-          page,
-          pageSize,
-          ['user.name,asc'],
-          false
-        )
+        const [maintainers, pageData] =
+          await fetchRepositoryMaintainersService(
+            filtration,
+            page,
+            pageSize,
+            ['user.name,asc'],
+            false
+          )
         this.maintainers = maintainers
         return pageData
       },
       async get() {
         const pagination = usePagination()
         const sort = useSortStore()
-        const [maintainers, pageData] = await fetch(
-          this.filtration,
-          pagination.fetchPage,
-          pagination.pageSize,
-          sort.getSortBy()
-        )
+        const [maintainers, pageData] =
+          await fetchRepositoryMaintainersService(
+            this.filtration,
+            pagination.fetchPage,
+            pagination.pageSize,
+            sort.getSortBy()
+          )
         pagination.newPageWithoutRefresh(pageData.page)
         this.totalNumber = pageData.totalNumber
         this.maintainers = maintainers
@@ -129,17 +132,18 @@ export const useRepositoryMaintainersStore = defineStore(
         let page = 0
         filtration.deleted = undefined
         filtration.technologies = undefined
-        const [maintainers, pageData] = await fetch(
-          filtration,
-          page,
-          undefined,
-          ['user.name,asc'],
-          false
-        )
+        const [maintainers, pageData] =
+          await fetchRepositoryMaintainersService(
+            filtration,
+            page,
+            undefined,
+            ['user.name,asc'],
+            false
+          )
         let result: EntityModelRepositoryMaintainerDto[] =
           maintainers
         while (pageData.totalNumber > result.length) {
-          await fetch(
+          await fetchRepositoryMaintainersService(
             filtration,
             ++page,
             undefined,
@@ -153,19 +157,20 @@ export const useRepositoryMaintainersStore = defineStore(
       },
       async getRepositories() {
         const sortStore = useSortStore()
-        const [repositories] = await fetchRepositories(
-          {
-            technologies: undefined,
-            search: undefined,
-            name: undefined,
-            deleted: undefined,
-            published: undefined,
-            maintainer: undefined
-          },
-          undefined,
-          undefined,
-          sortStore.getSortBy()
-        )
+        const [repositories] =
+          await fetchRepositoriesService(
+            {
+              technologies: undefined,
+              search: undefined,
+              name: undefined,
+              deleted: undefined,
+              published: undefined,
+              maintainer: undefined
+            },
+            undefined,
+            undefined,
+            sortStore.getSortBy()
+          )
         this.repositories = repositories
       },
       async deleteSoft() {

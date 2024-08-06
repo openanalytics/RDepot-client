@@ -54,7 +54,7 @@ type ValidatedPackagePython = Promise<
 
 type ValidatedVignette = Promise<validatedData<Vignette[]>>
 
-export async function fetch(
+export async function fetchPackagesService(
   filtration: PackagesFiltration,
   page?: number,
   pageSize?: number,
@@ -83,22 +83,22 @@ export async function fetch(
   })
 }
 
-export function fetchPackageServices(
+export function fetchPackageService(
   id: number,
   technology: Technologies,
   showProgress = false
 ) {
   switch (technology) {
     case Technologies.Enum.Python: {
-      return fetchPythonPackageServices(id, showProgress)
+      return fetchPythonPackageService(id, showProgress)
     }
     case Technologies.Enum.R: {
-      return fetchRPackageServices(id, showProgress)
+      return fetchRPackageService(id, showProgress)
     }
   }
 }
 
-function fetchRPackageServices(
+function fetchRPackageService(
   id: number,
   showProgress = false
 ): ValidatedPackage {
@@ -114,7 +114,7 @@ function fetchRPackageServices(
   })
 }
 
-function fetchPythonPackageServices(
+function fetchPythonPackageService(
   id: number,
   showProgress = false
 ): ValidatedPackagePython {

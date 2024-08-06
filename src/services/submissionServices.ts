@@ -45,7 +45,7 @@ type ValidatedSubmission = Promise<
   validatedData<EntityModelSubmissionDto>
 >
 
-export async function fetch(
+export async function fetchSubmissionsService(
   filtration: SubmissionsFiltration,
   page?: number,
   pageSize?: number,

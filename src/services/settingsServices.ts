@@ -45,7 +45,7 @@ type ValidatedToken = Promise<
   validatedData<EntityModelAccessTokenDto>
 >
 
-export async function fetch(
+export async function fetchSettingsService(
   filtration: TokensFiltration,
   page?: number,
   pageSize?: number,

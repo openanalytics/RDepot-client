@@ -39,9 +39,9 @@ import {
   openVignetteHtml,
   openVignettePdf,
   downloadSourceFile,
-  fetchPackageServices,
+  fetchPackageService,
   fetchVignettes,
-  fetch
+  fetchPackagesService
 } from '@/services/packageServices'
 import { fetchSubmission } from '@/services/submissionServices'
 import { Technologies } from '@/enum/Technologies'
@@ -72,7 +72,7 @@ export const usePackageDetailsStore = defineStore(
     actions: {
       async get(id: number, technology: Technologies) {
         this.packages = []
-        const [packageBag] = await fetchPackageServices(
+        const [packageBag] = await fetchPackageService(
           id,
           technology,
           false
@@ -108,13 +108,14 @@ export const usePackageDetailsStore = defineStore(
           }
           filtration.search = this.packageBag.name
           const sort = useSortStore()
-          const [packages, pageData] = await fetch(
-            filtration,
-            page,
-            pageSize,
-            sort.getSortBy(),
-            false
-          )
+          const [packages, pageData] =
+            await fetchPackagesService(
+              filtration,
+              page,
+              pageSize,
+              sort.getSortBy(),
+              false
+            )
           this.packages = [...this.packages, ...packages]
           if (this.packages.length < pageData.totalNumber) {
             this.getPackageVersions(pageData.page + 1)
