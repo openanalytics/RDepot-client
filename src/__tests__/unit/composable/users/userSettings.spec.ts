@@ -65,7 +65,7 @@ describe('user settings composable', () => {
     const { getUserSettings } = useUserSettings()
     const authorizationStore = useAuthorizationStore()
     authorizationStore.me = {
-      userSettings: { language: 'en-EN' }
+      userSettings: { language: 'en-US' }
     }
 
     i18n.locale.value = 'pl'

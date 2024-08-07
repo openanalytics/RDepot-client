@@ -23,7 +23,7 @@
         "roleId": 4,
         "role": "admin",
         "userSettings": {
-          "language": "en-EN",
+          "language": "en-US",
           "theme": "dark",
           "pageSize": 15
         },
