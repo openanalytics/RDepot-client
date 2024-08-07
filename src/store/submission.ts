@@ -240,6 +240,8 @@ export const useSubmissionStore = defineStore(
         }
       },
       async addSubmissionRequests() {
+        const toasts = useToast()
+        let warnings = 0
         this.promises = this.packages.map((packageBag) => {
           return {
             promise: addSubmission(
@@ -264,6 +266,9 @@ export const useSubmissionStore = defineStore(
                 response[3] == 'SUCCESS'
                   ? 'success'
                   : 'warning'
+              if (promise.state == 'warning') {
+                warnings++
+              }
             })
             .catch((err) => {
               promise.state = 'error'
@@ -276,6 +281,11 @@ export const useSubmissionStore = defineStore(
             .finally(() => {
               if (++fulfilled == this.promises.length) {
                 this.resolved = true
+                if (warnings > 0) {
+                  toasts.warning(
+                    i18n.t('submissions.upload.warning')
+                  )
+                }
               }
             })
         })
@@ -318,6 +328,7 @@ export const useSubmissionStore = defineStore(
           let errors = 0
           promises.forEach(async (promise) => {
             await promise.promise
+
               .catch((err) => {
                 promise.state = 'error'
                 if (err.response?.data.data) {
@@ -337,6 +348,7 @@ export const useSubmissionStore = defineStore(
               .finally(() => {
                 if (++fulfilled == promises.length) {
                   this.resolved = true
+
                   if (errors > 0) {
                     toasts.warning(
                       `Edited ${

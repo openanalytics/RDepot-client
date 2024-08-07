@@ -477,6 +477,9 @@
     "replace": {
       "duplication": "A package with the same name and version already exists in the selected repository. Please go through the upload process again and click 'replace' to overwrite it."
     },
+    "upload": {
+      "warning": "Some uploaded submissions had warnings, see the individual items for details"
+    },
     "waitForAllRequestsToFulfill": "Wait until all submissions will end",
     "waitingForAction": "waiting for an action",
     "wrongExtension": "Choose packages that have correct extension (.tar.gz)"
