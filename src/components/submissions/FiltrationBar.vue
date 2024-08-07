@@ -68,7 +68,7 @@
       hide-details
       chips
       closable-chips
-      :items="states"
+      :items="sortValues(states)"
       name="state"
       multiple
       clearable
@@ -161,7 +161,8 @@ import { useDatePicker } from '@/composable/datePicker'
 import ResetButton from '@/components/common/buttons/ResetButton.vue'
 import { computed } from 'vue'
 
-const { states, technologies } = useEnumFiltration()
+const { states, technologies, sortValues } =
+  useEnumFiltration()
 const {
   fromDatePicker,
   changedDate,

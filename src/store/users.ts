@@ -41,6 +41,7 @@ interface State {
   userToken: string
   userName: string
   users: EntityModelUserDto[]
+  pending: EntityModelUserDto[]
   chosenUser: EntityModelUserDto
   filtration: UsersFiltration
   roles: RoleDto[]
@@ -54,6 +55,7 @@ export const useUserStore = defineStore('userStore', {
       userToken: '',
       userName: '',
       users: [],
+      pending: [],
       chosenUser: {},
       filtration: defaultValues(UsersFiltration),
       roles: [],
@@ -112,7 +114,16 @@ export const useUserStore = defineStore('userStore', {
       }
     },
     async save(newUser: EntityModelUserDto) {
+      this.pending.push(this.chosenUser)
       await updateUser(this.chosenUser, newUser)
+        .then(() => {
+          this.get()
+        })
+        .finally(() => {
+          this.pending = this.pending.filter(
+            (item) => item.id != this.chosenUser.id
+          )
+        })
     },
     async setFiltration(payload: UsersFiltration) {
       const pagination = usePagination()

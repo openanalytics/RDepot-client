@@ -85,6 +85,7 @@ describe('Submissions Store', () => {
 
     expect(submissionStore.packages).toStrictEqual([])
     expect(submissionStore.submissions).toStrictEqual([])
+    expect(submissionStore.pending).toStrictEqual([])
     expect(submissionStore.repository).toBeUndefined()
     expect(submissionStore.filtration).toStrictEqual(
       defaultFiltration

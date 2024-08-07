@@ -45,123 +45,11 @@
         someSelected
       }"
     >
-      <div class="d-flex align-center">
-        <v-checkbox-btn
-          id="submissions-select-all"
-          :model-value="allSelected"
-          :indeterminate="someSelected && !allSelected"
-          @update:model-value="selectAll"
-        />
-        <v-speed-dial
-          location="bottom center"
-          location-strategy="connected"
-          transition="fade-transition"
-          scroll-strategy="close"
-        >
-          <template #activator="{ props: activatorProps }">
-            <v-btn
-              id="submissions-multi-actions"
-              variant="text"
-              size="x-small"
-              icon="mdi-dots-vertical"
-              color="oablue"
-              v-bind="activatorProps"
-              style="margin-left: -10px"
-            >
-            </v-btn>
-          </template>
-          <v-tooltip location="right">
-            <template
-              #activator="{ props: tooltipActivator }"
-            >
-              <div v-bind="tooltipActivator">
-                <v-btn
-                  id="submissions-multi-accept"
-                  key="1"
-                  icon="mdi-email-check-outline"
-                  color="success"
-                  :disabled="
-                    submissionStore.selected.length == 0
-                  "
-                  size="small"
-                  @click="
-                    openEditDialog(
-                      SubmissionEditOptions.enum.accept
-                    )
-                  "
-                ></v-btn>
-              </div>
-            </template>
-            <span
-              >{{ i18n.t('action.accept') }}
-              <span
-                v-if="submissionStore.selected.length == 0"
-                >({{ i18n.t('package.chooseOneToEnable') }})
-              </span></span
-            >
-          </v-tooltip>
-          <v-tooltip location="right">
-            <template
-              #activator="{ props: tooltipActivator }"
-            >
-              <div v-bind="tooltipActivator">
-                <v-btn
-                  id="submissions-multi-reject"
-                  key="2"
-                  icon="mdi-email-remove-outline"
-                  color="oared"
-                  :disabled="
-                    submissionStore.selected.length == 0
-                  "
-                  size="small"
-                  @click="
-                    openEditDialog(
-                      SubmissionEditOptions.enum.reject
-                    )
-                  "
-                ></v-btn>
-              </div>
-            </template>
-            <span
-              >{{ i18n.t('action.reject') }}
-              <span
-                v-if="submissionStore.selected.length == 0"
-                >({{ i18n.t('package.chooseOneToEnable') }})
-              </span></span
-            >
-          </v-tooltip>
-          <v-tooltip location="right">
-            <template
-              #activator="{ props: tooltipActivator }"
-            >
-              <div v-bind="tooltipActivator">
-                <v-btn
-                  id="submissions-multi-cancel"
-                  key="3"
-                  icon="mdi-cancel"
-                  color="oared"
-                  :disabled="
-                    submissionStore.selected.length == 0
-                  "
-                  size="small"
-                  @click="
-                    openEditDialog(
-                      SubmissionEditOptions.enum.cancel
-                    )
-                  "
-                ></v-btn>
-              </div>
-            </template>
-            <span
-              >{{ i18n.t('action.cancel') }}
-              <span
-                v-if="submissionStore.selected.length == 0"
-                >({{ i18n.t('package.chooseOneToEnable') }})
-              </span></span
-            >
-          </v-tooltip>
-        </v-speed-dial>
-      </div>
+      <MultiActionSubmissions
+        :all-selected="allSelected"
+        :some-selected="someSelected"
+        @select-all="selectAll(!allSelected)"
+      />
     </template>
     <template
       #[`item.data-table-select`]="{
@@ -171,105 +59,14 @@
         isSelected
       }"
     >
-      <template
-        v-if="
-          submissionStore.submissionsToEdit?.submissions.find(
-            (submission) => submission.id == item.id
-          ) && submissionStore.submissionsToEdit?.pending
-        "
-      >
-        <v-progress-circular
-          indeterminate="disable-shrink"
-          model-value="20"
-          class="mr-5"
-          size="small"
-        ></v-progress-circular>
-      </template>
-      <template v-else>
-        <span class="d-flex align-center">
-          <v-checkbox-btn
-            v-if="isSelected(internalItem)"
-            :id="`checkbox-actions-submission-${
-              item.packageBag?.name
-            }-${item.packageBag?.version?.replaceAll(
-              '.',
-              '-'
-            )}-${item.packageBag?.repository?.name}`"
-            :model-value="true"
-            @click.stop
-            @update:model-value="toggleSelect(internalItem)"
-          />
-          <v-checkbox-btn
-            v-else
-            :id="`checkbox-actions-submission-${
-              item.packageBag?.name
-            }-${item.packageBag?.version?.replaceAll(
-              '.',
-              '-'
-            )}-${item.packageBag?.repository?.name}`"
-            :model-value="false"
-            @click.stop
-            @update:model-value="toggleSelect(internalItem)"
-          />
-          <v-tooltip
-            v-if="
-              submissionStore.submissionsToEdit?.warnings?.notAuthorizedToEditAndMutableState.find(
-                (submission) => submission.id == item.id
-              ) &&
-              submissionStore.submissionsToEdit
-                ?.displayWarning
-            "
-          >
-            <template #activator="{ props }">
-              <v-icon
-                v-bind="props"
-                icon="mdi-alert-decagram"
-                color="warning"
-              ></v-icon>
-            </template>
-            <span>
-              {{
-                i18n.t('submissions.multiAction.notEdited')
-              }}
-              ({{ i18n.t('common.errors.unauthorized') }})
-            </span>
-          </v-tooltip>
-
-          <v-tooltip
-            v-if="
-              submissionStore.submissionsToEdit?.warnings?.notMutableState.find(
-                (submission) => submission.id == item.id
-              ) &&
-              submissionStore.submissionsToEdit
-                ?.displayWarning
-            "
-          >
-            <template #activator="{ props }">
-              <v-icon
-                v-bind="props"
-                icon="mdi-alert-decagram"
-                color="warning"
-              ></v-icon>
-            </template>
-            <span>
-              {{
-                i18n.t('submissions.multiAction.notEdited')
-              }}
-              ({{
-                i18n.t(
-                  'submissions.multiAction.notMutable',
-                  {
-                    actionType: editActionWarning,
-                    currentState: getTooltipMessage(
-                      item.state
-                    )
-                  }
-                )
-              }})
-            </span>
-          </v-tooltip>
-        </span>
-      </template>
+      <span class="d-flex align-center">
+        <SelectBoxSubmission
+          :item="item"
+          :is-selected="isSelected(internalItem)"
+          @toggle-select="toggleSelect(internalItem)"
+        />
+        <MultiActionSubmissionsAlert :item="item" />
+      </span>
     </template>
     <template #top>
       <div class="d-flex justify-space-between mx-3 my-5">
@@ -277,118 +74,23 @@
       </div>
     </template>
     <template #[`item.created`]="{ value }">
-      <v-chip
-        size="small"
-        style="cursor: pointer"
-        class="mr-3"
-      >
-        {{ formatDate(new Date(value)) }}</v-chip
-      >
+      <DateChip :date="value" />
     </template>
-    <template #[`item.packageBag.repository`]="{ value }">
-      {{ value }}
-    </template>
-    <template #[`item.packageBag.technology`]="{ value }">
-      <v-chip
-        size="small"
-        color="oablue"
-        class="mr-3"
-        style="cursor: pointer"
-      >
-        {{ value }}</v-chip
-      >
+    <template
+      #[`item.packageBag.repository.technology`]="{ value }"
+    >
+      <TechnologyChip :technology="value" />
     </template>
     <template #[`item.state`]="{ value }">
-      <v-tooltip location="bottom center">
-        <template #activator="{ props }">
-          <div id="tooltip-activator" v-bind="props">
-            <v-icon
-              class="mr-3"
-              :icon="
-                getStatusIcon(
-                  value ||
-                    EntityModelSubmissionDtoStateEnum.WAITING
-                )
-              "
-              :color="
-                getStatusColor(
-                  value ||
-                    EntityModelSubmissionDtoStateEnum.WAITING
-                )
-              "
-            ></v-icon>
-          </div>
-        </template>
-        <span id="tooltip-wait">{{
-          getTooltipMessage(
-            value ||
-              EntityModelSubmissionDtoStateEnum.WAITING
-          )
-        }}</span>
-      </v-tooltip>
+      <StateIcon :state="value" />
     </template>
     <template #[`item.actions`]="{ item }">
-      <span class="d-flex justify-end align-right">
-        <span
-          v-if="
-            item.state ===
-              EntityModelSubmissionDtoStateEnum.WAITING &&
-            canPatch(item.links, 'state')
-          "
-          class="d-flex justify-center align-center"
-        >
-          <template
-            v-if="
-              authorizationStore.me?.id ==
-              item.submitter?.id
-            "
-          >
-            <IconButton
-              :id="`cancel-button-${item.id}`"
-              :tooltip="$t('action.cancel')"
-              icon="mdi-email-remove-outline"
-              size="small"
-              color="oared"
-              @click="cancelSubmission(item)"
-            />
-          </template>
-          <template v-else>
-            <IconButton
-              :id="`accept-button-${item.id}`"
-              :tooltip="$t('action.accept')"
-              icon="mdi-email-check-outline"
-              size="small"
-              color="success"
-              @click="acceptSubmission(item)"
-            />
-            <IconButton
-              :id="`reject-button-${item.id}`"
-              :tooltip="$t('action.reject')"
-              icon="mdi-email-remove-outline"
-              size="small"
-              color="oared"
-              @click="rejectSubmission(item)"
-            />
-          </template>
-        </span>
-        <span
-          v-if="
-            (item.state ===
-              EntityModelSubmissionDtoStateEnum.WAITING &&
-              canPatch(item.links, 'state')) ||
-            item.state ===
-              EntityModelSubmissionDtoStateEnum.ACCEPTED
-          "
-          class="d-flex justify-center align-center"
-        >
-          <IconButton
-            :id="`download-button-${item.id}`"
-            :tooltip="$t('action.download')"
-            icon="mdi-download-outline"
-            size="small"
-            @click="downloadSubmission(item)"
-          />
-        </span>
+      <ProgressCircularSmall v-if="isPending(item)" />
+      <span v-else class="d-flex justify-end align-right">
+        <CancelSubmission :item="item" />
+        <AcceptSubmission :item="item" />
+        <RejectSubmission :item="item" />
+        <DownloadSubmission :item="item" />
       </span>
     </template>
   </v-data-table-server>
@@ -397,11 +99,7 @@
 <script setup lang="ts">
 import { useSubmissionStore } from '@/store/submission'
 import { usePagination } from '@/store/pagination'
-import { useSubmissionIcons } from '@/composable/submissions/statusIcons'
-import { EntityModelSubmissionDtoStateEnum } from '@/openapi'
-import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
-import { useSubmissionActions } from '@/composable/submissions/submissionActions'
-import { useCommonStore } from '@/store/common'
+import { EntityModelSubmissionDto } from '@/openapi'
 import {
   DataTableHeaders,
   DataTableOptions,
@@ -410,31 +108,20 @@ import {
 import { i18n } from '@/plugins/i18n'
 import { ref, computed } from 'vue'
 import { useSort } from '@/composable/sort'
-import { useAuthorizationStore } from '@/store/authorization'
-import { OverlayEnum } from '@/enum/Overlay'
-import { SubmissionEditOptions } from '@/enum/SubmissionEditOptions'
-import IconButton from '@/components/common/buttons/IconButton.vue'
-import { useDates } from '@/composable/date'
-import { useSubmissionActionTranslations } from '@/composable/submissions/submissionActionTranslations'
+import MultiActionSubmissions from './actions/MultiActionSubmissions.vue'
+import MultiActionSubmissionsAlert from './actions/MultiActionSubmissionsAlert.vue'
+import SelectBoxSubmission from './actions/SelectBoxSubmission.vue'
+import DateChip from '../common/chips/DateChip.vue'
+import TechnologyChip from '../common/chips/TechnologyChip.vue'
+import StateIcon from './icons/StateIcon.vue'
+import ProgressCircularSmall from '../common/progress/ProgressCircularSmall.vue'
+import AcceptSubmission from './actions/AcceptSubmission.vue'
+import RejectSubmission from './actions/RejectSubmission.vue'
+import CancelSubmission from './actions/CancelSubmission.vue'
+import DownloadSubmission from './actions/DownloadSubmission.vue'
 
-const { formatDate } = useDates()
-const { canPatch } = useUserAuthorities()
-const authorizationStore = useAuthorizationStore()
 const submissionStore = useSubmissionStore()
-const commonStore = useCommonStore()
 const pagination = usePagination()
-
-const { getStatusIcon, getStatusColor, getTooltipMessage } =
-  useSubmissionIcons()
-const { editActionWarning } =
-  useSubmissionActionTranslations()
-
-const {
-  acceptSubmission,
-  cancelSubmission,
-  rejectSubmission,
-  downloadSubmission
-} = useSubmissionActions()
 
 const { getSort } = useSort()
 const defaultSort: Sort[] = [
@@ -483,7 +170,7 @@ const headers = computed<DataTableHeaders[]>(() => [
   {
     title: i18n.t('columns.submissions.technology'),
     align: 'center',
-    key: 'packageBag.technology',
+    key: 'packageBag.repository.technology',
     width: 100
   },
   {
@@ -506,9 +193,12 @@ function fetchData(options: DataTableOptions) {
   submissionStore.getPage(options)
 }
 
-function openEditDialog(editOption: SubmissionEditOptions) {
-  submissionStore.prepareToEdit(editOption)
-  commonStore.openOverlay(OverlayEnum.enum.Edit)
+function isPending(
+  item: EntityModelSubmissionDto
+): boolean {
+  return !!submissionStore.pending.find(
+    (submission) => submission.id == item.id
+  )
 }
 </script>
 

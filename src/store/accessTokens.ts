@@ -58,6 +58,7 @@ export type PackagePromise = {
 interface State {
   promises: PackagePromise[]
   tokens: EntityModelAccessTokenDto[]
+  pending: EntityModelAccessTokenDto[]
   filtration: TokensFiltration
   newToken?: string
   currentToken: EntityModelAccessTokenDto
@@ -74,6 +75,7 @@ export const useAccessTokensStore = defineStore(
       return {
         promises: [],
         tokens: [],
+        pending: [],
         filtration: defaultValues(TokensFiltration),
         newToken: '',
         currentToken: {},
@@ -121,7 +123,7 @@ export const useAccessTokensStore = defineStore(
         pageSize: number,
         filtration: TokensFiltration,
         user_id?: number,
-        showProgress = true
+        showProgress = false
       ) {
         const [tokens, pageData] = await fetchTokens(
           filtration,
@@ -135,8 +137,9 @@ export const useAccessTokensStore = defineStore(
       },
       async delete() {
         if (this.currentToken?.id) {
-          await deleteToken(this.currentToken.id).then(
-            async () => {
+          this.pending.push(this.currentToken)
+          await deleteToken(this.currentToken.id)
+            .then(async () => {
               const toast = useToast()
               toast.success(
                 i18n.t('settings.message.deleted')
@@ -144,8 +147,12 @@ export const useAccessTokensStore = defineStore(
               const commonStore = useCommonStore()
               commonStore.closeOverlay()
               await this.get()
-            }
-          )
+            })
+            .finally(() => {
+              this.pending = this.pending.filter(
+                (item) => item.id != this.currentToken.id
+              )
+            })
         }
         this.currentToken = {}
       },
@@ -153,12 +160,13 @@ export const useAccessTokensStore = defineStore(
         oldToken: EntityModelAccessTokenDto,
         newValues: Partial<EntityModelAccessTokenDto>
       ) {
+        this.pending.push(oldToken)
         const newToken = {
           ...deepCopy(oldToken),
           ...newValues
         }
-        await editToken(oldToken, newToken)?.then(
-          async (success) => {
+        await editToken(oldToken, newToken)
+          ?.then(async (success) => {
             if (success) {
               const toast = useToast()
               toast.success(
@@ -166,8 +174,12 @@ export const useAccessTokensStore = defineStore(
               )
               await this.get()
             }
-          }
-        )
+          })
+          .finally(() => {
+            this.pending = this.pending.filter(
+              (item) => item.id != oldToken.id
+            )
+          })
       },
       async create(newToken: CreateAccessTokenDto) {
         await createToken(newToken)?.then(
@@ -188,12 +200,13 @@ export const useAccessTokensStore = defineStore(
         oldToken: EntityModelAccessTokenDto,
         newValues: Partial<EntityModelAccessTokenDto>
       ) {
+        this.pending.push(oldToken)
         const newToken = {
           ...deepCopy(oldToken),
           ...newValues
         }
-        await deactivateToken(oldToken, newToken)?.then(
-          async (success) => {
+        await deactivateToken(oldToken, newToken)
+          ?.then(async (success) => {
             if (success) {
               const toast = useToast()
               toast.success(
@@ -203,8 +216,12 @@ export const useAccessTokensStore = defineStore(
               commonStore.closeOverlay()
               await this.get()
             }
-          }
-        )
+          })
+          .finally(() => {
+            this.pending = this.pending.filter(
+              (item) => item.id != oldToken.id
+            )
+          })
       },
       reset() {
         setTimeout(() => (this.newToken = ''), 200)

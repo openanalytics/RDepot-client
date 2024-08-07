@@ -69,6 +69,7 @@ describe('Package Store', () => {
   it('Starting values', () => {
     const packageStore = usePackagesStore()
     expect(packageStore.packages).toStrictEqual([])
+    expect(packageStore.pending).toStrictEqual([])
     expect(packageStore.package).toStrictEqual({})
     expect(packageStore.filtration).toStrictEqual(
       defaultFiltration

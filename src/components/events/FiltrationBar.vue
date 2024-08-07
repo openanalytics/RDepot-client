@@ -55,7 +55,7 @@
       hide-details
       chips
       closable-chips
-      :items="eventTypes"
+      :items="sortValues(eventTypes)"
       name="eventType"
       as="v-select"
       clearable
@@ -70,7 +70,7 @@
       hide-details
       chips
       closable-chips
-      :items="resourceTypes"
+      :items="sortValues(resourceTypes)"
       name="resourceType"
       multiple
       clearable
@@ -124,8 +124,12 @@ import { useDatePicker } from '@/composable/datePicker'
 import ResetButton from '@/components/common/buttons/ResetButton.vue'
 import { computed } from 'vue'
 
-const { technologies, resourceTypes, eventTypes } =
-  useEnumFiltration()
+const {
+  technologies,
+  resourceTypes,
+  eventTypes,
+  sortValues
+} = useEnumFiltration()
 
 const {
   fromDatePicker,

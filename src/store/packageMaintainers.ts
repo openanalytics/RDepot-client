@@ -54,6 +54,7 @@ interface State {
   repositories: EntityModelPythonRepositoryDto[]
   packages: EntityModelRPackageDto[]
   chosenMaintainer: EntityModelPackageMaintainerDto
+  pending: EntityModelPackageMaintainerDto[]
   loading: boolean
   totalNumber: number
 }
@@ -71,6 +72,7 @@ export const usePackageMaintainersStore = defineStore(
         ),
         repositories: [],
         packages: [],
+        pending: [],
         chosenMaintainer: {},
         loading: false,
         totalNumber: 0
@@ -159,15 +161,23 @@ export const usePackageMaintainersStore = defineStore(
         }
       },
       async delete() {
+        this.pending.push(this.chosenMaintainer)
         deletePackageMaintainerService(
           this.chosenMaintainer
-        ).then(async (success) => {
-          if (success) await this.get()
-        })
+        )
+          .then(async (success) => {
+            if (success) await this.get()
+          })
+          .finally(() => {
+            this.pending = this.pending.filter(
+              (item) => item.id != this.chosenMaintainer.id
+            )
+          })
       },
       async patch(
         newValues: Partial<PackageMaintainerDto>
       ) {
+        this.pending.push(newValues)
         const newMaintainer = {
           ...deepCopy(this.chosenMaintainer),
           ...newValues
@@ -175,9 +185,15 @@ export const usePackageMaintainersStore = defineStore(
         updatePackageMaintainerService(
           this.chosenMaintainer,
           newMaintainer
-        ).then(async (success) => {
-          if (success) await this.get()
-        })
+        )
+          .then(async (success) => {
+            if (success) await this.get()
+          })
+          .finally(() => {
+            this.pending = this.pending.filter(
+              (item) => item.id != newValues.id
+            )
+          })
       },
       async create(
         maintainer: Partial<PackageMaintainerDto>

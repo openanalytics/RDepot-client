@@ -43,14 +43,7 @@
       </div>
     </template>
     <template #[`item.technology`]="{ value }">
-      <v-chip
-        class="mr-5"
-        size="small"
-        color="oablue"
-        style="cursor: pointer"
-      >
-        {{ value }}</v-chip
-      ></template
+      <TechnologyChip :technology="value" /> </template
     ><template #[`item.published`]="{ item }">
       <v-tooltip
         location="top"
@@ -65,17 +58,10 @@
             <v-checkbox-btn
               id="checkbox-published"
               v-model="item.published"
+              :disabled="isDisabled(item)"
               hide-details
-              :readonly="
-                !canPatch(item.links) ||
-                configStore.declarativeMode
-              "
-              :color="
-                !canPatch(item.links) ||
-                configStore.declarativeMode
-                  ? 'grey'
-                  : 'oablue'
-              "
+              :readonly="isDisabled(item)"
+              :color="isDisabled(item) ? 'grey' : 'oablue'"
               class="mr-5"
               @click.stop="updateRepositoryPublished(item)"
             >
@@ -88,18 +74,31 @@
         <span v-if="configStore.declarativeMode">{{
           $t('repositories.declarative.publish')
         }}</span>
+        <span v-if="item.deleted">
+          {{ $t('repositories.deleted') }}</span
+        >
+        <span v-if="isPending(item)">
+          {{ $t('common.pending') }}</span
+        >
       </v-tooltip></template
     ><template #[`item.actions`]="{ item }">
-      <span class="d-flex justify-center align-center">
+      <ProgressCircularSmall v-if="isPending(item)" />
+      <span
+        v-else
+        class="d-flex justify-center align-center"
+      >
         <EditIcon
           :disabled="
             !canPatch(item.links) ||
-            configStore.declarativeMode
+            configStore.declarativeMode ||
+            item.deleted
           "
           :text="$t('common.edit')"
           :hover-message="
             configStore.declarativeMode
               ? $t('repositories.declarative.edit')
+              : item.deleted
+              ? $t('repositories.deleted')
               : undefined
           "
           @set-entity="chooseRepositoryToUpdate(item)"
@@ -110,7 +109,8 @@
           :disabled="
             !configStore.deletingRepositories ||
             !canDelete(item.links) ||
-            configStore.declarativeMode
+            configStore.declarativeMode ||
+            item.deleted
           "
           :name="item.name"
           :hover-message="
@@ -118,6 +118,8 @@
               ? $t('repositories.declarative.delete')
               : !configStore.deletingRepositories
               ? $t('config.deletingRepositories')
+              : item.deleted
+              ? $t('repositories.deleted')
               : undefined
           "
           @set-resource-id="chooseRepositoryToUpdate(item)"
@@ -143,13 +145,14 @@ import {
 } from '@/models/DataTableOptions'
 import { useConfigStore } from '@/store/config'
 import { useUtilities } from '@/composable/utilities'
-import { updateRepository } from '@/services/repositoryServices'
 import { computed } from 'vue'
 import { isAtLeastRepositoryMaintainer } from '@/enum/UserRoles'
 import { ref } from 'vue'
 import { useSort } from '@/composable/sort'
 import AddButton from '@/components/common/buttons/AddButton.vue'
 import { useAuthorizationStore } from '@/store/authorization'
+import TechnologyChip from '../common/chips/TechnologyChip.vue'
+import ProgressCircularSmall from '../common/progress/ProgressCircularSmall.vue'
 
 const packagesStore = usePackagesStore()
 const { deepCopy } = useUtilities()
@@ -261,7 +264,10 @@ function navigate(_event: Event, dataTableRepo: any) {
 
 function isDisabled(item: EntityModelRepositoryDto) {
   return (
-    configStore.declarativeMode || !canPatch(item.links)
+    configStore.declarativeMode ||
+    !canPatch(item.links) ||
+    item.deleted ||
+    isPending(item)
   )
 }
 
@@ -269,16 +275,10 @@ function updateRepositoryPublished(
   item: EntityModelRepositoryDto
 ): void {
   if (!isDisabled(item) && canPatch(item.links)) {
-    const oldRepository = deepCopy(item)
-    oldRepository.published = !oldRepository.published
-    updateRepository(item, oldRepository).then(
-      () => {
-        repositoryStore.getRepositories()
-      },
-      () => {
-        repositoryStore.getRepositories()
-      }
-    )
+    repositoryStore.setChosen(item.id)
+    const newRepository = deepCopy(item)
+    newRepository.published = !newRepository.published
+    repositoryStore.patch(newRepository)
   }
 }
 
@@ -290,6 +290,14 @@ function chooseRepositoryToUpdate(
   item: EntityModelRepositoryDto
 ) {
   repositoryStore.setChosen(item.id)
+}
+
+function isPending(
+  item: EntityModelRepositoryDto
+): boolean {
+  return !!repositoryStore.pending.find(
+    (repository) => repository.id == item.id
+  )
 }
 </script>
 

@@ -48,7 +48,10 @@
     <template #[`item.active`]="{ item }">
       <v-tooltip
         location="top"
-        :disabled="item.id !== authorizationStore.me.id"
+        :disabled="
+          item.id !== authorizationStore.me.id ||
+          !isPending(item)
+        "
       >
         <template #activator="{ props }">
           <span
@@ -67,14 +70,18 @@
                   authorizationStore.userRole
                     ? authorizationStore.userRole
                     : 0
-                ) || item.id === authorizationStore.me.id
+                ) ||
+                item.id === authorizationStore.me.id ||
+                isPending(item)
               "
               :color="
                 !isAtLeastAdmin(
                   authorizationStore.userRole
                     ? authorizationStore.userRole
                     : 0
-                ) || item.id === authorizationStore.me.id
+                ) ||
+                item.id === authorizationStore.me.id ||
+                isPending(item)
                   ? 'grey'
                   : 'oablue'
               "
@@ -83,11 +90,20 @@
             />
           </span>
         </template>
-        <span>{{ $t('users.unableDeactivation') }}</span>
+        <span v-if="isPending(item)">
+          {{ $t('common.pending') }}</span
+        >
+        <span v-else>{{
+          $t('users.unableDeactivation')
+        }}</span>
       </v-tooltip></template
     >
     <template #[`item.actions`]="{ item }">
-      <span class="d-flex justify-center align-center">
+      <ProgressCircularSmall v-if="isPending(item)" />
+      <span
+        v-else
+        class="d-flex justify-center align-center"
+      >
         <EditIcon
           :icon-id="`edit-user-${item.id}`"
           :disabled="!canPatch(item.links)"
@@ -105,7 +121,6 @@ import { useUserStore } from '@/store/users'
 import { usePagination } from '@/store/pagination'
 import { i18n } from '@/plugins/i18n'
 import { EntityModelUserDto } from '@/openapi'
-import { updateUser } from '@/services/usersServices'
 import { useUtilities } from '@/composable/utilities'
 import { isAtLeastAdmin } from '@/enum/UserRoles'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
@@ -118,6 +133,7 @@ import { useAuthorizationStore } from '@/store/authorization'
 import { ref, computed } from 'vue'
 import { useSort } from '@/composable/sort'
 import { useEnumFiltration } from '@/composable/filtration/enumFiltration'
+import ProgressCircularSmall from '../common/progress/ProgressCircularSmall.vue'
 
 const pagination = usePagination()
 const authorizationStore = useAuthorizationStore()
@@ -178,20 +194,19 @@ function updateUserActive(item: EntityModelUserDto): void {
   if (canPatch(item.links)) {
     const oldUser = deepCopy(item)
     oldUser.active = !oldUser.active
-    updateUser(oldUser, item).then(
-      () => {
-        userStore.get()
-      },
-      () => {
-        userStore.get()
-      }
-    )
+    userStore.save(item)
   }
 }
 
 function fetchData(options: DataTableOptions) {
   sortBy.value = getSort(options.sortBy, defaultSort)
   userStore.getPage(options)
+}
+
+function isPending(item: EntityModelUserDto): boolean {
+  return !!userStore.pending.find(
+    (user) => user.id == item.id
+  )
 }
 
 onMounted(() => {

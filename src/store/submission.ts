@@ -77,6 +77,7 @@ interface State {
   promises: PackagePromise[]
   repository?: EntityModelRepositoryDto
   submissions: EntityModelSubmissionDto[]
+  pending: EntityModelSubmissionDto[]
   selected: EntityModelSubmissionDto[]
   submissionsToEdit?: EditSubmissions
   submissionsToEditWarnings?: EditSubmissionWarnings
@@ -100,6 +101,7 @@ export const useSubmissionStore = defineStore(
         replace: [],
         promises: [],
         submissions: [],
+        pending: [],
         selected: [],
         submissionsToEdit: undefined,
         submissionsToEditWarnings: undefined,
@@ -154,7 +156,7 @@ export const useSubmissionStore = defineStore(
         pageSize: number,
         filtration: SubmissionsFiltration,
         user_id?: number,
-        showProgress = true
+        showProgress = false
       ) {
         const [submissions, pageData] =
           await fetchSubmissions(
@@ -171,18 +173,22 @@ export const useSubmissionStore = defineStore(
         oldSubmission: EntityModelSubmissionDto,
         newValues: Partial<EntityModelSubmissionDto>
       ) {
+        this.pending.push(oldSubmission)
         const newSubmission = {
           ...deepCopy(oldSubmission),
           ...newValues
         }
-        await updateSubmission(
-          oldSubmission,
-          newSubmission
-        ).then(async (response) => {
-          if (Object.keys(response[0]).length > 0) {
-            await this.get()
-          }
-        })
+        await updateSubmission(oldSubmission, newSubmission)
+          .then(async (response) => {
+            if (Object.keys(response[0]).length > 0) {
+              await this.get()
+            }
+          })
+          .finally(() => {
+            this.pending = this.pending.filter(
+              (item) => item.id != oldSubmission.id
+            )
+          })
       },
       updateReplaceOptionForPackage(file: File) {
         if (this.getReplaceForPackage(file)) {
@@ -312,6 +318,7 @@ export const useSubmissionStore = defineStore(
           const promises =
             this.submissionsToEdit.submissions.map(
               (submission) => {
+                this.pending.push(submission)
                 return {
                   promise: editSubmission(
                     submission,
@@ -346,6 +353,10 @@ export const useSubmissionStore = defineStore(
                 }
               })
               .finally(() => {
+                this.pending = this.pending.filter(
+                  (submission) =>
+                    submission.id != promise.packageBag.id
+                )
                 if (++fulfilled == promises.length) {
                   this.resolved = true
 

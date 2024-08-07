@@ -79,6 +79,9 @@ describe('Repository Maintainers Store', () => {
       repositoryMaintainersStore.maintainers
     ).toStrictEqual([])
     expect(
+      repositoryMaintainersStore.pending
+    ).toStrictEqual([])
+    expect(
       repositoryMaintainersStore.filtration
     ).toStrictEqual(defaultFiltration)
     expect(

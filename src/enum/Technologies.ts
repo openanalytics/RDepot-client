@@ -22,5 +22,5 @@
 
 import { z } from 'zod'
 
-export const Technologies = z.enum(['R', 'Python'])
+export const Technologies = z.enum(['Python', 'R'])
 export type Technologies = z.infer<typeof Technologies>

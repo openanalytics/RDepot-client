@@ -42,17 +42,14 @@
       </div>
     </template>
     <template #[`item.repository.technology`]="{ value }">
-      <v-chip
-        class="mr-5"
-        size="small"
-        color="oablue"
-        style="cursor: pointer"
-      >
-        {{ value }}</v-chip
-      ></template
-    >
+      <TechnologyChip :technology="value" />
+    </template>
     <template #[`item.actions`]="{ item }">
-      <span class="d-flex justify-center align-center">
+      <ProgressCircularSmall v-if="isPending(item)" />
+      <span
+        v-else
+        class="d-flex justify-center align-center"
+      >
         <EditIcon
           :disabled="!canPatch(item.links) || item.deleted"
           :text="i18n.t('maintainers.edit')"
@@ -103,6 +100,8 @@ import { useSort } from '@/composable/sort'
 import { useAuthorizationStore } from '@/store/authorization'
 import AddMaintainerButton from '@/components/common/buttons/AddMaintainerButton.vue'
 import { computed } from 'vue'
+import TechnologyChip from '../common/chips/TechnologyChip.vue'
+import ProgressCircularSmall from '../common/progress/ProgressCircularSmall.vue'
 
 const repositoryMaintainersStore =
   useRepositoryMaintainersStore()
@@ -167,6 +166,13 @@ function setEditMaintainer(
   repositoryMaintainersStore.setChosen(item)
 }
 
+function isPending(
+  item: EntityModelRepositoryMaintainerDto
+): boolean {
+  return !!repositoryMaintainersStore.pending.find(
+    (maintainer) => maintainer.id == item.id
+  )
+}
 onMounted(() => {
   updateData()
 })

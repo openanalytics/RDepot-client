@@ -205,6 +205,8 @@ describe('Tokens - cells', () => {
 
   it('displays deactivate icon', () => {
     const cell = cells[4]
-    expect(cell.find('#cancel-icon').exists()).toBe(true)
+    expect(cell.find('#deactivate-icon').exists()).toBe(
+      true
+    )
   })
 })

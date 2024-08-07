@@ -24,6 +24,7 @@ import { usePackageMaintainersFiltration } from '@/composable/filtration/package
 import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesFiltration'
 import { useRepositoryMaintainersFiltration } from '@/composable/filtration/repositoryMaintainersFiltration'
 import { usePackageMaintainersStore } from '@/store/packageMaintainers'
+import { usePackagesStore } from '@/store/packages'
 import { useRepositoryStore } from '@/store/repositories'
 import { useRepositoryMaintainersStore } from '@/store/repositoryMaintainers'
 import { useSubmissionStore } from '@/store/submission'
@@ -37,12 +38,14 @@ export function prepareUploadPackagesView() {
 
 export function preparePackagesView() {
   const repositoryStore = useRepositoryStore()
+  const packagesStore = usePackagesStore()
   const packageMaintainerStore =
     usePackageMaintainersStore()
   const { resetRepositoriesPagination } =
     useRepositoriesFiltration()
   const { resetPaginationMaintainers } =
     usePackageMaintainersFiltration()
+  packagesStore.pending = []
   repositoryStore.clearFiltration()
   packageMaintainerStore.clearFiltration()
   resetPaginationMaintainers()
@@ -61,8 +64,11 @@ export function prepareSubmissionsView() {
 
 export function preparePackageMaintainersView() {
   const repositoryStore = useRepositoryStore()
+  const packageMaintainersStore =
+    usePackageMaintainersStore()
   const { resetRepositoriesPagination } =
     useRepositoriesFiltration()
+  packageMaintainersStore.pending = []
   repositoryStore.clearFiltration()
   resetRepositoriesPagination()
 }

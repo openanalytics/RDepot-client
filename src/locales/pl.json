@@ -156,6 +156,7 @@
     "ok": "Ok",
     "or": "lub",
     "packages": "Pakiety",
+    "pending": "akcja w trakcie",
     "projectTitle": "RDepot",
     "repositories": "Repozytoria",
     "reset": "Wyczyść",
@@ -287,6 +288,7 @@
     "authors": "Autorzy",
     "classifiers": "Klasyfikatory",
     "copy": "Kopiuj",
+    "deleted": "Ten pakiet jest usunięty",
     "depends": "Zależności",
     "description": "Opis",
     "details": "Szczegóły",
@@ -373,6 +375,7 @@
       "edit": "Edycja jest niedostępna w deklaratywnym trybie",
       "publish": "Publikowanie jest niedostępne w deklaratywnym trybie"
     },
+    "deleted": "To repozytorium jest usunięte",
     "edit": {
       "title": "Edytuj repozytorium"
     },
@@ -479,6 +482,10 @@
     "wrongExtension": "Wybierz pakiety o poprawnym rozszerzeniu (.tar.gz)"
   },
   "success": "Poprawnie wykonana operacja",
+  "tokens": {
+    "deleted": "Ten token jest usunięty",
+    "inacitve": "Ten token jest nieaktywny"
+  },
   "updatedProperties": {
     "accepted": "ZAAKCEPTOWANE",
     "active": "aktywny",

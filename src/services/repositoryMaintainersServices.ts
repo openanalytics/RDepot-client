@@ -47,7 +47,7 @@ export async function fetch(
   page?: number,
   pageSize?: number,
   sort?: string,
-  showProgress = true
+  showProgress = false
 ): ValidatedRepositoryMaintainers {
   if (!isAuthorized('GET', 'submissions')) {
     return new Promise(() => validateRequest([]))
@@ -161,7 +161,8 @@ export async function updateRepositoryMaintainer(
   return openApiRequest<EntityModelRepositoryMaintainerDto>(
     ApiV2RepositoryMaintainerControllerApiFactory()
       .updateRepositoryMaintainer,
-    [patch, oldMaintainer.id]
+    [patch, oldMaintainer.id],
+    true
   ).catch(() => {
     return validateRequest({})
   })
@@ -176,7 +177,8 @@ export async function createRepositoryMaintainer(
   return openApiRequest<EntityModelRepositoryMaintainerDto>(
     ApiV2RepositoryMaintainerControllerApiFactory()
       .createRepositoryMaintainer,
-    [maintainer]
+    [maintainer],
+    true
   )
 }
 
@@ -189,7 +191,8 @@ export async function deletedRepositoryMaintainer(
   return openApiRequest<EntityModelRepositoryMaintainerDto>(
     ApiV2RepositoryMaintainerControllerApiFactory()
       .deleteRepositoryMaintainer,
-    [maintainer.id]
+    [maintainer.id],
+    true
   ).catch(() => {
     return validateRequest({})
   })

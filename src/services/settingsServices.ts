@@ -51,7 +51,7 @@ export async function fetch(
   page?: number,
   pageSize?: number,
   sort?: string,
-  showProgress = true
+  showProgress = false
 ): ValidatedTokens {
   if (!isAuthorized('GET', 'submissions')) {
     return new Promise(() => validateRequest([]))
@@ -79,7 +79,7 @@ export async function fetchTokens(
   logged_user_id?: number,
   page?: number,
   pageSize?: number,
-  showProgress = true
+  showProgress = false
 ): ValidatedTokens {
   if (!isAuthorized('GET', 'settings')) {
     return new Promise(() => validateRequest([]))
@@ -120,7 +120,8 @@ export async function createToken(
     return openApiRequest<CreateAccessTokenDto>(
       ApiV2AccessTokenControllerApiFactory()
         .createAccessToken,
-      [token as CreateAccessTokenDto]
+      [token as CreateAccessTokenDto],
+      true
     )
   } else {
     const toasts = useToast()

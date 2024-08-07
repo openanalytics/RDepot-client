@@ -42,17 +42,11 @@
       </div>
     </template>
     <template #[`item.repository.technology`]="{ value }">
-      <v-chip
-        class="mr-5"
-        size="small"
-        color="oablue"
-        style="cursor: pointer"
-      >
-        {{ value }}</v-chip
-      ></template
-    >
+      <TechnologyChip :technology="value" />
+    </template>
     <template #[`item.actions`]="{ item }">
-      <span class="d-flex justify-end align-center">
+      <ProgressCircularSmall v-if="isPending(item)" />
+      <span v-else class="d-flex justify-end align-center">
         <EditIcon
           :disabled="!canPatch(item.links) || item.deleted"
           :text="getEditMessage(item)"
@@ -98,6 +92,8 @@ import { useSort } from '@/composable/sort'
 import AddMaintainerButton from '@/components/common/buttons/AddMaintainerButton.vue'
 import { useAuthorizationStore } from '@/store/authorization'
 import { computed } from 'vue'
+import TechnologyChip from '../common/chips/TechnologyChip.vue'
+import ProgressCircularSmall from '../common/progress/ProgressCircularSmall.vue'
 
 const packageMaintainersStore = usePackageMaintainersStore()
 const pagination = usePagination()
@@ -169,5 +165,13 @@ function getEditMessage(
   return i18n.t('maintainers.edit', {
     maintainerName: item.user?.id
   })
+}
+
+function isPending(
+  item: EntityModelPackageMaintainerDto
+): boolean {
+  return !!packageMaintainersStore.pending.find(
+    (maintainer) => maintainer.id == item.id
+  )
 }
 </script>
