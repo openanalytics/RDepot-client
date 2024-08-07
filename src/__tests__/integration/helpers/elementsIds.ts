@@ -352,3 +352,6 @@ export const DELETE_REPOSITORY_CANCEL_ID = 'cancel-button'
 
 // SETTINGS FIELD
 export const PAGE_SIZE_ID = 'page-size-input'
+
+// GENERAL SETTINGS PAGE
+export const SAVE_CHANGES_BUTTON_ID = 'save-changes'

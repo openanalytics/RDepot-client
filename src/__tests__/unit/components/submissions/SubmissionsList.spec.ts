@@ -44,6 +44,7 @@ import {
   SUBMISSIONS_MULTI_ACTIONS_ID
 } from '@/__tests__/integration/helpers/elementsIds'
 import { useDates } from '@/composable/date'
+import TechnologyChip from '@/components/common/chips/TechnologyChip.vue'
 
 const { formatDate } = useDates()
 let wrapper: any
@@ -284,7 +285,7 @@ describe('Submissions - cells', () => {
 
   it('displays technology', () => {
     const cell = cells[7]
-    const chip = cell.findComponent('.v-chip')
+    const chip = cell.findComponent(TechnologyChip)
     expect(chip.exists()).toBeTruthy()
     expect(chip.text()).toBe(
       submission.packageBag.technology

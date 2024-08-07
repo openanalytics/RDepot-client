@@ -186,6 +186,7 @@ describe('Packages list', () => {
       ),
       8000
     )
+
     packagesToDelete =
       await deletePackagesModal.findElements(
         By.className('v-list-item-title')

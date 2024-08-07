@@ -76,6 +76,7 @@ interface State {
   promises: PackagePromise[]
   repository?: EntityModelRepositoryDto
   submissions: EntityModelSubmissionDto[]
+  pending: EntityModelSubmissionDto[]
   selected: EntityModelSubmissionDto[]
   submissionsToEdit?: EditSubmissions
   submissionsToEditWarnings?: EditSubmissionWarnings
@@ -99,6 +100,7 @@ export const useSubmissionStore = defineStore(
         replace: [],
         promises: [],
         submissions: [],
+        pending: [],
         selected: [],
         submissionsToEdit: undefined,
         submissionsToEditWarnings: undefined,
@@ -154,7 +156,7 @@ export const useSubmissionStore = defineStore(
         page: number,
         pageSize: number,
         filtration: SubmissionsFiltration,
-        showProgress = true
+        showProgress = false
       ) {
         const sort = useSortStore()
         let sortBy = sort.getSortBy()
@@ -176,18 +178,22 @@ export const useSubmissionStore = defineStore(
         oldSubmission: EntityModelSubmissionDto,
         newValues: Partial<EntityModelSubmissionDto>
       ) {
+        this.pending.push(oldSubmission)
         const newSubmission = {
           ...deepCopy(oldSubmission),
           ...newValues
         }
-        await updateSubmission(
-          oldSubmission,
-          newSubmission
-        ).then(async (response) => {
-          if (Object.keys(response[0]).length > 0) {
-            await this.get()
-          }
-        })
+        await updateSubmission(oldSubmission, newSubmission)
+          .then(async (response) => {
+            if (Object.keys(response[0]).length > 0) {
+              await this.get()
+            }
+          })
+          .finally(() => {
+            this.pending = this.pending.filter(
+              (item) => item.id != oldSubmission.id
+            )
+          })
       },
       updateReplaceOptionForPackage(file: File) {
         if (this.getReplaceForPackage(file)) {
@@ -245,6 +251,8 @@ export const useSubmissionStore = defineStore(
         }
       },
       async addSubmissionRequests() {
+        const toasts = useToast()
+        let warnings = 0
         this.promises = this.packages.map((packageBag) => {
           return {
             promise: addSubmission(
@@ -269,6 +277,9 @@ export const useSubmissionStore = defineStore(
                 response[3] == 'SUCCESS'
                   ? 'success'
                   : 'warning'
+              if (promise.state == 'warning') {
+                warnings++
+              }
             })
             .catch((err) => {
               promise.state = 'error'
@@ -281,6 +292,11 @@ export const useSubmissionStore = defineStore(
             .finally(() => {
               if (++fulfilled == this.promises.length) {
                 this.resolved = true
+                if (warnings > 0) {
+                  toasts.warning(
+                    i18n.t('submissions.upload.warning')
+                  )
+                }
               }
             })
         })
@@ -307,6 +323,7 @@ export const useSubmissionStore = defineStore(
           const promises =
             this.submissionsToEdit.submissions.map(
               (submission) => {
+                this.pending.push(submission)
                 return {
                   promise: editSubmission(
                     submission,
@@ -323,6 +340,7 @@ export const useSubmissionStore = defineStore(
           let errors = 0
           promises.forEach(async (promise) => {
             await promise.promise
+
               .catch((err) => {
                 promise.state = 'error'
                 if (err.response?.data.data) {
@@ -340,8 +358,13 @@ export const useSubmissionStore = defineStore(
                 }
               })
               .finally(() => {
+                this.pending = this.pending.filter(
+                  (submission) =>
+                    submission.id != promise.packageBag.id
+                )
                 if (++fulfilled == promises.length) {
                   this.resolved = true
+
                   if (errors > 0) {
                     toasts.warning(
                       `Edited ${

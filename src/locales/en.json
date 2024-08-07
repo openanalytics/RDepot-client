@@ -156,6 +156,7 @@
     "ok": "Ok",
     "or": "or",
     "packages": "Packages",
+    "pending": "pending action",
     "projectTitle": "RDepot",
     "repositories": "Repositories",
     "reset": "Reset",
@@ -293,6 +294,7 @@
     "authors": "Authors",
     "classifiers": "Classifiers",
     "copy": "Copy",
+    "deleted": "This package is deleted",
     "depends": "Depends",
     "description": "Description",
     "details": "Details",
@@ -379,6 +381,7 @@
       "edit": "Edit action is disabled in declarative mode",
       "publish": "Publish action is disabled in declarative mode "
     },
+    "deleted": "This repository is deleted",
     "edit": {
       "title": "Edit repository"
     },
@@ -477,11 +480,18 @@
     "replace": {
       "duplication": "A package with the same name and version already exists in the selected repository. Please go through the upload process again and click 'replace' to overwrite it."
     },
+    "upload": {
+      "warning": "Some uploaded submissions had warnings, see the individual items for details"
+    },
     "waitForAllRequestsToFulfill": "Wait until all submissions will end",
     "waitingForAction": "waiting for an action",
     "wrongExtension": "Choose packages that have correct extension (.tar.gz)"
   },
   "success": "Request processed successfully",
+  "tokens": {
+    "deleted": "This token is deleted",
+    "inacitve": "This token is inactive"
+  },
   "updatedProperties": {
     "accepted": "ACCEPTED",
     "active": "active",

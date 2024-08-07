@@ -50,7 +50,7 @@ export async function fetchSettingsService(
   page?: number,
   pageSize?: number,
   sort?: string[],
-  showProgress = true
+  showProgress = false
 ): ValidatedTokens {
   if (!isAuthorized('GET', 'submissions')) {
     return new Promise(() => validateRequest([]))
@@ -86,7 +86,8 @@ export async function createToken(
     return openApiRequest<CreateAccessTokenDto>(
       ApiV2AccessTokenControllerApiFactory()
         .createAccessToken,
-      [token as CreateAccessTokenDto]
+      [token as CreateAccessTokenDto],
+      true
     )
   } else {
     const toasts = useToast()

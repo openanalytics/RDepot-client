@@ -97,6 +97,8 @@ describe('Custom page size', () => {
       '.bg-oablue > .v-btn__content'
     )
 
+    await delay(500)
+
     await goToPage(
       driver,
       SUBMISSIONS_SIDEBAR_ID,
@@ -109,17 +111,18 @@ describe('Custom page size', () => {
       '.v-field__input:nth-child(2)'
     )
     await delay(500)
-    await clickOnElementById(driver, 'page-items-15')
+    await clickOnElementById(driver, 'page-items-10')
     await delay(100)
     let elements = await driver.findElements(
       By.className('v-data-table__tr')
     )
-    expect(elements.length).toBe(15)
+    expect(elements.length).toBe(10)
 
     await clickOnElementByCss(
       driver,
       '.v-field__input:nth-child(2)'
     )
+
     await delay(500)
     await clickOnElementById(driver, 'page-items-custom-2')
     await delay(100)
@@ -183,12 +186,12 @@ describe('Custom page size', () => {
       '.v-field__input:nth-child(2)'
     )
     await delay(500)
-    await clickOnElementById(driver, 'page-items-15')
+    await clickOnElementById(driver, 'page-items-10')
     await delay(100)
     const elements = await driver.findElements(
       By.className('v-data-table__tr')
     )
-    expect(elements.length).toBe(15)
+    expect(elements.length).toBe(10)
 
     await clickOnElementByCss(
       driver,

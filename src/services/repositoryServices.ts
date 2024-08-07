@@ -54,7 +54,7 @@ export async function fetchRepositoriesService(
   page?: number,
   pageSize?: number,
   sort?: string[],
-  showProgress = true
+  showProgress = false
 ): ValidatedRepositories {
   if (!isAuthorized('GET', 'submissions')) {
     return new Promise(() => validateRequest([]))
@@ -100,7 +100,8 @@ export async function createRepository(
       return openApiRequest<PythonRepositoryDto>(
         PythonRepositoryControllerApiFactory()
           .createPythonRepository,
-        [repository as PythonRepositoryDto]
+        [repository as PythonRepositoryDto],
+        true
       )
     }
   } else {

@@ -89,7 +89,7 @@ describe('Soft delete repository', () => {
     await clickOnButton(driver, DELETE_REPO_2_ICON_ID)
 
     await clickOnButton(driver, DELETE_REPOSITORY_SUBMIT_ID)
-    await delay(200)
+    await delay(500)
     const elements = await driver.findElements(
       By.id(DELETE_REPO_2_ICON_ID)
     )

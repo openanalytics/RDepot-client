@@ -46,6 +46,7 @@ interface State {
   repositories: EntityModelRepositoryDto[]
   filtration: RepositoriesFiltration
   chosenRepository: EntityModelRRepositoryDto
+  pending: EntityModelRepositoryDto[]
   loading: boolean
   totalNumber: number
 }
@@ -58,6 +59,7 @@ export const useRepositoryStore = defineStore(
         repositories: [],
         filtration: defaultValues(RepositoriesFiltration),
         chosenRepository: {},
+        pending: [],
         loading: false,
         totalNumber: 0
       }
@@ -108,7 +110,7 @@ export const useRepositoryStore = defineStore(
         this.repositories = repositories
         return pageData
       },
-      async get(name: string, showProgress = true) {
+      async get(name: string, showProgress = false) {
         const sort = useSortStore()
         const [repository] = await fetchRepositoriesService(
           {
@@ -135,7 +137,7 @@ export const useRepositoryStore = defineStore(
         page: number,
         pageSize: number,
         filtration: RepositoriesFiltration,
-        showProgress = true
+        showProgress = false
       ) {
         const sort = useSortStore()
         const [repositories, pageData] =
@@ -157,6 +159,7 @@ export const useRepositoryStore = defineStore(
       async patch(
         newValues: Partial<EntityModelRRepositoryDto>
       ) {
+        this.pending.push(this.chosenRepository)
         const newRepository = {
           ...deepCopy(this.chosenRepository),
           ...newValues
@@ -164,9 +167,15 @@ export const useRepositoryStore = defineStore(
         await updateRepository(
           this.chosenRepository,
           newRepository
-        ).then(() => {
-          this.getRepositories()
-        })
+        )
+          .then(() => {
+            this.getRepositories()
+          })
+          .finally(() => {
+            this.pending = this.pending.filter(
+              (item) => item.id != this.chosenRepository.id
+            )
+          })
       },
       async create(
         newRepository: EntityModelRepositoryDto

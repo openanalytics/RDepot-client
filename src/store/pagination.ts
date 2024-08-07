@@ -36,9 +36,9 @@ export const usePagination = defineStore(
     const itemsPerPage = computed(() => {
       const defaultValues = [
         {
-          value: 15,
-          title: '15',
-          props: { id: 'page-items-15' }
+          value: 10,
+          title: '10',
+          props: { id: 'page-items-10' }
         },
         {
           value: 20,
@@ -154,7 +154,6 @@ export const usePagination = defineStore(
     return {
       page,
       newPage,
-      nextPage,
       pageSize,
       resetPage,
       fetchPage,

@@ -26,6 +26,12 @@ import { ref, computed } from 'vue'
 import { i18n } from '@/plugins/i18n'
 
 export function useEnumFiltration() {
+  function sortValues(values: { title: string }[]) {
+    return values.sort((a, b) =>
+      a.title.localeCompare(b.title)
+    )
+  }
+
   const states = computed(() =>
     Object.values(EntityModelSubmissionDtoStateEnum).map(
       (state) => {
@@ -81,10 +87,22 @@ export function useEnumFiltration() {
   ])
 
   const eventTypes = computed(() => [
-    { title: i18n.t('eventTypes.create'), value: 'create' },
-    { title: i18n.t('eventTypes.update'), value: 'update' },
-    { title: i18n.t('eventTypes.delete'), value: 'delete' },
-    { title: i18n.t('eventTypes.upload'), value: 'upload' }
+    {
+      title: i18n.t('eventTypes.create'),
+      value: 'create'
+    },
+    {
+      title: i18n.t('eventTypes.update'),
+      value: 'update'
+    },
+    {
+      title: i18n.t('eventTypes.delete'),
+      value: 'delete'
+    },
+    {
+      title: i18n.t('eventTypes.upload'),
+      value: 'upload'
+    }
   ])
 
   return {
@@ -92,6 +110,7 @@ export function useEnumFiltration() {
     technologies,
     resourceTypes,
     eventTypes,
-    roles
+    roles,
+    sortValues
   }
 }

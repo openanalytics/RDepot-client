@@ -34,6 +34,7 @@ describe('User Store', () => {
     expect(userStore.userToken).toEqual('')
     expect(userStore.userName).toEqual('')
     expect(userStore.users).toEqual([])
+    expect(userStore.pending).toStrictEqual([])
     expect(userStore.chosenUser).toEqual({})
     expect(userStore.roles).toEqual([])
     expect(userStore.totalNumber).toEqual(0)

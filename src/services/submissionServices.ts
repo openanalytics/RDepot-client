@@ -50,7 +50,7 @@ export async function fetchSubmissionsService(
   page?: number,
   pageSize?: number,
   sort?: string[],
-  showProgress = true
+  showProgress = false
 ): ValidatedSubmissions {
   if (!isAuthorized('GET', 'submissions')) {
     return new Promise(() => validateRequest([]))

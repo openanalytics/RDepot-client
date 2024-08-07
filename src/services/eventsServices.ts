@@ -63,7 +63,8 @@ export async function fetchEventsService(
       filtration.resourceType,
       filtration.fromDate,
       filtration.toDate
-    ]
+    ],
+    true
   ).catch(() => {
     return validateRequest({})
   })

@@ -89,6 +89,9 @@ describe('Package Maintainers Store', () => {
     expect(
       packageMaintainersStore.repositories
     ).toStrictEqual([])
+    expect(packageMaintainersStore.pending).toStrictEqual(
+      []
+    )
     expect(packageMaintainersStore.packages).toStrictEqual(
       []
     )

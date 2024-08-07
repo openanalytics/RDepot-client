@@ -49,7 +49,7 @@ export async function fetchUsersService(
   page?: number,
   pageSize?: number,
   sort?: string[],
-  showProgress = true
+  showProgress = false
 ): ValidatedUsers {
   if (!isAuthorized('GET', 'users')) {
     return new Promise(() => validateRequest([]))

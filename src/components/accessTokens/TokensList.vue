@@ -43,23 +43,11 @@
     </template>
 
     <template #[`item.creationDate`]="{ value }">
-      <v-chip
-        size="small"
-        style="cursor: pointer"
-        class="mr-3"
-      >
-        {{ formatDate(new Date(value)) }}</v-chip
-      >
+      <DateChip :date="value" />
     </template>
 
     <template #[`item.expirationDate`]="{ value }">
-      <v-chip
-        size="small"
-        style="cursor: pointer"
-        class="mr-3"
-      >
-        {{ formatDate(new Date(value)) }}</v-chip
-      >
+      <DateChip :date="value" />
     </template>
     <template #[`item.active`]="{ item }">
       <v-checkbox-btn
@@ -72,10 +60,22 @@
     </template>
 
     <template #[`item.actions`]="{ item }">
-      <span class="d-flex justify-center align-center">
+      <ProgressCircularSmall v-if="isPending(item)" />
+      <span
+        v-else
+        class="d-flex justify-center align-center"
+      >
         <EditIcon
-          :disabled="!canPatch(item.links) && item.active"
+          :disabled="
+            (!canPatch(item.links) && item.active) ||
+            !item.active
+          "
           :text="$t('common.edit')"
+          :hover-message="
+            !canPatch(item.links) && item.active
+              ? undefined
+              : $t('tokens.inacitve')
+          "
           @set-entity="setEditEntity(item)" />
         <DeleteIcon
           v-if="item.name"
@@ -84,8 +84,16 @@
           @set-resource-id="setEditEntity(item)" />
         <DeactivateIcon
           v-if="item.name"
-          :disabled="!canPatch(item.links) && item.active"
+          :disabled="
+            (!canPatch(item.links) && item.active) ||
+            !item.active
+          "
           :name="item.name"
+          :hover-message="
+            !canPatch(item.links) && item.active
+              ? undefined
+              : $t('tokens.inacitve')
+          "
           @set-resource-id="setEditEntity(item)" /></span
     ></template>
   </v-data-table-server>
@@ -111,9 +119,8 @@ import { ref } from 'vue'
 import { useSort } from '@/composable/sort'
 import AddToken from '@/components/common/buttons/AddToken.vue'
 import { useAccessTokensStore } from '@/store/accessTokens'
-import { useDates } from '@/composable/date'
+import DateChip from '../common/chips/DateChip.vue'
 
-const { formatDate } = useDates()
 const pagination = usePagination()
 const authorizationStore = useAuthorizationStore()
 const accessTokensStore = useAccessTokensStore()
@@ -190,5 +197,13 @@ function fetchData(options: DataTableOptions) {
 
 function setEditEntity(item: EntityModelAccessTokenDto) {
   accessTokensStore.setChosen(item)
+}
+
+function isPending(
+  item: EntityModelAccessTokenDto
+): boolean {
+  return !!accessTokensStore.pending.find(
+    (token) => token.id == item.id
+  )
 }
 </script>

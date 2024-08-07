@@ -54,7 +54,8 @@ export function updateUserSettings(
   return openApiRequest<UserSettingsProjection>(
     ApiV2UserSettingsControllerApiFactory()
       .patchUserSettingsByUserId,
-    [patch, me.id]
+    [patch, me.id],
+    true
   ).catch(() => {
     return validateRequest({})
   })

@@ -49,6 +49,7 @@ interface State {
   maintainers: EntityModelRepositoryMaintainerDto[]
   filtration: RepositoryMaintainersFiltration
   repositories: EntityModelRepositoryDto[]
+  pending: EntityModelRepositoryMaintainerDto[]
   chosenMaintainer: EntityModelPackageMaintainerDto
   loading: boolean
   totalNumber: number
@@ -64,6 +65,7 @@ export const useRepositoryMaintainersStore = defineStore(
           RepositoryMaintainersFiltration
         ),
         repositories: [],
+        pending: [],
         chosenMaintainer: {},
         loading: false,
         totalNumber: 0
@@ -195,6 +197,7 @@ export const useRepositoryMaintainersStore = defineStore(
           this.chosenMaintainer.repository &&
           this.chosenMaintainer.repository.id
         ) {
+          this.pending.push(this.chosenMaintainer)
           const newMaintainer = {
             ...deepCopy(this.chosenMaintainer),
             ...newValues
@@ -202,9 +205,16 @@ export const useRepositoryMaintainersStore = defineStore(
           await updateRepositoryMaintainer(
             this.chosenMaintainer,
             newMaintainer
-          ).then(async (success) => {
-            if (success) await this.get()
-          })
+          )
+            .then(async (success) => {
+              if (success) await this.get()
+            })
+            .finally(() => {
+              this.pending = this.pending.filter(
+                (item) =>
+                  item.id != this.chosenMaintainer.id
+              )
+            })
         }
       },
       async create(

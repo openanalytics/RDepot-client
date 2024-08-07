@@ -47,7 +47,7 @@ export async function fetchPackageMaintainerService(
   page?: number,
   pageSize?: number,
   sort?: string[],
-  showProgress = true
+  showProgress = false
 ): ValidatedPackageMaintainers {
   if (!isAuthorized('GET', 'packageMaintainers')) {
     return new Promise(() => validateRequest([]))
@@ -113,7 +113,8 @@ export async function createPackageMaintainerService(
   return openApiRequest<EntityModelPackageMaintainerDto>(
     ApiV2PackageMaintainerControllerApiFactory()
       .createPackageMaintainer,
-    [maintainer]
+    [maintainer],
+    true
   ).catch(() => {
     return validateRequest({})
   })

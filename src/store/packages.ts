@@ -70,6 +70,7 @@ interface State {
   next?: boolean
   loading: boolean
   resolved: boolean
+  pending: EntityModelPackageDto[]
 }
 
 const { deepCopy } = useUtilities()
@@ -90,7 +91,8 @@ export const usePackagesStore = defineStore(
         totalNumber: 0,
         resolved: false,
         next: false,
-        loading: false
+        loading: false,
+        pending: []
       }
     },
     getters: {
@@ -107,19 +109,20 @@ export const usePackagesStore = defineStore(
           options.sortBy = [{ key: 'name', order: 'asc' }]
         }
         this.loading = true
-        fetchPackagesService(
-          this.filtration,
-          options.page - 1,
-          options.itemsPerPage,
-          [
-            options.sortBy[0].key +
-              ',' +
-              options.sortBy[0].order
-          ]
-        ).then((packages) => {
-          this.packages = packages[0]
-          this.loading = false
-        })
+        const [packages, pageData] =
+          await fetchPackagesService(
+            this.filtration,
+            options.page - 1,
+            options.itemsPerPage,
+            [
+              options.sortBy[0].key +
+                ',' +
+                options.sortBy[0].order
+            ]
+          )
+        this.packages = packages
+        this.totalNumber = pageData.totalNumber
+        this.loading = false
       },
       async getList(page: number, pageSize = 8) {
         const filtration = {
@@ -172,7 +175,7 @@ export const usePackagesStore = defineStore(
         page: number,
         pageSize: number,
         filtration: PackagesFiltration,
-        showProgress = true
+        showProgress = false
       ) {
         const sort = useSortStore()
         const [packages, pageData] =
@@ -188,6 +191,7 @@ export const usePackagesStore = defineStore(
       },
       async delete() {
         if (this.chosenPackage) {
+          this.pending.push(this.chosenPackage)
           const oldPackage: EntityModelPackageDto =
             deepCopy(this.chosenPackage)
           const newPackage = deepCopy(oldPackage)
@@ -195,28 +199,38 @@ export const usePackagesStore = defineStore(
           const deleteFn = deleteTechnologyPackage.get(
             oldPackage.technology as Technologies
           )
-          if (deleteFn)
+          if (deleteFn) {
             await deleteFn(oldPackage, newPackage).then(
               async (success: any) => {
                 if (success) await this.getPackages()
               }
             )
+          }
+          this.pending = this.pending.filter(
+            (packageBag) =>
+              packageBag.id != this.chosenPackage?.id
+          )
         }
       },
       async activatePackage(
         newPackage: EntityModelPackageDto
       ) {
+        this.pending.push(newPackage)
         const oldPackage = deepCopy(newPackage)
         oldPackage.active = !newPackage.active
         const updateFn = updateTechnologyPackage.get(
           newPackage.technology as Technologies
         )
-        if (updateFn)
+        if (updateFn) {
           await updateFn(oldPackage, newPackage).then(
             async (success: any) => {
               if (success) await this.getPackages()
             }
           )
+        }
+        this.pending = this.pending.filter(
+          (packageBag) => packageBag.id != newPackage?.id
+        )
       },
       setChosen(payload?: EntityModelPackageDto) {
         this.chosenPackage = payload
@@ -253,6 +267,7 @@ export const usePackagesStore = defineStore(
         const toasts = useToast()
         this.promises = this.packagesToDelete.map(
           (packageBag) => {
+            this.pending.push(packageBag)
             return {
               promise: deletePackage(packageBag),
               packageBag: packageBag,
@@ -289,6 +304,11 @@ export const usePackagesStore = defineStore(
               }
             })
             .finally(() => {
+              this.pending = this.pending.filter(
+                (packageBag) =>
+                  packageBag.id != promise.packageBag.id
+              )
+
               if (++fulfilled == this.promises.length) {
                 if (errors > 0) {
                   toasts.warning(

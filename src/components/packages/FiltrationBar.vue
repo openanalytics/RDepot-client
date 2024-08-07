@@ -89,7 +89,7 @@
       hide-details
       chips
       closable-chips
-      :items="states"
+      :items="sortValues(states)"
       name="submissionState"
       multiple
       clearable
@@ -190,7 +190,8 @@ import {
 import ResetButton from '@/components/common/buttons/ResetButton.vue'
 import { useAuthorizationStore } from '@/store/authorization'
 
-const { states, technologies } = useEnumFiltration()
+const { states, technologies, sortValues } =
+  useEnumFiltration()
 const authorizationStore = useAuthorizationStore()
 const {
   storeId,

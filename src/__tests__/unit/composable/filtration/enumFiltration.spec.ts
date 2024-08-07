@@ -48,6 +48,29 @@ describe('enum filtration composable', () => {
     ])
   })
 
+  it('should return values sorted by title in default lang', () => {
+    i18n.locale.value = 'en'
+    const { eventTypes, sortValues } = useEnumFiltration()
+    expect(sortValues(eventTypes.value)).toEqual([
+      {
+        title: 'Create',
+        value: 'create'
+      },
+      {
+        title: 'Delete',
+        value: 'delete'
+      },
+      {
+        title: 'Update',
+        value: 'update'
+      },
+      {
+        title: 'Upload',
+        value: 'upload'
+      }
+    ])
+  })
+
   it('should return current translation of all available states in changed translations', () => {
     i18n.locale.value = 'pl'
     const { states } = useEnumFiltration()
@@ -73,7 +96,7 @@ describe('enum filtration composable', () => {
 
   it('should return technologies', () => {
     const { technologies } = useEnumFiltration()
-    expect(technologies.value).toEqual(['R', 'Python'])
+    expect(technologies.value).toEqual(['Python', 'R'])
   })
 
   it('should return all resource types', () => {
@@ -210,6 +233,30 @@ describe('enum filtration composable', () => {
         title: 'Usunięcie',
         value: 'delete'
       },
+      {
+        title: 'Wgranie',
+        value: 'upload'
+      }
+    ])
+  })
+
+  it('should return values sorted by title in changed lang', () => {
+    i18n.locale.value = 'pl'
+    const { eventTypes, sortValues } = useEnumFiltration()
+    expect(sortValues(eventTypes.value)).toEqual([
+      {
+        title: 'Aktualizacja',
+        value: 'update'
+      },
+      {
+        title: 'Usunięcie',
+        value: 'delete'
+      },
+      {
+        title: 'Utworzenie',
+        value: 'create'
+      },
+
       {
         title: 'Wgranie',
         value: 'upload'
