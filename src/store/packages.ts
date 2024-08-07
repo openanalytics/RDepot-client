@@ -32,10 +32,6 @@ import {
 import {
   downloadReferenceManual,
   fetchPackageService,
-  updatePythonPackage,
-  updateRPackage,
-  deletePythonPackage,
-  deleteRPackage,
   fetchPackagesService,
   deletePackage
 } from '@/services/packageServices'
@@ -48,6 +44,10 @@ import { DataTableOptions } from '@/models/DataTableOptions'
 import { validatedData } from '@/services/openApiAccess'
 import { useToast } from '@/composable/toasts'
 import { useSortStore } from '@/store/sort'
+import {
+  deleteTechnologyPackage,
+  updateTechnologyPackage
+} from '@/maps/package/Technology'
 
 export type PackagePromise = {
   promise: Promise<validatedData<EntityModelPackageDto>>
@@ -192,26 +192,15 @@ export const usePackagesStore = defineStore(
             deepCopy(this.chosenPackage)
           const newPackage = deepCopy(oldPackage)
           newPackage.deleted = true
-          if (
-            oldPackage.technology ===
-            Technologies.enum.Python
-          ) {
-            await deletePythonPackage(
-              oldPackage,
-              newPackage
-            ).then(async (success) => {
-              if (success) await this.getPackages()
-            })
-          } else {
-            if (oldPackage.id) {
-              await deleteRPackage(
-                oldPackage,
-                newPackage
-              ).then(async (success) => {
+          const deleteFn = deleteTechnologyPackage.get(
+            oldPackage.technology as Technologies
+          )
+          if (deleteFn)
+            await deleteFn(oldPackage, newPackage).then(
+              async (success: any) => {
                 if (success) await this.getPackages()
-              })
-            }
-          }
+              }
+            )
         }
       },
       async activatePackage(
@@ -219,22 +208,15 @@ export const usePackagesStore = defineStore(
       ) {
         const oldPackage = deepCopy(newPackage)
         oldPackage.active = !newPackage.active
-        if (
-          newPackage.technology == Technologies.Enum.Python
-        ) {
-          await updatePythonPackage(
-            oldPackage,
-            newPackage
-          ).then(async (success) => {
-            if (success) await this.getPackages()
-          })
-        } else {
-          await updateRPackage(oldPackage, newPackage).then(
-            async (success) => {
+        const updateFn = updateTechnologyPackage.get(
+          newPackage.technology as Technologies
+        )
+        if (updateFn)
+          await updateFn(oldPackage, newPackage).then(
+            async (success: any) => {
               if (success) await this.getPackages()
             }
           )
-        }
       },
       setChosen(payload?: EntityModelPackageDto) {
         this.chosenPackage = payload

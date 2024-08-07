@@ -22,6 +22,10 @@
 
 import { useUtilities } from '@/composable/utilities'
 import { Technologies } from '@/enum/Technologies'
+import {
+  fetchTechnologyPackage,
+  downloadTechnologyPackage
+} from '@/maps/package/Technology'
 import { PackagesFiltration } from '@/models/Filtration'
 import {
   ApiV2PackageControllerApiFactory,
@@ -88,17 +92,11 @@ export function fetchPackageService(
   technology: Technologies,
   showProgress = false
 ) {
-  switch (technology) {
-    case Technologies.Enum.Python: {
-      return fetchPythonPackageService(id, showProgress)
-    }
-    case Technologies.Enum.R: {
-      return fetchRPackageService(id, showProgress)
-    }
-  }
+  const fetchFn = fetchTechnologyPackage.get(technology)
+  if (fetchFn) return fetchFn(id, showProgress)
 }
 
-function fetchRPackageService(
+export function fetchRPackageService(
   id: number,
   showProgress = false
 ): ValidatedPackage {
@@ -114,7 +112,7 @@ function fetchRPackageService(
   })
 }
 
-function fetchPythonPackageService(
+export function fetchPythonPackageService(
   id: number,
   showProgress = false
 ): ValidatedPackagePython {
@@ -245,26 +243,47 @@ export async function downloadSourceFile(
   version: string,
   technology: string
 ) {
-  if (technology === 'R') {
-    return openApiRequest<Promise<boolean>>(
-      RPackageControllerApiFactory().downloadRPackage,
-      [id, name, version],
-      true,
-      true
-    ).catch(() => {
-      return false
-    })
-  } else {
-    return openApiRequest<Promise<boolean>>(
-      PythonPackageControllerApiFactory()
-        .downloadPythonPackage,
-      [id, name, version],
-      true,
-      true
-    ).catch(() => {
-      return false
-    })
+  const downloadFn = downloadTechnologyPackage.get(
+    technology as Technologies
+  )
+  if (downloadFn) return downloadFn(id, name, version)
+}
+
+export function downloadRPackageSourceFile(
+  id: string,
+  name: string,
+  version: string
+) {
+  if (!isAuthorized('GET', 'packages')) {
+    return new Promise(() => {})
   }
+  return openApiRequest<Promise<boolean>>(
+    RPackageControllerApiFactory().downloadRPackage,
+    [id, name, version],
+    true,
+    true
+  ).catch(() => {
+    return false
+  })
+}
+
+export function downloadPythonPackageSourceFile(
+  id: string,
+  name: string,
+  version: string
+) {
+  if (!isAuthorized('GET', 'packages')) {
+    return new Promise(() => {})
+  }
+  return openApiRequest<Promise<boolean>>(
+    PythonPackageControllerApiFactory()
+      .downloadPythonPackage,
+    [id, name, version],
+    true,
+    true
+  ).catch(() => {
+    return false
+  })
 }
 
 export async function fetchVignettes(
