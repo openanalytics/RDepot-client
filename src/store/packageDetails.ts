@@ -86,10 +86,10 @@ export const usePackageDetailsStore = defineStore(
         }
         this.getPackageVersions()
         if (
-          this.packageBag.id &&
-          this.packageBag.technology === 'R'
+          this.packageBag?.id &&
+          this.packageBag?.technology === 'R'
         ) {
-          this.getVignettes(this.packageBag.id)
+          this.getVignettes(this.packageBag?.id)
         }
       },
       async getVignettes(id: number) {
