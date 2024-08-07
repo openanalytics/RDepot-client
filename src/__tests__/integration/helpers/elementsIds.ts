@@ -72,7 +72,7 @@ export const OA_LOGO_ID = 'logo-oa'
 export const CHANGE_LANGUAGE_NAVBAR_ID =
   'change-language-navbar-button'
 export const POLISH_LANGUAGE_ID = 'pl-PL'
-export const ENGLISH_LANGUAGE_ID = 'en-EN'
+export const ENGLISH_LANGUAGE_ID = 'en-US'
 
 //sidebar
 export const PACKAGE_MAINTAINERS_SIDEBAR_ID =
