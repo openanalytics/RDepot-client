@@ -24,7 +24,6 @@ import {
   defaultValues,
   PackagesFiltration
 } from '@/models/Filtration'
-import { fetchPackagesServices } from '@/services'
 import { defineStore } from 'pinia'
 import {
   EntityModelPackageDto,
@@ -40,11 +39,13 @@ import {
   openVignetteHtml,
   openVignettePdf,
   downloadSourceFile,
-  fetchPackageServices,
-  fetchVignettes
+  fetchPackageService,
+  fetchVignettes,
+  fetchPackagesService
 } from '@/services/packageServices'
 import { fetchSubmission } from '@/services/submissionServices'
 import { Technologies } from '@/enum/Technologies'
+import { useSortStore } from '@/store/sort'
 
 interface State {
   packages: EntityModelPackageDto[]
@@ -71,7 +72,7 @@ export const usePackageDetailsStore = defineStore(
     actions: {
       async get(id: number, technology: Technologies) {
         this.packages = []
-        const [packageBag] = await fetchPackageServices(
+        const [packageBag] = await fetchPackageService(
           id,
           technology,
           false
@@ -85,10 +86,10 @@ export const usePackageDetailsStore = defineStore(
         }
         this.getPackageVersions()
         if (
-          this.packageBag.id &&
-          this.packageBag.technology === 'R'
+          this.packageBag?.id &&
+          this.packageBag?.technology === 'R'
         ) {
-          this.getVignettes(this.packageBag.id)
+          this.getVignettes(this.packageBag?.id)
         }
       },
       async getVignettes(id: number) {
@@ -106,11 +107,13 @@ export const usePackageDetailsStore = defineStore(
             ]
           }
           filtration.search = this.packageBag.name
+          const sort = useSortStore()
           const [packages, pageData] =
-            await fetchPackagesServices(
+            await fetchPackagesService(
               filtration,
               page,
               pageSize,
+              sort.getSortBy(),
               false
             )
           this.packages = [...this.packages, ...packages]

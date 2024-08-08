@@ -1060,7 +1060,7 @@ COPY public.changed_variable (id, changed_variable, value_before, value_after, n
 --
 
 COPY public.user_settings (id, deleted, language, theme, page_size, user_id) FROM stdin;
-1	f	en-EN	light	20	4
+1	f	en-US	light	20	4
 2	f	pl-PL	light	10	5
 \.
 

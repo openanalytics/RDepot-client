@@ -31,8 +31,7 @@ import {
 } from '@/models/Filtration'
 import {
   addSubmission,
-  fetch,
-  fetchSubmissions,
+  fetchSubmissionsService,
   updateSubmission
 } from '@/services/submissionServices'
 import { useUtilities } from '@/composable/utilities'
@@ -41,8 +40,8 @@ import { validatedData } from '@/services/openApiAccess'
 import { usePagination } from '@/store/pagination'
 import { useToast } from '@/composable/toasts'
 import { i18n } from '@/plugins/i18n'
-import { useAuthorizationStore } from './authorization'
 import { DataTableOptions } from '@/models/DataTableOptions'
+import { useSortStore } from './sort'
 import { SubmissionEditOptions } from '@/enum/SubmissionEditOptions'
 import { useSubmissionActions } from '@/composable/submissions/submissionActions'
 import { useSubmissionAuthorizationCheck } from '@/composable/submissions/submissionAuthorities'
@@ -126,26 +125,28 @@ export const useSubmissionStore = defineStore(
     actions: {
       async getPage(options: DataTableOptions) {
         this.loading = true
-        const [submissions, pageData] = await fetch(
-          this.filtration,
-          options.page - 1,
-          options.itemsPerPage,
-          options.sortBy[0].key +
-            ',' +
-            options.sortBy[0].order
-        )
+        console.log(options)
+        const [submissions, pageData] =
+          await fetchSubmissionsService(
+            this.filtration,
+            options.page - 1,
+            options.itemsPerPage,
+            [
+              options.sortBy[0].key +
+                ',' +
+                options.sortBy[0].order
+            ]
+          )
         this.loading = false
         this.totalNumber = pageData.totalNumber
         this.submissions = submissions
       },
       async get() {
         const pagination = usePagination()
-        const authorizationStore = useAuthorizationStore()
         const pageData = await this.fetchData(
           pagination.fetchPage,
           pagination.pageSize,
-          this.filtration,
-          authorizationStore.me.id
+          this.filtration
         )
         pagination.newPageWithoutRefresh(pageData.page)
         pagination.totalNumber = pageData.totalNumber
@@ -155,15 +156,19 @@ export const useSubmissionStore = defineStore(
         page: number,
         pageSize: number,
         filtration: SubmissionsFiltration,
-        user_id?: number,
         showProgress = false
       ) {
+        const sort = useSortStore()
+        let sortBy = sort.getSortBy()
+        if (sort.field == 'name') {
+          sortBy = ['packageBag,' + sort.direction]
+        }
         const [submissions, pageData] =
-          await fetchSubmissions(
+          await fetchSubmissionsService(
             filtration,
-            user_id,
             page,
             pageSize,
+            sortBy,
             showProgress
           )
         this.submissions = submissions

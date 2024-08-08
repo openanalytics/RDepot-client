@@ -33,7 +33,6 @@ import {
 } from './openApiAccess'
 import { tokenSchema } from '@/models/Schemas'
 import { createPatch } from 'rfc6902'
-import { useSortStore } from '@/store/sort'
 import { isAuthorized } from '@/plugins/casl'
 import { useToast } from '@/composable/toasts'
 import { i18n } from '@/plugins/i18n'
@@ -46,11 +45,11 @@ type ValidatedToken = Promise<
   validatedData<EntityModelAccessTokenDto>
 >
 
-export async function fetch(
+export async function fetchSettingsService(
   filtration: TokensFiltration,
   page?: number,
   pageSize?: number,
-  sort?: string,
+  sort?: string[],
   showProgress = false
 ): ValidatedTokens {
   if (!isAuthorized('GET', 'submissions')) {
@@ -63,39 +62,6 @@ export async function fetch(
       page,
       pageSize,
       sort,
-      filtration?.search,
-      filtration?.userLogin,
-      filtration?.active,
-      filtration?.expired
-    ],
-    showProgress
-  ).catch(() => {
-    return validateRequest([])
-  })
-}
-
-export async function fetchTokens(
-  filtration: TokensFiltration,
-  logged_user_id?: number,
-  page?: number,
-  pageSize?: number,
-  showProgress = false
-): ValidatedTokens {
-  if (!isAuthorized('GET', 'settings')) {
-    return new Promise(() => validateRequest([]))
-  }
-  const sort = useSortStore()
-  let sortBy = sort.getSortBy()
-  if (sort.field == 'name') {
-    sortBy = ['name,' + sort.direction]
-  }
-  return openApiRequest<EntityModelAccessTokenDto[]>(
-    ApiV2AccessTokenControllerApiFactory()
-      .getAllAccessTokens,
-    [
-      page,
-      pageSize,
-      sortBy,
       filtration?.search,
       filtration?.userLogin,
       filtration?.active,

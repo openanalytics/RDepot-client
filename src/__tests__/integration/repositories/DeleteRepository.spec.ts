@@ -39,17 +39,12 @@ import { login } from '../helpers/login'
 import {
   clickOnButton,
   createDriver,
-  goToPage
+  goToPage,
+  delay
 } from '../helpers/helpers'
 const { By } = require('selenium-webdriver')
 
 let driver: any
-
-const delay = (delayInms: number) => {
-  return new Promise((resolve) =>
-    setTimeout(resolve, delayInms)
-  )
-}
 
 beforeAll(async () => {
   await restoreData()

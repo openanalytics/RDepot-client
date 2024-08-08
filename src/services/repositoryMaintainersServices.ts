@@ -31,7 +31,6 @@ import {
   validatedData
 } from './openApiAccess'
 import { createPatch } from 'rfc6902'
-import { useSortStore } from '@/store/sort'
 import { isAuthorized } from '@/plugins/casl'
 
 type ValidatedRepositoryMaintainers = Promise<
@@ -42,11 +41,11 @@ type ValidatedRepositoryMaintainer = Promise<
   validatedData<EntityModelRepositoryMaintainerDto>
 >
 
-export async function fetch(
+export async function fetchRepositoryMaintainersService(
   filtration: RepositoryMaintainersFiltration,
   page?: number,
   pageSize?: number,
-  sort?: string,
+  sort?: string[],
   showProgress = false
 ): ValidatedRepositoryMaintainers {
   if (!isAuthorized('GET', 'submissions')) {
@@ -63,84 +62,6 @@ export async function fetch(
       sort,
       filtration?.deleted,
       filtration?.technologies,
-      filtration?.search
-    ],
-    showProgress
-  ).catch(() => {
-    return validateRequest([])
-  })
-}
-
-export async function fetchRepositoryMaintainersServices(
-  filtration: RepositoryMaintainersFiltration,
-  page?: number,
-  pageSize?: number
-): ValidatedRepositoryMaintainers {
-  if (!isAuthorized('GET', 'repositoryMaintainers'))
-    return new Promise(() => validateRequest)
-  const sort = useSortStore()
-  const sortBy = sort.getSortBy()
-  return openApiRequest<
-    EntityModelRepositoryMaintainerDto[]
-  >(
-    ApiV2RepositoryMaintainerControllerApiFactory()
-      .getAllRepositoryMaintainers,
-    [
-      page,
-      pageSize,
-      sortBy,
-      filtration?.deleted,
-      filtration?.technologies,
-      filtration?.search
-    ]
-  ).catch(() => {
-    return validateRequest([])
-  })
-}
-
-export async function fetchAllRepositoryMaintainers(): ValidatedRepositoryMaintainers {
-  if (!isAuthorized('GET', 'repositoryMaintainers'))
-    return new Promise(() => validateRequest)
-  return openApiRequest<
-    EntityModelRepositoryMaintainerDto[]
-  >(
-    ApiV2RepositoryMaintainerControllerApiFactory()
-      .getAllRepositoryMaintainers,
-    [
-      undefined,
-      undefined,
-      ['user.name,asc'],
-      undefined,
-      undefined,
-      undefined
-    ],
-    false
-  ).catch(() => {
-    return validateRequest([])
-  })
-}
-
-export async function fetchFullMaintainersList(
-  filtration?: RepositoryMaintainersFiltration,
-  page?: number,
-  pageSize?: number,
-  showProgress = false
-): ValidatedRepositoryMaintainers {
-  if (!isAuthorized('GET', 'repositoryMaintainers')) {
-    return new Promise(() => validateRequest([]))
-  }
-
-  return openApiRequest<
-    EntityModelRepositoryMaintainerDto[]
-  >(
-    ApiV2RepositoryMaintainerControllerApiFactory()
-      .getAllRepositoryMaintainers,
-    [
-      page,
-      pageSize,
-      ['user.name,asc'],
-      undefined,
-      undefined,
       filtration?.search
     ],
     showProgress

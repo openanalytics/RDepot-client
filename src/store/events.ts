@@ -29,7 +29,7 @@ import {
   EventsFiltration,
   defaultValues
 } from '@/models/Filtration'
-import { fetchEventsServices } from '@/services/eventsServices'
+import { fetchEventsService } from '@/services/eventsServices'
 import { eventsFiltrationLabels } from '@/maps/Filtration'
 import { useDates } from '@/composable/date'
 
@@ -125,7 +125,7 @@ export const useEventsStore = defineStore('events_store', {
     async get() {
       this.pending = true
       const [newEvents, pageData, links] =
-        await fetchEventsServices(
+        await fetchEventsService(
           this.filtration,
           this.page,
           this.pageSize

@@ -41,7 +41,7 @@ export function useUserSettings() {
     const authorizationStore = useAuthorizationStore()
     if (authorizationStore.me.userSettings?.language) {
       switch (authorizationStore.me.userSettings.language) {
-        case 'en-EN': {
+        case 'en-US': {
           i18n.locale.value = 'en'
           break
         }

@@ -22,6 +22,10 @@
 
 import { useUtilities } from '@/composable/utilities'
 import { Technologies } from '@/enum/Technologies'
+import {
+  fetchTechnologyPackage,
+  downloadTechnologyPackage
+} from '@/maps/package/Technology'
 import { PackagesFiltration } from '@/models/Filtration'
 import {
   ApiV2PackageControllerApiFactory,
@@ -38,7 +42,6 @@ import {
   validatedData,
   validateRequest
 } from '@/services/openApiAccess'
-import { useSortStore } from '@/store/sort'
 import { createPatch } from 'rfc6902'
 
 type ValidatedPackages = Promise<
@@ -55,11 +58,11 @@ type ValidatedPackagePython = Promise<
 
 type ValidatedVignette = Promise<validatedData<Vignette[]>>
 
-export async function fetch(
+export async function fetchPackagesService(
   filtration: PackagesFiltration,
   page?: number,
   pageSize?: number,
-  sort?: string,
+  sort?: string[],
   showProgress = false
 ): ValidatedPackages {
   if (!isAuthorized('GET', 'submissions')) {
@@ -84,80 +87,16 @@ export async function fetch(
   })
 }
 
-export async function fetchPackagesServices(
-  filtration?: PackagesFiltration,
-  page?: number,
-  pageSize?: number,
-  showProgress = false
-): ValidatedPackages {
-  if (!isAuthorized('GET', 'packages')) {
-    return new Promise(() => validateRequest)
-  }
-  const sort = useSortStore()
-  return openApiRequest<EntityModelPackageDto[]>(
-    ApiV2PackageControllerApiFactory().getAllPackages,
-    [
-      page,
-      pageSize,
-      sort.getSortBy(),
-      filtration?.repository,
-      filtration?.deleted,
-      filtration?.submissionState,
-      filtration?.technologies,
-      filtration?.search,
-      filtration?.maintainer
-    ],
-    showProgress
-  ).catch(() => {
-    return validateRequest([])
-  })
-}
-
-export function fetchFullPackagesList(
-  page?: number,
-  pageSize?: number,
-  filtration?: PackagesFiltration,
-  showProgress = false
-): ValidatedPackages {
-  if (!isAuthorized('GET', 'packages')) {
-    return new Promise(() => validateRequest([]))
-  }
-
-  return openApiRequest<EntityModelPackageDto[]>(
-    ApiV2PackageControllerApiFactory().getAllPackages,
-    [
-      page,
-      pageSize,
-      ['name,asc'],
-      filtration?.repository,
-      undefined,
-      undefined,
-      undefined,
-      filtration?.search,
-      undefined
-    ],
-    showProgress
-  ).catch(() => {
-    return validateRequest([])
-  })
-}
-
-export function fetchPackageServices(
+export function fetchPackageService(
   id: number,
   technology: Technologies,
   showProgress = false
 ) {
-  switch (technology) {
-    case Technologies.Enum.Python: {
-      return fetchPythonPackageServices(id, showProgress)
-    }
-    case Technologies.Enum.R: {
-      return fetchRPackageServices(id, showProgress)
-    }
-  }
+  const fetchFn = fetchTechnologyPackage.get(technology)
+  if (fetchFn) return fetchFn(id, showProgress)
 }
 
-function fetchRPackageServices(
+export function fetchRPackageService(
   id: number,
   showProgress = false
 ): ValidatedPackage {
@@ -173,7 +112,7 @@ function fetchRPackageServices(
   })
 }
 
-function fetchPythonPackageServices(
+export function fetchPythonPackageService(
   id: number,
   showProgress = false
 ): ValidatedPackagePython {
@@ -304,26 +243,47 @@ export async function downloadSourceFile(
   version: string,
   technology: string
 ) {
-  if (technology === 'R') {
-    return openApiRequest<Promise<boolean>>(
-      RPackageControllerApiFactory().downloadRPackage,
-      [id, name, version],
-      true,
-      true
-    ).catch(() => {
-      return false
-    })
-  } else {
-    return openApiRequest<Promise<boolean>>(
-      PythonPackageControllerApiFactory()
-        .downloadPythonPackage,
-      [id, name, version],
-      true,
-      true
-    ).catch(() => {
-      return false
-    })
+  const downloadFn = downloadTechnologyPackage.get(
+    technology as Technologies
+  )
+  if (downloadFn) return downloadFn(id, name, version)
+}
+
+export function downloadRPackageSourceFile(
+  id: string,
+  name: string,
+  version: string
+) {
+  if (!isAuthorized('GET', 'packages')) {
+    return new Promise(() => {})
   }
+  return openApiRequest<Promise<boolean>>(
+    RPackageControllerApiFactory().downloadRPackage,
+    [id, name, version],
+    true,
+    true
+  ).catch(() => {
+    return false
+  })
+}
+
+export function downloadPythonPackageSourceFile(
+  id: string,
+  name: string,
+  version: string
+) {
+  if (!isAuthorized('GET', 'packages')) {
+    return new Promise(() => {})
+  }
+  return openApiRequest<Promise<boolean>>(
+    PythonPackageControllerApiFactory()
+      .downloadPythonPackage,
+    [id, name, version],
+    true,
+    true
+  ).catch(() => {
+    return false
+  })
 }
 
 export async function fetchVignettes(

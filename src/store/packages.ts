@@ -24,7 +24,6 @@ import {
   defaultValues,
   PackagesFiltration
 } from '@/models/Filtration'
-import { fetchPackagesServices } from '@/services'
 import { defineStore } from 'pinia'
 import {
   EntityModelPackageDto,
@@ -32,13 +31,8 @@ import {
 } from '@/openapi'
 import {
   downloadReferenceManual,
-  fetchPackageServices,
-  updatePythonPackage,
-  updateRPackage,
-  deletePythonPackage,
-  deleteRPackage,
-  fetchFullPackagesList,
-  fetch,
+  fetchPackageService,
+  fetchPackagesService,
   deletePackage
 } from '@/services/packageServices'
 import { useUtilities } from '@/composable/utilities'
@@ -49,6 +43,11 @@ import { Technologies } from '@/enum/Technologies'
 import { DataTableOptions } from '@/models/DataTableOptions'
 import { validatedData } from '@/services/openApiAccess'
 import { useToast } from '@/composable/toasts'
+import { useSortStore } from '@/store/sort'
+import {
+  deleteTechnologyPackage,
+  updateTechnologyPackage
+} from '@/maps/package/Technology'
 
 export type PackagePromise = {
   promise: Promise<validatedData<EntityModelPackageDto>>
@@ -110,31 +109,44 @@ export const usePackagesStore = defineStore(
           options.sortBy = [{ key: 'name', order: 'asc' }]
         }
         this.loading = true
-        const [packages, pageData] = await fetch(
-          this.filtration,
-          options.page - 1,
-          options.itemsPerPage,
-          options.sortBy[0].key +
-            ',' +
-            options.sortBy[0].order
-        )
+        const [packages, pageData] =
+          await fetchPackagesService(
+            this.filtration,
+            options.page - 1,
+            options.itemsPerPage,
+            [
+              options.sortBy[0].key +
+                ',' +
+                options.sortBy[0].order
+            ]
+          )
         this.packages = packages
         this.totalNumber = pageData.totalNumber
         this.loading = false
       },
       async getList(page: number, pageSize = 8) {
+        const filtration = {
+          repository: this.filtration.repository,
+          deleted: undefined,
+          maintainer: undefined,
+          technologies: undefined,
+          search: this.filtration.search,
+          submissionState: undefined
+        }
         const [packages, pageData] =
-          await fetchFullPackagesList(
+          await fetchPackagesService(
+            filtration,
             page,
             pageSize,
-            this.filtration
+            ['name,asc'],
+            false
           )
         this.packages = packages
         return pageData
       },
       async get(id: number, technology: Technologies) {
         this.package = (
-          await fetchPackageServices(id, technology)
+          await fetchPackageService(id, technology)
         )[0]
         if (this.package?.submission?.id) {
           this.submission = (
@@ -165,11 +177,13 @@ export const usePackagesStore = defineStore(
         filtration: PackagesFiltration,
         showProgress = false
       ) {
+        const sort = useSortStore()
         const [packages, pageData] =
-          await fetchPackagesServices(
+          await fetchPackagesService(
             filtration,
             page,
             pageSize,
+            sort.getSortBy(),
             showProgress
           )
         this.packages = packages
@@ -182,25 +196,15 @@ export const usePackagesStore = defineStore(
             deepCopy(this.chosenPackage)
           const newPackage = deepCopy(oldPackage)
           newPackage.deleted = true
-          if (
-            oldPackage.technology ===
-            Technologies.enum.Python
-          ) {
-            await deletePythonPackage(
-              oldPackage,
-              newPackage
-            ).then(async (success) => {
-              if (success) await this.getPackages()
-            })
-          } else {
-            if (oldPackage.id) {
-              await deleteRPackage(
-                oldPackage,
-                newPackage
-              ).then(async (success) => {
+          const deleteFn = deleteTechnologyPackage.get(
+            oldPackage.technology as Technologies
+          )
+          if (deleteFn) {
+            await deleteFn(oldPackage, newPackage).then(
+              async (success: any) => {
                 if (success) await this.getPackages()
-              })
-            }
+              }
+            )
           }
           this.pending = this.pending.filter(
             (packageBag) =>
@@ -214,18 +218,12 @@ export const usePackagesStore = defineStore(
         this.pending.push(newPackage)
         const oldPackage = deepCopy(newPackage)
         oldPackage.active = !newPackage.active
-        if (
-          newPackage.technology == Technologies.Enum.Python
-        ) {
-          await updatePythonPackage(
-            oldPackage,
-            newPackage
-          ).then(async (success) => {
-            if (success) await this.getPackages()
-          })
-        } else {
-          await updateRPackage(oldPackage, newPackage).then(
-            async (success) => {
+        const updateFn = updateTechnologyPackage.get(
+          newPackage.technology as Technologies
+        )
+        if (updateFn) {
+          await updateFn(oldPackage, newPackage).then(
+            async (success: any) => {
               if (success) await this.getPackages()
             }
           )

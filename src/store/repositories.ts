@@ -29,10 +29,8 @@ import {
   RepositoriesFiltration,
   defaultValues
 } from '@/models/Filtration'
-import { fetchRepositoriesServices } from '@/services'
 import {
-  fetch,
-  fetchFullRepositoriesList,
+  fetchRepositoriesService,
   updateRepository
 } from '@/services/repositoryServices'
 import { createRepository } from '@/services/repositoryServices'
@@ -40,6 +38,7 @@ import { useUtilities } from '@/composable/utilities'
 import { repositoriesFiltrationLabels } from '@/maps/Filtration'
 import { usePagination } from '@/store/pagination'
 import { DataTableOptions } from '@/models/DataTableOptions'
+import { useSortStore } from './sort'
 
 const { deepCopy } = useUtilities()
 
@@ -78,38 +77,50 @@ export const useRepositoryStore = defineStore(
     actions: {
       async getPage(options: DataTableOptions) {
         this.loading = true
-        const [repositories, pageData] = await fetch(
-          this.filtration,
-          options.page - 1,
-          options.itemsPerPage,
-          options.sortBy[0].key +
-            ',' +
-            options.sortBy[0].order
-        )
+        const [repositories, pageData] =
+          await fetchRepositoriesService(
+            this.filtration,
+            options.page - 1,
+            options.itemsPerPage,
+            [
+              options.sortBy[0].key +
+                ',' +
+                options.sortBy[0].order
+            ]
+          )
         this.totalNumber = pageData.totalNumber
         this.repositories = repositories
         this.loading = false
       },
       async getList(page: number, pageSize = 8) {
+        const filtration = defaultValues(
+          RepositoriesFiltration
+        )
+        filtration.search = this.filtration.search
+        filtration.deleted = undefined
+        filtration.published = undefined
         const [repositories, pageData] =
-          await fetchFullRepositoriesList(
+          await fetchRepositoriesService(
+            filtration,
             page,
             pageSize,
-            this.filtration
+            ['name,asc'],
+            false
           )
         this.repositories = repositories
         return pageData
       },
       async get(name: string, showProgress = false) {
-        const [repository] =
-          await fetchRepositoriesServices(
-            {
-              name: name
-            } as RepositoriesFiltration,
-            undefined,
-            undefined,
-            showProgress
-          )
+        const sort = useSortStore()
+        const [repository] = await fetchRepositoriesService(
+          {
+            name: name
+          } as RepositoriesFiltration,
+          undefined,
+          undefined,
+          sort.getSortBy(),
+          showProgress
+        )
         return repository
       },
       async getRepositories() {
@@ -128,11 +139,13 @@ export const useRepositoryStore = defineStore(
         filtration: RepositoriesFiltration,
         showProgress = false
       ) {
+        const sort = useSortStore()
         const [repositories, pageData] =
-          await fetchRepositoriesServices(
+          await fetchRepositoriesService(
             filtration,
             page,
             pageSize,
+            sort.getSortBy(),
             showProgress
           )
         this.repositories = repositories

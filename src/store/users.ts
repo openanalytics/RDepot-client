@@ -23,10 +23,8 @@
 import { defineStore } from 'pinia'
 import {
   fetchRoles,
-  fetchUsers,
   updateUser,
-  fetchFullUsersList,
-  fetch
+  fetchUsersService
 } from '@/services/usersServices'
 import { EntityModelUserDto, RoleDto } from '@/openapi'
 import { Role } from '@/enum/UserRoles'
@@ -36,6 +34,10 @@ import {
   UsersFiltration
 } from '@/models/Filtration'
 import { DataTableOptions } from '@/models/DataTableOptions'
+import { useSortStore } from '@/store/sort'
+import { useUtilities } from '@/composable/utilities'
+
+const { deepCopy } = useUtilities()
 
 interface State {
   userToken: string
@@ -74,34 +76,42 @@ export const useUserStore = defineStore('userStore', {
   actions: {
     async getPage(options: DataTableOptions) {
       this.loading = true
-      const [users, pageData] = await fetch(
+      const [users, pageData] = await fetchUsersService(
         this.filtration,
         options.page - 1,
         options.itemsPerPage,
-        options.sortBy[0].key +
-          ',' +
-          options.sortBy[0].order
+        [
+          options.sortBy[0].key +
+            ',' +
+            options.sortBy[0].order
+        ]
       )
       this.totalNumber = pageData.totalNumber
       this.loading = false
       this.users = users
     },
     async getList(page: number, pageSize = 3) {
-      const [repositories, pageData] =
-        await fetchFullUsersList(
-          page,
-          pageSize,
-          this.filtration
-        )
-      this.users = repositories
+      const filtration = deepCopy(this.filtration)
+      filtration.active = undefined
+      const [users, pageData] = await fetchUsersService(
+        this.filtration,
+        page,
+        pageSize,
+        ['name,asc'],
+        false
+      )
+      this.users = users
       return pageData
     },
     async get() {
       const pagination = usePagination()
-      const [users, pageData] = await fetchUsers(
+      const sort = useSortStore()
+      const [users, pageData] = await fetchUsersService(
+        this.filtration,
         pagination.fetchPage,
         pagination.pageSize,
-        this.filtration
+        sort.getSortBy(),
+        false
       )
       this.users = users
       pagination.newPageWithoutRefresh(pageData.page)
