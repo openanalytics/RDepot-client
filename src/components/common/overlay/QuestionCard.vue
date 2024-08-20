@@ -21,12 +21,16 @@
 -->
 
 <template>
-  <v-card class="pa-5">
+  <v-card class="pa-5" style="height: 100%">
     <v-card-title>
       {{ componentProps.text }}
     </v-card-title>
     <v-divider />
+    <v-card-text>
+      <slot name="desc"></slot>
+    </v-card-text>
     <CardActions
+      :valid="valid"
       @cancel="emits('cancel')"
       @submit="emits('reset')"
     />
@@ -42,6 +46,11 @@ const componentProps = defineProps({
   text: {
     type: String,
     required: true
+  },
+  valid: {
+    type: Boolean,
+    required: false,
+    default: true
   }
 })
 </script>

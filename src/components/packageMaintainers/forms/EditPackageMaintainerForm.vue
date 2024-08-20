@@ -129,7 +129,7 @@
 
 <script setup lang="ts">
 import CardActions from '@/components/common/overlay/CardActions.vue'
-import { usePackageMaintainersStore } from '@/store/package_maintainers'
+import { usePackageMaintainersStore } from '@/store/packageMaintainers'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useForm } from 'vee-validate'
 import ValidatedInputField from '@/components/common/fields/ValidatedInputField.vue'
@@ -259,9 +259,7 @@ function updateMaintainer() {
 
 async function editMaintainer() {
   if (meta.value.valid) {
-    await maintainersStore.updateMaintainer(
-      localMaintainer.value
-    )
+    await maintainersStore.patch(localMaintainer.value)
     changeDialogOptions()
   } else {
     toasts.warning(t('notifications.invalidform'))

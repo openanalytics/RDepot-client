@@ -21,11 +21,11 @@
  */
 
 import { EntityModelRepositoryMaintainerDto } from '@/openapi'
-import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
+import { useRepositoryMaintainersStore } from '@/store/repositoryMaintainers'
 import {
   useSelectStore,
   SelectState
-} from '@/store/select_pagination'
+} from '@/store/selectPagination'
 
 export function useRepositoryMaintainersFiltration() {
   const storeIdMaintainer: SelectState =
@@ -49,7 +49,7 @@ export function useRepositoryMaintainersFiltration() {
       selectStore.nextPage()
       if (selectStore.fetchNextPageCondition) {
         await repositoryMaintainerStore
-          .fetchMaintainersList(
+          .getList(
             selectStore.paginationData.page - 1,
             selectStore.pageSize
           )
@@ -75,7 +75,9 @@ export function useRepositoryMaintainersFiltration() {
       repositoryMaintainerStore.filtration.search !== value
     ) {
       resetPaginationMaintainers()
-      repositoryMaintainerStore.setFiltrationByName(value)
+      repositoryMaintainerStore.setFiltrationBy({
+        search: value
+      })
     }
   }
 

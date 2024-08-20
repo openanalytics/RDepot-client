@@ -22,11 +22,12 @@
 
 <template>
   <FiltrationBar />
-  <TokenList :key="componentKey" />
+  <TokensList :key="componentKey" />
 </template>
 
 <script setup lang="ts">
-import TokenList from './TokenList.vue'
+import FiltrationBar from './FiltrationBar.vue'
+import TokensList from './TokensList.vue'
 import { computed } from 'vue'
 import { useCommonStore } from '@/store/common'
 

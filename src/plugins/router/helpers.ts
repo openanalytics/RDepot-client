@@ -25,7 +25,7 @@ import { useOIDCAuthorization } from '@/composable/auth/oidcAuthorization'
 import { usePackagesStore } from '@/store/packages'
 import { useAuthorizationStore } from '@/store/authorization'
 import { Technologies } from '@/enum/Technologies'
-import { usePackageDetailsStore } from '@/store/package_details'
+import { usePackageDetailsStore } from '@/store/packageDetails'
 import { usePagination } from '@/store/pagination'
 import { useSortStore } from '@/store/sort'
 import { useCommonStore } from '@/store/common'
@@ -37,15 +37,7 @@ export async function loadPackageDetails(
   technology: Technologies
 ) {
   const packageDetailsStore = usePackageDetailsStore()
-  return packageDetailsStore.fetchPackage(id, technology)
-}
-
-export async function loadRepositoryDetails(name: string) {
-  const packageStore = usePackagesStore()
-  return packageStore.fetchPackages({
-    repository: [name],
-    deleted: false
-  })
+  return packageDetailsStore.get(id, technology)
 }
 
 export async function redirectToLoginPage() {
@@ -131,9 +123,6 @@ export async function prepareStores(to: any, from: any) {
         Number(to.params.id),
         to.params.technology as Technologies
       )
-      break
-    case 'repositoryDetails':
-      await loadRepositoryDetails(String(to.params.name))
       break
     case 'users':
       useUserStore().clearFiltration()

@@ -1,8 +1,9 @@
 {
   "action": {
-    "accept": "ZAAKCEPTUJ",
-    "cancel": "ANULUJ",
-    "reject": "ODRZUĆ"
+    "accept": "Zaakceptuj",
+    "cancel": "Anuluj",
+    "download": "Pobierz",
+    "reject": "Odrzuć"
   },
   "addSubmission": {
     "generateManual": "Generuj dokumentację",
@@ -130,8 +131,10 @@
     "deactivateQuestion": "Are you sure you want to deactivate {resource_name}?",
     "delete": "Usuń",
     "deleteQuestion": "Czy na pewno chcesz usunąć {resource_name}?",
+    "deleteResourcesQuestion": "Czy na pewno chcesz usunąć niżej wymienione {resource_type_plural}?",
     "details": "Zobacz szczegóły",
     "edit": "Edytuj",
+    "editResourceQuestion": "Jesteś pewien że chcesz wykonać operację {edit_action} ?",
     "errors": {
       "copyFailed": "Nieudane kopiowanie",
       "email": "To powinien być adres email",
@@ -140,6 +143,9 @@
       "url": "To powinien być url"
     },
     "events": "Zdarzenia",
+    "eventsTag": {
+      "copied": "Skopiowano!"
+    },
     "goBack": "Powrót",
     "list": "Lista",
     "logout": "Wyloguj",
@@ -150,6 +156,7 @@
     "ok": "Ok",
     "or": "lub",
     "packages": "Pakiety",
+    "pending": "akcja w trakcie",
     "projectTitle": "RDepot",
     "repositories": "Repozytoria",
     "reset": "Wyczyść",
@@ -262,6 +269,7 @@
     "successUpdateUser": "Dane użytkownika zaktualizowane"
   },
   "package": {
+    "chooseOneToEnable": "wybierz co najmniej jedną paczkę aby odblokować",
     "noDescriptionProvided": "Brak dostępnego opisu",
     "propertyNotProvided": "brak informacji"
   },
@@ -280,6 +288,7 @@
     "authors": "Autorzy",
     "classifiers": "Klasyfikatory",
     "copy": "Kopiuj",
+    "deleted": "Ten pakiet jest usunięty",
     "depends": "Zależności",
     "description": "Opis",
     "details": "Szczegóły",
@@ -366,6 +375,7 @@
       "edit": "Edycja jest niedostępna w deklaratywnym trybie",
       "publish": "Publikowanie jest niedostępne w deklaratywnym trybie"
     },
+    "deleted": "To repozytorium jest usunięte",
     "edit": {
       "title": "Edytuj repozytorium"
     },
@@ -451,27 +461,42 @@
       "searchPlaceholder": "Pakiet, zgłaszający, zatwierdzający..",
       "toDate": "Data końcowa"
     },
+    "multiAction": {
+      "noSubmissionAvailable": "Brak odpowiednich zgłoszeń",
+      "notEdited": "Nie edytowano",
+      "notMutable": "Zgłoszenie nie może zostać {actionType} ponieważ jego stan to {currentState}",
+      "onSubmissionAvailableText": "Żadne wybrane zgłoszenie nie może zostać {actionType} ze względu na jego status lub uprawnienia.",
+      "onSubmissionAvailableTitle": "Wybierz inne zgłoszenia",
+      "warning": "Niektóre zgłoszenia nie mogą wykonać operacji {actionType}. "
+    },
     "noPackageChosen": "Nie wybrano pakietów",
     "rejected": "odrzucone",
     "replace": {
       "duplication": "Pakiet o tej samej nazwie i wersji już istnieje w wybranym repozytorium. Proszę ponownie przejść przez proces przesyłania i kliknąć 'zamień', aby go nadpisać."
+    },
+    "upload": {
+      "warning": "Niektóre zgłoszenia wygenerowały ostrzeżenie. Detale dostępne w podsumowaniu."
     },
     "waitForAllRequestsToFulfill": "Zaczekaj na zakończenie wszystkich zgłoszeń",
     "waitingForAction": "oczekuje na akcję",
     "wrongExtension": "Wybierz pakiety o poprawnym rozszerzeniu (.tar.gz)"
   },
   "success": "Poprawnie wykonana operacja",
+  "tokens": {
+    "deleted": "Ten token jest usunięty",
+    "inacitve": "Ten token jest nieaktywny"
+  },
   "updatedProperties": {
-    "accepted": "ZAAKCEPTOWANY",
+    "accepted": "ZAAKCEPTOWANE",
     "active": "aktywny",
     "added": "dodany",
     "approver_id": "identyfikator zatwierdzającego",
-    "cancelled": "ANULOWANY",
+    "cancelled": "ANULOWANE",
     "false": "fałsz",
     "last logged in": "ostatnie logowanie",
     "maintainer": "opiekun",
     "published": "opublikowany",
-    "rejected": "ODRZUCONY",
+    "rejected": "ODRZUCONE",
     "source": "źródło",
     "state": "status",
     "submitted": "wysłany",

@@ -26,7 +26,7 @@
     style="padding-left: 0; padding-right: 0"
   >
     <validated-input-field
-      id="filtration-search"
+      id="packages-filtration-search"
       density="compact"
       hide-details
       name="search"
@@ -36,7 +36,7 @@
     />
 
     <validated-input-field
-      id="filtration-technology"
+      id="packages-filtration-technology"
       chips
       closable-chips
       density="compact"
@@ -51,7 +51,7 @@
     ></validated-input-field>
 
     <validated-input-field
-      id="filtration-repository"
+      id="packages-filtration-repository"
       density="compact"
       hide-details
       chips
@@ -84,12 +84,12 @@
     </validated-input-field>
 
     <validated-input-field
-      id="filtration-submissionState"
+      id="packages-filtration-submission-state"
       density="compact"
       hide-details
       chips
       closable-chips
-      :items="states"
+      :items="sortValues(states)"
       name="submissionState"
       multiple
       clearable
@@ -106,7 +106,7 @@
             : 0
         )
       "
-      id="filtration-maintainer"
+      id="packages-filtration-maintainer"
       density="compact"
       hide-details
       chips
@@ -122,10 +122,16 @@
       @load-items="loadMaintainers"
       @filtrate="filtrateMaintainers"
     >
-      <template #item="{ props }">
+      <template #item="{ props, item }">
         <v-list-item
           v-intersect="loadMaintainers"
-          v-bind="props"
+          v-bind="{
+            ...props,
+            id: `packages-filtration-maintainer-${item.title.replaceAll(
+              ' ',
+              '-'
+            )}`
+          }"
         >
           <template #prepend="{ isActive }">
             <v-list-item-action start>
@@ -146,7 +152,7 @@
             : 0
         )
       "
-      id="filtration-deleted"
+      id="packages-filtration-deleted"
       density="compact"
       hide-details
       name="deleted"
@@ -182,21 +188,19 @@ import {
   isAtLeastAdmin
 } from '@/enum/UserRoles'
 import ResetButton from '@/components/common/buttons/ResetButton.vue'
-import { onBeforeMount } from 'vue'
 import { useAuthorizationStore } from '@/store/authorization'
 
-const { states, technologies } = useEnumFiltration()
+const { states, technologies, sortValues } =
+  useEnumFiltration()
 const authorizationStore = useAuthorizationStore()
 const {
   storeId,
   filtrateRepositoriesObjects,
-  loadRepositories,
-  resetRepositoriesPagination
+  loadRepositories
 } = useRepositoriesFiltration()
 const {
   storeIdMaintainer,
   loadMaintainers,
-  resetPaginationMaintainers,
   filtrateMaintainers
 } = usePackageMaintainersFiltration()
 const packageStore = usePackagesStore()
@@ -214,9 +218,4 @@ function resetValues() {
   setValues(defaultValues(PackagesFiltration))
   packageStore.setFiltration(values as PackagesFiltration)
 }
-
-onBeforeMount(() => {
-  resetPaginationMaintainers()
-  resetRepositoriesPagination()
-})
 </script>

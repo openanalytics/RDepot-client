@@ -59,7 +59,7 @@ import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { z } from 'zod'
 import { CreateToken } from '@/models/Token'
-import { useAccessTokensStore } from '@/store/access_tokens'
+import { useAccessTokensStore } from '@/store/accessTokens'
 import { useCommonStore } from '@/store/common'
 import CardActions from '@/components/common/overlay/CardActions.vue'
 
@@ -78,7 +78,7 @@ const { values, meta, validate } = useForm({
 function createToken() {
   validate()
   if (meta.value.valid) {
-    accessTokensStore.createToken(values as CreateToken)
+    accessTokensStore.create(values as CreateToken)
     commonStore.closeOverlay()
   }
 }

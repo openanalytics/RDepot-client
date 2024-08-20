@@ -29,7 +29,7 @@ import {
   EventsFiltration,
   defaultValues
 } from '@/models/Filtration'
-import { fetchEventsServices } from '@/services/events_services'
+import { fetchEventsService } from '@/services/eventsServices'
 import { eventsFiltrationLabels } from '@/maps/Filtration'
 import { useDates } from '@/composable/date'
 
@@ -112,10 +112,20 @@ export const useEventsStore = defineStore('events_store', {
     }
   },
   actions: {
-    async fetchEvents() {
+    async getPage() {
+      if (
+        this.next != undefined &&
+        this.page != undefined &&
+        !this.pending
+      ) {
+        this.page = this.page + 1
+        await this.get()
+      }
+    },
+    async get() {
       this.pending = true
       const [newEvents, pageData, links] =
-        await fetchEventsServices(
+        await fetchEventsService(
           this.filtration,
           this.page,
           this.pageSize
@@ -136,30 +146,20 @@ export const useEventsStore = defineStore('events_store', {
 
       this.events = this.events.concat(newEvents)
     },
-    async fetchNextPageEvents() {
-      if (
-        this.next != undefined &&
-        this.page != undefined &&
-        !this.pending
-      ) {
-        this.page = this.page + 1
-        await this.fetchEvents()
-      }
-    },
     async setFiltration(payload: EventsFiltration) {
       if (EventsFiltration.safeParse(payload).success) {
         this.filtration = EventsFiltration.parse(payload)
       }
       this.page = 0
       this.events = []
-      await this.fetchEvents()
+      await this.get()
     },
     clearFiltration() {
       this.filtration = defaultValues(EventsFiltration)
     },
     async clearFiltrationAndFetch() {
       this.clearFiltration()
-      await this.fetchEvents()
+      await this.get()
     },
     getLabels() {
       return eventsFiltrationLabels

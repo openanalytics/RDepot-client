@@ -117,10 +117,7 @@ const { meta, values, setFieldValue, setTouched } = useForm(
             previousVal = value
             loading.value = true
             const repositoryWithSameName =
-              await repositoryStore.fetchRepository(
-                value,
-                false
-              )
+              await repositoryStore.get(value, false)
             loading.value = false
             previousReturn =
               repositoryWithSameName.length === 0
@@ -154,7 +151,7 @@ const toasts = useToast()
 
 function createRepository() {
   if (meta.value.valid && meta.value.touched) {
-    repositoryStore.createRepository(values)
+    repositoryStore.create(values)
     commonStore.closeOverlay()
   } else {
     toasts.warning(t('notifications.invalidform'))

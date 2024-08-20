@@ -45,7 +45,7 @@
 
 <script setup lang="ts">
 import CardActions from '@/components/common/overlay/CardActions.vue'
-import { useAccessTokensStore } from '@/store/access_tokens'
+import { useAccessTokensStore } from '@/store/accessTokens'
 import { useUtilities } from '@/composable/utilities'
 import { i18n } from '@/plugins/i18n'
 
@@ -55,7 +55,7 @@ const accessTokensStore = useAccessTokensStore()
 function deactivateToken() {
   let newToken = deepCopy(accessTokensStore.currentToken)
   newToken.active = false
-  accessTokensStore.deactivateToken(
+  accessTokensStore.deactivate(
     deepCopy(accessTokensStore.currentToken),
     newToken
   )

@@ -33,7 +33,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { EntityModelPythonPackageDto } from '@/openapi'
-import { usePackageDetailsStore } from '@/store/package_details'
+import { usePackageDetailsStore } from '@/store/packageDetails'
 
 const packageDetailsStore = usePackageDetailsStore()
 
@@ -49,7 +49,7 @@ async function getSourceFile() {
     packageBag.value.version &&
     packageBag.value.technology
   ) {
-    await packageDetailsStore.downloadSourceFile(
+    await packageDetailsStore.getSourceFile(
       packageBag.value.id.toString(),
       packageBag.value.name,
       packageBag.value.version,

@@ -84,11 +84,13 @@
         :hover-message="
           i18n.t('columns.users.lastLoggedIn')
         "
+        tag-type="date"
       />
 
       <EventTag
         :value="relatedResource?.createdOn"
         :hover-message="i18n.t('columns.users.createdOn')"
+        tag-type="date"
       />
     </div>
   </v-card-text>

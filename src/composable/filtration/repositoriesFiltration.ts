@@ -25,12 +25,12 @@ import {
   EntityModelRepositoryMaintainerDto
 } from '@/openapi'
 import { useRepositoryStore } from '@/store/repositories'
-import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
+import { useRepositoryMaintainersStore } from '@/store/repositoryMaintainers'
 import {
   useSelectStore,
   SelectState,
   RepositoryObject
-} from '@/store/select_pagination'
+} from '@/store/selectPagination'
 
 export function useRepositoriesFiltration() {
   const storeId: SelectState = 'repositories'
@@ -54,7 +54,7 @@ export function useRepositoriesFiltration() {
       selectStore.nextPage()
       if (selectStore.fetchNextPageCondition) {
         await repositoriesStore
-          .fetchRepositoriesList(
+          .getList(
             selectStore.paginationData.page - 1,
             selectStore.pageSize
           )
@@ -94,13 +94,11 @@ export function useRepositoriesFiltration() {
       []
     if (userName) {
       repositoriesMaintainedByUser =
-        await repositoryMaintainerStore.fetchAndReturnAllMaintainers(
-          {
-            deleted: false,
-            search: userName,
-            technologies: undefined
-          }
-        )
+        await repositoryMaintainerStore.getAll({
+          deleted: false,
+          search: userName,
+          technologies: undefined
+        })
     }
 
     return repositoriesStore.repositories.map(
@@ -130,7 +128,7 @@ export function useRepositoriesFiltration() {
       selectStore.nextPage()
       if (selectStore.fetchNextPageCondition) {
         await repositoriesStore
-          .fetchRepositoriesList(
+          .getList(
             selectStore.paginationData.page - 1,
             selectStore.pageSize
           )
@@ -147,7 +145,7 @@ export function useRepositoriesFiltration() {
 
   function filtrateRepositories(value: string | undefined) {
     if (repositoriesStore.filtration.name !== value) {
-      repositoriesStore.setFiltrationByName(value)
+      repositoriesStore.setFiltrationBy({ search: value })
     }
   }
 
@@ -160,7 +158,7 @@ export function useRepositoriesFiltration() {
       repositoriesStore.filtration.name !== value
     ) {
       resetRepositoriesPagination()
-      repositoriesStore.setFiltrationByName(value)
+      repositoriesStore.setFiltrationBy({ search: value })
     }
   }
 

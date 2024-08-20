@@ -20,26 +20,68 @@
  *
  */
 
+import { SubmissionEditOptions } from '@/enum/SubmissionEditOptions'
 import {
   EntityModelSubmissionDto,
   EntityModelSubmissionDtoStateEnum
 } from '@/openapi'
 import { useSubmissionStore } from '@/store/submission'
+import { useSubmissionAuthorizationCheck } from './submissionAuthorities'
+import { usePackageDetailsStore } from '@/store/packageDetails'
 
 export function useSubmissionActions() {
+  async function editSubmission(
+    submission?: EntityModelSubmissionDto,
+    editOption?: SubmissionEditOptions
+  ) {
+    const { isAuthorizedToChangeState } =
+      useSubmissionAuthorizationCheck()
+    if (isAuthorizedToChangeState(submission, editOption)) {
+      switch (editOption) {
+        case SubmissionEditOptions.Enum.accept: {
+          return acceptSubmission(submission)
+        }
+        case SubmissionEditOptions.Enum.reject: {
+          return rejectSubmission(submission)
+        }
+        case SubmissionEditOptions.Enum.cancel: {
+          return cancelSubmission(submission)
+        }
+        default: {
+          return
+        }
+      }
+    } else return
+  }
+
   async function acceptSubmission(
     submission?: EntityModelSubmissionDto
   ) {
-    changeSubmissionState(
+    return changeSubmissionState(
       EntityModelSubmissionDtoStateEnum.ACCEPTED,
       submission
     )
   }
 
+  async function downloadSubmission(
+    submission?: EntityModelSubmissionDto
+  ) {
+    if (submission && submission.packageBag) {
+      const packageDetailsStore = usePackageDetailsStore()
+      await packageDetailsStore.getSourceFile(
+        submission.packageBag?.id?.toString() || '',
+        submission.packageBag?.name || '',
+        submission.packageBag?.version || '',
+        submission.packageBag?.technology || ''
+      )
+    }
+    console.log(submission)
+  }
+
   async function rejectSubmission(
     submission?: EntityModelSubmissionDto
   ) {
-    changeSubmissionState(
+    return changeSubmissionState(
       EntityModelSubmissionDtoStateEnum.REJECTED,
       submission
     )
@@ -48,7 +90,7 @@ export function useSubmissionActions() {
   async function cancelSubmission(
     submission?: EntityModelSubmissionDto
   ) {
-    changeSubmissionState(
+    return changeSubmissionState(
       EntityModelSubmissionDtoStateEnum.CANCELLED,
       submission
     )
@@ -60,15 +102,17 @@ export function useSubmissionActions() {
   ) {
     const submissionStore = useSubmissionStore()
     if (submission) {
-      await submissionStore.updateSubmission(submission, {
+      return submissionStore.patch(submission, {
         state: state
       })
     }
   }
 
   return {
+    editSubmission,
     acceptSubmission,
     rejectSubmission,
-    cancelSubmission
+    cancelSubmission,
+    downloadSubmission
   }
 }

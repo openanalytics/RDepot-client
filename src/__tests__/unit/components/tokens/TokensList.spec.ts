@@ -37,9 +37,11 @@ import { useAuthorizationStore } from '@/store/authorization'
 import me from '@/__tests__/config/mockData/me.json'
 import { nextTick } from 'vue'
 import { i18n } from '@/plugins/i18n'
-import TokenList from '@/components/accessTokens/TokenList.vue'
-import { useAccessTokensStore } from '@/store/access_tokens'
+import TokensList from '@/components/accessTokens/TokensList.vue'
+import { useAccessTokensStore } from '@/store/accessTokens'
+import { useDates } from '@/composable/date'
 
+const { formatDate } = useDates()
 let wrapper: any
 let authorizationStore: any
 let accessTokensStore: any
@@ -57,7 +59,7 @@ beforeAll(() => {
 })
 
 beforeEach(async () => {
-  wrapper = mount(TokenList, {
+  wrapper = mount(TokensList, {
     global: globalConfig
   })
   accessTokensStore.tokens = tokens.data.content
@@ -169,14 +171,18 @@ describe('Tokens - cells', () => {
     const cell = cells[1]
     const chip = cell.findComponent('.v-chip')
     expect(chip.exists()).toBeTruthy()
-    expect(chip.text()).toBe(token.creationDate)
+    expect(chip.text()).toBe(
+      formatDate(new Date(token.creationDate))
+    )
   })
 
   it('displays expiration date', () => {
     const cell = cells[2]
     const chip = cell.findComponent('.v-chip')
     expect(chip.exists()).toBeTruthy()
-    expect(chip.text()).toBe(token.expirationDate)
+    expect(chip.text()).toBe(
+      formatDate(new Date(token.expirationDate))
+    )
   })
 
   it('displays active', () => {
@@ -199,6 +205,8 @@ describe('Tokens - cells', () => {
 
   it('displays deactivate icon', () => {
     const cell = cells[4]
-    expect(cell.find('#cancel-icon').exists()).toBe(true)
+    expect(cell.find('#deactivate-icon').exists()).toBe(
+      true
+    )
   })
 })

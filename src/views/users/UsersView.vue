@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import UserList from '@/components/users/UserList.vue'
+import UserList from '@/components/users/UsersList.vue'
 import FiltrationBar from '@/components/users/FiltrationBar.vue'
 import { computed } from 'vue'
 import { useCommonStore } from '@/store/common'

@@ -1,8 +1,9 @@
 {
   "action": {
-    "accept": "ACCEPT",
-    "cancel": "CANCEL",
-    "reject": "REJECT"
+    "accept": "Accept",
+    "cancel": "Cancel",
+    "download": "Download",
+    "reject": "Reject"
   },
   "addSubmission": {
     "generateManual": "Generate manual",
@@ -130,8 +131,10 @@
     "deactivateQuestion": "Are you sure you want to deactivate {resource_name}?",
     "delete": "Delete",
     "deleteQuestion": "Are you sure you want to delete {resource_name}?",
+    "deleteResourcesQuestion": "Are you sure you want to delete the following {resource_type_plural}?",
     "details": "See details",
     "edit": "Edit",
+    "editResourceQuestion": "Are you sure you want to {edit_action} the following {resource_type_plural}?",
     "errors": {
       "copyFailed": "Copy failed",
       "email": "This should be an email",
@@ -140,6 +143,9 @@
       "url": "This should be a url"
     },
     "events": "Events",
+    "eventsTag": {
+      "copied": "Copied!"
+    },
     "goBack": "Go back",
     "list": "List",
     "logout": "Logout",
@@ -150,6 +156,7 @@
     "ok": "Ok",
     "or": "or",
     "packages": "Packages",
+    "pending": "pending action",
     "projectTitle": "RDepot",
     "repositories": "Repositories",
     "reset": "Reset",
@@ -268,6 +275,7 @@
     "successUpdateUser": "Successfully updated user"
   },
   "package": {
+    "chooseOneToEnable": "choose at least one package to enable",
     "noDescriptionProvided": "No description provided",
     "propertyNotProvided": "not provided"
   },
@@ -286,6 +294,7 @@
     "authors": "Authors",
     "classifiers": "Classifiers",
     "copy": "Copy",
+    "deleted": "This package is deleted",
     "depends": "Depends",
     "description": "Description",
     "details": "Details",
@@ -372,6 +381,7 @@
       "edit": "Edit action is disabled in declarative mode",
       "publish": "Publish action is disabled in declarative mode "
     },
+    "deleted": "This repository is deleted",
     "edit": {
       "title": "Edit repository"
     },
@@ -420,7 +430,7 @@
     "lang": "Language",
     "message": {
       "deactivated": "Token deactivated",
-      "delete": "Token deleted",
+      "deleted": "Token deleted",
       "edited": "Token edited"
     },
     "newToken": "New token",
@@ -457,16 +467,31 @@
       "searchPlaceholder": "Package, submitter, approver...",
       "toDate": "To date"
     },
-    "noPackageChosen": "No packages choosen",
+    "multiAction": {
+      "noSubmissionAvailable": "No valid submissions selected",
+      "notEdited": "Not edited",
+      "notMutable": "Cannot be {actionType} as it has been {currentState} already",
+      "onSubmissionAvailableText": "You didn't select any valid submissions to be {actionType}. Please select other submissions and try again.",
+      "onSubmissionAvailableTitle": "Please select other submissions",
+      "warning": "Some submissions are not listed because they cannot be {actionType}."
+    },
+    "noPackageChosen": "No packages chosen",
     "rejected": "rejected",
     "replace": {
       "duplication": "A package with the same name and version already exists in the selected repository. Please go through the upload process again and click 'replace' to overwrite it."
+    },
+    "upload": {
+      "warning": "Some uploaded submissions had warnings, see the individual items for details"
     },
     "waitForAllRequestsToFulfill": "Wait until all submissions will end",
     "waitingForAction": "waiting for an action",
     "wrongExtension": "Choose packages that have correct extension (.tar.gz)"
   },
   "success": "Request processed successfully",
+  "tokens": {
+    "deleted": "This token is deleted",
+    "inacitve": "This token is inactive"
+  },
   "updatedProperties": {
     "accepted": "ACCEPTED",
     "active": "active",

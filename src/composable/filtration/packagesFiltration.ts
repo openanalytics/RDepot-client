@@ -24,13 +24,13 @@ import {
   EntityModelPackageDto,
   PackageMaintainerDto
 } from '@/openapi'
-import { usePackageMaintainersStore } from '@/store/package_maintainers'
+import { usePackageMaintainersStore } from '@/store/packageMaintainers'
 import { usePackagesStore } from '@/store/packages'
 import {
   useSelectStore,
   SelectState,
   PackageObject
-} from '@/store/select_pagination'
+} from '@/store/selectPagination'
 import {} from '@vueuse/core'
 
 export function usePackagesFiltration() {
@@ -74,13 +74,11 @@ export function usePackagesFiltration() {
     repositoryName: string
   ) {
     const packagesMaintainedByUser =
-      await packageMaintainerStore.fetchAndReturnAllMaintainers(
-        {
-          deleted: false,
-          search: userName,
-          repository: [repositoryName]
-        }
-      )
+      await packageMaintainerStore.getAll({
+        deleted: false,
+        search: userName,
+        repository: [repositoryName]
+      })
 
     return packagesStore.packages.map(
       (packageBag: EntityModelPackageDto) => {
@@ -113,7 +111,7 @@ export function usePackagesFiltration() {
       selectStore.nextPage()
       if (selectStore.fetchNextPageCondition) {
         await packagesStore
-          .fetchPackagesList(
+          .getList(
             selectStore.paginationData.page - 1,
             selectStore.pageSize
           )

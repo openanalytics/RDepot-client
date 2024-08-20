@@ -42,7 +42,7 @@
       hide-details
       chips
       closable-chips
-      :items="roles"
+      :items="sortValues(roles)"
       name="roles"
       multiple
       clearable
@@ -82,7 +82,7 @@ import { toTypedSchema } from '@vee-validate/zod'
 import { useUserStore } from '@/store/users'
 import ResetButton from '@/components/common/buttons/ResetButton.vue'
 
-const { roles } = useEnumFiltration()
+const { roles, sortValues } = useEnumFiltration()
 
 const userStore = useUserStore()
 

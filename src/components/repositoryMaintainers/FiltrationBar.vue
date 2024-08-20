@@ -26,7 +26,7 @@
     style="padding-left: 0; padding-right: 0"
   >
     <validated-input-field
-      id="filtration-search"
+      id="repository-maintainers-filtration-search"
       density="compact"
       hide-details
       name="search"
@@ -41,7 +41,7 @@
     />
 
     <validated-input-field
-      id="filtration-technology"
+      id="repository-maintainers-filtration-technology"
       density="compact"
       hide-details
       :items="technologies"
@@ -54,7 +54,7 @@
     ></validated-input-field>
 
     <validated-input-field
-      id="filtration-deleted"
+      id="repository-maintainers-filtration-deleted"
       density="compact"
       hide-details
       chips
@@ -85,7 +85,7 @@ import {
 import { useEnumFiltration } from '@/composable/filtration/enumFiltration'
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
-import { useRepositoryMaintainersStore } from '@/store/repository_maintainers'
+import { useRepositoryMaintainersStore } from '@/store/repositoryMaintainers'
 import ResetButton from '@/components/common/buttons/ResetButton.vue'
 
 const { technologies } = useEnumFiltration()

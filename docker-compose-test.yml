@@ -23,7 +23,7 @@ services:
         aliases:
           - oa-rdepot-proxy
   backend:
-    image: registry.openanalytics.eu/openanalytics/rdepot-app:2.2.0
+    image: registry.openanalytics.eu/openanalytics/rdepot-app:2.3.0
     restart: unless-stopped
     hostname: oa-rdepot-backend
     container_name: oa-rdepot-backend
@@ -76,7 +76,7 @@ services:
         aliases:
           - oa-rdepot-db
   repo:
-    image: registry.openanalytics.eu/openanalytics/rdepot-repo:2.2.0
+    image: registry.openanalytics.eu/openanalytics/rdepot-repo:2.3.0
     restart: unless-stopped
     container_name: oa-rdepot-repo
     labels:
@@ -97,7 +97,7 @@ services:
     labels:
       eu.openanalytics.rdepot.container.name: 'oa-rdepot-frontend'
     ports:
-      - 3001:80
+      - 3001:8080
     networks:
       oa-rdepot:
         ipv4_address: 192.168.49.13
@@ -113,6 +113,8 @@ services:
     restart: unless-stopped
     hostname: oa-rdepot-selenium
     container_name: oa-rdepot-selenium
+    volumes:
+      - ./downloads:/home/seluser/Downloads
     ports:
       - 4444:4444
     networks:

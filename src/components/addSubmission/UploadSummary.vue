@@ -21,7 +21,10 @@
 -->
 
 <template>
-  <v-list-item id="submission-package">
+  <v-list-item
+    v-if="promise.packageBag"
+    id="submission-package"
+  >
     <template #title>
       {{ formatFilename(promise.packageBag.name) }}
     </template>
@@ -30,7 +33,7 @@
       <v-progress-circular
         v-if="promise.state == 'pending'"
         indeterminate="disable-shrink"
-        model-value="20"
+        color="oablue"
         class="mr-5"
       ></v-progress-circular>
       <v-icon
@@ -141,7 +144,7 @@ const packagesStore = usePackagesStore()
 const { formatFilename } = useFiles()
 
 function downloadManual(id: string, fileName: string) {
-  packagesStore.downloadManual(id, fileName)
+  packagesStore.getManual(id, fileName)
 }
 </script>
 

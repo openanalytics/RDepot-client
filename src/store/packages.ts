@@ -24,7 +24,6 @@ import {
   defaultValues,
   PackagesFiltration
 } from '@/models/Filtration'
-import { fetchPackagesServices } from '@/services'
 import { defineStore } from 'pinia'
 import {
   EntityModelPackageDto,
@@ -32,31 +31,46 @@ import {
 } from '@/openapi'
 import {
   downloadReferenceManual,
-  downloadVignetteHtml,
-  downloadSourceFile,
-  fetchPackageServices,
-  updatePythonPackage,
-  updateRPackage,
-  deletePythonPackage,
-  deleteRPackage,
-  fetchFullPackagesList,
-  fetch
-} from '@/services/package_services'
+  fetchPackageService,
+  fetchPackagesService,
+  deletePackage
+} from '@/services/packageServices'
 import { useUtilities } from '@/composable/utilities'
 import { packagesFiltrationLabels } from '@/maps/Filtration'
-import { fetchSubmission } from '@/services/submission_services'
+import { fetchSubmission } from '@/services/submissionServices'
 import { usePagination } from './pagination'
 import { Technologies } from '@/enum/Technologies'
 import { DataTableOptions } from '@/models/DataTableOptions'
+import { validatedData } from '@/services/openApiAccess'
+import { useToast } from '@/composable/toasts'
+import { useSortStore } from '@/store/sort'
+import {
+  deleteTechnologyPackage,
+  updateTechnologyPackage
+} from '@/maps/package/Technology'
+
+export type PackagePromise = {
+  promise: Promise<validatedData<EntityModelPackageDto>>
+  packageBag: EntityModelPackageDto
+  state: string
+  error: string[]
+  response?: validatedData<EntityModelSubmissionDto>
+}
 
 interface State {
   packages: EntityModelPackageDto[]
+  packagesToDelete: EntityModelPackageDto[]
+  packagesSelected: EntityModelPackageDto[]
   package?: EntityModelPackageDto
   submission?: EntityModelSubmissionDto
   filtration: PackagesFiltration
   chosenPackage?: EntityModelPackageDto
+  promises: PackagePromise[]
+  totalNumber: number
   next?: boolean
   loading: boolean
+  resolved: boolean
+  pending: EntityModelPackageDto[]
 }
 
 const { deepCopy } = useUtilities()
@@ -67,12 +81,18 @@ export const usePackagesStore = defineStore(
     state: (): State => {
       return {
         packages: [],
+        packagesToDelete: [],
+        packagesSelected: [],
+        promises: [],
         package: {},
         submission: {},
         filtration: defaultValues(PackagesFiltration),
         chosenPackage: undefined,
+        totalNumber: 0,
+        resolved: false,
         next: false,
-        loading: false
+        loading: false,
+        pending: []
       }
     },
     getters: {
@@ -84,65 +104,49 @@ export const usePackagesStore = defineStore(
       }
     },
     actions: {
-      async fetchPackagesPage(options: DataTableOptions) {
+      async getPage(options: DataTableOptions) {
         if (options.sortBy.length == 0) {
           options.sortBy = [{ key: 'name', order: 'asc' }]
         }
         this.loading = true
-        fetch(
-          this.filtration,
-          options.page - 1,
-          options.itemsPerPage,
-          options.sortBy[0].key +
-            ',' +
-            options.sortBy[0].order
-        ).then((packages) => {
-          this.packages = packages[0]
-          this.loading = false
-        })
-      },
-      async fetchPackages(filtration?: PackagesFiltration) {
-        const pagination = usePagination()
-        const pageData = await this.fetchData(
-          pagination.fetchPage,
-          pagination.pageSize,
-          filtration || this.filtration
-        )
-        pagination.newPageWithoutRefresh(pageData.page)
-        pagination.totalNumber = pageData.totalNumber
-      },
-      async fetchPackagesList(page: number, pageSize = 8) {
         const [packages, pageData] =
-          await fetchFullPackagesList(
-            page,
-            pageSize,
-            this.filtration
+          await fetchPackagesService(
+            this.filtration,
+            options.page - 1,
+            options.itemsPerPage,
+            [
+              options.sortBy[0].key +
+                ',' +
+                options.sortBy[0].order
+            ]
           )
         this.packages = packages
-        return pageData
+        this.totalNumber = pageData.totalNumber
+        this.loading = false
       },
-      async fetchData(
-        page: number,
-        pageSize: number,
-        filtration: PackagesFiltration,
-        showProgress = true
-      ) {
+      async getList(page: number, pageSize = 8) {
+        const filtration = {
+          repository: this.filtration.repository,
+          deleted: undefined,
+          maintainer: undefined,
+          technologies: undefined,
+          search: this.filtration.search,
+          submissionState: undefined
+        }
         const [packages, pageData] =
-          await fetchPackagesServices(
+          await fetchPackagesService(
             filtration,
             page,
             pageSize,
-            showProgress
+            ['name,asc'],
+            false
           )
         this.packages = packages
         return pageData
       },
-      async fetchPackage(
-        id: number,
-        technology: Technologies
-      ) {
+      async get(id: number, technology: Technologies) {
         this.package = (
-          await fetchPackageServices(id, technology)
+          await fetchPackageService(id, technology)
         )[0]
         if (this.package?.submission?.id) {
           this.submission = (
@@ -152,84 +156,84 @@ export const usePackagesStore = defineStore(
           )[0]
         }
       },
-      async fetchRPackage(id: number) {
-        this.package = (
-          await fetchPackageServices(
-            id,
-            Technologies.Enum.R
-          )
-        )[0]
+      async getPackages(filtration?: PackagesFiltration) {
+        const pagination = usePagination()
+        const pageData = await this.fetchData(
+          pagination.fetchPage,
+          pagination.pageSize,
+          filtration || this.filtration
+        )
+        pagination.newPageWithoutRefresh(pageData.page)
+        this.totalNumber = pageData.totalNumber
       },
-      async activatePackage(
-        newPackage: EntityModelPackageDto
-      ) {
-        const oldPackage = deepCopy(newPackage)
-        oldPackage.active = !newPackage.active
-        if (
-          newPackage.technology == Technologies.Enum.Python
-        ) {
-          await updatePythonPackage(
-            oldPackage,
-            newPackage
-          ).then(async (success) => {
-            if (success) await this.fetchPackages()
-          })
-        } else {
-          await updateRPackage(oldPackage, newPackage).then(
-            async (success) => {
-              if (success) await this.fetchPackages()
-            }
-          )
-        }
-      },
-      async downloadManual(id: string, fileName: string) {
+      async getManual(id: string, fileName: string) {
         await downloadReferenceManual(id, fileName).then(
           () => {}
         )
       },
-      async downloadVignette(id: string, fileName: string) {
-        await downloadVignetteHtml(id, fileName).then(
-          () => {}
+      async fetchData(
+        page: number,
+        pageSize: number,
+        filtration: PackagesFiltration,
+        showProgress = false
+      ) {
+        const sort = useSortStore()
+        const [packages, pageData] =
+          await fetchPackagesService(
+            filtration,
+            page,
+            pageSize,
+            sort.getSortBy(),
+            showProgress
+          )
+        this.packages = packages
+        return pageData
+      },
+      async delete() {
+        if (this.chosenPackage) {
+          this.pending.push(this.chosenPackage)
+          const oldPackage: EntityModelPackageDto =
+            deepCopy(this.chosenPackage)
+          const newPackage = deepCopy(oldPackage)
+          newPackage.deleted = true
+          const deleteFn = deleteTechnologyPackage.get(
+            oldPackage.technology as Technologies
+          )
+          if (deleteFn) {
+            await deleteFn(oldPackage, newPackage).then(
+              async (success: any) => {
+                if (success) await this.getPackages()
+              }
+            )
+          }
+          this.pending = this.pending.filter(
+            (packageBag) =>
+              packageBag.id != this.chosenPackage?.id
+          )
+        }
+      },
+      async activatePackage(
+        newPackage: EntityModelPackageDto
+      ) {
+        this.pending.push(newPackage)
+        const oldPackage = deepCopy(newPackage)
+        oldPackage.active = !newPackage.active
+        const updateFn = updateTechnologyPackage.get(
+          newPackage.technology as Technologies
+        )
+        if (updateFn) {
+          await updateFn(oldPackage, newPackage).then(
+            async (success: any) => {
+              if (success) await this.getPackages()
+            }
+          )
+        }
+        this.pending = this.pending.filter(
+          (packageBag) => packageBag.id != newPackage?.id
         )
       },
-      async downloadSourceFile(
-        id: string,
-        name: string,
-        version: string,
-        technology: string
-      ) {
-        await downloadSourceFile(
-          id,
-          name,
-          version,
-          technology
-        ).then(() => {})
-      },
-      async deletePackage() {
-        if (this.chosenPackage) {
-          const newPackage = deepCopy(this.chosenPackage)
-          newPackage.deleted = true
-          if (
-            this.chosenPackage.technology ===
-            Technologies.enum.Python
-          ) {
-            await deletePythonPackage(
-              this.chosenPackage,
-              newPackage
-            ).then(async (success) => {
-              if (success) await this.fetchPackages()
-            })
-          } else {
-            if (this.chosenPackage.id) {
-              await deleteRPackage(
-                this.chosenPackage,
-                newPackage
-              ).then(async (success) => {
-                if (success) await this.fetchPackages()
-              })
-            }
-          }
-        }
+      setChosen(payload?: EntityModelPackageDto) {
+        this.chosenPackage = payload
       },
       async setFiltration(payload: PackagesFiltration) {
         const pagination = usePagination()
@@ -238,22 +242,14 @@ export const usePackagesStore = defineStore(
           this.filtration =
             PackagesFiltration.parse(payload)
         }
-        await this.fetchPackages()
+        await this.getPackages()
       },
-      setFiltrationByName(payload: string | undefined) {
+      setFiltrationBy(filtration: object) {
         this.clearFiltration()
-        this.filtration.search = payload
-      },
-      setFiltrationByRepositoryOnly(payload?: string) {
-        this.filtration = defaultValues(PackagesFiltration)
-        this.filtration.repository = payload
-          ? [payload]
-          : undefined
-      },
-      setFiltrationWithoutRefresh(
-        payload: PackagesFiltration
-      ) {
-        this.filtration = payload
+        this.filtration = {
+          ...defaultValues(PackagesFiltration),
+          ...(filtration as PackagesFiltration)
+        }
       },
       clearFiltration() {
         const pagination = usePagination()
@@ -262,13 +258,77 @@ export const usePackagesStore = defineStore(
       },
       async clearFiltrationAndFetch() {
         this.clearFiltration()
-        await this.fetchPackages()
-      },
-      setChosenPackage(payload?: EntityModelPackageDto) {
-        this.chosenPackage = payload
+        await this.getPackages()
       },
       getLabels() {
         return packagesFiltrationLabels
+      },
+      async deletePackages() {
+        const toasts = useToast()
+        this.promises = this.packagesToDelete.map(
+          (packageBag) => {
+            this.pending.push(packageBag)
+            return {
+              promise: deletePackage(packageBag),
+              packageBag: packageBag,
+              state: 'pending',
+              error: [],
+              response: undefined
+            }
+          }
+        )
+        let fulfilled = 0
+        let errors = 0
+        this.promises.forEach(async (promise) => {
+          await promise.promise
+            .then((response) => {
+              promise.response = response
+              promise.state =
+                response[3] == 'SUCCESS'
+                  ? 'success'
+                  : 'warning'
+            })
+            .catch((err) => {
+              promise.state = 'error'
+              errors++
+              if (err.response?.data.data) {
+                promise.error = err.response.data.data
+                toasts.error(
+                  `${promise.packageBag.name} - ${err.response.data.data}`
+                )
+              } else if (err.response?.data) {
+                promise.error = err.response.data
+                toasts.error(
+                  `${promise.packageBag.name} - ${err.response.data}`
+                )
+              }
+            })
+            .finally(() => {
+              this.pending = this.pending.filter(
+                (packageBag) =>
+                  packageBag.id != promise.packageBag.id
+              )
+
+              if (++fulfilled == this.promises.length) {
+                if (errors > 0) {
+                  toasts.warning(
+                    `Deleted ${
+                      fulfilled - errors
+                    } packages, failed with deletion of ${errors} packages`
+                  )
+                } else {
+                  toasts.success(
+                    `Deleted all selected packages (${fulfilled})`
+                  )
+                }
+                this.resolved = true
+                this.promises = []
+                this.packagesToDelete = []
+                this.packagesSelected = []
+                this.getPackages()
+              }
+            })
+        })
       }
     }
   }

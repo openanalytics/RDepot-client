@@ -70,6 +70,7 @@
       <EventTag
         :value="relatedResource?.creationDate"
         :hover-message="i18n.t('columns.users.createdOn')"
+        tag-type="date"
       />
 
       <EventTag
@@ -77,6 +78,7 @@
         :hover-message="
           i18n.t('columns.users.expirationDate')
         "
+        tag-type="date"
       />
 
       <EventTag

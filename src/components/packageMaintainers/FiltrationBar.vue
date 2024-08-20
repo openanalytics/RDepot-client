@@ -26,7 +26,7 @@
     style="padding-left: 0; padding-right: 0"
   >
     <validated-input-field
-      id="filtration-search"
+      id="package-maintainers-filtration-search"
       density="compact"
       hide-details
       name="search"
@@ -41,7 +41,7 @@
     />
 
     <validated-input-field
-      id="filtration-technology"
+      id="package-maintainers-filtration-technology"
       density="compact"
       hide-details
       chips
@@ -56,6 +56,7 @@
     ></validated-input-field>
 
     <validated-input-field
+      id="package-maintainers-filtration-repository"
       density="compact"
       hide-details
       chips
@@ -88,7 +89,7 @@
     </validated-input-field>
 
     <validated-input-field
-      id="filtration-deleted"
+      id="package-maintainers-filtration-deleted"
       density="compact"
       hide-details
       name="deleted"
@@ -118,17 +119,15 @@ import { useEnumFiltration } from '@/composable/filtration/enumFiltration'
 import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesFiltration'
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
-import { usePackageMaintainersStore } from '@/store/package_maintainers'
+import { usePackageMaintainersStore } from '@/store/packageMaintainers'
 import ResetButton from '@/components/common/buttons/ResetButton.vue'
-import { onBeforeMount } from 'vue'
 
 const { technologies } = useEnumFiltration()
 
 const {
   storeId,
   filtrateRepositoriesObjects,
-  loadRepositories,
-  resetRepositoriesPagination
+  loadRepositories
 } = useRepositoriesFiltration()
 
 const packageMaintainerStore = usePackageMaintainersStore()
@@ -152,8 +151,6 @@ function resetValues() {
     values as PackageMaintainersFiltration
   )
 }
-
-onBeforeMount(() => resetRepositoriesPagination())
 </script>
 
 <style lang="scss">

@@ -31,25 +31,41 @@ import {
 } from '@/models/Filtration'
 import {
   addSubmission,
-  fetch,
-  fetchSubmissions,
+  fetchSubmissionsService,
   updateSubmission
-} from '@/services/submission_services'
+} from '@/services/submissionServices'
 import { useUtilities } from '@/composable/utilities'
 import { submissionsFiltrationLabels } from '@/maps/Filtration'
-import { validatedData } from '@/services/open_api_access'
+import { validatedData } from '@/services/openApiAccess'
 import { usePagination } from '@/store/pagination'
 import { useToast } from '@/composable/toasts'
 import { i18n } from '@/plugins/i18n'
-import { useAuthorizationStore } from './authorization'
 import { DataTableOptions } from '@/models/DataTableOptions'
+import { useSortStore } from './sort'
+import { SubmissionEditOptions } from '@/enum/SubmissionEditOptions'
+import { useSubmissionActions } from '@/composable/submissions/submissionActions'
+import { useSubmissionAuthorizationCheck } from '@/composable/submissions/submissionAuthorities'
 
 export type PackagePromise = {
   promise: Promise<validatedData<EntityModelSubmissionDto>>
-  packageBag: File
+  packageBag?: File
+  entity?: EntityModelSubmissionDto
   state: string
   error: string[]
   response?: validatedData<EntityModelSubmissionDto>
+}
+
+export type EditSubmissions = {
+  submissions: EntityModelSubmissionDto[]
+  editOption: SubmissionEditOptions
+  pending: boolean
+  warnings?: EditSubmissionWarnings
+  displayWarning?: boolean
+}
+
+export type EditSubmissionWarnings = {
+  notMutableState: EntityModelSubmissionDto[]
+  notAuthorizedToEditAndMutableState: EntityModelSubmissionDto[]
 }
 
 interface State {
@@ -60,6 +76,10 @@ interface State {
   promises: PackagePromise[]
   repository?: EntityModelRepositoryDto
   submissions: EntityModelSubmissionDto[]
+  pending: EntityModelSubmissionDto[]
+  selected: EntityModelSubmissionDto[]
+  submissionsToEdit?: EditSubmissions
+  submissionsToEditWarnings?: EditSubmissionWarnings
   filtration: SubmissionsFiltration
   resolved: boolean
   stepperKey: number
@@ -80,6 +100,10 @@ export const useSubmissionStore = defineStore(
         replace: [],
         promises: [],
         submissions: [],
+        pending: [],
+        selected: [],
+        submissionsToEdit: undefined,
+        submissionsToEditWarnings: undefined,
         repository: undefined,
         filtration: defaultValues(SubmissionsFiltration),
         resolved: false,
@@ -99,69 +123,77 @@ export const useSubmissionStore = defineStore(
       }
     },
     actions: {
-      async fetchSubmissionsPage(
-        options: DataTableOptions
-      ) {
+      async getPage(options: DataTableOptions) {
         this.loading = true
-        const [submissions, pageData] = await fetch(
-          this.filtration,
-          options.page - 1,
-          options.itemsPerPage,
-          options.sortBy[0].key +
-            ',' +
-            options.sortBy[0].order
-        )
+        console.log(options)
+        const [submissions, pageData] =
+          await fetchSubmissionsService(
+            this.filtration,
+            options.page - 1,
+            options.itemsPerPage,
+            [
+              options.sortBy[0].key +
+                ',' +
+                options.sortBy[0].order
+            ]
+          )
         this.loading = false
         this.totalNumber = pageData.totalNumber
         this.submissions = submissions
       },
-      async fetchSubmissions() {
+      async get() {
         const pagination = usePagination()
-        const authorizationStore = useAuthorizationStore()
         const pageData = await this.fetchData(
           pagination.fetchPage,
           pagination.pageSize,
-          this.filtration,
-          authorizationStore.me.id
+          this.filtration
         )
         pagination.newPageWithoutRefresh(pageData.page)
         pagination.totalNumber = pageData.totalNumber
+        this.totalNumber = pageData.totalNumber
       },
       async fetchData(
         page: number,
         pageSize: number,
         filtration: SubmissionsFiltration,
-        user_id?: number,
-        showProgress = true
+        showProgress = false
       ) {
+        const sort = useSortStore()
+        let sortBy = sort.getSortBy()
+        if (sort.field == 'name') {
+          sortBy = ['packageBag,' + sort.direction]
+        }
         const [submissions, pageData] =
-          await fetchSubmissions(
+          await fetchSubmissionsService(
             filtration,
-            user_id,
             page,
             pageSize,
+            sortBy,
             showProgress
           )
         this.submissions = submissions
         return pageData
       },
-
-      async updateSubmission(
+      async patch(
         oldSubmission: EntityModelSubmissionDto,
         newValues: Partial<EntityModelSubmissionDto>
       ) {
+        this.pending.push(oldSubmission)
         const newSubmission = {
           ...deepCopy(oldSubmission),
           ...newValues
         }
-        await updateSubmission(
-          oldSubmission,
-          newSubmission
-        ).then(async (response) => {
-          if (Object.keys(response[0]).length > 0) {
-            await this.fetchSubmissions()
-          }
-        })
+        await updateSubmission(oldSubmission, newSubmission)
+          .then(async (response) => {
+            if (Object.keys(response[0]).length > 0) {
+              await this.get()
+            }
+          })
+          .finally(() => {
+            this.pending = this.pending.filter(
+              (item) => item.id != oldSubmission.id
+            )
+          })
       },
       updateReplaceOptionForPackage(file: File) {
         if (this.getReplaceForPackage(file)) {
@@ -212,36 +244,6 @@ export const useSubmissionStore = defineStore(
       ) {
         this.repository = payload
       },
-      async setFiltration(payload: SubmissionsFiltration) {
-        const pagination = usePagination()
-        pagination.resetPage()
-        if (
-          SubmissionsFiltration.safeParse(payload).success
-        ) {
-          this.filtration =
-            SubmissionsFiltration.parse(payload)
-        }
-        await this.fetchSubmissions()
-        const toasts = useToast()
-        toasts.success(
-          i18n.t('notifications.successFiltration')
-        )
-      },
-      clearFiltration() {
-        const pagination = usePagination()
-        pagination.resetPage()
-        this.filtration = defaultValues(
-          SubmissionsFiltration
-        )
-      },
-      async clearFiltrationAndFetch() {
-        this.clearFiltration()
-        await this.fetchSubmissions()
-        const toasts = useToast()
-        toasts.success(
-          i18n.t('notifications.successFiltrationReset')
-        )
-      },
       updateStepperKey() {
         this.stepperKey += 1
         if (this.stepperKey > 100) {
@@ -249,6 +251,8 @@ export const useSubmissionStore = defineStore(
         }
       },
       async addSubmissionRequests() {
+        const toasts = useToast()
+        let warnings = 0
         this.promises = this.packages.map((packageBag) => {
           return {
             promise: addSubmission(
@@ -268,12 +272,14 @@ export const useSubmissionStore = defineStore(
         this.promises.forEach(async (promise) => {
           await promise.promise
             .then((response) => {
-              console.log(promise.promise)
               promise.response = response
               promise.state =
                 response[3] == 'SUCCESS'
                   ? 'success'
                   : 'warning'
+              if (promise.state == 'warning') {
+                warnings++
+              }
             })
             .catch((err) => {
               promise.state = 'error'
@@ -286,9 +292,133 @@ export const useSubmissionStore = defineStore(
             .finally(() => {
               if (++fulfilled == this.promises.length) {
                 this.resolved = true
+                if (warnings > 0) {
+                  toasts.warning(
+                    i18n.t('submissions.upload.warning')
+                  )
+                }
               }
             })
         })
+      },
+      prepareToEdit(editOption: SubmissionEditOptions) {
+        const { getSubmissionsWarnings } =
+          useSubmissionAuthorizationCheck()
+        this.submissionsToEdit = {
+          submissions: this.selected,
+          editOption: editOption,
+          pending: false,
+          warnings: getSubmissionsWarnings(
+            this.selected,
+            editOption
+          ),
+          displayWarning: false
+        }
+      },
+      async edit() {
+        const { editSubmission } = useSubmissionActions()
+        const toasts = useToast()
+        if (this.submissionsToEdit) {
+          this.submissionsToEdit.pending = true
+          const promises =
+            this.submissionsToEdit.submissions.map(
+              (submission) => {
+                this.pending.push(submission)
+                return {
+                  promise: editSubmission(
+                    submission,
+                    this.submissionsToEdit?.editOption
+                  ),
+                  packageBag: submission,
+                  state: 'pending',
+                  error: [],
+                  response: undefined
+                }
+              }
+            ) || []
+          let fulfilled = 0
+          let errors = 0
+          promises.forEach(async (promise) => {
+            await promise.promise
+
+              .catch((err) => {
+                promise.state = 'error'
+                if (err.response?.data.data) {
+                  errors++
+                  promise.error = err.response.data.data
+                  toasts.error(
+                    `${promise.packageBag?.packageBag?.name} - ${err.response.data.data}`
+                  )
+                } else if (err.response?.data) {
+                  errors++
+                  promise.error = err.response.data
+                  toasts.error(
+                    `${promise.packageBag?.packageBag?.name} - ${err.response.data.data}`
+                  )
+                }
+              })
+              .finally(() => {
+                this.pending = this.pending.filter(
+                  (submission) =>
+                    submission.id != promise.packageBag.id
+                )
+                if (++fulfilled == promises.length) {
+                  this.resolved = true
+
+                  if (errors > 0) {
+                    toasts.warning(
+                      `Edited ${
+                        fulfilled - errors
+                      } submissions, failed with edition of ${errors} packages`
+                    )
+                  } else {
+                    toasts.success(
+                      'Edited all selected and available submissions'
+                    )
+                  }
+                  this.resolved = true
+                  this.selected = []
+                  if (this.submissionsToEdit) {
+                    this.submissionsToEdit.displayWarning =
+                      true
+                    this.submissionsToEdit.submissions = []
+                    this.submissionsToEdit.pending = false
+                  }
+                  this.get()
+                }
+              })
+          })
+        }
+      },
+      async setFiltration(payload: SubmissionsFiltration) {
+        const pagination = usePagination()
+        pagination.resetPage()
+        if (
+          SubmissionsFiltration.safeParse(payload).success
+        ) {
+          this.filtration =
+            SubmissionsFiltration.parse(payload)
+        }
+        await this.get()
+        const toasts = useToast()
+        toasts.success(
+          i18n.t('notifications.successFiltration')
+        )
+      },
+      clearFiltration() {
+        const pagination = usePagination()
+        pagination.resetPage()
+        this.filtration = defaultValues(
+          SubmissionsFiltration
+        )
+      },
+      async clearFiltrationAndFetch() {
+        this.clearFiltration()
+        await this.get()
+        const toasts = useToast()
+        toasts.success(
+          i18n.t('notifications.successFiltrationReset')
+        )
       },
       getLabels() {
         return submissionsFiltrationLabels

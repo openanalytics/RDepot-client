@@ -65,7 +65,7 @@ import PackageVersions from '@/components/packages/packageDetails/PackageVersion
 import { computed, ref } from 'vue'
 import PackageMetadata from './PackageMetadata.vue'
 import PackageRDepot from './PackageRDepot.vue'
-import { usePackageDetailsStore } from '@/store/package_details'
+import { usePackageDetailsStore } from '@/store/packageDetails'
 import { EntityModelPythonPackageDto } from '@/openapi'
 
 const packagePanels = ref([

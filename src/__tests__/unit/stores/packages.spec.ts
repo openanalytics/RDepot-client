@@ -38,13 +38,11 @@ import {
   PackagesFiltration,
   defaultValues
 } from '@/models/Filtration'
-import { useUtilities } from '@/composable/utilities'
 import { useAuthorizationStore } from '@/store/authorization'
 import { server } from '@/__tests__/config/backend/server'
 
 const defaultFiltration = defaultValues(PackagesFiltration)
 
-const { deepCopyAny } = useUtilities()
 const randomFiltration = {
   submissionState: ['ACCEPTED'],
   repository: ['repository1'],
@@ -69,48 +67,32 @@ describe('Package Store', () => {
   it('Starting values', () => {
     const packageStore = usePackagesStore()
     expect(packageStore.packages).toStrictEqual([])
+    expect(packageStore.pending).toStrictEqual([])
     expect(packageStore.package).toStrictEqual({})
     expect(packageStore.filtration).toStrictEqual(
       defaultFiltration
     )
     expect(packageStore.next).toStrictEqual(false)
+    expect(packageStore.totalNumber).toStrictEqual(0)
   })
 
   it('Fetch packages', async () => {
     const packageStore = usePackagesStore()
 
-    await packageStore.fetchPackages()
+    await packageStore.getPackages()
 
     expect(packageStore.packages).toStrictEqual(
       packages.data.content
     )
-  })
 
-  it('Fetch package', async () => {
-    const packageStore = usePackagesStore()
-    await packageStore.fetchPackage(
-      packages.data.content[2].id,
-      'R'
+    expect(packageStore.totalNumber).toStrictEqual(
+      packages.data.page.totalElements
     )
-
-    expect(packageStore.package).toStrictEqual(
-      packages.data.content[2]
-    )
-  })
-
-  it('Activate package', async () => {
-    const packageStore = usePackagesStore()
-    const spy = vi.spyOn(packageStore, 'fetchPackages')
-    const newPackage = deepCopyAny(packages.data.content[2])
-
-    await packageStore.activatePackage(newPackage)
-
-    expect(spy).toBeCalled()
   })
 
   it('Edit filtration', () => {
     const packageStore = usePackagesStore()
-    const spy = vi.spyOn(packageStore, 'fetchPackages')
+    const spy = vi.spyOn(packageStore, 'getPackages')
     const pagination = usePagination()
     pagination.page = 2
 
@@ -139,7 +121,7 @@ describe('Package Store', () => {
 
   it('Clear filtration and fetch events', async () => {
     const packageStore = usePackagesStore()
-    const spy = vi.spyOn(packageStore, 'fetchPackages')
+    const spy = vi.spyOn(packageStore, 'getPackages')
     const pagination = usePagination()
     pagination.page = 2
 
@@ -160,9 +142,9 @@ describe('Package Store', () => {
     const packageStore = usePackagesStore()
 
     packageStore.filtration = randomFiltration
-    packageStore.setFiltrationByRepositoryOnly(
-      repositories.data.content[0].name
-    )
+    packageStore.setFiltrationBy({
+      repository: [repositories.data.content[0].name]
+    })
 
     expect(
       packageStore.filtration.repository

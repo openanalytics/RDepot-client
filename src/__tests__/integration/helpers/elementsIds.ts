@@ -150,13 +150,42 @@ export const EDIT_REPOSITORY_MAINTAINER_USER_INPUT_ID =
 export const EDIT_REPOSITORY_MAINTAINER_SUBMIT_ID =
   'submit-button'
 
+//submissions
+export const DOWNLOAD_SUBMISSION_ID = 'download-button-19'
+export const DOWNLOAD_SUBMISSION_FILENAME_ID =
+  'visdat_0.1.0.tar.gz'
+export const WAITING_FOR_APPROVE_SUBMISSION_ID =
+  'accept-button-19'
+export const WAITING_FOR_REJECT_SUBMISSION_ID =
+  'reject-button-46'
+export const WAITING_FOR_CANCEL_SUBMISSION_ID =
+  'cancel-button-45'
+
 //packages list
+export const PACKAGES_LIST_SELECT_ALL_ID =
+  'packages-select-all'
+export const PACKAGES_MULTI_ACTIONS_ID =
+  'packages-multi-actions'
+export const PACKAGES_MULTI_DELETE_ID =
+  'packages-multi-delete'
 export const PACKAGE_DETAILS_BUTTON_ID =
   'see-package-details-button'
 export const PACKAGES_LIST_A3_092_TESTREPO3_ID =
-  'packages-list-A3-0.9.2-testrepo3'
+  'packages-list-A3-0-9-2-testrepo3'
 export const PACKAGES_LIST_ACCELERATED_NUMPY_010_TESTREPO8_ID =
-  'packages-list-accelerated-numpy-0.1.0-testrepo8'
+  'packages-list-accelerated-numpy-0-1-0-testrepo8'
+export const PACKAGES_LIST_DELETE_MODAL =
+  'delete-packages-modal'
+export const PACKAGES_LIST_DELETE_A3_092_TESTREPO3_ID =
+  'delete-icon-A3-0-9-2-testrepo3'
+export const PACKAGES_LIST_DELETE_ACCELERATED_NUMPY_010_TESTREPO8_ID =
+  'delete-icon-accelerated-numpy-0-1-0-testrepo8'
+export const PACKAGES_LIST_CHECKBOX_ACTIONS_A3_091_TESTREPO3_ID =
+  'checkbox-actions-A3-0-9-1-testrepo3'
+export const PACKAGES_LIST_CHECKBOX_ACTIONS_ACCELERATED_NUMPY_010_TESTREPO8_ID =
+  'checkbox-actions-accelerated-numpy-0-1-0-testrepo8'
+export const PACKAGES_LIST_CHECKBOX_ACTIONS_ANACODA_0213_TESTREPO4_ID =
+  'checkbox-actions-AnaCoDa-0-1-2-3-testrepo4'
 
 //r package details
 export const R_PACKAGE_VERSION_PROPERTY_ID =
@@ -195,3 +224,134 @@ export const PYTHON_PACKAGE_LICENSE_PROPERTY_ID =
   'python-package-license-property'
 export const PYTHON_PACKAGE_HASH_PROPERTY_ID =
   'python-package-hash-property'
+
+//UPLOAD SUBMISSION
+export const UPLOAD_SUBMISSION_REPOSITORY_FIELD_ID =
+  'upload-submission-repository-field'
+export const UPLOAD_SUBMISSION_REPOSITORY_TESTREPO3_ID =
+  'upload-submission-repository-testrepo3'
+export const UPLOAD_SUBMISSION_CONTINUE_BUTTON_ID =
+  'next-button'
+
+//REPOSITORIES FILTRATION
+export const REPOSITORIES_FILTRATION_SEARCH_FIELD_ID =
+  'repositories-filtration-search'
+export const REPOSITORIES_FILTRATION_TECHNOLOGY_FIELD_ID =
+  'repositories-filtration-technology'
+export const REPOSITORIES_FILTRATION_MAINTAINER_FIELD_ID =
+  'repositories-filtration-maintainer'
+export const REPOSITORIES_FILTRATION_DELETED_FIELD_ID =
+  'repositories-filtration-deleted'
+export const REPOSITORIES_FILTRATION_PUBLISHED_FIELD_ID =
+  'repositories-filtration-published'
+
+//REPOSITORY MAINTAINERS FILTRATION
+export const REPOSITORY_MAINTAINERS_FILTRATION_SEARCH_FIELD_ID =
+  'repository-maintainers-filtration-search'
+export const REPOSITORY_MAINTAINERS_FILTRATION_TECHNOLOGY_FIELD_ID =
+  'repository-maintainers-filtration-technology'
+export const REPOSITORY_MAINTAINERS_FILTRATION_DELETED_FIELD_ID =
+  'repository-maintainers-filtration-deleted'
+
+//PACKAGE MAINTAINERS FILTRATION
+export const PACKAGE_MAINTAINERS_FILTRATION_SEARCH_FIELD_ID =
+  'package-maintainers-filtration-search'
+export const PACKAGE_MAINTAINERS_FILTRATION_TECHNOLOGY_FIELD_ID =
+  'package-maintainers-filtration-technology'
+export const PACKAGE_MAINTAINERS_FILTRATION_REPOSITORY_FIELD_ID =
+  'package-maintainers-filtration-repository'
+export const PACKAGE_MAINTAINERS_FILTRATION_DELETED_FIELD_ID =
+  'package-maintainers-filtration-deleted'
+
+//PACKAGES FILTRATION
+export const PACKAGES_FILTRATION_SEARCH_FIELD_ID =
+  'packages-filtration-search'
+export const PACKAGES_FILTRATION_TECHNOLOGY_FIELD_ID =
+  'packages-filtration-technology'
+export const PACKAGES_FILTRATION_REPOSITORY_FIELD_ID =
+  'packages-filtration-repository'
+export const PACKAGES_FILTRATION_SUBMISSION_STATE_FIELD_ID =
+  'packages-filtration-submission-state'
+export const PACKAGES_FILTRATION_MAINTAINER_FIELD_ID =
+  'packages-filtration-maintainer'
+export const PACKAGES_FILTRATION_MAINTAINER_FIELD_GALILEO_ID =
+  'packages-filtration-maintainer-Galileo-Galilei'
+export const PACKAGES_FILTRATION_DELETED_FIELD_ID =
+  'packages-filtration-deleted'
+
+//SUBMISSIONS FILTRATION
+export const SUBMISSIONS_FILTRATION_SEARCH_FIELD_ID =
+  'submissions-filtration-search'
+export const SUBMISSIONS_FILTRATION_TECHNOLOGY_FIELD_ID =
+  'submissions-filtration-technology'
+export const SUBMISSIONS_FILTRATION_REPOSITORY_FIELD_ID =
+  'submissions-filtration-repository'
+export const SUBMISSIONS_FILTRATION_REPOSITORY_FIELD_TESTREPO1_ID =
+  'submissions-filtration-repository-testrepo1'
+export const SUBMISSIONS_FILTRATION_STATE_FIELD_ID =
+  'submissions-filtration-state'
+export const SUBMISSIONS_FILTRATION_FROM_DATE_FIELD_ID =
+  'submissions-filtration-from-date'
+export const SUBMISSIONS_FILTRATION_TO_DATE_FIELD_ID =
+  'submissions-filtration-to-date'
+
+//EVENTS FILTRATION
+export const EVENTS_FILTRATION_TECHNOLOGY_ID =
+  'events-filtration-technology'
+export const EVENTS_FILTRATION_EVENT_TYPE_ID =
+  'events-filtration-event-type'
+export const EVENTS_FILTRATION_RESOURCE_TYPE_ID =
+  'events-filtration-resource-type'
+export const EVENTS_FILTRATION_FROM_DATE_FIELD_ID =
+  'events-filtration-from-date'
+export const EVENTS_FILTRATION_TO_DATE_FIELD_ID =
+  'events-filtration-to-date'
+
+// card actions
+export const SUBMIT_BUTTON_ID = 'submit-button'
+export const CANCEL_BUTTON_ID = 'cancel-button'
+
+//submissions list
+export const SUBMISSIONS_LIST_SELECT_ALL_ID =
+  'submissions-select-all'
+export const SUBMISSIONS_MULTI_ACTIONS_ID =
+  'submissions-multi-actions'
+export const SUBMISSIONS_MULTI_ACCEPT_ID =
+  'submissions-multi-accept'
+export const SUBMISSIONS_MULTI_REJECT_ID =
+  'submissions-multi-reject'
+export const SUBMISSIONS_MULTI_CANCEL_ID =
+  'submissions-multi-cancel'
+export const SUBMISSIONS_LIST_MODAL_ID =
+  'edit-submissions-modal'
+export const SUBMISSIONS_LIST_ACCEPT_VISDAT_010_TESTREPO2_ID =
+  'accept-icon-visdat-1-0-1-testrepo2'
+export const SUBMISSIONS_LIST_REJECT_VISDAT_010_TESTREPO2_ID =
+  'reject-icon-visdat-0-1-0-testrepo2'
+export const SUBMISSIONS_LIST_CANCEL_VISDAT_010_TESTREPO2_ID =
+  'cancel-icon-visdat-1-0-1-testrepo2'
+export const SUBMISSIONS_LIST_ACTIONS_VISDAT_010_TESTREPO2_ID =
+  'checkbox-actions-submission-visdat-0-1-0-testrepo2'
+export const SUBMISSIONS_LIST_ACTIONS_REQUESTS_2281_TESTREPO8_ID =
+  'checkbox-actions-submission-requests-2-28-1-testrepo8'
+export const SUBMISSIONS_LIST_ACTIONS_REQUESTS_2191_TESTREPO8_ID =
+  'checkbox-actions-submission-requests-2-19-1-testrepo8'
+export const SUBMISSIONS_LIST_ACTIONS_BENCHMARKING_010_TESTREPO4_ID =
+  'checkbox-actions-submission-Benchmarking-0-10-testrepo4'
+export const SUBMISSIONS_LIST_ACTIONS_A3_091_TESTREPO4_ID =
+  'checkbox-actions-submission-A3-0-9-1-testrepo4'
+export const SUBMISSIONS_LIST_ACTIONS_ABC_10_TESTREPO4_ID =
+  'checkbox-actions-submission-abc-1-0-testrepo4'
+export const SUBMISSIONS_LIST_ACTIONS_WHEEL_0380_TESTREPO10_ID =
+  'checkbox-actions-submission-wheel-0-38-0-testrepo10'
+//REPOSITORIES LIST
+export const DELETE_REPO_2_ICON_ID =
+  'delete-repository-icon-2'
+export const DELETE_REPOSITORY_SUBMIT_ID = 'submit-button'
+export const DELETE_REPOSITORY_CANCEL_ID = 'cancel-button'
+
+// SETTINGS FIELD
+export const PAGE_SIZE_ID = 'page-size-input'
+
+// GENERAL SETTINGS PAGE
+export const SAVE_CHANGES_BUTTON_ID = 'save-changes'

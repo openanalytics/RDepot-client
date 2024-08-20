@@ -37,7 +37,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { EntityModelPythonPackageDto } from '@/openapi'
-import { usePackageDetailsStore } from '@/store/package_details'
+import { usePackageDetailsStore } from '@/store/packageDetails'
 import Classifier from '@/components/packages/packageDetails/PythonClassifier.vue'
 
 const packageDetailsStore = usePackageDetailsStore()

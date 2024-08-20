@@ -75,6 +75,7 @@ export function useDates() {
     isYearAndMonthDate,
     getMonthAndYear,
     getDate,
-    padTo2Digits
+    padTo2Digits,
+    formatDate
   }
 }

@@ -25,15 +25,17 @@
     v-model="commonStore.overlay"
     opacity="0.8"
     location-strategy="connected"
-    scroll-strategy="none"
     class="d-flex justify-center align-center"
     @click:outside="commonStore.closeOverlay"
   >
-    <slot name="props">
+    <slot name="props" @reset="reset">
       <QuestionCard
         :text="commonStore.overlayText"
         @reset="reset"
-      />
+        ><template #desc>
+          <slot name="desc"></slot>
+        </template>
+      </QuestionCard>
     </slot>
   </v-overlay>
 </template>

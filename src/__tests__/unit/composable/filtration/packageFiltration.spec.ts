@@ -29,7 +29,7 @@ import {
 } from 'vitest'
 
 import { createPinia, setActivePinia } from 'pinia'
-import { useSelectStore } from '@/store/select_pagination'
+import { useSelectStore } from '@/store/selectPagination'
 import { useAuthorizationStore } from '@/store/authorization'
 import { usePackagesFiltration } from '@/composable/filtration/packagesFiltration'
 import { usePackagesStore } from '@/store/packages'
@@ -67,7 +67,7 @@ describe('package filtration filtration composable', () => {
     selectStore.paginationData.totalNumber = 2
     selectStore.paginationData.page = 0
     selectStore.pageSize = 1
-    const spy = vi.spyOn(packagesStore, 'fetchPackagesList')
+    const spy = vi.spyOn(packagesStore, 'getList')
     loadPackagesObjects('Albert Einstein', 'testrepo3')
     expect(spy).toHaveBeenCalledOnce()
   })
@@ -77,7 +77,7 @@ describe('package filtration filtration composable', () => {
     const selectStore = useSelectStore('packages')
     selectStore.items = [{ title: 'title', value: 'value' }]
     const packagesStore = usePackagesStore()
-    const spy = vi.spyOn(packagesStore, 'fetchPackagesList')
+    const spy = vi.spyOn(packagesStore, 'getList')
     loadPackagesObjects('Albert Einstein', 'testrepo3')
     expect(spy).toHaveBeenCalledOnce()
   })
@@ -90,7 +90,7 @@ describe('package filtration filtration composable', () => {
     selectStore.paginationData.totalNumber = 1
     selectStore.paginationData.page = 1
     selectStore.pageSize = 1
-    const spy = vi.spyOn(packagesStore, 'fetchPackagesList')
+    const spy = vi.spyOn(packagesStore, 'getList')
     loadPackagesObjects('Albert Einstein', 'testrepo3')
     expect(spy).toHaveBeenCalledTimes(0)
   })

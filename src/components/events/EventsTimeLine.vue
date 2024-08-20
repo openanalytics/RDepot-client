@@ -21,81 +21,91 @@
 -->
 
 <template>
-  <v-timeline
-    v-if="eventsStore.eventsGroupedByMonthAndDay.size > 0"
-    id="eventsTimeline"
-    ref="eventsTimeline"
-    :side="smAndDown ? 'end' : undefined"
-    truncate-line="both"
-    class="timeline"
-    align="center"
-  >
-    <template
-      v-for="(
-        monthEvents, i
-      ) in eventsStore.eventsGroupedByMonthAndDay"
-      :key="i"
+  <span class="d-flex; justify-center">
+    <v-timeline
+      v-if="eventsStore.eventsGroupedByMonthAndDay.size > 0"
+      id="eventsTimeline"
+      ref="eventsTimeline"
+      :side="smAndDown ? 'end' : undefined"
+      truncate-line="both"
+      class="timeline"
+      align="center"
     >
-      <v-timeline-item
-        dot-color="rgba(0,0,0,0)"
-        min-height="100"
-      >
-        <template #icon>
-          <EventIcon
-            v-if="monthEvents[0]"
-            :event="undefined"
-            :date="monthEvents[0]"
-            @click="hideMonth(monthEvents[0])"
-          />
-        </template>
-      </v-timeline-item>
-      <v-timeline-item hide-dot />
-
       <template
-        v-if="!hiddenMonths.includes(monthEvents[0])"
+        v-for="(
+          monthEvents, i
+        ) in eventsStore.eventsGroupedByMonthAndDay"
+        :key="i"
       >
-        <template
-          v-for="(dayEvents, j) in monthEvents[1]"
-          :key="j"
+        <v-timeline-item
+          dot-color="rgba(0,0,0,0)"
+          min-height="100"
         >
-          <v-timeline-item dot-color="rgba(0,0,0,0)">
-            <template #icon>
-              <EventIcon
-                :event="undefined"
-                :date="dayEvents[0]"
-                @click="hideDay(dayEvents[0])"
-              />
-            </template>
-          </v-timeline-item>
-          <v-timeline-item hide-dot />
+          <template #icon>
+            <EventIcon
+              v-if="monthEvents[0]"
+              :event="undefined"
+              :date="monthEvents[0]"
+              @click="hideMonth(monthEvents[0])"
+            />
+          </template>
+        </v-timeline-item>
+        <v-timeline-item hide-dot />
+
+        <template
+          v-if="!hiddenMonths.includes(monthEvents[0])"
+        >
           <template
-            v-if="!hiddenDays.includes(dayEvents[0])"
+            v-for="(dayEvents, j) in monthEvents[1]"
+            :key="j"
           >
-            <v-timeline-item
-              v-for="(event, k) in dayEvents[1]"
-              :key="k"
-              :dot-color="getDotColor(event)"
-              :width="eventBoxWidth"
-            >
+            <v-timeline-item dot-color="rgba(0,0,0,0)">
               <template #icon>
                 <EventIcon
-                  :event="
-                    event.eventType ? event : undefined
-                  "
+                  :event="undefined"
+                  :date="dayEvents[0]"
+                  @click="hideDay(dayEvents[0])"
                 />
               </template>
-              <EventBox
-                v-if="event && event.eventType"
-                :event="event"
-              ></EventBox>
             </v-timeline-item>
-          </template>
-        </template> </template
-    ></template>
-  </v-timeline>
-  <NoEvents
-    v-else-if="!commonStore.progressCircularActive"
-  />
+            <v-timeline-item hide-dot />
+            <template
+              v-if="!hiddenDays.includes(dayEvents[0])"
+            >
+              <v-timeline-item
+                v-for="(event, k) in dayEvents[1]"
+                :key="k"
+                :dot-color="getDotColor(event)"
+                :width="eventBoxWidth"
+              >
+                <template #icon>
+                  <EventIcon
+                    :event="
+                      event.eventType ? event : undefined
+                    "
+                  />
+                </template>
+                <EventBox
+                  v-if="event && event.eventType"
+                  :event="event"
+                ></EventBox>
+              </v-timeline-item>
+              <template v-if="dayEvents[1].length == 1">
+                <v-timeline-item
+                  v-for="k in 2"
+                  :key="k"
+                  hide-dot
+                  :width="eventBoxWidth"
+                />
+              </template>
+            </template>
+          </template> </template
+      ></template>
+    </v-timeline>
+    <NoEvents
+      v-else-if="!commonStore.progressCircularActive"
+    />
+  </span>
 </template>
 
 <script setup lang="ts">
@@ -168,14 +178,14 @@ async function loadMoreEvents() {
     element.getBoundingClientRect().bottom <
       window.innerHeight
   ) {
-    await eventsStore.fetchNextPageEvents()
+    await eventsStore.getPage()
   }
 }
 
 var lastScrollTop = 0
 
 onMounted(async () => {
-  await eventsStore.fetchEvents()
+  await eventsStore.get()
   nextTick(() => {
     window.addEventListener('scroll', () => {
       var st =

@@ -21,7 +21,7 @@
 -->
 
 <template>
-  <DatePicker
+  <DatePickerField
     v-model="showDatepicker"
     :previous-date="fromDatePicker"
     :direction="changedDate"
@@ -35,7 +35,7 @@
     style="padding-left: 0; padding-right: 0"
   >
     <validated-input-field
-      id="filtration-technology"
+      id="events-filtration-technology"
       density="compact"
       hide-details
       chips
@@ -50,12 +50,12 @@
     ></validated-input-field>
 
     <validated-input-field
-      id="filtration-event-type"
+      id="events-filtration-event-type"
       density="compact"
       hide-details
       chips
       closable-chips
-      :items="eventTypes"
+      :items="sortValues(eventTypes)"
       name="eventType"
       as="v-select"
       clearable
@@ -65,12 +65,12 @@
     ></validated-input-field>
 
     <validated-input-field
-      id="filtration-resource-type"
+      id="events-filtration-resource-type"
       density="compact"
       hide-details
       chips
       closable-chips
-      :items="resourceTypes"
+      :items="sortValues(resourceTypes)"
       name="resourceType"
       multiple
       clearable
@@ -80,7 +80,7 @@
     ></validated-input-field>
 
     <validated-input-field
-      id="filtration-fromDate"
+      id="events-filtration-from-date"
       density="compact"
       hide-details
       name="fromDate"
@@ -91,7 +91,7 @@
     />
 
     <validated-input-field
-      id="filtration-toDate"
+      id="events-filtration-to-date"
       density="compact"
       hide-details
       name="toDate"
@@ -119,13 +119,17 @@ import { useEnumFiltration } from '@/composable/filtration/enumFiltration'
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useEventsStore } from '@/store/events'
-import DatePicker from '@/components/common/fields/DatePicker.vue'
+import DatePickerField from '@/components/common/fields/DatePickerField.vue'
 import { useDatePicker } from '@/composable/datePicker'
 import ResetButton from '@/components/common/buttons/ResetButton.vue'
 import { computed } from 'vue'
 
-const { technologies, resourceTypes, eventTypes } =
-  useEnumFiltration()
+const {
+  technologies,
+  resourceTypes,
+  eventTypes,
+  sortValues
+} = useEnumFiltration()
 
 const {
   fromDatePicker,

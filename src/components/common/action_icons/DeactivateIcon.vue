@@ -24,17 +24,20 @@
   <VTooltip top>
     <template #activator="{ props }">
       <VIcon
-        id="cancel-icon"
+        :id="iconId"
         v-bind="props"
-        color="oared"
+        :color="disabled ? 'grey' : 'oared'"
         @click.stop
         @click="deactivateDialog"
         >mdi-cancel</VIcon
       >
     </template>
-    <span id="action-deactivate">{{
+    <span v-if="!disabled" id="action-deactivate">{{
       $t('common.deactivate')
     }}</span>
+    <span v-else>
+      {{ translatedHoverMessage }}
+    </span>
   </VTooltip>
 </template>
 
@@ -42,6 +45,7 @@
 import { OverlayEnum } from '@/enum/Overlay'
 import { i18n } from '@/plugins/i18n'
 import { useCommonStore } from '@/store/common'
+import { computed } from 'vue'
 
 const emits = defineEmits(['setResourceId'])
 
@@ -49,6 +53,20 @@ const componentProps = defineProps({
   name: {
     type: String,
     required: true
+  },
+  disabled: {
+    type: Boolean,
+    default: false
+  },
+  hoverMessage: {
+    type: String,
+    required: false,
+    default: ''
+  },
+  iconId: {
+    type: String,
+    required: false,
+    default: 'deactivate-icon'
   }
 })
 
@@ -65,4 +83,11 @@ function deactivateDialog() {
 
   commonStore.openOverlay(OverlayEnum.enum.Deactivate)
 }
+
+const translatedHoverMessage = computed(() => {
+  return (
+    componentProps.hoverMessage ||
+    i18n.t('common.notAuthorized')
+  )
+})
 </script>
