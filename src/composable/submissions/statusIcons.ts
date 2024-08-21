@@ -25,6 +25,7 @@ import {
   SubmissionProjectionStateEnum
 } from '@/openapi'
 import { i18n } from '@/plugins/i18n'
+import Icons from '@/maps/Icons'
 
 export function useSubmissionIcons() {
   function getStatusIcon(
@@ -34,13 +35,13 @@ export function useSubmissionIcons() {
   ) {
     switch (state) {
       case EntityModelSubmissionDtoStateEnum.ACCEPTED:
-        return 'mdi-email-check-outline'
+        return Icons.get('accept')
       case EntityModelSubmissionDtoStateEnum.WAITING:
-        return 'mdi-progress-question'
+        return Icons.get('waiting')
       case EntityModelSubmissionDtoStateEnum.REJECTED:
-        return 'mdi-email-remove-outline'
+        return Icons.get('reject')
       case EntityModelSubmissionDtoStateEnum.CANCELLED:
-        return 'mdi-cancel'
+        return Icons.get('cancel')
       default:
         return
     }

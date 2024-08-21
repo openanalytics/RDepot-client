@@ -45,9 +45,9 @@
           )
         "
       />
-      <v-icon size="small" class="mx-3"
-        >mdi-arrow-right</v-icon
-      >
+      <v-icon size="small" class="mx-3">{{
+        Icons.get('arrow-right')
+      }}</v-icon>
       <TruncatedText
         :value="
           getTranslationWithFallbackValue(
@@ -64,6 +64,7 @@ import TruncatedText from '@/components/common/tooltips/TruncatedText.vue'
 import { useTranslations } from '@/composable/translations/translations'
 import { EntityModelNewsfeedEventDto } from '@/openapi'
 import { i18n } from '@/plugins/i18n'
+import Icons from '@/maps/Icons'
 
 defineProps({
   event: {

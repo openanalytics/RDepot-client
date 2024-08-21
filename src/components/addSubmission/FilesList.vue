@@ -64,7 +64,7 @@
         <template #prepend>
           <v-btn
             variant="plain"
-            icon="mdi-delete"
+            :icon="Icons.get('delete')"
             size="medium"
             class="mr-3"
             color="oared"
@@ -89,7 +89,7 @@
                 file
               )
             "
-            icon="mdi-checkbox-marked-outline"
+            :icon="Icons.get('checkbox')"
             variant="text"
             @click="
               submissionsStore.addGenerateManualOptionForPackage(
@@ -99,7 +99,7 @@
           ></v-btn>
           <v-btn
             v-else
-            icon="mdi-checkbox-blank-outline"
+            :icon="Icons.get('checkbox-not')"
             variant="text"
             @click="
               submissionsStore.removeGenerateManualOptionForPackage(
@@ -121,6 +121,7 @@ import { computed } from 'vue'
 import ReplaceOption from './ReplaceOption.vue'
 import { useFiles } from '@/composable/file'
 import { useConfigStore } from '@/store/config'
+import Icons from '@/maps/Icons'
 
 const submissionsStore = useSubmissionStore()
 const filesStore = useFilesListStore()

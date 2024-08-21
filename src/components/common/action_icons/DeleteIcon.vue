@@ -29,7 +29,7 @@
         :color="disabled ? 'grey' : 'oared'"
         @click.stop
         @click="deleteDialog"
-        >mdi-trash-can</VIcon
+        >{{ Icons.get('delete') }}</VIcon
       >
     </template>
     <span v-if="!disabled" id="action-delete">{{
@@ -43,6 +43,7 @@
 
 <script setup lang="ts">
 import { OverlayEnum } from '@/enum/Overlay'
+import Icons from '@/maps/Icons'
 import { i18n } from '@/plugins/i18n'
 import { useCommonStore } from '@/store/common'
 import { computed } from 'vue'

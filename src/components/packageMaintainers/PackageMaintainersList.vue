@@ -27,8 +27,8 @@
     :items="packageMaintainersStore.maintainers"
     :items-length="packageMaintainersStore.totalNumber"
     item-value="id"
-    sort-asc-icon="mdi-sort-ascending"
-    sort-desc-icon="mdi-sort-descending"
+    :sort-asc-icon="Icons.get('ascending')"
+    :sort-desc-icon="Icons.get('descending')"
     color="oablue"
     :loading="packageMaintainersStore.loading"
     :sort-by="sortBy"
@@ -94,6 +94,7 @@ import { useAuthorizationStore } from '@/store/authorization'
 import { computed } from 'vue'
 import TechnologyChip from '../common/chips/TechnologyChip.vue'
 import ProgressCircularSmall from '../common/progress/ProgressCircularSmall.vue'
+import Icons from '@/maps/Icons'
 
 const packageMaintainersStore = usePackageMaintainersStore()
 const pagination = usePagination()

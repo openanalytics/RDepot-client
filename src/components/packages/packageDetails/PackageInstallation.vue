@@ -39,7 +39,7 @@
           <template #activator="{ props }">
             <div id="tooltip-activator" v-bind="props">
               <v-icon
-                icon="mdi-content-copy"
+                :icon="Icons.get('copy')"
                 size="large"
                 start
                 @click="copyContent()"
@@ -67,6 +67,7 @@ import { useClipboard } from '@vueuse/core'
 import { usePackageDetailsStore } from '@/store/packageDetails'
 import { useToast } from '@/composable/toasts'
 import { useI18n } from 'vue-i18n'
+import Icons from '@/maps/Icons'
 
 const { copy } = useClipboard()
 

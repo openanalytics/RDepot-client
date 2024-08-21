@@ -54,7 +54,7 @@
           size="20"
           center
           v-bind="props"
-          :icon="eventsIcons.get(event.eventType)"
+          :icon="Icons.get(event.eventType)"
         >
         </v-icon>
       </template>
@@ -64,7 +64,7 @@
 </template>
 
 <script setup lang="ts">
-import eventsIcons from '@/maps/events/EventTypeIcon'
+import Icons from '@/maps/Icons'
 import { EntityModelNewsfeedEventDto } from '@/openapi'
 import moment from 'moment'
 import 'moment/dist/locale/pl'
