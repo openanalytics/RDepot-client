@@ -85,14 +85,14 @@
         >
           <v-btn
             v-if="
-              !submissionsStore.getGenerateManualForPackage(
+              submissionsStore.getGenerateManualForPackage(
                 file
               )
             "
             icon="mdi-checkbox-marked-outline"
             variant="text"
             @click="
-              submissionsStore.addGenerateManualOptionForPackage(
+              submissionsStore.removeGenerateManualOptionForPackage(
                 file
               )
             "
@@ -102,7 +102,7 @@
             icon="mdi-checkbox-blank-outline"
             variant="text"
             @click="
-              submissionsStore.removeGenerateManualOptionForPackage(
+              submissionsStore.addGenerateManualOptionForPackage(
                 file
               )
             "

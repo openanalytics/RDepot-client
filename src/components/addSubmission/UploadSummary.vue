@@ -90,7 +90,7 @@
     <template v-if="technology != 'Python'" #append>
       <v-btn
         v-if="
-          !generateManual &&
+          generateManual &&
           promise.error.length == 0 &&
           promise.response &&
           promise.response[0].id
@@ -110,7 +110,7 @@
         "
       ></v-btn>
       <v-btn
-        v-if="!generateManual"
+        v-if="generateManual"
         id="generate-manual-icon-marked"
         disabled
         icon="mdi-checkbox-marked-outline"
