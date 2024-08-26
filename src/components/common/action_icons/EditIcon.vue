@@ -21,25 +21,15 @@
 -->
 
 <template>
-  <v-tooltip location="top">
-    <template #activator="{ props }">
-      <v-icon
-        :id="iconId"
-        v-bind="props"
-        class="ml-3"
-        :color="disabled ? 'grey' : 'oablue'"
-        @click.stop
-        @click="edit"
-        >mdi-pencil</v-icon
-      >
-    </template>
-    <span v-if="!disabled" id="action-delete">{{
-      text
-    }}</span>
-    <span v-else>
-      {{ translatedHoverMessage }}
-    </span>
-  </v-tooltip>
+  <v-icon
+    :id="iconId"
+    v-tooltip="disabled ? translatedHoverMessage : text"
+    class="ml-3"
+    :color="disabled ? 'grey' : 'oablue'"
+    @click.stop
+    @click="edit"
+    >mdi-pencil</v-icon
+  >
 </template>
 
 <script setup lang="ts">

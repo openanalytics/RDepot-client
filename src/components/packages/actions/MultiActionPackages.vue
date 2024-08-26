@@ -34,44 +34,38 @@
       transition="fade-transition"
       scroll-strategy="close"
     >
-      <template #activator="{ props: activatorProps }">
+      <template #activator="{ props }">
         <v-btn
           id="packages-multi-actions"
           variant="text"
           size="x-small"
           icon="mdi-dots-vertical"
           color="oablue"
-          v-bind="activatorProps"
-          style="margin-left: -10px"
+          v-bind="props"
         >
         </v-btn>
       </template>
-      <v-tooltip location="right">
-        <template #activator="{ props: tooltipActivator }">
-          <div v-bind="tooltipActivator">
-            <v-btn
-              id="packages-multi-delete"
-              key="1"
-              icon="mdi-trash-can"
-              color="oared"
-              :disabled="
-                packagesStore.packagesSelected.length == 0
-              "
-              size="small"
-              @click="openDeletePackagesModal"
-            ></v-btn>
-          </div>
-        </template>
-        <span
-          >{{ i18n.t('common.delete') }}
-          <span
-            v-if="
-              packagesStore.packagesSelected.length == 0
-            "
-            >({{ i18n.t('package.chooseOneToEnable') }})
-          </span></span
-        >
-      </v-tooltip>
+      <v-btn
+        id="packages-multi-delete"
+        key="1"
+        v-tooltip:end="
+          `${i18n.t('common.delete')} 
+          ${
+            packagesStore.packagesSelected.length == 0
+              ? '(' +
+                i18n.t('package.chooseOneToEnable') +
+                ')'
+              : ''
+          }`
+        "
+        icon="mdi-trash-can"
+        color="oared"
+        :disabled="
+          packagesStore.packagesSelected.length == 0
+        "
+        size="small"
+        @click="openDeletePackagesModal"
+      ></v-btn>
     </v-speed-dial>
   </div>
 </template>

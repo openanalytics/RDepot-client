@@ -66,26 +66,20 @@
     </v-card-text>
   </v-card>
   <div class="d-flex justify-center">
-    <v-tooltip
+    <div
       v-if="!submissionsStore.resolved"
-      location="center"
+      id="tooltip-activator"
+      v-tooltip:top-center="tooltip"
     >
-      <template #activator="{ props }">
-        <div id="tooltip-activator" v-bind="props">
-          <v-btn
-            id="back-button-disabled"
-            color="oablue"
-            style="pointer-events: none"
-            disabled
-          >
-            {{ $t('submissions.addAnotherSubmission') }}
-          </v-btn>
-        </div>
-      </template>
-      <span id="tooltip-wait">{{
-        $t('submissions.waitForAllRequestsToFulfill')
-      }}</span>
-    </v-tooltip>
+      <v-btn
+        id="back-button-disabled"
+        color="oablue"
+        style="pointer-events: none"
+        disabled
+      >
+        {{ $t('submissions.addAnotherSubmission') }}
+      </v-btn>
+    </div>
     <v-btn
       v-else
       id="back-button"
@@ -101,12 +95,19 @@
 import { useSubmissionStore } from '@/store/submission'
 import { computed } from 'vue'
 import UploadSummary from '@/components/addSubmission/UploadSummary.vue'
+import { i18n } from '@/plugins/i18n'
 
 const emits = defineEmits(['next'])
 
 const submissionsStore = useSubmissionStore()
 const chosenRepository = computed(() => {
   return submissionsStore.repository
+})
+
+const tooltip = computed(() => {
+  return {
+    text: i18n.t('submissions.waitForAllRequestsToFulfill')
+  }
 })
 </script>
 

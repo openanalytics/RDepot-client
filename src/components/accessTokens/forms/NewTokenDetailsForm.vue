@@ -30,25 +30,18 @@
       <div class="code mt-5 mb-5">
         <code class="d-flex justify-lg-space-between pt-2">
           {{ accessTokensStore.newToken }}
-          <v-tooltip location="right">
-            <template #activator="{ props }">
-              <div
-                id="tooltip-activator"
-                v-bind="props"
-                class="pl-3"
-              >
-                <v-icon
-                  icon="mdi-content-copy"
-                  size="large"
-                  start
-                  @click="copyContent()"
-                />
-              </div>
-            </template>
-            <span id="tooltip-wait">{{
-              $t('packages.copy')
-            }}</span>
-          </v-tooltip>
+          <div
+            id="tooltip-activator"
+            v-tooltip:end="$t('packages.copy')"
+            class="pl-3"
+          >
+            <v-icon
+              icon="mdi-content-copy"
+              size="large"
+              start
+              @click="copyContent()"
+            />
+          </div>
         </code>
       </div>
     </v-card-text>

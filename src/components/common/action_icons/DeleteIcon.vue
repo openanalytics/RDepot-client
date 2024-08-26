@@ -21,24 +21,18 @@
 -->
 
 <template>
-  <VTooltip location="top">
-    <template #activator="{ props }">
-      <VIcon
-        :id="id"
-        v-bind="props"
-        :color="disabled ? 'grey' : 'oared'"
-        @click.stop
-        @click="deleteDialog"
-        >mdi-trash-can</VIcon
-      >
-    </template>
-    <span v-if="!disabled" id="action-delete">{{
-      $t('common.delete')
-    }}</span>
-    <span v-else>
-      {{ translatedHoverMessage }}
-    </span>
-  </VTooltip>
+  <VIcon
+    :id="id"
+    v-tooltip="
+      disabled
+        ? translatedHoverMessage
+        : $t('common.delete')
+    "
+    :color="disabled ? 'grey' : 'oared'"
+    @click.stop
+    @click="deleteDialog"
+    >mdi-trash-can</VIcon
+  >
 </template>
 
 <script setup lang="ts">

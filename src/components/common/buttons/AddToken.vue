@@ -21,26 +21,17 @@
 -->
 
 <template>
-  <v-tooltip location="left">
-    <template #activator="{ props }">
-      <div id="tooltip-activator">
-        <CommonButton
-          id="add-maintainer"
-          :component="OverlayEnum.enum.Create"
-          size="small"
-          v-bind="props"
-        >
-          <span class="pr-3">
-            {{ $t('common.create') }}</span
-          >
-          <v-icon icon="mdi-plus"
-        /></CommonButton>
-      </div>
-    </template>
-    <span id="tooltip-wait"
-      ><span>{{ $t('settings.create') }}</span>
-    </span>
-  </v-tooltip>
+  <div id="tooltip-activator">
+    <CommonButton
+      id="add-maintainer"
+      v-tooltip:start="$t('settings.create')"
+      :component="OverlayEnum.enum.Create"
+      size="small"
+    >
+      <span class="pr-3"> {{ $t('common.create') }}</span>
+      <v-icon icon="mdi-plus"
+    /></CommonButton>
+  </div>
 </template>
 
 <script setup lang="ts">

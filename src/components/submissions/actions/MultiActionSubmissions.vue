@@ -46,87 +46,66 @@
         >
         </v-btn>
       </template>
-      <v-tooltip location="right">
-        <template #activator="{ props: tooltipActivator }">
-          <div v-bind="tooltipActivator">
-            <v-btn
-              id="submissions-multi-accept"
-              key="1"
-              icon="mdi-email-check-outline"
-              color="success"
-              :disabled="
-                submissionStore.selected.length == 0
-              "
-              size="small"
-              @click="
-                openEditDialog(
-                  SubmissionEditOptions.enum.accept
-                )
-              "
-            ></v-btn>
-          </div>
-        </template>
-        <span
-          >{{ i18n.t('action.accept') }}
-          <span v-if="submissionStore.selected.length == 0"
-            >({{ i18n.t('package.chooseOneToEnable') }})
-          </span></span
-        >
-      </v-tooltip>
-      <v-tooltip location="right">
-        <template #activator="{ props: tooltipActivator }">
-          <div v-bind="tooltipActivator">
-            <v-btn
-              id="submissions-multi-reject"
-              key="2"
-              icon="mdi-email-remove-outline"
-              color="oared"
-              :disabled="
-                submissionStore.selected.length == 0
-              "
-              size="small"
-              @click="
-                openEditDialog(
-                  SubmissionEditOptions.enum.reject
-                )
-              "
-            ></v-btn>
-          </div>
-        </template>
-        <span
-          >{{ i18n.t('action.reject') }}
-          <span v-if="submissionStore.selected.length == 0"
-            >({{ i18n.t('package.chooseOneToEnable') }})
-          </span></span
-        >
-      </v-tooltip>
-      <v-tooltip location="right">
-        <template #activator="{ props: tooltipActivator }">
-          <div v-bind="tooltipActivator">
-            <v-btn
-              id="submissions-multi-cancel"
-              key="3"
-              icon="mdi-cancel"
-              color="oared"
-              :disabled="
-                submissionStore.selected.length == 0
-              "
-              size="small"
-              @click="
-                openEditDialog(
-                  SubmissionEditOptions.enum.cancel
-                )
-              "
-            ></v-btn>
-          </div>
-        </template>
-        <span
-          >{{ i18n.t('action.cancel') }}
-          <span v-if="submissionStore.selected.length == 0"
-            >({{ i18n.t('package.chooseOneToEnable') }})
-          </span></span
-        >
-      </v-tooltip>
+      <v-btn
+        id="submissions-multi-accept"
+        key="1"
+        v-tooltip:end="
+          `${i18n.t('action.accept')} ${
+            submissionStore.selected.length == 0
+              ? '(' +
+                i18n.t('package.chooseOneToEnable') +
+                ')'
+              : ''
+          }`
+        "
+        icon="mdi-email-check-outline"
+        color="success"
+        :disabled="submissionStore.selected.length == 0"
+        size="small"
+        @click="
+          openEditDialog(SubmissionEditOptions.enum.accept)
+        "
+      />
+      <v-btn
+        id="submissions-multi-reject"
+        key="2"
+        v-tooltip:end="
+          `${i18n.t('action.reject')} ${
+            submissionStore.selected.length == 0
+              ? '(' +
+                i18n.t('package.chooseOneToEnable') +
+                ')'
+              : ''
+          }`
+        "
+        icon="mdi-email-remove-outline"
+        color="oared"
+        :disabled="submissionStore.selected.length == 0"
+        size="small"
+        @click="
+          openEditDialog(SubmissionEditOptions.enum.reject)
+        "
+      />
+      <v-btn
+        id="submissions-multi-cancel"
+        key="3"
+        v-tooltip:end="
+          `${i18n.t('action.cancel')} ${
+            submissionStore.selected.length == 0
+              ? '(' +
+                i18n.t('package.chooseOneToEnable') +
+                ')'
+              : ''
+          }`
+        "
+        icon="mdi-cancel"
+        color="oared"
+        :disabled="submissionStore.selected.length == 0"
+        size="small"
+        @click="
+          openEditDialog(SubmissionEditOptions.enum.cancel)
+        "
+      />
     </v-speed-dial>
   </div>
 </template>

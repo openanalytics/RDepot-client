@@ -21,30 +21,24 @@
 -->
 
 <template>
-  <v-tooltip location="left">
-    <template #activator="{ props }">
-      <div id="tooltip-activator" v-bind="props">
-        <CommonButton
-          id="add-maintainer"
-          :disabled="configStore.declarativeMode"
-          :component="OverlayEnum.enum.Create"
-          size="small"
-        >
-          <span class="pr-3">
-            {{ $t('common.create') }}</span
-          ><v-icon icon="mdi-plus"
-        /></CommonButton>
-      </div>
-    </template>
-    <span id="tooltip-wait"
-      ><span v-if="!configStore.declarativeMode">{{
-        $t('repositories.addRepository')
-      }}</span
-      ><span v-else>
-        {{ $t('repositories.declarative.create') }}</span
-      >
-    </span>
-  </v-tooltip>
+  <div
+    id="tooltip-activator"
+    v-tooltip:start="
+      configStore.declarativeMode
+        ? $t('repositories.declarative.create')
+        : $t('repositories.addRepository')
+    "
+  >
+    <CommonButton
+      id="add-maintainer"
+      :disabled="configStore.declarativeMode"
+      :component="OverlayEnum.enum.Create"
+      size="small"
+    >
+      <span class="pr-3"> {{ $t('common.create') }}</span
+      ><v-icon icon="mdi-plus"
+    /></CommonButton>
+  </div>
 </template>
 
 <script setup lang="ts">

@@ -21,23 +21,16 @@
 -->
 
 <template>
-  <v-tooltip location="bottom center">
-    <template #activator="{ props }">
-      <div
-        id="tooltip-activator"
-        v-bind="props"
-        class="mr-5"
-      >
-        <v-icon
-          :icon="getStatusIcon(state)"
-          :color="getStatusColor(state)"
-        ></v-icon>
-      </div>
-    </template>
-    <span id="tooltip-wait">{{
-      getTooltipMessage(state)
-    }}</span>
-  </v-tooltip>
+  <div
+    id="tooltip-activator"
+    v-tooltip:bottom-center="getTooltipMessage(state)"
+    class="mr-5"
+  >
+    <v-icon
+      :icon="getStatusIcon(state)"
+      :color="getStatusColor(state)"
+    ></v-icon>
+  </div>
 </template>
 
 <script setup lang="ts">

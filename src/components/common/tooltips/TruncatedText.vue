@@ -21,14 +21,9 @@
 -->
 
 <template>
-  <v-tooltip :disabled="isDisabled">
-    <template #activator="{ props }">
-      <div class="ml-2" v-bind="props">
-        {{ displayValue }}
-      </div>
-    </template>
-    <span>{{ value }}</span>
-  </v-tooltip>
+  <div v-tooltip="tooltip" class="ml-2">
+    {{ displayValue }}
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -44,6 +39,13 @@ const componentProps = defineProps({
     type: Number,
     required: false,
     default: 30
+  }
+})
+
+const tooltip = computed(() => {
+  return {
+    text: componentProps.value,
+    disabled: isDisabled
   }
 })
 

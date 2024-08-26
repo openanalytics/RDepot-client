@@ -48,18 +48,12 @@
     </div>
   </div>
   <div v-else-if="event && event?.eventType">
-    <v-tooltip location="bottom">
-      <template #activator="{ props }">
-        <v-icon
-          size="20"
-          center
-          v-bind="props"
-          :icon="eventsIcons.get(event.eventType)"
-        >
-        </v-icon>
-      </template>
-      {{ event.eventType }}
-    </v-tooltip>
+    <v-icon
+      v-tooltip:bottom="event.eventType"
+      size="20"
+      center
+      :icon="eventsIcons.get(event.eventType)"
+    />
   </div>
 </template>
 

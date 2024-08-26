@@ -22,52 +22,40 @@
 
 <template>
   <span class="d-flex align-center">
-    <v-tooltip
+    <v-icon
       v-if="
         submissionStore.submissionsToEdit?.warnings?.notAuthorizedToEditAndMutableState.find(
           (submission) => submission.id == item.id
         ) &&
         submissionStore.submissionsToEdit?.displayWarning
       "
-    >
-      <template #activator="{ props }">
-        <v-icon
-          v-bind="props"
-          icon="mdi-alert-decagram"
-          color="warning"
-        ></v-icon>
-      </template>
-      <span>
-        {{ i18n.t('submissions.multiAction.notEdited') }}
-        ({{ i18n.t('common.errors.unauthorized') }})
-      </span>
-    </v-tooltip>
+      v-tooltip="
+        `${i18n.t(
+          'submissions.multiAction.notEdited'
+        )} (${i18n.t('common.errors.unauthorized')})`
+      "
+      icon="mdi-alert-decagram"
+      color="warning"
+    />
 
-    <v-tooltip
+    <v-icon
       v-if="
         submissionStore.submissionsToEdit?.warnings?.notMutableState.find(
           (submission) => submission.id == item.id
         ) &&
         submissionStore.submissionsToEdit?.displayWarning
       "
-    >
-      <template #activator="{ props }">
-        <v-icon
-          v-bind="props"
-          icon="mdi-alert-decagram"
-          color="warning"
-        ></v-icon>
-      </template>
-      <span>
-        {{ i18n.t('submissions.multiAction.notEdited') }}
-        ({{
-          i18n.t('submissions.multiAction.notMutable', {
-            actionType: editActionWarning,
-            currentState: getTooltipMessage(item.state)
-          })
-        }})
-      </span>
-    </v-tooltip>
+      v-tooltip="
+        `${i18n.t(
+          'submissions.multiAction.notEdited'
+        )} (${i18n.t('submissions.multiAction.notMutable', {
+          actionType: editActionWarning,
+          currentState: getTooltipMessage(item.state)
+        })})`
+      "
+      icon="mdi-alert-decagram"
+      color="warning"
+    />
   </span>
 </template>
 

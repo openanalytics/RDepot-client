@@ -24,32 +24,27 @@
   <v-snackbar v-model="copied" location="right bottom">{{
     $t('common.eventsTag.copied')
   }}</v-snackbar>
-  <v-tooltip :disabled="disableTooltip || !hoverMessage">
-    <template #activator="{ props }">
-      <v-chip
-        id="eventTag"
-        :prepend-icon="prependIcon"
-        :append-icon="appendIcon"
-        :color="color"
-        :size="size"
-        :variant="variant"
-        v-bind="props"
-        @click="disableCopying || !value ? '' : copy(value)"
-      >
-        {{
-          tagType === 'date'
-            ? formatDate(new Date(value))
-            : value
-        }}
-      </v-chip>
-    </template>
-    <span>{{ hoverMessage }}</span>
-  </v-tooltip>
+  <v-chip
+    id="eventTag"
+    v-tooltip="tooltip"
+    :prepend-icon="prependIcon"
+    :append-icon="appendIcon"
+    :color="color"
+    :size="size"
+    :variant="variant"
+    @click="disableCopying || !value ? '' : copy(value)"
+  >
+    {{
+      tagType === 'date'
+        ? formatDate(new Date(value))
+        : value
+    }}
+  </v-chip>
 </template>
 
 <script setup lang="ts">
 import { useClipboard } from '@vueuse/core'
-import { PropType } from 'vue'
+import { computed, PropType } from 'vue'
 import { z } from 'zod'
 import { useDates } from '@/composable/date'
 
@@ -65,7 +60,7 @@ const allowedVariants = z.enum([
 
 type AllowedVariants = z.infer<typeof allowedVariants>
 
-defineProps({
+const componentProps = defineProps({
   value: {
     type: Object as () => string,
     required: false,
@@ -123,4 +118,13 @@ defineProps({
 })
 
 const { copy, copied } = useClipboard()
+
+const tooltip = computed(() => {
+  return {
+    text: componentProps.hoverMessage,
+    disabled:
+      componentProps.disableTooltip ||
+      !componentProps.hoverMessage
+  }
+})
 </script>

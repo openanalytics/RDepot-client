@@ -43,48 +43,24 @@
         color="green"
         icon="mdi-check-circle-outline"
       />
-      <v-tooltip
+      <v-icon
         v-if="promise.state == 'error'"
-        max-width="400"
-        location="left"
-        content-class="custom-tooltip"
-      >
-        <template #activator="{ props }">
-          <v-icon
-            v-bind="props"
-            id="submission-error-icon"
-            color="red"
-            class="hover"
-            size="large"
-            icon="mdi-close-circle-outline"
-          ></v-icon>
-        </template>
-        <div
-          v-for="(error, idx) in promise.error"
-          :key="idx"
-        >
-          {{ error }}
-        </div>
-      </v-tooltip>
-
-      <v-tooltip
+        id="submission-error-icon"
+        v-tooltip:left="tooltipError"
+        color="red"
+        class="hover"
+        size="large"
+        icon="mdi-close-circle-outline"
+      ></v-icon>
+      <v-icon
         v-if="promise.state == 'warning'"
-        max-width="400"
-        location="left"
-        content-class="custom-tooltip warning-tooltip"
-      >
-        <template #activator="{ props }">
-          <v-icon
-            id="submission-success-icon"
-            size="large"
-            color="warning"
-            icon="mdi-check-circle-outline"
-            class="hover"
-            v-bind="props"
-          ></v-icon>
-        </template>
-        {{ $t('submissions.replace.duplication') }}
-      </v-tooltip>
+        id="submission-success-icon"
+        v-tooltip:left="tooltipWarning"
+        size="large"
+        color="warning"
+        icon="mdi-check-circle-outline"
+        class="hover"
+      ></v-icon>
     </template>
 
     <template v-if="technology != 'Python'" #append>
@@ -132,8 +108,10 @@
 import { PackagePromise } from '@/store/submission'
 import { usePackagesStore } from '@/store/packages'
 import { useFiles } from '@/composable/file'
+import { computed } from 'vue'
+import { i18n } from '@/plugins/i18n'
 
-defineProps<{
+const componentProps = defineProps<{
   promise: PackagePromise
   generateManual: boolean
   technology?: string
@@ -142,6 +120,22 @@ defineProps<{
 const packagesStore = usePackagesStore()
 
 const { formatFilename } = useFiles()
+
+const tooltipWarning = computed(() => {
+  return {
+    text: i18n.t('submissions.replace.duplication'),
+    'content-class': 'custom-tooltip warning-tooltip',
+    'max-width': '400'
+  }
+})
+
+const tooltipError = computed(() => {
+  return {
+    text: componentProps.promise.error.join('\n'),
+    'content-class': 'custom-tooltip',
+    'max-width': '400'
+  }
+})
 
 function downloadManual(id: string, fileName: string) {
   packagesStore.getManual(id, fileName)

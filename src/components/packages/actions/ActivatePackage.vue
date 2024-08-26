@@ -21,34 +21,23 @@
 -->
 
 <template>
-  <v-tooltip
-    :disabled="
-      (canPatch(packageBag.links) && !packageBag.deleted) ||
-      !isPending
-    "
-    location="top"
+  <span
+    v-tooltip:top="tooltip"
+    style="width: 100%"
+    class="d-flex justify-center"
   >
-    <template #activator="{ props }">
-      <span
-        v-bind="props"
-        style="width: 100%"
-        class="d-flex justify-center"
-      >
-        <v-checkbox-btn
-          :id="id"
-          v-model="packageBag.active"
-          :disabled="disabled"
-          hide-details
-          :readonly="!canPatch(packageBag?.links)"
-          :color="color"
-          class="mr-5"
-          @click.stop
-          @change="updatePackageActive"
-        />
-      </span>
-    </template>
-    <span>{{ onHoverMessage }}</span>
-  </v-tooltip>
+    <v-checkbox-btn
+      :id="id"
+      v-model="packageBag.active"
+      :disabled="disabled"
+      hide-details
+      :readonly="!canPatch(packageBag?.links)"
+      :color="color"
+      class="mr-5"
+      @click.stop
+      @change="updatePackageActive"
+    />
+  </span>
 </template>
 
 <script setup lang="ts">
@@ -97,16 +86,24 @@ const color = computed(() =>
 )
 
 const disabled = computed(
-  () => packageBag.value.deleted || isPending.value
+  () =>
+    !canPatch(packageBag.value.links) ||
+    packageBag.value.deleted ||
+    isPending.value
 )
 
-const onHoverMessage = computed(() => {
+const tooltip = computed(() => {
+  let text = ''
   if (!canPatch(packageBag.value.links))
-    return i18n.t('common.notAuthorized')
+    text = i18n.t('common.notAuthorized')
   if (packageBag.value.deleted)
-    return i18n.t('packages.deleted')
-  if (isPending.value) return i18n.t('common.pending')
-  return undefined
+    text = i18n.t('packages.deleted')
+  if (isPending.value) text = i18n.t('common.pending')
+
+  return {
+    text: text,
+    disabled: !disabled.value
+  }
 })
 
 function updatePackageActive() {

@@ -63,6 +63,7 @@
       >
         <template #prepend>
           <v-btn
+            v-tooltip="$t('common.delete')"
             variant="plain"
             icon="mdi-delete"
             size="medium"

@@ -38,9 +38,14 @@
       class="d-flex flex-column"
     >
     </PackageVignette>
-    <div v-show="packageDetailsStore.vignettes.length == 0">
+
+    <v-btn
+      v-if="packageDetailsStore.vignettes.length == 0"
+      class="mt-3 mb-5"
+      style="min-width: 200px; width: 100%; cursor: default"
+    >
       {{ $t('packages.noVignette') }}
-    </div>
+    </v-btn>
   </div>
 </template>
 

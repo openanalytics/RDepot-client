@@ -29,27 +29,23 @@
       {{ installInstruction }}
     </div>
 
-    <div class="code mb-2 mt-4 mr-2 ml-1">
+    <div class="code mb-2 mr-2 mt-4 ml-1">
       <code
         id="install-command"
-        class="d-flex justify-lg-space-between pt-7"
+        class="d-flex justify-lg-space-between"
       >
         {{ installCode }}
-        <v-tooltip location="left">
-          <template #activator="{ props }">
-            <div id="tooltip-activator" v-bind="props">
-              <v-icon
-                icon="mdi-content-copy"
-                size="large"
-                start
-                @click="copyContent()"
-              />
-            </div>
-          </template>
-          <span id="tooltip-wait">{{
-            $t('packages.copy')
-          }}</span>
-        </v-tooltip>
+        <div
+          id="tooltip-activator"
+          v-tooltip:start="$t('packages.copy')"
+        >
+          <v-icon
+            icon="mdi-content-copy"
+            size="large"
+            start
+            @click="copyContent()"
+          />
+        </div>
       </code>
     </div>
   </div>

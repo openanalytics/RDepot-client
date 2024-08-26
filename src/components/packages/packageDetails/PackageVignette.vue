@@ -21,48 +21,37 @@
 -->
 
 <template>
-  <v-tooltip
-    max-width="400"
-    location="left"
-    content-class="custom-tooltip"
+  <v-btn
+    v-tooltip:start="tooltip"
+    class="my-3"
+    style="min-width: 200px; width: 100%"
   >
-    <template #activator="{ props }">
-      <v-btn
-        v-bind="props"
-        class="my-3"
-        style="min-width: 200px; width: 100%"
-      >
-        {{ formattedName }}
+    {{ formattedName }}
 
-        <v-menu open-on-hover activator="parent">
-          <v-list>
-            <v-list-item value="open" @click="openVignette">
-              <template #prepend>
-                <v-icon icon="mdi-open-in-new"></v-icon>
-              </template>
-              <v-list-item-title>{{
-                i18n.t('packages.vignette.open')
-              }}</v-list-item-title>
-            </v-list-item>
-            <v-list-item
-              value="download"
-              @click="downloadVignette"
-            >
-              <template #prepend>
-                <v-icon icon="mdi-download"></v-icon>
-              </template>
-              <v-list-item-title>{{
-                i18n.t('packages.vignette.download')
-              }}</v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
-      </v-btn>
-    </template>
-    <div>
-      {{ componentProps.fileName }}
-    </div>
-  </v-tooltip>
+    <v-menu open-on-hover activator="parent">
+      <v-list>
+        <v-list-item value="open" @click="openVignette">
+          <template #prepend>
+            <v-icon icon="mdi-open-in-new"></v-icon>
+          </template>
+          <v-list-item-title>{{
+            i18n.t('packages.vignette.open')
+          }}</v-list-item-title>
+        </v-list-item>
+        <v-list-item
+          value="download"
+          @click="downloadVignette"
+        >
+          <template #prepend>
+            <v-icon icon="mdi-download"></v-icon>
+          </template>
+          <v-list-item-title>{{
+            i18n.t('packages.vignette.download')
+          }}</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
+  </v-btn>
 </template>
 
 <script setup lang="ts">
@@ -88,6 +77,14 @@ const { formatCutFilename } = useFiles()
 
 const formattedName = computed(() => {
   return formatCutFilename(componentProps.fileName || '')
+})
+
+const tooltip = computed(() => {
+  return {
+    text: componentProps.fileName,
+    'content-class': 'custom-tooltip',
+    'max-width': '400'
+  }
 })
 
 async function openVignette() {

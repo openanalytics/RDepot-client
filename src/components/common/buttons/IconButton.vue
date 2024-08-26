@@ -21,26 +21,19 @@
 -->
 
 <template>
-  <v-tooltip location="top">
-    <template #activator="{ props }">
-      <div
-        id="tooltip-activator"
-        v-bind="props"
-        class="pl-3"
-      >
-        <v-btn
-          :id="id"
-          :color="color"
-          :icon="icon"
-          :size="size"
-          @click="emit('click')"
-        />
-      </div>
-    </template>
-    <span id="tooltip-wait">{{
-      componentProps.tooltip
-    }}</span>
-  </v-tooltip>
+  <div
+    id="tooltip-activator"
+    v-tooltip:top="componentProps.tooltip"
+    class="pl-3"
+  >
+    <v-btn
+      :id="id"
+      :color="color"
+      :icon="icon"
+      :size="size"
+      @click="emit('click')"
+    />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -75,5 +68,3 @@ const emit = defineEmits<{
   (event: 'click'): void
 }>()
 </script>
-
-<style lang="scss"></style>

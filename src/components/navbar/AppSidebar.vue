@@ -33,26 +33,16 @@
         :subtitle="getSubtitle"
       >
         <template #append>
-          <v-tooltip location="right">
-            <template #activator="{ props }">
-              <div
-                id="tooltip-activator"
-                v-bind="props"
-                class="pl-3"
-              >
-                <v-btn
-                  id="logout-button"
-                  color="grey-lighten-1"
-                  icon="mdi-logout"
-                  variant="text"
-                  @click="logout"
-                ></v-btn>
-              </div>
-            </template>
-            <span id="tooltip-logout">{{
-              $t('common.logout')
-            }}</span>
-          </v-tooltip>
+          <div id="tooltip-activator" class="pl-3">
+            <v-btn
+              id="logout-button"
+              v-tooltip:end="$t('common.logout')"
+              color="grey-lighten-1"
+              icon="mdi-logout"
+              variant="text"
+              @click="logout"
+            ></v-btn>
+          </div>
         </template>
       </v-list-item>
       <v-divider class="pb-3"></v-divider>

@@ -21,22 +21,15 @@
 -->
 
 <template>
-  <v-tooltip location="top">
-    <template #activator="{ props }">
-      <VIcon
-        id="replace-button"
-        v-bind="props"
-        :color="disabled ? 'grey' : 'oablue'"
-        class="mr-8"
-        @click.stop
-        @click="replacePackage"
-        >{{ replaceIcon }}</VIcon
-      >
-    </template>
-    <div class="tooltip">
-      {{ translatedHoverMessage }}
-    </div>
-  </v-tooltip>
+  <VIcon
+    id="replace-button"
+    v-tooltip:top="tooltip"
+    :color="disabled ? 'grey' : 'oablue'"
+    class="mr-8"
+    @click.stop
+    @click="replacePackage"
+    >{{ replaceIcon }}</VIcon
+  >
 </template>
 
 <script setup lang="ts">
@@ -50,6 +43,13 @@ const componentProps = defineProps({
 })
 
 const submissionsStore = useSubmissionStore()
+
+const tooltip = computed(() => {
+  return {
+    text: translatedHoverMessage.value,
+    class: 'tooltip'
+  }
+})
 
 const translatedHoverMessage = computed(() => {
   return componentProps.disabled
