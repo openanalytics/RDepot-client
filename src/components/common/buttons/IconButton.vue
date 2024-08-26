@@ -44,6 +44,8 @@
 </template>
 
 <script setup lang="ts">
+import Icons from '@/maps/Icons'
+
 const componentProps = defineProps({
   tooltip: {
     type: String,
@@ -52,7 +54,7 @@ const componentProps = defineProps({
   icon: {
     type: String,
     required: false,
-    default: 'mdi-check'
+    default: Icons.get('accept')
   },
   color: {
     type: String,

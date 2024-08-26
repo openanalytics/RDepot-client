@@ -27,8 +27,8 @@
     :items="repositoryStore.repositories"
     :items-length="repositoryStore.totalNumber"
     item-value="id"
-    sort-asc-icon="mdi-sort-ascending"
-    sort-desc-icon="mdi-sort-descending"
+    :sort-asc-icon="Icons.get('ascending')"
+    :sort-desc-icon="Icons.get('descending')"
     color="oablue"
     :loading="repositoryStore.loading"
     :sort-by="sortBy"
@@ -153,6 +153,7 @@ import AddButton from '@/components/common/buttons/AddButton.vue'
 import { useAuthorizationStore } from '@/store/authorization'
 import TechnologyChip from '../common/chips/TechnologyChip.vue'
 import ProgressCircularSmall from '../common/progress/ProgressCircularSmall.vue'
+import Icons from '@/maps/Icons'
 
 const packagesStore = usePackagesStore()
 const { deepCopy } = useUtilities()

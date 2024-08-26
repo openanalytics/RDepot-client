@@ -41,7 +41,7 @@
         id="submission-success-icon"
         size="large"
         color="green"
-        icon="mdi-check-circle-outline"
+        :icon="Icons.get('success')"
       />
       <v-tooltip
         v-if="promise.state == 'error'"
@@ -56,7 +56,7 @@
             color="red"
             class="hover"
             size="large"
-            icon="mdi-close-circle-outline"
+            :icon="Icons.get('error')"
           ></v-icon>
         </template>
         <div
@@ -78,7 +78,7 @@
             id="submission-success-icon"
             size="large"
             color="warning"
-            icon="mdi-check-circle-outline"
+            :icon="Icons.get('success')"
             class="hover"
             v-bind="props"
           ></v-icon>
@@ -96,7 +96,7 @@
           promise.response[0].id
         "
         id="download-manual-icon"
-        icon="mdi-download"
+        :icon="Icons.get('download')"
         variant="text"
         @click="
           promise &&
@@ -113,13 +113,13 @@
         v-if="!generateManual"
         id="generate-manual-icon-marked"
         disabled
-        icon="mdi-checkbox-marked-outline"
+        :icon="Icons.get('checkbox')"
         variant="text"
       ></v-btn>
       <v-btn
         v-else
         id="generate-manual-icon-blank"
-        icon="mdi-checkbox-blank-outline"
+        :icon="Icons.get('checkbox-not')"
         variant="text"
         disabled
       >
@@ -132,6 +132,7 @@
 import { PackagePromise } from '@/store/submission'
 import { usePackagesStore } from '@/store/packages'
 import { useFiles } from '@/composable/file'
+import Icons from '@/maps/Icons'
 
 defineProps<{
   promise: PackagePromise

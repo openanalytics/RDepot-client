@@ -43,6 +43,7 @@
 import { useSubmissionStore } from '@/store/submission'
 import { computed } from 'vue'
 import { i18n } from '@/plugins/i18n'
+import Icons from '@/maps/Icons'
 
 const componentProps = defineProps({
   file: { type: File, required: true },
@@ -61,8 +62,8 @@ const replaceIcon = computed(() => {
   return submissionsStore.getReplaceForPackage(
     componentProps.file
   )
-    ? 'mdi-file-replace'
-    : 'mdi-file-replace-outline'
+    ? Icons.get('replace')
+    : Icons.get('replace-not')
 })
 
 function replacePackage() {

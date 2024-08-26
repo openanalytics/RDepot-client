@@ -30,8 +30,8 @@
     :items="submissionStore.submissions"
     :items-length="submissionStore.totalNumber"
     item-value="name"
-    sort-asc-icon="mdi-sort-ascending"
-    sort-desc-icon="mdi-sort-descending"
+    :sort-asc-icon="Icons.get('ascending')"
+    :sort-desc-icon="Icons.get('descending')"
     color="oablue"
     :loading="submissionStore.loading"
     :sort-by="sortBy"
@@ -119,6 +119,7 @@ import AcceptSubmission from './actions/AcceptSubmission.vue'
 import RejectSubmission from './actions/RejectSubmission.vue'
 import CancelSubmission from './actions/CancelSubmission.vue'
 import DownloadSubmission from './actions/DownloadSubmission.vue'
+import Icons from '@/maps/Icons'
 
 const submissionStore = useSubmissionStore()
 const pagination = usePagination()

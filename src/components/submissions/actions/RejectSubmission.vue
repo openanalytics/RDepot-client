@@ -30,7 +30,7 @@
     "
     :id="`reject-button-${item.id}`"
     :tooltip="$t('action.reject')"
-    icon="mdi-email-remove-outline"
+    :icon="Icons.get('reject')"
     size="small"
     color="oared"
     @click="rejectSubmission(item)"
@@ -46,6 +46,7 @@ import { useSubmissionActions } from '@/composable/submissions/submissionActions
 import IconButton from '@/components/common/buttons/IconButton.vue'
 import { useAuthorizationStore } from '@/store/authorization'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
+import Icons from '@/maps/Icons'
 
 defineProps({
   item: {

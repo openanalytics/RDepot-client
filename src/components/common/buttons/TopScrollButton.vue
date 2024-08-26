@@ -36,7 +36,7 @@
           class="mt-auto pointer-events-initial"
           color="primary"
           elevation="8"
-          icon="mdi-chevron-up"
+          :icon="Icons.get('arrow-up')"
           size="large"
           @click="toTop"
         />
@@ -47,6 +47,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import Icons from '@/maps/Icons'
 
 const showFab = ref(false)
 

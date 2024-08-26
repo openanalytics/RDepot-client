@@ -28,8 +28,8 @@
       density="compact"
       color="primary"
       :model-value="getTheme"
-      true-icon="mdi-weather-night"
-      false-icon="mdi-weather-sunny"
+      :true-icon="Icons.get('dark-theme')"
+      :false-icon="Icons.get('light-theme')"
       :inset="true"
       :hide-details="true"
       style="align-self: center"
@@ -39,6 +39,7 @@
 </template>
 
 <script setup lang="ts">
+import Icons from '@/maps/Icons'
 import { useAuthorizationStore } from '@/store/authorization'
 import { useCommonStore } from '@/store/common'
 import { onUpdated, computed } from 'vue'

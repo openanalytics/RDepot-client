@@ -38,7 +38,9 @@
           <v-list>
             <v-list-item value="open" @click="openVignette">
               <template #prepend>
-                <v-icon icon="mdi-open-in-new"></v-icon>
+                <v-icon
+                  :icon="Icons.get('open-new')"
+                ></v-icon>
               </template>
               <v-list-item-title>{{
                 i18n.t('packages.vignette.open')
@@ -49,7 +51,9 @@
               @click="downloadVignette"
             >
               <template #prepend>
-                <v-icon icon="mdi-download"></v-icon>
+                <v-icon
+                  :icon="Icons.get('download')"
+                ></v-icon>
               </template>
               <v-list-item-title>{{
                 i18n.t('packages.vignette.download')
@@ -71,6 +75,7 @@ import { EntityModelPythonPackageDto } from '@/openapi'
 import { usePackageDetailsStore } from '@/store/packageDetails'
 import { i18n } from '@/plugins/i18n'
 import { useFiles } from '@/composable/file'
+import Icons from '@/maps/Icons'
 
 const componentProps = defineProps<{
   fileName?: string

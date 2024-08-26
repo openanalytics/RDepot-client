@@ -39,7 +39,7 @@
           id="submissions-multi-actions"
           variant="text"
           size="x-small"
-          icon="mdi-dots-vertical"
+          :icon="Icons.get('more')"
           color="oablue"
           v-bind="activatorProps"
           style="margin-left: -10px"
@@ -52,7 +52,7 @@
             <v-btn
               id="submissions-multi-accept"
               key="1"
-              icon="mdi-email-check-outline"
+              :icon="Icons.get('accept')"
               color="success"
               :disabled="
                 submissionStore.selected.length == 0
@@ -79,7 +79,7 @@
             <v-btn
               id="submissions-multi-reject"
               key="2"
-              icon="mdi-email-remove-outline"
+              :icon="Icons.get('reject')"
               color="oared"
               :disabled="
                 submissionStore.selected.length == 0
@@ -106,7 +106,7 @@
             <v-btn
               id="submissions-multi-cancel"
               key="3"
-              icon="mdi-cancel"
+              :icon="Icons.get('cancel')"
               color="oared"
               :disabled="
                 submissionStore.selected.length == 0
@@ -137,6 +137,7 @@ import { useCommonStore } from '@/store/common'
 import { i18n } from '@/plugins/i18n'
 import { OverlayEnum } from '@/enum/Overlay'
 import { SubmissionEditOptions } from '@/enum/SubmissionEditOptions'
+import Icons from '@/maps/Icons'
 
 defineProps({
   allSelected: {
