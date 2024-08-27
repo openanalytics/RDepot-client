@@ -32,7 +32,7 @@
           <span class="pr-3">
             {{ $t('common.create') }}</span
           >
-          <v-icon icon="mdi-plus"
+          <v-icon :icon="Icons.get('add')"
         /></CommonButton>
       </div>
     </template>
@@ -45,4 +45,5 @@
 <script setup lang="ts">
 import CommonButton from '@/components/common/buttons/CommonButton.vue'
 import { OverlayEnum } from '@/enum/Overlay'
+import Icons from '@/maps/Icons'
 </script>

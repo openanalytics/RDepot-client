@@ -38,7 +38,7 @@
                 class="pl-3"
               >
                 <v-icon
-                  icon="mdi-content-copy"
+                  :icon="Icons.get('copy')"
                   size="large"
                   start
                   @click="copyContent()"
@@ -77,6 +77,7 @@ import { useI18n } from 'vue-i18n'
 import { useAccessTokensStore } from '@/store/accessTokens'
 import { useCommonStore } from '@/store/common'
 import { i18n } from '@/plugins/i18n'
+import Icons from '@/maps/Icons'
 
 const { t } = useI18n()
 const { copy } = useClipboard()

@@ -27,8 +27,8 @@
     :items="userStore.users"
     :items-length="userStore.totalNumber"
     item-value="id"
-    sort-asc-icon="mdi-sort-ascending"
-    sort-desc-icon="mdi-sort-descending"
+    :sort-asc-icon="Icons.get('ascending')"
+    :sort-desc-icon="Icons.get('descending')"
     color="oablue"
     :loading="userStore.loading"
     :sort-by="sortBy"
@@ -134,6 +134,7 @@ import { ref, computed } from 'vue'
 import { useSort } from '@/composable/sort'
 import { useEnumFiltration } from '@/composable/filtration/enumFiltration'
 import ProgressCircularSmall from '../common/progress/ProgressCircularSmall.vue'
+import Icons from '@/maps/Icons'
 
 const pagination = usePagination()
 const authorizationStore = useAuthorizationStore()

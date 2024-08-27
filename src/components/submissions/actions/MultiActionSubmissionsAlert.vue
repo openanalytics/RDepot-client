@@ -33,7 +33,7 @@
       <template #activator="{ props }">
         <v-icon
           v-bind="props"
-          icon="mdi-alert-decagram"
+          :icon="Icons.get('alert')"
           color="warning"
         ></v-icon>
       </template>
@@ -54,7 +54,7 @@
       <template #activator="{ props }">
         <v-icon
           v-bind="props"
-          icon="mdi-alert-decagram"
+          :icon="Icons.get('alert')"
           color="warning"
         ></v-icon>
       </template>
@@ -77,6 +77,7 @@ import { useSubmissionIcons } from '@/composable/submissions/statusIcons'
 import { EntityModelSubmissionDto } from '@/openapi'
 import { i18n } from '@/plugins/i18n'
 import { useSubmissionActionTranslations } from '@/composable/submissions/submissionActionTranslations'
+import Icons from '@/maps/Icons'
 
 defineProps({
   item: {

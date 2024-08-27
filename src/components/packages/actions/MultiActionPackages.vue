@@ -39,7 +39,7 @@
           id="packages-multi-actions"
           variant="text"
           size="x-small"
-          icon="mdi-dots-vertical"
+          :icon="Icons.get('more')"
           color="oablue"
           v-bind="activatorProps"
           style="margin-left: -10px"
@@ -52,7 +52,7 @@
             <v-btn
               id="packages-multi-delete"
               key="1"
-              icon="mdi-trash-can"
+              :icon="Icons.get('delete')"
               color="oared"
               :disabled="
                 packagesStore.packagesSelected.length == 0
@@ -80,6 +80,7 @@
 import { usePackagesStore } from '@/store/packages'
 import { i18n } from '@/plugins/i18n'
 import { usePackagesActions } from '@/composable/packages/packagesActions'
+import Icons from '@/maps/Icons'
 
 defineProps({
   allSelected: {

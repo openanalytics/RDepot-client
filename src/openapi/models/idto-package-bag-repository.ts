@@ -20,11 +20,18 @@
  *
  */
 
-export default new Map<string, string>([
-  ['update', 'mdi-update'],
-  ['removed', 'mdi-delete-forever'],
-  ['upload', 'mdi-cloud-upload'],
-  ['create', 'mdi-file-plus'],
-  ['edited', 'mdi-lead-pencil'],
-  ['delete', 'mdi-delete-forever']
-])
+/* tslint:disable */
+/* eslint-disable */
+/**
+ *
+ *
+ * @export
+ * @interface IDtoPackageBagRepository
+ */
+export interface IDtoPackageBagRepository {
+  /**
+   * @type {string}
+   * @memberof IDtoPackageBagRepository
+   */
+  name?: string
+}

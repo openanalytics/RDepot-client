@@ -21,6 +21,7 @@
  */
 
 import { EntityModelNewsfeedEventDtoResourceTypeEnum } from '@/openapi'
+import Icons from '@/maps/Icons'
 
 export function useIcons() {
   function getIcon(
@@ -28,28 +29,28 @@ export function useIcons() {
   ) {
     switch (resourceType) {
       case EntityModelNewsfeedEventDtoResourceTypeEnum.PACKAGE: {
-        return ['mdi-package']
+        return [Icons.get('package')]
       }
       case EntityModelNewsfeedEventDtoResourceTypeEnum.REPOSITORY: {
-        return ['mdi-folder-network']
+        return [Icons.get('repositories')]
       }
       case EntityModelNewsfeedEventDtoResourceTypeEnum.USER: {
-        return ['mdi-account-multiple']
+        return [Icons.get('users')]
       }
       case EntityModelNewsfeedEventDtoResourceTypeEnum.PACKAGEMAINTAINER: {
-        return ['mdi-package', 'mdi-account-multiple']
+        return [Icons.get('package'), Icons.get('users')]
       }
       case EntityModelNewsfeedEventDtoResourceTypeEnum.REPOSITORYMAINTAINER: {
         return [
-          'mdi-folder-network',
-          'mdi-account-multiple'
+          Icons.get('repositories'),
+          Icons.get('users')
         ]
       }
       case EntityModelNewsfeedEventDtoResourceTypeEnum.SUBMISSION: {
-        return ['mdi-email']
+        return [Icons.get('submissions')]
       }
       case EntityModelNewsfeedEventDtoResourceTypeEnum.ACCESSTOKEN: {
-        return ['mdi-key']
+        return [Icons.get('access-token')]
       }
       default:
         return ['']

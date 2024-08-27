@@ -28,7 +28,7 @@
   >
     <v-list nav open-strategy="single">
       <v-list-item
-        prepend-icon="mdi-account"
+        :prepend-icon="Icons.get('account')"
         :title="getUserLogin"
         :subtitle="getSubtitle"
       >
@@ -43,7 +43,7 @@
                 <v-btn
                   id="logout-button"
                   color="grey-lighten-1"
-                  icon="mdi-logout"
+                  :icon="Icons.get('logout')"
                   variant="text"
                   @click="logout"
                 ></v-btn>
@@ -59,7 +59,7 @@
       <v-list-item
         v-if="authorizationStore.can('GET', 'events')"
         id="sidebar-events"
-        prepend-icon="mdi-timetable"
+        :prepend-icon="Icons.get('events')"
         :title="$t('common.events')"
         :value="$t('common.events')"
         active-class="link-active"
@@ -69,7 +69,7 @@
       <v-list-item
         v-if="authorizationStore.can('POST', 'submissions')"
         id="sidebar-upload-packages"
-        prepend-icon="mdi-upload"
+        :prepend-icon="Icons.get('upload')"
         :title="$t('common.uploadPackages')"
         :value="$t('common.uploadPackages')"
         active-class="link-active"
@@ -79,7 +79,7 @@
       <v-list-item
         v-if="authorizationStore.can('GET', 'packages')"
         id="sidebarpackageslist"
-        prepend-icon="mdi-package"
+        :prepend-icon="Icons.get('package')"
         :title="$t('packages.list')"
         :value="$t('packages.list')"
         active-class="link-active"
@@ -100,10 +100,13 @@
         to="/package-maintainers"
       >
         <template #prepend>
-          <v-icon icon="mdi-package" size="22"></v-icon>
+          <v-icon
+            :icon="Icons.get('package')"
+            size="22"
+          ></v-icon>
           <v-icon
             class="nestedIcon"
-            icon="mdi-account-multiple"
+            :icon="Icons.get('users')"
             size="22"
           ></v-icon>
         </template>
@@ -114,7 +117,7 @@
         id="sidebar-repositories-list"
         :title="$t('repositories.list')"
         :value="$t('repositories.list')"
-        prepend-icon="mdi-folder-network"
+        :prepend-icon="Icons.get('repositories')"
         active-class="link-active"
         to="/repositories"
       ></v-list-item>
@@ -134,12 +137,12 @@
       >
         <template #prepend>
           <v-icon
-            icon="mdi-folder-network"
+            :icon="Icons.get('repositories')"
             size="22"
           ></v-icon>
           <v-icon
             class="nestedIcon"
-            icon="mdi-account-multiple"
+            :icon="Icons.get('users')"
             size="22"
           ></v-icon>
         </template>
@@ -148,7 +151,7 @@
       <v-list-item
         v-if="authorizationStore.can('GET', 'users')"
         id="sidebar-users-page"
-        prepend-icon="mdi-account-multiple"
+        :prepend-icon="Icons.get('users')"
         :title="$t('common.users')"
         :value="$t('common.users')"
         active-class="link-active"
@@ -158,7 +161,7 @@
       <v-list-item
         v-if="authorizationStore.can('GET', 'submissions')"
         id="sidebar-submissions"
-        prepend-icon="mdi-email"
+        :prepend-icon="Icons.get('submissions')"
         :title="$t('common.submissions')"
         :value="$t('common.submissions')"
         active-class="link-active"
@@ -167,7 +170,7 @@
       <v-list-group>
         <template #activator="{ props }">
           <v-list-item
-            prepend-icon="mdi-cog"
+            :prepend-icon="Icons.get('settings')"
             v-bind="{
               ...props,
               id: 'sidebar-settings-list'
@@ -195,7 +198,7 @@
 
     <template #append>
       <v-list-item style="font-size: 0.7rem">
-        v2.3.0
+        v2.4.0
         <span v-if="getEnv('VITE_DEV_MODE') === 'true'"
           >({{
             getEnv('VITE_CURRENT_COMMIT_VERSION')
@@ -213,6 +216,7 @@ import { useAuthorizationStore } from '@/store/authorization'
 import { computed } from 'vue'
 import { useDisplay } from 'vuetify/lib/framework.mjs'
 import getEnv from '@/utils/env'
+import Icons from '@/maps/Icons'
 
 const { xs, mobile } = useDisplay()
 const authorizationStore = useAuthorizationStore()
