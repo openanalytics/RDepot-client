@@ -30,7 +30,7 @@
     "
     :id="`accept-button-${item.id}`"
     :tooltip="$t('action.accept')"
-    icon="mdi-email-check-outline"
+    :icon="Icons.get('accept')"
     size="small"
     color="success"
     @click="acceptSubmission(item)"
@@ -46,6 +46,7 @@ import { useSubmissionActions } from '@/composable/submissions/submissionActions
 import IconButton from '@/components/common/buttons/IconButton.vue'
 import { useAuthorizationStore } from '@/store/authorization'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
+import Icons from '@/maps/Icons'
 
 defineProps({
   item: {

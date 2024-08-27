@@ -33,7 +33,7 @@ beforeEach(async () => {
 describe('icons composable', () => {
   it('should return package icon', () => {
     const { getIcon } = useIcons()
-    const icon: string[] = getIcon(
+    const icon: (string | undefined)[] = getIcon(
       EntityModelNewsfeedEventDtoResourceTypeEnum.PACKAGE
     )
     expect(icon[0]).toEqual('mdi-package')
@@ -41,7 +41,7 @@ describe('icons composable', () => {
 
   it('should return repository icon', () => {
     const { getIcon } = useIcons()
-    const icon: string[] = getIcon(
+    const icon: (string | undefined)[] = getIcon(
       EntityModelNewsfeedEventDtoResourceTypeEnum.REPOSITORY
     )
     expect(icon[0]).toEqual('mdi-folder-network')
@@ -49,7 +49,7 @@ describe('icons composable', () => {
 
   it('should return user icon', () => {
     const { getIcon } = useIcons()
-    const icon: string[] = getIcon(
+    const icon: (string | undefined)[] = getIcon(
       EntityModelNewsfeedEventDtoResourceTypeEnum.USER
     )
     expect(icon[0]).toEqual('mdi-account-multiple')
@@ -57,7 +57,7 @@ describe('icons composable', () => {
 
   it('should return package maintainer icon', () => {
     const { getIcon } = useIcons()
-    const icon: string[] = getIcon(
+    const icon: (string | undefined)[] = getIcon(
       EntityModelNewsfeedEventDtoResourceTypeEnum.PACKAGEMAINTAINER
     )
     expect(icon[0]).toEqual('mdi-package')
@@ -66,7 +66,7 @@ describe('icons composable', () => {
 
   it('should return repository maintainer icon', () => {
     const { getIcon } = useIcons()
-    const icon: string[] = getIcon(
+    const icon: (string | undefined)[] = getIcon(
       EntityModelNewsfeedEventDtoResourceTypeEnum.REPOSITORYMAINTAINER
     )
     expect(icon[0]).toEqual('mdi-folder-network')
@@ -75,7 +75,7 @@ describe('icons composable', () => {
 
   it('should return submission icon', () => {
     const { getIcon } = useIcons()
-    const icon: string[] = getIcon(
+    const icon: (string | undefined)[] = getIcon(
       EntityModelNewsfeedEventDtoResourceTypeEnum.SUBMISSION
     )
     expect(icon[0]).toEqual('mdi-email')
@@ -83,7 +83,7 @@ describe('icons composable', () => {
 
   it('should return access token icon', () => {
     const { getIcon } = useIcons()
-    const icon: string[] = getIcon(
+    const icon: (string | undefined)[] = getIcon(
       EntityModelNewsfeedEventDtoResourceTypeEnum.ACCESSTOKEN
     )
     expect(icon[0]).toEqual('mdi-key')
@@ -91,7 +91,7 @@ describe('icons composable', () => {
 
   it('should return empty string when no parameter is used', () => {
     const { getIcon } = useIcons()
-    const icon: string[] = getIcon()
+    const icon: (string | undefined)[] = getIcon()
     expect(icon[0]).toEqual('')
   })
 })

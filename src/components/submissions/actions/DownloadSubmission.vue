@@ -31,7 +31,7 @@
     "
     :id="`download-button-${item.id}`"
     :tooltip="$t('action.download')"
-    icon="mdi-download-outline"
+    :icon="Icons.get('download')"
     size="small"
     @click="downloadSubmission(item)"
   />
@@ -45,6 +45,7 @@ import {
 import { useSubmissionActions } from '@/composable/submissions/submissionActions'
 import IconButton from '@/components/common/buttons/IconButton.vue'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
+import Icons from '@/maps/Icons'
 
 defineProps({
   item: {

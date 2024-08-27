@@ -30,7 +30,7 @@
         :color="disabled ? 'grey' : 'oablue'"
         @click.stop
         @click="edit"
-        >mdi-pencil</v-icon
+        >{{ Icons.get('edit') }}</v-icon
       >
     </template>
     <span v-if="!disabled" id="action-delete">{{
@@ -47,6 +47,7 @@ import { OverlayEnum } from '@/enum/Overlay'
 import { i18n } from '@/plugins/i18n'
 import { useCommonStore } from '@/store/common'
 import { computed } from 'vue'
+import Icons from '@/maps/Icons'
 
 const componentProps = defineProps({
   text: {

@@ -131,7 +131,7 @@ export async function addSubmission(
   if (technology === Technologies.enum.R) {
     submissionApi = RSubmissionControllerApiFactory(
       await getConfiguration()
-    ).submitRPacakgeForm
+    ).submitRPackageForm
   } else if (technology === Technologies.enum.Python) {
     submissionApi = PythonSubmissionControllerApiFactory(
       await getConfiguration()

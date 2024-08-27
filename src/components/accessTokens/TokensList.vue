@@ -27,8 +27,8 @@
     :items="accessTokensStore.tokens"
     :items-length="accessTokensStore.totalNumber"
     item-value="id"
-    sort-asc-icon="mdi-sort-ascending"
-    sort-desc-icon="mdi-sort-descending"
+    :sort-asc-icon="Icons.get('ascending')"
+    :sort-desc-icon="Icons.get('descending')"
     color="oablue"
     :loading="accessTokensStore.loading"
     :sort-by="sortBy"
@@ -120,6 +120,7 @@ import { useSort } from '@/composable/sort'
 import AddToken from '@/components/common/buttons/AddToken.vue'
 import { useAccessTokensStore } from '@/store/accessTokens'
 import DateChip from '../common/chips/DateChip.vue'
+import Icons from '@/maps/Icons'
 
 const pagination = usePagination()
 const authorizationStore = useAuthorizationStore()

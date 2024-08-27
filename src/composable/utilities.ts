@@ -19,6 +19,7 @@
  * along with this program. If not, see <http://www.apache.org/licenses/>
  *
  */
+import Icons from '@/maps/Icons'
 
 export function useUtilities() {
   function deepCopy<T>(object: T) {
@@ -28,6 +29,8 @@ export function useUtilities() {
   function deepCopyAny<T>(object: T) {
     return JSON.parse(JSON.stringify(object)) as any
   }
+
+  const copyIcon = Icons.get('copy')
 
   const renderer = {
     code(
@@ -42,7 +45,7 @@ export function useUtilities() {
         <code>
           ${escaped ? code : escape(code)}
         </code>
-        <i class="mdi-content-copy mdi v-icon notranslate v-theme--dark v-icon--size-large v-icon--clickable v-icon--start" role="button" onclick="navigator.clipboard.writeText('${copy}')">
+        <i class="${copyIcon} mdi v-icon notranslate v-theme--dark v-icon--size-large v-icon--clickable v-icon--start" role="button" onclick="navigator.clipboard.writeText('${copy}')">
         </i>
         </pre>`
     },

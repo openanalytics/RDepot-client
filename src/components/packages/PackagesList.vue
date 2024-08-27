@@ -31,8 +31,8 @@
     :items="packagesStore.packages"
     :items-length="packagesStore.totalNumber"
     item-value="id"
-    sort-asc-icon="mdi-sort-ascending"
-    sort-desc-icon="mdi-sort-descending"
+    :sort-asc-icon="Icons.get('ascending')"
+    :sort-desc-icon="Icons.get('descending')"
     color="oablue"
     :loading="packagesStore.loading"
     expand-on-click
@@ -122,6 +122,7 @@ import ProgressCircularSmall from '../common/progress/ProgressCircularSmall.vue'
 import MultiActionPackages from './actions/MultiActionPackages.vue'
 import SelectBoxPackages from './actions/SelectBoxPackages.vue'
 import { usePackagesActions } from '@/composable/packages/packagesActions'
+import Icons from '@/maps/Icons'
 
 const exp = ref<string[]>([])
 

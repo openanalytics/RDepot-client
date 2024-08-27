@@ -62,6 +62,7 @@ export async function fetchUsersService(
       sort,
       filtration?.roles,
       filtration?.active,
+      undefined, // new deleted property
       filtration?.search
     ],
     showProgress
