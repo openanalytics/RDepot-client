@@ -22,36 +22,22 @@
 
 /* tslint:disable */
 /* eslint-disable */
-import { RepositoryProjection } from './repository-projection'
-import { UserProjection } from './user-projection'
 /**
  *
  *
  * @export
- * @interface RepositoryMaintainerDto
+ * @interface IDtoRepository
  */
-export interface RepositoryMaintainerDto {
+export interface IDtoRepository {
   /**
-   * @type {number}
-   * @memberof RepositoryMaintainerDto
+   * @type {string}
+   * @memberof IDtoRepository
    */
-  id?: number
+  name?: string
 
   /**
-   * @type {UserProjection}
-   * @memberof RepositoryMaintainerDto
+   * @type {string}
+   * @memberof IDtoRepository
    */
-  user?: UserProjection
-
-  /**
-   * @type {RepositoryProjection}
-   * @memberof RepositoryMaintainerDto
-   */
-  repository?: RepositoryProjection
-
-  /**
-   * @type {boolean}
-   * @memberof RepositoryMaintainerDto
-   */
-  deleted?: boolean
+  technology?: string
 }

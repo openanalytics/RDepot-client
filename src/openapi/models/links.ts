@@ -22,36 +22,11 @@
 
 /* tslint:disable */
 /* eslint-disable */
-import { RepositoryProjection } from './repository-projection'
-import { UserProjection } from './user-projection'
+import { Link } from './link'
 /**
  *
  *
  * @export
- * @interface RepositoryMaintainerDto
+ * @interface Links
  */
-export interface RepositoryMaintainerDto {
-  /**
-   * @type {number}
-   * @memberof RepositoryMaintainerDto
-   */
-  id?: number
-
-  /**
-   * @type {UserProjection}
-   * @memberof RepositoryMaintainerDto
-   */
-  user?: UserProjection
-
-  /**
-   * @type {RepositoryProjection}
-   * @memberof RepositoryMaintainerDto
-   */
-  repository?: RepositoryProjection
-
-  /**
-   * @type {boolean}
-   * @memberof RepositoryMaintainerDto
-   */
-  deleted?: boolean
-}
+export interface Links extends Array<Link> {}
