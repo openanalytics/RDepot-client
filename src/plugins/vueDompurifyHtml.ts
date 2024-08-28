@@ -22,7 +22,8 @@
 
 export const VueDOMPurifyHTMLconfig = {
   default: {
-    ADD_ATTR: ['tmp-code']
+    ADD_ATTR: ['tmp-code'],
+    USE_PROFILES: { html: true, svg: true }
   },
   hooks: {
     uponSanitizeAttribute: (
@@ -47,19 +48,24 @@ export const VueDOMPurifyHTMLconfig = {
       }
     },
     afterSanitizeAttributes: (node: HTMLElement) => {
-      if (
-        node.tagName === 'I' &&
-        node.hasAttribute('tmp-code') &&
-        check_code(
-          node.getAttribute('tmp-code') || '',
-          node.parentNode!.textContent || ''
-        )
-      ) {
-        node.setAttribute(
-          'onclick',
-          node.getAttribute('tmp-code') || ''
-        )
-        node.removeAttribute('tmp-code')
+      switch (node.nodeName) {
+        case 'I':
+          if (
+            node.hasAttribute('tmp-code') &&
+            check_code(
+              node.getAttribute('tmp-code') || '',
+              node.parentNode!.textContent || ''
+            )
+          ) {
+            node.setAttribute(
+              'onclick',
+              node.getAttribute('tmp-code') || ''
+            )
+            node.removeAttribute('tmp-code')
+          }
+          break
+        default:
+          break
       }
     }
   }
