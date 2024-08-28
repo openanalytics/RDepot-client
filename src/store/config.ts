@@ -28,6 +28,7 @@ interface State {
   deletingPackages: boolean
   deletingRepositories: boolean
   replacingPackages: boolean
+  generateManuals: boolean
 }
 
 export const useConfigStore = defineStore('configStore', {
@@ -36,7 +37,8 @@ export const useConfigStore = defineStore('configStore', {
       declarativeMode: false,
       deletingPackages: true,
       deletingRepositories: true,
-      replacingPackages: true
+      replacingPackages: true,
+      generateManuals: true
     }
   },
   actions: {
@@ -50,6 +52,7 @@ export const useConfigStore = defineStore('configStore', {
         config.deletingRepositoriesEnabled || false
       this.replacingPackages =
         config.replacingPackagesEnabled || false
+      this.generateManuals = config.generateManuals || false
     }
   }
 })

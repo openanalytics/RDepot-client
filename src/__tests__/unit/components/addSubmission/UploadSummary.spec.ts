@@ -121,16 +121,16 @@ describe('Upload summary - pending', () => {
     const generateIconMarked = wrapper.find(
       '#generate-manual-icon-marked'
     )
-    expect(generateIconMarked.exists()).toBeFalsy()
-    expect(generateIcon.exists()).toBeTruthy()
-    expect(generateIcon.isVisible()).toBeTruthy()
+    expect(generateIconMarked.exists()).toBeTruthy()
+    expect(generateIcon.exists()).toBeFalsy()
+    expect(generateIconMarked.isVisible()).toBeTruthy()
   })
 
   it('generate manual checkbox is disabled', () => {
-    const generateIcon = wrapper.find(
-      '#generate-manual-icon-blank'
+    const generateIconMarked = wrapper.find(
+      '#generate-manual-icon-marked'
     )
-    expect(generateIcon.element.disabled).toBeTruthy()
+    expect(generateIconMarked.element.disabled).toBeTruthy()
   })
 })
 
@@ -198,16 +198,16 @@ describe('Upload summary - error', () => {
     const generateIconMarked = wrapper.find(
       '#generate-manual-icon-marked'
     )
-    expect(generateIconMarked.exists()).toBeFalsy()
-    expect(generateIcon.exists()).toBeTruthy()
-    expect(generateIcon.isVisible()).toBeTruthy()
+    expect(generateIconMarked.exists()).toBeTruthy()
+    expect(generateIcon.exists()).toBeFalsy()
+    expect(generateIconMarked.isVisible()).toBeTruthy()
   })
 
   it('generate manual checkbox is disabled', () => {
-    const generateIcon = wrapper.find(
-      '#generate-manual-icon-blank'
+    const generateIconMarked = wrapper.find(
+      '#generate-manual-icon-marked'
     )
-    expect(generateIcon.element.disabled).toBeTruthy()
+    expect(generateIconMarked.element.disabled).toBeTruthy()
   })
 })
 
@@ -240,7 +240,7 @@ describe('Upload summary - success', () => {
       global: globalConfig,
       props: {
         promise: promise,
-        generateManual: false,
+        generateManual: true,
         technology: 'R'
       }
     })
@@ -307,10 +307,10 @@ describe('Upload summary - success', () => {
   })
 
   it('generate manual checkbox is disabled', () => {
-    const generateIcon = wrapper.find(
+    const generateIconMarked = wrapper.find(
       '#generate-manual-icon-marked'
     )
-    expect(generateIcon.element.disabled).toBeTruthy()
+    expect(generateIconMarked.element.disabled).toBeTruthy()
   })
 })
 
@@ -341,7 +341,7 @@ describe('Upload summary - success, no manual', () => {
     const downloadIcon = wrapper.find(
       '#download-manual-icon'
     )
-    expect(downloadIcon.exists()).toBeFalsy()
+    expect(downloadIcon.exists()).toBeTruthy()
   })
 
   it('file name is displayed', () => {
@@ -356,16 +356,16 @@ describe('Upload summary - success, no manual', () => {
     const generateIconMarked = wrapper.find(
       '#generate-manual-icon-marked'
     )
-    expect(generateIconMarked.exists()).toBeFalsy()
-    expect(generateIcon.exists()).toBeTruthy()
-    expect(generateIcon.isVisible()).toBeTruthy()
+    expect(generateIconMarked.exists()).toBeTruthy()
+    expect(generateIcon.exists()).toBeFalsy()
+    expect(generateIconMarked.isVisible()).toBeTruthy()
   })
 
   it('generate manual checkbox is disabled', () => {
-    const generateIcon = wrapper.find(
-      '#generate-manual-icon-blank'
+    const generateIconMarked = wrapper.find(
+      '#generate-manual-icon-marked'
     )
-    expect(generateIcon.element.disabled).toBeTruthy()
+    expect(generateIconMarked.element.disabled).toBeTruthy()
   })
 })
 

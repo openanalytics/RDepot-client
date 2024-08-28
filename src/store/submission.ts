@@ -45,6 +45,7 @@ import { useSortStore } from './sort'
 import { SubmissionEditOptions } from '@/enum/SubmissionEditOptions'
 import { useSubmissionActions } from '@/composable/submissions/submissionActions'
 import { useSubmissionAuthorizationCheck } from '@/composable/submissions/submissionAuthorities'
+import { Technologies } from '@/enum/Technologies'
 
 export type PackagePromise = {
   promise: Promise<validatedData<EntityModelSubmissionDto>>
@@ -222,8 +223,11 @@ export const useSubmissionStore = defineStore(
         )
       },
       getGenerateManualForPackage(file: File) {
-        if (this.repository?.technology == 'Python')
-          return true
+        if (
+          this.repository?.technology ==
+          Technologies.enum.Python
+        )
+          return false
         return !!this.generateManual.find(
           (item) => item == file
         )
@@ -259,7 +263,7 @@ export const useSubmissionStore = defineStore(
               this.repository?.name!,
               this.repository?.technology!,
               packageBag,
-              !this.getGenerateManualForPackage(packageBag),
+              this.getGenerateManualForPackage(packageBag),
               this.getReplaceForPackage(packageBag)
             ),
             packageBag: packageBag,

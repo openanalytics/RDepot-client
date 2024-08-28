@@ -48,7 +48,7 @@
         <template
           v-if="
             submissionsStore.repository?.technology !=
-            'Python'
+            Technologies.enum.Python
           "
           #append
         >
@@ -79,20 +79,20 @@
         <template
           v-if="
             submissionsStore.repository?.technology !=
-            'Python'
+            Technologies.enum.Python
           "
           #append
         >
           <v-btn
             v-if="
-              !submissionsStore.getGenerateManualForPackage(
+              submissionsStore.getGenerateManualForPackage(
                 file
               )
             "
             :icon="Icons.get('checkbox')"
             variant="text"
             @click="
-              submissionsStore.addGenerateManualOptionForPackage(
+              submissionsStore.removeGenerateManualOptionForPackage(
                 file
               )
             "
@@ -102,7 +102,7 @@
             :icon="Icons.get('checkbox-not')"
             variant="text"
             @click="
-              submissionsStore.removeGenerateManualOptionForPackage(
+              submissionsStore.addGenerateManualOptionForPackage(
                 file
               )
             "
@@ -122,6 +122,7 @@ import ReplaceOption from './ReplaceOption.vue'
 import { useFiles } from '@/composable/file'
 import { useConfigStore } from '@/store/config'
 import Icons from '@/maps/Icons'
+import { Technologies } from '@/enum/Technologies'
 
 const submissionsStore = useSubmissionStore()
 const filesStore = useFilesListStore()

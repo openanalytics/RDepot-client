@@ -87,10 +87,13 @@
       </v-tooltip>
     </template>
 
-    <template v-if="technology != 'Python'" #append>
+    <template
+      v-if="technology != Technologies.enum.Python"
+      #append
+    >
       <v-btn
         v-if="
-          !generateManual &&
+          generateManual &&
           promise.error.length == 0 &&
           promise.response &&
           promise.response[0].id
@@ -110,7 +113,7 @@
         "
       ></v-btn>
       <v-btn
-        v-if="!generateManual"
+        v-if="generateManual"
         id="generate-manual-icon-marked"
         disabled
         :icon="Icons.get('checkbox')"
@@ -133,6 +136,7 @@ import { PackagePromise } from '@/store/submission'
 import { usePackagesStore } from '@/store/packages'
 import { useFiles } from '@/composable/file'
 import Icons from '@/maps/Icons'
+import { Technologies } from '@/enum/Technologies'
 
 defineProps<{
   promise: PackagePromise

@@ -129,8 +129,8 @@ describe('Add submission - second step', () => {
       '.mdi-checkbox-blank-outline'
     )
 
-    expect(checkboxMarked.isVisible()).toBeTruthy()
-    expect(checkboxUnmarked.exists()).toBeFalsy()
+    expect(checkboxUnmarked.isVisible()).toBeTruthy()
+    expect(checkboxMarked.exists()).toBeFalsy()
     expect(wrapper.text()).toContain(
       'packages.generatemanual'
     )
@@ -157,21 +157,21 @@ describe('Add submission - second step', () => {
     let checkboxMarked = wrapper.find(
       '.mdi-checkbox-marked-outline'
     )
-    expect(checkboxMarked.isVisible()).toBeTruthy()
+    expect(checkboxMarked.exists()).toBeFalsy()
     let checkboxUnmarked = wrapper.find(
       '.mdi-checkbox-blank-outline'
     )
-    expect(checkboxUnmarked.exists()).toBeFalsy()
+    expect(checkboxUnmarked.isVisible()).toBeTruthy()
 
-    await checkboxMarked.trigger('click')
+    await checkboxUnmarked.trigger('click')
     checkboxMarked = wrapper.find(
       '.mdi-checkbox-marked-outline'
     )
     checkboxUnmarked = wrapper.find(
       '.mdi-checkbox-blank-outline'
     )
-    expect(checkboxUnmarked.isVisible()).toBeTruthy()
-    expect(checkboxMarked.exists()).toBeFalsy()
+    expect(checkboxUnmarked.exists()).toBeFalsy()
+    expect(checkboxMarked.isVisible()).toBeTruthy()
   })
 
   it('generate manual exists if package is not Python', async () => {

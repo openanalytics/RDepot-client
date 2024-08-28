@@ -38,7 +38,7 @@
           <template
             v-if="
               submissionsStore.repository?.technology !=
-              'Python'
+              Technologies.enum.Python
             "
             #append
           >
@@ -101,6 +101,7 @@
 import { useSubmissionStore } from '@/store/submission'
 import { computed } from 'vue'
 import UploadSummary from '@/components/addSubmission/UploadSummary.vue'
+import { Technologies } from '@/enum/Technologies'
 
 const emits = defineEmits(['next'])
 

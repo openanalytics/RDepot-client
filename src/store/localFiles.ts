@@ -23,6 +23,9 @@
 import { EntityModelSubmissionDto } from '@/openapi'
 import { defineStore } from 'pinia'
 import { validatedData } from '@/services/openApiAccess'
+import { useConfigStore } from './config'
+import { useSubmissionStore } from './submission'
+import { Technologies } from '@/enum/Technologies'
 
 export type PackagePromise = {
   promise: Promise<validatedData<EntityModelSubmissionDto>>
@@ -65,6 +68,19 @@ export const useFilesListStore = defineStore('filesStore', {
         ...this.files,
         ...Array.from(files || [])
       ]
+      const submissionsStore = useSubmissionStore()
+      if (
+        submissionsStore.repository?.technology !=
+          Technologies.enum.Python &&
+        useConfigStore().generateManuals &&
+        files != null
+      ) {
+        Array.from(files).forEach((file) => {
+          submissionsStore.addGenerateManualOptionForPackage(
+            file
+          )
+        })
+      }
     }
   }
 })
