@@ -48,7 +48,7 @@
         <template
           v-if="
             submissionsStore.repository?.technology !=
-            'Python'
+            Technologies.enum.Python
           "
           #append
         >
@@ -79,7 +79,7 @@
         <template
           v-if="
             submissionsStore.repository?.technology !=
-            'Python'
+            Technologies.enum.Python
           "
           #append
         >
@@ -122,6 +122,7 @@ import ReplaceOption from './ReplaceOption.vue'
 import { useFiles } from '@/composable/file'
 import { useConfigStore } from '@/store/config'
 import Icons from '@/maps/Icons'
+import { Technologies } from '@/enum/Technologies'
 
 const submissionsStore = useSubmissionStore()
 const filesStore = useFilesListStore()

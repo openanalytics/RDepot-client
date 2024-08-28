@@ -87,7 +87,10 @@
       </v-tooltip>
     </template>
 
-    <template v-if="technology != 'Python'" #append>
+    <template
+      v-if="technology != Technologies.enum.Python"
+      #append
+    >
       <v-btn
         v-if="
           generateManual &&
@@ -133,6 +136,7 @@ import { PackagePromise } from '@/store/submission'
 import { usePackagesStore } from '@/store/packages'
 import { useFiles } from '@/composable/file'
 import Icons from '@/maps/Icons'
+import { Technologies } from '@/enum/Technologies'
 
 defineProps<{
   promise: PackagePromise

@@ -25,6 +25,7 @@ import { defineStore } from 'pinia'
 import { validatedData } from '@/services/openApiAccess'
 import { useConfigStore } from './config'
 import { useSubmissionStore } from './submission'
+import { Technologies } from '@/enum/Technologies'
 
 export type PackagePromise = {
   promise: Promise<validatedData<EntityModelSubmissionDto>>
@@ -70,7 +71,7 @@ export const useFilesListStore = defineStore('filesStore', {
       const submissionsStore = useSubmissionStore()
       if (
         submissionsStore.repository?.technology !=
-          'Python' &&
+          Technologies.enum.Python &&
         useConfigStore().generateManuals &&
         files != null
       ) {
