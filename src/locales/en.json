@@ -382,6 +382,13 @@
       "publish": "Publish action is disabled in declarative mode "
     },
     "deleted": "This repository is deleted",
+    "details": {
+      "hash-method": "Hash method",
+      "last-modification-date": "Last modification date",
+      "last-publication-date": "Last publication date",
+      "publication-failed": "publication failed",
+      "publication-succeed": "publication succeed"
+    },
     "edit": {
       "title": "Edit repository"
     },

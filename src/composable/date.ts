@@ -45,6 +45,10 @@ export function useDates() {
     ].join('.')
   }
 
+  function formatDateTime(date: Date) {
+    return [formatDate(date), formatTime(date)].join(' ')
+  }
+
   function getDate(
     event: EntityModelNewsfeedEventDto | undefined
   ) {
@@ -55,15 +59,20 @@ export function useDates() {
     return 'null'
   }
 
+  function formatTime(date: Date) {
+    return (
+      padTo2Digits(date.getHours()) +
+      ':' +
+      padTo2Digits(date.getMinutes())
+    )
+  }
+
   function getTime(
     event: EntityModelNewsfeedEventDto | undefined
   ): string {
     if (event?.time) {
       const date: Date = new Date(event.time)
-      const time: string =
-        padTo2Digits(date.getHours()) +
-        ':' +
-        padTo2Digits(date.getMinutes())
+      const time: string = formatTime(date)
       return time
     } else {
       return ''
@@ -76,6 +85,7 @@ export function useDates() {
     getMonthAndYear,
     getDate,
     padTo2Digits,
-    formatDate
+    formatDate,
+    formatDateTime
   }
 }

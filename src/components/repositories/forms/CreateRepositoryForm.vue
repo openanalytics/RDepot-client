@@ -117,7 +117,11 @@ const { meta, values, setFieldValue, setTouched } = useForm(
             previousVal = value
             loading.value = true
             const repositoryWithSameName =
-              await repositoryStore.get(value, false)
+              await repositoryStore.get(
+                value,
+                undefined,
+                false
+              )
             loading.value = false
             previousReturn =
               repositoryWithSameName.length === 0

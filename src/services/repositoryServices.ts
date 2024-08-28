@@ -23,7 +23,9 @@
 import { RepositoriesFiltration } from '@/models/Filtration'
 import {
   ApiV2RepositoryControllerApiFactory,
+  EntityModelPythonRepositoryDto,
   EntityModelRepositoryDto,
+  EntityModelRRepositoryDto,
   PythonRepositoryControllerApiFactory,
   PythonRepositoryDto,
   RRepositoryControllerApiFactory,
@@ -79,6 +81,57 @@ export async function fetchRepositoriesService(
   })
 }
 
+export async function fetchPythonRepositoriesService(
+  filtration: RepositoriesFiltration,
+  page?: number,
+  pageSize?: number,
+  sort?: string[],
+  showProgress = false
+): ValidatedRepositories {
+  if (!isAuthorized('GET', 'submissions')) {
+    return new Promise(() => validateRequest([]))
+  }
+  return openApiRequest<EntityModelPythonRepositoryDto[]>(
+    PythonRepositoryControllerApiFactory()
+      .getAllPythonRepositories,
+    [
+      page,
+      pageSize,
+      sort,
+      filtration?.deleted,
+      filtration?.name
+    ],
+    showProgress
+  ).catch(() => {
+    return validateRequest([])
+  })
+}
+
+export async function fetchRRepositoriesService(
+  filtration: RepositoriesFiltration,
+  page?: number,
+  pageSize?: number,
+  sort?: string[],
+  showProgress = false
+): ValidatedRepositories {
+  if (!isAuthorized('GET', 'submissions')) {
+    return new Promise(() => validateRequest([]))
+  }
+  return openApiRequest<EntityModelRRepositoryDto[]>(
+    RRepositoryControllerApiFactory().getAllRRepositories,
+    [
+      page,
+      pageSize,
+      sort,
+      filtration?.deleted,
+      filtration?.name
+    ],
+    showProgress
+  ).catch(() => {
+    return validateRequest([])
+  })
+}
+
 export async function createRepository(
   newRepository: EntityModelRepositoryDto
 ): ValidatedRepository {
@@ -111,13 +164,49 @@ export async function createRepository(
   }
 }
 
-export async function updateRepository(
-  oldRepository: EntityModelRepositoryDto,
-  newRepository: EntityModelRepositoryDto
+export async function updateRRepositoryService(
+  oldRepository: EntityModelRRepositoryDto,
+  newRepository: EntityModelRRepositoryDto
 ): ValidatedRepository {
   if (!isAuthorized('PATCH', 'repository')) {
     return new Promise(() => false)
   }
+
+  const patchBody = createPatch(
+    oldRepository,
+    newRepository
+  )
+
+  if (oldRepository.technology === Technologies.enum.R) {
+    return openApiRequest<RRepositoryDto>(
+      RRepositoryControllerApiFactory().updateRRepository,
+      [patchBody, newRepository.id]
+    )
+  } else if (
+    oldRepository.technology === Technologies.enum.Python
+  ) {
+    return openApiRequest<PythonRepositoryDto>(
+      PythonRepositoryControllerApiFactory()
+        .updatePythonRepository,
+      [patchBody, newRepository.id]
+    )
+  } else {
+    throw new Error(
+      'Technologies not supported ' +
+        oldRepository.technology
+    )
+  }
+}
+
+export async function updatePythonRepositoryService(
+  oldRepository: EntityModelPythonRepositoryDto,
+  newRepository: EntityModelPythonRepositoryDto
+): ValidatedRepository {
+  if (!isAuthorized('PATCH', 'repository')) {
+    return new Promise(() => false)
+  }
+
+  console.log(oldRepository)
 
   const patchBody = createPatch(
     oldRepository,

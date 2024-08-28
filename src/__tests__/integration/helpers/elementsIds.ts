@@ -350,6 +350,22 @@ export const DELETE_REPO_2_ICON_ID =
 export const DELETE_REPOSITORY_SUBMIT_ID = 'submit-button'
 export const DELETE_REPOSITORY_CANCEL_ID = 'cancel-button'
 
+// REPOSITORY DESCRIPTION
+export const REPOSITORY_DESCRIPTION_CARD_ID =
+  'repository-description-card'
+export const REPOSITORY_DESCRIPTION_LAST_MODIFICATION_DATE_ID =
+  'repository-description-last-modification-date'
+export const REPOSITORY_DESCRIPTION_LAST_PUBLICATION_DATE_ID =
+  'repository-description-last-publication-date'
+export const REPOSITORY_DESCRIPTION_PUBLICATION_STATUS_ID =
+  'repository-description-publication-status'
+export const REPOSITORY_DESCRIPTION_HASH_METHOD_ID =
+  'repository-description-hash-method'
+export const REPOSITORIES_LIST_R_REPO_ID =
+  'repositories-list-testrepo2'
+export const REPOSITORIES_LIST_PYTHON_REPO_ID =
+  'repositories-list-testrepo8'
+
 // SETTINGS FIELD
 export const PAGE_SIZE_ID = 'page-size-input'
 

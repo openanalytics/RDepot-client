@@ -21,6 +21,7 @@
  */
 
 import {
+  EntityModelPythonRepositoryDto,
   EntityModelRRepositoryDto,
   EntityModelRepositoryDto
 } from '@/openapi'
@@ -29,24 +30,28 @@ import {
   RepositoriesFiltration,
   defaultValues
 } from '@/models/Filtration'
-import {
-  fetchRepositoriesService,
-  updateRepository
-} from '@/services/repositoryServices'
+import { fetchRepositoriesService } from '@/services/repositoryServices'
 import { createRepository } from '@/services/repositoryServices'
 import { useUtilities } from '@/composable/utilities'
 import { repositoriesFiltrationLabels } from '@/maps/Filtration'
 import { usePagination } from '@/store/pagination'
 import { DataTableOptions } from '@/models/DataTableOptions'
 import { useSortStore } from './sort'
+import { Technologies } from '@/enum/Technologies'
+import {
+  fetchTechnologyRepository,
+  updateTechnologyRepository
+} from '@/maps/repositories/RepositoryTechnology'
 
 const { deepCopy } = useUtilities()
+export type CombinedRepositoryModel =
+  EntityModelRRepositoryDto & EntityModelPythonRepositoryDto
 
 interface State {
   repositories: EntityModelRepositoryDto[]
   filtration: RepositoriesFiltration
-  chosenRepository: EntityModelRRepositoryDto
-  pending: EntityModelRepositoryDto[]
+  chosenRepository: CombinedRepositoryModel
+  pending: CombinedRepositoryModel[]
   loading: boolean
   totalNumber: number
 }
@@ -110,18 +115,29 @@ export const useRepositoryStore = defineStore(
         this.repositories = repositories
         return pageData
       },
-      async get(name: string, showProgress = false) {
+      async get(
+        name: string,
+        technology?: Technologies,
+        showProgress = false
+      ): Promise<CombinedRepositoryModel[]> {
         const sort = useSortStore()
-        const [repository] = await fetchRepositoriesService(
-          {
-            name: name
-          } as RepositoriesFiltration,
-          undefined,
-          undefined,
-          sort.getSortBy(),
-          showProgress
-        )
-        return repository
+        const getFn = technology
+          ? fetchTechnologyRepository.get(technology)
+          : fetchRepositoriesService
+
+        if (getFn) {
+          const [repository] = await getFn(
+            {
+              name: name
+            } as RepositoriesFiltration,
+            undefined,
+            undefined,
+            sort.getSortBy(),
+            showProgress
+          )
+          return repository
+        }
+        return []
       },
       async getRepositories() {
         const pagination = usePagination()
@@ -157,25 +173,35 @@ export const useRepositoryStore = defineStore(
         }
       },
       async patch(
-        newValues: Partial<EntityModelRRepositoryDto>
+        newValues: Partial<
+          | EntityModelRepositoryDto
+          | EntityModelPythonRepositoryDto
+        >
       ) {
         this.pending.push(this.chosenRepository)
         const newRepository = {
           ...deepCopy(this.chosenRepository),
           ...newValues
         }
-        await updateRepository(
-          this.chosenRepository,
-          newRepository
+        const updateFn = updateTechnologyRepository.get(
+          newRepository.technology as Technologies
         )
-          .then(() => {
-            this.getRepositories()
-          })
-          .finally(() => {
-            this.pending = this.pending.filter(
-              (item) => item.id != this.chosenRepository.id
-            )
-          })
+
+        if (updateFn) {
+          await updateFn(
+            this.chosenRepository,
+            newRepository
+          )
+            .then(async (success: any) => {
+              if (success) await this.getRepositories()
+            })
+            .finally(() => {
+              this.pending = this.pending.filter(
+                (item) =>
+                  item?.id != this.chosenRepository?.id
+              )
+            })
+        }
       },
       async create(
         newRepository: EntityModelRepositoryDto

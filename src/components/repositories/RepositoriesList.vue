@@ -22,24 +22,30 @@
 
 <template>
   <v-data-table-server
+    v-model:expanded="expanded"
     :items-per-page="pagination.pageSize"
     :headers="filteredHeaders"
     :items="repositoryStore.repositories"
     :items-length="repositoryStore.totalNumber"
-    item-value="id"
+    item-value="name"
     :sort-asc-icon="Icons.get('ascending')"
     :sort-desc-icon="Icons.get('descending')"
     color="oablue"
     :loading="repositoryStore.loading"
+    expand-on-click
     :sort-by="sortBy"
     :items-per-page-options="pagination.itemsPerPage"
     @update:options="fetchData"
-    @click:row="navigate"
   >
     <template #top>
       <div class="d-flex justify-space-between mx-3 my-5">
         <h2>{{ i18n.t('repositories.list') }}</h2>
         <AddButton v-if="postCondition" />
+      </div>
+    </template>
+    <template #[`item.name`]="{ value }">
+      <div :id="`repositories-list-${value}`">
+        {{ value }}
       </div>
     </template>
     <template #[`item.technology`]="{ value }">
@@ -125,6 +131,15 @@
           @set-resource-id="chooseRepositoryToUpdate(item)"
         /> </span
     ></template>
+    <template #expanded-row="{ columns }">
+      <td :colspan="columns.length">
+        <div class="additional-row">
+          <v-card class="additional-row expanded-package">
+            <RepositoryDescription />
+          </v-card>
+        </div>
+      </td>
+    </template>
   </v-data-table-server>
 </template>
 
@@ -132,9 +147,7 @@
 import { EntityModelRepositoryDto } from '@/openapi'
 import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
 import EditIcon from '@/components/common/action_icons/EditIcon.vue'
-import router from '@/plugins/router'
 import { useRepositoryStore } from '@/store/repositories'
-import { usePackagesStore } from '@/store/packages'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
 import { usePagination } from '@/store/pagination'
 import { i18n } from '@/plugins/i18n'
@@ -153,9 +166,10 @@ import AddButton from '@/components/common/buttons/AddButton.vue'
 import { useAuthorizationStore } from '@/store/authorization'
 import TechnologyChip from '../common/chips/TechnologyChip.vue'
 import ProgressCircularSmall from '../common/progress/ProgressCircularSmall.vue'
+import RepositoryDescription from './repositoryDetails/RepositoryDescription.vue'
+import { Technologies } from '@/enum/Technologies'
 import Icons from '@/maps/Icons'
 
-const packagesStore = usePackagesStore()
 const { deepCopy } = useUtilities()
 const repositoryStore = useRepositoryStore()
 const pagination = usePagination()
@@ -163,9 +177,30 @@ const { canDelete, canPatch } = useUserAuthorities()
 const configStore = useConfigStore()
 const authorizationStore = useAuthorizationStore()
 
+const exp = ref<string[]>([])
+
 const { getSort } = useSort()
 const defaultSort: Sort[] = [{ key: 'name', order: 'asc' }]
 const sortBy = ref(defaultSort)
+
+const expanded = computed({
+  get(): string[] {
+    return exp.value
+  },
+  async set(newVal: string[]) {
+    repositoryStore.chosenRepository = {}
+    let newRepo = newVal[0]
+    if (
+      newVal[0] == undefined ||
+      newVal[0] == exp.value[0]
+    ) {
+      newRepo = newVal[1]
+    }
+    exp.value = []
+    exp.value.push(newRepo)
+    getRepositoryDetails(newRepo)
+  }
+})
 
 const postCondition = computed(() =>
   authorizationStore.can('POST', 'repository')
@@ -227,6 +262,23 @@ function resetElementWidth() {
   headers.value[1].width = undefined
 }
 
+async function getRepositoryDetails(repoName: string) {
+  if (repositoryStore.filtration.deleted) {
+    repositoryStore.chosenRepository = { name: repoName }
+  } else {
+    const chosenRepo = repositoryStore.repositories.filter(
+      (repository: EntityModelRepositoryDto) =>
+        repository.name == repoName
+    )
+
+    const repositories = await repositoryStore.get(
+      repoName,
+      chosenRepo[0].technology as Technologies
+    )
+    repositoryStore.chosenRepository = repositories[0]
+  }
+}
+
 const filteredHeaders = computed(() => {
   let filteredHeaders = headers.value
   if (repositoryStore.filtration.deleted) {
@@ -252,17 +304,6 @@ function fetchData(options: DataTableOptions) {
   repositoryStore.getPage(options)
 }
 
-function navigate(_event: Event, dataTableRepo: any) {
-  chooseRepository(
-    dataTableRepo.internalItem.raw.name
-      ? dataTableRepo.internalItem.raw.name
-      : ''
-  )
-  router.push({
-    name: 'packages'
-  })
-}
-
 function isDisabled(item: EntityModelRepositoryDto) {
   return (
     configStore.declarativeMode ||
@@ -281,10 +322,6 @@ function updateRepositoryPublished(
     newRepository.published = !newRepository.published
     repositoryStore.patch(newRepository)
   }
-}
-
-function chooseRepository(name: string) {
-  packagesStore.setFiltrationBy({ repository: [name] })
 }
 
 function chooseRepositoryToUpdate(

@@ -376,6 +376,13 @@
       "publish": "Publikowanie jest niedostępne w deklaratywnym trybie"
     },
     "deleted": "To repozytorium jest usunięte",
+    "details": {
+      "hash-method": "Metoda szyfrowania",
+      "last-modification-date": "Data ostatniej modyfikacji",
+      "last-publication-date": "Data ostatniej publikacji",
+      "publication-failed": "publikacja nie powiodła się",
+      "publication-succeed": "publikacja powiodła się"
+    },
     "edit": {
       "title": "Edytuj repozytorium"
     },
