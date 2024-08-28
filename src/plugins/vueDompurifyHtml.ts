@@ -43,24 +43,12 @@ export const VueDOMPurifyHTMLconfig = {
           node.getAttribute('class') || ''
         )
         icon.setAttribute('tmp-code', data.attrValue)
-        console.log(node.parentElement)
-        node.parentElement!.style.cssText = preStyle
         node.parentElement!.appendChild(icon)
         node.parentElement!.removeChild(node)
       }
     },
     afterSanitizeAttributes: (node: HTMLElement) => {
       switch (node.nodeName) {
-        case 'TH':
-        case 'TD':
-          node.style.cssText = thStyle
-          break
-        case 'TABLE':
-          node.style.cssText = tableStyle
-          break
-        case 'CODE':
-          node.style.cssText = codeStyle
-          break
         case 'I':
           if (
             node.hasAttribute('tmp-code') &&
@@ -108,10 +96,3 @@ function check_code(
     argument === code_text.trim().replaceAll('\n', '\\n')
   )
 }
-
-const preStyle =
-  'background-color: rgba(var(--v-theme-code)); padding: 20px; line-height: 1.5; border-radius: 8px; -webkit-box-shadow: 4px 4px 12px 0px #42445a; -moz-box-shadow: 4px 4px 12px 0px rgba(66, 68, 90, 1); box-shadow: 2px 2px 6px 0px rgba(66, 68, 90, 1); max-width: 1200px; font-size: 0.9em; white-space: pre-line;'
-const codeStyle = 'margin-top: -25px; align-self: center;'
-const tableStyle =
-  'border: 1px solid; border-collapse: collapse'
-const thStyle = 'border: 1px solid; padding: 10px;'

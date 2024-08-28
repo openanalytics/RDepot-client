@@ -22,6 +22,7 @@
 
 <template>
   <div
+    id="markdown-description"
     v-dompurify-html="mdDescription"
     :class="[
       'text',
@@ -62,39 +63,40 @@ const mdDescription = computed(() => {
 })
 </script>
 
-<style local lang="scss" scoped>
+<style local lang="scss">
 $code_color: rgba(var(--v-theme-code));
+#markdown-description {
+  code {
+    margin-top: -25px; // removes weird extra newline at the beginning of code block
+    align-self: center;
+  }
 
-code {
-  margin-top: -25px; // removes weird extra newline at the beginning of code block
-  align-self: center;
-}
+  i {
+    align-self: center;
+  }
 
-i {
-  align-self: center;
-}
+  pre {
+    background-color: $code_color;
+    padding: 20px;
+    line-height: 1.5;
+    border-radius: 8px;
+    -webkit-box-shadow: 4px 4px 12px 0px #42445a;
+    -moz-box-shadow: 4px 4px 12px 0px rgba(66, 68, 90, 1);
+    box-shadow: 2px 2px 6px 0px rgba(66, 68, 90, 1);
+    max-width: 1200px;
+    font-size: 0.9em;
+    white-space: pre-line;
+  }
 
-pre {
-  background-color: $code_color;
-  padding: 20px;
-  line-height: 1.5;
-  border-radius: 8px;
-  -webkit-box-shadow: 4px 4px 12px 0px #42445a;
-  -moz-box-shadow: 4px 4px 12px 0px rgba(66, 68, 90, 1);
-  box-shadow: 2px 2px 6px 0px rgba(66, 68, 90, 1);
-  max-width: 1200px;
-  font-size: 0.9em;
-  white-space: pre-line;
-}
+  th,
+  td {
+    border: 1px solid;
+    padding: 10px;
+  }
 
-th,
-td {
-  border: 1px solid;
-  padding: 10px;
-}
-
-table {
-  border: 1px solid;
-  border-collapse: collapse;
+  table {
+    border: 1px solid;
+    border-collapse: collapse;
+  }
 }
 </style>
