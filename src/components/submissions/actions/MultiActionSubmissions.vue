@@ -47,65 +47,73 @@
         </v-btn>
       </template>
       <v-btn
-        id="submissions-multi-accept"
+        id="submissions-multi-divert-attention"
         key="1"
-        v-tooltip:end="
-          `${i18n.t('action.accept')} ${
-            submissionStore.selected.length == 0
-              ? '(' +
-                i18n.t('package.chooseOneToEnable') +
-                ')'
-              : ''
-          }`
-        "
-        icon="mdi-email-check-outline"
-        color="success"
-        :disabled="submissionStore.selected.length == 0"
-        size="small"
-        @click="
-          openEditDialog(SubmissionEditOptions.enum.accept)
-        "
+        style="display: none"
       />
-      <v-btn
-        id="submissions-multi-reject"
-        key="2"
+      <div
         v-tooltip:end="
-          `${i18n.t('action.reject')} ${
-            submissionStore.selected.length == 0
-              ? '(' +
-                i18n.t('package.chooseOneToEnable') +
-                ')'
-              : ''
-          }`
+          `${i18n.t(
+            'action.accept'
+          )} ${chooseAtLeasOneMessage}`
         "
-        icon="mdi-email-remove-outline"
-        color="oared"
-        :disabled="submissionStore.selected.length == 0"
-        size="small"
-        @click="
-          openEditDialog(SubmissionEditOptions.enum.reject)
-        "
-      />
-      <v-btn
-        id="submissions-multi-cancel"
-        key="3"
+      >
+        <v-btn
+          id="submissions-multi-accept"
+          key="2"
+          icon="mdi-email-check-outline"
+          color="success"
+          :disabled="submissionStore.selected.length == 0"
+          size="small"
+          @click="
+            openEditDialog(
+              SubmissionEditOptions.enum.accept
+            )
+          "
+        />
+      </div>
+      <div
         v-tooltip:end="
-          `${i18n.t('action.cancel')} ${
-            submissionStore.selected.length == 0
-              ? '(' +
-                i18n.t('package.chooseOneToEnable') +
-                ')'
-              : ''
-          }`
+          `${i18n.t(
+            'action.reject'
+          )} ${chooseAtLeasOneMessage}`
         "
-        icon="mdi-cancel"
-        color="oared"
-        :disabled="submissionStore.selected.length == 0"
-        size="small"
-        @click="
-          openEditDialog(SubmissionEditOptions.enum.cancel)
+      >
+        <v-btn
+          id="submissions-multi-reject"
+          key="3"
+          icon="mdi-email-remove-outline"
+          color="oared"
+          :disabled="submissionStore.selected.length == 0"
+          size="small"
+          @click="
+            openEditDialog(
+              SubmissionEditOptions.enum.reject
+            )
+          "
+        />
+      </div>
+      <div
+        v-tooltip:end="
+          `${i18n.t(
+            'action.cancel'
+          )} ${chooseAtLeasOneMessage}`
         "
-      />
+      >
+        <v-btn
+          id="submissions-multi-cancel"
+          key="4"
+          icon="mdi-cancel"
+          color="oared"
+          :disabled="submissionStore.selected.length == 0"
+          size="small"
+          @click="
+            openEditDialog(
+              SubmissionEditOptions.enum.cancel
+            )
+          "
+        />
+      </div>
     </v-speed-dial>
   </div>
 </template>
@@ -116,6 +124,7 @@ import { useCommonStore } from '@/store/common'
 import { i18n } from '@/plugins/i18n'
 import { OverlayEnum } from '@/enum/Overlay'
 import { SubmissionEditOptions } from '@/enum/SubmissionEditOptions'
+import { computed } from 'vue'
 
 defineProps({
   allSelected: {
@@ -136,6 +145,12 @@ function selectAll() {
 
 const submissionStore = useSubmissionStore()
 const commonStore = useCommonStore()
+
+const chooseAtLeasOneMessage = computed(() =>
+  submissionStore.selected.length == 0
+    ? ' (' + i18n.t('package.chooseOneToEnable') + ')'
+    : ''
+)
 
 function openEditDialog(editOption: SubmissionEditOptions) {
   submissionStore.prepareToEdit(editOption)
