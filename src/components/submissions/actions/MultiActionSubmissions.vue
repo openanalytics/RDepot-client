@@ -46,87 +46,74 @@
         >
         </v-btn>
       </template>
-      <v-tooltip location="right">
-        <template #activator="{ props: tooltipActivator }">
-          <div v-bind="tooltipActivator">
-            <v-btn
-              id="submissions-multi-accept"
-              key="1"
-              icon="mdi-email-check-outline"
-              color="success"
-              :disabled="
-                submissionStore.selected.length == 0
-              "
-              size="small"
-              @click="
-                openEditDialog(
-                  SubmissionEditOptions.enum.accept
-                )
-              "
-            ></v-btn>
-          </div>
-        </template>
-        <span
-          >{{ i18n.t('action.accept') }}
-          <span v-if="submissionStore.selected.length == 0"
-            >({{ i18n.t('package.chooseOneToEnable') }})
-          </span></span
-        >
-      </v-tooltip>
-      <v-tooltip location="right">
-        <template #activator="{ props: tooltipActivator }">
-          <div v-bind="tooltipActivator">
-            <v-btn
-              id="submissions-multi-reject"
-              key="2"
-              icon="mdi-email-remove-outline"
-              color="oared"
-              :disabled="
-                submissionStore.selected.length == 0
-              "
-              size="small"
-              @click="
-                openEditDialog(
-                  SubmissionEditOptions.enum.reject
-                )
-              "
-            ></v-btn>
-          </div>
-        </template>
-        <span
-          >{{ i18n.t('action.reject') }}
-          <span v-if="submissionStore.selected.length == 0"
-            >({{ i18n.t('package.chooseOneToEnable') }})
-          </span></span
-        >
-      </v-tooltip>
-      <v-tooltip location="right">
-        <template #activator="{ props: tooltipActivator }">
-          <div v-bind="tooltipActivator">
-            <v-btn
-              id="submissions-multi-cancel"
-              key="3"
-              icon="mdi-cancel"
-              color="oared"
-              :disabled="
-                submissionStore.selected.length == 0
-              "
-              size="small"
-              @click="
-                openEditDialog(
-                  SubmissionEditOptions.enum.cancel
-                )
-              "
-            ></v-btn>
-          </div>
-        </template>
-        <span
-          >{{ i18n.t('action.cancel') }}
-          <span v-if="submissionStore.selected.length == 0"
-            >({{ i18n.t('package.chooseOneToEnable') }})
-          </span></span
-        >
-      </v-tooltip>
+      <v-btn
+        id="submissions-multi-divert-attention"
+        key="1"
+        style="display: none"
+      />
+      <div
+        v-tooltip:end="
+          `${i18n.t(
+            'action.accept'
+          )} ${chooseAtLeasOneMessage}`
+        "
+      >
+        <v-btn
+          id="submissions-multi-accept"
+          key="2"
+          icon="mdi-email-check-outline"
+          color="success"
+          :disabled="submissionStore.selected.length == 0"
+          size="small"
+          @click="
+            openEditDialog(
+              SubmissionEditOptions.enum.accept
+            )
+          "
+        />
+      </div>
+      <div
+        v-tooltip:end="
+          `${i18n.t(
+            'action.reject'
+          )} ${chooseAtLeasOneMessage}`
+        "
+      >
+        <v-btn
+          id="submissions-multi-reject"
+          key="3"
+          icon="mdi-email-remove-outline"
+          color="oared"
+          :disabled="submissionStore.selected.length == 0"
+          size="small"
+          @click="
+            openEditDialog(
+              SubmissionEditOptions.enum.reject
+            )
+          "
+        />
+      </div>
+      <div
+        v-tooltip:end="
+          `${i18n.t(
+            'action.cancel'
+          )} ${chooseAtLeasOneMessage}`
+        "
+      >
+        <v-btn
+          id="submissions-multi-cancel"
+          key="4"
+          icon="mdi-cancel"
+          color="oared"
+          :disabled="submissionStore.selected.length == 0"
+          size="small"
+          @click="
+            openEditDialog(
+              SubmissionEditOptions.enum.cancel
+            )
+          "
+        />
+      </div>
     </v-speed-dial>
   </div>
 </template>
@@ -137,6 +124,7 @@ import { useCommonStore } from '@/store/common'
 import { i18n } from '@/plugins/i18n'
 import { OverlayEnum } from '@/enum/Overlay'
 import { SubmissionEditOptions } from '@/enum/SubmissionEditOptions'
+import { computed } from 'vue'
 
 defineProps({
   allSelected: {
@@ -157,6 +145,12 @@ function selectAll() {
 
 const submissionStore = useSubmissionStore()
 const commonStore = useCommonStore()
+
+const chooseAtLeasOneMessage = computed(() =>
+  submissionStore.selected.length == 0
+    ? ' (' + i18n.t('package.chooseOneToEnable') + ')'
+    : ''
+)
 
 function openEditDialog(editOption: SubmissionEditOptions) {
   submissionStore.prepareToEdit(editOption)
