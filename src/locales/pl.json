@@ -520,5 +520,8 @@
       "searchBox": "Użytkownik..."
     },
     "unableDeactivation": "Użytkownik nie może dezaktywować siebie"
+  },
+  "datatable": {
+    "itemsPerPage": "Liczba elementów na stronie"
   }
 }
