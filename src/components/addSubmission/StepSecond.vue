@@ -116,10 +116,17 @@ function savePackagesInStore() {
 }
 
 function checkValidity(file: File) {
-  return filesStore.checkValidity(
-    file,
-    'application/gzip',
-    '.tar.gz'
+  return (
+    filesStore.checkValidity(
+      file,
+      'application/gzip',
+      '.tar.gz'
+    ) ||
+    filesStore.checkValidity(
+      file,
+      'application/x-gzip',
+      '.tar.gz'
+    )
   )
 }
 
