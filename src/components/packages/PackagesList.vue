@@ -38,6 +38,7 @@
     expand-on-click
     :sort-by="sortBy"
     :items-per-page-options="pagination.itemsPerPage"
+    :items-per-page-text="$t('datatable.itemsPerPage')"
     @update:options="fetchData"
   >
     <template

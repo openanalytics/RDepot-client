@@ -174,6 +174,10 @@
     "deletingRepositories": "Usuwanie repozytorium nieaktywne z powodu konfiguracji",
     "replacingPackages": "Podmiana istniejącego pakietu nieaktywna z powodu konfiguracji"
   },
+  "datatable": {
+    "itemsPerPage": "Liczba elementów na stronie",
+    "noDataAvailable": "Brak rezultatów"
+  },
   "dragzone": {
     "active": "Przeciągnij jeden lub więcej plików",
     "click": "aby wybrać je ręcznie",

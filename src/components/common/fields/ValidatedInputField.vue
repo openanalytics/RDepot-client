@@ -31,6 +31,7 @@
     :style="{
       maxWidth: fieldMaxWidth + 'px'
     }"
+    :no-data-text="$t('datatable.noDataAvailable')"
     @blur="handleBlur"
   >
     <template
