@@ -25,7 +25,7 @@
     <template #activator="{ props }">
       <div id="tooltip-activator">
         <CommonButton
-          id="add-maintainer"
+          id="add-token"
           :component="OverlayEnum.enum.Create"
           size="small"
           v-bind="props"

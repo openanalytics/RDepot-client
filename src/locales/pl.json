@@ -439,6 +439,7 @@
       "edited": "Token pomyślnie edytowany"
     },
     "newToken": "Nowy token",
+    "notConfigurableExpirationDate": "Czas aktywności jest zablokowany, ponieważ konfiguracja aplikacji nie pozwala na jego modyfikację",
     "save": "Zapisz zmiany",
     "tab": {
       "general": "Ogólne",

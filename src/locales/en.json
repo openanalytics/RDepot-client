@@ -445,6 +445,7 @@
       "edited": "Token edited"
     },
     "newToken": "New token",
+    "notConfigurableExpirationDate": "Access token lifetime is not configurable",
     "save": "Save changes",
     "tab": {
       "general": "General",
