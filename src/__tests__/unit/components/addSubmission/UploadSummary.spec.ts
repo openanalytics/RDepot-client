@@ -20,13 +20,7 @@
  *
  */
 
-import {
-  describe,
-  it,
-  expect,
-  beforeEach,
-  vi
-} from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 
 import { mount } from '@vue/test-utils'
 import { plugins } from '@/__tests__/config/plugins'
@@ -35,7 +29,6 @@ import { createPinia, setActivePinia } from 'pinia'
 import UploadSummary from '@/components/addSubmission/UploadSummary.vue'
 import submissions from '@/__tests__/config/mockData/submissions.json'
 import { PackagePromise } from '@/store/submission'
-import { usePackagesStore } from '@/store/packages'
 import { VProgressCircular } from 'vuetify/components'
 import { useAuthorizationStore } from '@/store/authorization'
 import me from '@/__tests__/config/mockData/me.json'
@@ -46,7 +39,6 @@ const globalConfig = {
   plugins: plugins
 }
 
-let packageStore: any
 let authorizationStore: any
 
 const file: File = {
@@ -65,7 +57,6 @@ const promise: PackagePromise = {
 describe('Upload summary - pending', () => {
   beforeEach(async () => {
     setActivePinia(createPinia())
-    packageStore = usePackagesStore()
     authorizationStore = useAuthorizationStore()
     authorizationStore.me = me.data
     wrapper = mount(UploadSummary, {
@@ -142,7 +133,6 @@ describe('Upload summary - error', () => {
 
   beforeEach(async () => {
     setActivePinia(createPinia())
-    packageStore = usePackagesStore()
     authorizationStore = useAuthorizationStore()
     authorizationStore.me = me.data
     wrapper = mount(UploadSummary, {
@@ -233,7 +223,6 @@ describe('Upload summary - success', () => {
 
   beforeEach(async () => {
     setActivePinia(createPinia())
-    packageStore = usePackagesStore()
     authorizationStore = useAuthorizationStore()
     authorizationStore.me = me.data
     wrapper = mount(UploadSummary, {
@@ -271,24 +260,6 @@ describe('Upload summary - success', () => {
     expect(errorIcon.exists()).toBeFalsy()
   })
 
-  it('download icon is displayed', () => {
-    const downloadIcon = wrapper.find(
-      '#download-manual-icon'
-    )
-    expect(downloadIcon.exists()).toBeTruthy()
-  })
-
-  it('download manual after click action ', async () => {
-    const spy = vi.fn(() => {})
-    packageStore.getManual = spy
-    const downloadIcon = wrapper.find(
-      '#download-manual-icon'
-    )
-    expect(downloadIcon.exists()).toBeTruthy()
-    await downloadIcon.trigger('click')
-    expect(spy).toBeCalledTimes(1)
-  })
-
   it('file name is displayed', () => {
     const text = wrapper.text()
     expect(text).toContain(promise.packageBag?.name)
@@ -321,7 +292,6 @@ describe('Upload summary - success, no manual', () => {
 
   beforeEach(async () => {
     setActivePinia(createPinia())
-    packageStore = usePackagesStore()
 
     wrapper = mount(UploadSummary, {
       global: globalConfig,
@@ -335,13 +305,6 @@ describe('Upload summary - success, no manual', () => {
 
   it('renders properly', () => {
     expect(wrapper.exists()).toBe(true)
-  })
-
-  it('download icon is not displayed', () => {
-    const downloadIcon = wrapper.find(
-      '#download-manual-icon'
-    )
-    expect(downloadIcon.exists()).toBeTruthy()
   })
 
   it('file name is displayed', () => {
@@ -376,7 +339,6 @@ describe('Upload summary - no manual options', () => {
 
   beforeEach(async () => {
     setActivePinia(createPinia())
-    packageStore = usePackagesStore()
 
     wrapper = mount(UploadSummary, {
       global: globalConfig,

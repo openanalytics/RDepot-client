@@ -167,7 +167,9 @@
     "submissions": "Zgłoszenia",
     "submit": "Zatwierdź",
     "uploadPackages": "Prześlij pakiety",
-    "users": "Użytkownicy"
+    "users": "Użytkownicy",
+    "clear": "Wyczyść",
+    "clearAll": "Wyczyść wszystkie pakiety"
   },
   "config": {
     "deletingPackages": "Usuwanie pakietu nieaktywne z powodu konfiguracji",
@@ -351,7 +353,8 @@
     "windowsBinaries": "Pliki binarne Windows",
     "windowsBineries": "Pliki binarne Windows",
     "withinPackage": "Metadane pakietu",
-    "withinRdepot": "Wewnątrz RDepot"
+    "withinRdepot": "Wewnątrz RDepot",
+    "replace": "Podmień"
   },
   "pagination": {
     "size": "Rozmiar strony (paginacja)"

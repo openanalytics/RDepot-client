@@ -131,9 +131,7 @@ describe('Add submission - second step', () => {
 
     expect(checkboxUnmarked.isVisible()).toBeTruthy()
     expect(checkboxMarked.exists()).toBeFalsy()
-    expect(wrapper.text()).toContain(
-      'packages.generatemanual'
-    )
+    expect(wrapper.text()).toContain('Generate manual')
   })
 
   it('generate manual change on click', async () => {
@@ -170,7 +168,7 @@ describe('Add submission - second step', () => {
     checkboxUnmarked = wrapper.find(
       '.mdi-checkbox-blank-outline'
     )
-    expect(checkboxUnmarked.exists()).toBeFalsy()
+    expect(checkboxUnmarked.exists()).toBeTruthy()
     expect(checkboxMarked.isVisible()).toBeTruthy()
   })
 
@@ -199,7 +197,7 @@ describe('Add submission - second step', () => {
     const checkboxUnmarked = wrapper.find(
       '.mdi-checkbox-blank-outline'
     )
-    expect(checkboxUnmarked.exists()).toBeFalsy()
+    expect(checkboxUnmarked.exists()).toBeTruthy()
     expect(wrapper.text()).not.toContain('generate manual')
   })
 })

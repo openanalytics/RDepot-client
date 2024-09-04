@@ -30,87 +30,99 @@
     </div>
 
     <v-divider></v-divider>
-
-    <v-list class="text-left">
-      <v-list-item
-        v-if="!!filesStore.files.length"
-        class="text-overline"
-      >
+    <v-data-table
+      :headers="headers"
+      :items="filesStore.files"
+      hover
+      hide-default-footer
+      items-per-page="-1"
+    >
+      <template #[`item.remove`]="{ item }">
         <v-btn
-          size="x-small"
-          color="oared mb-1"
-          class="reset-opacity"
-          variant="outlined"
-          @click="resetPackages()"
-          >{{ $t('common.reset') }}</v-btn
+          variant="plain"
+          :icon="Icons.get('delete')"
+          size="medium"
+          class="mr-3"
+          color="oared"
+          @click="filesStore.removeFile(item)"
+        />
+      </template>
+      <template #[`item.name`]="{ item }">
+        <div class="text-left">
+          {{ formatFilename(item.name) }}
+        </div>
+      </template>
+      <template
+        v-if="
+          submissionsStore.repository?.technology !=
+          Technologies.enum.Python
+        "
+        #[`item.manual`]="{ item }"
+        ><v-tooltip location="top">
+          <template #activator="{ props }">
+            <v-btn
+              v-if="
+                submissionsStore.getGenerateManualForPackage(
+                  item
+                )
+              "
+              :icon="Icons.get('checkbox')"
+              variant="text"
+              v-bind="props"
+              class="mx-8"
+              @click="
+                submissionsStore.removeGenerateManualOptionForPackage(
+                  item
+                )
+              "
+            ></v-btn>
+            <v-btn
+              v-else
+              :icon="Icons.get('checkbox-not')"
+              class="mx-8"
+              variant="text"
+              v-bind="props"
+              @click="
+                submissionsStore.addGenerateManualOptionForPackage(
+                  item
+                )
+              "
+            >
+            </v-btn>
+          </template>
+          <span id="tooltip-wait">{{
+            $t('packages.generatemanual')
+          }}</span>
+        </v-tooltip>
+      </template>
+      <template #[`item.replace`]="{ item }">
+        <ReplaceOption
+          :disabled="!configStore.replacingPackages"
+          :file="item"
+        />
+      </template>
+      <template #[`top`]>
+        <v-tooltip location="top"
+          ><template #activator="{ props }">
+            <v-btn
+              v-if="!!filesStore.files.length"
+              size="x-small"
+              color="oared mb-1"
+              class="reset-opacity"
+              variant="outlined"
+              v-bind="props"
+              style="max-width: 15%"
+              @click="resetPackages()"
+              >{{ $t('common.clear') }}</v-btn
+            >
+          </template>
+          <span id="tooltip-reset">
+            {{ $t('common.clearAll') }}</span
+          ></v-tooltip
         >
-
-        <template
-          v-if="
-            submissionsStore.repository?.technology !=
-            Technologies.enum.Python
-          "
-          #append
-        >
-          {{ $t('packages.generatemanual') }}
-        </template>
-      </v-list-item>
-      <v-list-item
-        v-for="file in filesStore.files"
-        :key="file.name"
-        :title="formatFilename(file.name)"
-        class="hoverable"
-      >
-        <template #prepend>
-          <v-btn
-            variant="plain"
-            :icon="Icons.get('delete')"
-            size="medium"
-            class="mr-3"
-            color="oared"
-            @click="filesStore.removeFile(file)"
-          />
-          <ReplaceOption
-            :disabled="!configStore.replacingPackages"
-            :file="file"
-          />
-        </template>
-
-        <template
-          v-if="
-            submissionsStore.repository?.technology !=
-            Technologies.enum.Python
-          "
-          #append
-        >
-          <v-btn
-            v-if="
-              submissionsStore.getGenerateManualForPackage(
-                file
-              )
-            "
-            :icon="Icons.get('checkbox')"
-            variant="text"
-            @click="
-              submissionsStore.removeGenerateManualOptionForPackage(
-                file
-              )
-            "
-          ></v-btn>
-          <v-btn
-            v-else
-            :icon="Icons.get('checkbox-not')"
-            variant="text"
-            @click="
-              submissionsStore.addGenerateManualOptionForPackage(
-                file
-              )
-            "
-          >
-          </v-btn>
-        </template>
-      </v-list-item>
-    </v-list>
+        <v-spacer></v-spacer>
+      </template>
+    </v-data-table>
   </v-card-text>
 </template>
 
@@ -123,7 +135,9 @@ import { useFiles } from '@/composable/file'
 import { useConfigStore } from '@/store/config'
 import Icons from '@/maps/Icons'
 import { Technologies } from '@/enum/Technologies'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const submissionsStore = useSubmissionStore()
 const filesStore = useFilesListStore()
 const configStore = useConfigStore()
@@ -133,10 +147,68 @@ const chosenRepository = computed(() => {
 })
 
 function resetPackages() {
+  console.log(filesStore.files)
   filesStore.files = []
   submissionsStore.setPackages([])
   // reset()
 }
+
+const headers: any = computed(() => {
+  if (
+    submissionsStore.repository?.technology !=
+    Technologies.enum.Python
+  ) {
+    return [
+      {
+        title: '',
+        key: 'remove',
+        align: 'center',
+        sortable: false
+      },
+      {
+        title: t('columns.package.name'),
+        key: 'name',
+        align: 'start',
+        sortable: false,
+        width: '60%'
+      },
+      {
+        title: t('packages.generatemanual'),
+        key: 'manual',
+        align: 'center',
+        sortable: false
+      },
+      {
+        title: t('packages.replace'),
+        key: 'replace',
+        align: 'center',
+        sortable: false
+      }
+    ]
+  } else {
+    return [
+      {
+        title: '',
+        key: 'remove',
+        align: 'center',
+        sortable: false
+      },
+      {
+        title: t('columns.package.name'),
+        key: 'name',
+        align: 'start',
+        sortable: false,
+        width: '60%'
+      },
+      {
+        title: t('packages.replace'),
+        key: 'replace',
+        align: 'center',
+        sortable: false
+      }
+    ]
+  }
+})
 </script>
 
 <style lang="scss">

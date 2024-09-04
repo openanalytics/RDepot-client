@@ -63,15 +63,15 @@ describe('Replace Option', () => {
     const submissionsStore = useSubmissionStore()
     submissionsStore.replace = []
     const replaceIconOutline = wrapper.find(
-      '.mdi-file-replace-outline'
+      '.mdi-checkbox-blank-outline'
     )
     expect(replaceIconOutline.exists()).toBeTruthy()
   })
 
   it('replace button has changes store and value on click', async () => {
     const submissionsStore = useSubmissionStore()
-    const fileReplace = '.mdi-file-replace'
-    const fileReplaceOutline = '.mdi-file-replace-outline'
+    const fileReplace = '.mdi-checkbox-marked-outline'
+    const fileReplaceOutline = '.mdi-checkbox-blank-outline'
     expect(
       wrapper.find(fileReplaceOutline).exists()
     ).toBeTruthy()

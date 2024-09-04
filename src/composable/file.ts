@@ -24,7 +24,7 @@ export function useFiles() {
   function formatFilename(filename: string): string {
     if (filename.length >= 50) {
       return `${filename.slice(0, 25)}...${filename.slice(
-        -21
+        -13
       )}`
     } else {
       return filename

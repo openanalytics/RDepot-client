@@ -167,7 +167,9 @@
     "submissions": "Submissions",
     "submit": "Submit",
     "uploadPackages": "Upload packages",
-    "users": "Users"
+    "users": "Users",
+    "clear": "Clear all",
+    "clearAll": "Clear all packages"
   },
   "config": {
     "deletingPackages": "Package deletion is disabled due to the configuration",
@@ -357,7 +359,8 @@
     "windowsBinaries": "Windows binaries",
     "windowsBineries": "Windows binaries",
     "withinPackage": "Package metadata",
-    "withinRdepot": "Within RDepot"
+    "withinRdepot": "Within RDepot",
+    "replace": "Replace"
   },
   "pagination": {
     "size": "Items per page (pagination)"

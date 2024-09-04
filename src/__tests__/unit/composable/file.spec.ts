@@ -44,7 +44,7 @@ describe('file composable', () => {
     const { formatFilename } = useFiles()
     const name: string = formatFilename(LONG_FILE_NAME)
     expect(name).toEqual(
-      'very-long-file-name-with-...g-sentence-inside.pdf'
+      'very-long-file-name-with-...ce-inside.pdf'
     )
   })
 
