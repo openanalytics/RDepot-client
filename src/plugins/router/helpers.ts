@@ -184,7 +184,7 @@ export async function authorizeInternalPath(to: any) {
   return undefined
 }
 
-export function clearFiltrations(to: string, from: string) {
+export function clearFiltrations(to: any, from: any) {
   switch (from) {
     case 'events':
       useEventsStore().clearFiltration()
