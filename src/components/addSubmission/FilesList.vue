@@ -104,8 +104,8 @@
       </template>
       <template #[`top`]>
         <v-tooltip
-          location="top"
           v-if="!!filesStore.files.length"
+          location="top"
           ><template #activator="{ props }">
             <v-btn
               v-if="!!filesStore.files.length"
