@@ -122,6 +122,8 @@
     "apply": "Apply",
     "before": "Before",
     "cancel": "Cancel",
+    "clear": "Clear all",
+    "clearAll": "Clear all packages",
     "clearForm": "Clear form",
     "click": "click",
     "copied": "Code succesfully copied to clipboard",
@@ -167,9 +169,7 @@
     "submissions": "Submissions",
     "submit": "Submit",
     "uploadPackages": "Upload packages",
-    "users": "Users",
-    "clear": "Clear all",
-    "clearAll": "Clear all packages"
+    "users": "Users"
   },
   "config": {
     "deletingPackages": "Package deletion is disabled due to the configuration",
@@ -340,6 +340,7 @@
     "projectUrl": "Project URL",
     "providesExtra": "Provides extra",
     "referenceManual": "Reference Manual",
+    "replace": "Replace",
     "replaceOptionDesc": "Replace if package with the same name and version already exists in chosen repository",
     "requiresDist": "Requires distribution",
     "requiresExternal": "Requires external",
@@ -359,8 +360,7 @@
     "windowsBinaries": "Windows binaries",
     "windowsBineries": "Windows binaries",
     "withinPackage": "Package metadata",
-    "withinRdepot": "Within RDepot",
-    "replace": "Replace"
+    "withinRdepot": "Within RDepot"
   },
   "pagination": {
     "size": "Items per page (pagination)"

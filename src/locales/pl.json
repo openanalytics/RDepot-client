@@ -122,6 +122,8 @@
     "apply": "Zastosuj",
     "before": "Przed",
     "cancel": "Anuluj",
+    "clear": "Wyczyść",
+    "clearAll": "Wyczyść wszystkie pakiety",
     "clearForm": "Wyczyść formularz",
     "click": "naciśnij",
     "copied": "Kod został skopiowany",
@@ -167,9 +169,7 @@
     "submissions": "Zgłoszenia",
     "submit": "Zatwierdź",
     "uploadPackages": "Prześlij pakiety",
-    "users": "Użytkownicy",
-    "clear": "Wyczyść",
-    "clearAll": "Wyczyść wszystkie pakiety"
+    "users": "Użytkownicy"
   },
   "config": {
     "deletingPackages": "Usuwanie pakietu nieaktywne z powodu konfiguracji",
@@ -334,6 +334,7 @@
     "projectUrl": "URL projektu",
     "providesExtra": "Dostarcza dodatkowe",
     "referenceManual": "Instrukcja",
+    "replace": "Podmień",
     "replaceOptionDesc": "Podmień, jeżeli pakiet o tej samej nazwie i wersji istnieje już w wybranym repozytorium",
     "requiresDist": "Wymaga dystrybucji",
     "requiresExternal": "Zewnętrzne wymagania",
@@ -353,8 +354,7 @@
     "windowsBinaries": "Pliki binarne Windows",
     "windowsBineries": "Pliki binarne Windows",
     "withinPackage": "Metadane pakietu",
-    "withinRdepot": "Wewnątrz RDepot",
-    "replace": "Podmień"
+    "withinRdepot": "Wewnątrz RDepot"
   },
   "pagination": {
     "size": "Rozmiar strony (paginacja)"

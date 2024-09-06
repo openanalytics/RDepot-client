@@ -36,6 +36,7 @@
       hover
       hide-default-footer
       items-per-page="-1"
+      :no-data-text="$t('datatable.noDataAvailable')"
     >
       <template #[`item.remove`]="{ item }">
         <v-btn
@@ -102,7 +103,9 @@
         />
       </template>
       <template #[`top`]>
-        <v-tooltip location="top"
+        <v-tooltip
+          location="top"
+          v-if="!!filesStore.files.length"
           ><template #activator="{ props }">
             <v-btn
               v-if="!!filesStore.files.length"
@@ -111,7 +114,11 @@
               class="reset-opacity"
               variant="outlined"
               v-bind="props"
-              style="max-width: 15%"
+              style="
+                max-width: 15%;
+                align-self: end;
+                margin-top: 10px;
+              "
               @click="resetPackages()"
               >{{ $t('common.clear') }}</v-btn
             >
@@ -120,7 +127,6 @@
             {{ $t('common.clearAll') }}</span
           ></v-tooltip
         >
-        <v-spacer></v-spacer>
       </template>
     </v-data-table>
   </v-card-text>
@@ -160,12 +166,6 @@ const headers: any = computed(() => {
   ) {
     return [
       {
-        title: '',
-        key: 'remove',
-        align: 'center',
-        sortable: false
-      },
-      {
         title: t('columns.package.name'),
         key: 'name',
         align: 'start',
@@ -183,16 +183,16 @@ const headers: any = computed(() => {
         key: 'replace',
         align: 'center',
         sortable: false
-      }
-    ]
-  } else {
-    return [
+      },
       {
         title: '',
         key: 'remove',
         align: 'center',
         sortable: false
-      },
+      }
+    ]
+  } else {
+    return [
       {
         title: t('columns.package.name'),
         key: 'name',
@@ -203,6 +203,12 @@ const headers: any = computed(() => {
       {
         title: t('packages.replace'),
         key: 'replace',
+        align: 'center',
+        sortable: false
+      },
+      {
+        title: '',
+        key: 'remove',
         align: 'center',
         sortable: false
       }
