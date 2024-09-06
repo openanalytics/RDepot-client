@@ -371,3 +371,9 @@ export const PAGE_SIZE_ID = 'page-size-input'
 
 // GENERAL SETTINGS PAGE
 export const SAVE_CHANGES_BUTTON_ID = 'save-changes'
+export const ADD_TOKEN_BUTTON_ID = 'add-token'
+export const CREATE_TOKEN_NAME_INPUT_ID =
+  'create-token-name'
+export const CREATE_TOKEN_EXPIRATION_DATE_INPUT_ID =
+  'create-token-expiration-date'
+export const CREATE_TOKEN_SUBMIT_BUTTON_ID = 'submit-button'

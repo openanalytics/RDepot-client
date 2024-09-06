@@ -29,7 +29,7 @@
     <v-divider></v-divider>
     <v-card-text>
       <validated-input-field
-        id="token-name"
+        id="create-token-name"
         type="text"
         clearable
         name="name"
@@ -39,7 +39,12 @@
       ></validated-input-field>
 
       <validated-input-field
-        id="token-expiration-date"
+        id="create-token-expiration-date"
+        :disabled="
+          !configStore.accessTokenLifetimeConfigurable
+        "
+        :hint="tokenLifetimeHint"
+        persistent-hint
         type="number"
         name="lifetime"
         min="0"
@@ -62,18 +67,33 @@ import { CreateToken } from '@/models/Token'
 import { useAccessTokensStore } from '@/store/accessTokens'
 import { useCommonStore } from '@/store/common'
 import CardActions from '@/components/common/overlay/CardActions.vue'
+import { useConfigStore } from '@/store/config'
+import { computed } from 'vue'
+import { i18n } from '@/plugins/i18n'
 
 const accessTokensStore = useAccessTokensStore()
 const commonStore = useCommonStore()
+const configStore = useConfigStore()
 
 const { values, meta, validate } = useForm({
   validationSchema: toTypedSchema(
     z.object({
-      name: z.string().nonempty(),
-      lifetime: z.string().nonempty()
+      name: z.string().min(1),
+      lifetime: z.string().min(0)
     })
-  )
+  ),
+  initialValues: {
+    name: '',
+    lifetime:
+      configStore.accessTokenLifetimeDefault.toString()
+  }
 })
+
+const tokenLifetimeHint = computed(() =>
+  configStore.accessTokenLifetimeConfigurable
+    ? undefined
+    : i18n.t('settings.notConfigurableExpirationDate')
+)
 
 function createToken() {
   validate()
