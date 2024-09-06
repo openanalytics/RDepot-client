@@ -143,6 +143,7 @@
       <CardActions
         :valid="meta.valid"
         @submit="createMaintainer"
+        @cancel="resetFiltration"
       />
     </v-card>
   </form>
@@ -297,10 +298,15 @@ async function createMaintainer() {
     filtratePackagesObjects(undefined)
     filtrateRepositoriesObjects(undefined)
     filtrateUsers(undefined)
+    packagesStore.clearFiltration()
     commonStore.overlay = false
   } else {
     toasts.warning(t('notifications.invalidform'))
   }
+}
+
+function resetFiltration() {
+  packagesStore.clearFiltration()
 }
 
 function resetPackageName() {

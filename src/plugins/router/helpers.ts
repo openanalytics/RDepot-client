@@ -31,6 +31,12 @@ import { useSortStore } from '@/store/sort'
 import { useCommonStore } from '@/store/common'
 import { useUserStore } from '@/store/users'
 import { useConfigStore } from '@/store/config'
+import { useEventsStore } from '@/store/events'
+import { useSubmissionStore } from '@/store/submission'
+import { useRepositoryMaintainersStore } from '@/store/repositoryMaintainers'
+import { usePackageMaintainersStore } from '@/store/packageMaintainers'
+import { useAccessTokensStore } from '@/store/accessTokens'
+import { useRepositoryStore } from '@/store/repositories'
 
 export async function loadPackageDetails(
   id: number,
@@ -176,4 +182,50 @@ export async function authorizeInternalPath(to: any) {
     return '/packages'
   }
   return undefined
+}
+
+export function clearFiltrations(to: string, from: string) {
+  switch (from) {
+    case 'events':
+      useEventsStore().clearFiltration()
+      break
+    case 'submissions':
+      useSubmissionStore().clearFiltration()
+      break
+    case 'users':
+      useUserStore().clearFiltration()
+      break
+    case 'repositoryMaintainers':
+      useRepositoryMaintainersStore().clearFiltration()
+      break
+    case 'packageMaintainers':
+      usePackageMaintainersStore().clearFiltration()
+      usePackagesStore().clearFiltration()
+      break
+    case 'settingsTokens':
+      useAccessTokensStore().clearFiltration()
+      break
+    case 'login':
+      useEventsStore().clearFiltration()
+      useSubmissionStore().clearFiltration()
+      useUserStore().clearFiltration()
+      useRepositoryMaintainersStore().clearFiltration()
+      usePackageMaintainersStore().clearFiltration()
+      useAccessTokensStore().clearFiltration()
+      useRepositoryStore().clearFiltration()
+      usePackagesStore().clearFiltration()
+      break
+    case 'repositories':
+      if (to !== 'packages') {
+        useRepositoryStore().clearFiltration()
+      }
+      break
+    case 'packages':
+      if (to !== 'packageDetails') {
+        usePackagesStore().clearFiltration()
+      }
+      break
+    default:
+      break
+  }
 }

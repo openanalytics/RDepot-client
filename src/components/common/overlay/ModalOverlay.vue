@@ -26,7 +26,7 @@
     opacity="0.8"
     location-strategy="connected"
     class="d-flex justify-center align-center"
-    @click:outside="commonStore.closeOverlay"
+    @click:outside="closeOverlay"
   >
     <slot name="props" @reset="reset">
       <QuestionCard
@@ -45,7 +45,7 @@ import QuestionCard from '@/components/common/overlay/QuestionCard.vue'
 import { onMounted } from 'vue'
 import { useCommonStore } from '@/store/common'
 
-const emits = defineEmits(['action'])
+const emits = defineEmits(['action', 'closeOverlay'])
 
 const commonStore = useCommonStore()
 
@@ -59,6 +59,11 @@ onMounted(() => {
 
 function onKeyup() {
   reset()
+}
+
+function closeOverlay() {
+  commonStore.closeOverlay()
+  emits('closeOverlay')
 }
 
 async function reset() {

@@ -43,7 +43,7 @@ interface State {
   next?: Link
 }
 
-export const useEventsStore = defineStore('events_store', {
+export const useEventsStore = defineStore('eventsStore', {
   state: (): State => {
     return {
       page: 0,

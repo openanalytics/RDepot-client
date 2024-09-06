@@ -21,7 +21,7 @@
 -->
 
 <template>
-  <ModalOverlay>
+  <ModalOverlay @close-overlay="resetFiltration">
     <template #props>
       <EditPackageMaintainerForm />
     </template>
@@ -31,4 +31,9 @@
 <script setup lang="ts">
 import ModalOverlay from '@/components/common/overlay/ModalOverlay.vue'
 import EditPackageMaintainerForm from '@/components/packageMaintainers/forms/EditPackageMaintainerForm.vue'
+import { usePackagesStore } from '@/store/packages'
+
+function resetFiltration() {
+  usePackagesStore().clearFiltration()
+}
 </script>

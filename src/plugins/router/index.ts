@@ -48,4 +48,8 @@ router.beforeResolve(async (to, from) => {
   return true
 })
 
+router.afterEach((to, from) => {
+  helper.clearFiltrations(to.name, from.name)
+})
+
 export default router

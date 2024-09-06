@@ -122,6 +122,7 @@
       <CardActions
         :valid="isFormValid"
         @submit="editMaintainer"
+        @cancel="resetFiltration"
       />
     </v-card>
   </form>
@@ -314,7 +315,12 @@ function getFieldValue(newValue: any) {
 
 function changeDialogOptions() {
   updateMaintainer()
+  packagesStore.clearFiltration()
   commonsStore.overlay = false
+}
+
+function resetFiltration() {
+  packagesStore.clearFiltration()
 }
 
 onBeforeMount(() => {
