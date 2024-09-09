@@ -26,12 +26,31 @@
       v-for="(t, index) in steps"
       :key="index"
       :dot-color="
-        e1 >= index + 1 ? 'oablue' : 'oablue-darken-2'
+        e1 === index + 1
+          ? 'oablue-lighten-2'
+          : e1 > index + 1
+          ? 'oablue'
+          : 'oablue-darken-2'
       "
       :size="e1 !== index + 1 ? 'small' : 'default'"
     >
+      <template #icon>
+        <span
+          :class="
+            e1 !== index + 1 ? 'current-step' : 'other-step'
+          "
+          >{{ index + 1 }}</span
+        >
+      </template>
       <div>
-        <div class="text-h6" dot-color="oablue-darken-2">
+        <div v-if="e1 !== index + 1" class="text-h6">
+          {{ t }}
+        </div>
+        <div
+          v-else
+          class="text-h5"
+          style="font-weight: bolder"
+        >
           {{ t }}
         </div>
         <p></p>
@@ -66,6 +85,15 @@ const steps = computed(() => {
 </script>
 
 <style lang="scss" scoped>
+.current-step {
+  font-size: 1em !important;
+}
+
+.other-step {
+  font-size: default;
+  font-weight: bolder;
+}
+
 span {
   font-size: 1.25em !important;
 }
