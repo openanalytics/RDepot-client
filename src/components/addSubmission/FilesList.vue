@@ -31,7 +31,7 @@
 
     <v-divider></v-divider>
     <v-data-table
-      :headers="headers"
+      :headers="filteredHeaders"
       :items="filesStore.files"
       hover
       hide-default-footer
@@ -142,6 +142,7 @@ import { useConfigStore } from '@/store/config'
 import Icons from '@/maps/Icons'
 import { Technologies } from '@/enum/Technologies'
 import { useI18n } from 'vue-i18n'
+import { DataTableHeaders } from '@/models/DataTableOptions'
 
 const { t } = useI18n()
 const submissionsStore = useSubmissionStore()
@@ -159,61 +160,44 @@ function resetPackages() {
   // reset()
 }
 
-const headers: any = computed(() => {
+const headers = computed<DataTableHeaders[]>(() => [
+  {
+    title: t('columns.package.name'),
+    key: 'name',
+    align: 'start',
+    sortable: false,
+    width: '60%'
+  },
+  {
+    title: t('packages.generatemanual'),
+    key: 'manual',
+    align: 'center',
+    sortable: false
+  },
+  {
+    title: t('packages.replace'),
+    key: 'replace',
+    align: 'center',
+    sortable: false
+  },
+  {
+    title: '',
+    key: 'remove',
+    align: 'center',
+    sortable: false
+  }
+])
+
+const filteredHeaders = computed(() => {
   if (
-    submissionsStore.repository?.technology !=
+    submissionsStore.repository?.technology ===
     Technologies.enum.Python
   ) {
-    return [
-      {
-        title: t('columns.package.name'),
-        key: 'name',
-        align: 'start',
-        sortable: false,
-        width: '60%'
-      },
-      {
-        title: t('packages.generatemanual'),
-        key: 'manual',
-        align: 'center',
-        sortable: false
-      },
-      {
-        title: t('packages.replace'),
-        key: 'replace',
-        align: 'center',
-        sortable: false
-      },
-      {
-        title: '',
-        key: 'remove',
-        align: 'center',
-        sortable: false
-      }
-    ]
-  } else {
-    return [
-      {
-        title: t('columns.package.name'),
-        key: 'name',
-        align: 'start',
-        sortable: false,
-        width: '60%'
-      },
-      {
-        title: t('packages.replace'),
-        key: 'replace',
-        align: 'center',
-        sortable: false
-      },
-      {
-        title: '',
-        key: 'remove',
-        align: 'center',
-        sortable: false
-      }
-    ]
+    return headers.value.filter(
+      (header) => header.key != 'manual'
+    )
   }
+  return headers.value
 })
 </script>
 

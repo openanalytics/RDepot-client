@@ -36,10 +36,8 @@
     >
       <template #icon>
         <span
-          :style="
-            e1 !== index + 1
-              ? 'font-size: 1em !important'
-              : 'font-size: default; font-weight: bolder'
+          :class="
+            e1 !== index + 1 ? 'current-step' : 'other-step'
           "
           >{{ index + 1 }}</span
         >
@@ -87,6 +85,15 @@ const steps = computed(() => {
 </script>
 
 <style lang="scss" scoped>
+.current-step {
+  font-size: 1em !important;
+}
+
+.other-step {
+  font-size: default;
+  font-weight: bolder;
+}
+
 span {
   font-size: 1.25em !important;
 }
