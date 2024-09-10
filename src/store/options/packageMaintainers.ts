@@ -40,7 +40,6 @@ import {
   fetchPackageMaintainerService
 } from '@/services/packageMaintainersService'
 import { useUtilities } from '@/composable/utilities'
-import { packageMaintainersFiltrationLabels } from '@/maps/Filtration'
 import { usePagination } from '@/store/setup/pagination'
 import { DataTableOptions } from '@/models/DataTableOptions'
 import { useSortStore } from './sort'
@@ -291,9 +290,6 @@ export const usePackageMaintainersStore = defineStore(
       async clearFiltrationAndFetch() {
         this.clearFiltration()
         await this.get()
-      },
-      getLabels() {
-        return packageMaintainersFiltrationLabels
       }
     }
   }

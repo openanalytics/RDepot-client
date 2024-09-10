@@ -35,7 +35,6 @@ import {
   updateSubmission
 } from '@/services/submissionServices'
 import { useUtilities } from '@/composable/utilities'
-import { submissionsFiltrationLabels } from '@/maps/Filtration'
 import { validatedData } from '@/services/openApiAccess'
 import { usePagination } from '@/store/setup/pagination'
 import { useToast } from '@/composable/toasts'
@@ -417,9 +416,6 @@ export const useSubmissionStore = defineStore(
         toasts.success(
           i18n.t('notifications.successFiltrationReset')
         )
-      },
-      getLabels() {
-        return submissionsFiltrationLabels
       }
     }
   }

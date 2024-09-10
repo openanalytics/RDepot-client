@@ -36,7 +36,6 @@ import {
   deletePackage
 } from '@/services/packageServices'
 import { useUtilities } from '@/composable/utilities'
-import { packagesFiltrationLabels } from '@/maps/Filtration'
 import { fetchSubmission } from '@/services/submissionServices'
 import { usePagination } from '../setup/pagination'
 import { Technologies } from '@/enum/Technologies'
@@ -256,9 +255,6 @@ export const usePackagesStore = defineStore(
       async clearFiltrationAndFetch() {
         this.clearFiltration()
         await this.getPackages()
-      },
-      getLabels() {
-        return packagesFiltrationLabels
       },
       async deletePackages() {
         const toasts = useToast()

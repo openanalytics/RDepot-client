@@ -30,7 +30,6 @@ import {
   defaultValues
 } from '@/models/Filtration'
 import { fetchEventsService } from '@/services/eventsServices'
-import { eventsFiltrationLabels } from '@/maps/Filtration'
 import { useDates } from '@/composable/date'
 
 interface State {
@@ -160,9 +159,6 @@ export const useEventsStore = defineStore('eventsStore', {
     async clearFiltrationAndFetch() {
       this.clearFiltration()
       await this.get()
-    },
-    getLabels() {
-      return eventsFiltrationLabels
     }
   }
 })
