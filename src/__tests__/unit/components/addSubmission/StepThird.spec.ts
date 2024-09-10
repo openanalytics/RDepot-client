@@ -72,7 +72,7 @@ const promises: PackagePromise[] = [
 beforeEach(async () => {
   setActivePinia(createPinia())
   submissionStore = useSubmissionStore()
-  submissionStore.setPackages(files)
+  submissionStore.packages = files
   submissionStore.setRepository({
     id: 1,
     name: 'repository 1'

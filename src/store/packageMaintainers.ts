@@ -249,10 +249,6 @@ export const usePackageMaintainersStore = defineStore(
           }
         )
       },
-      setChosen(payload: EntityModelPackageMaintainerDto) {
-        this.chosenMaintainer = payload
-        this.save()
-      },
       save() {
         this.maintainers = this.maintainers.map(
           (maintainer: EntityModelPackageMaintainerDto) => {

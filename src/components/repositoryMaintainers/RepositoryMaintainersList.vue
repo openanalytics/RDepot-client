@@ -164,7 +164,7 @@ function fetchData(options: DataTableOptions) {
 function setEditMaintainer(
   item: EntityModelRepositoryMaintainerDto
 ) {
-  repositoryMaintainersStore.setChosen(item)
+  repositoryMaintainersStore.chosenMaintainer = item
 }
 
 function isPending(

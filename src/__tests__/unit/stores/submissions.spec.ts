@@ -145,7 +145,7 @@ describe('Submissions Store', () => {
   it('Set packages', () => {
     const submissionStore = useSubmissionStore()
 
-    submissionStore.setPackages(files)
+    submissionStore.packages = files
 
     expect(submissionStore.packages).toStrictEqual(files)
   })

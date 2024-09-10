@@ -226,11 +226,6 @@ export const useRepositoryMaintainersStore = defineStore(
           }
         )
       },
-      async setChosen(
-        payload: EntityModelPackageMaintainerDto
-      ) {
-        this.chosenMaintainer = payload
-      },
       async setPage(payload: number) {
         const pagination = usePagination()
         pagination.page = payload

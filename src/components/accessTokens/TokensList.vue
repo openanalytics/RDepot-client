@@ -197,7 +197,8 @@ function fetchData(options: DataTableOptions) {
 }
 
 function setEditEntity(item: EntityModelAccessTokenDto) {
-  accessTokensStore.setChosen(item)
+  accessTokensStore.currentToken = item
+  accessTokensStore.save()
 }
 
 function isPending(

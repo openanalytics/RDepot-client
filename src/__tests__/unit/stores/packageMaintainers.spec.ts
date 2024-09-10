@@ -164,9 +164,9 @@ describe('Package Maintainers Store', () => {
 
     expect(spy).toHaveBeenCalledTimes(0)
 
-    packageMaintainersStore.setChosen(
+    packageMaintainersStore.chosenMaintainer =
       packageMaintainers.data.content[3]
-    )
+    packageMaintainersStore.save()
 
     expect(
       packageMaintainersStore.maintainers[3]
@@ -186,7 +186,9 @@ describe('Package Maintainers Store', () => {
     changedMaintainer.deleted = !changedMaintainer.deleted
     expect(spy).toHaveBeenCalledTimes(0)
 
-    packageMaintainersStore.setChosen(changedMaintainer)
+    packageMaintainersStore.chosenMaintainer =
+      changedMaintainer
+    packageMaintainersStore.save()
 
     expect(
       packageMaintainersStore.maintainers[3]
@@ -239,9 +241,9 @@ describe('Package Maintainers Store', () => {
     const spy = vi.spyOn(packageMaintainersStore, 'get')
 
     packageMaintainersStore.get()
-    packageMaintainersStore.setChosen(
+    packageMaintainersStore.chosenMaintainer =
       packageMaintainers.data.content[2]
-    )
+    packageMaintainersStore.save()
 
     await packageMaintainersStore.delete()
 
@@ -254,9 +256,9 @@ describe('Package Maintainers Store', () => {
     const spy = vi.spyOn(packageMaintainersStore, 'get')
 
     packageMaintainersStore.get()
-    packageMaintainersStore.setChosen(
+    packageMaintainersStore.chosenMaintainer =
       packageMaintainers.data.content[2]
-    )
+    packageMaintainersStore.save()
     const newMaintainer = packageMaintainers.data.content[3]
     newMaintainer.id = packageMaintainers.data.content[2].id
     await packageMaintainersStore.patch(newMaintainer)

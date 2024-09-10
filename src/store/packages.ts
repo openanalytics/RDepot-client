@@ -232,9 +232,6 @@ export const usePackagesStore = defineStore(
           (packageBag) => packageBag.id != newPackage?.id
         )
       },
-      setChosen(payload?: EntityModelPackageDto) {
-        this.chosenPackage = payload
-      },
       async setFiltration(payload: PackagesFiltration) {
         const pagination = usePagination()
         pagination.resetPage()

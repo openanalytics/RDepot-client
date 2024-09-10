@@ -232,9 +232,6 @@ export const useSubmissionStore = defineStore(
           (item) => item == file
         )
       },
-      setPackages(payload: File[]) {
-        this.packages = payload
-      },
       addPackage(payload: File) {
         this.packages = [...this.packages, payload]
       },
@@ -249,10 +246,7 @@ export const useSubmissionStore = defineStore(
         this.repository = payload
       },
       updateStepperKey() {
-        this.stepperKey += 1
-        if (this.stepperKey > 100) {
-          this.stepperKey = 0
-        }
+        this.stepperKey = ++this.stepperKey % 100
       },
       async addSubmissionRequests() {
         const toasts = useToast()

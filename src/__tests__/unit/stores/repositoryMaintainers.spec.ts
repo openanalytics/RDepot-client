@@ -159,9 +159,8 @@ describe('Repository Maintainers Store', () => {
     repositoryMaintainersStore.maintainers =
       repositoryMaintainers.data.content
 
-    repositoryMaintainersStore.setChosen(
+    repositoryMaintainersStore.chosenMaintainer =
       repositoryMaintainers.data.content[3]
-    )
 
     expect(
       repositoryMaintainersStore.maintainers[3]
@@ -179,7 +178,8 @@ describe('Repository Maintainers Store', () => {
       repositoryMaintainers.data.content[3]
     changedMaintainer.deleted = !changedMaintainer.deleted
 
-    repositoryMaintainersStore.setChosen(changedMaintainer)
+    repositoryMaintainersStore.chosenMaintainer =
+      changedMaintainer
 
     expect(
       repositoryMaintainersStore.maintainers[3]
@@ -223,9 +223,8 @@ describe('Repository Maintainers Store', () => {
     const spy = vi.spyOn(repositoryMaintainersStore, 'get')
 
     repositoryMaintainersStore.get()
-    repositoryMaintainersStore.setChosen(
+    repositoryMaintainersStore.chosenMaintainer =
       repositoryMaintainers.data.content[2]
-    )
 
     await repositoryMaintainersStore.delete()
 
@@ -240,9 +239,9 @@ describe('Repository Maintainers Store', () => {
     const spy = vi.spyOn(repositoryMaintainersStore, 'get')
 
     repositoryMaintainersStore.get()
-    repositoryMaintainersStore.setChosen(
+    repositoryMaintainersStore.chosenMaintainer =
       repositoryMaintainers.data.content[2]
-    )
+
     await repositoryMaintainersStore.patch({
       id: repositoryMaintainers.data.content[2].id
     })

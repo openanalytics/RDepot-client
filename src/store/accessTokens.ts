@@ -231,10 +231,6 @@ export const useAccessTokensStore = defineStore(
       reset() {
         setTimeout(() => (this.newToken = ''), 200)
       },
-      setChosen(payload: EntityModelAccessTokenDto) {
-        this.currentToken = payload
-        this.save()
-      },
       save() {
         this.tokens = this.tokens.map(
           (token: EntityModelAccessTokenDto) => {

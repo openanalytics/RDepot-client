@@ -151,13 +151,15 @@ function fetchData(options: DataTableOptions) {
 function chooseMaintainer(
   item: EntityModelPackageMaintainerDto
 ) {
-  packageMaintainersStore.setChosen(item)
+  packageMaintainersStore.chosenMaintainer = item
+  packageMaintainersStore.save()
 }
 
 function setEditEntity(
   item: EntityModelPackageMaintainerDto
 ) {
-  packageMaintainersStore.setChosen(item)
+  packageMaintainersStore.chosenMaintainer = item
+  packageMaintainersStore.save()
 }
 
 function getEditMessage(

@@ -109,9 +109,9 @@ watch(files, (files) => {
 function savePackagesInStore() {
   valid.value = filesStore.files.every(checkValidity)
   if (valid.value) {
-    submissionsStore.setPackages(filesStore.files)
+    submissionsStore.packages = filesStore.files
   } else {
-    submissionsStore.setPackages([])
+    submissionsStore.packages = []
   }
 }
 

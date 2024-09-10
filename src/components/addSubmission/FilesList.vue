@@ -134,7 +134,7 @@ const chosenRepository = computed(() => {
 
 function resetPackages() {
   filesStore.files = []
-  submissionsStore.setPackages([])
+  submissionsStore.packages = []
   // reset()
 }
 </script>
