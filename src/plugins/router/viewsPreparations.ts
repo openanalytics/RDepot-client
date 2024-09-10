@@ -25,8 +25,6 @@ import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesF
 import { useRepositoryMaintainersFiltration } from '@/composable/filtration/repositoryMaintainersFiltration'
 import { usePackageMaintainersStore } from '@/store/options/packageMaintainers'
 import { usePackagesStore } from '@/store/options/packages'
-import { useRepositoryStore } from '@/store/options/repositories'
-import { useRepositoryMaintainersStore } from '@/store/options/repositoryMaintainers'
 import { useSubmissionStore } from '@/store/options/submission'
 
 export function prepareUploadPackagesView() {
@@ -37,49 +35,35 @@ export function prepareUploadPackagesView() {
 }
 
 export function preparePackagesView() {
-  const repositoryStore = useRepositoryStore()
   const packagesStore = usePackagesStore()
-  const packageMaintainerStore =
-    usePackageMaintainersStore()
   const { resetRepositoriesPagination } =
     useRepositoriesFiltration()
   const { resetPaginationMaintainers } =
     usePackageMaintainersFiltration()
   packagesStore.pending = []
-  repositoryStore.clearFiltration()
-  packageMaintainerStore.clearFiltration()
   resetPaginationMaintainers()
   resetRepositoriesPagination()
 }
 
 export function prepareSubmissionsView() {
   const submissionStore = useSubmissionStore()
-  const repositoryStore = useRepositoryStore()
   const { resetRepositoriesPagination } =
     useRepositoriesFiltration()
-  repositoryStore.clearFiltration()
   resetRepositoriesPagination()
   submissionStore.submissionsToEdit = undefined
 }
 
 export function preparePackageMaintainersView() {
-  const repositoryStore = useRepositoryStore()
   const packageMaintainersStore =
     usePackageMaintainersStore()
   const { resetRepositoriesPagination } =
     useRepositoriesFiltration()
   packageMaintainersStore.pending = []
-  repositoryStore.clearFiltration()
   resetRepositoriesPagination()
 }
 
 export function prepareRepositoriesView() {
-  const repositoryStore = useRepositoryStore()
-  const repositoryMaintainersStore =
-    useRepositoryMaintainersStore()
   const { resetPaginationMaintainers } =
     useRepositoryMaintainersFiltration()
-  repositoryMaintainersStore.clearFiltration()
-  repositoryStore.clearFiltration()
   resetPaginationMaintainers()
 }
