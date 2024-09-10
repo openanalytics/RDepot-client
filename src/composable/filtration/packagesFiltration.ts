@@ -24,13 +24,13 @@ import {
   EntityModelPackageDto,
   PackageMaintainerDto
 } from '@/openapi'
-import { usePackageMaintainersStore } from '@/store/packageMaintainers'
-import { usePackagesStore } from '@/store/packages'
+import { usePackageMaintainersStore } from '@/store/options/packageMaintainers'
+import { usePackagesStore } from '@/store/options/packages'
 import {
   useSelectStore,
   SelectState,
   PackageObject
-} from '@/store/selectPagination'
+} from '@/store/setup/selectPagination'
 import {} from '@vueuse/core'
 
 export function usePackagesFiltration() {

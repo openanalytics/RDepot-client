@@ -31,7 +31,7 @@
 import ProgressCircular from './components/common/progress/ProgressCircular.vue'
 import { onBeforeMount } from 'vue'
 import { useTheme } from 'vuetify/lib/framework.mjs'
-import { useAuthorizationStore } from './store/authorization'
+import { useAuthorizationStore } from './store/options/authorization'
 
 onBeforeMount(() => {
   const theme = useTheme()
@@ -52,3 +52,4 @@ onBeforeMount(() => {
   font-size: 1rem;
 }
 </style>
+./store/options/authorization

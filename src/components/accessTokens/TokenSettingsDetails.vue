@@ -29,7 +29,7 @@
 import FiltrationBar from './FiltrationBar.vue'
 import TokensList from './TokensList.vue'
 import { computed } from 'vue'
-import { useCommonStore } from '@/store/common'
+import { useCommonStore } from '@/store/options/common'
 
 const commonStore = useCommonStore()
 const componentKey = computed(() => {

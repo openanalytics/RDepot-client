@@ -37,7 +37,7 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import { useAuthorizationStore } from '@/store/authorization'
+import { useAuthorizationStore } from '@/store/options/authorization'
 import { useOIDCAuthorization } from '@/composable/auth/oidcAuthorization'
 import { ref } from 'vue'
 import { onMounted } from 'vue'

@@ -78,7 +78,7 @@
 </template>
 
 <script setup lang="ts">
-import { useRepositoryStore } from '@/store/repositories'
+import { useRepositoryStore } from '@/store/options/repositories'
 import { ref } from 'vue'
 import { Technologies } from '@/enum/Technologies'
 import { HashMethods } from '@/enum/HashMethods'
@@ -90,7 +90,7 @@ import CardActions from '@/components/common/overlay/CardActions.vue'
 import { z } from 'zod'
 import { useToast } from '@/composable/toasts'
 import { useI18n } from 'vue-i18n'
-import { useCommonStore } from '@/store/common'
+import { useCommonStore } from '@/store/options/common'
 import { watch } from 'vue'
 
 const repositoryStore = useRepositoryStore()

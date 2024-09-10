@@ -45,7 +45,7 @@
 
 <script setup lang="ts">
 import CardActions from '@/components/common/overlay/CardActions.vue'
-import { useAccessTokensStore } from '@/store/accessTokens'
+import { useAccessTokensStore } from '@/store/options/accessTokens'
 import { useUtilities } from '@/composable/utilities'
 import { i18n } from '@/plugins/i18n'
 

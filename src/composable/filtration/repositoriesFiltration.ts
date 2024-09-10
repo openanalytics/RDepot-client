@@ -24,13 +24,13 @@ import {
   EntityModelRepositoryDto,
   EntityModelRepositoryMaintainerDto
 } from '@/openapi'
-import { useRepositoryStore } from '@/store/repositories'
-import { useRepositoryMaintainersStore } from '@/store/repositoryMaintainers'
+import { useRepositoryStore } from '@/store/options/repositories'
+import { useRepositoryMaintainersStore } from '@/store/options/repositoryMaintainers'
 import {
   useSelectStore,
   SelectState,
   RepositoryObject
-} from '@/store/selectPagination'
+} from '@/store/setup/selectPagination'
 
 export function useRepositoriesFiltration() {
   const storeId: SelectState = 'repositories'

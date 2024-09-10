@@ -26,7 +26,7 @@ import { shallowMount } from '@vue/test-utils'
 import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
 import CommonButton from '@/components/common/buttons/CommonButton.vue'
-import { useCommonStore } from '@/store/common'
+import { useCommonStore } from '@/store/options/common'
 import { createPinia, setActivePinia } from 'pinia'
 import { i18n } from '@/plugins/i18n'
 

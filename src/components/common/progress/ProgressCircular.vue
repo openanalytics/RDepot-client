@@ -32,7 +32,7 @@
 </template>
 
 <script setup lang="ts">
-import { useCommonStore } from '@/store/common'
+import { useCommonStore } from '@/store/options/common'
 import { computed } from 'vue'
 
 const commonStore = useCommonStore()

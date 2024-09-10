@@ -33,9 +33,9 @@ import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
 import { createPinia, setActivePinia } from 'pinia'
 import StepSecondVue from '@/components/addSubmission/StepSecond.vue'
-import { useSubmissionStore } from '@/store/submission'
+import { useSubmissionStore } from '@/store/options/submission'
 import { nextTick } from 'process'
-import { useFilesListStore } from '@/store/localFiles'
+import { useFilesListStore } from '@/store/options/localFiles'
 
 let wrapper: any
 const globalConfig = {

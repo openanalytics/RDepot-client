@@ -45,7 +45,7 @@ import {
 } from '@/services/packageServices'
 import { fetchSubmission } from '@/services/submissionServices'
 import { Technologies } from '@/enum/Technologies'
-import { useSortStore } from '@/store/sort'
+import { useSortStore } from '@/store/options/sort'
 
 interface State {
   packages: EntityModelPackageDto[]

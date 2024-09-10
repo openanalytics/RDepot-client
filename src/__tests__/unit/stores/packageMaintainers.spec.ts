@@ -20,7 +20,7 @@
  *
  */
 
-import { usePackageMaintainersStore } from '@/store/packageMaintainers'
+import { usePackageMaintainersStore } from '@/store/options/packageMaintainers'
 import { createPinia, setActivePinia } from 'pinia'
 import {
   beforeEach,
@@ -35,13 +35,13 @@ import {
 import packageMaintainers from '@/__tests__/config/mockData/packageMaintainers.json'
 import repositories from '@/__tests__/config/mockData/repositories.json'
 import packages from '@/__tests__/config/mockData/packages.json'
-import { usePagination } from '@/store/pagination'
+import { usePagination } from '@/store/setup/pagination'
 import { Technologies } from '@/enum/Technologies'
 import {
   PackageMaintainersFiltration,
   defaultValues
 } from '@/models/Filtration'
-import { useAuthorizationStore } from '@/store/authorization'
+import { useAuthorizationStore } from '@/store/options/authorization'
 import { server } from '@/__tests__/config/backend/server'
 import { failingServer } from '@/__tests__/config/backend/failingServer'
 

@@ -45,7 +45,7 @@ import StepFirst from './StepFirst.vue'
 import StepSecond from './StepSecond.vue'
 import StepThird from './StepThird.vue'
 import { ref } from 'vue'
-import { useSubmissionStore } from '@/store/submission'
+import { useSubmissionStore } from '@/store/options/submission'
 
 const submissionStore = useSubmissionStore()
 const components = [StepFirst, StepSecond, StepThird]

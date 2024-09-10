@@ -30,10 +30,10 @@ import {
 
 import { createPinia, setActivePinia } from 'pinia'
 import { useUserSettings } from '@/composable/user/userSettings'
-import { useCommonStore } from '@/store/common'
-import { useAuthorizationStore } from '@/store/authorization'
+import { useCommonStore } from '@/store/options/common'
+import { useAuthorizationStore } from '@/store/options/authorization'
 import { i18n } from '@/plugins/i18n'
-import { usePagination } from '@/store/pagination'
+import { usePagination } from '@/store/setup/pagination'
 
 beforeEach(async () => {
   setActivePinia(createPinia())

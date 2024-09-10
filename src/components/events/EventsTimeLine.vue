@@ -110,7 +110,7 @@
 
 <script setup lang="ts">
 import EventBox from './EventBox.vue'
-import { useEventsStore } from '@/store/events'
+import { useEventsStore } from '@/store/options/events'
 import {
   computed,
   ref,
@@ -120,7 +120,7 @@ import {
 } from 'vue'
 import { useDisplay } from 'vuetify/lib/framework.mjs'
 import NoEvents from './NoEvents.vue'
-import { useCommonStore } from '@/store/common'
+import { useCommonStore } from '@/store/options/common'
 import EventIcon from './EventIcon.vue'
 
 const { xlAndUp, lgAndUp, mdAndUp, smAndDown } =

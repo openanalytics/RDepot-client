@@ -43,7 +43,7 @@
 <script setup lang="ts">
 import QuestionCard from '@/components/common/overlay/QuestionCard.vue'
 import { onMounted } from 'vue'
-import { useCommonStore } from '@/store/common'
+import { useCommonStore } from '@/store/options/common'
 
 const emits = defineEmits(['action', 'closeOverlay'])
 

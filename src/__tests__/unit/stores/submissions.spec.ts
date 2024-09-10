@@ -21,7 +21,7 @@
  */
 
 import { setActivePinia, createPinia } from 'pinia'
-import { useSubmissionStore } from '@/store/submission'
+import { useSubmissionStore } from '@/store/options/submission'
 import {
   describe,
   beforeEach,
@@ -42,9 +42,9 @@ import {
   SubmissionsFiltration,
   defaultValues
 } from '@/models/Filtration'
-import { usePagination } from '@/store/pagination'
+import { usePagination } from '@/store/setup/pagination'
 import { Technologies } from '@/enum/Technologies'
-import { useAuthorizationStore } from '@/store/authorization'
+import { useAuthorizationStore } from '@/store/options/authorization'
 import { server } from '@/__tests__/config/backend/server'
 import { failingServer } from '@/__tests__/config/backend/failingServer'
 

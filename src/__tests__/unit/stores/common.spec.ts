@@ -21,7 +21,7 @@
  */
 
 import { OverlayEnum } from '@/enum/Overlay'
-import { useCommonStore } from '@/store/common'
+import { useCommonStore } from '@/store/options/common'
 import { createPinia, setActivePinia } from 'pinia'
 import { beforeEach, describe, expect, it } from 'vitest'
 

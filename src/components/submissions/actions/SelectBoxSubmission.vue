@@ -50,7 +50,7 @@
 </template>
 
 <script setup lang="ts">
-import { useSubmissionStore } from '@/store/submission'
+import { useSubmissionStore } from '@/store/options/submission'
 import { EntityModelSubmissionDto } from '@/openapi'
 
 defineProps({

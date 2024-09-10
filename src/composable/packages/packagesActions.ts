@@ -20,8 +20,8 @@
  *
  */
 
-import { usePackagesStore } from '@/store/packages'
-import { useCommonStore } from '@/store/common'
+import { usePackagesStore } from '@/store/options/packages'
+import { useCommonStore } from '@/store/options/common'
 import { OverlayEnum } from '@/enum/Overlay'
 import { i18n } from '@/plugins/i18n'
 import { EntityModelPackageDto } from '@/openapi'

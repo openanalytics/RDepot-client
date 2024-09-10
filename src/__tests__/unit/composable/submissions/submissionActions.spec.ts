@@ -31,9 +31,9 @@ import {
 import { useSubmissionActions } from '@/composable/submissions/submissionActions'
 import { EntityModelSubmissionDto } from '@/openapi'
 import { createPinia, setActivePinia } from 'pinia'
-import { useSubmissionStore } from '@/store/submission'
+import { useSubmissionStore } from '@/store/options/submission'
 import { Technologies } from '@/enum/Technologies'
-import { useAuthorizationStore } from '@/store/authorization'
+import { useAuthorizationStore } from '@/store/options/authorization'
 import me from '@/__tests__/config/mockData/me.json'
 
 let submissionsStore: any

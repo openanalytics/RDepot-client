@@ -25,7 +25,7 @@ import { describe, it, expect, beforeEach } from 'vitest'
 import ModalOverlay from '@/components/common/overlay/ModalOverlay.vue'
 import { createPinia, setActivePinia } from 'pinia'
 import { shallowMount } from '@vue/test-utils'
-import { useCommonStore } from '@/store/common'
+import { useCommonStore } from '@/store/options/common'
 import EditUserModal from '@/components/users/modals/EditUserModal.vue'
 
 let wrapper: any

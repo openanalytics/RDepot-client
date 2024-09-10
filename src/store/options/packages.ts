@@ -38,12 +38,12 @@ import {
 import { useUtilities } from '@/composable/utilities'
 import { packagesFiltrationLabels } from '@/maps/Filtration'
 import { fetchSubmission } from '@/services/submissionServices'
-import { usePagination } from './pagination'
+import { usePagination } from '../setup/pagination'
 import { Technologies } from '@/enum/Technologies'
 import { DataTableOptions } from '@/models/DataTableOptions'
 import { validatedData } from '@/services/openApiAccess'
 import { useToast } from '@/composable/toasts'
-import { useSortStore } from '@/store/sort'
+import { useSortStore } from '@/store/options/sort'
 import {
   deleteTechnologyPackage,
   updateTechnologyPackage

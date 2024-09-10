@@ -36,7 +36,7 @@
 import { computed } from 'vue'
 import { Technologies } from '@/enum/Technologies'
 import { EntityModelPythonPackageDto } from '@/openapi'
-import { usePackageDetailsStore } from '@/store/packageDetails'
+import { usePackageDetailsStore } from '@/store/options/packageDetails'
 import PackageRProperties from '@/components/packages/packageDetails/PackageRProperties.vue'
 import PackagePythonProperties from '@/components/packages/packageDetails/PackagePythonProperties.vue'
 

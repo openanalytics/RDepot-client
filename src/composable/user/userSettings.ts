@@ -21,9 +21,9 @@
  */
 
 import { i18n } from '@/plugins/i18n'
-import { useCommonStore } from '@/store/common'
-import { usePagination } from '@/store/pagination'
-import { useAuthorizationStore } from '@/store/authorization'
+import { useCommonStore } from '@/store/options/common'
+import { usePagination } from '@/store/setup/pagination'
+import { useAuthorizationStore } from '@/store/options/authorization'
 
 export function useUserSettings() {
   async function getUserSettings() {

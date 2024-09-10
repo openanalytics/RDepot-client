@@ -27,14 +27,14 @@ import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
 import FiltrationBarVue from '@/components/users/FiltrationBar.vue'
 import { createPinia, setActivePinia } from 'pinia'
-import { useUserStore } from '@/store/users'
+import { useUserStore } from '@/store/options/users'
 import {
   UsersFiltration,
   defaultValues
 } from '@/models/Filtration'
 import waitForExpect from 'wait-for-expect'
 import me from '@/__tests__/config/mockData/me.json'
-import { useAuthorizationStore } from '@/store/authorization'
+import { useAuthorizationStore } from '@/store/options/authorization'
 
 let wrapper: any
 const globalConfig = {

@@ -106,7 +106,7 @@
 <script setup lang="ts">
 import CardActions from '@/components/common/overlay/CardActions.vue'
 import { EntityModelRepositoryMaintainerDto } from '@/openapi'
-import { useRepositoryMaintainersStore } from '@/store/repositoryMaintainers'
+import { useRepositoryMaintainersStore } from '@/store/options/repositoryMaintainers'
 import { computed, onBeforeMount } from 'vue'
 import { useForm } from 'vee-validate'
 import ValidatedInputField from '@/components/common/fields/ValidatedInputField.vue'
@@ -118,7 +118,7 @@ import { useToast } from '@/composable/toasts'
 import { useI18n } from 'vue-i18n'
 import { Technologies } from '@/enum/Technologies'
 import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesFiltration'
-import { useCommonStore } from '@/store/common'
+import { useCommonStore } from '@/store/options/common'
 import { i18n } from '@/plugins/i18n'
 
 const { t } = useI18n()

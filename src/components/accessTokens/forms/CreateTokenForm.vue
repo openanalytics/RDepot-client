@@ -59,8 +59,8 @@ import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { z } from 'zod'
 import { CreateToken } from '@/models/Token'
-import { useAccessTokensStore } from '@/store/accessTokens'
-import { useCommonStore } from '@/store/common'
+import { useAccessTokensStore } from '@/store/options/accessTokens'
+import { useCommonStore } from '@/store/options/common'
 import CardActions from '@/components/common/overlay/CardActions.vue'
 
 const accessTokensStore = useAccessTokensStore()

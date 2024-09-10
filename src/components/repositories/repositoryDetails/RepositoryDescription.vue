@@ -171,8 +171,8 @@ import { useDates } from '@/composable/date'
 import Icons from '@/maps/Icons'
 import { EntityModelRepositoryDto } from '@/openapi'
 import router from '@/plugins/router'
-import { usePackagesStore } from '@/store/packages'
-import { useRepositoryStore } from '@/store/repositories'
+import { usePackagesStore } from '@/store/options/packages'
+import { useRepositoryStore } from '@/store/options/repositories'
 
 const packagesStore = usePackagesStore()
 const repositoryStore = useRepositoryStore()

@@ -211,8 +211,8 @@
 
 <script setup lang="ts">
 import { i18n } from '@/plugins/i18n'
-import { useCommonStore } from '@/store/common'
-import { useAuthorizationStore } from '@/store/authorization'
+import { useCommonStore } from '@/store/options/common'
+import { useAuthorizationStore } from '@/store/options/authorization'
 import { computed } from 'vue'
 import { useDisplay } from 'vuetify/lib/framework.mjs'
 import getEnv from '@/utils/env'

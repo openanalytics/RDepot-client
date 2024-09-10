@@ -23,11 +23,11 @@
 import { usePackageMaintainersFiltration } from '@/composable/filtration/packageMaintainersFiltration'
 import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesFiltration'
 import { useRepositoryMaintainersFiltration } from '@/composable/filtration/repositoryMaintainersFiltration'
-import { usePackageMaintainersStore } from '@/store/packageMaintainers'
-import { usePackagesStore } from '@/store/packages'
-import { useRepositoryStore } from '@/store/repositories'
-import { useRepositoryMaintainersStore } from '@/store/repositoryMaintainers'
-import { useSubmissionStore } from '@/store/submission'
+import { usePackageMaintainersStore } from '@/store/options/packageMaintainers'
+import { usePackagesStore } from '@/store/options/packages'
+import { useRepositoryStore } from '@/store/options/repositories'
+import { useRepositoryMaintainersStore } from '@/store/options/repositoryMaintainers'
+import { useSubmissionStore } from '@/store/options/submission'
 
 export function prepareUploadPackagesView() {
   const submissionStore = useSubmissionStore()

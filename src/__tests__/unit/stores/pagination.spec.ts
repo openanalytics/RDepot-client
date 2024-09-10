@@ -20,9 +20,9 @@
  *
  */
 
-import { useCommonStore } from '@/store/common'
-import { usePagination } from '@/store/pagination'
-import { useSortStore } from '@/store/sort'
+import { useCommonStore } from '@/store/options/common'
+import { usePagination } from '@/store/setup/pagination'
+import { useSortStore } from '@/store/options/sort'
 import { createPinia, setActivePinia } from 'pinia'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { nextTick } from 'vue'

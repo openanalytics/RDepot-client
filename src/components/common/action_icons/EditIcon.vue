@@ -45,7 +45,7 @@
 <script setup lang="ts">
 import { OverlayEnum } from '@/enum/Overlay'
 import { i18n } from '@/plugins/i18n'
-import { useCommonStore } from '@/store/common'
+import { useCommonStore } from '@/store/options/common'
 import { computed } from 'vue'
 import Icons from '@/maps/Icons'
 

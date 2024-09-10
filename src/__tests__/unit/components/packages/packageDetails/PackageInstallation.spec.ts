@@ -29,7 +29,7 @@ import pythonPackage from '@/__tests__/config/mockData/pythonPackage.json'
 import RPackage from '@/__tests__/config/mockData/RPackage.json'
 import { createPinia, setActivePinia } from 'pinia'
 import PackageInstallation from '@/components/packages/packageDetails/PackageInstallation.vue'
-import { usePackageDetailsStore } from '@/store/packageDetails'
+import { usePackageDetailsStore } from '@/store/options/packageDetails'
 import { nextTick } from 'vue'
 import { useUtilities } from '@/composable/utilities'
 

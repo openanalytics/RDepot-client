@@ -40,8 +40,8 @@
 
 <script setup lang="ts">
 import Icons from '@/maps/Icons'
-import { useAuthorizationStore } from '@/store/authorization'
-import { useCommonStore } from '@/store/common'
+import { useAuthorizationStore } from '@/store/options/authorization'
+import { useCommonStore } from '@/store/options/common'
 import { onUpdated, computed } from 'vue'
 import { useTheme } from 'vuetify/lib/framework.mjs'
 

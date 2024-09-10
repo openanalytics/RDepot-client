@@ -44,7 +44,7 @@ import {
 } from '@/openapi'
 import { useSubmissionActions } from '@/composable/submissions/submissionActions'
 import IconButton from '@/components/common/buttons/IconButton.vue'
-import { useAuthorizationStore } from '@/store/authorization'
+import { useAuthorizationStore } from '@/store/options/authorization'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
 import Icons from '@/maps/Icons'
 

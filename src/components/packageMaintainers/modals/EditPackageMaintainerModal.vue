@@ -31,7 +31,7 @@
 <script setup lang="ts">
 import ModalOverlay from '@/components/common/overlay/ModalOverlay.vue'
 import EditPackageMaintainerForm from '@/components/packageMaintainers/forms/EditPackageMaintainerForm.vue'
-import { usePackagesStore } from '@/store/packages'
+import { usePackagesStore } from '@/store/options/packages'
 
 function resetFiltration() {
   usePackagesStore().clearFiltration()

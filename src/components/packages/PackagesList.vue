@@ -102,13 +102,13 @@
 </template>
 
 <script setup lang="ts">
-import { usePackagesStore } from '@/store/packages'
+import { usePackagesStore } from '@/store/options/packages'
 import DeletePackage from '@/components/packages/actions/DeletePackage.vue'
 import ActivatePackage from '@/components/packages/actions/ActivatePackage.vue'
 import StateIcon from '@/components/submissions/icons/StateIcon.vue'
 import { EntityModelPackageDto } from '@/openapi'
 import PackageDescription from './packageDetails/PackageDescription.vue'
-import { usePagination } from '@/store/pagination'
+import { usePagination } from '@/store/setup/pagination'
 import {
   DataTableHeaders,
   DataTableOptions

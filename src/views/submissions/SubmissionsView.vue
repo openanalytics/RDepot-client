@@ -31,7 +31,7 @@ import SubmissionList from '@/components/submissions/SubmissionsList.vue'
 import EditSubmissionModal from '@/components/submissions/modals/EditSubmissionModal.vue'
 import FiltrationBar from '@/components/submissions/FiltrationBar.vue'
 import { computed } from 'vue'
-import { useCommonStore } from '@/store/common'
+import { useCommonStore } from '@/store/options/common'
 
 const commonStore = useCommonStore()
 const componentKey = computed(() => {

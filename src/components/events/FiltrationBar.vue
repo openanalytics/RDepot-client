@@ -118,7 +118,7 @@ import {
 import { useEnumFiltration } from '@/composable/filtration/enumFiltration'
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
-import { useEventsStore } from '@/store/events'
+import { useEventsStore } from '@/store/options/events'
 import DatePickerField from '@/components/common/fields/DatePickerField.vue'
 import { useDatePicker } from '@/composable/datePicker'
 import ResetButton from '@/components/common/buttons/ResetButton.vue'

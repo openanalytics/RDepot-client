@@ -77,7 +77,7 @@
 </template>
 
 <script setup lang="ts">
-import { usePackagesStore } from '@/store/packages'
+import { usePackagesStore } from '@/store/options/packages'
 import { i18n } from '@/plugins/i18n'
 import { usePackagesActions } from '@/composable/packages/packagesActions'
 import Icons from '@/maps/Icons'

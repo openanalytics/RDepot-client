@@ -30,7 +30,7 @@ import { createPinia, setActivePinia } from 'pinia'
 import PackageProperties from '@/components/packages/packageDetails/PackageProperties.vue'
 import PackageRProperties from '@/components/packages/packageDetails/PackageRProperties.vue'
 import PackagePythonProperties from '@/components/packages/packageDetails/PackagePythonProperties.vue'
-import { usePackageDetailsStore } from '@/store/packageDetails'
+import { usePackageDetailsStore } from '@/store/options/packageDetails'
 import { nextTick } from 'process'
 
 let wrapper: any
