@@ -92,27 +92,6 @@
       #append
     >
       <v-btn
-        v-if="
-          generateManual &&
-          promise.error.length == 0 &&
-          promise.response &&
-          promise.response[0].id
-        "
-        id="download-manual-icon"
-        :icon="Icons.get('download')"
-        variant="text"
-        @click="
-          promise &&
-          promise.response &&
-          promise.response[0].id
-            ? downloadManual(
-                promise.response[0].id.toString(),
-                `${promise.response[0].packageBag?.name}_${promise.response[0].packageBag?.version}_manual`
-              )
-            : null
-        "
-      ></v-btn>
-      <v-btn
         v-if="generateManual"
         id="generate-manual-icon-marked"
         disabled
@@ -133,7 +112,6 @@
 
 <script setup lang="ts">
 import { PackagePromise } from '@/store/options/submission'
-import { usePackagesStore } from '@/store/options/packages'
 import { useFiles } from '@/composable/file'
 import Icons from '@/maps/Icons'
 import { Technologies } from '@/enum/Technologies'
@@ -144,13 +122,7 @@ defineProps<{
   technology?: string
 }>()
 
-const packagesStore = usePackagesStore()
-
 const { formatFilename } = useFiles()
-
-function downloadManual(id: string, fileName: string) {
-  packagesStore.getManual(id, fileName)
-}
 </script>
 
 <style lang="scss">

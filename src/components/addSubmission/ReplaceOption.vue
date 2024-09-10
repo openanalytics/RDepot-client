@@ -23,15 +23,15 @@
 <template>
   <v-tooltip location="top">
     <template #activator="{ props }">
-      <VIcon
+      <v-btn
         id="replace-button"
         v-bind="props"
-        :color="disabled ? 'grey' : 'oablue'"
-        class="mr-8"
+        :color="disabled ? 'grey' : 'default'"
+        variant="text"
+        :icon="replaceIcon"
         @click.stop
         @click="replacePackage"
-        >{{ replaceIcon }}</VIcon
-      >
+      ></v-btn>
     </template>
     <div class="tooltip">
       {{ translatedHoverMessage }}
@@ -62,8 +62,8 @@ const replaceIcon = computed(() => {
   return submissionsStore.getReplaceForPackage(
     componentProps.file
   )
-    ? Icons.get('replace')
-    : Icons.get('replace-not')
+    ? Icons.get('checkbox')
+    : Icons.get('checkbox-not')
 })
 
 function replacePackage() {

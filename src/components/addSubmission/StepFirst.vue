@@ -36,6 +36,7 @@
       @load-items="loadRepositoriesObjects"
       @filtrate="filtrateRepositoriesObjects"
       @update:model-value="changeRepository"
+      @click:clear="clearRepository"
     >
       <template #item="{ item, props }">
         <v-list-item
@@ -67,6 +68,7 @@
     <v-btn
       id="next-button"
       color="oablue"
+      :disabled="submissionsStore.repository === undefined"
       @click="nextStep"
     >
       {{ $t('button.continue') }}
@@ -113,6 +115,10 @@ function changeRepository(value: SelectRepository | null) {
     } as EntityModelRepositoryDto
     submissionsStore.setRepository(repository)
   }
+}
+
+function clearRepository() {
+  submissionsStore.repository = undefined
 }
 
 function nextStep() {

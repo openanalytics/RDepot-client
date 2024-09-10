@@ -29,6 +29,8 @@ interface State {
   deletingRepositories: boolean
   replacingPackages: boolean
   generateManuals: boolean
+  accessTokenLifetimeConfigurable: boolean
+  accessTokenLifetimeDefault: number
 }
 
 export const useConfigStore = defineStore('configStore', {
@@ -38,7 +40,9 @@ export const useConfigStore = defineStore('configStore', {
       deletingPackages: true,
       deletingRepositories: true,
       replacingPackages: true,
-      generateManuals: true
+      generateManuals: true,
+      accessTokenLifetimeConfigurable: true,
+      accessTokenLifetimeDefault: 30
     }
   },
   actions: {
@@ -53,6 +57,10 @@ export const useConfigStore = defineStore('configStore', {
       this.replacingPackages =
         config.replacingPackagesEnabled || false
       this.generateManuals = config.generateManuals || false
+      this.accessTokenLifetimeConfigurable =
+        config.accessTokenLifetimeConfigurable || true
+      this.accessTokenLifetimeDefault =
+        config.accessTokenLifetimeDefault || 30
     }
   }
 })

@@ -122,6 +122,8 @@
     "apply": "Zastosuj",
     "before": "Przed",
     "cancel": "Anuluj",
+    "clear": "Wyczyść",
+    "clearAll": "Wyczyść wszystkie pakiety",
     "clearForm": "Wyczyść formularz",
     "click": "naciśnij",
     "copied": "Kod został skopiowany",
@@ -173,6 +175,10 @@
     "deletingPackages": "Usuwanie pakietu nieaktywne z powodu konfiguracji",
     "deletingRepositories": "Usuwanie repozytorium nieaktywne z powodu konfiguracji",
     "replacingPackages": "Podmiana istniejącego pakietu nieaktywna z powodu konfiguracji"
+  },
+  "datatable": {
+    "itemsPerPage": "Liczba elementów na stronie",
+    "noDataAvailable": "Brak rezultatów"
   },
   "dragzone": {
     "active": "Przeciągnij jeden lub więcej plików",
@@ -332,6 +338,7 @@
     "projectUrl": "URL projektu",
     "providesExtra": "Dostarcza dodatkowe",
     "referenceManual": "Instrukcja",
+    "replace": "Podmień",
     "replaceOptionDesc": "Podmień, jeżeli pakiet o tej samej nazwie i wersji istnieje już w wybranym repozytorium",
     "requiresDist": "Wymaga dystrybucji",
     "requiresExternal": "Zewnętrzne wymagania",
@@ -435,6 +442,7 @@
       "edited": "Token pomyślnie edytowany"
     },
     "newToken": "Nowy token",
+    "notConfigurableExpirationDate": "Czas aktywności jest zablokowany, ponieważ konfiguracja aplikacji nie pozwala na jego modyfikację",
     "save": "Zapisz zmiany",
     "tab": {
       "general": "Ogólne",

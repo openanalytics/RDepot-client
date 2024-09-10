@@ -122,6 +122,8 @@
     "apply": "Apply",
     "before": "Before",
     "cancel": "Cancel",
+    "clear": "Clear all",
+    "clearAll": "Clear all packages",
     "clearForm": "Clear form",
     "click": "click",
     "copied": "Code succesfully copied to clipboard",
@@ -170,12 +172,16 @@
     "users": "Users"
   },
   "config": {
-    "deletingPackages": "Package deletion is disabled due to the configuration",
-    "deletingRepositories": "Repository deletion is disabled due to the configuration",
-    "replacingPackages": "Existing package replacement is disabled due to the configuration"
+    "deletingPackages": "Deleting packages is disabled in the configuration",
+    "deletingRepositories": "Deleting repositories is disabled in the configuration",
+    "replacingPackages": "Replacing existing packages is disabled in the configuration"
+  },
+  "datatable": {
+    "itemsPerPage": "Items per page",
+    "noDataAvailable": "No data available"
   },
   "dragzone": {
-    "active": "Drag one or more files to this",
+    "active": "Drag one or more files here",
     "click": "to select them manually",
     "dropzone": "drop zone",
     "inactive": "Drop files to upload them"
@@ -183,7 +189,7 @@
   "errors": {
     "401": "Cannot perform this request because user is not authenticated.",
     "403": "Cannot perform this request because user is not authorized",
-    "405": "There seems to be a configuration issue on the back-end. Please contact your administrator for fixing this.",
+    "405": "There seems to be a configuration issue in the back-end. Please contact your administrator to fix this.",
     "422": "Validation failed",
     "500": "Internal server error",
     "message": {
@@ -231,8 +237,8 @@
   },
   "maintainers": {
     "createform": {
-      "disabledPackageMessage": "Choose user and repository to enable",
-      "disabledRepositoryMessage": "Choose user to enable",
+      "disabledPackageMessage": "Choose a user and a repository to enable",
+      "disabledRepositoryMessage": "Choose a user to enable",
       "disclaimer": "Only users with at least repository maintainer role available.",
       "disclaimerPackages": "Only users with at least package maintainer role available.",
       "disclaimerTitle": "Available users",
@@ -338,6 +344,7 @@
     "projectUrl": "Project URL",
     "providesExtra": "Provides extra",
     "referenceManual": "Reference Manual",
+    "replace": "Replace",
     "replaceOptionDesc": "Replace if package with the same name and version already exists in chosen repository",
     "requiresDist": "Requires distribution",
     "requiresExternal": "Requires external",
@@ -441,6 +448,7 @@
       "edited": "Token edited"
     },
     "newToken": "New token",
+    "notConfigurableExpirationDate": "Access token lifetime is not configurable",
     "save": "Save changes",
     "tab": {
       "general": "General",
@@ -453,7 +461,7 @@
       "light": "light"
     },
     "token": {
-      "copyWarning": "Make sure to copy the access token now. You won’t be able to see it again!"
+      "copyWarning": "Make sure to copy the access token now. You won't be able to see it again!"
     },
     "tokenName": "Name"
   },
@@ -488,11 +496,11 @@
       "duplication": "A package with the same name and version already exists in the selected repository. Please go through the upload process again and click 'replace' to overwrite it."
     },
     "upload": {
-      "warning": "Some uploaded submissions had warnings, see the individual items for details"
+      "warning": "Some uploaded submissions had warnings, see the individual submissions for details"
     },
-    "waitForAllRequestsToFulfill": "Wait until all submissions will end",
+    "waitForAllRequestsToFulfill": "Please wait until all submissions have been uploaded",
     "waitingForAction": "waiting for an action",
-    "wrongExtension": "Choose packages that have correct extension (.tar.gz)"
+    "wrongExtension": "Choose packages that have the correct file extension (.tar.gz)"
   },
   "success": "Request processed successfully",
   "tokens": {

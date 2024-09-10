@@ -225,7 +225,7 @@ export const useRepositoryStore = defineStore(
       },
       async setFiltration(payload: RepositoriesFiltration) {
         const pagination = usePagination()
-        pagination.page = 1
+        pagination.resetPage()
         if (
           RepositoriesFiltration.safeParse(payload).success
         ) {

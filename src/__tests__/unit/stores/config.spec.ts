@@ -20,30 +20,27 @@
  *
  */
 
-export function useFiles() {
-  function formatFilename(filename: string): string {
-    if (filename.length >= 50) {
-      return `${filename.slice(0, 25)}...${filename.slice(
-        -13
-      )}`
-    } else {
-      return filename
-    }
-  }
+import { useConfigStore } from '@/store/config'
+import { createPinia, setActivePinia } from 'pinia'
+import { beforeEach, describe, expect, it } from 'vitest'
 
-  function formatCutFilename(
-    filename: string,
-    cutoff?: number
-  ): string {
-    if (filename.length >= (cutoff || 20)) {
-      return `${filename.slice(0, (cutoff || 20) - 3)}...`
-    } else {
-      return filename
-    }
-  }
+describe('Common Store', () => {
+  beforeEach(() => {
+    setActivePinia(createPinia())
+  })
 
-  return {
-    formatFilename,
-    formatCutFilename
-  }
-}
+  it('Starting values', () => {
+    const configStore = useConfigStore()
+    expect(configStore.declarativeMode).toBeFalsy()
+    expect(configStore.deletingPackages).toBeTruthy()
+    expect(configStore.deletingRepositories).toBeTruthy()
+    expect(configStore.replacingPackages).toBeTruthy()
+    expect(configStore.generateManuals).toBeTruthy()
+    expect(
+      configStore.accessTokenLifetimeConfigurable
+    ).toBeTruthy()
+    expect(configStore.accessTokenLifetimeDefault).toEqual(
+      30
+    )
+  })
+})

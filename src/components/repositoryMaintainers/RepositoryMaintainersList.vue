@@ -33,6 +33,7 @@
     :loading="repositoryMaintainersStore.loading"
     :sort-by="sortBy"
     :items-per-page-options="pagination.itemsPerPage"
+    :items-per-page-text="$t('datatable.itemsPerPage')"
     @update:options="fetchData"
   >
     <template #top>
@@ -82,7 +83,6 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue'
 import { useRepositoryMaintainersStore } from '@/store/options/repositoryMaintainers'
 import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
 import EditIcon from '@/components/common/action_icons/EditIcon.vue'
@@ -152,10 +152,6 @@ const headers = computed<DataTableHeaders[]>(() => [
 
 const pagination = usePagination()
 
-function updateData(): void {
-  repositoryMaintainersStore.get()
-}
-
 function fetchData(options: DataTableOptions) {
   sortBy.value = getSort(options.sortBy, defaultSort)
   repositoryMaintainersStore.getPage(options)
@@ -174,7 +170,4 @@ function isPending(
     (maintainer) => maintainer.id == item.id
   )
 }
-onMounted(() => {
-  updateData()
-})
 </script>
