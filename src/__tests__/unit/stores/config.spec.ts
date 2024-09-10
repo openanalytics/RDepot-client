@@ -20,7 +20,7 @@
  *
  */
 
-import { useConfigStore } from '@/store/config'
+import { useConfigStore } from '@/store/options/config'
 import { createPinia, setActivePinia } from 'pinia'
 import { beforeEach, describe, expect, it } from 'vitest'
 

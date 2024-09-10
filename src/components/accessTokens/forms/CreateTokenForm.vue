@@ -67,7 +67,7 @@ import { CreateToken } from '@/models/Token'
 import { useAccessTokensStore } from '@/store/options/accessTokens'
 import { useCommonStore } from '@/store/options/common'
 import CardActions from '@/components/common/overlay/CardActions.vue'
-import { useConfigStore } from '@/store/config'
+import { useConfigStore } from '@/store/options/config'
 import { computed } from 'vue'
 import { i18n } from '@/plugins/i18n'
 
