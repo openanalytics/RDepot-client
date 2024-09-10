@@ -76,9 +76,9 @@ describe('Common Store', () => {
     for (let _ = 0; _ < 100; _++) {
       commonStore.updateKey()
     }
-    expect(commonStore.key).toBe(100)
+    expect(commonStore.key).toBe(0)
 
     commonStore.updateKey()
-    expect(commonStore.key).toBe(0)
+    expect(commonStore.key).toBe(1)
   })
 })
