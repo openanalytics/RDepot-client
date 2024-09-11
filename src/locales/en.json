@@ -537,6 +537,7 @@
     },
     "filtration": {
       "active": "Active",
+      "deleted": "Deleted",
       "roles": "Roles",
       "searchBox": "User..."
     },

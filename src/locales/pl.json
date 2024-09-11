@@ -531,6 +531,7 @@
     },
     "filtration": {
       "active": "Aktywny",
+      "deleted": "Usunięty",
       "roles": "Role",
       "searchBox": "Użytkownik..."
     },

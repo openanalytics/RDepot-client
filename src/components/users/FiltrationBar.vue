@@ -62,6 +62,18 @@
       class="flex-grow-0"
       @change="setFiltration"
     ></validated-input-field>
+
+    <validated-input-field
+      id="user-filtration-deleted"
+      density="compact"
+      hide-details
+      name="deleted"
+      :label="$t('users.filtration.deleted')"
+      as="v-switch"
+      color="oablue"
+      class="flex-grow-0"
+      @change="setFiltration"
+    ></validated-input-field>
     <v-spacer />
     <ResetButton
       v-if="!userStore.isDefaultFiltration"

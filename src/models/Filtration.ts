@@ -321,6 +321,7 @@ type RepositoryMaintainersFiltration = z.infer<
 const UsersFiltration = z
   .object({
     active: z.boolean().optional(),
+    deleted: z.boolean().optional(),
     roles: z
       .array(z.string())
       .optional()
@@ -342,6 +343,7 @@ const UsersFiltration = z
   })
   .default({
     active: true,
+    deleted: false,
     roles: undefined,
     search: undefined
   })

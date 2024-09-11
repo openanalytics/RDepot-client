@@ -46,6 +46,7 @@ let authorizationStore: any
 
 const EXAMPLE_USER_FILTRATION = UsersFiltration.parse({
   active: true,
+  deleted: true,
   roles: ['admin'],
   search: 'tesla'
 })
