@@ -28,7 +28,7 @@ import { mocks } from '@/__tests__/config/mocks'
 import { createPinia, setActivePinia } from 'pinia'
 import CreateRepositoryMaintainerForm from '@/components/repositoryMaintainers/forms/CreateRepositoryMaintainerForm.vue'
 import { nextTick } from 'vue'
-import { useAuthorizationStore } from '@/store/authorization'
+import { useAuthorizationStore } from '@/store/options/authorization'
 import me from '@/__tests__/config/mockData/me.json'
 
 let wrapper: any

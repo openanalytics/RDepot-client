@@ -37,7 +37,7 @@ import DeletePackageMaintainerModal from '@/components/packageMaintainers/modals
 import PackageMaintainersList from '@/components/packageMaintainers/PackageMaintainersList.vue'
 import FiltrationBar from '@/components/packageMaintainers/FiltrationBar.vue'
 import { computed } from 'vue'
-import { useCommonStore } from '@/store/common'
+import { useCommonStore } from '@/store/options/common'
 import CreatePackageMaintainerModal from '@/components/packageMaintainers/modals/CreatePackageMaintainerModal.vue'
 import EditPackageMaintainerModal from '@/components/packageMaintainers/modals/EditPackageMaintainerModal.vue'
 

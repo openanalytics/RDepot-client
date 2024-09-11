@@ -182,13 +182,13 @@ import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesF
 import { usePackageMaintainersFiltration } from '@/composable/filtration/packageMaintainersFiltration'
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
-import { usePackagesStore } from '@/store/packages'
+import { usePackagesStore } from '@/store/options/packages'
 import {
   isAtLeastRepositoryMaintainer,
   isAtLeastAdmin
 } from '@/enum/UserRoles'
 import ResetButton from '@/components/common/buttons/ResetButton.vue'
-import { useAuthorizationStore } from '@/store/authorization'
+import { useAuthorizationStore } from '@/store/options/authorization'
 
 const { states, technologies, sortValues } =
   useEnumFiltration()

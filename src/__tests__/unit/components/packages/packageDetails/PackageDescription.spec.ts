@@ -27,7 +27,7 @@ import { mocks } from '@/__tests__/config/mocks'
 import pythonPackage from '@/__tests__/config/mockData/pythonPackage.json'
 import { createPinia, setActivePinia } from 'pinia'
 import PackageDescription from '@/components/packages/packageDetails/PackageDescription.vue'
-import { usePackageDetailsStore } from '@/store/packageDetails'
+import { usePackageDetailsStore } from '@/store/options/packageDetails'
 import MarkdownDescription from '@/components/common/markdown/MarkdownDescription.vue'
 import { nextTick } from 'process'
 

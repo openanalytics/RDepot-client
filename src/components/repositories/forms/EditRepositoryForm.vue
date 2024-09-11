@@ -74,7 +74,7 @@
 </template>
 
 <script setup lang="ts">
-import { useRepositoryStore } from '@/store/repositories'
+import { useRepositoryStore } from '@/store/options/repositories'
 import { ref, onMounted } from 'vue'
 import { Technologies } from '@/enum/Technologies'
 import { repositorySchema } from '@/models/Schemas'
@@ -87,7 +87,7 @@ import { useToast } from '@/composable/toasts'
 import { useI18n } from 'vue-i18n'
 import { EntityModelRepositoryDto } from '@/openapi'
 import { useUtilities } from '@/composable/utilities'
-import { useCommonStore } from '@/store/common'
+import { useCommonStore } from '@/store/options/common'
 
 const { deepCopy } = useUtilities()
 const repositoryStore = useRepositoryStore()

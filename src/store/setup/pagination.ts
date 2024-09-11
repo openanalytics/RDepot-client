@@ -20,7 +20,7 @@
  *
  */
 
-import { useCommonStore } from '@/store/common'
+import { useCommonStore } from '@/store/options/common'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 

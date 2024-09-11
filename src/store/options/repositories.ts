@@ -33,8 +33,7 @@ import {
 import { fetchRepositoriesService } from '@/services/repositoryServices'
 import { createRepository } from '@/services/repositoryServices'
 import { useUtilities } from '@/composable/utilities'
-import { repositoriesFiltrationLabels } from '@/maps/Filtration'
-import { usePagination } from '@/store/pagination'
+import { usePagination } from '@/store/setup/pagination'
 import { DataTableOptions } from '@/models/DataTableOptions'
 import { useSortStore } from './sort'
 import { Technologies } from '@/enum/Technologies'
@@ -252,9 +251,6 @@ export const useRepositoryStore = defineStore(
       async clearFiltrationAndFetch() {
         this.clearFiltration()
         await this.getRepositories()
-      },
-      getLabels() {
-        return repositoriesFiltrationLabels
       }
     }
   }

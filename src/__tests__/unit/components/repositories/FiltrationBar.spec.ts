@@ -27,7 +27,7 @@ import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
 import FiltrationBarVue from '@/components/repositories/FiltrationBar.vue'
 import { createPinia, setActivePinia } from 'pinia'
-import { useRepositoryStore } from '@/store/repositories'
+import { useRepositoryStore } from '@/store/options/repositories'
 import { Technologies } from '@/enum/Technologies'
 import {
   RepositoriesFiltration,
@@ -35,7 +35,7 @@ import {
 } from '@/models/Filtration'
 import flushPromises from 'flush-promises'
 import waitForExpect from 'wait-for-expect'
-import { useAuthorizationStore } from '@/store/authorization'
+import { useAuthorizationStore } from '@/store/options/authorization'
 import me from '@/__tests__/config/mockData/me.json'
 
 let wrapper: any

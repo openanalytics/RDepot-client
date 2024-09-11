@@ -28,13 +28,13 @@ import {
 } from '@/services/usersServices'
 import { EntityModelUserDto, RoleDto } from '@/openapi'
 import { Role } from '@/enum/UserRoles'
-import { usePagination } from '@/store/pagination'
+import { usePagination } from '@/store/setup/pagination'
 import {
   defaultValues,
   UsersFiltration
 } from '@/models/Filtration'
 import { DataTableOptions } from '@/models/DataTableOptions'
-import { useSortStore } from '@/store/sort'
+import { useSortStore } from '@/store/options/sort'
 import { useUtilities } from '@/composable/utilities'
 
 const { deepCopy } = useUtilities()

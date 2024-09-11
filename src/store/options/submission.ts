@@ -35,9 +35,8 @@ import {
   updateSubmission
 } from '@/services/submissionServices'
 import { useUtilities } from '@/composable/utilities'
-import { submissionsFiltrationLabels } from '@/maps/Filtration'
 import { validatedData } from '@/services/openApiAccess'
-import { usePagination } from '@/store/pagination'
+import { usePagination } from '@/store/setup/pagination'
 import { useToast } from '@/composable/toasts'
 import { i18n } from '@/plugins/i18n'
 import { DataTableOptions } from '@/models/DataTableOptions'
@@ -232,9 +231,6 @@ export const useSubmissionStore = defineStore(
           (item) => item == file
         )
       },
-      setPackages(payload: File[]) {
-        this.packages = payload
-      },
       addPackage(payload: File) {
         this.packages = [...this.packages, payload]
       },
@@ -249,10 +245,7 @@ export const useSubmissionStore = defineStore(
         this.repository = payload
       },
       updateStepperKey() {
-        this.stepperKey += 1
-        if (this.stepperKey > 100) {
-          this.stepperKey = 0
-        }
+        this.stepperKey = ++this.stepperKey % 100
       },
       async addSubmissionRequests() {
         const toasts = useToast()
@@ -423,9 +416,6 @@ export const useSubmissionStore = defineStore(
         toasts.success(
           i18n.t('notifications.successFiltrationReset')
         )
-      },
-      getLabels() {
-        return submissionsFiltrationLabels
       }
     }
   }

@@ -35,11 +35,11 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import { useSettingsStore } from '@/store/settings'
-import { useAuthorizationStore } from '@/store/authorization'
+import { useSettingsStore } from '@/store/options/settings'
+import { useAuthorizationStore } from '@/store/options/authorization'
 import { UserSettingsProjection } from '@/openapi/models/user-settings-projection'
 import { useTheme } from 'vuetify/lib/framework.mjs'
-import { useCommonStore } from '@/store/common'
+import { useCommonStore } from '@/store/options/common'
 import langs from '@/locales/index'
 
 const t = useI18n()

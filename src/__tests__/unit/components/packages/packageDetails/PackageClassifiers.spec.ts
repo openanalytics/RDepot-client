@@ -28,7 +28,7 @@ import { mocks } from '@/__tests__/config/mocks'
 import pythonPackage from '@/__tests__/config/mockData/pythonPackage.json'
 import { createPinia, setActivePinia } from 'pinia'
 import PackageClassifiers from '@/components/packages/packageDetails/PackageClassifiers.vue'
-import { usePackageDetailsStore } from '@/store/packageDetails'
+import { usePackageDetailsStore } from '@/store/options/packageDetails'
 
 let wrapper: any
 let packageDetailsStore: any

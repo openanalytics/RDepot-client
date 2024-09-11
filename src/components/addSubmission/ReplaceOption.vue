@@ -40,7 +40,7 @@
 </template>
 
 <script setup lang="ts">
-import { useSubmissionStore } from '@/store/submission'
+import { useSubmissionStore } from '@/store/options/submission'
 import { computed } from 'vue'
 import { i18n } from '@/plugins/i18n'
 import Icons from '@/maps/Icons'

@@ -23,7 +23,7 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 
 import { createPinia, setActivePinia } from 'pinia'
-import { useSubmissionStore } from '@/store/submission'
+import { useSubmissionStore } from '@/store/options/submission'
 import { SubmissionEditOptions } from '@/enum/SubmissionEditOptions'
 import { useSubmissionActionTranslations } from '@/composable/submissions/submissionActionTranslations'
 import { i18n } from '@/plugins/i18n'

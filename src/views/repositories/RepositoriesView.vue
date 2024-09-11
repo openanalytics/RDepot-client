@@ -32,7 +32,7 @@
 import RepositoriesList from '@/components/repositories/RepositoriesList.vue'
 import FiltrationBar from '@/components/repositories/FiltrationBar.vue'
 import { computed } from 'vue'
-import { useCommonStore } from '@/store/common'
+import { useCommonStore } from '@/store/options/common'
 import DeleteRepositoryModal from '@/components/repositories/modals/DeleteRepositoryModal.vue'
 import CreateRepositoryModal from '@/components/repositories/modals/CreateRepositoryModal.vue'
 import EditRepositoryModal from '@/components/repositories/modals/EditRepositoryModal.vue'

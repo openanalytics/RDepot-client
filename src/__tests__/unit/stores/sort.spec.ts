@@ -20,7 +20,7 @@
  *
  */
 
-import { useSortStore } from '@/store/sort'
+import { useSortStore } from '@/store/options/sort'
 import { createPinia, setActivePinia } from 'pinia'
 import { beforeEach, describe, expect, it } from 'vitest'
 

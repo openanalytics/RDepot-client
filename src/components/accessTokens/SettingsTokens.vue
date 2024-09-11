@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { useCommonStore } from '@/store/common'
+import { useCommonStore } from '@/store/options/common'
 import TokenSettingsDetails from '@/components/accessTokens/TokenSettingsDetails.vue'
 import DeactivateTokenModal from '@/components/accessTokens/modals/DeactivateTokenModal.vue'
 import NewTokenDetailsModal from '@/components/accessTokens/modals/NewTokenDetailsModal.vue'

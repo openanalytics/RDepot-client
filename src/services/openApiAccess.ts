@@ -20,12 +20,12 @@
  *
  */
 
-import { useCommonStore } from '@/store/common'
+import { useCommonStore } from '@/store/options/common'
 import { AxiosError, AxiosResponse } from 'axios'
 import { Link, PageMetadata } from '@/openapi'
 import { getHeaders } from './apiConfig'
 import { ResponseDtoObject } from '@/openapi/models'
-import { useAuthorizationStore } from '@/store/authorization'
+import { useAuthorizationStore } from '@/store/options/authorization'
 import { useBlob } from '@/composable/blob'
 import { useToast } from '@/composable/toasts'
 import { i18n } from '@/plugins/i18n'

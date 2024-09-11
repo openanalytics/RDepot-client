@@ -69,7 +69,7 @@ import { toTypedSchema } from '@vee-validate/zod'
 import { useForm } from 'vee-validate'
 import { Login } from '@/models/users/Login'
 import { onKeyStroke } from '@vueuse/core'
-import { useAuthorizationStore } from '@/store/authorization'
+import { useAuthorizationStore } from '@/store/options/authorization'
 import { useSimpleAuthorization } from '@/composable/auth/simpleAuthorization'
 
 const { t } = useI18n()

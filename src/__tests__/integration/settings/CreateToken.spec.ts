@@ -42,7 +42,7 @@ import {
   clickOnButton,
   createDriver
 } from '../helpers/helpers'
-import { useConfigStore } from '@/store/config'
+import { useConfigStore } from '@/store/options/config'
 import { createPinia, setActivePinia } from 'pinia'
 const { By, until } = require('selenium-webdriver')
 

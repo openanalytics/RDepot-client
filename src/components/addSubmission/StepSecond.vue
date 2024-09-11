@@ -79,14 +79,14 @@
 </template>
 
 <script setup lang="ts">
-import { useSubmissionStore } from '@/store/submission'
+import { useSubmissionStore } from '@/store/options/submission'
 import { ref } from 'vue'
 import { useFileDialog } from '@vueuse/core'
 import { watch } from 'vue'
 import { onMounted } from 'vue'
 import DropZone from '@/components/common/files/DropZone.vue'
 import FilesList from '@/components/addSubmission/FilesList.vue'
-import { useFilesListStore } from '@/store/localFiles'
+import { useFilesListStore } from '@/store/options/localFiles'
 import { useI18n } from 'vue-i18n'
 import { useToast } from '@/composable/toasts'
 
@@ -109,9 +109,9 @@ watch(files, (files) => {
 function savePackagesInStore() {
   valid.value = filesStore.files.every(checkValidity)
   if (valid.value) {
-    submissionsStore.setPackages(filesStore.files)
+    submissionsStore.packages = filesStore.files
   } else {
-    submissionsStore.setPackages([])
+    submissionsStore.packages = []
   }
 }
 

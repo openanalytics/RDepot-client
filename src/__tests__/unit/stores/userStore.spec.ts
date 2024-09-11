@@ -20,7 +20,7 @@
  *
  */
 
-import { useUserStore } from '@/store/users'
+import { useUserStore } from '@/store/options/users'
 import { createPinia, setActivePinia } from 'pinia'
 import { beforeEach, describe, expect, it } from 'vitest'
 

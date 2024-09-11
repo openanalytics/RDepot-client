@@ -52,7 +52,7 @@
 </template>
 
 <script setup lang="ts">
-import { usePackagesStore } from '@/store/packages'
+import { usePackagesStore } from '@/store/options/packages'
 import { EntityModelPackageDto } from '@/openapi'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
 import { ref, computed, watch } from 'vue'

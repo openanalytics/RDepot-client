@@ -56,7 +56,7 @@ import { watchDebounced } from '@vueuse/core'
 import {
   SelectState,
   useSelectStore
-} from '@/store/selectPagination'
+} from '@/store/setup/selectPagination'
 
 const componentProps = defineProps<{
   label: string

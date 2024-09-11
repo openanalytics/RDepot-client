@@ -39,7 +39,7 @@ import FiltrationBar from '@/components/repositoryMaintainers/FiltrationBar.vue'
 import RepositoryMaintainersList from '@/components/repositoryMaintainers/RepositoryMaintainersList.vue'
 import DeleteRepositoryMaintainerModal from '@/components/repositoryMaintainers/modals/DeleteRepositoryMaintainerModal.vue'
 import { computed } from 'vue'
-import { useCommonStore } from '@/store/common'
+import { useCommonStore } from '@/store/options/common'
 import EditRepositoryMaintainerModal from '@/components/repositoryMaintainers/modals/EditRepositoryMaintainerModal.vue'
 import CreateRepositoryMaintainerModal from '@/components/repositoryMaintainers/modals/CreateRepositoryMaintainerModal.vue'
 

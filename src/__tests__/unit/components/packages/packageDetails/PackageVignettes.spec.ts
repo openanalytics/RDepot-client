@@ -27,7 +27,7 @@ import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
 import { createPinia, setActivePinia } from 'pinia'
 import PackageVignettes from '@/components/packages/packageDetails/PackageVignettes.vue'
-import { usePackageDetailsStore } from '@/store/packageDetails'
+import { usePackageDetailsStore } from '@/store/options/packageDetails'
 
 const TITLE_1 = 'sth1'
 const TITLE_2 = 'sth2'

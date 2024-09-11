@@ -22,7 +22,7 @@
 
 import { Configuration } from '@/openapi'
 import { authService } from '@/plugins/oauth'
-import { useAuthorizationStore } from '@/store/authorization'
+import { useAuthorizationStore } from '@/store/options/authorization'
 import getEnv from '@/utils/env'
 import { AxiosRequestConfig } from 'axios'
 

@@ -121,7 +121,7 @@
 
 <script setup lang="ts">
 import CardActions from '@/components/common/overlay/CardActions.vue'
-import { useRepositoryMaintainersStore } from '@/store/repositoryMaintainers'
+import { useRepositoryMaintainersStore } from '@/store/options/repositoryMaintainers'
 import { onBeforeMount } from 'vue'
 import { useForm } from 'vee-validate'
 import ValidatedInputField from '@/components/common/fields/ValidatedInputField.vue'
@@ -132,7 +132,7 @@ import { useToast } from '@/composable/toasts'
 import { useI18n } from 'vue-i18n'
 import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesFiltration'
 import { useUsersFiltration } from '@/composable/filtration/usersFiltration'
-import { useCommonStore } from '@/store/common'
+import { useCommonStore } from '@/store/options/common'
 import { i18n } from '@/plugins/i18n'
 import { Role } from '@/enum/UserRoles'
 

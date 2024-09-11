@@ -55,7 +55,7 @@
 
 <script setup lang="ts">
 import { i18n } from '@/plugins/i18n'
-import { useCommonStore } from '@/store/common'
+import { useCommonStore } from '@/store/options/common'
 
 const emit = defineEmits(['clicked', 'cancel', 'submit'])
 const commonStore = useCommonStore()

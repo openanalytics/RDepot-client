@@ -50,7 +50,7 @@
 <script setup lang="ts">
 import CommonButton from '@/components/common/buttons/CommonButton.vue'
 import { OverlayEnum } from '@/enum/Overlay'
-import { useConfigStore } from '@/store/config'
+import { useConfigStore } from '@/store/options/config'
 import Icons from '@/maps/Icons'
 
 const configStore = useConfigStore()

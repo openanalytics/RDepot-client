@@ -35,7 +35,7 @@ import {
 } from '@/enum/UserRoles'
 import { z } from 'zod'
 import { RouteRecordName } from 'vue-router'
-import { useAuthorizationStore } from '@/store/authorization'
+import { useAuthorizationStore } from '@/store/options/authorization'
 
 const FrontendRoute = z.enum(['Home', 'packageDetails'])
 

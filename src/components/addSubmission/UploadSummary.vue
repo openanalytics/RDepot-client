@@ -111,7 +111,7 @@
 </template>
 
 <script setup lang="ts">
-import { PackagePromise } from '@/store/submission'
+import { PackagePromise } from '@/store/options/submission'
 import { useFiles } from '@/composable/file'
 import Icons from '@/maps/Icons'
 import { Technologies } from '@/enum/Technologies'

@@ -20,7 +20,7 @@
  *
  */
 
-import { useEventsStore } from '@/store/events'
+import { useEventsStore } from '@/store/options/events'
 import { createPinia, setActivePinia } from 'pinia'
 import {
   beforeAll,
@@ -34,7 +34,7 @@ import {
 import events from '@/__tests__/config/mockData/events.json'
 import { Technologies } from '@/enum/Technologies'
 import { EventsFiltration } from '@/models/Filtration'
-import { useAuthorizationStore } from '@/store/authorization'
+import { useAuthorizationStore } from '@/store/options/authorization'
 import { server } from '@/__tests__/config/backend/server'
 
 const defaultFiltration = {

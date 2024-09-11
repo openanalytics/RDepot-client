@@ -25,9 +25,9 @@ import {
   EntityModelSubmissionDto,
   EntityModelSubmissionDtoStateEnum
 } from '@/openapi'
-import { useSubmissionStore } from '@/store/submission'
+import { useSubmissionStore } from '@/store/options/submission'
 import { useSubmissionAuthorizationCheck } from './submissionAuthorities'
-import { usePackageDetailsStore } from '@/store/packageDetails'
+import { usePackageDetailsStore } from '@/store/options/packageDetails'
 
 export function useSubmissionActions() {
   async function editSubmission(

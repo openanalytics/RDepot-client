@@ -72,7 +72,7 @@
 </template>
 
 <script setup lang="ts">
-import { useSubmissionStore } from '@/store/submission'
+import { useSubmissionStore } from '@/store/options/submission'
 import { useSubmissionIcons } from '@/composable/submissions/statusIcons'
 import { EntityModelSubmissionDto } from '@/openapi'
 import { i18n } from '@/plugins/i18n'

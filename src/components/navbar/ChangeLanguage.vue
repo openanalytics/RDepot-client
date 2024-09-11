@@ -57,7 +57,7 @@
 
 <script setup lang="ts">
 import langs from '@/locales/index'
-import { useAuthorizationStore } from '@/store/authorization'
+import { useAuthorizationStore } from '@/store/options/authorization'
 
 const authorizationStore = useAuthorizationStore()
 

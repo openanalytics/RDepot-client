@@ -29,7 +29,7 @@
 <script setup lang="ts">
 import ModalOverlay from '@/components/common/overlay/ModalOverlay.vue'
 import NewTokenDetailsForm from '../forms/NewTokenDetailsForm.vue'
-import { useCommonStore } from '@/store/common'
+import { useCommonStore } from '@/store/options/common'
 
 const commonStore = useCommonStore()
 </script>

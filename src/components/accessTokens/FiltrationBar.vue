@@ -115,8 +115,8 @@ import { useUsersFiltration } from '@/composable/filtration/usersFiltration'
 import { onMounted } from 'vue'
 import ResetButton from '@/components/common/buttons/ResetButton.vue'
 import { onBeforeMount } from 'vue'
-import { useAccessTokensStore } from '@/store/accessTokens'
-import { useAuthorizationStore } from '@/store/authorization'
+import { useAccessTokensStore } from '@/store/options/accessTokens'
+import { useAuthorizationStore } from '@/store/options/authorization'
 
 const authorizationStore = useAuthorizationStore()
 const accessTokensStore = useAccessTokensStore()

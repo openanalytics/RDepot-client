@@ -33,12 +33,12 @@
 </template>
 
 <script setup lang="ts">
-import { usePackagesStore } from '@/store/packages'
+import { usePackagesStore } from '@/store/options/packages'
 import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
 import { EntityModelPackageDto } from '@/openapi'
 import { i18n } from '@/plugins/i18n'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
-import { useConfigStore } from '@/store/config'
+import { useConfigStore } from '@/store/options/config'
 import { computed } from 'vue'
 
 const componentProps = defineProps({

@@ -58,7 +58,7 @@
 <script setup lang="ts">
 import ChangeLanguage from '@/components/navbar/ChangeLanguage.vue'
 import ChangeTheme from '@/components/navbar/ChangeTheme.vue'
-import { useCommonStore } from '@/store/common'
+import { useCommonStore } from '@/store/options/common'
 import { useDisplay } from 'vuetify/lib/framework.mjs'
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'

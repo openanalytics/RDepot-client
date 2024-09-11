@@ -98,8 +98,8 @@
 </template>
 
 <script setup lang="ts">
-import { useSubmissionStore } from '@/store/submission'
-import { usePagination } from '@/store/pagination'
+import { useSubmissionStore } from '@/store/options/submission'
+import { usePagination } from '@/store/setup/pagination'
 import { EntityModelSubmissionDto } from '@/openapi'
 import {
   DataTableHeaders,

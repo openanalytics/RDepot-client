@@ -26,7 +26,7 @@ import { mount } from '@vue/test-utils'
 import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
 import EditIcon from '@/components/common/action_icons/EditIcon.vue'
-import { useCommonStore } from '@/store/common'
+import { useCommonStore } from '@/store/options/common'
 import { createPinia, setActivePinia } from 'pinia'
 import { OverlayEnum } from '@/enum/Overlay'
 

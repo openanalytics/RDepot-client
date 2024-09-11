@@ -79,7 +79,7 @@ import {
 import { useEnumFiltration } from '@/composable/filtration/enumFiltration'
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
-import { useUserStore } from '@/store/users'
+import { useUserStore } from '@/store/options/users'
 import ResetButton from '@/components/common/buttons/ResetButton.vue'
 
 const { roles, sortValues } = useEnumFiltration()

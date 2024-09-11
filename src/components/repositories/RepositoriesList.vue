@@ -148,23 +148,23 @@
 import { EntityModelRepositoryDto } from '@/openapi'
 import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
 import EditIcon from '@/components/common/action_icons/EditIcon.vue'
-import { useRepositoryStore } from '@/store/repositories'
+import { useRepositoryStore } from '@/store/options/repositories'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
-import { usePagination } from '@/store/pagination'
+import { usePagination } from '@/store/setup/pagination'
 import { i18n } from '@/plugins/i18n'
 import {
   DataTableHeaders,
   DataTableOptions,
   Sort
 } from '@/models/DataTableOptions'
-import { useConfigStore } from '@/store/config'
+import { useConfigStore } from '@/store/options/config'
 import { useUtilities } from '@/composable/utilities'
 import { computed } from 'vue'
 import { isAtLeastRepositoryMaintainer } from '@/enum/UserRoles'
 import { ref } from 'vue'
 import { useSort } from '@/composable/sort'
 import AddButton from '@/components/common/buttons/AddButton.vue'
-import { useAuthorizationStore } from '@/store/authorization'
+import { useAuthorizationStore } from '@/store/options/authorization'
 import TechnologyChip from '../common/chips/TechnologyChip.vue'
 import ProgressCircularSmall from '../common/progress/ProgressCircularSmall.vue'
 import RepositoryDescription from './repositoryDetails/RepositoryDescription.vue'

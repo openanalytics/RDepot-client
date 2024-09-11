@@ -122,6 +122,7 @@
       <CardActions
         :valid="isFormValid"
         @submit="editMaintainer"
+        @cancel="resetFiltration"
       />
     </v-card>
   </form>
@@ -129,7 +130,7 @@
 
 <script setup lang="ts">
 import CardActions from '@/components/common/overlay/CardActions.vue'
-import { usePackageMaintainersStore } from '@/store/packageMaintainers'
+import { usePackageMaintainersStore } from '@/store/options/packageMaintainers'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useForm } from 'vee-validate'
 import ValidatedInputField from '@/components/common/fields/ValidatedInputField.vue'
@@ -142,8 +143,8 @@ import { useI18n } from 'vue-i18n'
 import { Technologies } from '@/enum/Technologies'
 import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesFiltration'
 import { usePackagesFiltration } from '@/composable/filtration/packagesFiltration'
-import { usePackagesStore } from '@/store/packages'
-import { useCommonStore } from '@/store/common'
+import { usePackagesStore } from '@/store/options/packages'
+import { useCommonStore } from '@/store/options/common'
 import { i18n } from '@/plugins/i18n'
 
 const maintainersStore = usePackageMaintainersStore()
@@ -314,7 +315,12 @@ function getFieldValue(newValue: any) {
 
 function changeDialogOptions() {
   updateMaintainer()
+  packagesStore.clearFiltration()
   commonsStore.overlay = false
+}
+
+function resetFiltration() {
+  packagesStore.clearFiltration()
 }
 
 onBeforeMount(() => {

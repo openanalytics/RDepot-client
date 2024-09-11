@@ -25,9 +25,9 @@ import {
   EntityModelSubmissionDto,
   EntityModelSubmissionDtoStateEnum
 } from '@/openapi'
-import { useAuthorizationStore } from '@/store/authorization'
+import { useAuthorizationStore } from '@/store/options/authorization'
 import { useUserAuthorities } from '../authorities/userAuthorities'
-import { EditSubmissionWarnings } from '@/store/submission'
+import { EditSubmissionWarnings } from '@/store/options/submission'
 
 export function useSubmissionAuthorizationCheck() {
   function canChangeState(

@@ -102,8 +102,8 @@
 
 <script setup lang="ts">
 import { i18n } from '@/plugins/i18n'
-import { usePagination } from '@/store/pagination'
-import { useAuthorizationStore } from '@/store/authorization'
+import { usePagination } from '@/store/setup/pagination'
+import { useAuthorizationStore } from '@/store/options/authorization'
 import {
   DataTableHeaders,
   DataTableOptions,
@@ -119,7 +119,7 @@ import { computed } from 'vue'
 import { ref } from 'vue'
 import { useSort } from '@/composable/sort'
 import AddToken from '@/components/common/buttons/AddToken.vue'
-import { useAccessTokensStore } from '@/store/accessTokens'
+import { useAccessTokensStore } from '@/store/options/accessTokens'
 import DateChip from '../common/chips/DateChip.vue'
 import Icons from '@/maps/Icons'
 
@@ -198,7 +198,8 @@ function fetchData(options: DataTableOptions) {
 }
 
 function setEditEntity(item: EntityModelAccessTokenDto) {
-  accessTokensStore.setChosen(item)
+  accessTokensStore.currentToken = item
+  accessTokensStore.save()
 }
 
 function isPending(

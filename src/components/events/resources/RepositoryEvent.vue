@@ -127,7 +127,7 @@ import EventTag from '../EventTag.vue'
 import { i18n } from '@/plugins/i18n'
 import { computed } from 'vue'
 import EventTypeTag from './EventTypeTag.vue'
-import { useAuthorizationStore } from '@/store/authorization'
+import { useAuthorizationStore } from '@/store/options/authorization'
 
 const componentProps = defineProps({
   event: {

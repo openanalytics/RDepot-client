@@ -22,15 +22,21 @@
 
 import { authService } from '@/plugins/oauth'
 import { useOIDCAuthorization } from '@/composable/auth/oidcAuthorization'
-import { usePackagesStore } from '@/store/packages'
-import { useAuthorizationStore } from '@/store/authorization'
+import { usePackagesStore } from '@/store/options/packages'
+import { useAuthorizationStore } from '@/store/options/authorization'
 import { Technologies } from '@/enum/Technologies'
-import { usePackageDetailsStore } from '@/store/packageDetails'
-import { usePagination } from '@/store/pagination'
-import { useSortStore } from '@/store/sort'
-import { useCommonStore } from '@/store/common'
-import { useUserStore } from '@/store/users'
-import { useConfigStore } from '@/store/config'
+import { usePackageDetailsStore } from '@/store/options/packageDetails'
+import { usePagination } from '@/store/setup/pagination'
+import { useSortStore } from '@/store/options/sort'
+import { useCommonStore } from '@/store/options/common'
+import { useUserStore } from '@/store/options/users'
+import { useConfigStore } from '@/store/options/config'
+import { useEventsStore } from '@/store/options/events'
+import { useSubmissionStore } from '@/store/options/submission'
+import { useRepositoryMaintainersStore } from '@/store/options/repositoryMaintainers'
+import { usePackageMaintainersStore } from '@/store/options/packageMaintainers'
+import { useAccessTokensStore } from '@/store/options/accessTokens'
+import { useRepositoryStore } from '@/store/options/repositories'
 
 export async function loadPackageDetails(
   id: number,
@@ -176,4 +182,50 @@ export async function authorizeInternalPath(to: any) {
     return '/packages'
   }
   return undefined
+}
+
+export function clearFiltrations(to: any, from: any) {
+  switch (from) {
+    case 'events':
+      useEventsStore().clearFiltration()
+      break
+    case 'submissions':
+      useSubmissionStore().clearFiltration()
+      break
+    case 'users':
+      useUserStore().clearFiltration()
+      break
+    case 'repositoryMaintainers':
+      useRepositoryMaintainersStore().clearFiltration()
+      break
+    case 'packageMaintainers':
+      usePackageMaintainersStore().clearFiltration()
+      usePackagesStore().clearFiltration()
+      break
+    case 'settingsTokens':
+      useAccessTokensStore().clearFiltration()
+      break
+    case 'login':
+      useEventsStore().clearFiltration()
+      useSubmissionStore().clearFiltration()
+      useUserStore().clearFiltration()
+      useRepositoryMaintainersStore().clearFiltration()
+      usePackageMaintainersStore().clearFiltration()
+      useAccessTokensStore().clearFiltration()
+      useRepositoryStore().clearFiltration()
+      usePackagesStore().clearFiltration()
+      break
+    case 'repositories':
+      if (to !== 'packages') {
+        useRepositoryStore().clearFiltration()
+      }
+      break
+    case 'packages':
+      if (to !== 'packageDetails') {
+        usePackagesStore().clearFiltration()
+      }
+      break
+    default:
+      break
+  }
 }

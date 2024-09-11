@@ -27,7 +27,7 @@ import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
 import ProgressCircularVue from '@/components/common/progress/ProgressCircular.vue'
 import { createPinia, setActivePinia } from 'pinia'
-import { useCommonStore } from '@/store/common'
+import { useCommonStore } from '@/store/options/common'
 import { nextTick } from 'vue'
 
 let wrapper: any

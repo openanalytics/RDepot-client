@@ -27,7 +27,7 @@ import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
 import { createPinia, setActivePinia } from 'pinia'
 import ReplaceOption from '@/components/addSubmission/ReplaceOption.vue'
-import { useSubmissionStore } from '@/store/submission'
+import { useSubmissionStore } from '@/store/options/submission'
 
 let wrapper: any
 const globalConfig = {

@@ -28,9 +28,9 @@ import { mocks } from '@/__tests__/config/mocks'
 import { createPinia, setActivePinia } from 'pinia'
 import UploadSummary from '@/components/addSubmission/UploadSummary.vue'
 import submissions from '@/__tests__/config/mockData/submissions.json'
-import { PackagePromise } from '@/store/submission'
+import { PackagePromise } from '@/store/options/submission'
 import { VProgressCircular } from 'vuetify/components'
-import { useAuthorizationStore } from '@/store/authorization'
+import { useAuthorizationStore } from '@/store/options/authorization'
 import me from '@/__tests__/config/mockData/me.json'
 
 let wrapper: any

@@ -32,7 +32,7 @@
 <script setup lang="ts">
 import { EntityModelRPackageDto } from '@/openapi'
 import { computed } from 'vue'
-import { usePackageDetailsStore } from '@/store/packageDetails'
+import { usePackageDetailsStore } from '@/store/options/packageDetails'
 
 const packageDetailsStore = usePackageDetailsStore()
 

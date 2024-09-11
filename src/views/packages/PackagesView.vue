@@ -31,7 +31,7 @@ import PackagesList from '@/components/packages/PackagesList.vue'
 import FiltrationBar from '@/components/packages/FiltrationBar.vue'
 import DeletePackageModal from '@/components/packages/modals/DeletePackageModal.vue'
 import { computed } from 'vue'
-import { useCommonStore } from '@/store/common'
+import { useCommonStore } from '@/store/options/common'
 
 const commonStore = useCommonStore()
 const componentKey = computed(() => {

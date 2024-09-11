@@ -28,7 +28,7 @@ import { mocks } from '@/__tests__/config/mocks'
 import pythonPackage from '@/__tests__/config/mockData/pythonPackage.json'
 import { createPinia, setActivePinia } from 'pinia'
 import PackageTitle from '@/components/packages/packageDetails/PackageTitle.vue'
-import { usePackageDetailsStore } from '@/store/packageDetails'
+import { usePackageDetailsStore } from '@/store/options/packageDetails'
 
 let wrapper: any
 let packageDetailsStore: any

@@ -57,7 +57,7 @@ import {
   EntityModelRPackageDto
 } from '@/openapi'
 import { computed } from 'vue'
-import { usePackageDetailsStore } from '@/store/packageDetails'
+import { usePackageDetailsStore } from '@/store/options/packageDetails'
 import { Technologies } from '@/enum/Technologies'
 import MarkdownDescription from '@/components/common/markdown/MarkdownDescription.vue'
 import router from '@/plugins/router'

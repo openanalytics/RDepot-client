@@ -143,6 +143,7 @@
       <CardActions
         :valid="meta.valid"
         @submit="createMaintainer"
+        @cancel="resetFiltration"
       />
     </v-card>
   </form>
@@ -150,7 +151,7 @@
 
 <script setup lang="ts">
 import CardActions from '@/components/common/overlay/CardActions.vue'
-import { usePackageMaintainersStore } from '@/store/packageMaintainers'
+import { usePackageMaintainersStore } from '@/store/options/packageMaintainers'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useForm } from 'vee-validate'
 import ValidatedInputField from '@/components/common/fields/ValidatedInputField.vue'
@@ -162,8 +163,8 @@ import { useI18n } from 'vue-i18n'
 import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesFiltration'
 import { useUsersFiltration } from '@/composable/filtration/usersFiltration'
 import { usePackagesFiltration } from '@/composable/filtration/packagesFiltration'
-import { usePackagesStore } from '@/store/packages'
-import { useCommonStore } from '@/store/common'
+import { usePackagesStore } from '@/store/options/packages'
+import { useCommonStore } from '@/store/options/common'
 import { onBeforeUnmount } from 'vue'
 import { computed } from 'vue'
 import { i18n } from '@/plugins/i18n'
@@ -297,10 +298,15 @@ async function createMaintainer() {
     filtratePackagesObjects(undefined)
     filtrateRepositoriesObjects(undefined)
     filtrateUsers(undefined)
+    packagesStore.clearFiltration()
     commonStore.overlay = false
   } else {
     toasts.warning(t('notifications.invalidform'))
   }
+}
+
+function resetFiltration() {
+  packagesStore.clearFiltration()
 }
 
 function resetPackageName() {

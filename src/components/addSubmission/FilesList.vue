@@ -133,12 +133,12 @@
 </template>
 
 <script setup lang="ts">
-import { useFilesListStore } from '@/store/localFiles'
-import { useSubmissionStore } from '@/store/submission'
+import { useFilesListStore } from '@/store/options/localFiles'
+import { useSubmissionStore } from '@/store/options/submission'
 import { computed } from 'vue'
 import ReplaceOption from './ReplaceOption.vue'
 import { useFiles } from '@/composable/file'
-import { useConfigStore } from '@/store/config'
+import { useConfigStore } from '@/store/options/config'
 import Icons from '@/maps/Icons'
 import { Technologies } from '@/enum/Technologies'
 import { useI18n } from 'vue-i18n'
@@ -156,7 +156,7 @@ const chosenRepository = computed(() => {
 function resetPackages() {
   console.log(filesStore.files)
   filesStore.files = []
-  submissionsStore.setPackages([])
+  submissionsStore.packages = []
   // reset()
 }
 

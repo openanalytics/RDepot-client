@@ -61,7 +61,7 @@
 
 <script setup lang="ts">
 import { i18n } from '@/plugins/i18n'
-import { useSubmissionStore } from '@/store/submission'
+import { useSubmissionStore } from '@/store/options/submission'
 import { computed } from 'vue'
 
 defineProps({

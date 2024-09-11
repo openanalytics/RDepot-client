@@ -154,7 +154,7 @@ import {
 import { useEnumFiltration } from '@/composable/filtration/enumFiltration'
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
-import { useSubmissionStore } from '@/store/submission'
+import { useSubmissionStore } from '@/store/options/submission'
 import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesFiltration'
 import DatePickerField from '@/components/common/fields/DatePickerField.vue'
 import { useDatePicker } from '@/composable/datePicker'

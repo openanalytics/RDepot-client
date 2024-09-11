@@ -118,8 +118,8 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import EditIcon from '@/components/common/action_icons/EditIcon.vue'
-import { useUserStore } from '@/store/users'
-import { usePagination } from '@/store/pagination'
+import { useUserStore } from '@/store/options/users'
+import { usePagination } from '@/store/setup/pagination'
 import { i18n } from '@/plugins/i18n'
 import { EntityModelUserDto } from '@/openapi'
 import { useUtilities } from '@/composable/utilities'
@@ -130,7 +130,7 @@ import {
   DataTableOptions,
   Sort
 } from '@/models/DataTableOptions'
-import { useAuthorizationStore } from '@/store/authorization'
+import { useAuthorizationStore } from '@/store/options/authorization'
 import { ref, computed } from 'vue'
 import { useSort } from '@/composable/sort'
 import { useEnumFiltration } from '@/composable/filtration/enumFiltration'

@@ -83,10 +83,10 @@
 </template>
 
 <script setup lang="ts">
-import { useRepositoryMaintainersStore } from '@/store/repositoryMaintainers'
+import { useRepositoryMaintainersStore } from '@/store/options/repositoryMaintainers'
 import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
 import EditIcon from '@/components/common/action_icons/EditIcon.vue'
-import { usePagination } from '@/store/pagination'
+import { usePagination } from '@/store/setup/pagination'
 import {
   DataTableHeaders,
   DataTableOptions,
@@ -97,7 +97,7 @@ import { EntityModelRepositoryMaintainerDto } from '@/openapi'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
 import { ref } from 'vue'
 import { useSort } from '@/composable/sort'
-import { useAuthorizationStore } from '@/store/authorization'
+import { useAuthorizationStore } from '@/store/options/authorization'
 import AddMaintainerButton from '@/components/common/buttons/AddMaintainerButton.vue'
 import { computed } from 'vue'
 import TechnologyChip from '../common/chips/TechnologyChip.vue'
@@ -160,7 +160,7 @@ function fetchData(options: DataTableOptions) {
 function setEditMaintainer(
   item: EntityModelRepositoryMaintainerDto
 ) {
-  repositoryMaintainersStore.setChosen(item)
+  repositoryMaintainersStore.chosenMaintainer = item
 }
 
 function isPending(

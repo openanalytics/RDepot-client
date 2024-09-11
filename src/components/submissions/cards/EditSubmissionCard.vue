@@ -132,13 +132,13 @@ The Apache Software Foundation, either version 2 of the License, or
 </template>
 
 <script setup lang="ts">
-import { useSubmissionStore } from '@/store/submission'
+import { useSubmissionStore } from '@/store/options/submission'
 import { useSubmissionAuthorizationCheck } from '@/composable/submissions/submissionAuthorities'
 import { useSubmissionActionTranslations } from '@/composable/submissions/submissionActionTranslations'
 import { i18n } from '@/plugins/i18n'
 import { computed } from 'vue'
 import CardActions from '@/components/common/overlay/CardActions.vue'
-import { useCommonStore } from '@/store/common'
+import { useCommonStore } from '@/store/options/common'
 import { useSubmissionIcons } from '@/composable/submissions/statusIcons'
 
 const { canChangeState } = useSubmissionAuthorizationCheck()

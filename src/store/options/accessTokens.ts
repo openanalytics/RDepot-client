@@ -38,10 +38,10 @@ import {
 } from '@/services/settingsServices'
 import { useUtilities } from '@/composable/utilities'
 import { validatedData } from '@/services/openApiAccess'
-import { usePagination } from '@/store/pagination'
+import { usePagination } from '@/store/setup/pagination'
 import { useToast } from '@/composable/toasts'
 import { i18n } from '@/plugins/i18n'
-import { useCommonStore } from '@/store/common'
+import { useCommonStore } from '@/store/options/common'
 import { OverlayEnum } from '@/enum/Overlay'
 import { DataTableOptions } from '@/models/DataTableOptions'
 import { useSortStore } from './sort'
@@ -230,10 +230,6 @@ export const useAccessTokensStore = defineStore(
       },
       reset() {
         setTimeout(() => (this.newToken = ''), 200)
-      },
-      setChosen(payload: EntityModelAccessTokenDto) {
-        this.currentToken = payload
-        this.save()
       },
       save() {
         this.tokens = this.tokens.map(

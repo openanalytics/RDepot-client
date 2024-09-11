@@ -36,14 +36,13 @@ import {
   deletePackage
 } from '@/services/packageServices'
 import { useUtilities } from '@/composable/utilities'
-import { packagesFiltrationLabels } from '@/maps/Filtration'
 import { fetchSubmission } from '@/services/submissionServices'
-import { usePagination } from './pagination'
+import { usePagination } from '../setup/pagination'
 import { Technologies } from '@/enum/Technologies'
 import { DataTableOptions } from '@/models/DataTableOptions'
 import { validatedData } from '@/services/openApiAccess'
 import { useToast } from '@/composable/toasts'
-import { useSortStore } from '@/store/sort'
+import { useSortStore } from '@/store/options/sort'
 import {
   deleteTechnologyPackage,
   updateTechnologyPackage
@@ -232,9 +231,6 @@ export const usePackagesStore = defineStore(
           (packageBag) => packageBag.id != newPackage?.id
         )
       },
-      setChosen(payload?: EntityModelPackageDto) {
-        this.chosenPackage = payload
-      },
       async setFiltration(payload: PackagesFiltration) {
         const pagination = usePagination()
         pagination.resetPage()
@@ -259,9 +255,6 @@ export const usePackagesStore = defineStore(
       async clearFiltrationAndFetch() {
         this.clearFiltration()
         await this.getPackages()
-      },
-      getLabels() {
-        return packagesFiltrationLabels
       },
       async deletePackages() {
         const toasts = useToast()

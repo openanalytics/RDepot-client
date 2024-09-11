@@ -77,14 +77,14 @@
 </template>
 
 <script setup lang="ts">
-import { useSubmissionStore } from '@/store/submission'
+import { useSubmissionStore } from '@/store/options/submission'
 import { useToast } from '@/composable/toasts'
 import { useI18n } from 'vue-i18n'
 import { EntityModelRepositoryDto } from '@/openapi'
 import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesFiltration'
 import AutocompleteField from '@/components/common/fields/AutocompleteField.vue'
 import { onBeforeMount } from 'vue'
-import { useRepositoryStore } from '@/store/repositories'
+import { useRepositoryStore } from '@/store/options/repositories'
 
 const emits = defineEmits(['next'])
 const submissionsStore = useSubmissionStore()

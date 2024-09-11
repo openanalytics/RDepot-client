@@ -72,16 +72,10 @@ export const useCommonStore = defineStore('commonStore', {
       this.overlay = false
     },
     updateKey() {
-      this.key += 1
-      if (this.key > 100) {
-        this.key = 0
-      }
+      this.key = ++this.key % 100
     },
     updateThemeKey() {
-      this.themeKey += 1
-      if (this.themeKey > 100) {
-        this.themeKey = 0
-      }
+      this.themeKey = ++this.themeKey % 100
     }
   }
 })

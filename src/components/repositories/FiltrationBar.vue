@@ -141,10 +141,10 @@ import { useEnumFiltration } from '@/composable/filtration/enumFiltration'
 import { useRepositoryMaintainersFiltration } from '@/composable/filtration/repositoryMaintainersFiltration'
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
-import { useRepositoryStore } from '@/store/repositories'
+import { useRepositoryStore } from '@/store/options/repositories'
 import { isAtLeastAdmin } from '@/enum/UserRoles'
 import ResetButton from '@/components/common/buttons/ResetButton.vue'
-import { useAuthorizationStore } from '@/store/authorization'
+import { useAuthorizationStore } from '@/store/options/authorization'
 
 const { technologies } = useEnumFiltration()
 const authorizationStore = useAuthorizationStore()

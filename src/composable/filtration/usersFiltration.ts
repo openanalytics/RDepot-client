@@ -21,13 +21,13 @@
  */
 
 import { EntityModelUserDto } from '@/openapi'
-import { useUserStore } from '@/store/users'
+import { useUserStore } from '@/store/options/users'
 import {
   useSelectStore,
   SelectState,
   UserObject,
   UserObjectCreate
-} from '@/store/selectPagination'
+} from '@/store/setup/selectPagination'
 import { Role, roleToStringBackend } from '@/enum/UserRoles'
 
 export function useUsersFiltration() {

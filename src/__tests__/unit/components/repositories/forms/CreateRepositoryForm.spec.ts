@@ -36,8 +36,8 @@ import CreateRepositoryForm from '@/components/repositories/forms/CreateReposito
 import { Technologies } from '@/enum/Technologies'
 import { nextTick } from 'vue'
 import { HashMethods } from '@/enum/HashMethods'
-import { useRepositoryStore } from '@/store/repositories'
-import { useAuthorizationStore } from '@/store/authorization'
+import { useRepositoryStore } from '@/store/options/repositories'
+import { useAuthorizationStore } from '@/store/options/authorization'
 import me from '@/__tests__/config/mockData/me.json'
 
 let wrapper: any
