@@ -25,7 +25,8 @@ import { z } from 'zod'
 export const SubmissionEditOptions = z.enum([
   'accept',
   'reject',
-  'cancel'
+  'cancel',
+  'download'
 ])
 export type SubmissionEditOptions = z.infer<
   typeof SubmissionEditOptions

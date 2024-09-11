@@ -47,6 +47,9 @@ export function useSubmissionActions() {
         case SubmissionEditOptions.Enum.cancel: {
           return cancelSubmission(submission)
         }
+        case SubmissionEditOptions.Enum.download: {
+          return downloadSubmission(submission)
+        }
         default: {
           return
         }
@@ -66,7 +69,9 @@ export function useSubmissionActions() {
   async function downloadSubmission(
     submission?: EntityModelSubmissionDto
   ) {
+    console.log('submission to be downloaded')
     if (submission && submission.packageBag) {
+      console.log('submission passed if')
       const packageDetailsStore = usePackageDetailsStore()
       await packageDetailsStore.getSourceFile(
         submission.packageBag?.id?.toString() || '',
@@ -76,6 +81,27 @@ export function useSubmissionActions() {
       )
     }
     console.log(submission)
+  }
+
+  async function downloadSubmissions(
+    submissions?: EntityModelSubmissionDto[]
+  ) {
+    submissions?.forEach(
+      (submission: EntityModelSubmissionDto) =>
+        async () => {
+          if (submission && submission.packageBag) {
+            const packageDetailsStore =
+              usePackageDetailsStore()
+            await packageDetailsStore.getSourceFile(
+              submission.packageBag?.id?.toString() || '',
+              submission.packageBag?.name || '',
+              submission.packageBag?.version || '',
+              submission.packageBag?.technology || ''
+            )
+          }
+          console.log(submission)
+        }
+    )
   }
 
   async function rejectSubmission(
@@ -113,6 +139,7 @@ export function useSubmissionActions() {
     acceptSubmission,
     rejectSubmission,
     cancelSubmission,
-    downloadSubmission
+    downloadSubmission,
+    downloadSubmissions
   }
 }

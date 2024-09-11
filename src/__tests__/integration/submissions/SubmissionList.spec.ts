@@ -49,7 +49,11 @@ import {
   SUBMISSIONS_LIST_ACTIONS_ABC_10_TESTREPO4_ID,
   SUBMISSIONS_LIST_ACTIONS_REQUESTS_2191_TESTREPO8_ID,
   SUBMISSIONS_MULTI_CANCEL_ID,
-  SUBMISSIONS_LIST_ACTIONS_WHEEL_0380_TESTREPO10_ID
+  SUBMISSIONS_LIST_ACTIONS_WHEEL_0380_TESTREPO10_ID,
+  DOWNLOAD_SUBMISSION_FILENAME_REQUESTS_ID,
+  SUBMISSIONS_LIST_ACTIONS_USL_200_TESTREPO2_ID,
+  SUBMISSIONS_MULTI_DOWNLOAD_ID,
+  DOWNLOAD_SUBMISSION_FILENAME_USL_ID
 } from '../helpers/elementsIds'
 import { restoreData } from '../helpers/restoreData'
 import { login } from '../helpers/login'
@@ -100,6 +104,79 @@ describe('Submissions actions', () => {
         pathToFileOrDir + DOWNLOAD_SUBMISSION_FILENAME_ID
       )
     ).toBe(true)
+  })
+
+  it('download a few waiting submissions', async () => {
+    await login(driver, 'einstein')
+    await goToPage(
+      driver,
+      SUBMISSIONS_SIDEBAR_ID,
+      'RDepot - submissions'
+    )
+    await clickOnButton(
+      driver,
+      //submission already rejected - should not be downloaded
+      SUBMISSIONS_LIST_ACTIONS_BENCHMARKING_010_TESTREPO4_ID
+    )
+    await clickOnButton(
+      driver,
+      SUBMISSIONS_LIST_ACTIONS_REQUESTS_2191_TESTREPO8_ID
+    )
+
+    await clickOnButton(
+      driver,
+      SUBMISSIONS_LIST_ACTIONS_USL_200_TESTREPO2_ID
+    )
+    await clickOnButton(
+      driver,
+      SUBMISSIONS_MULTI_ACTIONS_ID
+    )
+
+    await clickOnMenuItemById(
+      driver,
+      SUBMISSIONS_MULTI_DOWNLOAD_ID
+    )
+
+    const downloadSubmissionsModal = await driver.wait(
+      until.elementLocated(
+        By.id(SUBMISSIONS_LIST_MODAL_ID)
+      ),
+      8000
+    )
+
+    await driver.wait(
+      until.elementLocated(
+        By.className('v-list-item-title')
+      ),
+      8000
+    )
+
+    const submissionsToDownload =
+      await downloadSubmissionsModal.findElements(
+        By.className('v-list-item-title')
+      )
+
+    expect(submissionsToDownload.length).toEqual(3)
+
+    await clickOnButton(driver, SUBMIT_BUTTON_ID)
+
+    await driver.wait(
+      until.elementLocated(
+        By.xpath(
+          `//a[@download="${DOWNLOAD_SUBMISSION_FILENAME_REQUESTS_ID}"]`
+        )
+      ),
+      8000
+    )
+
+    await driver.wait(
+      until.elementLocated(
+        By.xpath(
+          `//a[@download="${DOWNLOAD_SUBMISSION_FILENAME_USL_ID}"]`
+        )
+      ),
+      8000
+    )
   })
 
   it('accept submission', async () => {

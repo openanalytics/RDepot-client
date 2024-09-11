@@ -43,90 +43,28 @@
           color="oablue"
           v-bind="activatorProps"
           style="margin-left: -10px"
-        >
-        </v-btn>
+        />
       </template>
-      <v-tooltip location="right">
-        <template #activator="{ props: tooltipActivator }">
-          <div v-bind="tooltipActivator">
-            <v-btn
-              id="submissions-multi-accept"
-              key="1"
-              :icon="Icons.get('accept')"
-              color="success"
-              :disabled="
-                submissionStore.selected.length == 0
-              "
-              size="small"
-              @click="
-                openEditDialog(
-                  SubmissionEditOptions.enum.accept
-                )
-              "
-            ></v-btn>
-          </div>
-        </template>
-        <span
-          >{{ i18n.t('action.accept') }}
-          <span v-if="submissionStore.selected.length == 0"
-            >({{ i18n.t('package.chooseOneToEnable') }})
-          </span></span
-        >
-      </v-tooltip>
-      <v-tooltip location="right">
-        <template #activator="{ props: tooltipActivator }">
-          <div v-bind="tooltipActivator">
-            <v-btn
-              id="submissions-multi-reject"
-              key="2"
-              :icon="Icons.get('reject')"
-              color="oared"
-              :disabled="
-                submissionStore.selected.length == 0
-              "
-              size="small"
-              @click="
-                openEditDialog(
-                  SubmissionEditOptions.enum.reject
-                )
-              "
-            ></v-btn>
-          </div>
-        </template>
-        <span
-          >{{ i18n.t('action.reject') }}
-          <span v-if="submissionStore.selected.length == 0"
-            >({{ i18n.t('package.chooseOneToEnable') }})
-          </span></span
-        >
-      </v-tooltip>
-      <v-tooltip location="right">
-        <template #activator="{ props: tooltipActivator }">
-          <div v-bind="tooltipActivator">
-            <v-btn
-              id="submissions-multi-cancel"
-              key="3"
-              :icon="Icons.get('cancel')"
-              color="oared"
-              :disabled="
-                submissionStore.selected.length == 0
-              "
-              size="small"
-              @click="
-                openEditDialog(
-                  SubmissionEditOptions.enum.cancel
-                )
-              "
-            ></v-btn>
-          </div>
-        </template>
-        <span
-          >{{ i18n.t('action.cancel') }}
-          <span v-if="submissionStore.selected.length == 0"
-            >({{ i18n.t('package.chooseOneToEnable') }})
-          </span></span
-        >
-      </v-tooltip>
+      <v-btn
+        id="submissions-multi-divert-attention"
+        key="1"
+        style="display: none"
+      />
+      <div
+        v-for="(button, i) in actionButtons"
+        :key="i"
+        v-tooltip:end="button.tooltipMessage"
+      >
+        <v-btn
+          :id="button.id"
+          :key="i + 2"
+          :icon="button.icon"
+          :color="button.color"
+          :disabled="submissionStore.selected.length == 0"
+          size="small"
+          @click="button.onClickAction"
+        />
+      </div>
     </v-speed-dial>
   </div>
 </template>
@@ -138,6 +76,7 @@ import { i18n } from '@/plugins/i18n'
 import { OverlayEnum } from '@/enum/Overlay'
 import { SubmissionEditOptions } from '@/enum/SubmissionEditOptions'
 import Icons from '@/maps/Icons'
+import { computed } from 'vue'
 
 defineProps({
   allSelected: {
@@ -151,6 +90,55 @@ defineProps({
 })
 
 const emit = defineEmits(['selectAll'])
+
+const chooseAtLeasOneMessage = computed(() =>
+  submissionStore.selected.length == 0
+    ? ' (' + i18n.t('package.chooseOneToEnable') + ')'
+    : ''
+)
+
+const actionButtons = computed(() => [
+  {
+    id: 'submissions-multi-accept',
+    icon: Icons.get('accept'),
+    color: 'success',
+    tooltipMessage: `${i18n.t('action.accept')} ${
+      chooseAtLeasOneMessage.value
+    }`,
+    onClickAction: () =>
+      openEditDialog(SubmissionEditOptions.enum.accept)
+  },
+  {
+    id: 'submissions-multi-reject',
+    icon: Icons.get('reject'),
+    color: 'oared',
+    tooltipMessage: `${i18n.t('action.reject')} ${
+      chooseAtLeasOneMessage.value
+    }`,
+    onClickAction: () =>
+      openEditDialog(SubmissionEditOptions.enum.reject)
+  },
+  {
+    id: 'submissions-multi-cancel',
+    icon: Icons.get('cancel'),
+    color: 'oared',
+    tooltipMessage: `${i18n.t('action.cancel')} ${
+      chooseAtLeasOneMessage.value
+    }`,
+    onClickAction: () =>
+      openEditDialog(SubmissionEditOptions.enum.cancel)
+  },
+  {
+    id: 'submissions-multi-download',
+    icon: Icons.get('download'),
+    color: 'gray',
+    tooltipMessage: `${i18n.t('action.download')} ${
+      chooseAtLeasOneMessage.value
+    }`,
+    onClickAction: () =>
+      openEditDialog(SubmissionEditOptions.enum.download)
+  }
+])
 
 function selectAll() {
   emit('selectAll')

@@ -46,32 +46,29 @@
         >
         </v-btn>
       </template>
-      <v-tooltip location="right">
-        <template #activator="{ props: tooltipActivator }">
-          <div v-bind="tooltipActivator">
-            <v-btn
-              id="packages-multi-delete"
-              key="1"
-              :icon="Icons.get('delete')"
-              color="oared"
-              :disabled="
-                packagesStore.packagesSelected.length == 0
-              "
-              size="small"
-              @click="openDeletePackagesModal"
-            ></v-btn>
-          </div>
-        </template>
-        <span
-          >{{ i18n.t('common.delete') }}
-          <span
-            v-if="
-              packagesStore.packagesSelected.length == 0
-            "
-            >({{ i18n.t('package.chooseOneToEnable') }})
-          </span></span
-        >
-      </v-tooltip>
+
+      <v-btn
+        id="submissions-multi-divert-attention"
+        key="1"
+        style="display: none"
+      />
+      <div
+        v-for="(button, i) in actionButtons"
+        :key="i"
+        v-tooltip:end="button.tooltipMessage"
+      >
+        <v-btn
+          :id="button.id"
+          :key="i + 2"
+          :icon="button.icon"
+          :color="button.color"
+          :disabled="
+            packagesStore.packagesSelected.length == 0
+          "
+          size="small"
+          @click="button.onClickAction"
+        />
+      </div>
     </v-speed-dial>
   </div>
 </template>
@@ -81,6 +78,7 @@ import { usePackagesStore } from '@/store/options/packages'
 import { i18n } from '@/plugins/i18n'
 import { usePackagesActions } from '@/composable/packages/packagesActions'
 import Icons from '@/maps/Icons'
+import { computed } from 'vue'
 
 defineProps({
   allSelected: {
@@ -98,6 +96,24 @@ const emit = defineEmits(['selectAll'])
 function selectAll() {
   emit('selectAll')
 }
+
+const chooseAtLeasOneMessage = computed(() =>
+  packagesStore.packagesSelected.length == 0
+    ? ' (' + i18n.t('package.chooseOneToEnable') + ')'
+    : ''
+)
+
+const actionButtons = computed(() => [
+  {
+    id: 'packages-multi-delete',
+    icon: Icons.get('delete'),
+    color: 'oared',
+    tooltipMessage: `${i18n.t('common.delete')} ${
+      chooseAtLeasOneMessage.value
+    }`,
+    onClickAction: () => openDeletePackagesModal()
+  }
+])
 
 const { openDeletePackagesModal } = usePackagesActions()
 const packagesStore = usePackagesStore()

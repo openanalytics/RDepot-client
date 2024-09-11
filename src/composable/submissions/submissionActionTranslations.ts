@@ -41,6 +41,9 @@ export function useSubmissionActionTranslations() {
       case SubmissionEditOptions.enum.cancel: {
         return i18n.t('action.cancel').toUpperCase()
       }
+      case SubmissionEditOptions.enum.download: {
+        return i18n.t('action.download').toUpperCase()
+      }
       default:
         return ''
     }
@@ -63,6 +66,11 @@ export function useSubmissionActionTranslations() {
       case SubmissionEditOptions.enum.cancel: {
         return i18n
           .t('updatedProperties.cancelled')
+          .toLowerCase()
+      }
+      case SubmissionEditOptions.enum.download: {
+        return i18n
+          .t('updatedProperties.downloaded')
           .toLowerCase()
       }
       default:

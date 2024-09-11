@@ -92,7 +92,6 @@ export async function createDriver() {
     })
     .build()
 }
-
 export async function goToPage(
   driver: typeof Builder,
   pageId: string,

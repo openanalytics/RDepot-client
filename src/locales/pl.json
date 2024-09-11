@@ -478,6 +478,7 @@
     },
     "multiAction": {
       "noSubmissionAvailable": "Brak odpowiednich zgłoszeń",
+      "notDownloaded": "Nie pobrano",
       "notEdited": "Nie edytowano",
       "notMutable": "Zgłoszenie nie może zostać {actionType} ponieważ jego stan to {currentState}",
       "onSubmissionAvailableText": "Żadne wybrane zgłoszenie nie może zostać {actionType} ze względu na jego status lub uprawnienia.",
@@ -507,6 +508,7 @@
     "added": "dodany",
     "approver_id": "identyfikator zatwierdzającego",
     "cancelled": "ANULOWANE",
+    "downloaded": "POBRANE",
     "false": "fałsz",
     "last logged in": "ostatnie logowanie",
     "maintainer": "opiekun",

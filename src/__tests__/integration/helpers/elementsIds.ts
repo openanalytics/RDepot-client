@@ -156,6 +156,10 @@ export const EDIT_REPOSITORY_MAINTAINER_SUBMIT_ID =
 export const DOWNLOAD_SUBMISSION_ID = 'download-button-19'
 export const DOWNLOAD_SUBMISSION_FILENAME_ID =
   'visdat_0.1.0.tar.gz'
+export const DOWNLOAD_SUBMISSION_FILENAME_REQUESTS_ID =
+  'requests-2.19.1.tar.gz'
+export const DOWNLOAD_SUBMISSION_FILENAME_USL_ID =
+  'usl_2.0.0.tar.gz'
 export const WAITING_FOR_APPROVE_SUBMISSION_ID =
   'accept-button-19'
 export const WAITING_FOR_REJECT_SUBMISSION_ID =
@@ -324,6 +328,8 @@ export const SUBMISSIONS_MULTI_REJECT_ID =
   'submissions-multi-reject'
 export const SUBMISSIONS_MULTI_CANCEL_ID =
   'submissions-multi-cancel'
+export const SUBMISSIONS_MULTI_DOWNLOAD_ID =
+  'submissions-multi-download'
 export const SUBMISSIONS_LIST_MODAL_ID =
   'edit-submissions-modal'
 export const SUBMISSIONS_LIST_ACCEPT_VISDAT_010_TESTREPO2_ID =
@@ -346,6 +352,8 @@ export const SUBMISSIONS_LIST_ACTIONS_ABC_10_TESTREPO4_ID =
   'checkbox-actions-submission-abc-1-0-testrepo4'
 export const SUBMISSIONS_LIST_ACTIONS_WHEEL_0380_TESTREPO10_ID =
   'checkbox-actions-submission-wheel-0-38-0-testrepo10'
+export const SUBMISSIONS_LIST_ACTIONS_USL_200_TESTREPO2_ID =
+  'checkbox-actions-submission-usl-2-0-0-testrepo2'
 //REPOSITORIES LIST
 export const DELETE_REPO_2_ICON_ID =
   'delete-repository-icon-2'

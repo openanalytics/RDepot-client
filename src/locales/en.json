@@ -484,6 +484,7 @@
     },
     "multiAction": {
       "noSubmissionAvailable": "No valid submissions selected",
+      "notDownloaded": "Not downloaded",
       "notEdited": "Not edited",
       "notMutable": "Cannot be {actionType} as it has been {currentState} already",
       "onSubmissionAvailableText": "You didn't select any valid submissions to be {actionType}. Please select other submissions and try again.",
@@ -513,6 +514,7 @@
     "added": "added",
     "approver_id": "approver id",
     "cancelled": "CANCELLED",
+    "downloaded": "DOWNLOADED",
     "false": "false",
     "last logged in": "last logged in",
     "maintainer": "maintainer",

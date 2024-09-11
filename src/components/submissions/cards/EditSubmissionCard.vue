@@ -140,6 +140,8 @@ import { computed } from 'vue'
 import CardActions from '@/components/common/overlay/CardActions.vue'
 import { useCommonStore } from '@/store/options/common'
 import { useSubmissionIcons } from '@/composable/submissions/statusIcons'
+import { SubmissionEditOptions } from '@/enum/SubmissionEditOptions'
+import { EntityModelSubmissionDtoStateEnum } from '@/openapi'
 
 const { canChangeState } = useSubmissionAuthorizationCheck()
 const submissionsStore = useSubmissionStore()
@@ -157,7 +159,11 @@ const items = computed(
         canChangeState(
           submission,
           submissionsStore.submissionsToEdit?.editOption
-        )
+        ) ||
+        (submissionsStore.submissionsToEdit?.editOption ===
+          SubmissionEditOptions.Enum.download &&
+          submission.state ===
+            EntityModelSubmissionDtoStateEnum.ACCEPTED)
     ) || []
 )
 

@@ -54,6 +54,13 @@ export function useSubmissionAuthorizationCheck() {
       case SubmissionEditOptions.Enum.cancel: {
         return isAuthorizedToCancel(submission)
       }
+      case SubmissionEditOptions.Enum.download: {
+        return (
+          isAuthorizedToDownload(submission) ||
+          submission?.state ===
+            EntityModelSubmissionDtoStateEnum.ACCEPTED
+        )
+      }
       default: {
         return
       }
@@ -81,6 +88,13 @@ export function useSubmissionAuthorizationCheck() {
     )
   }
 
+  function isAuthorizedToDownload(
+    submission?: EntityModelSubmissionDto
+  ) {
+    const { canPatch } = useUserAuthorities()
+    return canPatch(submission?.links, 'state')
+  }
+
   function isAuthorizedToAcceptAndReject(
     submission?: EntityModelSubmissionDto
   ) {
@@ -98,6 +112,18 @@ export function useSubmissionAuthorizationCheck() {
   ) {
     return submissions.filter(
       (submission) => !isStateMutableField(submission)
+    )
+  }
+
+  function getNotToDownloadSubmissions(
+    submissions: EntityModelSubmissionDto[]
+  ) {
+    return submissions.filter(
+      (submission) =>
+        submission.state !=
+          EntityModelSubmissionDtoStateEnum.ACCEPTED &&
+        submission.state !=
+          EntityModelSubmissionDtoStateEnum.WAITING
     )
   }
 
@@ -124,7 +150,10 @@ export function useSubmissionAuthorizationCheck() {
           submissions,
           editOption
         ),
-      notMutableState: getNotMutableState(submissions)
+      notMutableState:
+        editOption == SubmissionEditOptions.enum.download
+          ? getNotToDownloadSubmissions(submissions)
+          : getNotMutableState(submissions)
     }
   }
   return {

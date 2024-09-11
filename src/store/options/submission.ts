@@ -317,9 +317,11 @@ export const useSubmissionStore = defineStore(
         const toasts = useToast()
         if (this.submissionsToEdit) {
           this.submissionsToEdit.pending = true
+          console.log(this.submissionsToEdit.submissions)
           const promises =
             this.submissionsToEdit.submissions.map(
               (submission) => {
+                console.log(submission.packageBag?.name)
                 this.pending.push(submission)
                 return {
                   promise: editSubmission(
@@ -361,16 +363,20 @@ export const useSubmissionStore = defineStore(
                 )
                 if (++fulfilled == promises.length) {
                   this.resolved = true
-
+                  const actionType =
+                    this.submissionsToEdit?.editOption ===
+                    SubmissionEditOptions.enum.download
+                      ? 'Downloaded'
+                      : 'Edited'
                   if (errors > 0) {
                     toasts.warning(
-                      `Edited ${
+                      `${actionType} ${
                         fulfilled - errors
                       } submissions, failed with edition of ${errors} packages`
                     )
                   } else {
                     toasts.success(
-                      'Edited all selected and available submissions'
+                      `${actionType} all selected and available submissions`
                     )
                   }
                   this.resolved = true

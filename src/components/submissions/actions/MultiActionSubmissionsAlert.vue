@@ -38,7 +38,14 @@
         ></v-icon>
       </template>
       <span>
-        {{ i18n.t('submissions.multiAction.notEdited') }}
+        {{
+          submissionStore.submissionsToEdit?.editOption ==
+          SubmissionEditOptions.enum.download
+            ? i18n.t(
+                'submissions.multiAction.notDownloaded'
+              )
+            : i18n.t('submissions.multiAction.notEdited')
+        }}
         ({{ i18n.t('common.errors.unauthorized') }})
       </span>
     </v-tooltip>
@@ -59,7 +66,14 @@
         ></v-icon>
       </template>
       <span>
-        {{ i18n.t('submissions.multiAction.notEdited') }}
+        {{
+          submissionStore.submissionsToEdit?.editOption ==
+          SubmissionEditOptions.enum.download
+            ? i18n.t(
+                'submissions.multiAction.notDownloaded'
+              )
+            : i18n.t('submissions.multiAction.notEdited')
+        }}
         ({{
           i18n.t('submissions.multiAction.notMutable', {
             actionType: editActionWarning,
@@ -78,6 +92,7 @@ import { EntityModelSubmissionDto } from '@/openapi'
 import { i18n } from '@/plugins/i18n'
 import { useSubmissionActionTranslations } from '@/composable/submissions/submissionActionTranslations'
 import Icons from '@/maps/Icons'
+import { SubmissionEditOptions } from '@/enum/SubmissionEditOptions'
 
 defineProps({
   item: {
