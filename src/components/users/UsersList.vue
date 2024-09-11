@@ -21,26 +21,16 @@
 -->
 
 <template>
-  <v-data-table-server
-    :items-per-page="pagination.pageSize"
+  <OATable
     :headers="headers"
     :items="userStore.users"
     :items-length="userStore.totalNumber"
     item-value="id"
-    :sort-asc-icon="Icons.get('ascending')"
-    :sort-desc-icon="Icons.get('descending')"
-    color="oablue"
     :loading="userStore.loading"
     :sort-by="sortBy"
-    :items-per-page-options="pagination.itemsPerPage"
-    :items-per-page-text="$t('datatable.itemsPerPage')"
+    :title="i18n.t('common.users')"
     @update:options="fetchData"
   >
-    <template #top>
-      <div class="d-flex justify-space-between mx-3 my-5">
-        <h2>{{ i18n.t('common.users') }}</h2>
-      </div>
-    </template>
     <template #[`item.role`]="{ item }">
       {{
         roles.filter((r) => r.value === item.role)[0].title
@@ -112,14 +102,13 @@
           @set-entity="setEditUser(item)"
         /> </span
     ></template>
-  </v-data-table-server>
+  </OATable>
 </template>
 
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import EditIcon from '@/components/common/action_icons/EditIcon.vue'
 import { useUserStore } from '@/store/options/users'
-import { usePagination } from '@/store/setup/pagination'
 import { i18n } from '@/plugins/i18n'
 import { EntityModelUserDto } from '@/openapi'
 import { useUtilities } from '@/composable/utilities'
@@ -135,9 +124,8 @@ import { ref, computed } from 'vue'
 import { useSort } from '@/composable/sort'
 import { useEnumFiltration } from '@/composable/filtration/enumFiltration'
 import ProgressCircularSmall from '../common/progress/ProgressCircularSmall.vue'
-import Icons from '@/maps/Icons'
+import OATable from '../common/datatable/OATable.vue'
 
-const pagination = usePagination()
 const authorizationStore = useAuthorizationStore()
 const userStore = useUserStore()
 

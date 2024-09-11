@@ -26,7 +26,7 @@
     style="padding-left: 0; padding-right: 0"
   >
     <validated-input-field
-      id="filtration-search"
+      id="users-filtration-search"
       density="compact"
       hide-details
       name="search"

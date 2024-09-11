@@ -21,23 +21,20 @@
 -->
 
 <template>
-  <v-data-table-server
-    v-model:expanded="expanded"
+  <OATable
     v-model="packagesStore.packagesSelected"
-    :show-select="!packagesStore.filtration.deleted"
-    return-object
-    :items-per-page="pagination.pageSize"
+    v-model:expanded="expanded"
     :headers="filteredHeaders"
     :items="packagesStore.packages"
     :items-length="packagesStore.totalNumber"
+    :title="i18n.t('packages.list')"
     item-value="id"
-    :sort-asc-icon="Icons.get('ascending')"
-    :sort-desc-icon="Icons.get('descending')"
+    :show-select="!packagesStore.filtration.deleted"
+    return-object
     color="oablue"
     :loading="packagesStore.loading"
     expand-on-click
     :sort-by="sortBy"
-    :items-per-page-options="pagination.itemsPerPage"
     :items-per-page-text="$t('datatable.itemsPerPage')"
     @update:options="fetchData"
   >
@@ -68,18 +65,7 @@
         @toggle-select="toggleSelect(internalItem)"
       />
     </template>
-    <template #top>
-      <div class="d-flex justify-space-between mx-3 my-5">
-        <h2>{{ i18n.t('packages.list') }}</h2>
-      </div>
-    </template>
 
-    <template #[`item.technology`]="{ value }">
-      <TechnologyChip :technology="value" />
-    </template>
-    <template #[`item.submission.state`]="{ value }">
-      <StateIcon :state="value" />
-    </template>
     <template #[`item.active`]="{ item }">
       <ActivatePackage :item="item" />
     </template>
@@ -99,17 +85,15 @@
         </div>
       </td>
     </template>
-  </v-data-table-server>
+  </OATable>
 </template>
 
 <script setup lang="ts">
 import { usePackagesStore } from '@/store/options/packages'
 import DeletePackage from '@/components/packages/actions/DeletePackage.vue'
 import ActivatePackage from '@/components/packages/actions/ActivatePackage.vue'
-import StateIcon from '@/components/submissions/icons/StateIcon.vue'
 import { EntityModelPackageDto } from '@/openapi'
 import PackageDescription from './packageDetails/PackageDescription.vue'
-import { usePagination } from '@/store/setup/pagination'
 import {
   DataTableHeaders,
   DataTableOptions
@@ -118,12 +102,11 @@ import { i18n } from '@/plugins/i18n'
 import { ref, computed } from 'vue'
 import { Sort } from '@/models/DataTableOptions'
 import { useSort } from '@/composable/sort'
-import TechnologyChip from '../common/chips/TechnologyChip.vue'
 import ProgressCircularSmall from '../common/progress/ProgressCircularSmall.vue'
 import MultiActionPackages from './actions/MultiActionPackages.vue'
 import SelectBoxPackages from './actions/SelectBoxPackages.vue'
 import { usePackagesActions } from '@/composable/packages/packagesActions'
-import Icons from '@/maps/Icons'
+import OATable from '../common/datatable/OATable.vue'
 
 const exp = ref<string[]>([])
 
@@ -142,7 +125,6 @@ const expanded = computed({
 })
 
 const packagesStore = usePackagesStore()
-const pagination = usePagination()
 const { isPending } = usePackagesActions()
 
 const headers = computed<DataTableHeaders[]>(() => [

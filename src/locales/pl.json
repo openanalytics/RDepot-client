@@ -127,6 +127,7 @@
     "clearForm": "Wyczyść formularz",
     "click": "naciśnij",
     "copied": "Kod został skopiowany",
+    "copiedMessage": "Skopiowano!",
     "create": "Utwórz",
     "current": "obecna",
     "deactivate": "Dezaktywuj",
@@ -388,6 +389,7 @@
       "last-modification-date": "Data ostatniej modyfikacji",
       "last-publication-date": "Data ostatniej publikacji",
       "publication-failed": "publikacja nie powiodła się",
+      "publication-failed-on": "Publikacja nie powiodła się, data ostatniej próby: {dateTime}",
       "publication-succeed": "publikacja powiodła się"
     },
     "edit": {

@@ -21,35 +21,20 @@
 -->
 
 <template>
-  <v-data-table-server
-    v-model:items-per-page="pagination.pageSize"
+  <OATable
     :headers="filteredHeaders"
     :items="accessTokensStore.tokens"
     :items-length="accessTokensStore.totalNumber"
     item-value="id"
-    :sort-asc-icon="Icons.get('ascending')"
-    :sort-desc-icon="Icons.get('descending')"
-    color="oablue"
+    :title="i18n.t('settings.tab.token')"
     :loading="accessTokensStore.loading"
     :sort-by="sortBy"
-    :items-per-page-options="pagination.itemsPerPage"
-    :items-per-page-text="$t('datatable.itemsPerPage')"
     @update:options="fetchData"
   >
-    <template #top>
-      <div class="d-flex justify-space-between mx-3 my-5">
-        <h2>{{ i18n.t('settings.tab.token') }}</h2>
-        <AddToken />
-      </div>
+    <template #topAction>
+      <AddToken />
     </template>
 
-    <template #[`item.creationDate`]="{ value }">
-      <DateChip :date="value" />
-    </template>
-
-    <template #[`item.expirationDate`]="{ value }">
-      <DateChip :date="value" />
-    </template>
     <template #[`item.active`]="{ item }">
       <v-checkbox-btn
         id="checkbox-active"
@@ -97,12 +82,11 @@
           "
           @set-resource-id="setEditEntity(item)" /></span
     ></template>
-  </v-data-table-server>
+  </OATable>
 </template>
 
 <script setup lang="ts">
 import { i18n } from '@/plugins/i18n'
-import { usePagination } from '@/store/setup/pagination'
 import { useAuthorizationStore } from '@/store/options/authorization'
 import {
   DataTableHeaders,
@@ -119,11 +103,9 @@ import { computed } from 'vue'
 import { ref } from 'vue'
 import { useSort } from '@/composable/sort'
 import AddToken from '@/components/common/buttons/AddToken.vue'
+import OATable from '../common/datatable/OATable.vue'
 import { useAccessTokensStore } from '@/store/options/accessTokens'
-import DateChip from '../common/chips/DateChip.vue'
-import Icons from '@/maps/Icons'
 
-const pagination = usePagination()
 const authorizationStore = useAuthorizationStore()
 const accessTokensStore = useAccessTokensStore()
 const { canPatch, canDelete } = useUserAuthorities()

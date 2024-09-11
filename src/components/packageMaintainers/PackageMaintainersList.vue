@@ -21,29 +21,18 @@
 -->
 
 <template>
-  <v-data-table-server
-    :items-per-page="pagination.pageSize"
+  <OATable
     :headers="headers"
     :items="packageMaintainersStore.maintainers"
     :items-length="packageMaintainersStore.totalNumber"
     item-value="id"
-    :sort-asc-icon="Icons.get('ascending')"
-    :sort-desc-icon="Icons.get('descending')"
-    color="oablue"
     :loading="packageMaintainersStore.loading"
+    :title="i18n.t('packages.maintainers')"
     :sort-by="sortBy"
-    :items-per-page-options="pagination.itemsPerPage"
-    :items-per-page-text="$t('datatable.itemsPerPage')"
     @update:options="fetchData"
   >
-    <template #top>
-      <div class="d-flex justify-space-between mx-3 my-5">
-        <h2>{{ i18n.t('packages.maintainers') }}</h2>
-        <AddMaintainerButton v-if="postCondition" />
-      </div>
-    </template>
-    <template #[`item.repository.technology`]="{ value }">
-      <TechnologyChip :technology="value" />
+    <template #topAction>
+      <AddMaintainerButton v-if="postCondition" />
     </template>
     <template #[`item.actions`]="{ item }">
       <ProgressCircularSmall v-if="isPending(item)" />
@@ -72,14 +61,13 @@
           "
           @set-resource-id="chooseMaintainer(item)" /></span
     ></template>
-  </v-data-table-server>
+  </OATable>
 </template>
 
 <script setup lang="ts">
 import { usePackageMaintainersStore } from '@/store/options/packageMaintainers'
 import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
 import EditIcon from '@/components/common/action_icons/EditIcon.vue'
-import { usePagination } from '@/store/setup/pagination'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
 import { i18n } from '@/plugins/i18n'
 import {
@@ -93,12 +81,10 @@ import { useSort } from '@/composable/sort'
 import AddMaintainerButton from '@/components/common/buttons/AddMaintainerButton.vue'
 import { useAuthorizationStore } from '@/store/options/authorization'
 import { computed } from 'vue'
-import TechnologyChip from '../common/chips/TechnologyChip.vue'
 import ProgressCircularSmall from '../common/progress/ProgressCircularSmall.vue'
-import Icons from '@/maps/Icons'
+import OATable from '../common/datatable/OATable.vue'
 
 const packageMaintainersStore = usePackageMaintainersStore()
-const pagination = usePagination()
 const { canPatch, canDelete } = useUserAuthorities()
 const authorizationStore = useAuthorizationStore()
 

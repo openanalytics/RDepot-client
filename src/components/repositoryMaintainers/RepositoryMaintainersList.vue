@@ -21,29 +21,18 @@
 -->
 
 <template>
-  <v-data-table-server
-    :items-per-page="pagination.pageSize"
+  <OATable
     :headers="headers"
     :items="repositoryMaintainersStore.maintainers"
     :items-length="repositoryMaintainersStore.totalNumber"
     item-value="id"
-    :sort-asc-icon="Icons.get('ascending')"
-    :sort-desc-icon="Icons.get('descending')"
-    color="oablue"
     :loading="repositoryMaintainersStore.loading"
     :sort-by="sortBy"
-    :items-per-page-options="pagination.itemsPerPage"
-    :items-per-page-text="$t('datatable.itemsPerPage')"
+    :title="i18n.t('repositories.maintainers')"
     @update:options="fetchData"
   >
-    <template #top>
-      <div class="d-flex justify-space-between mx-3 my-5">
-        <h2>{{ i18n.t('repositories.maintainers') }}</h2>
-        <AddMaintainerButton v-if="postCondition" />
-      </div>
-    </template>
-    <template #[`item.repository.technology`]="{ value }">
-      <TechnologyChip :technology="value" />
+    <template #topAction>
+      <AddMaintainerButton v-if="postCondition" />
     </template>
     <template #[`item.actions`]="{ item }">
       <ProgressCircularSmall v-if="isPending(item)" />
@@ -79,14 +68,13 @@
           @set-resource-id="setEditMaintainer(item)"
         /> </span
     ></template>
-  </v-data-table-server>
+  </OATable>
 </template>
 
 <script setup lang="ts">
 import { useRepositoryMaintainersStore } from '@/store/options/repositoryMaintainers'
 import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
 import EditIcon from '@/components/common/action_icons/EditIcon.vue'
-import { usePagination } from '@/store/setup/pagination'
 import {
   DataTableHeaders,
   DataTableOptions,
@@ -100,9 +88,8 @@ import { useSort } from '@/composable/sort'
 import { useAuthorizationStore } from '@/store/options/authorization'
 import AddMaintainerButton from '@/components/common/buttons/AddMaintainerButton.vue'
 import { computed } from 'vue'
-import TechnologyChip from '../common/chips/TechnologyChip.vue'
 import ProgressCircularSmall from '../common/progress/ProgressCircularSmall.vue'
-import Icons from '@/maps/Icons'
+import OATable from '../common/datatable/OATable.vue'
 
 const repositoryMaintainersStore =
   useRepositoryMaintainersStore()
@@ -149,8 +136,6 @@ const headers = computed<DataTableHeaders[]>(() => [
     sortable: false
   }
 ])
-
-const pagination = usePagination()
 
 function fetchData(options: DataTableOptions) {
   sortBy.value = getSort(options.sortBy, defaultSort)

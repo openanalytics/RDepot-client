@@ -30,8 +30,15 @@ import {
 } from 'vitest'
 import { restoreData } from '../helpers/restoreData'
 import { login } from '../helpers/login'
-import { createDriver, goToPage } from '../helpers/helpers'
 import {
+  clickOnButton,
+  createDriver,
+  goToPage
+} from '../helpers/helpers'
+import {
+  COPY_PUBLICATION_URI_TESTREPO1_BUTTON_ID,
+  COPY_SERVER_ADDRESS_TESTREPO2_BUTTON_ID,
+  REPOSITORIES_FILTRATION_SEARCH_FIELD_ID,
   REPOSITORIES_LIST_PYTHON_REPO_ID,
   REPOSITORIES_LIST_R_REPO_ID,
   REPOSITORIES_SIDEBAR_ID,
@@ -40,7 +47,8 @@ import {
   REPOSITORY_DESCRIPTION_LAST_PUBLICATION_DATE_ID,
   REPOSITORY_DESCRIPTION_PUBLICATION_STATUS_ID
 } from '../helpers/elementsIds'
-const { By, until } = require('selenium-webdriver')
+import { platform } from 'os'
+const { By, until, Key } = require('selenium-webdriver')
 
 let driver: any
 
@@ -154,5 +162,71 @@ describe('Repositories list', () => {
     )
 
     expect(hashMethodFields.length).toEqual(0)
+  })
+
+  it('copy publication uri', async () => {
+    await login(driver, 'einstein')
+    await goToPage(
+      driver,
+      REPOSITORIES_SIDEBAR_ID,
+      'RDepot - repositories'
+    )
+
+    const textField = await driver.findElement(
+      By.id(REPOSITORIES_FILTRATION_SEARCH_FIELD_ID)
+    )
+
+    const controlButton =
+      platform() == 'darwin' ? Key.COMMAND : Key.CONTROL
+
+    await clickOnButton(
+      driver,
+      COPY_PUBLICATION_URI_TESTREPO1_BUTTON_ID
+    )
+
+    await driver
+      .actions()
+      .click(textField)
+      .keyDown(controlButton)
+      .sendKeys('v')
+      .keyUp(controlButton)
+      .perform()
+
+    expect(await textField.getAttribute('value')).toEqual(
+      'http://localhost/repo/testrepo1'
+    )
+  })
+
+  it('copy server address', async () => {
+    await login(driver, 'einstein')
+    await goToPage(
+      driver,
+      REPOSITORIES_SIDEBAR_ID,
+      'RDepot - repositories'
+    )
+
+    const textField = await driver.findElement(
+      By.id(REPOSITORIES_FILTRATION_SEARCH_FIELD_ID)
+    )
+
+    const controlButton =
+      platform() == 'darwin' ? Key.COMMAND : Key.CONTROL
+
+    await clickOnButton(
+      driver,
+      COPY_SERVER_ADDRESS_TESTREPO2_BUTTON_ID
+    )
+
+    await driver
+      .actions()
+      .click(textField)
+      .keyDown(controlButton)
+      .sendKeys('v')
+      .keyUp(controlButton)
+      .perform()
+
+    expect(await textField.getAttribute('value')).toEqual(
+      'http://oa-rdepot-repo:8080/testrepo2'
+    )
   })
 })

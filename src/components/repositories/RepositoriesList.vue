@@ -21,37 +21,29 @@
 -->
 
 <template>
-  <v-data-table-server
+  <OATable
     v-model:expanded="expanded"
-    :items-per-page="pagination.pageSize"
     :headers="filteredHeaders"
     :items="repositoryStore.repositories"
     :items-length="repositoryStore.totalNumber"
     item-value="name"
-    :sort-asc-icon="Icons.get('ascending')"
-    :sort-desc-icon="Icons.get('descending')"
-    color="oablue"
+    :title="i18n.t('repositories.list')"
     :loading="repositoryStore.loading"
     expand-on-click
     :sort-by="sortBy"
-    :items-per-page-options="pagination.itemsPerPage"
-    :items-per-page-text="$t('datatable.itemsPerPage')"
+    :return-object="false"
     @update:options="fetchData"
   >
-    <template #top>
-      <div class="d-flex justify-space-between mx-3 my-5">
-        <h2>{{ i18n.t('repositories.list') }}</h2>
-        <AddButton v-if="postCondition" />
-      </div>
+    <template #topAction>
+      <AddButton v-if="postCondition" />
     </template>
+
     <template #[`item.name`]="{ value }">
       <div :id="`repositories-list-${value}`">
         {{ value }}
       </div>
     </template>
-    <template #[`item.technology`]="{ value }">
-      <TechnologyChip :technology="value" /> </template
-    ><template #[`item.published`]="{ item }">
+    <template #[`item.published`]="{ item }">
       <v-tooltip
         location="top"
         :disabled="!isDisabled(item)"
@@ -62,17 +54,45 @@
             style="width: 100%"
             class="d-flex justify-center"
           >
-            <v-checkbox-btn
+            <v-checkbox
               id="checkbox-published"
               v-model="item.published"
+              density="compact"
               :disabled="isDisabled(item)"
               hide-details
               :readonly="isDisabled(item)"
               :color="isDisabled(item) ? 'grey' : 'oablue'"
-              class="mr-5"
+              :class="{
+                'mr-6': item.lastPublicationSuccessful
+              }"
               @click.stop="updateRepositoryPublished(item)"
             >
-            </v-checkbox-btn>
+              <template #append>
+                <v-icon
+                  v-if="
+                    !item.lastPublicationSuccessful &&
+                    item.lastPublicationTimestamp
+                  "
+                  id="repository-description-publication-status"
+                  v-tooltip="
+                    $t(
+                      `repositories.details.publication-failed-on`,
+                      {
+                        dateTime: formatDateTime(
+                          new Date(
+                            item.lastPublicationTimestamp
+                          )
+                        )
+                      }
+                    )
+                  "
+                  :icon="Icons.get('exclamation')"
+                  color="oared"
+                  @click.stop=""
+                >
+                </v-icon>
+              </template>
+            </v-checkbox>
           </span>
         </template>
         <span v-if="!canPatch(item.links)">{{
@@ -87,7 +107,7 @@
         <span v-if="isPending(item)">
           {{ $t('common.pending') }}</span
         >
-      </v-tooltip></template
+      </v-tooltip> </template
     ><template #[`item.actions`]="{ item }">
       <ProgressCircularSmall v-if="isPending(item)" />
       <span
@@ -141,7 +161,7 @@
         </div>
       </td>
     </template>
-  </v-data-table-server>
+  </OATable>
 </template>
 
 <script setup lang="ts">
@@ -150,7 +170,6 @@ import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
 import EditIcon from '@/components/common/action_icons/EditIcon.vue'
 import { useRepositoryStore } from '@/store/options/repositories'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
-import { usePagination } from '@/store/setup/pagination'
 import { i18n } from '@/plugins/i18n'
 import {
   DataTableHeaders,
@@ -163,20 +182,21 @@ import { computed } from 'vue'
 import { isAtLeastRepositoryMaintainer } from '@/enum/UserRoles'
 import { ref } from 'vue'
 import { useSort } from '@/composable/sort'
-import AddButton from '@/components/common/buttons/AddButton.vue'
 import { useAuthorizationStore } from '@/store/options/authorization'
-import TechnologyChip from '../common/chips/TechnologyChip.vue'
 import ProgressCircularSmall from '../common/progress/ProgressCircularSmall.vue'
 import RepositoryDescription from './repositoryDetails/RepositoryDescription.vue'
 import { Technologies } from '@/enum/Technologies'
 import Icons from '@/maps/Icons'
+import { useDates } from '@/composable/date'
+import OATable from '../common/datatable/OATable.vue'
+import AddButton from '../common/buttons/AddButton.vue'
 
 const { deepCopy } = useUtilities()
 const repositoryStore = useRepositoryStore()
-const pagination = usePagination()
 const { canDelete, canPatch } = useUserAuthorities()
 const configStore = useConfigStore()
 const authorizationStore = useAuthorizationStore()
+const { formatDateTime } = useDates()
 
 const exp = ref<string[]>([])
 
@@ -340,8 +360,18 @@ function isPending(
 }
 </script>
 
-<style>
+<style lang="scss">
 .v-selection-control {
   justify-content: center;
+}
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.v-input--horizontal .v-input__append {
+  margin-inline-start: 0px !important;
 }
 </style>

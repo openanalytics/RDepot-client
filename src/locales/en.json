@@ -126,7 +126,8 @@
     "clearAll": "Clear all packages",
     "clearForm": "Clear form",
     "click": "click",
-    "copied": "Code succesfully copied to clipboard",
+    "copied": "Code successfully copied to clipboard",
+    "copiedMessage": "Copied to clipboard",
     "create": "Create",
     "current": "current",
     "deactivate": "Deactivate",
@@ -394,6 +395,7 @@
       "last-modification-date": "Last modification date",
       "last-publication-date": "Last publication date",
       "publication-failed": "publication failed",
+      "publication-failed-on": "Publication failed, last try at {dateTime}",
       "publication-succeed": "publication succeed"
     },
     "edit": {

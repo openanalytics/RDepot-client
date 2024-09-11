@@ -82,7 +82,9 @@ describe('User list - user row', () => {
   it('displays no data available text', async () => {
     usersStore.users = []
     await nextTick()
-    expect(wrapper.text()).toContain('No data available')
+    expect(wrapper.text()).toContain(
+      'datatable.noDataAvailable'
+    )
     expect(wrapper.findAllComponents('tr').length).toEqual(
       1
     )

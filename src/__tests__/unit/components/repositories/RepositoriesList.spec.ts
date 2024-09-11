@@ -88,7 +88,9 @@ describe('Repositories - list', () => {
   it('displays no data available text', async () => {
     repositoriesStore.repositories = []
     await nextTick()
-    expect(wrapper.text()).toContain('No data available')
+    expect(wrapper.text()).toContain(
+      'datatable.noDataAvailable'
+    )
     expect(wrapper.findAllComponents('tr').length).toEqual(
       1
     )
@@ -223,6 +225,14 @@ describe('Repositories - cells', () => {
     expect(checkboxPublished.element.checked).toEqual(
       repository.published
     )
+  })
+
+  it('displays an publication alert', async () => {
+    const cell = cells[5]
+    const alertIcon = cell.find(
+      '#repository-description-publication-status'
+    )
+    expect(alertIcon.exists()).toBeTruthy()
   })
 
   it('displays actions', () => {

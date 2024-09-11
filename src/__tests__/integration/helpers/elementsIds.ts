@@ -359,6 +359,10 @@ export const DELETE_REPO_2_ICON_ID =
   'delete-repository-icon-2'
 export const DELETE_REPOSITORY_SUBMIT_ID = 'submit-button'
 export const DELETE_REPOSITORY_CANCEL_ID = 'cancel-button'
+export const COPY_PUBLICATION_URI_TESTREPO1_BUTTON_ID =
+  'resources-list-http://localhost/repo/testrepo1-copy'
+export const COPY_SERVER_ADDRESS_TESTREPO2_BUTTON_ID =
+  'resources-list-http://oa-rdepot-repo:8080/testrepo2-copy'
 
 // REPOSITORY DESCRIPTION
 export const REPOSITORY_DESCRIPTION_CARD_ID =
@@ -388,3 +392,11 @@ export const CREATE_TOKEN_NAME_INPUT_ID =
 export const CREATE_TOKEN_EXPIRATION_DATE_INPUT_ID =
   'create-token-expiration-date'
 export const CREATE_TOKEN_SUBMIT_BUTTON_ID = 'submit-button'
+
+// USERS LIST PAGE
+export const COPY_GALIELEO_EMAIL_BUTTON_ID =
+  'resources-list-galieleo@ldap.forumsys.com-copy'
+
+// USERS FILTRATION
+export const USERS_FILTRATION_SEARCH_FIELD_ID =
+  'users-filtration-search'

@@ -21,22 +21,16 @@
 -->
 
 <template>
-  <v-data-table-server
+  <OATable
     v-model="submissionStore.selected"
-    :items-per-page="pagination.pageSize"
     show-select
-    return-object
     :headers="headers"
     :items="submissionStore.submissions"
+    :title="i18n.t('common.submissions')"
     :items-length="submissionStore.totalNumber"
     item-value="name"
-    :sort-asc-icon="Icons.get('ascending')"
-    :sort-desc-icon="Icons.get('descending')"
-    color="oablue"
     :loading="submissionStore.loading"
     :sort-by="sortBy"
-    :items-per-page-options="pagination.itemsPerPage"
-    :items-per-page-text="$t('datatable.itemsPerPage')"
     @update:options="fetchData"
   >
     <template
@@ -69,22 +63,6 @@
         <MultiActionSubmissionsAlert :item="item" />
       </span>
     </template>
-    <template #top>
-      <div class="d-flex justify-space-between mx-3 my-5">
-        <h2>{{ i18n.t('common.submissions') }}</h2>
-      </div>
-    </template>
-    <template #[`item.created`]="{ value }">
-      <DateChip :date="value" />
-    </template>
-    <template
-      #[`item.packageBag.repository.technology`]="{ value }"
-    >
-      <TechnologyChip :technology="value" />
-    </template>
-    <template #[`item.state`]="{ value }">
-      <StateIcon :state="value" />
-    </template>
     <template #[`item.actions`]="{ item }">
       <ProgressCircularSmall v-if="isPending(item)" />
       <span v-else class="d-flex justify-end align-right">
@@ -94,12 +72,11 @@
         <DownloadSubmission :item="item" />
       </span>
     </template>
-  </v-data-table-server>
+  </OATable>
 </template>
 
 <script setup lang="ts">
 import { useSubmissionStore } from '@/store/options/submission'
-import { usePagination } from '@/store/setup/pagination'
 import { EntityModelSubmissionDto } from '@/openapi'
 import {
   DataTableHeaders,
@@ -112,18 +89,14 @@ import { useSort } from '@/composable/sort'
 import MultiActionSubmissions from './actions/MultiActionSubmissions.vue'
 import MultiActionSubmissionsAlert from './actions/MultiActionSubmissionsAlert.vue'
 import SelectBoxSubmission from './actions/SelectBoxSubmission.vue'
-import DateChip from '../common/chips/DateChip.vue'
-import TechnologyChip from '../common/chips/TechnologyChip.vue'
-import StateIcon from './icons/StateIcon.vue'
 import ProgressCircularSmall from '../common/progress/ProgressCircularSmall.vue'
 import AcceptSubmission from './actions/AcceptSubmission.vue'
 import RejectSubmission from './actions/RejectSubmission.vue'
 import CancelSubmission from './actions/CancelSubmission.vue'
 import DownloadSubmission from './actions/DownloadSubmission.vue'
-import Icons from '@/maps/Icons'
+import OATable from '../common/datatable/OATable.vue'
 
 const submissionStore = useSubmissionStore()
-const pagination = usePagination()
 
 const { getSort } = useSort()
 const defaultSort: Sort[] = [

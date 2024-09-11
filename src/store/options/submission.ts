@@ -125,7 +125,6 @@ export const useSubmissionStore = defineStore(
     actions: {
       async getPage(options: DataTableOptions) {
         this.loading = true
-        console.log(options)
         const [submissions, pageData] =
           await fetchSubmissionsService(
             this.filtration,

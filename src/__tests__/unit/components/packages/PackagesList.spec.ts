@@ -92,7 +92,9 @@ describe('Packages - list', () => {
   it('displays no data available text', async () => {
     packagesStore.packages = []
     await nextTick()
-    expect(wrapper.text()).toContain('No data available')
+    expect(wrapper.text()).toContain(
+      'datatable.noDataAvailable'
+    )
     expect(wrapper.findAllComponents('tr').length).toEqual(
       1
     )

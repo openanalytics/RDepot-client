@@ -20,8 +20,14 @@
  *
  */
 import Icons from '@/maps/Icons'
+import { i18n } from '@/plugins/i18n'
+import { useToast } from './toasts'
+import { useClipboard } from '@vueuse/core'
 
 export function useUtilities() {
+  const toasts = useToast()
+  const { copy } = useClipboard()
+
   function deepCopy<T>(object: T) {
     return JSON.parse(JSON.stringify(object))
   }
@@ -78,9 +84,24 @@ export function useUtilities() {
     return html
   }
 
+  function copyText(
+    value: string,
+    feedbackMessage: string = i18n.t('common.copied')
+  ) {
+    try {
+      if (value) {
+        copy(value)
+        toasts.success(feedbackMessage)
+      }
+    } catch (error) {
+      toasts.error(i18n.t('common.errors.copyFailed'))
+    }
+  }
+
   return {
     deepCopy,
     deepCopyAny,
-    renderer
+    renderer,
+    copyText
   }
 }
