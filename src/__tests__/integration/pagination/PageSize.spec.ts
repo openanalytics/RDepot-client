@@ -30,7 +30,9 @@ import {
 import {
   SUBMISSIONS_SIDEBAR_ID,
   SETTINGS_LIST_SIDEBAR_ID,
-  PAGE_SIZE_ID
+  PAGE_SIZE_ID,
+  SAVE_SETTINGS_BUTTON_ID,
+  SETTINGS_GENERAL_LIST_SIDEBAR_ID
 } from '../helpers/elementsIds'
 import { restoreData } from '../helpers/restoreData'
 import { login } from '../helpers/login'
@@ -40,7 +42,7 @@ import {
   goToPage,
   clickOnElementByCss,
   clickOnElementById,
-  delay
+  waitUntilElementIsInvisible
 } from '../helpers/helpers'
 
 const { By, until, Key } = require('selenium-webdriver')
@@ -65,7 +67,7 @@ describe('Custom page size', () => {
     await clickOnButton(driver, SETTINGS_LIST_SIDEBAR_ID)
 
     await driver
-      .findElement(By.id('sidebar-settings-general'))
+      .findElement(By.id(SETTINGS_GENERAL_LIST_SIDEBAR_ID))
       .then(async function (element: any) {
         await driver.wait(function () {
           return element
@@ -78,41 +80,57 @@ describe('Custom page size', () => {
         })
         await element.click()
       })
+
     await driver.wait(
       until.titleIs('RDepot - settings'),
       8000
     )
-    expect(await driver.getTitle()).toBe(
-      'RDepot - settings'
-    )
-    await delay(500)
+
     await clickOnElementById(driver, PAGE_SIZE_ID)
     await driver
       .actions()
-      .sendKeys(Key.BACK_SPACE, Key.BACK_SPACE, Key.NUMPAD2)
+      .sendKeys(
+        Key.BACK_SPACE,
+        Key.BACK_SPACE,
+        Key.NUMPAD2,
+        Key.TAB
+      )
       .perform()
-    await clickOnElementByCss(driver, '.v-main')
-    await clickOnElementByCss(
+
+    await clickOnElementById(
       driver,
-      '.bg-oablue > .v-btn__content'
+      SAVE_SETTINGS_BUTTON_ID
     )
 
-    await delay(500)
+    await waitUntilElementIsInvisible(
+      driver,
+      SAVE_SETTINGS_BUTTON_ID
+    )
 
     await goToPage(
       driver,
       SUBMISSIONS_SIDEBAR_ID,
       'RDepot - submissions'
     )
-    await delay(100)
 
     await clickOnElementByCss(
       driver,
       '.v-field__input:nth-child(2)'
     )
-    await delay(500)
+
+    let menuItem = await driver.findElement(
+      By.id('page-items-10')
+    )
+
+    await driver.wait(
+      until.elementIsVisible(menuItem),
+      2000
+    )
     await clickOnElementById(driver, 'page-items-10')
-    await delay(100)
+    await waitUntilElementIsInvisible(
+      driver,
+      'page-items-10'
+    )
     let elements = await driver.findElements(
       By.className('v-data-table__tr')
     )
@@ -123,9 +141,19 @@ describe('Custom page size', () => {
       '.v-field__input:nth-child(2)'
     )
 
-    await delay(500)
+    menuItem = await driver.findElement(
+      By.id('page-items-custom-2')
+    )
+
+    await driver.wait(
+      until.elementIsVisible(menuItem),
+      2000
+    )
     await clickOnElementById(driver, 'page-items-custom-2')
-    await delay(100)
+    await waitUntilElementIsInvisible(
+      driver,
+      'page-items-custom-2'
+    )
     elements = await driver.findElements(
       By.className('v-data-table__tr')
     )
@@ -137,7 +165,7 @@ describe('Custom page size', () => {
     await clickOnButton(driver, SETTINGS_LIST_SIDEBAR_ID)
 
     await driver
-      .findElement(By.id('sidebar-settings-general'))
+      .findElement(By.id(SETTINGS_GENERAL_LIST_SIDEBAR_ID))
       .then(async function (element: any) {
         await driver.wait(function () {
           return element
@@ -150,14 +178,12 @@ describe('Custom page size', () => {
         })
         await element.click()
       })
+
     await driver.wait(
       until.titleIs('RDepot - settings'),
       8000
     )
-    expect(await driver.getTitle()).toBe(
-      'RDepot - settings'
-    )
-    await delay(500)
+
     await clickOnElementById(driver, PAGE_SIZE_ID)
     await driver
       .actions()
@@ -165,13 +191,19 @@ describe('Custom page size', () => {
         Key.BACK_SPACE,
         Key.BACK_SPACE,
         Key.NUMPAD3,
-        Key.NUMPAD0
+        Key.NUMPAD0,
+        Key.TAB
       )
       .perform()
-    await clickOnElementByCss(driver, '.v-main')
-    await clickOnElementByCss(
+
+    await clickOnElementById(
       driver,
-      '.bg-oablue > .v-btn__content'
+      SAVE_SETTINGS_BUTTON_ID
+    )
+
+    await waitUntilElementIsInvisible(
+      driver,
+      SAVE_SETTINGS_BUTTON_ID
     )
 
     await goToPage(
@@ -179,25 +211,21 @@ describe('Custom page size', () => {
       SUBMISSIONS_SIDEBAR_ID,
       'RDepot - submissions'
     )
-    await delay(100)
 
     await clickOnElementByCss(
       driver,
       '.v-field__input:nth-child(2)'
     )
-    await delay(500)
-    await clickOnElementById(driver, 'page-items-10')
-    await delay(100)
-    const elements = await driver.findElements(
-      By.className('v-data-table__tr')
-    )
-    expect(elements.length).toBe(10)
 
-    await clickOnElementByCss(
-      driver,
-      '.v-field__input:nth-child(2)'
+    const menuItem = await driver.findElement(
+      By.id('page-items-20')
     )
-    await delay(100)
+
+    await driver.wait(
+      until.elementIsVisible(menuItem),
+      2000
+    )
+
     const exists = await driver
       .findElements(By.id('page-items-custom-30'))
       .then((found: any) => !!found.length)

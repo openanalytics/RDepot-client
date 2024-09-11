@@ -88,6 +88,8 @@ export const UPLOAD_PACKAGES_SIDEBAR_ID =
   'sidebar-upload-packages'
 export const SETTINGS_LIST_SIDEBAR_ID =
   'sidebar-settings-list'
+export const SETTINGS_GENERAL_LIST_SIDEBAR_ID =
+  'sidebar-settings-general'
 export const ACCESS_TOKENS_SIDEBAR_ID =
   'sidebar-settings-access-tokens'
 
@@ -368,6 +370,7 @@ export const REPOSITORIES_LIST_PYTHON_REPO_ID =
 
 // SETTINGS FIELD
 export const PAGE_SIZE_ID = 'page-size-input'
+export const SAVE_SETTINGS_BUTTON_ID = 'save-changes'
 
 // GENERAL SETTINGS PAGE
 export const SAVE_CHANGES_BUTTON_ID = 'save-changes'

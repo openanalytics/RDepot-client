@@ -237,6 +237,39 @@ export async function clickOnMenuItemById(
     })
 }
 
+export async function waitUntilMenuIsOpen(
+  driver: typeof Builder,
+  menuItemId: string
+) {
+  await driver
+    .findElement(By.id(menuItemId))
+    .then(async function (element: any) {
+      await driver.wait(function () {
+        return element
+          .isDisplayed()
+          .then(function (displayed: any) {
+            if (!displayed) return false
+
+            return element.isEnabled()
+          })
+      })
+    })
+}
+
+export async function waitUntilElementIsInvisible(
+  driver: typeof Builder,
+  id: string
+) {
+  let length = 1
+  do {
+    const elements = await driver.findElements(
+      By.id(id),
+      8000
+    )
+    length = elements.length
+  } while (length > 0)
+}
+
 export async function setInputValue(
   driver: typeof Builder,
   id: string,
