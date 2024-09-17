@@ -40,7 +40,7 @@ export async function fetchConfiguration(): ValidatedConfig {
     return new Promise(() => validateRequest({}))
   }
   return openApiRequest<PublicConfigurationDto>(
-    ApiV2ConfigControllerApiFactory().getPublicConfig,
+    ApiV2ConfigControllerApiFactory().getPublicConfig1,
     [],
     false
   ).catch(() => {

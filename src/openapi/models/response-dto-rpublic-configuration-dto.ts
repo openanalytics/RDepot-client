@@ -33,50 +33,50 @@
  * Do not edit the class manually.
  */
 
-import { EntityModelRRepositoryDto } from './entity-model-rrepository-dto'
+import { RPublicConfigurationDto } from './rpublic-configuration-dto'
 /**
  *
  *
  * @export
- * @interface ResponseDtoEntityModelRRepositoryDto
+ * @interface ResponseDtoRPublicConfigurationDto
  */
-export interface ResponseDtoEntityModelRRepositoryDto {
+export interface ResponseDtoRPublicConfigurationDto {
   /**
    * @type {string}
-   * @memberof ResponseDtoEntityModelRRepositoryDto
+   * @memberof ResponseDtoRPublicConfigurationDto
    */
-  status?: ResponseDtoEntityModelRRepositoryDtoStatusEnum
+  status?: ResponseDtoRPublicConfigurationDtoStatusEnum
 
   /**
    * @type {number}
-   * @memberof ResponseDtoEntityModelRRepositoryDto
+   * @memberof ResponseDtoRPublicConfigurationDto
    */
   code?: number
 
   /**
    * @type {string}
-   * @memberof ResponseDtoEntityModelRRepositoryDto
+   * @memberof ResponseDtoRPublicConfigurationDto
    */
   message?: string
 
   /**
    * @type {string}
-   * @memberof ResponseDtoEntityModelRRepositoryDto
+   * @memberof ResponseDtoRPublicConfigurationDto
    */
   messageCode?: string
 
   /**
-   * @type {EntityModelRRepositoryDto}
-   * @memberof ResponseDtoEntityModelRRepositoryDto
+   * @type {RPublicConfigurationDto}
+   * @memberof ResponseDtoRPublicConfigurationDto
    */
-  data?: EntityModelRRepositoryDto
+  data?: RPublicConfigurationDto
 }
 
 /**
  * @export
  * @enum {string}
  */
-export enum ResponseDtoEntityModelRRepositoryDtoStatusEnum {
+export enum ResponseDtoRPublicConfigurationDtoStatusEnum {
   SUCCESS = 'SUCCESS',
   ERROR = 'ERROR',
   WARNING = 'WARNING'

@@ -19,6 +19,7 @@
  * along with this program. If not, see <http://www.apache.org/licenses/>
  *
  */
+
 import Icons from '@/maps/Icons'
 import { i18n } from '@/plugins/i18n'
 import { useToast } from './toasts'

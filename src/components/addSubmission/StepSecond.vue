@@ -89,6 +89,7 @@ import FilesList from '@/components/addSubmission/FilesList.vue'
 import { useFilesListStore } from '@/store/options/localFiles'
 import { useI18n } from 'vue-i18n'
 import { useToast } from '@/composable/toasts'
+import { Technologies } from '@/enum/Technologies'
 
 const { files, open } = useFileDialog({
   accept: 'application/gzip'
@@ -132,6 +133,12 @@ function checkValidity(file: File) {
 
 onMounted(() => {
   filesStore.files = submissionsStore.packages
+  if (
+    submissionsStore.repository?.technology !==
+    Technologies.enum.Python
+  ) {
+    submissionsStore.getRConfiguration()
+  }
 })
 
 function nextStep() {

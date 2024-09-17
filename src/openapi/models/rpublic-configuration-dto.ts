@@ -33,51 +33,28 @@
  * Do not edit the class manually.
  */
 
-import { EntityModelRRepositoryDto } from './entity-model-rrepository-dto'
 /**
  *
  *
  * @export
- * @interface ResponseDtoEntityModelRRepositoryDto
+ * @interface RPublicConfigurationDto
  */
-export interface ResponseDtoEntityModelRRepositoryDto {
+export interface RPublicConfigurationDto {
   /**
-   * @type {string}
-   * @memberof ResponseDtoEntityModelRRepositoryDto
+   * @type {Array<string>}
+   * @memberof RPublicConfigurationDto
    */
-  status?: ResponseDtoEntityModelRRepositoryDtoStatusEnum
+  allowedRVersions?: Array<string>
 
   /**
-   * @type {number}
-   * @memberof ResponseDtoEntityModelRRepositoryDto
+   * @type {Array<string>}
+   * @memberof RPublicConfigurationDto
    */
-  code?: number
+  allowedDistributions?: Array<string>
 
   /**
-   * @type {string}
-   * @memberof ResponseDtoEntityModelRRepositoryDto
+   * @type {Array<string>}
+   * @memberof RPublicConfigurationDto
    */
-  message?: string
-
-  /**
-   * @type {string}
-   * @memberof ResponseDtoEntityModelRRepositoryDto
-   */
-  messageCode?: string
-
-  /**
-   * @type {EntityModelRRepositoryDto}
-   * @memberof ResponseDtoEntityModelRRepositoryDto
-   */
-  data?: EntityModelRRepositoryDto
-}
-
-/**
- * @export
- * @enum {string}
- */
-export enum ResponseDtoEntityModelRRepositoryDtoStatusEnum {
-  SUCCESS = 'SUCCESS',
-  ERROR = 'ERROR',
-  WARNING = 'WARNING'
+  allowedArchitectures?: Array<string>
 }

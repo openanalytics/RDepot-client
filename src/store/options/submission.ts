@@ -32,7 +32,8 @@ import {
 import {
   addSubmission,
   fetchSubmissionsService,
-  updateSubmission
+  updateSubmission,
+  getRConfiguration
 } from '@/services/submissionServices'
 import { useUtilities } from '@/composable/utilities'
 import { validatedData } from '@/services/openApiAccess'
@@ -72,6 +73,10 @@ interface State {
   packages: File[]
   generateManual: File[]
   replace: File[]
+  binary: File[]
+  rversion: { file: File; version: string }[]
+  distribution: { file: File; distribution: string }[]
+  architecture: { file: File; architecture: string }[]
   files: File[]
   promises: PackagePromise[]
   repository?: EntityModelRepositoryDto
@@ -85,6 +90,9 @@ interface State {
   stepperKey: number
   loading: boolean
   totalNumber: number
+  allowedRVersions?: string[]
+  allowedDistributions?: string[]
+  allowedArchitectures?: string[]
 }
 
 const { deepCopy } = useUtilities()
@@ -98,6 +106,10 @@ export const useSubmissionStore = defineStore(
         files: [],
         generateManual: [],
         replace: [],
+        binary: [],
+        rversion: [],
+        distribution: [],
+        architecture: [],
         promises: [],
         submissions: [],
         pending: [],
@@ -109,7 +121,10 @@ export const useSubmissionStore = defineStore(
         resolved: false,
         stepperKey: 0,
         loading: false,
-        totalNumber: 0
+        totalNumber: 0,
+        allowedRVersions: [],
+        allowedDistributions: [],
+        allowedArchitectures: []
       }
     },
     getters: {
@@ -194,6 +209,16 @@ export const useSubmissionStore = defineStore(
             )
           })
       },
+      async getRConfiguration() {
+        await getRConfiguration().then((response) => {
+          this.allowedRVersions =
+            response[0].allowedRVersions
+          this.allowedDistributions =
+            response[0].allowedDistributions
+          this.allowedArchitectures =
+            response[0].allowedArchitectures
+        })
+      },
       updateReplaceOptionForPackage(file: File) {
         if (this.getReplaceForPackage(file)) {
           this.removeReplaceOptionForPackage(file)
@@ -230,6 +255,57 @@ export const useSubmissionStore = defineStore(
           (item) => item == file
         )
       },
+      getBinaryForPackage(file: File) {
+        return !!this.binary.find((item) => item == file)
+      },
+      updateBinaryOptionForPackage(file: File) {
+        if (this.getBinaryForPackage(file)) {
+          this.removeBinaryOptionForPackage(file)
+        } else {
+          this.addBinaryOptionForPackage(file)
+        }
+      },
+      removeBinaryOptionForPackage(file: File) {
+        this.binary = this.binary.filter(
+          (item) => item !== file
+        )
+      },
+      addBinaryOptionForPackage(file: File) {
+        this.binary.push(file)
+      },
+      addRversion(version: string, value: File) {
+        this.rversion.push({
+          version: version,
+          file: value
+        })
+      },
+      getRVersionForPackage(file: File) {
+        return this.rversion.find(
+          (item) => item.file == file
+        )?.version
+      },
+      addArchitecture(architecture: string, value: File) {
+        this.architecture.push({
+          architecture: architecture,
+          file: value
+        })
+      },
+      getArchitectureForPackage(file: File) {
+        return this.architecture.find(
+          (item) => item.file == file
+        )?.architecture
+      },
+      addDistribution(distribution: string, value: File) {
+        this.distribution.push({
+          distribution: distribution,
+          file: value
+        })
+      },
+      getDistributionForPackage(file: File) {
+        return this.distribution.find(
+          (item) => item.file == file
+        )?.distribution
+      },
       addPackage(payload: File) {
         this.packages = [...this.packages, payload]
       },
@@ -256,7 +332,11 @@ export const useSubmissionStore = defineStore(
               this.repository?.technology!,
               packageBag,
               this.getGenerateManualForPackage(packageBag),
-              this.getReplaceForPackage(packageBag)
+              this.getReplaceForPackage(packageBag),
+              this.getBinaryForPackage(packageBag),
+              this.getRVersionForPackage(packageBag),
+              this.getArchitectureForPackage(packageBag),
+              this.getDistributionForPackage(packageBag)
             ),
             packageBag: packageBag,
             state: 'pending',
