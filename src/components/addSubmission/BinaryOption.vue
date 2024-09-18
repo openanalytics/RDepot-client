@@ -29,8 +29,8 @@
         :icon="binaryIcon"
         variant="text"
         v-bind="props"
-        @click.stop
         class="mx-8"
+        @click.stop
         @click="binaryPackage"
       ></v-btn>
     </template>
