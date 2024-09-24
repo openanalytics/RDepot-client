@@ -22,19 +22,18 @@
 
 <template>
   <div>
-    <v-switch
-      id="theme-switch"
+    <v-icon
+      id="change-theme-icon"
       :key="commonStore.themeKey"
-      density="compact"
-      color="primary"
-      :model-value="getTheme"
-      :true-icon="Icons.get('dark-theme')"
-      :false-icon="Icons.get('light-theme')"
-      :inset="true"
-      :hide-details="true"
-      style="align-self: center"
+      v-tooltip="$t('settings.changeTheme')"
+      :icon="
+        getTheme
+          ? Icons.get('light-theme')
+          : Icons.get('dark-theme')
+      "
+      color="text"
       @click="changeTheme"
-    ></v-switch>
+    />
   </div>
 </template>
 
@@ -76,13 +75,3 @@ onUpdated(() => {
       authorizationStore.me.userSettings.theme
 })
 </script>
-
-<style lang="scss">
-.mdi-weather-night {
-  color: aliceblue;
-}
-
-.mdi-weather-sunny {
-  color: black;
-}
-</style>

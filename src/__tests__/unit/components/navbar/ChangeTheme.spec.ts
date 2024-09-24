@@ -25,7 +25,7 @@ import { describe, it, expect, beforeEach } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
-import ChangeThemeVue from '@/components/navbar/ChangeTheme.vue'
+import ChangeTheme from '@/components/navbar/ChangeTheme.vue'
 import { createPinia, setActivePinia } from 'pinia'
 
 let wrapper: any
@@ -36,7 +36,7 @@ const globalConfig = {
 
 beforeEach(async () => {
   setActivePinia(createPinia())
-  wrapper = mount(ChangeThemeVue, {
+  wrapper = mount(ChangeTheme, {
     global: globalConfig
   })
 })
@@ -50,21 +50,25 @@ describe('Change Theme', () => {
   })
 
   it('change theme on click', async () => {
-    const themeSwitch = wrapper.find('#theme-switch')
-    await themeSwitch.trigger('click')
+    const changeThemeIcon = wrapper.find(
+      '#change-theme-icon'
+    )
+    await changeThemeIcon.trigger('click')
     expect(wrapper.vm.theme.global.name.value).toEqual(
       'dark'
     )
   })
 
   it('change theme two times after two clicks', async () => {
-    const themeSwitch = wrapper.find('#theme-switch')
+    const changeThemeIcon = wrapper.find(
+      '#change-theme-icon'
+    )
     wrapper.vm.theme.global.name.value = 'dark'
-    await themeSwitch.trigger('click')
+    await changeThemeIcon.trigger('click')
     expect(wrapper.vm.theme.global.name.value).toEqual(
       'light'
     )
-    await themeSwitch.trigger('click')
+    await changeThemeIcon.trigger('click')
     expect(wrapper.vm.theme.global.name.value).toEqual(
       'dark'
     )

@@ -192,6 +192,8 @@ export const PACKAGES_LIST_CHECKBOX_ACTIONS_ACCELERATED_NUMPY_010_TESTREPO8_ID =
   'checkbox-actions-accelerated-numpy-0-1-0-testrepo8'
 export const PACKAGES_LIST_CHECKBOX_ACTIONS_ANACODA_0213_TESTREPO4_ID =
   'checkbox-actions-AnaCoDa-0-1-2-3-testrepo4'
+export const PACKAGES_LIST_ACTIVATE_BUTTON_ID =
+  'checkbox-active-A3-0-9-2-testrepo3'
 
 //r package details
 export const R_PACKAGE_VERSION_PROPERTY_ID =
@@ -400,3 +402,14 @@ export const COPY_GALIELEO_EMAIL_BUTTON_ID =
 // USERS FILTRATION
 export const USERS_FILTRATION_SEARCH_FIELD_ID =
   'users-filtration-search'
+
+// NOTIFICATIONS
+export const NOTIFICATIONS_BADGE_ID = 'notifications-badge'
+export const NOTIFICATIONS_BELL_ID = 'notifications-bell'
+export const NOTIFICATIONS_LIST_ID = 'notifications-list'
+export const NOTIFICATIONS_SEE_ALL_BUTTON_ID =
+  'notifications-see-all-events'
+export const NOTIFICATIONS_NOT_SEEN_EVENT_ID =
+  'notifications-list-item-398'
+export const NOTIFICATIONS_SEEN_EVENT_ID =
+  'notifications-list-item-394'

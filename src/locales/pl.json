@@ -259,6 +259,27 @@
   },
   "notifications": {
     "acceptSubmission": "Zgłoszenie zaakceptowane",
+    "events": {
+      "active": {
+        "false": "deaktywowano",
+        "true": "aktywowano"
+      },
+      "alreadySeen": "przeczytane",
+      "create": "utworzono",
+      "delete": "usunięto",
+      "published": {
+        "false": "odpublikowano",
+        "true": "opublikowano"
+      },
+      "state": {
+        "accepted": "zaakceptowano",
+        "cancelled": "anulowano",
+        "rejected": "odrzucono"
+      },
+      "upToDate": "brak nowych powiadomień",
+      "updated": "edytowano",
+      "upload": "wgrano"
+    },
     "insufficientPermissions": "Wybrany użytkownik nie ma wystarczających uprawnień.",
     "invalidform": "Przesłane dane są niepoprawne",
     "successCancelSubmission": "Zgłoszenie anulowane",
@@ -273,7 +294,8 @@
     "successUpdatePackageManager": "Zaktualizowano {maintainer_name}",
     "successUpdateRepositoryMaintainer": "Zaktualizowano {maintainer_name}",
     "successUpdateRepositoryManager": "Zaktualizowano {maintainer_name}",
-    "successUpdateUser": "Dane użytkownika zaktualizowane"
+    "successUpdateUser": "Dane użytkownika zaktualizowane",
+    "title": "Powiadomienia"
   },
   "package": {
     "chooseOneToEnable": "wybierz co najmniej jedną paczkę aby odblokować",
@@ -423,6 +445,8 @@
     "admin": "Administrator"
   },
   "settings": {
+    "changeLanguage": "Zmień Język",
+    "changeTheme": "Zmień motyw",
     "create": "Nowy access token",
     "deactivate": "Dezaktywuj token",
     "deactivateQuestion": "Czy na pewno chcesz dezaktywować token <strong>{0}</strong>?",

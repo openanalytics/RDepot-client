@@ -79,6 +79,13 @@ export function useDates() {
     }
   }
 
+  function isBefore(
+    oldDate: string | undefined,
+    newDate: string | undefined
+  ) {
+    return moment(oldDate).isBefore(moment(newDate))
+  }
+
   return {
     getTime,
     isYearAndMonthDate,
@@ -86,6 +93,7 @@ export function useDates() {
     getDate,
     padTo2Digits,
     formatDate,
-    formatDateTime
+    formatDateTime,
+    isBefore
   }
 }

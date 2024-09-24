@@ -265,6 +265,27 @@
   },
   "notifications": {
     "acceptSubmission": "Accept submission",
+    "events": {
+      "active": {
+        "false": "deactivated",
+        "true": "activated"
+      },
+      "alreadySeen": "already seen",
+      "create": "created",
+      "delete": "deleted",
+      "published": {
+        "false": "unpublished",
+        "true": "published"
+      },
+      "state": {
+        "accepted": "accepted",
+        "cancelled": "cancelled",
+        "rejected": "rejected"
+      },
+      "upToDate": "already up to date",
+      "updated": "updated",
+      "upload": "uploaded"
+    },
     "insufficientPermissions": "User's permissions are not sufficient to create a maintainer.",
     "invalidform": "The submitted form is not valid",
     "successCancelSubmission": "Cancel submission",
@@ -279,7 +300,8 @@
     "successUpdatePackageManager": "Successful updated {maintainer_name}",
     "successUpdateRepositoryMaintainer": "Successful updated {maintainer_name}",
     "successUpdateRepositoryManager": "Successful update {maintainer_name}",
-    "successUpdateUser": "Successfully updated user"
+    "successUpdateUser": "Successfully updated user",
+    "title": "Notifications"
   },
   "package": {
     "chooseOneToEnable": "choose at least one package to enable",
@@ -429,6 +451,8 @@
     "admin": "Admin"
   },
   "settings": {
+    "changeLanguage": "Change Language",
+    "changeTheme": "Change Theme",
     "create": "New access token",
     "deactivate": "Deactivate token",
     "deactivateQuestion": "Are you sure you want to deactivate token <strong>{0}</strong>?",

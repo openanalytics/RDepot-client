@@ -69,6 +69,7 @@ export async function handleAuthorization() {
       const authorizationStore = useAuthorizationStore()
       if (!authorizationStore.me.role) {
         await authorizationStore.postLoginOperations()
+        authorizationStore.postLoginAsyncOperations()
       }
     })
     .catch((error) => {
@@ -171,6 +172,7 @@ export async function authorizeInternalPath(to: any) {
   }
   if (!authorizationStore.me.role) {
     await authorizationStore.postLoginOperations()
+    authorizationStore.postLoginAsyncOperations()
   } else {
     const configStore = useConfigStore()
     await configStore.fetchConfiguration()

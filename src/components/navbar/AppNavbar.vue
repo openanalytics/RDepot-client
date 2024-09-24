@@ -47,10 +47,13 @@
           <div class="logotext">RDepot</div>
         </v-row>
       </v-row>
-      <v-row align="center" justify="end" class="my-0 mx-3">
-        <ChangeLanguage class="mr-4" />
-        <ChangeTheme class="mr-12 ml-3" />
-      </v-row>
+      <div class="d-flex align-center my-0 mx-12 ga-3">
+        <ChangeLanguage />
+        <ChangeTheme />
+        <EventsNotifications
+          v-show="router.currentRoute.value.name != 'login'"
+        />
+      </div>
     </v-row>
   </v-app-bar>
 </template>
@@ -62,6 +65,7 @@ import { useCommonStore } from '@/store/options/common'
 import { useDisplay } from 'vuetify/lib/framework.mjs'
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
+import EventsNotifications from './EventsNotifications.vue'
 
 const router = useRouter()
 const commonStore = useCommonStore()
