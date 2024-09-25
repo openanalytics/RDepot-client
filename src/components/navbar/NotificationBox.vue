@@ -26,9 +26,10 @@
     class="ma-0 pa-0"
   >
     <template #prepend>
-      <v-avatar class="mt-3" color="grey">
-        <v-icon :icon="Icons.get('account')"></v-icon>
-      </v-avatar>
+      <UserAvatar
+        :username="event.user?.name"
+        class="mt-3"
+      />
     </template>
 
     <v-list-item-title
@@ -75,7 +76,6 @@
 </template>
 
 <script lang="ts" setup>
-import Icons from '@/maps/Icons'
 import {
   EntityModelNewsfeedEventDto,
   EntityModelNewsfeedEventDtoResourceTypeEnum
@@ -84,6 +84,7 @@ import moment from 'moment'
 import { computed } from 'vue'
 import { useIcons } from '@/composable/icons'
 import { i18n } from '@/plugins/i18n'
+import UserAvatar from '@/components/common/users/UserAvatar.vue'
 
 const props = defineProps({
   event: {

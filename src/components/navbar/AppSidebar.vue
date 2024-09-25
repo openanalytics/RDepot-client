@@ -32,6 +32,10 @@
         :title="getUserLogin"
         :subtitle="getSubtitle"
       >
+        <template #prepend>
+          <UserAvatar :username="getUserLogin" />
+        </template>
+
         <template #append>
           <v-btn
             id="logout-button"
@@ -205,6 +209,7 @@ import { computed } from 'vue'
 import { useDisplay } from 'vuetify/lib/framework.mjs'
 import getEnv from '@/utils/env'
 import Icons from '@/maps/Icons'
+import UserAvatar from '@/components/common/users/UserAvatar.vue'
 
 const { xs, mobile } = useDisplay()
 const authorizationStore = useAuthorizationStore()
