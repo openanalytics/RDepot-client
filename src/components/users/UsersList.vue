@@ -182,9 +182,11 @@ const { deepCopy } = useUtilities()
 
 function updateUserActive(item: EntityModelUserDto): void {
   if (canPatch(item.links)) {
-    const oldUser = deepCopy(item)
-    oldUser.active = !oldUser.active
-    userStore.save(item)
+    item.active = !item.active
+    userStore.chosenUser = deepCopy(item)
+    const user = deepCopy(item)
+    user.active = !user.active
+    userStore.save(user)
   }
 }
 
