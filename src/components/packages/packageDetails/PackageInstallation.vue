@@ -92,7 +92,8 @@ const installCode = computed<string>(() => {
     `packages.installCode-${packageBag.value.technology}`,
     [
       packageBag.value.name,
-      packageBag.value.repository?.publicationUri
+      packageBag.value.repository?.publicationUri,
+      packageBag.value.repository?.name
     ]
   )
 })
