@@ -141,10 +141,10 @@
     "errors": {
       "copyFailed": "Nieudane kopiowanie",
       "email": "To powinien być adres email",
+      "reponame": "Dozwolone znaki: A-Z, a-z, 0-9, myślnik (-), podkreślnik (_), kropka (.), i spacja.",
       "required": "To pole jest wymagane",
       "unauthorized": "Nie masz uprawnień do wykonania tej akcji.",
-      "url": "To powinien być url",
-      "reponame": "Dozwolone znaki: A-Z, a-z, 0-9, myślnik (-), podkreślnik (_), kropka (.), i spacja."
+      "url": "To powinien być url"
     },
     "events": "Zdarzenia",
     "eventsTag": {

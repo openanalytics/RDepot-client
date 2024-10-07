@@ -141,10 +141,10 @@
     "errors": {
       "copyFailed": "Copy failed",
       "email": "This should be an email",
+      "reponame": "Allowed characters: A-Z, a-z, 0-9, hyphen (-), underscore (_), period (.), and space.",
       "required": "This field is required",
       "unauthorized": "You are not authorized to perform this action",
-      "url": "This should be a url",
-      "reponame": "Allowed characters: A-Z, a-z, 0-9, hyphen (-), underscore (_), period (.), and space."
+      "url": "This should be a url"
     },
     "events": "Events",
     "eventsTag": {
