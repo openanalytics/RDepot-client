@@ -190,7 +190,7 @@
 
     <template #append>
       <v-list-item style="font-size: 0.7rem">
-        v2.4.0
+        v2.5.0
         <span v-if="getEnv('VITE_DEV_MODE') === 'true'"
           >({{
             getEnv('VITE_CURRENT_COMMIT_VERSION')
