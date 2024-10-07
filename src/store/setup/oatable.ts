@@ -20,19 +20,14 @@
  *
  */
 
-import { useOATable } from '@/store/setup/oatable'
-import { createPinia, setActivePinia } from 'pinia'
-import { beforeEach, describe, expect, it } from 'vitest'
+import { defineStore } from 'pinia'
+import { computed, ref } from 'vue'
 
-describe('Pagination Store', () => {
-  beforeEach(() => {
-    setActivePinia(createPinia())
-  })
+export const useOATable = defineStore('OATable', () => {
+  const localPageSize = ref<number>(10)
 
-  it('Starting values', () => {
-    const oaTableStore = useOATable()
-    expect(oaTableStore.pageSize).toEqual(10)
-    expect(oaTableStore.itemsPerPage).toEqual([
+  const itemsPerPage = computed(() => {
+    const defaultValues = [
       {
         value: 10,
         title: '10',
@@ -58,12 +53,43 @@ describe('Pagination Store', () => {
         title: '100',
         props: { id: 'page-items-100' }
       }
-    ])
+    ]
+    const userValue = {
+      value: pageSize.value,
+      title: pageSize.value.toString(),
+      props: {
+        id: `page-items-custom-${pageSize.value}`
+      }
+    }
+
+    return defaultValues
+      .concat([userValue])
+      .filter(
+        (value, index, self) =>
+          index ===
+          self.findIndex((t) => t.value === value.value)
+      )
+      .sort(({ value: a }, { value: b }) => a - b)
   })
 
-  it('set page size', () => {
-    const oaTableStore = useOATable()
-    oaTableStore.setPageSize(30)
-    expect(oaTableStore.pageSize).toEqual(30)
+  const pageSize = computed({
+    get: () => {
+      return localPageSize.value
+    },
+    set: (value) => {
+      if (localPageSize.value > 0) {
+        localPageSize.value = value
+      }
+    }
   })
+
+  function setPageSize(value: number) {
+    pageSize.value = value
+  }
+
+  return {
+    pageSize,
+    itemsPerPage,
+    setPageSize
+  }
 })

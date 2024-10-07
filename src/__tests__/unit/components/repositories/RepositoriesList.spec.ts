@@ -39,7 +39,6 @@ import { useAuthorizationStore } from '@/store/options/authorization'
 import me from '@/__tests__/config/mockData/me.json'
 import { nextTick } from 'vue'
 import { i18n } from '@/plugins/i18n'
-import { usePagination } from '@/store/setup/pagination'
 import { DELETE_REPO_2_ICON_ID } from '@/__tests__/integration/helpers/elementsIds'
 
 let wrapper: any
@@ -55,10 +54,6 @@ beforeEach(async () => {
   setActivePinia(createPinia())
   authorizationStore = useAuthorizationStore()
   authorizationStore.me = me.data
-  const pagination = usePagination()
-  pagination.page = 0
-  pagination.pageSize = 10
-  pagination.totalNumber = 23
   repositoriesStore = useRepositoryStore()
   await nextTick(() => {})
   wrapper = mount(RepositoriesListVue, {

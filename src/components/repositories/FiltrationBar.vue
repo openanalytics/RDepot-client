@@ -119,6 +119,7 @@
       as="v-switch"
       color="oablue"
       class="flex-grow-0"
+      cancel
       @change="setFiltration"
     ></validated-input-field>
 

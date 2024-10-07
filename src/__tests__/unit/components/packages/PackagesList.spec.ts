@@ -38,7 +38,6 @@ import packages from '@/__tests__/config/mockData/packages.json'
 import { useAuthorizationStore } from '@/store/options/authorization'
 import me from '@/__tests__/config/mockData/me.json'
 import { i18n } from '@/plugins/i18n'
-import { usePagination } from '@/store/setup/pagination'
 import { nextTick } from 'vue'
 import {
   PACKAGES_LIST_SELECT_ALL_ID,
@@ -57,10 +56,6 @@ const globalConfig = {
 beforeAll(() => {
   setActivePinia(createPinia())
   packagesStore = usePackagesStore()
-  const pagination = usePagination()
-  pagination.page = 0
-  pagination.pageSize = 10
-  pagination.totalNumber = 23
   authorizationStore = useAuthorizationStore()
   authorizationStore.me = me.data
 })

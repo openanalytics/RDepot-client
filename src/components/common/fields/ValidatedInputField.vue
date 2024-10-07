@@ -63,6 +63,7 @@ const componentProps = defineProps<{
   attrs?: object
   template?: boolean
   maxWidth?: number | string
+  cancel?: boolean
 }>()
 
 const fieldMaxWidth = computed(

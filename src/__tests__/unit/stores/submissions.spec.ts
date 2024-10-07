@@ -42,7 +42,6 @@ import {
   SubmissionsFiltration,
   defaultValues
 } from '@/models/Filtration'
-import { usePagination } from '@/store/setup/pagination'
 import { Technologies } from '@/enum/Technologies'
 import { useAuthorizationStore } from '@/store/options/authorization'
 import { server } from '@/__tests__/config/backend/server'
@@ -95,13 +94,10 @@ describe('Submissions Store', () => {
 
   it('Clear filtration', () => {
     const submissionStore = useSubmissionStore()
-    const pagination = usePagination()
     submissionStore.filtration = randomFiltration
-    pagination.page = 2
 
     submissionStore.clearFiltration()
 
-    expect(pagination.page).toBe(1)
     expect(submissionStore.filtration).toStrictEqual(
       defaultFiltration
     )
@@ -109,14 +105,11 @@ describe('Submissions Store', () => {
 
   it('Clear filtration and fetch', async () => {
     const submissionStore = useSubmissionStore()
-    const pagination = usePagination()
-    const spy = vi.spyOn(submissionStore, 'get')
+    const spy = vi.spyOn(submissionStore, 'getPage')
     submissionStore.filtration = randomFiltration
-    pagination.page = 2
 
     await submissionStore.clearFiltrationAndFetch()
 
-    expect(pagination.page).toBe(1)
     expect(submissionStore.filtration).toStrictEqual(
       defaultFiltration
     )
@@ -131,12 +124,9 @@ describe('Submissions Store', () => {
 
   it('Set filtration', () => {
     const submissionStore = useSubmissionStore()
-    const pagination = usePagination()
-    pagination.page = 2
 
     submissionStore.setFiltration(randomFiltration)
 
-    expect(pagination.page).toBe(1)
     expect(submissionStore.filtration).toStrictEqual(
       randomFiltration
     )
@@ -181,7 +171,7 @@ describe('Submissions Store', () => {
   it('Fetch submissions', async () => {
     const submissionStore = useSubmissionStore()
 
-    await submissionStore.get()
+    await submissionStore.getPage()
 
     expect(submissionStore.submissions).toStrictEqual(
       submissions.data.content
@@ -205,7 +195,7 @@ describe('Submissions Store', () => {
 
   it('Update submissions', async () => {
     const submissionStore = useSubmissionStore()
-    const spy = vi.spyOn(submissionStore, 'get')
+    const spy = vi.spyOn(submissionStore, 'getPage')
     const submission = deepCopyAny(
       submissions.data.content[0]
     )
@@ -239,7 +229,7 @@ describe('Testing submissions store with failing backend', () => {
     const submissionStore = useSubmissionStore()
 
     vi.mock('vue3-toastify')
-    await submissionStore.get()
+    await submissionStore.getPage()
 
     expect(submissionStore.submissions).toStrictEqual([])
     // expect(toast).toBeCalled()

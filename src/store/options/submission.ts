@@ -36,7 +36,6 @@ import {
 } from '@/services/submissionServices'
 import { useUtilities } from '@/composable/utilities'
 import { validatedData } from '@/services/openApiAccess'
-import { usePagination } from '@/store/setup/pagination'
 import { useToast } from '@/composable/toasts'
 import { i18n } from '@/plugins/i18n'
 import { DataTableOptions } from '@/models/DataTableOptions'
@@ -45,6 +44,7 @@ import { SubmissionEditOptions } from '@/enum/SubmissionEditOptions'
 import { useSubmissionActions } from '@/composable/submissions/submissionActions'
 import { useSubmissionAuthorizationCheck } from '@/composable/submissions/submissionAuthorities'
 import { Technologies } from '@/enum/Technologies'
+import { useOATable } from '@/store/setup/oatable'
 
 export type PackagePromise = {
   promise: Promise<validatedData<EntityModelSubmissionDto>>
@@ -85,6 +85,7 @@ interface State {
   stepperKey: number
   loading: boolean
   totalNumber: number
+  tableOptions?: DataTableOptions
 }
 
 const { deepCopy } = useUtilities()
@@ -109,7 +110,8 @@ export const useSubmissionStore = defineStore(
         resolved: false,
         stepperKey: 0,
         loading: false,
-        totalNumber: 0
+        totalNumber: 0,
+        tableOptions: undefined
       }
     },
     getters: {
@@ -123,33 +125,26 @@ export const useSubmissionStore = defineStore(
       }
     },
     actions: {
-      async getPage(options: DataTableOptions) {
+      async getPage(options?: DataTableOptions) {
+        if (options) {
+          this.tableOptions = options
+        }
         this.loading = true
+        const sortField =
+          this.tableOptions?.sortBy[0].key || 'state'
+        const sortOrder =
+          this.tableOptions?.sortBy[0].order || 'desc'
         const [submissions, pageData] =
           await fetchSubmissionsService(
             this.filtration,
-            options.page - 1,
-            options.itemsPerPage,
-            [
-              options.sortBy[0].key +
-                ',' +
-                options.sortBy[0].order
-            ]
+            (this.tableOptions?.page || 1) - 1,
+            this.tableOptions?.itemsPerPage ||
+              useOATable().pageSize,
+            [sortField + ',' + sortOrder]
           )
         this.loading = false
         this.totalNumber = pageData.totalNumber
         this.submissions = submissions
-      },
-      async get() {
-        const pagination = usePagination()
-        const pageData = await this.fetchData(
-          pagination.fetchPage,
-          pagination.pageSize,
-          this.filtration
-        )
-        pagination.newPageWithoutRefresh(pageData.page)
-        pagination.totalNumber = pageData.totalNumber
-        this.totalNumber = pageData.totalNumber
       },
       async fetchData(
         page: number,
@@ -185,7 +180,7 @@ export const useSubmissionStore = defineStore(
         await updateSubmission(oldSubmission, newSubmission)
           .then(async (response) => {
             if (Object.keys(response[0]).length > 0) {
-              await this.get()
+              await this.getPage()
             }
           })
           .finally(() => {
@@ -386,37 +381,33 @@ export const useSubmissionStore = defineStore(
                     this.submissionsToEdit.submissions = []
                     this.submissionsToEdit.pending = false
                   }
-                  this.get()
+                  this.getPage()
                 }
               })
           })
         }
       },
       async setFiltration(payload: SubmissionsFiltration) {
-        const pagination = usePagination()
-        pagination.resetPage()
         if (
           SubmissionsFiltration.safeParse(payload).success
         ) {
           this.filtration =
             SubmissionsFiltration.parse(payload)
         }
-        await this.get()
+        await this.getPage()
         const toasts = useToast()
         toasts.success(
           i18n.t('notifications.successFiltration')
         )
       },
       clearFiltration() {
-        const pagination = usePagination()
-        pagination.resetPage()
         this.filtration = defaultValues(
           SubmissionsFiltration
         )
       },
       async clearFiltrationAndFetch() {
         this.clearFiltration()
-        await this.get()
+        await this.getPage()
         const toasts = useToast()
         toasts.success(
           i18n.t('notifications.successFiltrationReset')

@@ -91,7 +91,7 @@ async function setRole() {
     const newUser = deepCopy(userStore.chosenUser)
     newUser.roleId = stringToRole(values.role || 'user') + 1
     await userStore.save(newUser)
-    await userStore.get()
+    await userStore.getPage()
     commonStore.closeOverlay()
   } else {
     toasts.warning(t('notifications.invalidform'))
