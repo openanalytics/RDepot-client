@@ -32,7 +32,7 @@
     <div class="code mb-2 mt-4 mr-2 ml-1">
       <code
         id="install-command"
-        class="d-flex justify-lg-space-between pt-7"
+        class="d-flex justify-lg-space-between"
       >
         {{ installCode }}
         <v-tooltip location="left">
@@ -92,7 +92,8 @@ const installCode = computed<string>(() => {
     `packages.installCode-${packageBag.value.technology}`,
     [
       packageBag.value.name,
-      packageBag.value.repository?.publicationUri
+      packageBag.value.repository?.publicationUri,
+      packageBag.value.repository?.name
     ]
   )
 })

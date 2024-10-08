@@ -141,6 +141,7 @@
     "errors": {
       "copyFailed": "Nieudane kopiowanie",
       "email": "To powinien być adres email",
+      "reponame": "Dozwolone znaki: A-Z, a-z, 0-9, myślnik (-), podkreślnik (_), kropka (.), i spacja.",
       "required": "To pole jest wymagane",
       "unauthorized": "Nie masz uprawnień do wykonania tej akcji.",
       "url": "To powinien być url"
@@ -341,7 +342,7 @@
     "imports": "Importuje",
     "install": "Instalacja",
     "installCode-Python": "pip install --index-url {1} {0}",
-    "installCode-R": "install.packages(\"{0}\", repos = c(rdepot = \"{1}\", getOption(\"repos\")))",
+    "installCode-R": "install.packages(\"{0}\", repos = c(\"rdepot_{2}\" = \"{1}\", getOption(\"repos\")))",
     "installInstruction-Python": "Aby zainstalować ten pakiet, wykonaj polecenie:",
     "installInstruction-R": "Aby zainstalować ten pakiet, uruchom R i wprowadź komendę:",
     "license": "Licencja",
