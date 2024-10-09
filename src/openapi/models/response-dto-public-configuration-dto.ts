@@ -20,8 +20,8 @@
  *
  */
 
-/* tslint:disable */
 /* eslint-disable */
+
 import { PublicConfigurationDto } from './public-configuration-dto'
 /**
  *

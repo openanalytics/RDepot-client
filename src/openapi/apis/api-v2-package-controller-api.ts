@@ -20,8 +20,8 @@
  *
  */
 
-/* tslint:disable */
 /* eslint-disable */
+
 import globalAxios, {
   AxiosResponse,
   AxiosInstance,

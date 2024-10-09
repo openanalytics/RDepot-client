@@ -20,8 +20,8 @@
  *
  */
 
-/* tslint:disable */
 /* eslint-disable */
+
 import { PagedModelEntityModelNewsfeedEventDto } from './paged-model-entity-model-newsfeed-event-dto'
 /**
  *

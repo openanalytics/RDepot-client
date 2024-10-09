@@ -20,8 +20,8 @@
  *
  */
 
-/* tslint:disable */
 /* eslint-disable */
+
 import getEnv from '@/utils/env'
 import { Configuration } from './configuration'
 // Some imports not used depending on template conditions
@@ -34,6 +34,7 @@ import globalAxios, {
 export const BASE_PATH = getEnv(
   'VITE_SERVER_ADDRESS'
 ).replace(/\/+$/, '')
+
 /**
  *
  * @export

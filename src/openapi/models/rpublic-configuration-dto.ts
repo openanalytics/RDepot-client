@@ -22,51 +22,28 @@
 
 /* eslint-disable */
 
-import { EntityModelPackageDto } from './entity-model-package-dto'
 /**
  *
  *
  * @export
- * @interface ResponseDtoEntityModelPackageDto
+ * @interface RPublicConfigurationDto
  */
-export interface ResponseDtoEntityModelPackageDto {
+export interface RPublicConfigurationDto {
   /**
-   * @type {string}
-   * @memberof ResponseDtoEntityModelPackageDto
+   * @type {Array<string>}
+   * @memberof RPublicConfigurationDto
    */
-  status?: ResponseDtoEntityModelPackageDtoStatusEnum
+  allowedRVersions?: Array<string>
 
   /**
-   * @type {number}
-   * @memberof ResponseDtoEntityModelPackageDto
+   * @type {Array<string>}
+   * @memberof RPublicConfigurationDto
    */
-  code?: number
+  allowedDistributions?: Array<string>
 
   /**
-   * @type {string}
-   * @memberof ResponseDtoEntityModelPackageDto
+   * @type {Array<string>}
+   * @memberof RPublicConfigurationDto
    */
-  message?: string
-
-  /**
-   * @type {string}
-   * @memberof ResponseDtoEntityModelPackageDto
-   */
-  messageCode?: string
-
-  /**
-   * @type {EntityModelPackageDto}
-   * @memberof ResponseDtoEntityModelPackageDto
-   */
-  data?: EntityModelPackageDto
-}
-
-/**
- * @export
- * @enum {string}
- */
-export enum ResponseDtoEntityModelPackageDtoStatusEnum {
-  SUCCESS = 'SUCCESS',
-  ERROR = 'ERROR',
-  WARNING = 'WARNING'
+  allowedArchitectures?: Array<string>
 }

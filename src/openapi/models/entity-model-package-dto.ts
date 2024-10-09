@@ -20,8 +20,8 @@
  *
  */
 
-/* tslint:disable */
 /* eslint-disable */
+
 import { Links } from './links'
 import { RepositoryProjection } from './repository-projection'
 import { SubmissionProjection } from './submission-projection'

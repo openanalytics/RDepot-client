@@ -20,8 +20,8 @@
  *
  */
 
-/* tslint:disable */
 /* eslint-disable */
+
 import { EntityModelPythonPackageDto } from './entity-model-python-package-dto'
 /**
  *

@@ -20,8 +20,8 @@
  *
  */
 
-/* tslint:disable */
 /* eslint-disable */
+
 import { EntityModelNewsfeedEventDto } from './entity-model-newsfeed-event-dto'
 /**
  *

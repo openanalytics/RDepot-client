@@ -20,8 +20,8 @@
  *
  */
 
-/* tslint:disable */
 /* eslint-disable */
+
 import { EntityModelUserDto } from './entity-model-user-dto'
 /**
  *

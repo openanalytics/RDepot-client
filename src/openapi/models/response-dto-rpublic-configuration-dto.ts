@@ -22,50 +22,50 @@
 
 /* eslint-disable */
 
-import { EntityModelPackageDto } from './entity-model-package-dto'
+import { RPublicConfigurationDto } from './rpublic-configuration-dto'
 /**
  *
  *
  * @export
- * @interface ResponseDtoEntityModelPackageDto
+ * @interface ResponseDtoRPublicConfigurationDto
  */
-export interface ResponseDtoEntityModelPackageDto {
+export interface ResponseDtoRPublicConfigurationDto {
   /**
    * @type {string}
-   * @memberof ResponseDtoEntityModelPackageDto
+   * @memberof ResponseDtoRPublicConfigurationDto
    */
-  status?: ResponseDtoEntityModelPackageDtoStatusEnum
+  status?: ResponseDtoRPublicConfigurationDtoStatusEnum
 
   /**
    * @type {number}
-   * @memberof ResponseDtoEntityModelPackageDto
+   * @memberof ResponseDtoRPublicConfigurationDto
    */
   code?: number
 
   /**
    * @type {string}
-   * @memberof ResponseDtoEntityModelPackageDto
+   * @memberof ResponseDtoRPublicConfigurationDto
    */
   message?: string
 
   /**
    * @type {string}
-   * @memberof ResponseDtoEntityModelPackageDto
+   * @memberof ResponseDtoRPublicConfigurationDto
    */
   messageCode?: string
 
   /**
-   * @type {EntityModelPackageDto}
-   * @memberof ResponseDtoEntityModelPackageDto
+   * @type {RPublicConfigurationDto}
+   * @memberof ResponseDtoRPublicConfigurationDto
    */
-  data?: EntityModelPackageDto
+  data?: RPublicConfigurationDto
 }
 
 /**
  * @export
  * @enum {string}
  */
-export enum ResponseDtoEntityModelPackageDtoStatusEnum {
+export enum ResponseDtoRPublicConfigurationDtoStatusEnum {
   SUCCESS = 'SUCCESS',
   ERROR = 'ERROR',
   WARNING = 'WARNING'

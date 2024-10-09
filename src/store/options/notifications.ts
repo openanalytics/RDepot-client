@@ -19,6 +19,7 @@
  * along with this program. If not, see <http://www.apache.org/licenses/>
  *
  */
+
 import { EntityModelNewsfeedEventDto } from '@/openapi'
 import { useAuthorizationStore } from '@/store/options/authorization'
 import { fetchEventsService } from '@/services/eventsServices'

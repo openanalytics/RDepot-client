@@ -20,8 +20,8 @@
  *
  */
 
-/* tslint:disable */
 /* eslint-disable */
+
 export interface ConfigurationParameters {
   apiKey?:
     | string

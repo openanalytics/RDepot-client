@@ -20,8 +20,8 @@
  *
  */
 
-/* tslint:disable */
 /* eslint-disable */
+
 import { Links } from './links'
 import { PageMetadata } from './page-metadata'
 import { PagedModelEntityModelRepositoryDtoEmbedded } from './paged-model-entity-model-repository-dto-embedded'

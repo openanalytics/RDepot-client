@@ -20,8 +20,8 @@
  *
  */
 
-/* tslint:disable */
 /* eslint-disable */
+
 import { EntityModelRepositoryMaintainerDto } from './entity-model-repository-maintainer-dto'
 /**
  *

@@ -20,8 +20,9 @@
  *
  */
 
-/* tslint:disable */
-/* eslint-disable */ export * from './apis/api-v2-access-token-controller-api'
+/* eslint-disable */
+
+export * from './apis/api-v2-access-token-controller-api'
 export * from './apis/api-v2-config-controller-api'
 export * from './apis/api-v2-newsfeed-event-controller-api'
 export * from './apis/api-v2-package-controller-api'
@@ -34,6 +35,7 @@ export * from './apis/api-v2-user-settings-controller-api'
 export * from './apis/python-package-controller-api'
 export * from './apis/python-repository-controller-api'
 export * from './apis/python-submission-controller-api'
+export * from './apis/rconfig-controller-api'
 export * from './apis/rpackage-controller-api'
 export * from './apis/rrepository-controller-api'
 export * from './apis/rsubmission-controller-api'

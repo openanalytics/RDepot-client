@@ -20,8 +20,8 @@
  *
  */
 
-/* tslint:disable */
 /* eslint-disable */
+
 import globalAxios, {
   AxiosResponse,
   AxiosInstance,
@@ -53,6 +53,8 @@ export const ApiV2NewsfeedEventControllerApiAxiosParamCreator =
        * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
        * @param {Array<string>} [technology]
        * @param {Array<string>} [userName]
+       * @param {Array<string>} [packageName]
+       * @param {Array<string>} [repositoryName]
        * @param {Array<string>} [eventType]
        * @param {Array<string>} [resourceType]
        * @param {string} [fromDate]
@@ -66,6 +68,8 @@ export const ApiV2NewsfeedEventControllerApiAxiosParamCreator =
         sort?: Array<string>,
         technology?: Array<string>,
         userName?: Array<string>,
+        packageName?: Array<string>,
+        repositoryName?: Array<string>,
         eventType?: Array<string>,
         resourceType?: Array<string>,
         fromDate?: string,
@@ -119,6 +123,16 @@ export const ApiV2NewsfeedEventControllerApiAxiosParamCreator =
 
         if (userName) {
           localVarQueryParameter['userName'] = userName
+        }
+
+        if (packageName) {
+          localVarQueryParameter['packageName'] =
+            packageName
+        }
+
+        if (repositoryName) {
+          localVarQueryParameter['repositoryName'] =
+            repositoryName
         }
 
         if (eventType) {
@@ -266,6 +280,8 @@ export const ApiV2NewsfeedEventControllerApiFp = function (
      * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
      * @param {Array<string>} [technology]
      * @param {Array<string>} [userName]
+     * @param {Array<string>} [packageName]
+     * @param {Array<string>} [repositoryName]
      * @param {Array<string>} [eventType]
      * @param {Array<string>} [resourceType]
      * @param {string} [fromDate]
@@ -279,6 +295,8 @@ export const ApiV2NewsfeedEventControllerApiFp = function (
       sort?: Array<string>,
       technology?: Array<string>,
       userName?: Array<string>,
+      packageName?: Array<string>,
+      repositoryName?: Array<string>,
       eventType?: Array<string>,
       resourceType?: Array<string>,
       fromDate?: string,
@@ -301,6 +319,8 @@ export const ApiV2NewsfeedEventControllerApiFp = function (
           sort,
           technology,
           userName,
+          packageName,
+          repositoryName,
           eventType,
           resourceType,
           fromDate,
@@ -371,6 +391,8 @@ export const ApiV2NewsfeedEventControllerApiFactory =
        * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
        * @param {Array<string>} [technology]
        * @param {Array<string>} [userName]
+       * @param {Array<string>} [packageName]
+       * @param {Array<string>} [repositoryName]
        * @param {Array<string>} [eventType]
        * @param {Array<string>} [resourceType]
        * @param {string} [fromDate]
@@ -384,6 +406,8 @@ export const ApiV2NewsfeedEventControllerApiFactory =
         sort?: Array<string>,
         technology?: Array<string>,
         userName?: Array<string>,
+        packageName?: Array<string>,
+        repositoryName?: Array<string>,
         eventType?: Array<string>,
         resourceType?: Array<string>,
         fromDate?: string,
@@ -401,6 +425,8 @@ export const ApiV2NewsfeedEventControllerApiFactory =
             sort,
             technology,
             userName,
+            packageName,
+            repositoryName,
             eventType,
             resourceType,
             fromDate,
@@ -444,6 +470,8 @@ export class ApiV2NewsfeedEventControllerApi extends BaseAPI {
    * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
    * @param {Array<string>} [technology]
    * @param {Array<string>} [userName]
+   * @param {Array<string>} [packageName]
+   * @param {Array<string>} [repositoryName]
    * @param {Array<string>} [eventType]
    * @param {Array<string>} [resourceType]
    * @param {string} [fromDate]
@@ -458,6 +486,8 @@ export class ApiV2NewsfeedEventControllerApi extends BaseAPI {
     sort?: Array<string>,
     technology?: Array<string>,
     userName?: Array<string>,
+    packageName?: Array<string>,
+    repositoryName?: Array<string>,
     eventType?: Array<string>,
     resourceType?: Array<string>,
     fromDate?: string,
@@ -475,6 +505,8 @@ export class ApiV2NewsfeedEventControllerApi extends BaseAPI {
         sort,
         technology,
         userName,
+        packageName,
+        repositoryName,
         eventType,
         resourceType,
         fromDate,

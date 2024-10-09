@@ -20,8 +20,8 @@
  *
  */
 
-/* tslint:disable */
 /* eslint-disable */
+
 import { CollectionModelRoleDto } from './collection-model-role-dto'
 /**
  *

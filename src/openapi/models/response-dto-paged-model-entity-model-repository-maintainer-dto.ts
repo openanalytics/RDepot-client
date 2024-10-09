@@ -20,8 +20,8 @@
  *
  */
 
-/* tslint:disable */
 /* eslint-disable */
+
 import { PagedModelEntityModelRepositoryMaintainerDto } from './paged-model-entity-model-repository-maintainer-dto'
 /**
  *

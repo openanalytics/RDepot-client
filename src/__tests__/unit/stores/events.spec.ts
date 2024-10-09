@@ -42,6 +42,8 @@ const defaultFiltration = {
   resourceType: undefined,
   technologies: undefined,
   userName: undefined,
+  packageName: undefined,
+  repositoryName: undefined,
   fromDate: undefined,
   toDate: undefined
 }
@@ -49,6 +51,8 @@ const defaultFiltration = {
 const randomFiltration = {
   eventType: ['update'],
   userName: 'tesla',
+  packageName: undefined,
+  repositoryName: undefined,
   technologies: [Technologies.enum.Python],
   resourceType: ['submission'],
   fromDate: '2019-05-03',

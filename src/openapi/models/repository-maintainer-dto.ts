@@ -20,8 +20,8 @@
  *
  */
 
-/* tslint:disable */
 /* eslint-disable */
+
 import { RepositoryProjection } from './repository-projection'
 import { UserProjection } from './user-projection'
 /**

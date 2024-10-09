@@ -48,12 +48,12 @@ import {
   BaseAPI,
   RequiredError
 } from '../base'
-import { ResponseDtoPublicConfigurationDto } from '../models'
+import { ResponseDtoRPublicConfigurationDto } from '../models'
 /**
- * ApiV2ConfigControllerApi - axios parameter creator
+ * RConfigControllerApi - axios parameter creator
  * @export
  */
-export const ApiV2ConfigControllerApiAxiosParamCreator =
+export const RConfigControllerApiAxiosParamCreator =
   function (configuration?: Configuration) {
     return {
       /**
@@ -61,10 +61,10 @@ export const ApiV2ConfigControllerApiAxiosParamCreator =
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
-      getPublicConfig: async (
+      getRPublicConfig: async (
         options: AxiosRequestConfig = {}
       ): Promise<RequestArgs> => {
-        const localVarPath = `/api/v2/manager/config`
+        const localVarPath = `/api/v2/manager/r/config`
         // use dummy base URL string because the URL constructor only accepts absolute URLs.
         const localVarUrlObj = new URL(
           localVarPath,
@@ -127,10 +127,10 @@ export const ApiV2ConfigControllerApiAxiosParamCreator =
   }
 
 /**
- * ApiV2ConfigControllerApi - functional programming interface
+ * RConfigControllerApi - functional programming interface
  * @export
  */
-export const ApiV2ConfigControllerApiFp = function (
+export const RConfigControllerApiFp = function (
   configuration?: Configuration
 ) {
   return {
@@ -139,20 +139,20 @@ export const ApiV2ConfigControllerApiFp = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getPublicConfig(
+    async getRPublicConfig(
       options?: AxiosRequestConfig
     ): Promise<
       (
         axios?: AxiosInstance,
         basePath?: string
       ) => Promise<
-        AxiosResponse<ResponseDtoPublicConfigurationDto>
+        AxiosResponse<ResponseDtoRPublicConfigurationDto>
       >
     > {
       const localVarAxiosArgs =
-        await ApiV2ConfigControllerApiAxiosParamCreator(
+        await RConfigControllerApiAxiosParamCreator(
           configuration
-        ).getPublicConfig(options)
+        ).getRPublicConfig(options)
       return (
         axios: AxiosInstance = globalAxios,
         basePath: string = BASE_PATH
@@ -168,10 +168,10 @@ export const ApiV2ConfigControllerApiFp = function (
 }
 
 /**
- * ApiV2ConfigControllerApi - factory interface
+ * RConfigControllerApi - factory interface
  * @export
  */
-export const ApiV2ConfigControllerApiFactory = function (
+export const RConfigControllerApiFactory = function (
   configuration?: Configuration,
   basePath?: string,
   axios?: AxiosInstance
@@ -182,38 +182,38 @@ export const ApiV2ConfigControllerApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getPublicConfig(
+    async getRPublicConfig(
       options?: AxiosRequestConfig
     ): Promise<
-      AxiosResponse<ResponseDtoPublicConfigurationDto>
+      AxiosResponse<ResponseDtoRPublicConfigurationDto>
     > {
-      return ApiV2ConfigControllerApiFp(configuration)
-        .getPublicConfig(options)
+      return RConfigControllerApiFp(configuration)
+        .getRPublicConfig(options)
         .then((request) => request(axios, basePath))
     }
   }
 }
 
 /**
- * ApiV2ConfigControllerApi - object-oriented interface
+ * RConfigControllerApi - object-oriented interface
  * @export
- * @class ApiV2ConfigControllerApi
+ * @class RConfigControllerApi
  * @extends {BaseAPI}
  */
-export class ApiV2ConfigControllerApi extends BaseAPI {
+export class RConfigControllerApi extends BaseAPI {
   /**
    *
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof ApiV2ConfigControllerApi
+   * @memberof RConfigControllerApi
    */
-  public async getPublicConfig(
+  public async getRPublicConfig(
     options?: AxiosRequestConfig
   ): Promise<
-    AxiosResponse<ResponseDtoPublicConfigurationDto>
+    AxiosResponse<ResponseDtoRPublicConfigurationDto>
   > {
-    return ApiV2ConfigControllerApiFp(this.configuration)
-      .getPublicConfig(options)
+    return RConfigControllerApiFp(this.configuration)
+      .getRPublicConfig(options)
       .then((request) => request(this.axios, this.basePath))
   }
 }

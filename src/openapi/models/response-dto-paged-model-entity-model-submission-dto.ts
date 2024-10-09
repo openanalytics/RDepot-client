@@ -20,8 +20,8 @@
  *
  */
 
-/* tslint:disable */
 /* eslint-disable */
+
 import { PagedModelEntityModelSubmissionDto } from './paged-model-entity-model-submission-dto'
 /**
  *

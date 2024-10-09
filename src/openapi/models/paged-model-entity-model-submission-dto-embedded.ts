@@ -20,8 +20,8 @@
  *
  */
 
-/* tslint:disable */
 /* eslint-disable */
+
 import { EntityModelSubmissionDto } from './entity-model-submission-dto'
 /**
  *

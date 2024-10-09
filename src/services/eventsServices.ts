@@ -60,6 +60,8 @@ export async function fetchEventsService(
       undefined,
       localFiltration,
       filtration.userName,
+      filtration.packageName,
+      filtration.repositoryName,
       filtration.eventType,
       filtration.resourceType,
       filtration.fromDate,
