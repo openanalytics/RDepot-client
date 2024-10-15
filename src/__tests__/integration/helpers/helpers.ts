@@ -26,10 +26,11 @@ const {
   Builder,
   By,
   until,
-  Browser,
-  chrome
+  Browser
   // eslint-disable-next-line @typescript-eslint/no-require-imports
 } = require('selenium-webdriver')
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const chrome = require('selenium-webdriver/chrome')
 const BASE_URL = 'http://192.168.49.20'
 import path from 'path'
 import fs from 'fs'

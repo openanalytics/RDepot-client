@@ -31,7 +31,8 @@ export default [
       '.husky',
       '.vscode',
       '**/*.json',
-      '**/dist/'
+      '**/dist/',
+      '**/docker/'
     ]
   },
   {
