@@ -6,7 +6,7 @@
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
     "lint": "eslint . --fix --ignore-pattern .gitignore",
-    "lint:check": "eslint-output --ignore-pattern .gitignore --max-warnings 0",
+    "lint:check": "eslint --ignore-pattern .gitignore --max-warnings 0",
     "lint:staged": "eslint --fix $(git diff --diff-filter=d --cached --name-only)",
     "license:check": "node ./license_checker.js",
     "test:setup": "sh test.sh && npm run restore",
