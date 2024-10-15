@@ -30,7 +30,8 @@ const EXTENSIONS_WITH_LICENSE = [
   'vue',
   'ts',
   'js',
-  'css'
+  'css',
+  'mjs'
 ]
 const EXTENSION_WITHOUT_LICENSE = [
   'md',
