@@ -20,8 +20,6 @@
  *
  */
 
-/* eslint-disable */
-
 import { ChangedVariableDto } from './changed-variable-dto'
 import { IDto } from './idto'
 import { Links } from './links'

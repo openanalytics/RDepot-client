@@ -20,8 +20,6 @@
  *
  */
 
-/* eslint-disable */
-
 import { RPublicConfigurationDto } from './rpublic-configuration-dto'
 /**
  *

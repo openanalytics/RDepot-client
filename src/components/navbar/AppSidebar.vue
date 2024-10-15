@@ -249,13 +249,19 @@ function logout() {
 
 .nestedIcon.v-theme--dark {
   color: white;
-  text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000,
+  text-shadow:
+    -1px 0 #000,
+    0 1px #000,
+    1px 0 #000,
     0 -1px #000;
 }
 
 .nestedIcon.v-theme--light {
   color: white;
-  text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000,
+  text-shadow:
+    -1px 0 #000,
+    0 1px #000,
+    1px 0 #000,
     0 -1px #000;
 }
 </style>

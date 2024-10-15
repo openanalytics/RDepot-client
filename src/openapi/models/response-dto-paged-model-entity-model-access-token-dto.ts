@@ -20,8 +20,6 @@
  *
  */
 
-/* eslint-disable */
-
 import { PagedModelEntityModelAccessTokenDto } from './paged-model-entity-model-access-token-dto'
 /**
  *

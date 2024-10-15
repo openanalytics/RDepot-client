@@ -20,8 +20,6 @@
  *
  */
 
-/* eslint-disable */
-
 import { IDtoPackageBagRepository } from './idto-package-bag-repository'
 /**
  *

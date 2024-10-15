@@ -20,8 +20,6 @@
  *
  */
 
-/* eslint-disable */
-
 import { EntityModelAccessTokenDto } from './entity-model-access-token-dto'
 /**
  *

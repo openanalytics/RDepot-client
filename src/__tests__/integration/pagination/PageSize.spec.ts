@@ -45,6 +45,7 @@ import {
   waitUntilElementIsInvisible
 } from '../helpers/helpers'
 
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const { By, until, Key } = require('selenium-webdriver')
 
 let driver: any
@@ -70,13 +71,13 @@ describe('Custom page size', () => {
       .findElement(By.id(SETTINGS_GENERAL_LIST_SIDEBAR_ID))
       .then(async function (element: any) {
         await driver.wait(function () {
-          return element
-            .isDisplayed()
-            .then(function (displayed: any) {
-              if (!displayed) return false
+          return element.isDisplayed().then(function (
+            displayed: any
+          ) {
+            if (!displayed) return false
 
-              return element.isEnabled()
-            })
+            return element.isEnabled()
+          })
         })
         await element.click()
       })
@@ -168,13 +169,13 @@ describe('Custom page size', () => {
       .findElement(By.id(SETTINGS_GENERAL_LIST_SIDEBAR_ID))
       .then(async function (element: any) {
         await driver.wait(function () {
-          return element
-            .isDisplayed()
-            .then(function (displayed: any) {
-              if (!displayed) return false
+          return element.isDisplayed().then(function (
+            displayed: any
+          ) {
+            if (!displayed) return false
 
-              return element.isEnabled()
-            })
+            return element.isEnabled()
+          })
         })
         await element.click()
       })

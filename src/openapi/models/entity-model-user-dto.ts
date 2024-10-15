@@ -20,8 +20,6 @@
  *
  */
 
-/* eslint-disable */
-
 import { Links } from './links'
 import { UserSettingsProjection } from './user-settings-projection'
 /**

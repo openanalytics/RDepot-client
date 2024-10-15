@@ -20,8 +20,6 @@
  *
  */
 
-/* eslint-disable */
-
 import { CollectionModelRoleDtoEmbedded } from './collection-model-role-dto-embedded'
 import { Links } from './links'
 /**

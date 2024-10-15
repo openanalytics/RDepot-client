@@ -125,8 +125,8 @@
             configStore.declarativeMode
               ? $t('repositories.declarative.edit')
               : item.deleted
-              ? $t('repositories.deleted')
-              : undefined
+                ? $t('repositories.deleted')
+                : undefined
           "
           @set-entity="chooseRepositoryToUpdate(item)"
         />
@@ -144,10 +144,10 @@
             configStore.declarativeMode
               ? $t('repositories.declarative.delete')
               : !configStore.deletingRepositories
-              ? $t('config.deletingRepositories')
-              : item.deleted
-              ? $t('repositories.deleted')
-              : undefined
+                ? $t('config.deletingRepositories')
+                : item.deleted
+                  ? $t('repositories.deleted')
+                  : undefined
           "
           @set-resource-id="chooseRepositoryToUpdate(item)"
         /> </span

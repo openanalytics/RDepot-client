@@ -44,6 +44,7 @@ import {
 } from '../helpers/helpers'
 import { useConfigStore } from '@/store/options/config'
 import { createPinia, setActivePinia } from 'pinia'
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const { By, until } = require('selenium-webdriver')
 
 let driver: any
@@ -70,13 +71,13 @@ describe('Create Token', () => {
       .findElement(By.id(ACCESS_TOKENS_SIDEBAR_ID))
       .then(async function (element: any) {
         await driver.wait(function () {
-          return element
-            .isDisplayed()
-            .then(function (displayed: any) {
-              if (!displayed) return false
+          return element.isDisplayed().then(function (
+            displayed: any
+          ) {
+            if (!displayed) return false
 
-              return element.isEnabled()
-            })
+            return element.isEnabled()
+          })
         })
         await element.click()
       })

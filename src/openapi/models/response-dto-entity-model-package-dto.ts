@@ -20,8 +20,6 @@
  *
  */
 
-/* eslint-disable */
-
 import { EntityModelPackageDto } from './entity-model-package-dto'
 /**
  *

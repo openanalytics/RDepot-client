@@ -20,8 +20,6 @@
  *
  */
 
-/* eslint-disable */
-
 import { EntityModelRepositoryDto } from './entity-model-repository-dto'
 /**
  *

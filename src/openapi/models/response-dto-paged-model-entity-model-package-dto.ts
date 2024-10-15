@@ -20,8 +20,6 @@
  *
  */
 
-/* eslint-disable */
-
 import { PagedModelEntityModelPackageDto } from './paged-model-entity-model-package-dto'
 /**
  *

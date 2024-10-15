@@ -79,7 +79,9 @@
           <v-card class="additional-row expanded-package">
             <PackageDescription
               class="short expanded-package"
-              :package-bag-short="(item as EntityModelPackageDto)"
+              :package-bag-short="
+                item as EntityModelPackageDto
+              "
             />
           </v-card>
         </div>

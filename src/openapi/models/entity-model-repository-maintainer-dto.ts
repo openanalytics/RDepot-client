@@ -20,8 +20,6 @@
  *
  */
 
-/* eslint-disable */
-
 import { Links } from './links'
 import { RepositoryProjection } from './repository-projection'
 import { UserProjection } from './user-projection'

@@ -71,5 +71,5 @@
   "eslint.validate": [
     "vue",
     "javascript",
-]
+  ]
 }

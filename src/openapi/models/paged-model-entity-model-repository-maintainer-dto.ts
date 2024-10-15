@@ -20,8 +20,6 @@
  *
  */
 
-/* eslint-disable */
-
 import { Links } from './links'
 import { PageMetadata } from './page-metadata'
 import { PagedModelEntityModelRepositoryMaintainerDtoEmbedded } from './paged-model-entity-model-repository-maintainer-dto-embedded'

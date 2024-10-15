@@ -20,8 +20,6 @@
  *
  */
 
-/* eslint-disable */
-
 import { Vignette } from './vignette'
 /**
  *
