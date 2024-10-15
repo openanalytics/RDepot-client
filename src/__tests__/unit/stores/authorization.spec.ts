@@ -46,7 +46,7 @@ describe('Logged user store tests', () => {
   })
 
   afterAll(() => {
-    server.close
+    server.close()
   })
 
   it('Default state', () => {

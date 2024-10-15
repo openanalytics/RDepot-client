@@ -102,7 +102,7 @@ function copyContent() {
   try {
     copy(installCode.value)
     toasts.success(t('common.copied'))
-  } catch (error) {
+  } catch {
     toasts.error(t('common.errors.copyFailed'))
   }
 }

@@ -72,7 +72,7 @@ describe('Event Store', () => {
   })
 
   afterAll(() => {
-    server.close
+    server.close()
   })
 
   it('Starting values', () => {

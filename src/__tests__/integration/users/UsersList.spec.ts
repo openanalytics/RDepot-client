@@ -41,6 +41,7 @@ import {
   USERS_SIDEBAR_ID
 } from '../helpers/elementsIds'
 import { platform } from 'os'
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const { By, Key } = require('selenium-webdriver')
 
 let driver: any

@@ -27,6 +27,7 @@ import {
 } from './elementsIds'
 import { clickOnElementByXpath } from './helpers'
 
+// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unused-vars
 const { Builder, By, until } = require('selenium-webdriver')
 const url = 'http://192.168.49.20'
 const PASSWORD = 'testpassword'

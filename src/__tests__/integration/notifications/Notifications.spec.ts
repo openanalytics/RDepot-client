@@ -41,6 +41,7 @@ import {
   PACKAGES_LIST_ACTIVATE_BUTTON_ID
 } from '../helpers/elementsIds'
 import { createPinia, setActivePinia } from 'pinia'
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const { By, until } = require('selenium-webdriver')
 
 let driver: any

@@ -54,6 +54,7 @@ import { z } from 'zod'
 import { useDates } from '@/composable/date'
 
 const { formatDate } = useDates()
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const allowedVariants = z.enum([
   'tonal',
   'flat',
@@ -69,15 +70,13 @@ defineProps({
   value: {
     type: Object as () => string,
     required: false,
-    default: () => {
-      ;('')
-    }
+    default: () => {}
   },
   hoverMessage: {
     type: Object as () => string,
     required: false,
     default: () => {
-      ;('')
+      return ''
     }
   },
   color: {

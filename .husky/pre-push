@@ -3,4 +3,3 @@
 
 npm run license:check
 npm run lint
-npm run lint:vue

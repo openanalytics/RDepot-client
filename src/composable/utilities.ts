@@ -94,7 +94,7 @@ export function useUtilities() {
         copy(value)
         toasts.success(feedbackMessage)
       }
-    } catch (error) {
+    } catch {
       toasts.error(i18n.t('common.errors.copyFailed'))
     }
   }

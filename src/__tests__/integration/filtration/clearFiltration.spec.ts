@@ -53,6 +53,7 @@ import {
   goToPageURL,
   setInputValue
 } from '../helpers/helpers'
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const { By, until } = require('selenium-webdriver')
 
 let driver: any

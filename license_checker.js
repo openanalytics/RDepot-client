@@ -20,8 +20,8 @@
  *
  */
 
-const path = require('path')
-const fs = require('fs')
+import { join } from 'path'
+import { readFileSync, readdirSync } from 'fs'
 
 const RE_GET_EXTENSION = /(?:\.([^.]+))?$/
 const EXTENSIONS_WITH_LICENSE = [
@@ -79,7 +79,7 @@ const DIRS_WITHOUT_LICENSE_CHECKING = [
   'reports'
 ]
 
-const license_header = fs.readFileSync('LICENSE').toString()
+const license_header = readFileSync('LICENSE').toString()
 
 var newExtensions = []
 var wrongLicense = []
@@ -101,7 +101,7 @@ function checkLicenseInAllFiles() {
   let numberOfFilesChecked = 0
   for (const file of readAllFiles('./')) {
     var filename = file.toString()
-    const content = fs.readFileSync(file.toString())
+    const content = readFileSync(file.toString())
     var comment
     if (
       filename.includes('.vue') ||
@@ -126,19 +126,19 @@ function checkLicenseInAllFiles() {
 }
 
 function* readAllFiles(dir) {
-  const files = fs.readdirSync(dir, { withFileTypes: true })
+  const files = readdirSync(dir, { withFileTypes: true })
 
   for (const file of files) {
     if (file.isDirectory()) {
       if (
         !DIRS_WITHOUT_LICENSE_CHECKING.includes(file.name)
       ) {
-        yield* readAllFiles(path.join(dir, file.name))
+        yield* readAllFiles(join(dir, file.name))
       }
     } else {
       var extension = RE_GET_EXTENSION.exec(file.name)[1]
       if (EXTENSIONS_WITH_LICENSE.includes(extension)) {
-        yield path.join(dir, file.name)
+        yield join(dir, file.name)
       } else {
         if (
           extension &&
