@@ -46,6 +46,7 @@ import { RouteRecordName } from 'vue-router'
 import { useCommonStore } from './common'
 import { EntityModelUserDto } from '@/openapi'
 import vuetify from '@/plugins/vuetify'
+import { useNotificationStore } from './notifications'
 
 interface State {
   userToken: string
@@ -83,6 +84,12 @@ export const useAuthorizationStore = defineStore(
         configStore.fetchConfiguration()
       },
 
+      async postLoginAsyncOperations() {
+        localStorage.setItem('shouldNotifyEvents', 'true')
+        const notificationStore = useNotificationStore()
+        notificationStore.getNotifications()
+      },
+
       async login() {
         this.chooseLoginType(LoginType.Enum.OIDC)
         authService.login()
@@ -94,6 +101,7 @@ export const useAuthorizationStore = defineStore(
         await login(data).then(async (token) => {
           this.userToken = token
           await this.postLoginOperations()
+          this.postLoginAsyncOperations()
           router.push({ name: 'packages' })
         })
       },
@@ -110,6 +118,9 @@ export const useAuthorizationStore = defineStore(
         this.userRole = undefined
         this.me = {}
         localStorage.removeItem('authorizationStore')
+        localStorage.removeItem(
+          'notificationStore.shouldNotifyEvents'
+        )
       },
 
       async isUserLoggedIn(): Promise<boolean> {

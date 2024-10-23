@@ -23,7 +23,6 @@
 <template>
   <v-tooltip location="top">
     <template #activator="{ props }">
-      <!-- TODO check how to send binary package and make condition check if you need to modify the item from File to object {file: File, binary: false, distribution: undefined, Rversion: undefined, architecture: undefined } for R repo -->
       <v-btn
         id="binary-button"
         :icon="binaryIcon"

@@ -20,6 +20,7 @@
  *
  */
 
+/* eslint-disable @typescript-eslint/no-require-imports */
 const path = require('path')
 const fs = require('fs')
 
@@ -29,7 +30,8 @@ const EXTENSIONS_WITH_LICENSE = [
   'vue',
   'ts',
   'js',
-  'css'
+  'css',
+  'mjs'
 ]
 const EXTENSION_WITHOUT_LICENSE = [
   'md',

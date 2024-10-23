@@ -41,6 +41,7 @@ import {
   clickOnElementByCss,
   delay
 } from '../helpers/helpers'
+// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unused-vars
 const { By, until, Builder } = require('selenium-webdriver')
 
 let driver: any

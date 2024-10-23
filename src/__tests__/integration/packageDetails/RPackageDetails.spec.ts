@@ -41,6 +41,7 @@ import {
 import { restoreData } from '../helpers/restoreData'
 import { login } from '../helpers/login'
 import { createDriver } from '../helpers/helpers'
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const { By, until } = require('selenium-webdriver')
 
 let driver: any
@@ -75,13 +76,13 @@ describe('R Package details', () => {
       .findElement(By.id(PACKAGE_DETAILS_BUTTON_ID))
       .then(async function (element: any) {
         await driver.wait(function () {
-          return element
-            .isDisplayed()
-            .then(function (displayed: any) {
-              if (!displayed) return false
+          return element.isDisplayed().then(function (
+            displayed: any
+          ) {
+            if (!displayed) return false
 
-              return element.isEnabled()
-            })
+            return element.isEnabled()
+          })
         })
         await element.click()
       })

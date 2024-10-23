@@ -59,5 +59,6 @@ export default new Map<string, string>([
   ['users', 'mdi-account-multiple'],
   ['repositories', 'mdi-folder-network'],
   ['waiting', 'mdi-progress-question'],
-  ['exclamation', 'mdi-exclamation']
+  ['exclamation', 'mdi-exclamation'],
+  ['notification', 'mdi-bell']
 ])

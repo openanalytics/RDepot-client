@@ -32,7 +32,7 @@ import { i18n } from '@/plugins/i18n'
 import { BackendError } from '@/models/errors/BackendError'
 
 export async function openApiRequest<T>(
-  // eslint-disable-next-line @typescript-eslint/ban-types
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
   callback: Function,
   parameters?: any[],
   showProgress = false,

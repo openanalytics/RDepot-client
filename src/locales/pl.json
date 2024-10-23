@@ -141,6 +141,7 @@
     "errors": {
       "copyFailed": "Nieudane kopiowanie",
       "email": "To powinien być adres email",
+      "reponame": "Dozwolone znaki: A-Z, a-z, 0-9, myślnik (-), podkreślnik (_), kropka (.), i spacja.",
       "required": "To pole jest wymagane",
       "unauthorized": "Nie masz uprawnień do wykonania tej akcji.",
       "url": "To powinien być url"
@@ -259,6 +260,27 @@
   },
   "notifications": {
     "acceptSubmission": "Zgłoszenie zaakceptowane",
+    "events": {
+      "active": {
+        "false": "deaktywowano",
+        "true": "aktywowano"
+      },
+      "alreadySeen": "przeczytane",
+      "create": "utworzono",
+      "delete": "usunięto",
+      "published": {
+        "false": "odpublikowano",
+        "true": "opublikowano"
+      },
+      "state": {
+        "accepted": "zaakceptowano",
+        "cancelled": "anulowano",
+        "rejected": "odrzucono"
+      },
+      "upToDate": "brak nowych powiadomień",
+      "updated": "edytowano",
+      "upload": "wgrano"
+    },
     "insufficientPermissions": "Wybrany użytkownik nie ma wystarczających uprawnień.",
     "invalidform": "Przesłane dane są niepoprawne",
     "successCancelSubmission": "Zgłoszenie anulowane",
@@ -273,7 +295,8 @@
     "successUpdatePackageManager": "Zaktualizowano {maintainer_name}",
     "successUpdateRepositoryMaintainer": "Zaktualizowano {maintainer_name}",
     "successUpdateRepositoryManager": "Zaktualizowano {maintainer_name}",
-    "successUpdateUser": "Dane użytkownika zaktualizowane"
+    "successUpdateUser": "Dane użytkownika zaktualizowane",
+    "title": "Powiadomienia"
   },
   "package": {
     "chooseOneToEnable": "wybierz co najmniej jedną paczkę aby odblokować",
@@ -322,7 +345,7 @@
     "imports": "Importuje",
     "install": "Instalacja",
     "installCode-Python": "pip install --index-url {1} {0}",
-    "installCode-R": "install.packages(\"{0}\", repos = c(rdepot = \"{1}\", getOption(\"repos\")))",
+    "installCode-R": "install.packages(\"{0}\", repos = c(\"rdepot_{2}\" = \"{1}\", getOption(\"repos\")))",
     "installInstruction-Python": "Aby zainstalować ten pakiet, wykonaj polecenie:",
     "installInstruction-R": "Aby zainstalować ten pakiet, uruchom R i wprowadź komendę:",
     "license": "Licencja",
@@ -372,7 +395,7 @@
     "addRepository": "Utwórz repozytorium",
     "creation": {
       "duplicateName": "Repozytorium o tej nazwie już istnieje",
-      "hash": "Metoda szyfrowania",
+      "hash": "Metoda haszowania",
       "name": "Nazwa",
       "publicationUri": "URI publikacji",
       "publicationUriPlaceholder": "http://localhost/repo/{'{name}'}",
@@ -389,7 +412,7 @@
     },
     "deleted": "To repozytorium jest usunięte",
     "details": {
-      "hash-method": "Metoda szyfrowania",
+      "hash-method": "Metoda haszowania",
       "last-modification-date": "Data ostatniej modyfikacji",
       "last-publication-date": "Data ostatniej publikacji",
       "publication-failed": "publikacja nie powiodła się",
@@ -409,7 +432,7 @@
       "searchBox": "Repozytorium..."
     },
     "list": "Repozytoria",
-    "maintainers": "Opiekunowie repozytorium"
+    "maintainers": "Opiekunowie repozytoriów"
   },
   "repositorymaintainer": {
     "duplicate": "Użytkownik jest już przypisany do wybranego repozytorium"
@@ -427,6 +450,8 @@
     "admin": "Administrator"
   },
   "settings": {
+    "changeLanguage": "Zmień Język",
+    "changeTheme": "Zmień motyw",
     "create": "Nowy access token",
     "deactivate": "Dezaktywuj token",
     "deactivateQuestion": "Czy na pewno chcesz dezaktywować token <strong>{0}</strong>?",

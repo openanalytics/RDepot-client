@@ -33,7 +33,6 @@ import {
 import { fetchRepositoriesService } from '@/services/repositoryServices'
 import { createRepository } from '@/services/repositoryServices'
 import { useUtilities } from '@/composable/utilities'
-import { usePagination } from '@/store/setup/pagination'
 import { DataTableOptions } from '@/models/DataTableOptions'
 import { useSortStore } from './sort'
 import { Technologies } from '@/enum/Technologies'
@@ -41,6 +40,7 @@ import {
   fetchTechnologyRepository,
   updateTechnologyRepository
 } from '@/maps/repositories/RepositoryTechnology'
+import { useOATable } from '@/store/setup/oatable'
 
 const { deepCopy } = useUtilities()
 export type CombinedRepositoryModel =
@@ -53,6 +53,7 @@ interface State {
   pending: CombinedRepositoryModel[]
   loading: boolean
   totalNumber: number
+  tableOptions?: DataTableOptions
 }
 
 export const useRepositoryStore = defineStore(
@@ -65,7 +66,8 @@ export const useRepositoryStore = defineStore(
         chosenRepository: {},
         pending: [],
         loading: false,
-        totalNumber: 0
+        totalNumber: 0,
+        tableOptions: undefined
       }
     },
     getters: {
@@ -79,18 +81,23 @@ export const useRepositoryStore = defineStore(
       }
     },
     actions: {
-      async getPage(options: DataTableOptions) {
+      async getPage(options?: DataTableOptions) {
+        if (options) {
+          this.tableOptions = options
+        }
         this.loading = true
+        const sortField =
+          this.tableOptions?.sortBy[0].key || 'name'
+        const sortOrder =
+          this.tableOptions?.sortBy[0].order || 'asc'
+        console.log(this.tableOptions)
         const [repositories, pageData] =
           await fetchRepositoriesService(
             this.filtration,
-            options.page - 1,
-            options.itemsPerPage,
-            [
-              options.sortBy[0].key +
-                ',' +
-                options.sortBy[0].order
-            ]
+            (this.tableOptions?.page || 1) - 1,
+            this.tableOptions?.itemsPerPage ||
+              useOATable().pageSize,
+            [sortField + ',' + sortOrder]
           )
         this.totalNumber = pageData.totalNumber
         this.repositories = repositories
@@ -138,16 +145,6 @@ export const useRepositoryStore = defineStore(
         }
         return []
       },
-      async getRepositories() {
-        const pagination = usePagination()
-        const pageData = await this.fetchData(
-          pagination.fetchPage,
-          pagination.pageSize,
-          this.filtration
-        )
-        pagination.newPageWithoutRefresh(pageData.page)
-        pagination.totalNumber = pageData.totalNumber
-      },
       async fetchData(
         page: number,
         pageSize: number,
@@ -192,7 +189,7 @@ export const useRepositoryStore = defineStore(
             newRepository
           )
             .then(async (success: any) => {
-              if (success) await this.getRepositories()
+              if (success) await this.getPage()
             })
             .finally(() => {
               this.pending = this.pending.filter(
@@ -207,7 +204,7 @@ export const useRepositoryStore = defineStore(
       ) {
         await createRepository(newRepository)?.then(
           async (success) => {
-            if (success) await this.getRepositories()
+            if (success) await this.getPage()
           }
         )
       },
@@ -224,33 +221,25 @@ export const useRepositoryStore = defineStore(
         }
       },
       async setFiltration(payload: RepositoriesFiltration) {
-        const pagination = usePagination()
-        pagination.resetPage()
         if (
           RepositoriesFiltration.safeParse(payload).success
         ) {
           this.filtration =
             RepositoriesFiltration.parse(payload)
         }
-        await this.getRepositories()
+        await this.getPage()
       },
       setFiltrationBy(filtration: object) {
-        this.clearFiltration()
         this.filtration = {
           ...defaultValues(RepositoriesFiltration),
           ...(filtration as RepositoriesFiltration)
         }
       },
-      clearFiltration() {
-        const pagination = usePagination()
-        pagination.page = 1
+      async clearFiltration() {
         this.filtration = defaultValues(
           RepositoriesFiltration
         )
-      },
-      async clearFiltrationAndFetch() {
-        this.clearFiltration()
-        await this.getRepositories()
+        // await this.getPage()
       }
     }
   }

@@ -67,10 +67,10 @@ import {
   checkIfDisabled,
   delay
 } from '../helpers/helpers'
+import fs from 'fs'
 
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const { By, until } = require('selenium-webdriver')
-
-const fs = require('fs')
 
 let driver: any
 const pathToFileOrDir = './downloads/'

@@ -48,6 +48,7 @@ import {
   REPOSITORY_DESCRIPTION_PUBLICATION_STATUS_ID
 } from '../helpers/elementsIds'
 import { platform } from 'os'
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const { By, until, Key } = require('selenium-webdriver')
 
 let driver: any

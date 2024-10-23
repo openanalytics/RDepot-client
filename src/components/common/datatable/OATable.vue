@@ -22,13 +22,13 @@
 
 <template>
   <v-data-table-server
-    :items-per-page="pagination.pageSize"
+    :items-per-page="oaTableStore.pageSize"
     return-object
     :headers="headers"
     :sort-asc-icon="Icons.get('ascending')"
     :sort-desc-icon="Icons.get('descending')"
     color="oablue"
-    :items-per-page-options="pagination.itemsPerPage"
+    :items-per-page-options="oaTableStore.itemsPerPage"
     :items-per-page-text="$t('datatable.itemsPerPage')"
     :items-length="itemsLength"
     :items="items"
@@ -102,7 +102,7 @@
 </template>
 
 <script setup lang="ts">
-import { usePagination } from '@/store/setup/pagination'
+import { useOATable } from '@/store/setup/oatable'
 import TechnologyChip from '../chips/TechnologyChip.vue'
 import Icons from '@/maps/Icons'
 import { DataTableHeaders } from '@/models/DataTableOptions'
@@ -110,7 +110,7 @@ import DateChip from '../chips/DateChip.vue'
 import StateIcon from '@/components/submissions/icons/StateIcon.vue'
 import CopyableCell from './CopyableCell.vue'
 
-const pagination = usePagination()
+const oaTableStore = useOATable()
 
 const technologyKeys = [
   'packageBag.repository.technology',

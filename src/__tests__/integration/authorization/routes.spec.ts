@@ -39,6 +39,7 @@ import {
   goToPage,
   clickOnButton
 } from '../helpers/helpers'
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const { By, until } = require('selenium-webdriver')
 
 let driver: any
@@ -321,13 +322,13 @@ describe('Admin access', () => {
       .findElement(By.id('sidebar-settings-access-tokens'))
       .then(async function (element: any) {
         await driver.wait(function () {
-          return element
-            .isDisplayed()
-            .then(function (displayed: any) {
-              if (!displayed) return false
+          return element.isDisplayed().then(function (
+            displayed: any
+          ) {
+            if (!displayed) return false
 
-              return element.isEnabled()
-            })
+            return element.isEnabled()
+          })
         })
         await element.click()
       })
@@ -349,13 +350,13 @@ describe('Admin access', () => {
       .findElement(By.id('sidebar-settings-general'))
       .then(async function (element: any) {
         await driver.wait(function () {
-          return element
-            .isDisplayed()
-            .then(function (displayed: any) {
-              if (!displayed) return false
+          return element.isDisplayed().then(function (
+            displayed: any
+          ) {
+            if (!displayed) return false
 
-              return element.isEnabled()
-            })
+            return element.isEnabled()
+          })
         })
         await element.click()
       })

@@ -123,10 +123,39 @@ describe('Add submission - second step', () => {
     }
     await nextTick(() => {})
     const checkboxMarked = wrapper.find(
-      '.mdi-checkbox-marked-outline'
+      '#generate-manual-button .mdi-checkbox-marked-outline'
     )
     const checkboxUnmarked = wrapper.find(
-      '.mdi-checkbox-blank-outline'
+      '#generate-manual-button .mdi-checkbox-blank-outline'
+    )
+
+    expect(checkboxUnmarked.isVisible()).toBeTruthy()
+    expect(checkboxMarked.exists()).toBeFalsy()
+    expect(wrapper.text()).toContain('Generate manual')
+  })
+
+  it('binary exists if package is not Python', async () => {
+    const submissionsStore = useSubmissionStore()
+    const files = [
+      {
+        name: 'A3_1.0.0.tar.gz',
+        type: 'application/gzip'
+      } as File
+    ]
+    wrapper.vm.valid = true
+    wrapper.vm.files = files
+    wrapper.vm.filesLocal = files
+    const filesStore = useFilesListStore()
+    filesStore.files = files
+    submissionsStore.repository = {
+      technology: 'R'
+    }
+    await nextTick(() => {})
+    const checkboxMarked = wrapper.find(
+      '#binary-button .mdi-checkbox-marked-outline'
+    )
+    const checkboxUnmarked = wrapper.find(
+      '#binary-button .mdi-checkbox-blank-outline'
     )
 
     expect(checkboxUnmarked.isVisible()).toBeTruthy()
@@ -172,7 +201,7 @@ describe('Add submission - second step', () => {
     expect(checkboxMarked.isVisible()).toBeTruthy()
   })
 
-  it('generate manual exists if package is not Python', async () => {
+  it('generate manual does not exists if package is Python', async () => {
     const submissionsStore = useSubmissionStore()
     const files = [
       {
@@ -198,6 +227,35 @@ describe('Add submission - second step', () => {
       '.mdi-checkbox-blank-outline'
     )
     expect(checkboxUnmarked.exists()).toBeTruthy()
+    expect(wrapper.text()).not.toContain('generate manual')
+  })
+
+  it('binary does not exists if package is Python', async () => {
+    const submissionsStore = useSubmissionStore()
+    const files = [
+      {
+        name: 'A3_1.0.0.tar.gz',
+        type: 'application/gzip'
+      } as File
+    ]
+    wrapper.vm.valid = true
+    wrapper.vm.files = files
+    wrapper.vm.filesLocal = files
+    const filesStore = useFilesListStore()
+    filesStore.files = files
+    submissionsStore.repository = {
+      technology: 'Python'
+    }
+
+    await nextTick(() => {})
+    const checkboxMarked = wrapper.find(
+      '#binary-button .mdi-checkbox-marked-outline'
+    )
+    expect(checkboxMarked.exists()).toBeFalsy()
+    const checkboxUnmarked = wrapper.find(
+      '#binary-button .mdi-checkbox-blank-outline'
+    )
+    expect(checkboxUnmarked.exists()).toBeFalsy()
     expect(wrapper.text()).not.toContain('generate manual')
   })
 })

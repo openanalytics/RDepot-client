@@ -40,9 +40,9 @@ import {
   fetchPackageMaintainerService
 } from '@/services/packageMaintainersService'
 import { useUtilities } from '@/composable/utilities'
-import { usePagination } from '@/store/setup/pagination'
 import { DataTableOptions } from '@/models/DataTableOptions'
 import { useSortStore } from './sort'
+import { useOATable } from '@/store/setup/oatable'
 
 interface State {
   maintainers: EntityModelPackageMaintainerDto[]
@@ -53,6 +53,7 @@ interface State {
   pending: EntityModelPackageMaintainerDto[]
   loading: boolean
   totalNumber: number
+  tableOptions?: DataTableOptions
 }
 
 const { deepCopy } = useUtilities()
@@ -71,7 +72,8 @@ export const usePackageMaintainersStore = defineStore(
         pending: [],
         chosenMaintainer: {},
         loading: false,
-        totalNumber: 0
+        totalNumber: 0,
+        tableOptions: undefined
       }
     },
     getters: {
@@ -85,18 +87,22 @@ export const usePackageMaintainersStore = defineStore(
       }
     },
     actions: {
-      async getPage(options: DataTableOptions) {
+      async getPage(options?: DataTableOptions) {
+        if (options) {
+          this.tableOptions = options
+        }
         this.loading = true
+        const sortField =
+          this.tableOptions?.sortBy[0].key || 'user'
+        const sortOrder =
+          this.tableOptions?.sortBy[0].order || 'asc'
         const [maintainers, pageData] =
           await fetchPackageMaintainerService(
             this.filtration,
-            options.page - 1,
-            options.itemsPerPage,
-            [
-              options.sortBy[0].key +
-                ',' +
-                options.sortBy[0].order
-            ]
+            (this.tableOptions?.page || 1) - 1,
+            this.tableOptions?.itemsPerPage ||
+              useOATable().pageSize,
+            [sortField + ',' + sortOrder]
           )
         this.loading = false
         this.totalNumber = pageData.totalNumber
@@ -117,22 +123,6 @@ export const usePackageMaintainersStore = defineStore(
           )
         this.maintainers = maintainers
         return pageData
-      },
-      async get() {
-        const pagination = usePagination()
-        const sort = useSortStore()
-
-        const [maintainers, pageData] =
-          await fetchPackageMaintainerService(
-            this.filtration,
-            pagination.fetchPage,
-            pagination.pageSize,
-            sort.getSortBy(),
-            false
-          )
-        pagination.newPageWithoutRefresh(pageData.page)
-        this.totalNumber = pageData.totalNumber
-        this.maintainers = maintainers
       },
       async getAll(
         filtration: PackageMaintainersFiltration
@@ -210,7 +200,7 @@ export const usePackageMaintainersStore = defineStore(
           this.chosenMaintainer
         )
           .then(async (success) => {
-            if (success) await this.get()
+            if (success) await this.getPage()
           })
           .finally(() => {
             this.pending = this.pending.filter(
@@ -231,7 +221,7 @@ export const usePackageMaintainersStore = defineStore(
           newMaintainer
         )
           .then(async (success) => {
-            if (success) await this.get()
+            if (success) await this.getPage()
           })
           .finally(() => {
             this.pending = this.pending.filter(
@@ -244,7 +234,7 @@ export const usePackageMaintainersStore = defineStore(
       ) {
         createPackageMaintainerService(maintainer).then(
           async (success) => {
-            if (success) await this.get()
+            if (success) await this.getPage()
           }
         )
       },
@@ -261,9 +251,6 @@ export const usePackageMaintainersStore = defineStore(
       async setFiltration(
         payload: PackageMaintainersFiltration
       ) {
-        const pagination = usePagination()
-        pagination.resetPage()
-
         if (
           PackageMaintainersFiltration.safeParse(payload)
             .success
@@ -271,7 +258,7 @@ export const usePackageMaintainersStore = defineStore(
           this.filtration =
             PackageMaintainersFiltration.parse(payload)
         }
-        await this.get()
+        await this.getPage()
       },
       setFiltrationBy(filtration: object) {
         this.clearFiltration()
@@ -281,15 +268,13 @@ export const usePackageMaintainersStore = defineStore(
         }
       },
       clearFiltration() {
-        const pagination = usePagination()
-        pagination.resetPage()
         this.filtration = defaultValues(
           PackageMaintainersFiltration
         )
       },
       async clearFiltrationAndFetch() {
         this.clearFiltration()
-        await this.get()
+        await this.getPage()
       }
     }
   }

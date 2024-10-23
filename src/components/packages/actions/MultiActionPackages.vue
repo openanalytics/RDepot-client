@@ -62,9 +62,7 @@
           :key="i + 2"
           :icon="button.icon"
           :color="button.color"
-          :disabled="
-            packagesStore.packagesSelected.length == 0
-          "
+          :disabled="disabled"
           size="small"
           @click="button.onClickAction"
         />
@@ -79,6 +77,7 @@ import { i18n } from '@/plugins/i18n'
 import { usePackagesActions } from '@/composable/packages/packagesActions'
 import Icons from '@/maps/Icons'
 import { computed } from 'vue'
+import { useConfigStore } from '@/store/options/config'
 
 defineProps({
   allSelected: {
@@ -97,24 +96,39 @@ function selectAll() {
   emit('selectAll')
 }
 
-const chooseAtLeasOneMessage = computed(() =>
-  packagesStore.packagesSelected.length == 0
-    ? ' (' + i18n.t('package.chooseOneToEnable') + ')'
-    : ''
-)
-
 const actionButtons = computed(() => [
   {
     id: 'packages-multi-delete',
     icon: Icons.get('delete'),
     color: 'oared',
     tooltipMessage: `${i18n.t('common.delete')} ${
-      chooseAtLeasOneMessage.value
+      onHoverMessage.value
     }`,
     onClickAction: () => openDeletePackagesModal()
   }
 ])
 
 const { openDeletePackagesModal } = usePackagesActions()
+const configStore = useConfigStore()
 const packagesStore = usePackagesStore()
+
+const disabled = computed(
+  () =>
+    !configStore.deletingPackages ||
+    packagesStore.packagesSelected.length == 0
+)
+
+const onHoverMessage = computed(() => {
+  if (!configStore.deletingPackages) {
+    return (
+      ' (' +
+      i18n.t('config.deletingPackages').toLowerCase() +
+      ')'
+    )
+  }
+  if (packagesStore.packagesSelected.length == 0) {
+    return ' (' + i18n.t('package.chooseOneToEnable') + ')'
+  }
+  return ''
+})
 </script>

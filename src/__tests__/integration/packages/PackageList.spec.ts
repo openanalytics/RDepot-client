@@ -50,6 +50,7 @@ import {
   PACKAGES_MULTI_DELETE_ID,
   SUBMIT_BUTTON_ID
 } from '../helpers/elementsIds'
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const { By, until } = require('selenium-webdriver')
 
 let driver: any

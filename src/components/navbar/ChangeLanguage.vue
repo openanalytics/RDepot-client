@@ -21,24 +21,24 @@
 -->
 
 <template>
-  <v-menu offset-y location="bottom end">
+  <v-menu location="bottom center">
     <template #activator="{ props }">
-      <v-btn
+      <v-icon
         id="change-language-navbar-button"
-        color="oablue-darken-2"
-        variant="elevated"
+        v-tooltip="$t('settings.changeLanguage')"
+        color="text"
         v-bind="props"
-        class="px-0 custom-button"
         depressed
+        icon="mdi-translate"
       >
-        {{ $i18n.locale }}
-      </v-btn>
+      </v-icon>
     </template>
     <v-list>
       <v-list-item
         v-for="(item, index) in langs"
         :id="item.name"
         :key="index"
+        :active="$i18n.locale == item.abbreviation"
         link
         @click="
           () => {

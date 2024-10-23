@@ -26,7 +26,6 @@ import { usePackagesStore } from '@/store/options/packages'
 import { useAuthorizationStore } from '@/store/options/authorization'
 import { Technologies } from '@/enum/Technologies'
 import { usePackageDetailsStore } from '@/store/options/packageDetails'
-import { usePagination } from '@/store/setup/pagination'
 import { useSortStore } from '@/store/options/sort'
 import { useCommonStore } from '@/store/options/common'
 import { useUserStore } from '@/store/options/users'
@@ -51,9 +50,7 @@ export async function redirectToLoginPage() {
 }
 
 export function resetStoreValues() {
-  const pagination = usePagination()
   const sort = useSortStore()
-  pagination.resetPage()
   sort.reset()
 }
 
@@ -69,6 +66,7 @@ export async function handleAuthorization() {
       const authorizationStore = useAuthorizationStore()
       if (!authorizationStore.me.role) {
         await authorizationStore.postLoginOperations()
+        authorizationStore.postLoginAsyncOperations()
       }
     })
     .catch((error) => {
@@ -171,6 +169,7 @@ export async function authorizeInternalPath(to: any) {
   }
   if (!authorizationStore.me.role) {
     await authorizationStore.postLoginOperations()
+    authorizationStore.postLoginAsyncOperations()
   } else {
     const configStore = useConfigStore()
     await configStore.fetchConfiguration()

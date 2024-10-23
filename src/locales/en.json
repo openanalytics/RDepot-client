@@ -141,6 +141,7 @@
     "errors": {
       "copyFailed": "Copy failed",
       "email": "This should be an email",
+      "reponame": "Allowed characters: A-Z, a-z, 0-9, hyphen (-), underscore (_), period (.), and space.",
       "required": "This field is required",
       "unauthorized": "You are not authorized to perform this action",
       "url": "This should be a url"
@@ -265,6 +266,27 @@
   },
   "notifications": {
     "acceptSubmission": "Accept submission",
+    "events": {
+      "active": {
+        "false": "deactivated",
+        "true": "activated"
+      },
+      "alreadySeen": "already seen",
+      "create": "created",
+      "delete": "deleted",
+      "published": {
+        "false": "unpublished",
+        "true": "published"
+      },
+      "state": {
+        "accepted": "accepted",
+        "cancelled": "cancelled",
+        "rejected": "rejected"
+      },
+      "upToDate": "already up to date",
+      "updated": "updated",
+      "upload": "uploaded"
+    },
     "insufficientPermissions": "User's permissions are not sufficient to create a maintainer.",
     "invalidform": "The submitted form is not valid",
     "successCancelSubmission": "Cancel submission",
@@ -279,7 +301,8 @@
     "successUpdatePackageManager": "Successful updated {maintainer_name}",
     "successUpdateRepositoryMaintainer": "Successful updated {maintainer_name}",
     "successUpdateRepositoryManager": "Successful update {maintainer_name}",
-    "successUpdateUser": "Successfully updated user"
+    "successUpdateUser": "Successfully updated user",
+    "title": "Notifications"
   },
   "package": {
     "chooseOneToEnable": "choose at least one package to enable",
@@ -328,7 +351,7 @@
     "imports": "Imports",
     "install": "Install",
     "installCode-Python": "pip install --index-url {1} {0}",
-    "installCode-R": "install.packages(\"{0}\", repos = c(rdepot = \"{1}\", getOption(\"repos\")))",
+    "installCode-R": "install.packages(\"{0}\", repos = c(\"rdepot_{2}\" = \"{1}\", getOption(\"repos\")))",
     "installInstruction-Python": "To install this package, please execute:",
     "installInstruction-R": "To install this package, start R and enter:",
     "license": "License",
@@ -433,6 +456,8 @@
     "admin": "Admin"
   },
   "settings": {
+    "changeLanguage": "Change Language",
+    "changeTheme": "Change Theme",
     "create": "New access token",
     "deactivate": "Deactivate token",
     "deactivateQuestion": "Are you sure you want to deactivate token <strong>{0}</strong>?",

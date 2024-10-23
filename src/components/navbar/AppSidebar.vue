@@ -32,27 +32,19 @@
         :title="getUserLogin"
         :subtitle="getSubtitle"
       >
+        <template #prepend>
+          <UserAvatar :username="getUserLogin" />
+        </template>
+
         <template #append>
-          <v-tooltip location="right">
-            <template #activator="{ props }">
-              <div
-                id="tooltip-activator"
-                v-bind="props"
-                class="pl-3"
-              >
-                <v-btn
-                  id="logout-button"
-                  color="grey-lighten-1"
-                  :icon="Icons.get('logout')"
-                  variant="text"
-                  @click="logout"
-                ></v-btn>
-              </div>
-            </template>
-            <span id="tooltip-logout">{{
-              $t('common.logout')
-            }}</span>
-          </v-tooltip>
+          <v-btn
+            id="logout-button"
+            v-tooltip:end="$t('common.logout')"
+            color="grey-lighten-1"
+            :icon="Icons.get('logout')"
+            variant="text"
+            @click="logout"
+          ></v-btn>
         </template>
       </v-list-item>
       <v-divider class="pb-3"></v-divider>
@@ -198,7 +190,7 @@
 
     <template #append>
       <v-list-item style="font-size: 0.7rem">
-        v2.4.0
+        v2.5.0
         <span v-if="getEnv('VITE_DEV_MODE') === 'true'"
           >({{
             getEnv('VITE_CURRENT_COMMIT_VERSION')
@@ -217,6 +209,7 @@ import { computed } from 'vue'
 import { useDisplay } from 'vuetify/lib/framework.mjs'
 import getEnv from '@/utils/env'
 import Icons from '@/maps/Icons'
+import UserAvatar from '@/components/common/users/UserAvatar.vue'
 
 const { xs, mobile } = useDisplay()
 const authorizationStore = useAuthorizationStore()
@@ -256,13 +249,19 @@ function logout() {
 
 .nestedIcon.v-theme--dark {
   color: white;
-  text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000,
+  text-shadow:
+    -1px 0 #000,
+    0 1px #000,
+    1px 0 #000,
     0 -1px #000;
 }
 
 .nestedIcon.v-theme--light {
   color: white;
-  text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000,
+  text-shadow:
+    -1px 0 #000,
+    0 1px #000,
+    1px 0 #000,
     0 -1px #000;
 }
 </style>

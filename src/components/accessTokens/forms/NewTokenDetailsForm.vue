@@ -91,7 +91,7 @@ function copyContent() {
       copy(accessTokensStore.newToken)
       toasts.success(t('common.copied'))
     }
-  } catch (error) {
+  } catch {
     toasts.error(t('common.errors.copyFailed'))
   }
 }

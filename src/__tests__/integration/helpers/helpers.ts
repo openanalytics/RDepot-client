@@ -27,11 +27,13 @@ const {
   By,
   until,
   Browser
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
 } = require('selenium-webdriver')
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const chrome = require('selenium-webdriver/chrome')
 const BASE_URL = 'http://192.168.49.20'
-const path = require('path')
-const fs = require('fs')
+import path from 'path'
+import fs from 'fs'
 
 export async function createDriver() {
   return await new Builder()
@@ -220,20 +222,20 @@ export async function clickOnMenuItemById(
   driver: typeof Builder,
   id: string
 ) {
-  await driver
-    .findElement(By.id(id))
-    .then(async function (element: any) {
-      await driver.wait(function () {
-        return element
-          .isDisplayed()
-          .then(function (displayed: any) {
-            if (!displayed) return false
+  await driver.findElement(By.id(id)).then(async function (
+    element: any
+  ) {
+    await driver.wait(function () {
+      return element.isDisplayed().then(function (
+        displayed: any
+      ) {
+        if (!displayed) return false
 
-            return element.isEnabled()
-          })
+        return element.isEnabled()
       })
-      await element.click()
     })
+    await element.click()
+  })
 }
 
 export async function waitUntilMenuIsOpen(
@@ -244,13 +246,13 @@ export async function waitUntilMenuIsOpen(
     .findElement(By.id(menuItemId))
     .then(async function (element: any) {
       await driver.wait(function () {
-        return element
-          .isDisplayed()
-          .then(function (displayed: any) {
-            if (!displayed) return false
+        return element.isDisplayed().then(function (
+          displayed: any
+        ) {
+          if (!displayed) return false
 
-            return element.isEnabled()
-          })
+          return element.isEnabled()
+        })
       })
     })
 }

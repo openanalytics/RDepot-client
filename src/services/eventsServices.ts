@@ -33,13 +33,14 @@ import {
 import { isAuthorized } from '@/plugins/casl'
 
 type ValidatedNewsFeed = Promise<
-  validatedData<EntityModelNewsfeedEventDto>
+  validatedData<EntityModelNewsfeedEventDto[]>
 >
 
 export async function fetchEventsService(
   filtration: EventsFiltration,
   page?: number,
-  pageSize?: number
+  pageSize?: number,
+  showProgress = true
 ): ValidatedNewsFeed {
   if (!isAuthorized('GET', 'events')) {
     return new Promise(() => validateRequest({}))
@@ -51,7 +52,7 @@ export async function fetchEventsService(
   ) {
     localFiltration = filtration.technologies[0]
   }
-  return openApiRequest<EntityModelNewsfeedEventDto>(
+  return openApiRequest<EntityModelNewsfeedEventDto[]>(
     ApiV2NewsfeedEventControllerApiFactory().getAllEvents,
     [
       page,
@@ -59,13 +60,15 @@ export async function fetchEventsService(
       undefined,
       localFiltration,
       filtration.userName,
+      filtration.packageName,
+      filtration.repositoryName,
       filtration.eventType,
       filtration.resourceType,
       filtration.fromDate,
       filtration.toDate
     ],
-    true
+    showProgress
   ).catch(() => {
-    return validateRequest({})
+    return validateRequest([])
   })
 }

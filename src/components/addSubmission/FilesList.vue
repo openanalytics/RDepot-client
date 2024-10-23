@@ -124,6 +124,7 @@
                   item
                 )
               "
+              id="generate-manual-button"
               :icon="Icons.get('checkbox')"
               variant="text"
               v-bind="props"
@@ -136,6 +137,7 @@
             ></v-btn>
             <v-btn
               v-else
+              id="generate-manual-button"
               :icon="Icons.get('checkbox-not')"
               class="mx-8"
               variant="text"

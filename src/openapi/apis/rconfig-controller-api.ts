@@ -61,7 +61,7 @@ export const RConfigControllerApiAxiosParamCreator =
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
-      getPublicConfig: async (
+      getRPublicConfig: async (
         options: AxiosRequestConfig = {}
       ): Promise<RequestArgs> => {
         const localVarPath = `/api/v2/manager/r/config`
@@ -139,7 +139,7 @@ export const RConfigControllerApiFp = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getPublicConfig(
+    async getRPublicConfig(
       options?: AxiosRequestConfig
     ): Promise<
       (
@@ -152,7 +152,7 @@ export const RConfigControllerApiFp = function (
       const localVarAxiosArgs =
         await RConfigControllerApiAxiosParamCreator(
           configuration
-        ).getPublicConfig(options)
+        ).getRPublicConfig(options)
       return (
         axios: AxiosInstance = globalAxios,
         basePath: string = BASE_PATH
@@ -182,13 +182,13 @@ export const RConfigControllerApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getPublicConfig(
+    async getRPublicConfig(
       options?: AxiosRequestConfig
     ): Promise<
       AxiosResponse<ResponseDtoRPublicConfigurationDto>
     > {
       return RConfigControllerApiFp(configuration)
-        .getPublicConfig(options)
+        .getRPublicConfig(options)
         .then((request) => request(axios, basePath))
     }
   }
@@ -207,13 +207,13 @@ export class RConfigControllerApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof RConfigControllerApi
    */
-  public async getPublicConfig(
+  public async getRPublicConfig(
     options?: AxiosRequestConfig
   ): Promise<
     AxiosResponse<ResponseDtoRPublicConfigurationDto>
   > {
     return RConfigControllerApiFp(this.configuration)
-      .getPublicConfig(options)
+      .getRPublicConfig(options)
       .then((request) => request(this.axios, this.basePath))
   }
 }

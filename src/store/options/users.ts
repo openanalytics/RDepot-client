@@ -28,14 +28,13 @@ import {
 } from '@/services/usersServices'
 import { EntityModelUserDto, RoleDto } from '@/openapi'
 import { Role } from '@/enum/UserRoles'
-import { usePagination } from '@/store/setup/pagination'
 import {
   defaultValues,
   UsersFiltration
 } from '@/models/Filtration'
 import { DataTableOptions } from '@/models/DataTableOptions'
-import { useSortStore } from '@/store/options/sort'
 import { useUtilities } from '@/composable/utilities'
+import { useOATable } from '@/store/setup/oatable'
 
 const { deepCopy } = useUtilities()
 
@@ -49,6 +48,7 @@ interface State {
   roles: RoleDto[]
   loading: boolean
   totalNumber: number
+  tableOptions?: DataTableOptions
 }
 
 export const useUserStore = defineStore('userStore', {
@@ -62,7 +62,8 @@ export const useUserStore = defineStore('userStore', {
       filtration: defaultValues(UsersFiltration),
       roles: [],
       loading: false,
-      totalNumber: 0
+      totalNumber: 0,
+      tableOptions: undefined
     }
   },
   getters: {
@@ -74,17 +75,21 @@ export const useUserStore = defineStore('userStore', {
     }
   },
   actions: {
-    async getPage(options: DataTableOptions) {
+    async getPage(options?: DataTableOptions) {
+      if (options) {
+        this.tableOptions = options
+      }
       this.loading = true
+      const sortField =
+        this.tableOptions?.sortBy[0].key || 'login'
+      const sortOrder =
+        this.tableOptions?.sortBy[0].order || 'asc'
       const [users, pageData] = await fetchUsersService(
         this.filtration,
-        options.page - 1,
-        options.itemsPerPage,
-        [
-          options.sortBy[0].key +
-            ',' +
-            options.sortBy[0].order
-        ]
+        (this.tableOptions?.page || 1) - 1,
+        this.tableOptions?.itemsPerPage ||
+          useOATable().pageSize,
+        [sortField + ',' + sortOrder]
       )
       this.totalNumber = pageData.totalNumber
       this.loading = false
@@ -103,20 +108,6 @@ export const useUserStore = defineStore('userStore', {
       this.users = users
       return pageData
     },
-    async get() {
-      const pagination = usePagination()
-      const sort = useSortStore()
-      const [users, pageData] = await fetchUsersService(
-        this.filtration,
-        pagination.fetchPage,
-        pagination.pageSize,
-        sort.getSortBy(),
-        false
-      )
-      this.users = users
-      pagination.newPageWithoutRefresh(pageData.page)
-      this.totalNumber = pageData.totalNumber
-    },
     async getRoles() {
       if (this.roles.length === 0) {
         const [roles] = await fetchRoles()
@@ -127,7 +118,7 @@ export const useUserStore = defineStore('userStore', {
       this.pending.push(this.chosenUser)
       await updateUser(this.chosenUser, newUser)
         .then(() => {
-          this.get()
+          this.getPage()
         })
         .finally(() => {
           this.pending = this.pending.filter(
@@ -136,12 +127,10 @@ export const useUserStore = defineStore('userStore', {
         })
     },
     async setFiltration(payload: UsersFiltration) {
-      const pagination = usePagination()
-      pagination.resetPage()
       if (UsersFiltration.safeParse(payload).success) {
         this.filtration = UsersFiltration.parse(payload)
       }
-      await this.get()
+      await this.getPage()
     },
     setFiltrationBy(filtration: object) {
       this.clearFiltration()
@@ -151,8 +140,6 @@ export const useUserStore = defineStore('userStore', {
       }
     },
     clearFiltration() {
-      const pagination = usePagination()
-      pagination.resetPage()
       this.filtration = defaultValues(UsersFiltration)
     },
     roleIdToRole(roleId: number) {

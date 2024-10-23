@@ -213,6 +213,24 @@ const EventsFiltration = z
         }
         return val
       }),
+    packageName: z
+      .string()
+      .optional()
+      .transform((val) => {
+        if (val?.length == 0) {
+          return undefined
+        }
+        return val
+      }),
+    repositoryName: z
+      .string()
+      .optional()
+      .transform((val) => {
+        if (val?.length == 0) {
+          return undefined
+        }
+        return val
+      }),
     eventType: z
       .array(z.string())
       .optional()
@@ -237,6 +255,8 @@ const EventsFiltration = z
   .default({
     technologies: undefined,
     userName: undefined,
+    packageName: undefined,
+    repositoryName: undefined,
     eventType: undefined,
     resourceType: undefined,
     fromDate: undefined,
