@@ -190,6 +190,6 @@ export function getRConfiguration(): ValidatedRConfiguration {
     return new Promise(() => {})
   }
   return openApiRequest<RPublicConfigurationDto>(
-    RConfigControllerApiFactory().getPublicConfig
+    RConfigControllerApiFactory().getRPublicConfig
   )
 }
