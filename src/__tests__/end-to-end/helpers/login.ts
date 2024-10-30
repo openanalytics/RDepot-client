@@ -20,23 +20,20 @@
  *
  */
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const { exec } = require('child_process')
-import util from 'node:util'
+import {
+  PASSWORD_INPUT_ID,
+  SUBMIT_LOGIN_BUTTON_ID,
+  USERNAME_INPUT_ID
+} from '@/__tests__/integration/helpers/elementsIds'
+import { expect, Page } from '@playwright/test'
 
-const execPromise = util.promisify(exec)
-
-export async function restoreData(project?: string) {
-  try {
-    if (project == 'firefox') {
-      await execPromise('sh ./docker/restore-firefox.sh')
-    } else if (project == 'chrome') {
-      await execPromise('sh ./docker/restore-chrome.sh')
-    } else {
-      await execPromise('sh ./docker/restore.sh')
-    }
-  } catch (error) {
-    console.log('exec error')
-    console.log(error)
-  }
+export async function login(page: Page, login: string) {
+  await page.goto('/')
+  await page.locator(`#${USERNAME_INPUT_ID}`).fill(login)
+  await page
+    .locator(`#${PASSWORD_INPUT_ID}`)
+    .fill('testpassword')
+  await page.locator(`#${SUBMIT_LOGIN_BUTTON_ID}`).click()
+  await page.waitForURL('**/packages')
+  await expect(page).toHaveTitle(/RDepot - packages/)
 }

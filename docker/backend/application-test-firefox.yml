@@ -1,0 +1,72 @@
+api-token:
+  secret: SecretKeyToGenJWTs
+  issuer: RDepot
+  audience:
+    - RDepot
+  lifetime: 5
+
+allowed-origin: http://192.168.51.20
+
+server:
+  servlet:
+    context-path: /backend
+
+repository-snapshots: false
+
+default-user-configuration:
+  language: en-US
+  theme: light
+  page-size: 10
+  supported-languages:
+    - en-US
+    - pl-PL
+  supported-themes:
+    - light
+    - dark
+
+declarative: false
+
+# Email related properties
+email:
+  enabled: false
+  password:
+  username:
+  from:
+  smtp:
+    host:
+    port:
+    auth:
+    starttls:
+
+# Liquibase related properties
+spring:
+  liquibase:
+    url: jdbc:postgresql://oa-rdepot-db:5432/rdepot
+    user: rdepot
+    password: mysecretpassword
+    enabled: true
+
+# Authentication related properties
+app:
+  authentication: simple
+  simple:
+    users:
+      - login: einstein
+        password: testpassword
+        name: Albert Einstein
+  oauth2:
+    default:
+      admins:
+        - einstein
+
+# Database related properties
+db:
+  driver: org.postgresql.Driver
+  url: jdbc:postgresql://oa-rdepot-db:5432/rdepot
+  username: rdepot
+  password: mysecretpassword
+
+# Hibernate related properties
+hibernate:
+  dialect: org.hibernate.dialect.PostgreSQLDialect
+  show_sql: false

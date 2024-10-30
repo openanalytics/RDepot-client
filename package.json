@@ -10,12 +10,14 @@
     "lint:staged": "eslint --fix $(git diff --diff-filter=d --cached --name-only)",
     "license:check": "node ./license_checker.js",
     "test:setup": "sh test.sh && npm run restore",
+    "test:setup:e2e": "sh teste2e.sh && npm run restore:firefox && npm run restore:chrome",
     "test:cleanup": "sh cleanup.sh",
     "test:unit": "vitest --dir ./src/__tests__/unit",
     "test:unit:once": "vitest run --dir ./src/__tests__/unit",
     "test:unit:once:junit": "vitest --dir ./src/__tests__/unit --reporter=junit --outputFile.junit=reports/test-report-unit.xml --reporter=default run",
     "test:unit:ui": "vitest --ui --dir ./src/__tests__/unit --sequence.concurrent",
     "test:integration": "vitest --dir ./src/__tests__/integration --no-file-parallelism",
+    "test:e2e": "npx playwright test",
     "test:integration:once": "vitest run --dir ./src/__tests__/integration --no-file-parallelism",
     "test:integration:once:junit": "npm run restore && vitest --dir ./src/__tests__/integration --reporter=junit --outputFile.junit=reports/test-report-integration.xml --reporter=default run --no-file-parallelism",
     "test:integration:ui": "npm run restore && vitest --ui --sequence.concurrent=false --dir ./src/__tests__/integration --no-file-parallelism",
@@ -25,7 +27,9 @@
     "prettier:changes": "npx pretty-quick --staged --bail",
     "json:sort": "jsonsort ./src/locales/*",
     "prepare": "husky install",
-    "restore": "./docker/restore.sh"
+    "restore": "./docker/restore.sh",
+    "restore:firefox": "./docker/restore-firefox.sh",
+    "restore:chrome": "./docker/restore-chrome.sh"
   },
   "dependencies": {
     "@casl/ability": "^6.4.0",
@@ -64,6 +68,7 @@
   },
   "devDependencies": {
     "@pinia/testing": "^0.0.16",
+    "@playwright/test": "^1.47.2",
     "@rollup/rollup-linux-x64-gnu": "^4.22.5",
     "@testing-library/vue": "^6.6.1",
     "@types/node": "^18.11.9",
