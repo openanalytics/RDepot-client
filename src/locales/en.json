@@ -3,7 +3,9 @@
     "accept": "Accept",
     "cancel": "Cancel",
     "download": "Download",
-    "reject": "Reject"
+    "reject": "Reject",
+    "changes": "Show changes",
+    "noChanges": "No changes"
   },
   "addSubmission": {
     "generateManual": "Generate manual",
@@ -528,7 +530,8 @@
     },
     "waitForAllRequestsToFulfill": "Please wait until all submissions have been uploaded",
     "waitingForAction": "waiting for an action",
-    "wrongExtension": "Choose packages that have the correct file extension (.tar.gz)"
+    "wrongExtension": "Choose packages that have the correct file extension (.tar.gz)",
+    "noChangesProvided": "There are no changes listed for this submission"
   },
   "success": "Request processed successfully",
   "tokens": {

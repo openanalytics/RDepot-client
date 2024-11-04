@@ -3,7 +3,9 @@
     "accept": "Zaakceptuj",
     "cancel": "Anuluj",
     "download": "Pobierz",
-    "reject": "Odrzuć"
+    "reject": "Odrzuć",
+    "changes": "Pokaż zmiany",
+    "noChanges": "Brak zmian"
   },
   "addSubmission": {
     "generateManual": "Generuj dokumentację",
@@ -522,7 +524,8 @@
     },
     "waitForAllRequestsToFulfill": "Zaczekaj na zakończenie wszystkich zgłoszeń",
     "waitingForAction": "oczekuje na akcję",
-    "wrongExtension": "Wybierz pakiety o poprawnym rozszerzeniu (.tar.gz)"
+    "wrongExtension": "Wybierz pakiety o poprawnym rozszerzeniu (.tar.gz)",
+    "noChangesProvided": "Brak zmian dla zgłoszenia"
   },
   "success": "Poprawnie wykonana operacja",
   "tokens": {
