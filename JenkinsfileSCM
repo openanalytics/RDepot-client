@@ -50,6 +50,11 @@ pipeline {
         withChecks('Linting') {
           junit "reports/lint-report.xml"
         }
+        publishHTML([
+          reportDir: 'reports', reportFiles: 'lint-report.html',
+          reportName: 'UI Linting Report',
+          allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true])
+        }
       }
     }
     stage('Build') {
