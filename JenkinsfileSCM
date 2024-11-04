@@ -53,8 +53,7 @@ pipeline {
         publishHTML([
           reportDir: 'reports', reportFiles: 'lint-report.html',
           reportName: 'UI Linting Report',
-          allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true])
-        }
+          allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true])        
       }
     }
     stage('Build') {
