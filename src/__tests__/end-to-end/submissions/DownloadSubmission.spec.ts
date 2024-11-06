@@ -26,21 +26,19 @@ import {
   DOWNLOAD_SUBMISSION_ID,
   SUBMISSIONS_SIDEBAR_ID
 } from '@/__tests__/integration/helpers/elementsIds'
-import { restoreData } from '@/__tests__/integration/helpers/restoreData'
 import { login } from '@/__tests__/end-to-end/helpers/login'
 import { downloadFile } from '@/__tests__/end-to-end/helpers/download'
 
-// eslint-disable-next-line no-empty-pattern
-test.beforeAll(async ({}, testInfo) => {
-  await restoreData(testInfo.project.name)
-})
-
-test.describe('submissions downloading', () => {
+const TITLE = 'submissions downloading'
+test.describe(TITLE, () => {
   test('download submission', async ({ page }) => {
     await login(page, 'einstein')
     await page.locator(`#${SUBMISSIONS_SIDEBAR_ID}`).click()
     await page.waitForURL('**/submissions')
     await expect(page).toHaveTitle(/RDepot - submissions/)
+    const submissionRowsSelector = page.locator('role=row')
+    await expect(submissionRowsSelector).toHaveCount(21)
+
     await downloadFile(
       page,
       DOWNLOAD_SUBMISSION_ID,

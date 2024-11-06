@@ -80,7 +80,7 @@ const DIRS_WITHOUT_LICENSE_CHECKING = [
   'itestPdf',
   'itestPackages',
   'reports',
-  'playwright-report'
+  'test-results'
 ]
 
 const license_header = fs.readFileSync('LICENSE').toString()

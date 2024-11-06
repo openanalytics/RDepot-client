@@ -21,13 +21,7 @@
  */
 
 import { test, expect } from '@playwright/test'
-import { restoreData } from '@/__tests__/integration/helpers/restoreData'
 import { login } from '@/__tests__/end-to-end/helpers/login'
-
-// eslint-disable-next-line no-empty-pattern
-test.beforeAll(async ({}, testInfo) => {
-  await restoreData(testInfo.project.name)
-})
 
 test.describe('login page', () => {
   test('has title', async ({ page }) => {

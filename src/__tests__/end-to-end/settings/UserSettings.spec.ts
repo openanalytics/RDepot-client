@@ -36,7 +36,8 @@ test.beforeAll(async ({}, testInfo) => {
   await restoreData(testInfo.project.name)
 })
 
-test.describe('user settings', () => {
+const TITLE_SERIAL = 'user settings serial'
+test.describe(TITLE_SERIAL, { tag: '@serial' }, () => {
   test('change page size', async ({ page }) => {
     await login(page, 'einstein')
     await page
@@ -63,5 +64,44 @@ test.describe('user settings', () => {
       '.v-data-table-footer__items-per-page'
     )
     await expect(pageSizeInput).toContainText('2')
+  })
+
+  test('ignore the duplicated custom page size', async ({
+    page
+  }) => {
+    await login(page, 'einstein')
+    await page
+      .locator(`#${SETTINGS_LIST_SIDEBAR_ID}`)
+      .click()
+    await page
+      .locator(`#${SETTINGS_GENERAL_LIST_SIDEBAR_ID}`)
+      .click()
+    await page.waitForURL('**/settings-general')
+    await expect(page).toHaveTitle(/RDepot - settings/)
+    await page.locator(`#${PAGE_SIZE_ID}`).fill('30')
+    await page.locator(`#${PAGE_SIZE_ID}`).press('Tab')
+    await page
+      .locator(`#${SAVE_SETTINGS_BUTTON_ID}`)
+      .click()
+    const locator = page.locator(
+      `#${SAVE_SETTINGS_BUTTON_ID}`
+    )
+    await expect(locator).toHaveCount(0)
+    await page.locator(`#${SUBMISSIONS_SIDEBAR_ID}`).click()
+    await page.waitForURL('**/submissions')
+    await expect(page).toHaveTitle(/RDepot - submissions/)
+
+    await page
+      .locator('css=.v-field__input:nth-child(2)')
+      .click()
+
+    const pageSelector = page.locator('#page-items-30')
+    const customPageSelector = page.locator(
+      '#page-items-custom-30'
+    )
+
+    await pageSelector.waitFor()
+    await expect(pageSelector).toHaveCount(1)
+    await expect(customPageSelector).toHaveCount(0)
   })
 })

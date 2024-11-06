@@ -83,6 +83,7 @@ pipeline {
         sh """
           npm run test:setup:e2e
           npm run test:e2e
+          npm run test:e2e:merge
           npm run test:cleanup
           """
         withChecks('UI Integration Tests') {
