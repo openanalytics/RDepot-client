@@ -20,23 +20,16 @@
  *
  */
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const { exec } = require('child_process')
-import util from 'node:util'
+import { test, expect } from '@playwright/test'
+import { login } from '@/__tests__/end-to-end/helpers/login'
 
-const execPromise = util.promisify(exec)
+test.describe('login page', () => {
+  test('has title', async ({ page }) => {
+    await page.goto('/')
+    await expect(page).toHaveTitle(/login/)
+  })
 
-export async function restoreData(project?: string) {
-  try {
-    if (project == 'firefox') {
-      await execPromise('sh ./docker/restore-firefox.sh')
-    } else if (project == 'chrome') {
-      await execPromise('sh ./docker/restore-chrome.sh')
-    } else {
-      await execPromise('sh ./docker/restore.sh')
-    }
-  } catch (error) {
-    console.log('exec error')
-    console.log(error)
-  }
-}
+  test('correctly logged in', async ({ page }) => {
+    await login(page, 'einstein')
+  })
+})

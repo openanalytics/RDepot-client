@@ -20,23 +20,26 @@
  *
  */
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const { exec } = require('child_process')
-import util from 'node:util'
+import { expect, Page } from '@playwright/test'
+import fs from 'fs'
 
-const execPromise = util.promisify(exec)
+export async function downloadFile(
+  page: Page,
+  downloadButtonId: string,
+  expectedDownloadFileName?: string
+) {
+  const downloadPromise = page.waitForEvent('download')
+  await page.locator(`#${downloadButtonId}`).click()
+  const download = await downloadPromise
+  await download.saveAs(
+    './downloads/' + download.suggestedFilename()
+  )
 
-export async function restoreData(project?: string) {
-  try {
-    if (project == 'firefox') {
-      await execPromise('sh ./docker/restore-firefox.sh')
-    } else if (project == 'chrome') {
-      await execPromise('sh ./docker/restore-chrome.sh')
-    } else {
-      await execPromise('sh ./docker/restore.sh')
-    }
-  } catch (error) {
-    console.log('exec error')
-    console.log(error)
-  }
+  const expectedFileName = expectedDownloadFileName
+    ? expectedDownloadFileName
+    : download.suggestedFilename()
+
+  expect(
+    fs.existsSync('./downloads/' + expectedFileName)
+  ).toBe(true)
 }

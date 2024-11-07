@@ -1,33 +1,33 @@
 version: '3'
 services:
-  proxy:
+  proxy-chrome:
     image: registry.openanalytics.eu/proxy/library/nginx:bookworm
     restart: unless-stopped
-    container_name: oa-rdepot-proxy
+    container_name: oa-rdepot-proxy-chrome
     labels:
-      eu.openanalytics.rdepot.container.name: 'oa-rdepot-proxy'
+      eu.openanalytics.rdepot.container.name: 'oa-rdepot-proxy-chrome'
     volumes:
       - ./docker/proxy/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./docker/proxy/rdepot-test.conf:/etc/nginx/sites-enabled/rdepot:ro
       - repository:/opt/rdepot/repo/:ro
     depends_on:
-      - backend
-      - repo
-      - frontend
-    ports:
-      - 8017:80
+      - backend-chrome
+      - repo-chrome
+      - frontend-chrome
+    # ports:
+    # - 8018:80
     networks:
-      oa-rdepot:
-        ipv4_address: 192.168.49.20
+      oa-rdepot-chrome:
+        ipv4_address: 192.168.53.20
         aliases:
           - oa-rdepot-proxy
-  backend:
+  backend-chrome:
     image: registry.openanalytics.eu/openanalytics/rdepot-app:2.5.0-SNAPSHOT
     restart: unless-stopped
     hostname: oa-rdepot-backend
-    container_name: oa-rdepot-backend
+    container_name: oa-rdepot-backend-chrome
     volumes:
-      - ./docker/backend/application-test.yml:/opt/rdepot/application.yml
+      - ./docker/backend/application-test-chrome.yml:/opt/rdepot/application.yml
       - repositories:/opt/rdepot/repositories/
       - snapshots:/opt/rdepot/generated/
       - queue:/opt/rdepot/new/
@@ -35,10 +35,10 @@ services:
       - ./docker/testData/itestGenerated:/opt/testGenerated:ro
       - ./docker/testData/itestNewFiles:/opt/newFiles:ro
       - ./docker/testData/itestTrashFiles:/opt/trashFiles:ro
-    ports:
-      - 8080:8080
+    # ports:
+    # - 8080:8080
     depends_on:
-      - db
+      - db-chrome
     healthcheck:
       test:
         [
@@ -52,17 +52,17 @@ services:
       - DB_URL=jdbc:postgresql://oa-rdepot-db:5432/rdepot
       - DB_USERNAME=rdepot
     networks:
-      oa-rdepot:
-        ipv4_address: 192.168.49.11
+      oa-rdepot-chrome:
+        ipv4_address: 192.168.53.11
         aliases:
-          - oa-rdepot-backend
-  db:
+          - oa-rdepot-backend-chrome
+  db-chrome:
     image: registry.openanalytics.eu/proxy/library/postgres:alpine
     labels:
-      eu.openanalytics.rdepot.container.name: 'oa-rdepot-db'
+      eu.openanalytics.rdepot.container.name: 'oa-rdepot-db-chrome'
     restart: unless-stopped
     hostname: oa-rdepot-db
-    container_name: oa-rdepot-db
+    container_name: oa-rdepot-db-chrome
     environment:
       - POSTGRES_PASSWORD=mysecretpassword
       - POSTGRES_DB=rdepot
@@ -71,59 +71,47 @@ services:
       - ./docker/db/initial_scripts/:/docker-entrypoint-initdb.d/:ro
       - ./docker/db/sql_files/:/opt/sql_files/:ro
     networks:
-      oa-rdepot:
+      oa-rdepot-chrome:
         aliases:
-          - oa-rdepot-db
-  repo:
+          - oa-rdepot-db-chrome
+  repo-chrome:
     image: registry.openanalytics.eu/openanalytics/rdepot-repo:2.5.0-SNAPSHOT
     restart: unless-stopped
-    container_name: oa-rdepot-repo
+    container_name: oa-rdepot-repo-chrome
     labels:
-      eu.openanalytics.rdepot.container.name: 'oa-rdepot-repo'
+      eu.openanalytics.rdepot.container.name: 'oa-rdepot-repo-chrome'
     hostname: oa-rdepot-repo
     volumes:
       - repository:/opt/rdepot/
     networks:
-      oa-rdepot:
+      oa-rdepot-chrome:
         aliases:
-          - oa-rdepot-repo
-  frontend:
-    container_name: oa-rdepot-frontend
+          - oa-rdepot-repo-chrome
+  frontend-chrome:
+    container_name: oa-rdepot-frontend-chrome
     hostname: oa-rdepot-frontend
     build:
       context: .
     restart: unless-stopped
     labels:
-      eu.openanalytics.rdepot.container.name: 'oa-rdepot-frontend'
+      eu.openanalytics.rdepot.container.name: 'oa-rdepot-frontend-chrome'
     ports:
-      - 3001:8080
+      - 3003:8080
     networks:
-      oa-rdepot:
-        ipv4_address: 192.168.49.13
+      oa-rdepot-chrome:
+        ipv4_address: 192.168.53.13
         aliases:
-          - oa-rdepot-frontend
+          - oa-rdepot-frontend-chrome
     environment:
       - VITE_LOGIN_SIMPLE=true
       - VITE_LOGIN_OIDC=false
       - VITE_URL_PREFIX=/
-      - VITE_SERVER_ADDRESS=http://192.168.49.20/backend
-  selenium:
-    image: registry.openanalytics.eu/proxy/selenium/standalone-chrome:125.0
-    restart: unless-stopped
-    hostname: oa-rdepot-selenium
-    container_name: oa-rdepot-selenium
-    volumes:
-      - ./downloads:/home/seluser/Downloads
-    ports:
-      - 4444:4444
-    networks:
-      oa-rdepot:
-        ipv4_address: 192.168.49.12
+      - VITE_SERVER_ADDRESS=http://192.168.53.20/backend
 networks:
-  oa-rdepot:
+  oa-rdepot-chrome:
     ipam:
       config:
-        - subnet: 192.168.49.0/24
+        - subnet: 192.168.53.0/24
 volumes:
   repository:
   repositories:
