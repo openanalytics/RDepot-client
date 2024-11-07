@@ -62,14 +62,14 @@ describe('Packages list', () => {
     await login(driver, 'einstein')
     await driver.wait(
       until.elementLocated(
-        By.css('.v-data-table__tr:nth-child(17)')
+        By.css('.v-data-table__tr:nth-child(18)')
       ),
       8000
     )
 
     await driver
       .findElement(
-        By.css('.v-data-table__tr:nth-child(17)')
+        By.css('.v-data-table__tr:nth-child(18)')
       )
       .click()
 

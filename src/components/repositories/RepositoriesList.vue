@@ -62,9 +62,7 @@
               hide-details
               :readonly="isDisabled(item)"
               :color="isDisabled(item) ? 'grey' : 'oablue'"
-              :class="{
-                'mr-6': item.lastPublicationSuccessful
-              }"
+              class="mr-6"
               @click.stop="updateRepositoryPublished(item)"
             >
               <template #append>

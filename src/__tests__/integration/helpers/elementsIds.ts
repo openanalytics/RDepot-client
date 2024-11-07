@@ -315,6 +315,24 @@ export const EVENTS_FILTRATION_FROM_DATE_FIELD_ID =
 export const EVENTS_FILTRATION_TO_DATE_FIELD_ID =
   'events-filtration-to-date'
 
+//USERS FILTRATION
+export const USERS_FILTRATION_SEARCH_ID =
+  'users-filtration-search'
+export const USERS_FILTRATION_ROLES_ID =
+  'users-filtration-roles'
+export const USERS_FILTRATION_ACTIVE_ID =
+  'users-filtration-active'
+export const USERS_FILTRATION_DELETED_ID =
+  'user-filtration-deleted'
+
+//TOKENS FILTRATION
+export const TOKENS_FILTRATION_SEARCH_ID =
+  'tokens-filtration-search'
+export const TOKENS_FILTRATION_ACTIVE_ID =
+  'tokens-filtration-active'
+export const TOKENS_FILTRATION_EXPIRED_ID =
+  'tokens-filtration-expired'
+
 // card actions
 export const SUBMIT_BUTTON_ID = 'submit-button'
 export const CANCEL_BUTTON_ID = 'cancel-button'
