@@ -101,7 +101,8 @@
       "deleted": "Usunięty",
       "expirationDate": "Data wygaśnięcia",
       "name": "Nazwa",
-      "user": "Użytkownik"
+      "user": "Użytkownik",
+      "lastUsed": "Ostatnio użyty"
     },
     "username": "Nazwa użytkownika",
     "users": {

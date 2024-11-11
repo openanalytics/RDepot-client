@@ -62,6 +62,7 @@
     </v-alert>
     <v-divider></v-divider>
     <CardActions
+      justify="end"
       :cancel-button="false"
       :submit-text="i18n.t('common.ok')"
       @submit="closeModal"

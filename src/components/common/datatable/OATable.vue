@@ -57,7 +57,7 @@
       :key="i"
       #[`item.${item}`]="{ value }"
     >
-      <DateChip :date="value" />
+      <DateChip v-if="value" :date="value" />
     </template>
 
     <template
@@ -121,7 +121,8 @@ const technologyKeys = [
 const dateKeys = [
   'created',
   'creationDate',
-  'expirationDate'
+  'expirationDate',
+  'lastUsed'
 ]
 
 const copyableKeys = [
