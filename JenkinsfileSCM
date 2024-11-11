@@ -81,7 +81,7 @@ pipeline {
     stage('End To End Tests') {
       steps {                  
         sh """
-          npm run test:setup:e2e
+          npm run test:e2e:setup
           npm run test:e2e
           npm run test:e2e:merge
           npm run test:cleanup
