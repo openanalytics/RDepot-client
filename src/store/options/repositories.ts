@@ -21,9 +21,9 @@
  */
 
 import {
-  EntityModelPythonRepositoryDto,
   EntityModelRRepositoryDto,
-  EntityModelRepositoryDto
+  EntityModelRepositoryDto,
+  EntityModelPythonRepositoryDto
 } from '@/openapi'
 import { defineStore } from 'pinia'
 import {
@@ -35,14 +35,15 @@ import { createRepository } from '@/services/repositoryServices'
 import { useUtilities } from '@/composable/utilities'
 import { DataTableOptions } from '@/models/DataTableOptions'
 import { useSortStore } from './sort'
-import { Technologies } from '@/enum/Technologies'
 import {
   fetchTechnologyRepository,
   updateTechnologyRepository
-} from '@/maps/repositories/RepositoryTechnology'
+} from '@/maps/repository/RepositoriesTechnology'
+import { Technologies } from '@/enum/Technologies'
 import { useOATable } from '@/store/setup/oatable'
 
 const { deepCopy } = useUtilities()
+
 export type CombinedRepositoryModel =
   EntityModelRRepositoryDto & EntityModelPythonRepositoryDto
 
@@ -127,6 +128,7 @@ export const useRepositoryStore = defineStore(
         showProgress = false
       ): Promise<CombinedRepositoryModel[]> {
         const sort = useSortStore()
+
         const getFn = technology
           ? fetchTechnologyRepository.get(technology)
           : fetchRepositoriesService
@@ -189,7 +191,22 @@ export const useRepositoryStore = defineStore(
             newRepository
           )
             .then(async (success: any) => {
-              if (success) await this.getPage()
+              if (success) {
+                await this.getPage()
+                if (
+                  this.chosenRepository?.name &&
+                  this.chosenRepository?.technology
+                ) {
+                  const repositories = await this.get(
+                    this.chosenRepository?.name,
+                    this.chosenRepository
+                      ?.technology as Technologies
+                  )
+                  if (repositories.length > 0) {
+                    this.chosenRepository = repositories[0]
+                  }
+                }
+              }
             })
             .finally(() => {
               this.pending = this.pending.filter(

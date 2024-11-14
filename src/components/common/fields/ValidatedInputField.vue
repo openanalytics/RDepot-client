@@ -33,6 +33,7 @@
     }"
     :no-data-text="$t('datatable.noDataAvailable')"
     @blur="handleBlur"
+    @set-value="update"
   >
     <template
       v-if="template && isas !== 'autocomplete'"
@@ -56,6 +57,7 @@ import { z } from 'zod'
 import AutocompleteField from '@/components/common/fields/AutocompleteField.vue'
 import ComboboxField from '@/components/common/fields/ComboboxField.vue'
 import { computed } from 'vue'
+import SwitchField from './SwitchField.vue'
 
 const componentProps = defineProps<{
   name: string
@@ -66,14 +68,22 @@ const componentProps = defineProps<{
   cancel?: boolean
 }>()
 
+const emits = defineEmits(['change'])
+
 const fieldMaxWidth = computed(
   () => componentProps.maxWidth || 250
 )
+
+function update(value: boolean | string | undefined) {
+  setValue(value)
+  emits('change')
+}
 
 const component = z.enum([
   'v-text-field',
   'v-select',
   'v-switch',
+  'switch-indeterminate',
   'v-combobox',
   'autocomplete',
   'combobox'
@@ -83,6 +93,7 @@ type Component = z.infer<typeof component>
 const toComponent = new Map<Component, any>([
   [component.enum['v-text-field'], VTextField],
   [component.enum['v-select'], VSelect],
+  [component.enum['switch-indeterminate'], SwitchField],
   [component.enum['v-switch'], VSwitch],
   [component.enum['v-combobox'], VCombobox],
   [component.enum['autocomplete'], AutocompleteField],
@@ -90,7 +101,7 @@ const toComponent = new Map<Component, any>([
 ])
 
 const isas = toComponent.get(componentProps.as)
-const { value, handleBlur, errors } = useField(
+const { value, handleBlur, errors, setValue } = useField(
   toRef(componentProps, 'name'),
   undefined
 )

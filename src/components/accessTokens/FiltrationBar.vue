@@ -26,7 +26,7 @@
     style="padding-left: 0; padding-right: 0"
   >
     <validated-input-field
-      id="filtration-search"
+      id="tokens-filtration-search"
       density="compact"
       hide-details
       name="search"
@@ -72,31 +72,35 @@
     </validated-input-field>
 
     <validated-input-field
-      id="filtration-active"
+      id="tokens-filtration-active"
       density="compact"
       hide-details
       name="active"
       :label="$t('settings.filtration.active')"
-      as="v-switch"
+      as="switch-indeterminate"
       color="oablue"
       class="flex-grow-0"
       @change="setFiltration"
     ></validated-input-field>
 
     <validated-input-field
-      id="filtration-expired"
+      id="tokens-filtration-expired"
       density="compact"
       hide-details
       name="expired"
       :label="$t('settings.filtration.expired')"
-      as="v-switch"
+      as="switch-indeterminate"
       color="oablue"
       class="flex-grow-0"
       @change="setFiltration"
     ></validated-input-field>
     <v-spacer />
     <ResetButton
-      v-if="!accessTokensStore.isDefaultFiltration"
+      :style="{
+        visibility: accessTokensStore.isDefaultFiltration
+          ? 'hidden'
+          : 'visible'
+      }"
       @reset-values="resetValues"
     />
   </div>

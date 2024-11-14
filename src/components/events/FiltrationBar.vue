@@ -103,7 +103,11 @@
 
     <v-spacer />
     <ResetButton
-      v-if="!eventStore.isDefaultFiltration"
+      :style="{
+        visibility: eventStore.isDefaultFiltration
+          ? 'hidden'
+          : 'visible'
+      }"
       @reset-values="resetValues"
     />
   </div>

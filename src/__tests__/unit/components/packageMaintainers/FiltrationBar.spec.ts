@@ -70,7 +70,7 @@ describe('Packages Maintainers - filtration', () => {
   })
 
   it('reset button hidden without filtration', () => {
-    expect(wrapper.find('#reset-button').exists()).toBe(
+    expect(wrapper.find('#reset-button').isVisible()).toBe(
       false
     )
   })

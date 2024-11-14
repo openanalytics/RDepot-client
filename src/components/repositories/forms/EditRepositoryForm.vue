@@ -28,6 +28,7 @@
       </v-card-title>
       <v-divider></v-divider>
       <v-card-text>
+        {{ repository.hashMethod }}
         <validated-input-field
           id="edit-name"
           v-model="localRepository.name"
@@ -66,6 +67,16 @@
           :label="$t('repositories.creation.technology')"
           max-width="unset"
         ></validated-input-field>
+        <validated-input-field
+          v-if="localRepository.technology == 'Python'"
+          id="edit-hash-method"
+          v-model="localRepository.hashMethod"
+          :items="hashMethods"
+          name="hashMethod"
+          as="v-select"
+          :label="$t('repositories.creation.hash')"
+          max-width="unset"
+        ></validated-input-field>
       </v-card-text>
       <v-divider></v-divider>
       <CardActions @submit="updateRepository" />
@@ -74,7 +85,10 @@
 </template>
 
 <script setup lang="ts">
-import { useRepositoryStore } from '@/store/options/repositories'
+import {
+  CombinedRepositoryModel,
+  useRepositoryStore
+} from '@/store/options/repositories'
 import { ref, onMounted } from 'vue'
 import { Technologies } from '@/enum/Technologies'
 import { repositorySchema } from '@/models/Schemas'
@@ -85,14 +99,16 @@ import CardActions from '@/components/common/overlay/CardActions.vue'
 import { z } from 'zod'
 import { useToast } from '@/composable/toasts'
 import { useI18n } from 'vue-i18n'
-import { EntityModelRepositoryDto } from '@/openapi'
 import { useUtilities } from '@/composable/utilities'
 import { useCommonStore } from '@/store/options/common'
+import { HashMethods } from '@/enum/HashMethods'
 
 const { deepCopy } = useUtilities()
+const hashMethods = ref(HashMethods.options)
 const repositoryStore = useRepositoryStore()
 const commonStore = useCommonStore()
-const repository: EntityModelRepositoryDto = deepCopy(
+
+const repository: CombinedRepositoryModel = deepCopy(
   repositoryStore.chosenRepository
 )
 const localRepository = ref(repository)
@@ -104,7 +120,7 @@ const loading = ref(false)
 let previousVal = ''
 let previousReturn = true
 
-const { meta } = useForm({
+const { meta, setFieldValue } = useForm({
   validationSchema: toTypedSchema(
     z.object({
       name: repositorySchema.shape.name.refine(
@@ -119,14 +135,16 @@ const { meta } = useForm({
       ),
       publicationUri: repositorySchema.shape.publicationUri,
       serverAddress: repositorySchema.shape.serverAddress,
-      technology: repositorySchema.shape.technology
+      technology: repositorySchema.shape.technology,
+      hashMethod: repositorySchema.shape.hashMethod
     })
   ),
   initialValues: {
     name: repository.name,
     publicationUri: repository.publicationUri,
     serverAddress: repository.serverAddress,
-    technology: repository.technology as Technologies
+    technology: repository.technology as Technologies,
+    hashMethod: repository.hashMethod
   }
 })
 
@@ -145,7 +163,7 @@ async function isRepositoryNameIsDuplicated(
 }
 
 function isRepositoryInTheReposList(
-  repoList: EntityModelRepositoryDto[]
+  repoList: CombinedRepositoryModel[]
 ) {
   return repoList.find(
     (repo) => repo.id == localRepository.value.id
@@ -161,5 +179,24 @@ function updateRepository() {
   }
 }
 
-onMounted(() => {})
+onMounted(async () => {
+  if (repositoryStore.chosenRepository.name) {
+    const repository = await repositoryStore.get(
+      repositoryStore.chosenRepository.name,
+      repositoryStore.chosenRepository
+        .technology as Technologies
+    )
+
+    if (
+      repository.length > 0 &&
+      repository[0].technology == Technologies.enum.Python
+    ) {
+      setFieldValue('hashMethod', repository[0].hashMethod)
+      repositoryStore.chosenRepository.hashMethod =
+        repository[0].hashMethod
+      localRepository.value.hashMethod =
+        repository[0].hashMethod
+    }
+  }
+})
 </script>

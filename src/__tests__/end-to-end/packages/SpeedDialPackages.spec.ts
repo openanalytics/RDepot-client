@@ -93,7 +93,7 @@ test.describe(TITLE, () => {
     await page.locator(`#${CANCEL_BUTTON_ID}`).click()
 
     await page.locator('css=.mdi-chevron-right').click()
-    await expect(packagesRowsSelector).toHaveCount(4)
+    await expect(packagesRowsSelector).toHaveCount(10)
     await page
       .locator(`#${PACKAGES_LIST_SELECT_ALL_ID}`)
       .click()
@@ -112,7 +112,7 @@ test.describe(TITLE, () => {
       .click()
 
     await speedDialModalSelector.waitFor()
-    await expect(packagesTitleSelector).toHaveCount(23)
+    await expect(packagesTitleSelector).toHaveCount(29)
     await page.locator(`#${CANCEL_BUTTON_ID}`).click()
     await page
       .locator(`#${PACKAGES_LIST_SELECT_ALL_ID}`)
@@ -130,7 +130,7 @@ test.describe(TITLE, () => {
 
     await speedDialModalSelector.waitFor()
 
-    await expect(packagesTitleSelector).toHaveCount(3)
+    await expect(packagesTitleSelector).toHaveCount(9)
     await page.locator(`#${CANCEL_BUTTON_ID}`).click()
   })
 

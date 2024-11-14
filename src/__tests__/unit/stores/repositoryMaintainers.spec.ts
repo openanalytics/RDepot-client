@@ -38,12 +38,14 @@ import { Technologies } from '@/enum/Technologies'
 import { useAuthorizationStore } from '@/store/options/authorization'
 import { server } from '@/__tests__/config/backend/server'
 import { failingServer } from '@/__tests__/config/backend/failingServer'
+import {
+  defaultValues,
+  RepositoryMaintainersFiltration
+} from '@/models/Filtration'
 
-const defaultFiltration = {
-  deleted: false,
-  technologies: undefined,
-  search: undefined
-}
+const defaultFiltration = defaultValues(
+  RepositoryMaintainersFiltration
+)
 
 const randomFiltration = {
   deleted: false,

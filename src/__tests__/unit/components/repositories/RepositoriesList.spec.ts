@@ -236,7 +236,9 @@ describe('Repositories - cells', () => {
     expect(
       cell.find(`#${DELETE_REPO_2_ICON_ID}`).exists()
     ).toBeTruthy()
-    expect(cell.find('#pencil-icon').exists()).toBe(true)
+    expect(
+      cell.find('#delete-repository-icon-2').exists()
+    ).toBe(true)
   })
 })
 
