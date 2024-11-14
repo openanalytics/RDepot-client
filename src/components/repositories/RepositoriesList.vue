@@ -113,6 +113,7 @@
         class="d-flex justify-center align-center"
       >
         <EditIcon
+          :icon-id="`edit-repository-${item.id}`"
           :disabled="
             !canPatch(item.links) ||
             configStore.declarativeMode ||
