@@ -2,10 +2,10 @@
   "action": {
     "accept": "Zaakceptuj",
     "cancel": "Anuluj",
-    "download": "Pobierz",
-    "reject": "Odrzuć",
     "changes": "Pokaż zmiany",
-    "noChanges": "Brak zmian"
+    "download": "Pobierz",
+    "noChanges": "Brak zmian",
+    "reject": "Odrzuć"
   },
   "addSubmission": {
     "generateManual": "Generuj dokumentację",
@@ -514,6 +514,7 @@
       "onSubmissionAvailableTitle": "Wybierz inne zgłoszenia",
       "warning": "Niektóre zgłoszenia nie mogą wykonać operacji {actionType}. "
     },
+    "noChangesProvided": "Brak zmian dla zgłoszenia",
     "noPackageChosen": "Nie wybrano pakietów",
     "rejected": "odrzucone",
     "replace": {
@@ -524,8 +525,7 @@
     },
     "waitForAllRequestsToFulfill": "Zaczekaj na zakończenie wszystkich zgłoszeń",
     "waitingForAction": "oczekuje na akcję",
-    "wrongExtension": "Wybierz pakiety o poprawnym rozszerzeniu (.tar.gz)",
-    "noChangesProvided": "Brak zmian dla zgłoszenia"
+    "wrongExtension": "Wybierz pakiety o poprawnym rozszerzeniu (.tar.gz)"
   },
   "success": "Poprawnie wykonana operacja",
   "tokens": {

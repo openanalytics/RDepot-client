@@ -80,6 +80,7 @@
         <div class="additional-row">
           <v-card class="additional-row expanded-package">
             <MarkdownDescription
+              style="padding-left: 10px"
               :description="
                 item.changes
                   ? item.changes

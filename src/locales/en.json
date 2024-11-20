@@ -2,10 +2,10 @@
   "action": {
     "accept": "Accept",
     "cancel": "Cancel",
-    "download": "Download",
-    "reject": "Reject",
     "changes": "Show changes",
-    "noChanges": "No changes"
+    "download": "Download",
+    "noChanges": "No changes",
+    "reject": "Reject"
   },
   "addSubmission": {
     "generateManual": "Generate manual",
@@ -520,6 +520,7 @@
       "onSubmissionAvailableTitle": "Please select other submissions",
       "warning": "Some submissions are not listed because they cannot be {actionType}."
     },
+    "noChangesProvided": "There are no changes listed for this submission",
     "noPackageChosen": "No packages chosen",
     "rejected": "rejected",
     "replace": {
@@ -530,8 +531,7 @@
     },
     "waitForAllRequestsToFulfill": "Please wait until all submissions have been uploaded",
     "waitingForAction": "waiting for an action",
-    "wrongExtension": "Choose packages that have the correct file extension (.tar.gz)",
-    "noChangesProvided": "There are no changes listed for this submission"
+    "wrongExtension": "Choose packages that have the correct file extension (.tar.gz)"
   },
   "success": "Request processed successfully",
   "tokens": {
