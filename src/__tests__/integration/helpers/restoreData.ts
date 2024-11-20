@@ -26,9 +26,15 @@ import util from 'node:util'
 
 const execPromise = util.promisify(exec)
 
-export async function restoreData() {
+export async function restoreData(project?: string) {
   try {
-    await execPromise('sh ./docker/restore.sh')
+    if (project == 'firefox') {
+      await execPromise('sh ./docker/restore-firefox.sh')
+    } else if (project == 'chrome') {
+      await execPromise('sh ./docker/restore-chrome.sh')
+    } else {
+      await execPromise('sh ./docker/restore.sh')
+    }
   } catch (error) {
     console.log('exec error')
     console.log(error)

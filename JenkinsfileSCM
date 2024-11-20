@@ -1,8 +1,10 @@
 pipeline {
   agent {
     kubernetes {
+      inheritFrom 'kaniko'
       yamlFile 'kubernetesPod.yaml'
       defaultContainer 'rdepot-client-build'
+      yamlMergeStrategy merge()
     }
   }
   options {
@@ -33,6 +35,8 @@ pipeline {
     stage('Install Dependencies') {
       steps {
 	      sh "npm install"
+        sh "npx playwright install --with-deps"
+        sh 'npx playwright install chrome'
       }
     }
     stage('License Check') {
@@ -49,8 +53,8 @@ pipeline {
         publishHTML([
           reportDir: 'reports', reportFiles: 'lint-report.html',
           reportName: 'UI Linting Report',
-          allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true])
-        }
+          allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true])        
+      }
     }
     stage('Build') {
       steps {
@@ -74,11 +78,21 @@ pipeline {
         }
       }
     }
+    stage('End To End Tests') {
+      steps {                  
+        sh """
+          npm run test:e2e:setup
+          npm run test:e2e
+          npm run test:e2e:merge
+          npm run test:cleanup
+          """
+        withChecks('UI Integration Tests') {
+          junit "reports/test-report-e2e.xml"
+        }
+      }      
+    } 
     stage('Integration Tests') {
-      steps {
-        withDockerRegistry([
-                  credentialsId: "oa-sa-jenkins-registry",
-                  url: "https://registry.openanalytics.eu"]){
+      steps {                
           sh """
             npm run test:setup
             npm run test:integration:once:junit
@@ -86,10 +100,9 @@ pipeline {
             """
           withChecks('UI Integration Tests') {
             junit "reports/test-report-integration.xml"
-          }
-        }
+          }        
       }
-    }
+    }           
     stage('Publish') {
       when {
         anyOf {

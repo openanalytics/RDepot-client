@@ -139,7 +139,11 @@
     />
     <v-spacer />
     <ResetButton
-      v-if="!submissionsStore.isDefaultFiltration"
+      :style="{
+        visibility: submissionsStore.isDefaultFiltration
+          ? 'hidden'
+          : 'visible'
+      }"
       @reset-values="resetValues"
     />
   </div>

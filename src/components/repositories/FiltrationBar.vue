@@ -107,7 +107,7 @@
       as="v-switch"
       color="oablue"
       class="ml-2 flex-grow-0"
-      @change="setFiltration"
+      @update:model-value="setFiltration"
     ></validated-input-field>
 
     <validated-input-field
@@ -116,7 +116,7 @@
       hide-details
       name="published"
       :label="$t('repositories.filtration.published')"
-      as="v-switch"
+      as="switch-indeterminate"
       color="oablue"
       class="flex-grow-0"
       cancel
@@ -126,7 +126,11 @@
     <v-spacer />
 
     <ResetButton
-      v-if="!repositoryStore.isDefaultFiltration"
+      :style="{
+        visibility: repositoryStore.isDefaultFiltration
+          ? 'hidden'
+          : 'visible'
+      }"
       @reset-values="resetValues"
     />
   </div>

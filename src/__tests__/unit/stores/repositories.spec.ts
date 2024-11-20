@@ -34,15 +34,14 @@ import { useRepositoryStore } from '@/store/options/repositories'
 import { Technologies } from '@/enum/Technologies'
 import { useAuthorizationStore } from '@/store/options/authorization'
 import { server } from '@/__tests__/config/backend/server'
+import {
+  defaultValues,
+  RepositoriesFiltration
+} from '@/models/Filtration'
 
-const defaultFiltration = {
-  technologies: undefined,
-  search: undefined,
-  deleted: false,
-  published: true,
-  name: undefined,
-  maintainer: undefined
-}
+const defaultFiltration = defaultValues(
+  RepositoriesFiltration
+)
 
 const randomFiltration = {
   deleted: true,

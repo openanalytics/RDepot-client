@@ -46,6 +46,7 @@ const EXTENSION_WITHOUT_LICENSE = [
   'svg',
   'sql',
   'mdb',
+  'zip',
   'ldif',
   'yaml',
   'conf',
@@ -78,7 +79,8 @@ const DIRS_WITHOUT_LICENSE_CHECKING = [
   'itestSourceFiles',
   'itestPdf',
   'itestPackages',
-  'reports'
+  'reports',
+  'test-results'
 ]
 
 const license_header = fs.readFileSync('LICENSE').toString()
