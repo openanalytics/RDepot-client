@@ -53,7 +53,7 @@ export function usePackagesFiltration() {
       title: packageBag.name,
       value: packageBag.name,
       props: {
-        id: `select-input-package-${packageBag.name}-${packageBag.version}-${packageBag.repository?.name}`,
+        id: `select-input-package-${packageBag.name}-${packageBag.repository?.name}`,
         subtitle: [
           packageMaintainedByUser?.user?.name,
           packageBag.user?.name

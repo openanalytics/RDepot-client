@@ -39,19 +39,19 @@ export const TEST_REPO_10_ID =
 
 //testrepo10 packages
 export const NUMPY_TESTREPO10_ID =
-  'select-input-package-numpy-1.24.1-testrepo10'
+  'select-input-package-numpy-testrepo10'
 export const WHEEL_TESTREPO10_ID =
-  'select-input-package-wheel-0.40.0-testrepo10'
+  'select-input-package-wheel-testrepo10'
 
 //testrepo3 packages
 export const ABC_TESTREPO3_ID =
-  'select-input-package-abc-1.0-testrepo3'
+  'select-input-package-abc-testrepo3'
 export const A3_TESTREPO3_ID =
-  'select-input-package-A3-0.9.2-testrepo3'
+  'select-input-package-A3-testrepo3'
 
 //testrepo1 packages
 export const USL_TESTREPO1_ID =
-  'select-input-package-usl-2.0.0-testrepo1'
+  'select-input-package-usl-testrepo1'
 
 //package maintainers
 export const GALILEO_GALILEI_ACCRUED_TESTREPO1_ID =
@@ -383,6 +383,19 @@ export const COPY_PUBLICATION_URI_TESTREPO1_BUTTON_ID =
   'resources-list-http://localhost/repo/testrepo1-copy'
 export const COPY_SERVER_ADDRESS_TESTREPO2_BUTTON_ID =
   'resources-list-http://oa-rdepot-repo:8080/testrepo2-copy'
+export const EDIT_REPOSITORY_TESTREPO8_ICON_ID =
+  'edit-repository-8'
+export const EDIT_REPOSITORY_HASH_METHOD_FIELD_ID =
+  'edit-hash-method'
+export const EDIT_REPOSITORY_TECHNOLOGY_FIELD_ID =
+  'edit-technology'
+export const EDIT_REPOSITORY_SERVER_ADDRESS_FIELD_ID =
+  'edit-server-address'
+export const EDIT_REPOSITORY_PUBLICATION_URI_FIELD_ID =
+  'edit-publication-uri'
+export const EDIT_REPOSITORY_NAME_FIELD_ID = 'edit-name'
+export const EDIT_REPOSITORY_SUBMIT_ID = 'submit-button'
+export const EDIT_REPOSITORY_CANCEL_ID = 'cancel-button'
 
 // REPOSITORY DESCRIPTION
 export const REPOSITORY_DESCRIPTION_CARD_ID =
