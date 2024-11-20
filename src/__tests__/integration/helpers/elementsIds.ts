@@ -250,6 +250,8 @@ export const UPLOAD_SUBMISSION_DISTRIBUTION =
   'upload-package-distribution'
 export const UPLOAD_SUBMISSION_SUCCESS_ICON =
   'submission-success-icon'
+export const UPLOAD_SUBMISSION_GENERATE_MANUAL_CHECKBOX =
+  'generate-manual-button'
 
 //REPOSITORIES FILTRATION
 export const REPOSITORIES_FILTRATION_SEARCH_FIELD_ID =

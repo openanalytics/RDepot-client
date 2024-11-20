@@ -31,6 +31,7 @@ import {
   UPLOAD_SUBMISSION_ARCHITECTURE,
   UPLOAD_SUBMISSION_DISTRIBUTION,
   UPLOAD_SUBMISSION_SUCCESS_ICON,
+  UPLOAD_SUBMISSION_GENERATE_MANUAL_CHECKBOX,
   UPLOAD_PACKAGES_SIDEBAR_ID
 } from '@/__tests__/integration/helpers/elementsIds'
 import { login } from '@/__tests__/end-to-end/helpers/login'
@@ -63,7 +64,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     await page.locator(`.${DROP_ZONE_CLASS}`).click()
     const fileChooser = await fileChooserPromise
     await fileChooser.setFiles(
-      '../testSourceFiles/info/arrow_8.0.0.tar.gz'
+      './src/__tests__/integration/testData/arrow_8.0.0.tar.gz'
     )
     await page
       .locator(`#${BINARY_SUBMISSION_CHECKBOX}`)
@@ -80,6 +81,11 @@ test.describe(TITLE, { tag: '@serial' }, () => {
       .locator(`#${UPLOAD_SUBMISSION_DISTRIBUTION}`)
       .click({ force: true })
     await page.getByText('centos7').click()
+    await page
+      .locator(
+        `#${UPLOAD_SUBMISSION_GENERATE_MANUAL_CHECKBOX}`
+      )
+      .click()
     await page
       .locator(`#${UPLOAD_SUBMISSION_CONTINUE_BUTTON_ID}`)
       .click()
