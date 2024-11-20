@@ -22,7 +22,7 @@
 
 <template>
   <IconButton
-    :id="`download-button-${item.id}`"
+    :id="`comment-button-${item.id}`"
     :tooltip="
       item.changes
         ? $t('action.changes')
