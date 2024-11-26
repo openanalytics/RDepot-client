@@ -70,7 +70,9 @@
     <v-btn
       id="next-button"
       color="oablue"
-      :disabled="!!!filesStore.files.length"
+      :disabled="
+        filesStore.files.length <= 0 || isNextDisabled
+      "
       @click="nextStep"
     >
       {{ $t('common.submit') }}
@@ -90,6 +92,7 @@ import { useFilesListStore } from '@/store/options/localFiles'
 import { useI18n } from 'vue-i18n'
 import { useToast } from '@/composable/toasts'
 import { Technologies } from '@/enum/Technologies'
+import { computed } from 'vue'
 
 const { files, open } = useFileDialog({
   accept: 'application/gzip'
@@ -115,6 +118,17 @@ function savePackagesInStore() {
     submissionsStore.packages = []
   }
 }
+
+const isNextDisabled = computed(() => {
+  return !(
+    submissionsStore.binary.length ===
+      submissionsStore.rversion.length &&
+    submissionsStore.rversion.length ===
+      submissionsStore.distribution.length &&
+    submissionsStore.distribution.length ===
+      submissionsStore.architecture.length
+  )
+})
 
 function checkValidity(file: File) {
   return (

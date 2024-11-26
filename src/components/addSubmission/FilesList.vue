@@ -57,13 +57,13 @@
         <validated-input-field
           v-if="submissionsStore.getBinaryForPackage(item)"
           id="upload-package-rversion"
+          variant="underlined"
           density="compact"
           hide-details
           closable-chips
           :items="submissionsStore.allowedRVersions"
           name="rversion"
           as="v-select"
-          :label="$t('packages.rversion')"
           @update:model-value="
             submissionsStore.addRversion($event, item)
           "
@@ -73,13 +73,13 @@
         <validated-input-field
           v-if="submissionsStore.getBinaryForPackage(item)"
           id="upload-package-architecture"
+          variant="underlined"
           density="compact"
           hide-details
           closable-chips
           :items="submissionsStore.allowedArchitectures"
           name="architecture"
           as="v-select"
-          :label="$t('packages.architecture')"
           @update:model-value="
             submissionsStore.addArchitecture($event, item)
           "
@@ -89,13 +89,13 @@
         <validated-input-field
           v-if="submissionsStore.getBinaryForPackage(item)"
           id="upload-package-distribution"
+          variant="underlined"
           density="compact"
           hide-details
           closable-chips
           :items="submissionsStore.allowedDistributions"
           name="distribution"
           as="v-select"
-          :label="$t('packages.distribution')"
           @update:model-value="
             submissionsStore.addDistribution($event, item)
           "
@@ -204,6 +204,7 @@ import { Technologies } from '@/enum/Technologies'
 import { useI18n } from 'vue-i18n'
 import { DataTableHeaders } from '@/models/DataTableOptions'
 import ValidatedInputField from '@/components/common/fields/ValidatedInputField.vue'
+import { onMounted } from 'vue'
 
 const { t } = useI18n()
 const submissionsStore = useSubmissionStore()
@@ -218,6 +219,10 @@ function resetPackages() {
   console.log(filesStore.files)
   filesStore.files = []
   submissionsStore.packages = []
+  submissionsStore.binary = []
+  submissionsStore.rversion = []
+  submissionsStore.architecture = []
+  submissionsStore.distribution = []
   // reset()
 }
 
@@ -315,6 +320,10 @@ const filteredHeaders = computed(() => {
       )
   }
   return headers.value
+})
+
+onMounted(() => {
+  resetPackages()
 })
 </script>
 
