@@ -21,22 +21,20 @@
 -->
 
 <template>
-  <FiltrationBar />
-  <EditUserModal v-if="commonStore.isEdit" />
-  <DeleteUserModal v-if="commonStore.isDelete" />
-  <UserList :key="componentKey" />
+  <ModalOverlay @action="performAction()"> </ModalOverlay>
 </template>
 
 <script setup lang="ts">
-import UserList from '@/components/users/UsersList.vue'
-import FiltrationBar from '@/components/users/FiltrationBar.vue'
-import { computed } from 'vue'
-import { useCommonStore } from '@/store/options/common'
-import EditUserModal from '@/components/users/modals/EditUserModal.vue'
-import DeleteUserModal from '@/components/users/modals/DeleteUserModal.vue'
+import ModalOverlay from '@/components/common/overlay/ModalOverlay.vue'
+import { useUtilities } from '@/composable/utilities'
+import { useUserStore } from '@/store/options/users'
 
-const commonStore = useCommonStore()
-const componentKey = computed(() => {
-  return commonStore.key
-})
+const userStore = useUserStore()
+const { deepCopy } = useUtilities()
+
+async function performAction() {
+  const newItem = deepCopy(userStore.chosenUser)
+  newItem.deleted = true
+  await userStore.save(newItem)
+}
 </script>

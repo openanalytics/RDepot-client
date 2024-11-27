@@ -556,6 +556,7 @@
     "waiting": "OCZEKUJE"
   },
   "users": {
+    "deleted": "Użytkownik jest usunięty",
     "edit": {
       "overlay": "Edytuj rolę {user_login}",
       "role": "Rola",
@@ -568,6 +569,7 @@
       "roles": "Role",
       "searchBox": "Użytkownik..."
     },
-    "unableDeactivation": "Użytkownik nie może dezaktywować siebie"
+    "unableDeactivation": "Użytkownik nie może dezaktywować siebie",
+    "unableDeletion": "Użytkownik nie może usunąć siebie\t"
   }
 }

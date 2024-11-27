@@ -439,6 +439,14 @@ export const CREATE_TOKEN_EXPIRATION_DATE_INPUT_ID =
 export const CREATE_TOKEN_SUBMIT_BUTTON_ID = 'submit-button'
 
 // USERS LIST PAGE
+export const COPY_GALIELEO_EMAIL_BUTTON_ID =
+  'resources-list-galieleo@ldap.forumsys.com-copy'
+export const DELETE_USER_ROLE_USER_ID = 'delete-user-9'
+export const DELETE_USER_ROLE_ADMIN_ID = 'delete-user-8'
+export const DELETE_USER_ROLE_ADMIN_LOGGED_IN_ID =
+  'delete-user-4'
+export const SUBMIT_USER_DELETION_BUTTON_ID =
+  'submit-button'
 export const COPY_ADMIN_EMAIL_BUTTON_ID =
   'resources-list-admin-localhost-copy'
 

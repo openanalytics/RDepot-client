@@ -562,6 +562,7 @@
     "waiting": "WAITING"
   },
   "users": {
+    "deleted": "This user is deleted",
     "edit": {
       "overlay": "Edit user role of {user_login}",
       "role": "Role",
@@ -574,6 +575,7 @@
       "roles": "Roles",
       "searchBox": "User..."
     },
-    "unableDeactivation": "Users cannot deactivate themselves"
+    "unableDeactivation": "Users cannot deactivate themselves",
+    "unableDeletion": "Users cannot delete themselves"
   }
 }
