@@ -24,7 +24,7 @@ import { test, expect } from '@playwright/test'
 import {
   COMMENT_SUBMISSION_ID,
   SUBMISSIONS_SIDEBAR_ID
-} from '@/__tests__/integration/helpers/elementsIds'
+} from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '../helpers/login'
 
 const TITLE = 'submissions multi actions'
