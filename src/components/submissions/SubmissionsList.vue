@@ -181,7 +181,7 @@ const headers = computed<DataTableHeaders[]>(() => [
     title: i18n.t('columns.actions'),
     align: 'center',
     key: 'actions',
-    width: '230',
+    width: '130',
     sortable: false
   }
 ])
