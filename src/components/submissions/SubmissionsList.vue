@@ -212,6 +212,14 @@ function isPending(
 </script>
 
 <style lang="scss">
+table {
+  background: rgb(var(--v-theme-background)) !important;
+}
+
+tr {
+  background-color: rgb(var(--v-theme-surface)) !important;
+}
+
 .empty-row {
   border-bottom: unset !important;
 }
