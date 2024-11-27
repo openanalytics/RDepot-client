@@ -103,7 +103,8 @@
       "deleted": "Deleted",
       "expirationDate": "Expiration date",
       "name": "Name",
-      "user": "User"
+      "user": "User",
+      "lastUsed": "Last used"
     },
     "username": "User name",
     "users": {
