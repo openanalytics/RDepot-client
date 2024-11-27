@@ -311,11 +311,9 @@ export const useSubmissionStore = defineStore(
         const toasts = useToast()
         if (this.submissionsToEdit) {
           this.submissionsToEdit.pending = true
-          console.log(this.submissionsToEdit.submissions)
           const promises =
             this.submissionsToEdit.submissions.map(
               (submission) => {
-                console.log(submission.packageBag?.name)
                 this.pending.push(submission)
                 return {
                   promise: editSubmission(

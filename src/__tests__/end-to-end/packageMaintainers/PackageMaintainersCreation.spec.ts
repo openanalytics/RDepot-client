@@ -74,6 +74,9 @@ test.describe(TITLE, { tag: '@serial' }, () => {
       `#${CREATE_PACKAGE_MAINTAINER_PACKAGE_INPUT_ID}`
     )
 
+    await packageInputSelector.waitFor()
+    await expect(packageInputSelector).toBeDisabled()
+
     await userInputSelector.waitFor()
     await userInputSelector.click({ force: true })
     const nikolaTeslaOption = page.locator(

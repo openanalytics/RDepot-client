@@ -310,7 +310,8 @@
   "package": {
     "chooseOneToEnable": "choose at least one package to enable",
     "noDescriptionProvided": "No description provided",
-    "propertyNotProvided": "not provided"
+    "propertyNotProvided": "not provided",
+    "seeRelatedEvents": "see all related events"
   },
   "packageMaintainer": {
     "create": "Create maintainer"

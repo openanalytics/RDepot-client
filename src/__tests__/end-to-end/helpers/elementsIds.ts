@@ -197,6 +197,10 @@ export const PACKAGES_LIST_CHECKBOX_ACTIONS_ANACODA_0213_TESTREPO4_ID =
 export const PACKAGES_LIST_ACTIVATE_BUTTON_ID =
   'checkbox-active-A3-0-9-2-testrepo3'
 
+//package details
+export const PACKAGE_GO_TO_EVENTS_BUTTON_ID =
+  'package-details-go-to-events'
+
 //r package details
 export const R_PACKAGE_VERSION_PROPERTY_ID =
   'r-package-version-property'
@@ -316,6 +320,10 @@ export const EVENTS_FILTRATION_FROM_DATE_FIELD_ID =
   'events-filtration-from-date'
 export const EVENTS_FILTRATION_TO_DATE_FIELD_ID =
   'events-filtration-to-date'
+export const EVENTS_FILTRATION_REPOSITORY_FIELD_ID =
+  'events-filtration-repository'
+export const EVENTS_FILTRATION_PACKAGE_FIELD_ID =
+  'events-filtration-package'
 
 //USERS FILTRATION
 export const USERS_FILTRATION_SEARCH_ID =

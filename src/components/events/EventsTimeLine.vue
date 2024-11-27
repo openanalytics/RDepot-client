@@ -62,7 +62,6 @@
             <v-timeline-item dot-color="rgba(0,0,0,0)">
               <template #icon>
                 <EventIcon
-                  :event="undefined"
                   :date="dayEvents[0]"
                   @click="hideDay(dayEvents[0])"
                 />

@@ -232,7 +232,6 @@ describe('Repositories - cells', () => {
 
   it('displays actions', () => {
     const cell = cells[6]
-    console.log(cell.html())
     expect(
       cell.find(`#${DELETE_REPO_2_ICON_ID}`).exists()
     ).toBeTruthy()
@@ -276,7 +275,6 @@ describe('Repositories - filtration based cells', () => {
       .findAllComponents('tr')[0]
       .findAllComponents('td')
     const cell = cells[6]
-    console.log(cell.html())
     expect(
       cell.find(`#${DELETE_REPO_2_ICON_ID}`).exists()
     ).toBeTruthy()
@@ -285,7 +283,6 @@ describe('Repositories - filtration based cells', () => {
   it('!displays action column', async () => {
     repositoriesStore.setFiltrationBy({ deleted: true })
     await nextTick()
-    console.log(repositoriesStore.filtration)
     cells = wrapper
       .findAllComponents('tr')[0]
       .findAllComponents('td')

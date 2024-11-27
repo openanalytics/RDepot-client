@@ -66,6 +66,7 @@ describe('repositories filtration composable', () => {
     const repositoriesStore = useRepositoryStore()
     selectStore.paginationData.totalNumber = 2
     selectStore.paginationData.page = 0
+    selectStore.paginationData.totalPages = 2
     selectStore.pageSize = 1
     const spy = vi.spyOn(repositoriesStore, 'getList')
     loadRepositories()
@@ -103,6 +104,7 @@ describe('repositories filtration composable', () => {
     const repositoriesStore = useRepositoryStore()
     selectStore.paginationData.totalNumber = 2
     selectStore.paginationData.page = 0
+    selectStore.paginationData.totalPages = 2
     selectStore.pageSize = 1
     const spy = vi.spyOn(repositoriesStore, 'getList')
     loadRepositoriesObjects()

@@ -206,8 +206,6 @@ export async function updatePythonRepositoryService(
     return new Promise(() => false)
   }
 
-  console.log(oldRepository)
-
   const patchBody = createPatch(
     oldRepository,
     newRepository
