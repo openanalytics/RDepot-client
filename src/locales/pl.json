@@ -303,7 +303,8 @@
   "package": {
     "chooseOneToEnable": "wybierz co najmniej jedną paczkę aby odblokować",
     "noDescriptionProvided": "Brak dostępnego opisu",
-    "propertyNotProvided": "brak informacji"
+    "propertyNotProvided": "brak informacji",
+    "seeRelatedEvents": "zobacz powiązane zdarzenia"
   },
   "packageMaintainer": {
     "create": "Stwórz opiekuna"

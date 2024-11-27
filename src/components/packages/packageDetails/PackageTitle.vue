@@ -21,9 +21,19 @@
 -->
 
 <template>
-  <h2 class="my-5">
-    {{ packageBag.name }}
-  </h2>
+  <div class="d-flex align-center ga-5">
+    <h2 class="my-5">
+      {{ packageBag.name }}
+    </h2>
+    <v-icon
+      id="package-details-go-to-events"
+      v-tooltip="tooltipMessage"
+      :icon="Icons.get('events')"
+      color="about-package"
+      size="large"
+      @click="navigate"
+    />
+  </div>
   <h3 color="text">
     {{ packageBag.title?.replaceAll('\\n', ' ') }}
   </h3>
@@ -33,6 +43,10 @@
 import { EntityModelRPackageDto } from '@/openapi'
 import { computed } from 'vue'
 import { usePackageDetailsStore } from '@/store/options/packageDetails'
+import Icons from '@/maps/Icons'
+import { i18n } from '@/plugins/i18n'
+import { useRouter } from 'vue-router'
+import { useEventsStore } from '@/store/options/events'
 
 const packageDetailsStore = usePackageDetailsStore()
 
@@ -40,6 +54,31 @@ const packageBag = computed<EntityModelRPackageDto>(
   () =>
     packageDetailsStore.packageBag as EntityModelRPackageDto
 )
+
+const tooltipMessage = computed(() =>
+  i18n.t('package.seeRelatedEvents')
+)
+
+const router = useRouter()
+const eventsStore = useEventsStore()
+
+function navigate() {
+  if (
+    packageBag.value.name &&
+    packageBag.value.repository?.name
+  ) {
+    eventsStore.setFiltration({
+      packageName: [packageBag.value.name],
+      repositoryName: [packageBag.value.repository.name]
+    })
+    router.push({
+      name: 'events',
+      params: {
+        packageName: packageBag.value.name
+      }
+    })
+  }
+}
 </script>
 
 <style lang="scss">

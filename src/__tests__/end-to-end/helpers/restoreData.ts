@@ -34,7 +34,6 @@ export async function restoreData(project?: string) {
       await execPromise('sh ./docker/restore-chrome.sh')
     }
   } catch (error) {
-    console.log('exec error')
     console.log(error)
   }
 }

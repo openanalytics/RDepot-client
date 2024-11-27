@@ -41,23 +41,25 @@ export function useUsersFiltration() {
     selectStore.resetPagination()
   }
 
+  async function getUsers() {
+    await userStore
+      .getList(
+        selectStore.paginationData.page - 1,
+        selectStore.pageSize
+      )
+      .then((res) => {
+        selectStore.paginationData.totalNumber =
+          res.totalNumber
+        selectStore.paginationData.totalPages =
+          res.totalPages
+      })
+  }
+
   async function loadUsers() {
-    if (
-      selectStore.items.length !=
-        selectStore.paginationData.totalNumber ||
-      selectStore.paginationData.totalNumber == -1
-    ) {
+    if (selectStore.shouldFetchNextPage) {
       selectStore.nextPage()
-      if (selectStore.fetchNextPageCondition) {
-        await userStore
-          .getList(
-            selectStore.paginationData.page - 1,
-            selectStore.pageSize
-          )
-          .then((res) => {
-            selectStore.paginationData.totalNumber =
-              res.totalNumber
-          })
+      if (selectStore.shouldFetchNextPage) {
+        await getUsers()
         selectStore.addItems(
           userStore.users.map(
             (user: EntityModelUserDto) => {
@@ -104,34 +106,11 @@ export function useUsersFiltration() {
   }
 
   async function loadUsersObjects(isAtLeastRole?: Role) {
-    if (
-      selectStore.items.length !=
-        selectStore.paginationData.totalNumber ||
-      selectStore.paginationData.totalNumber == -1
-    ) {
-      selectStore.setPage(
-        selectStore.paginationData.page + 1
-      )
-      if (
-        selectStore.shouldFetchNextPage &&
-        ((selectStore.paginationData.totalNumber > 0 &&
-          selectStore.paginationData.page <=
-            Math.ceil(
-              selectStore.paginationData.totalNumber /
-                selectStore.pageSize
-            )) ||
-          selectStore.paginationData.totalNumber < 0)
-      ) {
+    if (selectStore.shouldFetchNextPage) {
+      selectStore.nextPage()
+      if (selectStore.shouldFetchNextPage) {
         setUsersFiltration(isAtLeastRole)
-        await userStore
-          .getList(
-            selectStore.paginationData.page - 1,
-            selectStore.pageSize
-          )
-          .then((res) => {
-            selectStore.paginationData.totalNumber =
-              res.totalNumber
-          })
+        await getUsers()
         selectStore.addItems(
           userStore.users.map(
             (user: EntityModelUserDto) => {
