@@ -77,6 +77,7 @@ export const ENGLISH_LANGUAGE_ID = 'en-US'
 //sidebar
 export const PACKAGE_MAINTAINERS_SIDEBAR_ID =
   'sidebar-package-maintainers'
+export const PACKAGES_SIDEBAR_ID = 'sidebar-packages-list'
 export const REPOSITORY_MAINTAINERS_SIDEBAR_ID =
   'sidebar-repository-maintainers'
 export const SUBMISSIONS_SIDEBAR_ID = 'sidebar-submissions'
@@ -378,12 +379,14 @@ export const SUBMISSIONS_LIST_ACTIONS_USL_200_TESTREPO2_ID =
 //REPOSITORIES LIST
 export const DELETE_REPO_2_ICON_ID =
   'delete-repository-icon-2'
+export const DELETE_REPO_3_ICON_ID =
+  'delete-repository-icon-3'
 export const DELETE_REPOSITORY_SUBMIT_ID = 'submit-button'
 export const DELETE_REPOSITORY_CANCEL_ID = 'cancel-button'
 export const COPY_PUBLICATION_URI_TESTREPO1_BUTTON_ID =
-  'resources-list-http://localhost/repo/testrepo1-copy'
+  'resources-list-httplocalhostrepotestrepo1-copy'
 export const COPY_SERVER_ADDRESS_TESTREPO2_BUTTON_ID =
-  'resources-list-http://oa-rdepot-repo:8080/testrepo2-copy'
+  'resources-list-httpoa-rdepot-repo8080testrepo2-copy'
 export const EDIT_REPOSITORY_TESTREPO8_ICON_ID =
   'edit-repository-8'
 export const EDIT_REPOSITORY_HASH_METHOD_FIELD_ID =
@@ -428,8 +431,8 @@ export const CREATE_TOKEN_EXPIRATION_DATE_INPUT_ID =
 export const CREATE_TOKEN_SUBMIT_BUTTON_ID = 'submit-button'
 
 // USERS LIST PAGE
-export const COPY_GALIELEO_EMAIL_BUTTON_ID =
-  'resources-list-galieleo@ldap.forumsys.com-copy'
+export const COPY_ADMIN_EMAIL_BUTTON_ID =
+  'resources-list-admin-localhost-copy'
 
 // USERS FILTRATION
 export const USERS_FILTRATION_SEARCH_FIELD_ID =

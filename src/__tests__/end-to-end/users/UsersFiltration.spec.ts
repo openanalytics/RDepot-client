@@ -25,7 +25,7 @@ import {
   USERS_FILTRATION_ACTIVE_ID,
   USERS_FILTRATION_DELETED_ID,
   USERS_SIDEBAR_ID
-} from '@/__tests__/integration/helpers/elementsIds'
+} from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '../helpers/login'
 
 const TITLE = 'users filtration'

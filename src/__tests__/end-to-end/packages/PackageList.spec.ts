@@ -20,23 +20,21 @@
  *
  */
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const { exec } = require('child_process')
-import util from 'node:util'
+import { test, expect } from '@playwright/test'
+import { login } from '../helpers/login'
+import { i18n } from '@/plugins/i18n'
 
-const execPromise = util.promisify(exec)
+const TITLE = 'packages list'
+test.describe(TITLE, () => {
+  test('no description provided', async ({ page }) => {
+    await login(page, 'einstein')
 
-export async function restoreData(project?: string) {
-  try {
-    if (project == 'firefox') {
-      await execPromise('sh ./docker/restore-firefox.sh')
-    } else if (project == 'chrome') {
-      await execPromise('sh ./docker/restore-chrome.sh')
-    } else {
-      await execPromise('sh ./docker/restore.sh')
-    }
-  } catch (error) {
-    console.log('exec error')
-    console.log(error)
-  }
-}
+    await page
+      .locator('.v-data-table__tr:nth-child(18)')
+      .click()
+
+    expect(
+      await page.locator('.additional-row p').textContent()
+    ).toContain(i18n.t('package.noDescriptionProvided'))
+  })
+})

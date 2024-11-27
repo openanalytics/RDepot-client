@@ -39,7 +39,7 @@ import { useAuthorizationStore } from '@/store/options/authorization'
 import me from '@/__tests__/config/mockData/me.json'
 import { nextTick } from 'vue'
 import { i18n } from '@/plugins/i18n'
-import { DELETE_REPO_2_ICON_ID } from '@/__tests__/integration/helpers/elementsIds'
+import { DELETE_REPO_2_ICON_ID } from '@/__tests__/end-to-end/helpers/elementsIds'
 
 let wrapper: any
 let authorizationStore: any
