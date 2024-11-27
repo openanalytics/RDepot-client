@@ -384,9 +384,9 @@ test.describe(TITLE_SERIAL, { tag: '@serial' }, () => {
     await page.waitForURL('**/settings-tokens')
 
     const englishHeaders =
-      'NameUserCreationdateExpirationdateActiveActions'
+      'NameUserLastusedCreationdateExpirationdateActiveActions'
     const polishHeaders =
-      'NazwaUżytkownikDatautworzeniaDatawygaśnięciaAktywnyAkcje'
+      'NazwaUżytkownikOstatnioużytyDatautworzeniaDatawygaśnięciaAktywnyAkcje'
 
     const plLanguageSelector = page.locator(
       `#${POLISH_LANGUAGE_ID}`
