@@ -64,7 +64,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     await page.locator(`.${DROP_ZONE_CLASS}`).click()
     const fileChooser = await fileChooserPromise
     await fileChooser.setFiles(
-      './src/__tests__/integration/testData/arrow_8.0.0.tar.gz'
+      './src/__tests__/end-to-end/testData/arrow_8.0.0.tar.gz'
     )
     await page
       .locator(`#${BINARY_SUBMISSION_CHECKBOX}`)
