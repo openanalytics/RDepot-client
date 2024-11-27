@@ -84,25 +84,13 @@ pipeline {
           npm run test:e2e:setup
           npm run test:e2e
           npm run test:e2e:merge
-          npm run test:cleanup
+          npm run test:e2e:cleanup
           """
-        withChecks('UI Integration Tests') {
+        withChecks('UI e2e Tests') {
           junit "reports/test-report-e2e.xml"
         }
       }      
     } 
-    stage('Integration Tests') {
-      steps {                
-          sh """
-            npm run test:setup
-            npm run test:integration:once:junit
-            npm run test:cleanup
-            """
-          withChecks('UI Integration Tests') {
-            junit "reports/test-report-integration.xml"
-          }        
-      }
-    }           
     stage('Publish') {
       when {
         anyOf {

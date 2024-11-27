@@ -31,7 +31,6 @@
     :id="`accept-button-${item.id}`"
     :tooltip="$t('action.accept')"
     :icon="Icons.get('accept')"
-    size="small"
     color="success"
     @click="acceptSubmission(item)"
   />

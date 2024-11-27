@@ -22,53 +22,53 @@
 
 import { test, expect } from '@playwright/test'
 import {
-  REPOSITORY_MAINTAINERS_FILTRATION_DELETED_FIELD_ID,
-  REPOSITORY_MAINTAINERS_SIDEBAR_ID
+  PACKAGE_MAINTAINERS_FILTRATION_DELETED_FIELD_ID,
+  PACKAGE_MAINTAINERS_SIDEBAR_ID
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '../helpers/login'
 
-const TITLE = 'repository maintainers filtration'
+const TITLE = 'package maintainers filtration'
 test.describe(TITLE, () => {
   test('deleted', async ({ page }) => {
     await login(page, 'einstein')
 
     await page
-      .locator(`#${REPOSITORY_MAINTAINERS_SIDEBAR_ID}`)
+      .locator(`#${PACKAGE_MAINTAINERS_SIDEBAR_ID}`)
       .click()
-    await page.waitForURL('**/repository-maintainers')
+    await page.waitForURL('**/package-maintainers')
 
     const maintainerDeletedSelector = page.locator(
       '.mdi-trash-can.text-grey'
     )
     const maintainersRowsSelector = page.locator('role=row')
-    await expect(maintainersRowsSelector).toHaveCount(7)
-    await expect(maintainerDeletedSelector).toHaveCount(1)
+    await expect(maintainersRowsSelector).toHaveCount(12)
+    await expect(maintainerDeletedSelector).toHaveCount(2)
 
     await page
       .locator(
-        `#${REPOSITORY_MAINTAINERS_FILTRATION_DELETED_FIELD_ID}`
+        `#${PACKAGE_MAINTAINERS_FILTRATION_DELETED_FIELD_ID}`
       )
       .click()
 
-    await expect(maintainersRowsSelector).toHaveCount(2)
-    await expect(maintainerDeletedSelector).toHaveCount(1)
+    await expect(maintainersRowsSelector).toHaveCount(3)
+    await expect(maintainerDeletedSelector).toHaveCount(2)
 
     await page
       .locator(
-        `#${REPOSITORY_MAINTAINERS_FILTRATION_DELETED_FIELD_ID}`
+        `#${PACKAGE_MAINTAINERS_FILTRATION_DELETED_FIELD_ID}`
       )
       .click()
 
-    await expect(maintainersRowsSelector).toHaveCount(7)
-    await expect(maintainerDeletedSelector).toHaveCount(1)
+    await expect(maintainersRowsSelector).toHaveCount(12)
+    await expect(maintainerDeletedSelector).toHaveCount(2)
 
     await page
       .locator(
-        `#${REPOSITORY_MAINTAINERS_FILTRATION_DELETED_FIELD_ID}`
+        `#${PACKAGE_MAINTAINERS_FILTRATION_DELETED_FIELD_ID}`
       )
       .click()
 
-    await expect(maintainersRowsSelector).toHaveCount(6)
+    await expect(maintainersRowsSelector).toHaveCount(10)
     await expect(maintainerDeletedSelector).toHaveCount(0)
   })
 })

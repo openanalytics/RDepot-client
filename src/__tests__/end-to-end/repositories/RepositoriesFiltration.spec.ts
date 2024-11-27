@@ -24,7 +24,7 @@ import { test, expect } from '@playwright/test'
 import {
   REPOSITORIES_FILTRATION_PUBLISHED_FIELD_ID,
   REPOSITORIES_SIDEBAR_ID
-} from '@/__tests__/integration/helpers/elementsIds'
+} from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '../helpers/login'
 
 const TITLE = 'repositories filtration'
@@ -36,7 +36,6 @@ test.describe(TITLE, () => {
       .locator(`#${REPOSITORIES_SIDEBAR_ID}`)
       .click()
     await page.waitForURL('**/repositories')
-    await expect(page).toHaveTitle(/RDepot - repositories/)
 
     const repositoryPublishedSelector = page.getByRole(
       'checkbox',

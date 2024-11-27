@@ -21,28 +21,20 @@
  */
 
 import { test, expect } from '@playwright/test'
-import {
-  DOWNLOAD_SUBMISSION_FILENAME_ID,
-  DOWNLOAD_SUBMISSION_ID,
-  SUBMISSIONS_SIDEBAR_ID
-} from '@/__tests__/end-to-end/helpers/elementsIds'
-import { login } from '@/__tests__/end-to-end/helpers/login'
-import { downloadFile } from '@/__tests__/end-to-end/helpers/download'
+import { login } from '../helpers/login'
+import { i18n } from '@/plugins/i18n'
 
-const TITLE = 'submissions downloading'
+const TITLE = 'packages list'
 test.describe(TITLE, () => {
-  test('download submission', async ({ page }) => {
+  test('no description provided', async ({ page }) => {
     await login(page, 'einstein')
-    await page.locator(`#${SUBMISSIONS_SIDEBAR_ID}`).click()
-    await page.waitForURL('**/submissions')
-    await expect(page).toHaveTitle(/RDepot - submissions/)
-    const submissionRowsSelector = page.locator('role=row')
-    await expect(submissionRowsSelector).toHaveCount(21)
 
-    await downloadFile(
-      page,
-      DOWNLOAD_SUBMISSION_ID,
-      DOWNLOAD_SUBMISSION_FILENAME_ID
-    )
+    await page
+      .locator('.v-data-table__tr:nth-child(18)')
+      .click()
+
+    expect(
+      await page.locator('.additional-row p').textContent()
+    ).toContain(i18n.t('package.noDescriptionProvided'))
   })
 })

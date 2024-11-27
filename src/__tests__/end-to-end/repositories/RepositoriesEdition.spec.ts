@@ -28,9 +28,9 @@ import {
   REPOSITORIES_LIST_PYTHON_REPO_ID,
   REPOSITORIES_SIDEBAR_ID,
   REPOSITORY_DESCRIPTION_HASH_METHOD_ID
-} from '@/__tests__/integration/helpers/elementsIds'
+} from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '../helpers/login'
-import { restoreData } from '@/__tests__/integration/helpers/restoreData'
+import { restoreData } from '@/__tests__/end-to-end/helpers/restoreData'
 
 // eslint-disable-next-line no-empty-pattern
 test.beforeAll(async ({}, testInfo) => {

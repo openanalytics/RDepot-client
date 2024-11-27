@@ -31,7 +31,6 @@
     :id="`reject-button-${item.id}`"
     :tooltip="$t('action.reject')"
     :icon="Icons.get('reject')"
-    size="small"
     color="oared"
     @click="rejectSubmission(item)"
   />

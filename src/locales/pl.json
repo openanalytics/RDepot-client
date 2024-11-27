@@ -2,7 +2,9 @@
   "action": {
     "accept": "Zaakceptuj",
     "cancel": "Anuluj",
+    "changes": "Pokaż zmiany",
     "download": "Pobierz",
+    "noChanges": "Brak zmian",
     "reject": "Odrzuć"
   },
   "addSubmission": {
@@ -513,6 +515,7 @@
       "onSubmissionAvailableTitle": "Wybierz inne zgłoszenia",
       "warning": "Niektóre zgłoszenia nie mogą wykonać operacji {actionType}. "
     },
+    "noChangesProvided": "Brak zmian dla zgłoszenia",
     "noPackageChosen": "Nie wybrano pakietów",
     "rejected": "odrzucone",
     "replace": {

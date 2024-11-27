@@ -21,7 +21,7 @@
  */
 
 import { test, expect } from '@playwright/test'
-import { PACKAGES_FILTRATION_DELETED_FIELD_ID } from '@/__tests__/integration/helpers/elementsIds'
+import { PACKAGES_FILTRATION_DELETED_FIELD_ID } from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '../helpers/login'
 
 const TITLE = 'packages filtration'

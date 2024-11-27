@@ -23,11 +23,13 @@
 import { test, expect } from '@playwright/test'
 import {
   CANCEL_BUTTON_ID,
+  DOWNLOAD_SUBMISSION_FILENAME_REQUESTS_ID,
   SUBMISSIONS_LIST_ACTIONS_A3_091_TESTREPO4_ID,
   SUBMISSIONS_LIST_ACTIONS_ABC_10_TESTREPO4_ID,
   SUBMISSIONS_LIST_ACTIONS_BENCHMARKING_010_TESTREPO4_ID,
   SUBMISSIONS_LIST_ACTIONS_REQUESTS_2191_TESTREPO8_ID,
   SUBMISSIONS_LIST_ACTIONS_REQUESTS_2281_TESTREPO8_ID,
+  SUBMISSIONS_LIST_ACTIONS_USL_200_TESTREPO2_ID,
   SUBMISSIONS_LIST_ACTIONS_VISDAT_010_TESTREPO2_ID,
   SUBMISSIONS_LIST_ACTIONS_WHEEL_0380_TESTREPO10_ID,
   SUBMISSIONS_LIST_MODAL_ID,
@@ -35,12 +37,13 @@ import {
   SUBMISSIONS_MULTI_ACCEPT_ID,
   SUBMISSIONS_MULTI_ACTIONS_ID,
   SUBMISSIONS_MULTI_CANCEL_ID,
+  SUBMISSIONS_MULTI_DOWNLOAD_ID,
   SUBMISSIONS_MULTI_REJECT_ID,
   SUBMISSIONS_SIDEBAR_ID,
   SUBMIT_BUTTON_ID
-} from '@/__tests__/integration/helpers/elementsIds'
+} from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '../helpers/login'
-import { restoreData } from '@/__tests__/integration/helpers/restoreData'
+import { restoreData } from '@/__tests__/end-to-end/helpers/restoreData'
 
 const TITLE = 'submissions multi actions'
 test.describe(TITLE, () => {
@@ -199,6 +202,62 @@ test.describe(TITLE, () => {
       `#${SUBMIT_BUTTON_ID}`
     )
     await expect(submitButtonLocator).toBeDisabled()
+  })
+
+  test('download a few waiting submission', async ({
+    page
+  }) => {
+    await login(page, 'einstein')
+    await page.locator(`#${SUBMISSIONS_SIDEBAR_ID}`).click()
+    await page.waitForURL('**/submissions')
+    await expect(page).toHaveTitle(/RDepot - submissions/)
+    const submissionRowsSelector = page.locator('role=row')
+    await expect(submissionRowsSelector).toHaveCount(21)
+
+    await page
+      .locator(
+        `#${SUBMISSIONS_LIST_ACTIONS_BENCHMARKING_010_TESTREPO4_ID}`
+      )
+      .click()
+    await page
+      .locator(
+        `#${SUBMISSIONS_LIST_ACTIONS_REQUESTS_2191_TESTREPO8_ID}`
+      )
+      .click()
+    await page
+      .locator(
+        `#${SUBMISSIONS_LIST_ACTIONS_USL_200_TESTREPO2_ID}`
+      )
+      .click()
+    await page
+      .locator(`#${SUBMISSIONS_MULTI_ACTIONS_ID}`)
+      .click()
+    const multiDownloadButtonSelector = page.locator(
+      `#${SUBMISSIONS_MULTI_DOWNLOAD_ID}`
+    )
+    await multiDownloadButtonSelector.waitFor()
+    await multiDownloadButtonSelector.click()
+
+    const downloadSubmissionsModal = page.locator(
+      `#${SUBMISSIONS_LIST_MODAL_ID}`
+    )
+    await downloadSubmissionsModal.waitFor()
+
+    const submissionsToDownloadLocator = page.locator(
+      `#${SUBMISSIONS_LIST_MODAL_ID} .v-list-item-title`
+    )
+
+    await expect(submissionsToDownloadLocator).toHaveCount(
+      3
+    )
+    await page.locator(`#${SUBMIT_BUTTON_ID}`).click()
+    await expect(submissionsToDownloadLocator).toHaveCount(
+      0
+    )
+    const downloadLinkLocator = page.locator(
+      `xpath=//a[@download="${DOWNLOAD_SUBMISSION_FILENAME_REQUESTS_ID}"]`
+    )
+    await expect(downloadLinkLocator).toHaveCount(1)
   })
 })
 

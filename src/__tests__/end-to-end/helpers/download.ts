@@ -39,7 +39,11 @@ export async function downloadFile(
     ? expectedDownloadFileName
     : download.suggestedFilename()
 
-  expect(
-    fs.existsSync('./downloads/' + expectedFileName)
-  ).toBe(true)
+  ifFileIsInFilesSystem(expectedFileName)
+}
+
+export function ifFileIsInFilesSystem(fileName: string) {
+  expect(fs.existsSync('./downloads/' + fileName)).toBe(
+    true
+  )
 }

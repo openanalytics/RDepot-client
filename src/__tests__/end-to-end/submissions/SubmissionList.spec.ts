@@ -22,27 +22,23 @@
 
 import { test, expect } from '@playwright/test'
 import {
-  DOWNLOAD_SUBMISSION_FILENAME_ID,
-  DOWNLOAD_SUBMISSION_ID,
+  COMMENT_SUBMISSION_ID,
   SUBMISSIONS_SIDEBAR_ID
 } from '@/__tests__/end-to-end/helpers/elementsIds'
-import { login } from '@/__tests__/end-to-end/helpers/login'
-import { downloadFile } from '@/__tests__/end-to-end/helpers/download'
+import { login } from '../helpers/login'
 
-const TITLE = 'submissions downloading'
+const TITLE = 'submissions multi actions'
 test.describe(TITLE, () => {
-  test('download submission', async ({ page }) => {
+  test('select and unselect', async ({ page }) => {
     await login(page, 'einstein')
     await page.locator(`#${SUBMISSIONS_SIDEBAR_ID}`).click()
     await page.waitForURL('**/submissions')
     await expect(page).toHaveTitle(/RDepot - submissions/)
-    const submissionRowsSelector = page.locator('role=row')
-    await expect(submissionRowsSelector).toHaveCount(21)
+    await page.locator(`#${COMMENT_SUBMISSION_ID}`).click()
 
-    await downloadFile(
-      page,
-      DOWNLOAD_SUBMISSION_ID,
-      DOWNLOAD_SUBMISSION_FILENAME_ID
+    const repositoryHashMethodSelector = page.getByText(
+      'There are no changes listed for this submission'
     )
+    expect(repositoryHashMethodSelector).toHaveCount(1)
   })
 })
