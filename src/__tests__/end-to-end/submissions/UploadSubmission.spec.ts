@@ -33,7 +33,7 @@ import {
   UPLOAD_SUBMISSION_SUCCESS_ICON,
   UPLOAD_SUBMISSION_GENERATE_MANUAL_CHECKBOX,
   UPLOAD_PACKAGES_SIDEBAR_ID
-} from '@/__tests__/integration/helpers/elementsIds'
+} from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '@/__tests__/end-to-end/helpers/login'
 
 const TITLE = 'packages upload'

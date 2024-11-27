@@ -102,9 +102,9 @@
       "creationDate": "Data utworzenia",
       "deleted": "Usunięty",
       "expirationDate": "Data wygaśnięcia",
+      "lastUsed": "Ostatnio użyty",
       "name": "Nazwa",
-      "user": "Użytkownik",
-      "lastUsed": "Ostatnio użyty"
+      "user": "Użytkownik"
     },
     "username": "Nazwa użytkownika",
     "users": {

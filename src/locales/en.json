@@ -102,9 +102,9 @@
       "creationDate": "Creation date",
       "deleted": "Deleted",
       "expirationDate": "Expiration date",
+      "lastUsed": "Last used",
       "name": "Name",
-      "user": "User",
-      "lastUsed": "Last used"
+      "user": "User"
     },
     "username": "User name",
     "users": {
