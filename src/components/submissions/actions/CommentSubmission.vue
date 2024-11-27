@@ -22,29 +22,24 @@
 
 <template>
   <IconButton
-    v-if="
-      authorizationStore.me?.id == item.submitter?.id &&
-      item.state ===
-        EntityModelSubmissionDtoStateEnum.WAITING &&
-      canPatch(item.links, 'state')
+    :id="`comment-button-${item.id}`"
+    :tooltip="
+      item.changes
+        ? $t('action.changes')
+        : $t('action.noChanges')
     "
-    :id="`cancel-button-${item.id}`"
-    :tooltip="$t('action.cancel')"
-    :icon="Icons.get('reject')"
-    color="oared"
-    @click="cancelSubmission(item)"
+    :icon="
+      item.changes
+        ? Icons.get('message')
+        : Icons.get('message-outline')
+    "
+    color="warning"
   />
 </template>
 
 <script setup lang="ts">
-import {
-  EntityModelSubmissionDto,
-  EntityModelSubmissionDtoStateEnum
-} from '@/openapi'
-import { useSubmissionActions } from '@/composable/submissions/submissionActions'
+import { EntityModelSubmissionDto } from '@/openapi'
 import IconButton from '@/components/common/buttons/IconButton.vue'
-import { useAuthorizationStore } from '@/store/options/authorization'
-import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
 import Icons from '@/maps/Icons'
 
 defineProps({
@@ -53,8 +48,4 @@ defineProps({
     required: true
   }
 })
-
-const authorizationStore = useAuthorizationStore()
-const { canPatch } = useUserAuthorities()
-const { cancelSubmission } = useSubmissionActions()
 </script>

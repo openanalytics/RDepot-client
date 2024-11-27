@@ -155,6 +155,7 @@ export const EDIT_REPOSITORY_MAINTAINER_SUBMIT_ID =
 
 //submissions
 export const DOWNLOAD_SUBMISSION_ID = 'download-button-19'
+export const COMMENT_SUBMISSION_ID = 'comment-button-19'
 export const DOWNLOAD_SUBMISSION_FILENAME_ID =
   'visdat_0.1.0.tar.gz'
 export const DOWNLOAD_SUBMISSION_FILENAME_REQUESTS_ID =

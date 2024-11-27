@@ -32,7 +32,6 @@
     :id="`download-button-${item.id}`"
     :tooltip="$t('action.download')"
     :icon="Icons.get('download')"
-    size="small"
     @click="downloadSubmission(item)"
   />
 </template>
