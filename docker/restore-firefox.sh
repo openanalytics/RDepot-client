@@ -1,7 +1,7 @@
 #!/bin/bash
 #CONTAINER="oa-rdepot-app-without-snapshots";
 # rm -rf docker/testData
-cp -rf src/__tests__/integration/testData docker/
+cp -rf src/__tests__/end-to-end/testData docker/
 cd docker/testData && tar -xzf itestSource.tar.gz
 rm -rf downloads/
 

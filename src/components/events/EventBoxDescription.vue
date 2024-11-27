@@ -21,11 +21,7 @@
 -->
 
 <template>
-  <component
-    :is="as"
-    :event="event"
-    :event-type="eventType"
-  ></component>
+  <component :is="as" :event="event"></component>
 </template>
 
 <script setup lang="ts">

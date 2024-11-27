@@ -25,7 +25,7 @@ import {
   DOWNLOAD_SUBMISSION_FILENAME_ID,
   DOWNLOAD_SUBMISSION_ID,
   SUBMISSIONS_SIDEBAR_ID
-} from '@/__tests__/integration/helpers/elementsIds'
+} from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '@/__tests__/end-to-end/helpers/login'
 import { downloadFile } from '@/__tests__/end-to-end/helpers/download'
 

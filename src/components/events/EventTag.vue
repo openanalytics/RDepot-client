@@ -68,12 +68,12 @@ type AllowedVariants = z.infer<typeof allowedVariants>
 
 defineProps({
   value: {
-    type: Object as () => string,
+    type: String,
     required: false,
     default: () => {}
   },
   hoverMessage: {
-    type: Object as () => string,
+    type: String,
     required: false,
     default: () => {
       return ''

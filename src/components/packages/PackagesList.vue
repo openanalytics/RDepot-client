@@ -30,12 +30,9 @@
     :title="i18n.t('packages.list')"
     item-value="id"
     :show-select="!packagesStore.filtration.deleted"
-    return-object
-    color="oablue"
     :loading="packagesStore.loading"
     expand-on-click
     :sort-by="sortBy"
-    :items-per-page-text="$t('datatable.itemsPerPage')"
     @update:options="fetchData"
   >
     <template

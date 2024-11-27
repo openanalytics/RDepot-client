@@ -25,7 +25,7 @@ import {
   USERS_FILTRATION_ACTIVE_ID,
   USERS_FILTRATION_DELETED_ID,
   USERS_SIDEBAR_ID
-} from '@/__tests__/integration/helpers/elementsIds'
+} from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '../helpers/login'
 
 const TITLE = 'users filtration'
@@ -42,7 +42,7 @@ test.describe(TITLE, () => {
     )
     const usersRowsSelector = page.locator('role=row')
     await expect(usersRowsSelector).toHaveCount(8)
-    await expect(userDeletedSelector).toHaveCount(0)
+    await expect(userDeletedSelector).toHaveCount(1)
 
     await page
       .locator(`#${USERS_FILTRATION_DELETED_ID}`)
@@ -56,14 +56,14 @@ test.describe(TITLE, () => {
       .click()
 
     await expect(usersRowsSelector).toHaveCount(8)
-    await expect(userDeletedSelector).toHaveCount(0)
+    await expect(userDeletedSelector).toHaveCount(1)
 
     await page
       .locator(`#${USERS_FILTRATION_DELETED_ID}`)
       .click()
 
     await expect(usersRowsSelector).toHaveCount(8)
-    await expect(userDeletedSelector).toHaveCount(0)
+    await expect(userDeletedSelector).toHaveCount(1)
   })
 
   test('active', async ({ page }) => {

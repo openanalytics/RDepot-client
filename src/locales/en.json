@@ -2,7 +2,9 @@
   "action": {
     "accept": "Accept",
     "cancel": "Cancel",
+    "changes": "Show changes",
     "download": "Download",
+    "noChanges": "No changes",
     "reject": "Reject"
   },
   "addSubmission": {
@@ -101,7 +103,8 @@
       "deleted": "Deleted",
       "expirationDate": "Expiration date",
       "name": "Name",
-      "user": "User"
+      "user": "User",
+      "lastUsed": "Last used"
     },
     "username": "User name",
     "users": {
@@ -307,7 +310,8 @@
   "package": {
     "chooseOneToEnable": "choose at least one package to enable",
     "noDescriptionProvided": "No description provided",
-    "propertyNotProvided": "not provided"
+    "propertyNotProvided": "not provided",
+    "seeRelatedEvents": "see all related events"
   },
   "packageMaintainer": {
     "create": "Create maintainer"
@@ -522,6 +526,7 @@
       "onSubmissionAvailableTitle": "Please select other submissions",
       "warning": "Some submissions are not listed because they cannot be {actionType}."
     },
+    "noChangesProvided": "There are no changes listed for this submission",
     "noPackageChosen": "No packages chosen",
     "rejected": "rejected",
     "replace": {
@@ -562,6 +567,7 @@
     "waiting": "WAITING"
   },
   "users": {
+    "deleted": "This user is deleted",
     "edit": {
       "overlay": "Edit user role of {user_login}",
       "role": "Role",
@@ -574,6 +580,7 @@
       "roles": "Roles",
       "searchBox": "User..."
     },
-    "unableDeactivation": "Users cannot deactivate themselves"
+    "unableDeactivation": "Users cannot deactivate themselves",
+    "unableDeletion": "Users cannot delete themselves"
   }
 }

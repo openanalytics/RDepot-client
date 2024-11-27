@@ -68,8 +68,7 @@ export default defineConfig({
       use: {
         ...devices['Desktop Firefox'],
         baseURL: 'http://192.168.51.20'
-      },
-      retries: 1
+      }
     },
     {
       name: 'chrome',
@@ -77,8 +76,7 @@ export default defineConfig({
         ...devices['Desktop Chrome'],
         channel: 'chrome',
         baseURL: 'http://192.168.53.20'
-      },
-      retries: 1
+      }
     }
   ]
 })

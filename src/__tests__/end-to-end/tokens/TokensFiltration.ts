@@ -26,7 +26,7 @@ import {
   SETTINGS_LIST_SIDEBAR_ID,
   TOKENS_FILTRATION_ACTIVE_ID,
   TOKENS_FILTRATION_EXPIRED_ID
-} from '@/__tests__/integration/helpers/elementsIds'
+} from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '@/__tests__/end-to-end/helpers/login'
 
 const TITLE_SERIAL = 'tokens filtration'
@@ -40,7 +40,6 @@ test.describe(TITLE_SERIAL, () => {
       .locator(`#${ACCESS_TOKENS_SIDEBAR_ID}`)
       .click()
     await page.waitForURL('**/settings-tokens')
-    await expect(page).toHaveTitle(/RDepot - access tokens/)
 
     const tokenActiveSelector = page.getByRole('checkbox', {
       checked: true

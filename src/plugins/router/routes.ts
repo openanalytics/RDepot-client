@@ -120,7 +120,8 @@ export const routes = [
         meta: { title: 'RDepot - upload packages' },
         beforeEnter: () => {
           prepareUploadPackagesView()
-        }
+        },
+        props: true
       },
       {
         path: '/events',

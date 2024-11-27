@@ -66,6 +66,7 @@ describe('package filtration filtration composable', () => {
     const packagesStore = usePackagesStore()
     selectStore.paginationData.totalNumber = 2
     selectStore.paginationData.page = 0
+    selectStore.paginationData.totalPages = 2
     selectStore.pageSize = 1
     const spy = vi.spyOn(packagesStore, 'getList')
     loadPackagesObjects('Albert Einstein', 'testrepo3')

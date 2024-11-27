@@ -42,7 +42,7 @@ import { nextTick } from 'vue'
 import {
   PACKAGES_LIST_SELECT_ALL_ID,
   PACKAGES_MULTI_ACTIONS_ID
-} from '@/__tests__/integration/helpers/elementsIds'
+} from '@/__tests__/end-to-end/helpers/elementsIds'
 
 let wrapper: any
 let authorizationStore: any

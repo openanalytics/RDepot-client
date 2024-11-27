@@ -2,7 +2,9 @@
   "action": {
     "accept": "Zaakceptuj",
     "cancel": "Anuluj",
+    "changes": "Pokaż zmiany",
     "download": "Pobierz",
+    "noChanges": "Brak zmian",
     "reject": "Odrzuć"
   },
   "addSubmission": {
@@ -101,7 +103,8 @@
       "deleted": "Usunięty",
       "expirationDate": "Data wygaśnięcia",
       "name": "Nazwa",
-      "user": "Użytkownik"
+      "user": "Użytkownik",
+      "lastUsed": "Ostatnio użyty"
     },
     "username": "Nazwa użytkownika",
     "users": {
@@ -301,7 +304,8 @@
   "package": {
     "chooseOneToEnable": "wybierz co najmniej jedną paczkę aby odblokować",
     "noDescriptionProvided": "Brak dostępnego opisu",
-    "propertyNotProvided": "brak informacji"
+    "propertyNotProvided": "brak informacji",
+    "seeRelatedEvents": "zobacz powiązane zdarzenia"
   },
   "packageMaintainer": {
     "create": "Stwórz opiekuna"
@@ -516,6 +520,7 @@
       "onSubmissionAvailableTitle": "Wybierz inne zgłoszenia",
       "warning": "Niektóre zgłoszenia nie mogą wykonać operacji {actionType}. "
     },
+    "noChangesProvided": "Brak zmian dla zgłoszenia",
     "noPackageChosen": "Nie wybrano pakietów",
     "rejected": "odrzucone",
     "replace": {
@@ -556,6 +561,7 @@
     "waiting": "OCZEKUJE"
   },
   "users": {
+    "deleted": "Użytkownik jest usunięty",
     "edit": {
       "overlay": "Edytuj rolę {user_login}",
       "role": "Rola",
@@ -568,6 +574,7 @@
       "roles": "Role",
       "searchBox": "Użytkownik..."
     },
-    "unableDeactivation": "Użytkownik nie może dezaktywować siebie"
+    "unableDeactivation": "Użytkownik nie może dezaktywować siebie",
+    "unableDeletion": "Użytkownik nie może usunąć siebie\t"
   }
 }

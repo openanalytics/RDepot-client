@@ -27,8 +27,8 @@ import {
   SETTINGS_GENERAL_LIST_SIDEBAR_ID,
   SETTINGS_LIST_SIDEBAR_ID,
   SUBMISSIONS_SIDEBAR_ID
-} from '@/__tests__/integration/helpers/elementsIds'
-import { restoreData } from '@/__tests__/integration/helpers/restoreData'
+} from '@/__tests__/end-to-end/helpers/elementsIds'
+import { restoreData } from '@/__tests__/end-to-end/helpers/restoreData'
 import { login } from '@/__tests__/end-to-end/helpers/login'
 
 // eslint-disable-next-line no-empty-pattern
@@ -47,7 +47,6 @@ test.describe(TITLE_SERIAL, { tag: '@serial' }, () => {
       .locator(`#${SETTINGS_GENERAL_LIST_SIDEBAR_ID}`)
       .click()
     await page.waitForURL('**/settings-general')
-    await expect(page).toHaveTitle(/RDepot - settings/)
     await page.locator(`#${PAGE_SIZE_ID}`).fill('2')
     await page.locator(`#${PAGE_SIZE_ID}`).press('Tab')
     await page

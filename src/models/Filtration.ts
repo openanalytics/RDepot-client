@@ -214,7 +214,7 @@ const EventsFiltration = z
         return val
       }),
     packageName: z
-      .string()
+      .array(z.string())
       .optional()
       .transform((val) => {
         if (val?.length == 0) {
@@ -223,7 +223,7 @@ const EventsFiltration = z
         return val
       }),
     repositoryName: z
-      .string()
+      .array(z.string())
       .optional()
       .transform((val) => {
         if (val?.length == 0) {

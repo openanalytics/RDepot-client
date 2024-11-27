@@ -121,6 +121,7 @@ export const useUserStore = defineStore('userStore', {
           this.getPage()
         })
         .finally(() => {
+          console.log('finally')
           this.pending = this.pending.filter(
             (item) => item.id != this.chosenUser.id
           )

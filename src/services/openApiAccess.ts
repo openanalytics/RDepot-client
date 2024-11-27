@@ -208,6 +208,7 @@ async function errorsHandler(
 export interface Pagination {
   totalNumber: number
   page: number
+  totalPages: number
 }
 
 export type validatedData<T> = [
@@ -227,7 +228,8 @@ export function validateRequest<T>(
     content,
     {
       page: paginationData?.number || 0,
-      totalNumber: paginationData?.totalElements || 0
+      totalNumber: paginationData?.totalElements || 0,
+      totalPages: paginationData?.totalPages || 0
     },
     links || [],
     status || 'undefined'

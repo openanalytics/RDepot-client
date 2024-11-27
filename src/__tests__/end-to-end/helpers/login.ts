@@ -24,7 +24,7 @@ import {
   PASSWORD_INPUT_ID,
   SUBMIT_LOGIN_BUTTON_ID,
   USERNAME_INPUT_ID
-} from '@/__tests__/integration/helpers/elementsIds'
+} from '@/__tests__/end-to-end/helpers/elementsIds'
 import { expect, Page } from '@playwright/test'
 
 export async function login(page: Page, login: string) {

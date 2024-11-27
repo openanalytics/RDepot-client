@@ -23,6 +23,7 @@
 <template>
   <FiltrationBar />
   <EditUserModal v-if="commonStore.isEdit" />
+  <DeleteUserModal v-if="commonStore.isDelete" />
   <UserList :key="componentKey" />
 </template>
 
@@ -32,6 +33,7 @@ import FiltrationBar from '@/components/users/FiltrationBar.vue'
 import { computed } from 'vue'
 import { useCommonStore } from '@/store/options/common'
 import EditUserModal from '@/components/users/modals/EditUserModal.vue'
+import DeleteUserModal from '@/components/users/modals/DeleteUserModal.vue'
 
 const commonStore = useCommonStore()
 const componentKey = computed(() => {

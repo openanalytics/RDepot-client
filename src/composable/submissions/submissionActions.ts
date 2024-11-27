@@ -69,9 +69,7 @@ export function useSubmissionActions() {
   async function downloadSubmission(
     submission?: EntityModelSubmissionDto
   ) {
-    console.log('submission to be downloaded')
     if (submission && submission.packageBag) {
-      console.log('submission passed if')
       const packageDetailsStore = usePackageDetailsStore()
       await packageDetailsStore.getSourceFile(
         submission.packageBag?.id?.toString() || '',
@@ -80,7 +78,6 @@ export function useSubmissionActions() {
         submission.packageBag?.technology || ''
       )
     }
-    console.log(submission)
   }
 
   async function downloadSubmissions(
@@ -99,7 +96,6 @@ export function useSubmissionActions() {
               submission.packageBag?.technology || ''
             )
           }
-          console.log(submission)
         }
     )
   }

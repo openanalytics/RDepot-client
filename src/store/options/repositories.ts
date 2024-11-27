@@ -91,7 +91,6 @@ export const useRepositoryStore = defineStore(
           this.tableOptions?.sortBy[0].key || 'name'
         const sortOrder =
           this.tableOptions?.sortBy[0].order || 'asc'
-        console.log(this.tableOptions)
         const [repositories, pageData] =
           await fetchRepositoriesService(
             this.filtration,

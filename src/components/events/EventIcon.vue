@@ -78,7 +78,7 @@ defineProps({
     type: Object as () => EntityModelNewsfeedEventDto,
     required: false,
     default: () => {
-      return ''
+      return {}
     }
   }
 })

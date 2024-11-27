@@ -360,6 +360,14 @@ function isPending(
 </script>
 
 <style lang="scss">
+table {
+  background: rgb(var(--v-theme-background)) !important;
+}
+
+tr {
+  background-color: rgb(var(--v-theme-surface)) !important;
+}
+
 .v-selection-control {
   justify-content: center;
 }
@@ -372,5 +380,17 @@ function isPending(
 
 .v-input--horizontal .v-input__append {
   margin-inline-start: 0px !important;
+}
+
+.additional-row {
+  display: grid;
+  animation-duration: 0.2s;
+  animation-name: animate-fade;
+  animation-fill-mode: forwards;
+}
+
+.expanded-package {
+  margin: 0.5rem;
+  overflow: hidden;
 }
 </style>
