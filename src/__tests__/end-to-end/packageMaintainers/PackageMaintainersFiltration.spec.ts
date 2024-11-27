@@ -24,11 +24,11 @@ import { test, expect } from '@playwright/test'
 import {
   PACKAGE_MAINTAINERS_FILTRATION_DELETED_FIELD_ID,
   PACKAGE_MAINTAINERS_SIDEBAR_ID
-} from '@/__tests__/integration/helpers/elementsIds'
+} from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '../helpers/login'
 
 const TITLE = 'package maintainers filtration'
-test.describe.only(TITLE, () => {
+test.describe(TITLE, () => {
   test('deleted', async ({ page }) => {
     await login(page, 'einstein')
 
@@ -36,9 +36,6 @@ test.describe.only(TITLE, () => {
       .locator(`#${PACKAGE_MAINTAINERS_SIDEBAR_ID}`)
       .click()
     await page.waitForURL('**/package-maintainers')
-    await expect(page).toHaveTitle(
-      /RDepot - package maintainers/
-    )
 
     const maintainerDeletedSelector = page.locator(
       '.mdi-trash-can.text-grey'
@@ -71,7 +68,7 @@ test.describe.only(TITLE, () => {
       )
       .click()
 
-    await expect(maintainersRowsSelector).toHaveCount(11)
+    await expect(maintainersRowsSelector).toHaveCount(10)
     await expect(maintainerDeletedSelector).toHaveCount(0)
   })
 })

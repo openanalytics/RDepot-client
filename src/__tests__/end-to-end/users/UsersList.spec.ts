@@ -22,27 +22,23 @@
 
 import { test, expect } from '@playwright/test'
 import {
-  DOWNLOAD_SUBMISSION_FILENAME_ID,
-  DOWNLOAD_SUBMISSION_ID,
-  SUBMISSIONS_SIDEBAR_ID
+  COPY_ADMIN_EMAIL_BUTTON_ID,
+  USERS_SIDEBAR_ID
 } from '@/__tests__/end-to-end/helpers/elementsIds'
-import { login } from '@/__tests__/end-to-end/helpers/login'
-import { downloadFile } from '@/__tests__/end-to-end/helpers/download'
+import { login } from '../helpers/login'
 
-const TITLE = 'submissions downloading'
+const TITLE = 'users list'
 test.describe(TITLE, () => {
-  test('download submission', async ({ page }) => {
+  test("copy user's email", async ({ page }) => {
     await login(page, 'einstein')
-    await page.locator(`#${SUBMISSIONS_SIDEBAR_ID}`).click()
-    await page.waitForURL('**/submissions')
-    await expect(page).toHaveTitle(/RDepot - submissions/)
-    const submissionRowsSelector = page.locator('role=row')
-    await expect(submissionRowsSelector).toHaveCount(21)
-
-    await downloadFile(
-      page,
-      DOWNLOAD_SUBMISSION_ID,
-      DOWNLOAD_SUBMISSION_FILENAME_ID
+    await page.locator(`#${USERS_SIDEBAR_ID}`).click()
+    await page.waitForURL('**/users')
+    const usersRowsSelector = page.locator('role=row')
+    await expect(usersRowsSelector).toHaveCount(8)
+    const adminEmailCopyButtonLocator = page.locator(
+      `#${COPY_ADMIN_EMAIL_BUTTON_ID}`
     )
+    await adminEmailCopyButtonLocator.waitFor()
+    await adminEmailCopyButtonLocator.click()
   })
 })

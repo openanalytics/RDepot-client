@@ -70,7 +70,7 @@
 
       <v-list-item
         v-if="authorizationStore.can('GET', 'packages')"
-        id="sidebarpackageslist"
+        id="sidebar-packages-list"
         :prepend-icon="Icons.get('package')"
         :title="$t('packages.list')"
         :value="$t('packages.list')"

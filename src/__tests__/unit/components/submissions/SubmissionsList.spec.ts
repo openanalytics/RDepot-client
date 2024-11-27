@@ -42,7 +42,7 @@ import { i18n } from '@/plugins/i18n'
 import {
   SUBMISSIONS_LIST_SELECT_ALL_ID,
   SUBMISSIONS_MULTI_ACTIONS_ID
-} from '@/__tests__/integration/helpers/elementsIds'
+} from '@/__tests__/end-to-end/helpers/elementsIds'
 import { useDates } from '@/composable/date'
 import TechnologyChip from '@/components/common/chips/TechnologyChip.vue'
 

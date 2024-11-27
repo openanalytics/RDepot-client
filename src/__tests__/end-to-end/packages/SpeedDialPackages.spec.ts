@@ -31,9 +31,9 @@ import {
   PACKAGES_MULTI_ACTIONS_ID,
   PACKAGES_MULTI_DELETE_ID,
   SUBMIT_BUTTON_ID
-} from '@/__tests__/integration/helpers/elementsIds'
+} from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '../helpers/login'
-import { restoreData } from '@/__tests__/integration/helpers/restoreData'
+import { restoreData } from '@/__tests__/end-to-end/helpers/restoreData'
 
 const TITLE = 'packages multi actions'
 test.describe(TITLE, () => {

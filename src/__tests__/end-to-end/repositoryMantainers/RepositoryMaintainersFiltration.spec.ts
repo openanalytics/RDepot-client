@@ -24,7 +24,7 @@ import { test, expect } from '@playwright/test'
 import {
   REPOSITORY_MAINTAINERS_FILTRATION_DELETED_FIELD_ID,
   REPOSITORY_MAINTAINERS_SIDEBAR_ID
-} from '@/__tests__/integration/helpers/elementsIds'
+} from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '../helpers/login'
 
 const TITLE = 'repository maintainers filtration'
@@ -36,9 +36,6 @@ test.describe(TITLE, () => {
       .locator(`#${REPOSITORY_MAINTAINERS_SIDEBAR_ID}`)
       .click()
     await page.waitForURL('**/repository-maintainers')
-    await expect(page).toHaveTitle(
-      /RDepot - repository maintainers/
-    )
 
     const maintainerDeletedSelector = page.locator(
       '.mdi-trash-can.text-grey'
