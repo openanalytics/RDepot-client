@@ -61,7 +61,7 @@ export const ApiV2ConfigControllerApiAxiosParamCreator =
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
-      getPublicConfig: async (
+      getPublicConfig1: async (
         options: AxiosRequestConfig = {}
       ): Promise<RequestArgs> => {
         const localVarPath = `/api/v2/manager/config`
@@ -139,7 +139,7 @@ export const ApiV2ConfigControllerApiFp = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getPublicConfig(
+    async getPublicConfig1(
       options?: AxiosRequestConfig
     ): Promise<
       (
@@ -152,7 +152,7 @@ export const ApiV2ConfigControllerApiFp = function (
       const localVarAxiosArgs =
         await ApiV2ConfigControllerApiAxiosParamCreator(
           configuration
-        ).getPublicConfig(options)
+        ).getPublicConfig1(options)
       return (
         axios: AxiosInstance = globalAxios,
         basePath: string = BASE_PATH
@@ -182,13 +182,13 @@ export const ApiV2ConfigControllerApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getPublicConfig(
+    async getPublicConfig1(
       options?: AxiosRequestConfig
     ): Promise<
       AxiosResponse<ResponseDtoPublicConfigurationDto>
     > {
       return ApiV2ConfigControllerApiFp(configuration)
-        .getPublicConfig(options)
+        .getPublicConfig1(options)
         .then((request) => request(axios, basePath))
     }
   }
@@ -207,13 +207,13 @@ export class ApiV2ConfigControllerApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof ApiV2ConfigControllerApi
    */
-  public async getPublicConfig(
+  public async getPublicConfig1(
     options?: AxiosRequestConfig
   ): Promise<
     AxiosResponse<ResponseDtoPublicConfigurationDto>
   > {
     return ApiV2ConfigControllerApiFp(this.configuration)
-      .getPublicConfig(options)
+      .getPublicConfig1(options)
       .then((request) => request(this.axios, this.basePath))
   }
 }

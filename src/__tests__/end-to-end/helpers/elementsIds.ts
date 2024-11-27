@@ -246,6 +246,18 @@ export const UPLOAD_SUBMISSION_REPOSITORY_TESTREPO3_ID =
   'upload-submission-repository-testrepo3'
 export const UPLOAD_SUBMISSION_CONTINUE_BUTTON_ID =
   'next-button'
+export const DROP_ZONE_CLASS = 'drop-area'
+export const BINARY_SUBMISSION_CHECKBOX = 'binary-button'
+export const UPLOAD_SUBMISSION_RVERSION =
+  'upload-package-rversion'
+export const UPLOAD_SUBMISSION_ARCHITECTURE =
+  'upload-package-architecture'
+export const UPLOAD_SUBMISSION_DISTRIBUTION =
+  'upload-package-distribution'
+export const UPLOAD_SUBMISSION_SUCCESS_ICON =
+  'submission-success-icon'
+export const UPLOAD_SUBMISSION_GENERATE_MANUAL_CHECKBOX =
+  'generate-manual-button'
 
 //REPOSITORIES FILTRATION
 export const REPOSITORIES_FILTRATION_SEARCH_FIELD_ID =

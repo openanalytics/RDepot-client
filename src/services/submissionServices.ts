@@ -24,7 +24,9 @@ import { SubmissionsFiltration } from '@/models/Filtration'
 import {
   ApiV2SubmissionControllerApiFactory,
   EntityModelSubmissionDto,
+  RPublicConfigurationDto,
   PythonSubmissionControllerApiFactory,
+  RConfigControllerApiFactory,
   RSubmissionControllerApiFactory
 } from '@/openapi'
 import {
@@ -43,6 +45,10 @@ type ValidatedSubmissions = Promise<
 
 type ValidatedSubmission = Promise<
   validatedData<EntityModelSubmissionDto>
+>
+
+type ValidatedRConfiguration = Promise<
+  validatedData<RPublicConfigurationDto>
 >
 
 export async function fetchSubmissionsService(
@@ -120,7 +126,11 @@ export async function addSubmission(
   technology: string,
   file: File,
   generateManual?: boolean,
-  replace?: boolean
+  replace?: boolean,
+  binary?: boolean,
+  rVersion?: string,
+  architecture?: string,
+  distribution?: string
 ): ValidatedSubmission {
   if (!isAuthorized('POST', 'submissions')) {
     return new Promise(() => false)
@@ -147,10 +157,10 @@ export async function addSubmission(
       file,
       generateManual,
       replace,
-      false,
-      undefined,
-      undefined,
-      undefined
+      binary,
+      rVersion,
+      architecture,
+      distribution
     ],
     false,
     undefined,
@@ -173,4 +183,13 @@ export function fetchSubmission(
   ).catch(() => {
     return validateRequest({})
   })
+}
+
+export function getRConfiguration(): ValidatedRConfiguration {
+  if (!isAuthorized('GET', 'submissions')) {
+    return new Promise(() => {})
+  }
+  return openApiRequest<RPublicConfigurationDto>(
+    RConfigControllerApiFactory().getRPublicConfig
+  )
 }

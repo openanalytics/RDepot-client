@@ -199,6 +199,7 @@ export const RRepositoryControllerApiAxiosParamCreator =
             }
             return false
           })
+
         localVarRequestOptions.data = needsSerialization
           ? JSON.stringify(body !== undefined ? body : {})
           : body || ''
@@ -724,6 +725,7 @@ export const RRepositoryControllerApiAxiosParamCreator =
             }
             return false
           })
+
         localVarRequestOptions.data = needsSerialization
           ? JSON.stringify(body !== undefined ? body : {})
           : body || ''

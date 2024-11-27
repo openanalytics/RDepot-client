@@ -102,9 +102,9 @@
       "creationDate": "Data utworzenia",
       "deleted": "Usunięty",
       "expirationDate": "Data wygaśnięcia",
+      "lastUsed": "Ostatnio użyty",
       "name": "Nazwa",
-      "user": "Użytkownik",
-      "lastUsed": "Ostatnio użyty"
+      "user": "Użytkownik"
     },
     "username": "Nazwa użytkownika",
     "users": {
@@ -318,14 +318,17 @@
   },
   "packages": {
     "approver": "Zatwierdzający",
+    "architecture": "Architektura",
     "archive": "Archiwum",
     "authors": "Autorzy",
+    "binary": "Plik binarny",
     "classifiers": "Klasyfikatory",
     "copy": "Kopiuj",
     "deleted": "Ten pakiet jest usunięty",
     "depends": "Zależności",
     "description": "Opis",
     "details": "Szczegóły",
+    "distribution": "Dystrybucja",
     "documentation": "Dokumentacja",
     "downloadButton": "Pobierz plik źródłowy",
     "downloads": "Do pobrania",
@@ -371,6 +374,7 @@
     "requiresDist": "Wymaga dystrybucji",
     "requiresExternal": "Zewnętrzne wymagania",
     "requiresPython": "Wymaga python",
+    "rversion": "Wersja R",
     "sourceFile": "Plik źródłowy",
     "submitter": "Zgłaszający",
     "suggests": "Sugestie",

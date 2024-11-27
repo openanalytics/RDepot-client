@@ -53,6 +53,63 @@
           {{ formatFilename(item.name) }}
         </div>
       </template>
+      <template #[`item.rversion`]="{ item }">
+        <validated-input-field
+          v-if="submissionsStore.getBinaryForPackage(item)"
+          id="upload-package-rversion"
+          variant="underlined"
+          density="compact"
+          hide-details
+          closable-chips
+          :items="submissionsStore.allowedRVersions"
+          name="rversion"
+          as="v-select"
+          @update:model-value="
+            submissionsStore.addRversion($event, item)
+          "
+        ></validated-input-field>
+      </template>
+      <template #[`item.architecture`]="{ item }">
+        <validated-input-field
+          v-if="submissionsStore.getBinaryForPackage(item)"
+          id="upload-package-architecture"
+          variant="underlined"
+          density="compact"
+          hide-details
+          closable-chips
+          :items="submissionsStore.allowedArchitectures"
+          name="architecture"
+          as="v-select"
+          @update:model-value="
+            submissionsStore.addArchitecture($event, item)
+          "
+        ></validated-input-field>
+      </template>
+      <template #[`item.distribution`]="{ item }">
+        <validated-input-field
+          v-if="submissionsStore.getBinaryForPackage(item)"
+          id="upload-package-distribution"
+          variant="underlined"
+          density="compact"
+          hide-details
+          closable-chips
+          :items="submissionsStore.allowedDistributions"
+          name="distribution"
+          as="v-select"
+          @update:model-value="
+            submissionsStore.addDistribution($event, item)
+          "
+        ></validated-input-field>
+      </template>
+      <template
+        v-if="
+          submissionsStore.repository?.technology !=
+          Technologies.enum.Python
+        "
+        #[`item.binary`]="{ item }"
+      >
+        <BinaryOption :file="item" />
+      </template>
       <template
         v-if="
           submissionsStore.repository?.technology !=
@@ -67,6 +124,7 @@
                   item
                 )
               "
+              id="generate-manual-button"
               :icon="Icons.get('checkbox')"
               variant="text"
               v-bind="props"
@@ -79,6 +137,7 @@
             ></v-btn>
             <v-btn
               v-else
+              id="generate-manual-button"
               :icon="Icons.get('checkbox-not')"
               class="mx-8"
               variant="text"
@@ -137,12 +196,15 @@ import { useFilesListStore } from '@/store/options/localFiles'
 import { useSubmissionStore } from '@/store/options/submission'
 import { computed } from 'vue'
 import ReplaceOption from './ReplaceOption.vue'
+import BinaryOption from './BinaryOption.vue'
 import { useFiles } from '@/composable/file'
 import { useConfigStore } from '@/store/options/config'
 import Icons from '@/maps/Icons'
 import { Technologies } from '@/enum/Technologies'
 import { useI18n } from 'vue-i18n'
 import { DataTableHeaders } from '@/models/DataTableOptions'
+import ValidatedInputField from '@/components/common/fields/ValidatedInputField.vue'
+import { onMounted } from 'vue'
 
 const { t } = useI18n()
 const submissionsStore = useSubmissionStore()
@@ -157,6 +219,10 @@ function resetPackages() {
   console.log(filesStore.files)
   filesStore.files = []
   submissionsStore.packages = []
+  submissionsStore.binary = []
+  submissionsStore.rversion = []
+  submissionsStore.architecture = []
+  submissionsStore.distribution = []
   // reset()
 }
 
@@ -166,25 +232,57 @@ const headers = computed<DataTableHeaders[]>(() => [
     key: 'name',
     align: 'start',
     sortable: false,
-    width: '60%'
+    width: '20%',
+    minWidth: '10%'
+  },
+  {
+    title: t('packages.rversion'),
+    key: 'rversion',
+    align: 'start',
+    sortable: false,
+    width: '15%'
+  },
+  {
+    title: t('packages.architecture'),
+    key: 'architecture',
+    align: 'start',
+    sortable: false,
+    width: '15%'
+  },
+  {
+    title: t('packages.distribution'),
+    key: 'distribution',
+    align: 'start',
+    sortable: false,
+    width: '15%'
+  },
+  {
+    title: t('packages.binary'),
+    key: 'binary',
+    align: 'center',
+    sortable: false,
+    width: '5%'
   },
   {
     title: t('packages.generatemanual'),
     key: 'manual',
     align: 'center',
-    sortable: false
+    sortable: false,
+    width: '5%'
   },
   {
     title: t('packages.replace'),
     key: 'replace',
     align: 'center',
-    sortable: false
+    sortable: false,
+    width: '5%'
   },
   {
     title: '',
     key: 'remove',
     align: 'center',
-    sortable: false
+    sortable: false,
+    width: '5%'
   }
 ])
 
@@ -193,11 +291,39 @@ const filteredHeaders = computed(() => {
     submissionsStore.repository?.technology ===
     Technologies.enum.Python
   ) {
-    return headers.value.filter(
-      (header) => header.key != 'manual'
-    )
+    return headers.value
+      .filter(
+        (header) =>
+          header.key != 'manual' &&
+          header.key != 'rversion' &&
+          header.key != 'distribution' &&
+          header.key != 'architecture' &&
+          header.key != 'binary'
+      )
+      .map((header) =>
+        header.key === 'name'
+          ? { ...header, width: '90%' }
+          : header
+      )
+  } else if (submissionsStore.binary.length === 0) {
+    return headers.value
+      .filter(
+        (header) =>
+          header.key != 'rversion' &&
+          header.key != 'distribution' &&
+          header.key != 'architecture'
+      )
+      .map((header) =>
+        header.key === 'name'
+          ? { ...header, width: '80%' }
+          : header
+      )
   }
   return headers.value
+})
+
+onMounted(() => {
+  resetPackages()
 })
 </script>
 

@@ -22,7 +22,6 @@
 
 /* eslint-disable */
 
-import getEnv from '@/utils/env'
 import { Configuration } from './configuration'
 // Some imports not used depending on template conditions
 // @ts-ignore
@@ -30,6 +29,7 @@ import globalAxios, {
   AxiosRequestConfig,
   AxiosInstance
 } from 'axios'
+import getEnv from '@/utils/env'
 
 export const BASE_PATH = getEnv(
   'VITE_SERVER_ADDRESS'

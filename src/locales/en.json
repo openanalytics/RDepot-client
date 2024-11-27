@@ -102,9 +102,9 @@
       "creationDate": "Creation date",
       "deleted": "Deleted",
       "expirationDate": "Expiration date",
+      "lastUsed": "Last used",
       "name": "Name",
-      "user": "User",
-      "lastUsed": "Last used"
+      "user": "User"
     },
     "username": "User name",
     "users": {
@@ -324,14 +324,17 @@
   },
   "packages": {
     "approver": "Approver",
+    "architecture": "Architecture",
     "archive": "Archive",
     "authors": "Authors",
+    "binary": "Binary file",
     "classifiers": "Classifiers",
     "copy": "Copy",
     "deleted": "This package is deleted",
     "depends": "Depends",
     "description": "Description",
     "details": "Details",
+    "distribution": "Distribution",
     "documentation": "Documentation",
     "downloadButton": "Download Source File",
     "downloads": "Downloads",
@@ -377,6 +380,7 @@
     "requiresDist": "Requires distribution",
     "requiresExternal": "Requires external",
     "requiresPython": "Requires python",
+    "rversion": "R version",
     "sourceFile": "Source file",
     "submitter": "Submitter",
     "suggests": "Suggests",
