@@ -26,12 +26,12 @@
   </div>
   <div v-if="packageBag?.repository?.published">
     <div
-      class="text"
       v-if="packageBag?.repository.requiresAuthentication"
+      class="text"
     >
       {{ installInstruction }}
     </div>
-    <div class="text" v-else>
+    <div v-else class="text">
       {{ installInstructionCrane }}
       <a
         id="rclient-html"
