@@ -25,16 +25,32 @@
     {{ $t('packages.install') }}
   </div>
   <div v-if="packageBag?.repository?.published">
-    <div class="text">
+    <div
+      class="text"
+      v-if="packageBag?.repository.requiresAuthentication"
+    >
       {{ installInstruction }}
     </div>
-
+    <div class="text" v-else>
+      {{ installInstructionCrane }}
+      <a
+        id="rclient-html"
+        href="https://craneserver.net/docs/client/"
+      >
+        R Client
+      </a>
+      {{ installInstructionCrane2 }}
+    </div>
     <div class="code mb-2 mt-4 mr-2 ml-1">
       <code
         id="install-command"
         class="d-flex justify-lg-space-between"
       >
-        {{ installCode }}
+        {{
+          packageBag?.repository.requiresAuthentication
+            ? installCodeCrane
+            : installCode
+        }}
         <v-tooltip location="left">
           <template #activator="{ props }">
             <div id="tooltip-activator" v-bind="props">
@@ -87,9 +103,32 @@ const installInstruction = computed<string>(() => {
   )
 })
 
+const installInstructionCrane = computed<string>(() => {
+  return t(
+    `packages.installInstructionCrane-${packageBag.value.technology}`
+  )
+})
+
+const installInstructionCrane2 = computed<string>(() => {
+  return t(
+    `packages.installInstructionCrane2-${packageBag.value.technology}`
+  )
+})
+
 const installCode = computed<string>(() => {
   return t(
     `packages.installCode-${packageBag.value.technology}`,
+    [
+      packageBag.value.name,
+      packageBag.value.repository?.publicationUri,
+      packageBag.value.repository?.name
+    ]
+  )
+})
+
+const installCodeCrane = computed<string>(() => {
+  return t(
+    `packages.installCodeCrane-${packageBag.value.technology}`,
     [
       packageBag.value.name,
       packageBag.value.repository?.publicationUri,
