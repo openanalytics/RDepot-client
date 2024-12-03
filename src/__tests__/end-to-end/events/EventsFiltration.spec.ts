@@ -30,7 +30,9 @@ import { login } from '../helpers/login'
 
 const TITLE = 'events filtration'
 test.describe(TITLE, () => {
-  test('the same from and to date', async ({ page }) => {
+  test.only('the same from and to date', async ({
+    page
+  }) => {
     await login(page, 'einstein')
     await page.locator(`#${EVENTS_SIDEBAR_ID}`).click()
     await page.waitForURL('**/events')
@@ -45,11 +47,11 @@ test.describe(TITLE, () => {
       '.v-date-picker-controls__month-btn'
     )
     const select2023YearSelector = page.locator(
-      'button span:text("2023")'
+      'button span:text-is("2023")'
     )
 
     const select12MonthSelector = page.locator(
-      'button span:text("Dec")'
+      'button span:text-is("Dec")'
     )
 
     const select07DaySelector = page.locator(
