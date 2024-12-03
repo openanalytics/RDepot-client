@@ -30,9 +30,7 @@ import { login } from '../helpers/login'
 
 const TITLE = 'events filtration'
 test.describe(TITLE, () => {
-  test.only('the same from and to date', async ({
-    page
-  }) => {
+  test('the same from and to date', async ({ page }) => {
     await login(page, 'einstein')
     await page.locator(`#${EVENTS_SIDEBAR_ID}`).click()
     await page.waitForURL('**/events')
