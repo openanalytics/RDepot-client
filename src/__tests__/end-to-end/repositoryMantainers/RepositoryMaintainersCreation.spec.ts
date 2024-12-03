@@ -76,6 +76,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     )
     await nikolaTeslaSelector.waitFor()
     await nikolaTeslaSelector.click()
+    await expect(nikolaTeslaSelector).toHaveCount(0)
 
     await expect(repositoryInputField).not.toBeDisabled()
     await repositoryInputField.click({ force: true })
@@ -121,7 +122,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     )
     await albertEinsteinSelector.waitFor()
     await albertEinsteinSelector.click()
-
+    await expect(albertEinsteinSelector).toHaveCount(0)
     await expect(repositoryInputField).not.toBeDisabled()
     await repositoryInputField.click({ force: true })
     const testRepo10Selector = page.locator(
@@ -215,6 +216,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
       .click({ force: true })
     await albertEinsteinSelector.waitFor()
     await albertEinsteinSelector.click()
+    await expect(albertEinsteinSelector).toHaveCount(0)
     await page
       .locator(
         `#${

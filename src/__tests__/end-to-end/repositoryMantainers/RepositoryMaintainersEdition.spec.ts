@@ -112,6 +112,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     )
     await testRepo3Selector.waitFor()
     await testRepo3Selector.click()
+    await expect(testRepo3Selector).toHaveCount(0)
 
     await page
       .locator(`#${EDIT_REPOSITORY_MAINTAINER_SUBMIT_ID}`)
@@ -162,6 +163,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     )
     await testRepo2Selector.waitFor()
     await testRepo2Selector.click()
+    await expect(testRepo2Selector).toHaveCount(0)
 
     await page
       .locator(`#${EDIT_REPOSITORY_MAINTAINER_SUBMIT_ID}`)
