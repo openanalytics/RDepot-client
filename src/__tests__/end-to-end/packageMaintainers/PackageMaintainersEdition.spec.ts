@@ -42,7 +42,7 @@ import { restoreData } from '@/__tests__/end-to-end/helpers/restoreData'
 import { i18n } from '@/plugins/i18n'
 
 const TITLE = 'package maintainers edition'
-test.describe(TITLE, { tag: '@serial' }, () => {
+test.describe.only(TITLE, { tag: '@serial' }, () => {
   // eslint-disable-next-line no-empty-pattern
   test.beforeAll(async ({}, testInfo) => {
     await restoreData(testInfo.project.name)
@@ -55,6 +55,8 @@ test.describe(TITLE, { tag: '@serial' }, () => {
       .locator(`#${PACKAGE_MAINTAINERS_SIDEBAR_ID}`)
       .click()
     await page.waitForURL('**/package-maintainers')
+    const maintainersRowsSelector = page.locator('role=row')
+    await expect(maintainersRowsSelector).toHaveCount(12)
 
     const editMaintainerButtonSelector = page.locator(
       `#${GALILEO_GALILEI_ACCRUED_TESTREPO1_ID}`
@@ -92,6 +94,8 @@ test.describe(TITLE, { tag: '@serial' }, () => {
       .locator(`#${PACKAGE_MAINTAINERS_SIDEBAR_ID}`)
       .click()
     await page.waitForURL('**/package-maintainers')
+    const maintainersRowsSelector = page.locator('role=row')
+    await expect(maintainersRowsSelector).toHaveCount(12)
 
     const editMaintainerButtonSelector = page.locator(
       `#${GALILEO_GALILEI_ACCRUED_TESTREPO1_ID}`
@@ -129,6 +133,8 @@ test.describe(TITLE, { tag: '@serial' }, () => {
       .locator(`#${PACKAGE_MAINTAINERS_SIDEBAR_ID}`)
       .click()
     await page.waitForURL('**/package-maintainers')
+    const maintainersRowsSelector = page.locator('role=row')
+    await expect(maintainersRowsSelector).toHaveCount(12)
 
     const editMaintainerButtonSelector = page.locator(
       `#${GALILEO_GALILEI_ABC_TESTREPO3_ID}`
@@ -184,6 +190,8 @@ test.describe(TITLE, { tag: '@serial' }, () => {
       .locator(`#${PACKAGE_MAINTAINERS_SIDEBAR_ID}`)
       .click()
     await page.waitForURL('**/package-maintainers')
+    const maintainersRowsSelector = page.locator('role=row')
+    await expect(maintainersRowsSelector).toHaveCount(12)
 
     const editMaintainerSelector = page.locator(
       `#${GALILEO_GALILEI_USL_TESTREPO1_ID}`
