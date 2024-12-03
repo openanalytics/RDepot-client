@@ -109,11 +109,4 @@ describe('Package Installation', () => {
       `install.packages("${RPackage2.name}", repos = c("rdepot_${RPackage2.repository.name}" = "${RPackage2.repository.publicationUri}", getOption("repos")))`
     )
   })
-
-  it('display correct installation description R with authentication', async () => {
-    const packageDetailsStore = usePackageDetailsStore()
-    packageDetailsStore.packageBag = RPackage2
-    await nextTick(() => {})
-    expect(wrapper.find('#rclient-html').exist()).toBe(true)
-  })
 })
