@@ -94,6 +94,12 @@ export interface PythonRepositoryDto {
   technology?: string
 
   /**
+   * @type {boolean}
+   * @memberof PythonRepositoryDto
+   */
+  requiresAuthentication?: boolean
+
+  /**
    * @type {number}
    * @memberof PythonRepositoryDto
    */

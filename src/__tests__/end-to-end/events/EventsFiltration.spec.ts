@@ -45,11 +45,11 @@ test.describe(TITLE, () => {
       '.v-date-picker-controls__month-btn'
     )
     const select2023YearSelector = page.locator(
-      'button span:text("2023")'
+      'button span:text-is("2023")'
     )
 
     const select12MonthSelector = page.locator(
-      'button span:text("Dec")'
+      'button span:text-is("Dec")'
     )
 
     const select07DaySelector = page.locator(
@@ -75,10 +75,12 @@ test.describe(TITLE, () => {
     await selectYearInputSelector.click()
     await select2023YearSelector.waitFor()
     await select2023YearSelector.click()
+    await expect(select2023YearSelector).toHaveCount(0)
     await selectMonthInputSelector.waitFor()
     await selectMonthInputSelector.click()
     await select12MonthSelector.waitFor()
     await select12MonthSelector.click()
+    await expect(select12MonthSelector).toHaveCount(0)
     await select07DaySelector.waitFor()
     await select07DaySelector.click()
 
@@ -97,10 +99,12 @@ test.describe(TITLE, () => {
     await selectYearInputSelector.click()
     await select2023YearSelector.waitFor()
     await select2023YearSelector.click()
+    await expect(select2023YearSelector).toHaveCount(0)
     await selectMonthInputSelector.waitFor()
     await selectMonthInputSelector.click()
     await select12MonthSelector.waitFor()
     await select12MonthSelector.click()
+    await expect(select12MonthSelector).toHaveCount(0)
     await select07DaySelector.waitFor()
     await select07DaySelector.click()
 

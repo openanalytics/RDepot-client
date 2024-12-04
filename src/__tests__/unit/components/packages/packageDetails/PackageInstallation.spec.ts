@@ -26,7 +26,9 @@ import { mount, config } from '@vue/test-utils'
 import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
 import pythonPackage from '@/__tests__/config/mockData/pythonPackage.json'
+import pythonPackage2 from '@/__tests__/config/mockData/pythonPackage2.json'
 import RPackage from '@/__tests__/config/mockData/RPackage.json'
+import RPackage2 from '@/__tests__/config/mockData/RPackage2.json'
 import { createPinia, setActivePinia } from 'pinia'
 import PackageInstallation from '@/components/packages/packageDetails/PackageInstallation.vue'
 import { usePackageDetailsStore } from '@/store/options/packageDetails'
@@ -63,9 +65,18 @@ describe('Package Installation', () => {
     expect(wrapper.findAll('i')).toHaveLength(1)
   })
 
-  it('display correct installation command Python', () => {
+  it('display correct installation command Python no authentication', () => {
     expect(wrapper.find('#install-command').text()).toBe(
       `pip install --index-url ${pythonPackage.repository?.publicationUri} ${pythonPackage.name}`
+    )
+  })
+
+  it('display correct installation command Python with authentication', async () => {
+    packageDetailsStore = usePackageDetailsStore()
+    packageDetailsStore.packageBag = pythonPackage2
+    await nextTick(() => {})
+    expect(wrapper.find('#install-command').text()).toBe(
+      `crane pip install --index-url ${pythonPackage.repository?.publicationUri} ${pythonPackage.name}`
     )
   })
 
@@ -81,12 +92,21 @@ describe('Package Installation', () => {
     )
   })
 
-  it('display correct installation command R', async () => {
+  it('display correct installation command R no authentication', async () => {
     const packageDetailsStore = usePackageDetailsStore()
     packageDetailsStore.packageBag = RPackage
     await nextTick(() => {})
     expect(wrapper.find('#install-command').text()).toBe(
       `install.packages("${RPackage.name}", repos = c("rdepot_${RPackage.repository.name}" = "${RPackage.repository.publicationUri}", getOption("repos")))`
+    )
+  })
+
+  it('display correct installation command R with authentication', async () => {
+    const packageDetailsStore = usePackageDetailsStore()
+    packageDetailsStore.packageBag = RPackage2
+    await nextTick(() => {})
+    expect(wrapper.find('#install-command').text()).toBe(
+      `install.packages("${RPackage2.name}", repos = c("rdepot_${RPackage2.repository.name}" = "${RPackage2.repository.publicationUri}", getOption("repos")))`
     )
   })
 })

@@ -55,6 +55,8 @@ test.describe(TITLE, { tag: '@serial' }, () => {
       .locator(`#${PACKAGE_MAINTAINERS_SIDEBAR_ID}`)
       .click()
     await page.waitForURL('**/package-maintainers')
+    const maintainersRowsSelector = page.locator('role=row')
+    await expect(maintainersRowsSelector).toHaveCount(12)
 
     const editMaintainerButtonSelector = page.locator(
       `#${GALILEO_GALILEI_ACCRUED_TESTREPO1_ID}`
@@ -92,6 +94,8 @@ test.describe(TITLE, { tag: '@serial' }, () => {
       .locator(`#${PACKAGE_MAINTAINERS_SIDEBAR_ID}`)
       .click()
     await page.waitForURL('**/package-maintainers')
+    const maintainersRowsSelector = page.locator('role=row')
+    await expect(maintainersRowsSelector).toHaveCount(12)
 
     const editMaintainerButtonSelector = page.locator(
       `#${GALILEO_GALILEI_ACCRUED_TESTREPO1_ID}`
@@ -113,6 +117,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     )
     await packageOption.waitFor()
     await packageOption.click()
+    await expect(packageOption).toHaveCount(0)
 
     await page
       .locator(`#${EDIT_PACKAGE_MAINTAINER_SUBMIT_ID}`)
@@ -128,6 +133,8 @@ test.describe(TITLE, { tag: '@serial' }, () => {
       .locator(`#${PACKAGE_MAINTAINERS_SIDEBAR_ID}`)
       .click()
     await page.waitForURL('**/package-maintainers')
+    const maintainersRowsSelector = page.locator('role=row')
+    await expect(maintainersRowsSelector).toHaveCount(12)
 
     const editMaintainerButtonSelector = page.locator(
       `#${GALILEO_GALILEI_ABC_TESTREPO3_ID}`
@@ -146,6 +153,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     const repoOption = page.locator(`#${TEST_REPO_10_ID}`)
     await repoOption.waitFor()
     await repoOption.click()
+    await expect(repoOption).toHaveCount(0)
 
     await page
       .locator(
@@ -166,6 +174,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     )
     await packageOption.waitFor()
     await packageOption.click()
+    await expect(packageOption).toHaveCount(0)
 
     await page
       .locator(`#${EDIT_PACKAGE_MAINTAINER_SUBMIT_ID}`)
@@ -181,6 +190,8 @@ test.describe(TITLE, { tag: '@serial' }, () => {
       .locator(`#${PACKAGE_MAINTAINERS_SIDEBAR_ID}`)
       .click()
     await page.waitForURL('**/package-maintainers')
+    const maintainersRowsSelector = page.locator('role=row')
+    await expect(maintainersRowsSelector).toHaveCount(12)
 
     const editMaintainerSelector = page.locator(
       `#${GALILEO_GALILEI_USL_TESTREPO1_ID}`
@@ -229,6 +240,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     const repoOption = page.locator(`#${TEST_REPO_10_ID}`)
     await repoOption.waitFor()
     await repoOption.click()
+    await expect(repoOption).toHaveCount(0)
 
     await expect(packageInputSelector).not.toBeDisabled()
 
@@ -238,6 +250,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     )
     await packageOption.waitFor()
     await packageOption.click()
+    await expect(packageOption).toHaveCount(0)
 
     await expect(
       page.locator(`#${EDIT_PACKAGE_MAINTAINER_SUBMIT_ID}`)

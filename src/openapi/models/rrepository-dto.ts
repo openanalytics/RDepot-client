@@ -94,6 +94,12 @@ export interface RRepositoryDto {
   technology?: string
 
   /**
+   * @type {boolean}
+   * @memberof RRepositoryDto
+   */
+  requiresAuthentication?: boolean
+
+  /**
    * @type {number}
    * @memberof RRepositoryDto
    */

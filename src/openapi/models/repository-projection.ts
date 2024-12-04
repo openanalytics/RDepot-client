@@ -64,6 +64,12 @@ export interface RepositoryProjection {
   published?: boolean
 
   /**
+   * @type {boolean}
+   * @memberof RepositoryProjection
+   */
+  requiresAuthentication?: boolean
+
+  /**
    * @type {string}
    * @memberof RepositoryProjection
    */

@@ -84,6 +84,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     )
     await nikolaTeslaOption.waitFor()
     await nikolaTeslaOption.click()
+    await expect(nikolaTeslaOption).toHaveCount(0)
 
     await repoInputSelector.waitFor()
     await repoInputSelector.click({ force: true })
@@ -92,6 +93,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     )
     await testRepo10Option.waitFor()
     await testRepo10Option.click()
+    await expect(testRepo10Option).toHaveCount(0)
 
     await packageInputSelector.waitFor()
     await packageInputSelector.click({ force: true })
@@ -142,6 +144,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     )
     await galileoOption.waitFor()
     await galileoOption.click()
+    await expect(galileoOption).toHaveCount(0)
 
     await repoInputSelector.waitFor()
     await repoInputSelector.click({ force: true })
@@ -150,6 +153,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     )
     await testRepo3Option.waitFor()
     await testRepo3Option.click()
+    await expect(testRepo3Option).toHaveCount(0)
 
     await packageInputSelector.waitFor()
     await expect(packageInputSelector).not.toBeDisabled()
@@ -219,6 +223,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     )
     await einsteinOption.waitFor()
     await einsteinOption.click()
+    await expect(einsteinOption).toHaveCount(0)
 
     const clearUserButton = page.locator(
       'xpath=//i[@aria-label="Clear User"]'
@@ -229,6 +234,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     await userInputSelector.click({ force: true })
     await einsteinOption.waitFor()
     await einsteinOption.click()
+    await expect(einsteinOption).toHaveCount(0)
 
     await repoInputSelector.click({ force: true })
     const testRepo3Option = page.locator(
@@ -236,6 +242,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     )
     await testRepo3Option.waitFor()
     await testRepo3Option.click()
+    await expect(testRepo3Option).toHaveCount(0)
 
     await expect(packageInputSelector).not.toBeDisabled()
 
@@ -260,6 +267,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     await repoInputSelector.click({ force: true })
     await testRepo3Option.waitFor()
     await testRepo3Option.click()
+    await expect(testRepo3Option).toHaveCount(0)
 
     await expect(packageInputSelector).not.toBeDisabled()
 
@@ -269,6 +277,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     )
     await a3Testrepo3Option.waitFor()
     await a3Testrepo3Option.click()
+    await expect(a3Testrepo3Option).toHaveCount(0)
 
     const clearPackageButton = page.locator(
       'xpath=//i[@aria-label="Clear Package"]'
@@ -284,6 +293,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     await packageInputSelector.click({ force: true })
     await a3Testrepo3Option.waitFor()
     await a3Testrepo3Option.click()
+    await expect(a3Testrepo3Option).toHaveCount(0)
 
     await expect(
       page.locator(

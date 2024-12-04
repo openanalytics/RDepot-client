@@ -10,7 +10,7 @@
     "id": 10,
     "name": "testrepo10",
     "publicationUri": "http://localhost/repo/testrepo10",
-    "requiresAuthentication": false,
+    "requiresAuthentication": true,
     "technology": "Python",
     "published": "true"
   },
