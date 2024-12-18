@@ -365,6 +365,7 @@
     "md5sum": "MD5Sum",
     "noInstallInstruction": "Repozytorium nie zostało jeszcze opublikowane",
     "noVignette": "Brak dostępnych winiet",
+    "notes": "Notatki",
     "oldSources": "Stare źródła",
     "originalPackageData": "Jak opisano w pakiecie \"{0}\"",
     "osxBinaries": "Pliki binarne OS X",
@@ -396,8 +397,7 @@
     "windowsBinaries": "Pliki binarne Windows",
     "windowsBineries": "Pliki binarne Windows",
     "withinPackage": "Metadane pakietu",
-    "withinRdepot": "Wewnątrz RDepot",
-    "notes": "Notatki"
+    "withinRdepot": "Wewnątrz RDepot"
   },
   "pagination": {
     "size": "Rozmiar strony (paginacja)"

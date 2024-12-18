@@ -116,7 +116,7 @@
       <template #[`item.notes`]="{ item }">
         <NotesOption
           :file="item"
-          @expandNotes="expandNotes"
+          @expand-notes="expandNotes"
         />
       </template>
       <template

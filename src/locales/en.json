@@ -371,6 +371,7 @@
     "md5sum": "MD5Sum",
     "noInstallInstruction": "The repository has not been published yet.",
     "noVignette": "No vignettes available",
+    "notes": "Notes",
     "oldSources": "Old sources",
     "originalPackageData": "As described in \"{0}\" package",
     "osxBinaries": "OS X binaries",
@@ -402,8 +403,7 @@
     "windowsBinaries": "Windows binaries",
     "windowsBineries": "Windows binaries",
     "withinPackage": "Package metadata",
-    "withinRdepot": "Within RDepot",
-    "notes": "Notes"
+    "withinRdepot": "Within RDepot"
   },
   "pagination": {
     "size": "Items per page (pagination)"
