@@ -74,9 +74,11 @@ interface State {
   generateManual: File[]
   replace: File[]
   binary: File[]
+  notes: File[]
   rversion: { file: File; version: string }[]
   distribution: { file: File; distribution: string }[]
   architecture: { file: File; architecture: string }[]
+  note: { file: File; note: string }[]
   files: File[]
   promises: PackagePromise[]
   repository?: EntityModelRepositoryDto
@@ -108,9 +110,11 @@ export const useSubmissionStore = defineStore(
         generateManual: [],
         replace: [],
         binary: [],
+        notes: [],
         rversion: [],
         distribution: [],
         architecture: [],
+        note: [],
         promises: [],
         submissions: [],
         pending: [],
@@ -260,6 +264,24 @@ export const useSubmissionStore = defineStore(
           this.addBinaryOptionForPackage(file)
         }
       },
+      getNotesForPackage(file: File) {
+        return !!this.notes.find((item) => item == file)
+      },
+      updateNotesOptionForPackage(file: File) {
+        if (this.getNotesForPackage(file)) {
+          this.removeNotesOptionForPackage(file)
+        } else {
+          this.addNotesOptionForPackage(file)
+        }
+      },
+      removeNotesOptionForPackage(file: File) {
+        this.notes = this.notes.filter(
+          (item) => item !== file
+        )
+      },
+      addNotesOptionForPackage(file: File) {
+        this.notes.push(file)
+      },
       removeBinaryOptionForPackage(file: File) {
         this.binary = this.binary.filter(
           (item) => item !== file
@@ -284,6 +306,19 @@ export const useSubmissionStore = defineStore(
           architecture: architecture,
           file: value
         })
+      },
+      addNote(note: string, value: File) {
+        const idx = this.note.findIndex(
+          (n) => n.file == value
+        )
+        if (idx) {
+          this.note[idx].note = note
+        } else {
+          this.note.push({
+            note: note,
+            file: value
+          })
+        }
       },
       getArchitectureForPackage(file: File) {
         return this.architecture.find(
@@ -331,7 +366,8 @@ export const useSubmissionStore = defineStore(
               this.getBinaryForPackage(packageBag),
               this.getRVersionForPackage(packageBag),
               this.getArchitectureForPackage(packageBag),
-              this.getDistributionForPackage(packageBag)
+              this.getDistributionForPackage(packageBag),
+              this.getNotesForPackage(packageBag)
             ),
             packageBag: packageBag,
             state: 'pending',

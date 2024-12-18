@@ -396,7 +396,8 @@
     "windowsBinaries": "Pliki binarne Windows",
     "windowsBineries": "Pliki binarne Windows",
     "withinPackage": "Metadane pakietu",
-    "withinRdepot": "Wewnątrz RDepot"
+    "withinRdepot": "Wewnątrz RDepot",
+    "notes": "Notatki"
   },
   "pagination": {
     "size": "Rozmiar strony (paginacja)"

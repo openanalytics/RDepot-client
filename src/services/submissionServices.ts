@@ -130,7 +130,8 @@ export async function addSubmission(
   binary?: boolean,
   rVersion?: string,
   architecture?: string,
-  distribution?: string
+  distribution?: string,
+  note?: string
 ): ValidatedSubmission {
   if (!isAuthorized('POST', 'submissions')) {
     return new Promise(() => false)
@@ -160,7 +161,8 @@ export async function addSubmission(
       binary,
       rVersion,
       architecture,
-      distribution
+      distribution,
+      note
     ],
     false,
     undefined,
