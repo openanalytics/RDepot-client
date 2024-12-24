@@ -29,9 +29,7 @@ test.describe(TITLE, () => {
   test('no description provided', async ({ page }) => {
     await login(page, 'einstein')
 
-    await page
-      .locator('.v-data-table__tr:nth-child(18)')
-      .click()
+    await page.locator("td:has-text('boto3')").click()
 
     expect(
       await page.locator('.additional-row p').textContent()
