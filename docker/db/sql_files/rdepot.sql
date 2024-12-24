@@ -1153,7 +1153,7 @@ SELECT pg_catalog.setval('public.role_id_seq', 4, true);
 -- Name: submission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.submission_id_seq', 46, true);
+SELECT pg_catalog.setval('public.submission_id_seq', 47, true);
 
 
 --
