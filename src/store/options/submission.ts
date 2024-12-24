@@ -269,10 +269,17 @@ export const useSubmissionStore = defineStore(
         this.binary.push(file)
       },
       addRversion(version: string, value: File) {
-        this.rversion.push({
-          version: version,
-          file: value
-        })
+        const idx = this.rversion.findIndex(
+          (item) => item.file === value
+        )
+        if (idx > -1) {
+          this.rversion[idx].version = version
+        } else {
+          this.rversion.push({
+            version: version,
+            file: value
+          })
+        }
       },
       getRVersionForPackage(file: File) {
         return this.rversion.find(
@@ -280,10 +287,17 @@ export const useSubmissionStore = defineStore(
         )?.version
       },
       addArchitecture(architecture: string, value: File) {
-        this.architecture.push({
-          architecture: architecture,
-          file: value
-        })
+        const idx = this.architecture.findIndex(
+          (item) => item.file === value
+        )
+        if (idx > -1) {
+          this.architecture[idx].architecture = architecture
+        } else {
+          this.architecture.push({
+            architecture: architecture,
+            file: value
+          })
+        }
       },
       getArchitectureForPackage(file: File) {
         return this.architecture.find(
@@ -291,10 +305,17 @@ export const useSubmissionStore = defineStore(
         )?.architecture
       },
       addDistribution(distribution: string, value: File) {
-        this.distribution.push({
-          distribution: distribution,
-          file: value
-        })
+        const idx = this.distribution.findIndex(
+          (item) => item.file === value
+        )
+        if (idx > -1) {
+          this.distribution[idx].distribution = distribution
+        } else {
+          this.distribution.push({
+            distribution: distribution,
+            file: value
+          })
+        }
       },
       getDistributionForPackage(file: File) {
         return this.distribution.find(

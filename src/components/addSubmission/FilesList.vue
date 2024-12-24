@@ -58,14 +58,19 @@
           v-if="submissionsStore.getBinaryForPackage(item)"
           id="upload-package-rversion"
           variant="underlined"
-          density="compact"
-          hide-details
           closable-chips
           :items="submissionsStore.allowedRVersions"
+          :errormsg="
+            (filesStore.fieldsError as any)[item.name]
+              ?.rversion || ''
+          "
           name="rversion"
           as="v-select"
           @update:model-value="
             submissionsStore.addRversion($event, item)
+          "
+          @update:focused="
+            validate($event, 'rversion', item)
           "
         ></validated-input-field>
       </template>
@@ -74,14 +79,19 @@
           v-if="submissionsStore.getBinaryForPackage(item)"
           id="upload-package-architecture"
           variant="underlined"
-          density="compact"
-          hide-details
           closable-chips
           :items="submissionsStore.allowedArchitectures"
+          :errormsg="
+            (filesStore.fieldsError as any)[item.name]
+              ?.architecture
+          "
           name="architecture"
           as="v-select"
           @update:model-value="
             submissionsStore.addArchitecture($event, item)
+          "
+          @update:focused="
+            validate($event, 'architecture', item)
           "
         ></validated-input-field>
       </template>
@@ -90,14 +100,19 @@
           v-if="submissionsStore.getBinaryForPackage(item)"
           id="upload-package-distribution"
           variant="underlined"
-          density="compact"
-          hide-details
           closable-chips
           :items="submissionsStore.allowedDistributions"
+          :errormsg="
+            (filesStore.fieldsError as any)[item.name]
+              ?.distribution
+          "
           name="distribution"
           as="v-select"
           @update:model-value="
             submissionsStore.addDistribution($event, item)
+          "
+          @update:focused="
+            validate($event, 'distribution', item)
           "
         ></validated-input-field>
       </template>
@@ -214,6 +229,42 @@ const { formatFilename } = useFiles()
 const chosenRepository = computed(() => {
   return submissionsStore.repository
 })
+
+function validate(e: any, field: string, item: File) {
+  switch (field) {
+    case 'rversion':
+      if (!submissionsStore.getRVersionForPackage(item)) {
+        ;(filesStore.fieldsError as any)[
+          item.name
+        ].rversion = e ? '' : t('common.errors.required')
+      }
+      break
+    case 'architecture':
+      if (
+        !submissionsStore.getArchitectureForPackage(item)
+      ) {
+        ;(filesStore.fieldsError as any)[
+          item.name
+        ].architecture = e
+          ? ''
+          : t('common.errors.required')
+      }
+      break
+    case 'distribution':
+      if (
+        !submissionsStore.getDistributionForPackage(item)
+      ) {
+        ;(filesStore.fieldsError as any)[
+          item.name
+        ].distribution = e
+          ? ''
+          : t('common.errors.required')
+      }
+      break
+    default:
+      break
+  }
+}
 
 function resetPackages() {
   console.log(filesStore.files)

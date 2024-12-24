@@ -37,12 +37,14 @@ export type PackagePromise = {
 
 interface State {
   files: File[]
+  fieldsError: object
 }
 
 export const useFilesListStore = defineStore('filesStore', {
   state: (): State => {
     return {
-      files: []
+      files: [],
+      fieldsError: {}
     }
   },
   actions: {
@@ -68,6 +70,15 @@ export const useFilesListStore = defineStore('filesStore', {
         ...this.files,
         ...Array.from(files || [])
       ]
+      if (files) {
+        Array.from(files).forEach((file) => {
+          ;(this.fieldsError as any)[`${file.name}`] = {
+            rversion: '',
+            architecture: '',
+            distribution: ''
+          }
+        })
+      }
       const submissionsStore = useSubmissionStore()
       if (
         submissionsStore.repository?.technology !=

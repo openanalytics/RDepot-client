@@ -258,6 +258,8 @@ export const UPLOAD_SUBMISSION_SUCCESS_ICON =
   'submission-success-icon'
 export const UPLOAD_SUBMISSION_GENERATE_MANUAL_CHECKBOX =
   'generate-manual-button'
+export const UPLOAD_SUBMISSION_RVERSION_MESSAGES_ID =
+  'upload-package-rversion-messages'
 
 //REPOSITORIES FILTRATION
 export const REPOSITORIES_FILTRATION_SEARCH_FIELD_ID =

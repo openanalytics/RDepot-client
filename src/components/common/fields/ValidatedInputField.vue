@@ -46,7 +46,7 @@
 
 <script setup lang="ts">
 import { useField } from 'vee-validate'
-import { toRef } from 'vue'
+import { toRef, watch } from 'vue'
 import {
   VCombobox,
   VSelect,
@@ -66,6 +66,7 @@ const componentProps = defineProps<{
   template?: boolean
   maxWidth?: number | string
   cancel?: boolean
+  errormsg?: string
 }>()
 
 const emits = defineEmits(['change'])
@@ -100,9 +101,16 @@ const toComponent = new Map<Component, any>([
   [component.enum['combobox'], ComboboxField]
 ])
 
-const isas = toComponent.get(componentProps.as)
-const { value, handleBlur, errors, setValue } = useField(
-  toRef(componentProps, 'name'),
-  undefined
+watch(
+  () => componentProps.errormsg,
+  () => {
+    if (componentProps.errormsg) {
+      setErrors(componentProps.errormsg)
+    }
+  }
 )
+
+const isas = toComponent.get(componentProps.as)
+const { value, handleBlur, errors, setValue, setErrors } =
+  useField(toRef(componentProps, 'name'), undefined)
 </script>

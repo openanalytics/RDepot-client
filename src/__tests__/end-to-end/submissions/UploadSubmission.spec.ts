@@ -32,9 +32,11 @@ import {
   UPLOAD_SUBMISSION_DISTRIBUTION,
   UPLOAD_SUBMISSION_SUCCESS_ICON,
   UPLOAD_SUBMISSION_GENERATE_MANUAL_CHECKBOX,
-  UPLOAD_PACKAGES_SIDEBAR_ID
+  UPLOAD_PACKAGES_SIDEBAR_ID,
+  UPLOAD_SUBMISSION_RVERSION_MESSAGES_ID
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '@/__tests__/end-to-end/helpers/login'
+import { i18n } from '@/plugins/i18n'
 import { restoreData } from '@/__tests__/end-to-end/helpers/restoreData'
 
 const TITLE = 'packages upload'
@@ -78,11 +80,37 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     await page
       .locator(`#${UPLOAD_SUBMISSION_RVERSION}`)
       .click({ force: true })
+    await page
+      .locator(`#${UPLOAD_SUBMISSION_ARCHITECTURE}`)
+      .click({ force: true })
+    await page
+      .locator(`#${UPLOAD_SUBMISSION_RVERSION_MESSAGES_ID}`)
+      .waitFor()
+    expect(
+      await page
+        .locator(
+          `#${UPLOAD_SUBMISSION_RVERSION_MESSAGES_ID}`
+        )
+        .innerHTML()
+    ).toContain(i18n.t('common.errors.required'))
+    await page
+      .locator(`#${UPLOAD_SUBMISSION_RVERSION}`)
+      .click({ force: true })
     await page.getByText('4.2').click()
+    await page
+      .locator(`#${UPLOAD_SUBMISSION_RVERSION_MESSAGES_ID}`)
+      .waitFor()
     await page
       .locator(`#${UPLOAD_SUBMISSION_ARCHITECTURE}`)
       .click({ force: true })
     await page.getByText('x86_64').click()
+    expect(
+      await page
+        .locator(
+          `#${UPLOAD_SUBMISSION_RVERSION_MESSAGES_ID}`
+        )
+        .textContent()
+    ).not.toContain(i18n.t('common.errors.required'))
     await page
       .locator(`#${UPLOAD_SUBMISSION_DISTRIBUTION}`)
       .click({ force: true })
