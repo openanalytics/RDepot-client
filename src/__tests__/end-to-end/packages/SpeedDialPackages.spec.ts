@@ -93,7 +93,7 @@ test.describe(TITLE, () => {
     await page.locator(`#${CANCEL_BUTTON_ID}`).click()
 
     await page.locator('css=.mdi-chevron-right').click()
-    await expect(packagesRowsSelector).toHaveCount(10)
+    await expect(packagesRowsSelector).toHaveCount(11)
     await page
       .locator(`#${PACKAGES_LIST_SELECT_ALL_ID}`)
       .click()
