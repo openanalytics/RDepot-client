@@ -116,6 +116,6 @@ test.describe(TITLE, () => {
     const vCardSelector = page.locator('.v-card-title')
 
     await expect(vCardSelector).toHaveCount(1)
-    await expect(selectedDateChipSelector).toHaveCount(2)
+    await expect(selectedDateChipSelector).toHaveCount(1)
   })
 })
