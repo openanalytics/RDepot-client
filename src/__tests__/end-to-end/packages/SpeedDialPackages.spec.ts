@@ -112,7 +112,7 @@ test.describe(TITLE, () => {
       .click()
 
     await speedDialModalSelector.waitFor()
-    await expect(packagesTitleSelector).toHaveCount(29)
+    await expect(packagesTitleSelector).toHaveCount(30)
     await page.locator(`#${CANCEL_BUTTON_ID}`).click()
     await page
       .locator(`#${PACKAGES_LIST_SELECT_ALL_ID}`)
@@ -130,7 +130,7 @@ test.describe(TITLE, () => {
 
     await speedDialModalSelector.waitFor()
 
-    await expect(packagesTitleSelector).toHaveCount(9)
+    await expect(packagesTitleSelector).toHaveCount(10)
     await page.locator(`#${CANCEL_BUTTON_ID}`).click()
   })
 

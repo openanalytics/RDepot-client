@@ -126,7 +126,7 @@ test.describe(TITLE, () => {
       .locator(`#${SUBMISSIONS_MULTI_ACCEPT_ID}`)
       .click()
     await acceptSubmissionsModalSelector.waitFor()
-    await expect(submissionTitleSelector).toHaveCount(1)
+    await expect(submissionTitleSelector).toHaveCount(2)
     await page.locator(`#${CANCEL_BUTTON_ID}`).click()
   })
 
