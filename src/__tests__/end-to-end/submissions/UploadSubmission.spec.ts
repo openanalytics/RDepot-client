@@ -38,7 +38,7 @@ import { login } from '@/__tests__/end-to-end/helpers/login'
 import { restoreData } from '@/__tests__/end-to-end/helpers/restoreData'
 
 const TITLE = 'packages upload'
-test.describe.only(TITLE, { tag: '@serial' }, () => {
+test.describe(TITLE, { tag: '@serial' }, () => {
   // eslint-disable-next-line no-empty-pattern
   test.beforeAll(async ({}, testInfo) => {
     await restoreData(testInfo.project.name)
