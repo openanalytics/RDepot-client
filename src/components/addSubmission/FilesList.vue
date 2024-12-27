@@ -133,41 +133,58 @@
         #[`item.manual`]="{ item }"
         ><v-tooltip location="top">
           <template #activator="{ props }">
-            <v-btn
+            <span v-bind="props">
+              <v-btn
+                v-if="
+                  submissionsStore.getGenerateManualForPackage(
+                    item
+                  ) &&
+                  !submissionsStore.getBinaryForPackage(
+                    item
+                  )
+                "
+                id="generate-manual-button"
+                :icon="Icons.get('checkbox')"
+                variant="text"
+                class="mx-8"
+                @click="
+                  submissionsStore.removeGenerateManualOptionForPackage(
+                    item
+                  )
+                "
+              ></v-btn>
+              <v-btn
+                v-else
+                id="generate-manual-button"
+                :icon="Icons.get('checkbox-not')"
+                class="mx-8"
+                variant="text"
+                :disabled="
+                  submissionsStore.getBinaryForPackage(item)
+                "
+                @click="
+                  submissionsStore.addGenerateManualOptionForPackage(
+                    item
+                  )
+                "
+              >
+              </v-btn>
+            </span>
+          </template>
+          <span id="tooltip-wait"
+            >{{ $t('packages.generatemanual') }}
+            <span
               v-if="
-                submissionsStore.getGenerateManualForPackage(
-                  item
-                )
-              "
-              id="generate-manual-button"
-              :icon="Icons.get('checkbox')"
-              variant="text"
-              v-bind="props"
-              class="mx-8"
-              @click="
-                submissionsStore.removeGenerateManualOptionForPackage(
-                  item
-                )
-              "
-            ></v-btn>
-            <v-btn
-              v-else
-              id="generate-manual-button"
-              :icon="Icons.get('checkbox-not')"
-              class="mx-8"
-              variant="text"
-              v-bind="props"
-              @click="
-                submissionsStore.addGenerateManualOptionForPackage(
-                  item
-                )
+                submissionsStore.getBinaryForPackage(item)
               "
             >
-            </v-btn>
-          </template>
-          <span id="tooltip-wait">{{
-            $t('packages.generatemanual')
-          }}</span>
+              (
+              {{
+                $t('packages.generateManualNotAvailable')
+              }}
+              )
+            </span></span
+          >
         </v-tooltip>
       </template>
       <template #[`item.replace`]="{ item }">
@@ -267,7 +284,6 @@ function validate(e: any, field: string, item: File) {
 }
 
 function resetPackages() {
-  console.log(filesStore.files)
   filesStore.files = []
   submissionsStore.packages = []
   submissionsStore.binary = []

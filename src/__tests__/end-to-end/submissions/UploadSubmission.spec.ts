@@ -74,6 +74,11 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     await fileChooser.setFiles(
       './src/__tests__/end-to-end/testData/arrow_8.0.0.tar.gz'
     )
+    const generateManual = page.locator(
+      `#${UPLOAD_SUBMISSION_GENERATE_MANUAL_CHECKBOX}`
+    )
+    await expect(generateManual).not.toBeDisabled()
+
     await page
       .locator(`#${BINARY_SUBMISSION_CHECKBOX}`)
       .click()
@@ -115,11 +120,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
       .locator(`#${UPLOAD_SUBMISSION_DISTRIBUTION}`)
       .click({ force: true })
     await page.getByText('centos7').click()
-    await page
-      .locator(
-        `#${UPLOAD_SUBMISSION_GENERATE_MANUAL_CHECKBOX}`
-      )
-      .click()
+    await expect(generateManual).toBeDisabled()
     await page
       .locator(`#${UPLOAD_SUBMISSION_CONTINUE_BUTTON_ID}`)
       .click()

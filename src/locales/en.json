@@ -350,6 +350,7 @@
       "searchBox": "Package...",
       "submissionState": "State"
     },
+    "generateManualNotAvailable": "not available for binary packages",
     "generatemanual": "Generate manual",
     "hash": "Hash",
     "imports": "Imports",

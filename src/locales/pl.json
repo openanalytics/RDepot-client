@@ -344,6 +344,7 @@
       "searchBox": "Pakiet...",
       "submissionState": "Stan"
     },
+    "generateManualNotAvailable": "niedostępne dla pakietów binarnych",
     "generatemanual": "Generuj instrukcję",
     "hash": "Hash",
     "imports": "Importuje",

@@ -258,6 +258,7 @@ export const useSubmissionStore = defineStore(
           this.removeBinaryOptionForPackage(file)
         } else {
           this.addBinaryOptionForPackage(file)
+          this.removeGenerateManualOptionForPackage(file)
         }
       },
       removeBinaryOptionForPackage(file: File) {
