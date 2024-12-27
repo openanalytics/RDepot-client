@@ -132,17 +132,10 @@ export const PythonRepositoryControllerApiAxiosParamCreator =
         }
         const needsSerialization =
           typeof body !== 'string' ||
-          Object.entries(
-            localVarRequestOptions.headers!
-          ).find(([key, value]) => {
-            if (
-              value === 'application/json' &&
-              key == 'Content-Type'
-            ) {
-              return true
-            }
-            return false
-          })
+          (localVarRequestOptions.headers &&
+            localVarRequestOptions.headers[
+              'Content-Type'
+            ] === 'application/json')
         localVarRequestOptions.data = needsSerialization
           ? JSON.stringify(body !== undefined ? body : {})
           : body || ''
@@ -497,17 +490,10 @@ export const PythonRepositoryControllerApiAxiosParamCreator =
         }
         const needsSerialization =
           typeof body !== 'string' ||
-          Object.entries(
-            localVarRequestOptions.headers!
-          ).find(([key, value]) => {
-            if (
-              value === 'application/json' &&
-              key == 'Content-Type'
-            ) {
-              return true
-            }
-            return false
-          })
+          (localVarRequestOptions.headers &&
+            localVarRequestOptions.headers[
+              'Content-Type'
+            ] === 'application/json')
         localVarRequestOptions.data = needsSerialization
           ? JSON.stringify(body !== undefined ? body : {})
           : body || ''
