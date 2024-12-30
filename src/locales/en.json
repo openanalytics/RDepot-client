@@ -8,7 +8,11 @@
     "reject": "Reject"
   },
   "addSubmission": {
+    "architecture": "Architecture",
+    "binary": "Binary file",
+    "distribution": "Distribution",
     "generateManual": "Generate manual",
+    "rVersion": "R version",
     "step1Title": "Choose repository",
     "step2Title": "Upload {0} packages",
     "step3Title": "Summary"
@@ -241,7 +245,7 @@
     "userId": "User id"
   },
   "maintainers": {
-    "createform": {
+    "createForm": {
       "disabledPackageMessage": "Choose a user and a repository to enable",
       "disabledRepositoryMessage": "Choose a user to enable",
       "disclaimer": "Only users with at least repository maintainer role available.",
@@ -294,7 +298,6 @@
     "invalidform": "The submitted form is not valid",
     "successCancelSubmission": "Cancel submission",
     "successCreateRepository": "Successfully created {repository_name}",
-    "successCreateSubmissiom": "Successfully created submission",
     "successDeletePackageManager": "Successful deleted {maintainer_name}",
     "successDeleteRepositoryMaintainer": "Successful deleted {maintainer_name}",
     "successDeleteRepositoryManager": "Successful deleted {maintainer_name}",
@@ -313,6 +316,73 @@
     "propertyNotProvided": "not provided",
     "seeRelatedEvents": "see all related events"
   },
+  "packageDetails": {
+    "authors": "Authors",
+    "classifiers": "Classifiers",
+    "description": "Description",
+    "documentation": "Documentation",
+    "downloadButton": "Download Source File",
+    "downloads": "Downloads",
+    "emailAuthors": "Emails",
+    "events": {
+      "events": "Events",
+      "relatedEventPage": "related events page",
+      "seeRelatedEvent": "see related events"
+    },
+    "installation": {
+      "install": "Install",
+      "installCode-Python": "pip install --index-url {1} {0}",
+      "installCode-R": "install.packages(\"{0}\", repos = c(\"rdepot_{2}\" = \"{1}\", getOption(\"repos\")))",
+      "installCodeCrane-Python": "crane pip install --index-url {1} {0}",
+      "installCodeCrane-R": "install.packages(\"{0}\", repos = c(\"rdepot_{2}\" = \"{1}\", getOption(\"repos\")))",
+      "installInstruction-Python": "To install this package, please execute:",
+      "installInstruction-R": "To install this package, start R and enter:",
+      "installInstructionCrane-Python": "To install this package, please execute:",
+      "installInstructionCrane-R": "To install this package please visit ",
+      "installInstructionCrane2-Python": "",
+      "installInstructionCrane2-R": ", then start R and enter:",
+      "noInstallInstruction": "The repository has not been published yet."
+    },
+    "license": "License",
+    "noVignette": "No vignettes available",
+    "noVignetteNameProvided": "no name provided",
+    "package": "package | packages",
+    "props": {
+      "active": "active",
+      "approver": "approver",
+      "archive": "archive",
+      "author": "author",
+      "binary": "binary",
+      "deleted": "deleted",
+      "depends": "depends",
+      "hash": "hash",
+      "imports": "imports",
+      "maintainer": "maintainer",
+      "manual": "manual",
+      "md5sum": "md5sum",
+      "needsCompilation": "needs compilation",
+      "platform": "platform",
+      "projectUrl": "project URL",
+      "providesExtra": "provides extra",
+      "requiresDist": "requires distribution",
+      "requiresExternal": "requires external",
+      "requiresPython": "requires python",
+      "sourceFile": "source file",
+      "submitter": "submitter",
+      "suggests": "suggests",
+      "systemRequirements": "system requirements",
+      "url": "URL"
+    },
+    "referenceManual": "Reference Manual",
+    "replaceOptionDesc": "Replace if package with the same name and version already exists in chosen repository",
+    "versions": "Package versions",
+    "vignette": {
+      "download": "Download",
+      "open": "Open in new tab"
+    },
+    "windowsBinaries": "Windows binaries",
+    "withinPackage": "Package metadata"
+  },
   "packageMaintainer": {
     "create": "Create maintainer"
   },
@@ -323,22 +393,9 @@
     }
   },
   "packages": {
-    "approver": "Approver",
-    "architecture": "Architecture",
-    "archive": "Archive",
-    "authors": "Authors",
-    "binary": "Binary file",
-    "classifiers": "Classifiers",
     "copy": "Copy",
     "deleted": "This package is deleted",
-    "depends": "Depends",
-    "description": "Description",
     "details": "Details",
-    "distribution": "Distribution",
-    "documentation": "Documentation",
-    "downloadButton": "Download Source File",
-    "downloads": "Downloads",
-    "emailAuthors": "Emails",
     "filtration": {
       "deleted": "Deleted",
       "maintainer": "Maintainer",
@@ -352,58 +409,17 @@
     },
     "generateManualNotAvailable": "not available for binary packages",
     "generatemanual": "Generate manual",
-    "hash": "Hash",
-    "imports": "Imports",
-    "install": "Install",
-    "installCode-Python": "pip install --index-url {1} {0}",
-    "installCode-R": "install.packages(\"{0}\", repos = c(\"rdepot_{2}\" = \"{1}\", getOption(\"repos\")))",
-    "installCodeCrane-Python": "crane pip install --index-url {1} {0}",
-    "installCodeCrane-R": "install.packages(\"{0}\", repos = c(\"rdepot_{2}\" = \"{1}\", getOption(\"repos\")))",
-    "installInstruction-Python": "To install this package, please execute:",
-    "installInstruction-R": "To install this package, start R and enter:",
-    "installInstructionCrane-Python": "To install this package, please execute:",
-    "installInstructionCrane-R": "To install this package please visit ",
-    "installInstructionCrane2-Python": "",
-    "installInstructionCrane2-R": ", then start R and enter:",
-    "license": "License",
     "list": "Packages",
     "maintainer": "Maintainer",
     "maintainers": "Package maintainers",
-    "md5sum": "MD5Sum",
-    "noInstallInstruction": "The repository has not been published yet.",
-    "noVignette": "No vignettes available",
-    "oldSources": "Old sources",
-    "originalPackageData": "As described in \"{0}\" package",
-    "osxBinaries": "OS X binaries",
     "package": {
       "title": "Title"
     },
     "platform": "Platform",
     "projectUrl": "Project URL",
-    "providesExtra": "Provides extra",
-    "referenceManual": "Reference Manual",
     "replace": "Replace",
-    "replaceOptionDesc": "Replace if package with the same name and version already exists in chosen repository",
-    "requiresDist": "Requires distribution",
-    "requiresExternal": "Requires external",
-    "requiresPython": "Requires python",
-    "rversion": "R version",
-    "sourceFile": "Source file",
-    "submitter": "Submitter",
-    "suggests": "Suggests",
-    "systemRequirements": "System requirements",
     "title": "Title",
-    "url": "URL",
-    "version": "Version",
-    "versions": "Package versions",
-    "vignette": {
-      "download": "Download",
-      "open": "Open in new tab"
-    },
-    "windowsBinaries": "Windows binaries",
-    "windowsBineries": "Windows binaries",
-    "withinPackage": "Package metadata",
-    "withinRdepot": "Within RDepot"
+    "version": "Version"
   },
   "pagination": {
     "size": "Items per page (pagination)"
@@ -449,7 +465,11 @@
       "searchBox": "Repository..."
     },
     "list": "Repositories",
-    "maintainers": "Repository maintainers"
+    "maintainers": "Repository maintainers",
+    "published": {
+      "false": "not published",
+      "true": "published"
+    }
   },
   "repositorymaintainer": {
     "duplicate": "User already assigned to this repository"

@@ -98,6 +98,7 @@ import {
 } from '@/models/DataTableOptions'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
 import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
+import ProgressCircularSmall from '../common/progress/ProgressCircularSmall.vue'
 // import DeactivateIcon from '@/components/common/action_icons/DeactivateIcon.vue'
 import EditIcon from '@/components/common/action_icons/EditIcon.vue'
 import { EntityModelAccessTokenDto } from '@/openapi'

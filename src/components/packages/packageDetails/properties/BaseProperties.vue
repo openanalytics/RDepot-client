@@ -21,32 +21,25 @@
 -->
 
 <template>
-  <div v-if="packageDetailsStore.vignettes">
-    <div
-      v-if="packageDetailsStore.vignettes.length > 0"
-      class="title"
-    >
-      {{ $t('packages.documentation') }}
-    </div>
-    <PackageVignette
-      v-for="(
-        vignette, index
-      ) in packageDetailsStore.vignettes"
-      :key="index"
-      :file-name="vignette.fileName"
-      :title="vignette.title"
-      class="d-flex flex-column"
-    >
-    </PackageVignette>
-    <div v-show="packageDetailsStore.vignettes.length == 0">
-      {{ $t('packages.noVignette') }}
-    </div>
-  </div>
+  <PropertiesTable
+    id="package-base-properties"
+    :items="baseProperties"
+  />
 </template>
 
 <script setup lang="ts">
-import { usePackageDetailsStore } from '@/store/options/packageDetails'
-import PackageVignette from '@/components/packages/packageDetails/PackageVignette.vue'
+import { computed } from 'vue'
+import PropertiesTable from '@/components/common/properties/PropertiesTable.vue'
+import { usePackageProperties } from '@/composable/packages/packageProperties'
+import { Property } from '@/models/Property'
 
-const packageDetailsStore = usePackageDetailsStore()
+const { rPackageProperties, pythonPackageProperties } =
+  usePackageProperties()
+
+const baseProperties = computed(() => {
+  return [
+    ...rPackageProperties.value,
+    ...pythonPackageProperties.value
+  ] as Property[]
+})
 </script>

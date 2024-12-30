@@ -21,26 +21,39 @@
 -->
 
 <template>
-  <MarkdownDescription
-    v-if="packageBag.technology == Technologies.enum.Python"
-    :description="packageBag.description || ''"
-  ></MarkdownDescription>
-  <div v-else class="text my-5">
-    {{ packageBag.description }}
-  </div>
+  <span>
+    <span
+      v-for="(word, i) in toParseValue.split(' ')"
+      :key="i"
+    >
+      <span v-if="urls?.includes(word)">
+        <a
+          :href="
+            urls[urls?.indexOf(word)].replaceAll(',', '')
+          "
+          target="_blank"
+          >{{ word }}</a
+        >
+      </span>
+      <span v-else>{{ word }}&ensp;</span>
+    </span>
+  </span>
 </template>
 
-<script setup lang="ts">
-import { EntityModelRPackageDto } from '@/openapi'
+<script lang="ts" setup>
 import { computed } from 'vue'
-import { usePackageDetailsStore } from '@/store/options/packageDetails'
-import { Technologies } from '@/enum/Technologies'
-import MarkdownDescription from '@/components/common/markdown/MarkdownDescription.vue'
 
-const packageDetailsStore = usePackageDetailsStore()
+const componentProps = defineProps({
+  toParseValue: {
+    type: String,
+    required: true
+  }
+})
 
-const packageBag = computed<EntityModelRPackageDto>(
-  () =>
-    packageDetailsStore.packageBag as EntityModelRPackageDto
+const regex =
+  /(http|https|ftp|ftps):\/\/[a-zA-Z0-9\-.]+\.[a-zA-Z]{2,3}(\/\S*)?/g
+
+const urls = computed(() =>
+  componentProps.toParseValue.match(regex)
 )
 </script>

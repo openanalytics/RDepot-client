@@ -21,34 +21,55 @@
 -->
 
 <template>
-  <div class="d-flex" style="flex-direction: column">
-    <ul
-      v-for="packageBag in packageDetailsStore.packages"
-      :key="packageBag.id"
-      class="my-5"
+  <v-expansion-panels id="package-all-versions">
+    <v-expansion-panel
+      id="package-open-all-versions"
+      :title="$t('packageDetails.versions')"
     >
-      <li
-        class="classifier-value"
-        :class="{ hover: mainId != packageBag.id }"
-        @click="navigate(packageBag.id)"
-      >
-        {{ packageBag.version }}
-        <span
-          v-if="
-            packageBag.version ==
-            packageDetailsStore.packageBag?.version
-          "
-          >({{ $t('common.current') }})</span
+      <v-expansion-panel-text>
+        <div
+          class="d-flex px-10"
+          style="flex-direction: column"
         >
-      </li>
-    </ul>
-  </div>
+          <ul
+            v-for="localPackage in packageDetailsStore.packages"
+            :key="localPackage.id"
+          >
+            <li
+              class="classifier-value"
+              :class="{
+                hover: mainId != localPackage.id
+              }"
+              @click="navigate(localPackage.id)"
+            >
+              <span
+                :class="{
+                  current: mainId == localPackage.id
+                }"
+              >
+                {{ localPackage.version }}
+                <span
+                  v-if="
+                    localPackage.version ==
+                    packageDetailsStore.packageBag?.version
+                  "
+                  >({{ $t('common.current') }})</span
+                >
+              </span>
+            </li>
+          </ul>
+        </div>
+      </v-expansion-panel-text>
+    </v-expansion-panel>
+  </v-expansion-panels>
 </template>
 
 <script setup lang="ts">
-import router from '@/plugins/router'
 import { usePackageDetailsStore } from '@/store/options/packageDetails'
 import { computed } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const packageDetailsStore = usePackageDetailsStore()
 
@@ -70,86 +91,14 @@ function navigate(id?: number) {
 }
 </script>
 
-<style lang="scss" scoped>
-$text_color: rgba(var(--v-theme-about-package));
-$background_color: rgba(var(--v-theme-about-background));
-$text_color_2: rgba(var(--v-theme-oablue));
-
-.hover {
-  &:hover {
-    cursor: pointer;
-  }
-}
-
-.classifier-value {
-  display: list-item;
-  list-style-type: disc;
-  padding-left: 10px;
-  margin-left: 20px;
-}
-
-h1,
-.package_title {
-  font-size: 3rem;
-  line-height: 1.4;
-  font-weight: 500;
-  color: $text_color;
-}
-
-h2,
-.subtitle {
-  font-size: 2rem;
-  line-height: 1.4;
-  font-weight: 500;
-  color: $text_color;
-}
-
-p,
-.text {
-  color: $text_color;
-  font-size: 1.125rem;
-  line-height: 1.3;
-}
-
-.col_title {
-  color: $text_color;
-  width: 130px;
-  background-color: $background_color;
-  margin-right: 1rem;
-  font-weight: 500;
-  padding: 3px;
-  border-radius: 4px;
-  margin: 1px;
-  transition: all 0.2s ease;
-  &:hover {
-    transform: scale(1.01);
-  }
-}
-
-.col_small {
-  width: 90px;
-}
-
-.col_desc {
-  padding: 3px;
-  margin: 1px;
-  color: $text_color;
-}
-
-.document {
-  color: rgb(var(--v-theme-oared));
-  transition: all 0.2s ease;
-  text-decoration: none;
-  &:hover {
-    cursor: pointer;
-  }
-}
-
-.title {
-  color: $text_color_2;
+<style lang="scss">
+.current {
   font-weight: 600;
-  font-size: larger;
-  display: flex;
-  justify-content: space-between;
+}
+.hover {
+  cursor: pointer;
+}
+.arrow_box {
+  padding: 2px 10px;
 }
 </style>

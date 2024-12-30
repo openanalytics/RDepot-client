@@ -76,7 +76,7 @@
           :hint="
             isPackageFieldDisabled
               ? t(
-                  'maintainers.createform.disabledPackageMessage'
+                  'maintainers.createForm.disabledPackageMessage'
                 )
               : undefined
           "
@@ -110,7 +110,7 @@
         <v-alert
           style="font-size: 0.75rem"
           :text="
-            t('maintainers.createform.disclaimerPackages')
+            t('maintainers.createForm.disclaimerPackages')
           "
           variant="tonal"
           border="start"

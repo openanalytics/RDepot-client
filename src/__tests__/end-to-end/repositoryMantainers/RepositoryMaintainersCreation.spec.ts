@@ -180,7 +180,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
       await repositoryInputMessagesSelector.textContent()
     ).toContain(
       i18n.t(
-        'maintainers.createform.disabledRepositoryMessage'
+        'maintainers.createForm.disabledRepositoryMessage'
       )
     )
 

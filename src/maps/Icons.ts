@@ -62,5 +62,8 @@ export default new Map<string, string>([
   ['exclamation', 'mdi-exclamation'],
   ['notification', 'mdi-bell'],
   ['message', 'mdi-message-text'],
+  ['email', 'mdi-email-arrow-right-outline'],
+  ['check', 'mdi-check'],
+  ['close', 'mdi-close'],
   ['message-outline', 'mdi-message-text-outline']
 ])

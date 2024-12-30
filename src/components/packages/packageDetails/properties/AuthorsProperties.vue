@@ -21,38 +21,15 @@
 -->
 
 <template>
-  <div
-    v-if="
-      packageDetailsStore.packageBag?.technology ==
-      Technologies.enum.R
-    "
-    class="document"
-    @click="getManual"
-  >
-    <v-btn
-      class="my-3"
-      style="min-width: 200px; width: 100%"
-    >
-      {{ $t('packages.referenceManual') }}
-    </v-btn>
-  </div>
+  <PropertiesTable
+    id="package-authors-properties"
+    :items="usersList"
+  />
 </template>
 
 <script setup lang="ts">
-import { Technologies } from '@/enum/Technologies'
-import { usePackageDetailsStore } from '@/store/options/packageDetails'
+import PropertiesTable from '@/components/common/properties/PropertiesTable.vue'
+import { usePackageProperties } from '@/composable/packages/packageProperties'
 
-const packageDetailsStore = usePackageDetailsStore()
-
-async function getManual() {
-  if (
-    packageDetailsStore.packageBag &&
-    packageDetailsStore.packageBag.id
-  ) {
-    await packageDetailsStore.getManual(
-      packageDetailsStore.packageBag.id.toString(),
-      `${packageDetailsStore.packageBag.name}_${packageDetailsStore.packageBag.version}_manual`
-    )
-  }
-}
+const { usersList } = usePackageProperties()
 </script>

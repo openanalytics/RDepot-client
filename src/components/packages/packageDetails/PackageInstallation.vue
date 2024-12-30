@@ -21,59 +21,72 @@
 -->
 
 <template>
-  <div class="subtitle my-5">
-    {{ $t('packages.install') }}
-  </div>
-  <div v-if="packageBag?.repository?.published">
-    <div
-      v-if="packageBag?.repository.requiresAuthentication"
-      class="text"
-    >
-      {{ installInstruction }}
+  <v-card
+    :title="$t('packageDetails.installation.install')"
+  >
+    <div v-if="packageBag?.repository?.published">
+      <v-card-subtitle class="pb-3">
+        <template
+          v-if="
+            packageBag?.repository.requiresAuthentication
+          "
+        >
+          {{ installInstruction }}
+        </template>
+        <template v-else>
+          {{ installInstructionCrane }}
+          <a
+            id="rclient-html"
+            href="https://craneserver.net/docs/client/"
+          >
+            R Client
+          </a>
+          {{ installInstructionCrane2 }}
+        </template>
+      </v-card-subtitle>
+      <div class="code mb-4 mx-4">
+        <code
+          id="package-install-command"
+          style="font-size: 0.9em"
+          class="d-flex justify-lg-space-between align-center"
+        >
+          {{
+            packageBag?.repository.requiresAuthentication
+              ? installCodeCrane
+              : installCode
+          }}
+          <v-tooltip location="left">
+            <template #activator="{ props }">
+              <div
+                id="tooltip-activator"
+                class="d-flex align-center"
+                v-bind="props"
+              >
+                <v-icon
+                  :icon="Icons.get('copy')"
+                  size="large"
+                  start
+                  @click="copyContent()"
+                />
+              </div>
+            </template>
+            <span id="tooltip-wait">{{
+              $t('packages.copy')
+            }}</span>
+          </v-tooltip>
+        </code>
+      </div>
     </div>
-    <div v-else class="text">
-      {{ installInstructionCrane }}
-      <a
-        id="rclient-html"
-        href="https://craneserver.net/docs/client/"
-      >
-        R Client
-      </a>
-      {{ installInstructionCrane2 }}
-    </div>
-    <div class="code mb-2 mt-4 mr-2 ml-1">
-      <code
-        id="install-command"
-        class="d-flex justify-lg-space-between"
-      >
+    <div v-else>
+      <v-card-subtitle class="pb-3">
         {{
-          packageBag?.repository.requiresAuthentication
-            ? installCodeCrane
-            : installCode
+          $t(
+            'packageDetails.installation.noInstallInstruction'
+          )
         }}
-        <v-tooltip location="left">
-          <template #activator="{ props }">
-            <div id="tooltip-activator" v-bind="props">
-              <v-icon
-                :icon="Icons.get('copy')"
-                size="large"
-                start
-                @click="copyContent()"
-              />
-            </div>
-          </template>
-          <span id="tooltip-wait">{{
-            $t('packages.copy')
-          }}</span>
-        </v-tooltip>
-      </code>
+      </v-card-subtitle>
     </div>
-  </div>
-  <div v-else>
-    <div class="text">
-      {{ $t('packages.noInstallInstruction') }}
-    </div>
-  </div>
+  </v-card>
 </template>
 
 <script setup lang="ts">
@@ -85,11 +98,10 @@ import { useToast } from '@/composable/toasts'
 import { useI18n } from 'vue-i18n'
 import Icons from '@/maps/Icons'
 
-const { copy } = useClipboard()
-
 const packageDetailsStore = usePackageDetailsStore()
 
 const toasts = useToast()
+const { copy } = useClipboard()
 const { t } = useI18n()
 
 const packageBag = computed<EntityModelRPackageDto>(
@@ -97,45 +109,45 @@ const packageBag = computed<EntityModelRPackageDto>(
     packageDetailsStore.packageBag as EntityModelRPackageDto
 )
 
-const installInstruction = computed<string>(() => {
-  return t(
-    `packages.installInstruction-${packageBag.value.technology}`
+const installInstruction = computed<string>(() =>
+  t(
+    `packageDetails.installation.installInstruction-${packageBag.value.technology}`
   )
-})
+)
 
-const installInstructionCrane = computed<string>(() => {
-  return t(
-    `packages.installInstructionCrane-${packageBag.value.technology}`
+const installInstructionCrane = computed<string>(() =>
+  t(
+    `packageDetails.installation.installInstructionCrane-${packageBag.value.technology}`
   )
-})
+)
 
-const installInstructionCrane2 = computed<string>(() => {
-  return t(
-    `packages.installInstructionCrane2-${packageBag.value.technology}`
+const installInstructionCrane2 = computed<string>(() =>
+  t(
+    `packageDetails.installation.installInstructionCrane2-${packageBag.value.technology}`
   )
-})
+)
 
-const installCode = computed<string>(() => {
-  return t(
-    `packages.installCode-${packageBag.value.technology}`,
+const installCode = computed<string>(() =>
+  t(
+    `packageDetails.installation.installCode-${packageBag.value.technology}`,
     [
       packageBag.value.name,
       packageBag.value.repository?.publicationUri,
       packageBag.value.repository?.name
     ]
   )
-})
+)
 
-const installCodeCrane = computed<string>(() => {
-  return t(
-    `packages.installCodeCrane-${packageBag.value.technology}`,
+const installCodeCrane = computed<string>(() =>
+  t(
+    `packageDetails.installation.installCodeCrane-${packageBag.value.technology}`,
     [
       packageBag.value.name,
       packageBag.value.repository?.publicationUri,
       packageBag.value.repository?.name
     ]
   )
-})
+)
 
 function copyContent() {
   try {
@@ -166,7 +178,7 @@ $code_color: rgba(var(--v-theme-code));
 
 .code {
   background-color: $code_color;
-  padding: 20px;
+  padding: 10px;
   line-height: 1.5;
   border-radius: 8px;
   -webkit-box-shadow: 4px 4px 12px 0px #42445a;

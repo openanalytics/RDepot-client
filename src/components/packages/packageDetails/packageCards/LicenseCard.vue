@@ -21,28 +21,25 @@
 -->
 
 <template>
-  <div class="subtitle my-5">
-    {{ $t('packages.details') }}
-  </div>
-  <PackagePythonProperties
-    v-if="packageBag.technology == Technologies.Enum.Python"
-  />
-  <PackageRProperties
-    v-if="packageBag.technology == Technologies.Enum.R"
-  />
+  <v-card
+    id="package-license-card"
+    max-height="100px"
+    :title="packageDetailsStore.packageBag?.license"
+  >
+    <v-card-subtitle class="pb-3">
+      license
+      <v-icon
+        id="repository-description-publication-status"
+        icon="mdi-license"
+        size="15"
+        color="oablue"
+      ></v-icon>
+    </v-card-subtitle>
+  </v-card>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { Technologies } from '@/enum/Technologies'
-import { EntityModelPythonPackageDto } from '@/openapi'
 import { usePackageDetailsStore } from '@/store/options/packageDetails'
-import PackageRProperties from '@/components/packages/packageDetails/PackageRProperties.vue'
-import PackagePythonProperties from '@/components/packages/packageDetails/PackagePythonProperties.vue'
 
 const packageDetailsStore = usePackageDetailsStore()
-const packageBag = computed(
-  () =>
-    packageDetailsStore.packageBag as EntityModelPythonPackageDto
-)
 </script>

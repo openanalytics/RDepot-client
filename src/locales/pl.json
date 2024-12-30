@@ -236,7 +236,7 @@
     "userId": "Id użytkownika"
   },
   "maintainers": {
-    "createform": {
+    "createForm": {
       "disabledPackageMessage": "Wybierz użytkownika i repozytorium aby odblokować",
       "disclaimer": "Tylko użytkownicy z rolą conajmniej opiekuna repozytorium dostępni.",
       "disclaimerPackages": "Tylko użytkownicy z rolą conajmniej opiekuna pakietu dostępni.",
@@ -288,7 +288,6 @@
     "invalidform": "Przesłane dane są niepoprawne",
     "successCancelSubmission": "Zgłoszenie anulowane",
     "successCreateRepository": "Utworzono {repository_name}",
-    "successCreateSubmissiom": "Zgłoszenie utworzone",
     "successDeletePackageManager": "Usunięto {maintainer_name}",
     "successDeleteRepositoryMaintainer": "Usunięto {maintainer_name}",
     "successDeleteRepositoryManager": "Usunięto {maintainer_name}",
@@ -307,6 +306,70 @@
     "propertyNotProvided": "brak informacji",
     "seeRelatedEvents": "zobacz powiązane zdarzenia"
   },
+  "packageDetails": {
+    "authors": "Autorzy",
+    "classifiers": "Klasyfikatory",
+    "description": "Opis",
+    "documentation": "Dokumentacja",
+    "downloadButton": "Pobierz plik źródłowy",
+    "downloads": "Do pobrania",
+    "emailAuthors": "Emaile",
+    "events": {
+      "events": "Wydarzenia",
+      "relatedEventPage": "powiązane wydarzenia",
+      "seeRelatedEvent": "zobacz powiązane wydarzenia"
+    },
+    "installation": {
+      "install": "Instalacja",
+      "installCode-Python": "pip install --index-url {1} {0}",
+      "installCode-R": "install.packages(\"{0}\", repos = c(\"rdepot_{2}\" = \"{1}\", getOption(\"repos\")))",
+      "installCodeCrane-Python": "crane pip install --index-url {1} {0}",
+      "installCodeCrane-R": "install.packages(\"{0}\", repos = c(\"rdepot_{2}\" = \"{1}\", getOption(\"repos\")))",
+      "installInstruction-Python": "Aby zainstalować ten pakiet, wykonaj polecenie:",
+      "installInstruction-R": "Aby zainstalować ten pakiet, uruchom R i wprowadź komendę:",
+      "installInstructionCrane-Python": "Aby zainstalować ten pakiet, wykonaj polecenie:",
+      "installInstructionCrane2-Python": "",
+      "noInstallInstruction": "Repozytorium nie zostało jeszcze opublikowane"
+    },
+    "license": "Licencja",
+    "noVignette": "Brak dostępnych winiet",
+    "noVignetteNameProvided": "brak nazwy ",
+    "package": "pakiet | pakiety",
+    "props": {
+      "active": "aktywny",
+      "approver": "zatwierdzający",
+      "archive": "archiwum",
+      "author": "autor",
+      "binary": "binarny",
+      "deleted": "usunięty",
+      "depends": "zależności",
+      "hash": "hasz",
+      "imports": "imprtuje",
+      "maintainer": "opiekun",
+      "manual": "instrukcja",
+      "md5sum": "MD5sum",
+      "needsCompilation": "wymaga kompilacji",
+      "platform": "platforma",
+      "projectUrl": "adres URL",
+      "providesExtra": "dostarcza dodatkowe",
+      "requiresDist": "wymaga dystrybucji",
+      "requiresExternal": "zewnętrzne wymagania",
+      "requiresPython": "wymaga python",
+      "sourceFile": "plik źródłowy",
+      "submitter": "zgłaszający",
+      "suggests": "sugestie",
+      "systemRequirements": "wymagania systemowe",
+      "url": "URL"
+    },
+    "referenceManual": "instrukcja",
+    "replaceOptionDesc": "Podmień, jeżeli pakiet o tej samej nazwie i wersji istnieje już w wybranym repozytorium",
+    "versions": "Wersje pakietu",
+    "vignette": {
+      "download": "Pobierz",
+      "open": "Otwórz w nowej karcie"
+    },
+    "windowsBinaries": "Pliki binarne Windows"
+  },
   "packageMaintainer": {
     "create": "Stwórz opiekuna"
   },
@@ -317,22 +380,7 @@
     }
   },
   "packages": {
-    "approver": "Zatwierdzający",
-    "architecture": "Architektura",
-    "archive": "Archiwum",
-    "authors": "Autorzy",
-    "binary": "Plik binarny",
-    "classifiers": "Klasyfikatory",
     "copy": "Kopiuj",
-    "deleted": "Ten pakiet jest usunięty",
-    "depends": "Zależności",
-    "description": "Opis",
-    "details": "Szczegóły",
-    "distribution": "Dystrybucja",
-    "documentation": "Dokumentacja",
-    "downloadButton": "Pobierz plik źródłowy",
-    "downloads": "Do pobrania",
-    "emailAuthors": "Emaile",
     "filtration": {
       "deleted": "Usunięte",
       "maintainer": "Opiekun",
@@ -346,58 +394,8 @@
     },
     "generateManualNotAvailable": "niedostępne dla pakietów binarnych",
     "generatemanual": "Generuj instrukcję",
-    "hash": "Hash",
-    "imports": "Importuje",
-    "install": "Instalacja",
-    "installCode-Python": "pip install --index-url {1} {0}",
-    "installCode-R": "install.packages(\"{0}\", repos = c(\"rdepot_{2}\" = \"{1}\", getOption(\"repos\")))",
-    "installCodeCrane-Python": "crane pip install --index-url {1} {0}",
-    "installCodeCrane-R": "install.packages(\"{0}\", repos = c(\"rdepot_{2}\" = \"{1}\", getOption(\"repos\")))",
-    "installInstruction-Python": "Aby zainstalować ten pakiet, wykonaj polecenie:",
-    "installInstruction-R": "Aby zainstalować ten pakiet, uruchom R i wprowadź komendę:",
-    "installInstructionCrane-Python": "Aby zainstalować ten pakiet, wykonaj polecenie:",
-    "installInstructionCrane-R": "Aby zainstalować ten pakiet odwiedź ",
-    "installInstructionCrane2-Python": "",
-    "installInstructionCrane2-R": ", uruchom R i wprowadź komendę:",
-    "license": "Licencja",
     "list": "Pakiety",
-    "maintainer": "Opiekun",
-    "maintainers": "Opiekunowie pakietów",
-    "md5sum": "MD5Sum",
-    "noInstallInstruction": "Repozytorium nie zostało jeszcze opublikowane",
-    "noVignette": "Brak dostępnych winiet",
-    "oldSources": "Stare źródła",
-    "originalPackageData": "Jak opisano w pakiecie \"{0}\"",
-    "osxBinaries": "Pliki binarne OS X",
-    "package": {
-      "title": "Nazwa"
-    },
-    "platform": "Platforma",
-    "projectUrl": "URL projektu",
-    "providesExtra": "Dostarcza dodatkowe",
-    "referenceManual": "Instrukcja",
-    "replace": "Podmień",
-    "replaceOptionDesc": "Podmień, jeżeli pakiet o tej samej nazwie i wersji istnieje już w wybranym repozytorium",
-    "requiresDist": "Wymaga dystrybucji",
-    "requiresExternal": "Zewnętrzne wymagania",
-    "requiresPython": "Wymaga python",
-    "rversion": "Wersja R",
-    "sourceFile": "Plik źródłowy",
-    "submitter": "Zgłaszający",
-    "suggests": "Sugestie",
-    "systemRequirements": "Wymagania systemowe",
-    "title": "Tytuł",
-    "url": "URL",
-    "version": "Wersja",
-    "versions": "Wersje pakietu",
-    "vignette": {
-      "download": "Pobierz",
-      "open": "Otwórz w nowej karcie"
-    },
-    "windowsBinaries": "Pliki binarne Windows",
-    "windowsBineries": "Pliki binarne Windows",
-    "withinPackage": "Metadane pakietu",
-    "withinRdepot": "Wewnątrz RDepot"
+    "maintainers": "Opiekunowie Pakietów"
   },
   "pagination": {
     "size": "Rozmiar strony (paginacja)"
@@ -443,7 +441,11 @@
       "searchBox": "Repozytorium..."
     },
     "list": "Repozytoria",
-    "maintainers": "Opiekunowie repozytoriów"
+    "maintainers": "Opiekunowie repozytoriów",
+    "published": {
+      "false": "nieopublikowane",
+      "true": "opublikowane"
+    }
   },
   "repositorymaintainer": {
     "duplicate": "Użytkownik jest już przypisany do wybranego repozytorium"

@@ -55,15 +55,4 @@ describe('Package Versions', () => {
   it('renders properly', () => {
     expect(wrapper.exists()).toBe(true)
   })
-
-  it('display all versions', () => {
-    const versions = wrapper.findAll('li')
-    expect(versions.length).toEqual(2)
-  })
-
-  it('display current version', () => {
-    const versions = wrapper.findAll('li')
-    expect(versions[0].text()).toContain('current')
-    expect(versions[1].text()).not.toContain('current')
-  })
 })

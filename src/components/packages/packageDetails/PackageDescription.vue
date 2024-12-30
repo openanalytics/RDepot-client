@@ -31,8 +31,9 @@
     ></MarkdownDescription>
     <div
       v-else
+      id="package-description-plane"
       v-dompurify-html="RDescription"
-      class="text my-5"
+      class="text my-5 px-4"
     ></div>
   </div>
   <div v-if="packageBagShort" class="center">
@@ -106,6 +107,13 @@ function goToDetailsPage({
   overflow: hidden;
   mask-size: auto 250px;
   padding: 0.5rem 1rem;
+  mask-image: -webkit-gradient(
+    linear,
+    left 90%,
+    left bottom,
+    from(rgba(0, 0, 0, 1)),
+    to(rgba(0, 0, 0, 0))
+  );
   -webkit-mask-image: -webkit-gradient(
     linear,
     left 90%,

@@ -25,7 +25,7 @@
     <v-card
       class="pa-5"
       width="400"
-      :title="$t('maintainers.createform.title')"
+      :title="$t('maintainers.createForm.title')"
     >
       <v-divider />
       <v-card-text style="height: 300px">
@@ -99,7 +99,7 @@
           :hint="
             isPackageFieldDisabled
               ? t(
-                  'maintainers.createform.disabledPackageMessage'
+                  'maintainers.createForm.disabledPackageMessage'
                 )
               : undefined
           "
@@ -131,7 +131,7 @@
         <v-alert
           style="font-size: 0.75rem"
           :text="
-            t('maintainers.createform.disclaimerPackages')
+            t('maintainers.createForm.disclaimerPackages')
           "
           variant="tonal"
           border="start"

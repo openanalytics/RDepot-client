@@ -212,7 +212,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
       await packageInputMessagesSelector.textContent()
     ).toContain(
       i18n.t(
-        'maintainers.createform.disabledPackageMessage'
+        'maintainers.createForm.disabledPackageMessage'
       )
     )
 

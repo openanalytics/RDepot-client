@@ -303,35 +303,35 @@ const headers = computed<DataTableHeaders[]>(() => [
     minWidth: '10%'
   },
   {
-    title: t('packages.rversion'),
+    title: t('addSubmission.rVersion'),
     key: 'rversion',
     align: 'start',
     sortable: false,
     width: '15%'
   },
   {
-    title: t('packages.architecture'),
+    title: t('addSubmission.architecture'),
     key: 'architecture',
     align: 'start',
     sortable: false,
     width: '15%'
   },
   {
-    title: t('packages.distribution'),
+    title: t('addSubmission.distribution'),
     key: 'distribution',
     align: 'start',
     sortable: false,
     width: '15%'
   },
   {
-    title: t('packages.binary'),
+    title: t('addSubmission.binary'),
     key: 'binary',
     align: 'center',
     sortable: false,
     width: '5%'
   },
   {
-    title: t('packages.generatemanual'),
+    title: t('addSubmission.generateManual'),
     key: 'manual',
     align: 'center',
     sortable: false,
