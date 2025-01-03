@@ -56,6 +56,12 @@
                   >({{ $t('common.current') }})</span
                 >
               </span>
+              <span
+                v-if="localPackage.binary"
+                style="float: right"
+              >
+                <v-icon>{{ Icons.get('binary') }}</v-icon>
+              </span>
             </li>
           </ul>
         </div>
@@ -68,6 +74,7 @@
 import { usePackageDetailsStore } from '@/store/options/packageDetails'
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
+import Icons from '@/maps/Icons'
 
 const router = useRouter()
 
