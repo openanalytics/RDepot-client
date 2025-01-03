@@ -93,10 +93,10 @@ function handlePropertyClicked(
   download = true
 ) {
   switch (key) {
-    case 'manual':
+    case 'package-property-manual':
       downloadManual()
       break
-    case 'source file':
+    case 'package-property-source-file':
       downloadSourceFile()
       break
     default:
