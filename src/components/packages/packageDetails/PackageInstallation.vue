@@ -31,17 +31,60 @@
             packageBag?.repository.requiresAuthentication
           "
         >
-          {{ installInstruction }}
+          <i18n-t
+            v-if="packageBag?.binary"
+            keypath="packageDetails.installation.installInstructionBinary"
+            tag="p"
+          >
+            <template #binary>
+              <b>{{
+                $t('packageDetails.installation.binary')
+              }}</b>
+            </template>
+          </i18n-t>
+          <p v-else>
+            {{ installInstruction }}
+          </p>
         </template>
         <template v-else>
-          {{ installInstructionCrane }}
-          <a
-            id="rclient-html"
-            href="https://craneserver.net/docs/client/"
+          <i18n-t
+            v-if="packageBag?.binary"
+            keypath="packageDetails.installation.installInstructionBinaryCrane"
+            tag="p"
           >
-            R Client
-          </a>
-          {{ installInstructionCrane2 }}
+            <template #binary>
+              <b>{{
+                $t('packageDetails.installation.binary')
+              }}</b>
+            </template>
+            <template #url>
+              <a
+                id="rclient-html"
+                href="https://craneserver.net/docs/client/"
+              >
+                R Client
+              </a>
+            </template>
+          </i18n-t>
+          <i18n-t
+            v-else
+            :keypath="`packageDetails.installation.installInstructionCrane-${packageBag?.technology}`"
+            tag="p"
+          >
+            <template #binary>
+              <b>{{
+                $t('packageDetails.installation.binary')
+              }}</b>
+            </template>
+            <template #url>
+              <a
+                id="rclient-html"
+                href="https://craneserver.net/docs/client/"
+              >
+                R Client
+              </a>
+            </template>
+          </i18n-t>
         </template>
       </v-card-subtitle>
       <div class="code mb-4 mx-4">
@@ -51,9 +94,12 @@
           class="d-flex justify-lg-space-between align-center"
         >
           {{
-            packageBag?.repository.requiresAuthentication
-              ? installCodeCrane
-              : installCode
+            packageBag?.binary
+              ? installCodeBinary
+              : packageBag?.repository
+                    .requiresAuthentication
+                ? installCodeCrane
+                : installCode
           }}
           <v-tooltip location="left">
             <template #activator="{ props }">
@@ -115,18 +161,6 @@ const installInstruction = computed<string>(() =>
   )
 )
 
-const installInstructionCrane = computed<string>(() =>
-  t(
-    `packageDetails.installation.installInstructionCrane-${packageBag.value.technology}`
-  )
-)
-
-const installInstructionCrane2 = computed<string>(() =>
-  t(
-    `packageDetails.installation.installInstructionCrane2-${packageBag.value.technology}`
-  )
-)
-
 const installCode = computed<string>(() =>
   t(
     `packageDetails.installation.installCode-${packageBag.value.technology}`,
@@ -147,6 +181,15 @@ const installCodeCrane = computed<string>(() =>
       packageBag.value.repository?.name
     ]
   )
+)
+
+const installCodeBinary = computed<string>(() =>
+  t('packageDetails.installation.installCodeBinary', [
+    packageBag.value.name,
+    packageBag.value.repository?.publicationUri,
+    packageBag.value.repository?.name,
+    packageBag.value.distribution
+  ])
 )
 
 function copyContent() {

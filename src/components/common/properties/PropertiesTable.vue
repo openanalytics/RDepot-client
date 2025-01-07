@@ -96,7 +96,7 @@ defineProps({
 const emit = defineEmits(['propertyClicked'])
 
 function clicked(property: Property) {
-  emit('propertyClicked', property.key)
+  emit('propertyClicked', property.id)
   if (property.copyable && property.appendIconTooltip)
     copyText(
       property.appendIconTooltip,

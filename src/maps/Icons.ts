@@ -65,5 +65,6 @@ export default new Map<string, string>([
   ['email', 'mdi-email-arrow-right-outline'],
   ['check', 'mdi-check'],
   ['close', 'mdi-close'],
-  ['message-outline', 'mdi-message-text-outline']
+  ['message-outline', 'mdi-message-text-outline'],
+  ['binary', 'mdi-alpha-b-circle-outline']
 ])
