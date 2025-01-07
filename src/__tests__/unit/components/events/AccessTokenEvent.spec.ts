@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2024 Open Analytics NV
+ * Copyright (C) 2012-2025 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -106,7 +106,7 @@ describe('Events - Access Token (active, !deleted)', () => {
     expect(chips[3].text()).toBe(
       formatDate(
         new Date(
-          relatedResource.creationDate || '2024-01-19'
+          relatedResource.creationDate || '2025-01-19'
         )
       )
     )
