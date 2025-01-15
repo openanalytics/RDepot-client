@@ -429,6 +429,7 @@
   "repositories": {
     "addRepository": "Create repository",
     "creation": {
+      "deprecatedAddress": "The server address is deprecated. New scheme contains technology {address}",
       "duplicateName": "Repository name already exists",
       "hash": "Hash method",
       "name": "Name",

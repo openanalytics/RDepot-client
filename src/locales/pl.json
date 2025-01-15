@@ -407,6 +407,7 @@
   "repositories": {
     "addRepository": "Utwórz repozytorium",
     "creation": {
+      "deprecatedAddress": "Adres serwera jest przestarzały. Nowy schemat zawiera technologię",
       "duplicateName": "Repozytorium o tej nazwie już istnieje",
       "hash": "Metoda haszowania",
       "name": "Nazwa",

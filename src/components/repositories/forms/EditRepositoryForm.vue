@@ -78,6 +78,33 @@
           max-width="unset"
         ></validated-input-field>
       </v-card-text>
+      <v-card-text>
+        <v-alert
+          v-if="
+            isFieldTouched('serverAddress') &&
+            isAtLeastAdmin(
+              authorizationStore.userRole || 0
+            ) &&
+            deprecatedAddress
+          "
+          id="deprecated-serverAddress-alert"
+          style="font-size: 0.75rem"
+          variant="tonal"
+          border="start"
+          density="compact"
+          color="oablue"
+        >
+          <i18n-t
+            keypath="repositories.creation.deprecatedAddress"
+            tag="p"
+          >
+            <template #address>
+              <br />
+              <b>{{ newServerAddress }}</b>
+            </template>
+          </i18n-t>
+        </v-alert>
+      </v-card-text>
       <v-divider></v-divider>
       <CardActions @submit="updateRepository" />
     </v-card>
@@ -102,11 +129,15 @@ import { useI18n } from 'vue-i18n'
 import { useUtilities } from '@/composable/utilities'
 import { useCommonStore } from '@/store/options/common'
 import { HashMethods } from '@/enum/HashMethods'
+import { isAtLeastAdmin } from '@/enum/UserRoles'
+import { useAuthorizationStore } from '@/store/options/authorization'
+import { computed } from 'vue'
 
 const { deepCopy } = useUtilities()
 const hashMethods = ref(HashMethods.options)
 const repositoryStore = useRepositoryStore()
 const commonStore = useCommonStore()
+const authorizationStore = useAuthorizationStore()
 
 const repository: CombinedRepositoryModel = deepCopy(
   repositoryStore.chosenRepository
@@ -120,7 +151,7 @@ const loading = ref(false)
 let previousVal = ''
 let previousReturn = true
 
-const { meta, setFieldValue } = useForm({
+const { meta, setFieldValue, isFieldTouched } = useForm({
   validationSchema: toTypedSchema(
     z.object({
       name: repositorySchema.shape.name.refine(
@@ -149,6 +180,47 @@ const { meta, setFieldValue } = useForm({
 })
 
 const toasts = useToast()
+
+const deprecatedAddress = computed(() => {
+  if (
+    localRepository.value.technology === Technologies.Enum.R
+  ) {
+    return !localRepository.value.serverAddress?.includes(
+      '/r/'
+    )
+  } else if (
+    localRepository.value.technology ===
+    Technologies.Enum.Python
+  ) {
+    return !localRepository.value.serverAddress?.includes(
+      '/python/'
+    )
+  }
+  return false
+})
+
+const newServerAddress = computed(() => {
+  if (
+    localRepository.value.serverAddress?.lastIndexOf('/')
+  ) {
+    var address =
+      localRepository.value.serverAddress?.slice(
+        0,
+        localRepository.value.serverAddress.lastIndexOf('/')
+      )
+    address +=
+      localRepository.value.technology ===
+      Technologies.Enum.R
+        ? '/r'
+        : '/python'
+    const addressEnd =
+      localRepository.value.serverAddress?.slice(
+        localRepository.value.serverAddress.lastIndexOf('/')
+      )
+    return address + addressEnd
+  }
+  return ''
+})
 
 async function isRepositoryNameIsDuplicated(
   repoName: string
