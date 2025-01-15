@@ -461,6 +461,14 @@ export const EDIT_REPOSITORY_PUBLICATION_URI_FIELD_ID =
 export const EDIT_REPOSITORY_NAME_FIELD_ID = 'edit-name'
 export const EDIT_REPOSITORY_SUBMIT_ID = 'submit-button'
 export const EDIT_REPOSITORY_CANCEL_ID = 'cancel-button'
+export const EDIT_REPOSITORY_SERVER_ADDRESS_ALERT =
+  'deprecated-serverAddress-alert'
+export const CREATE_REPOSITORY_SERVER_ADDRESS_FIELD_ID =
+  'create-server-address'
+export const CREATE_REPOSITORY_PUBLICATION_URI_FIELD_ID =
+  'create-publication-uri'
+export const CREATE_REPOSITORY_TECHNOLOGY =
+  'create-technology'
 
 // REPOSITORY DESCRIPTION
 export const REPOSITORY_DESCRIPTION_CARD_ID =
