@@ -25,7 +25,6 @@ import {
   ADD_MAINTAINER_ID,
   CREATE_REPOSITORY_SERVER_ADDRESS_FIELD_ID,
   CREATE_REPOSITORY_PUBLICATION_URI_FIELD_ID,
-  CREATE_REPOSITORY_TECHNOLOGY,
   REPOSITORIES_SIDEBAR_ID,
   EDIT_REPOSITORY_SERVER_ADDRESS_ALERT
 } from '@/__tests__/end-to-end/helpers/elementsIds'
@@ -37,7 +36,7 @@ test.beforeAll(async ({}, testInfo) => {
   await restoreData(testInfo.project.name)
 })
 
-const TITLE = 'repositories edition'
+const TITLE = 'repositories creation'
 test.describe(TITLE, { tag: '@serial' }, () => {
   test('server address alert as admin', async ({
     page
@@ -62,16 +61,6 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     await expect(serverAddressAlert).toHaveCount(0)
 
     await page
-      .locator(`#${CREATE_REPOSITORY_TECHNOLOGY}`)
-      .click({ force: true })
-    await page
-      .locator('div.v-list-item-title:has-text("Python")')
-      .waitFor()
-    await page
-      .locator('div.v-list-item-title:has-text("Python")')
-      .click()
-
-    await page
       .locator(
         `#${CREATE_REPOSITORY_SERVER_ADDRESS_FIELD_ID}`
       )
@@ -87,7 +76,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     expect(
       await serverAddressAlert.textContent()
     ).toContain(
-      'http://oa-rdepot-repo:8080/python/testrepositoryint'
+      'http://oa-rdepot-repo:8080/{technology}/{repo}'
     )
   })
 })
