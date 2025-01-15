@@ -36,7 +36,7 @@ pipeline {
       steps {
 	      sh "npm install"
         sh "npx playwright install --with-deps"
-        sh 'npx playwright install chrome --only-shell'
+        sh 'npx playwright install chrome'
       }
     }
     stage('License Check') {
