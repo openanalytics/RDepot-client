@@ -196,7 +196,7 @@ const deprecatedAddress = computed(() => {
 const newServerAddress = computed(() => {
   if (
     values.serverAddress?.includes(
-      'http://rdepot-repo:8080/'
+      'http://oa-rdepot-repo:8080/'
     )
   ) {
     var address = values.serverAddress?.slice(
@@ -214,7 +214,7 @@ const newServerAddress = computed(() => {
       )
     )
   } else {
-    return 'http://rdepot-repo:8080/{technology}/{repo}'
+    return 'http://oa-rdepot-repo:8080/{technology}/{repo}'
   }
 })
 

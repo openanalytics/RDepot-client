@@ -87,7 +87,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     expect(
       await serverAddressAlert.textContent()
     ).toContain(
-      'http://oa-rdepot-repo:8080/{technology}/{repo}'
+      'http://oa-rdepot-repo:8080/python/testrepositoryint'
     )
   })
 })
