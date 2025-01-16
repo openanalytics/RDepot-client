@@ -429,7 +429,7 @@
   "repositories": {
     "addRepository": "Create repository",
     "creation": {
-      "deprecatedAddress": "The server address is deprecated. New scheme contains technology {address}",
+      "deprecatedAddress": "A server address without technology as part of its path is deprecated and will be unsupported in RDepot v3.0. Please use {address} instead.",
       "duplicateName": "Repository name already exists",
       "hash": "Hash method",
       "name": "Name",
