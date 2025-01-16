@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2024 Open Analytics NV
+ Copyright (C) 2012-2025 Open Analytics NV
  
  ===========================================================================
  
@@ -61,14 +61,19 @@
           v-if="submissionsStore.getBinaryForPackage(item)"
           id="upload-package-rversion"
           variant="underlined"
-          density="compact"
-          hide-details
           closable-chips
           :items="submissionsStore.allowedRVersions"
+          :errormsg="
+            (filesStore.fieldsError as any)[item.name]
+              ?.rversion || ''
+          "
           name="rversion"
           as="v-select"
           @update:model-value="
             submissionsStore.addRversion($event, item)
+          "
+          @update:focused="
+            validate($event, 'rversion', item)
           "
         ></validated-input-field>
       </template>
@@ -77,14 +82,19 @@
           v-if="submissionsStore.getBinaryForPackage(item)"
           id="upload-package-architecture"
           variant="underlined"
-          density="compact"
-          hide-details
           closable-chips
           :items="submissionsStore.allowedArchitectures"
+          :errormsg="
+            (filesStore.fieldsError as any)[item.name]
+              ?.architecture
+          "
           name="architecture"
           as="v-select"
           @update:model-value="
             submissionsStore.addArchitecture($event, item)
+          "
+          @update:focused="
+            validate($event, 'architecture', item)
           "
         ></validated-input-field>
       </template>
@@ -93,14 +103,19 @@
           v-if="submissionsStore.getBinaryForPackage(item)"
           id="upload-package-distribution"
           variant="underlined"
-          density="compact"
-          hide-details
           closable-chips
           :items="submissionsStore.allowedDistributions"
+          :errormsg="
+            (filesStore.fieldsError as any)[item.name]
+              ?.distribution
+          "
           name="distribution"
           as="v-select"
           @update:model-value="
             submissionsStore.addDistribution($event, item)
+          "
+          @update:focused="
+            validate($event, 'distribution', item)
           "
         ></validated-input-field>
       </template>
@@ -127,41 +142,58 @@
         #[`item.manual`]="{ item }"
         ><v-tooltip location="top">
           <template #activator="{ props }">
-            <v-btn
+            <span v-bind="props">
+              <v-btn
+                v-if="
+                  submissionsStore.getGenerateManualForPackage(
+                    item
+                  ) &&
+                  !submissionsStore.getBinaryForPackage(
+                    item
+                  )
+                "
+                id="generate-manual-button"
+                :icon="Icons.get('checkbox')"
+                variant="text"
+                class="mx-8"
+                @click="
+                  submissionsStore.removeGenerateManualOptionForPackage(
+                    item
+                  )
+                "
+              ></v-btn>
+              <v-btn
+                v-else
+                id="generate-manual-button"
+                :icon="Icons.get('checkbox-not')"
+                class="mx-8"
+                variant="text"
+                :disabled="
+                  submissionsStore.getBinaryForPackage(item)
+                "
+                @click="
+                  submissionsStore.addGenerateManualOptionForPackage(
+                    item
+                  )
+                "
+              >
+              </v-btn>
+            </span>
+          </template>
+          <span id="tooltip-wait"
+            >{{ $t('packages.generatemanual') }}
+            <span
               v-if="
-                submissionsStore.getGenerateManualForPackage(
-                  item
-                )
-              "
-              id="generate-manual-button"
-              :icon="Icons.get('checkbox')"
-              variant="text"
-              v-bind="props"
-              class="mx-8"
-              @click="
-                submissionsStore.removeGenerateManualOptionForPackage(
-                  item
-                )
-              "
-            ></v-btn>
-            <v-btn
-              v-else
-              id="generate-manual-button"
-              :icon="Icons.get('checkbox-not')"
-              class="mx-8"
-              variant="text"
-              v-bind="props"
-              @click="
-                submissionsStore.addGenerateManualOptionForPackage(
-                  item
-                )
+                submissionsStore.getBinaryForPackage(item)
               "
             >
-            </v-btn>
-          </template>
-          <span id="tooltip-wait">{{
-            $t('packages.generatemanual')
-          }}</span>
+              (
+              {{
+                $t('packages.generateManualNotAvailable')
+              }}
+              )
+            </span></span
+          >
         </v-tooltip>
       </template>
       <template #[`item.replace`]="{ item }">
@@ -246,8 +278,43 @@ const chosenRepository = computed(() => {
 })
 const selected = ref([])
 
+function validate(e: any, field: string, item: File) {
+  switch (field) {
+    case 'rversion':
+      if (!submissionsStore.getRVersionForPackage(item)) {
+        ;(filesStore.fieldsError as any)[
+          item.name
+        ].rversion = e ? '' : t('common.errors.required')
+      }
+      break
+    case 'architecture':
+      if (
+        !submissionsStore.getArchitectureForPackage(item)
+      ) {
+        ;(filesStore.fieldsError as any)[
+          item.name
+        ].architecture = e
+          ? ''
+          : t('common.errors.required')
+      }
+      break
+    case 'distribution':
+      if (
+        !submissionsStore.getDistributionForPackage(item)
+      ) {
+        ;(filesStore.fieldsError as any)[
+          item.name
+        ].distribution = e
+          ? ''
+          : t('common.errors.required')
+      }
+      break
+    default:
+      break
+  }
+}
+
 function resetPackages() {
-  console.log(filesStore.files)
   filesStore.files = []
   submissionsStore.packages = []
   submissionsStore.binary = []
@@ -273,28 +340,28 @@ const headers = computed<DataTableHeaders[]>(() => [
     minWidth: '10%'
   },
   {
-    title: t('packages.rversion'),
+    title: t('addSubmission.rVersion'),
     key: 'rversion',
     align: 'start',
     sortable: false,
     width: '15%'
   },
   {
-    title: t('packages.architecture'),
+    title: t('addSubmission.architecture'),
     key: 'architecture',
     align: 'start',
     sortable: false,
     width: '15%'
   },
   {
-    title: t('packages.distribution'),
+    title: t('addSubmission.distribution'),
     key: 'distribution',
     align: 'start',
     sortable: false,
     width: '15%'
   },
   {
-    title: t('packages.binary'),
+    title: t('addSubmission.binary'),
     key: 'binary',
     align: 'center',
     sortable: false,

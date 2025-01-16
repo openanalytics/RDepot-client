@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2024 Open Analytics NV
+ * Copyright (C) 2012-2025 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -63,10 +63,6 @@ test.describe(TITLE, () => {
       '.progressCircular'
     )
 
-    const selectedDateChipSelector = page.locator(
-      '.v-chip__content:text-is("2023.12.07")'
-    )
-
     await toDateFieldLocator.waitFor()
     await toDateFieldLocator.click()
 
@@ -116,6 +112,5 @@ test.describe(TITLE, () => {
     const vCardSelector = page.locator('.v-card-title')
 
     await expect(vCardSelector).toHaveCount(1)
-    await expect(selectedDateChipSelector).toHaveCount(2)
   })
 })

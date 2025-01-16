@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2024 Open Analytics NV
+ * Copyright (C) 2012-2025 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -114,7 +114,7 @@ test.describe(TITLE, () => {
     await page.locator('css=.mdi-chevron-right').click()
     await expect(submissionRowsSelector).toHaveCount(21)
     await page.locator('css=.mdi-chevron-right').click()
-    await expect(submissionRowsSelector).toHaveCount(2)
+    await expect(submissionRowsSelector).toHaveCount(3)
     await page
       .locator(`#${SUBMISSIONS_LIST_SELECT_ALL_ID}`)
       .click()
@@ -126,7 +126,7 @@ test.describe(TITLE, () => {
       .locator(`#${SUBMISSIONS_MULTI_ACCEPT_ID}`)
       .click()
     await acceptSubmissionsModalSelector.waitFor()
-    await expect(submissionTitleSelector).toHaveCount(1)
+    await expect(submissionTitleSelector).toHaveCount(2)
     await page.locator(`#${CANCEL_BUTTON_ID}`).click()
   })
 

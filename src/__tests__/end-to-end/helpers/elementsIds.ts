@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2024 Open Analytics NV
+ * Copyright (C) 2012-2025 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -198,46 +198,85 @@ export const PACKAGES_LIST_ACTIVATE_BUTTON_ID =
   'checkbox-active-A3-0-9-2-testrepo3'
 
 //package details
-export const PACKAGE_GO_TO_EVENTS_BUTTON_ID =
-  'package-details-go-to-events'
+export const PACKAGE_VERSIONS_CHART_ID =
+  'package-versions-chart'
+export const PACKAGE_OPEN_ALL_VERSIONS_ID =
+  'package-open-all-versions'
+export const PACKAGE_ALL_VERSIONS_ID =
+  'package-all-versions'
+export const PACKAGE_VIGNETTE_MENU_ID =
+  'package-vignette-menu-1'
+export const PACKAGE_VIGNETTE_OPEN_ID =
+  'package-vignette-open-1'
+export const PACKAGE_VIGNETTE_DOWNLOAD_ID =
+  'package-vignette-download-1'
+export const PACKAGE_INSTALLATION_COMMAND_ID =
+  'package-install-command'
+export const PACKAGE_REPOSITORY_CARD_ID =
+  'package-repository-card'
+export const PACKAGE_LICENSE_CARD_ID =
+  'package-license-card'
+export const PACKAGE_EVENTS_CARD_ID = 'package-events-card'
 
-//r package details
-export const R_PACKAGE_VERSION_PROPERTY_ID =
-  'r-package-version-property'
-export const R_PACKAGE_SYSTEM_REQUIREMENTS_PROPERTY_ID =
-  'r-package-system-requirements-property'
-export const R_PACKAGE_LICENSE_PROPERTY_ID =
-  'r-package-license-property'
-export const R_PACKAGE_URL_PROPERTY_ID =
-  'r-package-url-property'
-export const R_PACKAGE_DEPENDS_PROPERTY_ID =
-  'r-package-depends-property'
-export const R_PACKAGE_IMPORTS_PROPERTY_ID =
-  'r-package-imports-property'
-export const R_PACKAGE_SUGGESTS_PROPERTY_ID =
-  'r-package-suggests-property'
-export const R_PACKAGE_MD5SUM_PROPERTY_ID =
-  'r-package-md5sum-property'
-
-//python package details
-export const PYTHON_PACKAGE_VERSION_PROPERTY_ID =
-  'python-package-version-property'
-export const PYTHON_PACKAGE_PLATFORM_PROPERTY_ID =
-  'python-package-platform-property'
-export const PYTHON_PACKAGE_PROJECT_URL_PROPERTY_ID =
-  'python-package-project-url-property'
-export const PYTHON_PACKAGE_PROVIDES_EXTRA_PROPERTY_ID =
-  'python-package-provides-extra-property'
-export const PYTHON_PACKAGE_REQUIRES_DIST_PROPERTY_ID =
-  'python-package-requires-dist-property'
-export const PYTHON_PACKAGE_REQUIRES_EXTERNAL_PROPERTY_ID =
-  'python-package-requires-external-property'
-export const PYTHON_PACKAGE_REQUIRES_PYTHON_PROPERTY_ID =
-  'python-package-requires-Python-property'
-export const PYTHON_PACKAGE_LICENSE_PROPERTY_ID =
-  'python-package-license-property'
-export const PYTHON_PACKAGE_HASH_PROPERTY_ID =
-  'python-package-hash-property'
+//package details - property tables
+export const PACKAGE_BOOLEAN_PROPERTIES_ID =
+  'package-boolean-properties'
+export const PACKAGE_BASE_PROPERTIES_ID =
+  'package-base-properties'
+export const PACKAGE_AUTHORS_PROPERTIES_ID =
+  'package-authors-properties'
+export const PACKAGE_CLASSIFIERS_PROPERTIES_ID =
+  'package-classifiers-properties'
+export const PACKAGE_FILES_PROPERTIES_ID =
+  'package-files-properties'
+export const PACKAGE_PROPERTY_PLATFORM_ID =
+  'package-property-platform'
+export const PACKAGE_PROPERTY_PROJECT_URL_ID =
+  'package-property-project-url'
+export const PACKAGE_PROPERTY_PROVIDES_EXTRA_ID =
+  'package-property-provides-extra'
+export const PACKAGE_PROPERTY_REQUIRES_DISTRIBUTION_ID =
+  'package-property-requires-distribution'
+export const PACKAGE_PROPERTY_REQUIRES_EXTERNAL_ID =
+  'package-property-requires-external'
+export const PACKAGE_PROPERTY_REQUIRES_PYTHON_ID =
+  'package-property-requires-python'
+export const PACKAGE_PROPERTY_HASH_ID =
+  'package-property-hash'
+export const PACKAGE_PROPERTY_SYSTEM_REQUIREMENTS_ID =
+  'package-property-system-requirements'
+export const PACKAGE_PROPERTY_DEPENDS_ID =
+  'package-property-depends'
+export const PACKAGE_PROPERTY_IMPORTS_ID =
+  'package-property-imports'
+export const PACKAGE_PROPERTY_SUGGESTS_ID =
+  'package-property-suggests'
+export const PACKAGE_PROPERTY_URL_ID =
+  'package-property-url'
+export const PACKAGE_PROPERTY_MD5SUM_ID =
+  'package-property-md5sum'
+export const PACKAGE_PROPERTY_AUTHOR_ID =
+  'package-property-author'
+export const PACKAGE_PROPERTY_SUBMITTER_ID =
+  'package-property-submitter'
+export const PACKAGE_PROPERTY_APPROVER_ID =
+  'package-property-approver'
+export const PACKAGE_PROPERTY_MAINTAINER_ID =
+  'package-property-maintainer'
+export const PACKAGE_PROPERTY_VIGNETTE_ID =
+  'package-property-vignette-vignette.html'
+export const PACKAGE_PROPERTY_MANUAL_ID =
+  'package-property-manual'
+export const PACKAGE_PROPERTY_SOURCE_FILE_ID =
+  'package-property-source-file'
+export const PACKAGE_PROPERTY_ACTIVE_ID =
+  'package-property-active'
+export const PACKAGE_PROPERTY_DELETED_ID =
+  'package-property-deleted'
+export const PACKAGE_PROPERTY_BINARY_ID =
+  'package-property-binary'
+export const PACKAGE_PROPERTY_NEEDS_COMPILATION_ID =
+  'package-property-needs-compilation'
 
 //UPLOAD SUBMISSION
 export const UPLOAD_SUBMISSION_REPOSITORY_FIELD_ID =
@@ -258,6 +297,8 @@ export const UPLOAD_SUBMISSION_SUCCESS_ICON =
   'submission-success-icon'
 export const UPLOAD_SUBMISSION_GENERATE_MANUAL_CHECKBOX =
   'generate-manual-button'
+export const UPLOAD_SUBMISSION_RVERSION_MESSAGES_ID =
+  'upload-package-rversion-messages'
 
 //REPOSITORIES FILTRATION
 export const REPOSITORIES_FILTRATION_SEARCH_FIELD_ID =

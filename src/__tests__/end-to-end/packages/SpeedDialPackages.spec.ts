@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2024 Open Analytics NV
+ * Copyright (C) 2012-2025 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -93,7 +93,7 @@ test.describe(TITLE, () => {
     await page.locator(`#${CANCEL_BUTTON_ID}`).click()
 
     await page.locator('css=.mdi-chevron-right').click()
-    await expect(packagesRowsSelector).toHaveCount(10)
+    await expect(packagesRowsSelector).toHaveCount(11)
     await page
       .locator(`#${PACKAGES_LIST_SELECT_ALL_ID}`)
       .click()
@@ -112,7 +112,7 @@ test.describe(TITLE, () => {
       .click()
 
     await speedDialModalSelector.waitFor()
-    await expect(packagesTitleSelector).toHaveCount(29)
+    await expect(packagesTitleSelector).toHaveCount(30)
     await page.locator(`#${CANCEL_BUTTON_ID}`).click()
     await page
       .locator(`#${PACKAGES_LIST_SELECT_ALL_ID}`)
@@ -130,7 +130,7 @@ test.describe(TITLE, () => {
 
     await speedDialModalSelector.waitFor()
 
-    await expect(packagesTitleSelector).toHaveCount(9)
+    await expect(packagesTitleSelector).toHaveCount(10)
     await page.locator(`#${CANCEL_BUTTON_ID}`).click()
   })
 

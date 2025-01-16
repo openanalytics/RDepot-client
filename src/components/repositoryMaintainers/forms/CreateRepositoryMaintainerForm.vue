@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2024 Open Analytics NV
+ Copyright (C) 2012-2025 Open Analytics NV
  
  ===========================================================================
  
@@ -24,7 +24,7 @@
   <form ref="form" as="v-form" lazy-validation>
     <v-card class="pa-5" width="400">
       <v-card-title>
-        {{ $t('maintainers.createform.title') }}
+        {{ $t('maintainers.createForm.title') }}
       </v-card-title>
       <v-divider></v-divider>
       <v-card-text>
@@ -67,7 +67,7 @@
           :hint="
             !values.user
               ? $t(
-                  'maintainers.createform.disabledRepositoryMessage'
+                  'maintainers.createForm.disabledRepositoryMessage'
                 )
               : ''
           "
@@ -103,7 +103,7 @@
       <v-card-text>
         <v-alert
           style="font-size: 0.75rem"
-          :text="t('maintainers.createform.disclaimer')"
+          :text="t('maintainers.createForm.disclaimer')"
           variant="tonal"
           border="start"
           density="compact"

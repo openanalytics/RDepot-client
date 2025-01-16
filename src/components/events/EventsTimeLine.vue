@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2024 Open Analytics NV
+ Copyright (C) 2012-2025 Open Analytics NV
  
  ===========================================================================
  
@@ -184,7 +184,7 @@ async function loadMoreEvents() {
 var lastScrollTop = 0
 
 onMounted(async () => {
-  await eventsStore.get()
+  await eventsStore.getPage()
   nextTick(() => {
     window.addEventListener('scroll', () => {
       var st =

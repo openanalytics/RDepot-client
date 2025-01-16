@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2024 Open Analytics NV
+ * Copyright (C) 2012-2025 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -23,16 +23,24 @@
 import { test, expect } from '@playwright/test'
 import { login } from '../helpers/login'
 import {
+  PACKAGE_CLASSIFIERS_PROPERTIES_ID,
   PACKAGE_DETAILS_BUTTON_ID,
-  PYTHON_PACKAGE_HASH_PROPERTY_ID,
-  PYTHON_PACKAGE_LICENSE_PROPERTY_ID,
-  PYTHON_PACKAGE_PLATFORM_PROPERTY_ID,
-  PYTHON_PACKAGE_PROJECT_URL_PROPERTY_ID,
-  PYTHON_PACKAGE_PROVIDES_EXTRA_PROPERTY_ID,
-  PYTHON_PACKAGE_REQUIRES_DIST_PROPERTY_ID,
-  PYTHON_PACKAGE_REQUIRES_EXTERNAL_PROPERTY_ID,
-  PYTHON_PACKAGE_REQUIRES_PYTHON_PROPERTY_ID,
-  PYTHON_PACKAGE_VERSION_PROPERTY_ID
+  PACKAGE_INSTALLATION_COMMAND_ID,
+  PACKAGE_LICENSE_CARD_ID,
+  PACKAGE_PROPERTY_APPROVER_ID,
+  PACKAGE_PROPERTY_AUTHOR_ID,
+  PACKAGE_PROPERTY_HASH_ID,
+  PACKAGE_PROPERTY_MAINTAINER_ID,
+  PACKAGE_PROPERTY_PLATFORM_ID,
+  PACKAGE_PROPERTY_PROJECT_URL_ID,
+  PACKAGE_PROPERTY_PROVIDES_EXTRA_ID,
+  PACKAGE_PROPERTY_REQUIRES_DISTRIBUTION_ID,
+  PACKAGE_PROPERTY_REQUIRES_EXTERNAL_ID,
+  PACKAGE_PROPERTY_REQUIRES_PYTHON_ID,
+  PACKAGE_PROPERTY_SOURCE_FILE_ID,
+  PACKAGE_PROPERTY_SUBMITTER_ID,
+  PACKAGE_REPOSITORY_CARD_ID,
+  PACKAGE_VERSIONS_CHART_ID
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 
 const TITLE = 'Python package details'
@@ -55,39 +63,57 @@ test.describe(TITLE, () => {
       /RDepot - package details/
     )
     await page
-      .locator(`#${PYTHON_PACKAGE_VERSION_PROPERTY_ID}`)
+      .locator(`#${PACKAGE_VERSIONS_CHART_ID}`)
       .waitFor()
     await page
-      .locator(`#${PYTHON_PACKAGE_PLATFORM_PROPERTY_ID}`)
+      .locator(`#${PACKAGE_PROPERTY_PLATFORM_ID}`)
       .waitFor()
     await page
-      .locator(`#${PYTHON_PACKAGE_PROJECT_URL_PROPERTY_ID}`)
+      .locator(`#${PACKAGE_PROPERTY_PROJECT_URL_ID}`)
       .waitFor()
     await page
-      .locator(
-        `#${PYTHON_PACKAGE_PROVIDES_EXTRA_PROPERTY_ID}`
-      )
-      .waitFor()
-    await page
-      .locator(
-        `#${PYTHON_PACKAGE_REQUIRES_DIST_PROPERTY_ID}`
-      )
+      .locator(`#${PACKAGE_PROPERTY_PROVIDES_EXTRA_ID}`)
       .waitFor()
     await page
       .locator(
-        `#${PYTHON_PACKAGE_REQUIRES_EXTERNAL_PROPERTY_ID}`
+        `#${PACKAGE_PROPERTY_REQUIRES_DISTRIBUTION_ID}`
       )
       .waitFor()
     await page
-      .locator(
-        `#${PYTHON_PACKAGE_REQUIRES_PYTHON_PROPERTY_ID}`
-      )
+      .locator(`#${PACKAGE_PROPERTY_REQUIRES_EXTERNAL_ID}`)
       .waitFor()
     await page
-      .locator(`#${PYTHON_PACKAGE_LICENSE_PROPERTY_ID}`)
+      .locator(`#${PACKAGE_PROPERTY_REQUIRES_PYTHON_ID}`)
       .waitFor()
     await page
-      .locator(`#${PYTHON_PACKAGE_HASH_PROPERTY_ID}`)
+      .locator(`#${PACKAGE_LICENSE_CARD_ID}`)
+      .waitFor()
+    await page
+      .locator(`#${PACKAGE_REPOSITORY_CARD_ID}`)
+      .waitFor()
+    await page
+      .locator(`#${PACKAGE_PROPERTY_HASH_ID}`)
+      .waitFor()
+    await page
+      .locator(`#${PACKAGE_PROPERTY_SUBMITTER_ID}`)
+      .waitFor()
+    await page
+      .locator(`#${PACKAGE_PROPERTY_APPROVER_ID}`)
+      .waitFor()
+    await page
+      .locator(`#${PACKAGE_PROPERTY_MAINTAINER_ID}`)
+      .waitFor()
+    await page
+      .locator(`#${PACKAGE_PROPERTY_AUTHOR_ID}`)
+      .waitFor()
+    await page
+      .locator(`#${PACKAGE_PROPERTY_SOURCE_FILE_ID}`)
+      .waitFor()
+    await page
+      .locator(`#${PACKAGE_CLASSIFIERS_PROPERTIES_ID}`)
+      .waitFor()
+    await page
+      .locator(`#${PACKAGE_INSTALLATION_COMMAND_ID}`)
       .waitFor()
   })
 })

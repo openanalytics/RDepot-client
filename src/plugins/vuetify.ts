@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2024 Open Analytics NV
+ * Copyright (C) 2012-2025 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -57,7 +57,8 @@ export default createVuetify({
           text: '#2d2d2d',
           'about-package': '#b5b3b3',
           'about-background': '#404746',
-          code: '#6b6e6d'
+          code: '#6b6e6d',
+          table: '#404746'
         }
       },
       light: {
@@ -80,7 +81,8 @@ export default createVuetify({
           text: '#fff',
           'about-package': '#555555',
           'about-background': '#bbb9b9',
-          code: '#e0dfdf'
+          code: '#e0dfdf',
+          table: '#84cae5'
         }
       }
     }

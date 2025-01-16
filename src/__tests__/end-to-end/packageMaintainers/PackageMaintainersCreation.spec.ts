@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2024 Open Analytics NV
+ * Copyright (C) 2012-2025 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -212,7 +212,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
       await packageInputMessagesSelector.textContent()
     ).toContain(
       i18n.t(
-        'maintainers.createform.disabledPackageMessage'
+        'maintainers.createForm.disabledPackageMessage'
       )
     )
 

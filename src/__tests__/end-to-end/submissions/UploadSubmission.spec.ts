@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2024 Open Analytics NV
+ * Copyright (C) 2012-2025 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -32,12 +32,20 @@ import {
   UPLOAD_SUBMISSION_DISTRIBUTION,
   UPLOAD_SUBMISSION_SUCCESS_ICON,
   UPLOAD_SUBMISSION_GENERATE_MANUAL_CHECKBOX,
-  UPLOAD_PACKAGES_SIDEBAR_ID
+  UPLOAD_PACKAGES_SIDEBAR_ID,
+  UPLOAD_SUBMISSION_RVERSION_MESSAGES_ID
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '@/__tests__/end-to-end/helpers/login'
+import { i18n } from '@/plugins/i18n'
+import { restoreData } from '@/__tests__/end-to-end/helpers/restoreData'
 
 const TITLE = 'packages upload'
 test.describe(TITLE, { tag: '@serial' }, () => {
+  // eslint-disable-next-line no-empty-pattern
+  test.beforeAll(async ({}, testInfo) => {
+    await restoreData(testInfo.project.name)
+  })
+
   test('upload binary package', async ({ page }) => {
     await login(page, 'einstein')
     await page
@@ -66,26 +74,53 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     await fileChooser.setFiles(
       './src/__tests__/end-to-end/testData/arrow_8.0.0.tar.gz'
     )
+    const generateManual = page.locator(
+      `#${UPLOAD_SUBMISSION_GENERATE_MANUAL_CHECKBOX}`
+    )
+    await expect(generateManual).not.toBeDisabled()
+
     await page
       .locator(`#${BINARY_SUBMISSION_CHECKBOX}`)
       .click()
     await page
       .locator(`#${UPLOAD_SUBMISSION_RVERSION}`)
       .click({ force: true })
+    await page
+      .locator(`#${UPLOAD_SUBMISSION_ARCHITECTURE}`)
+      .click({ force: true })
+    await page
+      .locator(`#${UPLOAD_SUBMISSION_RVERSION_MESSAGES_ID}`)
+      .waitFor()
+    expect(
+      await page
+        .locator(
+          `#${UPLOAD_SUBMISSION_RVERSION_MESSAGES_ID}`
+        )
+        .innerHTML()
+    ).toContain(i18n.t('common.errors.required'))
+    await page
+      .locator(`#${UPLOAD_SUBMISSION_RVERSION}`)
+      .click({ force: true })
     await page.getByText('4.2').click()
+    await page
+      .locator(`#${UPLOAD_SUBMISSION_RVERSION_MESSAGES_ID}`)
+      .waitFor()
     await page
       .locator(`#${UPLOAD_SUBMISSION_ARCHITECTURE}`)
       .click({ force: true })
     await page.getByText('x86_64').click()
+    expect(
+      await page
+        .locator(
+          `#${UPLOAD_SUBMISSION_RVERSION_MESSAGES_ID}`
+        )
+        .textContent()
+    ).not.toContain(i18n.t('common.errors.required'))
     await page
       .locator(`#${UPLOAD_SUBMISSION_DISTRIBUTION}`)
       .click({ force: true })
     await page.getByText('centos7').click()
-    await page
-      .locator(
-        `#${UPLOAD_SUBMISSION_GENERATE_MANUAL_CHECKBOX}`
-      )
-      .click()
+    await expect(generateManual).toBeDisabled()
     await page
       .locator(`#${UPLOAD_SUBMISSION_CONTINUE_BUTTON_ID}`)
       .click()

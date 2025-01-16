@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2024 Open Analytics NV
+ * Copyright (C) 2012-2025 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -62,5 +62,9 @@ export default new Map<string, string>([
   ['exclamation', 'mdi-exclamation'],
   ['notification', 'mdi-bell'],
   ['message', 'mdi-message-text'],
-  ['message-outline', 'mdi-message-text-outline']
+  ['email', 'mdi-email-arrow-right-outline'],
+  ['check', 'mdi-check'],
+  ['close', 'mdi-close'],
+  ['message-outline', 'mdi-message-text-outline'],
+  ['binary', 'mdi-alpha-b-circle-outline']
 ])

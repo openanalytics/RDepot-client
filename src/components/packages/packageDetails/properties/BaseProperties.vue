@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2024 Open Analytics NV
+ Copyright (C) 2012-2025 Open Analytics NV
  
  ===========================================================================
  
@@ -21,26 +21,25 @@
 -->
 
 <template>
-  <MarkdownDescription
-    v-if="packageBag.technology == Technologies.enum.Python"
-    :description="packageBag.description || ''"
-  ></MarkdownDescription>
-  <div v-else class="text my-5">
-    {{ packageBag.description }}
-  </div>
+  <PropertiesTable
+    id="package-base-properties"
+    :items="baseProperties"
+  />
 </template>
 
 <script setup lang="ts">
-import { EntityModelRPackageDto } from '@/openapi'
 import { computed } from 'vue'
-import { usePackageDetailsStore } from '@/store/options/packageDetails'
-import { Technologies } from '@/enum/Technologies'
-import MarkdownDescription from '@/components/common/markdown/MarkdownDescription.vue'
+import PropertiesTable from '@/components/common/properties/PropertiesTable.vue'
+import { usePackageProperties } from '@/composable/packages/packageProperties'
+import { Property } from '@/models/Property'
 
-const packageDetailsStore = usePackageDetailsStore()
+const { rPackageProperties, pythonPackageProperties } =
+  usePackageProperties()
 
-const packageBag = computed<EntityModelRPackageDto>(
-  () =>
-    packageDetailsStore.packageBag as EntityModelRPackageDto
-)
+const baseProperties = computed(() => {
+  return [
+    ...rPackageProperties.value,
+    ...pythonPackageProperties.value
+  ] as Property[]
+})
 </script>

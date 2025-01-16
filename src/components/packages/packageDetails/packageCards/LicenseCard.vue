@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2024 Open Analytics NV
+ Copyright (C) 2012-2025 Open Analytics NV
  
  ===========================================================================
  
@@ -21,38 +21,25 @@
 -->
 
 <template>
-  <div
-    v-if="
-      packageDetailsStore.packageBag?.technology ==
-      Technologies.enum.R
-    "
-    class="document"
-    @click="getManual"
+  <v-card
+    id="package-license-card"
+    max-height="100px"
+    :title="packageDetailsStore.packageBag?.license"
   >
-    <v-btn
-      class="my-3"
-      style="min-width: 200px; width: 100%"
-    >
-      {{ $t('packages.referenceManual') }}
-    </v-btn>
-  </div>
+    <v-card-subtitle class="pb-3">
+      license
+      <v-icon
+        id="repository-description-publication-status"
+        icon="mdi-license"
+        size="15"
+        color="oablue"
+      ></v-icon>
+    </v-card-subtitle>
+  </v-card>
 </template>
 
 <script setup lang="ts">
-import { Technologies } from '@/enum/Technologies'
 import { usePackageDetailsStore } from '@/store/options/packageDetails'
 
 const packageDetailsStore = usePackageDetailsStore()
-
-async function getManual() {
-  if (
-    packageDetailsStore.packageBag &&
-    packageDetailsStore.packageBag.id
-  ) {
-    await packageDetailsStore.getManual(
-      packageDetailsStore.packageBag.id.toString(),
-      `${packageDetailsStore.packageBag.name}_${packageDetailsStore.packageBag.version}_manual`
-    )
-  }
-}
 </script>

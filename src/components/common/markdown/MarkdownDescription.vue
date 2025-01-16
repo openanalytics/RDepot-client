@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2024 Open Analytics NV
+ Copyright (C) 2012-2025 Open Analytics NV
  
  ===========================================================================
  
@@ -26,7 +26,7 @@
     v-dompurify-html="mdDescription"
     :class="[
       'text',
-      short ? ' short' : '',
+      short ? ' short' : 'pa-5',
       description ? 'my-5' : ''
     ]"
   ></div>
@@ -77,7 +77,7 @@ $code_color: rgba(var(--v-theme-code));
 
   pre {
     background-color: $code_color;
-    padding: 20px;
+    padding: 10px;
     line-height: 1.5;
     border-radius: 8px;
     -webkit-box-shadow: 4px 4px 12px 0px #42445a;

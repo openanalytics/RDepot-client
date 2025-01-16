@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2024 Open Analytics NV
+ * Copyright (C) 2012-2025 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -24,14 +24,21 @@ import { test, expect } from '@playwright/test'
 import { login } from '../helpers/login'
 import {
   PACKAGE_DETAILS_BUTTON_ID,
-  R_PACKAGE_DEPENDS_PROPERTY_ID,
-  R_PACKAGE_IMPORTS_PROPERTY_ID,
-  R_PACKAGE_LICENSE_PROPERTY_ID,
-  R_PACKAGE_MD5SUM_PROPERTY_ID,
-  R_PACKAGE_SUGGESTS_PROPERTY_ID,
-  R_PACKAGE_SYSTEM_REQUIREMENTS_PROPERTY_ID,
-  R_PACKAGE_URL_PROPERTY_ID,
-  R_PACKAGE_VERSION_PROPERTY_ID
+  PACKAGE_PROPERTY_DEPENDS_ID,
+  PACKAGE_PROPERTY_IMPORTS_ID,
+  PACKAGE_LICENSE_CARD_ID,
+  PACKAGE_PROPERTY_MD5SUM_ID,
+  PACKAGE_PROPERTY_SUGGESTS_ID,
+  PACKAGE_PROPERTY_SYSTEM_REQUIREMENTS_ID,
+  PACKAGE_PROPERTY_URL_ID,
+  PACKAGE_VERSIONS_CHART_ID,
+  PACKAGE_REPOSITORY_CARD_ID,
+  PACKAGE_PROPERTY_SUBMITTER_ID,
+  PACKAGE_PROPERTY_APPROVER_ID,
+  PACKAGE_PROPERTY_MAINTAINER_ID,
+  PACKAGE_PROPERTY_AUTHOR_ID,
+  PACKAGE_PROPERTY_MANUAL_ID,
+  PACKAGE_PROPERTY_SOURCE_FILE_ID
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 
 const TITLE = 'R package details'
@@ -54,30 +61,51 @@ test.describe(TITLE, () => {
       /RDepot - package details/
     )
     await page
-      .locator(`#${R_PACKAGE_VERSION_PROPERTY_ID}`)
+      .locator(`#${PACKAGE_VERSIONS_CHART_ID}`)
       .waitFor()
     await page
       .locator(
-        `#${R_PACKAGE_SYSTEM_REQUIREMENTS_PROPERTY_ID}`
+        `#${PACKAGE_PROPERTY_SYSTEM_REQUIREMENTS_ID}`
       )
       .waitFor()
     await page
-      .locator(`#${R_PACKAGE_LICENSE_PROPERTY_ID}`)
+      .locator(`#${PACKAGE_LICENSE_CARD_ID}`)
       .waitFor()
     await page
-      .locator(`#${R_PACKAGE_URL_PROPERTY_ID}`)
+      .locator(`#${PACKAGE_PROPERTY_URL_ID}`)
       .waitFor()
     await page
-      .locator(`#${R_PACKAGE_DEPENDS_PROPERTY_ID}`)
+      .locator(`#${PACKAGE_PROPERTY_DEPENDS_ID}`)
       .waitFor()
     await page
-      .locator(`#${R_PACKAGE_IMPORTS_PROPERTY_ID}`)
+      .locator(`#${PACKAGE_PROPERTY_IMPORTS_ID}`)
       .waitFor()
     await page
-      .locator(`#${R_PACKAGE_SUGGESTS_PROPERTY_ID}`)
+      .locator(`#${PACKAGE_PROPERTY_SUGGESTS_ID}`)
       .waitFor()
     await page
-      .locator(`#${R_PACKAGE_MD5SUM_PROPERTY_ID}`)
+      .locator(`#${PACKAGE_REPOSITORY_CARD_ID}`)
+      .waitFor()
+    await page
+      .locator(`#${PACKAGE_PROPERTY_MD5SUM_ID}`)
+      .waitFor()
+    await page
+      .locator(`#${PACKAGE_PROPERTY_SUBMITTER_ID}`)
+      .waitFor()
+    await page
+      .locator(`#${PACKAGE_PROPERTY_APPROVER_ID}`)
+      .waitFor()
+    await page
+      .locator(`#${PACKAGE_PROPERTY_MAINTAINER_ID}`)
+      .waitFor()
+    await page
+      .locator(`#${PACKAGE_PROPERTY_AUTHOR_ID}`)
+      .waitFor()
+    await page
+      .locator(`#${PACKAGE_PROPERTY_MANUAL_ID}`)
+      .waitFor()
+    await page
+      .locator(`#${PACKAGE_PROPERTY_SOURCE_FILE_ID}`)
       .waitFor()
   })
 })

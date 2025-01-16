@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2024 Open Analytics NV
+ * Copyright (C) 2012-2025 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -34,6 +34,7 @@ import PackageInstallation from '@/components/packages/packageDetails/PackageIns
 import { usePackageDetailsStore } from '@/store/options/packageDetails'
 import { nextTick } from 'vue'
 import { useUtilities } from '@/composable/utilities'
+import { PACKAGE_INSTALLATION_COMMAND_ID } from '@/__tests__/end-to-end/helpers/elementsIds'
 
 let wrapper: any
 let packageDetailsStore: any
@@ -65,8 +66,12 @@ describe('Package Installation', () => {
     expect(wrapper.findAll('i')).toHaveLength(1)
   })
 
-  it('display correct installation command Python no authentication', () => {
-    expect(wrapper.find('#install-command').text()).toBe(
+  it('display correct installation command Python', () => {
+    expect(
+      wrapper
+        .find(`#${PACKAGE_INSTALLATION_COMMAND_ID}`)
+        .text()
+    ).toBe(
       `pip install --index-url ${pythonPackage.repository?.publicationUri} ${pythonPackage.name}`
     )
   })
@@ -75,8 +80,10 @@ describe('Package Installation', () => {
     packageDetailsStore = usePackageDetailsStore()
     packageDetailsStore.packageBag = pythonPackage2
     await nextTick(() => {})
-    expect(wrapper.find('#install-command').text()).toBe(
-      `crane pip install --index-url ${pythonPackage.repository?.publicationUri} ${pythonPackage.name}`
+    expect(
+      wrapper.find('#package-install-command').text()
+    ).toBe(
+      'crane pip install --index-url http://localhost/repo/testrepo10 accelerated-numpy'
     )
   })
 
@@ -87,8 +94,8 @@ describe('Package Installation', () => {
     localPackage.repository.published = false
     packageDetailsStore.packageBag = localPackage
     await nextTick(() => {})
-    expect(wrapper.text()).toBe(
-      'packages.installpackages.noInstallInstruction'
+    expect(wrapper.text()).toContain(
+      'packageDetails.installation.noInstallInstruction'
     )
   })
 
@@ -96,7 +103,11 @@ describe('Package Installation', () => {
     const packageDetailsStore = usePackageDetailsStore()
     packageDetailsStore.packageBag = RPackage
     await nextTick(() => {})
-    expect(wrapper.find('#install-command').text()).toBe(
+    expect(
+      wrapper
+        .find(`#${PACKAGE_INSTALLATION_COMMAND_ID}`)
+        .text()
+    ).toBe(
       `install.packages("${RPackage.name}", repos = c("rdepot_${RPackage.repository.name}" = "${RPackage.repository.publicationUri}", getOption("repos")))`
     )
   })
@@ -105,8 +116,10 @@ describe('Package Installation', () => {
     const packageDetailsStore = usePackageDetailsStore()
     packageDetailsStore.packageBag = RPackage2
     await nextTick(() => {})
-    expect(wrapper.find('#install-command').text()).toBe(
-      `install.packages("${RPackage2.name}", repos = c("rdepot_${RPackage2.repository.name}" = "${RPackage2.repository.publicationUri}", getOption("repos")))`
+    expect(
+      wrapper.find('#package-install-command').text()
+    ).toBe(
+      'install.packages("A3", repos = c("rdepot_testrepo3" = "http://localhost/repo/testrepo3", getOption("repos")))'
     )
   })
 })

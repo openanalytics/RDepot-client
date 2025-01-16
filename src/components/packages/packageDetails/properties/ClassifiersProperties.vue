@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2024 Open Analytics NV
+ Copyright (C) 2012-2025 Open Analytics NV
  
  ===========================================================================
  
@@ -21,27 +21,42 @@
 -->
 
 <template>
-  <div class="d-flex" style="flex-direction: column">
-    <ul>
-      <div
+  <v-table id="package-classifiers-properties">
+    <template
+      v-if="
+        packageBag.technology == Technologies.Values.Python
+      "
+    >
+      <tr
         v-for="(key, idx) in Object.keys(categories)"
         :key="idx"
         class="classifier-key"
       >
-        <Classifier :title="key" :value="categories[key]" />
-      </div>
-    </ul>
-  </div>
+        <td>
+          {{ key }}
+        </td>
+        <td>
+          <v-chip
+            v-for="(val, id) in categories[key]"
+            :key="id"
+            class="classifier-value mt-1 mr-1"
+            size="small"
+          >
+            {{ val }}
+          </v-chip>
+        </td>
+      </tr>
+    </template>
+  </v-table>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { Technologies } from '@/enum/Technologies'
 import { EntityModelPythonPackageDto } from '@/openapi'
 import { usePackageDetailsStore } from '@/store/options/packageDetails'
-import Classifier from '@/components/packages/packageDetails/PythonClassifier.vue'
+import { computed } from 'vue'
 
 const packageDetailsStore = usePackageDetailsStore()
-
 const packageBag = computed(
   () =>
     packageDetailsStore.packageBag as EntityModelPythonPackageDto
@@ -72,24 +87,3 @@ const categories = computed(() => {
   return categories
 })
 </script>
-
-<style lang="scss">
-$text_color: rgba(var(--v-theme-about-package));
-$background_color: rgba(var(--v-theme-about-background));
-$text_color_2: rgba(var(--v-theme-oablue));
-
-.classifier-value {
-  display: list-item;
-  list-style-type: disc;
-  padding-left: 10px;
-  margin-left: 20px;
-}
-
-.title {
-  color: $text_color_2;
-  font-weight: 600;
-  font-size: larger;
-  display: flex;
-  justify-content: space-between;
-}
-</style>
