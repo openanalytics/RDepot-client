@@ -33,7 +33,13 @@ import {
   UPLOAD_SUBMISSION_SUCCESS_ICON,
   UPLOAD_SUBMISSION_GENERATE_MANUAL_CHECKBOX,
   UPLOAD_PACKAGES_SIDEBAR_ID,
-  UPLOAD_SUBMISSION_RVERSION_MESSAGES_ID
+  UPLOAD_SUBMISSION_RVERSION_MESSAGES_ID,
+  UPLOAD_SUBMISSION_NOTES_CHECKBOX,
+  UPLOAD_SUBMISSION_NOTES_INPUT,
+  SUBMISSIONS_SIDEBAR_ID,
+  SUBMISSIONS_FILTRATION_SEARCH_FIELD_ID,
+  SUBMISSIONS_LIST_NOTES_ARROW_TESTREPO3_ID,
+  SUBMISSIONS_LIST_NOTES_MARKDOWN
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '@/__tests__/end-to-end/helpers/login'
 import { i18n } from '@/plugins/i18n'
@@ -121,11 +127,42 @@ test.describe(TITLE, { tag: '@serial' }, () => {
       .click({ force: true })
     await page.getByText('centos7').click()
     await expect(generateManual).toBeDisabled()
+
+    await page
+      .locator(`#${UPLOAD_SUBMISSION_NOTES_CHECKBOX}`)
+      .click()
+
+    await page
+      .locator(`#${UPLOAD_SUBMISSION_NOTES_INPUT}`)
+      .fill('Test notes for upload')
+
     await page
       .locator(`#${UPLOAD_SUBMISSION_CONTINUE_BUTTON_ID}`)
       .click()
     await expect(
       page.locator(`#${UPLOAD_SUBMISSION_SUCCESS_ICON}`)
     ).toBeVisible()
+
+    await page.locator(`#${SUBMISSIONS_SIDEBAR_ID}`).click()
+    await page.waitForURL('**/submissions')
+    await expect(page).toHaveTitle(/RDepot - submissions/)
+
+    await page
+      .locator(`#${SUBMISSIONS_FILTRATION_SEARCH_FIELD_ID}`)
+      .fill('arrow')
+
+    const submissionRowsSelector = page.locator('role=row')
+    await expect(submissionRowsSelector).toHaveCount(3)
+    await page
+      .locator(
+        `#${SUBMISSIONS_LIST_NOTES_ARROW_TESTREPO3_ID}`
+      )
+      .click()
+    const notesMarkdown = page.locator(
+      `#${SUBMISSIONS_LIST_NOTES_MARKDOWN}`
+    )
+    await expect(notesMarkdown).toHaveText(
+      'Test notes for upload'
+    )
   })
 })

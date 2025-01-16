@@ -299,6 +299,10 @@ export const UPLOAD_SUBMISSION_GENERATE_MANUAL_CHECKBOX =
   'generate-manual-button'
 export const UPLOAD_SUBMISSION_RVERSION_MESSAGES_ID =
   'upload-package-rversion-messages'
+export const UPLOAD_SUBMISSION_NOTES_CHECKBOX =
+  'notes-button'
+export const UPLOAD_SUBMISSION_NOTES_INPUT =
+  'upload-package-notes'
 
 //REPOSITORIES FILTRATION
 export const REPOSITORIES_FILTRATION_SEARCH_FIELD_ID =
@@ -437,6 +441,11 @@ export const SUBMISSIONS_LIST_ACTIONS_WHEEL_0380_TESTREPO10_ID =
   'checkbox-actions-submission-wheel-0-38-0-testrepo10'
 export const SUBMISSIONS_LIST_ACTIONS_USL_200_TESTREPO2_ID =
   'checkbox-actions-submission-usl-2-0-0-testrepo2'
+export const SUBMISSIONS_LIST_NOTES_ARROW_TESTREPO3_ID =
+  'comment-button-48'
+export const SUBMISSIONS_LIST_NOTES_MARKDOWN =
+  'markdown-description'
+
 //REPOSITORIES LIST
 export const DELETE_REPO_2_ICON_ID =
   'delete-repository-icon-2'
