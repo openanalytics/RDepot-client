@@ -266,7 +266,8 @@ export const useSubmissionStore = defineStore(
         }
       },
       getNotesForPackage(file: File) {
-        return !!this.notes.find((item) => item == file)
+        return this.note.find((item) => item.file == file)
+          ?.note
       },
       updateNotesOptionForPackage(file: File) {
         if (this.getNotesForPackage(file)) {
