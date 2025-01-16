@@ -52,7 +52,7 @@ const componentProps = defineProps({
 const submissionsStore = useSubmissionStore()
 
 const notesIcon = computed(() => {
-  return submissionsStore.getNotesForPackage(
+  return submissionsStore.getNotesForPackageBool(
     componentProps.file
   )
     ? Icons.get('checkbox')

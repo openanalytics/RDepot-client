@@ -269,8 +269,11 @@ export const useSubmissionStore = defineStore(
         return this.note.find((item) => item.file == file)
           ?.note
       },
+      getNotesForPackageBool(file: File) {
+        return !!this.notes.find((item) => item == file)
+      },
       updateNotesOptionForPackage(file: File) {
-        if (this.getNotesForPackage(file)) {
+        if (this.getNotesForPackageBool(file)) {
           this.removeNotesOptionForPackage(file)
         } else {
           this.addNotesOptionForPackage(file)
@@ -279,6 +282,9 @@ export const useSubmissionStore = defineStore(
       removeNotesOptionForPackage(file: File) {
         this.notes = this.notes.filter(
           (item) => item !== file
+        )
+        this.note = this.note.filter(
+          (item) => item.file !== file
         )
       },
       addNotesOptionForPackage(file: File) {
@@ -327,7 +333,7 @@ export const useSubmissionStore = defineStore(
         const idx = this.note.findIndex(
           (n) => n.file == value
         )
-        if (idx) {
+        if (idx >= 0) {
           this.note[idx].note = note
         } else {
           this.note.push({

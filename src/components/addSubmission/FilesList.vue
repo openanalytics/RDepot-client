@@ -327,7 +327,13 @@ function resetPackages() {
 const expanded = ref<string[]>([])
 
 function expandNotes(file: File) {
-  expanded.value.push(file.name)
+  if (expanded.value.includes(file.name)) {
+    expanded.value = expanded.value.filter(
+      (name) => name !== file.name
+    )
+  } else {
+    expanded.value.push(file.name)
+  }
 }
 
 const headers = computed<DataTableHeaders[]>(() => [
