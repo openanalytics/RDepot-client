@@ -28,7 +28,6 @@
       </v-card-title>
       <v-divider></v-divider>
       <v-card-text>
-        {{ repository.hashMethod }}
         <validated-input-field
           id="edit-name"
           v-model="localRepository.name"
