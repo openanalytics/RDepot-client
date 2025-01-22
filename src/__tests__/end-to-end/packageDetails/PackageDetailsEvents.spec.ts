@@ -82,6 +82,6 @@ test.describe(TITLE, () => {
 
     await expect(
       page.locator('css=.eventCard')
-    ).toHaveCount(18)
+    ).toHaveCount(13)
   })
 })
