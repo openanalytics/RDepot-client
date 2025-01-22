@@ -74,18 +74,17 @@
       <v-card-text>
         <v-alert
           v-if="
-            isAtLeastAdmin(
-              authorizationStore.userRole || 0
-            ) &&
-            deprecatedAddress &&
-            isFieldDirty('serverAddress')
+            deprecatedAddress(
+              values.serverAddress || '',
+              values.technology
+            ) && isFieldDirty('serverAddress')
           "
           id="deprecated-serverAddress-alert"
           style="font-size: 0.75rem"
           variant="tonal"
           border="start"
           density="compact"
-          color="oablue"
+          color="warning"
         >
           <i18n-t
             keypath="repositories.creation.deprecatedAddress"
@@ -119,12 +118,13 @@ import { useToast } from '@/composable/toasts'
 import { useI18n } from 'vue-i18n'
 import { useCommonStore } from '@/store/options/common'
 import { watch, computed } from 'vue'
-import { isAtLeastAdmin } from '@/enum/UserRoles'
-import { useAuthorizationStore } from '@/store/options/authorization'
+import getEnv from '@/utils/env'
+import { useRepositoryDeprecated } from '@/composable/repositories/repositoriesDeprecatedAddress'
 
 const repositoryStore = useRepositoryStore()
 const commonStore = useCommonStore()
-const authorizationStore = useAuthorizationStore()
+const { deprecatedAddress, getNewServerAddress } =
+  useRepositoryDeprecated()
 
 const technologies = ref(Technologies.options)
 const hashMethods = ref(HashMethods.options)
@@ -184,37 +184,18 @@ watch(
   }
 )
 
-const deprecatedAddress = computed(() => {
-  if (values.technology === undefined) {
-    return false
-  }
-  return values.technology === Technologies.Enum.R
-    ? !values.serverAddress?.includes('/r/')
-    : !values.serverAddress?.includes('/python/')
-})
-
 const newServerAddress = computed(() => {
   if (
     values.serverAddress?.includes(
-      'http://oa-rdepot-repo:8080/'
+      getEnv('VITE_REPO_SERVER_ADDRESS')
     )
   ) {
-    var address = values.serverAddress?.slice(
-      0,
-      values.serverAddress.lastIndexOf('/')
-    )
-    address +=
-      values.technology === Technologies.Enum.R
-        ? '/r'
-        : '/python'
-    return (
-      address +
-      values.serverAddress?.slice(
-        values.serverAddress.lastIndexOf('/')
-      )
+    return getNewServerAddress(
+      values.serverAddress,
+      values.technology
     )
   } else {
-    return 'http://oa-rdepot-repo:8080/{technology}/{repo}'
+    return `${getEnv('VITE_REPO_SERVER_ADDRESS')}{technology}/{repo}`
   }
 })
 

@@ -85,14 +85,17 @@
             isAtLeastAdmin(
               authorizationStore.userRole || 0
             ) &&
-            deprecatedAddress
+            deprecatedAddress(
+              values.serverAddress || '',
+              values.technology
+            )
           "
           id="deprecated-serverAddress-alert"
           style="font-size: 0.75rem"
           variant="tonal"
           border="start"
           density="compact"
-          color="oablue"
+          color="warning"
         >
           <i18n-t
             keypath="repositories.creation.deprecatedAddress"
@@ -127,6 +130,7 @@ import { z } from 'zod'
 import { useToast } from '@/composable/toasts'
 import { useI18n } from 'vue-i18n'
 import { useUtilities } from '@/composable/utilities'
+import { useRepositoryDeprecated } from '@/composable/repositories/repositoriesDeprecatedAddress'
 import { useCommonStore } from '@/store/options/common'
 import { HashMethods } from '@/enum/HashMethods'
 import { isAtLeastAdmin } from '@/enum/UserRoles'
@@ -138,6 +142,8 @@ const hashMethods = ref(HashMethods.options)
 const repositoryStore = useRepositoryStore()
 const commonStore = useCommonStore()
 const authorizationStore = useAuthorizationStore()
+const { deprecatedAddress, getNewServerAddress } =
+  useRepositoryDeprecated()
 
 const repository: CombinedRepositoryModel = deepCopy(
   repositoryStore.chosenRepository
@@ -151,73 +157,44 @@ const loading = ref(false)
 let previousVal = ''
 let previousReturn = true
 
-const { meta, setFieldValue, isFieldTouched } = useForm({
-  validationSchema: toTypedSchema(
-    z.object({
-      name: repositorySchema.shape.name.refine(
-        async (value) => {
-          if (previousVal === value) {
-            return previousReturn
-          }
-          previousVal = value
-          return await isRepositoryNameIsDuplicated(value)
-        },
-        t('repositories.creation.duplicateName')
-      ),
-      publicationUri: repositorySchema.shape.publicationUri,
-      serverAddress: repositorySchema.shape.serverAddress,
-      technology: repositorySchema.shape.technology,
-      hashMethod: repositorySchema.shape.hashMethod
-    })
-  ),
-  initialValues: {
-    name: repository.name,
-    publicationUri: repository.publicationUri,
-    serverAddress: repository.serverAddress,
-    technology: repository.technology as Technologies,
-    hashMethod: repository.hashMethod
-  }
-})
+const { meta, setFieldValue, isFieldTouched, values } =
+  useForm({
+    validationSchema: toTypedSchema(
+      z.object({
+        name: repositorySchema.shape.name.refine(
+          async (value) => {
+            if (previousVal === value) {
+              return previousReturn
+            }
+            previousVal = value
+            return await isRepositoryNameIsDuplicated(value)
+          },
+          t('repositories.creation.duplicateName')
+        ),
+        publicationUri:
+          repositorySchema.shape.publicationUri,
+        serverAddress: repositorySchema.shape.serverAddress,
+        technology: repositorySchema.shape.technology,
+        hashMethod: repositorySchema.shape.hashMethod
+      })
+    ),
+    initialValues: {
+      name: repository.name,
+      publicationUri: repository.publicationUri,
+      serverAddress: repository.serverAddress,
+      technology: repository.technology as Technologies,
+      hashMethod: repository.hashMethod
+    }
+  })
 
 const toasts = useToast()
 
-const deprecatedAddress = computed(() => {
-  if (
-    localRepository.value.technology === Technologies.Enum.R
-  ) {
-    return !localRepository.value.serverAddress?.includes(
-      '/r/'
-    )
-  } else if (
-    localRepository.value.technology ===
-    Technologies.Enum.Python
-  ) {
-    return !localRepository.value.serverAddress?.includes(
-      '/python/'
-    )
-  }
-  return false
-})
-
 const newServerAddress = computed(() => {
-  if (
-    localRepository.value.serverAddress?.lastIndexOf('/')
-  ) {
-    var address =
-      localRepository.value.serverAddress?.slice(
-        0,
-        localRepository.value.serverAddress.lastIndexOf('/')
-      )
-    address +=
-      localRepository.value.technology ===
-      Technologies.Enum.R
-        ? '/r'
-        : '/python'
-    const addressEnd =
-      localRepository.value.serverAddress?.slice(
-        localRepository.value.serverAddress.lastIndexOf('/')
-      )
-    return address + addressEnd
+  if (values.serverAddress?.lastIndexOf('/')) {
+    return getNewServerAddress(
+      values.serverAddress,
+      values.technology
+    )
   }
   return ''
 })
