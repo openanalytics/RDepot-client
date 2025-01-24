@@ -407,6 +407,8 @@
   "repositories": {
     "addRepository": "Utwórz repozytorium",
     "creation": {
+      "deprecatedAddress": "Adres serwera bez technologii jest przestarzały i nie będzie wspierany w RDepot v3.0. Zamiast tego użyj {address}",
+      "deprecatedAddressTooltip": "Adres serwera bez technologii jest przestarzały i nie będzie wspierany w RDepot v3.0",
       "duplicateName": "Repozytorium o tej nazwie już istnieje",
       "hash": "Metoda haszowania",
       "name": "Nazwa",

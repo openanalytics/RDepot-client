@@ -71,6 +71,32 @@
           max-width="unset"
         ></validated-input-field>
       </v-card-text>
+      <v-card-text>
+        <v-alert
+          v-if="
+            deprecatedAddress(
+              values.serverAddress || '',
+              values.technology
+            ) && isFieldDirty('serverAddress')
+          "
+          id="deprecated-serverAddress-alert"
+          style="font-size: 0.75rem"
+          variant="tonal"
+          border="start"
+          density="compact"
+          color="warning"
+        >
+          <i18n-t
+            keypath="repositories.creation.deprecatedAddress"
+            tag="p"
+          >
+            <template #address>
+              <br />
+              <b>{{ newServerAddress }} </b>
+            </template>
+          </i18n-t>
+        </v-alert>
+      </v-card-text>
       <v-divider></v-divider>
       <CardActions @submit="createRepository" />
     </v-card>
@@ -91,10 +117,14 @@ import { z } from 'zod'
 import { useToast } from '@/composable/toasts'
 import { useI18n } from 'vue-i18n'
 import { useCommonStore } from '@/store/options/common'
-import { watch } from 'vue'
+import { watch, computed } from 'vue'
+import getEnv from '@/utils/env'
+import { useRepositoryDeprecated } from '@/composable/repositories/repositoriesDeprecatedAddress'
 
 const repositoryStore = useRepositoryStore()
 const commonStore = useCommonStore()
+const { deprecatedAddress, getNewServerAddress } =
+  useRepositoryDeprecated()
 
 const technologies = ref(Technologies.options)
 const hashMethods = ref(HashMethods.options)
@@ -105,39 +135,42 @@ const loading = ref(false)
 let previousVal = ''
 let previousReturn = true
 
-const { meta, values, setFieldValue, setTouched } = useForm(
-  {
-    validationSchema: toTypedSchema(
-      z.object({
-        name: repositorySchema.shape.name.refine(
-          async (value) => {
-            if (previousVal === value) {
-              return previousReturn
-            }
-            previousVal = value
-            loading.value = true
-            const repositoryWithSameName =
-              await repositoryStore.get(
-                value,
-                undefined,
-                false
-              )
-            loading.value = false
-            previousReturn =
-              repositoryWithSameName.length === 0
+const {
+  meta,
+  values,
+  setFieldValue,
+  setTouched,
+  isFieldDirty
+} = useForm({
+  validationSchema: toTypedSchema(
+    z.object({
+      name: repositorySchema.shape.name.refine(
+        async (value) => {
+          if (previousVal === value) {
             return previousReturn
-          },
-          t('repositories.creation.duplicateName')
-        ),
-        publicationUri:
-          repositorySchema.shape.publicationUri,
-        serverAddress: repositorySchema.shape.serverAddress,
-        technology: repositorySchema.shape.technology,
-        hashMethod: repositorySchema.shape.hashMethod
-      })
-    )
-  }
-)
+          }
+          previousVal = value
+          loading.value = true
+          const repositoryWithSameName =
+            await repositoryStore.get(
+              value,
+              undefined,
+              false
+            )
+          loading.value = false
+          previousReturn =
+            repositoryWithSameName.length === 0
+          return previousReturn
+        },
+        t('repositories.creation.duplicateName')
+      ),
+      publicationUri: repositorySchema.shape.publicationUri,
+      serverAddress: repositorySchema.shape.serverAddress,
+      technology: repositorySchema.shape.technology,
+      hashMethod: repositorySchema.shape.hashMethod
+    })
+  )
+})
 
 watch(
   () => values.technology,
@@ -150,6 +183,21 @@ watch(
     }
   }
 )
+
+const newServerAddress = computed(() => {
+  if (
+    values.serverAddress?.includes(
+      getEnv('VITE_REPO_SERVER_ADDRESS')
+    )
+  ) {
+    return getNewServerAddress(
+      values.serverAddress,
+      values.technology
+    )
+  } else {
+    return `${getEnv('VITE_REPO_SERVER_ADDRESS')}{technology}/{repo}`
+  }
+})
 
 const toasts = useToast()
 

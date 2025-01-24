@@ -73,7 +73,16 @@
       :key="i"
       #[`item.${item}`]="{ value }"
     >
-      <CopyableCell :value="value" />
+      <div class="d-flex justify-start align-center ga-2">
+        <CopyableCell :value="value" />
+        <DeprecatedWarning
+          v-if="
+            item === 'serverAddress' &&
+            deprecatedAddressTooltip(value)
+          "
+          :value="value"
+        />
+      </div>
     </template>
 
     <!-- expose available slots -->
@@ -109,9 +118,12 @@ import { DataTableHeaders } from '@/models/DataTableOptions'
 import DateChip from '../chips/DateChip.vue'
 import StateIcon from '@/components/submissions/icons/StateIcon.vue'
 import CopyableCell from './CopyableCell.vue'
+import DeprecatedWarning from './DeprecatedWarning.vue'
+import { useRepositoryDeprecated } from '@/composable/repositories/repositoriesDeprecatedAddress'
 
 const oaTableStore = useOATable()
-
+const { deprecatedAddressTooltip } =
+  useRepositoryDeprecated()
 const technologyKeys = [
   'packageBag.repository.technology',
   'repository.technology',
