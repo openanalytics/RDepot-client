@@ -83,10 +83,11 @@ import { useUtilities } from '@/composable/utilities'
 import UrlValue from './UrlValue.vue'
 import { i18n } from '@/plugins/i18n'
 import { Property } from '@/models/Property'
+import { onMounted } from 'vue'
 
 const { copyText } = useUtilities()
 
-defineProps({
+const props = defineProps({
   items: {
     type: Object as () => Property[],
     required: true
@@ -94,6 +95,10 @@ defineProps({
 })
 
 const emit = defineEmits(['propertyClicked'])
+
+onMounted(() => {
+  console.log(props.items)
+})
 
 function clicked(property: Property) {
   emit('propertyClicked', property.id)

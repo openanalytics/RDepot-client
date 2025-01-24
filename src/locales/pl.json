@@ -11,7 +11,11 @@
     "generateManual": "Generuj dokumentację",
     "step1Title": "Wybierz repozytorium",
     "step2Title": "Wgraj pakiety {0}",
-    "step3Title": "Podsumowanie"
+    "step3Title": "Podsumowanie",
+    "binary": "Plik binarny",
+    "distribution": "Dystrybucja",
+    "architecture": "Architektura",
+    "rVersion": "Wersja R"
   },
   "authorization": {
     "clear": "wyczyść",
@@ -363,7 +367,10 @@
       "submitter": "zgłaszający",
       "suggests": "sugestie",
       "systemRequirements": "wymagania systemowe",
-      "url": "URL"
+      "url": "URL",
+      "architecture": "Architektura",
+      "distribution": "Dystrybucja",
+      "rversion": "Wersja R"
     },
     "referenceManual": "instrukcja",
     "replaceOptionDesc": "Podmień, jeżeli pakiet o tej samej nazwie i wersji istnieje już w wybranym repozytorium",

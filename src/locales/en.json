@@ -373,7 +373,10 @@
       "submitter": "submitter",
       "suggests": "suggests",
       "systemRequirements": "system requirements",
-      "url": "URL"
+      "url": "URL",
+      "architecture": "Architecture",
+      "distribution": "Distribution",
+      "rversion": "R version"
     },
     "referenceManual": "Reference Manual",
     "replaceOptionDesc": "Replace if package with the same name and version already exists in chosen repository",
