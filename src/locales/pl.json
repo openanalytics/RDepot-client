@@ -399,7 +399,8 @@
     "generateManualNotAvailable": "niedostępne dla pakietów binarnych",
     "generatemanual": "Generuj instrukcję",
     "list": "Pakiety",
-    "maintainers": "Opiekunowie Pakietów"
+    "maintainers": "Opiekunowie Pakietów",
+    "replace": "Podmień"
   },
   "pagination": {
     "size": "Rozmiar strony (paginacja)"
