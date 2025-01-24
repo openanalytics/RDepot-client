@@ -308,7 +308,8 @@
     "successUpdateRepositoryMaintainer": "Successful updated {maintainer_name}",
     "successUpdateRepositoryManager": "Successful update {maintainer_name}",
     "successUpdateUser": "Successfully updated user",
-    "title": "Notifications"
+    "title": "Notifications",
+    "seeAll": "see all events"
   },
   "package": {
     "chooseOneToEnable": "choose at least one package to enable",
@@ -352,11 +353,13 @@
     "props": {
       "active": "active",
       "approver": "approver",
+      "architecture": "Architecture",
       "archive": "archive",
       "author": "author",
       "binary": "binary",
       "deleted": "deleted",
       "depends": "depends",
+      "distribution": "Distribution",
       "hash": "hash",
       "imports": "imports",
       "maintainer": "maintainer",
@@ -369,14 +372,12 @@
       "requiresDist": "requires distribution",
       "requiresExternal": "requires external",
       "requiresPython": "requires python",
+      "rversion": "R version",
       "sourceFile": "source file",
       "submitter": "submitter",
       "suggests": "suggests",
       "systemRequirements": "system requirements",
-      "url": "URL",
-      "architecture": "Architecture",
-      "distribution": "Distribution",
-      "rversion": "R version"
+      "url": "URL"
     },
     "referenceManual": "Reference Manual",
     "replaceOptionDesc": "Replace if package with the same name and version already exists in chosen repository",

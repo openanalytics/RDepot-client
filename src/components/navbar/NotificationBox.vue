@@ -54,9 +54,19 @@
       </div>
       <v-icon
         v-tooltip="
-          event.resourceType
-            ?.replaceAll('_', ' ')
-            .toLowerCase()
+          $t(
+            'resourceType.' +
+              event.resourceType
+                ?.toLowerCase()
+                .split('_')
+                .map((word, idx) =>
+                  idx > 0
+                    ? word[0].toUpperCase() +
+                      word.substring(1)
+                    : word
+                )
+                .join('')
+          )
         "
         color="oablue"
         size="20"

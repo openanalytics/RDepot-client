@@ -8,14 +8,14 @@
     "reject": "Odrzuć"
   },
   "addSubmission": {
-    "generateManual": "Generuj dokumentację",
-    "step1Title": "Wybierz repozytorium",
-    "step2Title": "Wgraj pakiety {0}",
-    "step3Title": "Podsumowanie",
+    "architecture": "Architektura",
     "binary": "Plik binarny",
     "distribution": "Dystrybucja",
-    "architecture": "Architektura",
-    "rVersion": "Wersja R"
+    "generateManual": "Generuj dokumentację",
+    "rVersion": "Wersja R",
+    "step1Title": "Wybierz repozytorium",
+    "step2Title": "Wgraj pakiety {0}",
+    "step3Title": "Podsumowanie"
   },
   "authorization": {
     "clear": "wyczyść",
@@ -302,7 +302,8 @@
     "successUpdateRepositoryMaintainer": "Zaktualizowano {maintainer_name}",
     "successUpdateRepositoryManager": "Zaktualizowano {maintainer_name}",
     "successUpdateUser": "Dane użytkownika zaktualizowane",
-    "title": "Powiadomienia"
+    "title": "Powiadomienia",
+    "seeAll": "zobacz wszystkie"
   },
   "package": {
     "chooseOneToEnable": "wybierz co najmniej jedną paczkę aby odblokować",
@@ -346,11 +347,13 @@
     "props": {
       "active": "aktywny",
       "approver": "zatwierdzający",
+      "architecture": "Architektura",
       "archive": "archiwum",
       "author": "autor",
       "binary": "binarny",
       "deleted": "usunięty",
       "depends": "zależności",
+      "distribution": "Dystrybucja",
       "hash": "hasz",
       "imports": "imprtuje",
       "maintainer": "opiekun",
@@ -363,14 +366,12 @@
       "requiresDist": "wymaga dystrybucji",
       "requiresExternal": "zewnętrzne wymagania",
       "requiresPython": "wymaga python",
+      "rversion": "Wersja R",
       "sourceFile": "plik źródłowy",
       "submitter": "zgłaszający",
       "suggests": "sugestie",
       "systemRequirements": "wymagania systemowe",
-      "url": "URL",
-      "architecture": "Architektura",
-      "distribution": "Dystrybucja",
-      "rversion": "Wersja R"
+      "url": "URL"
     },
     "referenceManual": "instrukcja",
     "replaceOptionDesc": "Podmień, jeżeli pakiet o tej samej nazwie i wersji istnieje już w wybranym repozytorium",
