@@ -184,7 +184,7 @@ async function loadMoreEvents() {
 var lastScrollTop = 0
 
 onMounted(async () => {
-  await eventsStore.getPage()
+  await eventsStore.get()
   nextTick(() => {
     window.addEventListener('scroll', () => {
       var st =

@@ -27,7 +27,10 @@ import {
   EDIT_REPOSITORY_TESTREPO8_ICON_ID,
   REPOSITORIES_LIST_PYTHON_REPO_ID,
   REPOSITORIES_SIDEBAR_ID,
-  REPOSITORY_DESCRIPTION_HASH_METHOD_ID
+  EDIT_REPOSITORY_SERVER_ADDRESS_ALERT,
+  EDIT_REPOSITORY_SERVER_ADDRESS_FIELD_ID,
+  REPOSITORY_DESCRIPTION_HASH_METHOD_ID,
+  EDIT_REPOSITORY_PUBLICATION_URI_FIELD_ID
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '../helpers/login'
 import { restoreData } from '@/__tests__/end-to-end/helpers/restoreData'
@@ -39,6 +42,85 @@ test.beforeAll(async ({}, testInfo) => {
 
 const TITLE = 'repositories edition'
 test.describe(TITLE, { tag: '@serial' }, () => {
+  test('server address alert as admin', async ({
+    page
+  }) => {
+    await login(page, 'einstein')
+
+    await page
+      .locator(`#${REPOSITORIES_SIDEBAR_ID}`)
+      .click()
+    await page.waitForURL('**/repositories')
+    await expect(page).toHaveTitle(/RDepot - repositories/)
+
+    const repositoriesRowsSelector =
+      page.locator('role=row')
+    await expect(repositoriesRowsSelector).toHaveCount(8)
+
+    await page
+      .locator(`#${EDIT_REPOSITORY_TESTREPO8_ICON_ID}`)
+      .click()
+    const serverAddressAlert = page.locator(
+      `#${EDIT_REPOSITORY_SERVER_ADDRESS_ALERT}`
+    )
+    await expect(serverAddressAlert).toHaveCount(0)
+
+    await page
+      .locator(
+        `#${EDIT_REPOSITORY_SERVER_ADDRESS_FIELD_ID}`
+      )
+      .click()
+
+    await page
+      .locator(
+        `#${EDIT_REPOSITORY_PUBLICATION_URI_FIELD_ID}`
+      )
+      .click()
+    await serverAddressAlert.waitFor()
+
+    expect(
+      await serverAddressAlert.textContent()
+    ).toContain(
+      'http://oa-rdepot-repo:8080/python/testrepo8'
+    )
+  })
+
+  test('server address alert as user', async ({ page }) => {
+    await login(page, 'tesla')
+
+    await page
+      .locator(`#${REPOSITORIES_SIDEBAR_ID}`)
+      .click()
+    await page.waitForURL('**/repositories')
+    await expect(page).toHaveTitle(/RDepot - repositories/)
+
+    const repositoriesRowsSelector =
+      page.locator('role=row')
+    await expect(repositoriesRowsSelector).toHaveCount(8)
+
+    await page
+      .locator(`#${EDIT_REPOSITORY_TESTREPO8_ICON_ID}`)
+      .click()
+    const serverAddressAlert = page.locator(
+      `#${EDIT_REPOSITORY_SERVER_ADDRESS_ALERT}`
+    )
+    await expect(serverAddressAlert).toHaveCount(0)
+
+    await page
+      .locator(
+        `#${EDIT_REPOSITORY_SERVER_ADDRESS_FIELD_ID}`
+      )
+      .click()
+
+    await page
+      .locator(
+        `#${EDIT_REPOSITORY_PUBLICATION_URI_FIELD_ID}`
+      )
+      .click()
+
+    await expect(serverAddressAlert).toHaveCount(0)
+  })
+
   test('hash field', async ({ page }) => {
     await login(page, 'einstein')
 

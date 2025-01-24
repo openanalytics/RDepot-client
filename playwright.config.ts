@@ -75,7 +75,7 @@ export default defineConfig({
       name: 'chrome',
       use: {
         ...devices['Desktop Chrome'],
-        channel: 'chrome',
+        channel: 'chromium',
         baseURL: 'http://192.168.53.20'
       }
     }

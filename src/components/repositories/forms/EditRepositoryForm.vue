@@ -28,7 +28,6 @@
       </v-card-title>
       <v-divider></v-divider>
       <v-card-text>
-        {{ repository.hashMethod }}
         <validated-input-field
           id="edit-name"
           v-model="localRepository.name"
@@ -78,6 +77,36 @@
           max-width="unset"
         ></validated-input-field>
       </v-card-text>
+      <v-card-text>
+        <v-alert
+          v-if="
+            isFieldTouched('serverAddress') &&
+            isAtLeastAdmin(
+              authorizationStore.userRole || 0
+            ) &&
+            deprecatedAddress(
+              values.serverAddress || '',
+              values.technology
+            )
+          "
+          id="deprecated-serverAddress-alert"
+          style="font-size: 0.75rem"
+          variant="tonal"
+          border="start"
+          density="compact"
+          color="warning"
+        >
+          <i18n-t
+            keypath="repositories.creation.deprecatedAddress"
+            tag="p"
+          >
+            <template #address>
+              <br />
+              <b>{{ newServerAddress }}</b>
+            </template>
+          </i18n-t>
+        </v-alert>
+      </v-card-text>
       <v-divider></v-divider>
       <CardActions @submit="updateRepository" />
     </v-card>
@@ -100,13 +129,20 @@ import { z } from 'zod'
 import { useToast } from '@/composable/toasts'
 import { useI18n } from 'vue-i18n'
 import { useUtilities } from '@/composable/utilities'
+import { useRepositoryDeprecated } from '@/composable/repositories/repositoriesDeprecatedAddress'
 import { useCommonStore } from '@/store/options/common'
 import { HashMethods } from '@/enum/HashMethods'
+import { isAtLeastAdmin } from '@/enum/UserRoles'
+import { useAuthorizationStore } from '@/store/options/authorization'
+import { computed } from 'vue'
 
 const { deepCopy } = useUtilities()
 const hashMethods = ref(HashMethods.options)
 const repositoryStore = useRepositoryStore()
 const commonStore = useCommonStore()
+const authorizationStore = useAuthorizationStore()
+const { deprecatedAddress, getNewServerAddress } =
+  useRepositoryDeprecated()
 
 const repository: CombinedRepositoryModel = deepCopy(
   repositoryStore.chosenRepository
@@ -120,35 +156,47 @@ const loading = ref(false)
 let previousVal = ''
 let previousReturn = true
 
-const { meta, setFieldValue } = useForm({
-  validationSchema: toTypedSchema(
-    z.object({
-      name: repositorySchema.shape.name.refine(
-        async (value) => {
-          if (previousVal === value) {
-            return previousReturn
-          }
-          previousVal = value
-          return await isRepositoryNameIsDuplicated(value)
-        },
-        t('repositories.creation.duplicateName')
-      ),
-      publicationUri: repositorySchema.shape.publicationUri,
-      serverAddress: repositorySchema.shape.serverAddress,
-      technology: repositorySchema.shape.technology,
-      hashMethod: repositorySchema.shape.hashMethod
-    })
-  ),
-  initialValues: {
-    name: repository.name,
-    publicationUri: repository.publicationUri,
-    serverAddress: repository.serverAddress,
-    technology: repository.technology as Technologies,
-    hashMethod: repository.hashMethod
-  }
-})
+const { meta, setFieldValue, isFieldTouched, values } =
+  useForm({
+    validationSchema: toTypedSchema(
+      z.object({
+        name: repositorySchema.shape.name.refine(
+          async (value) => {
+            if (previousVal === value) {
+              return previousReturn
+            }
+            previousVal = value
+            return await isRepositoryNameIsDuplicated(value)
+          },
+          t('repositories.creation.duplicateName')
+        ),
+        publicationUri:
+          repositorySchema.shape.publicationUri,
+        serverAddress: repositorySchema.shape.serverAddress,
+        technology: repositorySchema.shape.technology,
+        hashMethod: repositorySchema.shape.hashMethod
+      })
+    ),
+    initialValues: {
+      name: repository.name,
+      publicationUri: repository.publicationUri,
+      serverAddress: repository.serverAddress,
+      technology: repository.technology as Technologies,
+      hashMethod: repository.hashMethod
+    }
+  })
 
 const toasts = useToast()
+
+const newServerAddress = computed(() => {
+  if (values.serverAddress?.lastIndexOf('/')) {
+    return getNewServerAddress(
+      values.serverAddress,
+      values.technology
+    )
+  }
+  return ''
+})
 
 async function isRepositoryNameIsDuplicated(
   repoName: string
