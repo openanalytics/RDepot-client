@@ -52,7 +52,8 @@
       "state": "Status",
       "technology": "Technologia",
       "title": "Tytuł",
-      "version": "Wersja"
+      "version": "Wersja",
+      "binary": "Binarny"
     },
     "packageMaintainer": {
       "deleted": "Usunięte",
@@ -290,6 +291,7 @@
     },
     "insufficientPermissions": "Wybrany użytkownik nie ma wystarczających uprawnień.",
     "invalidform": "Przesłane dane są niepoprawne",
+    "seeAll": "zobacz wszystkie",
     "successCancelSubmission": "Zgłoszenie anulowane",
     "successCreateRepository": "Utworzono {repository_name}",
     "successDeletePackageManager": "Usunięto {maintainer_name}",
@@ -302,8 +304,7 @@
     "successUpdateRepositoryMaintainer": "Zaktualizowano {maintainer_name}",
     "successUpdateRepositoryManager": "Zaktualizowano {maintainer_name}",
     "successUpdateUser": "Dane użytkownika zaktualizowane",
-    "title": "Powiadomienia",
-    "seeAll": "zobacz wszystkie"
+    "title": "Powiadomienia"
   },
   "package": {
     "chooseOneToEnable": "wybierz co najmniej jedną paczkę aby odblokować",

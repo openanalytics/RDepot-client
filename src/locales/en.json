@@ -52,7 +52,8 @@
       "state": "Status",
       "technology": "Technology",
       "title": "Title",
-      "version": "Version"
+      "version": "Version",
+      "binary": "Binary"
     },
     "packageMaintainer": {
       "deleted": "Deleted",
@@ -296,6 +297,7 @@
     },
     "insufficientPermissions": "User's permissions are not sufficient to create a maintainer.",
     "invalidform": "The submitted form is not valid",
+    "seeAll": "see all events",
     "successCancelSubmission": "Cancel submission",
     "successCreateRepository": "Successfully created {repository_name}",
     "successDeletePackageManager": "Successful deleted {maintainer_name}",
@@ -308,8 +310,7 @@
     "successUpdateRepositoryMaintainer": "Successful updated {maintainer_name}",
     "successUpdateRepositoryManager": "Successful update {maintainer_name}",
     "successUpdateUser": "Successfully updated user",
-    "title": "Notifications",
-    "seeAll": "see all events"
+    "title": "Notifications"
   },
   "package": {
     "chooseOneToEnable": "choose at least one package to enable",

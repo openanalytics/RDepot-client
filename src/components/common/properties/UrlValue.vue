@@ -35,7 +35,9 @@
           >{{ word }}</a
         >
       </span>
-      <span v-else>{{ word }}&ensp;</span>
+      <span v-else
+        >{{ word.replaceAll('\\n', ' ') }}&ensp;</span
+      >
     </span>
   </span>
 </template>
