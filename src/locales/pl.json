@@ -45,6 +45,7 @@
     "name": "Użytkownik",
     "package": {
       "active": "Aktywny",
+      "binary": "Binarny",
       "maintainer": "Opiekun",
       "name": "Pakiet",
       "repository": "Repozytorium",
@@ -52,8 +53,7 @@
       "state": "Status",
       "technology": "Technologia",
       "title": "Tytuł",
-      "version": "Wersja",
-      "binary": "Binarny"
+      "version": "Wersja"
     },
     "packageMaintainer": {
       "deleted": "Usunięte",

@@ -45,6 +45,7 @@
     "name": "Name",
     "package": {
       "active": "Active",
+      "binary": "Binary",
       "maintainer": "Maintainer",
       "name": "Package",
       "repository": "Repository",
@@ -52,8 +53,7 @@
       "state": "Status",
       "technology": "Technology",
       "title": "Title",
-      "version": "Version",
-      "binary": "Binary"
+      "version": "Version"
     },
     "packageMaintainer": {
       "deleted": "Deleted",
