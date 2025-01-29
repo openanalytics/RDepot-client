@@ -235,6 +235,7 @@
               <validated-input-field
                 id="upload-package-notes"
                 min-width="100%"
+                style="padding: 0 0.5rem 0 0.5rem"
                 variant="underlined"
                 density="compact"
                 name="notes"

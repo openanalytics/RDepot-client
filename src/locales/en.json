@@ -2,9 +2,9 @@
   "action": {
     "accept": "Accept",
     "cancel": "Cancel",
-    "changes": "Show changes",
+    "changes": "Show notes",
     "download": "Download",
-    "noChanges": "No changes",
+    "noChanges": "No notes",
     "reject": "Reject"
   },
   "addSubmission": {
@@ -564,7 +564,7 @@
       "onSubmissionAvailableTitle": "Please select other submissions",
       "warning": "Some submissions are not listed because they cannot be {actionType}."
     },
-    "noChangesProvided": "There are no changes listed for this submission",
+    "noChangesProvided": "There are no notes listed for this submission",
     "noPackageChosen": "No packages chosen",
     "rejected": "rejected",
     "replace": {
