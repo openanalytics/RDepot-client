@@ -194,7 +194,15 @@ const installCodeBinary = computed<string>(() =>
 
 function copyContent() {
   try {
-    copy(installCode.value)
+    const requiresAuthentication =
+      packageBag?.value.repository?.requiresAuthentication
+    copy(
+      packageBag?.value.binary
+        ? installCodeBinary.value
+        : requiresAuthentication
+          ? installCodeCrane.value
+          : installCode.value
+    )
     toasts.success(t('common.copied'))
   } catch {
     toasts.error(t('common.errors.copyFailed'))
