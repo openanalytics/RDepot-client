@@ -149,17 +149,17 @@ export function usePackageProperties() {
     if (localPackage.technology == Technologies.Values.R) {
       props = [
         {
-          id: 'package-property-depends',
+          id: 'package-property-architecture',
           key: i18n.t('packageDetails.props.architecture'),
           value: localPackage.architecture
         },
         {
-          id: 'package-property-imports',
+          id: 'package-property-distribution',
           key: i18n.t('packageDetails.props.distribution'),
           value: localPackage.distribution
         },
         {
-          id: 'package-property-suggests',
+          id: 'package-property-rversion',
           key: i18n.t('packageDetails.props.rversion'),
           value: localPackage.rversion
         }
