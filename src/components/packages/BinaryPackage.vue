@@ -21,32 +21,23 @@
 -->
 
 <template>
-  <v-tooltip location="top">
-    <template #activator="{ props }">
-      <span
-        v-bind="props"
-        style="width: 100%"
-        class="d-flex justify-center"
-      >
-        <v-checkbox-btn
-          :id="id"
-          v-model="packageBag.binary"
-          disabled
-          hide-details
-          readonly
-          color="grey"
-          class="mr-5"
-          @click.stop
-        />
-      </span>
-    </template>
-    <span>{{ $t('columns.package.binary') }}</span>
-  </v-tooltip>
+  <v-chip
+    size="small"
+    color="oablue"
+    class="mr-3"
+    style="cursor: pointer"
+  >
+    {{
+      packageBag.binary
+        ? $t('columns.package.binary')
+        : $t('columns.package.source')
+    }}</v-chip
+  >
 </template>
 
 <script setup lang="ts">
 import { EntityModelPackageDto } from '@/openapi'
-import { ref, computed, watch } from 'vue'
+import { ref, watch } from 'vue'
 
 const componentProps = defineProps({
   item: {
@@ -60,14 +51,4 @@ watch(componentProps.item, (newVal) => {
 })
 
 const packageBag = ref(componentProps.item)
-
-const id = computed(
-  () =>
-    `checkbox-binary-${
-      componentProps.item.name
-    }-${componentProps.item.version?.replaceAll(
-      '.',
-      '-'
-    )}-${componentProps.item.repository?.name}`
-)
 </script>
