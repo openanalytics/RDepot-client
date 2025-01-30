@@ -54,7 +54,6 @@ const splittedVersionsArray = computed<string[][]>(() =>
   versions.value
     .reduce((arr, obj) => {
       let key: string = obj.split('.')[0]
-      console.log(key)
       let value = (arr as any)[key] ? (arr as any)[key] : []
       value.push(obj)
       ;(arr as any)[key] = value

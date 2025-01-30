@@ -248,10 +248,10 @@ export const usePackagesStore = defineStore(
       },
       async clearFiltrationAndFetch() {
         this.clearFiltration()
-        console.log(
-          '=================================' +
-            this.tableOptions
-        )
+        // console.log(
+        //   '=================================' +
+        //     this.tableOptions
+        // )
         await this.getPage()
       },
       async deletePackages() {

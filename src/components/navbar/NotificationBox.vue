@@ -95,14 +95,9 @@ import { useIcons } from '@/composable/icons'
 import { i18n } from '@/plugins/i18n'
 import UserAvatar from '@/components/common/users/UserAvatar.vue'
 import TimeAgo from 'javascript-time-ago'
-import en from 'javascript-time-ago/locale/en'
-import pl from 'javascript-time-ago/locale/pl'
 import { useI18n } from 'vue-i18n'
 
 const { locale } = useI18n()
-
-TimeAgo.addDefaultLocale(en)
-TimeAgo.addLocale(pl)
 
 const props = defineProps({
   event: {
