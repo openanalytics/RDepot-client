@@ -51,7 +51,7 @@ test.describe(TITLE_SERIAL, { tag: '@serial' }, () => {
     const englishHeaders =
       'PackageVersionTitleMaintainerRepositoryTechnologyTypeStatusActiveActions'
     const polishHeaders =
-      'PakietWersjaTytułOpiekunRepozytoriumTechnologiaTyp plikuStatusAktywnyAkcje'
+      'PakietWersjaTytułOpiekunRepozytoriumTechnologiaTypplikuStatusAktywnyAkcje'
 
     const plLanguageSelector = page.locator(
       `#${POLISH_LANGUAGE_ID}`
