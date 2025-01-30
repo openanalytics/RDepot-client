@@ -21,41 +21,34 @@
 -->
 
 <template>
-  <span>
-    <span
-      v-for="(word, i) in toParseValue.split(' ')"
-      :key="i"
-    >
-      <span v-if="urls?.includes(word)">
-        <a
-          :href="
-            urls[urls?.indexOf(word)].replaceAll(',', '')
-          "
-          target="_blank"
-          >{{ word }}</a
-        >
-      </span>
-      <span v-else
-        >{{ word.replaceAll('\\n', ' ') }}&ensp;</span
-      >
-    </span>
-  </span>
+  <v-chip
+    size="small"
+    color="oablue"
+    class="mr-3"
+    style="cursor: pointer"
+  >
+    {{
+      packageBag.binary
+        ? $t('columns.package.binary')
+        : $t('columns.package.source')
+    }}</v-chip
+  >
 </template>
 
-<script lang="ts" setup>
-import { computed } from 'vue'
+<script setup lang="ts">
+import { EntityModelPackageDto } from '@/openapi'
+import { ref, watch } from 'vue'
 
 const componentProps = defineProps({
-  toParseValue: {
-    type: String,
+  item: {
+    type: Object as () => EntityModelPackageDto,
     required: true
   }
 })
 
-const regex =
-  /(http|https|ftp|ftps):\/\/[a-zA-Z0-9\-.]+\.[a-zA-Z]{2,3}(\/\S*)?/g
+watch(componentProps.item, (newVal) => {
+  packageBag.value = newVal
+})
 
-const urls = computed(() =>
-  componentProps.toParseValue.match(regex)
-)
+const packageBag = ref(componentProps.item)
 </script>

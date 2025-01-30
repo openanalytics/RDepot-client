@@ -54,7 +54,7 @@
         :prepend-icon="Icons.get('events')"
         :title="$t('common.events')"
         :value="$t('common.events')"
-        active-class="link-active"
+        :active="'events' === $route.name"
         to="/events"
       >
       </v-list-item>
@@ -64,7 +64,7 @@
         :prepend-icon="Icons.get('upload')"
         :title="$t('common.uploadPackages')"
         :value="$t('common.uploadPackages')"
-        active-class="link-active"
+        :active="'addSubmission' === $route.name"
         to="/upload-packages"
       ></v-list-item>
 
@@ -74,7 +74,10 @@
         :prepend-icon="Icons.get('package')"
         :title="$t('packages.list')"
         :value="$t('packages.list')"
-        active-class="link-active"
+        :active="
+          'packages' === $route.name ||
+          'Home' === $route.name
+        "
         to="/packages"
       ></v-list-item>
 
@@ -88,7 +91,7 @@
         id="sidebar-package-maintainers"
         :title="$t('packages.maintainers')"
         :value="$t('packages.maintainers')"
-        active-class="link-active"
+        :active="'packageMaintainers' === $route.name"
         to="/package-maintainers"
       >
         <template #prepend>
@@ -110,7 +113,7 @@
         :title="$t('repositories.list')"
         :value="$t('repositories.list')"
         :prepend-icon="Icons.get('repositories')"
-        active-class="link-active"
+        :active="'repositories' === $route.name"
         to="/repositories"
       ></v-list-item>
 
@@ -124,7 +127,7 @@
         id="sidebar-repository-maintainers"
         :title="$t('repositories.maintainers')"
         :value="$t('repositories.maintainers')"
-        active-class="link-active"
+        :active="'repositoryMaintainers' === $route.name"
         to="/repository-maintainers"
       >
         <template #prepend>
@@ -146,7 +149,7 @@
         :prepend-icon="Icons.get('users')"
         :title="$t('common.users')"
         :value="$t('common.users')"
-        active-class="link-active"
+        :active="'users' === $route.name"
         to="/users"
       ></v-list-item>
 
@@ -156,7 +159,7 @@
         :prepend-icon="Icons.get('submissions')"
         :title="$t('common.submissions')"
         :value="$t('common.submissions')"
-        active-class="link-active"
+        :active="'submissions' === $route.name"
         to="/submissions"
       ></v-list-item>
       <v-list-group>
@@ -175,14 +178,14 @@
           id="sidebar-settings-general"
           :title="$t('settings.tab.general')"
           :value="$t('settings.tab.general')"
-          active-class="link-active"
+          :active="'settingsGeneral' === $route.name"
           to="/settings-general"
         ></v-list-item>
         <v-list-item
           id="sidebar-settings-access-tokens"
           :title="$t('settings.tab.token')"
           :value="$t('settings.tab.token')"
-          active-class="link-active"
+          :active="'settingsTokens' === $route.name"
           to="/settings-tokens"
         ></v-list-item>
       </v-list-group>

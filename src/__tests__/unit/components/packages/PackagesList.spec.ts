@@ -104,7 +104,7 @@ describe('Packages - list headers', () => {
   })
 
   it('displays all headers', () => {
-    expect(headers.length).toEqual(10)
+    expect(headers.length).toEqual(11)
   })
 
   it('displays multi action column', () => {
@@ -182,6 +182,16 @@ describe('Packages - list headers', () => {
   it('displays status column', () => {
     const col = headers[7]
     expect(col.text()).toEqual(
+      i18n.t('columns.package.fileType')
+    )
+    const sortIcon = col.findComponent(
+      '.mdi-sort-ascending'
+    )
+    expect(sortIcon.exists()).toBeTruthy()
+  })
+  it('displays status column', () => {
+    const col = headers[8]
+    expect(col.text()).toEqual(
       i18n.t('columns.package.state')
     )
     const sortIcon = col.findComponent(
@@ -190,7 +200,7 @@ describe('Packages - list headers', () => {
     expect(sortIcon.exists()).toBeTruthy()
   })
   it('displays active column', () => {
-    const col = headers[8]
+    const col = headers[9]
     expect(col.text()).toEqual(
       i18n.t('columns.package.active')
     )
@@ -201,7 +211,7 @@ describe('Packages - list headers', () => {
   })
 
   it('displays actions column', () => {
-    const col = headers[9]
+    const col = headers[10]
     expect(col.text()).toEqual(i18n.t('columns.actions'))
     const sortIcon = col.findComponent(
       '.mdi-sort-ascending'
@@ -281,28 +291,28 @@ describe('Packages - cells', () => {
     expect(chip.text()).toBe(packageBag.technology)
   })
   it('displays status (accepted)', () => {
-    const cell = acceptedCells[7]
+    const cell = acceptedCells[8]
     const icon = cell.findComponent(
       '.mdi-email-check-outline'
     )
     expect(icon.exists()).toBeTruthy()
   })
   it('displays status (waiting)', () => {
-    const cell = waitingCells[7]
+    const cell = waitingCells[8]
     const icon = cell.findComponent(
       '.mdi-progress-question'
     )
     expect(icon.exists()).toBeTruthy()
   })
   it('displays status (rejected)', () => {
-    const cell = rejectedCells[7]
+    const cell = rejectedCells[8]
     const icon = cell.findComponent(
       '.mdi-email-remove-outline'
     )
     expect(icon.exists()).toBeTruthy()
   })
   it('displays status (cancelled)', () => {
-    const cell = cancelledCells[7]
+    const cell = cancelledCells[8]
     const icon = cell.findComponent('.mdi-cancel')
     expect(icon.exists()).toBeTruthy()
   })

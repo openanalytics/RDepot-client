@@ -33,13 +33,17 @@ import PropertiesTable from '@/components/common/properties/PropertiesTable.vue'
 import { usePackageProperties } from '@/composable/packages/packageProperties'
 import { Property } from '@/models/Property'
 
-const { rPackageProperties, pythonPackageProperties } =
-  usePackageProperties()
+const {
+  rPackageProperties,
+  pythonPackageProperties,
+  binaryPackageProperties
+} = usePackageProperties()
 
 const baseProperties = computed(() => {
   return [
     ...rPackageProperties.value,
-    ...pythonPackageProperties.value
+    ...pythonPackageProperties.value,
+    ...binaryPackageProperties.value
   ] as Property[]
 })
 </script>

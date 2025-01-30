@@ -118,7 +118,7 @@
                 color="oablue"
                 class="mt-5"
                 @click="goToEventsPage"
-                >see all events</v-btn
+                >{{ $t('notifications.seeAll') }}</v-btn
               ></v-list-item
             >
           </v-list>

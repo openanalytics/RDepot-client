@@ -49,9 +49,9 @@ test.describe(TITLE_SERIAL, { tag: '@serial' }, () => {
     await login(page, 'einstein')
 
     const englishHeaders =
-      'PackageVersionTitleMaintainerRepositoryTechnologyStatusActiveActions'
+      'PackageVersionTitleMaintainerRepositoryTechnologyTypeStatusActiveActions'
     const polishHeaders =
-      'PakietWersjaTytułOpiekunRepozytoriumTechnologiaStatusAktywnyAkcje'
+      'PakietWersjaTytułOpiekunRepozytoriumTechnologiaTypplikuStatusAktywnyAkcje'
 
     const plLanguageSelector = page.locator(
       `#${POLISH_LANGUAGE_ID}`
