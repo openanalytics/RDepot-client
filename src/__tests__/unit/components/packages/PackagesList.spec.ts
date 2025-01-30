@@ -182,7 +182,7 @@ describe('Packages - list headers', () => {
   it('displays status column', () => {
     const col = headers[7]
     expect(col.text()).toEqual(
-      i18n.t('columns.package.binary')
+      i18n.t('columns.package.fileType')
     )
     const sortIcon = col.findComponent(
       '.mdi-sort-ascending'
