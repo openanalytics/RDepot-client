@@ -187,11 +187,9 @@
                 submissionsStore.getBinaryForPackage(item)
               "
             >
-              (
-              {{
+              ({{
                 $t('packages.generateManualNotAvailable')
-              }}
-              )
+              }})
             </span></span
           >
         </v-tooltip>

@@ -8,7 +8,11 @@
     "reject": "Odrzuć"
   },
   "addSubmission": {
+    "architecture": "Architektura",
+    "binary": "Plik binarny",
+    "distribution": "Dystrybucja",
     "generateManual": "Generuj dokumentację",
+    "rVersion": "Wersja R",
     "step1Title": "Wybierz repozytorium",
     "step2Title": "Wgraj pakiety {0}",
     "step3Title": "Podsumowanie"
@@ -41,6 +45,8 @@
     "name": "Użytkownik",
     "package": {
       "active": "Aktywny",
+      "binary": "Binarny",
+      "fileType": "Typ pliku",
       "maintainer": "Opiekun",
       "name": "Pakiet",
       "repository": "Repozytorium",
@@ -286,6 +292,7 @@
     },
     "insufficientPermissions": "Wybrany użytkownik nie ma wystarczających uprawnień.",
     "invalidform": "Przesłane dane są niepoprawne",
+    "seeAll": "zobacz wszystkie",
     "successCancelSubmission": "Zgłoszenie anulowane",
     "successCreateRepository": "Utworzono {repository_name}",
     "successDeletePackageManager": "Usunięto {maintainer_name}",
@@ -342,11 +349,13 @@
     "props": {
       "active": "aktywny",
       "approver": "zatwierdzający",
+      "architecture": "Architektura",
       "archive": "archiwum",
       "author": "autor",
       "binary": "binarny",
       "deleted": "usunięty",
       "depends": "zależności",
+      "distribution": "Dystrybucja",
       "hash": "hasz",
       "imports": "imprtuje",
       "maintainer": "opiekun",
@@ -359,6 +368,7 @@
       "requiresDist": "wymaga dystrybucji",
       "requiresExternal": "zewnętrzne wymagania",
       "requiresPython": "wymaga python",
+      "rversion": "Wersja R",
       "sourceFile": "plik źródłowy",
       "submitter": "zgłaszający",
       "suggests": "sugestie",

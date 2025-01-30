@@ -142,6 +142,32 @@ export function usePackageProperties() {
     return props
   })
 
+  const binaryPackageProperties = computed(() => {
+    let props: Property[] = []
+    const localPackage =
+      packageDetailsStore.packageBag as EntityModelRPackageDto
+    if (localPackage.technology == Technologies.Values.R) {
+      props = [
+        {
+          id: 'package-property-architecture',
+          key: i18n.t('packageDetails.props.architecture'),
+          value: localPackage.architecture
+        },
+        {
+          id: 'package-property-distribution',
+          key: i18n.t('packageDetails.props.distribution'),
+          value: localPackage.distribution
+        },
+        {
+          id: 'package-property-rversion',
+          key: i18n.t('packageDetails.props.rversion'),
+          value: localPackage.rversion
+        }
+      ]
+    }
+    return props
+  })
+
   const usersList = computed(() => {
     return [
       {
@@ -276,6 +302,7 @@ export function usePackageProperties() {
   return {
     pythonPackageProperties,
     rPackageProperties,
+    binaryPackageProperties,
     usersList,
     filesList,
     booleanList

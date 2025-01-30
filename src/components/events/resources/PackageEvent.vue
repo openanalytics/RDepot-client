@@ -25,6 +25,13 @@
     {{ relatedResource?.name }}
     <span class="d-flex ga-3">
       <EventTag
+        v-if="relatedResource?.binary"
+        :value="$t('packageDetails.props.binary')"
+        size="small"
+        disable-copying
+        disable-tooltip
+      />
+      <EventTag
         :value="`v ${relatedResource?.version}`"
         size="small"
         disable-copying
