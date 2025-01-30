@@ -46,6 +46,7 @@
     "package": {
       "active": "Aktywny",
       "binary": "Binarny",
+      "fileType": "Typ pliku",
       "maintainer": "Opiekun",
       "name": "Pakiet",
       "repository": "Repozytorium",

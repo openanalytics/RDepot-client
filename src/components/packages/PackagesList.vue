@@ -176,7 +176,7 @@ const headers = computed<DataTableHeaders[]>(() => [
     width: 100
   },
   {
-    title: i18n.t('columns.package.binary'),
+    title: i18n.t('columns.package.fileType'),
     align: 'center',
     key: 'binary',
     width: 100
