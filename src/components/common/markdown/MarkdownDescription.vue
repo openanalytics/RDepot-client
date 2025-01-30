@@ -26,8 +26,8 @@
     v-dompurify-html="mdDescription"
     :class="[
       'text',
-      short ? ' short' : 'pa-5',
-      description ? 'my-5' : ''
+      short ? ' short' : changes ? 'pa-4 py-1' : 'pa-5',
+      changes ? '' : description ? 'my-5' : ''
     ]"
   ></div>
 </template>
@@ -42,6 +42,7 @@ const componentProps = defineProps<{
   description?: string
   short?: boolean
   packageId?: number
+  changes?: boolean
 }>()
 
 const { renderer } = useUtilities()

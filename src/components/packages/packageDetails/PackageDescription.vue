@@ -25,6 +25,7 @@
     <MarkdownDescription
       :description="changes"
       :short="packageBagShort !== undefined"
+      :changes="true"
     ></MarkdownDescription>
   </div>
   <div v-else>
