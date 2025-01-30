@@ -31,9 +31,12 @@
 
     <v-divider></v-divider>
     <v-data-table
+      v-model="selected"
+      v-model:expanded="expanded"
       :headers="filteredHeaders"
       :items="filesStore.files"
       hover
+      item-value="name"
       hide-default-footer
       items-per-page="-1"
       :no-data-text="$t('datatable.noDataAvailable')"
@@ -124,6 +127,12 @@
         #[`item.binary`]="{ item }"
       >
         <BinaryOption :file="item" />
+      </template>
+      <template #[`item.notes`]="{ item }">
+        <NotesOption
+          :file="item"
+          @expand-notes="expandNotes"
+        />
       </template>
       <template
         v-if="
@@ -217,6 +226,27 @@
           ></v-tooltip
         >
       </template>
+      <template #expanded-row="{ columns, item }">
+        <td :colspan="columns.length">
+          <div class="additional-row">
+            <v-card class="additional-row expanded-package">
+              <validated-input-field
+                id="upload-package-notes"
+                min-width="100%"
+                style="padding: 0 0.5rem 0 0.5rem"
+                variant="underlined"
+                density="compact"
+                name="notes"
+                rows="5"
+                as="v-textarea"
+                @update:model-value="
+                  submissionsStore.addNote($event, item)
+                "
+              ></validated-input-field>
+            </v-card>
+          </div>
+        </td>
+      </template>
     </v-data-table>
   </v-card-text>
 </template>
@@ -227,6 +257,7 @@ import { useSubmissionStore } from '@/store/options/submission'
 import { computed } from 'vue'
 import ReplaceOption from './ReplaceOption.vue'
 import BinaryOption from './BinaryOption.vue'
+import NotesOption from './NotesOption.vue'
 import { useFiles } from '@/composable/file'
 import { useConfigStore } from '@/store/options/config'
 import Icons from '@/maps/Icons'
@@ -234,7 +265,7 @@ import { Technologies } from '@/enum/Technologies'
 import { useI18n } from 'vue-i18n'
 import { DataTableHeaders } from '@/models/DataTableOptions'
 import ValidatedInputField from '@/components/common/fields/ValidatedInputField.vue'
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 
 const { t } = useI18n()
 const submissionsStore = useSubmissionStore()
@@ -244,6 +275,7 @@ const { formatFilename } = useFiles()
 const chosenRepository = computed(() => {
   return submissionsStore.repository
 })
+const selected = ref([])
 
 function validate(e: any, field: string, item: File) {
   switch (field) {
@@ -291,6 +323,18 @@ function resetPackages() {
   // reset()
 }
 
+const expanded = ref<string[]>([])
+
+function expandNotes(file: File) {
+  if (expanded.value.includes(file.name)) {
+    expanded.value = expanded.value.filter(
+      (name) => name !== file.name
+    )
+  } else {
+    expanded.value.push(file.name)
+  }
+}
+
 const headers = computed<DataTableHeaders[]>(() => [
   {
     title: t('columns.package.name'),
@@ -329,7 +373,14 @@ const headers = computed<DataTableHeaders[]>(() => [
     width: '5%'
   },
   {
-    title: t('addSubmission.generateManual'),
+    title: t('packages.notes'),
+    key: 'notes',
+    align: 'center',
+    sortable: false,
+    width: '5%'
+  },
+  {
+    title: t('packages.generatemanual'),
     key: 'manual',
     align: 'center',
     sortable: false,
@@ -407,6 +458,35 @@ onMounted(() => {
   &:hover {
     transition: opacity ease-in-out 0.3s;
     opacity: 1 !important;
+  }
+}
+
+table {
+  background: rgb(var(--v-theme-background)) !important;
+}
+
+tr {
+  background-color: rgb(var(--v-theme-surface)) !important;
+}
+
+.additional-row {
+  display: grid;
+  animation-duration: 0.2s;
+  animation-name: animate-fade;
+  animation-fill-mode: forwards;
+}
+
+.expanded-package {
+  margin: 0.5rem;
+  overflow: hidden;
+}
+
+@keyframes animate-fade {
+  0% {
+    grid-template-rows: 0fr;
+  }
+  100% {
+    grid-template-rows: 1fr;
   }
 }
 </style>

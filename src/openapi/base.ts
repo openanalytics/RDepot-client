@@ -45,6 +45,7 @@ import getEnv from '@/utils/env'
 export const BASE_PATH = getEnv(
   'VITE_SERVER_ADDRESS'
 ).replace(/\/+$/, '')
+
 /**
  *
  * @export

@@ -20,7 +20,6 @@
  *
  */
 
-/* tslint:disable */
 /* eslint-disable */
 /**
  * RDEPOT API
@@ -870,10 +869,17 @@ export const RPackageControllerApiAxiosParamCreator =
         }
         const needsSerialization =
           typeof body !== 'string' ||
-          (localVarRequestOptions.headers &&
-            localVarRequestOptions.headers[
-              'Content-Type'
-            ] === 'application/json')
+          Object.entries(
+            localVarRequestOptions.headers!
+          ).find(([key, value]) => {
+            if (
+              value === 'application/json' &&
+              key == 'Content-Type'
+            ) {
+              return true
+            }
+            return false
+          })
         localVarRequestOptions.data = needsSerialization
           ? JSON.stringify(body !== undefined ? body : {})
           : body || ''

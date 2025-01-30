@@ -2,9 +2,9 @@
   "action": {
     "accept": "Accept",
     "cancel": "Cancel",
-    "changes": "Show changes",
+    "changes": "Show notes",
     "download": "Download",
-    "noChanges": "No changes",
+    "noChanges": "No notes",
     "reject": "Reject"
   },
   "addSubmission": {
@@ -355,13 +355,13 @@
     "props": {
       "active": "active",
       "approver": "approver",
-      "architecture": "Architecture",
+      "architecture": "architecture",
       "archive": "archive",
       "author": "author",
       "binary": "binary",
       "deleted": "deleted",
       "depends": "depends",
-      "distribution": "Distribution",
+      "distribution": "distribution",
       "hash": "hash",
       "imports": "imports",
       "maintainer": "maintainer",
@@ -420,6 +420,13 @@
     "list": "Packages",
     "maintainer": "Maintainer",
     "maintainers": "Package maintainers",
+    "md5sum": "MD5Sum",
+    "noInstallInstruction": "The repository has not been published yet.",
+    "noVignette": "No vignettes available",
+    "notes": "Notes",
+    "oldSources": "Old sources",
+    "originalPackageData": "As described in \"{0}\" package",
+    "osxBinaries": "OS X binaries",
     "package": {
       "title": "Title"
     },
@@ -563,7 +570,7 @@
       "onSubmissionAvailableTitle": "Please select other submissions",
       "warning": "Some submissions are not listed because they cannot be {actionType}."
     },
-    "noChangesProvided": "There are no changes listed for this submission",
+    "noChangesProvided": "There are no notes listed for this submission",
     "noPackageChosen": "No packages chosen",
     "rejected": "rejected",
     "replace": {

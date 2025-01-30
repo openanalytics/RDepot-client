@@ -51,7 +51,8 @@ import {
   VCombobox,
   VSelect,
   VSwitch,
-  VTextField
+  VTextField,
+  VTextarea
 } from 'vuetify/components'
 import { z } from 'zod'
 import AutocompleteField from '@/components/common/fields/AutocompleteField.vue'
@@ -87,7 +88,8 @@ const component = z.enum([
   'switch-indeterminate',
   'v-combobox',
   'autocomplete',
-  'combobox'
+  'combobox',
+  'v-textarea'
 ])
 type Component = z.infer<typeof component>
 
@@ -98,7 +100,8 @@ const toComponent = new Map<Component, any>([
   [component.enum['v-switch'], VSwitch],
   [component.enum['v-combobox'], VCombobox],
   [component.enum['autocomplete'], AutocompleteField],
-  [component.enum['combobox'], ComboboxField]
+  [component.enum['combobox'], ComboboxField],
+  [component.enum['v-textarea'], VTextarea]
 ])
 
 watch(

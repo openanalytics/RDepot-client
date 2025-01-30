@@ -20,7 +20,6 @@
  *
  */
 
-/* tslint:disable */
 /* eslint-disable */
 /**
  * RDEPOT API
@@ -344,6 +343,7 @@ export const RSubmissionControllerApiAxiosParamCreator =
        * @param {string} [rVersion]
        * @param {string} [architecture]
        * @param {string} [distribution]
+       * @param {string} [changes]
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
@@ -356,6 +356,7 @@ export const RSubmissionControllerApiAxiosParamCreator =
         rVersion?: string,
         architecture?: string,
         distribution?: string,
+        changes?: string,
         options: AxiosRequestConfig = {}
       ): Promise<RequestArgs> => {
         // verify required parameter 'repository' is not null or undefined
@@ -427,6 +428,10 @@ export const RSubmissionControllerApiAxiosParamCreator =
         if (distribution !== undefined) {
           localVarQueryParameter['distribution'] =
             distribution
+        }
+
+        if (changes !== undefined) {
+          localVarQueryParameter['changes'] = changes
         }
 
         if (file !== undefined) {
@@ -551,10 +556,17 @@ export const RSubmissionControllerApiAxiosParamCreator =
         }
         const needsSerialization =
           typeof body !== 'string' ||
-          (localVarRequestOptions.headers &&
-            localVarRequestOptions.headers[
-              'Content-Type'
-            ] === 'application/json')
+          Object.entries(
+            localVarRequestOptions.headers!
+          ).find(([key, value]) => {
+            if (
+              value === 'application/json' &&
+              key == 'Content-Type'
+            ) {
+              return true
+            }
+            return false
+          })
         localVarRequestOptions.data = needsSerialization
           ? JSON.stringify(body !== undefined ? body : {})
           : body || ''
@@ -706,6 +718,7 @@ export const RSubmissionControllerApiFp = function (
      * @param {string} [rVersion]
      * @param {string} [architecture]
      * @param {string} [distribution]
+     * @param {string} [changes]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -718,6 +731,7 @@ export const RSubmissionControllerApiFp = function (
       rVersion?: string,
       architecture?: string,
       distribution?: string,
+      changes?: string,
       options?: AxiosRequestConfig
     ): Promise<
       (
@@ -737,6 +751,7 @@ export const RSubmissionControllerApiFp = function (
           rVersion,
           architecture,
           distribution,
+          changes,
           options
         )
       return (
@@ -875,6 +890,7 @@ export const RSubmissionControllerApiFactory = function (
      * @param {string} [rVersion]
      * @param {string} [architecture]
      * @param {string} [distribution]
+     * @param {string} [changes]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -887,6 +903,7 @@ export const RSubmissionControllerApiFactory = function (
       rVersion?: string,
       architecture?: string,
       distribution?: string,
+      changes?: string,
       options?: AxiosRequestConfig
     ): Promise<AxiosResponse<any>> {
       return RSubmissionControllerApiFp(configuration)
@@ -899,6 +916,7 @@ export const RSubmissionControllerApiFactory = function (
           rVersion,
           architecture,
           distribution,
+          changes,
           options
         )
         .then((request) => request(axios, basePath))
@@ -1012,6 +1030,7 @@ export class RSubmissionControllerApi extends BaseAPI {
    * @param {string} [rVersion]
    * @param {string} [architecture]
    * @param {string} [distribution]
+   * @param {string} [changes]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof RSubmissionControllerApi
@@ -1025,6 +1044,7 @@ export class RSubmissionControllerApi extends BaseAPI {
     rVersion?: string,
     architecture?: string,
     distribution?: string,
+    changes?: string,
     options?: AxiosRequestConfig
   ): Promise<AxiosResponse<any>> {
     return RSubmissionControllerApiFp(this.configuration)
@@ -1037,6 +1057,7 @@ export class RSubmissionControllerApi extends BaseAPI {
         rVersion,
         architecture,
         distribution,
+        changes,
         options
       )
       .then((request) => request(this.axios, this.basePath))

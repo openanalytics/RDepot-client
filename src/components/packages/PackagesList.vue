@@ -67,6 +67,10 @@
       {{ item.name.replaceAll('\\n', ' ') }}
     </template>
 
+    <template #[`item.title`]="{ item }">
+      {{ item.title.replaceAll('\\n', ' ') }}
+    </template>
+
     <template #[`item.binary`]="{ item }">
       <BinaryPackage :item="item" />
     </template>

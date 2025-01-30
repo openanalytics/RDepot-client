@@ -345,6 +345,7 @@ export const PythonSubmissionControllerApiAxiosParamCreator =
        * @param {Blob} [file]
        * @param {boolean} [generateManual]
        * @param {boolean} [replace]
+       * @param {string} [changes]
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
@@ -353,6 +354,7 @@ export const PythonSubmissionControllerApiAxiosParamCreator =
         file?: Blob,
         generateManual?: boolean,
         replace?: boolean,
+        changes?: string,
         options: AxiosRequestConfig = {}
       ): Promise<RequestArgs> => {
         // verify required parameter 'repository' is not null or undefined
@@ -406,6 +408,10 @@ export const PythonSubmissionControllerApiAxiosParamCreator =
 
         if (replace !== undefined) {
           localVarQueryParameter['replace'] = replace
+        }
+
+        if (changes !== undefined) {
+          localVarQueryParameter['changes'] = changes
         }
 
         if (file !== undefined) {
@@ -530,10 +536,17 @@ export const PythonSubmissionControllerApiAxiosParamCreator =
         }
         const needsSerialization =
           typeof body !== 'string' ||
-          (localVarRequestOptions.headers &&
-            localVarRequestOptions.headers[
-              'Content-Type'
-            ] === 'application/json')
+          Object.entries(
+            localVarRequestOptions.headers!
+          ).find(([key, value]) => {
+            if (
+              value === 'application/json' &&
+              key == 'Content-Type'
+            ) {
+              return true
+            }
+            return false
+          })
         localVarRequestOptions.data = needsSerialization
           ? JSON.stringify(body !== undefined ? body : {})
           : body || ''
@@ -684,6 +697,7 @@ export const PythonSubmissionControllerApiFp = function (
      * @param {Blob} [file]
      * @param {boolean} [generateManual]
      * @param {boolean} [replace]
+     * @param {string} [changes]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -692,6 +706,7 @@ export const PythonSubmissionControllerApiFp = function (
       file?: Blob,
       generateManual?: boolean,
       replace?: boolean,
+      changes?: string,
       options?: AxiosRequestConfig
     ): Promise<
       (
@@ -707,6 +722,7 @@ export const PythonSubmissionControllerApiFp = function (
           file,
           generateManual,
           replace,
+          changes,
           options
         )
       return (
@@ -851,6 +867,7 @@ export const PythonSubmissionControllerApiFactory =
        * @param {Blob} [file]
        * @param {boolean} [generateManual]
        * @param {boolean} [replace]
+       * @param {string} [changes]
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
@@ -859,6 +876,7 @@ export const PythonSubmissionControllerApiFactory =
         file?: Blob,
         generateManual?: boolean,
         replace?: boolean,
+        changes?: string,
         options?: AxiosRequestConfig
       ): Promise<AxiosResponse<any>> {
         return PythonSubmissionControllerApiFp(
@@ -869,6 +887,7 @@ export const PythonSubmissionControllerApiFactory =
             file,
             generateManual,
             replace,
+            changes,
             options
           )
           .then((request) => request(axios, basePath))
@@ -989,6 +1008,7 @@ export class PythonSubmissionControllerApi extends BaseAPI {
    * @param {Blob} [file]
    * @param {boolean} [generateManual]
    * @param {boolean} [replace]
+   * @param {string} [changes]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof PythonSubmissionControllerApi
@@ -998,6 +1018,7 @@ export class PythonSubmissionControllerApi extends BaseAPI {
     file?: Blob,
     generateManual?: boolean,
     replace?: boolean,
+    changes?: string,
     options?: AxiosRequestConfig
   ): Promise<AxiosResponse<any>> {
     return PythonSubmissionControllerApiFp(
@@ -1008,6 +1029,7 @@ export class PythonSubmissionControllerApi extends BaseAPI {
         file,
         generateManual,
         replace,
+        changes,
         options
       )
       .then((request) => request(this.axios, this.basePath))

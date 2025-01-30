@@ -74,4 +74,10 @@ export interface RepositoryProjection {
    * @memberof RepositoryProjection
    */
   technology?: string
+
+  /**
+   * @type {boolean}
+   * @memberof RepositoryProjection
+   */
+  lastPublicationSuccessful?: boolean
 }

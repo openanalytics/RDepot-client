@@ -73,6 +73,16 @@
         <v-card class="mt-4">
           <PackageDescription />
         </v-card>
+
+        <v-card
+          v-if="submission.changes"
+          class="mt-4"
+          :title="$t('packages.notes')"
+        >
+          <PackageDescription
+            :changes="submission.changes"
+          />
+        </v-card>
       </div>
 
       <div style="min-width: 25%; max-width: 25%">
@@ -116,7 +126,10 @@ import BooleanProperties from '@/components/packages/packageDetails/properties/B
 import ClassifiersProperties from '@/components/packages/packageDetails/properties/ClassifiersProperties.vue'
 import FilesProperties from '@/components/packages/packageDetails/properties/FilesProperties.vue'
 import { Technologies } from '@/enum/Technologies'
-import { EntityModelRPackageDto } from '@/openapi'
+import {
+  EntityModelRPackageDto,
+  EntityModelSubmissionDto
+} from '@/openapi'
 import { i18n } from '@/plugins/i18n'
 import { usePackageDetailsStore } from '@/store/options/packageDetails'
 import { computed } from 'vue'
@@ -125,6 +138,11 @@ const packageDetailsStore = usePackageDetailsStore()
 const packageBag = computed<EntityModelRPackageDto>(
   () =>
     packageDetailsStore.packageBag as EntityModelRPackageDto
+)
+
+const submission = computed<EntityModelSubmissionDto>(
+  () =>
+    packageDetailsStore.submission as EntityModelSubmissionDto
 )
 
 const items = computed(() => [

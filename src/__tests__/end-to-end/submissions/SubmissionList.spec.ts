@@ -37,7 +37,7 @@ test.describe(TITLE, () => {
     await page.locator(`#${COMMENT_SUBMISSION_ID}`).click()
 
     const repositoryHashMethodSelector = page.getByText(
-      'There are no changes listed for this submission'
+      'There are no notes listed for this submission'
     )
     expect(repositoryHashMethodSelector).toHaveCount(1)
   })
