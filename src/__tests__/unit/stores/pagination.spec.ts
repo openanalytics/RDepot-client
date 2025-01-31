@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2024 Open Analytics NV
+ * Copyright (C) 2012-2025 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -20,12 +20,9 @@
  *
  */
 
-import { useCommonStore } from '@/store/options/common'
-import { usePagination } from '@/store/setup/pagination'
-import { useSortStore } from '@/store/options/sort'
+import { useOATable } from '@/store/setup/oatable'
 import { createPinia, setActivePinia } from 'pinia'
 import { beforeEach, describe, expect, it } from 'vitest'
-import { nextTick } from 'vue'
 
 describe('Pagination Store', () => {
   beforeEach(() => {
@@ -33,12 +30,9 @@ describe('Pagination Store', () => {
   })
 
   it('Starting values', () => {
-    const paginationStore = usePagination()
-    expect(paginationStore.page).toEqual(1)
-    expect(paginationStore.fetchPage).toEqual(0)
-    expect(paginationStore.pageSize).toEqual(10)
-    expect(paginationStore.totalNumber).toEqual(0)
-    expect(paginationStore.itemsPerPage).toEqual([
+    const oaTableStore = useOATable()
+    expect(oaTableStore.pageSize).toEqual(10)
+    expect(oaTableStore.itemsPerPage).toEqual([
       {
         value: 10,
         title: '10',
@@ -65,66 +59,11 @@ describe('Pagination Store', () => {
         props: { id: 'page-items-100' }
       }
     ])
-    expect(paginationStore.howManyPages).toEqual(0)
-    expect(paginationStore.totalVisiblePages).toEqual(10)
-  })
-
-  it('Set new page', () => {
-    const paginationStore = usePagination()
-    const commonStore = useCommonStore()
-    expect(commonStore.key).toEqual(0)
-    paginationStore.newPage(2)
-    expect(paginationStore.page).toEqual(2)
-    expect(commonStore.key).toEqual(1)
-  })
-
-  it('reset page', () => {
-    const paginationStore = usePagination()
-    const commonStore = useCommonStore()
-    expect(commonStore.key).toEqual(0)
-    paginationStore.page = 2
-    paginationStore.resetPage()
-    expect(paginationStore.page).toEqual(1)
-    expect(commonStore.key).toEqual(1)
   })
 
   it('set page size', () => {
-    const paginationStore = usePagination()
-    const commonStore = useCommonStore()
-    expect(commonStore.key).toEqual(0)
-    paginationStore.newPageSize(20)
-    expect(paginationStore.pageSize).toEqual(20)
-    expect(commonStore.key).toEqual(1)
-  })
-
-  it('recalculate howManyPages value', async () => {
-    const paginationStore = usePagination()
-    expect(paginationStore.howManyPages).toEqual(0)
-    paginationStore.totalNumber = 21
-    paginationStore.pageSize = 5
-    await nextTick()
-    expect(paginationStore.howManyPages).toEqual(5)
-  })
-
-  it('new page without refresh', async () => {
-    const paginationStore = usePagination()
-    const commonStore = useCommonStore()
-    expect(commonStore.key).toEqual(0)
-    paginationStore.newPageWithoutRefresh(3)
-    expect(paginationStore.page).toEqual(4)
-  })
-
-  it('new page size without refresh', async () => {
-    const paginationStore = usePagination()
-    const commonStore = useCommonStore()
-    expect(commonStore.key).toEqual(0)
-    paginationStore.newPageSizeWithoutRefresh(3)
-    expect(paginationStore.pageSize).toEqual(3)
-  })
-
-  it('Reset store', () => {
-    const sortStore = useSortStore()
-    expect(sortStore.field).toEqual('name')
-    expect(sortStore.direction).toEqual('asc')
+    const oaTableStore = useOATable()
+    oaTableStore.setPageSize(30)
+    expect(oaTableStore.pageSize).toEqual(30)
   })
 })

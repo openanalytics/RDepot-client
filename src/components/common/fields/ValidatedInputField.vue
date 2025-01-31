@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2024 Open Analytics NV
+ Copyright (C) 2012-2025 Open Analytics NV
  
  ===========================================================================
  
@@ -33,6 +33,7 @@
     }"
     :no-data-text="$t('datatable.noDataAvailable')"
     @blur="handleBlur"
+    @set-value="update"
   >
     <template
       v-if="template && isas !== 'autocomplete'"
@@ -45,17 +46,19 @@
 
 <script setup lang="ts">
 import { useField } from 'vee-validate'
-import { toRef } from 'vue'
+import { toRef, watch } from 'vue'
 import {
   VCombobox,
   VSelect,
   VSwitch,
-  VTextField
+  VTextField,
+  VTextarea
 } from 'vuetify/components'
 import { z } from 'zod'
 import AutocompleteField from '@/components/common/fields/AutocompleteField.vue'
 import ComboboxField from '@/components/common/fields/ComboboxField.vue'
 import { computed } from 'vue'
+import SwitchField from './SwitchField.vue'
 
 const componentProps = defineProps<{
   name: string
@@ -63,34 +66,54 @@ const componentProps = defineProps<{
   attrs?: object
   template?: boolean
   maxWidth?: number | string
+  cancel?: boolean
+  errormsg?: string
 }>()
+
+const emits = defineEmits(['change'])
 
 const fieldMaxWidth = computed(
   () => componentProps.maxWidth || 250
 )
 
+function update(value: boolean | string | undefined) {
+  setValue(value)
+  emits('change')
+}
+
 const component = z.enum([
   'v-text-field',
   'v-select',
   'v-switch',
+  'switch-indeterminate',
   'v-combobox',
   'autocomplete',
-  'combobox'
+  'combobox',
+  'v-textarea'
 ])
 type Component = z.infer<typeof component>
 
 const toComponent = new Map<Component, any>([
   [component.enum['v-text-field'], VTextField],
   [component.enum['v-select'], VSelect],
+  [component.enum['switch-indeterminate'], SwitchField],
   [component.enum['v-switch'], VSwitch],
   [component.enum['v-combobox'], VCombobox],
   [component.enum['autocomplete'], AutocompleteField],
-  [component.enum['combobox'], ComboboxField]
+  [component.enum['combobox'], ComboboxField],
+  [component.enum['v-textarea'], VTextarea]
 ])
 
-const isas = toComponent.get(componentProps.as)
-const { value, handleBlur, errors } = useField(
-  toRef(componentProps, 'name'),
-  undefined
+watch(
+  () => componentProps.errormsg,
+  () => {
+    if (componentProps.errormsg) {
+      setErrors(componentProps.errormsg)
+    }
+  }
 )
+
+const isas = toComponent.get(componentProps.as)
+const { value, handleBlur, errors, setValue, setErrors } =
+  useField(toRef(componentProps, 'name'), undefined)
 </script>

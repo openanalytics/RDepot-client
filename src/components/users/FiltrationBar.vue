@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2024 Open Analytics NV
+ Copyright (C) 2012-2025 Open Analytics NV
  
  ===========================================================================
  
@@ -37,7 +37,7 @@
     />
 
     <validated-input-field
-      id="filtration-roles"
+      id="users-filtration-roles"
       density="compact"
       hide-details
       chips
@@ -52,12 +52,12 @@
     ></validated-input-field>
 
     <validated-input-field
-      id="filtration-active"
+      id="users-filtration-active"
       density="compact"
       hide-details
       name="active"
       :label="$t('users.filtration.active')"
-      as="v-switch"
+      as="switch-indeterminate"
       color="oablue"
       class="flex-grow-0"
       @change="setFiltration"
@@ -69,14 +69,18 @@
       hide-details
       name="deleted"
       :label="$t('users.filtration.deleted')"
-      as="v-switch"
+      as="switch-indeterminate"
       color="oablue"
       class="flex-grow-0"
       @change="setFiltration"
     ></validated-input-field>
     <v-spacer />
     <ResetButton
-      v-if="!userStore.isDefaultFiltration"
+      :style="{
+        visibility: userStore.isDefaultFiltration
+          ? 'hidden'
+          : 'visible'
+      }"
       @reset-values="resetValues"
     />
   </div>

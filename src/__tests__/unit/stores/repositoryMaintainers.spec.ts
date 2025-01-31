@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2024 Open Analytics NV
+ * Copyright (C) 2012-2025 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -34,17 +34,18 @@ import {
 import repositoryMaintainers from '@/__tests__/config/mockData/repositoryMaintainers.json'
 import repositories from '@/__tests__/config/mockData/repositories.json'
 import { useRepositoryMaintainersStore } from '@/store/options/repositoryMaintainers'
-import { usePagination } from '@/store/setup/pagination'
 import { Technologies } from '@/enum/Technologies'
 import { useAuthorizationStore } from '@/store/options/authorization'
 import { server } from '@/__tests__/config/backend/server'
 import { failingServer } from '@/__tests__/config/backend/failingServer'
+import {
+  defaultValues,
+  RepositoryMaintainersFiltration
+} from '@/models/Filtration'
 
-const defaultFiltration = {
-  deleted: false,
-  technologies: undefined,
-  search: undefined
-}
+const defaultFiltration = defaultValues(
+  RepositoryMaintainersFiltration
+)
 
 const randomFiltration = {
   deleted: false,
@@ -101,16 +102,16 @@ describe('Repository Maintainers Store', () => {
   it('Edit filtration', () => {
     const repositoryMaintainersStore =
       useRepositoryMaintainersStore()
-    const paginationStore = usePagination()
-    const spy = vi.spyOn(repositoryMaintainersStore, 'get')
-    paginationStore.page = 2
+    const spy = vi.spyOn(
+      repositoryMaintainersStore,
+      'getPage'
+    )
 
     expect(spy).toHaveBeenCalledTimes(0)
     repositoryMaintainersStore.setFiltration(
       randomFiltration
     )
 
-    expect(paginationStore.page).toBe(1)
     expect(
       repositoryMaintainersStore.filtration
     ).toStrictEqual(randomFiltration)
@@ -120,12 +121,9 @@ describe('Repository Maintainers Store', () => {
   it('Clear filtration', () => {
     const repositoryMaintainersStore =
       useRepositoryMaintainersStore()
-    const paginationStore = usePagination()
-    paginationStore.page = 2
 
     repositoryMaintainersStore.filtration = randomFiltration
     repositoryMaintainersStore.clearFiltration()
-    expect(paginationStore.page).toBe(1)
     expect(
       repositoryMaintainersStore.filtration
     ).toStrictEqual(defaultFiltration)
@@ -134,15 +132,15 @@ describe('Repository Maintainers Store', () => {
   it('Clear filtration and fetch', async () => {
     const repositoryMaintainersStore =
       useRepositoryMaintainersStore()
-    const paginationStore = usePagination()
-    const spy = vi.spyOn(repositoryMaintainersStore, 'get')
+    const spy = vi.spyOn(
+      repositoryMaintainersStore,
+      'getPage'
+    )
 
     repositoryMaintainersStore.filtration = randomFiltration
-    paginationStore.page = 2
 
     await repositoryMaintainersStore.clearFiltrationAndFetch()
 
-    expect(paginationStore.page).toBe(1)
     expect(
       repositoryMaintainersStore.filtration
     ).toStrictEqual(defaultFiltration)
@@ -190,7 +188,7 @@ describe('Repository Maintainers Store', () => {
     const repositoryMaintainersStore =
       useRepositoryMaintainersStore()
 
-    await repositoryMaintainersStore.get()
+    await repositoryMaintainersStore.getPage()
 
     expect(
       repositoryMaintainersStore.maintainers
@@ -220,9 +218,12 @@ describe('Repository Maintainers Store', () => {
     // vi.mock('@kyvg/vue3-notification')
     vi.mock('vue3-toastify')
     const notify = await import('vue3-toastify')
-    const spy = vi.spyOn(repositoryMaintainersStore, 'get')
+    const spy = vi.spyOn(
+      repositoryMaintainersStore,
+      'getPage'
+    )
 
-    repositoryMaintainersStore.get()
+    repositoryMaintainersStore.getPage()
     repositoryMaintainersStore.chosenMaintainer =
       repositoryMaintainers.data.content[2]
 
@@ -236,9 +237,12 @@ describe('Repository Maintainers Store', () => {
   it('Save chosen maintainer', async () => {
     const repositoryMaintainersStore =
       useRepositoryMaintainersStore()
-    const spy = vi.spyOn(repositoryMaintainersStore, 'get')
+    const spy = vi.spyOn(
+      repositoryMaintainersStore,
+      'getPage'
+    )
 
-    repositoryMaintainersStore.get()
+    repositoryMaintainersStore.getPage()
     repositoryMaintainersStore.chosenMaintainer =
       repositoryMaintainers.data.content[2]
 
@@ -270,7 +274,7 @@ describe('Repository Maintainers Store requests with failing backend', () => {
     const repositoryMaintainersStore =
       useRepositoryMaintainersStore()
 
-    await repositoryMaintainersStore.get()
+    await repositoryMaintainersStore.getPage()
     expect(
       repositoryMaintainersStore.maintainers
     ).toStrictEqual([])

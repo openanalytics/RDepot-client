@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2024 Open Analytics NV
+ Copyright (C) 2012-2025 Open Analytics NV
  
  ===========================================================================
  
@@ -54,9 +54,19 @@
       </div>
       <v-icon
         v-tooltip="
-          event.resourceType
-            ?.replaceAll('_', ' ')
-            .toLowerCase()
+          $t(
+            'resourceType.' +
+              event.resourceType
+                ?.toLowerCase()
+                .split('_')
+                .map((word, idx) =>
+                  idx > 0
+                    ? word[0].toUpperCase() +
+                      word.substring(1)
+                    : word
+                )
+                .join('')
+          )
         "
         color="oablue"
         size="20"
@@ -80,11 +90,14 @@ import {
   EntityModelNewsfeedEventDto,
   EntityModelNewsfeedEventDtoResourceTypeEnum
 } from '@/openapi'
-import moment from 'moment'
 import { computed } from 'vue'
 import { useIcons } from '@/composable/icons'
 import { i18n } from '@/plugins/i18n'
 import UserAvatar from '@/components/common/users/UserAvatar.vue'
+import TimeAgo from 'javascript-time-ago'
+import { useI18n } from 'vue-i18n'
+
+const { locale } = useI18n()
 
 const props = defineProps({
   event: {
@@ -100,7 +113,8 @@ const getUserLogin = computed(() => {
 })
 
 const getTime = computed(() => {
-  return moment(props.event?.time).fromNow()
+  const timeAgo = new TimeAgo(locale.value)
+  return timeAgo.format(Date.parse(props.event?.time || ''))
 })
 
 const getAction = computed(() => {

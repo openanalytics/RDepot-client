@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2024 Open Analytics NV
+ Copyright (C) 2012-2025 Open Analytics NV
  
  ===========================================================================
  
@@ -66,6 +66,46 @@
           :label="$t('repositories.creation.technology')"
           max-width="unset"
         ></validated-input-field>
+        <validated-input-field
+          v-if="localRepository.technology == 'Python'"
+          id="edit-hash-method"
+          v-model="localRepository.hashMethod"
+          :items="hashMethods"
+          name="hashMethod"
+          as="v-select"
+          :label="$t('repositories.creation.hash')"
+          max-width="unset"
+        ></validated-input-field>
+      </v-card-text>
+      <v-card-text>
+        <v-alert
+          v-if="
+            isFieldTouched('serverAddress') &&
+            isAtLeastAdmin(
+              authorizationStore.userRole || 0
+            ) &&
+            deprecatedAddress(
+              values.serverAddress || '',
+              values.technology
+            )
+          "
+          id="deprecated-serverAddress-alert"
+          style="font-size: 0.75rem"
+          variant="tonal"
+          border="start"
+          density="compact"
+          color="warning"
+        >
+          <i18n-t
+            keypath="repositories.creation.deprecatedAddress"
+            tag="p"
+          >
+            <template #address>
+              <br />
+              <b>{{ newServerAddress }}</b>
+            </template>
+          </i18n-t>
+        </v-alert>
       </v-card-text>
       <v-divider></v-divider>
       <CardActions @submit="updateRepository" />
@@ -74,7 +114,10 @@
 </template>
 
 <script setup lang="ts">
-import { useRepositoryStore } from '@/store/options/repositories'
+import {
+  CombinedRepositoryModel,
+  useRepositoryStore
+} from '@/store/options/repositories'
 import { ref, onMounted } from 'vue'
 import { Technologies } from '@/enum/Technologies'
 import { repositorySchema } from '@/models/Schemas'
@@ -85,14 +128,23 @@ import CardActions from '@/components/common/overlay/CardActions.vue'
 import { z } from 'zod'
 import { useToast } from '@/composable/toasts'
 import { useI18n } from 'vue-i18n'
-import { EntityModelRepositoryDto } from '@/openapi'
 import { useUtilities } from '@/composable/utilities'
+import { useRepositoryDeprecated } from '@/composable/repositories/repositoriesDeprecatedAddress'
 import { useCommonStore } from '@/store/options/common'
+import { HashMethods } from '@/enum/HashMethods'
+import { isAtLeastAdmin } from '@/enum/UserRoles'
+import { useAuthorizationStore } from '@/store/options/authorization'
+import { computed } from 'vue'
 
 const { deepCopy } = useUtilities()
+const hashMethods = ref(HashMethods.options)
 const repositoryStore = useRepositoryStore()
 const commonStore = useCommonStore()
-const repository: EntityModelRepositoryDto = deepCopy(
+const authorizationStore = useAuthorizationStore()
+const { deprecatedAddress, getNewServerAddress } =
+  useRepositoryDeprecated()
+
+const repository: CombinedRepositoryModel = deepCopy(
   repositoryStore.chosenRepository
 )
 const localRepository = ref(repository)
@@ -104,33 +156,47 @@ const loading = ref(false)
 let previousVal = ''
 let previousReturn = true
 
-const { meta } = useForm({
-  validationSchema: toTypedSchema(
-    z.object({
-      name: repositorySchema.shape.name.refine(
-        async (value) => {
-          if (previousVal === value) {
-            return previousReturn
-          }
-          previousVal = value
-          return await isRepositoryNameIsDuplicated(value)
-        },
-        t('repositories.creation.duplicateName')
-      ),
-      publicationUri: repositorySchema.shape.publicationUri,
-      serverAddress: repositorySchema.shape.serverAddress,
-      technology: repositorySchema.shape.technology
-    })
-  ),
-  initialValues: {
-    name: repository.name,
-    publicationUri: repository.publicationUri,
-    serverAddress: repository.serverAddress,
-    technology: repository.technology as Technologies
-  }
-})
+const { meta, setFieldValue, isFieldTouched, values } =
+  useForm({
+    validationSchema: toTypedSchema(
+      z.object({
+        name: repositorySchema.shape.name.refine(
+          async (value) => {
+            if (previousVal === value) {
+              return previousReturn
+            }
+            previousVal = value
+            return await isRepositoryNameIsDuplicated(value)
+          },
+          t('repositories.creation.duplicateName')
+        ),
+        publicationUri:
+          repositorySchema.shape.publicationUri,
+        serverAddress: repositorySchema.shape.serverAddress,
+        technology: repositorySchema.shape.technology,
+        hashMethod: repositorySchema.shape.hashMethod
+      })
+    ),
+    initialValues: {
+      name: repository.name,
+      publicationUri: repository.publicationUri,
+      serverAddress: repository.serverAddress,
+      technology: repository.technology as Technologies,
+      hashMethod: repository.hashMethod
+    }
+  })
 
 const toasts = useToast()
+
+const newServerAddress = computed(() => {
+  if (values.serverAddress?.lastIndexOf('/')) {
+    return getNewServerAddress(
+      values.serverAddress,
+      values.technology
+    )
+  }
+  return ''
+})
 
 async function isRepositoryNameIsDuplicated(
   repoName: string
@@ -145,7 +211,7 @@ async function isRepositoryNameIsDuplicated(
 }
 
 function isRepositoryInTheReposList(
-  repoList: EntityModelRepositoryDto[]
+  repoList: CombinedRepositoryModel[]
 ) {
   return repoList.find(
     (repo) => repo.id == localRepository.value.id
@@ -161,5 +227,24 @@ function updateRepository() {
   }
 }
 
-onMounted(() => {})
+onMounted(async () => {
+  if (repositoryStore.chosenRepository.name) {
+    const repository = await repositoryStore.get(
+      repositoryStore.chosenRepository.name,
+      repositoryStore.chosenRepository
+        .technology as Technologies
+    )
+
+    if (
+      repository.length > 0 &&
+      repository[0].technology == Technologies.enum.Python
+    ) {
+      setFieldValue('hashMethod', repository[0].hashMethod)
+      repositoryStore.chosenRepository.hashMethod =
+        repository[0].hashMethod
+      localRepository.value.hashMethod =
+        repository[0].hashMethod
+    }
+  }
+})
 </script>

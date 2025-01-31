@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2024 Open Analytics NV
+ * Copyright (C) 2012-2025 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -19,6 +19,7 @@
  * along with this program. If not, see <http://www.apache.org/licenses/>
  *
  */
+
 import { EntityModelNewsfeedEventDto } from '@/openapi'
 import { useAuthorizationStore } from '@/store/options/authorization'
 import { fetchEventsService } from '@/services/eventsServices'

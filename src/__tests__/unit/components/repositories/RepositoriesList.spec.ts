@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2024 Open Analytics NV
+ * Copyright (C) 2012-2025 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -39,8 +39,7 @@ import { useAuthorizationStore } from '@/store/options/authorization'
 import me from '@/__tests__/config/mockData/me.json'
 import { nextTick } from 'vue'
 import { i18n } from '@/plugins/i18n'
-import { usePagination } from '@/store/setup/pagination'
-import { DELETE_REPO_2_ICON_ID } from '@/__tests__/integration/helpers/elementsIds'
+import { DELETE_REPO_2_ICON_ID } from '@/__tests__/end-to-end/helpers/elementsIds'
 
 let wrapper: any
 let authorizationStore: any
@@ -55,10 +54,6 @@ beforeEach(async () => {
   setActivePinia(createPinia())
   authorizationStore = useAuthorizationStore()
   authorizationStore.me = me.data
-  const pagination = usePagination()
-  pagination.page = 0
-  pagination.pageSize = 10
-  pagination.totalNumber = 23
   repositoriesStore = useRepositoryStore()
   await nextTick(() => {})
   wrapper = mount(RepositoriesListVue, {
@@ -237,11 +232,12 @@ describe('Repositories - cells', () => {
 
   it('displays actions', () => {
     const cell = cells[6]
-    console.log(cell.html())
     expect(
       cell.find(`#${DELETE_REPO_2_ICON_ID}`).exists()
     ).toBeTruthy()
-    expect(cell.find('#pencil-icon').exists()).toBe(true)
+    expect(
+      cell.find('#delete-repository-icon-2').exists()
+    ).toBe(true)
   })
 })
 
@@ -279,7 +275,6 @@ describe('Repositories - filtration based cells', () => {
       .findAllComponents('tr')[0]
       .findAllComponents('td')
     const cell = cells[6]
-    console.log(cell.html())
     expect(
       cell.find(`#${DELETE_REPO_2_ICON_ID}`).exists()
     ).toBeTruthy()
@@ -288,7 +283,6 @@ describe('Repositories - filtration based cells', () => {
   it('!displays action column', async () => {
     repositoriesStore.setFiltrationBy({ deleted: true })
     await nextTick()
-    console.log(repositoriesStore.filtration)
     cells = wrapper
       .findAllComponents('tr')[0]
       .findAllComponents('td')

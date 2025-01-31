@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2024 Open Analytics NV
+ * Copyright (C) 2012-2025 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -38,13 +38,13 @@ import {
 } from '@/services/settingsServices'
 import { useUtilities } from '@/composable/utilities'
 import { validatedData } from '@/services/openApiAccess'
-import { usePagination } from '@/store/setup/pagination'
 import { useToast } from '@/composable/toasts'
 import { i18n } from '@/plugins/i18n'
 import { useCommonStore } from '@/store/options/common'
 import { OverlayEnum } from '@/enum/Overlay'
 import { DataTableOptions } from '@/models/DataTableOptions'
 import { useSortStore } from './sort'
+import { useOATable } from '@/store/setup/oatable'
 
 export type PackagePromise = {
   promise: Promise<validatedData<EntityModelAccessTokenDto>>
@@ -63,6 +63,7 @@ interface State {
   currentToken: EntityModelAccessTokenDto
   loading: boolean
   totalNumber: number
+  tableOptions?: DataTableOptions
 }
 
 const { deepCopy } = useUtilities()
@@ -79,7 +80,8 @@ export const useAccessTokensStore = defineStore(
         newToken: '',
         currentToken: {},
         loading: false,
-        totalNumber: 0
+        totalNumber: 0,
+        tableOptions: undefined
       }
     },
     getters: {
@@ -91,32 +93,26 @@ export const useAccessTokensStore = defineStore(
       }
     },
     actions: {
-      async getPage(options: DataTableOptions) {
+      async getPage(options?: DataTableOptions) {
+        if (options) {
+          this.tableOptions = options
+        }
         this.loading = true
+        const sortField =
+          this.tableOptions?.sortBy[0].key || 'name'
+        const sortOrder =
+          this.tableOptions?.sortBy[0].order || 'asc'
         const [tokens, pageData] =
           await fetchSettingsService(
             this.filtration,
-            options.page - 1,
-            options.itemsPerPage,
-            [
-              options.sortBy[0].key +
-                ',' +
-                options.sortBy[0].order
-            ]
+            (this.tableOptions?.page || 1) - 1,
+            this.tableOptions?.itemsPerPage ||
+              useOATable().pageSize,
+            [sortField + ',' + sortOrder]
           )
         this.loading = false
         this.totalNumber = pageData.totalNumber
         this.tokens = tokens
-      },
-      async get() {
-        const pagination = usePagination()
-        const pageData = await this.fetchData(
-          pagination.fetchPage,
-          pagination.pageSize,
-          this.filtration
-        )
-        pagination.newPageWithoutRefresh(pageData.page)
-        pagination.totalNumber = pageData.totalNumber
       },
       async fetchData(
         page: number,
@@ -151,7 +147,7 @@ export const useAccessTokensStore = defineStore(
               )
               const commonStore = useCommonStore()
               commonStore.closeOverlay()
-              await this.get()
+              await this.getPage()
             })
             .finally(() => {
               this.pending = this.pending.filter(
@@ -177,7 +173,7 @@ export const useAccessTokensStore = defineStore(
               toast.success(
                 i18n.t('settings.message.edited')
               )
-              await this.get()
+              await this.getPage()
             }
           })
           .finally(() => {
@@ -196,7 +192,7 @@ export const useAccessTokensStore = defineStore(
               commonStore.openOverlay(
                 OverlayEnum.enum.Created
               )
-              await this.get()
+              await this.getPage()
             }
           }
         )
@@ -219,7 +215,7 @@ export const useAccessTokensStore = defineStore(
               )
               const commonStore = useCommonStore()
               commonStore.closeOverlay()
-              await this.get()
+              await this.getPage()
             }
           })
           .finally(() => {
@@ -242,20 +238,16 @@ export const useAccessTokensStore = defineStore(
         )
       },
       async setFiltration(payload: TokensFiltration) {
-        const pagination = usePagination()
-        pagination.resetPage()
         if (TokensFiltration.safeParse(payload).success) {
           this.filtration = TokensFiltration.parse(payload)
         }
-        await this.get()
+        await this.getPage()
         const toasts = useToast()
         toasts.success(
           i18n.t('notifications.successFiltration')
         )
       },
       clearFiltration() {
-        const pagination = usePagination()
-        pagination.resetPage()
         this.filtration = defaultValues(TokensFiltration)
       }
     }

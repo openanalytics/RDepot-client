@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2024 Open Analytics NV
+ * Copyright (C) 2012-2025 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -205,8 +205,6 @@ export async function updatePythonRepositoryService(
   if (!isAuthorized('PATCH', 'repository')) {
     return new Promise(() => false)
   }
-
-  console.log(oldRepository)
 
   const patchBody = createPatch(
     oldRepository,

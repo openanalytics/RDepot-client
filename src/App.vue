@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2024 Open Analytics NV
+ Copyright (C) 2012-2025 Open Analytics NV
  
  ===========================================================================
  
@@ -32,6 +32,12 @@ import ProgressCircular from './components/common/progress/ProgressCircular.vue'
 import { onBeforeMount } from 'vue'
 import { useTheme } from 'vuetify/lib/framework.mjs'
 import { useAuthorizationStore } from './store/options/authorization'
+import en from 'javascript-time-ago/locale/en'
+import pl from 'javascript-time-ago/locale/pl'
+import TimeAgo from 'javascript-time-ago'
+
+TimeAgo.addDefaultLocale(en)
+TimeAgo.addLocale(pl)
 
 onBeforeMount(() => {
   const theme = useTheme()

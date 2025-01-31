@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2024 Open Analytics NV
+ * Copyright (C) 2012-2025 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -102,7 +102,7 @@ describe('Tokens - list headers', () => {
   })
 
   it('displays all headers', () => {
-    expect(headers.length).toEqual(5)
+    expect(headers.length).toEqual(6)
   })
   it('displays name columns', () => {
     const col = headers[0]
@@ -115,7 +115,7 @@ describe('Tokens - list headers', () => {
     expect(sortIcon.exists()).toBeTruthy()
   })
   it('displays creation date column', () => {
-    const col = headers[1]
+    const col = headers[2]
     expect(col.text()).toEqual(
       i18n.t('columns.tokens.creationDate')
     )
@@ -125,7 +125,7 @@ describe('Tokens - list headers', () => {
     expect(sortIcon.exists()).toBeTruthy()
   })
   it('displays expiration date column', () => {
-    const col = headers[2]
+    const col = headers[3]
     expect(col.text()).toEqual(
       i18n.t('columns.tokens.expirationDate')
     )
@@ -135,7 +135,7 @@ describe('Tokens - list headers', () => {
     expect(sortIcon.exists()).toBeTruthy()
   })
   it('displays active column', () => {
-    const col = headers[3]
+    const col = headers[4]
     expect(col.text()).toEqual(
       i18n.t('columns.tokens.active')
     )
@@ -145,7 +145,7 @@ describe('Tokens - list headers', () => {
     expect(sortIcon.exists()).toBeTruthy()
   })
   it('displays actions column', () => {
-    const col = headers[4]
+    const col = headers[5]
     expect(col.text()).toEqual(i18n.t('columns.actions'))
     const sortIcon = col.findComponent(
       '.mdi-sort-ascending'
@@ -170,7 +170,7 @@ describe('Tokens - cells', () => {
   })
 
   it('displays creation date', () => {
-    const cell = cells[1]
+    const cell = cells[2]
     const chip = cell.findComponent('.v-chip')
     expect(chip.exists()).toBeTruthy()
     expect(chip.text()).toBe(
@@ -179,7 +179,7 @@ describe('Tokens - cells', () => {
   })
 
   it('displays expiration date', () => {
-    const cell = cells[2]
+    const cell = cells[3]
     const chip = cell.findComponent('.v-chip')
     expect(chip.exists()).toBeTruthy()
     expect(chip.text()).toBe(
@@ -188,7 +188,7 @@ describe('Tokens - cells', () => {
   })
 
   it('displays active', () => {
-    const cell = cells[3]
+    const cell = cells[4]
     const checkboxPublished = cell.find('#checkbox-active')
     expect(checkboxPublished.element.checked).toEqual(
       token.active
@@ -196,19 +196,20 @@ describe('Tokens - cells', () => {
   })
 
   it('displays edit icon', () => {
-    const cell = cells[4]
+    const cell = cells[5]
     expect(cell.find('#pencil-icon').exists()).toBe(true)
   })
 
   it('displays delete icon', () => {
-    const cell = cells[4]
+    const cell = cells[5]
     expect(cell.find('#delete-icon').exists()).toBe(true)
   })
 
-  it('displays deactivate icon', () => {
-    const cell = cells[4]
-    expect(cell.find('#deactivate-icon').exists()).toBe(
-      true
-    )
-  })
+  // Commented out for now, feature will be brought back
+  // it('displays deactivate icon', () => {
+  //   const cell = cells[4]
+  //   expect(cell.find('#deactivate-icon').exists()).toBe(
+  //     true
+  //   )
+  // })
 })

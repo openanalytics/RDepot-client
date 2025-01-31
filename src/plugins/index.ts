@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2024 Open Analytics NV
+ * Copyright (C) 2012-2025 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -42,6 +42,7 @@ import Vue3Toastify, {
 } from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
 import { useToast } from '@/composable/toasts'
+import VueApexCharts from 'vue3-apexcharts'
 
 export function registerPlugins(app: App) {
   loadFonts()
@@ -51,6 +52,7 @@ export function registerPlugins(app: App) {
     .use(pinia)
     .use(i18nInstance)
     .use(abilitiesPlugin, caslAbility)
+    .use(VueApexCharts)
     .use(VueDOMPurifyHTML, VueDOMPurifyHTMLconfig)
     .use(Vue3Toastify, {
       autoClose: 3000,

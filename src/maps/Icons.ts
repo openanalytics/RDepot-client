@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2024 Open Analytics NV
+ * Copyright (C) 2012-2025 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -60,5 +60,11 @@ export default new Map<string, string>([
   ['repositories', 'mdi-folder-network'],
   ['waiting', 'mdi-progress-question'],
   ['exclamation', 'mdi-exclamation'],
-  ['notification', 'mdi-bell']
+  ['notification', 'mdi-bell'],
+  ['message', 'mdi-message-text'],
+  ['email', 'mdi-email-arrow-right-outline'],
+  ['check', 'mdi-check'],
+  ['close', 'mdi-close'],
+  ['message-outline', 'mdi-message-text-outline'],
+  ['binary', 'mdi-alpha-b-circle-outline']
 ])

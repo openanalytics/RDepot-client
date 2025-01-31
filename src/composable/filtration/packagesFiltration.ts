@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2024 Open Analytics NV
+ * Copyright (C) 2012-2025 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -31,7 +31,7 @@ import {
   SelectState,
   PackageObject
 } from '@/store/setup/selectPagination'
-import {} from '@vueuse/core'
+import { useArrayUnique } from '@vueuse/core'
 
 export function usePackagesFiltration() {
   const storeIdPackage: SelectState = 'packages'
@@ -45,7 +45,7 @@ export function usePackagesFiltration() {
     selectStore.resetItems()
   }
 
-  function preparePackageObject(
+  function preparePackageMaintainerObject(
     packageBag: EntityModelPackageDto,
     packageMaintainedByUser?: PackageMaintainerDto
   ): PackageObject {
@@ -53,7 +53,7 @@ export function usePackagesFiltration() {
       title: packageBag.name,
       value: packageBag.name,
       props: {
-        id: `select-input-package-${packageBag.name}-${packageBag.version}-${packageBag.repository?.name}`,
+        id: `select-input-package-${packageBag.name}-${packageBag.repository?.name}`,
         subtitle: [
           packageMaintainedByUser?.user?.name,
           packageBag.user?.name
@@ -65,6 +65,24 @@ export function usePackagesFiltration() {
         repoId: packageBag.repository?.id,
         disabled:
           packageMaintainedByUser?.user?.name || false
+      }
+    } as PackageObject
+  }
+
+  function preparePackageRepoObject(
+    packageBag: EntityModelPackageDto
+  ): PackageObject {
+    return {
+      title: packageBag.name,
+      value: packageBag.name,
+      props: {
+        id: `select-input-package-${packageBag.name}-${packageBag.version}-${packageBag.repository?.name}`,
+        subtitle: [packageBag.repository?.name]
+          .filter(function (val) {
+            return val
+          })
+          .join(', '),
+        repoId: packageBag.repository?.id
       }
     } as PackageObject
   }
@@ -91,7 +109,7 @@ export function usePackagesFiltration() {
         if (packageBag.user?.name == userName) {
           packageBag.user = {}
         }
-        return preparePackageObject(
+        return preparePackageMaintainerObject(
           packageBag,
           packageMaintainedByUser
         )
@@ -99,29 +117,57 @@ export function usePackagesFiltration() {
     )
   }
 
+  async function getPackages() {
+    await packagesStore
+      .getList(
+        selectStore.paginationData.page - 1,
+        selectStore.pageSize
+      )
+      .then((res) => {
+        selectStore.paginationData.totalNumber =
+          res.totalNumber
+
+        selectStore.paginationData.totalPages =
+          res.totalPages
+      })
+  }
+
   async function loadPackagesObjects(
     userName: string,
     repositoryName: string
   ) {
-    if (
-      selectStore.items.length !=
-        selectStore.paginationData.totalNumber ||
-      selectStore.paginationData.totalNumber == -1
-    ) {
+    if (selectStore.shouldFetchNextPage) {
       selectStore.nextPage()
-      if (selectStore.fetchNextPageCondition) {
-        await packagesStore
-          .getList(
-            selectStore.paginationData.page - 1,
-            selectStore.pageSize
-          )
-          .then((res) => {
-            selectStore.paginationData.totalNumber =
-              res.totalNumber
-          })
+      if (selectStore.shouldFetchNextPage) {
+        await getPackages()
         selectStore.addItems(
           await preparePackages(userName, repositoryName)
         )
+      }
+    }
+  }
+
+  async function loadPackagesRepositoriesObjects() {
+    if (selectStore.shouldFetchNextPage) {
+      selectStore.nextPage()
+      if (selectStore.shouldFetchNextPage) {
+        await getPackages()
+
+        const packageList = packagesStore.packages.map(
+          (packageBag: EntityModelPackageDto) => {
+            return preparePackageRepoObject(packageBag)
+          }
+        )
+
+        const uniquePackageList: PackageObject[] =
+          useArrayUnique(
+            packageList,
+            (a: PackageObject, b: PackageObject) =>
+              a.title === b.title &&
+              a.props.subtitle === b.props.subtitle
+          ).value
+
+        selectStore.addItems(uniquePackageList)
       }
     }
   }
@@ -141,6 +187,7 @@ export function usePackagesFiltration() {
     storeIdPackage,
     loadPackagesObjects,
     filtratePackagesObjects,
-    resetPaginationPackages
+    resetPaginationPackages,
+    loadPackagesRepositoriesObjects
   }
 }

@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2024 Open Analytics NV
+ * Copyright (C) 2012-2025 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -69,7 +69,7 @@ describe('Repository Maintainers - filtration', () => {
   })
 
   it('reset button hidden without filtration', () => {
-    expect(wrapper.find('#reset-button').exists()).toBe(
+    expect(wrapper.find('#reset-button').isVisible()).toBe(
       false
     )
   })

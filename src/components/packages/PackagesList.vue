@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2024 Open Analytics NV
+ Copyright (C) 2012-2025 Open Analytics NV
  
  ===========================================================================
  
@@ -30,12 +30,9 @@
     :title="i18n.t('packages.list')"
     item-value="id"
     :show-select="!packagesStore.filtration.deleted"
-    return-object
-    color="oablue"
     :loading="packagesStore.loading"
     expand-on-click
     :sort-by="sortBy"
-    :items-per-page-text="$t('datatable.itemsPerPage')"
     @update:options="fetchData"
   >
     <template
@@ -66,6 +63,18 @@
       />
     </template>
 
+    <template #[`item.name`]="{ item }">
+      {{ item.name.replaceAll('\\n', ' ') }}
+    </template>
+
+    <template #[`item.title`]="{ item }">
+      {{ item.title.replaceAll('\\n', ' ') }}
+    </template>
+
+    <template #[`item.binary`]="{ item }">
+      <BinaryPackage :item="item" />
+    </template>
+
     <template #[`item.active`]="{ item }">
       <ActivatePackage :item="item" />
     </template>
@@ -79,7 +88,9 @@
           <v-card class="additional-row expanded-package">
             <PackageDescription
               class="short expanded-package"
-              :package-bag-short="(item as EntityModelPackageDto)"
+              :package-bag-short="
+                item as EntityModelPackageDto
+              "
             />
           </v-card>
         </div>
@@ -92,6 +103,7 @@
 import { usePackagesStore } from '@/store/options/packages'
 import DeletePackage from '@/components/packages/actions/DeletePackage.vue'
 import ActivatePackage from '@/components/packages/actions/ActivatePackage.vue'
+import BinaryPackage from '@/components/packages/BinaryPackage.vue'
 import { EntityModelPackageDto } from '@/openapi'
 import PackageDescription from './packageDetails/PackageDescription.vue'
 import {
@@ -165,6 +177,12 @@ const headers = computed<DataTableHeaders[]>(() => [
     title: i18n.t('columns.package.technology'),
     align: 'center',
     key: 'technology',
+    width: 100
+  },
+  {
+    title: i18n.t('columns.package.fileType'),
+    align: 'center',
+    key: 'binary',
     width: 100
   },
   {

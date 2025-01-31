@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2024 Open Analytics NV
+ Copyright (C) 2012-2025 Open Analytics NV
  
  ===========================================================================
  
@@ -62,6 +62,7 @@
     </v-alert>
     <v-divider></v-divider>
     <CardActions
+      justify="end"
       :cancel-button="false"
       :submit-text="i18n.t('common.ok')"
       @submit="closeModal"
@@ -91,7 +92,7 @@ function copyContent() {
       copy(accessTokensStore.newToken)
       toasts.success(t('common.copied'))
     }
-  } catch (error) {
+  } catch {
     toasts.error(t('common.errors.copyFailed'))
   }
 }

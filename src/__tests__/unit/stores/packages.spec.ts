@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2024 Open Analytics NV
+ * Copyright (C) 2012-2025 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -32,7 +32,6 @@ import {
 } from 'vitest'
 import packages from '@/__tests__/config/mockData/packages.json'
 import repositories from '@/__tests__/config/mockData/repositories.json'
-import { usePagination } from '@/store/setup/pagination'
 import { Technologies } from '@/enum/Technologies'
 import {
   PackagesFiltration,
@@ -79,7 +78,7 @@ describe('Package Store', () => {
   it('Fetch packages', async () => {
     const packageStore = usePackagesStore()
 
-    await packageStore.getPackages()
+    await packageStore.getPage()
 
     expect(packageStore.packages).toStrictEqual(
       packages.data.content
@@ -92,13 +91,10 @@ describe('Package Store', () => {
 
   it('Edit filtration', () => {
     const packageStore = usePackagesStore()
-    const spy = vi.spyOn(packageStore, 'getPackages')
-    const pagination = usePagination()
-    pagination.page = 2
+    const spy = vi.spyOn(packageStore, 'getPage')
 
     packageStore.setFiltration(randomFiltration)
 
-    expect(pagination.page).toBe(1)
     expect(packageStore.filtration).toStrictEqual(
       randomFiltration
     )
@@ -107,13 +103,10 @@ describe('Package Store', () => {
 
   it('Clear filtration', () => {
     const packageStore = usePackagesStore()
-    const pagination = usePagination()
-    pagination.page = 2
 
     packageStore.filtration = randomFiltration
     packageStore.clearFiltration()
 
-    expect(pagination.page).toBe(1)
     expect(packageStore.filtration).toStrictEqual(
       defaultFiltration
     )
@@ -121,14 +114,11 @@ describe('Package Store', () => {
 
   it('Clear filtration and fetch events', async () => {
     const packageStore = usePackagesStore()
-    const spy = vi.spyOn(packageStore, 'getPackages')
-    const pagination = usePagination()
-    pagination.page = 2
+    const spy = vi.spyOn(packageStore, 'getPage')
 
     packageStore.filtration = randomFiltration
     await packageStore.clearFiltrationAndFetch()
 
-    expect(pagination.page).toBe(1)
     expect(packageStore.filtration).toStrictEqual(
       defaultFiltration
     )

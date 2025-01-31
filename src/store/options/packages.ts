@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2024 Open Analytics NV
+ * Copyright (C) 2012-2025 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -37,7 +37,6 @@ import {
 } from '@/services/packageServices'
 import { useUtilities } from '@/composable/utilities'
 import { fetchSubmission } from '@/services/submissionServices'
-import { usePagination } from '../setup/pagination'
 import { Technologies } from '@/enum/Technologies'
 import { DataTableOptions } from '@/models/DataTableOptions'
 import { validatedData } from '@/services/openApiAccess'
@@ -47,6 +46,7 @@ import {
   deleteTechnologyPackage,
   updateTechnologyPackage
 } from '@/maps/package/Technology'
+import { useOATable } from '@/store/setup/oatable'
 
 export type PackagePromise = {
   promise: Promise<validatedData<EntityModelPackageDto>>
@@ -70,6 +70,7 @@ interface State {
   loading: boolean
   resolved: boolean
   pending: EntityModelPackageDto[]
+  tableOptions?: DataTableOptions
 }
 
 const { deepCopy } = useUtilities()
@@ -91,7 +92,8 @@ export const usePackagesStore = defineStore(
         resolved: false,
         next: false,
         loading: false,
-        pending: []
+        pending: [],
+        tableOptions: undefined
       }
     },
     getters: {
@@ -103,21 +105,27 @@ export const usePackagesStore = defineStore(
       }
     },
     actions: {
-      async getPage(options: DataTableOptions) {
-        if (options.sortBy.length == 0) {
-          options.sortBy = [{ key: 'name', order: 'asc' }]
+      async getPage(options?: DataTableOptions) {
+        if (options) {
+          this.tableOptions = options
+        }
+        if (this.tableOptions?.sortBy.length == 0) {
+          this.tableOptions.sortBy = [
+            { key: 'name', order: 'asc' }
+          ]
         }
         this.loading = true
+        const sortField =
+          this.tableOptions?.sortBy[0].key || 'name'
+        const sortOrder =
+          this.tableOptions?.sortBy[0].order || 'asc'
         const [packages, pageData] =
           await fetchPackagesService(
             this.filtration,
-            options.page - 1,
-            options.itemsPerPage,
-            [
-              options.sortBy[0].key +
-                ',' +
-                options.sortBy[0].order
-            ]
+            (this.tableOptions?.page || 1) - 1,
+            this.tableOptions?.itemsPerPage ||
+              useOATable().pageSize,
+            [sortField + ',' + sortOrder]
           )
         this.packages = packages
         this.totalNumber = pageData.totalNumber
@@ -155,16 +163,6 @@ export const usePackagesStore = defineStore(
           )[0]
         }
       },
-      async getPackages(filtration?: PackagesFiltration) {
-        const pagination = usePagination()
-        const pageData = await this.fetchData(
-          pagination.fetchPage,
-          pagination.pageSize,
-          filtration || this.filtration
-        )
-        pagination.newPageWithoutRefresh(pageData.page)
-        this.totalNumber = pageData.totalNumber
-      },
       async getManual(id: string, fileName: string) {
         await downloadReferenceManual(id, fileName).then(
           () => {}
@@ -201,7 +199,7 @@ export const usePackagesStore = defineStore(
           if (deleteFn) {
             await deleteFn(oldPackage, newPackage).then(
               async (success: any) => {
-                if (success) await this.getPackages()
+                if (success) await this.getPage()
               }
             )
           }
@@ -223,7 +221,7 @@ export const usePackagesStore = defineStore(
         if (updateFn) {
           await updateFn(oldPackage, newPackage).then(
             async (success: any) => {
-              if (success) await this.getPackages()
+              if (success) await this.getPage()
             }
           )
         }
@@ -232,13 +230,11 @@ export const usePackagesStore = defineStore(
         )
       },
       async setFiltration(payload: PackagesFiltration) {
-        const pagination = usePagination()
-        pagination.resetPage()
         if (PackagesFiltration.safeParse(payload).success) {
           this.filtration =
             PackagesFiltration.parse(payload)
         }
-        await this.getPackages()
+        await this.getPage()
       },
       setFiltrationBy(filtration: object) {
         this.clearFiltration()
@@ -248,13 +244,15 @@ export const usePackagesStore = defineStore(
         }
       },
       clearFiltration() {
-        const pagination = usePagination()
-        pagination.resetPage()
         this.filtration = defaultValues(PackagesFiltration)
       },
       async clearFiltrationAndFetch() {
         this.clearFiltration()
-        await this.getPackages()
+        // console.log(
+        //   '=================================' +
+        //     this.tableOptions
+        // )
+        await this.getPage()
       },
       async deletePackages() {
         const toasts = useToast()
@@ -318,7 +316,7 @@ export const usePackagesStore = defineStore(
                 this.promises = []
                 this.packagesToDelete = []
                 this.packagesSelected = []
-                this.getPackages()
+                this.getPage()
               }
             })
         })

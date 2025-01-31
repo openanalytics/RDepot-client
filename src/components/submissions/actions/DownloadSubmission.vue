@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2024 Open Analytics NV
+ Copyright (C) 2012-2025 Open Analytics NV
  
  ===========================================================================
  
@@ -32,7 +32,6 @@
     :id="`download-button-${item.id}`"
     :tooltip="$t('action.download')"
     :icon="Icons.get('download')"
-    size="small"
     @click="downloadSubmission(item)"
   />
 </template>

@@ -2,11 +2,17 @@
   "action": {
     "accept": "Accept",
     "cancel": "Cancel",
+    "changes": "Show notes",
     "download": "Download",
+    "noChanges": "No notes",
     "reject": "Reject"
   },
   "addSubmission": {
+    "architecture": "Architecture",
+    "binary": "Binary file",
+    "distribution": "Distribution",
     "generateManual": "Generate manual",
+    "rVersion": "R version",
     "step1Title": "Choose repository",
     "step2Title": "Upload {0} packages",
     "step3Title": "Summary"
@@ -39,6 +45,8 @@
     "name": "Name",
     "package": {
       "active": "Active",
+      "binary": "Binary",
+      "fileType": "Type",
       "maintainer": "Maintainer",
       "name": "Package",
       "repository": "Repository",
@@ -100,6 +108,7 @@
       "creationDate": "Creation date",
       "deleted": "Deleted",
       "expirationDate": "Expiration date",
+      "lastUsed": "Last used",
       "name": "Name",
       "user": "User"
     },
@@ -141,6 +150,7 @@
     "errors": {
       "copyFailed": "Copy failed",
       "email": "This should be an email",
+      "reponame": "Allowed characters: A-Z, a-z, 0-9, hyphen (-), underscore (_), period (.), and space.",
       "required": "This field is required",
       "unauthorized": "You are not authorized to perform this action",
       "url": "This should be a url"
@@ -237,7 +247,7 @@
     "userId": "User id"
   },
   "maintainers": {
-    "createform": {
+    "createForm": {
       "disabledPackageMessage": "Choose a user and a repository to enable",
       "disabledRepositoryMessage": "Choose a user to enable",
       "disclaimer": "Only users with at least repository maintainer role available.",
@@ -288,9 +298,9 @@
     },
     "insufficientPermissions": "User's permissions are not sufficient to create a maintainer.",
     "invalidform": "The submitted form is not valid",
+    "seeAll": "see all events",
     "successCancelSubmission": "Cancel submission",
     "successCreateRepository": "Successfully created {repository_name}",
-    "successCreateSubmissiom": "Successfully created submission",
     "successDeletePackageManager": "Successful deleted {maintainer_name}",
     "successDeleteRepositoryMaintainer": "Successful deleted {maintainer_name}",
     "successDeleteRepositoryManager": "Successful deleted {maintainer_name}",
@@ -306,7 +316,80 @@
   "package": {
     "chooseOneToEnable": "choose at least one package to enable",
     "noDescriptionProvided": "No description provided",
-    "propertyNotProvided": "not provided"
+    "propertyNotProvided": "not provided",
+    "seeRelatedEvents": "see all related events"
+  },
+  "packageDetails": {
+    "authors": "Authors",
+    "classifiers": "Classifiers",
+    "description": "Description",
+    "documentation": "Documentation",
+    "downloadButton": "Download Source File",
+    "downloads": "Downloads",
+    "emailAuthors": "Emails",
+    "events": {
+      "events": "Events",
+      "relatedEventPage": "related events page",
+      "seeRelatedEvent": "see related events"
+    },
+    "installation": {
+      "binary": "binary",
+      "install": "Install",
+      "installCode-Python": "pip install --index-url {1} {0}",
+      "installCode-R": "install.packages(\"{0}\", repos = c(\"rdepot_{2}\" = \"{1}\", getOption(\"repos\")))",
+      "installCodeBinary": "install.packages(\"{0}\", repos = c(\"rdepot_{2}_binary\" = \"{1}/linux/{3}\", \"rdepot_{2}_source\" = \"{1}\", getOption(\"repos\")), headers = c(\"User-Agent\" = getOption(\"HTTPUserAgent\")))",
+      "installCodeCrane-Python": "crane pip install --index-url {1} {0}",
+      "installCodeCrane-R": "install.packages(\"{0}\", repos = c(\"rdepot_{2}\" = \"{1}\", getOption(\"repos\")))",
+      "installInstruction-Python": "To install this package, please execute:",
+      "installInstruction-R": "To install this package, start R and enter:",
+      "installInstructionBinary": "To install this {binary} package, start R and enter:",
+      "installInstructionBinaryCrane": "To install this {binary} package please visit {url}, then start R and enter:",
+      "installInstructionCrane-Python": "To install this package, please execute:",
+      "installInstructionCrane-R": "To install this package please visit {url}, then start R and enter:",
+      "noInstallInstruction": "The repository has not been published yet."
+    },
+    "license": "License",
+    "noVignette": "No vignettes available",
+    "noVignetteNameProvided": "no name provided",
+    "package": "package | packages",
+    "props": {
+      "active": "active",
+      "approver": "approver",
+      "architecture": "architecture",
+      "archive": "archive",
+      "author": "author",
+      "binary": "binary",
+      "deleted": "deleted",
+      "depends": "depends",
+      "distribution": "distribution",
+      "hash": "hash",
+      "imports": "imports",
+      "maintainer": "maintainer",
+      "manual": "manual",
+      "md5sum": "md5sum",
+      "needsCompilation": "needs compilation",
+      "platform": "platform",
+      "projectUrl": "project URL",
+      "providesExtra": "provides extra",
+      "requiresDist": "requires distribution",
+      "requiresExternal": "requires external",
+      "requiresPython": "requires python",
+      "rversion": "R version",
+      "sourceFile": "source file",
+      "submitter": "submitter",
+      "suggests": "suggests",
+      "systemRequirements": "system requirements",
+      "url": "URL"
+    },
+    "referenceManual": "Reference Manual",
+    "replaceOptionDesc": "Replace if package with the same name and version already exists in chosen repository",
+    "versions": "Package versions",
+    "vignette": {
+      "download": "Download",
+      "open": "Open in new tab"
+    },
+    "windowsBinaries": "Windows binaries",
+    "withinPackage": "Package metadata"
   },
   "packageMaintainer": {
     "create": "Create maintainer"
@@ -318,19 +401,9 @@
     }
   },
   "packages": {
-    "approver": "Approver",
-    "archive": "Archive",
-    "authors": "Authors",
-    "classifiers": "Classifiers",
     "copy": "Copy",
     "deleted": "This package is deleted",
-    "depends": "Depends",
-    "description": "Description",
     "details": "Details",
-    "documentation": "Documentation",
-    "downloadButton": "Download Source File",
-    "downloads": "Downloads",
-    "emailAuthors": "Emails",
     "filtration": {
       "deleted": "Deleted",
       "maintainer": "Maintainer",
@@ -342,21 +415,15 @@
       "searchBox": "Package...",
       "submissionState": "State"
     },
+    "generateManualNotAvailable": "not available for binary packages",
     "generatemanual": "Generate manual",
-    "hash": "Hash",
-    "imports": "Imports",
-    "install": "Install",
-    "installCode-Python": "pip install --index-url {1} {0}",
-    "installCode-R": "install.packages(\"{0}\", repos = c(rdepot = \"{1}\", getOption(\"repos\")))",
-    "installInstruction-Python": "To install this package, please execute:",
-    "installInstruction-R": "To install this package, start R and enter:",
-    "license": "License",
     "list": "Packages",
     "maintainer": "Maintainer",
     "maintainers": "Package maintainers",
     "md5sum": "MD5Sum",
     "noInstallInstruction": "The repository has not been published yet.",
     "noVignette": "No vignettes available",
+    "notes": "Notes",
     "oldSources": "Old sources",
     "originalPackageData": "As described in \"{0}\" package",
     "osxBinaries": "OS X binaries",
@@ -365,29 +432,9 @@
     },
     "platform": "Platform",
     "projectUrl": "Project URL",
-    "providesExtra": "Provides extra",
-    "referenceManual": "Reference Manual",
     "replace": "Replace",
-    "replaceOptionDesc": "Replace if package with the same name and version already exists in chosen repository",
-    "requiresDist": "Requires distribution",
-    "requiresExternal": "Requires external",
-    "requiresPython": "Requires python",
-    "sourceFile": "Source file",
-    "submitter": "Submitter",
-    "suggests": "Suggests",
-    "systemRequirements": "System requirements",
     "title": "Title",
-    "url": "URL",
-    "version": "Version",
-    "versions": "Package versions",
-    "vignette": {
-      "download": "Download",
-      "open": "Open in new tab"
-    },
-    "windowsBinaries": "Windows binaries",
-    "windowsBineries": "Windows binaries",
-    "withinPackage": "Package metadata",
-    "withinRdepot": "Within RDepot"
+    "version": "Version"
   },
   "pagination": {
     "size": "Items per page (pagination)"
@@ -395,6 +442,8 @@
   "repositories": {
     "addRepository": "Create repository",
     "creation": {
+      "deprecatedAddress": "A server address without technology as part of its path is deprecated and will be unsupported in RDepot v3.0. Please use {address} instead.",
+      "deprecatedAddressTooltip": "A server address without technology as part of its path is deprecated and will be unsupported in RDepot v3.0",
       "duplicateName": "Repository name already exists",
       "hash": "Hash method",
       "name": "Name",
@@ -433,7 +482,11 @@
       "searchBox": "Repository..."
     },
     "list": "Repositories",
-    "maintainers": "Repository maintainers"
+    "maintainers": "Repository maintainers",
+    "published": {
+      "false": "not published",
+      "true": "published"
+    }
   },
   "repositorymaintainer": {
     "duplicate": "User already assigned to this repository"
@@ -517,6 +570,7 @@
       "onSubmissionAvailableTitle": "Please select other submissions",
       "warning": "Some submissions are not listed because they cannot be {actionType}."
     },
+    "noChangesProvided": "There are no notes listed for this submission",
     "noPackageChosen": "No packages chosen",
     "rejected": "rejected",
     "replace": {
@@ -557,6 +611,7 @@
     "waiting": "WAITING"
   },
   "users": {
+    "deleted": "This user is deleted",
     "edit": {
       "overlay": "Edit user role of {user_login}",
       "role": "Role",
@@ -569,6 +624,7 @@
       "roles": "Roles",
       "searchBox": "User..."
     },
-    "unableDeactivation": "Users cannot deactivate themselves"
+    "unableDeactivation": "Users cannot deactivate themselves",
+    "unableDeletion": "Users cannot delete themselves"
   }
 }

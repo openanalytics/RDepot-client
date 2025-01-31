@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2024 Open Analytics NV
+ Copyright (C) 2012-2025 Open Analytics NV
  
  ===========================================================================
  
@@ -62,13 +62,15 @@
               ? undefined
               : $t('tokens.inacitve')
           "
-          @set-entity="setEditEntity(item)" />
+          @set-entity="setEditEntity(item)"
+        />
         <DeleteIcon
           v-if="item.name"
           :disabled="!canDelete(item.links)"
           :name="item.name"
-          @set-resource-id="setEditEntity(item)" />
-        <DeactivateIcon
+          @set-resource-id="setEditEntity(item)"
+        />
+        <!-- <DeactivateIcon
           v-if="item.name"
           :disabled="
             (!canPatch(item.links) && item.active) ||
@@ -80,8 +82,9 @@
               ? undefined
               : $t('tokens.inacitve')
           "
-          @set-resource-id="setEditEntity(item)" /></span
-    ></template>
+          @set-resource-id="setEditEntity(item)" /> -->
+      </span></template
+    >
   </OATable>
 </template>
 
@@ -95,7 +98,8 @@ import {
 } from '@/models/DataTableOptions'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
 import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
-import DeactivateIcon from '@/components/common/action_icons/DeactivateIcon.vue'
+import ProgressCircularSmall from '../common/progress/ProgressCircularSmall.vue'
+// import DeactivateIcon from '@/components/common/action_icons/DeactivateIcon.vue'
 import EditIcon from '@/components/common/action_icons/EditIcon.vue'
 import { EntityModelAccessTokenDto } from '@/openapi'
 import { isAtLeastAdmin } from '@/enum/UserRoles'
@@ -126,6 +130,12 @@ const headers = computed<DataTableHeaders[]>(() => [
     align: 'start',
     key: 'user',
     value: 'user.name'
+  },
+  {
+    title: i18n.t('columns.tokens.lastUsed'),
+    align: 'center',
+    key: 'lastUsed',
+    width: 150
   },
   {
     title: i18n.t('columns.tokens.creationDate'),

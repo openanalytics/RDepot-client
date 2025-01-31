@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2024 Open Analytics NV
+ Copyright (C) 2012-2025 Open Analytics NV
  
  ===========================================================================
  
@@ -118,7 +118,7 @@
                 color="oablue"
                 class="mt-5"
                 @click="goToEventsPage"
-                >see all events</v-btn
+                >{{ $t('notifications.seeAll') }}</v-btn
               ></v-list-item
             >
           </v-list>

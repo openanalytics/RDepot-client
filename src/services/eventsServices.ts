@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2024 Open Analytics NV
+ * Copyright (C) 2012-2025 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -60,6 +60,8 @@ export async function fetchEventsService(
       undefined,
       localFiltration,
       filtration.userName,
+      filtration.packageName,
+      filtration.repositoryName,
       filtration.eventType,
       filtration.resourceType,
       filtration.fromDate,

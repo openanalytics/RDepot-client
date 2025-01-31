@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2024 Open Analytics NV
+ Copyright (C) 2012-2025 Open Analytics NV
  
  ===========================================================================
  
@@ -62,7 +62,6 @@
             <v-timeline-item dot-color="rgba(0,0,0,0)">
               <template #icon>
                 <EventIcon
-                  :event="undefined"
                   :date="dayEvents[0]"
                   @click="hideDay(dayEvents[0])"
                 />

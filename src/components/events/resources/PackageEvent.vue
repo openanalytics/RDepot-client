@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2024 Open Analytics NV
+ Copyright (C) 2012-2025 Open Analytics NV
  
  ===========================================================================
  
@@ -24,6 +24,13 @@
   <v-card-title class="d-flex justify-lg-space-between">
     {{ relatedResource?.name }}
     <span class="d-flex ga-3">
+      <EventTag
+        v-if="relatedResource?.binary"
+        :value="$t('packageDetails.props.binary')"
+        size="small"
+        disable-copying
+        disable-tooltip
+      />
       <EventTag
         :value="`v ${relatedResource?.version}`"
         size="small"

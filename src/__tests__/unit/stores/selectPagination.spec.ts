@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2024 Open Analytics NV
+ * Copyright (C) 2012-2025 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -35,7 +35,8 @@ describe('Select Pagination Store', () => {
     expect(selectPaginationStore.pending).toEqual(false)
     expect(selectPaginationStore.paginationData).toEqual({
       page: 0,
-      totalNumber: -1
+      totalNumber: -1,
+      totalPages: 0
     })
   })
 
@@ -85,7 +86,8 @@ describe('Select Pagination Store', () => {
     const selectPaginationStore = useSelectStore('packages')
     selectPaginationStore.paginationData = {
       page: 2,
-      totalNumber: 3
+      totalNumber: 3,
+      totalPages: 2
     }
     selectPaginationStore.addItems([
       'item1',

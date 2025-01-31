@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2024 Open Analytics NV
+ Copyright (C) 2012-2025 Open Analytics NV
  
  ===========================================================================
  
@@ -55,7 +55,7 @@ const submissionsStore = useSubmissionStore()
 const translatedHoverMessage = computed(() => {
   return componentProps.disabled
     ? i18n.t('config.replacingPackages')
-    : i18n.t('packages.replaceOptionDesc')
+    : i18n.t('packageDetails.replaceOptionDesc')
 })
 
 const replaceIcon = computed(() => {

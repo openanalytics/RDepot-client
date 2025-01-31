@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2024 Open Analytics NV
+ * Copyright (C) 2012-2025 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -45,23 +45,25 @@ export function useRepositoriesFiltration() {
     selectStore.resetItems()
   }
 
+  async function getRepositories() {
+    await repositoriesStore
+      .getList(
+        selectStore.paginationData.page - 1,
+        selectStore.pageSize
+      )
+      .then((res) => {
+        selectStore.paginationData.totalNumber =
+          res.totalNumber
+        selectStore.paginationData.totalPages =
+          res.totalPages
+      })
+  }
+
   async function loadRepositories() {
-    if (
-      selectStore.items.length !=
-        selectStore.paginationData.totalNumber ||
-      selectStore.paginationData.totalNumber == -1
-    ) {
+    if (selectStore.shouldFetchNextPage) {
       selectStore.nextPage()
       if (selectStore.fetchNextPageCondition) {
-        await repositoriesStore
-          .getList(
-            selectStore.paginationData.page - 1,
-            selectStore.pageSize
-          )
-          .then((res) => {
-            selectStore.paginationData.totalNumber =
-              res.totalNumber
-          })
+        await getRepositories()
         selectStore.addItems(
           repositoriesStore.repositories.map(
             (repository: EntityModelRepositoryDto) =>
@@ -120,22 +122,10 @@ export function useRepositoriesFiltration() {
   async function loadRepositoriesObjects(
     userName?: string
   ) {
-    if (
-      selectStore.items.length !=
-        selectStore.paginationData.totalNumber ||
-      selectStore.paginationData.totalNumber == -1
-    ) {
+    if (selectStore.shouldFetchNextPage) {
       selectStore.nextPage()
       if (selectStore.fetchNextPageCondition) {
-        await repositoriesStore
-          .getList(
-            selectStore.paginationData.page - 1,
-            selectStore.pageSize
-          )
-          .then((res) => {
-            selectStore.paginationData.totalNumber =
-              res.totalNumber
-          })
+        await getRepositories()
         selectStore.addItems(
           await prepareRepositories(userName)
         )

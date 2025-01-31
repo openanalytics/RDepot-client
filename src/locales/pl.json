@@ -2,11 +2,17 @@
   "action": {
     "accept": "Zaakceptuj",
     "cancel": "Anuluj",
+    "changes": "Pokaż notatki",
     "download": "Pobierz",
+    "noChanges": "Brak notatek",
     "reject": "Odrzuć"
   },
   "addSubmission": {
+    "architecture": "Architektura",
+    "binary": "Plik binarny",
+    "distribution": "Dystrybucja",
     "generateManual": "Generuj dokumentację",
+    "rVersion": "Wersja R",
     "step1Title": "Wybierz repozytorium",
     "step2Title": "Wgraj pakiety {0}",
     "step3Title": "Podsumowanie"
@@ -39,6 +45,8 @@
     "name": "Użytkownik",
     "package": {
       "active": "Aktywny",
+      "binary": "Binarny",
+      "fileType": "Typ pliku",
       "maintainer": "Opiekun",
       "name": "Pakiet",
       "repository": "Repozytorium",
@@ -100,6 +108,7 @@
       "creationDate": "Data utworzenia",
       "deleted": "Usunięty",
       "expirationDate": "Data wygaśnięcia",
+      "lastUsed": "Ostatnio użyty",
       "name": "Nazwa",
       "user": "Użytkownik"
     },
@@ -141,6 +150,7 @@
     "errors": {
       "copyFailed": "Nieudane kopiowanie",
       "email": "To powinien być adres email",
+      "reponame": "Dozwolone znaki: A-Z, a-z, 0-9, myślnik (-), podkreślnik (_), kropka (.), i spacja.",
       "required": "To pole jest wymagane",
       "unauthorized": "Nie masz uprawnień do wykonania tej akcji.",
       "url": "To powinien być url"
@@ -232,7 +242,7 @@
     "userId": "Id użytkownika"
   },
   "maintainers": {
-    "createform": {
+    "createForm": {
       "disabledPackageMessage": "Wybierz użytkownika i repozytorium aby odblokować",
       "disclaimer": "Tylko użytkownicy z rolą conajmniej opiekuna repozytorium dostępni.",
       "disclaimerPackages": "Tylko użytkownicy z rolą conajmniej opiekuna pakietu dostępni.",
@@ -282,9 +292,9 @@
     },
     "insufficientPermissions": "Wybrany użytkownik nie ma wystarczających uprawnień.",
     "invalidform": "Przesłane dane są niepoprawne",
+    "seeAll": "zobacz wszystkie",
     "successCancelSubmission": "Zgłoszenie anulowane",
     "successCreateRepository": "Utworzono {repository_name}",
-    "successCreateSubmissiom": "Zgłoszenie utworzone",
     "successDeletePackageManager": "Usunięto {maintainer_name}",
     "successDeleteRepositoryMaintainer": "Usunięto {maintainer_name}",
     "successDeleteRepositoryManager": "Usunięto {maintainer_name}",
@@ -300,7 +310,79 @@
   "package": {
     "chooseOneToEnable": "wybierz co najmniej jedną paczkę aby odblokować",
     "noDescriptionProvided": "Brak dostępnego opisu",
-    "propertyNotProvided": "brak informacji"
+    "propertyNotProvided": "brak informacji",
+    "seeRelatedEvents": "zobacz powiązane zdarzenia"
+  },
+  "packageDetails": {
+    "authors": "Autorzy",
+    "classifiers": "Klasyfikatory",
+    "description": "Opis",
+    "documentation": "Dokumentacja",
+    "downloadButton": "Pobierz plik źródłowy",
+    "downloads": "Do pobrania",
+    "emailAuthors": "Emaile",
+    "events": {
+      "events": "Wydarzenia",
+      "relatedEventPage": "powiązane wydarzenia",
+      "seeRelatedEvent": "zobacz powiązane wydarzenia"
+    },
+    "installation": {
+      "binary": "binarny",
+      "install": "Instalacja",
+      "installCode-Python": "pip install --index-url {1} {0}",
+      "installCode-R": "install.packages(\"{0}\", repos = c(\"rdepot_{2}\" = \"{1}\", getOption(\"repos\")))",
+      "installCodeBinary": "install.packages(\"{0}\", repos = c(\"rdepot_{2}_binary\" = \"{1}/linux/{3}\", \"rdepot_{2}_source\" = \"{1}\", getOption(\"repos\")), headers = c(\"User-Agent\" = getOption(\"HTTPUserAgent\")))",
+      "installCodeCrane-Python": "crane pip install --index-url {1} {0}",
+      "installCodeCrane-R": "install.packages(\"{0}\", repos = c(\"rdepot_{2}\" = \"{1}\", getOption(\"repos\")))",
+      "installInstruction-Python": "Aby zainstalować ten pakiet, wykonaj polecenie:",
+      "installInstruction-R": "Aby zainstalować ten pakiet, uruchom R i wprowadź komendę:",
+      "installInstructionBinary": "Aby zainstalować ten {binary} pakiet, uruchom R i wprowadź komendę:",
+      "installInstructionBinaryCrane": "Aby zainstalować ten {binary} pakiet odwiedź {url}, uruchom R i wprowadź komendę:",
+      "installInstructionCrane-Python": "Aby zainstalować ten pakiet, wykonaj polecenie:",
+      "installInstructionCrane-R": "Aby zainstalować ten pakiet odwiedź {url}, uruchom R i wprowadź komendę:",
+      "noInstallInstruction": "Repozytorium nie zostało jeszcze opublikowane"
+    },
+    "license": "Licencja",
+    "noVignette": "Brak dostępnych winiet",
+    "noVignetteNameProvided": "brak nazwy ",
+    "package": "pakiet | pakiety",
+    "props": {
+      "active": "aktywny",
+      "approver": "zatwierdzający",
+      "architecture": "architektura",
+      "archive": "archiwum",
+      "author": "autor",
+      "binary": "binarny",
+      "deleted": "usunięty",
+      "depends": "zależności",
+      "distribution": "dystrybucja",
+      "hash": "hasz",
+      "imports": "imprtuje",
+      "maintainer": "opiekun",
+      "manual": "instrukcja",
+      "md5sum": "MD5sum",
+      "needsCompilation": "wymaga kompilacji",
+      "platform": "platforma",
+      "projectUrl": "adres URL",
+      "providesExtra": "dostarcza dodatkowe",
+      "requiresDist": "wymaga dystrybucji",
+      "requiresExternal": "zewnętrzne wymagania",
+      "requiresPython": "wymaga python",
+      "rversion": "wersja R",
+      "sourceFile": "plik źródłowy",
+      "submitter": "zgłaszający",
+      "suggests": "sugestie",
+      "systemRequirements": "wymagania systemowe",
+      "url": "URL"
+    },
+    "referenceManual": "instrukcja",
+    "replaceOptionDesc": "Podmień, jeżeli pakiet o tej samej nazwie i wersji istnieje już w wybranym repozytorium",
+    "versions": "Wersje pakietu",
+    "vignette": {
+      "download": "Pobierz",
+      "open": "Otwórz w nowej karcie"
+    },
+    "windowsBinaries": "Pliki binarne Windows"
   },
   "packageMaintainer": {
     "create": "Stwórz opiekuna"
@@ -312,19 +394,7 @@
     }
   },
   "packages": {
-    "approver": "Zatwierdzający",
-    "archive": "Archiwum",
-    "authors": "Autorzy",
-    "classifiers": "Klasyfikatory",
     "copy": "Kopiuj",
-    "deleted": "Ten pakiet jest usunięty",
-    "depends": "Zależności",
-    "description": "Opis",
-    "details": "Szczegóły",
-    "documentation": "Dokumentacja",
-    "downloadButton": "Pobierz plik źródłowy",
-    "downloads": "Do pobrania",
-    "emailAuthors": "Emaile",
     "filtration": {
       "deleted": "Usunięte",
       "maintainer": "Opiekun",
@@ -336,21 +406,15 @@
       "searchBox": "Pakiet...",
       "submissionState": "Stan"
     },
+    "generateManualNotAvailable": "niedostępne dla pakietów binarnych",
     "generatemanual": "Generuj instrukcję",
-    "hash": "Hash",
-    "imports": "Importuje",
-    "install": "Instalacja",
-    "installCode-Python": "pip install --index-url {1} {0}",
-    "installCode-R": "install.packages(\"{0}\", repos = c(rdepot = \"{1}\", getOption(\"repos\")))",
-    "installInstruction-Python": "Aby zainstalować ten pakiet, wykonaj polecenie:",
-    "installInstruction-R": "Aby zainstalować ten pakiet, uruchom R i wprowadź komendę:",
-    "license": "Licencja",
     "list": "Pakiety",
     "maintainer": "Opiekun",
     "maintainers": "Opiekunowie pakietów",
     "md5sum": "MD5Sum",
     "noInstallInstruction": "Repozytorium nie zostało jeszcze opublikowane",
     "noVignette": "Brak dostępnych winiet",
+    "notes": "Notatki",
     "oldSources": "Stare źródła",
     "originalPackageData": "Jak opisano w pakiecie \"{0}\"",
     "osxBinaries": "Pliki binarne OS X",
@@ -366,6 +430,7 @@
     "requiresDist": "Wymaga dystrybucji",
     "requiresExternal": "Zewnętrzne wymagania",
     "requiresPython": "Wymaga python",
+    "rversion": "Wersja R",
     "sourceFile": "Plik źródłowy",
     "submitter": "Zgłaszający",
     "suggests": "Sugestie",
@@ -389,6 +454,8 @@
   "repositories": {
     "addRepository": "Utwórz repozytorium",
     "creation": {
+      "deprecatedAddress": "Adres serwera bez technologii jest przestarzały i nie będzie wspierany w RDepot v3.0. Zamiast tego użyj {address}",
+      "deprecatedAddressTooltip": "Adres serwera bez technologii jest przestarzały i nie będzie wspierany w RDepot v3.0",
       "duplicateName": "Repozytorium o tej nazwie już istnieje",
       "hash": "Metoda haszowania",
       "name": "Nazwa",
@@ -427,7 +494,11 @@
       "searchBox": "Repozytorium..."
     },
     "list": "Repozytoria",
-    "maintainers": "Opiekunowie repozytoriów"
+    "maintainers": "Opiekunowie repozytoriów",
+    "published": {
+      "false": "nieopublikowane",
+      "true": "opublikowane"
+    }
   },
   "repositorymaintainer": {
     "duplicate": "Użytkownik jest już przypisany do wybranego repozytorium"
@@ -511,6 +582,7 @@
       "onSubmissionAvailableTitle": "Wybierz inne zgłoszenia",
       "warning": "Niektóre zgłoszenia nie mogą wykonać operacji {actionType}. "
     },
+    "noChangesProvided": "Brak notatek dla zgłoszenia",
     "noPackageChosen": "Nie wybrano pakietów",
     "rejected": "odrzucone",
     "replace": {
@@ -551,6 +623,7 @@
     "waiting": "OCZEKUJE"
   },
   "users": {
+    "deleted": "Użytkownik jest usunięty",
     "edit": {
       "overlay": "Edytuj rolę {user_login}",
       "role": "Rola",
@@ -563,6 +636,7 @@
       "roles": "Role",
       "searchBox": "Użytkownik..."
     },
-    "unableDeactivation": "Użytkownik nie może dezaktywować siebie"
+    "unableDeactivation": "Użytkownik nie może dezaktywować siebie",
+    "unableDeletion": "Użytkownik nie może usunąć siebie\t"
   }
 }

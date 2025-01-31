@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2024 Open Analytics NV
+ Copyright (C) 2012-2025 Open Analytics NV
  
  ===========================================================================
  
@@ -94,7 +94,7 @@
       hide-details
       name="deleted"
       :label="$t('packages.filtration.deleted')"
-      as="v-switch"
+      as="switch-indeterminate"
       color="oablue"
       class="flex-grow-0"
       @change="setFiltration"
@@ -103,7 +103,12 @@
     <v-spacer />
 
     <ResetButton
-      v-if="!packageMaintainerStore.isDefaultFiltration"
+      :style="{
+        visibility:
+          packageMaintainerStore.isDefaultFiltration
+            ? 'hidden'
+            : 'visible'
+      }"
       @reset-values="resetValues"
     />
   </div>

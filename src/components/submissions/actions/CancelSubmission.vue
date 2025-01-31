@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2024 Open Analytics NV
+ Copyright (C) 2012-2025 Open Analytics NV
  
  ===========================================================================
  
@@ -31,7 +31,6 @@
     :id="`cancel-button-${item.id}`"
     :tooltip="$t('action.cancel')"
     :icon="Icons.get('reject')"
-    size="small"
     color="oared"
     @click="cancelSubmission(item)"
   />

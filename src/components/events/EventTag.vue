@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2024 Open Analytics NV
+ Copyright (C) 2012-2025 Open Analytics NV
  
  ===========================================================================
  
@@ -54,6 +54,7 @@ import { z } from 'zod'
 import { useDates } from '@/composable/date'
 
 const { formatDate } = useDates()
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const allowedVariants = z.enum([
   'tonal',
   'flat',
@@ -67,17 +68,15 @@ type AllowedVariants = z.infer<typeof allowedVariants>
 
 defineProps({
   value: {
-    type: Object as () => string,
+    type: String,
     required: false,
-    default: () => {
-      ;('')
-    }
+    default: () => {}
   },
   hoverMessage: {
-    type: Object as () => string,
+    type: String,
     required: false,
     default: () => {
-      ;('')
+      return ''
     }
   },
   color: {

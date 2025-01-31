@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2024 Open Analytics NV
+ * Copyright (C) 2012-2025 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -74,6 +74,7 @@ describe('repository maintainer filtration composable', () => {
       useRepositoryMaintainersStore()
     selectStore.paginationData.totalNumber = 2
     selectStore.paginationData.page = 0
+    selectStore.paginationData.totalPages = 2
     selectStore.pageSize = 1
     const spy = vi.spyOn(
       repositoryMaintainerStore,

@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2024 Open Analytics NV
+ * Copyright (C) 2012-2025 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -40,23 +40,26 @@ export function usePackageMaintainersFiltration() {
     selectStore.resetPagination()
   }
 
+  async function getMaintainers() {
+    await packageMaintainerStore
+      .getList(
+        selectStore.paginationData.page - 1,
+        selectStore.pageSize
+      )
+      .then((res) => {
+        selectStore.paginationData.totalNumber =
+          res.totalNumber
+
+        selectStore.paginationData.totalPages =
+          res.totalPages
+      })
+  }
+
   async function loadMaintainers() {
-    if (
-      selectStore.items.length !=
-        selectStore.paginationData.totalNumber ||
-      selectStore.paginationData.totalNumber == -1
-    ) {
+    if (selectStore.shouldFetchNextPage) {
       selectStore.nextPage()
       if (selectStore.fetchNextPageCondition) {
-        await packageMaintainerStore
-          .getList(
-            selectStore.paginationData.page - 1,
-            selectStore.pageSize
-          )
-          .then((res) => {
-            selectStore.paginationData.totalNumber =
-              res.totalNumber
-          })
+        await getMaintainers()
         selectStore.addItems(
           packageMaintainerStore.maintainers.map(
             (maintainer: EntityModelPackageMaintainerDto) =>

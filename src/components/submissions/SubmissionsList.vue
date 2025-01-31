@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2024 Open Analytics NV
+ Copyright (C) 2012-2025 Open Analytics NV
  
  ===========================================================================
  
@@ -23,6 +23,8 @@
 <template>
   <OATable
     v-model="submissionStore.selected"
+    v-model:expanded="expanded"
+    expand-on-click
     show-select
     :headers="headers"
     :items="submissionStore.submissions"
@@ -70,7 +72,25 @@
         <AcceptSubmission :item="item" />
         <RejectSubmission :item="item" />
         <DownloadSubmission :item="item" />
+        <CommentSubmission :item="item" />
       </span>
+    </template>
+    <template #expanded-row="{ columns, item }">
+      <td :colspan="columns.length">
+        <div class="additional-row">
+          <v-card class="additional-row expanded-package">
+            <MarkdownDescription
+              style="padding-left: 10px"
+              :description="
+                item.changes
+                  ? item.changes
+                  : $t('submissions.noChangesProvided')
+              "
+              :short="undefined"
+            ></MarkdownDescription>
+          </v-card>
+        </div>
+      </td>
     </template>
   </OATable>
 </template>
@@ -94,7 +114,9 @@ import AcceptSubmission from './actions/AcceptSubmission.vue'
 import RejectSubmission from './actions/RejectSubmission.vue'
 import CancelSubmission from './actions/CancelSubmission.vue'
 import DownloadSubmission from './actions/DownloadSubmission.vue'
+import CommentSubmission from './actions/CommentSubmission.vue'
 import OATable from '../common/datatable/OATable.vue'
+import MarkdownDescription from '@/components/common/markdown/MarkdownDescription.vue'
 
 const submissionStore = useSubmissionStore()
 
@@ -103,6 +125,7 @@ const defaultSort: Sort[] = [
   { key: 'state', order: 'desc' }
 ]
 const sortBy = ref(defaultSort)
+const exp = ref<string[]>([])
 
 const headers = computed<DataTableHeaders[]>(() => [
   {
@@ -158,15 +181,26 @@ const headers = computed<DataTableHeaders[]>(() => [
     title: i18n.t('columns.actions'),
     align: 'center',
     key: 'actions',
-    width: '230',
+    width: '130',
     sortable: false
   }
 ])
 
 function fetchData(options: DataTableOptions) {
+  expanded.value = []
   sortBy.value = getSort(options.sortBy, defaultSort)
   submissionStore.getPage(options)
 }
+
+const expanded = computed({
+  get(): string[] {
+    return exp.value
+  },
+  set(newVal: string[]) {
+    exp.value = []
+    exp.value.push(newVal[1])
+  }
+})
 
 function isPending(
   item: EntityModelSubmissionDto
@@ -178,7 +212,27 @@ function isPending(
 </script>
 
 <style lang="scss">
+table {
+  background: rgb(var(--v-theme-background)) !important;
+}
+
+tr {
+  background-color: rgb(var(--v-theme-surface)) !important;
+}
+
 .empty-row {
   border-bottom: unset !important;
+}
+
+.additional-row {
+  display: grid;
+  animation-duration: 0.2s;
+  animation-name: animate-fade;
+  animation-fill-mode: forwards;
+}
+
+.expanded-package {
+  margin: 0.5rem;
+  overflow: hidden;
 }
 </style>

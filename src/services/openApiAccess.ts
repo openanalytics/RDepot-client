@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2024 Open Analytics NV
+ * Copyright (C) 2012-2025 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -32,7 +32,7 @@ import { i18n } from '@/plugins/i18n'
 import { BackendError } from '@/models/errors/BackendError'
 
 export async function openApiRequest<T>(
-  // eslint-disable-next-line @typescript-eslint/ban-types
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
   callback: Function,
   parameters?: any[],
   showProgress = false,
@@ -208,6 +208,7 @@ async function errorsHandler(
 export interface Pagination {
   totalNumber: number
   page: number
+  totalPages: number
 }
 
 export type validatedData<T> = [
@@ -227,7 +228,8 @@ export function validateRequest<T>(
     content,
     {
       page: paginationData?.number || 0,
-      totalNumber: paginationData?.totalElements || 0
+      totalNumber: paginationData?.totalElements || 0,
+      totalPages: paginationData?.totalPages || 0
     },
     links || [],
     status || 'undefined'

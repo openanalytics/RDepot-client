@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2024 Open Analytics NV
+ * Copyright (C) 2012-2025 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -24,7 +24,9 @@ import { SubmissionsFiltration } from '@/models/Filtration'
 import {
   ApiV2SubmissionControllerApiFactory,
   EntityModelSubmissionDto,
+  RPublicConfigurationDto,
   PythonSubmissionControllerApiFactory,
+  RConfigControllerApiFactory,
   RSubmissionControllerApiFactory
 } from '@/openapi'
 import {
@@ -43,6 +45,10 @@ type ValidatedSubmissions = Promise<
 
 type ValidatedSubmission = Promise<
   validatedData<EntityModelSubmissionDto>
+>
+
+type ValidatedRConfiguration = Promise<
+  validatedData<RPublicConfigurationDto>
 >
 
 export async function fetchSubmissionsService(
@@ -120,7 +126,12 @@ export async function addSubmission(
   technology: string,
   file: File,
   generateManual?: boolean,
-  replace?: boolean
+  replace?: boolean,
+  binary?: boolean,
+  rVersion?: string,
+  architecture?: string,
+  distribution?: string,
+  note?: string
 ): ValidatedSubmission {
   if (!isAuthorized('POST', 'submissions')) {
     return new Promise(() => false)
@@ -132,32 +143,43 @@ export async function addSubmission(
     submissionApi = RSubmissionControllerApiFactory(
       await getConfiguration()
     ).submitRPackageForm
+
+    return openApiRequest<EntityModelSubmissionDto>(
+      submissionApi,
+      [
+        repository,
+        file,
+        generateManual,
+        replace,
+        binary,
+        rVersion,
+        architecture,
+        distribution,
+        note
+      ],
+      false,
+      undefined,
+      undefined,
+      undefined,
+      false
+    )
   } else if (technology === Technologies.enum.Python) {
     submissionApi = PythonSubmissionControllerApiFactory(
       await getConfiguration()
     ).submitPythonPackageForm
-  } else {
-    return new Promise(() => false)
-  }
 
-  return openApiRequest<EntityModelSubmissionDto>(
-    submissionApi,
-    [
-      repository,
-      file,
-      generateManual,
-      replace,
+    return openApiRequest<EntityModelSubmissionDto>(
+      submissionApi,
+      [repository, file, generateManual, replace, note],
       false,
       undefined,
       undefined,
-      undefined
-    ],
-    false,
-    undefined,
-    undefined,
-    undefined,
-    false
-  )
+      undefined,
+      false
+    )
+  } else {
+    return new Promise(() => false)
+  }
 }
 
 export function fetchSubmission(
@@ -173,4 +195,13 @@ export function fetchSubmission(
   ).catch(() => {
     return validateRequest({})
   })
+}
+
+export function getRConfiguration(): ValidatedRConfiguration {
+  if (!isAuthorized('GET', 'submissions')) {
+    return new Promise(() => {})
+  }
+  return openApiRequest<RPublicConfigurationDto>(
+    RConfigControllerApiFactory().getRPublicConfig
+  )
 }

@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2024 Open Analytics NV
+ Copyright (C) 2012-2025 Open Analytics NV
  
  ===========================================================================
  
@@ -29,8 +29,8 @@
         e1 === index + 1
           ? 'oablue-lighten-2'
           : e1 > index + 1
-          ? 'oablue'
-          : 'oablue-darken-2'
+            ? 'oablue'
+            : 'oablue-darken-2'
       "
       :size="e1 !== index + 1 ? 'small' : 'default'"
     >

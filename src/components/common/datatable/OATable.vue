@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2024 Open Analytics NV
+ Copyright (C) 2012-2025 Open Analytics NV
  
  ===========================================================================
  
@@ -22,13 +22,13 @@
 
 <template>
   <v-data-table-server
-    :items-per-page="pagination.pageSize"
+    :items-per-page="oaTableStore.pageSize"
     return-object
     :headers="headers"
     :sort-asc-icon="Icons.get('ascending')"
     :sort-desc-icon="Icons.get('descending')"
     color="oablue"
-    :items-per-page-options="pagination.itemsPerPage"
+    :items-per-page-options="oaTableStore.itemsPerPage"
     :items-per-page-text="$t('datatable.itemsPerPage')"
     :items-length="itemsLength"
     :items="items"
@@ -57,7 +57,7 @@
       :key="i"
       #[`item.${item}`]="{ value }"
     >
-      <DateChip :date="value" />
+      <DateChip v-if="value" :date="value" />
     </template>
 
     <template
@@ -73,7 +73,16 @@
       :key="i"
       #[`item.${item}`]="{ value }"
     >
-      <CopyableCell :value="value" />
+      <div class="d-flex justify-start align-center ga-2">
+        <CopyableCell :value="value" />
+        <DeprecatedWarning
+          v-if="
+            item === 'serverAddress' &&
+            deprecatedAddressTooltip(value)
+          "
+          :value="value"
+        />
+      </div>
     </template>
 
     <!-- expose available slots -->
@@ -102,16 +111,19 @@
 </template>
 
 <script setup lang="ts">
-import { usePagination } from '@/store/setup/pagination'
+import { useOATable } from '@/store/setup/oatable'
 import TechnologyChip from '../chips/TechnologyChip.vue'
 import Icons from '@/maps/Icons'
 import { DataTableHeaders } from '@/models/DataTableOptions'
 import DateChip from '../chips/DateChip.vue'
 import StateIcon from '@/components/submissions/icons/StateIcon.vue'
 import CopyableCell from './CopyableCell.vue'
+import DeprecatedWarning from './DeprecatedWarning.vue'
+import { useRepositoryDeprecated } from '@/composable/repositories/repositoriesDeprecatedAddress'
 
-const pagination = usePagination()
-
+const oaTableStore = useOATable()
+const { deprecatedAddressTooltip } =
+  useRepositoryDeprecated()
 const technologyKeys = [
   'packageBag.repository.technology',
   'repository.technology',
@@ -121,7 +133,8 @@ const technologyKeys = [
 const dateKeys = [
   'created',
   'creationDate',
-  'expirationDate'
+  'expirationDate',
+  'lastUsed'
 ]
 
 const copyableKeys = [

@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2024 Open Analytics NV
+ Copyright (C) 2012-2025 Open Analytics NV
  
  ===========================================================================
  
@@ -21,19 +21,29 @@
 -->
 
 <template>
-  <div :class="{ short: packageBagShort }">
+  <div v-if="changes">
     <MarkdownDescription
-      v-if="
-        packageBag.technology == Technologies.enum.Python
-      "
-      :description="packageBag.description"
+      :description="changes"
       :short="packageBagShort !== undefined"
+      :changes="true"
     ></MarkdownDescription>
-    <div
-      v-else
-      v-dompurify-html="RDescription"
-      class="text my-5"
-    ></div>
+  </div>
+  <div v-else>
+    <div :class="{ short: packageBagShort }">
+      <MarkdownDescription
+        v-if="
+          packageBag.technology == Technologies.enum.Python
+        "
+        :description="packageBag.description"
+        :short="packageBagShort !== undefined"
+      ></MarkdownDescription>
+      <div
+        v-else
+        id="package-description-plane"
+        v-dompurify-html="RDescription"
+        class="text my-5 px-4"
+      ></div>
+    </div>
   </div>
   <div v-if="packageBagShort" class="center">
     <v-divider :thickness="3"></v-divider>
@@ -64,6 +74,7 @@ import router from '@/plugins/router'
 
 var props = defineProps<{
   packageBagShort?: EntityModelPackageDto
+  changes?: string
 }>()
 
 const packageDetailsStore = usePackageDetailsStore()
@@ -106,6 +117,13 @@ function goToDetailsPage({
   overflow: hidden;
   mask-size: auto 250px;
   padding: 0.5rem 1rem;
+  mask-image: -webkit-gradient(
+    linear,
+    left 90%,
+    left bottom,
+    from(rgba(0, 0, 0, 1)),
+    to(rgba(0, 0, 0, 0))
+  );
   -webkit-mask-image: -webkit-gradient(
     linear,
     left 90%,

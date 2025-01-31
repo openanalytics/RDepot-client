@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2024 Open Analytics NV
+ * Copyright (C) 2012-2025 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -80,12 +80,13 @@ function defineSelectStore<SelectState>(id: SelectState) {
     const pageSize = 8
     const paginationDataLocal = ref<Pagination>({
       page: 0,
-      totalNumber: -1
+      totalNumber: -1,
+      totalPages: 0
     })
 
     const ifAllFetched = computed(() => {
       return (
-        itemsLocal.value.length >=
+        pageSize * paginationData.value.page >=
         paginationData.value.totalNumber
       )
     })
@@ -93,8 +94,8 @@ function defineSelectStore<SelectState>(id: SelectState) {
     const shouldFetchNextPage = computed(() => {
       return (
         paginationData.value.totalNumber < 0 ||
-        itemsLocal.value.length / pageSize <
-          paginationData.value.totalNumber / pageSize
+        paginationData.value.page <
+          paginationData.value.totalPages
       )
     })
 
@@ -152,7 +153,8 @@ function defineSelectStore<SelectState>(id: SelectState) {
     function resetPagination() {
       paginationDataLocal.value = {
         page: 0,
-        totalNumber: -1
+        totalNumber: -1,
+        totalPages: 0
       }
     }
 

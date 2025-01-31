@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2024 Open Analytics NV
+ Copyright (C) 2012-2025 Open Analytics NV
  
  ===========================================================================
  
@@ -62,9 +62,7 @@
               hide-details
               :readonly="isDisabled(item)"
               :color="isDisabled(item) ? 'grey' : 'oablue'"
-              :class="{
-                'mr-6': item.lastPublicationSuccessful
-              }"
+              class="mr-6"
               @click.stop="updateRepositoryPublished(item)"
             >
               <template #append>
@@ -115,6 +113,7 @@
         class="d-flex justify-center align-center"
       >
         <EditIcon
+          :icon-id="`edit-repository-${item.id}`"
           :disabled="
             !canPatch(item.links) ||
             configStore.declarativeMode ||
@@ -125,8 +124,8 @@
             configStore.declarativeMode
               ? $t('repositories.declarative.edit')
               : item.deleted
-              ? $t('repositories.deleted')
-              : undefined
+                ? $t('repositories.deleted')
+                : undefined
           "
           @set-entity="chooseRepositoryToUpdate(item)"
         />
@@ -144,10 +143,10 @@
             configStore.declarativeMode
               ? $t('repositories.declarative.delete')
               : !configStore.deletingRepositories
-              ? $t('config.deletingRepositories')
-              : item.deleted
-              ? $t('repositories.deleted')
-              : undefined
+                ? $t('config.deletingRepositories')
+                : item.deleted
+                  ? $t('repositories.deleted')
+                  : undefined
           "
           @set-resource-id="chooseRepositoryToUpdate(item)"
         /> </span
@@ -361,6 +360,14 @@ function isPending(
 </script>
 
 <style lang="scss">
+table {
+  background: rgb(var(--v-theme-background)) !important;
+}
+
+tr {
+  background-color: rgb(var(--v-theme-surface)) !important;
+}
+
 .v-selection-control {
   justify-content: center;
 }
@@ -373,5 +380,17 @@ function isPending(
 
 .v-input--horizontal .v-input__append {
   margin-inline-start: 0px !important;
+}
+
+.additional-row {
+  display: grid;
+  animation-duration: 0.2s;
+  animation-name: animate-fade;
+  animation-fill-mode: forwards;
+}
+
+.expanded-package {
+  margin: 0.5rem;
+  overflow: hidden;
 }
 </style>

@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2024 Open Analytics NV
+ Copyright (C) 2012-2025 Open Analytics NV
  
  ===========================================================================
  
@@ -28,13 +28,13 @@
         v-bind="props"
         class="pl-3"
       >
-        <v-btn
+        <VIcon
           :id="id"
           :color="color"
-          :icon="icon"
           :size="size"
           @click="emit('click')"
-        />
+          >{{ icon }}</VIcon
+        >
       </div>
     </template>
     <span id="tooltip-wait">{{
@@ -64,7 +64,7 @@ const componentProps = defineProps({
   size: {
     type: String,
     required: false,
-    default: 'small'
+    default: 'default'
   },
   id: {
     type: String,

@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2024 Open Analytics NV
+ Copyright (C) 2012-2025 Open Analytics NV
  
  ===========================================================================
  
@@ -78,7 +78,7 @@ defineProps({
     type: Object as () => EntityModelNewsfeedEventDto,
     required: false,
     default: () => {
-      ;('')
+      return {}
     }
   }
 })

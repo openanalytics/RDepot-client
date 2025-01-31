@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2024 Open Analytics NV
+ * Copyright (C) 2012-2025 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -82,7 +82,7 @@ const PackagesFiltration = z
     submissionState: undefined,
     repository: undefined,
     technologies: undefined,
-    deleted: false,
+    deleted: undefined,
     search: undefined,
     maintainer: undefined
   })
@@ -126,7 +126,7 @@ const RepositoriesFiltration = z
     technologies: undefined,
     search: undefined,
     deleted: false,
-    published: true,
+    published: undefined,
     name: undefined,
     maintainer: undefined
   })
@@ -213,6 +213,24 @@ const EventsFiltration = z
         }
         return val
       }),
+    packageName: z
+      .array(z.string())
+      .optional()
+      .transform((val) => {
+        if (val?.length == 0) {
+          return undefined
+        }
+        return val
+      }),
+    repositoryName: z
+      .array(z.string())
+      .optional()
+      .transform((val) => {
+        if (val?.length == 0) {
+          return undefined
+        }
+        return val
+      }),
     eventType: z
       .array(z.string())
       .optional()
@@ -237,6 +255,8 @@ const EventsFiltration = z
   .default({
     technologies: undefined,
     userName: undefined,
+    packageName: undefined,
+    repositoryName: undefined,
     eventType: undefined,
     resourceType: undefined,
     fromDate: undefined,
@@ -276,7 +296,7 @@ const PackageMaintainersFiltration = z
       })
   })
   .default({
-    deleted: false,
+    deleted: undefined,
     technologies: undefined,
     repository: undefined,
     search: undefined
@@ -309,7 +329,7 @@ const RepositoryMaintainersFiltration = z
       })
   })
   .default({
-    deleted: false,
+    deleted: undefined,
     technologies: undefined,
     search: undefined
   })
@@ -342,8 +362,8 @@ const UsersFiltration = z
       })
   })
   .default({
-    active: true,
-    deleted: false,
+    active: undefined,
+    deleted: undefined,
     roles: undefined,
     search: undefined
   })
@@ -375,8 +395,8 @@ const TokensFiltration = z
   })
   .default({
     search: undefined,
-    active: true,
-    expired: false,
+    active: undefined,
+    expired: undefined,
     userLogin: undefined
   })
 

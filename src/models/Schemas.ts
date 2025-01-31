@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2024 Open Analytics NV
+ * Copyright (C) 2012-2025 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -49,7 +49,10 @@ export const repositorySchema = z.object({
   id: z.number().default(0),
   version: z.number().default(0),
   publicationUri: url,
-  name: nonEmptyString,
+  // eslint-disable-next-line
+  name: nonEmptyString.regex(/^([-A-Za-z0-9\_\.\ ])+$/, {
+    message: i18n.t('common.errors.reponame')
+  }),
   serverAddress: url,
   deleted: z.boolean().default(false),
   published: z.boolean().default(false),

@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2024 Open Analytics NV
+ * Copyright (C) 2012-2025 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -90,8 +90,6 @@ export const useEventsStore = defineStore('eventsStore', {
 
       mapByMonths.forEach(
         (value: EntityModelNewsfeedEventDto[], key) => {
-          console.log(key)
-          console.log(value)
           const monthDividedByDays: Map<
             string,
             EntityModelNewsfeedEventDto[]

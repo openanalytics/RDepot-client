@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2024 Open Analytics NV
+ Copyright (C) 2012-2025 Open Analytics NV
  
  ===========================================================================
  
@@ -139,7 +139,11 @@
     />
     <v-spacer />
     <ResetButton
-      v-if="!submissionsStore.isDefaultFiltration"
+      :style="{
+        visibility: submissionsStore.isDefaultFiltration
+          ? 'hidden'
+          : 'visible'
+      }"
       @reset-values="resetValues"
     />
   </div>

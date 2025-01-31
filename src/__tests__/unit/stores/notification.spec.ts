@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2024 Open Analytics NV
+ * Copyright (C) 2012-2025 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -40,7 +40,7 @@ describe('Notifications Store', () => {
   })
 
   afterAll(() => {
-    server.close
+    server.close()
   })
 
   it('Starting values', () => {

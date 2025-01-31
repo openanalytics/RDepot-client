@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2024 Open Analytics NV
+ * Copyright (C) 2012-2025 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -35,7 +35,6 @@ import {
 import packageMaintainers from '@/__tests__/config/mockData/packageMaintainers.json'
 import repositories from '@/__tests__/config/mockData/repositories.json'
 import packages from '@/__tests__/config/mockData/packages.json'
-import { usePagination } from '@/store/setup/pagination'
 import { Technologies } from '@/enum/Technologies'
 import {
   PackageMaintainersFiltration,
@@ -106,14 +105,11 @@ describe('Package Maintainers Store', () => {
   it('Edit filtration', () => {
     const packageMaintainersStore =
       usePackageMaintainersStore()
-    const paginationStore = usePagination()
-    paginationStore.page = 2
-    const spy = vi.spyOn(packageMaintainersStore, 'get')
+    const spy = vi.spyOn(packageMaintainersStore, 'getPage')
     expect(spy).toHaveBeenCalledTimes(0)
 
     packageMaintainersStore.setFiltration(randomFiltration)
 
-    expect(paginationStore.page).toBe(1)
     expect(
       packageMaintainersStore.filtration
     ).toStrictEqual(randomFiltration)
@@ -123,13 +119,10 @@ describe('Package Maintainers Store', () => {
   it('Clear filtration', () => {
     const packageMaintainersStore =
       usePackageMaintainersStore()
-    const paginationStore = usePagination()
-    paginationStore.page = 2
     packageMaintainersStore.filtration = randomFiltration
 
     packageMaintainersStore.clearFiltration()
 
-    expect(paginationStore.page).toBe(1)
     expect(
       packageMaintainersStore.filtration
     ).toStrictEqual(defaultFiltration)
@@ -138,14 +131,11 @@ describe('Package Maintainers Store', () => {
   it('Clear filtration and fetch', async () => {
     const packageMaintainersStore =
       usePackageMaintainersStore()
-    const paginationStore = usePagination()
-    paginationStore.page = 2
-    const spy = vi.spyOn(packageMaintainersStore, 'get')
+    const spy = vi.spyOn(packageMaintainersStore, 'getPage')
 
     packageMaintainersStore.filtration = randomFiltration
     await packageMaintainersStore.clearFiltrationAndFetch()
 
-    expect(paginationStore.page).toBe(1)
     expect(
       packageMaintainersStore.filtration
     ).toStrictEqual(defaultFiltration)
@@ -200,7 +190,7 @@ describe('Package Maintainers Store', () => {
     const packageMaintainersStore =
       usePackageMaintainersStore()
 
-    await packageMaintainersStore.get()
+    await packageMaintainersStore.getPage()
 
     expect(
       packageMaintainersStore.maintainers
@@ -238,9 +228,9 @@ describe('Package Maintainers Store', () => {
   it('Delete chosen maintainer', async () => {
     const packageMaintainersStore =
       usePackageMaintainersStore()
-    const spy = vi.spyOn(packageMaintainersStore, 'get')
+    const spy = vi.spyOn(packageMaintainersStore, 'getPage')
 
-    packageMaintainersStore.get()
+    packageMaintainersStore.getPage()
     packageMaintainersStore.chosenMaintainer =
       packageMaintainers.data.content[2]
     packageMaintainersStore.save()
@@ -253,9 +243,9 @@ describe('Package Maintainers Store', () => {
   it('Edit chosen maintainer', async () => {
     const packageMaintainersStore =
       usePackageMaintainersStore()
-    const spy = vi.spyOn(packageMaintainersStore, 'get')
+    const spy = vi.spyOn(packageMaintainersStore, 'getPage')
 
-    packageMaintainersStore.get()
+    packageMaintainersStore.getPage()
     packageMaintainersStore.chosenMaintainer =
       packageMaintainers.data.content[2]
     packageMaintainersStore.save()
@@ -286,7 +276,7 @@ describe('Package Maintainers Store requests with failing backend', () => {
   it('Fetch maintainers', async () => {
     const packageMaintainersStore =
       usePackageMaintainersStore()
-    await packageMaintainersStore.get()
+    await packageMaintainersStore.getPage()
     expect(
       packageMaintainersStore.maintainers
     ).toStrictEqual([])

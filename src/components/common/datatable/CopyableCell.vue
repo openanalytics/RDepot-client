@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2024 Open Analytics NV
+ Copyright (C) 2012-2025 Open Analytics NV
  
  ===========================================================================
  
@@ -22,12 +22,12 @@
 
 <template>
   <div
-    :id="`resources-list-${value}`"
+    :id="`resources-list-${value.replaceAll('@', '-').replaceAll(':', '')}`"
     class="d-flex justify-start align-center ga-2"
   >
     <span> {{ value }} </span>
     <v-icon
-      :id="`resources-list-${value}-copy`"
+      :id="`resources-list-${value.replace('@', '-').replaceAll('/', '').replaceAll(':', '')}-copy`"
       v-tooltip="$t('packages.copy')"
       size="x-small"
       :icon="Icons.get('copy')"

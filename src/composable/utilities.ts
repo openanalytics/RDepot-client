@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2024 Open Analytics NV
+ * Copyright (C) 2012-2025 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -19,6 +19,7 @@
  * along with this program. If not, see <http://www.apache.org/licenses/>
  *
  */
+
 import Icons from '@/maps/Icons'
 import { i18n } from '@/plugins/i18n'
 import { useToast } from './toasts'
@@ -93,7 +94,7 @@ export function useUtilities() {
         copy(value)
         toasts.success(feedbackMessage)
       }
-    } catch (error) {
+    } catch {
       toasts.error(i18n.t('common.errors.copyFailed'))
     }
   }

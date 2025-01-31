@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2024 Open Analytics NV
+ * Copyright (C) 2012-2025 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -22,7 +22,7 @@
 
 import { i18n } from '@/plugins/i18n'
 import { useCommonStore } from '@/store/options/common'
-import { usePagination } from '@/store/setup/pagination'
+import { useOATable } from '@/store/setup/oatable'
 import { useAuthorizationStore } from '@/store/options/authorization'
 
 export function useUserSettings() {
@@ -57,10 +57,10 @@ export function useUserSettings() {
   }
 
   function setPageSize() {
-    const { newPageSizeWithoutRefresh } = usePagination()
+    const { setPageSize } = useOATable()
     const authorizationStore = useAuthorizationStore()
     if (authorizationStore.me.userSettings?.pageSize) {
-      newPageSizeWithoutRefresh(
+      setPageSize(
         authorizationStore.me.userSettings.pageSize
       )
     }

@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2024 Open Analytics NV
+ * Copyright (C) 2012-2025 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -31,19 +31,17 @@ import {
 } from 'vitest'
 import repositories from '@/__tests__/config/mockData/repositories.json'
 import { useRepositoryStore } from '@/store/options/repositories'
-import { usePagination } from '@/store/setup/pagination'
 import { Technologies } from '@/enum/Technologies'
 import { useAuthorizationStore } from '@/store/options/authorization'
 import { server } from '@/__tests__/config/backend/server'
+import {
+  defaultValues,
+  RepositoriesFiltration
+} from '@/models/Filtration'
 
-const defaultFiltration = {
-  technologies: undefined,
-  search: undefined,
-  deleted: false,
-  published: true,
-  name: undefined,
-  maintainer: undefined
-}
+const defaultFiltration = defaultValues(
+  RepositoriesFiltration
+)
 
 const randomFiltration = {
   deleted: true,
@@ -82,7 +80,7 @@ describe('Repository Store', () => {
   it('Fetch repositories', async () => {
     const repositoriesStore = useRepositoryStore()
 
-    await repositoriesStore.getRepositories()
+    await repositoriesStore.getPage()
 
     expect(repositoriesStore.repositories).toStrictEqual(
       repositories.data.content
@@ -91,31 +89,21 @@ describe('Repository Store', () => {
 
   it('Edit filtration', () => {
     const repositoriesStore = useRepositoryStore()
-    const paginationStore = usePagination()
-    const spy = vi.spyOn(
-      repositoriesStore,
-      'getRepositories'
-    )
-    paginationStore.page = 2
+    const spy = vi.spyOn(repositoriesStore, 'getPage')
 
     repositoriesStore.setFiltration(randomFiltration)
 
-    expect(paginationStore.page).toBe(1)
     expect(repositoriesStore.filtration).toStrictEqual(
       randomFiltration
     )
     expect(spy).toHaveBeenCalled()
   })
 
-  it('Clear filtration', () => {
+  it('Clear filtration', async () => {
     const repositoriesStore = useRepositoryStore()
-    const paginationStore = usePagination()
     repositoriesStore.filtration = randomFiltration
-    paginationStore.page = 2
+    await repositoriesStore.clearFiltration()
 
-    repositoriesStore.clearFiltration()
-
-    expect(paginationStore.page).toBe(1)
     expect(repositoriesStore.filtration).toStrictEqual(
       defaultFiltration
     )
@@ -123,23 +111,12 @@ describe('Repository Store', () => {
 
   it('Clear filtration and fetch events', async () => {
     const repositoriesStore = useRepositoryStore()
-    const paginationStore = usePagination()
-    const spy = vi.spyOn(
-      repositoriesStore,
-      'getRepositories'
-    )
     repositoriesStore.filtration = randomFiltration
-    paginationStore.page = 2
 
-    await repositoriesStore.clearFiltrationAndFetch()
+    await repositoriesStore.clearFiltration()
 
-    expect(paginationStore.page).toBe(1)
     expect(repositoriesStore.filtration).toStrictEqual(
       defaultFiltration
-    )
-    expect(spy).toHaveBeenCalled()
-    expect(repositoriesStore.repositories).toStrictEqual(
-      repositories.data.content
     )
   })
 })

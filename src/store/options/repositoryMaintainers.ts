@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2024 Open Analytics NV
+ * Copyright (C) 2012-2025 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -38,9 +38,9 @@ import {
 } from '@/services/repositoryMaintainersServices'
 import { fetchRepositoriesService } from '@/services/repositoryServices'
 import { useUtilities } from '@/composable/utilities'
-import { usePagination } from '@/store/setup/pagination'
 import { DataTableOptions } from '@/models/DataTableOptions'
 import { useSortStore } from './sort'
+import { useOATable } from '@/store/setup/oatable'
 
 const { deepCopy } = useUtilities()
 
@@ -52,6 +52,7 @@ interface State {
   chosenMaintainer: EntityModelPackageMaintainerDto
   loading: boolean
   totalNumber: number
+  tableOptions?: DataTableOptions
 }
 
 export const useRepositoryMaintainersStore = defineStore(
@@ -67,7 +68,8 @@ export const useRepositoryMaintainersStore = defineStore(
         pending: [],
         chosenMaintainer: {},
         loading: false,
-        totalNumber: 0
+        totalNumber: 0,
+        tableOptions: undefined
       }
     },
     getters: {
@@ -81,18 +83,22 @@ export const useRepositoryMaintainersStore = defineStore(
       }
     },
     actions: {
-      async getPage(options: DataTableOptions) {
+      async getPage(options?: DataTableOptions) {
+        if (options) {
+          this.tableOptions = options
+        }
         this.loading = true
+        const sortField =
+          this.tableOptions?.sortBy[0].key || 'user'
+        const sortOrder =
+          this.tableOptions?.sortBy[0].order || 'asc'
         const [maintainers, pageData] =
           await fetchRepositoryMaintainersService(
             this.filtration,
-            options.page - 1,
-            options.itemsPerPage,
-            [
-              options.sortBy[0].key +
-                ',' +
-                options.sortBy[0].order
-            ]
+            (this.tableOptions?.page || 1) - 1,
+            this.tableOptions?.itemsPerPage ||
+              useOATable().pageSize,
+            [sortField + ',' + sortOrder]
           )
         this.loading = false
         this.totalNumber = pageData.totalNumber
@@ -112,20 +118,6 @@ export const useRepositoryMaintainersStore = defineStore(
           )
         this.maintainers = maintainers
         return pageData
-      },
-      async get() {
-        const pagination = usePagination()
-        const sort = useSortStore()
-        const [maintainers, pageData] =
-          await fetchRepositoryMaintainersService(
-            this.filtration,
-            pagination.fetchPage,
-            pagination.pageSize,
-            sort.getSortBy()
-          )
-        pagination.newPageWithoutRefresh(pageData.page)
-        this.totalNumber = pageData.totalNumber
-        this.maintainers = maintainers
       },
       async getAll(
         filtration: RepositoryMaintainersFiltration
@@ -184,7 +176,7 @@ export const useRepositoryMaintainersStore = defineStore(
           await deletedRepositoryMaintainer(
             this.chosenMaintainer
           ).then(async (success) => {
-            if (success) await this.get()
+            if (success) await this.getPage()
           })
         }
       },
@@ -206,7 +198,7 @@ export const useRepositoryMaintainersStore = defineStore(
             newMaintainer
           )
             .then(async (success) => {
-              if (success) await this.get()
+              if (success) await this.getPage()
             })
             .finally(() => {
               this.pending = this.pending.filter(
@@ -221,20 +213,13 @@ export const useRepositoryMaintainersStore = defineStore(
       ) {
         await createRepositoryMaintainer(maintainer).then(
           async (success) => {
-            if (success) await this.get()
+            if (success) await this.getPage()
           }
         )
-      },
-      async setPage(payload: number) {
-        const pagination = usePagination()
-        pagination.page = payload
-        this.get()
       },
       async setFiltration(
         payload: RepositoryMaintainersFiltration
       ) {
-        const pagination = usePagination()
-        pagination.resetPage()
         if (
           RepositoryMaintainersFiltration.safeParse(payload)
             .success
@@ -242,7 +227,7 @@ export const useRepositoryMaintainersStore = defineStore(
           this.filtration =
             RepositoryMaintainersFiltration.parse(payload)
         }
-        await this.get()
+        await this.getPage()
       },
       setFiltrationBy(filtration: object) {
         this.clearFiltration()
@@ -252,15 +237,13 @@ export const useRepositoryMaintainersStore = defineStore(
         }
       },
       clearFiltration() {
-        const pagination = usePagination()
-        pagination.resetPage()
         this.filtration = defaultValues(
           RepositoryMaintainersFiltration
         )
       },
       async clearFiltrationAndFetch() {
         this.clearFiltration()
-        await this.get()
+        await this.getPage()
       }
     }
   }

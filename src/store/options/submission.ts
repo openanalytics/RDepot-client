@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2024 Open Analytics NV
+ * Copyright (C) 2012-2025 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -32,11 +32,11 @@ import {
 import {
   addSubmission,
   fetchSubmissionsService,
-  updateSubmission
+  updateSubmission,
+  getRConfiguration
 } from '@/services/submissionServices'
 import { useUtilities } from '@/composable/utilities'
 import { validatedData } from '@/services/openApiAccess'
-import { usePagination } from '@/store/setup/pagination'
 import { useToast } from '@/composable/toasts'
 import { i18n } from '@/plugins/i18n'
 import { DataTableOptions } from '@/models/DataTableOptions'
@@ -45,6 +45,7 @@ import { SubmissionEditOptions } from '@/enum/SubmissionEditOptions'
 import { useSubmissionActions } from '@/composable/submissions/submissionActions'
 import { useSubmissionAuthorizationCheck } from '@/composable/submissions/submissionAuthorities'
 import { Technologies } from '@/enum/Technologies'
+import { useOATable } from '@/store/setup/oatable'
 
 export type PackagePromise = {
   promise: Promise<validatedData<EntityModelSubmissionDto>>
@@ -72,6 +73,12 @@ interface State {
   packages: File[]
   generateManual: File[]
   replace: File[]
+  binary: File[]
+  notes: File[]
+  rversion: { file: File; version: string }[]
+  distribution: { file: File; distribution: string }[]
+  architecture: { file: File; architecture: string }[]
+  note: { file: File; note: string }[]
   files: File[]
   promises: PackagePromise[]
   repository?: EntityModelRepositoryDto
@@ -85,6 +92,10 @@ interface State {
   stepperKey: number
   loading: boolean
   totalNumber: number
+  allowedRVersions?: string[]
+  allowedDistributions?: string[]
+  allowedArchitectures?: string[]
+  tableOptions?: DataTableOptions
 }
 
 const { deepCopy } = useUtilities()
@@ -98,6 +109,12 @@ export const useSubmissionStore = defineStore(
         files: [],
         generateManual: [],
         replace: [],
+        binary: [],
+        notes: [],
+        rversion: [],
+        distribution: [],
+        architecture: [],
+        note: [],
         promises: [],
         submissions: [],
         pending: [],
@@ -109,7 +126,11 @@ export const useSubmissionStore = defineStore(
         resolved: false,
         stepperKey: 0,
         loading: false,
-        totalNumber: 0
+        totalNumber: 0,
+        allowedRVersions: [],
+        allowedDistributions: [],
+        allowedArchitectures: [],
+        tableOptions: undefined
       }
     },
     getters: {
@@ -123,33 +144,26 @@ export const useSubmissionStore = defineStore(
       }
     },
     actions: {
-      async getPage(options: DataTableOptions) {
+      async getPage(options?: DataTableOptions) {
+        if (options) {
+          this.tableOptions = options
+        }
         this.loading = true
+        const sortField =
+          this.tableOptions?.sortBy[0].key || 'state'
+        const sortOrder =
+          this.tableOptions?.sortBy[0].order || 'desc'
         const [submissions, pageData] =
           await fetchSubmissionsService(
             this.filtration,
-            options.page - 1,
-            options.itemsPerPage,
-            [
-              options.sortBy[0].key +
-                ',' +
-                options.sortBy[0].order
-            ]
+            (this.tableOptions?.page || 1) - 1,
+            this.tableOptions?.itemsPerPage ||
+              useOATable().pageSize,
+            [sortField + ',' + sortOrder]
           )
         this.loading = false
         this.totalNumber = pageData.totalNumber
         this.submissions = submissions
-      },
-      async get() {
-        const pagination = usePagination()
-        const pageData = await this.fetchData(
-          pagination.fetchPage,
-          pagination.pageSize,
-          this.filtration
-        )
-        pagination.newPageWithoutRefresh(pageData.page)
-        pagination.totalNumber = pageData.totalNumber
-        this.totalNumber = pageData.totalNumber
       },
       async fetchData(
         page: number,
@@ -185,7 +199,7 @@ export const useSubmissionStore = defineStore(
         await updateSubmission(oldSubmission, newSubmission)
           .then(async (response) => {
             if (Object.keys(response[0]).length > 0) {
-              await this.get()
+              await this.getPage()
             }
           })
           .finally(() => {
@@ -193,6 +207,16 @@ export const useSubmissionStore = defineStore(
               (item) => item.id != oldSubmission.id
             )
           })
+      },
+      async getRConfiguration() {
+        await getRConfiguration().then((response) => {
+          this.allowedRVersions =
+            response[0].allowedRVersions
+          this.allowedDistributions =
+            response[0].allowedDistributions
+          this.allowedArchitectures =
+            response[0].allowedArchitectures
+        })
       },
       updateReplaceOptionForPackage(file: File) {
         if (this.getReplaceForPackage(file)) {
@@ -230,6 +254,117 @@ export const useSubmissionStore = defineStore(
           (item) => item == file
         )
       },
+      getBinaryForPackage(file: File) {
+        return !!this.binary.find((item) => item == file)
+      },
+      updateBinaryOptionForPackage(file: File) {
+        if (this.getBinaryForPackage(file)) {
+          this.removeBinaryOptionForPackage(file)
+        } else {
+          this.addBinaryOptionForPackage(file)
+          this.removeGenerateManualOptionForPackage(file)
+        }
+      },
+      getNotesForPackage(file: File) {
+        return this.note.find((item) => item.file == file)
+          ?.note
+      },
+      getNotesForPackageBool(file: File) {
+        return !!this.notes.find((item) => item == file)
+      },
+      updateNotesOptionForPackage(file: File) {
+        if (this.getNotesForPackageBool(file)) {
+          this.removeNotesOptionForPackage(file)
+        } else {
+          this.addNotesOptionForPackage(file)
+        }
+      },
+      removeNotesOptionForPackage(file: File) {
+        this.notes = this.notes.filter(
+          (item) => item !== file
+        )
+        this.note = this.note.filter(
+          (item) => item.file !== file
+        )
+      },
+      addNotesOptionForPackage(file: File) {
+        this.notes.push(file)
+      },
+      removeBinaryOptionForPackage(file: File) {
+        this.binary = this.binary.filter(
+          (item) => item !== file
+        )
+      },
+      addBinaryOptionForPackage(file: File) {
+        this.binary.push(file)
+      },
+      addRversion(version: string, value: File) {
+        const idx = this.rversion.findIndex(
+          (item) => item.file === value
+        )
+        if (idx > -1) {
+          this.rversion[idx].version = version
+        } else {
+          this.rversion.push({
+            version: version,
+            file: value
+          })
+        }
+      },
+      getRVersionForPackage(file: File) {
+        return this.rversion.find(
+          (item) => item.file == file
+        )?.version
+      },
+      addArchitecture(architecture: string, value: File) {
+        const idx = this.architecture.findIndex(
+          (item) => item.file === value
+        )
+        if (idx > -1) {
+          this.architecture[idx].architecture = architecture
+        } else {
+          this.architecture.push({
+            architecture: architecture,
+            file: value
+          })
+        }
+      },
+      addNote(note: string, value: File) {
+        const idx = this.note.findIndex(
+          (n) => n.file == value
+        )
+        if (idx >= 0) {
+          this.note[idx].note = note
+        } else {
+          this.note.push({
+            note: note,
+            file: value
+          })
+        }
+      },
+      getArchitectureForPackage(file: File) {
+        return this.architecture.find(
+          (item) => item.file == file
+        )?.architecture
+      },
+      addDistribution(distribution: string, value: File) {
+        const idx = this.distribution.findIndex(
+          (item) => item.file === value
+        )
+        if (idx > -1) {
+          this.distribution[idx].distribution = distribution
+        } else {
+          this.distribution.push({
+            distribution: distribution,
+            file: value
+          })
+        }
+      },
+      getDistributionForPackage(file: File) {
+        return this.distribution.find(
+          (item) => item.file == file
+        )?.distribution
+      },
       addPackage(payload: File) {
         this.packages = [...this.packages, payload]
       },
@@ -256,7 +391,12 @@ export const useSubmissionStore = defineStore(
               this.repository?.technology!,
               packageBag,
               this.getGenerateManualForPackage(packageBag),
-              this.getReplaceForPackage(packageBag)
+              this.getReplaceForPackage(packageBag),
+              this.getBinaryForPackage(packageBag),
+              this.getRVersionForPackage(packageBag),
+              this.getArchitectureForPackage(packageBag),
+              this.getDistributionForPackage(packageBag),
+              this.getNotesForPackage(packageBag)
             ),
             packageBag: packageBag,
             state: 'pending',
@@ -316,11 +456,9 @@ export const useSubmissionStore = defineStore(
         const toasts = useToast()
         if (this.submissionsToEdit) {
           this.submissionsToEdit.pending = true
-          console.log(this.submissionsToEdit.submissions)
           const promises =
             this.submissionsToEdit.submissions.map(
               (submission) => {
-                console.log(submission.packageBag?.name)
                 this.pending.push(submission)
                 return {
                   promise: editSubmission(
@@ -386,37 +524,33 @@ export const useSubmissionStore = defineStore(
                     this.submissionsToEdit.submissions = []
                     this.submissionsToEdit.pending = false
                   }
-                  this.get()
+                  this.getPage()
                 }
               })
           })
         }
       },
       async setFiltration(payload: SubmissionsFiltration) {
-        const pagination = usePagination()
-        pagination.resetPage()
         if (
           SubmissionsFiltration.safeParse(payload).success
         ) {
           this.filtration =
             SubmissionsFiltration.parse(payload)
         }
-        await this.get()
+        await this.getPage()
         const toasts = useToast()
         toasts.success(
           i18n.t('notifications.successFiltration')
         )
       },
       clearFiltration() {
-        const pagination = usePagination()
-        pagination.resetPage()
         this.filtration = defaultValues(
           SubmissionsFiltration
         )
       },
       async clearFiltrationAndFetch() {
         this.clearFiltration()
-        await this.get()
+        await this.getPage()
         const toasts = useToast()
         toasts.success(
           i18n.t('notifications.successFiltrationReset')

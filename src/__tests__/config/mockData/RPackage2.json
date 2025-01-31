@@ -1,0 +1,64 @@
+{
+  "id": 10,
+  "user": {
+    "id": 6,
+    "name": "Galileo Galilei",
+    "login": "galieleo",
+    "email": "galieleo@ldap.forumsys.com"
+  },
+  "repository": {
+    "id": 4,
+    "name": "testrepo3",
+    "publicationUri": "http://localhost/repo/testrepo3",
+    "requiresAuthentication": true,
+    "technology": "R",
+    "published": true
+  },
+  "name": "A3",
+  "version": "0.9.2",
+  "source": "/opt/rdepot/repositories/4/54491936/A3_0.9.2.tar.gz",
+  "active": true,
+  "deleted": false,
+  "technology": "R",
+  "description": "This package supplies tools for tabulating and analyzing the results of predictive models. The methods employed are applicable to virtually any predictive model and make comparisons between different methodologies straightforward.",
+  "author": "Scott Fortmann-Roe",
+  "title": "A3: Accurate, Adaptable, and Accessible Error Metrics for Predictive Models",
+  "url": "",
+  "submissionId": 49,
+  "authorEmail": null,
+  "classifiers": "Development Status :: 4 - Beta, Intended Audience :: Developers, License :: OSI Approved :: MIT License, Operating System :: Unix, Operating System :: POSIX, Operating System :: Microsoft :: Windows, Programming Language :: Python, Programming Language :: Python :: 3, Programming Language :: Python :: 3.6, Programming Language :: Python :: 3.7, Programming Language :: Python :: 3.8, Programming Language :: Python :: Implementation :: CPython, Programming Language :: Python :: Implementation :: PyPy, Topic :: Utilities",
+  "descriptionContentType": null,
+  "homePage": "",
+  "keywords": null,
+  "license": "MIT",
+  "maintainer": null,
+  "maintainerEmail": null,
+  "platform": null,
+  "projectUrl": "Changelog, https://github.com/Quansight/numpy-threading-extensions/blob/master/CHANGELOG.rst, Issue Tracker, https://github.com/Quansight/numpy-threading-extensions/issues",
+  "providesExtra": null,
+  "requiresDist": null,
+  "requiresExternal": null,
+  "requiresPython": ">=3.6",
+  "summary": "Faster loops for NumPy using multithreading and other tricks",
+  "hash": "0ea2c36892233a2f0ea8b211b27143cdf332e7bea8517c08b3402dbc",
+  "links": [
+    {
+      "rel": "self",
+      "href": "http://localhost:8017/api/v2/manager/r/packages/10"
+    },
+    {
+      "rel": "packageList",
+      "href": "http://localhost:8017/api/v2/manager/packages"
+    },
+    {
+      "rel": "self",
+      "href": "http://localhost:8017/api/v2/manager/r/packages/10",
+      "type": "PATCH"
+    },
+    {
+      "rel": "self",
+      "href": "http://localhost:8017/api/v2/manager/r/packages/10",
+      "type": "DELETE"
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2024 Open Analytics NV
+ Copyright (C) 2012-2025 Open Analytics NV
  
  ===========================================================================
  
@@ -41,7 +41,8 @@
         location="top"
         :disabled="
           item.id !== authorizationStore.me.id ||
-          !isPending(item)
+          !isPending(item) ||
+          !canPatch(item.links, 'active')
         "
       >
         <template #activator="{ props }">
@@ -97,9 +98,24 @@
       >
         <EditIcon
           :icon-id="`edit-user-${item.id}`"
-          :disabled="!canPatch(item.links)"
+          :disabled="!canPatch(item.links, 'roleId')"
           :text="$t('common.edit')"
-          @set-entity="setEditUser(item)"
+          @set-resource-id="setEditUser(item)"
+        />
+        <DeleteIcon
+          :id="`delete-user-${item.id}`"
+          :disabled="
+            !canPatch(item.links, 'deleted') || item.deleted
+          "
+          :name="item.name"
+          :hover-message="
+            !canPatch(item.links, 'deleted')
+              ? $t('common.notAuthorized')
+              : item.deleted
+                ? $t('users.deleted')
+                : undefined
+          "
+          @set-resource-id="setEditUser(item)"
         /> </span
     ></template>
   </OATable>
@@ -122,9 +138,10 @@ import {
 import { useAuthorizationStore } from '@/store/options/authorization'
 import { ref, computed } from 'vue'
 import { useSort } from '@/composable/sort'
+import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
 import { useEnumFiltration } from '@/composable/filtration/enumFiltration'
-import ProgressCircularSmall from '../common/progress/ProgressCircularSmall.vue'
-import OATable from '../common/datatable/OATable.vue'
+import ProgressCircularSmall from '@/components/common/progress/ProgressCircularSmall.vue'
+import OATable from '@/components/common/datatable/OATable.vue'
 
 const authorizationStore = useAuthorizationStore()
 const userStore = useUserStore()
@@ -182,13 +199,20 @@ const { deepCopy } = useUtilities()
 
 function updateUserActive(item: EntityModelUserDto): void {
   if (canPatch(item.links)) {
-    item.active = !item.active
-    userStore.chosenUser = deepCopy(item)
-    const user = deepCopy(item)
-    user.active = !user.active
-    userStore.save(user)
+    const oldUser = deepCopy(item)
+    userStore.chosenUser = oldUser
+    oldUser.active = !oldUser.active
+    userStore.save(item)
   }
 }
+
+// function softDeleteUser(item: EntityModelUserDto): void {
+//   if (canDelete(item.links)) {
+//   userStore.chosenUser = item
+//   item.deleted = true
+//     userStore.save(item)
+//   }
+// }
 
 function fetchData(options: DataTableOptions) {
   sortBy.value = getSort(options.sortBy, defaultSort)

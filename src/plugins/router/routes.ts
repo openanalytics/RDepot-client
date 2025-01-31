@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2024 Open Analytics NV
+ * Copyright (C) 2012-2025 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -120,7 +120,8 @@ export const routes = [
         meta: { title: 'RDepot - upload packages' },
         beforeEnter: () => {
           prepareUploadPackagesView()
-        }
+        },
+        props: true
       },
       {
         path: '/events',

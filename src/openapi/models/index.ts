@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2024 Open Analytics NV
+ * Copyright (C) 2012-2025 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -69,6 +69,7 @@ export * from './paged-model-entity-model-user-dto-embedded'
 export * from './public-configuration-dto'
 export * from './python-repository-dto'
 export * from './python-submissions-body'
+export * from './rpublic-configuration-dto'
 export * from './rrepository-dto'
 export * from './rsubmissions-body'
 export * from './repository-maintainer-dto'
@@ -99,6 +100,7 @@ export * from './response-dto-paged-model-entity-model-repository-maintainer-dto
 export * from './response-dto-paged-model-entity-model-submission-dto'
 export * from './response-dto-paged-model-entity-model-user-dto'
 export * from './response-dto-public-configuration-dto'
+export * from './response-dto-rpublic-configuration-dto'
 export * from './role-dto'
 export * from './submission-projection'
 export * from './user-projection'

@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2024 Open Analytics NV
+ Copyright (C) 2012-2025 Open Analytics NV
  
  ===========================================================================
  
@@ -101,9 +101,79 @@
       @update:focused="selectToDate"
     />
 
+    <validated-input-field
+      id="events-filtration-repository"
+      density="compact"
+      hide-details
+      chips
+      closable-chips
+      name="repositoryName"
+      as="autocomplete"
+      multiple
+      clearable
+      :label="$t('packages.filtration.repository')"
+      :store-id="storeId"
+      :template="true"
+      @update:model-value="setFiltration"
+      @load-items="loadRepositories"
+      @filtrate="filtrateRepositoriesObjects"
+    >
+      <template #item="{ props }">
+        <v-list-item
+          v-intersect="loadRepositories"
+          v-bind="props"
+        >
+          <template #prepend="{ isActive }">
+            <v-list-item-action start>
+              <v-checkbox-btn
+                :model-value="isActive"
+              ></v-checkbox-btn>
+            </v-list-item-action>
+          </template>
+        </v-list-item>
+      </template>
+    </validated-input-field>
+
+    <validated-input-field
+      id="events-filtration-package"
+      density="compact"
+      hide-details
+      chips
+      closable-chips
+      name="packageName"
+      as="autocomplete"
+      multiple
+      clearable
+      :label="$t('maintainers.editform.package')"
+      :store-id="storeIdPackage"
+      :template="true"
+      @update:model-value="setFiltration"
+      @load-items="loadPackagesRepositoriesObjects"
+      @filtrate="filtratePackagesObjects(undefined)"
+    >
+      <template #item="{ props }">
+        <v-list-item
+          v-intersect="loadPackagesRepositoriesObjects"
+          v-bind="props"
+        >
+          <template #prepend="{ isActive }">
+            <v-list-item-action start>
+              <v-checkbox-btn
+                :model-value="isActive"
+              ></v-checkbox-btn>
+            </v-list-item-action>
+          </template>
+        </v-list-item>
+      </template>
+    </validated-input-field>
+
     <v-spacer />
     <ResetButton
-      v-if="!eventStore.isDefaultFiltration"
+      :style="{
+        visibility: eventStore.isDefaultFiltration
+          ? 'hidden'
+          : 'visible'
+      }"
       @reset-values="resetValues"
     />
   </div>
@@ -123,6 +193,8 @@ import DatePickerField from '@/components/common/fields/DatePickerField.vue'
 import { useDatePicker } from '@/composable/datePicker'
 import ResetButton from '@/components/common/buttons/ResetButton.vue'
 import { computed } from 'vue'
+import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesFiltration'
+import { usePackagesFiltration } from '@/composable/filtration/packagesFiltration'
 
 const {
   technologies,
@@ -138,6 +210,18 @@ const {
   selectDate,
   closeModal
 } = useDatePicker()
+
+const {
+  storeId,
+  filtrateRepositoriesObjects,
+  loadRepositories
+} = useRepositoriesFiltration()
+
+const {
+  storeIdPackage,
+  loadPackagesRepositoriesObjects,
+  filtratePackagesObjects
+} = usePackagesFiltration()
 
 const eventStore = useEventsStore()
 

@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2024 Open Analytics NV
+ * Copyright (C) 2012-2025 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -20,6 +20,7 @@
  *
  */
 
+/* eslint-disable @typescript-eslint/no-require-imports */
 const path = require('path')
 const fs = require('fs')
 
@@ -29,7 +30,8 @@ const EXTENSIONS_WITH_LICENSE = [
   'vue',
   'ts',
   'js',
-  'css'
+  'css',
+  'mjs'
 ]
 const EXTENSION_WITHOUT_LICENSE = [
   'md',
@@ -44,6 +46,7 @@ const EXTENSION_WITHOUT_LICENSE = [
   'svg',
   'sql',
   'mdb',
+  'zip',
   'ldif',
   'yaml',
   'conf',
@@ -67,6 +70,7 @@ const DIRS_WITHOUT_LICENSE_CHECKING = [
   'dist',
   '.vscode',
   '.git',
+  '.idea',
   '.husky',
   '.scannerwork',
   'mockData',
@@ -76,7 +80,8 @@ const DIRS_WITHOUT_LICENSE_CHECKING = [
   'itestSourceFiles',
   'itestPdf',
   'itestPackages',
-  'reports'
+  'reports',
+  'test-results'
 ]
 
 const license_header = fs.readFileSync('LICENSE').toString()

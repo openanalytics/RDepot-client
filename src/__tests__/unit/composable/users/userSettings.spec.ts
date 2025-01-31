@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2024 Open Analytics NV
+ * Copyright (C) 2012-2025 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -33,7 +33,7 @@ import { useUserSettings } from '@/composable/user/userSettings'
 import { useCommonStore } from '@/store/options/common'
 import { useAuthorizationStore } from '@/store/options/authorization'
 import { i18n } from '@/plugins/i18n'
-import { usePagination } from '@/store/setup/pagination'
+import { useOATable } from '@/store/setup/oatable'
 
 beforeEach(async () => {
   setActivePinia(createPinia())
@@ -76,7 +76,7 @@ describe('user settings composable', () => {
 
   it('should set page size', async () => {
     const { getUserSettings } = useUserSettings()
-    const { pageSize } = usePagination()
+    const { pageSize } = useOATable()
     const authorizationStore = useAuthorizationStore()
     authorizationStore.me = {
       userSettings: { pageSize: 10 }
