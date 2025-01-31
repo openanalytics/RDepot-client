@@ -1,0 +1,64 @@
+{
+  "id": 20,
+  "user": {
+    "id": 6,
+    "name": "Galileo Galilei",
+    "login": "galieleo",
+    "email": "galieleo@ldap.forumsys.com"
+  },
+  "repository": {
+    "id": 5,
+    "name": "r-public",
+    "publicationUri": "http://localhost/repo/r-public",
+    "published": true,
+    "requiresAuthentication": false,
+    "technology": "R",
+    "lastPublicationSuccessful": true
+  },
+  "submissionId": 20,
+  "name": "arrow",
+  "version": "18.1.0",
+  "source": "/opt/rdepot/repositories/5/56262552/arrow_18.1.0.tar.gz",
+  "active": true,
+  "deleted": false,
+  "technology": "R",
+  "binary": true,
+  "description": "'Apache' 'Arrow' <https://arrow.apache.org/> is a cross-language\\n development platform for in-memory data. It specifies a standardized\\n language-independent columnar memory format for flat and hierarchical data,\\n organized for efficient analytic operations on modern hardware. This\\n package provides an interface to the 'Arrow C++' library.",
+  "author": "Neal Richardson [aut],\\n Ian Cook [aut],\\n Nic Crane [aut],\\n Dewey Dunnington [aut] (<https://orcid.org/0000-0002-9415-4582>),\\n Romain François [aut] (<https://orcid.org/0000-0002-2444-4226>),\\n Jonathan Keane [aut, cre],\\n Dragoș Moldovan-Grünfeld [aut],\\n Jeroen Ooms [aut],\\n Jacob Wujciak-Jens [aut],\\n Javier Luraschi [ctb],\\n Karl Dunkle Werner [ctb] (<https://orcid.org/0000-0003-0523-7309>),\\n Jeffrey Wong [ctb],\\n Apache Arrow [aut, cph]",
+  "title": "Integration to 'Apache' 'Arrow'",
+  "url": "https://github.com/apache/arrow/, https://arrow.apache.org/docs/r/",
+  "depends": "R (>= 4.0)",
+  "imports": "assertthat, bit64 (>= 0.9-7), glue, methods, purrr, R6, rlang\\n (>= 1.0.0), stats, tidyselect (>= 1.0.0), utils, vctrs",
+  "suggests": "blob, curl, cli, DBI, dbplyr, decor, distro, dplyr, duckdb\\n (>= 0.2.8), hms, jsonlite, knitr, lubridate, pillar, pkgload,\\n reticulate, rmarkdown, stringi, stringr, sys, testthat (>=\\n 3.1.0), tibble, tzdb, withr",
+  "systemRequirements": null,
+  "license": "Apache License (>= 2.0)",
+  "md5sum": "fce4b6cf322b96858400af20c3c81f7a",
+  "built": "R 4.4.0; x86_64-pc-linux-gnu; 2024-12-06 04:38:31 UTC; unix",
+  "architecture": "x86_64",
+  "distribution": "jammy",
+  "enhances": null,
+  "linkingTo": "cpp11 (>= 0.4.2)",
+  "priority": null,
+  "needsCompilation": "yes",
+  "rversion": "4.4",
+  "links": [
+    {
+      "rel": "self",
+      "href": "http://localhost:8017/api/v2/manager/r/packages/20"
+    },
+    {
+      "rel": "packageList",
+      "href": "http://localhost:8017/api/v2/manager/r/packages"
+    },
+    {
+      "rel": "self",
+      "href": "http://localhost:8017/api/v2/manager/r/packages/20",
+      "type": "PATCH"
+    },
+    {
+      "rel": "self",
+      "href": "http://localhost:8017/api/v2/manager/r/packages/20",
+      "type": "DELETE"
+    }
+  ]
+}

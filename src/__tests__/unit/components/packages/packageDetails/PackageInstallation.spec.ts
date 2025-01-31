@@ -29,6 +29,8 @@ import pythonPackage from '@/__tests__/config/mockData/pythonPackage.json'
 import pythonPackage2 from '@/__tests__/config/mockData/pythonPackage2.json'
 import RPackage from '@/__tests__/config/mockData/RPackage.json'
 import RPackage2 from '@/__tests__/config/mockData/RPackage2.json'
+import RBinaryPackage from '@/__tests__/config/mockData/RBinaryPackage.json'
+import RBinaryPackage2 from '@/__tests__/config/mockData/RBinaryPackage2.json'
 import { createPinia, setActivePinia } from 'pinia'
 import PackageInstallation from '@/components/packages/packageDetails/PackageInstallation.vue'
 import { usePackageDetailsStore } from '@/store/options/packageDetails'
@@ -81,9 +83,11 @@ describe('Package Installation', () => {
     packageDetailsStore.packageBag = pythonPackage2
     await nextTick(() => {})
     expect(
-      wrapper.find('#package-install-command').text()
+      wrapper
+        .find(`#${PACKAGE_INSTALLATION_COMMAND_ID}`)
+        .text()
     ).toBe(
-      'crane pip install --index-url http://localhost/repo/testrepo10 accelerated-numpy'
+      `crane pip install --index-url ${pythonPackage2.repository?.publicationUri} ${pythonPackage2.name}`
     )
   })
 
@@ -102,24 +106,56 @@ describe('Package Installation', () => {
   it('display correct installation command R no authentication', async () => {
     const packageDetailsStore = usePackageDetailsStore()
     packageDetailsStore.packageBag = RPackage
+    const pkg = RPackage
     await nextTick(() => {})
     expect(
       wrapper
         .find(`#${PACKAGE_INSTALLATION_COMMAND_ID}`)
         .text()
     ).toBe(
-      `install.packages("${RPackage.name}", repos = c("rdepot_${RPackage.repository.name}" = "${RPackage.repository.publicationUri}", getOption("repos")))`
+      `install.packages("${pkg.name}", repos = c("rdepot_${pkg.repository.name}" = "${pkg.repository.publicationUri}", getOption("repos")))`
     )
   })
 
   it('display correct installation command R with authentication', async () => {
     const packageDetailsStore = usePackageDetailsStore()
     packageDetailsStore.packageBag = RPackage2
+    const pkg = RPackage2
     await nextTick(() => {})
     expect(
-      wrapper.find('#package-install-command').text()
+      wrapper
+        .find(`#${PACKAGE_INSTALLATION_COMMAND_ID}`)
+        .text()
     ).toBe(
-      'install.packages("A3", repos = c("rdepot_testrepo3" = "http://localhost/repo/testrepo3", getOption("repos")))'
+      `install.packages("${pkg.name}", repos = c("rdepot_${pkg.repository.name}" = "${pkg.repository.publicationUri}", getOption("repos")))`
+    )
+  })
+
+  it('display correct installation command binary R no authentication', async () => {
+    const packageDetailsStore = usePackageDetailsStore()
+    packageDetailsStore.packageBag = RBinaryPackage
+    const pkg = RBinaryPackage
+    await nextTick(() => {})
+    expect(
+      wrapper
+        .find(`#${PACKAGE_INSTALLATION_COMMAND_ID}`)
+        .text()
+    ).toBe(
+      `install.packages("${pkg.name}", repos = c("rdepot_${pkg.repository.name}_binary" = "${pkg.repository.publicationUri}/linux/${pkg.distribution}", "rdepot_${pkg.repository.name}_source" = "${pkg.repository.publicationUri}", getOption("repos")), headers = c("User-Agent" = getOption("HTTPUserAgent")))`
+    )
+  })
+
+  it('display correct installation command binary R with authentication', async () => {
+    const packageDetailsStore = usePackageDetailsStore()
+    packageDetailsStore.packageBag = RBinaryPackage2
+    const pkg = RBinaryPackage2
+    await nextTick(() => {})
+    expect(
+      wrapper
+        .find(`#${PACKAGE_INSTALLATION_COMMAND_ID}`)
+        .text()
+    ).toBe(
+      `install.packages("${pkg.name}", repos = c("rdepot_${pkg.repository.name}_binary" = "${pkg.repository.publicationUri}/linux/${pkg.distribution}", "rdepot_${pkg.repository.name}_source" = "${pkg.repository.publicationUri}", getOption("repos")), headers = c("User-Agent" = getOption("HTTPUserAgent")))`
     )
   })
 })
