@@ -143,33 +143,43 @@ export async function addSubmission(
     submissionApi = RSubmissionControllerApiFactory(
       await getConfiguration()
     ).submitRPackageForm
+
+    return openApiRequest<EntityModelSubmissionDto>(
+      submissionApi,
+      [
+        repository,
+        file,
+        generateManual,
+        replace,
+        binary,
+        rVersion,
+        architecture,
+        distribution,
+        note
+      ],
+      false,
+      undefined,
+      undefined,
+      undefined,
+      false
+    )
   } else if (technology === Technologies.enum.Python) {
     submissionApi = PythonSubmissionControllerApiFactory(
       await getConfiguration()
     ).submitPythonPackageForm
+
+    return openApiRequest<EntityModelSubmissionDto>(
+      submissionApi,
+      [repository, file, generateManual, replace, note],
+      false,
+      undefined,
+      undefined,
+      undefined,
+      false
+    )
   } else {
     return new Promise(() => false)
   }
-
-  return openApiRequest<EntityModelSubmissionDto>(
-    submissionApi,
-    [
-      repository,
-      file,
-      generateManual,
-      replace,
-      binary,
-      rVersion,
-      architecture,
-      distribution,
-      note
-    ],
-    false,
-    undefined,
-    undefined,
-    undefined,
-    false
-  )
 }
 
 export function fetchSubmission(
