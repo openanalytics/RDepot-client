@@ -99,5 +99,10 @@ $code_color: rgba(var(--v-theme-code));
     border: 1px solid;
     border-collapse: collapse;
   }
+
+  ul > li,
+  ol > li {
+    margin-left: 45px;
+  }
 }
 </style>
