@@ -21,12 +21,18 @@
  */
 
 import { Technologies } from '@/enum/Technologies'
+import getEnv from '@/utils/env'
 
 export function useRepositoryDeprecated() {
   function deprecatedAddress(
     serverAddress: string,
     technology?: Technologies
   ) {
+    if (
+      getEnv('VITE_ADDRESS_DEPRECATION_WARNING') === 'false'
+    ) {
+      return false
+    }
     if (technology === undefined) {
       return false
     }

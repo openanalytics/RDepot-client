@@ -77,6 +77,8 @@
         <CopyableCell :value="value" />
         <DeprecatedWarning
           v-if="
+            getEnv('VITE_ADDRESS_DEPRECATION_WARNING') !==
+              'false' &&
             item === 'serverAddress' &&
             deprecatedAddressTooltip(value)
           "
@@ -120,6 +122,7 @@ import StateIcon from '@/components/submissions/icons/StateIcon.vue'
 import CopyableCell from './CopyableCell.vue'
 import DeprecatedWarning from './DeprecatedWarning.vue'
 import { useRepositoryDeprecated } from '@/composable/repositories/repositoriesDeprecatedAddress'
+import getEnv from '@/utils/env'
 
 const oaTableStore = useOATable()
 const { deprecatedAddressTooltip } =

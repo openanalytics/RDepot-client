@@ -102,6 +102,7 @@ services:
       - VITE_OIDC_POST_LOGOUT_REDIRECT_URI=http://localhost:${RDEPOT_PORT:-80}/logout
       - VITE_OIDC_RESPONSE_TYPE=code
       - VITE_OIDC_SCOPE=openid
+      - VITE_ADDRESS_DEPRECATION_WARNING=false
   keycloak:
     image: keycloak/keycloak:24.0
     restart: unless-stopped
