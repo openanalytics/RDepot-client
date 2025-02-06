@@ -49,9 +49,9 @@ test.describe(TITLE_SERIAL, { tag: '@serial' }, () => {
     await login(page, 'einstein')
 
     const englishHeaders =
-      'PackageVersionTitleMaintainerRepositoryTechnologyTypeStatusActiveActions'
+      'NameVersionTitleMaintainerRepositoryTechnologyTypeStatusActiveActions'
     const polishHeaders =
-      'PakietWersjaTytułOpiekunRepozytoriumTechnologiaTypplikuStatusAktywnyAkcje'
+      'NazwaWersjaTytułOpiekunRepozytoriumTechnologiaTypplikuStatusAktywnyAkcje'
 
     const plLanguageSelector = page.locator(
       `#${POLISH_LANGUAGE_ID}`
@@ -161,9 +161,9 @@ test.describe(TITLE_SERIAL, { tag: '@serial' }, () => {
     await page.waitForURL('**/repositories')
 
     const englishHeaders =
-      'RepositoryPublicationURIServeraddressTechnologyVersion#packagesPublishedActions'
+      'NamePublicationURIServeraddressTechnologyVersion#packagesPublishedActions'
     const polishHeaders =
-      'RepozytoriumURIpublikacjiAdresserweraTechnologiaWersja#pakietuOpublikowanoAkcje'
+      'NazwaURIpublikacjiAdresserweraTechnologiaWersja#pakietuOpublikowanoAkcje'
 
     const plLanguageSelector = page.locator(
       `#${POLISH_LANGUAGE_ID}`
@@ -325,7 +325,7 @@ test.describe(TITLE_SERIAL, { tag: '@serial' }, () => {
     await page.waitForURL('**/users')
 
     const englishHeaders =
-      'UsernameUserEmailRoleActiveActions'
+      'UsernameDisplaynameEmailRoleActiveActions'
     const polishHeaders =
       'NazwaużytkownikaUżytkownikEmailRolaAktywnyAkcje'
 

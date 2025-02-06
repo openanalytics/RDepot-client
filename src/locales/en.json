@@ -48,7 +48,7 @@
       "binary": "Binary",
       "fileType": "Type",
       "maintainer": "Maintainer",
-      "name": "Package",
+      "name": "Name",
       "repository": "Repository",
       "source": "Source",
       "state": "Status",
@@ -69,7 +69,7 @@
     "published": "Published",
     "repository": {
       "deleted": "Deleted",
-      "name": "Repository",
+      "name": "Name",
       "packagesNo": "# packages",
       "publicationUri": "Publication URI",
       "published": "Published",
@@ -120,7 +120,7 @@
       "email": "Email",
       "expirationDate": "Expiration date",
       "lastLoggedIn": "Last logged in",
-      "name": "User",
+      "name": "Display name",
       "role": "Role",
       "username": "Username"
     },
@@ -172,6 +172,7 @@
     "pending": "pending action",
     "projectTitle": "RDepot",
     "repositories": "Repositories",
+    "repository": "Repository",
     "reset": "Reset",
     "save": "Save",
     "search": "Search",
@@ -408,11 +409,11 @@
       "deleted": "Deleted",
       "maintainer": "Maintainer",
       "maintainers": {
-        "searchPlaceholder": "Maintainer, package..."
+        "searchPlaceholder": "Search"
       },
       "name": "Package",
       "repository": "Repository",
-      "searchBox": "Package...",
+      "searchBox": "Search",
       "submissionState": "State"
     },
     "generateManualNotAvailable": "not available for binary packages",
@@ -475,11 +476,11 @@
     "empty": "No repository chosen",
     "filtration": {
       "maintainers": {
-        "searchPlaceholder": "Maintainer, repository..."
+        "searchPlaceholder": "Search"
       },
       "name": "Name",
       "published": "Published",
-      "searchBox": "Repository..."
+      "searchBox": "Search"
     },
     "list": "Repositories",
     "maintainers": "Repository maintainers",
@@ -516,7 +517,7 @@
     "filtration": {
       "active": "Active",
       "expired": "Expired",
-      "searchPlaceholder": "Name",
+      "searchPlaceholder": "Search",
       "searchPlaceholderAdmin": "Name, username...",
       "userLogin": "Users"
     },
@@ -558,7 +559,7 @@
     "filtration": {
       "fromDate": "From date",
       "package": "Package",
-      "searchPlaceholder": "Package, submitter, approver...",
+      "searchPlaceholder": "Search",
       "toDate": "To date"
     },
     "multiAction": {
@@ -622,7 +623,7 @@
       "active": "Active",
       "deleted": "Deleted",
       "roles": "Roles",
-      "searchBox": "User..."
+      "searchBox": "Search"
     },
     "unableDeactivation": "Users cannot deactivate themselves",
     "unableDeletion": "Users cannot delete themselves"

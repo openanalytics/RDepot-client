@@ -48,7 +48,7 @@
       "binary": "Binarny",
       "fileType": "Typ pliku",
       "maintainer": "Opiekun",
-      "name": "Pakiet",
+      "name": "Nazwa",
       "repository": "Repozytorium",
       "source": "Źródło",
       "state": "Status",
@@ -69,7 +69,7 @@
     "published": "Opublikowano",
     "repository": {
       "deleted": "Usunięte",
-      "name": "Repozytorium",
+      "name": "Nazwa",
       "packagesNo": "# pakietu",
       "publicationUri": "URI publikacji",
       "published": "Opublikowano",
@@ -172,6 +172,7 @@
     "pending": "akcja w trakcie",
     "projectTitle": "RDepot",
     "repositories": "Repozytoria",
+    "repository": "Repozytorium",
     "reset": "Wyczyść",
     "save": "Zapisz",
     "search": "Wyszukaj",
@@ -399,11 +400,11 @@
       "deleted": "Usunięte",
       "maintainer": "Opiekun",
       "maintainers": {
-        "searchPlaceholder": "Opiekun, pakiet..."
+        "searchPlaceholder": "Szukaj"
       },
       "name": "Pakiet",
       "repository": "Repozytorium",
-      "searchBox": "Pakiet...",
+      "searchBox": "Szukaj",
       "submissionState": "Stan"
     },
     "generateManualNotAvailable": "niedostępne dla pakietów binarnych",
@@ -487,11 +488,11 @@
     "empty": "Nie wybrano repozytorium",
     "filtration": {
       "maintainers": {
-        "searchPlaceholder": "Opiekun, repozytorium..."
+        "searchPlaceholder": "Szukaj"
       },
       "name": "Nazwa",
       "published": "Opublikowane",
-      "searchBox": "Repozytorium..."
+      "searchBox": "Szukaj"
     },
     "list": "Repozytoria",
     "maintainers": "Opiekunowie repozytoriów",
@@ -528,7 +529,7 @@
     "filtration": {
       "active": "Aktywny",
       "expired": "Przedawniony",
-      "searchPlaceholder": "Nazwa",
+      "searchPlaceholder": "Szukaj",
       "searchPlaceholderAdmin": "Nazwa, nazwa użytkownika...",
       "userLogin": "Użytkownicy"
     },
@@ -570,7 +571,7 @@
     "filtration": {
       "fromDate": "Data początkowa",
       "package": "Pakiet",
-      "searchPlaceholder": "Pakiet, zgłaszający, zatwierdzający..",
+      "searchPlaceholder": "Szukaj",
       "toDate": "Data końcowa"
     },
     "multiAction": {
@@ -634,7 +635,7 @@
       "active": "Aktywny",
       "deleted": "Usunięty",
       "roles": "Role",
-      "searchBox": "Użytkownik..."
+      "searchBox": "Szukaj"
     },
     "unableDeactivation": "Użytkownik nie może dezaktywować siebie",
     "unableDeletion": "Użytkownik nie może usunąć siebie\t"

@@ -24,7 +24,7 @@
   <v-card class="mb-12 px-10 py-3 step text-center">
     <v-card-text class="mb-1">
       <div class="text-overline">
-        {{ $t('columns.repository.name') }}
+        {{ $t('common.repository') }}
       </div>
       <div id="repository-name" class="text-h4 mb-2">
         {{ chosenRepository?.name }}
