@@ -565,6 +565,13 @@
       "searchPlaceholder": "Search",
       "toDate": "To date"
     },
+    "generate": {
+      "manual": {
+        "not": {
+          "supported": "Option to generate a manual is not supported for this package."
+        }
+      }
+    },
     "multiAction": {
       "noSubmissionAvailable": "No valid submissions selected",
       "notDownloaded": "Not downloaded",
@@ -585,6 +592,20 @@
     },
     "waitForAllRequestsToFulfill": "Please wait until all submissions have been uploaded",
     "waitingForAction": "waiting for an action",
+    "warning": {
+      "package": {
+        "duplicate": "A package with the same name and version already exists in the selected repository. Please go through the upload process again and click 'replace' to overwrite it."
+      },
+      "replacing": {
+        "packages": {
+          "disabled": "Replacing packages is disabled."
+        }
+      },
+      "synchronization": {
+        "failure": "A repository synchronization failure. Please try to upload the package again."
+      },
+      "unknown": "Unknown failure. Please try again."
+    },
     "wrongExtension": "Choose packages that have the correct file extension (.tar.gz)"
   },
   "success": "Request processed successfully",

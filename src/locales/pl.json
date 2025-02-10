@@ -577,6 +577,13 @@
       "searchPlaceholder": "Szukaj",
       "toDate": "Data końcowa"
     },
+    "generate": {
+      "manual": {
+        "not": {
+          "supported": "Generowanie dokumentacji nie jest możliwe dla tego pakietu."
+        }
+      }
+    },
     "multiAction": {
       "noSubmissionAvailable": "Brak odpowiednich zgłoszeń",
       "notDownloaded": "Nie pobrano",
@@ -597,6 +604,20 @@
     },
     "waitForAllRequestsToFulfill": "Zaczekaj na zakończenie wszystkich zgłoszeń",
     "waitingForAction": "oczekuje na akcję",
+    "warning": {
+      "package": {
+        "duplicate": "Pakiet o tej samej nazwie i wersji już istnieje w wybranym repozytorium. Proszę ponownie przejść przez proces przesyłania i kliknąć 'zamień', aby go nadpisać."
+      },
+      "replacing": {
+        "packages": {
+          "disabled": "Podmienianie pakietu jest wyłączone."
+        }
+      },
+      "synchronization": {
+        "failure": "Błąd synchronizacji repozytorium. Spróbuj wgrać pakiet ponownie."
+      },
+      "unknown": "Nieznany błąd. Spróbuj ponownie."
+    },
     "wrongExtension": "Wybierz pakiety o poprawnym rozszerzeniu (.tar.gz)"
   },
   "success": "Poprawnie wykonana operacja",
