@@ -66,5 +66,7 @@ export default new Map<string, string>([
   ['check', 'mdi-check'],
   ['close', 'mdi-close'],
   ['message-outline', 'mdi-message-text-outline'],
-  ['binary', 'mdi-alpha-b-circle-outline']
+  ['binary', 'mdi-alpha-b-circle-outline'],
+  ['lock', 'mdi-lock-outline'],
+  ['lock-open', 'mdi-lock-open-outline']
 ])

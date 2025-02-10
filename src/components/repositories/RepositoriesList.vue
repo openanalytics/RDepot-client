@@ -234,6 +234,12 @@ const headers = computed<DataTableHeaders[]>(() => [
     width: 200
   },
   {
+    title: '',
+    align: 'start',
+    key: 'requiresAuthentication',
+    width: 30
+  },
+  {
     title: i18n.t('columns.repository.publicationUri'),
     align: 'start',
     key: 'publicationUri',

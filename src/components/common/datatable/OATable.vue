@@ -68,6 +68,13 @@
       <StateIcon :state="value" />
     </template>
 
+    <template #[`item.requiresAuthentication`]="{ value }">
+      <AuthenticationInformation
+        :value="value"
+        :authentication="false"
+      />
+    </template>
+
     <template
       v-for="(item, i) in copyableKeys"
       :key="i"
@@ -121,6 +128,7 @@ import DateChip from '../chips/DateChip.vue'
 import StateIcon from '@/components/submissions/icons/StateIcon.vue'
 import CopyableCell from './CopyableCell.vue'
 import DeprecatedWarning from './DeprecatedWarning.vue'
+import AuthenticationInformation from './AuthenticationInformation.vue'
 import { useRepositoryDeprecated } from '@/composable/repositories/repositoriesDeprecatedAddress'
 import getEnv from '@/utils/env'
 

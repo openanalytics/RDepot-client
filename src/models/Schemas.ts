@@ -54,6 +54,7 @@ export const repositorySchema = z.object({
     message: i18n.t('common.errors.reponame')
   }),
   serverAddress: url,
+  requiresAuthentication: z.boolean().default(false),
   deleted: z.boolean().default(false),
   published: z.boolean().default(false),
   synchronizing: z.boolean().default(false),
