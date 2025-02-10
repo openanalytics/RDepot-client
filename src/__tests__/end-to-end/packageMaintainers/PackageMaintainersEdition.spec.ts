@@ -157,7 +157,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
 
     await page
       .locator(
-        'label:has-text("Package") + .v-field__input:text("")'
+        'label:has-text("Package") + .v-field__input:has-text("")'
       )
       .waitFor()
 

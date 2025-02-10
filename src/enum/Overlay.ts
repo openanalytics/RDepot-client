@@ -27,6 +27,7 @@ export const OverlayEnum = z.enum([
   'Edit',
   'Create',
   'Created',
-  'Deactivate'
+  'Deactivate',
+  'Republish'
 ])
 export type OverlayEnum = z.infer<typeof OverlayEnum>

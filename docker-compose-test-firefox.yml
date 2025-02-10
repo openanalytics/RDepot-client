@@ -22,7 +22,7 @@ services:
         aliases:
           - oa-rdepot-proxy
   backend:
-    image: registry.openanalytics.eu/openanalytics/rdepot-app:2.5.0
+    image: registry.openanalytics.eu/openanalytics/rdepot-app:2.5.1
     restart: unless-stopped
     hostname: oa-rdepot-backend
     container_name: oa-rdepot-backend-firefox
@@ -75,7 +75,7 @@ services:
         aliases:
           - oa-rdepot-db-firefox
   repo:
-    image: registry.openanalytics.eu/openanalytics/rdepot-repo:2.5.0
+    image: registry.openanalytics.eu/openanalytics/rdepot-repo:2.5.1
     restart: unless-stopped
     container_name: oa-rdepot-repo-firefox
     labels:
@@ -107,6 +107,7 @@ services:
       - VITE_LOGIN_OIDC=false
       - VITE_URL_PREFIX=/
       - VITE_SERVER_ADDRESS=http://192.168.51.20/backend
+      - VITE_ADDRESS_DEPRECATION_WARNING=true
 networks:
   oa-rdepot:
     ipam:

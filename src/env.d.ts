@@ -31,6 +31,7 @@ interface ImportMetaEnv {
   readonly VITE_OIDC_POST_LOGOUT_REDIRECT_URI: string
   readonly VITE_OIDC_RESPONSE_TYPE: string
   readonly VITE_OIDC_SCOPE: string
+  readonly VITE_ADDRESS_DEPRECATION_WARNING: string
   readonly VITE_DEV_MODE: string
   readonly VITE_URL_PREFIX: string
   readonly VITE_SERVER_ADDRESS: string

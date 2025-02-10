@@ -70,6 +70,18 @@
           :label="$t('repositories.creation.hash')"
           max-width="unset"
         ></validated-input-field>
+        <validated-input-field
+          id="create-requires-authentication"
+          name="requiresAuthentication"
+          as="v-checkbox"
+          max-width="unset"
+          style="display: flex; justify-content: start"
+          :label="
+            $t(
+              'repositories.creation.requiresAuthentication'
+            )
+          "
+        ></validated-input-field>
       </v-card-text>
       <v-card-text>
         <v-alert
@@ -166,6 +178,8 @@ const {
       ),
       publicationUri: repositorySchema.shape.publicationUri,
       serverAddress: repositorySchema.shape.serverAddress,
+      requiresAuthentication:
+        repositorySchema.shape.requiresAuthentication,
       technology: repositorySchema.shape.technology,
       hashMethod: repositorySchema.shape.hashMethod
     })

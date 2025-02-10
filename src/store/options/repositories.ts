@@ -30,7 +30,10 @@ import {
   RepositoriesFiltration,
   defaultValues
 } from '@/models/Filtration'
-import { fetchRepositoriesService } from '@/services/repositoryServices'
+import {
+  fetchRepositoriesService,
+  republishRepositoryService
+} from '@/services/repositoryServices'
 import { createRepository } from '@/services/repositoryServices'
 import { useUtilities } from '@/composable/utilities'
 import { DataTableOptions } from '@/models/DataTableOptions'
@@ -167,6 +170,37 @@ export const useRepositoryStore = defineStore(
       async deleteSoft() {
         if (this.chosenRepository) {
           this.patch({ deleted: true })
+        }
+      },
+      async republish() {
+        if (
+          this.chosenRepository.id &&
+          this.chosenRepository.technology
+        ) {
+          this.pending.push(this.chosenRepository)
+          await republishRepositoryService(
+            this.chosenRepository.id,
+            this.chosenRepository.technology as Technologies
+          )
+            .then(async (success: any) => {
+              if (success) {
+                await this.getPage()
+                const repositories = await this.get(
+                  this.chosenRepository.name || '',
+                  this.chosenRepository
+                    .technology as Technologies
+                )
+                if (repositories.length > 0) {
+                  this.chosenRepository = repositories[0]
+                }
+              }
+            })
+            .finally(() => {
+              this.pending = this.pending.filter(
+                (item) =>
+                  item?.id != this.chosenRepository?.id
+              )
+            })
         }
       },
       async patch(

@@ -48,7 +48,7 @@
       "binary": "Binarny",
       "fileType": "Typ pliku",
       "maintainer": "Opiekun",
-      "name": "Pakiet",
+      "name": "Nazwa",
       "repository": "Repozytorium",
       "source": "Źródło",
       "state": "Status",
@@ -69,7 +69,7 @@
     "published": "Opublikowano",
     "repository": {
       "deleted": "Usunięte",
-      "name": "Repozytorium",
+      "name": "Nazwa",
       "packagesNo": "# pakietu",
       "publicationUri": "URI publikacji",
       "published": "Opublikowano",
@@ -140,7 +140,7 @@
     "create": "Utwórz",
     "current": "obecna",
     "deactivate": "Dezaktywuj",
-    "deactivateQuestion": "Are you sure you want to deactivate {resource_name}?",
+    "deactivateQuestion": "Czy na pewno chcesz dezaktywować {resource_name}?",
     "delete": "Usuń",
     "deleteQuestion": "Czy na pewno chcesz usunąć {resource_name}?",
     "deleteResourcesQuestion": "Czy na pewno chcesz usunąć niżej wymienione {resource_type_plural}?",
@@ -172,6 +172,9 @@
     "pending": "akcja w trakcie",
     "projectTitle": "RDepot",
     "repositories": "Repozytoria",
+    "repository": "Repozytorium",
+    "republish": "Publikuj ponownie",
+    "republishQuestion": "Czy na pewno chcesz ponownie opublikować {resource_name}?",
     "reset": "Wyczyść",
     "save": "Zapisz",
     "search": "Wyszukaj",
@@ -399,11 +402,11 @@
       "deleted": "Usunięte",
       "maintainer": "Opiekun",
       "maintainers": {
-        "searchPlaceholder": "Opiekun, pakiet..."
+        "searchPlaceholder": "Szukaj"
       },
       "name": "Pakiet",
       "repository": "Repozytorium",
-      "searchBox": "Pakiet...",
+      "searchBox": "Szukaj",
       "submissionState": "Stan"
     },
     "generateManualNotAvailable": "niedostępne dla pakietów binarnych",
@@ -453,6 +456,8 @@
   },
   "repositories": {
     "addRepository": "Utwórz repozytorium",
+    "authenticationNotRequiredTooltip": "Repozytorium nie wymaga autentykacji podczas instalacji pakietu",
+    "authenticationRequiredTooltip": "Repozytorium wymaga autentykacji podczas instalacji pakietu",
     "creation": {
       "deprecatedAddress": "Adres serwera bez technologii jest przestarzały i nie będzie wspierany w RDepot v3.0. Zamiast tego użyj {address}",
       "deprecatedAddressTooltip": "Adres serwera bez technologii jest przestarzały i nie będzie wspierany w RDepot v3.0",
@@ -461,6 +466,7 @@
       "name": "Nazwa",
       "publicationUri": "URI publikacji",
       "publicationUriPlaceholder": "http://localhost/repo/{'{name}'}",
+      "requiresAuthentication": "Wymaga autentykacji",
       "serverAddress": "Adres serwera",
       "serverAddressPlaceholder": "http://oa-rdepot-repo:8080/{'{name}'}",
       "technology": "Technologia",
@@ -487,11 +493,11 @@
     "empty": "Nie wybrano repozytorium",
     "filtration": {
       "maintainers": {
-        "searchPlaceholder": "Opiekun, repozytorium..."
+        "searchPlaceholder": "Szukaj"
       },
       "name": "Nazwa",
       "published": "Opublikowane",
-      "searchBox": "Repozytorium..."
+      "searchBox": "Szukaj"
     },
     "list": "Repozytoria",
     "maintainers": "Opiekunowie repozytoriów",
@@ -528,7 +534,7 @@
     "filtration": {
       "active": "Aktywny",
       "expired": "Przedawniony",
-      "searchPlaceholder": "Nazwa",
+      "searchPlaceholder": "Szukaj",
       "searchPlaceholderAdmin": "Nazwa, nazwa użytkownika...",
       "userLogin": "Użytkownicy"
     },
@@ -570,8 +576,15 @@
     "filtration": {
       "fromDate": "Data początkowa",
       "package": "Pakiet",
-      "searchPlaceholder": "Pakiet, zgłaszający, zatwierdzający..",
+      "searchPlaceholder": "Szukaj",
       "toDate": "Data końcowa"
+    },
+    "generate": {
+      "manual": {
+        "not": {
+          "supported": "Generowanie dokumentacji nie jest możliwe dla tego pakietu."
+        }
+      }
     },
     "multiAction": {
       "noSubmissionAvailable": "Brak odpowiednich zgłoszeń",
@@ -593,6 +606,20 @@
     },
     "waitForAllRequestsToFulfill": "Zaczekaj na zakończenie wszystkich zgłoszeń",
     "waitingForAction": "oczekuje na akcję",
+    "warning": {
+      "package": {
+        "duplicate": "Pakiet o tej samej nazwie i wersji już istnieje w wybranym repozytorium. Proszę ponownie przejść przez proces przesyłania i kliknąć 'zamień', aby go nadpisać."
+      },
+      "replacing": {
+        "packages": {
+          "disabled": "Podmienianie pakietu jest wyłączone."
+        }
+      },
+      "synchronization": {
+        "failure": "Błąd synchronizacji repozytorium. Spróbuj wgrać pakiet ponownie."
+      },
+      "unknown": "Nieznany błąd. Spróbuj ponownie."
+    },
     "wrongExtension": "Wybierz pakiety o poprawnym rozszerzeniu (.tar.gz)"
   },
   "success": "Poprawnie wykonana operacja",
@@ -634,7 +661,7 @@
       "active": "Aktywny",
       "deleted": "Usunięty",
       "roles": "Role",
-      "searchBox": "Użytkownik..."
+      "searchBox": "Szukaj"
     },
     "unableDeactivation": "Użytkownik nie może dezaktywować siebie",
     "unableDeletion": "Użytkownik nie może usunąć siebie\t"

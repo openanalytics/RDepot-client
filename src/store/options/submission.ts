@@ -54,6 +54,7 @@ export type PackagePromise = {
   state: string
   error: string[]
   response?: validatedData<EntityModelSubmissionDto>
+  messageCode?: string
 }
 
 export type EditSubmissions = {
@@ -413,6 +414,10 @@ export const useSubmissionStore = defineStore(
                 response[3] == 'SUCCESS'
                   ? 'success'
                   : 'warning'
+              promise.messageCode =
+                response[4] !== 'undefined'
+                  ? response[4]
+                  : ''
               if (promise.state == 'warning') {
                 warnings++
               }

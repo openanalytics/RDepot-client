@@ -126,6 +126,7 @@ async function resolved(
   ifToast = true
 ): Promise<validatedData<any>> {
   const commonStore = useCommonStore()
+  console.log(result)
   commonStore.progressCircularActive = false
   if (ifToast) {
     const toasts = useToast()
@@ -138,7 +139,8 @@ async function resolved(
     data,
     result.data.data?.page,
     result.data.data?.links,
-    result.data.status
+    result.data.status,
+    result.data.messageCode
   )
 }
 
@@ -215,6 +217,7 @@ export type validatedData<T> = [
   T,
   Pagination,
   Array<Link>,
+  string,
   string
 ]
 
@@ -222,7 +225,8 @@ export function validateRequest<T>(
   content: T,
   paginationData?: PageMetadata,
   links?: Array<Link>,
-  status?: string
+  status?: string,
+  messageCode?: string
 ): validatedData<T> {
   return [
     content,
@@ -232,6 +236,7 @@ export function validateRequest<T>(
       totalPages: paginationData?.totalPages || 0
     },
     links || [],
-    status || 'undefined'
+    status || 'undefined',
+    messageCode || 'undefined'
   ]
 }

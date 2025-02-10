@@ -83,7 +83,7 @@
             v-bind="props"
           ></v-icon>
         </template>
-        {{ $t('submissions.replace.duplication') }}
+        {{ $t(`submissions.${promise.messageCode}`) }}
       </v-tooltip>
     </template>
 

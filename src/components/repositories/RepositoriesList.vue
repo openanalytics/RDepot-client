@@ -112,6 +112,17 @@
         v-else
         class="d-flex justify-center align-center"
       >
+        <RepublishIcon
+          :style="[
+            {
+              visibility: item.published
+                ? 'visible'
+                : 'hidden'
+            }
+          ]"
+          :repo="item"
+          @set-entity="chooseRepositoryToUpdate(item)"
+        />
         <EditIcon
           :icon-id="`edit-repository-${item.id}`"
           :disabled="
@@ -141,11 +152,11 @@
           :name="item.name"
           :hover-message="
             configStore.declarativeMode
-              ? $t('repositories.declarative.delete')
+              ? i18n.t('repositories.declarative.delete')
               : !configStore.deletingRepositories
-                ? $t('config.deletingRepositories')
+                ? i18n.t('config.deletingRepositories')
                 : item.deleted
-                  ? $t('repositories.deleted')
+                  ? i18n.t('repositories.deleted')
                   : undefined
           "
           @set-resource-id="chooseRepositoryToUpdate(item)"
@@ -167,6 +178,7 @@
 import { EntityModelRepositoryDto } from '@/openapi'
 import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
 import EditIcon from '@/components/common/action_icons/EditIcon.vue'
+import RepublishIcon from '@/components/common/action_icons/RepublishIcon.vue'
 import { useRepositoryStore } from '@/store/options/repositories'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
 import { i18n } from '@/plugins/i18n'
@@ -232,6 +244,12 @@ const headers = computed<DataTableHeaders[]>(() => [
     align: 'start',
     key: 'name',
     width: 200
+  },
+  {
+    title: '',
+    align: 'start',
+    key: 'requiresAuthentication',
+    width: 30
   },
   {
     title: i18n.t('columns.repository.publicationUri'),

@@ -100,7 +100,7 @@ describe('Repositories - list headers', () => {
   })
 
   it('displays all headers', () => {
-    expect(headers.length).toEqual(7)
+    expect(headers.length).toEqual(8)
   })
   it('displays repository column', () => {
     const col = headers[0]
@@ -113,7 +113,7 @@ describe('Repositories - list headers', () => {
     expect(sortIcon.exists()).toBeTruthy()
   })
   it('displays publication uri column', () => {
-    const col = headers[1]
+    const col = headers[2]
     expect(col.text()).toEqual(
       i18n.t('columns.repository.publicationUri')
     )
@@ -123,7 +123,7 @@ describe('Repositories - list headers', () => {
     expect(sortIcon.exists()).toBeTruthy()
   })
   it('displays technology column', () => {
-    const col = headers[2]
+    const col = headers[3]
     expect(col.text()).toEqual(
       i18n.t('columns.repository.technology')
     )
@@ -133,7 +133,7 @@ describe('Repositories - list headers', () => {
     expect(sortIcon.exists()).toBeTruthy()
   })
   it('displays version column', () => {
-    const col = headers[3]
+    const col = headers[4]
     expect(col.text()).toEqual(
       i18n.t('columns.repository.version')
     )
@@ -143,7 +143,7 @@ describe('Repositories - list headers', () => {
     expect(sortIcon.exists()).toBeTruthy()
   })
   it('displays # packages column', () => {
-    const col = headers[4]
+    const col = headers[5]
     expect(col.text()).toEqual(
       i18n.t('columns.repository.packagesNo')
     )
@@ -153,7 +153,7 @@ describe('Repositories - list headers', () => {
     expect(sortIcon.exists()).toBeFalsy()
   })
   it('displays published column', () => {
-    const col = headers[5]
+    const col = headers[6]
     expect(col.text()).toEqual(
       i18n.t('columns.repository.published')
     )
@@ -164,7 +164,7 @@ describe('Repositories - list headers', () => {
   })
 
   it('displays actions column', () => {
-    const col = headers[6]
+    const col = headers[7]
     expect(col.text()).toEqual(i18n.t('columns.actions'))
     const sortIcon = col.findComponent(
       '.mdi-sort-ascending'
@@ -189,31 +189,31 @@ describe('Repositories - cells', () => {
   })
 
   it('displays publication uri', () => {
-    const cell = cells[1]
+    const cell = cells[2]
     expect(cell.text()).toBe(repository.publicationUri)
   })
 
   it('displays technology', () => {
-    const cell = cells[2]
+    const cell = cells[3]
     const chip = cell.findComponent('.v-chip')
     expect(chip.exists()).toBeTruthy()
     expect(chip.text()).toBe(repository.technology)
   })
 
   it('displays version', () => {
-    const cell = cells[3]
+    const cell = cells[4]
     expect(cell.text()).toBe(repository.version.toString())
   })
 
   it('displays # packages', () => {
-    const cell = cells[4]
+    const cell = cells[5]
     expect(cell.text()).toBe(
       repository.numberOfPackages.toString()
     )
   })
 
   it('displays published', () => {
-    const cell = cells[5]
+    const cell = cells[6]
     const checkboxPublished = cell.find(
       '#checkbox-published'
     )
@@ -223,7 +223,7 @@ describe('Repositories - cells', () => {
   })
 
   it('displays an publication alert', async () => {
-    const cell = cells[5]
+    const cell = cells[6]
     const alertIcon = cell.find(
       '#repository-description-publication-status'
     )
@@ -231,7 +231,7 @@ describe('Repositories - cells', () => {
   })
 
   it('displays actions', () => {
-    const cell = cells[6]
+    const cell = cells[7]
     expect(
       cell.find(`#${DELETE_REPO_2_ICON_ID}`).exists()
     ).toBeTruthy()
@@ -251,7 +251,7 @@ describe('Repositories - role based cells', () => {
     cells = wrapper
       .findAllComponents('tr')[0]
       .findAllComponents('td')
-    const cell = cells[2]
+    const cell = cells[3]
     expect(cell.text()).toBe(repository.serverAddress)
   })
   it('!displays serverAddress (package maintainer))', async () => {
@@ -260,7 +260,7 @@ describe('Repositories - role based cells', () => {
     cells = wrapper
       .findAllComponents('tr')[0]
       .findAllComponents('td')
-    const cell = cells[2]
+    const cell = cells[3]
     expect(cell.text()).not.toBe(repository.serverAddress)
   })
 })
@@ -274,11 +274,11 @@ describe('Repositories - filtration based cells', () => {
     cells = wrapper
       .findAllComponents('tr')[0]
       .findAllComponents('td')
-    const cell = cells[6]
+    const cell = cells[7]
     expect(
       cell.find(`#${DELETE_REPO_2_ICON_ID}`).exists()
     ).toBeTruthy()
-    expect(cells.length).toEqual(7)
+    expect(cells.length).toEqual(8)
   })
   it('!displays action column', async () => {
     repositoriesStore.setFiltrationBy({ deleted: true })
@@ -286,6 +286,6 @@ describe('Repositories - filtration based cells', () => {
     cells = wrapper
       .findAllComponents('tr')[0]
       .findAllComponents('td')
-    expect(cells.length).toEqual(6)
+    expect(cells.length).toEqual(7)
   })
 })

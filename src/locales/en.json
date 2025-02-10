@@ -48,7 +48,7 @@
       "binary": "Binary",
       "fileType": "Type",
       "maintainer": "Maintainer",
-      "name": "Package",
+      "name": "Name",
       "repository": "Repository",
       "source": "Source",
       "state": "Status",
@@ -69,7 +69,7 @@
     "published": "Published",
     "repository": {
       "deleted": "Deleted",
-      "name": "Repository",
+      "name": "Name",
       "packagesNo": "# packages",
       "publicationUri": "Publication URI",
       "published": "Published",
@@ -120,7 +120,7 @@
       "email": "Email",
       "expirationDate": "Expiration date",
       "lastLoggedIn": "Last logged in",
-      "name": "User",
+      "name": "Display name",
       "role": "Role",
       "username": "Username"
     },
@@ -172,6 +172,9 @@
     "pending": "pending action",
     "projectTitle": "RDepot",
     "repositories": "Repositories",
+    "repository": "Repository",
+    "republish": "Republish",
+    "republishQuestion": "Are you sure you want to republish {resource_name}?",
     "reset": "Reset",
     "save": "Save",
     "search": "Search",
@@ -408,11 +411,11 @@
       "deleted": "Deleted",
       "maintainer": "Maintainer",
       "maintainers": {
-        "searchPlaceholder": "Maintainer, package..."
+        "searchPlaceholder": "Search"
       },
       "name": "Package",
       "repository": "Repository",
-      "searchBox": "Package...",
+      "searchBox": "Search",
       "submissionState": "State"
     },
     "generateManualNotAvailable": "not available for binary packages",
@@ -441,6 +444,8 @@
   },
   "repositories": {
     "addRepository": "Create repository",
+    "authenticationNotRequiredTooltip": "This repository does not requires authentication during package installation",
+    "authenticationRequiredTooltip": "This repository requires authentication during package installation",
     "creation": {
       "deprecatedAddress": "A server address without technology as part of its path is deprecated and will be unsupported in RDepot v3.0. Please use {address} instead.",
       "deprecatedAddressTooltip": "A server address without technology as part of its path is deprecated and will be unsupported in RDepot v3.0",
@@ -449,6 +454,7 @@
       "name": "Name",
       "publicationUri": "Publication URI",
       "publicationUriPlaceholder": "http://localhost/repo/{'{name}'}",
+      "requiresAuthentication": "Requires authentication",
       "serverAddress": "Server address",
       "serverAddressPlaceholder": "http://oa-rdepot-repo:8080/{'{name}'}",
       "technology": "Technology",
@@ -475,11 +481,11 @@
     "empty": "No repository chosen",
     "filtration": {
       "maintainers": {
-        "searchPlaceholder": "Maintainer, repository..."
+        "searchPlaceholder": "Search"
       },
       "name": "Name",
       "published": "Published",
-      "searchBox": "Repository..."
+      "searchBox": "Search"
     },
     "list": "Repositories",
     "maintainers": "Repository maintainers",
@@ -516,7 +522,7 @@
     "filtration": {
       "active": "Active",
       "expired": "Expired",
-      "searchPlaceholder": "Name",
+      "searchPlaceholder": "Search",
       "searchPlaceholderAdmin": "Name, username...",
       "userLogin": "Users"
     },
@@ -558,8 +564,15 @@
     "filtration": {
       "fromDate": "From date",
       "package": "Package",
-      "searchPlaceholder": "Package, submitter, approver...",
+      "searchPlaceholder": "Search",
       "toDate": "To date"
+    },
+    "generate": {
+      "manual": {
+        "not": {
+          "supported": "Option to generate a manual is not supported for this package."
+        }
+      }
     },
     "multiAction": {
       "noSubmissionAvailable": "No valid submissions selected",
@@ -581,6 +594,20 @@
     },
     "waitForAllRequestsToFulfill": "Please wait until all submissions have been uploaded",
     "waitingForAction": "waiting for an action",
+    "warning": {
+      "package": {
+        "duplicate": "A package with the same name and version already exists in the selected repository. Please go through the upload process again and click 'replace' to overwrite it."
+      },
+      "replacing": {
+        "packages": {
+          "disabled": "Replacing packages is disabled."
+        }
+      },
+      "synchronization": {
+        "failure": "A repository synchronization failure. Please try to upload the package again."
+      },
+      "unknown": "Unknown failure. Please try again."
+    },
     "wrongExtension": "Choose packages that have the correct file extension (.tar.gz)"
   },
   "success": "Request processed successfully",
@@ -622,7 +649,7 @@
       "active": "Active",
       "deleted": "Deleted",
       "roles": "Roles",
-      "searchBox": "User..."
+      "searchBox": "Search"
     },
     "unableDeactivation": "Users cannot deactivate themselves",
     "unableDeletion": "Users cannot delete themselves"

@@ -23,7 +23,7 @@ services:
         aliases:
           - oa-rdepot-proxy
   backend:
-    image: openanalytics/rdepot-app:2.5.0
+    image: openanalytics/rdepot-app:2.5.1
     restart: unless-stopped
     hostname: oa-rdepot-backend
     container_name: oa-rdepot-backend
@@ -68,7 +68,7 @@ services:
         aliases:
           - oa-rdepot-db
   repo:
-    image: openanalytics/rdepot-repo:2.5.0
+    image: openanalytics/rdepot-repo:2.5.1
     restart: unless-stopped
     container_name: oa-rdepot-repo
     labels:
@@ -102,6 +102,7 @@ services:
       - VITE_OIDC_POST_LOGOUT_REDIRECT_URI=http://localhost:${RDEPOT_PORT:-80}/logout
       - VITE_OIDC_RESPONSE_TYPE=code
       - VITE_OIDC_SCOPE=openid
+      - VITE_ADDRESS_DEPRECATION_WARNING=false
   keycloak:
     image: keycloak/keycloak:24.0
     restart: unless-stopped
