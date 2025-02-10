@@ -24,6 +24,9 @@
   <DeleteRepositoryModal v-if="commonStore.isDelete" />
   <CreateRepositoryModal v-if="commonStore.isCreate" />
   <EditRepositoryModal v-if="commonStore.isEdit" />
+  <RepublishRepositoryModal
+    v-if="commonStore.isRepublish"
+  />
   <FiltrationBar />
   <RepositoriesList :key="componentKey" />
 </template>
@@ -36,6 +39,7 @@ import { useCommonStore } from '@/store/options/common'
 import DeleteRepositoryModal from '@/components/repositories/modals/DeleteRepositoryModal.vue'
 import CreateRepositoryModal from '@/components/repositories/modals/CreateRepositoryModal.vue'
 import EditRepositoryModal from '@/components/repositories/modals/EditRepositoryModal.vue'
+import RepublishRepositoryModal from '@/components/repositories/modals/RepublishRepositoryModal.vue'
 
 const commonStore = useCommonStore()
 const componentKey = computed(() => {

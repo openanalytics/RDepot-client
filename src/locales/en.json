@@ -173,6 +173,8 @@
     "projectTitle": "RDepot",
     "repositories": "Repositories",
     "repository": "Repository",
+    "republish": "Republish",
+    "republishQuestion": "Are you sure you want to republish {resource_name}?",
     "reset": "Reset",
     "save": "Save",
     "search": "Search",

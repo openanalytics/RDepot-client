@@ -26,7 +26,6 @@
       <v-icon
         :id="iconId"
         v-bind="props"
-        class="ml-3"
         :color="disabled ? 'grey' : 'oablue'"
         @click.stop
         @click="edit"

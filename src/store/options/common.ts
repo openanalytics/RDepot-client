@@ -61,7 +61,9 @@ export const useCommonStore = defineStore('commonStore', {
     isCreated: (state) =>
       state.overlayComponent == OverlayEnum.enum.Created,
     isDeactivate: (state) =>
-      state.overlayComponent == OverlayEnum.enum.Deactivate
+      state.overlayComponent == OverlayEnum.enum.Deactivate,
+    isRepublish: (state) =>
+      state.overlayComponent == OverlayEnum.enum.Republish
   },
   actions: {
     openOverlay(payload: OverlayEnum) {

@@ -231,3 +231,30 @@ export async function updatePythonRepositoryService(
     )
   }
 }
+
+export async function republishRepositoryService(
+  id: number,
+  technology: Technologies
+) {
+  if (!isAuthorized('POST', 'repository')) {
+    return new Promise(() => false)
+  }
+
+  if (technology === Technologies.enum.R) {
+    return openApiRequest(
+      RRepositoryControllerApiFactory()
+        .republishRRepository,
+      [id]
+    )
+  } else if (technology === Technologies.enum.Python) {
+    return openApiRequest(
+      PythonRepositoryControllerApiFactory()
+        .republishRRepository1,
+      [id]
+    )
+  } else {
+    throw new Error(
+      'Technologies not supported' + technology
+    )
+  }
+}

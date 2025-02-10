@@ -478,6 +478,10 @@ export const CREATE_REPOSITORY_PUBLICATION_URI_FIELD_ID =
   'create-publication-uri'
 export const CREATE_REPOSITORY_TECHNOLOGY =
   'create-technology'
+export const REPUBLISH_REPOSITORY_TESTREPO2_ICON_ID =
+  'republish-repository-2'
+export const REPUBLISH_REPOSITORY_TESTREPO10_ICON_ID =
+  'republish-repository-10'
 
 // REPOSITORY DESCRIPTION
 export const REPOSITORY_DESCRIPTION_CARD_ID =
