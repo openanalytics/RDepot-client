@@ -444,7 +444,7 @@
   },
   "repositories": {
     "addRepository": "Create repository",
-    "authenticationNotRequiredTooltip": "This repository does not requires authentication during package installation",
+    "authenticationNotRequiredTooltip": "This repository does not require authentication during package installation",
     "authenticationRequiredTooltip": "This repository requires authentication during package installation",
     "creation": {
       "deprecatedAddress": "A server address without technology as part of its path is deprecated and will be unsupported in RDepot v3.0. Please use {address} instead.",

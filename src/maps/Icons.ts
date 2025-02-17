@@ -68,6 +68,6 @@ export default new Map<string, string>([
   ['message-outline', 'mdi-message-text-outline'],
   ['republish', 'mdi-folder-refresh-outline'],
   ['binary', 'mdi-alpha-b-circle-outline'],
-  ['lock', 'mdi-lock-outline'],
-  ['lock-open', 'mdi-lock-open-outline']
+  ['lock', 'mdi-lock'],
+  ['lock-open', 'mdi-lock-outline']
 ])
