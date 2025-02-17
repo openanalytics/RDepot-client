@@ -55,7 +55,7 @@
 import { usePackagesStore } from '@/store/options/packages'
 import { EntityModelPackageDto } from '@/openapi'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
-import { ref, computed, watch } from 'vue'
+import { computed } from 'vue'
 import { i18n } from '@/plugins/i18n'
 
 const componentProps = defineProps({
@@ -65,11 +65,7 @@ const componentProps = defineProps({
   }
 })
 
-watch(componentProps.item, (newVal) => {
-  packageBag.value = newVal
-})
-
-const packageBag = ref(componentProps.item)
+const packageBag = computed(() => componentProps.item)
 
 const packagesStore = usePackagesStore()
 const { canPatch } = useUserAuthorities()
@@ -87,8 +83,8 @@ const id = computed(
 const isPending = computed(
   () =>
     !!packagesStore.pending.find(
-      (packageBag) =>
-        packageBag.id == componentProps.item.id
+      (packageBagStore) =>
+        packageBagStore.id == packageBag.value.id
     )
 )
 
