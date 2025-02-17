@@ -126,7 +126,6 @@ async function resolved(
   ifToast = true
 ): Promise<validatedData<any>> {
   const commonStore = useCommonStore()
-  console.log(result)
   commonStore.progressCircularActive = false
   if (ifToast) {
     const toasts = useToast()
