@@ -47,7 +47,7 @@
         color="oablue darken-2"
         class="mx-1"
         @click="emit('submit')"
-        >{{ i18n.t('common.submit') }}</v-btn
+        >{{ submitText }}</v-btn
       >
     </v-row>
   </v-card-actions>
