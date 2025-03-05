@@ -142,9 +142,9 @@ describe('Package Store', () => {
     expect(packageStore.filtration.deleted).toBe(
       defaultFiltration.deleted
     )
-    expect(packageStore.filtration.submissionState).toBe(
-      defaultFiltration.submissionState
-    )
+    expect(
+      packageStore.filtration.submissionState
+    ).toStrictEqual(defaultFiltration.submissionState)
     expect(packageStore.filtration.technologies).toBe(
       defaultFiltration.technologies
     )
