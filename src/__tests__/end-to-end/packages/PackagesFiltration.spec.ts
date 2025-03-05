@@ -20,7 +20,7 @@
  *
  */
 
-import { test, expect } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 import { PACKAGES_FILTRATION_DELETED_FIELD_ID } from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '../helpers/login'
 
@@ -57,5 +57,43 @@ test.describe(TITLE, () => {
 
     await expect(packagesRowsSelector).toHaveCount(21)
     await expect(packagesDeletedSelector).toHaveCount(0)
+  })
+
+  test('submission state', async ({ page }) => {
+    await login(page, 'einstein')
+
+    await page
+      .getByText('ACCEPTED', { exact: true })
+      .waitFor()
+
+    const packagesSubmissionStateSelector = page
+      .getByRole('combobox')
+      .nth(2)
+    await packagesSubmissionStateSelector.waitFor()
+    await packagesSubmissionStateSelector.click()
+
+    const packageSubmissionStateRejectedOptionSelector =
+      page.getByRole('option', { name: 'REJECTED' })
+
+    await packageSubmissionStateRejectedOptionSelector.waitFor()
+    await packageSubmissionStateRejectedOptionSelector.click()
+
+    await page
+      .getByText('ACCEPTEDREJECTED', { exact: true })
+      .waitFor()
+
+    const closableTags = page
+      .locator('span')
+      .getByLabel('Close')
+    await expect(closableTags).toHaveCount(2)
+
+    await page
+      .getByRole('button', { name: 'Reset' })
+      .click()
+
+    await page
+      .getByText('ACCEPTED', { exact: true })
+      .waitFor()
+    await expect(closableTags).toHaveCount(0)
   })
 })

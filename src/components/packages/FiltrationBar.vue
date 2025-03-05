@@ -88,13 +88,14 @@
       density="compact"
       hide-details
       chips
-      closable-chips
+      :closable-chips="values.submissionState.length > 1"
       :items="sortValues(states)"
       name="submissionState"
       multiple
       clearable
       as="v-select"
       :label="$t('packages.filtration.submissionState')"
+      @click:clear="resetStateField"
       @update:model-value="setFiltration"
     ></validated-input-field>
 
@@ -193,6 +194,7 @@ import {
 } from '@/enum/UserRoles'
 import ResetButton from '@/components/common/buttons/ResetButton.vue'
 import { useAuthorizationStore } from '@/store/options/authorization'
+import { EntityModelSubmissionDtoStateEnum } from '@/openapi'
 
 const { states, technologies, sortValues } =
   useEnumFiltration()
@@ -209,13 +211,19 @@ const {
 } = usePackageMaintainersFiltration()
 const packageStore = usePackagesStore()
 
-const { setValues, values } = useForm({
+const { setValues, values, setFieldValue } = useForm({
   validationSchema: toTypedSchema(PackagesFiltration),
   initialValues: packageStore.filtration
 })
 
 function setFiltration() {
   packageStore.setFiltration(values as PackagesFiltration)
+}
+
+function resetStateField() {
+  setFieldValue('submissionState', [
+    EntityModelSubmissionDtoStateEnum.ACCEPTED
+  ])
 }
 
 function resetValues() {

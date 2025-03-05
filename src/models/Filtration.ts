@@ -79,7 +79,9 @@ const PackagesFiltration = z
       })
   })
   .default({
-    submissionState: undefined,
+    submissionState: [
+      EntityModelSubmissionDtoStateEnum.ACCEPTED
+    ],
     repository: undefined,
     technologies: undefined,
     deleted: undefined,
