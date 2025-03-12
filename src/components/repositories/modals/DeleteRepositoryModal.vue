@@ -21,7 +21,11 @@
 -->
 
 <template>
-  <ModalOverlay @action="performAction()"> </ModalOverlay>
+  <ModalOverlay
+    id="delete-repository-dialog"
+    @action="performAction()"
+  >
+  </ModalOverlay>
 </template>
 
 <script setup lang="ts">

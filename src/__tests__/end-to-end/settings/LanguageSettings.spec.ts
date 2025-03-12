@@ -160,10 +160,8 @@ test.describe(TITLE_SERIAL, { tag: '@serial' }, () => {
       .click()
     await page.waitForURL('**/repositories')
 
-    const englishHeaders =
-      'NamePublicationURIServeraddressTechnologyVersion#packagesPublishedActions'
-    const polishHeaders =
-      'NazwaURIpublikacjiAdresserweraTechnologiaWersja#pakietuOpublikowanoAkcje'
+    const englishHeaders = 'NamePublishedActions'
+    const polishHeaders = 'NazwaOpublikowanoAkcje'
 
     const plLanguageSelector = page.locator(
       `#${POLISH_LANGUAGE_ID}`

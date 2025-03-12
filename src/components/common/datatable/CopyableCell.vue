@@ -28,7 +28,7 @@
     <span> {{ value }} </span>
     <v-icon
       :id="`resources-list-${value.replace('@', '-').replaceAll('/', '').replaceAll(':', '')}-copy`"
-      v-tooltip="$t('packages.copy')"
+      v-tooltip="onHoverMessage"
       size="x-small"
       :icon="Icons.get('copy')"
       @click.stop="
@@ -41,13 +41,24 @@
 <script setup lang="ts">
 import { useUtilities } from '@/composable/utilities'
 import Icons from '@/maps/Icons'
+import { i18n } from '@/plugins/i18n'
+import { computed } from 'vue'
 
-defineProps({
+const componentProps = defineProps({
   value: {
     type: String,
     required: true
+  },
+  tooltipMessage: {
+    type: String,
+    required: false,
+    default: ''
   }
 })
 
 const { copyText } = useUtilities()
+const onHoverMessage = computed(
+  () =>
+    componentProps.tooltipMessage || i18n.t('packages.copy')
+)
 </script>

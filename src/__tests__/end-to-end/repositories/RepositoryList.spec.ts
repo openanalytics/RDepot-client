@@ -22,15 +22,21 @@
 
 import { test, expect } from '@playwright/test'
 import {
+  CANCEL_BUTTON_ID,
   COPY_PUBLICATION_URI_TESTREPO1_BUTTON_ID,
   COPY_SERVER_ADDRESS_TESTREPO2_BUTTON_ID,
+  DELETE_REPO_2_ICON_ID,
+  DELETE_REPOSITORY_DIALOG_ID,
   REPOSITORIES_LIST_PYTHON_REPO_ID,
   REPOSITORIES_LIST_R_REPO_ID,
   REPOSITORIES_SIDEBAR_ID,
   REPOSITORY_DESCRIPTION_HASH_METHOD_ID,
   REPOSITORY_DESCRIPTION_LAST_MODIFICATION_DATE_ID,
   REPOSITORY_DESCRIPTION_LAST_PUBLICATION_DATE_ID,
-  REPOSITORY_DESCRIPTION_PUBLICATION_STATUS_ID
+  REPOSITORY_DESCRIPTION_PUBLICATION_STATUS_ID,
+  REPUBLISH_REPOSITORY_DIALOG_ID,
+  REPUBLISH_REPOSITORY_TESTREPO10_ICON_ID,
+  REPUBLISH_REPOSITORY_TESTREPO2_ICON_ID
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '../helpers/login'
 
@@ -125,10 +131,81 @@ test.describe(TITLE, () => {
       .click()
     await page.waitForURL('**/repositories')
 
+    const rRepoSelector = page.locator(
+      `#${REPOSITORIES_LIST_R_REPO_ID}`
+    )
+    await rRepoSelector.waitFor()
+    await rRepoSelector.click()
+
     const copyButtonSelector = page.locator(
       `#${COPY_SERVER_ADDRESS_TESTREPO2_BUTTON_ID}`
     )
     await copyButtonSelector.waitFor()
     await copyButtonSelector.click()
+  })
+
+  test('open republish dialog', async ({ page }) => {
+    await login(page, 'einstein')
+
+    await page
+      .locator(`#${REPOSITORIES_SIDEBAR_ID}`)
+      .click()
+    await page.waitForURL('**/repositories')
+    const republishButtonSelector = page.locator(
+      `#${REPUBLISH_REPOSITORY_TESTREPO2_ICON_ID}`
+    )
+    await republishButtonSelector.waitFor()
+    await republishButtonSelector.click()
+
+    const republishDialogSelector = page.locator(
+      `#${REPUBLISH_REPOSITORY_DIALOG_ID}`
+    )
+    await republishDialogSelector.waitFor()
+
+    const cancelDialogSelector = page.locator(
+      `#${CANCEL_BUTTON_ID}`
+    )
+    await cancelDialogSelector.waitFor()
+    await cancelDialogSelector.click()
+  })
+
+  test('republish dialog disabled when repository is not published', async ({
+    page
+  }) => {
+    await login(page, 'einstein')
+
+    await page
+      .locator(`#${REPOSITORIES_SIDEBAR_ID}`)
+      .click()
+    await page.waitForURL('**/repositories')
+    const republishButtonSelector = page.locator(
+      `#${REPUBLISH_REPOSITORY_TESTREPO10_ICON_ID}.text-grey`
+    )
+    await republishButtonSelector.waitFor()
+  })
+
+  test('open delete dialog', async ({ page }) => {
+    await login(page, 'einstein')
+
+    await page
+      .locator(`#${REPOSITORIES_SIDEBAR_ID}`)
+      .click()
+    await page.waitForURL('**/repositories')
+    const deleteButtonSelector = page.locator(
+      `#${DELETE_REPO_2_ICON_ID}`
+    )
+    await deleteButtonSelector.waitFor()
+    await deleteButtonSelector.click()
+
+    const deleteDialogSelector = page.locator(
+      `#${DELETE_REPOSITORY_DIALOG_ID}`
+    )
+    await deleteDialogSelector.waitFor()
+
+    const cancelDialogSelector = page.locator(
+      `#${CANCEL_BUTTON_ID}`
+    )
+    await cancelDialogSelector.waitFor()
+    await cancelDialogSelector.click()
   })
 })

@@ -41,7 +41,9 @@ export function useRepositoryDeprecated() {
       : !serverAddress?.includes('/python/')
   }
 
-  function deprecatedAddressTooltip(serverAddress: string) {
+  function deprecatedAddressTooltip(
+    serverAddress?: string
+  ) {
     return (
       !serverAddress?.includes('/r/') &&
       !serverAddress?.includes('/python/')

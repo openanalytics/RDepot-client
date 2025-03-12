@@ -471,12 +471,15 @@
       "hash-method": "Hash method",
       "last-modification-date": "Last modification date",
       "last-publication-date": "Last publication date",
+      "number-of-packages": "Number of packages",
       "publication-failed": "publication failed",
       "publication-failed-on": "Publication failed, last try at {dateTime}",
       "publication-succeed": "publication succeed"
     },
     "edit": {
-      "title": "Edit repository"
+      "publish": "Publish",
+      "title": "Edit repository",
+      "unpublish": "Unpublish"
     },
     "empty": "No repository chosen",
     "filtration": {
@@ -489,6 +492,9 @@
     },
     "list": "Repositories",
     "maintainers": "Repository maintainers",
+    "notPublished": {
+      "republish": "Repository is not published yet"
+    },
     "published": {
       "false": "not published",
       "true": "published"

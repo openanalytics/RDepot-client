@@ -1,23 +1,23 @@
 <!--
  R Depot
- 
+
  Copyright (C) 2012-2025 Open Analytics NV
- 
+
  ===========================================================================
- 
+
  This program is free software: you can redistribute it and/or modify
  it under the terms of the Apache License as published by
  The Apache Software Foundation, either version 2 of the License, or
  (at your option) any later version.
- 
+
  This program is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  Apache License for more details.
- 
+
  You should have received a copy of the Apache License
  along with this program. If not, see <http://www.apache.org/licenses/>
- 
+
 -->
 
 <template>
@@ -38,16 +38,62 @@
       <AddButton v-if="postCondition" />
     </template>
 
-    <template #[`item.name`]="{ value }">
-      <div :id="`repositories-list-${value}`">
-        {{ value }}
-      </div>
+    <template #[`item.name`]="{ value, item }">
+      <v-list-item
+        :id="`repositories-list-${value}`"
+        lines="two"
+        class="px-0 mx-0"
+      >
+        <template #prepend>
+          <div
+            class="d-flex align-start justify-center mr-3"
+          >
+            <AuthenticationInformation
+              :value="item.requiresAuthentication"
+              :authentication="false"
+            />
+          </div>
+        </template>
+        <template #title>
+          {{ value }}
+          <small style="opacity: 0.5"
+            >v.{{ item.version }}</small
+          >
+          <TechnologyChip
+            size="x-small"
+            class="ml-1"
+            :technology="item.technology"
+          />
+        </template>
+        <template #subtitle>
+          <div>
+            <small>
+              <div
+                class="d-flex justify-start align-center ga-2"
+              >
+                <CopyableCell
+                  :value="item.publicationUri"
+                  :tooltip-message="`${$t('packages.copy')} ${$t('columns.publicationUri').toLowerCase()}`"
+                />
+                <DeprecatedWarning
+                  v-if="
+                    getEnv(
+                      'VITE_ADDRESS_DEPRECATION_WARNING'
+                    ) !== 'false' &&
+                    deprecatedAddressTooltip(
+                      item.publicationUri
+                    )
+                  "
+                  :value="value"
+                />
+              </div>
+            </small>
+          </div>
+        </template>
+      </v-list-item>
     </template>
     <template #[`item.published`]="{ item }">
-      <v-tooltip
-        location="top"
-        :disabled="!isDisabled(item)"
-      >
+      <v-tooltip location="top">
         <template #activator="{ props }">
           <span
             v-bind="props"
@@ -62,64 +108,40 @@
               hide-details
               :readonly="isDisabled(item)"
               :color="isDisabled(item) ? 'grey' : 'oablue'"
-              class="mr-6"
               @click.stop="updateRepositoryPublished(item)"
             >
-              <template #append>
-                <v-icon
-                  v-if="
-                    !item.lastPublicationSuccessful &&
-                    item.lastPublicationTimestamp
-                  "
-                  id="repository-description-publication-status"
-                  v-tooltip="
-                    $t(
-                      `repositories.details.publication-failed-on`,
-                      {
-                        dateTime: formatDateTime(
-                          new Date(
-                            item.lastPublicationTimestamp
-                          )
-                        )
-                      }
-                    )
-                  "
-                  :icon="Icons.get('exclamation')"
-                  color="oared"
-                  @click.stop=""
-                >
-                </v-icon>
-              </template>
+              <template #append> </template>
             </v-checkbox>
           </span>
         </template>
-        <span v-if="!canPatch(item.links)">{{
-          $t('common.notAuthorized')
-        }}</span>
         <span v-if="configStore.declarativeMode">{{
           $t('repositories.declarative.publish')
         }}</span>
-        <span v-if="item.deleted">
+        <span v-else-if="!canPatch(item.links)">{{
+          $t('common.notAuthorized')
+        }}</span>
+        <span v-else-if="item.deleted">
           {{ $t('repositories.deleted') }}</span
         >
-        <span v-if="isPending(item)">
+        <span v-else-if="isPending(item)">
           {{ $t('common.pending') }}</span
         >
-      </v-tooltip> </template
-    ><template #[`item.actions`]="{ item }">
+        <span v-else-if="item.published">
+          {{ $t('repositories.edit.unpublish') }}
+        </span>
+        <span v-else>
+          {{ $t('repositories.edit.publish') }}
+        </span>
+      </v-tooltip>
+    </template>
+
+    <template #[`item.actions`]="{ item }">
       <ProgressCircularSmall v-if="isPending(item)" />
       <span
         v-else
         class="d-flex justify-center align-center"
       >
         <RepublishIcon
-          :style="[
-            {
-              visibility: item.published
-                ? 'visible'
-                : 'hidden'
-            }
-          ]"
           :repo="item"
           @set-entity="chooseRepositoryToUpdate(item)"
         />
@@ -138,8 +160,10 @@
                 ? $t('repositories.deleted')
                 : undefined
           "
+          class="mr-1"
           @set-entity="chooseRepositoryToUpdate(item)"
         />
+
         <DeleteIcon
           v-if="item.name"
           :id="`delete-repository-icon-${item.id}`"
@@ -189,25 +213,28 @@ import {
 } from '@/models/DataTableOptions'
 import { useConfigStore } from '@/store/options/config'
 import { useUtilities } from '@/composable/utilities'
-import { computed } from 'vue'
-import { isAtLeastRepositoryMaintainer } from '@/enum/UserRoles'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useSort } from '@/composable/sort'
 import { useAuthorizationStore } from '@/store/options/authorization'
 import ProgressCircularSmall from '../common/progress/ProgressCircularSmall.vue'
 import RepositoryDescription from './repositoryDetails/RepositoryDescription.vue'
 import { Technologies } from '@/enum/Technologies'
-import Icons from '@/maps/Icons'
-import { useDates } from '@/composable/date'
 import OATable from '../common/datatable/OATable.vue'
 import AddButton from '../common/buttons/AddButton.vue'
+import TechnologyChip from '@/components/common/chips/TechnologyChip.vue'
+import CopyableCell from '@/components/common/datatable/CopyableCell.vue'
+import AuthenticationInformation from '@/components/common/datatable/AuthenticationInformation.vue'
+import getEnv from '@/utils/env'
+import { useRepositoryDeprecated } from '@/composable/repositories/repositoriesDeprecatedAddress'
+import DeprecatedWarning from '@/components/common/datatable/DeprecatedWarning.vue'
 
 const { deepCopy } = useUtilities()
 const repositoryStore = useRepositoryStore()
 const { canDelete, canPatch } = useUserAuthorities()
 const configStore = useConfigStore()
 const authorizationStore = useAuthorizationStore()
-const { formatDateTime } = useDates()
+const { deprecatedAddressTooltip } =
+  useRepositoryDeprecated()
 
 const exp = ref<string[]>([])
 
@@ -242,50 +269,13 @@ const headers = computed<DataTableHeaders[]>(() => [
   {
     title: i18n.t('columns.repository.name'),
     align: 'start',
-    key: 'name',
-    width: 200
-  },
-  {
-    title: '',
-    align: 'start',
-    key: 'requiresAuthentication',
-    width: 30
-  },
-  {
-    title: i18n.t('columns.repository.publicationUri'),
-    align: 'start',
-    key: 'publicationUri',
-    width: 250
-  },
-  {
-    title: i18n.t('columns.repository.serverAddress'),
-    align: 'start',
-    key: 'serverAddress'
-  },
-  {
-    title: i18n.t('columns.repository.technology'),
-    align: 'center',
-    key: 'technology',
-    width: 130
-  },
-  {
-    title: i18n.t('columns.repository.version'),
-    align: 'center',
-    key: 'version',
-    width: 130
-  },
-  {
-    title: i18n.t('columns.repository.packagesNo'),
-    align: 'center',
-    key: 'numberOfPackages',
-    width: 130,
-    sortable: false
+    key: 'name'
   },
   {
     title: i18n.t('columns.repository.published'),
     align: 'center',
     key: 'published',
-    width: 150
+    width: 140
   },
   {
     title: i18n.t('columns.actions'),
@@ -295,10 +285,6 @@ const headers = computed<DataTableHeaders[]>(() => [
     sortable: false
   }
 ])
-
-function resetElementWidth() {
-  headers.value[1].width = undefined
-}
 
 async function getRepositoryDetails(repoName: string) {
   if (repositoryStore.filtration.deleted) {
@@ -322,16 +308,6 @@ const filteredHeaders = computed(() => {
   if (repositoryStore.filtration.deleted) {
     filteredHeaders = headers.value.filter(
       (header) => header.key != 'actions'
-    )
-  }
-  if (
-    !isAtLeastRepositoryMaintainer(
-      authorizationStore.userRole || 0
-    )
-  ) {
-    resetElementWidth()
-    return filteredHeaders.filter(
-      (header) => header.key != 'serverAddress'
     )
   }
   return filteredHeaders

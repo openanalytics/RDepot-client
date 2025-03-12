@@ -82,15 +82,6 @@
     >
       <div class="d-flex justify-start align-center ga-2">
         <CopyableCell :value="value" />
-        <DeprecatedWarning
-          v-if="
-            getEnv('VITE_ADDRESS_DEPRECATION_WARNING') !==
-              'false' &&
-            item === 'serverAddress' &&
-            deprecatedAddressTooltip(value)
-          "
-          :value="value"
-        />
       </div>
     </template>
 
@@ -127,14 +118,9 @@ import { DataTableHeaders } from '@/models/DataTableOptions'
 import DateChip from '../chips/DateChip.vue'
 import StateIcon from '@/components/submissions/icons/StateIcon.vue'
 import CopyableCell from './CopyableCell.vue'
-import DeprecatedWarning from './DeprecatedWarning.vue'
 import AuthenticationInformation from './AuthenticationInformation.vue'
-import { useRepositoryDeprecated } from '@/composable/repositories/repositoriesDeprecatedAddress'
-import getEnv from '@/utils/env'
 
 const oaTableStore = useOATable()
-const { deprecatedAddressTooltip } =
-  useRepositoryDeprecated()
 const technologyKeys = [
   'packageBag.repository.technology',
   'repository.technology',

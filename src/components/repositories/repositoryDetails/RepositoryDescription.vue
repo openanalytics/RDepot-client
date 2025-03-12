@@ -41,7 +41,7 @@
               .lastModifiedTimestamp
           "
           id="repository-description-last-modification-date"
-          icon="mdi-pencil"
+          :icon="Icons.get('edit')"
           size="x-small"
         >
           <div
@@ -127,9 +127,54 @@
           </div>
         </v-timeline-item>
         <v-timeline-item
+          v-if="
+            isAtLeastRepositoryMaintainer(
+              authorizationStore.userRole || 0
+            )
+          "
+          id="repository-description-server-address"
+          size="x-small"
+          :icon="Icons.get('serverAddress')"
+        >
+          <div
+            class="d-flex flex-no-wrap ga-3 align-center"
+          >
+            <div>{{ $t('columns.serverAddress') }}:</div>
+            <div
+              class="d-flex justify-start align-center ga-2"
+            >
+              <CopyableCell
+                :value="
+                  repositoryStore.chosenRepository
+                    .serverAddress || ''
+                "
+                :tooltip-message="`${$t('packages.copy')} ${$t('columns.serverAddress').toLowerCase()}`"
+              />
+              <DeprecatedWarning
+                v-if="
+                  getEnv(
+                    'VITE_ADDRESS_DEPRECATION_WARNING'
+                  ) !== 'false' &&
+                  repositoryStore.chosenRepository
+                    .serverAddress &&
+                  deprecatedAddressTooltip(
+                    repositoryStore.chosenRepository
+                      .serverAddress
+                  )
+                "
+                :value="
+                  repositoryStore.chosenRepository
+                    .serverAddress
+                "
+              />
+            </div>
+          </div>
+        </v-timeline-item>
+
+        <v-timeline-item
           v-if="repositoryStore.chosenRepository.hashMethod"
           id="repository-description-hash-method"
-          icon="mdi-pound"
+          :icon="Icons.get('hashMethod')"
           size="x-small"
         >
           <div
@@ -143,6 +188,29 @@
                 repositoryStore.chosenRepository.hashMethod
               }}
             </v-chip>
+          </div>
+        </v-timeline-item>
+        <v-timeline-item
+          id="repository-description-number-of-packages"
+          :icon="Icons.get('package')"
+          size="x-small"
+        >
+          <div
+            class="d-flex flex-no-wrap ga-3 align-center"
+          >
+            <div>
+              {{
+                $t(
+                  'repositories.details.number-of-packages'
+                )
+              }}:
+            </div>
+            <bold
+              >{{
+                repositoryStore.chosenRepository
+                  .numberOfPackages
+              }}
+            </bold>
           </div>
         </v-timeline-item>
       </v-timeline>
@@ -161,8 +229,8 @@
       class="button mt-3 ml-3 my-3"
       @click="navigate(repositoryStore.chosenRepository)"
     >
-      {{ $t('common.seepackages') }}</v-btn
-    >
+      {{ $t('common.seepackages') }}
+    </v-btn>
   </v-card>
 </template>
 
@@ -173,10 +241,19 @@ import { EntityModelRepositoryDto } from '@/openapi'
 import router from '@/plugins/router'
 import { usePackagesStore } from '@/store/options/packages'
 import { useRepositoryStore } from '@/store/options/repositories'
+import getEnv from '@/utils/env'
+import DeprecatedWarning from '@/components/common/datatable/DeprecatedWarning.vue'
+import CopyableCell from '@/components/common/datatable/CopyableCell.vue'
+import { isAtLeastRepositoryMaintainer } from '@/enum/UserRoles'
+import { useAuthorizationStore } from '@/store/options/authorization'
+import { useRepositoryDeprecated } from '@/composable/repositories/repositoriesDeprecatedAddress'
 
 const packagesStore = usePackagesStore()
 const repositoryStore = useRepositoryStore()
+const authorizationStore = useAuthorizationStore()
 const { formatDateTime } = useDates()
+const { deprecatedAddressTooltip } =
+  useRepositoryDeprecated()
 
 function chooseRepository(name: string) {
   packagesStore.setFiltrationBy({ repository: [name] })

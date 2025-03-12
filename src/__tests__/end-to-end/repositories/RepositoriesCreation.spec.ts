@@ -65,10 +65,10 @@ test.describe(TITLE, { tag: '@serial' }, () => {
       .locator(`#${CREATE_REPOSITORY_TECHNOLOGY}`)
       .click({ force: true })
     await page
-      .locator('div.v-list-item-title:has-text("Python")')
+      .locator('div.v-list-item-title:text-is("Python")')
       .waitFor()
     await page
-      .locator('div.v-list-item-title:has-text("Python")')
+      .locator('div.v-list-item-title:text-is("Python")')
       .click()
 
     await page

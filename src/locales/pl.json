@@ -483,12 +483,15 @@
       "hash-method": "Metoda haszowania",
       "last-modification-date": "Data ostatniej modyfikacji",
       "last-publication-date": "Data ostatniej publikacji",
+      "number-of-packages": "Liczba pakietów",
       "publication-failed": "publikacja nie powiodła się",
       "publication-failed-on": "Publikacja nie powiodła się, data ostatniej próby: {dateTime}",
       "publication-succeed": "publikacja powiodła się"
     },
     "edit": {
-      "title": "Edytuj repozytorium"
+      "publish": "Opublikuj",
+      "title": "Edytuj repozytorium",
+      "unpublish": "Cofnij publikację"
     },
     "empty": "Nie wybrano repozytorium",
     "filtration": {
@@ -501,6 +504,9 @@
     },
     "list": "Repozytoria",
     "maintainers": "Opiekunowie repozytoriów",
+    "notPublished": {
+      "republish": "Repozytorium nie jest jeszcze opublikowane"
+    },
     "published": {
       "false": "nieopublikowane",
       "true": "opublikowane"

@@ -451,16 +451,21 @@ export const DELETE_REPO_2_ICON_ID =
   'delete-repository-icon-2'
 export const DELETE_REPO_3_ICON_ID =
   'delete-repository-icon-3'
+export const DELETE_REPOSITORY_DIALOG_ID =
+  'delete-repository-dialog'
 export const DELETE_REPOSITORY_SUBMIT_ID = 'submit-button'
 export const DELETE_REPOSITORY_CANCEL_ID = 'cancel-button'
 export const COPY_PUBLICATION_URI_TESTREPO1_BUTTON_ID =
   'resources-list-httplocalhostrepotestrepo1-copy'
 export const COPY_SERVER_ADDRESS_TESTREPO2_BUTTON_ID =
   'resources-list-httpoa-rdepot-repo8080testrepo2-copy'
+
 export const EDIT_REPOSITORY_TESTREPO8_ICON_ID =
   'edit-repository-8'
 export const EDIT_REPOSITORY_HASH_METHOD_FIELD_ID =
   'edit-hash-method'
+export const EDIT_REPOSITORY_DIALOG_ID =
+  'edit-repository-dialog'
 export const EDIT_REPOSITORY_TECHNOLOGY_FIELD_ID =
   'edit-technology'
 export const EDIT_REPOSITORY_SERVER_ADDRESS_FIELD_ID =
@@ -482,6 +487,8 @@ export const REPUBLISH_REPOSITORY_TESTREPO2_ICON_ID =
   'republish-repository-2'
 export const REPUBLISH_REPOSITORY_TESTREPO10_ICON_ID =
   'republish-repository-10'
+export const REPUBLISH_REPOSITORY_DIALOG_ID =
+  'republish-repository-dialog'
 
 // REPOSITORY DESCRIPTION
 export const REPOSITORY_DESCRIPTION_CARD_ID =
