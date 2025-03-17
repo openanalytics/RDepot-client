@@ -39,6 +39,8 @@ test.describe(TITLE, () => {
     const repositoryHashMethodSelector = page.getByText(
       'There are no notes listed for this submission'
     )
-    expect(repositoryHashMethodSelector).toHaveCount(1)
+    await expect(repositoryHashMethodSelector).toHaveCount(
+      1
+    )
   })
 })

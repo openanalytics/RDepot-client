@@ -32,7 +32,7 @@
     :id="`download-button-${item.id}`"
     :tooltip="$t('action.download')"
     :icon="Icons.get('download')"
-    @click="downloadSubmission(item)"
+    @click.once="downloadSubmission(item)"
   />
 </template>
 

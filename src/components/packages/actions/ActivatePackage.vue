@@ -21,34 +21,22 @@
 -->
 
 <template>
-  <v-tooltip
-    :disabled="
-      (canPatch(packageBag.links) && !packageBag.deleted) ||
-      !isPending
-    "
-    location="top"
-  >
-    <template #activator="{ props }">
-      <span
-        v-bind="props"
-        style="width: 100%"
-        class="d-flex justify-center"
-      >
-        <v-checkbox-btn
-          :id="id"
-          v-model="packageBag.active"
-          :disabled="disabled"
-          hide-details
-          :readonly="!canPatch(packageBag?.links)"
-          :color="color"
-          class="mr-5"
-          @click.stop
-          @change="updatePackageActive"
-        />
-      </span>
-    </template>
-    <span>{{ onHoverMessage }}</span>
-  </v-tooltip>
+  <!--    :disabled="-->
+  <!--      (canPatch(packageBag.links) && !packageBag.deleted) ||-->
+  <!--      !isPending-->
+  <!--    "-->
+  <v-checkbox-btn
+    :id="id"
+    v-model="packageBag.active"
+    v-tooltip:top="onHoverMessage"
+    :disabled="disabled"
+    hide-details
+    :readonly="!canPatch(packageBag?.links)"
+    :color="color"
+    class="mr-6"
+    @click.stop
+    @change="updatePackageActive"
+  />
 </template>
 
 <script setup lang="ts">

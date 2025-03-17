@@ -49,9 +49,9 @@ test.describe(TITLE_SERIAL, { tag: '@serial' }, () => {
     await login(page, 'einstein')
 
     const englishHeaders =
-      'NameVersionTitleMaintainerRepositoryTechnologyTypeStatusActiveActions'
+      'NameMaintainerRepositoryTypeStatusActiveActions'
     const polishHeaders =
-      'NazwaWersjaTytułOpiekunRepozytoriumTechnologiaTypplikuStatusAktywnyAkcje'
+      'NazwaOpiekunRepozytoriumTypplikuStatusAktywnyAkcje'
 
     const plLanguageSelector = page.locator(
       `#${POLISH_LANGUAGE_ID}`
@@ -269,9 +269,9 @@ test.describe(TITLE_SERIAL, { tag: '@serial' }, () => {
     await page.waitForURL('**/submissions')
 
     const englishHeaders =
-      'DatePackageVersionRepositorySubmitterApproverTechnologyStatusActions'
+      'PackageRepositoryDateSubmitterApproverStatusActions'
     const polishHeaders =
-      'DataPakietWersjaRepozytoriumZgłaszającyZatwierdzającyTechnologiaStatusAkcje'
+      'PakietRepozytoriumDataZgłaszającyZatwierdzającyStatusAkcje'
 
     const plLanguageSelector = page.locator(
       `#${POLISH_LANGUAGE_ID}`
