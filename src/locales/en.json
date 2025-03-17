@@ -618,8 +618,9 @@
   },
   "success": "Request processed successfully",
   "tokens": {
+    "active": "This token is active",
     "deleted": "This token is deleted",
-    "inacitve": "This token is inactive"
+    "inactive": "This token is inactive"
   },
   "updatedProperties": {
     "accepted": "ACCEPTED",

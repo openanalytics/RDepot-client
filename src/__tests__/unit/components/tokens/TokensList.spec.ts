@@ -189,10 +189,10 @@ describe('Tokens - cells', () => {
 
   it('displays active', () => {
     const cell = cells[4]
-    const checkboxPublished = cell.find('#checkbox-active')
-    expect(checkboxPublished.element.checked).toEqual(
-      token.active
+    const activeIcon = cell.find(
+      '.mdi-check-circle-outline'
     )
+    expect(activeIcon.exists()).toBeTruthy()
   })
 
   it('displays edit icon', () => {

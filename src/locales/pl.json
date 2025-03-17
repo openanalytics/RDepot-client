@@ -630,8 +630,9 @@
   },
   "success": "Poprawnie wykonana operacja",
   "tokens": {
+    "active": "Ten token jest aktywny",
     "deleted": "Ten token jest usunięty",
-    "inacitve": "Ten token jest nieaktywny"
+    "inactive": "Ten token jest nieaktywny"
   },
   "updatedProperties": {
     "accepted": "ZAAKCEPTOWANE",
