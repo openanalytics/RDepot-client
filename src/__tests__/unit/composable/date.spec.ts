@@ -24,7 +24,7 @@ import { describe, it, expect, beforeEach } from 'vitest'
 
 import { createPinia, setActivePinia } from 'pinia'
 import { useDates } from '@/composable/date'
-import events from '@/__tests__/config/mockData/events.json'
+import event from '@/__tests__/config/mockData/event.json'
 import { EntityModelNewsfeedEventDto } from '@/openapi'
 
 beforeEach(async () => {
@@ -50,36 +50,22 @@ describe('date composable', () => {
     expect(getMonthAndYear(date)).toEqual('2024.05')
   })
 
-  it('should replace 1digit number with 2digit string', () => {
-    const { padTo2Digits } = useDates()
-    const date = 1
-    expect(padTo2Digits(date)).toEqual('01')
-  })
-
-  it('should return 2digit string', () => {
-    const { padTo2Digits } = useDates()
-    const date = 11
-    expect(padTo2Digits(date)).toEqual('11')
-  })
-
-  it('should return events connected date (formatted)', () => {
+  it('should return parsed and formatted date in UTC format', () => {
     const { getDate } = useDates()
     expect(
       getDate(
-        events.data
-          .content[0] as EntityModelNewsfeedEventDto
+        event.content[0] as EntityModelNewsfeedEventDto
       )
-    ).toEqual('2024.05.09')
+    ).toEqual('2023.12.07')
   })
 
-  it('should return events connected time', () => {
+  it('should return parsed and formatted time in UTC format', () => {
     const { getTime } = useDates()
 
     expect(
       getTime(
-        events.data
-          .content[0] as EntityModelNewsfeedEventDto
+        event.content[0] as EntityModelNewsfeedEventDto
       )
-    ).toEqual('16:05')
+    ).toEqual('23:59')
   })
 })

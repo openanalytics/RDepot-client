@@ -1,0 +1,63 @@
+{
+  "links": [
+    {
+      "rel": "self",
+      "href": "http://localhost:8017/api/v2/manager/events?fromDate=2023-12-07&toDate=2023-12-08&page=0&size=10&sort=time,desc"
+    }
+  ],
+  "content": [
+    {
+      "id": 394,
+      "technology": "RDepot version: 2.6.0",
+      "time": "2023-12-07T23:59:59Z",
+      "user": {
+        "id": 7,
+        "name": "Isaac Newton",
+        "login": "newton",
+        "email": "newton@ldap.forumsys.com"
+      },
+      "eventType": "update",
+      "resourceId": 4,
+      "resourceType": "ACCESS_TOKEN",
+      "changedProperties": [
+        {
+          "property": "active",
+          "valueBefore": "true",
+          "valueAfter": "false"
+        }
+      ],
+      "relatedResource": {
+        "id": 4,
+        "name": "expired",
+        "value": null,
+        "creationDate": "2023-12-06T00:00:00Z",
+        "expirationDate": "2023-12-07T00:00:00Z",
+        "active": false,
+        "deleted": false,
+        "user": {
+          "id": 7,
+          "name": "Isaac Newton",
+          "login": "newton",
+          "email": "newton@ldap.forumsys.com"
+        },
+        "lastUsed": ""
+      },
+      "links": [
+        {
+          "rel": "self",
+          "href": "http://localhost:8017/api/v2/manager/events/394"
+        },
+        {
+          "rel": "eventList",
+          "href": "http://localhost:8017/api/v2/manager/events"
+        }
+      ]
+    }
+  ],
+  "page": {
+    "size": 10,
+    "totalElements": 1,
+    "totalPages": 1,
+    "number": 0
+  }
+}
