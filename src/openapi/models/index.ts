@@ -21,6 +21,7 @@
  */
 
 export * from './changed-variable-dto'
+export * from './check-server-address-dto'
 export * from './collection-model-role-dto'
 export * from './collection-model-role-dto-embedded'
 export * from './create-access-token-dto'

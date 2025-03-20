@@ -505,6 +505,8 @@ export const REPOSITORIES_LIST_R_REPO_ID =
   'repositories-list-testrepo2'
 export const REPOSITORIES_LIST_PYTHON_REPO_ID =
   'repositories-list-testrepo8'
+export const REPOSITORY_REDIRECT_TO_SOURCE_ID =
+  'repository-description-redirect-to-source'
 
 // SETTINGS FIELD
 export const PAGE_SIZE_ID = 'page-size-input'

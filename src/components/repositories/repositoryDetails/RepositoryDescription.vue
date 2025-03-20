@@ -213,6 +213,40 @@
             </bold>
           </div>
         </v-timeline-item>
+
+        <v-timeline-item
+          v-if="
+            repositoryStore.chosenRepository.technology ===
+            'R'
+          "
+          :icon="Icons.get('redirect')"
+          size="x-small"
+        >
+          <div
+            class="d-flex flex-no-wrap ga-3 align-center"
+          >
+            <div>
+              {{
+                $t('repositories.details.redirectToSource')
+              }}:
+            </div>
+            <v-icon
+              id="repository-description-redirect-to-source"
+              :icon="
+                repositoryStore.chosenRepository
+                  .redirectToSource
+                  ? Icons.get('success')
+                  : Icons.get('error')
+              "
+              :color="
+                repositoryStore.chosenRepository
+                  .redirectToSource
+                  ? 'success'
+                  : 'error'
+              "
+            ></v-icon>
+          </div>
+        </v-timeline-item>
       </v-timeline>
     </v-card-text>
 

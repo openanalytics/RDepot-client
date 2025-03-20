@@ -61,6 +61,7 @@ export async function fetchEventsService(
       localFiltration,
       filtration.userName,
       filtration.packageName,
+      filtration.packageVersion,
       filtration.repositoryName,
       filtration.eventType,
       filtration.resourceType,

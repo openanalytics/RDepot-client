@@ -36,7 +36,8 @@ import {
   REPOSITORY_DESCRIPTION_PUBLICATION_STATUS_ID,
   REPUBLISH_REPOSITORY_DIALOG_ID,
   REPUBLISH_REPOSITORY_TESTREPO10_ICON_ID,
-  REPUBLISH_REPOSITORY_TESTREPO2_ICON_ID
+  REPUBLISH_REPOSITORY_TESTREPO2_ICON_ID,
+  REPOSITORY_REDIRECT_TO_SOURCE_ID
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '../helpers/login'
 
@@ -99,6 +100,9 @@ test.describe(TITLE, () => {
     const repoHashMethodSelector = page.locator(
       `#${REPOSITORY_DESCRIPTION_HASH_METHOD_ID}`
     )
+    const repoRedirectToSourceSelector = page.locator(
+      `#${REPOSITORY_REDIRECT_TO_SOURCE_ID}`
+    )
 
     await rRepoSelector.waitFor()
     await rRepoSelector.click()
@@ -106,6 +110,9 @@ test.describe(TITLE, () => {
     await repoStatusSelector.waitFor()
     await repoPublicationDateSelector.waitFor()
     await expect(repoHashMethodSelector).toHaveCount(0)
+    await expect(repoRedirectToSourceSelector).toHaveClass(
+      /mdi-close-circle-outline/
+    )
   })
 
   test('copy publication', async ({ page }) => {

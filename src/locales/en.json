@@ -454,6 +454,7 @@
       "name": "Name",
       "publicationUri": "Publication URI",
       "publicationUriPlaceholder": "http://localhost/repo/{'{name}'}",
+      "redirectToSource": "Redirect to source",
       "requiresAuthentication": "Requires authentication",
       "serverAddress": "Server address",
       "serverAddressPlaceholder": "http://oa-rdepot-repo:8080/{'{name}'}",
@@ -474,7 +475,8 @@
       "number-of-packages": "Number of packages",
       "publication-failed": "publication failed",
       "publication-failed-on": "Publication failed, last try at {dateTime}",
-      "publication-succeed": "publication succeed"
+      "publication-succeed": "publication succeed",
+      "redirectToSource": "Redirect to source"
     },
     "edit": {
       "publish": "Publish",

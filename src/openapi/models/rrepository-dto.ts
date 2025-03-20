@@ -122,4 +122,10 @@ export interface RRepositoryDto {
    * @memberof RRepositoryDto
    */
   lastPublicationSuccessful?: boolean
+
+  /**
+   * @type {boolean}
+   * @memberof RRepositoryDto
+   */
+  redirectToSource?: boolean
 }

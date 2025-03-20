@@ -71,6 +71,17 @@
           max-width="unset"
         ></validated-input-field>
         <validated-input-field
+          v-if="values.technology == 'R'"
+          id="create-redirect-to-source"
+          name="redirectToSource"
+          as="v-checkbox"
+          max-width="unset"
+          style="display: flex; justify-content: start"
+          :label="
+            $t('repositories.creation.redirectToSource')
+          "
+        ></validated-input-field>
+        <validated-input-field
           id="create-requires-authentication"
           name="requiresAuthentication"
           as="v-checkbox"
@@ -181,7 +192,9 @@ const {
       requiresAuthentication:
         repositorySchema.shape.requiresAuthentication,
       technology: repositorySchema.shape.technology,
-      hashMethod: repositorySchema.shape.hashMethod
+      hashMethod: repositorySchema.shape.hashMethod,
+      redirectToSource:
+        repositorySchema.shape.redirectToSource
     })
   )
 })

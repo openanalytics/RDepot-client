@@ -77,6 +77,18 @@
           max-width="unset"
         ></validated-input-field>
         <validated-input-field
+          v-if="localRepository.technology == 'R'"
+          id="edit-redirect-to-source"
+          v-model="localRepository.redirectToSource"
+          name="redirectToSource"
+          as="v-checkbox"
+          max-width="unset"
+          style="display: flex; justify-content: start"
+          :label="
+            $t('repositories.creation.redirectToSource')
+          "
+        ></validated-input-field>
+        <validated-input-field
           id="edit-requires-authentication"
           v-model="localRepository.requiresAuthentication"
           name="requiresAuthentication"
@@ -189,7 +201,9 @@ const { meta, setFieldValue, isFieldTouched, values } =
         requiresAuthentication:
           repositorySchema.shape.requiresAuthentication,
         technology: repositorySchema.shape.technology,
-        hashMethod: repositorySchema.shape.hashMethod
+        hashMethod: repositorySchema.shape.hashMethod,
+        redirectToSource:
+          repositorySchema.shape.redirectToSource
       })
     ),
     initialValues: {
@@ -199,7 +213,8 @@ const { meta, setFieldValue, isFieldTouched, values } =
       requiresAuthentication:
         repository.requiresAuthentication,
       technology: repository.technology as Technologies,
-      hashMethod: repository.hashMethod
+      hashMethod: repository.hashMethod,
+      redirectToSource: repository.redirectToSource
     }
   })
 
