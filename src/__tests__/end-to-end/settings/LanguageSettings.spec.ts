@@ -269,9 +269,9 @@ test.describe(TITLE_SERIAL, { tag: '@serial' }, () => {
     await page.waitForURL('**/submissions')
 
     const englishHeaders =
-      'PackageRepositoryDateSubmitterApproverStatusActions'
+      'PackageTypeRepositoryDateSubmitterApproverStatusActions'
     const polishHeaders =
-      'PakietRepozytoriumDataZgłaszającyZatwierdzającyStatusAkcje'
+      'PakietTypPlikuRepozytoriumDataZgłaszającyZatwierdzającyStatusAkcje'
 
     const plLanguageSelector = page.locator(
       `#${POLISH_LANGUAGE_ID}`
