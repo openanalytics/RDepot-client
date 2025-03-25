@@ -97,6 +97,10 @@
       </v-list-item>
     </template>
 
+    <template #[`item.packageBag.binary`]="{ item }">
+      <BinaryPackage :item="item" />
+    </template>
+
     <template #[`item.actions`]="{ item }">
       <ProgressCircularSmall v-if="isPending(item)" />
       <span v-else class="d-flex justify-end align-right">
@@ -150,6 +154,7 @@ import CommentSubmission from './actions/CommentSubmission.vue'
 import OATable from '../common/datatable/OATable.vue'
 import MarkdownDescription from '@/components/common/markdown/MarkdownDescription.vue'
 import TechnologyChip from '@/components/common/chips/TechnologyChip.vue'
+import BinaryPackage from '@/components/packages/BinaryPackage.vue'
 
 const submissionStore = useSubmissionStore()
 
@@ -167,13 +172,12 @@ const headers = computed<DataTableHeaders[]>(() => [
     key: 'packageBag.name'
     // width: 150
   },
-
-  // {
-  //   title: i18n.t('columns.submissions.packageVersion'),
-  //   align: 'center',
-  //   key: 'packageBag.version',
-  //   width: 100
-  // },
+  {
+    title: i18n.t('columns.package.fileType'),
+    align: 'center',
+    key: 'packageBag.binary',
+    width: 100
+  },
   {
     title: i18n.t('columns.submissions.repository'),
     align: 'start',
@@ -198,12 +202,6 @@ const headers = computed<DataTableHeaders[]>(() => [
     key: 'approver.name',
     width: 200
   },
-  // {
-  //   title: i18n.t('columns.submissions.technology'),
-  //   align: 'center',
-  //   key: 'packageBag.repository.technology',
-  //   width: 100
-  // },
   {
     title: i18n.t('columns.submissions.status'),
     align: 'center',
