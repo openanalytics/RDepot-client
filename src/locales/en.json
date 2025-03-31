@@ -492,6 +492,11 @@
       "published": "Published",
       "searchBox": "Search"
     },
+    "healthCheck": {
+      "correct": "server address is correct",
+      "incorrect": "server address is incorrect",
+      "undefined": "check if the server address is correct"
+    },
     "list": "Repositories",
     "maintainers": "Repository maintainers",
     "notPublished": {

@@ -72,5 +72,8 @@ export default new Map<string, string>([
   ['lock-open', 'mdi-lock-open-outline'],
   ['serverAddress', 'mdi-cloud-upload-outline'],
   ['hashMethod', 'mdi-pound'],
-  ['redirect', 'mdi-open-in-new']
+  ['redirect', 'mdi-open-in-new'],
+  ['healthCheckUndefined', 'mdi-cloud-question'],
+  ['healthCheckCorrect', 'mdi-cloud-check'],
+  ['healthCheckIncorrect', 'mdi-cloud-alert']
 ])

@@ -32,6 +32,7 @@ import {
 } from '@/models/Filtration'
 import {
   fetchRepositoriesService,
+  isServerAddressHealthy,
   republishRepositoryService
 } from '@/services/repositoryServices'
 import { createRepository } from '@/services/repositoryServices'
@@ -290,6 +291,14 @@ export const useRepositoryStore = defineStore(
           RepositoriesFiltration
         )
         // await this.getPage()
+      },
+      async isServerAddressHealthy(serverAddress: string) {
+        const [healthyAddress] =
+          await isServerAddressHealthy(serverAddress).catch(
+            () => [false]
+          )
+        console.log(healthyAddress)
+        return healthyAddress
       }
     }
   }

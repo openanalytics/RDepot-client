@@ -26,7 +26,7 @@
       <v-card-title>
         {{ $t('repositories.creation.title') }}
       </v-card-title>
-      <v-divider></v-divider>
+      <v-divider />
       <v-card-text>
         <validated-input-field
           id="create-name"
@@ -36,7 +36,7 @@
           :loading="loading"
           lazy-validation
           max-width="unset"
-        ></validated-input-field>
+        />
         <validated-input-field
           id="create-publication-uri"
           name="publicationUri"
@@ -45,14 +45,23 @@
             $t('repositories.creation.publicationUri')
           "
           max-width="unset"
-        ></validated-input-field>
-        <validated-input-field
-          id="create-server-address"
-          name="serverAddress"
-          as="v-text-field"
-          max-width="unset"
-          :label="$t('repositories.creation.serverAddress')"
-        ></validated-input-field>
+        />
+        <span
+          class="d-flex justify-space-between align-center"
+        >
+          <validated-input-field
+            id="create-server-address"
+            name="serverAddress"
+            as="v-text-field"
+            max-width="unset"
+            :label="
+              $t('repositories.creation.serverAddress')
+            "
+          />
+          <HealthCheck
+            :server-address="values.serverAddress || ''"
+          />
+        </span>
         <validated-input-field
           id="create-technology"
           :items="technologies"
@@ -60,7 +69,7 @@
           as="v-select"
           :label="$t('repositories.creation.technology')"
           max-width="unset"
-        ></validated-input-field>
+        />
         <validated-input-field
           v-if="values.technology == 'Python'"
           id="create-hash-method"
@@ -69,7 +78,7 @@
           as="v-select"
           :label="$t('repositories.creation.hash')"
           max-width="unset"
-        ></validated-input-field>
+        />
         <validated-input-field
           v-if="values.technology == 'R'"
           id="create-redirect-to-source"
@@ -92,7 +101,7 @@
               'repositories.creation.requiresAuthentication'
             )
           "
-        ></validated-input-field>
+        />
       </v-card-text>
       <v-card-text>
         <v-alert
@@ -143,6 +152,7 @@ import { useCommonStore } from '@/store/options/common'
 import { watch, computed } from 'vue'
 import getEnv from '@/utils/env'
 import { useRepositoryDeprecated } from '@/composable/repositories/repositoriesDeprecatedAddress'
+import HealthCheck from '@/components/repositories/forms/HealthCheck.vue'
 
 const repositoryStore = useRepositoryStore()
 const commonStore = useCommonStore()

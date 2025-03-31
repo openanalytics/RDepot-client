@@ -504,6 +504,11 @@
       "published": "Opublikowane",
       "searchBox": "Szukaj"
     },
+    "healthCheck": {
+      "correct": "adres serwera jest poprawny",
+      "incorrect": "adres serwera jest niepoprawny",
+      "undefined": "sprawdź, czy adres serwera jest poprawny"
+    },
     "list": "Repozytoria",
     "maintainers": "Opiekunowie repozytoriów",
     "notPublished": {

@@ -91,7 +91,9 @@ test.describe(TITLE_SERIAL, { tag: '@serial' }, () => {
     await expect(page).toHaveTitle(/RDepot - submissions/)
 
     await page
-      .locator('css=.v-field__input:nth-child(2)')
+      .locator('div')
+      .filter({ hasText: /^Items per page30$/ })
+      .locator('i')
       .click()
 
     const pageSelector = page.locator('#page-items-30')

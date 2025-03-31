@@ -27,7 +27,10 @@ import {
   CREATE_REPOSITORY_PUBLICATION_URI_FIELD_ID,
   CREATE_REPOSITORY_TECHNOLOGY,
   REPOSITORIES_SIDEBAR_ID,
-  EDIT_REPOSITORY_SERVER_ADDRESS_ALERT
+  EDIT_REPOSITORY_SERVER_ADDRESS_ALERT,
+  HEALTH_CHECK_SERVER_ADDRESS_NOT_CHECKED_ID,
+  HEALTH_CHECK_SERVER_ADDRESS_INCORRECT_ID,
+  HEALTH_CHECK_SERVER_ADDRESS_CORRECT_ID
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '../helpers/login'
 import { restoreData } from '@/__tests__/end-to-end/helpers/restoreData'
@@ -89,5 +92,70 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     ).toContain(
       'http://oa-rdepot-repo:8080/python/testrepositoryint'
     )
+  })
+
+  test('repository server address health check', async ({
+    page
+  }) => {
+    await login(page, 'einstein')
+
+    await page
+      .locator(`#${REPOSITORIES_SIDEBAR_ID}`)
+      .click()
+    await page.waitForURL('**/repositories')
+    await expect(page).toHaveTitle(/RDepot - repositories/)
+
+    const createRepositorySelector = page.locator(
+      `#${ADD_MAINTAINER_ID}`
+    )
+    await createRepositorySelector.waitFor()
+    await createRepositorySelector.click()
+
+    const healthCheckIcon = page.locator(
+      `#${HEALTH_CHECK_SERVER_ADDRESS_NOT_CHECKED_ID}`
+    )
+    await healthCheckIcon.waitFor()
+    await expect(healthCheckIcon).toHaveCount(1)
+
+    await healthCheckIcon.click()
+    const incorrectAddress = page.locator(
+      `#${HEALTH_CHECK_SERVER_ADDRESS_INCORRECT_ID}`
+    )
+
+    const correctAddress = page.locator(
+      `#${HEALTH_CHECK_SERVER_ADDRESS_CORRECT_ID}`
+    )
+    await incorrectAddress.waitFor()
+    await expect(incorrectAddress).toHaveCount(1)
+    await expect(healthCheckIcon).toHaveCount(0)
+
+    await page
+      .locator(
+        `#${CREATE_REPOSITORY_SERVER_ADDRESS_FIELD_ID}`
+      )
+      .fill('http://wrongAddress/testrepositoryint')
+
+    await healthCheckIcon.waitFor()
+    await expect(incorrectAddress).toHaveCount(0)
+    await expect(healthCheckIcon).toHaveCount(1)
+    await healthCheckIcon.click()
+    await incorrectAddress.waitFor()
+    await expect(incorrectAddress).toHaveCount(1)
+    await expect(healthCheckIcon).toHaveCount(0)
+
+    await page
+      .locator(
+        `#${CREATE_REPOSITORY_SERVER_ADDRESS_FIELD_ID}`
+      )
+      .fill('http://oa-rdepot-repo:8080/somerepo')
+
+    await healthCheckIcon.waitFor()
+    await expect(incorrectAddress).toHaveCount(0)
+    await expect(healthCheckIcon).toHaveCount(1)
+    await healthCheckIcon.click()
+    await correctAddress.waitFor()
+    await expect(incorrectAddress).toHaveCount(0)
+    await expect(correctAddress).toHaveCount(1)
+    await expect(healthCheckIcon).toHaveCount(0)
   })
 })

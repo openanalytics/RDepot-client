@@ -489,6 +489,12 @@ export const REPUBLISH_REPOSITORY_TESTREPO10_ICON_ID =
   'republish-repository-10'
 export const REPUBLISH_REPOSITORY_DIALOG_ID =
   'republish-repository-dialog'
+export const HEALTH_CHECK_SERVER_ADDRESS_NOT_CHECKED_ID =
+  'check-server-address'
+export const HEALTH_CHECK_SERVER_ADDRESS_CORRECT_ID =
+  'correct-server-address'
+export const HEALTH_CHECK_SERVER_ADDRESS_INCORRECT_ID =
+  'incorrect-server-address'
 
 // REPOSITORY DESCRIPTION
 export const REPOSITORY_DESCRIPTION_CARD_ID =

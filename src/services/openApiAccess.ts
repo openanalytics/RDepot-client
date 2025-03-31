@@ -191,7 +191,7 @@ async function errorsHandler(
         toasts.error(
           i18n.t('errors.422') +
             '\n' +
-            error.response.data.data
+            error.response.data.message
         )
         break
       }

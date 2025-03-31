@@ -50,9 +50,6 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
-    /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: 'http://192.168.49.20',
-
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on',
     viewport: { width: 1920, height: 1053 },
