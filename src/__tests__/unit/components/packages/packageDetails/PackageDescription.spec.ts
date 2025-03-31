@@ -28,7 +28,7 @@ import pythonPackage from '@/__tests__/config/mockData/pythonPackage.json'
 import { createPinia, setActivePinia } from 'pinia'
 import PackageDescription from '@/components/packages/packageDetails/PackageDescription.vue'
 import { usePackageDetailsStore } from '@/store/options/packageDetails'
-import MarkdownDescription from '@/components/common/markdown/MarkdownDescription.vue'
+import RSTDescription from '@/components/common/markdown/RSTDescription.vue'
 import { nextTick } from 'process'
 
 let wrapper: any
@@ -55,7 +55,7 @@ describe('Package Description (Python)', () => {
 
   it('display markdown description', async () => {
     expect(
-      wrapper.findAllComponents(MarkdownDescription)
+      wrapper.findAllComponents(RSTDescription)
     ).toHaveLength(1)
   })
 
@@ -71,7 +71,7 @@ describe('Package Description (R)', async () => {
     packageDetailsStore.packageBag.technology = 'R'
     await nextTick(() => {})
     expect(
-      wrapper.findAllComponents(MarkdownDescription)
+      wrapper.findAllComponents(RSTDescription)
     ).toHaveLength(0)
   })
 

@@ -134,6 +134,12 @@ export interface EntityModelPackageDto {
   url?: string
 
   /**
+   * @type {string}
+   * @memberof EntityModelPackageDto
+   */
+  descriptionContentType?: string
+
+  /**
    * @type {Links}
    * @memberof EntityModelPackageDto
    */

@@ -30,9 +30,22 @@
   </div>
   <div v-else>
     <div :class="{ short: packageBagShort }">
-      <MarkdownDescription
+      <RSTDescription
         v-if="
-          packageBag.technology == Technologies.enum.Python
+          packageBag.technology ===
+            Technologies.enum.Python &&
+          packageBag?.descriptionContentType !==
+            'text/markdown'
+        "
+        :description="packageBag.description"
+        :short="packageBagShort !== undefined"
+      ></RSTDescription>
+      <MarkdownDescription
+        v-else-if="
+          packageBag.technology ===
+            Technologies.enum.Python &&
+          packageBag.descriptionContentType ===
+            'text/markdown'
         "
         :description="packageBag.description"
         :short="packageBagShort !== undefined"
@@ -70,6 +83,7 @@ import { computed } from 'vue'
 import { usePackageDetailsStore } from '@/store/options/packageDetails'
 import { Technologies } from '@/enum/Technologies'
 import MarkdownDescription from '@/components/common/markdown/MarkdownDescription.vue'
+import RSTDescription from '@/components/common/markdown/RSTDescription.vue'
 import router from '@/plugins/router'
 
 var props = defineProps<{
@@ -79,11 +93,13 @@ var props = defineProps<{
 
 const packageDetailsStore = usePackageDetailsStore()
 
-const packageBag = computed<EntityModelRPackageDto>(
-  () =>
-    props.packageBagShort ||
-    (packageDetailsStore.packageBag as EntityModelRPackageDto)
-)
+const packageBag = computed(() => {
+  if (props.packageBagShort) {
+    return props.packageBagShort
+  } else {
+    return packageDetailsStore.packageBag as EntityModelPackageDto
+  }
+})
 
 const RDescription = computed(() => {
   const dotRegex = /\.\\n+/gi

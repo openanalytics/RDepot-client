@@ -110,7 +110,6 @@
         <div class="additional-row">
           <v-card class="additional-row expanded-package">
             <PackageDescription
-              class="short expanded-package"
               :package-bag-short="
                 item as EntityModelPackageDto
               "

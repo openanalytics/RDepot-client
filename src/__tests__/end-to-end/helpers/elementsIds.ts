@@ -445,6 +445,7 @@ export const SUBMISSIONS_LIST_NOTES_ARROW_TESTREPO3_ID =
   'comment-button-48'
 export const SUBMISSIONS_LIST_NOTES_MARKDOWN =
   'markdown-description'
+export const OA_LIST_NOTES_RST = 'rst-description'
 
 //REPOSITORIES LIST
 export const DELETE_REPO_2_ICON_ID =

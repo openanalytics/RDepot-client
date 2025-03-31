@@ -22,21 +22,20 @@
 
 <template>
   <div
-    id="markdown-description"
-    v-dompurify-html="mdDescription"
+    id="rst-description"
+    v-dompurify-html="generatedHtml"
     :class="[
       'text',
       short ? ' short' : changes ? 'pa-4 py-1' : 'pa-5',
       changes ? '' : description ? 'my-5' : ''
     ]"
-  ></div>
+  />
 </template>
 
 <script setup lang="ts">
-import { marked } from 'marked'
-import { useUtilities } from '@/composable/utilities'
 import { computed } from 'vue'
 import { i18n } from '@/plugins/i18n'
+import { RstToHtmlCompiler } from 'rst-compiler'
 
 const componentProps = defineProps<{
   description?: string
@@ -45,29 +44,38 @@ const componentProps = defineProps<{
   changes?: boolean
 }>()
 
-const { renderer } = useUtilities()
+const compiler = new RstToHtmlCompiler()
 
-// Reset marked settings to use defaults
-marked.use(marked.getDefaults())
-marked.use({
-  renderer: renderer
-})
-
-const mdDescription = computed(() => {
-  let description =
-    componentProps.description ||
+const description = computed(
+  () =>
+    componentProps.description?.replaceAll('\\n', '\n') ||
     i18n.t('package.noDescriptionProvided')
-  description = description.replaceAll('\\n', '\n')
-  return marked.parse(description || '', {
-    breaks: true,
-    gfm: true
-  })
+)
+
+const parsedDescription = computed(() =>
+  compiler.parse(description.value)
+)
+const generatedHtml = computed(() => {
+  try {
+    return compiler.compile(
+      parsedDescription.value,
+      {},
+      {
+        outputEnv: {
+          html: true,
+          draft: true
+        }
+      }
+    ).body
+  } catch {
+    return description.value
+  }
 })
 </script>
 
 <style local lang="scss">
 $code_color: rgba(var(--v-theme-code));
-#markdown-description {
+#rst-description {
   code {
     margin-top: -25px; // removes weird extra newline at the beginning of code block
     align-self: center;
