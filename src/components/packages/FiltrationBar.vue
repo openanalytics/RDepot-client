@@ -88,7 +88,7 @@
       density="compact"
       hide-details
       chips
-      :closable-chips="values.submissionState.length > 1"
+      closable-chips
       :items="sortValues(states)"
       name="submissionState"
       multiple
@@ -194,7 +194,6 @@ import {
 } from '@/enum/UserRoles'
 import ResetButton from '@/components/common/buttons/ResetButton.vue'
 import { useAuthorizationStore } from '@/store/options/authorization'
-import { EntityModelSubmissionDtoStateEnum } from '@/openapi'
 
 const { states, technologies, sortValues } =
   useEnumFiltration()
@@ -221,9 +220,7 @@ function setFiltration() {
 }
 
 function resetStateField() {
-  setFieldValue('submissionState', [
-    EntityModelSubmissionDtoStateEnum.ACCEPTED
-  ])
+  setFieldValue('submissionState', [])
 }
 
 function resetValues() {
