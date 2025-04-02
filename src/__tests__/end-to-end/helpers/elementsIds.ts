@@ -52,12 +52,15 @@ export const A3_TESTREPO3_ID =
 //testrepo1 packages
 export const USL_TESTREPO1_ID =
   'select-input-package-usl-testrepo1'
-
+export const ABC_TESTREPO1_ID =
+  'select-input-package-abc-testrepo1'
 //package maintainers
 export const GALILEO_GALILEI_ACCRUED_TESTREPO1_ID =
   'edit-package-maintainer-Galileo-Galilei-accrued-testrepo1'
 export const GALILEO_GALILEI_USL_TESTREPO1_ID =
   'edit-package-maintainer-Galileo-Galilei-usl-testrepo1'
+export const GALILEO_GALILEI_ABC_TESTREPO1_ID =
+  'edit-package-maintainer-Galileo-Galilei-abc-testrepo1'
 export const GALILEO_GALILEI_ABC_TESTREPO3_ID =
   'edit-package-maintainer-Galileo-Galilei-abc-testrepo3'
 
