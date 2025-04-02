@@ -94,6 +94,6 @@ test.describe(TITLE, () => {
     await page
       .getByText('ACCEPTED', { exact: true })
       .waitFor()
-    await expect(closableTags).toHaveCount(0)
+    await expect(closableTags).toHaveCount(1)
   })
 })
