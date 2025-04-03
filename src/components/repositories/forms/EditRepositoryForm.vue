@@ -26,7 +26,7 @@
       <v-card-title>
         {{ $t('repositories.edit.title') }}
       </v-card-title>
-      <v-divider></v-divider>
+      <v-divider />
       <v-card-text>
         <validated-input-field
           id="edit-name"
@@ -37,7 +37,7 @@
           :loading="loading"
           lazy-validation
           max-width="unset"
-        ></validated-input-field>
+        />
         <validated-input-field
           id="edit-publication-uri"
           v-model="localRepository.publicationUri"
@@ -47,15 +47,24 @@
             $t('repositories.creation.publicationUri')
           "
           max-width="unset"
-        ></validated-input-field>
-        <validated-input-field
-          id="edit-server-address"
-          v-model="localRepository.serverAddress"
-          name="serverAddress"
-          as="v-text-field"
-          :label="$t('repositories.creation.serverAddress')"
-          max-width="unset"
-        ></validated-input-field>
+        />
+        <span
+          class="d-flex justify-space-between align-center"
+        >
+          <validated-input-field
+            id="edit-server-address"
+            v-model="localRepository.serverAddress"
+            name="serverAddress"
+            as="v-text-field"
+            :label="
+              $t('repositories.creation.serverAddress')
+            "
+            max-width="unset"
+          />
+          <HealthCheck
+            :server-address="values.serverAddress || ''"
+          />
+        </span>
         <validated-input-field
           id="edit-technology"
           v-model="localRepository.technology"
@@ -65,7 +74,7 @@
           as="v-select"
           :label="$t('repositories.creation.technology')"
           max-width="unset"
-        ></validated-input-field>
+        />
         <validated-input-field
           v-if="localRepository.technology == 'Python'"
           id="edit-hash-method"
@@ -75,6 +84,18 @@
           as="v-select"
           :label="$t('repositories.creation.hash')"
           max-width="unset"
+        />
+        <validated-input-field
+          v-if="localRepository.technology == 'R'"
+          id="edit-redirect-to-source"
+          v-model="localRepository.redirectToSource"
+          name="redirectToSource"
+          as="v-checkbox"
+          max-width="unset"
+          style="display: flex; justify-content: start"
+          :label="
+            $t('repositories.creation.redirectToSource')
+          "
         ></validated-input-field>
         <validated-input-field
           id="edit-requires-authentication"
@@ -88,7 +109,7 @@
               'repositories.creation.requiresAuthentication'
             )
           "
-        ></validated-input-field>
+        />
       </v-card-text>
       <v-card-text>
         <v-alert
@@ -148,6 +169,7 @@ import { HashMethods } from '@/enum/HashMethods'
 import { isAtLeastAdmin } from '@/enum/UserRoles'
 import { useAuthorizationStore } from '@/store/options/authorization'
 import { computed } from 'vue'
+import HealthCheck from '@/components/repositories/forms/HealthCheck.vue'
 
 const { deepCopy } = useUtilities()
 const hashMethods = ref(HashMethods.options)
@@ -189,7 +211,9 @@ const { meta, setFieldValue, isFieldTouched, values } =
         requiresAuthentication:
           repositorySchema.shape.requiresAuthentication,
         technology: repositorySchema.shape.technology,
-        hashMethod: repositorySchema.shape.hashMethod
+        hashMethod: repositorySchema.shape.hashMethod,
+        redirectToSource:
+          repositorySchema.shape.redirectToSource
       })
     ),
     initialValues: {
@@ -199,7 +223,8 @@ const { meta, setFieldValue, isFieldTouched, values } =
       requiresAuthentication:
         repository.requiresAuthentication,
       technology: repository.technology as Technologies,
-      hashMethod: repository.hashMethod
+      hashMethod: repository.hashMethod,
+      redirectToSource: repository.redirectToSource
     }
   })
 

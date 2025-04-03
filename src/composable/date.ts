@@ -21,7 +21,7 @@
  */
 
 import { EntityModelNewsfeedEventDto } from '@/openapi'
-import moment, { Moment } from 'moment'
+import moment from 'moment'
 
 export function useDates() {
   function isYearAndMonthDate(date: string): boolean {
@@ -29,20 +29,15 @@ export function useDates() {
   }
 
   function getMonthAndYear(date: string): string {
-    const newDate: Moment = moment(date)
-    return newDate.format('yyyy.MM')
+    return moment(date).format('yyyy.MM')
   }
 
-  function padTo2Digits(num: number) {
-    return num.toString().padStart(2, '0')
+  function formatTime(date: Date) {
+    return moment(date).format('HH:mm')
   }
 
   function formatDate(date: Date) {
-    return [
-      date.getFullYear(),
-      padTo2Digits(date.getMonth() + 1),
-      padTo2Digits(date.getDate())
-    ].join('.')
+    return moment(date).format('yyyy.MM.DD')
   }
 
   function formatDateTime(date: Date) {
@@ -50,30 +45,23 @@ export function useDates() {
   }
 
   function getDate(
-    event: EntityModelNewsfeedEventDto | undefined
+    event: EntityModelNewsfeedEventDto | undefined,
+    keepLocalTime: boolean = false
   ) {
     if (event && event.time) {
-      const date = new Date(event.time)
-      return formatDate(date)
+      const date = moment(event.time).utc(keepLocalTime)
+      return date.format('YYYY.MM.DD')
     }
     return 'null'
   }
 
-  function formatTime(date: Date) {
-    return (
-      padTo2Digits(date.getHours()) +
-      ':' +
-      padTo2Digits(date.getMinutes())
-    )
-  }
-
   function getTime(
-    event: EntityModelNewsfeedEventDto | undefined
+    event: EntityModelNewsfeedEventDto | undefined,
+    keepLocalTime: boolean = false
   ): string {
     if (event?.time) {
-      const date: Date = new Date(event.time)
-      const time: string = formatTime(date)
-      return time
+      const date = moment(event.time).utc(keepLocalTime)
+      return date.format('HH:mm')
     } else {
       return ''
     }
@@ -91,7 +79,6 @@ export function useDates() {
     isYearAndMonthDate,
     getMonthAndYear,
     getDate,
-    padTo2Digits,
     formatDate,
     formatDateTime,
     isBefore

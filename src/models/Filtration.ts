@@ -224,6 +224,15 @@ const EventsFiltration = z
         }
         return val
       }),
+    packageVersion: z
+      .array(z.string())
+      .optional()
+      .transform((val) => {
+        if (val?.length == 0) {
+          return undefined
+        }
+        return val
+      }),
     repositoryName: z
       .array(z.string())
       .optional()
@@ -258,6 +267,7 @@ const EventsFiltration = z
     technologies: undefined,
     userName: undefined,
     packageName: undefined,
+    packageVersion: undefined,
     repositoryName: undefined,
     eventType: undefined,
     resourceType: undefined,

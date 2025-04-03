@@ -21,7 +21,7 @@
 -->
 
 <template>
-  <ModalOverlay>
+  <ModalOverlay id="edit-repository-dialog">
     <template #props>
       <EditRepositoryForm />
     </template>

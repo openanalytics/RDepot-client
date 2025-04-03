@@ -66,8 +66,14 @@ export default new Map<string, string>([
   ['check', 'mdi-check'],
   ['close', 'mdi-close'],
   ['message-outline', 'mdi-message-text-outline'],
-  ['republish', 'mdi-folder-refresh-outline'],
+  ['republish', 'mdi-refresh'],
   ['binary', 'mdi-alpha-b-circle-outline'],
   ['lock', 'mdi-lock'],
-  ['lock-open', 'mdi-lock-outline']
+  ['lock-open', 'mdi-lock-open-outline'],
+  ['serverAddress', 'mdi-cloud-upload-outline'],
+  ['hashMethod', 'mdi-pound'],
+  ['redirect', 'mdi-open-in-new'],
+  ['healthCheckUndefined', 'mdi-cloud-question'],
+  ['healthCheckCorrect', 'mdi-cloud-check'],
+  ['healthCheckIncorrect', 'mdi-cloud-alert']
 ])

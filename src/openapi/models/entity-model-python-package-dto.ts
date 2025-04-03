@@ -137,6 +137,12 @@ export interface EntityModelPythonPackageDto {
    * @type {string}
    * @memberof EntityModelPythonPackageDto
    */
+  descriptionContentType?: string
+
+  /**
+   * @type {string}
+   * @memberof EntityModelPythonPackageDto
+   */
   authorEmail?: string
 
   /**
@@ -144,12 +150,6 @@ export interface EntityModelPythonPackageDto {
    * @memberof EntityModelPythonPackageDto
    */
   classifiers?: string
-
-  /**
-   * @type {string}
-   * @memberof EntityModelPythonPackageDto
-   */
-  descriptionContentType?: string
 
   /**
    * @type {string}

@@ -244,7 +244,7 @@
     "reset": "Reset",
     "resourceId": "Resource id",
     "resourceType": "Resource type",
-    "state": "State",
+    "state": "Status",
     "technologies": "Technologies",
     "title": "Filtration",
     "userId": "User id"
@@ -416,7 +416,7 @@
       "name": "Package",
       "repository": "Repository",
       "searchBox": "Search",
-      "submissionState": "State"
+      "submissionState": "Status"
     },
     "generateManualNotAvailable": "not available for binary packages",
     "generatemanual": "Generate manual",
@@ -454,6 +454,7 @@
       "name": "Name",
       "publicationUri": "Publication URI",
       "publicationUriPlaceholder": "http://localhost/repo/{'{name}'}",
+      "redirectToSource": "Redirect to source",
       "requiresAuthentication": "Requires authentication",
       "serverAddress": "Server address",
       "serverAddressPlaceholder": "http://oa-rdepot-repo:8080/{'{name}'}",
@@ -471,12 +472,16 @@
       "hash-method": "Hash method",
       "last-modification-date": "Last modification date",
       "last-publication-date": "Last publication date",
+      "number-of-packages": "Number of packages",
       "publication-failed": "publication failed",
       "publication-failed-on": "Publication failed, last try at {dateTime}",
-      "publication-succeed": "publication succeed"
+      "publication-succeed": "publication succeed",
+      "redirectToSource": "Redirect to source"
     },
     "edit": {
-      "title": "Edit repository"
+      "publish": "Publish",
+      "title": "Edit repository",
+      "unpublish": "Unpublish"
     },
     "empty": "No repository chosen",
     "filtration": {
@@ -487,8 +492,16 @@
       "published": "Published",
       "searchBox": "Search"
     },
+    "healthCheck": {
+      "correct": "server address is correct",
+      "incorrect": "server address is incorrect",
+      "undefined": "check if the server address is correct"
+    },
     "list": "Repositories",
     "maintainers": "Repository maintainers",
+    "notPublished": {
+      "republish": "Repository is not published yet"
+    },
     "published": {
       "false": "not published",
       "true": "published"
@@ -612,8 +625,9 @@
   },
   "success": "Request processed successfully",
   "tokens": {
+    "active": "This token is active",
     "deleted": "This token is deleted",
-    "inacitve": "This token is inactive"
+    "inactive": "This token is inactive"
   },
   "updatedProperties": {
     "accepted": "ACCEPTED",
@@ -628,7 +642,7 @@
     "published": "published",
     "rejected": "REJECTED",
     "source": "source",
-    "state": "state",
+    "state": "status",
     "submitted": "submitted",
     "synchronizing": "synchronizing",
     "title": "Updated properties",

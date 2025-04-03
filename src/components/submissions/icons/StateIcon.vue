@@ -26,7 +26,7 @@
       <div
         id="tooltip-activator"
         v-bind="props"
-        class="mr-5"
+        class="mr-6"
       >
         <v-icon
           :icon="getStatusIcon(state)"

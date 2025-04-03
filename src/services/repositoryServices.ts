@@ -42,6 +42,7 @@ import { createPatch } from 'rfc6902'
 import { isAuthorized } from '@/plugins/casl'
 import { useToast } from '@/composable/toasts'
 import { i18n } from '@/plugins/i18n'
+import { ApiV2StatusControllerApiFactory } from '@/openapi/apis/api-v2-status-controller-api'
 
 type ValidatedRepositories = Promise<
   validatedData<EntityModelRepositoryDto[]>
@@ -257,4 +258,14 @@ export async function republishRepositoryService(
       'Technologies not supported' + technology
     )
   }
+}
+
+export async function isServerAddressHealthy(
+  serverAddress: string
+): Promise<validatedData<boolean>> {
+  return openApiRequest(
+    ApiV2StatusControllerApiFactory()
+      .validateNewServerAddress,
+    [serverAddress]
+  )
 }

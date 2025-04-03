@@ -65,6 +65,7 @@ export const ApiV2NewsfeedEventControllerApiAxiosParamCreator =
        * @param {Array<string>} [technology]
        * @param {Array<string>} [userName]
        * @param {Array<string>} [packageName]
+       * @param {Array<string>} [packageVersion]
        * @param {Array<string>} [repositoryName]
        * @param {Array<string>} [eventType]
        * @param {Array<string>} [resourceType]
@@ -80,6 +81,7 @@ export const ApiV2NewsfeedEventControllerApiAxiosParamCreator =
         technology?: Array<string>,
         userName?: Array<string>,
         packageName?: Array<string>,
+        packageVersion?: Array<string>,
         repositoryName?: Array<string>,
         eventType?: Array<string>,
         resourceType?: Array<string>,
@@ -139,6 +141,11 @@ export const ApiV2NewsfeedEventControllerApiAxiosParamCreator =
         if (packageName) {
           localVarQueryParameter['packageName'] =
             packageName
+        }
+
+        if (packageVersion) {
+          localVarQueryParameter['packageVersion'] =
+            packageVersion
         }
 
         if (repositoryName) {
@@ -292,6 +299,7 @@ export const ApiV2NewsfeedEventControllerApiFp = function (
      * @param {Array<string>} [technology]
      * @param {Array<string>} [userName]
      * @param {Array<string>} [packageName]
+     * @param {Array<string>} [packageVersion]
      * @param {Array<string>} [repositoryName]
      * @param {Array<string>} [eventType]
      * @param {Array<string>} [resourceType]
@@ -307,6 +315,7 @@ export const ApiV2NewsfeedEventControllerApiFp = function (
       technology?: Array<string>,
       userName?: Array<string>,
       packageName?: Array<string>,
+      packageVersion?: Array<string>,
       repositoryName?: Array<string>,
       eventType?: Array<string>,
       resourceType?: Array<string>,
@@ -331,6 +340,7 @@ export const ApiV2NewsfeedEventControllerApiFp = function (
           technology,
           userName,
           packageName,
+          packageVersion,
           repositoryName,
           eventType,
           resourceType,
@@ -403,6 +413,7 @@ export const ApiV2NewsfeedEventControllerApiFactory =
        * @param {Array<string>} [technology]
        * @param {Array<string>} [userName]
        * @param {Array<string>} [packageName]
+       * @param {Array<string>} [packageVersion]
        * @param {Array<string>} [repositoryName]
        * @param {Array<string>} [eventType]
        * @param {Array<string>} [resourceType]
@@ -418,6 +429,7 @@ export const ApiV2NewsfeedEventControllerApiFactory =
         technology?: Array<string>,
         userName?: Array<string>,
         packageName?: Array<string>,
+        packageVersion?: Array<string>,
         repositoryName?: Array<string>,
         eventType?: Array<string>,
         resourceType?: Array<string>,
@@ -437,6 +449,7 @@ export const ApiV2NewsfeedEventControllerApiFactory =
             technology,
             userName,
             packageName,
+            packageVersion,
             repositoryName,
             eventType,
             resourceType,
@@ -482,6 +495,7 @@ export class ApiV2NewsfeedEventControllerApi extends BaseAPI {
    * @param {Array<string>} [technology]
    * @param {Array<string>} [userName]
    * @param {Array<string>} [packageName]
+   * @param {Array<string>} [packageVersion]
    * @param {Array<string>} [repositoryName]
    * @param {Array<string>} [eventType]
    * @param {Array<string>} [resourceType]
@@ -498,6 +512,7 @@ export class ApiV2NewsfeedEventControllerApi extends BaseAPI {
     technology?: Array<string>,
     userName?: Array<string>,
     packageName?: Array<string>,
+    packageVersion?: Array<string>,
     repositoryName?: Array<string>,
     eventType?: Array<string>,
     resourceType?: Array<string>,
@@ -517,6 +532,7 @@ export class ApiV2NewsfeedEventControllerApi extends BaseAPI {
         technology,
         userName,
         packageName,
+        packageVersion,
         repositoryName,
         eventType,
         resourceType,

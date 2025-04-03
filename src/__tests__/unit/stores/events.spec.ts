@@ -43,6 +43,7 @@ const defaultFiltration = {
   technologies: undefined,
   userName: undefined,
   packageName: undefined,
+  packageVersion: undefined,
   repositoryName: undefined,
   fromDate: undefined,
   toDate: undefined

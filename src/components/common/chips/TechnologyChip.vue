@@ -22,13 +22,13 @@
 
 <template>
   <v-chip
-    size="small"
+    :size="size"
     color="oablue"
     class="mr-3"
     style="cursor: pointer"
   >
-    {{ technology }}</v-chip
-  >
+    {{ technology }}
+  </v-chip>
 </template>
 
 <script setup lang="ts">
@@ -36,6 +36,11 @@ defineProps({
   technology: {
     type: String,
     required: true
+  },
+  size: {
+    type: String,
+    required: false,
+    default: 'small'
   }
 })
 </script>

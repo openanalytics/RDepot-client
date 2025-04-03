@@ -36,13 +36,23 @@
     </template>
 
     <template #[`item.active`]="{ item }">
-      <v-checkbox-btn
-        id="checkbox-active"
-        v-model="item.active"
-        class="mr-8"
-        color="oablue"
-        disabled
-      />
+      <v-icon
+        id="access-token-active-icon"
+        v-tooltip="
+          item.active
+            ? $t('tokens.active')
+            : $t('tokens.inactive')
+        "
+        :icon="
+          item.active
+            ? Icons.get('success')
+            : Icons.get('error')
+        "
+        class="mx-4"
+        variant="text"
+        :color="item.active ? 'success' : 'oared'"
+      >
+      </v-icon>
     </template>
 
     <template #[`item.actions`]="{ item }">
@@ -60,17 +70,11 @@
           :hover-message="
             !canPatch(item.links) && item.active
               ? undefined
-              : $t('tokens.inacitve')
+              : $t('tokens.inactive')
           "
           @set-entity="setEditEntity(item)"
         />
-        <DeleteIcon
-          v-if="item.name"
-          :disabled="!canDelete(item.links)"
-          :name="item.name"
-          @set-resource-id="setEditEntity(item)"
-        />
-        <!-- <DeactivateIcon
+        <DeactivateIcon
           v-if="item.name"
           :disabled="
             (!canPatch(item.links) && item.active) ||
@@ -82,9 +86,15 @@
               ? undefined
               : $t('tokens.inacitve')
           "
-          @set-resource-id="setEditEntity(item)" /> -->
-      </span></template
-    >
+          @set-resource-id="setEditEntity(item)"
+        />
+        <DeleteIcon
+          v-if="item.name"
+          :disabled="!canDelete(item.links)"
+          :name="item.name"
+          @set-resource-id="setEditEntity(item)"
+        /> </span
+    ></template>
   </OATable>
 </template>
 
@@ -99,7 +109,7 @@ import {
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
 import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
 import ProgressCircularSmall from '../common/progress/ProgressCircularSmall.vue'
-// import DeactivateIcon from '@/components/common/action_icons/DeactivateIcon.vue'
+import DeactivateIcon from '@/components/common/action_icons/DeactivateIcon.vue'
 import EditIcon from '@/components/common/action_icons/EditIcon.vue'
 import { EntityModelAccessTokenDto } from '@/openapi'
 import { isAtLeastAdmin } from '@/enum/UserRoles'
@@ -109,6 +119,7 @@ import { useSort } from '@/composable/sort'
 import AddToken from '@/components/common/buttons/AddToken.vue'
 import OATable from '../common/datatable/OATable.vue'
 import { useAccessTokensStore } from '@/store/options/accessTokens'
+import Icons from '@/maps/Icons'
 
 const authorizationStore = useAuthorizationStore()
 const accessTokensStore = useAccessTokensStore()

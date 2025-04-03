@@ -125,6 +125,12 @@ export interface EntityModelRRepositoryDto {
   lastPublicationSuccessful?: boolean
 
   /**
+   * @type {boolean}
+   * @memberof EntityModelRRepositoryDto
+   */
+  redirectToSource?: boolean
+
+  /**
    * @type {Links}
    * @memberof EntityModelRRepositoryDto
    */

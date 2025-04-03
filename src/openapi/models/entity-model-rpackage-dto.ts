@@ -137,6 +137,12 @@ export interface EntityModelRPackageDto {
    * @type {string}
    * @memberof EntityModelRPackageDto
    */
+  descriptionContentType?: string
+
+  /**
+   * @type {string}
+   * @memberof EntityModelRPackageDto
+   */
   depends?: string
 
   /**

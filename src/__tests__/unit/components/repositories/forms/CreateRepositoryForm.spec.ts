@@ -126,6 +126,28 @@ describe('CreateRepository', () => {
     ).toBeFalsy()
   })
 
+  it('redirect to source field is displayed when technology is R', async () => {
+    wrapper.vm.setFieldValue(
+      'technology',
+      Technologies.Enum.R
+    )
+    await nextTick()
+    expect(
+      wrapper.find('#create-redirect-to-source').exists()
+    ).toBeTruthy()
+  })
+
+  it('redirect to source field is not displayed when technology is Python', async () => {
+    wrapper.vm.setFieldValue(
+      'technology',
+      Technologies.Enum.Python
+    )
+    await nextTick()
+    expect(
+      wrapper.find('#create-redirect-to-source').exists()
+    ).toBeFalsy()
+  })
+
   it('should not call create repository if form is empty', async () => {
     const spy = vi.spyOn(repositoryStore, 'create')
     const createButton = wrapper.find('#submit-button')

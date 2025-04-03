@@ -133,6 +133,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     const repositoryToEditSelection = page.locator(
       `#${REPOSITORIES_LIST_PYTHON_REPO_ID}`
     )
+    await repositoryToEditSelection.waitFor()
 
     const repositoriesRowsSelector =
       page.locator('role=row')
@@ -145,7 +146,9 @@ test.describe(TITLE, { tag: '@serial' }, () => {
 
     const repositoryHashMethodSelector =
       page.getByText('SHA256')
-    expect(repositoryHashMethodSelector).toHaveCount(1)
+    await expect(repositoryHashMethodSelector).toHaveCount(
+      1
+    )
 
     await page
       .locator(`#${EDIT_REPOSITORY_TESTREPO8_ICON_ID}`)

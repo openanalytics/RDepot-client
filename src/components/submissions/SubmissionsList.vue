@@ -65,6 +65,42 @@
         <MultiActionSubmissionsAlert :item="item" />
       </span>
     </template>
+
+    <template #[`item.packageBag.name`]="{ value, item }">
+      <v-list-item
+        :id="`packages-list-${value}`"
+        lines="two"
+        class="px-0 mx-0"
+      >
+        <template #title>
+          {{ value.replaceAll('\\n', ' ') }}
+          <small style="opacity: 0.5"
+            >v.{{ item.packageBag.version }}</small
+          >
+          <TechnologyChip
+            size="x-small"
+            class="ml-1"
+            :technology="item.packageBag.technology"
+          />
+        </template>
+        <template #subtitle>
+          <div>
+            <small>
+              <div
+                class="d-flex justify-start align-center ga-2"
+              >
+                {{ item.packageBag.title }}
+              </div>
+            </small>
+          </div>
+        </template>
+      </v-list-item>
+    </template>
+
+    <template #[`item.packageBag.binary`]="{ item }">
+      <BinaryPackage :item="item" />
+    </template>
+
     <template #[`item.actions`]="{ item }">
       <ProgressCircularSmall v-if="isPending(item)" />
       <span v-else class="d-flex justify-end align-right">
@@ -117,6 +153,8 @@ import DownloadSubmission from './actions/DownloadSubmission.vue'
 import CommentSubmission from './actions/CommentSubmission.vue'
 import OATable from '../common/datatable/OATable.vue'
 import MarkdownDescription from '@/components/common/markdown/MarkdownDescription.vue'
+import TechnologyChip from '@/components/common/chips/TechnologyChip.vue'
+import BinaryPackage from '@/components/packages/BinaryPackage.vue'
 
 const submissionStore = useSubmissionStore()
 
@@ -129,22 +167,15 @@ const exp = ref<string[]>([])
 
 const headers = computed<DataTableHeaders[]>(() => [
   {
-    title: i18n.t('columns.submissions.date'),
-    align: 'center',
-    key: 'created',
-    width: 100
-  },
-  {
     title: i18n.t('columns.submissions.package'),
     align: 'start',
-    key: 'packageBag.name',
-    width: 150
+    key: 'packageBag.name'
+    // width: 150
   },
-
   {
-    title: i18n.t('columns.submissions.packageVersion'),
+    title: i18n.t('columns.package.fileType'),
     align: 'center',
-    key: 'packageBag.version',
+    key: 'packageBag.binary',
     width: 100
   },
   {
@@ -154,22 +185,22 @@ const headers = computed<DataTableHeaders[]>(() => [
     value: 'packageBag.repository.name'
   },
   {
-    title: i18n.t('columns.submissions.submitter'),
+    title: i18n.t('columns.submissions.date'),
     align: 'center',
+    key: 'created',
+    width: 100
+  },
+  {
+    title: i18n.t('columns.submissions.submitter'),
+    align: 'start',
     key: 'submitter.name',
     width: 200
   },
   {
     title: i18n.t('columns.submissions.approver'),
-    align: 'center',
+    align: 'start',
     key: 'approver.name',
     width: 200
-  },
-  {
-    title: i18n.t('columns.submissions.technology'),
-    align: 'center',
-    key: 'packageBag.repository.technology',
-    width: 100
   },
   {
     title: i18n.t('columns.submissions.status'),

@@ -22,19 +22,19 @@
 
 import { test, expect } from '@playwright/test'
 import {
+  ABC_TESTREPO1_ID,
   EDIT_PACKAGE_MAINTAINER_PACKAGE_INPUT_ID,
   EDIT_PACKAGE_MAINTAINER_PACKAGE_INPUT_MESSAGES_ID,
   EDIT_PACKAGE_MAINTAINER_REPOSITORY_INPUT_ID,
   EDIT_PACKAGE_MAINTAINER_REPOSITORY_INPUT_MESSAGES_ID,
   EDIT_PACKAGE_MAINTAINER_SUBMIT_ID,
   EDIT_PACKAGE_MAINTAINER_USER_INPUT_ID,
+  GALILEO_GALILEI_ABC_TESTREPO1_ID,
   GALILEO_GALILEI_ABC_TESTREPO3_ID,
   GALILEO_GALILEI_ACCRUED_TESTREPO1_ID,
-  GALILEO_GALILEI_USL_TESTREPO1_ID,
   NUMPY_TESTREPO10_ID,
   PACKAGE_MAINTAINERS_SIDEBAR_ID,
   TEST_REPO_10_ID,
-  USL_TESTREPO1_ID,
   WHEEL_TESTREPO10_ID
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '../helpers/login'
@@ -113,7 +113,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     })
 
     const packageOption = page.locator(
-      `#${USL_TESTREPO1_ID}`
+      `#${ABC_TESTREPO1_ID}`
     )
     await packageOption.waitFor()
     await packageOption.click()
@@ -194,7 +194,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     await expect(maintainersRowsSelector).toHaveCount(12)
 
     const editMaintainerSelector = page.locator(
-      `#${GALILEO_GALILEI_USL_TESTREPO1_ID}`
+      `#${GALILEO_GALILEI_ABC_TESTREPO1_ID}`
     )
     await editMaintainerSelector.waitFor()
     await editMaintainerSelector.click()

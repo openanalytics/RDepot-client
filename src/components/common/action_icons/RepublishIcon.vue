@@ -24,8 +24,8 @@
   <v-icon
     :id="`republish-repository-${repo.id}`"
     v-tooltip="tooltipText"
-    class="ml-3"
     :color="disabled ? 'grey' : 'oablue'"
+    style="margin-left: 2px"
     @click.stop
     @click="republish"
     >{{ Icons.get('republish') }}</v-icon
@@ -60,7 +60,9 @@ const tooltipText = computed(() =>
       ? i18n.t('repositories.declarative.republish')
       : componentProps.repo.deleted
         ? i18n.t('repositories.deleted')
-        : i18n.t('common.notAuthorized')
+        : componentProps.repo.published
+          ? i18n.t('common.notAuthorized')
+          : i18n.t('repositories.notPublished.republish')
 )
 
 const disabled = computed(() => {

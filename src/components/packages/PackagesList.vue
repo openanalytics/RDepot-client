@@ -63,12 +63,35 @@
       />
     </template>
 
-    <template #[`item.name`]="{ item }">
-      {{ item.name.replaceAll('\\n', ' ') }}
-    </template>
-
-    <template #[`item.title`]="{ item }">
-      {{ item.title.replaceAll('\\n', ' ') }}
+    <template #[`item.name`]="{ value, item }">
+      <v-list-item
+        :id="`packages-list-${value}`"
+        lines="two"
+        class="px-0 mx-0"
+      >
+        <template #title>
+          {{ value.replaceAll('\\n', ' ') }}
+          <small style="opacity: 0.5"
+            >v.{{ item.version }}</small
+          >
+          <TechnologyChip
+            size="x-small"
+            class="ml-1"
+            :technology="item.technology"
+          />
+        </template>
+        <template #subtitle>
+          <div>
+            <small>
+              <div
+                class="d-flex justify-start align-center ga-2"
+              >
+                {{ item.title }}
+              </div>
+            </small>
+          </div>
+        </template>
+      </v-list-item>
     </template>
 
     <template #[`item.binary`]="{ item }">
@@ -87,7 +110,6 @@
         <div class="additional-row">
           <v-card class="additional-row expanded-package">
             <PackageDescription
-              class="short expanded-package"
               :package-bag-short="
                 item as EntityModelPackageDto
               "
@@ -119,6 +141,7 @@ import MultiActionPackages from './actions/MultiActionPackages.vue'
 import SelectBoxPackages from './actions/SelectBoxPackages.vue'
 import { usePackagesActions } from '@/composable/packages/packagesActions'
 import OATable from '../common/datatable/OATable.vue'
+import TechnologyChip from '@/components/common/chips/TechnologyChip.vue'
 
 const exp = ref<string[]>([])
 
@@ -143,41 +166,20 @@ const headers = computed<DataTableHeaders[]>(() => [
   {
     title: i18n.t('columns.package.name'),
     align: 'start',
-    key: 'name',
-    width: 150
-  },
-  {
-    title: i18n.t('columns.package.version'),
-    align: 'start',
-    key: 'version',
-    width: 100
-  },
-
-  {
-    title: i18n.t('columns.package.title'),
-    align: 'start',
-    key: 'title',
-    width: 500,
-    sortable: false
+    key: 'name'
   },
   {
     title: i18n.t('columns.package.maintainer'),
-    align: 'center',
+    align: 'start',
     key: 'user.name',
     width: 200
   },
   {
     title: i18n.t('columns.package.repository'),
-    align: 'center',
+    align: 'start',
     key: 'repository',
     value: 'repository.name',
     width: 200
-  },
-  {
-    title: i18n.t('columns.package.technology'),
-    align: 'center',
-    key: 'technology',
-    width: 100
   },
   {
     title: i18n.t('columns.package.fileType'),
@@ -195,7 +197,7 @@ const headers = computed<DataTableHeaders[]>(() => [
     title: i18n.t('columns.package.active'),
     align: 'center',
     key: 'active',
-    width: 100
+    width: 80
   },
   {
     title: i18n.t('columns.actions'),

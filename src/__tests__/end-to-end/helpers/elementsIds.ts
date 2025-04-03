@@ -52,12 +52,15 @@ export const A3_TESTREPO3_ID =
 //testrepo1 packages
 export const USL_TESTREPO1_ID =
   'select-input-package-usl-testrepo1'
-
+export const ABC_TESTREPO1_ID =
+  'select-input-package-abc-testrepo1'
 //package maintainers
 export const GALILEO_GALILEI_ACCRUED_TESTREPO1_ID =
   'edit-package-maintainer-Galileo-Galilei-accrued-testrepo1'
 export const GALILEO_GALILEI_USL_TESTREPO1_ID =
   'edit-package-maintainer-Galileo-Galilei-usl-testrepo1'
+export const GALILEO_GALILEI_ABC_TESTREPO1_ID =
+  'edit-package-maintainer-Galileo-Galilei-abc-testrepo1'
 export const GALILEO_GALILEI_ABC_TESTREPO3_ID =
   'edit-package-maintainer-Galileo-Galilei-abc-testrepo3'
 
@@ -445,22 +448,28 @@ export const SUBMISSIONS_LIST_NOTES_ARROW_TESTREPO3_ID =
   'comment-button-48'
 export const SUBMISSIONS_LIST_NOTES_MARKDOWN =
   'markdown-description'
+export const OA_LIST_NOTES_RST = 'rst-description'
 
 //REPOSITORIES LIST
 export const DELETE_REPO_2_ICON_ID =
   'delete-repository-icon-2'
 export const DELETE_REPO_3_ICON_ID =
   'delete-repository-icon-3'
+export const DELETE_REPOSITORY_DIALOG_ID =
+  'delete-repository-dialog'
 export const DELETE_REPOSITORY_SUBMIT_ID = 'submit-button'
 export const DELETE_REPOSITORY_CANCEL_ID = 'cancel-button'
 export const COPY_PUBLICATION_URI_TESTREPO1_BUTTON_ID =
   'resources-list-httplocalhostrepotestrepo1-copy'
 export const COPY_SERVER_ADDRESS_TESTREPO2_BUTTON_ID =
   'resources-list-httpoa-rdepot-repo8080testrepo2-copy'
+
 export const EDIT_REPOSITORY_TESTREPO8_ICON_ID =
   'edit-repository-8'
 export const EDIT_REPOSITORY_HASH_METHOD_FIELD_ID =
   'edit-hash-method'
+export const EDIT_REPOSITORY_DIALOG_ID =
+  'edit-repository-dialog'
 export const EDIT_REPOSITORY_TECHNOLOGY_FIELD_ID =
   'edit-technology'
 export const EDIT_REPOSITORY_SERVER_ADDRESS_FIELD_ID =
@@ -482,6 +491,14 @@ export const REPUBLISH_REPOSITORY_TESTREPO2_ICON_ID =
   'republish-repository-2'
 export const REPUBLISH_REPOSITORY_TESTREPO10_ICON_ID =
   'republish-repository-10'
+export const REPUBLISH_REPOSITORY_DIALOG_ID =
+  'republish-repository-dialog'
+export const HEALTH_CHECK_SERVER_ADDRESS_NOT_CHECKED_ID =
+  'check-server-address'
+export const HEALTH_CHECK_SERVER_ADDRESS_CORRECT_ID =
+  'correct-server-address'
+export const HEALTH_CHECK_SERVER_ADDRESS_INCORRECT_ID =
+  'incorrect-server-address'
 
 // REPOSITORY DESCRIPTION
 export const REPOSITORY_DESCRIPTION_CARD_ID =
@@ -498,6 +515,8 @@ export const REPOSITORIES_LIST_R_REPO_ID =
   'repositories-list-testrepo2'
 export const REPOSITORIES_LIST_PYTHON_REPO_ID =
   'repositories-list-testrepo8'
+export const REPOSITORY_REDIRECT_TO_SOURCE_ID =
+  'repository-description-redirect-to-source'
 
 // SETTINGS FIELD
 export const PAGE_SIZE_ID = 'page-size-input'

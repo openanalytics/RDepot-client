@@ -466,6 +466,7 @@
       "name": "Nazwa",
       "publicationUri": "URI publikacji",
       "publicationUriPlaceholder": "http://localhost/repo/{'{name}'}",
+      "redirectToSource": "Przekieruj do źródła",
       "requiresAuthentication": "Wymaga autentykacji",
       "serverAddress": "Adres serwera",
       "serverAddressPlaceholder": "http://oa-rdepot-repo:8080/{'{name}'}",
@@ -483,12 +484,16 @@
       "hash-method": "Metoda haszowania",
       "last-modification-date": "Data ostatniej modyfikacji",
       "last-publication-date": "Data ostatniej publikacji",
+      "number-of-packages": "Liczba pakietów",
       "publication-failed": "publikacja nie powiodła się",
       "publication-failed-on": "Publikacja nie powiodła się, data ostatniej próby: {dateTime}",
-      "publication-succeed": "publikacja powiodła się"
+      "publication-succeed": "publikacja powiodła się",
+      "redirectToSource": "Przekieruj do źródła"
     },
     "edit": {
-      "title": "Edytuj repozytorium"
+      "publish": "Opublikuj",
+      "title": "Edytuj repozytorium",
+      "unpublish": "Cofnij publikację"
     },
     "empty": "Nie wybrano repozytorium",
     "filtration": {
@@ -499,8 +504,16 @@
       "published": "Opublikowane",
       "searchBox": "Szukaj"
     },
+    "healthCheck": {
+      "correct": "adres serwera jest poprawny",
+      "incorrect": "adres serwera jest niepoprawny",
+      "undefined": "sprawdź, czy adres serwera jest poprawny"
+    },
     "list": "Repozytoria",
     "maintainers": "Opiekunowie repozytoriów",
+    "notPublished": {
+      "republish": "Repozytorium nie jest jeszcze opublikowane"
+    },
     "published": {
       "false": "nieopublikowane",
       "true": "opublikowane"
@@ -624,8 +637,9 @@
   },
   "success": "Poprawnie wykonana operacja",
   "tokens": {
+    "active": "Ten token jest aktywny",
     "deleted": "Ten token jest usunięty",
-    "inacitve": "Ten token jest nieaktywny"
+    "inactive": "Ten token jest nieaktywny"
   },
   "updatedProperties": {
     "accepted": "ZAAKCEPTOWANE",

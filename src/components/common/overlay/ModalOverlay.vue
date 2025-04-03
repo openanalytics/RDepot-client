@@ -23,7 +23,7 @@
 <template>
   <v-overlay
     v-model="commonStore.overlay"
-    opacity="0.8"
+    opacity="0.7"
     location-strategy="connected"
     class="d-flex justify-center align-center"
     @click:outside="closeOverlay"
@@ -77,5 +77,9 @@ async function reset() {
 .v-overlay--contained .v-overlay__scrim {
   position: fixed !important;
   width: 100%;
+}
+
+.v-overlay__scrim {
+  background-color: #000 !important;
 }
 </style>
