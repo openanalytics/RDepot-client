@@ -99,8 +99,8 @@ describe('date picker composable', () => {
     changedDate.value = 'desc'
 
     closeModal()
-    expect(fromDatePicker.value.toTimeString()).toEqual(
-      new Date().toTimeString()
+    expect(fromDatePicker.value.toDateString()).toEqual(
+      new Date().toDateString()
     )
     expect(changedDate.value).toEqual('')
     expect(showDatepicker.value).toBeFalsy()
