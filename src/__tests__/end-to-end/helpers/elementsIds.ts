@@ -546,10 +546,13 @@ export const DELETE_USER_ROLE_USER_ID = 'delete-user-9'
 export const DELETE_USER_ROLE_ADMIN_ID = 'delete-user-8'
 export const DELETE_USER_ROLE_ADMIN_LOGGED_IN_ID =
   'delete-user-4'
+export const EDIT_USER_PACKAGE_MAINTAINER_ID = 'edit-user-6'
+export const EDIT_USER_USER_ID = 'edit-user-10'
 export const SUBMIT_USER_DELETION_BUTTON_ID =
   'submit-button'
 export const COPY_ADMIN_EMAIL_BUTTON_ID =
   'resources-list-admin-localhost-copy'
+export const EDIT_USER_ROLE_FIELD_ID = 'edit-user-role'
 
 // USERS FILTRATION
 export const USERS_FILTRATION_SEARCH_FIELD_ID =

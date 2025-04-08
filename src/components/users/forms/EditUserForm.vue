@@ -21,7 +21,12 @@
 -->
 
 <template>
-  <form ref="form" as="v-form" lazy-validation>
+  <form
+    ref="form"
+    as="v-form"
+    lazy-validation
+    id="editUserForm"
+  >
     <v-card class="pa-5" width="400">
       <v-card-title>
         {{ $t('users.edit.title') }}
