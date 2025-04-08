@@ -127,6 +127,7 @@
     "version": "Wersja"
   },
   "common": {
+    "activate": "Aktywuj",
     "after": "Po",
     "apply": "Zastosuj",
     "before": "Przed",
@@ -671,6 +672,7 @@
       "title": "Edytuj użytkownika",
       "tooltip": "Edytuj użytkownika"
     },
+    "editAdmin": "Nie można edytować administratorów",
     "filtration": {
       "active": "Aktywny",
       "deleted": "Usunięty",
@@ -678,7 +680,6 @@
       "searchBox": "Szukaj"
     },
     "unableDeactivation": "Użytkownik nie może dezaktywować siebie",
-    "unableDeletion": "Użytkownik nie może usunąć siebie\t",
-    "editAdmin": "Nie można edytować administratorów"
+    "unableDeletion": "Użytkownik nie może usunąć siebie\t"
   }
 }
