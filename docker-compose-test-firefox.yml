@@ -108,6 +108,7 @@ services:
       - VITE_URL_PREFIX=/
       - VITE_SERVER_ADDRESS=http://192.168.51.20/backend
       - VITE_ADDRESS_DEPRECATION_WARNING=true
+      - VITE_REPO_SERVER_ADDRESS=http://oa-rdepot-repo:8080/
 networks:
   oa-rdepot:
     ipam:

@@ -25,12 +25,16 @@ import {
   ADD_MAINTAINER_ID,
   CREATE_REPOSITORY_SERVER_ADDRESS_FIELD_ID,
   CREATE_REPOSITORY_PUBLICATION_URI_FIELD_ID,
-  CREATE_REPOSITORY_TECHNOLOGY,
   REPOSITORIES_SIDEBAR_ID,
   EDIT_REPOSITORY_SERVER_ADDRESS_ALERT,
   HEALTH_CHECK_SERVER_ADDRESS_NOT_CHECKED_ID,
   HEALTH_CHECK_SERVER_ADDRESS_INCORRECT_ID,
-  HEALTH_CHECK_SERVER_ADDRESS_CORRECT_ID
+  HEALTH_CHECK_SERVER_ADDRESS_CORRECT_ID,
+  CREATE_REPOSITORY_NAME_FIELD_ID,
+  CREATE_REPOSITORY_REDIRECT_TO_SOURCE_FIELD_ID,
+  SUBMIT_BUTTON_ID,
+  CREATE_REPOSITORY_TECHNOLOGY_FIELD_ID,
+  CREATE_REPOSITORY_HASH_METHOD_FIELD_ID
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '../helpers/login'
 import { restoreData } from '@/__tests__/end-to-end/helpers/restoreData'
@@ -42,6 +46,114 @@ test.beforeAll(async ({}, testInfo) => {
 
 const TITLE = 'repositories creation'
 test.describe(TITLE, { tag: '@serial' }, () => {
+  test('create R repository', async ({ page }) => {
+    await login(page, 'einstein')
+    await page
+      .locator(`#${REPOSITORIES_SIDEBAR_ID}`)
+      .click()
+    await page.waitForURL('**/repositories')
+    await expect(page).toHaveTitle(/RDepot - repositories/)
+
+    await expect(
+      page.locator('#repositories-list-testRepoR')
+    ).toHaveCount(0)
+    const createRepositorySelector = page.locator(
+      `#${ADD_MAINTAINER_ID}`
+    )
+    await createRepositorySelector.waitFor()
+    await createRepositorySelector.click()
+
+    await page
+      .locator(`#${CREATE_REPOSITORY_NAME_FIELD_ID}`)
+      .fill('testRepoR')
+    await page
+      .locator(
+        `#${CREATE_REPOSITORY_PUBLICATION_URI_FIELD_ID}`
+      )
+      .fill('https://publicationUri.testRepo.R')
+    await page
+      .locator(
+        `#${CREATE_REPOSITORY_SERVER_ADDRESS_FIELD_ID}`
+      )
+      .fill('https://serverAddress.testRepoR')
+    await page
+      .locator(`#${CREATE_REPOSITORY_TECHNOLOGY_FIELD_ID}`)
+      .press('Enter')
+    await page
+      .getByRole('option', { name: 'Python' })
+      .press('ArrowDown')
+    await page
+      .getByRole('option', { name: 'R' })
+      .press('Enter')
+    await expect(
+      page.locator(
+        `#${CREATE_REPOSITORY_HASH_METHOD_FIELD_ID}`
+      )
+    ).toHaveCount(0)
+    await page
+      .locator(
+        `#${CREATE_REPOSITORY_REDIRECT_TO_SOURCE_FIELD_ID}`
+      )
+      .click()
+    await page
+      .locator(`#${SUBMIT_BUTTON_ID}`)
+      .press('Enter')
+    await page.getByTestId('toast-content').dblclick()
+    await expect(
+      page.locator('#repositories-list-testRepoR')
+    ).toHaveCount(1)
+  })
+
+  test('create Python repository', async ({ page }) => {
+    await login(page, 'einstein')
+    await page
+      .locator(`#${REPOSITORIES_SIDEBAR_ID}`)
+      .click()
+    await page.waitForURL('**/repositories')
+    await expect(page).toHaveTitle(/RDepot - repositories/)
+
+    await expect(
+      page.locator('#repositories-list-testRepoPython')
+    ).toHaveCount(0)
+    const createRepositorySelector = page.locator(
+      `#${ADD_MAINTAINER_ID}`
+    )
+    await createRepositorySelector.waitFor()
+    await createRepositorySelector.click()
+
+    await page
+      .locator(`#${CREATE_REPOSITORY_NAME_FIELD_ID}`)
+      .fill('testRepoPython')
+    await page
+      .locator(
+        `#${CREATE_REPOSITORY_PUBLICATION_URI_FIELD_ID}`
+      )
+      .fill('https://publicationUri.testRepo.Python')
+    await page
+      .locator(
+        `#${CREATE_REPOSITORY_SERVER_ADDRESS_FIELD_ID}`
+      )
+      .fill('https://serverAddress.testRepoPython')
+    await page
+      .locator(`#${CREATE_REPOSITORY_TECHNOLOGY_FIELD_ID}`)
+      .press('Enter')
+    await page
+      .getByRole('option', { name: 'Python' })
+      .press('Enter')
+    await expect(
+      page.locator(
+        `#${CREATE_REPOSITORY_REDIRECT_TO_SOURCE_FIELD_ID}`
+      )
+    ).toHaveCount(0)
+    await page
+      .locator(`#${SUBMIT_BUTTON_ID}`)
+      .press('Enter')
+    await page.getByTestId('toast-content').dblclick()
+    await expect(
+      page.locator('#repositories-list-testRepoPython')
+    ).toHaveCount(1)
+  })
+
   test('server address alert as admin', async ({
     page
   }) => {
@@ -65,7 +177,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     await expect(serverAddressAlert).toHaveCount(0)
 
     await page
-      .locator(`#${CREATE_REPOSITORY_TECHNOLOGY}`)
+      .locator(`#${CREATE_REPOSITORY_TECHNOLOGY_FIELD_ID}`)
       .click({ force: true })
     await page
       .locator('div.v-list-item-title:text-is("Python")')

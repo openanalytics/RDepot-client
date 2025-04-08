@@ -60,7 +60,7 @@ export const repositorySchema = z.object({
   synchronizing: z.boolean().default(false),
   technology: Technologies,
   hashMethod: HashMethods.optional(),
-  redirectToSource: z.boolean().default(false),
+  redirectToSource: z.boolean().optional(),
   links: z.array(linkSchema).optional()
 })
 
