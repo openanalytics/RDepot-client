@@ -127,6 +127,7 @@
     "version": "Version"
   },
   "common": {
+    "activate": "Activate",
     "after": "After",
     "apply": "Apply",
     "before": "Before",
@@ -659,6 +660,7 @@
       "title": "Edit user",
       "tooltip": "Edit user"
     },
+    "editAdmin": "Cannot edit user which is an administrator",
     "filtration": {
       "active": "Active",
       "deleted": "Deleted",

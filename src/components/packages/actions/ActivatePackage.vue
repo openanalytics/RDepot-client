@@ -21,22 +21,19 @@
 -->
 
 <template>
-  <!--    :disabled="-->
-  <!--      (canPatch(packageBag.links) && !packageBag.deleted) ||-->
-  <!--      !isPending-->
-  <!--    "-->
-  <v-checkbox-btn
-    :id="id"
-    v-model="packageBag.active"
-    v-tooltip:top="onHoverMessage"
-    :disabled="disabled"
-    hide-details
-    :readonly="!canPatch(packageBag?.links)"
-    :color="color"
-    class="mr-6"
-    @click.stop
-    @change="updatePackageActive"
-  />
+  <span v-tooltip:top="onHoverMessage">
+    <v-checkbox-btn
+      :id="id"
+      v-model="packageBag.active"
+      :disabled="disabled"
+      hide-details
+      :readonly="!canPatch(packageBag?.links)"
+      :color="color"
+      class="mr-6"
+      @click.stop
+      @change="updatePackageActive"
+    />
+  </span>
 </template>
 
 <script setup lang="ts">
@@ -90,7 +87,9 @@ const onHoverMessage = computed(() => {
   if (packageBag.value.deleted)
     return i18n.t('packages.deleted')
   if (isPending.value) return i18n.t('common.pending')
-  return undefined
+  if (packageBag.value.active)
+    return i18n.t('common.deactivate')
+  return i18n.t('common.activate')
 })
 
 function updatePackageActive() {

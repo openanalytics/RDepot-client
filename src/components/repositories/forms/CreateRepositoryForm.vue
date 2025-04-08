@@ -29,7 +29,7 @@
       <v-divider />
       <v-card-text>
         <validated-input-field
-          id="create-name"
+          id="repository-create-name"
           name="name"
           as="v-text-field"
           :label="$t('repositories.creation.name')"
@@ -38,7 +38,7 @@
           max-width="unset"
         />
         <validated-input-field
-          id="create-publication-uri"
+          id="repository-create-publication-uri"
           name="publicationUri"
           as="v-text-field"
           :label="
@@ -50,7 +50,7 @@
           class="d-flex justify-space-between align-center"
         >
           <validated-input-field
-            id="create-server-address"
+            id="repository-create-server-address"
             name="serverAddress"
             as="v-text-field"
             max-width="unset"
@@ -63,7 +63,7 @@
           />
         </span>
         <validated-input-field
-          id="create-technology"
+          id="repository-create-technology"
           :items="technologies"
           name="technology"
           as="v-select"
@@ -72,7 +72,7 @@
         />
         <validated-input-field
           v-if="values.technology == 'Python'"
-          id="create-hash-method"
+          id="repository-create-hash-method"
           :items="hashMethods"
           name="hashMethod"
           as="v-select"
@@ -81,7 +81,7 @@
         />
         <validated-input-field
           v-if="values.technology == 'R'"
-          id="create-redirect-to-source"
+          id="repository-create-redirect-to-source"
           name="redirectToSource"
           as="v-checkbox"
           max-width="unset"
@@ -91,7 +91,7 @@
           "
         ></validated-input-field>
         <validated-input-field
-          id="create-requires-authentication"
+          id="repository-create-requires-authentication"
           name="requiresAuthentication"
           as="v-checkbox"
           max-width="unset"
@@ -111,7 +111,7 @@
               values.technology
             ) && isFieldDirty('serverAddress')
           "
-          id="deprecated-serverAddress-alert"
+          id="repository-deprecated-serverAddress-alert"
           style="font-size: 0.75rem"
           variant="tonal"
           border="start"
@@ -214,9 +214,11 @@ watch(
   (nevValue: Technologies | undefined) => {
     if (nevValue == Technologies.Enum.Python) {
       setFieldValue('hashMethod', HashMethods.Values.MD5)
+      setFieldValue('redirectToSource', undefined)
       setTouched(true)
     } else {
       setFieldValue('hashMethod', undefined)
+      setFieldValue('redirectToSource', false)
     }
   }
 )

@@ -480,13 +480,21 @@ export const EDIT_REPOSITORY_NAME_FIELD_ID = 'edit-name'
 export const EDIT_REPOSITORY_SUBMIT_ID = 'submit-button'
 export const EDIT_REPOSITORY_CANCEL_ID = 'cancel-button'
 export const EDIT_REPOSITORY_SERVER_ADDRESS_ALERT =
-  'deprecated-serverAddress-alert'
+  'repository-deprecated-serverAddress-alert'
 export const CREATE_REPOSITORY_SERVER_ADDRESS_FIELD_ID =
-  'create-server-address'
+  'repository-create-server-address'
 export const CREATE_REPOSITORY_PUBLICATION_URI_FIELD_ID =
-  'create-publication-uri'
-export const CREATE_REPOSITORY_TECHNOLOGY =
-  'create-technology'
+  'repository-create-publication-uri'
+export const CREATE_REPOSITORY_TECHNOLOGY_FIELD_ID =
+  'repository-create-technology'
+export const CREATE_REPOSITORY_REQUIRES_AUTHENTICATION_FIELD_ID =
+  'repository-create-requires-authentication'
+export const CREATE_REPOSITORY_NAME_FIELD_ID =
+  'repository-create-name'
+export const CREATE_REPOSITORY_REDIRECT_TO_SOURCE_FIELD_ID =
+  'repository-create-redirect-to-source'
+export const CREATE_REPOSITORY_HASH_METHOD_FIELD_ID =
+  'repository-create-hash-method'
 export const REPUBLISH_REPOSITORY_TESTREPO2_ICON_ID =
   'republish-repository-2'
 export const REPUBLISH_REPOSITORY_TESTREPO10_ICON_ID =
@@ -538,10 +546,13 @@ export const DELETE_USER_ROLE_USER_ID = 'delete-user-9'
 export const DELETE_USER_ROLE_ADMIN_ID = 'delete-user-8'
 export const DELETE_USER_ROLE_ADMIN_LOGGED_IN_ID =
   'delete-user-4'
+export const EDIT_USER_PACKAGE_MAINTAINER_ID = 'edit-user-6'
+export const EDIT_USER_USER_ID = 'edit-user-10'
 export const SUBMIT_USER_DELETION_BUTTON_ID =
   'submit-button'
 export const COPY_ADMIN_EMAIL_BUTTON_ID =
   'resources-list-admin-localhost-copy'
+export const EDIT_USER_ROLE_FIELD_ID = 'edit-user-role'
 
 // USERS FILTRATION
 export const USERS_FILTRATION_SEARCH_FIELD_ID =

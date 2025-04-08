@@ -21,7 +21,12 @@
 -->
 
 <template>
-  <form ref="form" as="v-form" lazy-validation>
+  <form
+    id="editUserForm"
+    ref="form"
+    as="v-form"
+    lazy-validation
+  >
     <v-card class="pa-5" width="400">
       <v-card-title>
         {{ $t('users.edit.title') }}
@@ -55,21 +60,16 @@ import { useCommonStore } from '@/store/options/common'
 import { useUserStore } from '@/store/options/users'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useForm } from 'vee-validate'
-import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { z } from 'zod'
 
 const { t } = useI18n()
 const commonStore = useCommonStore()
 
+const { deepCopy } = useUtilities()
 const { roles } = useEnumFiltration()
 
 const userStore = useUserStore()
-
-const localRole = ref(
-  userStore.roleIdToRole(userStore.chosenUser.roleId || 1)
-    .name
-)
 
 const { meta, values } = useForm({
   validationSchema: toTypedSchema(
@@ -78,11 +78,9 @@ const { meta, values } = useForm({
     })
   ),
   initialValues: {
-    role: localRole.value
+    role: userStore.chosenUser.role
   }
 })
-
-const { deepCopy } = useUtilities()
 
 const toasts = useToast()
 

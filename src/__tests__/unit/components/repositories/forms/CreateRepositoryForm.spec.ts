@@ -70,34 +70,46 @@ describe('CreateRepository', () => {
     expect(
       wrapper.findAll('.v-field__field').length
     ).toEqual(4)
-    expect(wrapper.find('#create-name')).toBeTruthy()
     expect(
-      wrapper.find('#create-publication-uri')
+      wrapper.find('#repository-create-name')
     ).toBeTruthy()
     expect(
-      wrapper.find('#crete-server-address')
+      wrapper.find('#repository-create-publication-uri')
     ).toBeTruthy()
-    expect(wrapper.find('#create-technology')).toBeTruthy()
+    expect(
+      wrapper.find('#repository-crete-server-address')
+    ).toBeTruthy()
+    expect(
+      wrapper.find('#repository-create-technology')
+    ).toBeTruthy()
   })
 
   it('hash method field is not displayed', () => {
     expect(
-      wrapper.find('#create-hash-method').exists()
+      wrapper
+        .find('#repository-create-hash-method')
+        .exists()
     ).toBeFalsy()
   })
 
   it('all fields are enabled', () => {
     expect(
-      wrapper.find('#create-name').isDisabled()
+      wrapper.find('#repository-create-name').isDisabled()
     ).toBeFalsy()
     expect(
-      wrapper.find('#create-publication-uri').isDisabled()
+      wrapper
+        .find('#repository-create-publication-uri')
+        .isDisabled()
     ).toBeFalsy()
     expect(
-      wrapper.find('#create-server-address').isDisabled()
+      wrapper
+        .find('#repository-create-server-address')
+        .isDisabled()
     ).toBeFalsy()
     expect(
-      wrapper.find('#create-technology').isDisabled()
+      wrapper
+        .find('#repository-create-technology')
+        .isDisabled()
     ).toBeFalsy()
   })
 
@@ -108,7 +120,9 @@ describe('CreateRepository', () => {
     )
     await nextTick()
     expect(
-      wrapper.find('#create-hash-method').exists()
+      wrapper
+        .find('#repository-create-hash-method')
+        .exists()
     ).toBeTruthy()
     expect(wrapper.vm.values.hashMethod).toEqual(
       HashMethods.Enum.MD5
@@ -122,7 +136,9 @@ describe('CreateRepository', () => {
     )
     await nextTick()
     expect(
-      wrapper.find('#create-hash-method').exists()
+      wrapper
+        .find('#repository-create-hash-method')
+        .exists()
     ).toBeFalsy()
   })
 
@@ -133,7 +149,9 @@ describe('CreateRepository', () => {
     )
     await nextTick()
     expect(
-      wrapper.find('#create-redirect-to-source').exists()
+      wrapper
+        .find('#repository-create-redirect-to-source')
+        .exists()
     ).toBeTruthy()
   })
 
@@ -144,7 +162,9 @@ describe('CreateRepository', () => {
     )
     await nextTick()
     expect(
-      wrapper.find('#create-redirect-to-source').exists()
+      wrapper
+        .find('#repository-create-redirect-to-source')
+        .exists()
     ).toBeFalsy()
   })
 
