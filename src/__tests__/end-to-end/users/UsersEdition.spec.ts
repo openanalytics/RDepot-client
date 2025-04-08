@@ -37,7 +37,7 @@ test.beforeAll(async ({}, testInfo) => {
 })
 
 const TITLE = 'users edition'
-test.describe.only(TITLE, { tag: '@serial' }, () => {
+test.describe(TITLE, { tag: '@serial' }, () => {
   test('edit role (upgrade)', async ({ page }) => {
     await login(page, 'einstein')
 
