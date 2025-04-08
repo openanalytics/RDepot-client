@@ -678,6 +678,7 @@
       "searchBox": "Szukaj"
     },
     "unableDeactivation": "Użytkownik nie może dezaktywować siebie",
-    "unableDeletion": "Użytkownik nie może usunąć siebie\t"
+    "unableDeletion": "Użytkownik nie może usunąć siebie\t",
+    "editAdmin": "Nie można edytować administratorów"
   }
 }

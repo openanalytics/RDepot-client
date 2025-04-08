@@ -666,6 +666,7 @@
       "searchBox": "Search"
     },
     "unableDeactivation": "Users cannot deactivate themselves",
-    "unableDeletion": "Users cannot delete themselves"
+    "unableDeletion": "Users cannot delete themselves",
+    "editAdmin": "Cannot edit user which is an administrator"
   }
 }

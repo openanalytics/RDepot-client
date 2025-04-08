@@ -98,9 +98,19 @@
       >
         <EditIcon
           :icon-id="`edit-user-${item.id}`"
-          :disabled="!canPatch(item.links, 'roleId')"
+          :disabled="
+            !canPatch(item.links, 'roleId') ||
+            item.role == 'admin'
+          "
+          :hover-message="
+            !canPatch(item.links, 'deleted')
+              ? $t('common.notAuthorized')
+              : item.role == 'admin'
+                ? $t('users.editAdmin')
+                : undefined
+          "
           :text="$t('common.edit')"
-          @set-resource-id="setEditUser(item)"
+          @set-entity="setEditUser(item)"
         />
         <DeleteIcon
           :id="`delete-user-${item.id}`"
