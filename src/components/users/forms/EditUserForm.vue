@@ -22,10 +22,10 @@
 
 <template>
   <form
+    id="editUserForm"
     ref="form"
     as="v-form"
     lazy-validation
-    id="editUserForm"
   >
     <v-card class="pa-5" width="400">
       <v-card-title>
