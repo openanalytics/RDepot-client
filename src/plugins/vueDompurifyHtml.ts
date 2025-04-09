@@ -20,12 +20,18 @@
  *
  */
 
+import { useHTMLSanitizer } from '@/composable/htmlSanitizer'
+
 export const VueDOMPurifyHTMLconfig = {
   default: {
     ADD_ATTR: ['tmp-code'],
     USE_PROFILES: { html: true, svg: true }
   },
   hooks: {
+    beforeSanitizeElements: (node: HTMLElement) => {
+      const { checkAllowedTags } = useHTMLSanitizer()
+      checkAllowedTags(node)
+    },
     uponSanitizeAttribute: (
       node: HTMLElement,
       data: any
