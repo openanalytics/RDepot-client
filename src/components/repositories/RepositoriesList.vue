@@ -81,7 +81,7 @@
                       'VITE_ADDRESS_DEPRECATION_WARNING'
                     ) !== 'false' &&
                     deprecatedAddressTooltip(
-                      item.publicationUri
+                      item.serverAddress
                     )
                   "
                   :value="value"
