@@ -37,7 +37,10 @@ import {
   REPUBLISH_REPOSITORY_DIALOG_ID,
   REPUBLISH_REPOSITORY_TESTREPO10_ICON_ID,
   REPUBLISH_REPOSITORY_TESTREPO2_ICON_ID,
-  REPOSITORY_REDIRECT_TO_SOURCE_ID
+  REPOSITORY_REDIRECT_TO_SOURCE_ID,
+  EDIT_REPOSITORY_TESTREPO2_ICON_ID,
+  EDIT_REPOSITORY_SERVER_ADDRESS_FIELD_ID,
+  SUBMIT_BUTTON_ID
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '../helpers/login'
 
@@ -214,5 +217,44 @@ test.describe(TITLE, () => {
     )
     await cancelDialogSelector.waitFor()
     await cancelDialogSelector.click()
+  })
+})
+
+test.describe(TITLE, { tag: '@serial' }, () => {
+  test('display deprecated server address', async ({
+    page
+  }) => {
+    await login(page, 'einstein')
+
+    await page
+      .locator(`#${REPOSITORIES_SIDEBAR_ID}`)
+      .click()
+    await page.waitForURL('**/repositories')
+
+    const repositoryServerAddressWarnings = page.locator(
+      'i.mdi-alert-decagram'
+    )
+    await expect(
+      repositoryServerAddressWarnings
+    ).toHaveCount(7)
+
+    const editRepoSelector = page.locator(
+      `#${EDIT_REPOSITORY_TESTREPO2_ICON_ID}`
+    )
+    await editRepoSelector.waitFor()
+    await editRepoSelector.click()
+
+    const repositoryServerAddressSelector = page.locator(
+      `#${EDIT_REPOSITORY_SERVER_ADDRESS_FIELD_ID}`
+    )
+    await repositoryServerAddressSelector.waitFor()
+    await repositoryServerAddressSelector.fill(
+      'http://oa-rdepot-repo:8080/r/testrepo2'
+    )
+
+    await page.locator(`#${SUBMIT_BUTTON_ID}`).click()
+    await expect(
+      repositoryServerAddressWarnings
+    ).toHaveCount(6)
   })
 })

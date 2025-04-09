@@ -466,6 +466,8 @@ export const COPY_SERVER_ADDRESS_TESTREPO2_BUTTON_ID =
 
 export const EDIT_REPOSITORY_TESTREPO8_ICON_ID =
   'edit-repository-8'
+export const EDIT_REPOSITORY_TESTREPO2_ICON_ID =
+  'edit-repository-2'
 export const EDIT_REPOSITORY_HASH_METHOD_FIELD_ID =
   'edit-hash-method'
 export const EDIT_REPOSITORY_DIALOG_ID =
