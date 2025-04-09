@@ -32,3 +32,13 @@ spec:
         - name: COMPOSE_HTTP_TIMEOUT
           value: 600
       imagePullPolicy: Always
+    - name: jnlp
+      resources:
+        requests:
+            memory: "2Gi"
+            ephemeral-storage: "1Gi"
+            cpu: 1
+        limits:
+            memory: "4Gi"
+            ephemeral-storage: "4Gi"
+            cpu: 2
