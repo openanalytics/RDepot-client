@@ -56,6 +56,7 @@
 <script setup lang="ts">
 import { i18n } from '@/plugins/i18n'
 import { useCommonStore } from '@/store/options/common'
+import { computed } from 'vue'
 
 const emit = defineEmits(['clicked', 'cancel', 'submit'])
 const commonStore = useCommonStore()
@@ -73,7 +74,6 @@ withDefaults(
   defineProps<{
     cancelButton?: boolean
     submitButton?: boolean
-    submitText?: string
     justify?: Justify
     valid?: boolean
     buttons?: {
@@ -85,10 +85,15 @@ withDefaults(
     justify: 'space-between',
     cancelButton: true,
     submitButton: true,
-    submitText: i18n.t('common.submit'),
     valid: true,
     buttons: undefined
   }
+)
+
+const submitText = computed(() =>
+  commonStore.isDelete
+    ? i18n.t('common.delete')
+    : i18n.t('common.submit')
 )
 
 function cancel() {
