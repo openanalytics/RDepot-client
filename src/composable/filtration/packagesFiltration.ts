@@ -31,7 +31,6 @@ import {
   SelectState,
   PackageObject
 } from '@/store/setup/selectPagination'
-import { useArrayUnique } from '@vueuse/core'
 
 export function usePackagesFiltration() {
   const storeIdPackage: SelectState = 'packages'
@@ -65,24 +64,6 @@ export function usePackagesFiltration() {
         repoId: packageBag.repository?.id,
         disabled:
           packageMaintainedByUser?.user?.name || false
-      }
-    } as PackageObject
-  }
-
-  function preparePackageRepoObject(
-    packageBag: EntityModelPackageDto
-  ): PackageObject {
-    return {
-      title: packageBag.name,
-      value: packageBag.name,
-      props: {
-        id: `select-input-package-${packageBag.name}-${packageBag.version}-${packageBag.repository?.name}`,
-        subtitle: [packageBag.repository?.name]
-          .filter(function (val) {
-            return val
-          })
-          .join(', '),
-        repoId: packageBag.repository?.id
       }
     } as PackageObject
   }
@@ -147,31 +128,6 @@ export function usePackagesFiltration() {
     }
   }
 
-  async function loadPackagesRepositoriesObjects() {
-    if (selectStore.shouldFetchNextPage) {
-      selectStore.nextPage()
-      if (selectStore.shouldFetchNextPage) {
-        await getPackages()
-
-        const packageList = packagesStore.packages.map(
-          (packageBag: EntityModelPackageDto) => {
-            return preparePackageRepoObject(packageBag)
-          }
-        )
-
-        const uniquePackageList: PackageObject[] =
-          useArrayUnique(
-            packageList,
-            (a: PackageObject, b: PackageObject) =>
-              a.title === b.title &&
-              a.props.subtitle === b.props.subtitle
-          ).value
-
-        selectStore.addItems(uniquePackageList)
-      }
-    }
-  }
-
   function filtratePackagesObjects(
     value: string | undefined
   ) {
@@ -183,11 +139,26 @@ export function usePackagesFiltration() {
     }
   }
 
+  async function loadPackages() {
+    if (selectStore.shouldFetchNextPage) {
+      selectStore.nextPage()
+      if (selectStore.fetchNextPageCondition) {
+        await getPackages()
+        selectStore.addItems(
+          packagesStore.packages.map(
+            (packageBag: EntityModelPackageDto) =>
+              packageBag.name
+          )
+        )
+      }
+    }
+  }
+
   return {
     storeIdPackage,
+    loadPackages,
     loadPackagesObjects,
     filtratePackagesObjects,
-    resetPaginationPackages,
-    loadPackagesRepositoriesObjects
+    resetPaginationPackages
   }
 }

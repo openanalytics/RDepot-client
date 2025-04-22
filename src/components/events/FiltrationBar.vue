@@ -148,12 +148,12 @@
       :store-id="storeIdPackage"
       :template="true"
       @update:model-value="setFiltration"
-      @load-items="loadPackagesRepositoriesObjects"
+      @load-items="loadPackages"
       @filtrate="filtratePackagesObjects(undefined)"
     >
       <template #item="{ props }">
         <v-list-item
-          v-intersect="loadPackagesRepositoriesObjects"
+          v-intersect="loadPackages"
           v-bind="props"
         >
           <template #prepend="{ isActive }">
@@ -219,7 +219,7 @@ const {
 
 const {
   storeIdPackage,
-  loadPackagesRepositoriesObjects,
+  loadPackages,
   filtratePackagesObjects
 } = usePackagesFiltration()
 
