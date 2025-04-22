@@ -77,8 +77,14 @@ test.describe(TITLE, () => {
       .getByRole('combobox')
       .allTextContents()
 
+    const packageChips = page
+      .locator('.v-field__input span')
+      .filter({ hasText: /^A3$/ })
+    await packageChips.waitFor()
+
     expect(comboboxesValues[3]).toContain('testrepo3')
     expect(comboboxesValues[4]).toContain('A3')
+    await expect(packageChips).toHaveCount(1)
 
     await expect(
       page.locator('css=.eventCard')
