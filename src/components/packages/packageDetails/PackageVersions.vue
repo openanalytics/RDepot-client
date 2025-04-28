@@ -48,13 +48,6 @@
                 }"
               >
                 {{ localPackage.version }}
-                <span
-                  v-if="
-                    localPackage.version ==
-                    packageDetailsStore.packageBag?.version
-                  "
-                  >({{ $t('common.current') }})</span
-                >
               </span>
               <span
                 v-if="localPackage.binary"
