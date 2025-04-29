@@ -160,7 +160,7 @@ const submissionStore = useSubmissionStore()
 
 const { getSort } = useSort()
 const defaultSort: Sort[] = [
-  { key: 'state', order: 'desc' }
+  { key: 'created', order: 'desc' }
 ]
 const sortBy = ref(defaultSort)
 const exp = ref<string[]>([])

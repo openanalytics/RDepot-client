@@ -44,7 +44,11 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     await login(page, 'einstein')
     await page.locator(`#${SUBMISSIONS_SIDEBAR_ID}`).click()
     await page.waitForURL('**/submissions')
-
+    const sortByStateIcon = await page.locator(
+      'tr > th:nth-child(8) > div > i'
+    )
+    await sortByStateIcon.click()
+    await sortByStateIcon.click()
     const acceptSubmissionButton = page.locator(
       `#${WAITING_FOR_APPROVE_SUBMISSION_ID}`
     )
