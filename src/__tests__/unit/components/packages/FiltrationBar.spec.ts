@@ -71,9 +71,9 @@ describe('Packages - filtration', () => {
     expect(wrapper.exists()).toBe(true)
   })
 
-  it('reset button hidden without filtration', () => {
+  it('reset button displayed with the initial filtration', () => {
     expect(wrapper.find('#reset-button').isVisible()).toBe(
-      false
+      true
     )
   })
 

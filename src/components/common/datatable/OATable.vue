@@ -33,6 +33,7 @@
     :items-length="itemsLength"
     :items="items"
     :no-data-text="$t('datatable.noDataAvailable')"
+    :row-props="rowProps"
   >
     <template #top>
       <div
@@ -161,4 +162,20 @@ defineProps({
     required: true
   }
 })
+
+function rowProps(item: any) {
+  return {
+    class: item.item.deleted ? 'deletedItem' : ''
+  }
+}
 </script>
+
+<style>
+.deletedItem {
+  background: rgb(183 28 28 / 20%) !important;
+}
+
+.v-theme--dark .deletedItem {
+  background: rgb(183 28 28 / 40%) !important;
+}
+</style>

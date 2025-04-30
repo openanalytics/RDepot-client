@@ -33,7 +33,10 @@ test.describe(TITLE, () => {
   test('no description provided', async ({ page }) => {
     await login(page, 'einstein')
 
-    await page.locator("td:has-text('boto3')").click()
+    await page
+      .locator("td:has-text('pandas')")
+      .first()
+      .click()
 
     expect(
       await page.locator('.additional-row p').textContent()
@@ -63,11 +66,6 @@ test.describe(TITLE, () => {
   test('expanded rst description', async ({ page }) => {
     await login(page, 'einstein')
 
-    await page
-      .locator("td:has-text('accelerated-numpy')")
-      .click()
-
-    await page.getByLabel('Next page').click()
     await page
       .locator("td:has-text('python-dateutil')")
       .click()

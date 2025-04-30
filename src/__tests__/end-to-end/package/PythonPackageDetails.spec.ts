@@ -49,8 +49,10 @@ test.describe(TITLE, () => {
     page
   }) => {
     await login(page, 'einstein')
+
     await page
-      .locator('.v-data-table__tr:nth-child(10)')
+      .locator("td:has-text('Python')")
+      .first()
       .click()
 
     const seeDetailsButtonSelector = page.locator(

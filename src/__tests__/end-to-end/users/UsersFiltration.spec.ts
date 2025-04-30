@@ -48,22 +48,22 @@ test.describe(TITLE, () => {
       .locator(`#${USERS_FILTRATION_DELETED_ID}`)
       .click()
 
+    await expect(usersRowsSelector).toHaveCount(8)
+    await expect(userDeletedSelector).toHaveCount(1)
+
+    await page
+      .locator(`#${USERS_FILTRATION_DELETED_ID}`)
+      .click()
+
+    await expect(usersRowsSelector).toHaveCount(8)
+    await expect(userDeletedSelector).toHaveCount(1)
+
+    await page
+      .locator(`#${USERS_FILTRATION_DELETED_ID}`)
+      .click()
+
     await expect(usersRowsSelector).toHaveCount(2)
     await expect(userDeletedSelector).toHaveCount(0)
-
-    await page
-      .locator(`#${USERS_FILTRATION_DELETED_ID}`)
-      .click()
-
-    await expect(usersRowsSelector).toHaveCount(8)
-    await expect(userDeletedSelector).toHaveCount(1)
-
-    await page
-      .locator(`#${USERS_FILTRATION_DELETED_ID}`)
-      .click()
-
-    await expect(usersRowsSelector).toHaveCount(8)
-    await expect(userDeletedSelector).toHaveCount(1)
   })
 
   test('active', async ({ page }) => {
@@ -84,9 +84,9 @@ test.describe(TITLE, () => {
       .locator(`#${USERS_FILTRATION_ACTIVE_ID}`)
       .click()
 
-    await expect(usersRowsSelector).toHaveCount(6)
+    await expect(usersRowsSelector).toHaveCount(3)
     //that one is tricky - it counts switch=true in the filtration bar
-    await expect(userActiveSelector).toHaveCount(6)
+    await expect(userActiveSelector).toHaveCount(0)
 
     await page
       .locator(`#${USERS_FILTRATION_ACTIVE_ID}`)
@@ -99,7 +99,7 @@ test.describe(TITLE, () => {
       .locator(`#${USERS_FILTRATION_ACTIVE_ID}`)
       .click()
 
-    await expect(usersRowsSelector).toHaveCount(3)
-    await expect(userActiveSelector).toHaveCount(0)
+    await expect(usersRowsSelector).toHaveCount(6)
+    await expect(userActiveSelector).toHaveCount(6)
   })
 })

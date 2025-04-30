@@ -50,8 +50,8 @@ test.describe(TITLE, () => {
       )
       .click()
 
-    await expect(maintainersRowsSelector).toHaveCount(3)
-    await expect(maintainerDeletedSelector).toHaveCount(2)
+    await expect(maintainersRowsSelector).toHaveCount(10)
+    await expect(maintainerDeletedSelector).toHaveCount(0)
 
     await page
       .locator(
@@ -68,7 +68,7 @@ test.describe(TITLE, () => {
       )
       .click()
 
-    await expect(maintainersRowsSelector).toHaveCount(10)
-    await expect(maintainerDeletedSelector).toHaveCount(0)
+    await expect(maintainersRowsSelector).toHaveCount(3)
+    await expect(maintainerDeletedSelector).toHaveCount(2)
   })
 })

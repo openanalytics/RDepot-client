@@ -52,8 +52,8 @@ test.describe(TITLE, () => {
       )
       .click()
 
-    await expect(repositoriesRowsSelector).toHaveCount(4)
-    await expect(repositoryPublishedSelector).toHaveCount(4)
+    await expect(repositoriesRowsSelector).toHaveCount(5)
+    await expect(repositoryPublishedSelector).toHaveCount(0)
 
     await page
       .locator(
@@ -70,7 +70,7 @@ test.describe(TITLE, () => {
       )
       .click()
 
-    await expect(repositoriesRowsSelector).toHaveCount(5)
-    await expect(repositoryPublishedSelector).toHaveCount(0)
+    await expect(repositoriesRowsSelector).toHaveCount(4)
+    await expect(repositoryPublishedSelector).toHaveCount(4)
   })
 })

@@ -212,8 +212,13 @@ const packageStore = usePackagesStore()
 
 const { setValues, values, setFieldValue } = useForm({
   validationSchema: toTypedSchema(PackagesFiltration),
-  initialValues: packageStore.filtration
+  initialValues: {
+    ...packageStore.filtration,
+    deleted: false
+  }
 })
+
+setFiltration()
 
 function setFiltration() {
   packageStore.setFiltration(values as PackagesFiltration)

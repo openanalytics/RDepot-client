@@ -24,6 +24,7 @@
   <component
     :is="isas"
     v-model="value"
+    :initial-value="value"
     :error-messages="errors"
     v-bind="attrs"
     color="oablue"

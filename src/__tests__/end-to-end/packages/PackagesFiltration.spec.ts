@@ -35,6 +35,13 @@ test.describe(TITLE, () => {
     )
 
     await expect(packagesRowsSelector).toHaveCount(21)
+    await expect(packagesDeletedSelector).toHaveCount(0)
+
+    await page
+      .locator(`#${PACKAGES_FILTRATION_DELETED_FIELD_ID}`)
+      .click()
+
+    await expect(packagesRowsSelector).toHaveCount(21)
     await expect(packagesDeletedSelector).toHaveCount(4)
 
     await page
@@ -50,13 +57,6 @@ test.describe(TITLE, () => {
 
     await expect(packagesRowsSelector).toHaveCount(21)
     await expect(packagesDeletedSelector).toHaveCount(4)
-
-    await page
-      .locator(`#${PACKAGES_FILTRATION_DELETED_FIELD_ID}`)
-      .click()
-
-    await expect(packagesRowsSelector).toHaveCount(21)
-    await expect(packagesDeletedSelector).toHaveCount(0)
   })
 
   test('submission state', async ({ page }) => {
