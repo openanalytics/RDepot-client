@@ -25,9 +25,11 @@
     :id="`resources-list-authentication-icon`"
     v-tooltip="
       value
-        ? $t('repositories.authenticationRequiredTooltip')
+        ? $t(
+            'messages.repositories.authenticationRequiredTooltip'
+          )
         : $t(
-            'repositories.authenticationNotRequiredTooltip'
+            'messages.repositories.authenticationNotRequiredTooltip'
           )
     "
     size="small"

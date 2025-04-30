@@ -25,8 +25,8 @@
     :id="`comment-button-${item.id}`"
     :tooltip="
       item.changes
-        ? $t('action.changes')
-        : $t('action.noChanges')
+        ? $t('actions.submissions.showNotes')
+        : $t('actions.submissions.noNotes')
     "
     :icon="
       item.changes

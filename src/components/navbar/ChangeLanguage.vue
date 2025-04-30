@@ -25,7 +25,7 @@
     <template #activator="{ props }">
       <v-icon
         id="change-language-navbar-button"
-        v-tooltip="$t('settings.changeLanguage')"
+        v-tooltip="$t('actions.settings.changeLanguage')"
         color="text"
         v-bind="props"
         depressed

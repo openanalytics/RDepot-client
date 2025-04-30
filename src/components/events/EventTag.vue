@@ -22,7 +22,7 @@
 
 <template>
   <v-snackbar v-model="copied" location="right bottom">{{
-    $t('common.eventsTag.copied')
+    $t('messages.general.copied')
   }}</v-snackbar>
   <v-tooltip :disabled="disableTooltip || !hoverMessage">
     <template #activator="{ props }">

@@ -27,7 +27,7 @@
     :items-length="packageMaintainersStore.totalNumber"
     item-value="id"
     :loading="packageMaintainersStore.loading"
-    :title="i18n.t('packages.maintainers')"
+    :title="i18n.t('resources.packageMaintainer', 2)"
     :sort-by="sortBy"
     @update:options="fetchData"
   >
@@ -39,10 +39,15 @@
       <span v-else class="d-flex justify-end align-center">
         <EditIcon
           :disabled="!canPatch(item.links) || item.deleted"
-          :text="getEditMessage(item)"
+          :text="getEditMessage()"
           :hover-message="
             item.deleted
-              ? i18n.t('maintainers.deleted')
+              ? i18n.t('messages.general.deleted', {
+                  resource_name: i18n.t(
+                    'resources.packageMaintainer',
+                    2
+                  )
+                })
               : undefined
           "
           :icon-id="`edit-package-maintainer-${item.user?.name?.replace(
@@ -56,7 +61,12 @@
           :name="item.user?.name"
           :hover-message="
             item.deleted
-              ? i18n.t('maintainers.deleted')
+              ? i18n.t('messages.general.deleted', {
+                  resource_name: i18n.t(
+                    'resources.packageMaintainer',
+                    2
+                  )
+                })
               : undefined
           "
           @set-resource-id="chooseMaintainer(item)" /></span
@@ -98,32 +108,32 @@ const postCondition = computed(() =>
 
 const headers = computed<DataTableHeaders[]>(() => [
   {
-    title: i18n.t('columns.packageMaintainer.name'),
+    title: i18n.t('forms.general.name'),
     align: 'start',
     key: 'user',
     value: 'user.name',
     width: 200
   },
   {
-    title: i18n.t('columns.packageMaintainer.packageName'),
+    title: i18n.t('resources.package'),
     align: 'start',
     key: 'packageName',
     width: 200
   },
   {
-    title: i18n.t('columns.packageMaintainer.repository'),
+    title: i18n.t('resources.repository'),
     align: 'start',
     key: 'repository',
     value: 'repository.name'
   },
   {
-    title: i18n.t('columns.packageMaintainer.technology'),
+    title: i18n.t('resources.technology'),
     align: 'center',
     key: 'repository.technology',
     width: 100
   },
   {
-    title: i18n.t('columns.actions'),
+    title: i18n.t('fields.general.actions'),
     align: 'center',
     width: 100,
     key: 'actions',
@@ -149,11 +159,9 @@ function setEditEntity(
   packageMaintainersStore.save()
 }
 
-function getEditMessage(
-  item: EntityModelPackageMaintainerDto
-) {
-  return i18n.t('maintainers.edit', {
-    maintainerName: item.user?.id
+function getEditMessage() {
+  return i18n.t('actions.general.editResource', {
+    resource_type: i18n.t('resources.packageMaintainer')
   })
 }
 

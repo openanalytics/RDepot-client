@@ -37,7 +37,9 @@ test.describe(TITLE, () => {
 
     expect(
       await page.locator('.additional-row p').textContent()
-    ).toContain(i18n.t('package.noDescriptionProvided'))
+    ).toContain(
+      i18n.t('messages.packages.noDescriptionProvided')
+    )
   })
 
   test('expanded markdown description', async ({

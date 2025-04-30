@@ -31,14 +31,18 @@
           v-bind="props"
         >
           <span class="pr-3">
-            {{ $t('common.create') }}</span
+            {{ $t('actions.general.create') }}</span
           >
           <v-icon :icon="Icons.get('add')"
         /></CommonButton>
       </div>
     </template>
     <span id="tooltip-wait"
-      ><span>{{ $t('settings.create') }}</span>
+      ><span>{{
+        $t('actions.general.create', {
+          resource_type: $t('resources.token').toLowerCase()
+        })
+      }}</span>
     </span>
   </v-tooltip>
 </template>

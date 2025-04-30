@@ -29,8 +29,8 @@
   >
     {{
       packageBag.binary
-        ? $t('columns.package.binary')
-        : $t('columns.package.source')
+        ? $t('properties.packages.binary')
+        : $t('properties.packages.source')
     }}</v-chip
   >
 </template>

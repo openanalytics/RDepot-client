@@ -25,7 +25,7 @@
     <v-icon
       id="change-theme-icon"
       :key="commonStore.themeKey"
-      v-tooltip="$t('settings.changeTheme')"
+      v-tooltip="$t('actions.settings.changeTheme')"
       :icon="
         getTheme
           ? Icons.get('light-theme')

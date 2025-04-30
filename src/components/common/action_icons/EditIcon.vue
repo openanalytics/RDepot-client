@@ -83,7 +83,7 @@ function edit() {
 const translatedHoverMessage = computed(() => {
   return (
     componentProps.hoverMessage ||
-    i18n.t('common.notAuthorized')
+    i18n.t('messages.general.notAuthorized')
   )
 })
 </script>

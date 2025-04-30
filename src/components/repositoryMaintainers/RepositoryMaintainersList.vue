@@ -28,7 +28,7 @@
     item-value="id"
     :loading="repositoryMaintainersStore.loading"
     :sort-by="sortBy"
-    :title="i18n.t('repositories.maintainers')"
+    :title="i18n.t('resources.repositoryMaintainer', 2)"
     @update:options="fetchData"
   >
     <template #topAction>
@@ -42,10 +42,20 @@
       >
         <EditIcon
           :disabled="!canPatch(item.links) || item.deleted"
-          :text="i18n.t('maintainers.edit')"
+          :text="
+            i18n.t('actions.general.editResource', {
+              resource_type: i18n.t(
+                'resources.repositoryMaintainer'
+              )
+            })
+          "
           :hover-message="
             item.deleted
-              ? i18n.t('maintainers.deleted')
+              ? i18n.t('messages.general.deleted', {
+                  resource_name: i18n.t(
+                    'resources.repositoryMaintainer'
+                  )
+                })
               : undefined
           "
           :icon-id="`edit-repository-maintainer-${item.user?.name?.replace(
@@ -62,7 +72,11 @@
           :name="item.user?.name"
           :hover-message="
             item.deleted
-              ? i18n.t('maintainers.deleted')
+              ? i18n.t('messages.general.deleted', {
+                  resource_name: i18n.t(
+                    'resources.repositoryMaintainer'
+                  )
+                })
               : undefined
           "
           @set-resource-id="setEditMaintainer(item)"
@@ -106,30 +120,26 @@ const postCondition = computed(() =>
 
 const headers = computed<DataTableHeaders[]>(() => [
   {
-    title: i18n.t('columns.repositoryMaintainer.name'),
+    title: i18n.t('forms.general.name'),
     align: 'start',
     key: 'user',
     value: 'user.name',
     width: 200
   },
   {
-    title: i18n.t(
-      'columns.repositoryMaintainer.repository'
-    ),
+    title: i18n.t('resources.repository'),
     value: 'repository.name',
     align: 'start',
     key: 'repository'
   },
   {
-    title: i18n.t(
-      'columns.repositoryMaintainer.technology'
-    ),
+    title: i18n.t('resources.technology'),
     align: 'center',
     key: 'repository.technology',
     width: 130
   },
   {
-    title: i18n.t('columns.actions'),
+    title: i18n.t('fields.general.actions'),
     align: 'center',
     key: 'actions',
     width: 50,

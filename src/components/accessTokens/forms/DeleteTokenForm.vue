@@ -24,13 +24,13 @@
   <v-card
     class="pa-5"
     width="400"
-    :title="$t('settings.delete')"
+    :title="$t('forms.tokens.delete')"
   >
     <v-divider></v-divider>
     <v-card-text>
       <p
         v-dompurify-html="
-          $t('settings.deleteQuestion', [
+          $t('forms.tokens.deleteQuestion', [
             accessTokensStore.currentToken?.name
           ])
         "

@@ -86,7 +86,7 @@ var chartOptions: any = {
     enabled: true,
     custom: function (value: { seriesIndex: number }) {
       return `<div class="arrow_box">${labels.value[value.seriesIndex]}:
-      ${series.value[value.seriesIndex]} ${i18n.t('packageDetails.package', { count: series.value[value.seriesIndex] })}
+      ${series.value[value.seriesIndex]} ${i18n.t('resources.package', { count: series.value[value.seriesIndex] })}
       </div>`
     }
   },

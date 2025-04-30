@@ -104,7 +104,7 @@ describe('Users - list headers', () => {
   it('displays username column', () => {
     const col = headers[0]
     expect(col.text()).toEqual(
-      i18n.t('columns.users.username')
+      i18n.t('fields.users.username')
     )
     const sortIcon = col.findComponent(
       '.mdi-sort-ascending'
@@ -114,7 +114,7 @@ describe('Users - list headers', () => {
 
   it('displays user column', () => {
     const col = headers[1]
-    expect(col.text()).toEqual(i18n.t('columns.users.name'))
+    expect(col.text()).toEqual(i18n.t('fields.users.name'))
     const sortIcon = col.findComponent(
       '.mdi-sort-ascending'
     )
@@ -123,9 +123,7 @@ describe('Users - list headers', () => {
 
   it('displays email column', () => {
     const col = headers[2]
-    expect(col.text()).toEqual(
-      i18n.t('columns.users.email')
-    )
+    expect(col.text()).toEqual(i18n.t('fields.users.email'))
     const sortIcon = col.findComponent(
       '.mdi-sort-ascending'
     )
@@ -133,7 +131,7 @@ describe('Users - list headers', () => {
   })
   it('displays role column', () => {
     const col = headers[3]
-    expect(col.text()).toEqual(i18n.t('columns.users.role'))
+    expect(col.text()).toEqual(i18n.t('fields.users.role'))
     const sortIcon = col.findComponent(
       '.mdi-sort-ascending'
     )
@@ -143,7 +141,7 @@ describe('Users - list headers', () => {
   it('displays active column', () => {
     const col = headers[4]
     expect(col.text()).toEqual(
-      i18n.t('columns.users.active')
+      i18n.t('properties.general.active')
     )
     const sortIcon = col.findComponent(
       '.mdi-sort-ascending'

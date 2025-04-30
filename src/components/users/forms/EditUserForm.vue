@@ -29,7 +29,11 @@
   >
     <v-card class="pa-5" width="400">
       <v-card-title>
-        {{ $t('users.edit.title') }}
+        {{
+          $t('actions.general.editResource', {
+            resource_type: $t('resources.user')
+          })
+        }}
       </v-card-title>
       <v-divider></v-divider>
       <v-card-text style="height: 300px">
@@ -38,7 +42,7 @@
           name="role"
           as="v-select"
           :items="roles"
-          :label="$t('users.edit.role')"
+          :label="$t('fields.users.role')"
           max-width="unset"
         />
       </v-card-text>
@@ -92,7 +96,7 @@ async function setRole() {
     await userStore.getPage()
     commonStore.closeOverlay()
   } else {
-    toasts.warning(t('notifications.invalidform'))
+    toasts.warning(t('messages.errors.invalidForm'))
   }
 }
 </script>

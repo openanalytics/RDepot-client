@@ -102,7 +102,7 @@ describe('Events - Repository', () => {
 
   it('display resource type', () => {
     expect(wrapper.text()).toContain(
-      i18n.t('resourceType.repository').toUpperCase()
+      i18n.t('resources.repository').toUpperCase()
     )
   })
 

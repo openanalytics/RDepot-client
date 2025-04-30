@@ -31,11 +31,7 @@
       hide-details
       name="search"
       as="v-text-field"
-      :label="
-        $t(
-          'packages.filtration.maintainers.searchPlaceholder'
-        )
-      "
+      :label="$t('filtration.general.searchPlaceholder')"
       color="oablue"
       @update:model-value="setFiltration"
     />
@@ -51,7 +47,7 @@
       multiple
       clearable
       as="v-select"
-      :label="$t('filtration.technologies')"
+      :label="$t('resources.technology', 2)"
       @update:model-value="setFiltration"
     ></validated-input-field>
 
@@ -65,7 +61,7 @@
       as="autocomplete"
       multiple
       clearable
-      :label="$t('packages.filtration.repository')"
+      :label="$t('resources.repository')"
       :store-id="storeId"
       :template="true"
       @update:model-value="setFiltration"
@@ -93,7 +89,7 @@
       density="compact"
       hide-details
       name="deleted"
-      :label="$t('packages.filtration.deleted')"
+      :label="$t('properties.general.deleted')"
       as="switch-indeterminate"
       color="oablue"
       class="flex-grow-0"

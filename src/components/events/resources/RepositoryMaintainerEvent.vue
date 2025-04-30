@@ -57,9 +57,7 @@
     >
       <EventTag
         v-if="relatedResource?.deleted"
-        :value="
-          i18n.t('columns.repositoryMaintainer.deleted')
-        "
+        :value="i18n.t('properties.general.deleted')"
         color="oared"
         disable-copying
         disable-tooltip
@@ -68,27 +66,27 @@
       <EventTag
         :value="relatedResource?.repository?.name"
         :hover-message="
-          i18n.t('columns.repositoryMaintainer.repository')
+          i18n.t('fields.repositoryMaintainers.repository')
         "
       />
 
       <EventTag
         :value="relatedResource?.repository?.publicationUri"
         :hover-message="
-          i18n.t('columns.repository.publicationUri')
+          i18n.t('fields.repositories.publicationUri')
         "
       />
 
       <EventTag
         v-if="relatedResource?.repository?.published"
-        :value="i18n.t('columns.repository.published')"
+        :value="i18n.t('fields.repositories.published')"
         disable-copying
         disable-tooltip
       />
 
       <EventTag
         :value="relatedResource?.user?.email"
-        :hover-message="i18n.t('columns.users.email')"
+        :hover-message="i18n.t('fields.users.email')"
       />
     </div>
   </v-card-text>
@@ -120,6 +118,6 @@ const relatedResource: EntityModelRepositoryMaintainerDto =
 const { getTime } = useDates()
 
 const resourceType = computed(() =>
-  i18n.t('resourceType.repositoryMaintainer').toUpperCase()
+  i18n.t('resources.repositoryMaintainer').toUpperCase()
 )
 </script>

@@ -31,7 +31,7 @@
       hide-details
       name="search"
       as="v-text-field"
-      :label="$t('repositories.filtration.searchBox')"
+      :label="$t('filtration.general.searchPlaceholder')"
       color="oablue"
       @update:model-value="setFiltration"
     />
@@ -47,7 +47,7 @@
       multiple
       clearable
       as="v-select"
-      :label="$t('filtration.technologies')"
+      :label="$t('resources.technologies')"
       @update:model-value="setFiltration"
     ></validated-input-field>
 
@@ -68,7 +68,7 @@
       as="autocomplete"
       multiple
       clearable
-      :label="$t('packages.filtration.maintainer')"
+      :label="$t('resources.maintainer')"
       :store-id="storeIdMaintainer"
       :template="true"
       @update:model-value="setFiltration"
@@ -103,7 +103,7 @@
       density="compact"
       hide-details
       name="deleted"
-      :label="$t('packages.filtration.deleted')"
+      :label="$t('properties.general.deleted')"
       as="v-switch"
       color="oablue"
       class="ml-2 flex-grow-0"
@@ -115,7 +115,7 @@
       density="compact"
       hide-details
       name="published"
-      :label="$t('repositories.filtration.published')"
+      :label="$t('fields.repositories.published')"
       as="switch-indeterminate"
       color="oablue"
       class="flex-grow-0"

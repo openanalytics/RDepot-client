@@ -39,10 +39,10 @@ const linkSchema = z.object({
 
 export const nonEmptyString = z.string().nonempty()
 export const url = nonEmptyString.url({
-  message: i18n.t('common.errors.url')
+  message: i18n.t('messages.errors.url')
 })
 export const email = nonEmptyString.email({
-  message: i18n.t('common.errors.email')
+  message: i18n.t('messages.errors.email')
 })
 
 export const repositorySchema = z.object({
@@ -51,7 +51,7 @@ export const repositorySchema = z.object({
   publicationUri: url,
   // eslint-disable-next-line
   name: nonEmptyString.regex(/^([-A-Za-z0-9\_\.\ ])+$/, {
-    message: i18n.t('common.errors.reponame')
+    message: i18n.t('messages.errors.reponame')
   }),
   serverAddress: url,
   requiresAuthentication: z.boolean().default(false),

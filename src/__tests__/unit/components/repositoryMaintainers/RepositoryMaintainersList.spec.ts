@@ -105,9 +105,7 @@ describe('Repository  maintainers - list headers', () => {
 
   it('displays maintainer column', () => {
     const col = headers[0]
-    expect(col.text()).toEqual(
-      i18n.t('columns.repositoryMaintainer.name')
-    )
+    expect(col.text()).toEqual(i18n.t('forms.general.name'))
     const sortIcon = col.findComponent(
       '.mdi-sort-ascending'
     )
@@ -117,7 +115,7 @@ describe('Repository  maintainers - list headers', () => {
   it('displays repository column', () => {
     const col = headers[1]
     expect(col.text()).toEqual(
-      i18n.t('columns.repositoryMaintainer.repository')
+      i18n.t('resources.repository')
     )
     const sortIcon = col.findComponent(
       '.mdi-sort-ascending'
@@ -128,7 +126,7 @@ describe('Repository  maintainers - list headers', () => {
   it('displays technology column', () => {
     const col = headers[2]
     expect(col.text()).toEqual(
-      i18n.t('columns.repositoryMaintainer.technology')
+      i18n.t('resources.technology')
     )
     const sortIcon = col.findComponent(
       '.mdi-sort-ascending'
@@ -138,7 +136,9 @@ describe('Repository  maintainers - list headers', () => {
 
   it('displays actions column', () => {
     const col = headers[3]
-    expect(col.text()).toEqual(i18n.t('columns.actions'))
+    expect(col.text()).toEqual(
+      i18n.t('fields.general.actions')
+    )
     const sortIcon = col.findComponent(
       '.mdi-sort-ascending'
     )

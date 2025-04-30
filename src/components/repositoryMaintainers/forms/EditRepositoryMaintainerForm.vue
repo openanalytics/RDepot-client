@@ -24,7 +24,13 @@
   <form ref="form" as="v-form" lazy-validation>
     <v-card class="pa-5" width="400">
       <v-card-title>
-        {{ $t('maintainers.editform.title') }}
+        {{
+          i18n.t('actions.general.editResource', {
+            resource_type: $t(
+              'resources.repositoryMaintainer'
+            )
+          })
+        }}
       </v-card-title>
       <v-divider></v-divider>
       <v-card-text style="height: 300px">
@@ -32,7 +38,7 @@
           id="edit-repository-maintainer-user"
           name="user"
           as="v-text-field"
-          :label="$t('maintainers.editform.user')"
+          :label="i18n.t('resources.user')"
           disabled
           max-width="unset"
           @update:model-value="resetRepository"
@@ -44,12 +50,12 @@
           :disabled="!values.user"
           :hint="
             !values.user
-              ? $t(
-                  'maintainers.createForm.disabledRepositoryMessage'
+              ? i18n.t(
+                  'forms.repositoryMaintainers.disabledRepositoryMessage'
                 )
               : ''
           "
-          :label="$t('maintainers.editform.repository')"
+          :label="i18n.t('resources.repository')"
           filled
           dense
           clearable
@@ -87,7 +93,11 @@
       <v-card-text>
         <v-alert
           style="font-size: 0.75rem"
-          :text="t('maintainers.createForm.disclaimer')"
+          :text="
+            t(
+              'forms.repositoryMaintainers.hints.disclaimer'
+            )
+          "
           variant="tonal"
           border="start"
           density="compact"
@@ -161,9 +171,11 @@ const { meta, values, resetField, isFieldDirty } = useForm({
           })
         },
         {
-          required_error: i18n.t('common.errors.required'),
+          required_error: i18n.t(
+            'messages.errors.required'
+          ),
           invalid_type_error: i18n.t(
-            'common.errors.required'
+            'messages.errors.required'
           )
         }
       )
@@ -199,7 +211,7 @@ function setMaintainer() {
     maintainersStore.patch(maintainer)
     commonStore.closeOverlay()
   } else {
-    toasts.warning(t('notifications.invalidform'))
+    toasts.warning(i18n.t('messages.errors.invalidForm'))
   }
 }
 

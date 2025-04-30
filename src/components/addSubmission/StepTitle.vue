@@ -75,11 +75,11 @@ const submissionsStore = useSubmissionStore()
 
 const steps = computed(() => {
   return [
-    i18n.t('addSubmission.step1Title'),
-    i18n.t('addSubmission.step2Title', [
-      submissionsStore.repository?.technology
-    ]),
-    i18n.t('addSubmission.step3Title')
+    i18n.t('forms.submissions.stepFirst'),
+    i18n.t('forms.submissions.stepSecond', {
+      technology: submissionsStore.repository?.technology
+    }),
+    i18n.t('forms.submissions.stepThird')
   ]
 })
 </script>

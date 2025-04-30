@@ -30,14 +30,22 @@
           size="small"
         >
           <span class="pr-3">
-            {{ $t('common.create') }}</span
+            {{ $t('actions.general.create') }}</span
           >
           <v-icon :icon="Icons.get('add')"
         /></CommonButton>
       </div>
     </template>
     <span id="tooltip-wait"
-      ><span>{{ $t('packageMaintainer.create') }}</span>
+      ><span>
+        {{
+          $t('actions.general.create', {
+            resource_type: $t(
+              'resources.packageMaintainer'
+            ).toLowerCase()
+          })
+        }}
+      </span>
     </span>
   </v-tooltip>
 </template>

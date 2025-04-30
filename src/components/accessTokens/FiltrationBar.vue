@@ -31,7 +31,7 @@
       hide-details
       name="search"
       as="v-text-field"
-      :label="$t('settings.filtration.searchPlaceholder')"
+      :label="$t('filtration.general.searchPlaceholder')"
       color="oablue"
       @update:model-value="setFiltration"
     />
@@ -52,7 +52,7 @@
       as="autocomplete"
       multiple
       clearable
-      :label="$t('settings.filtration.userLogin')"
+      :label="$t('filtration.tokens.userLogin')"
       :store-id="storeIdUser"
       :template="true"
       @update:model-value="setFiltration"
@@ -76,7 +76,7 @@
       density="compact"
       hide-details
       name="active"
-      :label="$t('settings.filtration.active')"
+      :label="$t('properties.general.active')"
       as="switch-indeterminate"
       color="oablue"
       class="flex-grow-0"
@@ -88,7 +88,7 @@
       density="compact"
       hide-details
       name="expired"
-      :label="$t('settings.filtration.expired')"
+      :label="$t('filtration.tokens.expired')"
       as="switch-indeterminate"
       color="oablue"
       class="flex-grow-0"

@@ -28,7 +28,7 @@
       color="oablue"
       size="small"
       @click="saveSettings"
-      >{{ $t('settings.save') }}</v-btn
+      >{{ $t('actions.general.save') }}</v-btn
     >
   </div>
 </template>

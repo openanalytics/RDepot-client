@@ -28,7 +28,7 @@
     color="oablue"
     @click="resetValues"
   >
-    {{ $t('filtration.reset') }}</v-btn
+    {{ $t('actions.general.reset') }}</v-btn
   >
 </template>
 

@@ -23,7 +23,7 @@
 <template>
   <v-card-text class="mb-1">
     <div class="text-overline">
-      {{ $t('common.repository') }}
+      {{ $t('resources.repository') }}
     </div>
     <div id="repository-name" class="text-h4 mb-2">
       {{ chosenRepository?.name }}
@@ -39,7 +39,7 @@
       item-value="name"
       hide-default-footer
       items-per-page="-1"
-      :no-data-text="$t('datatable.noDataAvailable')"
+      :no-data-text="$t('messages.general.noDataAvailable')"
     >
       <template #[`item.remove`]="{ item }">
         <v-btn
@@ -181,14 +181,16 @@
             </span>
           </template>
           <span id="tooltip-wait"
-            >{{ $t('packages.generatemanual') }}
+            >{{ $t('forms.submissions.generateManual') }}
             <span
               v-if="
                 submissionsStore.getBinaryForPackage(item)
               "
             >
               ({{
-                $t('packages.generateManualNotAvailable')
+                $t(
+                  'forms.submissions.generateManualNotAvailable'
+                )
               }})
             </span></span
           >
@@ -218,11 +220,11 @@
                 margin-top: 10px;
               "
               @click="resetPackages()"
-              >{{ $t('common.clear') }}</v-btn
+              >{{ $t('actions.general.clear') }}</v-btn
             >
           </template>
           <span id="tooltip-reset">
-            {{ $t('common.clearAll') }}</span
+            {{ $t('actions.general.clear') }}</span
           ></v-tooltip
         >
       </template>
@@ -283,7 +285,7 @@ function validate(e: any, field: string, item: File) {
       if (!submissionsStore.getRVersionForPackage(item)) {
         ;(filesStore.fieldsError as any)[
           item.name
-        ].rversion = e ? '' : t('common.errors.required')
+        ].rversion = e ? '' : t('messages.errors.required')
       }
       break
     case 'architecture':
@@ -294,7 +296,7 @@ function validate(e: any, field: string, item: File) {
           item.name
         ].architecture = e
           ? ''
-          : t('common.errors.required')
+          : t('messages.errors.required')
       }
       break
     case 'distribution':
@@ -305,7 +307,7 @@ function validate(e: any, field: string, item: File) {
           item.name
         ].distribution = e
           ? ''
-          : t('common.errors.required')
+          : t('messages.errors.required')
       }
       break
     default:
@@ -337,7 +339,7 @@ function expandNotes(file: File) {
 
 const headers = computed<DataTableHeaders[]>(() => [
   {
-    title: t('columns.package.name'),
+    title: t('forms.general.name'),
     key: 'name',
     align: 'start',
     sortable: false,
@@ -345,56 +347,56 @@ const headers = computed<DataTableHeaders[]>(() => [
     minWidth: '10%'
   },
   {
-    title: t('addSubmission.rVersion'),
+    title: t('fields.files.rVersion'),
     key: 'rversion',
     align: 'start',
     sortable: false,
     width: '15%'
   },
   {
-    title: t('addSubmission.architecture'),
+    title: t('fields.files.architecture'),
     key: 'architecture',
     align: 'start',
     sortable: false,
     width: '15%'
   },
   {
-    title: t('addSubmission.distribution'),
+    title: t('fields.files.distribution'),
     key: 'distribution',
     align: 'start',
     sortable: false,
     width: '15%'
   },
   {
-    title: t('addSubmission.binary'),
+    title: t('fields.files.binary'),
     key: 'binary',
     align: 'center',
     sortable: false,
     width: '5%'
   },
   {
-    title: t('packages.notes'),
+    title: t('fields.files.notes'),
     key: 'notes',
     align: 'center',
     sortable: false,
     width: '5%'
   },
   {
-    title: t('packages.generatemanual'),
+    title: t('fields.files.generateManual'),
     key: 'manual',
     align: 'center',
     sortable: false,
     width: '5%'
   },
   {
-    title: t('packages.replace'),
+    title: t('fields.files.replace'),
     key: 'replace',
     align: 'center',
     sortable: false,
     width: '5%'
   },
   {
-    title: '',
+    title: t('fields.general.actions'),
     key: 'remove',
     align: 'center',
     sortable: false,

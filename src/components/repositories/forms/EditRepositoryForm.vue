@@ -24,7 +24,11 @@
   <form as="v-form" lazy-validation>
     <v-card class="pa-5" width="400">
       <v-card-title>
-        {{ $t('repositories.edit.title') }}
+        {{
+          $t('actions.general.editResource', {
+            resource_type: $t('resources.repository')
+          })
+        }}
       </v-card-title>
       <v-divider />
       <v-card-text>
@@ -33,7 +37,7 @@
           v-model="localRepository.name"
           name="name"
           as="v-text-field"
-          :label="$t('repositories.creation.name')"
+          :label="$t('forms.general.name')"
           :loading="loading"
           lazy-validation
           max-width="unset"
@@ -43,9 +47,7 @@
           v-model="localRepository.publicationUri"
           name="publicationUri"
           as="v-text-field"
-          :label="
-            $t('repositories.creation.publicationUri')
-          "
+          :label="$t('fields.repositories.publicationUri')"
           max-width="unset"
         />
         <span
@@ -56,9 +58,7 @@
             v-model="localRepository.serverAddress"
             name="serverAddress"
             as="v-text-field"
-            :label="
-              $t('repositories.creation.serverAddress')
-            "
+            :label="$t('fields.repositories.serverAddress')"
             max-width="unset"
           />
           <HealthCheck
@@ -72,7 +72,7 @@
           :items="technologySelect"
           name="technology"
           as="v-select"
-          :label="$t('repositories.creation.technology')"
+          :label="$t('resources.technology')"
           max-width="unset"
         />
         <validated-input-field
@@ -82,7 +82,7 @@
           :items="hashMethods"
           name="hashMethod"
           as="v-select"
-          :label="$t('repositories.creation.hash')"
+          :label="$t('forms.repositories.hash')"
           max-width="unset"
         />
         <validated-input-field
@@ -93,9 +93,7 @@
           as="v-checkbox"
           max-width="unset"
           style="display: flex; justify-content: start"
-          :label="
-            $t('repositories.creation.redirectToSource')
-          "
+          :label="$t('forms.repositories.redirectToSource')"
         ></validated-input-field>
         <validated-input-field
           id="edit-requires-authentication"
@@ -105,9 +103,7 @@
           max-width="unset"
           style="display: flex; justify-content: start"
           :label="
-            $t(
-              'repositories.creation.requiresAuthentication'
-            )
+            $t('forms.repositories.requiresAuthentication')
           "
         />
       </v-card-text>
@@ -131,7 +127,7 @@
           color="warning"
         >
           <i18n-t
-            keypath="repositories.creation.deprecatedAddress"
+            keypath="forms.repositories.hints.deprecatedAddress"
             tag="p"
           >
             <template #address>
@@ -203,7 +199,7 @@ const { meta, setFieldValue, isFieldTouched, values } =
             previousVal = value
             return await isRepositoryNameIsDuplicated(value)
           },
-          t('repositories.creation.duplicateName')
+          t('forms.repositories.errors.duplicateName')
         ),
         publicationUri:
           repositorySchema.shape.publicationUri,
@@ -265,7 +261,7 @@ function updateRepository() {
     repositoryStore.patch(localRepository.value)
     commonStore.closeOverlay()
   } else {
-    toasts.warning(t('notifications.invalidform'))
+    toasts.warning(t('messages.errors.invalidForm'))
   }
 }
 

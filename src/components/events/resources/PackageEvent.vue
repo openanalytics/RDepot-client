@@ -26,7 +26,7 @@
     <span class="d-flex ga-3">
       <EventTag
         v-if="relatedResource?.binary"
-        :value="$t('packageDetails.props.binary')"
+        :value="$t('properties.packages.binary')"
         size="small"
         disable-copying
         disable-tooltip
@@ -87,7 +87,7 @@
 
       <EventTag
         v-if="relatedResource?.deleted"
-        :value="i18n.t('columns.tokens.deleted')"
+        :value="i18n.t('properties.general.deleted')"
         color="oared"
         disable-copying
         disable-tooltip
@@ -95,27 +95,23 @@
 
       <EventTag
         :value="relatedResource?.user?.login"
-        :hover-message="
-          i18n.t('columns.package.maintainer')
-        "
+        :hover-message="i18n.t('resources.maintainer')"
       />
       <EventTag
         :value="relatedResource?.repository?.name"
-        :hover-message="
-          i18n.t('columns.package.repository')
-        "
+        :hover-message="i18n.t('resources.repository')"
       />
 
       <EventTag
         v-if="relatedResource?.repository?.published"
-        :value="i18n.t('columns.repository.published')"
+        :value="i18n.t('fields.repositories.published')"
         disable-copying
         disable-tooltip
       />
 
       <EventTag
         v-if="relatedResource?.active"
-        :value="i18n.t('columns.active')"
+        :value="i18n.t('properties.general.active')"
         disable-copying
         disable-tooltip
       />
@@ -123,7 +119,7 @@
       <EventTag
         v-if="relatedResource?.source"
         :value="relatedResource?.source"
-        :hover-message="i18n.t('columns.package.source')"
+        :hover-message="i18n.t('fields.packages.source')"
       />
     </div>
   </v-card-text>
@@ -158,7 +154,7 @@ const { getStatusIcon, getStatusColor } =
   useSubmissionIcons()
 
 const resourceType = computed(() =>
-  i18n.t('resourceType.package').toUpperCase()
+  i18n.t('resources.package').toUpperCase()
 )
 </script>
 

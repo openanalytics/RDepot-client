@@ -73,17 +73,20 @@ const disabled = computed(
 
 const hoverMessage = computed(() => {
   if (!configStore.deletingPackages)
-    return i18n.t('config.deletingPackages')
+    return i18n.t('messages.config.deletingPackages')
   if (componentProps.item.deleted)
-    return i18n.t('packages.deleted')
-  if (isPending.value) return i18n.t('common.pending')
+    return i18n.t('messages.general.deleted', {
+      resource_name: i18n.t('resources.package')
+    })
+  if (isPending.value)
+    return i18n.t('messages.general.pending')
   return undefined
 })
 
 const overlayText = computed(() =>
-  i18n.t('common.deleteResourcesQuestion', {
-    resource_type_plural: i18n
-      .t('common.packages')
+  i18n.t('messages.general.deleteResourcesQuestion', {
+    resource_type: i18n
+      .t('resource.package', 2)
       .toLocaleLowerCase()
   })
 )

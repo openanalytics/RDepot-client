@@ -53,17 +53,24 @@ const commonStore = useCommonStore()
 const configStore = useConfigStore()
 const { canPatch } = useUserAuthorities()
 
-const tooltipText = computed(() =>
-  !disabled.value
-    ? i18n.t('common.republish')
-    : configStore.declarativeMode
-      ? i18n.t('repositories.declarative.republish')
-      : componentProps.repo.deleted
-        ? i18n.t('repositories.deleted')
-        : componentProps.repo.published
-          ? i18n.t('common.notAuthorized')
-          : i18n.t('repositories.notPublished.republish')
-)
+const tooltipText = computed(() => {
+  if (!disabled.value) {
+    return i18n.t('actions.repositories.republish')
+  } else if (configStore.declarativeMode) {
+    return i18n.t(
+      'messages.repositories.declarative.republish'
+    )
+  } else if (componentProps.repo.deleted) {
+    return i18n.t('messages.general.deleted', {
+      resource_name: i18n
+        .t('resources.packageMaintainer')
+        .toLowerCase()
+    })
+  } else if (componentProps.repo.published) {
+    return i18n.t('messages.general.notAuthorized')
+  }
+  return i18n.t('message.repositories.notPublished')
+})
 
 const disabled = computed(() => {
   return (
@@ -78,9 +85,9 @@ function republish() {
   if (!disabled.value) {
     emits('setEntity')
     commonStore.overlayText = i18n.t(
-      'common.republishQuestion',
+      'messages.repositories.republishQuestion',
       {
-        resource_name: componentProps.repo.name
+        repo_name: componentProps.repo.name
       }
     )
     commonStore.openOverlay(OverlayEnum.enum.Republish)

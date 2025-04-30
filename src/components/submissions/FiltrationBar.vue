@@ -40,9 +40,7 @@
       hide-details
       name="search"
       as="v-text-field"
-      :label="
-        $t('submissions.filtration.searchPlaceholder')
-      "
+      :label="$t('filtration.general.searchPlaceholder')"
       color="oablue"
       @update:model-value="setFiltration"
     />
@@ -58,7 +56,7 @@
       multiple
       clearable
       as="v-select"
-      :label="$t('filtration.technologies')"
+      :label="$t('resources.technology', 2)"
       @update:model-value="setFiltration"
     ></validated-input-field>
 
@@ -73,7 +71,7 @@
       multiple
       clearable
       as="v-select"
-      :label="$t('filtration.state')"
+      :label="$t('fields.packages.submissionState')"
       @update:model-value="setFiltration"
     ></validated-input-field>
 
@@ -87,7 +85,7 @@
       as="autocomplete"
       multiple
       clearable
-      :label="$t('packages.filtration.repository')"
+      :label="$t('resources.repository')"
       :store-id="storeId"
       :template="true"
       @update:model-value="setFiltration"
@@ -122,7 +120,7 @@
       hide-details
       name="fromDate"
       as="v-text-field"
-      :label="$t('submissions.filtration.fromDate')"
+      :label="$t('filtration.general.fromDate')"
       color="oablue"
       @update:focused="selectFromDate"
     />
@@ -133,7 +131,7 @@
       hide-details
       name="toDate"
       as="v-text-field"
-      :label="$t('submissions.filtration.toDate')"
+      :label="$t('filtration.general.toDate')"
       color="oablue"
       @update:focused="selectToDate"
     />

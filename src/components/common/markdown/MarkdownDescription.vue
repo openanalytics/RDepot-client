@@ -56,7 +56,7 @@ marked.use({
 const mdDescription = computed(() => {
   let description =
     componentProps.description ||
-    i18n.t('package.noDescriptionProvided')
+    i18n.t('messages.packages.noDescriptionProvided')
   description = description.replaceAll('\\n', '\n')
   return marked.parse(description || '', {
     breaks: true,

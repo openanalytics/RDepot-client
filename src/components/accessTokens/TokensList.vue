@@ -26,7 +26,7 @@
     :items="accessTokensStore.tokens"
     :items-length="accessTokensStore.totalNumber"
     item-value="id"
-    :title="i18n.t('settings.tab.token')"
+    :title="i18n.t('resources.token', 2)"
     :loading="accessTokensStore.loading"
     :sort-by="sortBy"
     @update:options="fetchData"
@@ -40,8 +40,8 @@
         id="access-token-active-icon"
         v-tooltip="
           item.active
-            ? $t('tokens.active')
-            : $t('tokens.inactive')
+            ? $t('properties.general.active')
+            : $t('properties.general.inactive')
         "
         :icon="
           item.active
@@ -66,11 +66,11 @@
             (!canPatch(item.links) && item.active) ||
             !item.active
           "
-          :text="$t('common.edit')"
+          :text="$t('actions.general.edit')"
           :hover-message="
             !canPatch(item.links) && item.active
               ? undefined
-              : $t('tokens.inactive')
+              : $t('properties.tokens.inactive')
           "
           @set-entity="setEditEntity(item)"
         />
@@ -84,7 +84,7 @@
           :hover-message="
             !canPatch(item.links) && item.active
               ? undefined
-              : $t('tokens.inacitve')
+              : $t('properties.tokens.inactive')
           "
           @set-resource-id="setEditEntity(item)"
         />
@@ -131,43 +131,43 @@ const sortBy = ref(defaultSort)
 
 const headers = computed<DataTableHeaders[]>(() => [
   {
-    title: i18n.t('columns.tokens.name'),
+    title: i18n.t('forms.general.name'),
     align: 'start',
     key: 'name',
     width: 150
   },
   {
-    title: i18n.t('columns.tokens.user'),
+    title: i18n.t('resources.user'),
     align: 'start',
     key: 'user',
     value: 'user.name'
   },
   {
-    title: i18n.t('columns.tokens.lastUsed'),
+    title: i18n.t('fields.tokens.lastUsed'),
     align: 'center',
     key: 'lastUsed',
     width: 150
   },
   {
-    title: i18n.t('columns.tokens.creationDate'),
+    title: i18n.t('fields.general.createdOn'),
     align: 'center',
     key: 'creationDate',
     width: 150
   },
   {
-    title: i18n.t('columns.tokens.expirationDate'),
+    title: i18n.t('fields.tokens.expirationDate'),
     align: 'center',
     key: 'expirationDate',
     width: 150
   },
   {
-    title: i18n.t('columns.tokens.active'),
+    title: i18n.t('properties.general.active'),
     align: 'start',
     key: 'active',
     width: 100
   },
   {
-    title: i18n.t('columns.actions'),
+    title: i18n.t('fields.general.actions'),
     align: 'center',
     key: 'actions',
     width: 50,

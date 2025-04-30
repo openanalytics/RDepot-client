@@ -34,9 +34,7 @@
       <div class="d-flex ga-1 align-center">
         <v-chip
           v-tooltip="
-            $t(
-              'repositories.creation.technology'
-            ).toLowerCase()
+            $t('resources.technology').toLowerCase()
           "
           size="x-small"
           color="oablue"
@@ -50,8 +48,10 @@
           v-tooltip="
             packageDetailsStore.packageBag.repository
               .published
-              ? $t('repositories.published.true')
-              : $t('repositories.published.false')
+              ? $t('properties.repositories.published.true')
+              : $t(
+                  'properties.repositories.published.false'
+                )
           "
           :icon="
             packageDetailsStore.packageBag.repository

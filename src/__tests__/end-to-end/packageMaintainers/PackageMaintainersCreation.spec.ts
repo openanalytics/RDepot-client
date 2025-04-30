@@ -212,7 +212,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
       await packageInputMessagesSelector.textContent()
     ).toContain(
       i18n.t(
-        'maintainers.createForm.disabledPackageMessage'
+        'forms.packageMaintainers.hints.disabledPackageMessage'
       )
     )
 
@@ -262,7 +262,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     await repoInputMessagesSelector.waitFor()
     expect(
       await repoInputMessagesSelector.textContent()
-    ).toContain(i18n.t('common.errors.required'))
+    ).toContain(i18n.t('messages.errors.required'))
 
     await repoInputSelector.click({ force: true })
     await testRepo3Option.waitFor()
@@ -288,7 +288,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     await packageInputMessagesSelector.waitFor()
     expect(
       await packageInputMessagesSelector.textContent()
-    ).toContain(i18n.t('common.errors.required'))
+    ).toContain(i18n.t('messages.errors.required'))
 
     await packageInputSelector.click({ force: true })
     await a3Testrepo3Option.waitFor()
@@ -315,6 +315,6 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     await userInputMessagesSelector.waitFor()
     expect(
       await userInputMessagesSelector.textContent()
-    ).toContain(i18n.t('common.errors.required'))
+    ).toContain(i18n.t('messages.errors.required'))
   })
 })

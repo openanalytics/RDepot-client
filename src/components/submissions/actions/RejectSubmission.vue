@@ -29,7 +29,7 @@
       canPatch(item.links, 'state')
     "
     :id="`reject-button-${item.id}`"
-    :tooltip="$t('action.reject')"
+    :tooltip="$t('actions.general.reject')"
     :icon="Icons.get('reject')"
     color="oared"
     @click.once="rejectSubmission(item)"

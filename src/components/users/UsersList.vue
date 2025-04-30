@@ -28,7 +28,7 @@
     item-value="id"
     :loading="userStore.loading"
     :sort-by="sortBy"
-    :title="i18n.t('common.users')"
+    :title="i18n.t('resources.user', 2)"
     @update:options="fetchData"
   >
     <template #[`item.role`]="{ item }">
@@ -83,10 +83,10 @@
           </span>
         </template>
         <span v-if="isPending(item)">
-          {{ $t('common.pending') }}</span
+          {{ $t('messages.general.pending') }}</span
         >
         <span v-else>{{
-          $t('users.unableDeactivation')
+          $t('message.users.unableDeactivation')
         }}</span>
       </v-tooltip></template
     >
@@ -104,12 +104,12 @@
           "
           :hover-message="
             !canPatch(item.links, 'deleted')
-              ? $t('common.notAuthorized')
+              ? $t('messages.general.notAuthorized')
               : item.role == 'admin'
-                ? $t('users.editAdmin')
+                ? $t('messages.users.editAdmin')
                 : undefined
           "
-          :text="$t('common.edit')"
+          :text="$t('actions.general.edit')"
           @set-entity="setEditUser(item)"
         />
         <DeleteIcon
@@ -120,9 +120,11 @@
           :name="item.name"
           :hover-message="
             !canPatch(item.links, 'deleted')
-              ? $t('common.notAuthorized')
+              ? $t('messages.general.notAuthorized')
               : item.deleted
-                ? $t('users.deleted')
+                ? $t('messages.general.deleted', {
+                    resource_name: i18n.t('resources.user')
+                  })
                 : undefined
           "
           @set-resource-id="setEditUser(item)"
@@ -163,36 +165,36 @@ const { roles } = useEnumFiltration()
 
 const headers = computed<DataTableHeaders[]>(() => [
   {
-    title: i18n.t('columns.users.username'),
+    title: i18n.t('fields.users.username'),
     align: 'start',
     key: 'login',
     width: 200
   },
   {
-    title: i18n.t('columns.users.name'),
+    title: i18n.t('fields.users.name'),
     align: 'start',
     key: 'name',
     width: 200
   },
   {
-    title: i18n.t('columns.users.email'),
+    title: i18n.t('fields.users.email'),
     align: 'start',
     key: 'email'
   },
   {
-    title: i18n.t('columns.users.role'),
+    title: i18n.t('fields.users.role'),
     align: 'start',
     key: 'role',
     width: 200
   },
   {
-    title: i18n.t('columns.users.active'),
+    title: i18n.t('properties.general.active'),
     align: 'center',
     key: 'active',
     width: 200
   },
   {
-    title: i18n.t('columns.actions'),
+    title: i18n.t('fields.general.actions'),
     align: 'center',
     key: 'actions',
     width: 50,

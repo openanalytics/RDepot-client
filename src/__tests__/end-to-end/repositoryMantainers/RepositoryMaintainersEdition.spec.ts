@@ -151,7 +151,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     )
     expect(
       await repositoryInputMessagesSelector.textContent()
-    ).toContain(i18n.t('common.errors.required'))
+    ).toContain(i18n.t('messages.errors.required'))
 
     await page
       .locator(

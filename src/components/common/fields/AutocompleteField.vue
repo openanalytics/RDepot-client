@@ -88,7 +88,7 @@ async function loadItems() {
     selectStore.paginationData.totalNumber < 0 ||
     !selectStore.shouldFetchNextPage
   ) {
-    emits('loadItems')
+    await emits('loadItems')
   }
 }
 

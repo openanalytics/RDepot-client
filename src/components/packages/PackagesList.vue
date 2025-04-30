@@ -27,7 +27,7 @@
     :headers="filteredHeaders"
     :items="packagesStore.packages"
     :items-length="packagesStore.totalNumber"
-    :title="i18n.t('packages.list')"
+    :title="i18n.t('resources.package', 2)"
     item-value="id"
     :show-select="!packagesStore.filtration.deleted"
     :loading="packagesStore.loading"
@@ -164,43 +164,43 @@ const { isPending } = usePackagesActions()
 
 const headers = computed<DataTableHeaders[]>(() => [
   {
-    title: i18n.t('columns.package.name'),
+    title: i18n.t('forms.general.name'),
     align: 'start',
     key: 'name'
   },
   {
-    title: i18n.t('columns.package.maintainer'),
+    title: i18n.t('resources.maintainer'),
     align: 'start',
     key: 'user.name',
     width: 200
   },
   {
-    title: i18n.t('columns.package.repository'),
+    title: i18n.t('resources.repository'),
     align: 'start',
     key: 'repository',
     value: 'repository.name',
     width: 200
   },
   {
-    title: i18n.t('columns.package.fileType'),
+    title: i18n.t('fields.packages.fileType'),
     align: 'center',
     key: 'binary',
     width: 100
   },
   {
-    title: i18n.t('columns.package.state'),
+    title: i18n.t('fields.packages.submissionState'),
     align: 'center',
     key: 'submission.state',
     width: 100
   },
   {
-    title: i18n.t('columns.package.active'),
+    title: i18n.t('properties.general.active'),
     align: 'center',
     key: 'active',
     width: 80
   },
   {
-    title: i18n.t('columns.actions'),
+    title: i18n.t('fields.general.actions'),
     align: 'center',
     key: 'actions',
     width: 100,

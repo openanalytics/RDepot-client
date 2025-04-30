@@ -29,7 +29,7 @@
     class="mx-3"
     @click="openModal"
   >
-    <slot>{{ $t('filtration.title') }}</slot>
+    <slot>{{ $t('filtration.general.title') }}</slot>
   </v-btn>
 </template>
 
@@ -49,7 +49,9 @@ const componentProps = defineProps({
 const commonStore = useCommonStore()
 
 function openModal() {
-  commonStore.overlayText = i18n.t('filtration.makeSure')
+  commonStore.overlayText = i18n.t(
+    'messages.filtration.makeSure'
+  )
   commonStore.openOverlay(componentProps.component)
 }
 </script>

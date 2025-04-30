@@ -91,7 +91,7 @@ describe('Events - Repository Maintainer', () => {
 
   it('display resource type', () => {
     expect(wrapper.text()).toContain(
-      i18n.t('resourceType.packageMaintainer').toUpperCase()
+      i18n.t('resources.packageMaintainer').toUpperCase()
     )
   })
 

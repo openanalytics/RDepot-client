@@ -35,10 +35,10 @@ export function usePackagesActions() {
       packagesStore.packagesSelected
 
     commonStore.overlayText = i18n.t(
-      'common.deleteResourcesQuestion',
+      'messages.general.deleteResourcesQuestion',
       {
-        resource_type_plural: i18n
-          .t('common.packages')
+        resource_type: i18n
+          .t('resources.package', 2)
           .toLocaleLowerCase()
       }
     )

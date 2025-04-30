@@ -142,9 +142,7 @@ export const useAccessTokensStore = defineStore(
           await deleteToken(this.currentToken.id)
             .then(async () => {
               const toast = useToast()
-              toast.success(
-                i18n.t('settings.message.deleted')
-              )
+              toast.success(i18n.t('forms.tokens.deleted'))
               const commonStore = useCommonStore()
               commonStore.closeOverlay()
               await this.getPage()
@@ -170,9 +168,7 @@ export const useAccessTokensStore = defineStore(
           ?.then(async (success) => {
             if (success) {
               const toast = useToast()
-              toast.success(
-                i18n.t('settings.message.edited')
-              )
+              toast.success(i18n.t('forms.tokens.edited'))
               await this.getPage()
             }
           })
@@ -211,7 +207,7 @@ export const useAccessTokensStore = defineStore(
             if (success) {
               const toast = useToast()
               toast.success(
-                i18n.t('settings.message.deactivated')
+                i18n.t('forms.tokens.deactivated')
               )
               const commonStore = useCommonStore()
               commonStore.closeOverlay()
@@ -244,7 +240,7 @@ export const useAccessTokensStore = defineStore(
         await this.getPage()
         const toasts = useToast()
         toasts.success(
-          i18n.t('notifications.successFiltration')
+          i18n.t('messages.general.successFiltration')
         )
       },
       clearFiltration() {

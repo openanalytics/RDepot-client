@@ -71,7 +71,7 @@
     >
       <EventTag
         v-if="relatedResource.deleted"
-        :value="i18n.t('columns.repository.deleted')"
+        :value="i18n.t('properties.general.deleted')"
         color="oared"
         disable-copying
         disable-tooltip
@@ -79,14 +79,14 @@
 
       <EventTag
         v-if="relatedResource.published"
-        :value="i18n.t('columns.repository.published')"
+        :value="i18n.t('fields.repositories.published')"
         disable-copying
         disable-tooltip
       />
 
       <EventTag
         v-if="relatedResource.synchronizing"
-        :value="i18n.t('columns.repository.synchronizing')"
+        :value="i18n.t('fields.repositories.synchronizing')"
         disable-copying
         disable-tooltip
       />
@@ -101,14 +101,14 @@
         "
         :value="relatedResource.serverAddress"
         :hover-message="
-          i18n.t('columns.repository.serverAddress')
+          i18n.t('fields.repositories.serverAddress')
         "
       />
 
       <EventTag
         :value="relatedResource.publicationUri"
         :hover-message="
-          i18n.t('columns.repository.publicationUri')
+          i18n.t('fields.repositories.publicationUri')
         "
       />
     </div>
@@ -145,6 +145,6 @@ const authorizationStore = useAuthorizationStore()
 const { getTime } = useDates()
 
 const resourceType = computed(() =>
-  i18n.t('resourceType.repository').toUpperCase()
+  i18n.t('resources.repository').toUpperCase()
 )
 </script>

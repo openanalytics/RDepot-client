@@ -1,0 +1,30 @@
+{
+  "actions": {},
+  "fields": {},
+  "resources": {
+    "states": {
+      "accepted": "ACCEPTED",
+      "active": {
+        "false": "Inactive",
+        "true": "Active"
+      },
+      "cancelled": "CANCELLED",
+      "deleted": {
+        "false": "Not deleted",
+        "true": "Deleted"
+      },
+      "downloaded": "DOWNLOADED",
+      "expired": "Expired",
+      "published": {
+        "false": "Not published",
+        "true": "Published"
+      },
+      "rejected": "REJECTED",
+      "synchronizing": {
+        "false": "Not synchronizing",
+        "true": "Synchronizing"
+      },
+      "waiting": "WAITING"
+    }
+  }
+}

@@ -25,7 +25,11 @@
     <v-card
       class="pa-5"
       width="400"
-      :title="$t('maintainers.createForm.title')"
+      :title="
+        $t('actions.createResource', {
+          resource_type: $t('resources.packageMaintainer')
+        })
+      "
     >
       <v-divider />
       <v-card-text style="height: 300px">
@@ -33,7 +37,7 @@
           id="create-package-maintainer-user"
           as="autocomplete"
           name="user"
-          :label="$t('maintainers.editform.user')"
+          :label="$t('resources.user')"
           filled
           dense
           clearable
@@ -64,7 +68,7 @@
           id="create-package-maintainer-repository"
           as="autocomplete"
           name="repository"
-          :label="$t('maintainers.editform.repository')"
+          :label="$t('resources.repository')"
           :template="true"
           filled
           dense
@@ -99,13 +103,13 @@
           :hint="
             isPackageFieldDisabled
               ? t(
-                  'maintainers.createForm.disabledPackageMessage'
+                  'forms.packageMaintainers.hints.disabledPackageMessage'
                 )
               : undefined
           "
           as="combobox"
           name="package"
-          :label="$t('maintainers.editform.package')"
+          :label="$t('resources.package')"
           :template="true"
           filled
           dense
@@ -131,7 +135,9 @@
         <v-alert
           style="font-size: 0.75rem"
           :text="
-            t('maintainers.createForm.disclaimerPackages')
+            t(
+              'forms.packageMaintainers.hints.disclaimerPackages'
+            )
           "
           variant="tonal"
           border="start"
@@ -223,10 +229,10 @@ const { meta, setFieldValue, values, resetField } = useForm(
           },
           {
             required_error: i18n.t(
-              'common.errors.required'
+              'messages.errors.required'
             ),
             invalid_type_error: i18n.t(
-              'common.errors.required'
+              'messages.errors.required'
             )
           }
         ),
@@ -246,10 +252,10 @@ const { meta, setFieldValue, values, resetField } = useForm(
           },
           {
             required_error: i18n.t(
-              'common.errors.required'
+              'messages.errors.required'
             ),
             invalid_type_error: i18n.t(
-              'common.errors.required'
+              'messages.errors.required'
             )
           }
         ),
@@ -270,10 +276,10 @@ const { meta, setFieldValue, values, resetField } = useForm(
           },
           {
             required_error: i18n.t(
-              'common.errors.required'
+              'messages.errors.required'
             ),
             invalid_type_error: i18n.t(
-              'common.errors.required'
+              'messages.errors.required'
             )
           }
         )
@@ -301,7 +307,7 @@ async function createMaintainer() {
     packagesStore.clearFiltration()
     commonStore.overlay = false
   } else {
-    toasts.warning(t('notifications.invalidform'))
+    toasts.warning(t('messages.general.invalidForm'))
   }
 }
 

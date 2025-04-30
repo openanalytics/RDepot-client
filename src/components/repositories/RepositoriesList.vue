@@ -27,7 +27,7 @@
     :items="repositoryStore.repositories"
     :items-length="repositoryStore.totalNumber"
     item-value="name"
-    :title="i18n.t('repositories.list')"
+    :title="i18n.t('resources.repository', 2)"
     :loading="repositoryStore.loading"
     expand-on-click
     :sort-by="sortBy"
@@ -73,7 +73,7 @@
               >
                 <CopyableCell
                   :value="item.publicationUri"
-                  :tooltip-message="`${$t('packages.copy')} ${$t('columns.publicationUri').toLowerCase()}`"
+                  :tooltip-message="`${$t('actions.general.copy')} ${$t('fields.repositories.publicationUri').toLowerCase()}`"
                 />
                 <DeprecatedWarning
                   v-if="
@@ -115,22 +115,26 @@
           </span>
         </template>
         <span v-if="configStore.declarativeMode">{{
-          $t('repositories.declarative.publish')
+          $t('messages.repositories.declarative.publish')
         }}</span>
         <span v-else-if="!canPatch(item.links)">{{
-          $t('common.notAuthorized')
+          $t('messages.general.notAuthorized')
         }}</span>
         <span v-else-if="item.deleted">
-          {{ $t('repositories.deleted') }}</span
+          {{
+            $t('messages.general.deleted', {
+              resource_name: $t('resources.repository')
+            })
+          }}</span
         >
         <span v-else-if="isPending(item)">
-          {{ $t('common.pending') }}</span
+          {{ $t('messages.general.pending') }}</span
         >
         <span v-else-if="item.published">
-          {{ $t('repositories.edit.unpublish') }}
+          {{ $t('actions.repositories.unpublish') }}
         </span>
         <span v-else>
-          {{ $t('repositories.edit.publish') }}
+          {{ $t('actions.repositories.publish') }}
         </span>
       </v-tooltip>
     </template>
@@ -152,12 +156,16 @@
             configStore.declarativeMode ||
             item.deleted
           "
-          :text="$t('common.edit')"
+          :text="$t('actions.general.edit')"
           :hover-message="
             configStore.declarativeMode
-              ? $t('repositories.declarative.edit')
+              ? $t('messages.repositories.declarative.edit')
               : item.deleted
-                ? $t('repositories.deleted')
+                ? $t('messages.general.deleted', {
+                    resource_name: $t(
+                      `resources.repository`
+                    )
+                  })
                 : undefined
           "
           class="mr-1"
@@ -176,11 +184,19 @@
           :name="item.name"
           :hover-message="
             configStore.declarativeMode
-              ? i18n.t('repositories.declarative.delete')
+              ? i18n.t(
+                  'messages.repositories.declarative.delete'
+                )
               : !configStore.deletingRepositories
-                ? i18n.t('config.deletingRepositories')
+                ? i18n.t(
+                    'messages.config.deletingRepositories'
+                  )
                 : item.deleted
-                  ? i18n.t('repositories.deleted')
+                  ? $t('messages.general.deleted', {
+                      resource_name: $t(
+                        `resources.repository`
+                      )
+                    })
                   : undefined
           "
           @set-resource-id="chooseRepositoryToUpdate(item)"
@@ -267,18 +283,18 @@ const postCondition = computed(() =>
 
 const headers = computed<DataTableHeaders[]>(() => [
   {
-    title: i18n.t('columns.repository.name'),
+    title: i18n.t('forms.general.name'),
     align: 'start',
     key: 'name'
   },
   {
-    title: i18n.t('columns.repository.published'),
+    title: i18n.t('fields.repositories.published'),
     align: 'center',
     key: 'published',
     width: 140
   },
   {
-    title: i18n.t('columns.actions'),
+    title: i18n.t('fields.general.actions'),
     align: 'center',
     key: 'actions',
     width: 100,

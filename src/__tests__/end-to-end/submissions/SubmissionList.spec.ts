@@ -41,11 +41,9 @@ test.describe(TITLE, () => {
     await sortByStateIcon.click()
     await page.locator(`#${COMMENT_SUBMISSION_ID}`).click()
 
-    const repositoryHashMethodSelector = page.getByText(
+    const submissionsNotesSelector = page.getByText(
       'There are no notes listed for this submission'
     )
-    await expect(repositoryHashMethodSelector).toHaveCount(
-      1
-    )
+    await expect(submissionsNotesSelector).toHaveCount(1)
   })
 })

@@ -40,16 +40,18 @@
     >
       <label for="file-input">
         <span v-if="dropZoneActive">
-          {{ $t('dragzone.active') }}
-          <i>{{ $t('dragzone.dropzone') }}</i>
+          {{ $t('dragZone.active') }}
+          <i>{{ $t('dragZone.dropzone') }}</i>
         </span>
         <span v-else>
           <span>
-            {{ $t('dragzone.inactive') }} <br />
+            {{ $t('dragZone.inactive') }} <br />
             <small>
-              {{ $t('common.or') }}
-              <strong>{{ $t('common.click') }}</strong>
-              {{ $t('dragzone.click') }}</small
+              {{ $t('actions.general.or') }}
+              <strong>{{
+                $t('actions.general.click')
+              }}</strong>
+              {{ $t('dragZone.click') }}</small
             >
           </span>
         </span>
@@ -65,7 +67,7 @@
       color="oablue"
       @click="$emit('next', 1)"
     >
-      {{ $t('common.goBack') }}
+      {{ $t('actions.general.goBack') }}
     </v-btn>
     <v-btn
       id="next-button"
@@ -75,7 +77,7 @@
       "
       @click="nextStep"
     >
-      {{ $t('common.submit') }}
+      {{ $t('actions.general.submit') }}
     </v-btn>
   </div>
 </template>
@@ -161,9 +163,11 @@ function nextStep() {
     emits('next', 3)
     submissionsStore.addSubmissionRequests()
   } else if (!valid.value) {
-    toasts.error(t('submissions.wrongExtension'))
+    toasts.error(t('messages.submissions.wrongExtension'))
   } else {
-    toasts.warning(t('submissions.noPackageChosen'))
+    toasts.warning(
+      t('messages.submissions.noPackageChosen')
+    )
   }
 }
 </script>

@@ -31,17 +31,23 @@
           size="small"
         >
           <span class="pr-3">
-            {{ $t('common.create') }}</span
+            {{ $t('actions.general.create') }}</span
           ><v-icon :icon="Icons.get('add')"
         /></CommonButton>
       </div>
     </template>
     <span id="tooltip-wait"
       ><span v-if="!configStore.declarativeMode">{{
-        $t('repositories.addRepository')
+        $t('actions.general.create', {
+          resource_type: $t(
+            'resources.repository'
+          ).toLowerCase()
+        })
       }}</span
       ><span v-else>
-        {{ $t('repositories.declarative.create') }}</span
+        {{
+          $t('messages.repositories.declarative.create')
+        }}</span
       >
     </span>
   </v-tooltip>

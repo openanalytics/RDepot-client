@@ -32,7 +32,7 @@
       size="x-small"
       :icon="Icons.get('copy')"
       @click.stop="
-        copyText(value, $t('common.copiedMessage'))
+        copyText(value, $t('messages.general.copied'))
       "
     />
   </div>
@@ -59,6 +59,7 @@ const componentProps = defineProps({
 const { copyText } = useUtilities()
 const onHoverMessage = computed(
   () =>
-    componentProps.tooltipMessage || i18n.t('packages.copy')
+    componentProps.tooltipMessage ||
+    i18n.t('actions.general.copy')
 )
 </script>

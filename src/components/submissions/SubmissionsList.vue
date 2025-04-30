@@ -28,7 +28,7 @@
     show-select
     :headers="headers"
     :items="submissionStore.submissions"
-    :title="i18n.t('common.submissions')"
+    :title="i18n.t('resources.submission', 2)"
     :items-length="submissionStore.totalNumber"
     item-value="name"
     :loading="submissionStore.loading"
@@ -120,7 +120,9 @@
               :description="
                 item.changes
                   ? item.changes
-                  : $t('submissions.noChangesProvided')
+                  : $t(
+                      'messages.submissions.noChangesProvided'
+                    )
               "
               :short="undefined"
             ></MarkdownDescription>
@@ -167,49 +169,49 @@ const exp = ref<string[]>([])
 
 const headers = computed<DataTableHeaders[]>(() => [
   {
-    title: i18n.t('columns.submissions.package'),
+    title: i18n.t('resources.package'),
     align: 'start',
     key: 'packageBag.name'
     // width: 150
   },
   {
-    title: i18n.t('columns.package.fileType'),
+    title: i18n.t('fields.packages.fileType'),
     align: 'center',
     key: 'packageBag.binary',
     width: 100
   },
   {
-    title: i18n.t('columns.submissions.repository'),
+    title: i18n.t('resources.repository'),
     align: 'start',
     key: 'packageBag.repository',
     value: 'packageBag.repository.name'
   },
   {
-    title: i18n.t('columns.submissions.date'),
+    title: i18n.t('fields.general.date'),
     align: 'center',
     key: 'created',
     width: 100
   },
   {
-    title: i18n.t('columns.submissions.submitter'),
+    title: i18n.t('fields.submissions.submitter'),
     align: 'start',
     key: 'submitter.name',
     width: 200
   },
   {
-    title: i18n.t('columns.submissions.approver'),
+    title: i18n.t('fields.submissions.approver'),
     align: 'start',
     key: 'approver.name',
     width: 200
   },
   {
-    title: i18n.t('columns.submissions.status'),
+    title: i18n.t('fields.packages.submissionState'),
     align: 'center',
     key: 'state',
     width: 100
   },
   {
-    title: i18n.t('columns.actions'),
+    title: i18n.t('fields.general.actions'),
     align: 'center',
     key: 'actions',
     width: '130',

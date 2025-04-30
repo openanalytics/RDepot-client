@@ -34,7 +34,7 @@
       ></v-btn>
     </template>
     <span id="tooltip-wait">{{
-      $t('addSubmission.binary')
+      $t('forms.submissions.binary')
     }}</span>
   </v-tooltip>
 </template>

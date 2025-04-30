@@ -41,12 +41,10 @@
         {{
           submissionStore.submissionsToEdit?.editOption ==
           SubmissionEditOptions.enum.download
-            ? i18n.t(
-                'submissions.multiAction.notDownloaded'
-              )
-            : i18n.t('submissions.multiAction.notEdited')
+            ? i18n.t('messages.errors.notDownloaded')
+            : i18n.t('messages.errors.notEdited')
         }}
-        ({{ i18n.t('common.errors.unauthorized') }})
+        ({{ i18n.t('messages.general.notAuthorized') }})
       </span>
     </v-tooltip>
 
@@ -69,13 +67,11 @@
         {{
           submissionStore.submissionsToEdit?.editOption ==
           SubmissionEditOptions.enum.download
-            ? i18n.t(
-                'submissions.multiAction.notDownloaded'
-              )
-            : i18n.t('submissions.multiAction.notEdited')
+            ? i18n.t('messages.errors.notDownloaded')
+            : i18n.t('messages.errors.notEdited')
         }}
         ({{
-          i18n.t('submissions.multiAction.notMutable', {
+          i18n.t('messages.errors.notMutable', {
             actionType: editActionWarning,
             currentState: getTooltipMessage(item.state)
           })

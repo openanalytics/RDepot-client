@@ -24,7 +24,13 @@
   <form ref="form" as="v-form" lazy-validation>
     <v-card class="pa-5" width="400">
       <v-card-title>
-        {{ $t('maintainers.createForm.title') }}
+        {{
+          $t('actions.createResource', {
+            resource_type: $t(
+              'resources.repositoryMaintainer'
+            )
+          })
+        }}
       </v-card-title>
       <v-divider></v-divider>
       <v-card-text>
@@ -32,7 +38,7 @@
           id="create-repository-maintainer-user"
           name="user"
           as="autocomplete"
-          :label="$t('maintainers.editform.user')"
+          :label="i18n.t('resources.user')"
           filled
           dense
           clearable
@@ -66,12 +72,12 @@
           :disabled="!values.user"
           :hint="
             !values.user
-              ? $t(
-                  'maintainers.createForm.disabledRepositoryMessage'
+              ? i18n.t(
+                  'forms.repositoryMaintainers.hints.disabledRepositoryMessage'
                 )
               : ''
           "
-          :label="$t('maintainers.editform.repository')"
+          :label="i18n.t('resources.repository')"
           filled
           dense
           clearable
@@ -103,7 +109,11 @@
       <v-card-text>
         <v-alert
           style="font-size: 0.75rem"
-          :text="t('maintainers.createForm.disclaimer')"
+          :text="
+            t(
+              'forms.repositoryMaintainers.hints.disclaimer'
+            )
+          "
           variant="tonal"
           border="start"
           density="compact"
@@ -173,9 +183,11 @@ const { meta, values, resetField } = useForm({
             repositoryMaintainerSchema.shape.user.shape.id
         },
         {
-          required_error: i18n.t('common.errors.required'),
+          required_error: i18n.t(
+            'messages.errors.required'
+          ),
           invalid_type_error: i18n.t(
-            'common.errors.required'
+            'messages.errors.required'
           )
         }
       ),
@@ -194,9 +206,11 @@ const { meta, values, resetField } = useForm({
           })
         },
         {
-          required_error: i18n.t('common.errors.required'),
+          required_error: i18n.t(
+            'messages.errors.required'
+          ),
           invalid_type_error: i18n.t(
-            'common.errors.required'
+            'messages.errors.required'
           )
         }
       )
@@ -236,14 +250,16 @@ function setMaintainer() {
           "User's permissions are not sufficient to create a maintainer."
         ) {
           toasts.warning(
-            t('notifications.insufficientPermissions')
+            t(
+              'messages.repositoryMaintainers.warnings.insufficientPermissions'
+            )
           )
         } else {
           toasts.warning(t(err.response.data.data[0]))
         }
       })
   } else {
-    toasts.warning(t('notifications.invalidform'))
+    toasts.warning(t('messages.errors.invalidForm'))
   }
 }
 

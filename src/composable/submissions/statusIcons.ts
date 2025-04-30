@@ -71,13 +71,15 @@ export function useSubmissionIcons() {
   ) {
     switch (state) {
       case EntityModelSubmissionDtoStateEnum.ACCEPTED:
-        return i18n.t('submissions.accepted')
+        return i18n.t('properties.submissions.accepted')
       case EntityModelSubmissionDtoStateEnum.WAITING:
-        return i18n.t('submissions.waitingForAction')
+        return i18n.t(
+          'messages.submissions.waitingForAction'
+        )
       case EntityModelSubmissionDtoStateEnum.REJECTED:
-        return i18n.t('submissions.rejected')
+        return i18n.t('properties.submissions.rejected')
       case EntityModelSubmissionDtoStateEnum.CANCELLED:
-        return i18n.t('submissions.cancelled')
+        return i18n.t('properties.submissions.cancelled')
       default:
         return
     }

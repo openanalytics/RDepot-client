@@ -25,10 +25,10 @@
     <template v-if="items.length > 0">
       <v-card-title>
         {{
-          i18n.t('common.editResourceQuestion', {
+          i18n.t('messages.general.editResourceQuestion', {
             edit_action: editText,
-            resource_type_plural: i18n
-              .t('common.submissions')
+            resource_type: i18n
+              .t('resources.submission', 2)
               .toLocaleLowerCase()
           })
         }}
@@ -47,12 +47,12 @@
       v-else
       :headline="
         i18n.t(
-          'submissions.multiAction.noSubmissionAvailable'
+          'messages.submissions.warnings.noSubmissionAvailable'
         )
       "
       :text="
         i18n.t(
-          'submissions.multiAction.onSubmissionAvailableText',
+          'messages.submissions.warnings.onSubmissionAvailableText',
           {
             actionType: editActionWarning
           }
@@ -60,7 +60,7 @@
       "
       :title="
         i18n.t(
-          'submissions.multiAction.onSubmissionAvailableTitle'
+          'messages.submissions.warnings.onSubmissionAvailableTitle'
         )
       "
     ></v-empty-state>
@@ -77,9 +77,12 @@
       <template v-if="items.length > 0">
         <div class="px-4">
           {{
-            i18n.t('submissions.multiAction.warning', {
-              actionType: editActionWarning
-            })
+            i18n.t(
+              'messages.submissions.warnings.notListedWarning',
+              {
+                actionType: editActionWarning
+              }
+            )
           }}
         </div>
         <v-divider
@@ -106,7 +109,7 @@
                 ? `${
                     item.packageBag?.repository?.name
                   } (  ${i18n.t(
-                    'submissions.multiAction.notMutable',
+                    'messsages.errors.notMutable',
                     {
                       actionType: editActionWarning,
                       currentState: getTooltipMessage(
@@ -117,7 +120,7 @@
                 : `${
                     item.packageBag?.repository?.name
                   } (  ${i18n.t(
-                    'common.errors.unauthorized'
+                    'messages.general.notAuthorized'
                   )})`
             "
           />

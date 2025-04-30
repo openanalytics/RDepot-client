@@ -92,14 +92,14 @@ describe('Events - User', () => {
 
   it('display resource type', () => {
     expect(wrapper.text()).toContain(
-      i18n.t('resourceType.user').toUpperCase()
+      i18n.t('resources.user').toUpperCase()
     )
   })
 
   it('display active tag', () => {
     expect(chips[2].exists()).toBeTruthy()
     expect(chips[2].text()).toBe(
-      i18n.t('columns.tokens.active')
+      i18n.t('properties.general.active')
     )
   })
 

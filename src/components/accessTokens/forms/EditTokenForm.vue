@@ -24,7 +24,7 @@
   <v-card
     class="pa-5"
     width="400"
-    :title="$t('settings.edit')"
+    :title="$t('forms.tokens.edit')"
   >
     <v-divider></v-divider>
     <v-card-text>
@@ -34,7 +34,7 @@
         type="text"
         clearable
         name="name"
-        :label="$t('settings.tokenName')"
+        :label="$t('forms.general.name')"
         as="v-text-field"
         max-width="unset"
       ></validated-input-field>
@@ -66,7 +66,7 @@ const localToken = ref(token)
 const { meta, validate } = useForm({
   validationSchema: toTypedSchema(
     z.object({
-      name: z.string().nonempty()
+      name: z.string().min(1)
     })
   )
 })

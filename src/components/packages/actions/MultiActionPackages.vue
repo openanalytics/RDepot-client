@@ -122,12 +122,20 @@ const onHoverMessage = computed(() => {
   if (!configStore.deletingPackages) {
     return (
       ' (' +
-      i18n.t('config.deletingPackages').toLowerCase() +
+      i18n
+        .t('messages.config.deletingPackages')
+        .toLowerCase() +
       ')'
     )
   }
   if (packagesStore.packagesSelected.length == 0) {
-    return ' (' + i18n.t('package.chooseOneToEnable') + ')'
+    return (
+      ' (' +
+      i18n.t('messages.general.chooseOneToEnable', {
+        resource_type: i18n.t('resources.package')
+      }) +
+      ')'
+    )
   }
   return ''
 })

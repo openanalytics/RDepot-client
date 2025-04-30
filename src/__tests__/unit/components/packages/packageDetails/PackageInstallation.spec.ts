@@ -99,7 +99,7 @@ describe('Package Installation', () => {
     packageDetailsStore.packageBag = localPackage
     await nextTick(() => {})
     expect(wrapper.text()).toContain(
-      'packageDetails.installation.noInstallInstruction'
+      'properties.packages.noInstallInstruction'
     )
   })
 

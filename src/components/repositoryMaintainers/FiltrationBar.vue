@@ -32,9 +32,7 @@
       name="search"
       as="v-text-field"
       :label="
-        $t(
-          'repositories.filtration.maintainers.searchPlaceholder'
-        )
+        i18n.t('filtration.general.searchPlaceholder')
       "
       color="oablue"
       @update:model-value="setFiltration"
@@ -49,7 +47,7 @@
       multiple
       clearable
       as="v-select"
-      :label="$t('filtration.technologies')"
+      :label="i18n.t('resources.technology', 2)"
       @update:model-value="setFiltration"
     ></validated-input-field>
 
@@ -60,7 +58,7 @@
       chips
       closable-chips
       name="deleted"
-      :label="$t('packages.filtration.deleted')"
+      :label="$t('properties.general.deleted')"
       as="switch-indeterminate"
       color="oablue"
       class="flex-grow-0"
@@ -92,6 +90,7 @@ import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useRepositoryMaintainersStore } from '@/store/options/repositoryMaintainers'
 import ResetButton from '@/components/common/buttons/ResetButton.vue'
+import { i18n } from '@/plugins/i18n'
 
 const { technologies } = useEnumFiltration()
 

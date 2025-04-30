@@ -62,7 +62,7 @@
         v-if="relatedResource.submitter"
         id="submitter"
         :placeholder="relatedResource.submitter.name"
-        :label="i18n.t('columns.submissions.submitter')"
+        :label="i18n.t('fields.submissions.submitter')"
         disabled
         density="compact"
         persistent-placeholder
@@ -71,7 +71,7 @@
         v-if="relatedResource?.approver"
         id="approver"
         :placeholder="relatedResource?.approver?.name"
-        :label="i18n.t('columns.submissions.approver')"
+        :label="i18n.t('fields.submissions.approver')"
         disabled
         density="compact"
         persistent-placeholder
@@ -104,7 +104,7 @@
 
       <EventTag
         v-if="relatedResource?.packageBag?.deleted"
-        :value="i18n.t('columns.submissions.deleted')"
+        :value="i18n.t('properties.general.deleted')"
         color="oared"
         disable-copying
         disable-tooltip
@@ -112,9 +112,7 @@
 
       <EventTag
         :value="relatedResource?.packageBag?.user?.login"
-        :hover-message="
-          i18n.t('columns.package.maintainer')
-        "
+        :hover-message="i18n.t('resources.maintainer')"
       />
 
       <EventTag
@@ -122,30 +120,28 @@
         :value="
           relatedResource?.packageBag?.repository?.name
         "
-        :hover-message="
-          i18n.t('columns.package.repository')
-        "
+        :hover-message="i18n.t('resources.repository')"
       />
 
       <EventTag
         v-if="
           relatedResource?.packageBag?.repository?.published
         "
-        :value="i18n.t('columns.repository.published')"
+        :value="i18n.t('fields.repositories.published')"
         disable-copying
         disable-tooltip
       />
 
       <EventTag
         v-if="relatedResource?.packageBag?.active"
-        :value="i18n.t('columns.active')"
+        :value="i18n.t('properties.general.active')"
         disable-copying
         disable-tooltip
       />
 
       <EventTag
         :value="relatedResource?.packageBag?.source"
-        :hover-message="i18n.t('columns.package.source')"
+        :hover-message="i18n.t('fields.packages.source')"
       />
     </div>
   </v-card-text>
@@ -184,6 +180,6 @@ const { getTranslationWithFallbackValue } =
   useTranslations()
 
 const resourceType = computed(() =>
-  i18n.t('resourceType.submission').toUpperCase()
+  i18n.t('resources.submission').toUpperCase()
 )
 </script>

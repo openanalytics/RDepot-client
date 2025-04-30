@@ -33,13 +33,13 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn
-          :text="t('common.reset')"
+          :text="t('actions.general.reset')"
           color="error"
           @click="resetDate"
         ></v-btn>
         <v-spacer></v-spacer>
         <v-btn
-          :text="t('common.cancel')"
+          :text="t('actions.general.cancel')"
           @click="closeModal"
         ></v-btn>
         <v-spacer></v-spacer>

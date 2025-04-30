@@ -170,7 +170,7 @@ async function errorsHandler(
         break
       }
       case 401: {
-        toasts.error(i18n.t('errors.401'))
+        toasts.error(i18n.t('messages.errors.401'))
         const authorizationStore = useAuthorizationStore()
         authorizationStore.logout()
         break
@@ -181,7 +181,7 @@ async function errorsHandler(
         break
       }
       case 405: {
-        toasts.error(i18n.t('errors.405'))
+        toasts.error(i18n.t('messages.errors.405'))
         const authorizationStore = useAuthorizationStore()
         authorizationStore.logout()
         break
@@ -189,7 +189,7 @@ async function errorsHandler(
       case 422: {
         console.log(error.response)
         toasts.error(
-          i18n.t('errors.422') +
+          i18n.t('messages.errors.422') +
             '\n' +
             error.response.data.message
         )

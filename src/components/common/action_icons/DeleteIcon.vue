@@ -33,7 +33,7 @@
       >
     </template>
     <span v-if="!disabled" id="action-delete">{{
-      $t('common.delete')
+      $t('actions.general.delete')
     }}</span>
     <span v-else>
       {{ translatedHoverMessage }}
@@ -83,7 +83,7 @@ function deleteDialog() {
     emits('setResourceId')
     commonStore.overlayText =
       componentProps.overlayText ||
-      i18n.t('common.deleteQuestion', {
+      i18n.t('messages.general.deactivateQuestion', {
         resource_name: componentProps.name
       })
     commonStore.openOverlay(OverlayEnum.enum.Delete)
@@ -93,7 +93,7 @@ function deleteDialog() {
 const translatedHoverMessage = computed(() => {
   return (
     componentProps.hoverMessage ||
-    i18n.t('common.notAuthorized')
+    i18n.t('messages.general.notAuthorized')
   )
 })
 </script>

@@ -223,7 +223,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     await repositoryInputMessagesSelector.waitFor()
     expect(
       await repositoryInputMessagesSelector.textContent()
-    ).toContain(i18n.t('common.errors.required'))
+    ).toContain(i18n.t('messages.errors.required'))
 
     const packageInputMessagesSelector =
       page.locator(`#${EDIT_PACKAGE_MAINTAINER_PACKAGE_INPUT_MESSAGES_ID} 

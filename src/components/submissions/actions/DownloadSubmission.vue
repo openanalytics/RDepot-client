@@ -30,7 +30,7 @@
         EntityModelSubmissionDtoStateEnum.ACCEPTED
     "
     :id="`download-button-${item.id}`"
-    :tooltip="$t('action.download')"
+    :tooltip="$t('actions.general.download')"
     :icon="Icons.get('download')"
     @click.once="downloadSubmission(item)"
   />

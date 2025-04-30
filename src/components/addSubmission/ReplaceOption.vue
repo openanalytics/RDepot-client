@@ -54,8 +54,8 @@ const submissionsStore = useSubmissionStore()
 
 const translatedHoverMessage = computed(() => {
   return componentProps.disabled
-    ? i18n.t('config.replacingPackages')
-    : i18n.t('packageDetails.replaceOptionDesc')
+    ? i18n.t('messages.submissions.replacingPackages')
+    : i18n.t('messages.submissions.replaceOptionDesc')
 })
 
 const replaceIcon = computed(() => {

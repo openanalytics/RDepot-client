@@ -24,7 +24,7 @@
   <v-expansion-panels id="package-all-versions">
     <v-expansion-panel
       id="package-open-all-versions"
-      :title="$t('packageDetails.versions')"
+      :title="$t('properties.packages.versions')"
     >
       <v-expansion-panel-text>
         <div

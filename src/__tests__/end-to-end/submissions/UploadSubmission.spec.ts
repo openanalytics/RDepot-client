@@ -103,7 +103,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
           `#${UPLOAD_SUBMISSION_RVERSION_MESSAGES_ID}`
         )
         .innerHTML()
-    ).toContain(i18n.t('common.errors.required'))
+    ).toContain(i18n.t('messages.errors.required'))
     await page
       .locator(`#${UPLOAD_SUBMISSION_RVERSION}`)
       .click({ force: true })
@@ -121,7 +121,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
           `#${UPLOAD_SUBMISSION_RVERSION_MESSAGES_ID}`
         )
         .textContent()
-    ).not.toContain(i18n.t('common.errors.required'))
+    ).not.toContain(i18n.t('messages.errors.required'))
     await page
       .locator(`#${UPLOAD_SUBMISSION_DISTRIBUTION}`)
       .click({ force: true })

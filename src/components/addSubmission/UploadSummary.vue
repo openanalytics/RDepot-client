@@ -83,7 +83,11 @@
             v-bind="props"
           ></v-icon>
         </template>
-        {{ $t(`submissions.${promise.messageCode}`) }}
+        {{
+          $t(
+            `messages.submissions.warnings.${promise.messageCode}`
+          )
+        }}
       </v-tooltip>
     </template>
 

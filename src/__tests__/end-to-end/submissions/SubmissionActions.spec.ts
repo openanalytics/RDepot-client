@@ -60,6 +60,9 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     )
     await searchFieldLocator.waitFor()
     await searchFieldLocator.fill('visdat')
+    await page
+      .locator('body')
+      .click({ position: { x: 0, y: 0 } })
 
     await expect(acceptSubmissionButton).toHaveCount(0)
 

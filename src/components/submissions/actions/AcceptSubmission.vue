@@ -29,7 +29,7 @@
       canPatch(item.links, 'state')
     "
     :id="`accept-button-${item.id}`"
-    :tooltip="$t('action.accept')"
+    :tooltip="$t('actions.general.accept')"
     :icon="Icons.get('accept')"
     color="success"
     @click.once="acceptSubmission(item)"

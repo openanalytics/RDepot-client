@@ -63,7 +63,9 @@ test.describe(TITLE, () => {
     await login(page, 'einstein')
 
     await page
-      .getByText('ACCEPTED', { exact: true })
+      .locator('.v-chip__content')
+      .filter({ hasText: /^ACCEPTED$/ })
+      .first()
       .waitFor()
 
     const packagesSubmissionStateSelector = page
@@ -92,7 +94,9 @@ test.describe(TITLE, () => {
       .click()
 
     await page
-      .getByText('ACCEPTED', { exact: true })
+      .locator('.v-chip__content')
+      .filter({ hasText: /^ACCEPTED$/ })
+      .first()
       .waitFor()
     await expect(closableTags).toHaveCount(1)
   })

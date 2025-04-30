@@ -27,7 +27,9 @@
     <hr class="my-5" color="#777" />
 
     <div class="d-flex align-center justify-end ga-2 mt-5">
-      <span v-if="copied">Copied!</span>
+      <span v-if="copied"
+        >{{ $t('messages.general.copied') }}!</span
+      >
 
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -69,7 +71,7 @@ const componentProps = defineProps({
 const { copy, copied } = useClipboard()
 
 const message = computed(() =>
-  i18n.t('errors.message.500', {
+  i18n.t('messages.errors.message.500', {
     traceId:
       componentProps.toastProps?.data?.response.data.data
         .traceId,

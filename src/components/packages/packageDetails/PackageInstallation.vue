@@ -21,9 +21,7 @@
 -->
 
 <template>
-  <v-card
-    :title="$t('packageDetails.installation.install')"
-  >
+  <v-card :title="$t('actions.general.install')">
     <div v-if="packageBag?.repository?.published">
       <v-card-subtitle class="pb-3">
         <template
@@ -33,13 +31,11 @@
         >
           <i18n-t
             v-if="packageBag?.binary"
-            keypath="packageDetails.installation.installInstructionBinary"
+            keypath="properties.packages.installInstructionBinary"
             tag="p"
           >
             <template #binary>
-              <b>{{
-                $t('packageDetails.installation.binary')
-              }}</b>
+              <b>{{ $t('properties.packages.binary') }}</b>
             </template>
           </i18n-t>
           <p v-else>
@@ -49,13 +45,11 @@
         <template v-else>
           <i18n-t
             v-if="packageBag?.binary"
-            keypath="packageDetails.installation.installInstructionBinaryCrane"
+            keypath="properties.packages.installInstructionBinaryCrane"
             tag="p"
           >
             <template #binary>
-              <b>{{
-                $t('packageDetails.installation.binary')
-              }}</b>
+              <b>{{ $t('properties.packages.binary') }}</b>
             </template>
             <template #url>
               <a
@@ -68,13 +62,11 @@
           </i18n-t>
           <i18n-t
             v-else
-            :keypath="`packageDetails.installation.installInstructionCrane-${packageBag?.technology}`"
+            :keypath="`properties.packages.installInstructionCrane-${packageBag?.technology}`"
             tag="p"
           >
             <template #binary>
-              <b>{{
-                $t('packageDetails.installation.binary')
-              }}</b>
+              <b>{{ $t('properties.packages.binary') }}</b>
             </template>
             <template #url>
               <a
@@ -117,7 +109,7 @@
               </div>
             </template>
             <span id="tooltip-wait">{{
-              $t('packages.copy')
+              $t('actions.general.copy')
             }}</span>
           </v-tooltip>
         </code>
@@ -125,11 +117,7 @@
     </div>
     <div v-else>
       <v-card-subtitle class="pb-3">
-        {{
-          $t(
-            'packageDetails.installation.noInstallInstruction'
-          )
-        }}
+        {{ $t('properties.packages.noInstallInstruction') }}
       </v-card-subtitle>
     </div>
   </v-card>
@@ -157,13 +145,13 @@ const packageBag = computed<EntityModelRPackageDto>(
 
 const installInstruction = computed<string>(() =>
   t(
-    `packageDetails.installation.installInstruction-${packageBag.value.technology}`
+    `properties.packages.installInstruction-${packageBag.value.technology}`
   )
 )
 
 const installCode = computed<string>(() =>
   t(
-    `packageDetails.installation.installCode-${packageBag.value.technology}`,
+    `properties.packages.installCode-${packageBag.value.technology}`,
     [
       packageBag.value.name,
       packageBag.value.repository?.publicationUri,
@@ -174,7 +162,7 @@ const installCode = computed<string>(() =>
 
 const installCodeCrane = computed<string>(() =>
   t(
-    `packageDetails.installation.installCodeCrane-${packageBag.value.technology}`,
+    `properties.packages.installCodeCrane-${packageBag.value.technology}`,
     [
       packageBag.value.name,
       packageBag.value.repository?.publicationUri,
@@ -184,7 +172,7 @@ const installCodeCrane = computed<string>(() =>
 )
 
 const installCodeBinary = computed<string>(() =>
-  t('packageDetails.installation.installCodeBinary', [
+  t('properties.packages.installCodeBinary', [
     packageBag.value.name,
     packageBag.value.repository?.publicationUri,
     packageBag.value.repository?.name,
@@ -203,9 +191,9 @@ function copyContent() {
           ? installCodeCrane.value
           : installCode.value
     )
-    toasts.success(t('common.copied'))
+    toasts.success(t('messages.general.copied'))
   } catch {
-    toasts.error(t('common.errors.copyFailed'))
+    toasts.error(t('messages.errors.copyFailed'))
   }
 }
 </script>

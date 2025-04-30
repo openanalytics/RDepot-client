@@ -50,7 +50,7 @@
             <div>
               {{
                 $t(
-                  'repositories.details.last-modification-date'
+                  'properties.repositories.lastModificationDate'
                 )
               }}
             </div>
@@ -80,7 +80,7 @@
             <div>
               {{
                 $t(
-                  'repositories.details.last-publication-date'
+                  'properties.repositories.lastPublicationDate'
                 )
               }}
             </div>
@@ -102,10 +102,10 @@
                   repositoryStore.chosenRepository
                     .lastPublicationSuccessful
                     ? $t(
-                        `repositories.details.publication-succeed`
+                        `properties.repositories.publicationSucceed`
                       )
                     : $t(
-                        `repositories.details.publication-failed`
+                        `properties.repositories.publicationFailed`
                       )
                 "
                 :icon="
@@ -139,7 +139,9 @@
           <div
             class="d-flex flex-no-wrap ga-3 align-center"
           >
-            <div>{{ $t('columns.serverAddress') }}:</div>
+            <div>
+              {{ $t('fields.repositories.serverAddress') }}:
+            </div>
             <div
               class="d-flex justify-start align-center ga-2"
             >
@@ -148,7 +150,7 @@
                   repositoryStore.chosenRepository
                     .serverAddress || ''
                 "
-                :tooltip-message="`${$t('packages.copy')} ${$t('columns.serverAddress').toLowerCase()}`"
+                :tooltip-message="`${$t('actions.general.copy')} ${$t('fields.repositories.serverAddress').toLowerCase()}`"
               />
               <DeprecatedWarning
                 v-if="
@@ -181,7 +183,7 @@
             class="d-flex flex-no-wrap ga-3 align-center"
           >
             <div>
-              {{ $t('repositories.details.hash-method') }}
+              {{ $t('forms.repositories.hash') }}
             </div>
             <v-chip size="small" color="oablue">
               {{
@@ -201,7 +203,7 @@
             <div>
               {{
                 $t(
-                  'repositories.details.number-of-packages'
+                  'properties.repositories.numberOfPackages'
                 )
               }}:
             </div>
@@ -227,7 +229,7 @@
           >
             <div>
               {{
-                $t('repositories.details.redirectToSource')
+                $t('forms.repositories.redirectToSource')
               }}:
             </div>
             <v-icon
@@ -263,7 +265,7 @@
       class="button mt-3 ml-3 my-3"
       @click="navigate(repositoryStore.chosenRepository)"
     >
-      {{ $t('common.seepackages') }}
+      {{ $t('actions.repositories.seePackages') }}
     </v-btn>
   </v-card>
 </template>

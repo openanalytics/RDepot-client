@@ -105,9 +105,9 @@ test.describe(TITLE_SERIAL, { tag: '@serial' }, () => {
     await page.waitForURL('**/package-maintainers')
 
     const englishHeaders =
-      'MaintainerPackageRepositoryTechnologyActions'
+      'NamePackageRepositoryTechnologyActions'
     const polishHeaders =
-      'OpiekunPakietRepozytoriumTechnologiaAkcje'
+      'NazwaPakietRepozytoriumTechnologiaAkcje'
 
     const plLanguageSelector = page.locator(
       `#${POLISH_LANGUAGE_ID}`
@@ -161,7 +161,7 @@ test.describe(TITLE_SERIAL, { tag: '@serial' }, () => {
     await page.waitForURL('**/repositories')
 
     const englishHeaders = 'NamePublishedActions'
-    const polishHeaders = 'NazwaOpublikowanoAkcje'
+    const polishHeaders = 'NazwaOpublikowaneAkcje'
 
     const plLanguageSelector = page.locator(
       `#${POLISH_LANGUAGE_ID}`
@@ -214,10 +214,9 @@ test.describe(TITLE_SERIAL, { tag: '@serial' }, () => {
       .click()
     await page.waitForURL('**/repository-maintainers')
 
-    const englishHeaders =
-      'MaintainerRepositoryTechnologyActions'
+    const englishHeaders = 'NameRepositoryTechnologyActions'
     const polishHeaders =
-      'OpiekunRepozytoriumTechnologiaAkcje'
+      'NazwaRepozytoriumTechnologiaAkcje'
 
     const plLanguageSelector = page.locator(
       `#${POLISH_LANGUAGE_ID}`
@@ -369,7 +368,7 @@ test.describe(TITLE_SERIAL, { tag: '@serial' }, () => {
     ).toEqual(englishHeaders)
   })
 
-  test('change language on the token s site', async ({
+  test('change language on the tokens site', async ({
     page
   }) => {
     await login(page, 'einstein')
@@ -382,7 +381,7 @@ test.describe(TITLE_SERIAL, { tag: '@serial' }, () => {
     await page.waitForURL('**/settings-tokens')
 
     const englishHeaders =
-      'NameUserLastusedCreationdateExpirationdateActiveActions'
+      'NameUserLastusedCreatedonExpirationdateActiveActions'
     const polishHeaders =
       'NazwaUżytkownikOstatnioużytyDatautworzeniaDatawygaśnięciaAktywnyAkcje'
 

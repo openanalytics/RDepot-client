@@ -27,7 +27,7 @@
       name="username"
       as="v-text-field"
       class="mt-10"
-      :label="$t('authorization.username')"
+      :label="$t('forms.authorization.username')"
       color="oablue"
       required
       autofocus
@@ -38,7 +38,7 @@
       id="password-input"
       name="password"
       as="v-text-field"
-      :label="$t('authorization.password')"
+      :label="$t('forms.authorization.password')"
       type="password"
       color="oablue"
       required
@@ -54,7 +54,7 @@
           color="oablue"
           @click="loginSimple"
         >
-          {{ $t('authorization.login') }}
+          {{ $t('actions.general.login') }}
         </v-btn>
       </v-col>
     </v-row>
@@ -81,10 +81,14 @@ const { values, meta, validate } = useForm({
     z.object({
       username: z
         .string()
-        .nonempty(t('authorization.usernameError')),
+        .nonempty(
+          t('forms.authorization.errors.usernameError')
+        ),
       password: z
         .string()
-        .nonempty(t('authorization.passwordError'))
+        .nonempty(
+          t('forms.authorization.errors.passwordError')
+        )
     })
   )
 })

@@ -69,7 +69,7 @@
       class="button mt-3 ml-3 my-3"
       @click="goToDetailsPage(packageBagShort || {})"
     >
-      {{ $t('common.details') }}</v-btn
+      {{ $t('properties.general.details') }}</v-btn
     >
   </div>
 </template>

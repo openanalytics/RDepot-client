@@ -56,7 +56,7 @@
     >
       <EventTag
         v-if="relatedResource?.deleted"
-        :value="i18n.t('columns.users.deleted')"
+        :value="i18n.t('properties.general.deleted')"
         color="oared"
         disable-copying
         disable-tooltip
@@ -64,32 +64,30 @@
 
       <EventTag
         v-if="relatedResource?.active"
-        :value="i18n.t('columns.users.active')"
+        :value="i18n.t('properties.general.active')"
         disable-copying
         disable-tooltip
       />
 
       <EventTag
         :value="relatedResource?.role"
-        :hover-message="i18n.t('columns.users.role')"
+        :hover-message="i18n.t('fields.users.role')"
       />
 
       <EventTag
         :value="relatedResource?.email"
-        :hover-message="i18n.t('columns.users.email')"
+        :hover-message="i18n.t('fields.users.email')"
       />
 
       <EventTag
         :value="relatedResource?.lastLoggedInOn"
-        :hover-message="
-          i18n.t('columns.users.lastLoggedIn')
-        "
+        :hover-message="i18n.t('fields.users.lastLoggedIn')"
         tag-type="date"
       />
 
       <EventTag
         :value="relatedResource?.createdOn"
-        :hover-message="i18n.t('columns.users.createdOn')"
+        :hover-message="i18n.t('fields.general.createdOn')"
         tag-type="date"
       />
     </div>
@@ -121,6 +119,6 @@ const relatedResource: EntityModelUserDto = componentProps
 const { getTime } = useDates()
 
 const resourceType = computed(() =>
-  i18n.t('resourceType.user').toUpperCase()
+  i18n.t('resources.user').toUpperCase()
 )
 </script>

@@ -54,7 +54,7 @@
     >
       <EventTag
         v-if="relatedResource?.deleted"
-        :value="i18n.t('columns.tokens.deleted')"
+        :value="i18n.t('properties.general.deleted')"
         color="oared"
         disable-copying
         disable-tooltip
@@ -62,38 +62,38 @@
 
       <EventTag
         v-if="relatedResource?.active"
-        :value="i18n.t('columns.tokens.active')"
+        :value="i18n.t('properties.general.active')"
         disable-copying
         disable-tooltip
       />
 
       <EventTag
         :value="relatedResource?.creationDate"
-        :hover-message="i18n.t('columns.users.createdOn')"
+        :hover-message="i18n.t('fields.general.createdOn')"
         tag-type="date"
       />
 
       <EventTag
         :value="relatedResource?.expirationDate"
         :hover-message="
-          i18n.t('columns.users.expirationDate')
+          i18n.t('fields.tokens.expirationDate')
         "
         tag-type="date"
       />
 
       <EventTag
         :value="relatedResource?.user?.name"
-        :hover-message="i18n.t('columns.users.name')"
+        :hover-message="i18n.t('fields.users.name')"
       />
 
       <EventTag
         :value="relatedResource?.user?.login"
-        :hover-message="i18n.t('columns.users.username')"
+        :hover-message="i18n.t('fields.users.username')"
       />
 
       <EventTag
         :value="relatedResource?.user?.email"
-        :hover-message="i18n.t('columns.users.email')"
+        :hover-message="i18n.t('fields.users.email')"
       />
     </div>
   </v-card-text>
@@ -125,6 +125,6 @@ const relatedResource: EntityModelAccessTokenDto =
 const { getTime } = useDates()
 
 const resourceType = computed(() =>
-  i18n.t('resourceType.accessToken').toUpperCase()
+  i18n.t('resources.token').toUpperCase()
 )
 </script>

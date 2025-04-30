@@ -57,9 +57,7 @@
       >
         <EventTag
           v-if="relatedResource?.deleted"
-          :value="
-            i18n.t('columns.packageMaintainer.deleted')
-          "
+          :value="i18n.t('properties.general.deleted')"
           color="oared"
           disable-copying
           disable-tooltip
@@ -68,14 +66,14 @@
         <EventTag
           :value="relatedResource?.packageName"
           :hover-message="
-            i18n.t('columns.packageMaintainer.packageName')
+            i18n.t('fields.packageMaintainers.packageName')
           "
         />
 
         <EventTag
           :value="relatedResource?.repository?.name"
           :hover-message="
-            i18n.t('columns.packageMaintainer.repository')
+            i18n.t('fields.packageMaintainers.repository')
           "
         />
 
@@ -84,20 +82,20 @@
             relatedResource?.repository?.publicationUri
           "
           :hover-message="
-            i18n.t('columns.repository.publicationUri')
+            i18n.t('fields.repositories.publicationUri')
           "
         />
 
         <EventTag
           v-if="relatedResource?.repository?.published"
-          :value="i18n.t('columns.repository.published')"
+          :value="i18n.t('fields.repositories.published')"
           disable-copying
           disable-tooltip
         />
 
         <EventTag
           :value="relatedResource?.user?.email"
-          :hover-message="i18n.t('columns.users.email')"
+          :hover-message="i18n.t('fields.users.email')"
         />
       </div>
     </v-expand-transition>
@@ -130,6 +128,6 @@ const relatedResource: EntityModelPackageMaintainerDto =
 const { getTime } = useDates()
 
 const resourceType = computed(() =>
-  i18n.t('resourceType.packageMaintainer').toUpperCase()
+  i18n.t('resources.packageMaintainer').toUpperCase()
 )
 </script>

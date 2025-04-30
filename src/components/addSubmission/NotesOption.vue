@@ -34,7 +34,7 @@
       ></v-btn>
     </template>
     <span id="tooltip-wait">{{
-      $t('packages.notes')
+      $t('properties.submissions.notes')
     }}</span>
   </v-tooltip>
 </template>

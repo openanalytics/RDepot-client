@@ -59,7 +59,7 @@ describe('CommonButton', () => {
     expect(content.exists()).toBeTruthy()
     await content.trigger('click')
     expect(commonStore.overlayText).toEqual(
-      i18n.t('filtration.makeSure')
+      i18n.t('messages.filtration.makeSure')
     )
     expect(commonStore.overlay).toBe(true)
   })

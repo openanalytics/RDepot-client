@@ -49,41 +49,49 @@ export function usePackageProperties() {
       props = [
         {
           id: 'package-property-platform',
-          key: i18n.t('packageDetails.props.platform'),
+          key: i18n.t(
+            'properties.packages.python.platform'
+          ),
           value: localPackage.platform
         },
         {
           id: 'package-property-project-url',
-          key: i18n.t('packageDetails.props.projectUrl'),
+          key: i18n.t(
+            'properties.packages.python.projectUrl'
+          ),
           value: localPackage.projectUrl
         },
         {
           id: 'package-property-provides-extra',
-          key: i18n.t('packageDetails.props.providesExtra'),
+          key: i18n.t(
+            'properties.packages.python.providesExtra'
+          ),
           value: localPackage.providesExtra
         },
         {
           id: 'package-property-requires-distribution',
-          key: i18n.t('packageDetails.props.requiresDist'),
+          key: i18n.t(
+            'properties.packages.python.requiresDist'
+          ),
           value: localPackage.requiresDist
         },
         {
           id: 'package-property-requires-external',
+          value: localPackage.requiresExternal,
           key: i18n.t(
-            'packageDetails.props.requiresExternal'
-          ),
-          value: localPackage.requiresExternal
+            'properties.packages.python.requiresExternal'
+          )
         },
         {
           id: 'package-property-requires-python',
           key: i18n.t(
-            'packageDetails.props.requiresPython'
+            'properties.packages.python.requiresPython'
           ),
           value: localPackage.requiresPython
         },
         {
           id: 'package-property-hash',
-          key: i18n.t('packageDetails.props.hash'),
+          key: i18n.t('properties.packages.python.hash'),
           value: localPackage?.hash,
           copyable: true,
           appendIcon: Icons.get('copy'),
@@ -104,33 +112,33 @@ export function usePackageProperties() {
         {
           id: 'package-property-system-requirements',
           key: i18n.t(
-            'packageDetails.props.systemRequirements'
+            'properties.packages.r.systemRequirements'
           ),
           value: localPackage.systemRequirements
         },
         {
           id: 'package-property-depends',
-          key: i18n.t('packageDetails.props.depends'),
+          key: i18n.t('properties.packages.r.depends'),
           value: localPackage.depends
         },
         {
           id: 'package-property-imports',
-          key: i18n.t('packageDetails.props.imports'),
+          key: i18n.t('properties.packages.r.imports'),
           value: localPackage.imports
         },
         {
           id: 'package-property-suggests',
-          key: i18n.t('packageDetails.props.suggests'),
+          key: i18n.t('properties.packages.r.suggests'),
           value: localPackage.suggests
         },
         {
           id: 'package-property-url',
-          key: i18n.t('packageDetails.props.url'),
+          key: i18n.t('properties.packages.r.url'),
           value: localPackage.url
         },
         {
           id: 'package-property-md5sum',
-          key: i18n.t('packageDetails.props.md5sum'),
+          key: i18n.t('properties.packages.r.md5sum'),
           value: localPackage.md5sum,
           copyable: true,
           appendIcon: Icons.get('copy'),
@@ -150,17 +158,17 @@ export function usePackageProperties() {
       props = [
         {
           id: 'package-property-architecture',
-          key: i18n.t('packageDetails.props.architecture'),
+          key: i18n.t('fields.files.architecture'),
           value: localPackage.architecture
         },
         {
           id: 'package-property-distribution',
-          key: i18n.t('packageDetails.props.distribution'),
+          key: i18n.t('fields.files.distribution'),
           value: localPackage.distribution
         },
         {
           id: 'package-property-rversion',
-          key: i18n.t('packageDetails.props.rversion'),
+          key: i18n.t('fields.files.rversion'),
           value: localPackage.rversion
         }
       ]
@@ -177,7 +185,9 @@ export function usePackageProperties() {
       },
       {
         id: 'package-property-submitter',
-        key: i18n.t('packageDetails.props.submitter'),
+        key: i18n
+          .t('fields.submissions.submitter')
+          .toLowerCase(),
         appendIcon: Icons.get('email'),
         value: submission.value?.submitter?.name,
         appendIconTooltip:
@@ -186,7 +196,9 @@ export function usePackageProperties() {
       },
       {
         id: 'package-property-approver',
-        key: i18n.t('packageDetails.props.approver'),
+        key: i18n
+          .t('fields.submissions.approver')
+          .toLowerCase(),
         appendIcon: Icons.get('email'),
         value: submission.value?.approver?.name,
         appendIconTooltip:
@@ -195,7 +207,7 @@ export function usePackageProperties() {
       },
       {
         id: 'package-property-maintainer',
-        key: i18n.t('packageDetails.props.maintainer'),
+        key: i18n.t('resources.maintainer').toLowerCase(),
         value: packageBag.value?.user?.name,
         appendIcon: Icons.get('email'),
         appendIconTooltip: packageBag.value?.user?.email,
@@ -214,12 +226,14 @@ export function usePackageProperties() {
             key:
               vignette.title ||
               i18n.t(
-                'packageDetails.noVignetteNameProvided'
+                'properties.packages.r.noVignetteNameProvided'
               ),
             hideValue: true,
             iconSlotName: vignette.title,
             appendIcon: Icons.get('download'),
-            appendIconTooltip: i18n.t('action.download')
+            appendIconTooltip: i18n.t(
+              'action.general.download'
+            )
           }
         }
       )
@@ -229,20 +243,24 @@ export function usePackageProperties() {
     ) {
       rFiles.push({
         id: 'package-property-manual',
-        key: i18n.t('packageDetails.props.manual'),
+        key: i18n.t('properties.packages.r.manual'),
         hideValue: true,
         appendIcon: Icons.get('download'),
-        appendIconTooltip: i18n.t('action.download')
+        appendIconTooltip: i18n.t(
+          'actions.general.download'
+        )
       })
     }
 
     return [
       {
         id: 'package-property-source-file',
-        key: i18n.t('packageDetails.props.sourceFile'),
+        key: i18n.t('properties.packages.sourceFile'),
         hideValue: true,
         appendIcon: Icons.get('download'),
-        appendIconTooltip: i18n.t('action.download')
+        appendIconTooltip: i18n.t(
+          'actions.general.download'
+        )
       },
       ...rFiles
     ] as Property[]
@@ -252,7 +270,9 @@ export function usePackageProperties() {
     return [
       {
         id: 'package-property-active',
-        key: i18n.t('packageDetails.props.active'),
+        key: i18n
+          .t('properties.general.active')
+          .toLowerCase(),
         hideValue: true,
         appendIcon: packageBag.value.active
           ? Icons.get('check')
@@ -263,7 +283,9 @@ export function usePackageProperties() {
       },
       {
         id: 'package-property-deleted',
-        key: i18n.t('packageDetails.props.deleted'),
+        key: i18n
+          .t('properties.general.deleted')
+          .toLowerCase(),
         hideValue: true,
         appendIcon: packageBag.value.deleted
           ? Icons.get('check')
@@ -274,7 +296,7 @@ export function usePackageProperties() {
       },
       {
         id: 'package-property-binary',
-        key: i18n.t('packageDetails.props.binary'),
+        key: i18n.t('properties.packages.binary'),
         hideValue: true,
         appendIcon: packageBag.value.binary
           ? Icons.get('check')
@@ -285,9 +307,7 @@ export function usePackageProperties() {
       },
       {
         id: 'package-property-needs-compilation',
-        key: i18n.t(
-          'packageDetails.props.needsCompilation'
-        ),
+        key: i18n.t('properties.packages.needsCompilation'),
         hideValue: true,
         appendIcon: packageBag.value.needsCompilation
           ? Icons.get('check')

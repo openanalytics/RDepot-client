@@ -87,13 +87,13 @@ test.describe(TITLE, { tag: '@serial' }, () => {
 
     await expect(
       page.getByRole('cell', {
-        name: 'Package maintainer',
+        name: 'Package Maintainer',
         exact: true
       })
     ).toHaveCount(1)
     await expect(
       page.getByRole('cell', {
-        name: 'Repository maintainer',
+        name: 'Repository Maintainer',
         exact: true
       })
     ).toHaveCount(1)
@@ -113,13 +113,13 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     await page.locator(`#${SUBMIT_BUTTON_ID}`).click()
     await expect(
       page.getByRole('cell', {
-        name: 'Package maintainer',
+        name: 'Package Maintainer',
         exact: true
       })
     ).toHaveCount(0)
     await expect(
       page.getByRole('cell', {
-        name: 'Repository maintainer',
+        name: 'Repository Maintainer',
         exact: true
       })
     ).toHaveCount(2)

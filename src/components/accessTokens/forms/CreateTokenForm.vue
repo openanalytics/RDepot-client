@@ -24,7 +24,7 @@
   <v-card
     class="pa-5"
     width="400"
-    :title="$t('settings.create')"
+    :title="$t('forms.tokens.newToken')"
   >
     <v-divider></v-divider>
     <v-card-text>
@@ -33,7 +33,7 @@
         type="text"
         clearable
         name="name"
-        :label="$t('settings.tokenName')"
+        :label="$t('forms.general.name')"
         as="v-text-field"
         max-width="unset"
       ></validated-input-field>
@@ -48,7 +48,7 @@
         type="number"
         name="lifetime"
         min="0"
-        :label="$t('settings.expirationDate')"
+        :label="$t('fields.tokens.expirationDate')"
         as="v-text-field"
         max-width="unset"
       ></validated-input-field>
@@ -92,7 +92,7 @@ const { values, meta, validate } = useForm({
 const tokenLifetimeHint = computed(() =>
   configStore.accessTokenLifetimeConfigurable
     ? undefined
-    : i18n.t('settings.notConfigurableExpirationDate')
+    : i18n.t('forms.tokens.notConfigurableExpirationDate')
 )
 
 function createToken() {

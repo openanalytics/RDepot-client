@@ -74,13 +74,21 @@ const color = computed(() =>
       ? 'success'
       : 'oared'
 )
-const tooltip = computed(() =>
-  shouldCheckAddress.value
-    ? i18n.t('repositories.healthCheck.undefined')
-    : serverAddressHealthCheck.value
-      ? i18n.t('repositories.healthCheck.correct')
-      : i18n.t('repositories.healthCheck.incorrect')
-)
+const tooltip = computed(() => {
+  if (shouldCheckAddress.value)
+    return i18n.t(
+      'properties.repositories.healthCheck.undefined'
+    )
+  else if (serverAddressHealthCheck.value) {
+    return i18n.t(
+      'properties.repositories.healthCheck.correct'
+    )
+  }
+  return i18n.t(
+    'properties.repositories.healthCheck.incorrect'
+  )
+})
+
 const id = computed(() =>
   shouldCheckAddress.value
     ? 'check-server-address'

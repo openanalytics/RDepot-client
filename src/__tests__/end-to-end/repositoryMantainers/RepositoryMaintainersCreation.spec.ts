@@ -180,7 +180,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
       await repositoryInputMessagesSelector.textContent()
     ).toContain(
       i18n.t(
-        'maintainers.createForm.disabledRepositoryMessage'
+        'forms.repositoryMaintainers.hints.disabledRepositoryMessage'
       )
     )
 
@@ -206,7 +206,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
       `#${CREATE_REPOSITORY_MAINTAINER_USER_INPUT_MESSAGES_ID}`
     )
     expect(await userInputMessages.textContent()).toContain(
-      i18n.t('common.errors.required')
+      i18n.t('messages.errors.required')
     )
     await expect(repositoryInputField).toBeDisabled()
     await page
@@ -240,7 +240,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
 
     expect(
       await repositoryInputMessagesSelector.textContent()
-    ).toContain(i18n.t('common.errors.required'))
+    ).toContain(i18n.t('messages.errors.required'))
 
     await page
       .locator(

@@ -29,7 +29,7 @@
         color="oablue darken-2"
         class="mx-1"
         @click="cancel"
-        >{{ i18n.t('common.cancel') }}</v-btn
+        >{{ i18n.t('actions.general.cancel') }}</v-btn
       >
       <template v-for="(button, i) in buttons" :key="i">
         <v-btn
@@ -92,8 +92,8 @@ withDefaults(
 
 const submitText = computed(() =>
   commonStore.isDelete
-    ? i18n.t('common.delete')
-    : i18n.t('common.submit')
+    ? i18n.t('actions.general.delete')
+    : i18n.t('actions.general.submit')
 )
 
 function cancel() {

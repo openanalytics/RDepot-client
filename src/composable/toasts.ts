@@ -104,7 +104,10 @@ export function useToast() {
     result: AxiosResponse<ResponseDtoObject>
   ) {
     if (getEnv('VITE_DEV_MODE') == 'true') {
-      devToast(i18n.t('success'), 'success')
+      devToast(
+        i18n.t('messages.general.success'),
+        'success'
+      )
     } else {
       if (
         result.config.method?.toLowerCase() == 'post' ||
@@ -112,7 +115,7 @@ export function useToast() {
         result.config.method?.toLowerCase() == 'delete' ||
         result.config.method?.toLowerCase() == 'patch'
       ) {
-        success(i18n.t('success'))
+        success(i18n.t('messages.general.success'))
       }
     }
   }

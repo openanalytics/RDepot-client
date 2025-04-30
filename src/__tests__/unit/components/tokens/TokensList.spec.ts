@@ -106,9 +106,7 @@ describe('Tokens - list headers', () => {
   })
   it('displays name columns', () => {
     const col = headers[0]
-    expect(col.text()).toEqual(
-      i18n.t('columns.tokens.name')
-    )
+    expect(col.text()).toEqual(i18n.t('forms.general.name'))
     const sortIcon = col.findComponent(
       '.mdi-sort-ascending'
     )
@@ -117,7 +115,7 @@ describe('Tokens - list headers', () => {
   it('displays creation date column', () => {
     const col = headers[2]
     expect(col.text()).toEqual(
-      i18n.t('columns.tokens.creationDate')
+      i18n.t('fields.general.createdOn')
     )
     const sortIcon = col.findComponent(
       '.mdi-sort-ascending'
@@ -127,7 +125,7 @@ describe('Tokens - list headers', () => {
   it('displays expiration date column', () => {
     const col = headers[3]
     expect(col.text()).toEqual(
-      i18n.t('columns.tokens.expirationDate')
+      i18n.t('fields.tokens.expirationDate')
     )
     const sortIcon = col.findComponent(
       '.mdi-sort-ascending'
@@ -137,7 +135,7 @@ describe('Tokens - list headers', () => {
   it('displays active column', () => {
     const col = headers[4]
     expect(col.text()).toEqual(
-      i18n.t('columns.tokens.active')
+      i18n.t('properties.general.active')
     )
     const sortIcon = col.findComponent(
       '.mdi-sort-ascending'
@@ -146,7 +144,9 @@ describe('Tokens - list headers', () => {
   })
   it('displays actions column', () => {
     const col = headers[5]
-    expect(col.text()).toEqual(i18n.t('columns.actions'))
+    expect(col.text()).toEqual(
+      i18n.t('fields.general.actions')
+    )
     const sortIcon = col.findComponent(
       '.mdi-sort-ascending'
     )

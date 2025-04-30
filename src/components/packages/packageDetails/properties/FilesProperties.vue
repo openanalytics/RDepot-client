@@ -47,7 +47,7 @@
             ></v-btn>
           </template>
           <v-list-item-title>{{
-            i18n.t('packageDetails.vignette.open')
+            i18n.t('actions.general.open')
           }}</v-list-item-title>
         </v-list-item>
         <v-list-item
@@ -62,7 +62,7 @@
             ></v-btn>
           </template>
           <v-list-item-title>{{
-            i18n.t('packageDetails.vignette.download')
+            i18n.t('actions.general.download')
           }}</v-list-item-title>
         </v-list-item>
       </v-list>

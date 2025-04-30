@@ -24,7 +24,7 @@
   <v-card class="mb-12 px-10 py-3 step text-center">
     <v-card-text class="mb-1">
       <div class="text-overline">
-        {{ $t('common.repository') }}
+        {{ $t('resources.repository') }}
       </div>
       <div id="repository-name" class="text-h4 mb-2">
         {{ chosenRepository?.name }}
@@ -33,7 +33,7 @@
       <v-list class="text-left">
         <v-list-item class="text-overline">
           <template #prepend>
-            {{ $t('columns.package.name') }}
+            {{ $t('forms.general.name') }}
           </template>
           <template
             v-if="
@@ -42,7 +42,7 @@
             "
             #append
           >
-            {{ $t('addSubmission.generateManual') }}
+            {{ $t('fields.files.generateManual') }}
           </template>
         </v-list-item>
         <template
@@ -78,12 +78,18 @@
             style="pointer-events: none"
             disabled
           >
-            {{ $t('submissions.addAnotherSubmission') }}
+            {{
+              $t(
+                'messages.submissions.addAnotherSubmission'
+              )
+            }}
           </v-btn>
         </div>
       </template>
       <span id="tooltip-wait">{{
-        $t('submissions.waitForAllRequestsToFulfill')
+        $t(
+          'messages.submissions.waitForAllRequestsToFulfill'
+        )
       }}</span>
     </v-tooltip>
     <v-btn
@@ -92,7 +98,7 @@
       color="oablue"
       @click="emits('next', 1)"
     >
-      {{ $t('submissions.addAnotherSubmission') }}
+      {{ $t('messages.submissions.addAnotherSubmission') }}
     </v-btn>
   </div>
 </template>

@@ -23,7 +23,7 @@
 <template>
   <v-card id="newTokenDetails" class="pa-5" width="400">
     <v-card-title>
-      {{ $t('settings.newToken') }}
+      {{ $t('forms.tokens.newToken') }}
     </v-card-title>
     <v-divider></v-divider>
     <v-card-text>
@@ -46,7 +46,7 @@
               </div>
             </template>
             <span id="tooltip-wait">{{
-              $t('packages.copy')
+              $t('actions.general.copy')
             }}</span>
           </v-tooltip>
         </code>
@@ -58,13 +58,13 @@
       class="mb-5"
       border="start"
     >
-      {{ t('settings.token.copyWarning') }}
+      {{ t('forms.tokens.copyWarning') }}
     </v-alert>
     <v-divider></v-divider>
     <CardActions
       justify="end"
       :cancel-button="false"
-      :submit-text="i18n.t('common.ok')"
+      :submit-text="i18n.t('actions.general.ok')"
       @submit="closeModal"
     />
   </v-card>
@@ -90,10 +90,10 @@ function copyContent() {
   try {
     if (accessTokensStore.newToken) {
       copy(accessTokensStore.newToken)
-      toasts.success(t('common.copied'))
+      toasts.success(t('messages.general.copied'))
     }
   } catch {
-    toasts.error(t('common.errors.copyFailed'))
+    toasts.error(t('messages.errors.copyFailed'))
   }
 }
 

@@ -26,7 +26,7 @@
       id="upload-submission-repository-field"
       class="mt-5"
       :store-id="storeId"
-      :label="$t('addSubmission.step1Title')"
+      :label="$t('forms.submissions.stepFirst')"
       filled
       dense
       clearable
@@ -71,7 +71,7 @@
       :disabled="submissionsStore.repository === undefined"
       @click="nextStep"
     >
-      {{ $t('button.continue') }}
+      {{ $t('actions.general.continue') }}
     </v-btn>
   </div>
 </template>
@@ -125,7 +125,7 @@ function nextStep() {
   if (submissionsStore.repository != null) {
     emits('next', 2)
   } else {
-    toasts.warning(t('repositories.empty'))
+    toasts.warning(t('messages.submissions.empty'))
   }
 }
 

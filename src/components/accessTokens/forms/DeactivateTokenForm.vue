@@ -23,23 +23,24 @@
 <template>
   <v-card class="pa-5" width="400">
     <v-card-title>
-      {{ $t('settings.deactivate') }}
+      {{
+        $t('actions.general.deactivate', {
+          resource_type: $t('resources.token')
+        })
+      }}
     </v-card-title>
     <v-divider></v-divider>
     <v-card-text>
       <p
         v-dompurify-html="
-          $t('settings.deactivateQuestion', [
+          $t('forms.tokens.deactivateQuestion', [
             accessTokensStore.currentToken?.name
           ])
         "
       ></p>
     </v-card-text>
     <v-divider></v-divider>
-    <CardActions
-      :submit-text="i18n.t('common.deactivate')"
-      @submit="deactivateToken"
-    />
+    <CardActions @submit="deactivateToken" />
   </v-card>
 </template>
 
@@ -47,7 +48,6 @@
 import CardActions from '@/components/common/overlay/CardActions.vue'
 import { useAccessTokensStore } from '@/store/options/accessTokens'
 import { useUtilities } from '@/composable/utilities'
-import { i18n } from '@/plugins/i18n'
 
 const { deepCopy } = useUtilities()
 const accessTokensStore = useAccessTokensStore()

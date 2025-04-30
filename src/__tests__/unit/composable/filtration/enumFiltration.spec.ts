@@ -30,19 +30,19 @@ describe('enum filtration composable', () => {
     const { states } = useEnumFiltration()
     expect(states.value).toEqual([
       {
-        title: i18n.t('states.accepted'),
+        title: i18n.t('properties.submissions.accepted'),
         value: 'ACCEPTED'
       },
       {
-        title: i18n.t('states.waiting'),
+        title: i18n.t('properties.submissions.waiting'),
         value: 'WAITING'
       },
       {
-        title: i18n.t('states.cancelled'),
+        title: i18n.t('properties.submissions.cancelled'),
         value: 'CANCELLED'
       },
       {
-        title: i18n.t('states.rejected'),
+        title: i18n.t('properties.submissions.rejected'),
         value: 'REJECTED'
       }
     ])
@@ -76,19 +76,19 @@ describe('enum filtration composable', () => {
     const { states } = useEnumFiltration()
     expect(states.value).toEqual([
       {
-        title: 'ZAAKCEPTOWANY',
+        title: 'ZAAKCEPTOWANE',
         value: 'ACCEPTED'
       },
       {
-        title: 'OCZEKUJE',
+        title: 'OCZEKUJĄCE',
         value: 'WAITING'
       },
       {
-        title: 'ANULOWANY',
+        title: 'ANULOWANE',
         value: 'CANCELLED'
       },
       {
-        title: 'ODRZUCONY',
+        title: 'ODRZUCONE',
         value: 'REJECTED'
       }
     ])
@@ -103,28 +103,28 @@ describe('enum filtration composable', () => {
     const { resourceTypes } = useEnumFiltration()
     expect(resourceTypes.value).toEqual([
       {
-        title: i18n.t('resourceType.package'),
+        title: i18n.t('resources.package'),
         value: 'package'
       },
       {
-        title: i18n.t('resourceType.repository'),
+        title: i18n.t('resources.repository'),
         value: 'repository'
       },
-      { title: i18n.t('resourceType.user'), value: 'user' },
+      { title: i18n.t('resources.user'), value: 'user' },
       {
-        title: i18n.t('resourceType.submission'),
+        title: i18n.t('resources.submission'),
         value: 'submission'
       },
       {
-        title: i18n.t('resourceType.packageMaintainer'),
+        title: i18n.t('resources.packageMaintainer'),
         value: 'packageMaintainer'
       },
       {
-        title: i18n.t('resourceType.repositoryMaintainer'),
+        title: i18n.t('resources.repositoryMaintainer'),
         value: 'repositoryMaintainer'
       },
       {
-        title: i18n.t('resourceType.accessToken'),
+        title: i18n.t('resources.token'),
         value: 'accessToken'
       }
     ])
@@ -148,15 +148,15 @@ describe('enum filtration composable', () => {
         value: 'submission'
       },
       {
-        title: 'Opiekun pakietu',
+        title: 'Opiekun Pakietu',
         value: 'packageMaintainer'
       },
       {
-        title: 'Opiekun repozytorium',
+        title: 'Opiekun Repozytorium',
         value: 'repositoryMaintainer'
       },
       {
-        title: 'Access token',
+        title: 'Token',
         value: 'accessToken'
       }
     ])
@@ -165,14 +165,14 @@ describe('enum filtration composable', () => {
   it('should return all roles', () => {
     const { roles } = useEnumFiltration()
     expect(roles.value).toEqual([
-      { title: i18n.t('role.admin'), value: 'admin' },
-      { title: i18n.t('resourceType.user'), value: 'user' },
+      { title: i18n.t('resources.admin'), value: 'admin' },
+      { title: i18n.t('resources.user'), value: 'user' },
       {
-        title: i18n.t('resourceType.packageMaintainer'),
+        title: i18n.t('resources.packageMaintainer'),
         value: 'packagemaintainer'
       },
       {
-        title: i18n.t('resourceType.repositoryMaintainer'),
+        title: i18n.t('resources.repositoryMaintainer'),
         value: 'repositorymaintainer'
       }
     ])
@@ -185,11 +185,11 @@ describe('enum filtration composable', () => {
       { title: 'Administrator', value: 'admin' },
       { title: 'Użytkownik', value: 'user' },
       {
-        title: 'Opiekun pakietu',
+        title: 'Opiekun Pakietu',
         value: 'packagemaintainer'
       },
       {
-        title: 'Opiekun repozytorium',
+        title: 'Opiekun Repozytorium',
         value: 'repositorymaintainer'
       }
     ])
@@ -199,19 +199,19 @@ describe('enum filtration composable', () => {
     const { eventTypes } = useEnumFiltration()
     expect(eventTypes.value).toEqual([
       {
-        title: i18n.t('eventTypes.create'),
+        title: i18n.t('properties.events.type.create'),
         value: 'create'
       },
       {
-        title: i18n.t('eventTypes.update'),
+        title: i18n.t('properties.events.type.update'),
         value: 'update'
       },
       {
-        title: i18n.t('eventTypes.delete'),
+        title: i18n.t('properties.events.type.delete'),
         value: 'delete'
       },
       {
-        title: i18n.t('eventTypes.upload'),
+        title: i18n.t('properties.events.type.upload'),
         value: 'upload'
       }
     ])

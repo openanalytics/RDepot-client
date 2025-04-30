@@ -24,16 +24,16 @@
   <v-card
     id="package-events-card"
     v-tooltip:bottom="
-      $t('packageDetails.events.seeRelatedEvent')
+      $t('properties.packages.seeRelatedEvent')
     "
     color=""
-    :title="$t('packageDetails.events.events')"
+    :title="$t('resources.event', 2)"
     max-height="100px"
     :prepend-icon="Icons.get('events')"
     @click="navigate"
   >
     <v-card-subtitle class="pb-3">{{
-      $t('packageDetails.events.relatedEventPage')
+      $t('properties.packages.relatedEventPage')
     }}</v-card-subtitle>
   </v-card>
 </template>

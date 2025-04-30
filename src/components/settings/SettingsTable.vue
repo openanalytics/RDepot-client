@@ -31,7 +31,7 @@
             type="number"
             color="text"
             aria-valuemin="1"
-            :label="$t('pagination.size')"
+            :label="$t('datatable.size')"
             @change="changedData"
           ></v-text-field>
         </v-col>
@@ -39,7 +39,7 @@
           <v-select
             id="language-input"
             v-model="currentSettings.language"
-            :label="$t('settings.lang')"
+            :label="$t('actions.settings.language')"
             :items="languages"
             @update:model-value="changedData"
           ></v-select>
@@ -48,7 +48,7 @@
           <v-select
             id="theme-input"
             v-model="currentSettings.theme"
-            :label="$t('settings.theme')"
+            :label="$t('actions.settings.theme')"
             :items="themes"
             @update:model-value="changedData"
           ></v-select>
@@ -81,8 +81,14 @@ const currentSettings = ref(
 
 const themes = computed(() => {
   return [
-    { title: t('settings.themes.dark'), value: 'dark' },
-    { title: t('settings.themes.light'), value: 'light' }
+    {
+      title: t('actions.settings.themes.dark'),
+      value: 'dark'
+    },
+    {
+      title: t('actions.settings.themes.light'),
+      value: 'light'
+    }
   ]
 })
 
