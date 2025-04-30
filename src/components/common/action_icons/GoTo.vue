@@ -22,37 +22,62 @@
 
 <template>
   <IconButton
-    :id="`comment-button-${item.id}`"
-    :tooltip="
-      item.changes
-        ? $t('actions.submissions.showNotes')
-        : $t('actions.submissions.noNotes')
-    "
-    :icon="
-      item.changes
-        ? Icons.get('message')
-        : Icons.get('message-outline')
-    "
-    color="warning"
-    @click="showNotes"
+    :id="`goTo-button-${item.id}`"
+    :tooltip="tooltipMsg"
+    :icon="Icons.get('goTo')"
+    :color="disabled ? 'grey' : 'info'"
+    @click="goTo"
   />
 </template>
 
 <script setup lang="ts">
-import { EntityModelSubmissionDto } from '@/openapi'
 import IconButton from '@/components/common/buttons/IconButton.vue'
 import Icons from '@/maps/Icons'
+import { computed } from 'vue'
+import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
+
+const router = useRouter()
+const { t } = useI18n()
 
 const props = defineProps({
   item: {
-    type: Object as () => EntityModelSubmissionDto,
+    type: Object,
     required: true
+  },
+  from: {
+    type: String,
+    required: true
+  },
+  tooltip: {
+    type: String,
+    required: true
+  },
+  disabled: {
+    type: Boolean,
+    required: false,
+    default: false
   }
 })
 
-const emits = defineEmits(['showNote'])
+const tooltipMsg = computed(() => {
+  return props.disabled
+    ? t('messages.general.goToDisabled')
+    : props.tooltip
+})
 
-function showNotes() {
-  emits('showNote', props.item)
+function goTo() {
+  if (!props.disabled) {
+    switch (props.from) {
+      case 'submissions':
+        router.push({
+          name: 'packageDetails',
+          params: {
+            id: props.item.packageBag?.id,
+            technology: props.item.packageBag?.technology
+          }
+        })
+    }
+  }
 }
 </script>

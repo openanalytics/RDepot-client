@@ -23,7 +23,9 @@
 import { test, expect } from '@playwright/test'
 import {
   COMMENT_SUBMISSION_ID,
-  SUBMISSIONS_SIDEBAR_ID
+  SUBMISSIONS_SIDEBAR_ID,
+  SUBMISSIONS_LIST_NOT_ACCEPTED_GOTO_ID,
+  SUBMISSIONS_LIST_ACCEPTED_PACKAGE_GOTO_ID
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '../helpers/login'
 
@@ -45,5 +47,47 @@ test.describe(TITLE, () => {
       'There are no notes listed for this submission'
     )
     await expect(submissionsNotesSelector).toHaveCount(1)
+  })
+
+  test('do nothing for unaccepted submission', async ({
+    page
+  }) => {
+    await login(page, 'einstein')
+    await page.locator(`#${SUBMISSIONS_SIDEBAR_ID}`).click()
+    await page.waitForURL('**/submissions')
+    await expect(page).toHaveTitle(/RDepot - submissions/)
+
+    const goToSubmissionButton = page.locator(
+      `#${SUBMISSIONS_LIST_NOT_ACCEPTED_GOTO_ID}`
+    )
+    await goToSubmissionButton.waitFor()
+    await goToSubmissionButton.click()
+
+    await expect(page).not.toHaveTitle(
+      /RDepot - package details/
+    )
+  })
+
+  test('go to package details for accepted', async ({
+    page
+  }) => {
+    await login(page, 'einstein')
+    await page.locator(`#${SUBMISSIONS_SIDEBAR_ID}`).click()
+    await page.waitForURL('**/submissions')
+    await expect(page).toHaveTitle(/RDepot - submissions/)
+    const sortByStateIcon = await page.locator(
+      'tr > th:nth-child(8) > div > i'
+    )
+    await sortByStateIcon.click()
+    await sortByStateIcon.click()
+    const goToSubmissionButton = page.locator(
+      `#${SUBMISSIONS_LIST_ACCEPTED_PACKAGE_GOTO_ID}`
+    )
+    await goToSubmissionButton.waitFor()
+    await goToSubmissionButton.click()
+
+    await expect(page).toHaveTitle(
+      /RDepot - package details/
+    )
   })
 })

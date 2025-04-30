@@ -27,7 +27,8 @@
       "save": "Save",
       "submit": "Submit",
       "unset": "Unset",
-      "uploadPackages": "Upload packages"
+      "uploadPackages": "Upload packages",
+      "goTo": "Go to details"
     },
     "repositories": {
       "publish": "Publish",
@@ -225,7 +226,8 @@
       "notAuthorized": "You are not authorized to perform this action",
       "pending": "pending action",
       "success": "Request processed successfully",
-      "successFiltration": "Successful filtration action"
+      "successFiltration": "Successful filtration action",
+      "goToDisabled": "Cannot go to the details"
     },
     "notifications": {
       "alreadySeen": "already seen",

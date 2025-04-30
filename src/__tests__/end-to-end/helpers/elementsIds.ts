@@ -449,6 +449,10 @@ export const SUBMISSIONS_LIST_NOTES_ARROW_TESTREPO3_ID =
 export const SUBMISSIONS_LIST_NOTES_MARKDOWN =
   'markdown-description'
 export const OA_LIST_NOTES_RST = 'rst-description'
+export const SUBMISSIONS_LIST_NOT_ACCEPTED_GOTO_ID =
+  'goTo-button-45'
+export const SUBMISSIONS_LIST_ACCEPTED_PACKAGE_GOTO_ID =
+  'goTo-button-4'
 
 //REPOSITORIES LIST
 export const DELETE_REPO_2_ICON_ID =

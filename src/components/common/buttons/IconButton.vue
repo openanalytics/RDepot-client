@@ -32,7 +32,7 @@
           :id="id"
           :color="color"
           :size="size"
-          @click="emit('click')"
+          @click.stop="emit('click')"
           >{{ icon }}</VIcon
         >
       </div>

@@ -26,7 +26,8 @@
       "save": "Zapisz",
       "submit": "Zatwierdź",
       "unset": "nieustawiony",
-      "uploadPackages": "Prześlij Pakiety"
+      "uploadPackages": "Prześlij Pakiety",
+      "goTo": "Przejdź do szczegółów"
     },
     "packageMaintainer": {
       "create": "Utwórz Opiekuna"
@@ -263,7 +264,8 @@
       "notAuthorized": "Nie masz wystarczających uprawnień aby wykonać tę operację",
       "pending": "akcja w trakcie",
       "success": "Poprawnie wykonana operacja",
-      "successFiltration": "Udane filtrowanie"
+      "successFiltration": "Udane filtrowanie",
+      "goToDisabled": "Nie można przejść do szczegółów"
     },
     "notifications": {
       "alreadySeen": "przeczytane",

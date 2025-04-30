@@ -24,7 +24,6 @@
   <OATable
     v-model="submissionStore.selected"
     v-model:expanded="expanded"
-    expand-on-click
     show-select
     :headers="headers"
     :items="submissionStore.submissions"
@@ -108,7 +107,21 @@
         <AcceptSubmission :item="item" />
         <RejectSubmission :item="item" />
         <DownloadSubmission :item="item" />
-        <CommentSubmission :item="item" />
+        <CommentSubmission
+          :item="item"
+          @show-note="expandRow"
+        />
+        <GoTo
+          :item="item"
+          from="submissions"
+          :tooltip="$t('actions.general.goTo')"
+          :disabled="
+            !(
+              item.state ===
+              EntityModelSubmissionDtoStateEnum.ACCEPTED
+            )
+          "
+        />
       </span>
     </template>
     <template #expanded-row="{ columns, item }">
@@ -135,7 +148,10 @@
 
 <script setup lang="ts">
 import { useSubmissionStore } from '@/store/options/submission'
-import { EntityModelSubmissionDto } from '@/openapi'
+import {
+  EntityModelSubmissionDto,
+  EntityModelSubmissionDtoStateEnum
+} from '@/openapi'
 import {
   DataTableHeaders,
   DataTableOptions,
@@ -151,6 +167,7 @@ import ProgressCircularSmall from '../common/progress/ProgressCircularSmall.vue'
 import AcceptSubmission from './actions/AcceptSubmission.vue'
 import RejectSubmission from './actions/RejectSubmission.vue'
 import CancelSubmission from './actions/CancelSubmission.vue'
+import GoTo from '@/components/common/action_icons/GoTo.vue'
 import DownloadSubmission from './actions/DownloadSubmission.vue'
 import CommentSubmission from './actions/CommentSubmission.vue'
 import OATable from '../common/datatable/OATable.vue'
@@ -165,7 +182,6 @@ const defaultSort: Sort[] = [
   { key: 'created', order: 'desc' }
 ]
 const sortBy = ref(defaultSort)
-const exp = ref<string[]>([])
 
 const headers = computed<DataTableHeaders[]>(() => [
   {
@@ -225,15 +241,7 @@ function fetchData(options: DataTableOptions) {
   submissionStore.getPage(options)
 }
 
-const expanded = computed({
-  get(): string[] {
-    return exp.value
-  },
-  set(newVal: string[]) {
-    exp.value = []
-    exp.value.push(newVal[1])
-  }
-})
+const expanded = ref<EntityModelSubmissionDto[]>([])
 
 function isPending(
   item: EntityModelSubmissionDto
@@ -241,6 +249,22 @@ function isPending(
   return !!submissionStore.pending.find(
     (submission) => submission.id == item.id
   )
+}
+
+function expandRow(row: EntityModelSubmissionDto) {
+  if (
+    expanded.value.find(
+      (item: EntityModelSubmissionDto) => {
+        return item.id === row.id
+      }
+    )
+  ) {
+    expanded.value = expanded.value.filter(
+      (item: EntityModelSubmissionDto) => item.id !== row.id
+    )
+  } else {
+    expanded.value.push(row)
+  }
 }
 </script>
 
