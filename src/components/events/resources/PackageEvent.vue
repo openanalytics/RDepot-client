@@ -59,6 +59,11 @@
       v-if="event.eventType"
       :event-type="event.eventType"
     />
+    <GoToButton
+      :item="relatedResource"
+      from="packages"
+      :tooltip="$t('actions.general.goTo')"
+    />
   </v-card-subtitle>
 
   <v-divider class="my-2 mx-2" />
@@ -137,6 +142,7 @@ import EventTag from '../EventTag.vue'
 import { i18n } from '@/plugins/i18n'
 import { computed } from 'vue'
 import EventTypeTag from './EventTypeTag.vue'
+import GoToButton from '@/components/common/action_icons/GoToButton.vue'
 
 const componentProps = defineProps({
   event: {
@@ -158,9 +164,18 @@ const resourceType = computed(() =>
 )
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .value {
   flex-basis: 70%;
   margin: 10px 0;
+}
+
+div:deep(#tooltip-activator:has(i[id^='goTo-button'])) {
+  float: right;
+}
+
+div:deep(i[id^='goTo-button']) {
+  padding-top: 10px;
+  float: right;
 }
 </style>

@@ -25,7 +25,7 @@
     :id="`goTo-button-${item.id}`"
     :tooltip="tooltipMsg"
     :icon="Icons.get('goTo')"
-    :color="disabled ? 'grey' : 'info'"
+    :color="disabled ? 'grey' : 'oablue'"
     @click="goTo"
   />
 </template>
@@ -77,6 +77,16 @@ function goTo() {
             technology: props.item.packageBag?.technology
           }
         })
+        break
+      case 'packages':
+        router.push({
+          name: 'packageDetails',
+          params: {
+            id: props.item.id,
+            technology: props.item.technology
+          }
+        })
+        break
     }
   }
 }

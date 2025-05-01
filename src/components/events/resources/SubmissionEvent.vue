@@ -53,6 +53,15 @@
       v-if="event.eventType"
       :event-type="event.eventType"
     />
+    <GoToButton
+      v-if="
+        relatedResource.state ===
+        EntityModelSubmissionDtoStateEnum.ACCEPTED
+      "
+      :item="relatedResource"
+      from="submissions"
+      :tooltip="$t('actions.general.goTo')"
+    />
   </v-card-subtitle>
 
   <v-divider class="my-2 mx-2" />
@@ -150,7 +159,8 @@
 <script setup lang="ts">
 import {
   EntityModelNewsfeedEventDto,
-  EntityModelSubmissionDto
+  EntityModelSubmissionDto,
+  EntityModelSubmissionDtoStateEnum
 } from '@/openapi'
 import UpdateDescription from '@/components/events/resources/UpdateDescription.vue'
 import { useDates } from '@/composable/date'
@@ -160,6 +170,7 @@ import { computed } from 'vue'
 import { i18n } from '@/plugins/i18n'
 import EventTypeTag from './EventTypeTag.vue'
 import { useTranslations } from '@/composable/translations/translations'
+import GoToButton from '@/components/common/action_icons/GoToButton.vue'
 
 const componentProps = defineProps({
   event: {
@@ -183,3 +194,14 @@ const resourceType = computed(() =>
   i18n.t('resources.submission').toUpperCase()
 )
 </script>
+
+<style scoped lang="scss">
+div:deep(#tooltip-activator:has(i[id^='goTo-button'])) {
+  float: right;
+}
+
+div:deep(i[id^='goTo-button']) {
+  padding-top: 10px;
+  float: right;
+}
+</style>

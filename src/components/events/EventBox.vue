@@ -21,7 +21,7 @@
 -->
 
 <template>
-  <v-card v-ripple class="eventCard elevation-2" rounded>
+  <v-card class="eventCard elevation-2" rounded>
     <v-icon
       style="
         position: absolute;

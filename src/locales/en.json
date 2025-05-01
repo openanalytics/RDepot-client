@@ -16,6 +16,7 @@
       "edit": "Edit",
       "editResource": "Edit {resource_type}",
       "goBack": "Go back",
+      "goTo": "Go to details",
       "install": "Install",
       "login": "Login",
       "logout": "Logout",
@@ -27,8 +28,7 @@
       "save": "Save",
       "submit": "Submit",
       "unset": "Unset",
-      "uploadPackages": "Upload packages",
-      "goTo": "Go to details"
+      "uploadPackages": "Upload packages"
     },
     "repositories": {
       "publish": "Publish",
@@ -222,12 +222,12 @@
       "deleteResourcesQuestion": "Are you sure you want to delete the following {resource_type}?",
       "deleted": "This {resource_name} is deleted",
       "editResourceQuestion": "Are you sure you want to {edit_action} the following {resource_type}?",
+      "goToDisabled": "Cannot go to the details",
       "noDataAvailable": "No data available",
       "notAuthorized": "You are not authorized to perform this action",
       "pending": "pending action",
       "success": "Request processed successfully",
-      "successFiltration": "Successful filtration action",
-      "goToDisabled": "Cannot go to the details"
+      "successFiltration": "Successful filtration action"
     },
     "notifications": {
       "alreadySeen": "already seen",

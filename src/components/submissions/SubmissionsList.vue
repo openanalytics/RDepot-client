@@ -111,7 +111,7 @@
           :item="item"
           @show-note="expandRow"
         />
-        <GoTo
+        <GoToButton
           :item="item"
           from="submissions"
           :tooltip="$t('actions.general.goTo')"
@@ -167,7 +167,7 @@ import ProgressCircularSmall from '../common/progress/ProgressCircularSmall.vue'
 import AcceptSubmission from './actions/AcceptSubmission.vue'
 import RejectSubmission from './actions/RejectSubmission.vue'
 import CancelSubmission from './actions/CancelSubmission.vue'
-import GoTo from '@/components/common/action_icons/GoTo.vue'
+import GoToButton from '@/components/common/action_icons/GoToButton.vue'
 import DownloadSubmission from './actions/DownloadSubmission.vue'
 import CommentSubmission from './actions/CommentSubmission.vue'
 import OATable from '../common/datatable/OATable.vue'

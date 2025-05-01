@@ -22,7 +22,7 @@
 
 <template>
   <div>
-    <v-card v-ripple class="elevation-2" rounded>
+    <v-card class="elevation-2" rounded>
       <v-card-text>{{
         $t('filtration.events.noEvents')
       }}</v-card-text>
