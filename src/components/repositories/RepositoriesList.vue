@@ -200,6 +200,11 @@
                   : undefined
           "
           @set-resource-id="chooseRepositoryToUpdate(item)"
+        />
+        <GoToButton
+          :item="item"
+          from="repositories"
+          :tooltip="$t('actions.general.goTo')"
         /> </span
     ></template>
     <template #expanded-row="{ columns }">
@@ -243,6 +248,7 @@ import AuthenticationInformation from '@/components/common/datatable/Authenticat
 import getEnv from '@/utils/env'
 import { useRepositoryDeprecated } from '@/composable/repositories/repositoriesDeprecatedAddress'
 import DeprecatedWarning from '@/components/common/datatable/DeprecatedWarning.vue'
+import GoToButton from '@/components/common/action_icons/GoToButton.vue'
 
 const { deepCopy } = useUtilities()
 const repositoryStore = useRepositoryStore()

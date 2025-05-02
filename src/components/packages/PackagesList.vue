@@ -103,7 +103,14 @@
     </template>
     <template #[`item.actions`]="{ item }">
       <ProgressCircularSmall v-if="isPending(item)" />
-      <DeletePackage v-else :item="item" />
+      <span v-else class="d-flex justify-end align-right">
+        <DeletePackage :item="item" />
+        <GoToButton
+          :item="item"
+          from="packages"
+          :tooltip="$t('actions.general.goTo')"
+        />
+      </span>
     </template>
     <template #expanded-row="{ columns, item }">
       <td :colspan="columns.length">
@@ -142,6 +149,7 @@ import SelectBoxPackages from './actions/SelectBoxPackages.vue'
 import { usePackagesActions } from '@/composable/packages/packagesActions'
 import OATable from '../common/datatable/OATable.vue'
 import TechnologyChip from '@/components/common/chips/TechnologyChip.vue'
+import GoToButton from '@/components/common/action_icons/GoToButton.vue'
 
 const exp = ref<string[]>([])
 

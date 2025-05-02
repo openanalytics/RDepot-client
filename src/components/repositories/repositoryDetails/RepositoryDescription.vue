@@ -251,31 +251,12 @@
         </v-timeline-item>
       </v-timeline>
     </v-card-text>
-
-    <v-divider
-      v-if="repositoryStore.chosenRepository.id"
-      :thickness="3"
-    />
-    <v-btn
-      id="see-repository-packages-button"
-      ref="button"
-      color="oablue"
-      size="x-small"
-      variant="text"
-      class="button mt-3 ml-3 my-3"
-      @click="navigate(repositoryStore.chosenRepository)"
-    >
-      {{ $t('actions.repositories.seePackages') }}
-    </v-btn>
   </v-card>
 </template>
 
 <script setup lang="ts">
 import { useDates } from '@/composable/date'
 import Icons from '@/maps/Icons'
-import { EntityModelRepositoryDto } from '@/openapi'
-import router from '@/plugins/router'
-import { usePackagesStore } from '@/store/options/packages'
 import { useRepositoryStore } from '@/store/options/repositories'
 import getEnv from '@/utils/env'
 import DeprecatedWarning from '@/components/common/datatable/DeprecatedWarning.vue'
@@ -284,21 +265,9 @@ import { isAtLeastRepositoryMaintainer } from '@/enum/UserRoles'
 import { useAuthorizationStore } from '@/store/options/authorization'
 import { useRepositoryDeprecated } from '@/composable/repositories/repositoriesDeprecatedAddress'
 
-const packagesStore = usePackagesStore()
 const repositoryStore = useRepositoryStore()
 const authorizationStore = useAuthorizationStore()
 const { formatDateTime } = useDates()
 const { deprecatedAddressTooltip } =
   useRepositoryDeprecated()
-
-function chooseRepository(name: string) {
-  packagesStore.setFiltrationBy({ repository: [name] })
-}
-
-function navigate(repository: EntityModelRepositoryDto) {
-  chooseRepository(repository.name || '')
-  router.push({
-    name: 'packages'
-  })
-}
 </script>
