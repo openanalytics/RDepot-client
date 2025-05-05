@@ -1,7 +1,418 @@
 {
-  "actions": {},
-  "fields": {},
+  "actions": {
+    "general": {
+      "accept": "",
+      "activate": "",
+      "cancel": "",
+      "clear": "",
+      "click": "",
+      "continue": "",
+      "copy": "",
+      "create": "",
+      "createResource": "",
+      "deactivate": "",
+      "delete": "",
+      "download": "",
+      "edit": "",
+      "editResource": "",
+      "goBack": "",
+      "goTo": "",
+      "install": "",
+      "login": "",
+      "logout": "",
+      "ok": "",
+      "open": "",
+      "or": "",
+      "reject": "",
+      "reset": "",
+      "save": "",
+      "submit": "",
+      "unset": "",
+      "uploadPackages": ""
+    },
+    "repositories": {
+      "publish": "",
+      "republish": "",
+      "seePackages": "",
+      "unpublish": ""
+    },
+    "settings": {
+      "changeLanguage": "",
+      "changeTheme": "",
+      "language": "",
+      "theme": "",
+      "themes": {
+        "dark": "",
+        "light": ""
+      }
+    },
+    "submissions": {
+      "noNotes": "",
+      "showNotes": ""
+    }
+  },
+  "datatable": {
+    "itemsPerPage": "",
+    "noDataAvailable": "",
+    "size": ""
+  },
+  "dragZone": {
+    "active": "",
+    "click": "",
+    "dropzone": "",
+    "inactive": ""
+  },
+  "fields": {
+    "files": {
+      "architecture": "",
+      "binary": "",
+      "distribution": "",
+      "generateManual": "",
+      "notes": "",
+      "rVersion": "",
+      "replace": ""
+    },
+    "general": {
+      "actions": "",
+      "createdOn": "",
+      "date": "",
+      "deleted": ""
+    },
+    "packages": {
+      "fileType": "",
+      "source": "",
+      "submissionState": ""
+    },
+    "repositories": {
+      "publicationUri": "",
+      "published": "",
+      "serverAddress": "",
+      "synchronizing": ""
+    },
+    "submissions": {
+      "approver": "",
+      "submitter": ""
+    },
+    "tokens": {
+      "expirationDate": "",
+      "lastUsed": ""
+    },
+    "users": {
+      "email": "",
+      "lastLoggedIn": "",
+      "name": "",
+      "role": "",
+      "username": ""
+    }
+  },
+  "filtration": {
+    "events": {
+      "eventType": "",
+      "noEvents": "",
+      "resourceType": ""
+    },
+    "general": {
+      "fromDate": "",
+      "searchPlaceholder": "",
+      "title": "",
+      "toDate": ""
+    },
+    "tokens": {
+      "expired": "",
+      "userLogin": ""
+    }
+  },
+  "forms": {
+    "authorization": {
+      "errors": {
+        "passwordError": "",
+        "usernameError": ""
+      },
+      "password": "",
+      "username": ""
+    },
+    "general": {
+      "name": ""
+    },
+    "packageMaintainers": {
+      "hints": {
+        "disabledPackageMessage": "",
+        "disclaimerPackages": ""
+      }
+    },
+    "repositories": {
+      "errors": {
+        "duplicateName": ""
+      },
+      "hash": "",
+      "hints": {
+        "deprecatedAddress": ""
+      },
+      "redirectToSource": "",
+      "requiresAuthentication": ""
+    },
+    "repositoryMaintainers": {
+      "hints": {
+        "disabledPackageMessage": "",
+        "disabledRepositoryMessage": "",
+        "disclaimer": ""
+      }
+    },
+    "submissions": {
+      "binary": "",
+      "generateManual": "",
+      "generateManualNotAvailable": "",
+      "stepFirst": "",
+      "stepSecond": "",
+      "stepThird": ""
+    },
+    "tokens": {
+      "copyWarning": "",
+      "deactivateQuestion": "",
+      "deactivated": "",
+      "delete": "",
+      "deleted": "",
+      "edit": "",
+      "edited": "",
+      "newToken": "",
+      "notConfigurableExpirationDate": ""
+    }
+  },
+  "messages": {
+    "authorization": {
+      "error": "",
+      "loggedIn": "",
+      "notLoggedIn": "",
+      "oidc": "",
+      "success": ""
+    },
+    "config": {
+      "deletingPackages": "",
+      "deletingRepositories": ""
+    },
+    "errors": {
+      "401": "",
+      "403": "",
+      "405": "",
+      "422": "",
+      "500": "",
+      "copyFailed": "",
+      "email": "",
+      "invalidForm": "",
+      "message": {
+        "500": ""
+      },
+      "notDownloaded": "",
+      "notEdited": "",
+      "notMutable": "",
+      "oauth": "",
+      "oauthTitle": "",
+      "reponame": "",
+      "required": "",
+      "url": ""
+    },
+    "filtration": {
+      "makeSure": ""
+    },
+    "general": {
+      "chooseOneToEnable": "",
+      "copied": "",
+      "deactivateQuestion": "",
+      "deleteResourcesQuestion": "",
+      "deleted": "",
+      "editResourceQuestion": "",
+      "goToDisabled": "",
+      "noDataAvailable": "",
+      "notAuthorized": "",
+      "pending": "",
+      "success": "",
+      "successFiltration": ""
+    },
+    "notifications": {
+      "alreadySeen": "",
+      "events": {
+        "active": {
+          "false": "",
+          "true": ""
+        },
+        "create": "",
+        "published": {
+          "false": "",
+          "true": ""
+        },
+        "state": {
+          "accepted": "",
+          "cancelled": "",
+          "rejected": ""
+        },
+        "updated": "",
+        "upload": ""
+      },
+      "seeAll": "",
+      "title": "",
+      "upToDate": ""
+    },
+    "packages": {
+      "noDescriptionProvided": "",
+      "propertyNotProvided": ""
+    },
+    "repositories": {
+      "authenticationNotRequiredTooltip": "",
+      "authenticationRequiredTooltip": "",
+      "declarative": {
+        "create": "",
+        "delete": "",
+        "edit": "",
+        "publish": ""
+      },
+      "deprecatedAddressTooltip": "",
+      "notPublished": "",
+      "republishQuestion": ""
+    },
+    "repositoryMaintainers": {
+      "warnings": {
+        "insufficientPermissions": ""
+      }
+    },
+    "submissions": {
+      "addAnotherSubmission": "",
+      "empty": "",
+      "noChangesProvided": "",
+      "noPackageChosen": "",
+      "replaceOptionDesc": "",
+      "replacingPackages": "",
+      "waitForAllRequestsToFulfill": "",
+      "waitingForAction": "",
+      "warnings": {
+        "noSubmissionAvailable": "",
+        "notListedWarning": "",
+        "onSubmissionAvailableText": "",
+        "onSubmissionAvailableTitle": "",
+        "replace": {
+          "duplication": ""
+        },
+        "upload": {
+          "warning": ""
+        },
+        "warning": {
+          "package": {
+            "duplicate": ""
+          },
+          "replacing": {
+            "packages": {
+              "disabled": ""
+            }
+          },
+          "synchronization": {
+            "failure": ""
+          },
+          "unknown": ""
+        }
+      },
+      "wrongExtension": ""
+    },
+    "users": {
+      "editAdmin": "",
+      "unableDeactivation": ""
+    }
+  },
+  "properties": {
+    "events": {
+      "type": {
+        "create": "",
+        "delete": "",
+        "update": "",
+        "upload": ""
+      }
+    },
+    "general": {
+      "active": "",
+      "deleted": "",
+      "details": "",
+      "inactive": ""
+    },
+    "packages": {
+      "binary": "",
+      "binary-R": {
+        "architecture": "",
+        "distribution": "",
+        "rversion": ""
+      },
+      "current": "",
+      "installCode-Python": "",
+      "installCode-R": "",
+      "installCodeBinary": "",
+      "installCodeCrane-Python": "",
+      "installCodeCrane-R": "",
+      "installInstruction-Python": "",
+      "installInstruction-R": "",
+      "installInstructionBinary": "",
+      "installInstructionBinaryCrane": "",
+      "installInstructionCrane-Python": "",
+      "installInstructionCrane-R": "",
+      "license": "",
+      "needsCompilation": "",
+      "noInstallInstruction": "",
+      "python": {
+        "hash": "",
+        "platform": "",
+        "projectUrl": "",
+        "providesExtra": "",
+        "requiresDist": "",
+        "requiresExternal": "",
+        "requiresPython": ""
+      },
+      "r": {
+        "depends": "",
+        "imports": "",
+        "manual": "",
+        "md5sum": "",
+        "noVignetteNameProvided": "",
+        "suggests": "",
+        "systemRequirements": "",
+        "url": ""
+      },
+      "relatedEventPage": "",
+      "seeRelatedEvent": "",
+      "source": "",
+      "sourceFile": "",
+      "versions": ""
+    },
+    "repositories": {
+      "healthCheck": {
+        "correct": "",
+        "incorrect": "",
+        "undefined": ""
+      },
+      "lastModificationDate": "",
+      "lastPublicationDate": "",
+      "numberOfPackages": "",
+      "published": {
+        "false": "",
+        "publicationFailed": "",
+        "publicationSucceed": "",
+        "true": ""
+      }
+    },
+    "submissions": {
+      "accepted": "",
+      "cancelled": "",
+      "downloaded": "",
+      "notes": "",
+      "rejected": "",
+      "waiting": ""
+    }
+  },
   "resources": {
+    "admin": "",
+    "event": "",
+    "generalSettings": "",
+    "maintainer": "",
+    "package": "",
+    "packageMaintainer": "",
+    "repository": "",
+    "repositoryMaintainer": "",
+    "settings": "",
     "states": {
       "accepted": "ACCEPTED",
       "active": {
@@ -25,6 +436,13 @@
         "true": "Synchronizing"
       },
       "waiting": "WAITING"
-    }
+    },
+    "submission": "",
+    "technology": "",
+    "token": "",
+    "user": ""
+  },
+  "updatedProperties": {
+    "title": ""
   }
 }
