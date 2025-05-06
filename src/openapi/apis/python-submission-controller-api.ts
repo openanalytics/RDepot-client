@@ -144,7 +144,6 @@ export const PythonSubmissionControllerApiAxiosParamCreator =
        * @param {number} [size] The size of the page to be returned
        * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
        * @param {Array<string>} [state]
-       * @param {Array<string>} [technology]
        * @param {Array<string>} [repository]
        * @param {string} [fromDate]
        * @param {string} [toDate]
@@ -157,7 +156,6 @@ export const PythonSubmissionControllerApiAxiosParamCreator =
         size?: number,
         sort?: Array<string>,
         state?: Array<string>,
-        technology?: Array<string>,
         repository?: Array<string>,
         fromDate?: string,
         toDate?: string,
@@ -207,10 +205,6 @@ export const PythonSubmissionControllerApiAxiosParamCreator =
 
         if (state) {
           localVarQueryParameter['state'] = state
-        }
-
-        if (technology) {
-          localVarQueryParameter['technology'] = technology
         }
 
         if (repository) {
@@ -343,8 +337,8 @@ export const PythonSubmissionControllerApiAxiosParamCreator =
        *
        * @param {string} repository
        * @param {Blob} [file]
-       * @param {boolean} [generateManual]
        * @param {boolean} [replace]
+       * @param {boolean} [binary]
        * @param {string} [changes]
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
@@ -352,8 +346,8 @@ export const PythonSubmissionControllerApiAxiosParamCreator =
       submitPythonPackageForm: async (
         repository: string,
         file?: Blob,
-        generateManual?: boolean,
         replace?: boolean,
+        binary?: boolean,
         changes?: string,
         options: AxiosRequestConfig = {}
       ): Promise<RequestArgs> => {
@@ -401,13 +395,12 @@ export const PythonSubmissionControllerApiAxiosParamCreator =
           localVarQueryParameter['repository'] = repository
         }
 
-        if (generateManual !== undefined) {
-          localVarQueryParameter['generateManual'] =
-            generateManual
-        }
-
         if (replace !== undefined) {
           localVarQueryParameter['replace'] = replace
+        }
+
+        if (binary !== undefined) {
+          localVarQueryParameter['binary'] = binary
         }
 
         if (changes !== undefined) {
@@ -599,7 +592,6 @@ export const PythonSubmissionControllerApiFp = function (
      * @param {number} [size] The size of the page to be returned
      * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
      * @param {Array<string>} [state]
-     * @param {Array<string>} [technology]
      * @param {Array<string>} [repository]
      * @param {string} [fromDate]
      * @param {string} [toDate]
@@ -612,7 +604,6 @@ export const PythonSubmissionControllerApiFp = function (
       size?: number,
       sort?: Array<string>,
       state?: Array<string>,
-      technology?: Array<string>,
       repository?: Array<string>,
       fromDate?: string,
       toDate?: string,
@@ -634,7 +625,6 @@ export const PythonSubmissionControllerApiFp = function (
           size,
           sort,
           state,
-          technology,
           repository,
           fromDate,
           toDate,
@@ -688,8 +678,8 @@ export const PythonSubmissionControllerApiFp = function (
      *
      * @param {string} repository
      * @param {Blob} [file]
-     * @param {boolean} [generateManual]
      * @param {boolean} [replace]
+     * @param {boolean} [binary]
      * @param {string} [changes]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -697,8 +687,8 @@ export const PythonSubmissionControllerApiFp = function (
     async submitPythonPackageForm(
       repository: string,
       file?: Blob,
-      generateManual?: boolean,
       replace?: boolean,
+      binary?: boolean,
       changes?: string,
       options?: AxiosRequestConfig
     ): Promise<
@@ -713,8 +703,8 @@ export const PythonSubmissionControllerApiFp = function (
         ).submitPythonPackageForm(
           repository,
           file,
-          generateManual,
           replace,
+          binary,
           changes,
           options
         )
@@ -797,7 +787,6 @@ export const PythonSubmissionControllerApiFactory =
        * @param {number} [size] The size of the page to be returned
        * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
        * @param {Array<string>} [state]
-       * @param {Array<string>} [technology]
        * @param {Array<string>} [repository]
        * @param {string} [fromDate]
        * @param {string} [toDate]
@@ -810,7 +799,6 @@ export const PythonSubmissionControllerApiFactory =
         size?: number,
         sort?: Array<string>,
         state?: Array<string>,
-        technology?: Array<string>,
         repository?: Array<string>,
         fromDate?: string,
         toDate?: string,
@@ -827,7 +815,6 @@ export const PythonSubmissionControllerApiFactory =
             size,
             sort,
             state,
-            technology,
             repository,
             fromDate,
             toDate,
@@ -858,8 +845,8 @@ export const PythonSubmissionControllerApiFactory =
        *
        * @param {string} repository
        * @param {Blob} [file]
-       * @param {boolean} [generateManual]
        * @param {boolean} [replace]
+       * @param {boolean} [binary]
        * @param {string} [changes]
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
@@ -867,8 +854,8 @@ export const PythonSubmissionControllerApiFactory =
       async submitPythonPackageForm(
         repository: string,
         file?: Blob,
-        generateManual?: boolean,
         replace?: boolean,
+        binary?: boolean,
         changes?: string,
         options?: AxiosRequestConfig
       ): Promise<AxiosResponse<any>> {
@@ -878,8 +865,8 @@ export const PythonSubmissionControllerApiFactory =
           .submitPythonPackageForm(
             repository,
             file,
-            generateManual,
             replace,
+            binary,
             changes,
             options
           )
@@ -936,7 +923,6 @@ export class PythonSubmissionControllerApi extends BaseAPI {
    * @param {number} [size] The size of the page to be returned
    * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
    * @param {Array<string>} [state]
-   * @param {Array<string>} [technology]
    * @param {Array<string>} [repository]
    * @param {string} [fromDate]
    * @param {string} [toDate]
@@ -950,7 +936,6 @@ export class PythonSubmissionControllerApi extends BaseAPI {
     size?: number,
     sort?: Array<string>,
     state?: Array<string>,
-    technology?: Array<string>,
     repository?: Array<string>,
     fromDate?: string,
     toDate?: string,
@@ -967,7 +952,6 @@ export class PythonSubmissionControllerApi extends BaseAPI {
         size,
         sort,
         state,
-        technology,
         repository,
         fromDate,
         toDate,
@@ -999,8 +983,8 @@ export class PythonSubmissionControllerApi extends BaseAPI {
    *
    * @param {string} repository
    * @param {Blob} [file]
-   * @param {boolean} [generateManual]
    * @param {boolean} [replace]
+   * @param {boolean} [binary]
    * @param {string} [changes]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -1009,8 +993,8 @@ export class PythonSubmissionControllerApi extends BaseAPI {
   public async submitPythonPackageForm(
     repository: string,
     file?: Blob,
-    generateManual?: boolean,
     replace?: boolean,
+    binary?: boolean,
     changes?: string,
     options?: AxiosRequestConfig
   ): Promise<AxiosResponse<any>> {
@@ -1020,8 +1004,8 @@ export class PythonSubmissionControllerApi extends BaseAPI {
       .submitPythonPackageForm(
         repository,
         file,
-        generateManual,
         replace,
+        binary,
         changes,
         options
       )
