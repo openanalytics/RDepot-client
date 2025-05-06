@@ -179,8 +179,8 @@ export const PACKAGES_MULTI_ACTIONS_ID =
   'packages-multi-actions'
 export const PACKAGES_MULTI_DELETE_ID =
   'packages-multi-delete'
-export const PACKAGE_DETAILS_BUTTON_ID =
-  'see-package-details-button'
+export const PACKAGE_DETAILS_BUTTON_ID = 'goTo-button-43'
+export const PACKAGE_DETAILS_BUTTON_R_ID = 'goTo-button-9'
 export const PACKAGES_LIST_A3_092_TESTREPO3_ID =
   'packages-list-A3-0-9-2-testrepo3'
 export const PACKAGES_LIST_ACCELERATED_NUMPY_010_TESTREPO8_ID =

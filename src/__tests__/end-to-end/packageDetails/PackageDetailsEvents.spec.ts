@@ -25,12 +25,12 @@ import { login } from '../helpers/login'
 import {
   EVENTS_FILTRATION_PACKAGE_FIELD_ID,
   EVENTS_FILTRATION_REPOSITORY_FIELD_ID,
-  PACKAGE_DETAILS_BUTTON_ID,
+  PACKAGE_DETAILS_BUTTON_R_ID,
   PACKAGE_EVENTS_CARD_ID
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 
 const TITLE = 'package details events'
-test.describe(TITLE, () => {
+test.describe(TITLE, { tag: '@serial' }, () => {
   test('should redirect to events page with correct filtration', async ({
     page
   }) => {
@@ -46,7 +46,7 @@ test.describe(TITLE, () => {
     )
     await packageDetailsShortSelector.waitFor()
     const seePackageDetailsButtonSelector = page.locator(
-      `#${PACKAGE_DETAILS_BUTTON_ID}`
+      `#${PACKAGE_DETAILS_BUTTON_R_ID}`
     )
     await seePackageDetailsButtonSelector.waitFor()
     await seePackageDetailsButtonSelector.click()
