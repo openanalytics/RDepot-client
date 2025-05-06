@@ -27,7 +27,7 @@
     :headers="headers"
     :sort-asc-icon="Icons.get('ascending')"
     :sort-desc-icon="Icons.get('descending')"
-    color="oablue"
+    color="primary"
     :items-per-page-options="oaTableStore.itemsPerPage"
     :items-per-page-text="$t('datatable.itemsPerPage')"
     :items-length="itemsLength"

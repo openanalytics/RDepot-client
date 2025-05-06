@@ -23,7 +23,7 @@
 <template>
   <v-progress-circular
     indeterminate="disable-shrink"
-    color="oablue"
+    color="primary"
     class="mr-5"
     size="small"
   ></v-progress-circular>

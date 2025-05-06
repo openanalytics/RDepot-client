@@ -75,7 +75,7 @@
                 item.id === authorizationStore.me.id ||
                 isPending(item)
                   ? 'grey'
-                  : 'oablue'
+                  : 'primary'
               "
               @click.stop
               @change="updateUserActive(item)"

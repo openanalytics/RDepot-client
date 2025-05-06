@@ -26,7 +26,7 @@
       <v-icon
         :id="iconId"
         v-bind="props"
-        :color="disabled ? 'grey' : 'oablue'"
+        :color="disabled ? 'grey' : 'primary'"
         @click.stop
         @click="edit"
         >{{ Icons.get('edit') }}</v-icon

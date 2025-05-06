@@ -86,7 +86,7 @@
       name="fromDate"
       as="v-text-field"
       :label="$t('filtration.general.fromDate')"
-      color="oablue"
+      color="primary"
       @update:focused="selectFromDate"
     />
 
@@ -97,7 +97,7 @@
       name="toDate"
       as="v-text-field"
       :label="$t('filtration.general.toDate')"
-      color="oablue"
+      color="primary"
       @update:focused="selectToDate"
     />
 

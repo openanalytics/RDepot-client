@@ -27,10 +27,10 @@
       :key="index"
       :dot-color="
         e1 === index + 1
-          ? 'oablue-lighten-2'
+          ? 'primary-lighten-2'
           : e1 > index + 1
-            ? 'oablue'
-            : 'oablue-darken-2'
+            ? 'primary'
+            : 'primary-darken-2'
       "
       :size="e1 !== index + 1 ? 'small' : 'default'"
     >

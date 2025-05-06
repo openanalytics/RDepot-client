@@ -23,7 +23,7 @@
 <template>
   <v-chip
     size="small"
-    color="oablue"
+    color="primary"
     class="mr-3"
     style="cursor: pointer"
   >

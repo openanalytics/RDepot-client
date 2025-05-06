@@ -64,14 +64,14 @@
   <div class="d-flex justify-space-between">
     <v-btn
       id="back-button"
-      color="oablue"
+      color="primary"
       @click="$emit('next', 1)"
     >
       {{ $t('actions.general.goBack') }}
     </v-btn>
     <v-btn
       id="next-button"
-      color="oablue"
+      color="primary"
       :disabled="
         filesStore.files.length <= 0 || isNextDisabled
       "

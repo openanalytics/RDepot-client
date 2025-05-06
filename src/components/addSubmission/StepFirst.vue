@@ -67,7 +67,7 @@
   <div class="d-flex justify-end">
     <v-btn
       id="next-button"
-      color="oablue"
+      color="primary"
       :disabled="submissionsStore.repository === undefined"
       @click="nextStep"
     >

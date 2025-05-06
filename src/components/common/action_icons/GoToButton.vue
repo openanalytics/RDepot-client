@@ -25,7 +25,7 @@
     :id="`goTo-button-${item.id}`"
     :tooltip="tooltipMsg"
     :icon="Icons.get('goTo')"
-    :color="disabled ? 'grey' : 'oablue'"
+    :color="disabled ? 'grey' : 'primary'"
     @click="goTo"
   />
 </template>

@@ -37,7 +37,7 @@
             $t('resources.technology').toLowerCase()
           "
           size="x-small"
-          color="oablue"
+          color="primary"
           >{{
             packageDetailsStore.packageBag.technology
           }}</v-chip

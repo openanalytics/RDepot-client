@@ -69,7 +69,7 @@ const icon = computed(() =>
 )
 const color = computed(() =>
   shouldCheckAddress.value
-    ? 'oablue'
+    ? 'primary'
     : serverAddressHealthCheck.value
       ? 'success'
       : 'oared'

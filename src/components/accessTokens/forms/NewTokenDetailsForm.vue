@@ -54,7 +54,7 @@
     </v-card-text>
     <v-alert
       variant="tonal"
-      color="oablue"
+      color="primary"
       class="mb-5"
       border="start"
     >

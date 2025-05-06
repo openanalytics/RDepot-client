@@ -278,7 +278,7 @@ export function usePackageProperties() {
           ? Icons.get('check')
           : Icons.get('close'),
         appendIconColor: packageBag.value.active
-          ? 'oablue'
+          ? 'primary'
           : 'oared'
       },
       {
@@ -291,7 +291,7 @@ export function usePackageProperties() {
           ? Icons.get('check')
           : Icons.get('close'),
         appendIconColor: packageBag.value.deleted
-          ? 'oablue'
+          ? 'primary'
           : 'oared'
       },
       {
@@ -302,7 +302,7 @@ export function usePackageProperties() {
           ? Icons.get('check')
           : Icons.get('close'),
         appendIconColor: packageBag.value.binary
-          ? 'oablue'
+          ? 'primary'
           : 'oared'
       },
       {
@@ -313,7 +313,7 @@ export function usePackageProperties() {
           ? Icons.get('check')
           : Icons.get('close'),
         appendIconColor: packageBag.value.needsCompilation
-          ? 'oablue'
+          ? 'primary'
           : 'oared'
       }
     ] as Property[]

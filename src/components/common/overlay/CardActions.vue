@@ -26,7 +26,7 @@
       <v-btn
         v-if="cancelButton"
         id="cancel-button"
-        color="oablue darken-2"
+        color="primary darken-2"
         class="mx-1"
         @click="cancel"
         >{{ i18n.t('actions.general.cancel') }}</v-btn
@@ -44,7 +44,7 @@
         v-if="submitButton"
         id="submit-button"
         :disabled="!valid"
-        color="oablue darken-2"
+        color="primary darken-2"
         class="mx-1"
         @click="emit('submit')"
         >{{ submitText }}</v-btn

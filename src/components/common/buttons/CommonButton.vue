@@ -23,7 +23,7 @@
 <template>
   <v-btn
     id="common-button"
-    color="oablue"
+    color="primary"
     dark
     dense
     class="mx-3"

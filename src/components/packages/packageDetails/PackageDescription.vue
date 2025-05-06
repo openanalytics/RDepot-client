@@ -63,7 +63,7 @@
     <v-btn
       id="see-package-details-button"
       ref="button"
-      color="oablue"
+      color="primary"
       size="x-small"
       variant="text"
       class="button mt-3 ml-3 my-3"

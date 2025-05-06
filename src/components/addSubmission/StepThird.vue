@@ -74,7 +74,7 @@
         <div id="tooltip-activator" v-bind="props">
           <v-btn
             id="back-button-disabled"
-            color="oablue"
+            color="primary"
             style="pointer-events: none"
             disabled
           >
@@ -95,7 +95,7 @@
     <v-btn
       v-else
       id="back-button"
-      color="oablue"
+      color="primary"
       @click="emits('next', 1)"
     >
       {{ $t('messages.submissions.addAnotherSubmission') }}

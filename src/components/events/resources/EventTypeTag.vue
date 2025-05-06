@@ -24,7 +24,7 @@
   <EventTag
     :value="value"
     :color="
-      eventType ? eventTypeColors.get(eventType) : 'oablue'
+      eventType ? eventTypeColors.get(eventType) : 'primary'
     "
     size="default"
     disable-copying
