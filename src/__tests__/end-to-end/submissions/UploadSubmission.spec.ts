@@ -52,7 +52,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     await restoreData(testInfo.project.name)
   })
 
-  test('upload binary package', async ({ page }) => {
+  test('upload binary R package', async ({ page }) => {
     await login(page, 'einstein')
     await page
       .locator(`#${UPLOAD_PACKAGES_SIDEBAR_ID}`)
@@ -165,5 +165,63 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     await expect(notesMarkdown).toHaveText(
       'Test notes for upload'
     )
+  })
+
+  test('upload binary Python package', async ({ page }) => {
+    await login(page, 'einstein')
+    await page
+      .locator(`#${UPLOAD_PACKAGES_SIDEBAR_ID}`)
+      .click()
+    await page.waitForURL('**/upload-packages')
+    await expect(page).toHaveTitle(
+      /RDepot - upload packages/
+    )
+    await page
+      .locator(`#${UPLOAD_SUBMISSION_REPOSITORY_FIELD_ID}`)
+      .click({ force: true })
+    await page
+      .locator(
+        `#${UPLOAD_SUBMISSION_REPOSITORY_TESTREPO3_ID}`
+      )
+      .click()
+    await page
+      .locator(`#${UPLOAD_SUBMISSION_CONTINUE_BUTTON_ID}`)
+      .click()
+
+    const fileChooserPromise =
+      page.waitForEvent('filechooser')
+    await page.locator(`.${DROP_ZONE_CLASS}`).click()
+    const fileChooser = await fileChooserPromise
+    await fileChooser.setFiles(
+      './src/__tests__/end-to-end/testData/tetrapolyscope-0.0.4-cp311-cp311-manylinux_2_17_i686.manylinux2014_i686.whl'
+    )
+    const generateManual = page.locator(
+      `#${UPLOAD_SUBMISSION_GENERATE_MANUAL_CHECKBOX}`
+    )
+    await expect(generateManual).not.toBeDisabled()
+
+    await page
+      .locator(`#${BINARY_SUBMISSION_CHECKBOX}`)
+      .click()
+
+    await expect(generateManual).toBeDisabled()
+
+    await page
+      .locator(`#${UPLOAD_SUBMISSION_CONTINUE_BUTTON_ID}`)
+      .click()
+    await expect(
+      page.locator(`#${UPLOAD_SUBMISSION_SUCCESS_ICON}`)
+    ).toBeVisible()
+
+    await page.locator(`#${SUBMISSIONS_SIDEBAR_ID}`).click()
+    await page.waitForURL('**/submissions')
+    await expect(page).toHaveTitle(/RDepot - submissions/)
+
+    await page
+      .locator(`#${SUBMISSIONS_FILTRATION_SEARCH_FIELD_ID}`)
+      .fill('tetrapolyscope')
+
+    const submissionRowsSelector = page.locator('role=row')
+    await expect(submissionRowsSelector).toHaveCount(3)
   })
 })
