@@ -122,22 +122,20 @@ function savePackagesInStore() {
 }
 
 const isNextDisabled = computed(() => {
-  return false
-  // TODO
-  // return (
-  //   !(
-  //     submissionsStore.binary.length ===
-  //       submissionsStore.rversion.length &&
-  //     submissionsStore.rversion.length ===
-  //       submissionsStore.distribution.length &&
-  //     submissionsStore.distribution.length ===
-  //       submissionsStore.architecture.length &&
-  //     submissionsStore.repository?.technology ===
-  //       Technologies.Enum.R
-  //   ) ||
-  //   !submissionsStore.repository?.technology ===
-  //     Technologies.Enum.Python
-  // )
+  return (
+    !(
+      submissionsStore.binary.length ===
+        submissionsStore.rversion.length &&
+      submissionsStore.rversion.length ===
+        submissionsStore.distribution.length &&
+      submissionsStore.distribution.length ===
+        submissionsStore.architecture.length &&
+      submissionsStore.repository?.technology ===
+        Technologies.Enum.R
+    ) &&
+    submissionsStore.repository?.technology !==
+      Technologies.Enum.Python
+  )
 })
 
 function checkValidity(file: File) {

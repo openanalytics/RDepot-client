@@ -261,6 +261,9 @@ export const useSubmissionStore = defineStore(
       updateBinaryOptionForPackage(file: File) {
         if (this.getBinaryForPackage(file)) {
           this.removeBinaryOptionForPackage(file)
+          this.removeArchitectureOptionForPackage(file)
+          this.removeDistributionOptionForPackage(file)
+          this.removeRVersionOptionForPackage(file)
         } else {
           this.addBinaryOptionForPackage(file)
           this.removeGenerateManualOptionForPackage(file)
@@ -294,6 +297,21 @@ export const useSubmissionStore = defineStore(
       removeBinaryOptionForPackage(file: File) {
         this.binary = this.binary.filter(
           (item) => item !== file
+        )
+      },
+      removeArchitectureOptionForPackage(file: File) {
+        this.architecture = this.architecture.filter(
+          (item) => item.file !== file
+        )
+      },
+      removeDistributionOptionForPackage(file: File) {
+        this.distribution = this.distribution.filter(
+          (item) => item.file !== file
+        )
+      },
+      removeRVersionOptionForPackage(file: File) {
+        this.rversion = this.rversion.filter(
+          (item) => item.file !== file
         )
       },
       addBinaryOptionForPackage(file: File) {
