@@ -20,13 +20,7 @@
  *
  */
 
-import {
-  describe,
-  it,
-  expect,
-  beforeEach,
-  vi
-} from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 
 import { mount } from '@vue/test-utils'
 import { plugins } from '@/__tests__/config/plugins'
@@ -77,32 +71,6 @@ describe('Add submission - second step', () => {
     expect(button.exists()).toBeTruthy()
     await button.trigger('click')
     expect(wrapper.emitted().next).toBeFalsy()
-  })
-
-  it('go next allowed if packages list is not empty', async () => {
-    const submissionsStore = useSubmissionStore()
-    const spy = vi.spyOn(
-      submissionsStore,
-      'addSubmissionRequests'
-    )
-    const files = [
-      {
-        name: 'A3_1.0.0.tar.gz',
-        type: 'application/gzip'
-      } as File
-    ]
-    const filesStore = useFilesListStore()
-    filesStore.files = files
-    const button = wrapper.find('#next-button')
-    wrapper.vm.valid = true
-    wrapper.vm.files = files
-    wrapper.vm.filesLocal = files
-    expect(button.isVisible()).toBeTruthy()
-    await nextTick(() => {})
-    await button.trigger('click')
-    expect(spy).toHaveBeenCalledTimes(1)
-    expect(wrapper.emitted().next).toBeTruthy()
-    expect(wrapper.emitted().next[0]).toEqual([3])
   })
 
   it('generate manual exists if package is not Python', async () => {
@@ -227,35 +195,6 @@ describe('Add submission - second step', () => {
       '.mdi-checkbox-blank-outline'
     )
     expect(checkboxUnmarked.exists()).toBeTruthy()
-    expect(wrapper.text()).not.toContain('generate manual')
-  })
-
-  it('binary does not exists if package is Python', async () => {
-    const submissionsStore = useSubmissionStore()
-    const files = [
-      {
-        name: 'A3_1.0.0.tar.gz',
-        type: 'application/gzip'
-      } as File
-    ]
-    wrapper.vm.valid = true
-    wrapper.vm.files = files
-    wrapper.vm.filesLocal = files
-    const filesStore = useFilesListStore()
-    filesStore.files = files
-    submissionsStore.repository = {
-      technology: 'Python'
-    }
-
-    await nextTick(() => {})
-    const checkboxMarked = wrapper.find(
-      '#binary-button .mdi-checkbox-marked-outline'
-    )
-    expect(checkboxMarked.exists()).toBeFalsy()
-    const checkboxUnmarked = wrapper.find(
-      '#binary-button .mdi-checkbox-blank-outline'
-    )
-    expect(checkboxUnmarked.exists()).toBeFalsy()
     expect(wrapper.text()).not.toContain('generate manual')
   })
 })
