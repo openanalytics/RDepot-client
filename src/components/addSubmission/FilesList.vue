@@ -119,13 +119,7 @@
           "
         ></validated-input-field>
       </template>
-      <template
-        v-if="
-          submissionsStore.repository?.technology !=
-          Technologies.enum.Python
-        "
-        #[`item.binary`]="{ item }"
-      >
+      <template #[`item.binary`]="{ item }">
         <BinaryOption :file="item" />
       </template>
       <template #[`item.notes`]="{ item }">
@@ -415,8 +409,7 @@ const filteredHeaders = computed(() => {
           header.key != 'manual' &&
           header.key != 'rversion' &&
           header.key != 'distribution' &&
-          header.key != 'architecture' &&
-          header.key != 'binary'
+          header.key != 'architecture'
       )
       .map((header) =>
         header.key === 'name'
