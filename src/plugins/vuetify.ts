@@ -31,7 +31,9 @@ import 'vuetify/styles'
 import 'vuetify/dist/vuetify.min.css'
 
 import { createVuetify } from 'vuetify'
+import getEnv from '@/utils/env'
 
+const primary = `#${getEnv('VITE_PRIMARY_COLOUR') || '32a6d3'}`
 export default createVuetify({
   theme: {
     defaultTheme: 'dark',
@@ -39,15 +41,14 @@ export default createVuetify({
       dark: {
         colors: {
           headerText: '#fff',
-          primary: '#3f51b5',
+          primary: primary,
           secondary: '#b0bec5',
           accent: '#8c9eff',
           error: '#b71c1c',
-          background: '#073642',
+          background: `#${getEnv('VITE_DARK_MODE_BACKGROUND_COLOUR') || '2d2d2d'}`,
           oared: '#e52323',
-          oablue: '#32a6d3',
-          'oablue-darken-2': '#00729c',
-          'oablue-lighten-2': '#84cae5',
+          'primary-darken-2': '#00729c',
+          'primary-lighten-2': '#84cae5',
           darkoared: '#be1717',
           docsblue: '#30638e',
           lightyellow: '#f9eebf',
@@ -64,15 +65,14 @@ export default createVuetify({
       light: {
         colors: {
           headerText: '#fff',
-          primary: '#000',
+          primary: primary,
           secondary: '#000',
           accent: '#fff',
           error: '#b71c1c',
-          background: '#edebeb',
+          background: `#${getEnv('VITE_LIGHT_MODE_BACKGROUND_COLOUR') || 'edebeb'}`,
           oared: '#e52323',
-          oablue: '#32a6d3',
-          'oablue-darken-2': '#00729c',
-          'oablue-lighten-2': '#84cae5',
+          'primary-darken-2': '#00729c',
+          'primary-lighten-2': '#84cae5',
           docsblue: '#30638e',
           lightyellow: '#f9eebf',
           darkyellow: '#ffd512',

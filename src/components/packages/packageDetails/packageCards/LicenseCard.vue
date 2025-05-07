@@ -32,7 +32,7 @@
         id="repository-description-publication-status"
         icon="mdi-license"
         size="15"
-        color="oablue"
+        color="primary"
       ></v-icon>
     </v-card-subtitle>
   </v-card>

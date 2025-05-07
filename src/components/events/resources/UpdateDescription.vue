@@ -29,7 +29,7 @@
       class="d-flex align-center my-2"
     >
       <div style="width: fit-content">
-        <v-chip size="small" color="oablue" variant="flat">
+        <v-chip size="small" color="primary" variant="flat">
           {{
             getTranslationWithFallbackValue(
               property.property

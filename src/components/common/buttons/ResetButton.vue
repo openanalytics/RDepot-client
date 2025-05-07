@@ -25,7 +25,7 @@
     id="reset-button"
     class="my-2"
     density="compact"
-    color="oablue"
+    color="primary"
     @click="resetValues"
   >
     {{ $t('actions.general.reset') }}</v-btn

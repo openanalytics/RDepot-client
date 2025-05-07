@@ -142,7 +142,7 @@
           variant="tonal"
           border="start"
           density="compact"
-          color="oablue"
+          color="primary"
         ></v-alert>
       </v-card-text>
       <v-divider></v-divider>

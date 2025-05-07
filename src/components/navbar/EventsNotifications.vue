@@ -117,7 +117,7 @@
               ><v-btn
                 id="notifications-see-all-events"
                 variant="outlined"
-                color="oablue"
+                color="primary"
                 class="mt-5"
                 @click="goToEventsPage"
                 >{{

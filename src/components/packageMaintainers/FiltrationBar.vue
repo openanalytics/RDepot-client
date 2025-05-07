@@ -32,7 +32,7 @@
       name="search"
       as="v-text-field"
       :label="$t('filtration.general.searchPlaceholder')"
-      color="oablue"
+      color="primary"
       @update:model-value="setFiltration"
     />
 
@@ -91,7 +91,7 @@
       name="deleted"
       :label="$t('properties.general.deleted')"
       as="switch-indeterminate"
-      color="oablue"
+      color="primary"
       class="flex-grow-0"
       @change="setFiltration"
     ></validated-input-field>

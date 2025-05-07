@@ -79,7 +79,7 @@ var chartOptions: any = {
     type: 'donut'
   },
   colors: [
-    vuetify.theme.current.value.colors.oablue,
+    vuetify.theme.current.value.colors.primary,
     vuetify.theme.current.value.colors.oared
   ],
   tooltip: {
@@ -137,7 +137,7 @@ var chartOptions: any = {
           },
           total: {
             show: true,
-            color: 'rgba(var(--v-theme-oablue))',
+            color: 'rgba(var(--v-theme-primary))',
             formatter: function () {
               return ''
             }

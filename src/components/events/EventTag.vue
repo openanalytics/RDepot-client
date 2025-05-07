@@ -82,7 +82,7 @@ defineProps({
   color: {
     type: String,
     required: false,
-    default: 'oablue'
+    default: 'primary'
   },
   size: {
     type: String,

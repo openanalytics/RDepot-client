@@ -32,7 +32,7 @@
       name="search"
       as="v-text-field"
       :label="$t('filtration.general.searchPlaceholder')"
-      color="oablue"
+      color="primary"
       @update:model-value="setFiltration"
     />
 
@@ -78,7 +78,7 @@
       name="active"
       :label="$t('properties.general.active')"
       as="switch-indeterminate"
-      color="oablue"
+      color="primary"
       class="flex-grow-0"
       @change="setFiltration"
     ></validated-input-field>
@@ -90,7 +90,7 @@
       name="expired"
       :label="$t('filtration.tokens.expired')"
       as="switch-indeterminate"
-      color="oablue"
+      color="primary"
       class="flex-grow-0"
       @change="setFiltration"
     ></validated-input-field>

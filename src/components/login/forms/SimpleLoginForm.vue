@@ -28,7 +28,7 @@
       as="v-text-field"
       class="mt-10"
       :label="$t('forms.authorization.username')"
-      color="oablue"
+      color="primary"
       required
       autofocus
       max-width="unset"
@@ -40,7 +40,7 @@
       as="v-text-field"
       :label="$t('forms.authorization.password')"
       type="password"
-      color="oablue"
+      color="primary"
       required
       max-width="unset"
     />
@@ -51,7 +51,7 @@
           id="login-simple-button"
           style="width: 100%; justify-self: center"
           class="btn"
-          color="oablue"
+          color="primary"
           @click="loginSimple"
         >
           {{ $t('actions.general.login') }}

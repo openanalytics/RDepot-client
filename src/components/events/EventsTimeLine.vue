@@ -140,7 +140,7 @@ const eventBoxWidth = computed(() => {
 function getDotColor(item: any) {
   return item && !item.eventType
     ? 'rgba(0, 0, 0, 0)'
-    : 'oablue'
+    : 'primary'
 }
 
 function hideDay(day: string) {

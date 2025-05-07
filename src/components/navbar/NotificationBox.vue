@@ -46,7 +46,7 @@
 
         <div
           style="
-            color: rgb(var(--v-theme-oablue)) !important;
+            color: rgb(var(--v-theme-primary)) !important;
           "
         >
           {{ getTime }}
@@ -68,14 +68,14 @@
                 .join('')
           )
         "
-        color="oablue"
+        color="primary"
         size="20"
         class="ml-3"
         style="position: relative"
         >{{ getIcon(event?.resourceType)[0] }}
         <v-icon
           v-if="getIcon(event?.resourceType).length > 1"
-          color="oablue"
+          color="primary"
           size="20"
           class="mb-1 mr-1 nestedIcon"
           >{{ getIcon(event?.resourceType)[1] }}</v-icon

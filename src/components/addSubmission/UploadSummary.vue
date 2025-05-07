@@ -33,7 +33,7 @@
       <v-progress-circular
         v-if="promise.state == 'pending'"
         indeterminate="disable-shrink"
-        color="oablue"
+        color="primary"
         class="mr-5"
       ></v-progress-circular>
       <v-icon

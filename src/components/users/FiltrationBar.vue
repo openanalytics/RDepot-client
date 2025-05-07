@@ -34,7 +34,7 @@
       :label="
         i18n.t('filtration.general.searchPlaceholder')
       "
-      color="oablue"
+      color="primary"
       @update:model-value="setFiltration"
     />
 
@@ -60,7 +60,7 @@
       name="active"
       :label="i18n.t('properties.general.active')"
       as="switch-indeterminate"
-      color="oablue"
+      color="primary"
       class="flex-grow-0"
       @change="setFiltration"
     ></validated-input-field>
@@ -72,7 +72,7 @@
       name="deleted"
       :label="i18n.t('properties.general.deleted')"
       as="switch-indeterminate"
-      color="oablue"
+      color="primary"
       class="flex-grow-0"
       @change="setFiltration"
     ></validated-input-field>

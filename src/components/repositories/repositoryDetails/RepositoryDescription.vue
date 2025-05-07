@@ -30,7 +30,7 @@
       class="d-flex flex-column ga-3"
     >
       <v-timeline
-        dot-color="oablue"
+        dot-color="primary"
         fill-dot
         side="end"
         density="compact"
@@ -54,7 +54,7 @@
                 )
               }}
             </div>
-            <v-chip size="small" color="oablue">
+            <v-chip size="small" color="primary">
               {{
                 formatDateTime(
                   new Date(
@@ -87,7 +87,7 @@
             <div
               class="d-flex flex-no-wrap align-center ga-1"
             >
-              <v-chip size="small" color="oablue">
+              <v-chip size="small" color="primary">
                 {{
                   formatDateTime(
                     new Date(
@@ -185,7 +185,7 @@
             <div>
               {{ $t('forms.repositories.hash') }}
             </div>
-            <v-chip size="small" color="oablue">
+            <v-chip size="small" color="primary">
               {{
                 repositoryStore.chosenRepository.hashMethod
               }}

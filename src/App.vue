@@ -53,7 +53,7 @@ onBeforeMount(() => {
 
 .mdi-sort-ascending,
 .mdi-sort-descending {
-  color: rgb(var(--v-theme-oablue));
+  color: rgb(var(--v-theme-primary));
   margin-left: 2px;
   font-size: 1rem;
 }

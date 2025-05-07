@@ -25,7 +25,7 @@
     <v-btn
       id="save-changes"
       class="ml-6"
-      color="oablue"
+      color="primary"
       size="small"
       @click="saveSettings"
       >{{ $t('actions.general.save') }}</v-btn

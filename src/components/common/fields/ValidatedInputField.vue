@@ -27,7 +27,7 @@
     :initial-value="value"
     :error-messages="errors"
     v-bind="attrs"
-    color="oablue"
+    color="primary"
     :template="template"
     :style="{
       maxWidth: fieldMaxWidth + 'px'

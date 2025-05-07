@@ -40,7 +40,7 @@
           variant="text"
           size="x-small"
           :icon="Icons.get('more')"
-          color="oablue"
+          color="primary"
           v-bind="activatorProps"
           style="margin-left: -10px"
         />

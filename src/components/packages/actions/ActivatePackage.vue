@@ -74,7 +74,7 @@ const isPending = computed(
 )
 
 const color = computed(() =>
-  !canPatch(packageBag.value.links) ? 'grey' : 'oablue'
+  !canPatch(packageBag.value.links) ? 'grey' : 'primary'
 )
 
 const disabled = computed(

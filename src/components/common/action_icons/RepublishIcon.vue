@@ -24,7 +24,7 @@
   <v-icon
     :id="`republish-repository-${repo.id}`"
     v-tooltip="tooltipText"
-    :color="disabled ? 'grey' : 'oablue'"
+    :color="disabled ? 'grey' : 'primary'"
     style="margin-left: 2px"
     @click.stop
     @click="republish"

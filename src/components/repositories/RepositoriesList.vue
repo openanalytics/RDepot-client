@@ -107,7 +107,7 @@
               :disabled="isDisabled(item)"
               hide-details
               :readonly="isDisabled(item)"
-              :color="isDisabled(item) ? 'grey' : 'oablue'"
+              :color="isDisabled(item) ? 'grey' : 'primary'"
               @click.stop="updateRepositoryPublished(item)"
             >
               <template #append> </template>
