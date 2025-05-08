@@ -34,3 +34,6 @@ reports
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+/scripts/api.json
+/swagger-codegen

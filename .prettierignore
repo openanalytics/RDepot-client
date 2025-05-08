@@ -3,3 +3,4 @@
 .vscode
 .gitignore
 kubernetesPod.yaml
+src/openapi/

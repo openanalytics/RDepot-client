@@ -29,7 +29,8 @@
     "prepare": "husky install",
     "restore": "./docker/restore.sh",
     "restore:firefox": "./docker/restore-firefox.sh",
-    "restore:chrome": "./docker/restore-chrome.sh"
+    "restore:chrome": "./docker/restore-chrome.sh",
+    "generate:client": "sh scripts/downloadOpenApiSpec.sh && node scripts/updateOpenApiSpec.js && sh scripts/generateClient.sh && node scripts/updateOpenApiGenerated.js"
   },
   "dependencies": {
     "@casl/ability": "^6.4.0",
