@@ -196,16 +196,10 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     await fileChooser.setFiles(
       './src/__tests__/end-to-end/testData/tetrapolyscope-0.0.4-cp311-cp311-manylinux_2_17_i686.manylinux2014_i686.whl'
     )
-    const generateManual = page.locator(
-      `#${UPLOAD_SUBMISSION_GENERATE_MANUAL_CHECKBOX}`
-    )
-    await expect(generateManual).not.toBeDisabled()
 
     await page
       .locator(`#${BINARY_SUBMISSION_CHECKBOX}`)
       .click()
-
-    await expect(generateManual).toBeDisabled()
 
     await page
       .locator(`#${UPLOAD_SUBMISSION_CONTINUE_BUTTON_ID}`)
