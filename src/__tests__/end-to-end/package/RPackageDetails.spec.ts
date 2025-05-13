@@ -47,10 +47,6 @@ test.describe(TITLE, () => {
     page
   }) => {
     await login(page, 'einstein')
-    await page
-      .locator('.v-data-table__tr:nth-child(1)')
-      .click()
-
     const seeDetailsButtonSelector = page.locator(
       `#${PACKAGE_DETAILS_BUTTON_R_ID}`
     )

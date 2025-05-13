@@ -39,6 +39,7 @@
       "deactivate": "Dezaktywuj"
     },
     "repositories": {
+      "goTo": "Zobacz pakiety",
       "publish": "Opublikuj",
       "republish": "Opublikuj ponownie",
       "seePackages": "Zobacz pakiety w tym repozytorium",

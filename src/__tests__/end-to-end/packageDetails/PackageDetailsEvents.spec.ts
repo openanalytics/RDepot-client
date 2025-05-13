@@ -30,7 +30,7 @@ import {
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 
 const TITLE = 'package details events'
-test.describe(TITLE, { tag: '@serial' }, () => {
+test.describe(TITLE, () => {
   test('should redirect to events page with correct filtration', async ({
     page
   }) => {
@@ -38,13 +38,6 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     const packagesRowsSelector = page.locator('role=row')
     await expect(packagesRowsSelector).toHaveCount(21)
 
-    await page
-      .locator('css=.v-data-table__tr:nth-child(1)')
-      .click()
-    const packageDetailsShortSelector = page.locator(
-      'css=.expanded-package'
-    )
-    await packageDetailsShortSelector.waitFor()
     const seePackageDetailsButtonSelector = page.locator(
       `#${PACKAGE_DETAILS_BUTTON_R_ID}`
     )

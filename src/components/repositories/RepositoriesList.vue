@@ -204,7 +204,7 @@
         <GoToButton
           :item="item"
           from="repositories"
-          :tooltip="$t('actions.general.goTo')"
+          :tooltip="$t('actions.repositories.goTo')"
         /> </span
     ></template>
     <template #expanded-row="{ columns }">
