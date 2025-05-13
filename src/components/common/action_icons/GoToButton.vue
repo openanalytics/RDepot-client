@@ -36,8 +36,10 @@ import Icons from '@/maps/Icons'
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import { usePackagesStore } from '@/store/options/packages'
 
 const router = useRouter()
+const packagesStore = usePackagesStore()
 const { t } = useI18n()
 
 const props = defineProps({
@@ -87,7 +89,17 @@ function goTo() {
           }
         })
         break
+      case 'repositories':
+        chooseRepository(props.item.name || '')
+        router.push({
+          name: 'packages'
+        })
+        break
     }
   }
+}
+
+function chooseRepository(name: string) {
+  packagesStore.setFiltrationBy({ repository: [name] })
 }
 </script>

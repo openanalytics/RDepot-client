@@ -23,7 +23,7 @@
 import { test, expect } from '@playwright/test'
 import { login } from '../helpers/login'
 import {
-  PACKAGE_DETAILS_BUTTON_ID,
+  PACKAGE_DETAILS_BUTTON_R_ID,
   PACKAGE_PROPERTY_DEPENDS_ID,
   PACKAGE_PROPERTY_IMPORTS_ID,
   PACKAGE_LICENSE_CARD_ID,
@@ -47,12 +47,8 @@ test.describe(TITLE, () => {
     page
   }) => {
     await login(page, 'einstein')
-    await page
-      .locator('.v-data-table__tr:nth-child(1)')
-      .click()
-
     const seeDetailsButtonSelector = page.locator(
-      `#${PACKAGE_DETAILS_BUTTON_ID}`
+      `#${PACKAGE_DETAILS_BUTTON_R_ID}`
     )
 
     await seeDetailsButtonSelector.waitFor()

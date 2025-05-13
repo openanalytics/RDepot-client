@@ -25,7 +25,7 @@ import { login } from '../helpers/login'
 import {
   EVENTS_FILTRATION_PACKAGE_FIELD_ID,
   EVENTS_FILTRATION_REPOSITORY_FIELD_ID,
-  PACKAGE_DETAILS_BUTTON_ID,
+  PACKAGE_DETAILS_BUTTON_R_ID,
   PACKAGE_EVENTS_CARD_ID
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 
@@ -38,15 +38,8 @@ test.describe(TITLE, () => {
     const packagesRowsSelector = page.locator('role=row')
     await expect(packagesRowsSelector).toHaveCount(21)
 
-    await page
-      .locator('css=.v-data-table__tr:nth-child(1)')
-      .click()
-    const packageDetailsShortSelector = page.locator(
-      'css=.expanded-package'
-    )
-    await packageDetailsShortSelector.waitFor()
     const seePackageDetailsButtonSelector = page.locator(
-      `#${PACKAGE_DETAILS_BUTTON_ID}`
+      `#${PACKAGE_DETAILS_BUTTON_R_ID}`
     )
     await seePackageDetailsButtonSelector.waitFor()
     await seePackageDetailsButtonSelector.click()
