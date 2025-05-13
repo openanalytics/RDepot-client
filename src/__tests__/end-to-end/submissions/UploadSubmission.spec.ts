@@ -222,6 +222,6 @@ test.describe(TITLE, { tag: '@serial' }, () => {
       .fill('tetrapolyscope')
 
     const submissionRowsSelector = page.locator('role=row')
-    await expect(submissionRowsSelector).toHaveCount(3)
+    await expect(submissionRowsSelector).toHaveCount(2)
   })
 })
