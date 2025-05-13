@@ -308,6 +308,8 @@ export const UPLOAD_SUBMISSION_NOTES_CHECKBOX =
   'notes-button'
 export const UPLOAD_SUBMISSION_NOTES_INPUT =
   'upload-package-notes'
+export const UPLOAD_SUBMISSION_REPLACE_CHECKBOX =
+  'replace-button'
 
 //REPOSITORIES FILTRATION
 export const REPOSITORIES_FILTRATION_SEARCH_FIELD_ID =
