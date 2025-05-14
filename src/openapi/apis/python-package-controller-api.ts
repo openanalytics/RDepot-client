@@ -333,7 +333,8 @@ export const PythonPackageControllerApiAxiosParamCreator =
        * @param {Array<string>} [repository]
        * @param {boolean} [deleted]
        * @param {Array<string>} [submissionState]
-       * @param {string} [name]
+       * @param {string} [search]
+       * @param {Array<string>} [maintainer]
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
@@ -344,7 +345,8 @@ export const PythonPackageControllerApiAxiosParamCreator =
         repository?: Array<string>,
         deleted?: boolean,
         submissionState?: Array<string>,
-        name?: string,
+        search?: string,
+        maintainer?: Array<string>,
         options: AxiosRequestConfig = {}
       ): Promise<RequestArgs> => {
         const localVarPath = `/api/v2/manager/python/packages`
@@ -401,8 +403,12 @@ export const PythonPackageControllerApiAxiosParamCreator =
             submissionState
         }
 
-        if (name !== undefined) {
-          localVarQueryParameter['name'] = name
+        if (search !== undefined) {
+          localVarQueryParameter['search'] = search
+        }
+
+        if (maintainer) {
+          localVarQueryParameter['maintainer'] = maintainer
         }
 
         const query = new URLSearchParams(
@@ -651,7 +657,8 @@ export const PythonPackageControllerApiFp = function (
      * @param {Array<string>} [repository]
      * @param {boolean} [deleted]
      * @param {Array<string>} [submissionState]
-     * @param {string} [name]
+     * @param {string} [search]
+     * @param {Array<string>} [maintainer]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -662,7 +669,8 @@ export const PythonPackageControllerApiFp = function (
       repository?: Array<string>,
       deleted?: boolean,
       submissionState?: Array<string>,
-      name?: string,
+      search?: string,
+      maintainer?: Array<string>,
       options?: AxiosRequestConfig
     ): Promise<
       (
@@ -680,7 +688,8 @@ export const PythonPackageControllerApiFp = function (
           repository,
           deleted,
           submissionState,
-          name,
+          search,
+          maintainer,
           options
         )
       return (
@@ -795,7 +804,8 @@ export const PythonPackageControllerApiFactory = function (
      * @param {Array<string>} [repository]
      * @param {boolean} [deleted]
      * @param {Array<string>} [submissionState]
-     * @param {string} [name]
+     * @param {string} [search]
+     * @param {Array<string>} [maintainer]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -806,7 +816,8 @@ export const PythonPackageControllerApiFactory = function (
       repository?: Array<string>,
       deleted?: boolean,
       submissionState?: Array<string>,
-      name?: string,
+      search?: string,
+      maintainer?: Array<string>,
       options?: AxiosRequestConfig
     ): Promise<AxiosResponse<ResponseDtoObject>> {
       return PythonPackageControllerApiFp(configuration)
@@ -817,7 +828,8 @@ export const PythonPackageControllerApiFactory = function (
           repository,
           deleted,
           submissionState,
-          name,
+          search,
+          maintainer,
           options
         )
         .then((request) => request(axios, basePath))
@@ -907,7 +919,8 @@ export class PythonPackageControllerApi extends BaseAPI {
    * @param {Array<string>} [repository]
    * @param {boolean} [deleted]
    * @param {Array<string>} [submissionState]
-   * @param {string} [name]
+   * @param {string} [search]
+   * @param {Array<string>} [maintainer]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof PythonPackageControllerApi
@@ -919,7 +932,8 @@ export class PythonPackageControllerApi extends BaseAPI {
     repository?: Array<string>,
     deleted?: boolean,
     submissionState?: Array<string>,
-    name?: string,
+    search?: string,
+    maintainer?: Array<string>,
     options?: AxiosRequestConfig
   ): Promise<AxiosResponse<ResponseDtoObject>> {
     return PythonPackageControllerApiFp(this.configuration)
@@ -930,7 +944,8 @@ export class PythonPackageControllerApi extends BaseAPI {
         repository,
         deleted,
         submissionState,
-        name,
+        search,
+        maintainer,
         options
       )
       .then((request) => request(this.axios, this.basePath))

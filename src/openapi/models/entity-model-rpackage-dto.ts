@@ -221,6 +221,12 @@ export interface EntityModelRPackageDto {
    * @type {string}
    * @memberof EntityModelRPackageDto
    */
+  maintainer?: string
+
+  /**
+   * @type {string}
+   * @memberof EntityModelRPackageDto
+   */
   rversion?: string
 
   /**

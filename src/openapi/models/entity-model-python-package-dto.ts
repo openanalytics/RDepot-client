@@ -230,6 +230,36 @@ export interface EntityModelPythonPackageDto {
   hash?: string
 
   /**
+   * @type {string}
+   * @memberof EntityModelPythonPackageDto
+   */
+  compatibilityTags?: string
+
+  /**
+   * @type {string}
+   * @memberof EntityModelPythonPackageDto
+   */
+  builtTag?: string
+
+  /**
+   * @type {string}
+   * @memberof EntityModelPythonPackageDto
+   */
+  pythonTag?: string
+
+  /**
+   * @type {string}
+   * @memberof EntityModelPythonPackageDto
+   */
+  abiTag?: string
+
+  /**
+   * @type {string}
+   * @memberof EntityModelPythonPackageDto
+   */
+  platformTag?: string
+
+  /**
    * @type {Links}
    * @memberof EntityModelPythonPackageDto
    */

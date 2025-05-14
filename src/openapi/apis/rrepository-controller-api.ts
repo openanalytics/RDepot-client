@@ -19,7 +19,7 @@
  * along with this program. If not, see <http://www.apache.org/licenses/>
  *
  */
-/* tslint:disable */
+
 /* eslint-disable */
 /**
  * RDEPOT API
@@ -203,6 +203,7 @@ export const RRepositoryControllerApiAxiosParamCreator =
             localVarRequestOptions.headers[
               'Content-Type'
             ] === 'application/json')
+
         localVarRequestOptions.data = needsSerialization
           ? JSON.stringify(body !== undefined ? body : {})
           : body || ''
@@ -301,7 +302,10 @@ export const RRepositoryControllerApiAxiosParamCreator =
        * @param {number} [size] The size of the page to be returned
        * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
        * @param {boolean} [deleted]
+       * @param {boolean} [published]
+       * @param {Array<string>} [maintainer]
        * @param {string} [name]
+       * @param {string} [search]
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
@@ -310,7 +314,10 @@ export const RRepositoryControllerApiAxiosParamCreator =
         size?: number,
         sort?: Array<string>,
         deleted?: boolean,
+        published?: boolean,
+        maintainer?: Array<string>,
         name?: string,
+        search?: string,
         options: AxiosRequestConfig = {}
       ): Promise<RequestArgs> => {
         const localVarPath = `/api/v2/manager/r/repositories`
@@ -358,8 +365,20 @@ export const RRepositoryControllerApiAxiosParamCreator =
           localVarQueryParameter['deleted'] = deleted
         }
 
+        if (published !== undefined) {
+          localVarQueryParameter['published'] = published
+        }
+
+        if (maintainer) {
+          localVarQueryParameter['maintainer'] = maintainer
+        }
+
         if (name !== undefined) {
           localVarQueryParameter['name'] = name
+        }
+
+        if (search !== undefined) {
+          localVarQueryParameter['search'] = search
         }
 
         const query = new URLSearchParams(
@@ -920,7 +939,10 @@ export const RRepositoryControllerApiFp = function (
      * @param {number} [size] The size of the page to be returned
      * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
      * @param {boolean} [deleted]
+     * @param {boolean} [published]
+     * @param {Array<string>} [maintainer]
      * @param {string} [name]
+     * @param {string} [search]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -929,7 +951,10 @@ export const RRepositoryControllerApiFp = function (
       size?: number,
       sort?: Array<string>,
       deleted?: boolean,
+      published?: boolean,
+      maintainer?: Array<string>,
       name?: string,
+      search?: string,
       options?: AxiosRequestConfig
     ): Promise<
       (
@@ -947,7 +972,10 @@ export const RRepositoryControllerApiFp = function (
           size,
           sort,
           deleted,
+          published,
+          maintainer,
           name,
+          search,
           options
         )
       return (
@@ -1176,7 +1204,10 @@ export const RRepositoryControllerApiFactory = function (
      * @param {number} [size] The size of the page to be returned
      * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
      * @param {boolean} [deleted]
+     * @param {boolean} [published]
+     * @param {Array<string>} [maintainer]
      * @param {string} [name]
+     * @param {string} [search]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -1185,7 +1216,10 @@ export const RRepositoryControllerApiFactory = function (
       size?: number,
       sort?: Array<string>,
       deleted?: boolean,
+      published?: boolean,
+      maintainer?: Array<string>,
       name?: string,
+      search?: string,
       options?: AxiosRequestConfig
     ): Promise<
       AxiosResponse<ResponseDtoPagedModelEntityModelRRepositoryDto>
@@ -1196,7 +1230,10 @@ export const RRepositoryControllerApiFactory = function (
           size,
           sort,
           deleted,
+          published,
+          maintainer,
           name,
+          search,
           options
         )
         .then((request) => request(axios, basePath))
@@ -1336,7 +1373,10 @@ export class RRepositoryControllerApi extends BaseAPI {
    * @param {number} [size] The size of the page to be returned
    * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
    * @param {boolean} [deleted]
+   * @param {boolean} [published]
+   * @param {Array<string>} [maintainer]
    * @param {string} [name]
+   * @param {string} [search]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof RRepositoryControllerApi
@@ -1346,7 +1386,10 @@ export class RRepositoryControllerApi extends BaseAPI {
     size?: number,
     sort?: Array<string>,
     deleted?: boolean,
+    published?: boolean,
+    maintainer?: Array<string>,
     name?: string,
+    search?: string,
     options?: AxiosRequestConfig
   ): Promise<
     AxiosResponse<ResponseDtoPagedModelEntityModelRRepositoryDto>
@@ -1357,7 +1400,10 @@ export class RRepositoryControllerApi extends BaseAPI {
         size,
         sort,
         deleted,
+        published,
+        maintainer,
         name,
+        search,
         options
       )
       .then((request) => request(this.axios, this.basePath))

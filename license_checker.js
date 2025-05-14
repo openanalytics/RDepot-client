@@ -42,6 +42,7 @@ const EXTENSION_WITHOUT_LICENSE = [
   'yml',
   'jar',
   'war',
+  'whl',
   'png',
   'svg',
   'sql',

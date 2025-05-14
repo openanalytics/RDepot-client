@@ -19,7 +19,7 @@
  * along with this program. If not, see <http://www.apache.org/licenses/>
  *
  */
-/* tslint:disable */
+
 /* eslint-disable */
 /**
  * RDEPOT API
@@ -51,6 +51,7 @@ import {
 import { JsonPatch } from '../models'
 import { PythonRepositoryDto } from '../models'
 import { ResponseDtoEntityModelPythonRepositoryDto } from '../models'
+import { ResponseDtoObject } from '../models'
 import { ResponseDtoPagedModelEntityModelPythonRepositoryDto } from '../models'
 /**
  * PythonRepositoryControllerApi - axios parameter creator
@@ -233,7 +234,10 @@ export const PythonRepositoryControllerApiAxiosParamCreator =
        * @param {number} [size] The size of the page to be returned
        * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
        * @param {boolean} [deleted]
+       * @param {boolean} [published]
+       * @param {Array<string>} [maintainer]
        * @param {string} [name]
+       * @param {string} [search]
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
@@ -242,7 +246,10 @@ export const PythonRepositoryControllerApiAxiosParamCreator =
         size?: number,
         sort?: Array<string>,
         deleted?: boolean,
+        published?: boolean,
+        maintainer?: Array<string>,
         name?: string,
+        search?: string,
         options: AxiosRequestConfig = {}
       ): Promise<RequestArgs> => {
         const localVarPath = `/api/v2/manager/python/repositories`
@@ -290,8 +297,20 @@ export const PythonRepositoryControllerApiAxiosParamCreator =
           localVarQueryParameter['deleted'] = deleted
         }
 
+        if (published !== undefined) {
+          localVarQueryParameter['published'] = published
+        }
+
+        if (maintainer) {
+          localVarQueryParameter['maintainer'] = maintainer
+        }
+
         if (name !== undefined) {
           localVarQueryParameter['name'] = name
+        }
+
+        if (search !== undefined) {
+          localVarQueryParameter['search'] = search
         }
 
         const query = new URLSearchParams(
@@ -410,6 +429,86 @@ export const PythonRepositoryControllerApiAxiosParamCreator =
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
+      getSynchronizationStatus1: async (
+        id: number,
+        options: AxiosRequestConfig = {}
+      ): Promise<RequestArgs> => {
+        // verify required parameter 'id' is not null or undefined
+        if (id === null || id === undefined) {
+          throw new RequiredError(
+            'id',
+            'Required parameter id was null or undefined when calling getSynchronizationStatus1.'
+          )
+        }
+        const localVarPath =
+          `/api/v2/manager/python/repositories/{id}/synchronization-status`.replace(
+            `{${'id'}}`,
+            encodeURIComponent(String(id))
+          )
+        // use dummy base URL string because the URL constructor only accepts absolute URLs.
+        const localVarUrlObj = new URL(
+          localVarPath,
+          'https://example.com'
+        )
+        let baseOptions
+        if (configuration) {
+          baseOptions = configuration.baseOptions
+        }
+        const localVarRequestOptions: AxiosRequestConfig = {
+          method: 'GET',
+          ...baseOptions,
+          ...options
+        }
+        const localVarHeaderParameter = {} as any
+        const localVarQueryParameter = {} as any
+
+        // authentication Bearer required
+        // http bearer authentication required
+        if (configuration && configuration.accessToken) {
+          const accessToken =
+            typeof configuration.accessToken === 'function'
+              ? await configuration.accessToken()
+              : await configuration.accessToken
+          localVarHeaderParameter['Authorization'] =
+            'Bearer ' + accessToken
+        }
+
+        const query = new URLSearchParams(
+          localVarUrlObj.search
+        )
+        for (const key in localVarQueryParameter) {
+          query.set(key, localVarQueryParameter[key])
+        }
+        for (const key in options.params) {
+          query.set(key, options.params[key])
+        }
+        localVarUrlObj.search = new URLSearchParams(
+          query
+        ).toString()
+        let headersFromBaseOptions =
+          baseOptions && baseOptions.headers
+            ? baseOptions.headers
+            : {}
+        localVarRequestOptions.headers = {
+          ...localVarHeaderParameter,
+          ...headersFromBaseOptions,
+          ...options.headers
+        }
+
+        return {
+          url:
+            localVarUrlObj.pathname +
+            localVarUrlObj.search +
+            localVarUrlObj.hash,
+          options: localVarRequestOptions
+        }
+      },
+      /**
+       *
+       * @param {number} id
+       * @param {*} [options] Override http request option.
+       * @throws {RequiredError}
+       */
       republishRRepository1: async (
         id: number,
         options: AxiosRequestConfig = {}
@@ -423,6 +522,86 @@ export const PythonRepositoryControllerApiAxiosParamCreator =
         }
         const localVarPath =
           `/api/v2/manager/python/repositories/{id}/republish`.replace(
+            `{${'id'}}`,
+            encodeURIComponent(String(id))
+          )
+        // use dummy base URL string because the URL constructor only accepts absolute URLs.
+        const localVarUrlObj = new URL(
+          localVarPath,
+          'https://example.com'
+        )
+        let baseOptions
+        if (configuration) {
+          baseOptions = configuration.baseOptions
+        }
+        const localVarRequestOptions: AxiosRequestConfig = {
+          method: 'POST',
+          ...baseOptions,
+          ...options
+        }
+        const localVarHeaderParameter = {} as any
+        const localVarQueryParameter = {} as any
+
+        // authentication Bearer required
+        // http bearer authentication required
+        if (configuration && configuration.accessToken) {
+          const accessToken =
+            typeof configuration.accessToken === 'function'
+              ? await configuration.accessToken()
+              : await configuration.accessToken
+          localVarHeaderParameter['Authorization'] =
+            'Bearer ' + accessToken
+        }
+
+        const query = new URLSearchParams(
+          localVarUrlObj.search
+        )
+        for (const key in localVarQueryParameter) {
+          query.set(key, localVarQueryParameter[key])
+        }
+        for (const key in options.params) {
+          query.set(key, options.params[key])
+        }
+        localVarUrlObj.search = new URLSearchParams(
+          query
+        ).toString()
+        let headersFromBaseOptions =
+          baseOptions && baseOptions.headers
+            ? baseOptions.headers
+            : {}
+        localVarRequestOptions.headers = {
+          ...localVarHeaderParameter,
+          ...headersFromBaseOptions,
+          ...options.headers
+        }
+
+        return {
+          url:
+            localVarUrlObj.pathname +
+            localVarUrlObj.search +
+            localVarUrlObj.hash,
+          options: localVarRequestOptions
+        }
+      },
+      /**
+       *
+       * @param {number} id
+       * @param {*} [options] Override http request option.
+       * @throws {RequiredError}
+       */
+      synchronizeWithMirrors1: async (
+        id: number,
+        options: AxiosRequestConfig = {}
+      ): Promise<RequestArgs> => {
+        // verify required parameter 'id' is not null or undefined
+        if (id === null || id === undefined) {
+          throw new RequiredError(
+            'id',
+            'Required parameter id was null or undefined when calling synchronizeWithMirrors1.'
+          )
+        }
+        const localVarPath =
+          `/api/v2/manager/python/repositories/{id}/synchronize-mirrors`.replace(
             `{${'id'}}`,
             encodeURIComponent(String(id))
           )
@@ -662,7 +841,10 @@ export const PythonRepositoryControllerApiFp = function (
      * @param {number} [size] The size of the page to be returned
      * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
      * @param {boolean} [deleted]
+     * @param {boolean} [published]
+     * @param {Array<string>} [maintainer]
      * @param {string} [name]
+     * @param {string} [search]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -671,7 +853,10 @@ export const PythonRepositoryControllerApiFp = function (
       size?: number,
       sort?: Array<string>,
       deleted?: boolean,
+      published?: boolean,
+      maintainer?: Array<string>,
       name?: string,
+      search?: string,
       options?: AxiosRequestConfig
     ): Promise<
       (
@@ -689,7 +874,10 @@ export const PythonRepositoryControllerApiFp = function (
           size,
           sort,
           deleted,
+          published,
+          maintainer,
           name,
+          search,
           options
         )
       return (
@@ -741,6 +929,36 @@ export const PythonRepositoryControllerApiFp = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
+    async getSynchronizationStatus1(
+      id: number,
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => Promise<AxiosResponse<ResponseDtoObject>>
+    > {
+      const localVarAxiosArgs =
+        await PythonRepositoryControllerApiAxiosParamCreator(
+          configuration
+        ).getSynchronizationStatus1(id, options)
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH
+      ) => {
+        const axiosRequestArgs: AxiosRequestConfig = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url
+        }
+        return axios.request(axiosRequestArgs)
+      }
+    },
+    /**
+     *
+     * @param {number} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
     async republishRRepository1(
       id: number,
       options?: AxiosRequestConfig
@@ -754,6 +972,36 @@ export const PythonRepositoryControllerApiFp = function (
         await PythonRepositoryControllerApiAxiosParamCreator(
           configuration
         ).republishRRepository1(id, options)
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH
+      ) => {
+        const axiosRequestArgs: AxiosRequestConfig = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url
+        }
+        return axios.request(axiosRequestArgs)
+      }
+    },
+    /**
+     *
+     * @param {number} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async synchronizeWithMirrors1(
+      id: number,
+      options?: AxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => Promise<AxiosResponse<void>>
+    > {
+      const localVarAxiosArgs =
+        await PythonRepositoryControllerApiAxiosParamCreator(
+          configuration
+        ).synchronizeWithMirrors1(id, options)
       return (
         axios: AxiosInstance = globalAxios,
         basePath: string = BASE_PATH
@@ -849,7 +1097,10 @@ export const PythonRepositoryControllerApiFactory =
        * @param {number} [size] The size of the page to be returned
        * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
        * @param {boolean} [deleted]
+       * @param {boolean} [published]
+       * @param {Array<string>} [maintainer]
        * @param {string} [name]
+       * @param {string} [search]
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
@@ -858,7 +1109,10 @@ export const PythonRepositoryControllerApiFactory =
         size?: number,
         sort?: Array<string>,
         deleted?: boolean,
+        published?: boolean,
+        maintainer?: Array<string>,
         name?: string,
+        search?: string,
         options?: AxiosRequestConfig
       ): Promise<
         AxiosResponse<ResponseDtoPagedModelEntityModelPythonRepositoryDto>
@@ -871,7 +1125,10 @@ export const PythonRepositoryControllerApiFactory =
             size,
             sort,
             deleted,
+            published,
+            maintainer,
             name,
+            search,
             options
           )
           .then((request) => request(axios, basePath))
@@ -900,6 +1157,22 @@ export const PythonRepositoryControllerApiFactory =
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
+      async getSynchronizationStatus1(
+        id: number,
+        options?: AxiosRequestConfig
+      ): Promise<AxiosResponse<ResponseDtoObject>> {
+        return PythonRepositoryControllerApiFp(
+          configuration
+        )
+          .getSynchronizationStatus1(id, options)
+          .then((request) => request(axios, basePath))
+      },
+      /**
+       *
+       * @param {number} id
+       * @param {*} [options] Override http request option.
+       * @throws {RequiredError}
+       */
       async republishRRepository1(
         id: number,
         options?: AxiosRequestConfig
@@ -908,6 +1181,22 @@ export const PythonRepositoryControllerApiFactory =
           configuration
         )
           .republishRRepository1(id, options)
+          .then((request) => request(axios, basePath))
+      },
+      /**
+       *
+       * @param {number} id
+       * @param {*} [options] Override http request option.
+       * @throws {RequiredError}
+       */
+      async synchronizeWithMirrors1(
+        id: number,
+        options?: AxiosRequestConfig
+      ): Promise<AxiosResponse<void>> {
+        return PythonRepositoryControllerApiFp(
+          configuration
+        )
+          .synchronizeWithMirrors1(id, options)
           .then((request) => request(axios, basePath))
       },
       /**
@@ -978,7 +1267,10 @@ export class PythonRepositoryControllerApi extends BaseAPI {
    * @param {number} [size] The size of the page to be returned
    * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
    * @param {boolean} [deleted]
+   * @param {boolean} [published]
+   * @param {Array<string>} [maintainer]
    * @param {string} [name]
+   * @param {string} [search]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof PythonRepositoryControllerApi
@@ -988,7 +1280,10 @@ export class PythonRepositoryControllerApi extends BaseAPI {
     size?: number,
     sort?: Array<string>,
     deleted?: boolean,
+    published?: boolean,
+    maintainer?: Array<string>,
     name?: string,
+    search?: string,
     options?: AxiosRequestConfig
   ): Promise<
     AxiosResponse<ResponseDtoPagedModelEntityModelPythonRepositoryDto>
@@ -1001,7 +1296,10 @@ export class PythonRepositoryControllerApi extends BaseAPI {
         size,
         sort,
         deleted,
+        published,
+        maintainer,
         name,
+        search,
         options
       )
       .then((request) => request(this.axios, this.basePath))
@@ -1032,6 +1330,23 @@ export class PythonRepositoryControllerApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof PythonRepositoryControllerApi
    */
+  public async getSynchronizationStatus1(
+    id: number,
+    options?: AxiosRequestConfig
+  ): Promise<AxiosResponse<ResponseDtoObject>> {
+    return PythonRepositoryControllerApiFp(
+      this.configuration
+    )
+      .getSynchronizationStatus1(id, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+  /**
+   *
+   * @param {number} id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PythonRepositoryControllerApi
+   */
   public async republishRRepository1(
     id: number,
     options?: AxiosRequestConfig
@@ -1040,6 +1355,23 @@ export class PythonRepositoryControllerApi extends BaseAPI {
       this.configuration
     )
       .republishRRepository1(id, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+  /**
+   *
+   * @param {number} id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PythonRepositoryControllerApi
+   */
+  public async synchronizeWithMirrors1(
+    id: number,
+    options?: AxiosRequestConfig
+  ): Promise<AxiosResponse<void>> {
+    return PythonRepositoryControllerApiFp(
+      this.configuration
+    )
+      .synchronizeWithMirrors1(id, options)
       .then((request) => request(this.axios, this.basePath))
   }
   /**

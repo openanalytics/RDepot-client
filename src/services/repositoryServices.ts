@@ -100,7 +100,10 @@ export async function fetchPythonRepositoriesService(
       pageSize,
       sort,
       filtration?.deleted,
-      filtration?.name
+      filtration?.published,
+      filtration?.maintainer,
+      filtration?.name,
+      filtration?.search
     ],
     showProgress
   ).catch(() => {
@@ -125,7 +128,10 @@ export async function fetchRRepositoriesService(
       pageSize,
       sort,
       filtration?.deleted,
-      filtration?.name
+      filtration?.published,
+      filtration?.maintainer,
+      filtration?.name,
+      filtration?.search
     ],
     showProgress
   ).catch(() => {

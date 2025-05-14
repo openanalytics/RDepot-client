@@ -442,7 +442,9 @@ export const RPackageControllerApiAxiosParamCreator =
        * @param {Array<string>} [repository]
        * @param {boolean} [deleted]
        * @param {Array<string>} [submissionState]
-       * @param {string} [name]
+       * @param {Array<string>} [technology]
+       * @param {string} [search]
+       * @param {Array<string>} [maintainer]
        * @param {*} [options] Override http request option.
        * @throws {RequiredError}
        */
@@ -453,7 +455,9 @@ export const RPackageControllerApiAxiosParamCreator =
         repository?: Array<string>,
         deleted?: boolean,
         submissionState?: Array<string>,
-        name?: string,
+        technology?: Array<string>,
+        search?: string,
+        maintainer?: Array<string>,
         options: AxiosRequestConfig = {}
       ): Promise<RequestArgs> => {
         const localVarPath = `/api/v2/manager/r/packages`
@@ -510,8 +514,16 @@ export const RPackageControllerApiAxiosParamCreator =
             submissionState
         }
 
-        if (name !== undefined) {
-          localVarQueryParameter['name'] = name
+        if (technology) {
+          localVarQueryParameter['technology'] = technology
+        }
+
+        if (search !== undefined) {
+          localVarQueryParameter['search'] = search
+        }
+
+        if (maintainer) {
+          localVarQueryParameter['maintainer'] = maintainer
         }
 
         const query = new URLSearchParams(
@@ -1032,7 +1044,9 @@ export const RPackageControllerApiFp = function (
      * @param {Array<string>} [repository]
      * @param {boolean} [deleted]
      * @param {Array<string>} [submissionState]
-     * @param {string} [name]
+     * @param {Array<string>} [technology]
+     * @param {string} [search]
+     * @param {Array<string>} [maintainer]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -1043,7 +1057,9 @@ export const RPackageControllerApiFp = function (
       repository?: Array<string>,
       deleted?: boolean,
       submissionState?: Array<string>,
-      name?: string,
+      technology?: Array<string>,
+      search?: string,
+      maintainer?: Array<string>,
       options?: AxiosRequestConfig
     ): Promise<
       (
@@ -1061,7 +1077,9 @@ export const RPackageControllerApiFp = function (
           repository,
           deleted,
           submissionState,
-          name,
+          technology,
+          search,
+          maintainer,
           options
         )
       return (
@@ -1284,7 +1302,9 @@ export const RPackageControllerApiFactory = function (
      * @param {Array<string>} [repository]
      * @param {boolean} [deleted]
      * @param {Array<string>} [submissionState]
-     * @param {string} [name]
+     * @param {Array<string>} [technology]
+     * @param {string} [search]
+     * @param {Array<string>} [maintainer]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -1295,7 +1315,9 @@ export const RPackageControllerApiFactory = function (
       repository?: Array<string>,
       deleted?: boolean,
       submissionState?: Array<string>,
-      name?: string,
+      technology?: Array<string>,
+      search?: string,
+      maintainer?: Array<string>,
       options?: AxiosRequestConfig
     ): Promise<AxiosResponse<ResponseDtoObject>> {
       return RPackageControllerApiFp(configuration)
@@ -1306,7 +1328,9 @@ export const RPackageControllerApiFactory = function (
           repository,
           deleted,
           submissionState,
-          name,
+          technology,
+          search,
+          maintainer,
           options
         )
         .then((request) => request(axios, basePath))
@@ -1457,7 +1481,9 @@ export class RPackageControllerApi extends BaseAPI {
    * @param {Array<string>} [repository]
    * @param {boolean} [deleted]
    * @param {Array<string>} [submissionState]
-   * @param {string} [name]
+   * @param {Array<string>} [technology]
+   * @param {string} [search]
+   * @param {Array<string>} [maintainer]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof RPackageControllerApi
@@ -1469,7 +1495,9 @@ export class RPackageControllerApi extends BaseAPI {
     repository?: Array<string>,
     deleted?: boolean,
     submissionState?: Array<string>,
-    name?: string,
+    technology?: Array<string>,
+    search?: string,
+    maintainer?: Array<string>,
     options?: AxiosRequestConfig
   ): Promise<AxiosResponse<ResponseDtoObject>> {
     return RPackageControllerApiFp(this.configuration)
@@ -1480,7 +1508,9 @@ export class RPackageControllerApi extends BaseAPI {
         repository,
         deleted,
         submissionState,
-        name,
+        technology,
+        search,
+        maintainer,
         options
       )
       .then((request) => request(this.axios, this.basePath))

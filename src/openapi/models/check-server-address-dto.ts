@@ -19,7 +19,6 @@
  * along with this program. If not, see <http://www.apache.org/licenses/>
  *
  */
-/* tslint:disable */
 
 /**
  * RDEPOT API

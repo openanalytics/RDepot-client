@@ -80,4 +80,10 @@ export interface PublicConfigurationDto {
    * @memberof PublicConfigurationDto
    */
   generateManuals?: boolean
+
+  /**
+   * @type {{ [key: string]: any; }}
+   * @memberof PublicConfigurationDto
+   */
+  repositoryNameValidationRegex?: { [key: string]: any }
 }

@@ -286,6 +286,8 @@ export const UPLOAD_SUBMISSION_REPOSITORY_FIELD_ID =
   'upload-submission-repository-field'
 export const UPLOAD_SUBMISSION_REPOSITORY_TESTREPO3_ID =
   'upload-submission-repository-testrepo3'
+export const UPLOAD_SUBMISSION_REPOSITORY_TESTREPO9_ID =
+  'upload-submission-repository-testrepo9'
 export const UPLOAD_SUBMISSION_CONTINUE_BUTTON_ID =
   'next-button'
 export const DROP_ZONE_CLASS = 'drop-area'
@@ -306,6 +308,8 @@ export const UPLOAD_SUBMISSION_NOTES_CHECKBOX =
   'notes-button'
 export const UPLOAD_SUBMISSION_NOTES_INPUT =
   'upload-package-notes'
+export const UPLOAD_SUBMISSION_REPLACE_CHECKBOX =
+  'replace-button'
 
 //REPOSITORIES FILTRATION
 export const REPOSITORIES_FILTRATION_SEARCH_FIELD_ID =
