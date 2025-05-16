@@ -53,18 +53,16 @@ async function navigate() {
     packageDetailsStore.packageBag?.name &&
     packageDetailsStore.packageBag?.repository?.name
   ) {
-    await eventsStore.setFiltration({
-      packageName: [packageDetailsStore.packageBag.name],
-      repositoryName: [
-        packageDetailsStore.packageBag.repository.name
-      ]
-    })
-    router.push({
-      name: 'events',
-      params: {
-        packageName: packageDetailsStore.packageBag.name
-      }
-    })
+    await eventsStore.setFiltration(
+      {
+        packageName: [packageDetailsStore.packageBag.name],
+        repositoryName: [
+          packageDetailsStore.packageBag.repository.name
+        ]
+      },
+      false
+    )
+    await router.push({ name: 'events' })
   }
 }
 </script>

@@ -25,7 +25,8 @@ import {
   preparePackagesView,
   prepareSubmissionsView,
   prepareRepositoriesView,
-  preparePackageMaintainersView
+  preparePackageMaintainersView,
+  prepareEventsView
 } from './viewsPreparations'
 
 export const routes = [
@@ -128,7 +129,10 @@ export const routes = [
         name: 'events',
         component: () =>
           import('@/views/events/EventsView.vue'),
-        meta: { title: 'RDepot - events' }
+        meta: { title: 'RDepot - events' },
+        beforeEnter: () => {
+          prepareEventsView()
+        }
       },
       {
         path: '/settings-general',

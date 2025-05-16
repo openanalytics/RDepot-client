@@ -45,6 +45,12 @@ export function preparePackagesView() {
   resetRepositoriesPagination()
 }
 
+export function prepareEventsView() {
+  const { resetRepositoriesPagination } =
+    useRepositoriesFiltration()
+  resetRepositoriesPagination()
+}
+
 export function prepareSubmissionsView() {
   const submissionStore = useSubmissionStore()
   const { resetRepositoriesPagination } =
