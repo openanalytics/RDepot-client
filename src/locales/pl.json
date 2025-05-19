@@ -361,6 +361,9 @@
   },
   "properties": {
     "events": {
+      "general": {
+        "author": "AUTOR"
+      },
       "type": {
         "create": "Utworzenie",
         "delete": "Usunięcie",

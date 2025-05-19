@@ -320,6 +320,9 @@
   },
   "properties": {
     "events": {
+      "general": {
+        "author": "AUTHOR"
+      },
       "type": {
         "create": "Create",
         "delete": "Delete",
