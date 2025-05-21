@@ -58,4 +58,3 @@ onBeforeMount(() => {
   font-size: 1rem;
 }
 </style>
-./store/options/authorization

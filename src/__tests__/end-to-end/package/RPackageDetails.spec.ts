@@ -38,7 +38,9 @@ import {
   PACKAGE_PROPERTY_MAINTAINER_ID,
   PACKAGE_PROPERTY_AUTHOR_ID,
   PACKAGE_PROPERTY_MANUAL_ID,
-  PACKAGE_PROPERTY_SOURCE_FILE_ID
+  PACKAGE_PROPERTY_SOURCE_FILE_ID,
+  PACKAGE_PROPERTY_REMOTE_MAINTAINER_ID,
+  PACKAGE_PROPERTY_ENCODING_ID
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 
 const TITLE = 'R package details'
@@ -86,6 +88,9 @@ test.describe(TITLE, () => {
       .locator(`#${PACKAGE_PROPERTY_MD5SUM_ID}`)
       .waitFor()
     await page
+      .locator(`#${PACKAGE_PROPERTY_ENCODING_ID}`)
+      .waitFor()
+    await page
       .locator(`#${PACKAGE_PROPERTY_SUBMITTER_ID}`)
       .waitFor()
     await page
@@ -102,6 +107,9 @@ test.describe(TITLE, () => {
       .waitFor()
     await page
       .locator(`#${PACKAGE_PROPERTY_SOURCE_FILE_ID}`)
+      .waitFor()
+    await page
+      .locator(`#${PACKAGE_PROPERTY_REMOTE_MAINTAINER_ID}`)
       .waitFor()
   })
 })

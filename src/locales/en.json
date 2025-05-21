@@ -92,6 +92,7 @@
     },
     "submissions": {
       "approver": "Approver",
+      "author": "Author",
       "submitter": "Submitter"
     },
     "tokens": {
@@ -340,6 +341,7 @@
         "distribution": "distribution",
         "rversion": "R version"
       },
+      "binaryProperties": "Binary properties",
       "current": "current",
       "installCode-Python": "pip install --index-url {1} {0}",
       "installCode-R": "install.packages(\"{0}\", repos = c(\"rdepot_{2}\" = \"{1}\", getOption(\"repos\")))",
@@ -356,6 +358,7 @@
       "needsCompilation": "needs compilation",
       "noInstallInstruction": "The repository has not been published yet.",
       "python": {
+        "classifiers": "Classifiers",
         "hash": "hash",
         "platform": "platform",
         "projectUrl": "project URL",
@@ -366,19 +369,22 @@
       },
       "r": {
         "depends": "depends",
+        "encoding": "encoding",
         "imports": "imports",
         "manual": "manual",
         "md5sum": "md5sum",
         "noVignetteNameProvided": "no name provided",
         "suggests": "suggests",
         "systemRequirements": "system requirements",
-        "url": "URL"
+        "url": "URL",
+        "vignettes": "vignettes"
       },
       "relatedEventPage": "related events page",
       "seeRelatedEvent": "see related events",
       "source": "Source",
       "sourceFile": "source file",
-      "versions": "Package versions"
+      "versions": "Package versions",
+      "withinRdepot": "within RDepot"
     },
     "repositories": {
       "healthCheck": {

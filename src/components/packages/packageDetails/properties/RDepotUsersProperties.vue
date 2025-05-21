@@ -22,24 +22,14 @@
 
 <template>
   <PropertiesTable
-    id="package-base-properties"
-    :items="baseProperties"
+    id="package-rdepot-users-properties"
+    :items="rdepotUserList"
   />
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
 import PropertiesTable from '@/components/common/properties/PropertiesTable.vue'
 import { usePackageProperties } from '@/composable/packages/packageProperties'
-import { Property } from '@/models/Property'
 
-const { rPackageProperties, pythonPackageProperties } =
-  usePackageProperties()
-
-const baseProperties = computed(() => {
-  return [
-    ...rPackageProperties.value,
-    ...pythonPackageProperties.value
-  ] as Property[]
-})
+const { rdepotUserList } = usePackageProperties()
 </script>

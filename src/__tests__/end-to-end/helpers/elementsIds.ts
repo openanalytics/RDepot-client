@@ -220,6 +220,10 @@ export const PACKAGE_REPOSITORY_CARD_ID =
 export const PACKAGE_LICENSE_CARD_ID =
   'package-license-card'
 export const PACKAGE_EVENTS_CARD_ID = 'package-events-card'
+export const PACKAGE_BINARY_LIST_ID =
+  'package-binary-properties'
+export const PACKAGE_VIGNETTES_LIST_ID =
+  'package-vignettes-list'
 
 //package details - property tables
 export const PACKAGE_BOOLEAN_PROPERTIES_ID =
@@ -258,6 +262,8 @@ export const PACKAGE_PROPERTY_URL_ID =
   'package-property-url'
 export const PACKAGE_PROPERTY_MD5SUM_ID =
   'package-property-md5sum'
+export const PACKAGE_PROPERTY_ENCODING_ID =
+  'package-property-encoding'
 export const PACKAGE_PROPERTY_AUTHOR_ID =
   'package-property-author'
 export const PACKAGE_PROPERTY_SUBMITTER_ID =
@@ -266,6 +272,8 @@ export const PACKAGE_PROPERTY_APPROVER_ID =
   'package-property-approver'
 export const PACKAGE_PROPERTY_MAINTAINER_ID =
   'package-property-maintainer'
+export const PACKAGE_PROPERTY_REMOTE_MAINTAINER_ID =
+  'package-property-remote-maintainer'
 export const PACKAGE_PROPERTY_VIGNETTE_ID =
   'package-property-vignette-vignette.html'
 export const PACKAGE_PROPERTY_MANUAL_ID =

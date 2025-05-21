@@ -144,6 +144,11 @@ export function usePackageProperties() {
           appendIcon: Icons.get('copy'),
           appendIconTooltip: localPackage.md5sum,
           breakLine: 'anywhere'
+        },
+        {
+          id: 'package-property-encoding',
+          key: i18n.t('properties.packages.r.encoding'),
+          value: localPackage.encoding
         }
       ]
     }
@@ -168,7 +173,7 @@ export function usePackageProperties() {
         },
         {
           id: 'package-property-rversion',
-          key: i18n.t('fields.files.rversion'),
+          key: i18n.t('fields.files.rVersion'),
           value: localPackage.rversion
         }
       ]
@@ -176,13 +181,8 @@ export function usePackageProperties() {
     return props
   })
 
-  const usersList = computed(() => {
+  const rdepotUserList = computed(() => {
     return [
-      {
-        id: 'package-property-author',
-        key: i18n.t('packageDetails.props.author'),
-        value: packageBag.value.author
-      },
       {
         id: 'package-property-submitter',
         key: i18n
@@ -216,28 +216,31 @@ export function usePackageProperties() {
     ] as Property[]
   })
 
-  const filesList = computed(() => {
-    let rFiles: Property[] = []
-    if (packageDetailsStore.vignettes) {
-      rFiles = packageDetailsStore.vignettes.map(
-        (vignette) => {
-          return {
-            id: `package-property-vignette-${vignette.fileName}`,
-            key:
-              vignette.title ||
-              i18n.t(
-                'properties.packages.r.noVignetteNameProvided'
-              ),
-            hideValue: true,
-            iconSlotName: vignette.title,
-            appendIcon: Icons.get('download'),
-            appendIconTooltip: i18n.t(
-              'action.general.download'
-            )
-          }
-        }
-      )
+  const usersList = computed(() => {
+    const remoteMaintainer = []
+    if (
+      packageBag.value.technology == Technologies.Values.R
+    ) {
+      remoteMaintainer.push({
+        id: 'package-property-remote-maintainer',
+        key: i18n.t('resources.maintainer').toLowerCase(),
+        value: packageBag.value.maintainer
+      })
     }
+    return [
+      {
+        id: 'package-property-author',
+        key: i18n
+          .t('fields.submissions.author')
+          .toLowerCase(),
+        value: packageBag.value.author
+      },
+      ...remoteMaintainer
+    ] as Property[]
+  })
+
+  const filesList = computed(() => {
+    const rFiles: Property[] = []
     if (
       packageBag.value.technology == Technologies.Values.R
     ) {
@@ -264,6 +267,31 @@ export function usePackageProperties() {
       },
       ...rFiles
     ] as Property[]
+  })
+
+  const vignettesList = computed(() => {
+    let vignettes: Property[] = []
+    if (packageDetailsStore.vignettes) {
+      vignettes = packageDetailsStore.vignettes.map(
+        (vignette) => {
+          return {
+            id: `package-property-vignette-${vignette.fileName}`,
+            key:
+              vignette.title ||
+              i18n.t(
+                'properties.packages.r.noVignetteNameProvided'
+              ),
+            hideValue: true,
+            iconSlotName: vignette.title,
+            appendIcon: Icons.get('download'),
+            appendIconTooltip: i18n.t(
+              'action.general.download'
+            )
+          }
+        }
+      )
+    }
+    return vignettes
   })
 
   const booleanList = computed(() => {
@@ -296,7 +324,9 @@ export function usePackageProperties() {
       },
       {
         id: 'package-property-binary',
-        key: i18n.t('properties.packages.binary'),
+        key: i18n
+          .t('properties.packages.binary')
+          .toLowerCase(),
         hideValue: true,
         appendIcon: packageBag.value.binary
           ? Icons.get('check')
@@ -325,6 +355,8 @@ export function usePackageProperties() {
     binaryPackageProperties,
     usersList,
     filesList,
-    booleanList
+    booleanList,
+    rdepotUserList,
+    vignettesList
   }
 }
