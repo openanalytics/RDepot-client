@@ -126,6 +126,7 @@ export const server = setupServer(
       return HttpResponse.json({
         data: packages.data.content.find(
           (elem) =>
+            package_id &&
             elem.id.toString() === package_id.toString()
         )
       })
@@ -138,6 +139,7 @@ export const server = setupServer(
       return HttpResponse.json({
         data: submissions.data.content.find(
           (elem) =>
+            submission_id &&
             elem.id.toString() === submission_id.toString()
         )
       })
