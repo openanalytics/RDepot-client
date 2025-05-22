@@ -61,7 +61,7 @@ export function useDates() {
   ): string {
     if (event?.time) {
       const date = moment(event.time).utc(keepLocalTime)
-      return date.format('HH:mm')
+      return `${date.format('HH:mm')} (UTC+0)`
     } else {
       return ''
     }
