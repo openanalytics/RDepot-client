@@ -64,6 +64,8 @@
       from="packages"
       :tooltip="$t('actions.general.goTo')"
     />
+    <br />
+    <EventAuthor :user="event.user" />
   </v-card-subtitle>
 
   <v-divider class="my-2 mx-2" />
@@ -143,6 +145,7 @@ import { i18n } from '@/plugins/i18n'
 import { computed } from 'vue'
 import EventTypeTag from './EventTypeTag.vue'
 import GoToButton from '@/components/common/action_icons/GoToButton.vue'
+import EventAuthor from '../EventAuthor.vue'
 
 const componentProps = defineProps({
   event: {

@@ -26,7 +26,7 @@
     :color="
       eventType ? eventTypeColors.get(eventType) : 'primary'
     "
-    size="default"
+    size="small"
     disable-copying
     disable-tooltip
     variant="outlined"

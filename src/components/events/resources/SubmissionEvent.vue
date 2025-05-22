@@ -47,21 +47,27 @@
       />
     </span>
   </v-card-title>
-  <v-card-subtitle
-    >{{ resourceType }}
-    <EventTypeTag
-      v-if="event.eventType"
-      :event-type="event.eventType"
-    />
-    <GoToButton
-      v-if="
-        relatedResource.state ===
-        EntityModelSubmissionDtoStateEnum.ACCEPTED
-      "
-      :item="relatedResource"
-      from="submissions"
-      :tooltip="$t('actions.general.goTo')"
-    />
+  <v-card-subtitle>
+    <div style="display: flex; align-items: center">
+      <span style="padding-right: 10px">{{
+        resourceType
+      }}</span>
+      <EventTypeTag
+        v-if="event.eventType"
+        :event-type="event.eventType"
+      />
+      <GoToButton
+        v-if="
+          relatedResource.state ===
+          EntityModelSubmissionDtoStateEnum.ACCEPTED
+        "
+        :item="relatedResource"
+        from="submissions"
+        :tooltip="$t('actions.general.goTo')"
+      />
+    </div>
+    <v-spacer style="height: 0.75em" />
+    <EventAuthor :user="event.user" />
   </v-card-subtitle>
 
   <v-divider class="my-2 mx-2" />
@@ -171,6 +177,7 @@ import { i18n } from '@/plugins/i18n'
 import EventTypeTag from './EventTypeTag.vue'
 import { useTranslations } from '@/composable/translations/translations'
 import GoToButton from '@/components/common/action_icons/GoToButton.vue'
+import EventAuthor from '../EventAuthor.vue'
 
 const componentProps = defineProps({
   event: {
@@ -197,11 +204,10 @@ const resourceType = computed(() =>
 
 <style scoped lang="scss">
 div:deep(#tooltip-activator:has(i[id^='goTo-button'])) {
-  float: right;
+  margin-left: auto;
 }
 
 div:deep(i[id^='goTo-button']) {
-  padding-top: 10px;
-  float: right;
+  margin-left: auto;
 }
 </style>
