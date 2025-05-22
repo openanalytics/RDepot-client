@@ -46,19 +46,18 @@ import VueApexCharts from 'vue3-apexcharts'
 
 export function registerPlugins(app: App) {
   loadFonts()
-  app
-    .use(vuetify)
-    .use(router)
-    .use(pinia)
-    .use(i18nInstance)
-    .use(abilitiesPlugin, caslAbility)
-    .use(VueApexCharts)
-    .use(VueDOMPurifyHTML, VueDOMPurifyHTMLconfig)
-    .use(Vue3Toastify, {
-      autoClose: 3000,
-      limit: 5,
-      clearOnUrlChange: false,
-      theme: useToast().getToastTheme(),
-      position: toast.POSITION.BOTTOM_LEFT
-    } as ToastContainerOptions)
+  app.use(vuetify)
+  app.use(router)
+  app.use(pinia)
+  app.use(i18nInstance)
+  app.use(abilitiesPlugin, caslAbility)
+  app.component('apexchart', VueApexCharts)
+  app.use(VueDOMPurifyHTML, VueDOMPurifyHTMLconfig)
+  app.use(Vue3Toastify, {
+    autoClose: 3000,
+    limit: 5,
+    clearOnUrlChange: false,
+    theme: useToast().getToastTheme(),
+    position: toast.POSITION.BOTTOM_LEFT
+  } as ToastContainerOptions)
 }
