@@ -321,7 +321,7 @@
   "properties": {
     "events": {
       "general": {
-        "author": "AUTHOR"
+        "author": "Author"
       },
       "type": {
         "create": "Create",

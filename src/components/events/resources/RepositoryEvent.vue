@@ -48,12 +48,16 @@
     </span>
   </v-card-title>
   <v-card-subtitle
-    >{{ resourceType }}
-    <EventTypeTag
-      v-if="event.eventType"
-      :event-type="event.eventType"
-    />
-    <br />
+    ><div style="display: flex; align-items: center">
+      <span style="padding-right: 10px">{{
+        resourceType
+      }}</span>
+      <EventTypeTag
+        v-if="event.eventType"
+        :event-type="event.eventType"
+      />
+    </div>
+    <v-spacer style="height: 0.75em" />
     <EventAuthor :user="event.user" />
   </v-card-subtitle>
 

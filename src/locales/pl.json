@@ -362,7 +362,7 @@
   "properties": {
     "events": {
       "general": {
-        "author": "AUTOR"
+        "author": "Autor"
       },
       "type": {
         "create": "Utworzenie",

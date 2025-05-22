@@ -21,25 +21,30 @@
 -->
 
 <template>
-  {{
-    i18n.t('properties.events.general.author') +
-    ': ' +
-    user?.name
-  }}
-  <v-btn
+  <v-icon
+    v-tooltip:top="{
+      text: i18n.t('properties.events.general.author')
+    }"
+    size="small"
+    style="vertical-align: text-bottom"
+    >{{ Icons.get('account') }}</v-icon
+  >
+  <span style="vertical-align: middle">
+    {{ user?.name }}
+  </span>
+  <v-icon
     v-tooltip="{
       text: user?.email,
       openOnHover: !!user?.email
     }"
-    style="padding-left: 10px"
+    style="padding-left: 10px; vertical-align: text-bottom"
     density="compact"
     variant="plain"
-    :icon="Icons.get('email')"
     color="primary"
     size="small"
     @click.stop="clicked"
-  >
-  </v-btn>
+    >{{ Icons.get('email') }}
+  </v-icon>
 </template>
 
 <script setup lang="ts">

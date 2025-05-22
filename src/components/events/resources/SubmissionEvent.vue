@@ -47,22 +47,26 @@
       />
     </span>
   </v-card-title>
-  <v-card-subtitle
-    >{{ resourceType }}
-    <EventTypeTag
-      v-if="event.eventType"
-      :event-type="event.eventType"
-    />
-    <GoToButton
-      v-if="
-        relatedResource.state ===
-        EntityModelSubmissionDtoStateEnum.ACCEPTED
-      "
-      :item="relatedResource"
-      from="submissions"
-      :tooltip="$t('actions.general.goTo')"
-    />
-    <br />
+  <v-card-subtitle>
+    <div style="display: flex; align-items: center">
+      <span style="padding-right: 10px">{{
+        resourceType
+      }}</span>
+      <EventTypeTag
+        v-if="event.eventType"
+        :event-type="event.eventType"
+      />
+      <GoToButton
+        v-if="
+          relatedResource.state ===
+          EntityModelSubmissionDtoStateEnum.ACCEPTED
+        "
+        :item="relatedResource"
+        from="submissions"
+        :tooltip="$t('actions.general.goTo')"
+      />
+    </div>
+    <v-spacer style="height: 0.75em" />
     <EventAuthor :user="event.user" />
   </v-card-subtitle>
 
@@ -200,11 +204,10 @@ const resourceType = computed(() =>
 
 <style scoped lang="scss">
 div:deep(#tooltip-activator:has(i[id^='goTo-button'])) {
-  float: right;
+  margin-left: auto;
 }
 
 div:deep(i[id^='goTo-button']) {
-  padding-top: 10px;
-  float: right;
+  margin-left: auto;
 }
 </style>
