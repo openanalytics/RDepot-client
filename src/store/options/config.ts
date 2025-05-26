@@ -23,6 +23,14 @@
 import { fetchConfiguration } from '@/services/configServices'
 import { defineStore } from 'pinia'
 
+type RepositoryNameValidationRegex = {
+  general: string
+  technology: {
+    python: string
+    r: string
+  }
+}
+
 interface State {
   declarativeMode: boolean
   deletingPackages: boolean
@@ -31,6 +39,7 @@ interface State {
   generateManuals: boolean
   accessTokenLifetimeConfigurable: boolean
   accessTokenLifetimeDefault: number
+  repositoryNameValidationRegex: RepositoryNameValidationRegex
 }
 
 export const useConfigStore = defineStore('configStore', {
@@ -42,7 +51,14 @@ export const useConfigStore = defineStore('configStore', {
       replacingPackages: true,
       generateManuals: true,
       accessTokenLifetimeConfigurable: true,
-      accessTokenLifetimeDefault: 30
+      accessTokenLifetimeDefault: 30,
+      repositoryNameValidationRegex: {
+        general: '.+',
+        technology: {
+          python: '.+',
+          r: '.+'
+        }
+      }
     }
   },
   actions: {
@@ -61,6 +77,8 @@ export const useConfigStore = defineStore('configStore', {
         config.accessTokenLifetimeConfigurable || true
       this.accessTokenLifetimeDefault =
         config.accessTokenLifetimeDefault || 30
+      this.repositoryNameValidationRegex =
+        config.repositoryNameValidationRegex as RepositoryNameValidationRegex
     }
   }
 })
