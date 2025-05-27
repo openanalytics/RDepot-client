@@ -131,6 +131,7 @@ import { usePackageDetailsStore } from '@/store/options/packageDetails'
 import { useToast } from '@/composable/toasts'
 import { useI18n } from 'vue-i18n'
 import Icons from '@/maps/Icons'
+import { Technologies } from '@/enum/Technologies'
 
 const packageDetailsStore = usePackageDetailsStore()
 
@@ -149,35 +150,29 @@ const installInstruction = computed<string>(() =>
   )
 )
 
-const installCode = computed<string>(() =>
-  t(
-    `properties.packages.installCode-${packageBag.value.technology}`,
-    [
-      packageBag.value.name,
-      packageBag.value.repository?.publicationUri,
-      packageBag.value.repository?.name
-    ]
-  )
-)
+const installCode = computed<string>(() => {
+  if (
+    packageBag.value.technology === Technologies.Enum.Python
+  ) {
+    return `pip install --index-url ${packageBag.value.repository?.publicationUri} ${packageBag.value.name}`
+  } else {
+    return `install.packages("${packageBag.value.name}", repos = c("rdepot_${packageBag.value.repository?.name}" = "${packageBag.value.repository?.publicationUri}", getOption("repos")))`
+  }
+})
 
-const installCodeCrane = computed<string>(() =>
-  t(
-    `properties.packages.installCodeCrane-${packageBag.value.technology}`,
-    [
-      packageBag.value.name,
-      packageBag.value.repository?.publicationUri,
-      packageBag.value.repository?.name
-    ]
-  )
-)
+const installCodeCrane = computed<string>(() => {
+  if (
+    packageBag.value.technology === Technologies.Enum.Python
+  ) {
+    return `crane pip install --index-url ${packageBag.value.repository?.publicationUri} ${packageBag.value.name}`
+  } else {
+    return `install.packages("${packageBag.value.name}", repos = c("rdepot_${packageBag.value.repository?.name}" = "${packageBag.value.repository?.publicationUri}", getOption("repos")))`
+  }
+})
 
-const installCodeBinary = computed<string>(() =>
-  t('properties.packages.installCodeBinary', [
-    packageBag.value.name,
-    packageBag.value.repository?.publicationUri,
-    packageBag.value.repository?.name,
-    packageBag.value.distribution
-  ])
+const installCodeBinary = computed<string>(
+  () =>
+    `install.packages("${packageBag.value.name}", repos = c("rdepot_${packageBag.value.repository?.name}_binary" = "${packageBag.value.repository?.publicationUri}/linux/${packageBag.value.distribution}", "rdepot_${packageBag.value.repository?.publicationUri}_source" = "${packageBag.value.repository?.publicationUri}", getOption("repos")), headers = c("User-Agent" = getOption("HTTPUserAgent")))`
 )
 
 function copyContent() {

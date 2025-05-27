@@ -382,11 +382,6 @@
         "rversion": "versja R"
       },
       "current": "obecna",
-      "installCode-Python": "pip install --index-url {1} {0}",
-      "installCode-R": "install.packages(\"{0}\", repos = c(\"rdepot_{2}\" = \"{1}\", getOption(\"repos\")))",
-      "installCodeBinary": "install.packages(\"{0}\", repos = c(\"rdepot_{2}_binary\" = \"{1}/linux/{3}\", \"rdepot_{2}_source\" = \"{1}\", getOption(\"repos\")), headers = c(\"User-Agent\" = getOption(\"HTTPUserAgent\")))",
-      "installCodeCrane-Python": "crane pip install --index-url {1} {0}",
-      "installCodeCrane-R": "install.packages(\"{0}\", repos = c(\"rdepot_{2}\" = \"{1}\", getOption(\"repos\")))",
       "installInstruction-Python": "Aby zainstalować ten pakiet, wykonaj polecenie:",
       "installInstruction-R": "Aby zainstalować ten pakiet, uruchom R i wprowadź komendę:",
       "installInstructionBinary": "Aby zainstalować ten {binary} pakiet, uruchom R i wprowadź komendę:",
