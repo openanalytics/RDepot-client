@@ -172,7 +172,7 @@ const installCodeCrane = computed<string>(() => {
 
 const installCodeBinary = computed<string>(
   () =>
-    `install.packages("${packageBag.value.name}", repos = c("rdepot_${packageBag.value.repository?.name}_binary" = "${packageBag.value.repository?.publicationUri}/linux/${packageBag.value.distribution}", "rdepot_${packageBag.value.repository?.publicationUri}_source" = "${packageBag.value.repository?.publicationUri}", getOption("repos")), headers = c("User-Agent" = getOption("HTTPUserAgent")))`
+    `install.packages("${packageBag.value.name}", repos = c("rdepot_${packageBag.value.repository?.name}_binary" = "${packageBag.value.repository?.publicationUri}/linux/${packageBag.value.distribution}", "rdepot_${packageBag.value.repository?.name}_source" = "${packageBag.value.repository?.publicationUri}", getOption("repos")), headers = c("User-Agent" = getOption("HTTPUserAgent")))`
 )
 
 function copyContent() {
