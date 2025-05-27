@@ -66,6 +66,6 @@ describe('date composable', () => {
       getTime(
         event.content[0] as EntityModelNewsfeedEventDto
       )
-    ).toEqual('23:59 (UTC+0)')
+    ).toEqual('23:59 (UTC)')
   })
 })
