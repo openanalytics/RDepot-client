@@ -49,10 +49,7 @@ export const repositorySchema = z.object({
   id: z.number().default(0),
   version: z.number().default(0),
   publicationUri: url,
-  // eslint-disable-next-line
-  name: nonEmptyString.regex(/^([-A-Za-z0-9\_\.\ ])+$/, {
-    message: i18n.t('messages.errors.reponame')
-  }),
+  name: nonEmptyString,
   serverAddress: url,
   requiresAuthentication: z.boolean().default(false),
   deleted: z.boolean().default(false),

@@ -133,7 +133,7 @@
 
 <script setup lang="ts">
 import { useRepositoryStore } from '@/store/options/repositories'
-import { ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { Technologies } from '@/enum/Technologies'
 import { HashMethods } from '@/enum/HashMethods'
 import { repositorySchema } from '@/models/Schemas'
@@ -145,13 +145,14 @@ import { z } from 'zod'
 import { useToast } from '@/composable/toasts'
 import { useI18n } from 'vue-i18n'
 import { useCommonStore } from '@/store/options/common'
-import { watch, computed } from 'vue'
 import getEnv from '@/utils/env'
 import { useRepositoryDeprecated } from '@/composable/repositories/repositoriesDeprecatedAddress'
 import HealthCheck from '@/components/repositories/forms/HealthCheck.vue'
+import { useConfigStore } from '@/store/options/config'
 
 const repositoryStore = useRepositoryStore()
 const commonStore = useCommonStore()
+const configStore = useConfigStore()
 const { deprecatedAddress, getNewServerAddress } =
   useRepositoryDeprecated()
 
@@ -173,8 +174,8 @@ const {
 } = useForm({
   validationSchema: toTypedSchema(
     z.object({
-      name: repositorySchema.shape.name.refine(
-        async (value) => {
+      name: repositorySchema.shape.name
+        .refine(async (value) => {
           if (previousVal === value) {
             return previousReturn
           }
@@ -190,9 +191,26 @@ const {
           previousReturn =
             repositoryWithSameName.length === 0
           return previousReturn
-        },
-        t('forms.repositories.errors.duplicateName')
-      ),
+        }, t('forms.repositories.errors.duplicateName'))
+        .refine((value) => {
+          let regexPattern: string =
+            configStore.repositoryNameValidationRegex
+              .general
+          if (
+            values.technology === Technologies.Enum.Python
+          ) {
+            regexPattern =
+              configStore.repositoryNameValidationRegex
+                .technology.python
+          } else if (
+            values.technology === Technologies.Enum.R
+          ) {
+            regexPattern =
+              configStore.repositoryNameValidationRegex
+                .technology.r
+          }
+          return new RegExp(regexPattern).test(value)
+        }, t('messages.errors.reponame')),
       publicationUri: repositorySchema.shape.publicationUri,
       serverAddress: repositorySchema.shape.serverAddress,
       requiresAuthentication:

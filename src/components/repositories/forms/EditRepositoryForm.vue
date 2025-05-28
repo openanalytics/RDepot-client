@@ -148,7 +148,7 @@ import {
   CombinedRepositoryModel,
   useRepositoryStore
 } from '@/store/options/repositories'
-import { ref, onMounted } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { Technologies } from '@/enum/Technologies'
 import { repositorySchema } from '@/models/Schemas'
 import { toTypedSchema } from '@vee-validate/zod/dist/vee-validate-zod'
@@ -164,8 +164,8 @@ import { useCommonStore } from '@/store/options/common'
 import { HashMethods } from '@/enum/HashMethods'
 import { isAtLeastAdmin } from '@/enum/UserRoles'
 import { useAuthorizationStore } from '@/store/options/authorization'
-import { computed } from 'vue'
 import HealthCheck from '@/components/repositories/forms/HealthCheck.vue'
+import { useConfigStore } from '@/store/options/config'
 
 const { deepCopy } = useUtilities()
 const hashMethods = ref(HashMethods.options)
@@ -185,22 +185,40 @@ const { t } = useI18n()
 
 const loading = ref(false)
 let previousVal = ''
+const configStore = useConfigStore()
 let previousReturn = true
 
 const { meta, setFieldValue, isFieldTouched, values } =
   useForm({
     validationSchema: toTypedSchema(
       z.object({
-        name: repositorySchema.shape.name.refine(
-          async (value) => {
+        name: repositorySchema.shape.name
+          .refine(async (value) => {
             if (previousVal === value) {
               return previousReturn
             }
             previousVal = value
             return await isRepositoryNameIsDuplicated(value)
-          },
-          t('forms.repositories.errors.duplicateName')
-        ),
+          }, t('forms.repositories.errors.duplicateName'))
+          .refine((value) => {
+            let regexPattern: string =
+              configStore.repositoryNameValidationRegex
+                .general
+            if (
+              values.technology === Technologies.Enum.Python
+            ) {
+              regexPattern =
+                configStore.repositoryNameValidationRegex
+                  .technology.python
+            } else if (
+              values.technology === Technologies.Enum.R
+            ) {
+              regexPattern =
+                configStore.repositoryNameValidationRegex
+                  .technology.r
+            }
+            return new RegExp(regexPattern).test(value)
+          }, t('messages.errors.reponame')),
         publicationUri:
           repositorySchema.shape.publicationUri,
         serverAddress: repositorySchema.shape.serverAddress,
