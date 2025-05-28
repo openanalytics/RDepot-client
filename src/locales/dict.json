@@ -339,11 +339,6 @@
         "rversion": ""
       },
       "current": "",
-      "installCode-Python": "",
-      "installCode-R": "",
-      "installCodeBinary": "",
-      "installCodeCrane-Python": "",
-      "installCodeCrane-R": "",
       "installInstruction-Python": "",
       "installInstruction-R": "",
       "installInstructionBinary": "",
