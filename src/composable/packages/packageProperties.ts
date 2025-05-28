@@ -114,7 +114,11 @@ export function usePackageProperties() {
           key: i18n.t(
             'properties.packages.r.systemRequirements'
           ),
-          value: localPackage.systemRequirements
+          value:
+            localPackage.systemRequirements?.replaceAll(
+              '\n',
+              '\\n'
+            )
         },
         {
           id: 'package-property-depends',
@@ -134,7 +138,7 @@ export function usePackageProperties() {
         {
           id: 'package-property-url',
           key: i18n.t('properties.packages.r.url'),
-          value: localPackage.url
+          value: localPackage.url?.replaceAll('\n', '\\n')
         },
         {
           id: 'package-property-md5sum',

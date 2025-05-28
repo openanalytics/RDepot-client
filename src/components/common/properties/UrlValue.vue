@@ -29,10 +29,12 @@
       <span v-if="urls?.includes(word)">
         <a
           :href="
-            urls[urls?.indexOf(word)].replaceAll(',', '')
+            urls[urls?.indexOf(word)]
+              .replaceAll(',', '')
+              .replaceAll('\n', ' ')
           "
           target="_blank"
-          >{{ word }}</a
+          >{{ word.replaceAll('\\n', ' ') }}</a
         >
       </span>
       <span v-else
