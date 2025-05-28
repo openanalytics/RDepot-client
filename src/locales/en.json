@@ -40,8 +40,8 @@
     "settings": {
       "changeLanguage": "Change Language",
       "changeTheme": "Change Theme",
-      "language": "lang",
-      "theme": "theme",
+      "language": "Language",
+      "theme": "Theme",
       "themes": {
         "dark": "dark",
         "light": "light"
@@ -122,8 +122,7 @@
     "tokens": {
       "expired": "Expired",
       "userLogin": "Users"
-    },
-    "users": {}
+    }
   },
   "forms": {
     "authorization": {

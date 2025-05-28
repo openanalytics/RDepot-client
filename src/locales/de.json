@@ -1,0 +1,210 @@
+{
+  "actions": {
+    "settings": {
+      "theme": "Ausgestaltung",
+      "themes": {
+        "dark": "dunkel",
+        "light": "hell"
+      },
+      "changeLanguage": "Sprache ändern",
+      "changeTheme": "Ausgestaltung ändern",
+      "language": "Sprache"
+    },
+    "submissions": {
+      "noNotes": "keine Anmerkungen",
+      "showNotes": "Anmerkungen zeigen"
+    },
+    "general": {
+      "cancel": "Abbrechen",
+      "accept": "Akzeptieren",
+      "clear": "Alle löschen",
+      "click": "klicken Sie",
+      "copy": "kopieren",
+      "create": "erstellen",
+      "createResource": "{resource_type} erstellen",
+      "deactivate": "deaktivieren | {resource_type} deaktivieren",
+      "delete": "löschen",
+      "download": "runterladen",
+      "edit": "bearbeiten",
+      "goBack": "zurück",
+      "goTo": "nähere Angaben anschauen",
+      "install": "installieren",
+      "login": "anmelden",
+      "logout": "abmelden",
+      "ok": "OK",
+      "open": "in einer neuen Registerkarte öffnen",
+      "or": "oder",
+      "reject": "ablehnen",
+      "reset": "zurücksetzen",
+      "save": "speichern",
+      "uploadPackages": "Pakete hochladen",
+      "continue": "weiter",
+      "activate": "Aktivieren | {resource_type} aktivieren",
+      "editResource": "{resource_type} bearbeiten",
+      "submit": "einreichen",
+      "unset": "aufheben"
+    },
+    "repositories": {
+      "publish": "veröffentlichen",
+      "republish": "neu veröffentlichen",
+      "seePackages": "siehe Pakete des Repositorys",
+      "unpublish": "unveröffentlichen",
+      "goTo": "Pakete zeigen"
+    }
+  },
+  "datatable": {
+    "itemsPerPage": "Items pro Seite",
+    "noDataAvailable": "keine Daten verfügbar",
+    "size": "Items pro Seite (Paginierung)"
+  },
+  "dragZone": {
+    "click": "um sie manuell auszuwählen",
+    "inactive": "legen Sie Dateien ab zum hochladen",
+    "active": "ziehen Sie eine oder mehrere Dateien hierher",
+    "dropzone": "Ablegefeld"
+  },
+  "fields": {
+    "files": {
+      "architecture": "Architektur",
+      "binary": "binär",
+      "distribution": "Verteilung",
+      "generateManual": "erstellen Sie eine Anleitung",
+      "notes": "Anmerkungen",
+      "replace": "ersetzen",
+      "rVersion": "R Version"
+    },
+    "general": {
+      "actions": "Aktionen",
+      "createdOn": "erstellt am",
+      "date": "Datum",
+      "deleted": "gelöscht"
+    },
+    "packages": {
+      "fileType": "Typ",
+      "source": "Quelle",
+      "submissionState": "Status"
+    },
+    "repositories": {
+      "publicationUri": "URI Veröffentlichung",
+      "published": "veröffentlicht",
+      "synchronizing": "die Synchronisierung wird bearbeitet",
+      "serverAddress": "Serveradresse"
+    },
+    "submissions": {
+      "approver": "Genehmiger",
+      "submitter": "Einreicher"
+    },
+    "tokens": {
+      "expirationDate": "Ablaufdatum",
+      "lastUsed": "zuletzt benutzt"
+    },
+    "users": {
+      "email": "E-Mail",
+      "lastLoggedIn": "zuletzt angemeldet",
+      "name": "Anzeigename",
+      "role": "Rolle | Rollen",
+      "username": "Nutzername"
+    }
+  },
+  "filtration": {
+    "events": {
+      "noEvents": "keine Ereignisse verfügbar",
+      "resourceType": "Ressourcenart",
+      "eventType": "Ereignisart"
+    },
+    "general": {
+      "fromDate": "Von Datum",
+      "searchPlaceholder": "suchen",
+      "title": "Filtrierung",
+      "toDate": "Bis Datum"
+    },
+    "tokens": {
+      "expired": "abgelaufen",
+      "userLogin": "Benutzer"
+    }
+  },
+  "forms": {
+    "authorization": {
+      "errors": {
+        "usernameError": "Name ist erforderlich",
+        "passwordError": "Passwort ist erforderlich"
+      },
+      "password": "Passwort",
+      "username": "Anmeldung"
+    },
+    "general": {
+      "name": "Name"
+    },
+    "packageMaintainers": {
+      "hints": {
+        "disabledPackageMessage": "Wählen Sie einen Benutzer und ein Repository zur Aktivierung",
+        "disclaimerPackages": "Nur Benutzer mit mindestens der Rolle des Paketbetreuers verfügbar."
+      }
+    },
+    "repositories": {
+      "errors": {
+        "duplicateName": "Name des Repositorys ist bereits vergeben"
+      },
+      "hash": "Hash-Methode",
+      "hints": {
+        "deprecatedAddress": "Eine Serveradresse ohne Technologie als Teil des Pfades ist veraltet und wird in RDepot v3.0 nicht mehr unterstützt. Bitte verwenden Sie stattdessen {address}."
+      },
+      "redirectToSource": "zur Quelle umleiten",
+      "requiresAuthentication": "erfordert Authentifizierung"
+    },
+    "repositoryMaintainers": {
+      "hints": {
+        "disabledPackageMessage": "wählen Sie einen Benutzer und ein Repository zur Aktivierung",
+        "disabledRepositoryMessage": "wählen Sie einen Benutzer zur Aktivierung",
+        "disclaimer": "Nur Benutzer mit mindestens der Rolle des Repository-Betreuers verfügbar."
+      }
+    },
+    "submissions": {
+      "binary": "Binärdatei",
+      "generateManual": "Anleitung erstellen",
+      "stepFirst": "Repository wählen",
+      "stepSecond": "{technology} Pakete hochladen",
+      "stepThird": "Übersicht",
+      "generateManualNotAvailable": "nicht verfügbar für binäre Pakete"
+    },
+    "tokens": {
+      "deactivateQuestion": "Sind Sie sicher, dass Sie das Token <strong>{0}</strong> deaktivieren möchten?",
+      "deactivated": "Token deaktiviert",
+      "delete": "Token löschen",
+      "deleted": "Token gelöscht",
+      "edit": "Token-Name anpassen",
+      "edited": "Token angepasst",
+      "newToken": "Neues Zugriffstoken",
+      "notConfigurableExpirationDate": "Laufzeit Zugriffstoken ist nicht konfigurierbar",
+      "copyWarning": "Achten Sie darauf, dass Sie das Zugriffstoken jetzt kopieren. Sie werden es nicht mehr sehen können!"
+    }
+  },
+  "messages": {
+    "authorization": {
+      "error": "Anmeldung fehlgeschlagen",
+      "loggedIn": "angemeldet",
+      "notLoggedIn": "nicht angemeldet",
+      "oidc": "Anmeldung über OIDC",
+      "success": "Anmeldung erfolgt"
+    },
+    "config": {
+      "deletingRepositories": "Das Löschen von Repositorys ist in der Konfiguration deaktiviert",
+      "deletingPackages": "Das Löschen von Paketen ist in der Konfiguration deaktiviert"
+    },
+    "errors": {
+      "401": "Diese Anfrage kann nicht ausgeführt werden, da der Benutzer nicht authentifiziert ist.",
+      "403": "Diese Anfrage kann nicht ausgeführt werden, da der Benutzer nicht berechtigt ist",
+      "405": "Es scheint ein Konfigurationsproblem im Back-End zu geben. Bitte wenden Sie sich an Ihren Administrator, um es zu beheben.",
+      "422": "Validierung fehlgeschlagen",
+      "500": "interner Serverfehler",
+      "notDownloaded": "nicht heruntergeladen",
+      "notEdited": "nicht bearbeitet",
+      "copyFailed": "Kopie fehlgeschlagen",
+      "email": "Dies sollte eine E-Mail sein",
+      "invalidForm": "Das eingereichte Formular ist nicht gültig",
+      "message": {
+        "500": "Es tut uns leid, etwas ist schief gelaufen! Bitte leiten Sie diese Nachricht an einen RDepot Administrator weiter.\n\nTrace ID:\n{traceId}\n\nZeitstempel:\n{timestamp}"
+      }
+    }
+  }
+}

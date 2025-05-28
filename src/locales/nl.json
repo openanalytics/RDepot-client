@@ -1,0 +1,424 @@
+{
+  "actions": {
+    "general": {
+      "cancel": "Annuleren",
+      "clear": "Alles wissen",
+      "click": "Klikken",
+      "continue": "Verder",
+      "copy": "Kopiëren",
+      "create": "Aanmaken",
+      "createResource": "{resource_type} Aanmaken",
+      "delete": "Verwijderen",
+      "download": "Downloaden",
+      "edit": "Bewerken",
+      "editResource": "{resource_type} Bewerken",
+      "goBack": "Terug",
+      "goTo": "Details bekijken",
+      "install": "Installeren",
+      "login": "Inloggen",
+      "logout": "Uitloggen",
+      "ok": "Ok",
+      "open": "In nieuw tabblad openen",
+      "or": "of",
+      "reject": "Weigeren",
+      "reset": "Resetten",
+      "save": "Bewaren",
+      "submit": "Inzenden",
+      "unset": "Ongedaan maken",
+      "uploadPackages": "Opladen",
+      "accept": "Aanvaarden",
+      "activate": "Activeren | {resource_type} Activeren",
+      "deactivate": "Deactiveren | {resource_type} Deactiveren"
+    },
+    "repositories": {
+      "publish": "Publiceren",
+      "seePackages": "Repo-inhoud bekijken",
+      "unpublish": "Onpubliceren",
+      "republish": "Herpubliceren"
+    },
+    "settings": {
+      "changeLanguage": "Taal wijzigen",
+      "changeTheme": "Thema wijzigen",
+      "language": "Taal",
+      "theme": "Thema",
+      "themes": {
+        "dark": "donker",
+        "light": "licht"
+      }
+    },
+    "submissions": {
+      "noNotes": "Geen notities",
+      "showNotes": "Notities tonen"
+    }
+  },
+  "datatable": {
+    "noDataAvailable": "Geen data beschikbaar",
+    "size": "Items per pagina (paginatie)",
+    "itemsPerPage": "Items per pagina"
+  },
+  "dragZone": {
+    "active": "Sleep één of meerdere bestanden hiernaartoe",
+    "click": "om ze manueel te selecteren",
+    "dropzone": "drop zone",
+    "inactive": "Sleep bestanden om ze op te laden"
+  },
+  "fields": {
+    "files": {
+      "architecture": "Architectuur",
+      "binary": "Binair",
+      "distribution": "Distributie",
+      "generateManual": "Manual genereren",
+      "notes": "Notities",
+      "replace": "Vervangen",
+      "rVersion": "R versie"
+    },
+    "general": {
+      "actions": "Acties",
+      "createdOn": "Aangemaakt op",
+      "date": "Datum",
+      "deleted": "Verwijderd"
+    },
+    "packages": {
+      "source": "Bron",
+      "submissionState": "Status",
+      "fileType": "Type"
+    },
+    "repositories": {
+      "publicationUri": "Publicatie URI",
+      "published": "Geplubliceerd",
+      "serverAddress": "Server adres",
+      "synchronizing": "Aan het synchroniseren"
+    },
+    "submissions": {
+      "approver": "Goedkeurder",
+      "submitter": "Inzender"
+    },
+    "tokens": {
+      "lastUsed": "Laatst gebruikt",
+      "expirationDate": "Vervaldatum"
+    },
+    "users": {
+      "email": "Email",
+      "lastLoggedIn": "Laatst ingelogd",
+      "name": "Weergave",
+      "role": "Rol | Rollen",
+      "username": "Gebruikersnaam"
+    }
+  },
+  "filtration": {
+    "events": {
+      "noEvents": "Geen events beschikbaar",
+      "eventType": "Event-type",
+      "resourceType": "Resource-type"
+    },
+    "general": {
+      "searchPlaceholder": "Zoeken",
+      "title": "Filteren",
+      "toDate": "Tot datum",
+      "fromDate": "Vanaf datum"
+    },
+    "tokens": {
+      "expired": "Vervallen",
+      "userLogin": "Gebruikers"
+    }
+  },
+  "forms": {
+    "authorization": {
+      "errors": {
+        "passwordError": "Wachtwoord vereist",
+        "usernameError": "Naam vereist"
+      },
+      "password": "Wachtwoord",
+      "username": "Login"
+    },
+    "general": {
+      "name": "Naam"
+    },
+    "repositories": {
+      "errors": {
+        "duplicateName": "Repository-naam bestaat al"
+      },
+      "hash": "Hash methode",
+      "redirectToSource": "Doorverwijzen naar bron",
+      "requiresAuthentication": "Vereist authenticatie",
+      "hints": {
+        "deprecatedAddress": "Een server adres zonder technologie als onderdeel van het pad is deprecated en zal niet langer ondersteund worden in RDepot v3.0. Gelieve {address} te gebruiken."
+      }
+    },
+    "repositoryMaintainers": {
+      "hints": {
+        "disclaimer": "Enkel gebruikers met tenminste de \"repository beheerder\" rol zijn beschikbaar.",
+        "disabledPackageMessage": "Kies een gebruiker en een repository om dit aan te passen",
+        "disabledRepositoryMessage": "Kies een gebruiker om dit aan te passen"
+      }
+    },
+    "submissions": {
+      "binary": "Binair bestand",
+      "generateManual": "Manual genereren",
+      "stepFirst": "Repository kiezen",
+      "stepSecond": "{technology} packages opladen",
+      "stepThird": "Samenvatting",
+      "generateManualNotAvailable": "niet beschikbaar voor binaire package"
+    },
+    "tokens": {
+      "deactivateQuestion": "Ben je zeker dat je volgende token wilt deactiveren: <strong>{0}</strong>\"?",
+      "deactivated": "Token gedeactiveerd",
+      "delete": "Token verwijderen",
+      "deleted": "Token verwijderd",
+      "edit": "Token-naam wijzigen",
+      "edited": "Token aangepast",
+      "newToken": "Nieuw access token",
+      "copyWarning": "Let erop het access token nu te kopiëren. Het zal later niet meer te zien zijn!",
+      "notConfigurableExpirationDate": "Levensduur van het access token is niet configureerbaar"
+    },
+    "packageMaintainers": {
+      "hints": {
+        "disclaimerPackages": "Enkel gebruikers met tenminste de \"package beheerder\" rol zijn beschikbaar.",
+        "disabledPackageMessage": "Kies een gebruiker en een repository om dit aan te passen"
+      }
+    }
+  },
+  "messages": {
+    "authorization": {
+      "error": "Login mislukt",
+      "loggedIn": "Ingelogd",
+      "notLoggedIn": "Niet ingelogd",
+      "oidc": "Inloggen met OIDC",
+      "success": "Successvol ingelogd"
+    },
+    "config": {
+      "deletingPackages": "Packages verwijderen is uitgeschakeld in de configuratie",
+      "deletingRepositories": "Repositories verwijderen is uitgeschakeld in de configuratie"
+    },
+    "errors": {
+      "401": "Verzoek kan niet verwerkt worden: de gebruiker is niet geauthenticeerd.",
+      "403": "Vanwege onvoldoende rechten kan deze actie niet worden voltooid",
+      "405": "Er lijkt een probleem te zijn met de configuratie op de server. Gelieve een administrator te contacteren om dit op te lossen.",
+      "422": "Validatie is gefaald",
+      "500": "Server fout",
+      "copyFailed": "Kopiëren mislukt",
+      "email": "Dit moet een e-mailadres zijn",
+      "invalidForm": "Niet alle ingevulde velden zijn geldig",
+      "message": {
+        "500": "Onze excuses, er is iets misgelopen! Geef onderstaande informatie aan een RDepot administrator alstublieft.\n\ntrace ID:\n{traceId}\n\ntimestamp:\n{timestamp}"
+      },
+      "notDownloaded": "Downloaden is mislukt",
+      "notEdited": "Aanpassen is mislukt",
+      "notMutable": "Kan niet worden {actionType} omdat het al werd {currentState}",
+      "oauth": "Probleem met inloggen",
+      "oauthTitle": "Autorisatie",
+      "reponame": "Toegestane tekens: A-Z, a-z, 0-9, koppelteken (-), onderstrepingsteken (_), punt (.), en spatie.",
+      "required": "Dit veld is verplicht",
+      "url": "Dit moet een URL zijn"
+    },
+    "filtration": {
+      "makeSure": "Dit zal alle filters wissen"
+    },
+    "repositoryMaintainers": {
+      "warnings": {
+        "insufficientPermissions": "Permissies van de gebruiker laten niet toe een maintainer aan te maken."
+      }
+    },
+    "submissions": {
+      "warnings": {
+        "notListedWarning": "Sommige submisies zijn niet opgelijst omdat {actionType} niet van toepassing is.",
+        "replace": {
+          "duplication": "Een package met deze naam en versie bestaat reeds in de gekozen repository. Herstart het upload-process en selecteer \"vervangen\" om het te overschrijven."
+        },
+        "onSubmissionAvailableText": "U heeft geen geldige inzendingen geselecteerd om te {actionType}. Selecteer andere inzendingen en probeer opnieuw.",
+        "warning": {
+          "package": {
+            "duplicate": "Een package met dezelfde naam en versie bestaat al in de geselecteerde repository. Herstart het upload-proces en selecteer \"vervangen\" om het te overschrijven."
+          },
+          "replacing": {
+            "packages": {
+              "disabled": "Alle packages vervangen is uitgeschakeld."
+            }
+          },
+          "synchronization": {
+            "failure": "Het synchroniseren van de repository is mislukt. Probeer om het package opnieuw toe te voegen."
+          },
+          "unknown": "Ongekende fout. Probeer opnieuw."
+        },
+        "noSubmissionAvailable": "Geen geldige submissies geselecteerd",
+        "onSubmissionAvailableTitle": "Selecteer andere inzendingen",
+        "upload": {
+          "warning": "Enkele van de ingezonden bestanden hebben waarschuwingen gegenereerd. Zie de individuele inzendingen voor meer details"
+        }
+      },
+      "replacingPackages": "Bestaande packages vervangen is uitgeschakeld in de configuratie",
+      "addAnotherSubmission": "Andere packages opladen",
+      "empty": "Geen repository gekozen",
+      "noChangesProvided": "Er zijn geen notities voor deze inzending",
+      "noPackageChosen": "Geen packages gekozen",
+      "replaceOptionDesc": "Vervang het package indien er reeds een package bestaat met zelfde naam en versie in de gekozen repository",
+      "waitForAllRequestsToFulfill": "Wacht tot alle submissies zijn opgeladen",
+      "waitingForAction": "aan het wachten op actie",
+      "wrongExtension": "Kies packages dewelke een correcte file-extensie hebben (.tar.gz)"
+    },
+    "general": {
+      "chooseOneToEnable": "kies tenminste één {resource_type} om te activeren",
+      "copied": "Gekopiëerd naar klembord",
+      "deactivateQuestion": "Bent u zeker dat u {resource_name} wenst te deactiveren?",
+      "deleteResourcesQuestion": "Bent u zeker dat u volgend {resource_type} wenst te verwijderen?",
+      "deleted": "{resource_name} is verwijdered",
+      "editResourceQuestion": "Bent u zeker dat u de actie \"{edit_action}\" wenst toe te passen op volgend {resource_type}?",
+      "noDataAvailable": "Geen data beschikbaar",
+      "pending": "actie in afwachting",
+      "success": "Verzoek succesvol verwerkt",
+      "successFiltration": "Filtratie succesvol toegepast",
+      "goToDisabled": "Niet mogelijk om details te bekijken",
+      "notAuthorized": "U bent niet geauthorizeerd om deze actie uit te voeren"
+    },
+    "repositories": {
+      "deprecatedAddressTooltip": "Een server adres zonder technologie als onderdeel van het path is deprecated en zal niet langer ondersteund worden in RDepot v3.0",
+      "notPublished": "Repository is nog niet gepubliceerd",
+      "republishQuestion": "Bent u zeker dat u {repor_name} wenst te publiceren?",
+      "authenticationRequiredTooltip": "Deze repository vereist authenticatie voor het installeren van packages",
+      "declarative": {
+        "create": "Aanmaken is niet mogelijk in declaratieve modus",
+        "delete": "Verwijderen is niet mogelijk in declaratieve modus",
+        "edit": "Bewerken is niet mogelijk in declaratieve modus",
+        "publish": "Publiceren is niet mogelijk in declaratieve modus "
+      },
+      "authenticationNotRequiredTooltip": "Deze repository vereiest geen authenticatie voor het installeren van packages"
+    },
+    "notifications": {
+      "alreadySeen": "reeds gezien",
+      "events": {
+        "active": {
+          "false": "gedeactiveerd",
+          "true": "geactiveerd"
+        },
+        "create": "aangemaakt",
+        "published": {
+          "false": "ongepubliceerd",
+          "true": "gepubliceerd"
+        },
+        "state": {
+          "accepted": "geaccepteerd",
+          "cancelled": "geannuleerd",
+          "rejected": "geweigerd"
+        },
+        "updated": "aangepast",
+        "upload": "opgeladen"
+      },
+      "seeAll": "alle events weergeven",
+      "title": "Notificaties",
+      "upToDate": "reeds up-to-date"
+    },
+    "packages": {
+      "noDescriptionProvided": "Geen beschrijving voorzien",
+      "propertyNotProvided": "niet beschikbaar"
+    },
+    "users": {
+      "editAdmin": "Niet mogelijk om een gebruiker te bewerken die een administrator is",
+      "unableDeactivation": "Gebruikers kunnen zichzelf niet deactiveren"
+    }
+  },
+  "properties": {
+    "packages": {
+      "installInstructionCrane-R": "Om dit package te installeren, navigeer naar {url}. Start daarna de R console en voer het volgende uit:",
+      "python": {
+        "projectUrl": "project URL",
+        "requiresExternal": "vereist externe",
+        "hash": "hash",
+        "platform": "platform",
+        "providesExtra": "voegt extra toe",
+        "requiresDist": "vereist distributie",
+        "requiresPython": "vereist Python"
+      },
+      "installCode-R": "install.packages(\"{0}\", repos = c(\"rdepot_{2}\" = \"{1}\", getOption(\"repos\")))",
+      "installCodeBinary": "install.packages(\"{0}\", repos = c(\"rdepot_{2}_binary\" = \"{1}/linux/{3}\", \"rdepot_{2}_source\" = \"{1}\", getOption(\"repos\")), headers = c(\"User-Agent\" = getOption(\"HTTPUserAgent\")))",
+      "seeRelatedEvent": "zie gerelateerde events",
+      "binary": "Binair",
+      "binary-R": {
+        "architecture": "architectuur",
+        "distribution": "distributie",
+        "rversion": "R versie"
+      },
+      "current": "huidige",
+      "installCode-Python": "pip install --index-url {1} {0}",
+      "installCodeCrane-Python": "crane pip install --index-url {1} {0}",
+      "installCodeCrane-R": "install.packages(\"{0}\", repos = c(\"rdepot_{2}\" = \"{1}\", getOption(\"repos\")))",
+      "installInstruction-Python": "Om dit package te installeren:",
+      "installInstructionBinaryCrane": "Om dit {binary} package te installeren, navigeer naar {url}. Start daarna de R console en voer het volgende uit:",
+      "installInstructionBinary": "Om dit {binary} package te installeren, start de R console en voer het volgende uit:",
+      "installInstruction-R": "Om dit package te installeren, start de R console en voer het volgende uit:",
+      "installInstructionCrane-Python": "Om dit package te installeren, voer het volgende uit:",
+      "license": "Licentie",
+      "needsCompilation": "vereist compilatie",
+      "noInstallInstruction": "De repository werd nog niet gepubliceerd.",
+      "r": {
+        "depends": "depends",
+        "imports": "imports",
+        "manual": "handleiding",
+        "md5sum": "md5sum",
+        "noVignetteNameProvided": "geen naam beschikbaar",
+        "suggests": "suggests",
+        "systemRequirements": "systeemvereisten",
+        "url": "URL"
+      },
+      "relatedEventPage": "pagina met gerelateerde events",
+      "source": "Bron",
+      "sourceFile": "Bronbestand",
+      "versions": "Package versies"
+    },
+    "repositories": {
+      "lastModificationDate": "Datum van laatste aanpassing",
+      "healthCheck": {
+        "correct": "server adres is correct",
+        "incorrect": "server adres is incorrect",
+        "undefined": "controleer of the server adres correct is"
+      },
+      "lastPublicationDate": "Datum van laatste publicatie",
+      "numberOfPackages": "Aantal packages",
+      "published": {
+        "false": "niet gepubliceerd",
+        "publicationFailed": "publiceren gefaald",
+        "publicationSucceed": "publiceren gelukt",
+        "true": "gepubliceerd"
+      }
+    },
+    "events": {
+      "type": {
+        "create": "Aanmaken",
+        "delete": "Verwijderen",
+        "update": "Updaten",
+        "upload": "Toevoegen"
+      }
+    },
+    "general": {
+      "active": "Actief",
+      "deleted": "Verwijderd",
+      "details": "Details",
+      "inactive": "Inactief"
+    },
+    "submissions": {
+      "accepted": "AANVAARD",
+      "cancelled": "GEANNULEERD",
+      "downloaded": "GE-DOWNLOAD",
+      "notes": "Nota",
+      "rejected": "GEWEIGERD",
+      "waiting": "WACHTEN"
+    }
+  },
+  "updatedProperties": {
+    "title": "Eigenschappen aangepast"
+  },
+  "resources": {
+    "event": "Event | Events",
+    "repository": "Repository | Repositories",
+    "admin": "Administrator | Administratoren",
+    "generalSettings": "Algemeen",
+    "maintainer": "Beheerder | Beheerders",
+    "package": "Package | Packages",
+    "packageMaintainer": "Package Beheerder | Package Beheerders",
+    "repositoryMaintainer": "Repository Beheerder | Repository Beheerders",
+    "settings": "Instellingen",
+    "submission": "Inzending | Inzendingen",
+    "technology": "Technologie | Technologieën",
+    "token": "Token | Tokens",
+    "user": "Gebruiker | Gebruikers"
+  }
+}
