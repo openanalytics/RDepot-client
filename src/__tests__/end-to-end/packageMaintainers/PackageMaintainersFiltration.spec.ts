@@ -36,7 +36,6 @@ test.describe(TITLE, () => {
       .locator(`#${PACKAGE_MAINTAINERS_SIDEBAR_ID}`)
       .click()
     await page.waitForURL('**/package-maintainers')
-
     const maintainerDeletedSelector = page.locator(
       '.mdi-trash-can.text-grey'
     )
