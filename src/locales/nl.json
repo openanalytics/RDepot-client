@@ -34,7 +34,8 @@
       "publish": "Publiceren",
       "seePackages": "Repo-inhoud bekijken",
       "unpublish": "Onpubliceren",
-      "republish": "Herpubliceren"
+      "republish": "Herpubliceren",
+      "goTo": "Packages bekijken"
     },
     "settings": {
       "changeLanguage": "Taal wijzigen",
@@ -91,7 +92,8 @@
     },
     "submissions": {
       "approver": "Goedkeurder",
-      "submitter": "Inzender"
+      "submitter": "Inzender",
+      "author": "Auteur"
     },
     "tokens": {
       "lastUsed": "Laatst gebruikt",
@@ -326,7 +328,8 @@
         "platform": "platform",
         "providesExtra": "voegt extra toe",
         "requiresDist": "vereist distributie",
-        "requiresPython": "vereist Python"
+        "requiresPython": "vereist Python",
+        "classifiers": "Classifiers"
       },
       "installCode-R": "install.packages(\"{0}\", repos = c(\"rdepot_{2}\" = \"{1}\", getOption(\"repos\")))",
       "installCodeBinary": "install.packages(\"{0}\", repos = c(\"rdepot_{2}_binary\" = \"{1}/linux/{3}\", \"rdepot_{2}_source\" = \"{1}\", getOption(\"repos\")), headers = c(\"User-Agent\" = getOption(\"HTTPUserAgent\")))",
@@ -357,12 +360,16 @@
         "noVignetteNameProvided": "geen naam beschikbaar",
         "suggests": "suggests",
         "systemRequirements": "systeemvereisten",
-        "url": "URL"
+        "url": "URL",
+        "encoding": "encodering",
+        "vignettes": "vignetten"
       },
       "relatedEventPage": "pagina met gerelateerde events",
       "source": "Bron",
       "sourceFile": "Bronbestand",
-      "versions": "Package versies"
+      "versions": "Package versies",
+      "binaryProperties": "Binary eigenschappen",
+      "withinRdepot": "binnen RDepot"
     },
     "repositories": {
       "lastModificationDate": "Datum van laatste aanpassing",
@@ -386,6 +393,9 @@
         "delete": "Verwijderen",
         "update": "Updaten",
         "upload": "Toevoegen"
+      },
+      "general": {
+        "author": "Auteur"
       }
     },
     "general": {
