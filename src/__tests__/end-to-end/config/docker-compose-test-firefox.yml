@@ -7,8 +7,8 @@ services:
     labels:
       eu.openanalytics.rdepot.container.name: 'oa-rdepot-proxy-firefox'
     volumes:
-      - ./docker/proxy/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./docker/proxy/rdepot-test.conf:/etc/nginx/sites-enabled/rdepot:ro
+      - ../../../../docker/proxy/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ../../../../docker/proxy/rdepot-test.conf:/etc/nginx/sites-enabled/rdepot:ro
       - repository:/opt/rdepot/repo/:ro
     depends_on:
       - backend
@@ -27,14 +27,14 @@ services:
     hostname: oa-rdepot-backend
     container_name: oa-rdepot-backend-firefox
     volumes:
-      - ./docker/backend/application-test-firefox.yml:/opt/rdepot/application.yml
+      - ../../../../docker/backend/application-test-firefox.yml:/opt/rdepot/application.yml
       - repositories:/opt/rdepot/repositories/
       - snapshots:/opt/rdepot/generated/
       - queue:/opt/rdepot/new/
-      - ./docker/testData/itestSourceFiles:/opt/testSourceFiles:ro
-      - ./docker/testData/itestGenerated:/opt/testGenerated:ro
-      - ./docker/testData/itestNewFiles:/opt/newFiles:ro
-      - ./docker/testData/itestTrashFiles:/opt/trashFiles:ro
+      - ../../../../docker/testData/itestSourceFiles:/opt/testSourceFiles:ro
+      - ../../../../docker/testData/itestGenerated:/opt/testGenerated:ro
+      - ../../../../docker/testData/itestNewFiles:/opt/newFiles:ro
+      - ../../../../docker/testData/itestTrashFiles:/opt/trashFiles:ro
     # ports:
     # - 8080:8080
     depends_on:
@@ -68,8 +68,8 @@ services:
       - POSTGRES_DB=rdepot
       - POSTGRES_USER=rdepot
     volumes:
-      - ./docker/db/initial_scripts/:/docker-entrypoint-initdb.d/:ro
-      - ./docker/db/sql_files/:/opt/sql_files/:ro
+      - ../../../../docker/db/initial_scripts/:/docker-entrypoint-initdb.d/:ro
+      - ../../../../docker/db/sql_files/:/opt/sql_files/:ro
     networks:
       oa-rdepot:
         aliases:
@@ -91,8 +91,10 @@ services:
     container_name: oa-rdepot-frontend-firefox
     hostname: oa-rdepot-frontend
     build:
-      context: .
+      context: ../../../../
     restart: unless-stopped
+    env_file:
+      - ../../config/.env.test
     labels:
       eu.openanalytics.rdepot.container.name: 'oa-rdepot-frontend-firefox'
     ports:

@@ -29,9 +29,13 @@ const execPromise = util.promisify(exec)
 export async function restoreData(project?: string) {
   try {
     if (project == 'firefox') {
-      await execPromise('sh ./docker/restore-firefox.sh')
+      await execPromise(
+        'sh ./src/__tests__/end-to-end/config/restore-firefox.sh'
+      )
     } else if (project == 'chrome') {
-      await execPromise('sh ./docker/restore-chrome.sh')
+      await execPromise(
+        'sh ./src/__tests__/end-to-end/config/restore-chrome.sh'
+      )
     }
   } catch (error) {
     console.log(error)

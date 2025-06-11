@@ -24,8 +24,16 @@
 
 import { defineConfig, devices } from '@playwright/test'
 import path from 'path'
+import dotenv from 'dotenv'
 
 const resultsDir = path.resolve('./', 'reports')
+const environment = process.env.NODE_ENV || 'test'
+dotenv.config({
+  path: path.resolve(
+    __dirname,
+    `src/__tests__/config/.env.${environment}`
+  )
+})
 
 export default defineConfig({
   testDir: './src/__tests__/end-to-end',
@@ -51,6 +59,7 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
+    env: process.env,
     trace: 'on',
     viewport: { width: 1920, height: 1053 },
     colorScheme: 'dark'
