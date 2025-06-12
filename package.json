@@ -24,7 +24,6 @@
     "execute": "npm run license:check && npm run test:unit:once && npm run build",
     "prettier": "npx pretty-quick",
     "prettier:changes": "npx pretty-quick --staged --bail",
-    "json:sort": "jsonsort ./src/locales/*",
     "prepare": "husky install",
     "restore:firefox": "src/__tests__/end-to-end/config/restore-firefox.sh",
     "restore:chrome": "src/__tests__/end-to-end/config/restore-chrome.sh",

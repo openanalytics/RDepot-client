@@ -22,6 +22,11 @@
 
 import { test, expect } from '@playwright/test'
 import { login } from '@/__tests__/end-to-end/helpers/login'
+import {
+  PASSWORD_INPUT_ID,
+  SUBMIT_LOGIN_BUTTON_ID,
+  USERNAME_INPUT_ID
+} from '@/__tests__/end-to-end/helpers/elementsIds'
 
 test.describe('login page', () => {
   test('has title', async ({ page }) => {
@@ -31,5 +36,21 @@ test.describe('login page', () => {
 
   test('correctly logged in', async ({ page }) => {
     await login(page, 'einstein')
+  })
+
+  test('should redirect back to original URL after successful authentication', async ({
+    page
+  }) => {
+    await page.goto('/')
+    await page.goto('/repositories')
+    await expect(page).toHaveTitle(/login/)
+    await page
+      .locator(`#${USERNAME_INPUT_ID}`)
+      .fill('einstein')
+    await page
+      .locator(`#${PASSWORD_INPUT_ID}`)
+      .fill('testpassword')
+    await page.locator(`#${SUBMIT_LOGIN_BUTTON_ID}`).click()
+    await expect(page).toHaveTitle(/repositories/)
   })
 })
