@@ -331,6 +331,12 @@ export const REPOSITORIES_FILTRATION_DELETED_FIELD_ID =
 export const REPOSITORIES_FILTRATION_PUBLISHED_FIELD_ID =
   'repositories-filtration-published'
 
+//CREATE REPOSITORY
+export const REPOSITORY_NAME_FIELD_MESSAGES_ID =
+  'repository-create-name-messages'
+export const EDIT_REPOSITORY_NAME_FIELD_MESSAGES_ID =
+  'edit-name-messages'
+
 //REPOSITORY MAINTAINERS FILTRATION
 export const REPOSITORY_MAINTAINERS_FILTRATION_SEARCH_FIELD_ID =
   'repository-maintainers-filtration-search'

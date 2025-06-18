@@ -25,8 +25,8 @@
     <v-card class="pa-5" width="400">
       <v-card-title>
         {{
-          $t('actions.createResource', {
-            resource_type: $t('resources.repository')
+          i18n.t('actions.createResource', {
+            resource_type: i18n.t('resources.repository')
           })
         }}
       </v-card-title>
@@ -36,7 +36,7 @@
           id="repository-create-name"
           name="name"
           as="v-text-field"
-          :label="$t('forms.general.name')"
+          :label="i18n.t('forms.general.name')"
           :loading="loading"
           lazy-validation
           max-width="unset"
@@ -45,7 +45,9 @@
           id="repository-create-publication-uri"
           name="publicationUri"
           as="v-text-field"
-          :label="$t('fields.repositories.publicationUri')"
+          :label="
+            i18n.t('fields.repositories.publicationUri')
+          "
           max-width="unset"
         />
         <span
@@ -56,7 +58,9 @@
             name="serverAddress"
             as="v-text-field"
             max-width="unset"
-            :label="$t('fields.repositories.serverAddress')"
+            :label="
+              i18n.t('fields.repositories.serverAddress')
+            "
           />
           <HealthCheck
             :server-address="values.serverAddress || ''"
@@ -67,7 +71,7 @@
           :items="technologies"
           name="technology"
           as="v-select"
-          :label="$t('resources.technology')"
+          :label="i18n.t('resources.technology')"
           max-width="unset"
         />
         <validated-input-field
@@ -76,7 +80,7 @@
           :items="hashMethods"
           name="hashMethod"
           as="v-select"
-          :label="$t('forms.repositories.hash')"
+          :label="i18n.t('forms.repositories.hash')"
           max-width="unset"
         />
         <validated-input-field
@@ -86,7 +90,9 @@
           as="v-checkbox"
           max-width="unset"
           style="display: flex; justify-content: start"
-          :label="$t('forms.repositories.redirectToSource')"
+          :label="
+            i18n.t('forms.repositories.redirectToSource')
+          "
         ></validated-input-field>
         <validated-input-field
           id="repository-create-requires-authentication"
@@ -95,7 +101,9 @@
           max-width="unset"
           style="display: flex; justify-content: start"
           :label="
-            $t('forms.repositories.requiresAuthentication')
+            i18n.t(
+              'forms.repositories.requiresAuthentication'
+            )
           "
         />
       </v-card-text>
@@ -138,7 +146,7 @@ import { Technologies } from '@/enum/Technologies'
 import { HashMethods } from '@/enum/HashMethods'
 import { repositorySchema } from '@/models/Schemas'
 import { toTypedSchema } from '@vee-validate/zod/dist/vee-validate-zod'
-import { useForm } from 'vee-validate'
+import { useField, useForm } from 'vee-validate'
 import ValidatedInputField from '@/components/common/fields/ValidatedInputField.vue'
 import CardActions from '@/components/common/overlay/CardActions.vue'
 import { z } from 'zod'
@@ -149,6 +157,7 @@ import getEnv from '@/utils/env'
 import { useRepositoryDeprecated } from '@/composable/repositories/repositoriesDeprecatedAddress'
 import HealthCheck from '@/components/repositories/forms/HealthCheck.vue'
 import { useConfigStore } from '@/store/options/config'
+import { i18n } from '@/plugins/i18n'
 
 const repositoryStore = useRepositoryStore()
 const commonStore = useCommonStore()
@@ -223,9 +232,12 @@ const {
   )
 })
 
+const { validate: validateName } = useField('name')
+
 watch(
   () => values.technology,
   (nevValue: Technologies | undefined) => {
+    validateName()
     if (nevValue == Technologies.Enum.Python) {
       setFieldValue('hashMethod', HashMethods.Values.MD5)
       setFieldValue('redirectToSource', undefined)
