@@ -217,6 +217,10 @@ const {
             regexPattern =
               configStore.repositoryNameValidationRegex
                 .technology.r
+          } else {
+            regexPattern =
+              configStore.repositoryNameValidationRegex
+                .general
           }
           return new RegExp(regexPattern).test(value)
         }, t('messages.errors.reponame')),

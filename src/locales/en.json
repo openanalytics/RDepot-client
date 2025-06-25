@@ -209,7 +209,7 @@
       "notMutable": "Cannot be {actionType} as it has been {currentState} already",
       "oauth": "Error with oauth",
       "oauthTitle": "Authorization",
-      "reponame": "Allowed characters: A-Z, a-z, 0-9, hyphen (-), underscore (_), period (.), space and tylda (~) [in Python repositories].",
+      "reponame": "Input contains invalid characters. Please use only allowed characters.",
       "required": "This field is required",
       "url": "This should be a url"
     },
