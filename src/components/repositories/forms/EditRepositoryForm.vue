@@ -205,21 +205,22 @@ const { meta, setFieldValue, isFieldTouched, values } =
               configStore.repositoryNameValidationRegex
                 .general
             if (
-              values.technology === Technologies.Enum.Python
+              values.technology ===
+                Technologies.Enum.Python &&
+              configStore.repositoryNameValidationRegex
+                .technology.python
             ) {
               regexPattern =
                 configStore.repositoryNameValidationRegex
                   .technology.python
             } else if (
-              values.technology === Technologies.Enum.R
+              values.technology === Technologies.Enum.R &&
+              configStore.repositoryNameValidationRegex
+                .technology.r
             ) {
               regexPattern =
                 configStore.repositoryNameValidationRegex
                   .technology.r
-            } else {
-              regexPattern =
-                configStore.repositoryNameValidationRegex
-                  .general
             }
             return new RegExp(regexPattern).test(value)
           }, t('messages.errors.reponame')),
