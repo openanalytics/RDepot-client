@@ -202,9 +202,15 @@ const {
           return previousReturn
         }, t('forms.repositories.errors.duplicateName'))
         .refine((value) => {
-          let regexPattern: string =
+          let regexPattern: string = '.+'
+          if (
             configStore.repositoryNameValidationRegex
               .general
+          ) {
+            regexPattern =
+              configStore.repositoryNameValidationRegex
+                .general
+          }
           if (
             values.technology ===
               Technologies.Enum.Python &&
