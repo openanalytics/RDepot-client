@@ -238,10 +238,6 @@ export const useAccessTokensStore = defineStore(
           this.filtration = TokensFiltration.parse(payload)
         }
         await this.getPage()
-        const toasts = useToast()
-        toasts.success(
-          i18n.t('messages.general.successFiltration')
-        )
       },
       clearFiltration() {
         this.filtration = defaultValues(TokensFiltration)

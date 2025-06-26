@@ -561,10 +561,6 @@ export const useSubmissionStore = defineStore(
             SubmissionsFiltration.parse(payload)
         }
         await this.getPage()
-        const toasts = useToast()
-        toasts.success(
-          i18n.t('notifications.successFiltration')
-        )
       },
       clearFiltration() {
         this.filtration = defaultValues(
@@ -574,10 +570,6 @@ export const useSubmissionStore = defineStore(
       async clearFiltrationAndFetch() {
         this.clearFiltration()
         await this.getPage()
-        const toasts = useToast()
-        toasts.success(
-          i18n.t('notifications.successFiltrationReset')
-        )
       }
     }
   }
