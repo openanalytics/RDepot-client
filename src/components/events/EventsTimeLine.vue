@@ -117,7 +117,7 @@ import {
   nextTick,
   onBeforeUnmount
 } from 'vue'
-import { useDisplay } from 'vuetify/lib/framework.mjs'
+import { useDisplay } from 'vuetify'
 import NoEvents from './NoEvents.vue'
 import { useCommonStore } from '@/store/options/common'
 import EventIcon from './EventIcon.vue'

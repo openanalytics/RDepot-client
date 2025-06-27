@@ -42,7 +42,7 @@ import Icons from '@/maps/Icons'
 import { useAuthorizationStore } from '@/store/options/authorization'
 import { useCommonStore } from '@/store/options/common'
 import { onUpdated, computed } from 'vue'
-import { useTheme } from 'vuetify/lib/framework.mjs'
+import { useTheme } from 'vuetify'
 
 const theme = useTheme()
 const commonStore = useCommonStore()

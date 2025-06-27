@@ -20,22 +20,6 @@
  *
  */
 
-import { createVuetify } from 'vuetify'
-import * as components from 'vuetify/components'
-import * as directives from 'vuetify/directives'
-import { i18nInstance } from '@/plugins/i18n'
-import Vue3Toastify from 'vue3-toastify'
-import 'vue3-toastify/dist/index.css'
-import VueDOMPurifyHTML from 'vue-dompurify-html'
-
-const vuetify = createVuetify({
-  components,
-  directives
-})
-
-export const plugins = [
-  vuetify,
-  Vue3Toastify,
-  i18nInstance,
-  VueDOMPurifyHTML
-]
+declare module 'vuetify/lib/framework.mjs' {
+  export * from 'vuetify/lib'
+}

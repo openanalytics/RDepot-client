@@ -30,7 +30,7 @@
 <script setup lang="ts">
 import ProgressCircular from './components/common/progress/ProgressCircular.vue'
 import { onBeforeMount } from 'vue'
-import { useTheme } from 'vuetify/lib/framework.mjs'
+import { useTheme } from 'vuetify'
 import { useAuthorizationStore } from './store/options/authorization'
 import en from 'javascript-time-ago/locale/en'
 import pl from 'javascript-time-ago/locale/pl'

@@ -64,7 +64,7 @@
 import ChangeLanguage from '@/components/navbar/ChangeLanguage.vue'
 import ChangeTheme from '@/components/navbar/ChangeTheme.vue'
 import { useCommonStore } from '@/store/options/common'
-import { useDisplay } from 'vuetify/lib/framework.mjs'
+import { useDisplay } from 'vuetify'
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import EventsNotifications from './EventsNotifications.vue'

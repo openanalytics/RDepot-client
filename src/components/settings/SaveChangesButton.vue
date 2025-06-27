@@ -38,7 +38,7 @@ import { useI18n } from 'vue-i18n'
 import { useSettingsStore } from '@/store/options/settings'
 import { useAuthorizationStore } from '@/store/options/authorization'
 import { UserSettingsProjection } from '@/openapi/models/user-settings-projection'
-import { useTheme } from 'vuetify/lib/framework.mjs'
+import { useTheme } from 'vuetify'
 import { useCommonStore } from '@/store/options/common'
 import langs from '@/locales/index'
 

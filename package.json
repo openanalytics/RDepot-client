@@ -80,6 +80,7 @@
     "@typescript-eslint/parser": "^8.8.1",
     "@vitejs/plugin-vue": "^5.2.4",
     "@vue/eslint-config-typescript": "^14.0.1",
+    "@vue/test-utils": "^2.4.6",
     "dotenv-cli": "^8.0.0",
     "eslint": "^9.12.0",
     "eslint-config-prettier": "^9.1.0",
