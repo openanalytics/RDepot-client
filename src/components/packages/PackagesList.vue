@@ -108,7 +108,7 @@
         <GoToButton
           :item="item"
           from="packages"
-          :tooltip="$t('actions.general.goTo')"
+          :tooltip="i18n.t('actions.general.goTo')"
         />
       </span>
     </template>

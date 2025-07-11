@@ -39,7 +39,9 @@ test.describe(TITLE, () => {
 
     const repositoryPublishedSelector = page.getByRole(
       'checkbox',
-      { checked: true }
+      {
+        checked: true
+      }
     )
     const repositoriesRowsSelector =
       page.locator('role=row')

@@ -47,7 +47,7 @@
       multiple
       clearable
       as="v-select"
-      :label="$t('resources.technologies')"
+      :label="$t('resources.technology')"
       @update:model-value="setFiltration"
     ></validated-input-field>
 

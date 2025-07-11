@@ -40,8 +40,8 @@
         id="access-token-active-icon"
         v-tooltip="
           item.active
-            ? $t('properties.general.active')
-            : $t('properties.general.inactive')
+            ? i18n.t('properties.general.active')
+            : i18n.t('properties.general.inactive')
         "
         :icon="
           item.active
@@ -66,13 +66,14 @@
             (!canPatch(item.links) && item.active) ||
             !item.active
           "
-          :text="$t('actions.general.edit')"
+          :text="i18n.t('actions.general.edit')"
           :hover-message="
-            !canPatch(item.links) && item.active
-              ? undefined
-              : $t('properties.tokens.inactive')
+            (!canPatch(item.links) && item.active) ||
+            !item.active
+              ? i18n.t('properties.general.inactive')
+              : i18n.t('actions.general.edit')
           "
-          @set-entity="setEditEntity(item)"
+          @set-entity="prepareEdition(item)"
         />
         <DeactivateIcon
           v-if="item.name"
@@ -83,16 +84,17 @@
           :name="item.name"
           :hover-message="
             !canPatch(item.links) && item.active
-              ? undefined
-              : $t('properties.tokens.inactive')
+              ? i18n.t('actions.general.deactivate')
+              : i18n.t('properties.general.inactive')
           "
-          @set-resource-id="setEditEntity(item)"
+          @set-resource-id="
+            accessTokensStore.currentToken = item
+          "
         />
         <DeleteIcon
           v-if="item.name"
           :disabled="!canDelete(item.links)"
-          :name="item.name"
-          @set-resource-id="setEditEntity(item)"
+          @set-resource-id="prepareDeletion(item)"
         /> </span
     ></template>
   </OATable>
@@ -113,13 +115,14 @@ import DeactivateIcon from '@/components/common/action_icons/DeactivateIcon.vue'
 import EditIcon from '@/components/common/action_icons/EditIcon.vue'
 import { EntityModelAccessTokenDto } from '@/openapi'
 import { isAtLeastAdmin } from '@/enum/UserRoles'
-import { computed } from 'vue'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useSort } from '@/composable/sort'
 import AddToken from '@/components/common/buttons/AddToken.vue'
 import OATable from '../common/datatable/OATable.vue'
 import { useAccessTokensStore } from '@/store/options/accessTokens'
 import Icons from '@/maps/Icons'
+import { useCommonStore } from '@/store/options/common'
+import { OverlayEnum } from '@/enum/Overlay'
 
 const authorizationStore = useAuthorizationStore()
 const accessTokensStore = useAccessTokensStore()
@@ -200,9 +203,27 @@ function fetchData(options: DataTableOptions) {
   accessTokensStore.getPage(options)
 }
 
-function setEditEntity(item: EntityModelAccessTokenDto) {
+const commonStore = useCommonStore()
+
+async function prepareEdition(
+  item: EntityModelAccessTokenDto
+) {
   accessTokensStore.currentToken = item
-  accessTokensStore.save()
+  commonStore.overlayText = i18n.t('actions.general.edit')
+  commonStore.openOverlay(OverlayEnum.enum.Edit)
+}
+
+async function prepareDeletion(
+  item: EntityModelAccessTokenDto
+) {
+  accessTokensStore.currentToken = item
+  commonStore.overlayText = i18n.t(
+    'messages.general.deleteQuestion',
+    {
+      resource_name: item.name
+    }
+  )
+  commonStore.openOverlay(OverlayEnum.enum.Delete)
 }
 
 function isPending(

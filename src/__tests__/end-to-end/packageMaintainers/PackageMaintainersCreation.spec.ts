@@ -171,7 +171,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
       page.locator(
         `#${CREATE_PACKAGE_MAINTAINER_SUBMIT_ID}`
       )
-    ).toBeDisabled()
+    ).toHaveClass(/text-grey/)
   })
 
   test('should display proper error messages', async ({
@@ -306,7 +306,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
       page.locator(
         `#${CREATE_PACKAGE_MAINTAINER_SUBMIT_ID}`
       )
-    ).toBeDisabled()
+    ).toHaveClass(/text-grey/)
 
     const userInputMessagesSelector =
       page.locator(`#${CREATE_PACKAGE_MAINTAINER_USER_INPUT_MESSAGES_ID} 

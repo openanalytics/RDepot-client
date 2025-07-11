@@ -91,7 +91,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
       page.locator(
         `#${CREATE_REPOSITORY_HASH_METHOD_FIELD_ID}`
       )
-    ).toHaveCount(0)
+    ).not.toBeVisible()
     await page
       .locator(
         `#${CREATE_REPOSITORY_REDIRECT_TO_SOURCE_FIELD_ID}`
@@ -146,7 +146,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
       page.locator(
         `#${CREATE_REPOSITORY_REDIRECT_TO_SOURCE_FIELD_ID}`
       )
-    ).toHaveCount(0)
+    ).not.toBeVisible()
     await page
       .locator(`#${SUBMIT_BUTTON_ID}`)
       .press('Enter')

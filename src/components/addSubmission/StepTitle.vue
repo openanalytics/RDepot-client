@@ -61,23 +61,25 @@
 
 <script setup lang="ts">
 import { i18n } from '@/plugins/i18n'
-import { useSubmissionStore } from '@/store/options/submission'
 import { computed } from 'vue'
 
-defineProps({
+const componentProps = defineProps({
   e1: {
     type: Number,
     required: true
+  },
+  technology: {
+    type: String,
+    required: false,
+    default: ''
   }
 })
-
-const submissionsStore = useSubmissionStore()
 
 const steps = computed(() => {
   return [
     i18n.t('forms.submissions.stepFirst'),
     i18n.t('forms.submissions.stepSecond', {
-      technology: submissionsStore.repository?.technology
+      technology: componentProps.technology
     }),
     i18n.t('forms.submissions.stepThird')
   ]

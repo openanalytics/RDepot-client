@@ -23,9 +23,7 @@
 <template>
   <v-checkbox-btn
     v-if="isSelected"
-    :id="`checkbox-actions-${
-      item.name
-    }-${item.version?.replaceAll('.', '-')}-${
+    :id="`checkbox-actions-${item.name}-${item.version?.replaceAll('.', '-')}-${
       item.repository?.name
     }`"
     :model-value="true"
@@ -36,9 +34,7 @@
   />
   <v-checkbox-btn
     v-else
-    :id="`checkbox-actions-${
-      item.name
-    }-${item.version?.replaceAll('.', '-')}-${
+    :id="`checkbox-actions-${item.name}-${item.version?.replaceAll('.', '-')}-${
       item.repository?.name
     }`"
     :disabled="isPending(item)"

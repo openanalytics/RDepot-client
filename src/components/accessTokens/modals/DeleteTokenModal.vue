@@ -21,14 +21,20 @@
 -->
 
 <template>
-  <ModalOverlay>
-    <template #props>
-      <DeleteTokenForm />
-    </template>
+  <ModalOverlay
+    id="delete-token-dialog"
+    @action="performAction()"
+  >
   </ModalOverlay>
 </template>
 
 <script setup lang="ts">
+import { useAccessTokensStore } from '@/store/options/accessTokens'
 import ModalOverlay from '@/components/common/overlay/ModalOverlay.vue'
-import DeleteTokenForm from '../forms/DeleteTokenForm.vue'
+
+const accessTokensStore = useAccessTokensStore()
+
+function performAction() {
+  accessTokensStore.delete()
+}
 </script>

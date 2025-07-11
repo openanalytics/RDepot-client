@@ -21,7 +21,6 @@
  */
 
 import {
-  prepareUploadPackagesView,
   preparePackagesView,
   prepareSubmissionsView,
   prepareRepositoriesView,
@@ -119,9 +118,6 @@ export const routes = [
             '@/views/submissions/AddSubmissionView.vue'
           ),
         meta: { title: 'RDepot - upload packages' },
-        beforeEnter: () => {
-          prepareUploadPackagesView()
-        },
         props: true
       },
       {

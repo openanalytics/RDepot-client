@@ -40,6 +40,8 @@ import { i18n } from '@/plugins/i18n'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
 import { useConfigStore } from '@/store/options/config'
 import { computed } from 'vue'
+import { OverlayEnum } from '@/enum/Overlay.ts'
+import { useCommonStore } from '@/store/options/common.ts'
 
 const componentProps = defineProps({
   item: {
@@ -86,7 +88,7 @@ const hoverMessage = computed(() => {
 const overlayText = computed(() =>
   i18n.t('messages.general.deleteResourcesQuestion', {
     resource_type: i18n
-      .t('resource.package', 2)
+      .t('resources.package', 2)
       .toLocaleLowerCase()
   })
 )
@@ -99,7 +101,16 @@ const isPending = computed(
     )
 )
 
+const commonStore = useCommonStore()
+
 function choosePackage() {
   packagesStore.packagesToDelete = [componentProps.item]
+  commonStore.overlayText = i18n.t(
+    'messages.general.deleteQuestion',
+    {
+      resource_name: componentProps.item.name
+    }
+  )
+  commonStore.openOverlay(OverlayEnum.enum.Delete)
 }
 </script>

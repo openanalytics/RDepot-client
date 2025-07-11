@@ -67,10 +67,7 @@ export function useUsersFiltration() {
                 value: user.login,
                 title: user.name,
                 props: {
-                  id: `select-input-user-${user.name?.replace(
-                    ' ',
-                    '-'
-                  )}`
+                  id: `select-input-user-${user.name?.replace(' ', '-')}`
                 }
               } as UserObject
             }
@@ -118,10 +115,7 @@ export function useUsersFiltration() {
                 value: user.id,
                 title: user.name,
                 props: {
-                  id: `select-input-user-${user.name?.replace(
-                    ' ',
-                    '-'
-                  )}`
+                  id: `select-input-user-${user.name?.replace(' ', '-')}`
                 }
               } as UserObjectCreate
             }

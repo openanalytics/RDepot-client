@@ -39,7 +39,6 @@
       <span v-else class="d-flex justify-end align-center">
         <EditIcon
           :disabled="!canPatch(item.links) || item.deleted"
-          :text="getEditMessage()"
           :hover-message="
             item.deleted
               ? i18n.t('messages.general.deleted', {
@@ -48,13 +47,13 @@
                     2
                   )
                 })
-              : undefined
+              : i18n.t('actions.general.edit')
           "
           :icon-id="`edit-package-maintainer-${item.user?.name?.replace(
             ' ',
             '-'
           )}-${item.packageName}-${item.repository?.name}`"
-          @set-entity="setEditEntity(item)" />
+          @set-entity="prepareEdition(item)" />
         <DeleteIcon
           v-if="item.user?.name"
           :disabled="!canDelete(item.links) || item.deleted"
@@ -69,7 +68,7 @@
                 })
               : undefined
           "
-          @set-resource-id="chooseMaintainer(item)" /></span
+          @set-resource-id="prepareDeletion(item)" /></span
     ></template>
   </OATable>
 </template>
@@ -93,6 +92,8 @@ import { useAuthorizationStore } from '@/store/options/authorization'
 import { computed } from 'vue'
 import ProgressCircularSmall from '../common/progress/ProgressCircularSmall.vue'
 import OATable from '../common/datatable/OATable.vue'
+import { OverlayEnum } from '@/enum/Overlay'
+import { useCommonStore } from '@/store/options/common'
 
 const packageMaintainersStore = usePackageMaintainersStore()
 const { canPatch, canDelete } = useUserAuthorities()
@@ -140,29 +141,33 @@ const headers = computed<DataTableHeaders[]>(() => [
     sortable: false
   }
 ])
+
 function fetchData(options: DataTableOptions) {
   sortBy.value = getSort(options.sortBy, defaultSort)
   packageMaintainersStore.getPage(options)
 }
 
-function chooseMaintainer(
+const commonStore = useCommonStore()
+
+async function prepareEdition(
   item: EntityModelPackageMaintainerDto
 ) {
   packageMaintainersStore.chosenMaintainer = item
-  packageMaintainersStore.save()
+  commonStore.overlayText = i18n.t('actions.general.edit')
+  commonStore.openOverlay(OverlayEnum.enum.Edit)
 }
 
-function setEditEntity(
+async function prepareDeletion(
   item: EntityModelPackageMaintainerDto
 ) {
   packageMaintainersStore.chosenMaintainer = item
-  packageMaintainersStore.save()
-}
-
-function getEditMessage() {
-  return i18n.t('actions.general.editResource', {
-    resource_type: i18n.t('resources.packageMaintainer')
-  })
+  commonStore.overlayText = i18n.t(
+    'messages.general.deleteQuestion',
+    {
+      resource_name: item.user?.name
+    }
+  )
+  commonStore.openOverlay(OverlayEnum.enum.Delete)
 }
 
 function isPending(

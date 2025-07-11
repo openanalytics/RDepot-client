@@ -42,13 +42,6 @@
       >
         <EditIcon
           :disabled="!canPatch(item.links) || item.deleted"
-          :text="
-            i18n.t('actions.general.editResource', {
-              resource_type: i18n.t(
-                'resources.repositoryMaintainer'
-              )
-            })
-          "
           :hover-message="
             item.deleted
               ? i18n.t('messages.general.deleted', {
@@ -56,17 +49,17 @@
                     'resources.repositoryMaintainer'
                   )
                 })
-              : undefined
+              : i18n.t('actions.general.edit')
           "
           :icon-id="`edit-repository-maintainer-${item.user?.name?.replace(
             ' ',
             '-'
           )}-${item.repository?.name}`"
-          @set-entity="setEditMaintainer(item)"
+          @set-entity="prepareEdition(item)"
         >
         </EditIcon>
 
-        <delete-icon
+        <DeleteIcon
           v-if="item.user?.name"
           :disabled="!canDelete(item.links) || item.deleted"
           :name="item.user?.name"
@@ -79,7 +72,7 @@
                 })
               : undefined
           "
-          @set-resource-id="setEditMaintainer(item)"
+          @set-resource-id="prepareDeletion(item)"
         /> </span
     ></template>
   </OATable>
@@ -95,15 +88,19 @@ import {
   Sort
 } from '@/models/DataTableOptions'
 import { i18n } from '@/plugins/i18n'
-import { EntityModelRepositoryMaintainerDto } from '@/openapi'
+import {
+  EntityModelPackageMaintainerDto,
+  EntityModelRepositoryMaintainerDto
+} from '@/openapi'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useSort } from '@/composable/sort'
 import { useAuthorizationStore } from '@/store/options/authorization'
 import AddMaintainerButton from '@/components/common/buttons/AddMaintainerButton.vue'
-import { computed } from 'vue'
 import ProgressCircularSmall from '../common/progress/ProgressCircularSmall.vue'
 import OATable from '../common/datatable/OATable.vue'
+import { OverlayEnum } from '@/enum/Overlay.ts'
+import { useCommonStore } from '@/store/options/common.ts'
 
 const repositoryMaintainersStore =
   useRepositoryMaintainersStore()
@@ -152,17 +149,34 @@ function fetchData(options: DataTableOptions) {
   repositoryMaintainersStore.getPage(options)
 }
 
-function setEditMaintainer(
-  item: EntityModelRepositoryMaintainerDto
-) {
-  repositoryMaintainersStore.chosenMaintainer = item
-}
-
 function isPending(
   item: EntityModelRepositoryMaintainerDto
 ): boolean {
   return !!repositoryMaintainersStore.pending.find(
     (maintainer) => maintainer.id == item.id
   )
+}
+
+const commonStore = useCommonStore()
+
+async function prepareEdition(
+  item: EntityModelPackageMaintainerDto
+) {
+  repositoryMaintainersStore.chosenMaintainer = item
+  commonStore.overlayText = i18n.t('actions.general.edit')
+  commonStore.openOverlay(OverlayEnum.enum.Edit)
+}
+
+async function prepareDeletion(
+  item: EntityModelPackageMaintainerDto
+) {
+  repositoryMaintainersStore.chosenMaintainer = item
+  commonStore.overlayText = i18n.t(
+    'messages.general.deleteQuestion',
+    {
+      resource_name: item.user?.name
+    }
+  )
+  commonStore.openOverlay(OverlayEnum.enum.Delete)
 }
 </script>

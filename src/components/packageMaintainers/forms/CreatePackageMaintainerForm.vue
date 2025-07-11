@@ -26,8 +26,10 @@
       class="pa-5"
       width="400"
       :title="
-        $t('actions.createResource', {
-          resource_type: $t('resources.packageMaintainer')
+        i18n.t('actions.general.createResource', {
+          resource_type: i18n.t(
+            'resources.packageMaintainer'
+          )
         })
       "
     >
@@ -37,7 +39,7 @@
           id="create-package-maintainer-user"
           as="autocomplete"
           name="user"
-          :label="$t('resources.user')"
+          :label="i18n.t('resources.user')"
           filled
           dense
           clearable
@@ -68,7 +70,7 @@
           id="create-package-maintainer-repository"
           as="autocomplete"
           name="repository"
-          :label="$t('resources.repository')"
+          :label="i18n.t('resources.repository')"
           :template="true"
           filled
           dense
@@ -91,8 +93,8 @@
                   text-color="white"
                   class="text-body-1"
                   size="x-small"
-                  >{{ item.raw.props.technology }}</v-chip
-                >
+                  >{{ item.raw.props.technology }}
+                </v-chip>
               </template>
             </v-list-item>
           </template>
@@ -109,7 +111,7 @@
           "
           as="combobox"
           name="package"
-          :label="$t('resources.package')"
+          :label="i18n.t('resources.package')"
           :template="true"
           filled
           dense
@@ -118,7 +120,6 @@
           return-object
           :store-id="storeIdPackage"
           max-width="unset"
-          @update:model-value="updatePackageName"
           @load-items="loadPackages"
           @filtrate="filtratePackagesObjects(undefined)"
         >
@@ -162,9 +163,6 @@ import { toTypedSchema } from '@vee-validate/zod'
 import { useForm } from 'vee-validate'
 import ValidatedInputField from '@/components/common/fields/ValidatedInputField.vue'
 import { onBeforeMount } from 'vue'
-import { packageMaintainerSchema } from '@/models/Schemas'
-import { z } from 'zod'
-import { useToast } from '@/composable/toasts'
 import { useI18n } from 'vue-i18n'
 import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesFiltration'
 import { useUsersFiltration } from '@/composable/filtration/usersFiltration'
@@ -175,11 +173,11 @@ import { onBeforeUnmount } from 'vue'
 import { computed } from 'vue'
 import { i18n } from '@/plugins/i18n'
 import { Role } from '@/enum/UserRoles'
+import { usePackageMaintainerValidationSchema } from '@/composable/packageMaintainers/packageMaintainerSchema'
 
 const maintainersStore = usePackageMaintainersStore()
 const packagesStore = usePackagesStore()
 const commonStore = useCommonStore()
-const toasts = useToast()
 const { t } = useI18n()
 
 const {
@@ -216,99 +214,31 @@ function loadPackages() {
   }
 }
 
-const { meta, setFieldValue, values, resetField } = useForm(
-  {
-    validationSchema: toTypedSchema(
-      z.object({
-        user: z.object(
-          {
-            title:
-              packageMaintainerSchema.shape.user.shape.name,
-            value:
-              packageMaintainerSchema.shape.user.shape.id
-          },
-          {
-            required_error: i18n.t(
-              'messages.errors.required'
-            ),
-            invalid_type_error: i18n.t(
-              'messages.errors.required'
-            )
-          }
-        ),
-        repository: z.object(
-          {
-            title:
-              packageMaintainerSchema.shape.repository.shape
-                .name,
-            value:
-              packageMaintainerSchema.shape.repository.shape
-                .id,
-            props: z.object({
-              technology:
-                packageMaintainerSchema.shape.repository
-                  .shape.technology
-            })
-          },
-          {
-            required_error: i18n.t(
-              'messages.errors.required'
-            ),
-            invalid_type_error: i18n.t(
-              'messages.errors.required'
-            )
-          }
-        ),
-        package: z.object(
-          {
-            title:
-              packageMaintainerSchema.shape.packageName,
-            value:
-              packageMaintainerSchema.shape.packageName,
-            props: z.object({
-              subtitle:
-                packageMaintainerSchema.shape.user.shape
-                  .name,
-              repoId:
-                packageMaintainerSchema.shape.repository
-                  .shape.id
-            })
-          },
-          {
-            required_error: i18n.t(
-              'messages.errors.required'
-            ),
-            invalid_type_error: i18n.t(
-              'messages.errors.required'
-            )
-          }
-        )
-      })
-    ),
-    initialValues: {
-      user: undefined,
-      repository: undefined,
-      package: undefined
-    }
+const {
+  packageMaintainerSchema,
+  transformedPackageMaintainerSchema
+} = usePackageMaintainerValidationSchema()
+
+const { meta, values, resetField } = useForm({
+  validationSchema: toTypedSchema(packageMaintainerSchema),
+  initialValues: {
+    user: undefined,
+    repository: undefined,
+    package: undefined
   }
-)
+})
 
 async function createMaintainer() {
-  if (meta.value.valid) {
-    const maintainer = {
-      user: { id: values.user?.value },
-      packageName: values.package?.value,
-      repository: { id: values.repository?.value }
-    }
-    await maintainersStore.create(maintainer)
-    filtratePackagesObjects(undefined)
-    filtrateRepositoriesObjects(undefined)
-    filtrateUsers(undefined)
-    packagesStore.clearFiltration()
-    commonStore.overlay = false
-  } else {
-    toasts.warning(t('messages.general.invalidForm'))
-  }
+  const maintainer =
+    await transformedPackageMaintainerSchema.parseAsync(
+      values
+    )
+  await maintainersStore.create(maintainer)
+  filtratePackagesObjects(undefined)
+  filtrateRepositoriesObjects(undefined)
+  filtrateUsers(undefined)
+  packagesStore.clearFiltration()
+  commonStore.overlay = false
 }
 
 function resetFiltration() {
@@ -326,20 +256,6 @@ function resetPackageName() {
   loadPackages()
 }
 
-function getFieldValue(newValue: any) {
-  if (typeof newValue === 'string') {
-    return {
-      title: newValue,
-      value: newValue,
-      props: { subtitle: 'a', repoId: 1 }
-    }
-  } else return newValue
-}
-
-function updatePackageName(newValue: any) {
-  setFieldValue('package', getFieldValue(newValue))
-}
-
 function clearFiltration() {
   filtrateUsers(undefined)
   filtratePackagesObjects(undefined)
@@ -350,7 +266,7 @@ onBeforeUnmount(() => {
   clearFiltration()
 })
 
-onBeforeMount(async () => {
+onBeforeMount(() => {
   resetRepositoriesPagination()
   resetPaginationUsers()
   resetPaginationPackages()

@@ -20,40 +20,22 @@
  *
  */
 
-export function useFiles() {
-  function formatFilename(filename: string): string {
-    if (filename.length >= 50) {
-      return `${filename.slice(0, 25)}...${filename.slice(-13)}`
-    } else {
-      return filename
-    }
-  }
+import z from 'zod'
+import { i18n } from '@/plugins/i18n.ts'
 
-  function formatCutFilename(
-    filename: string,
-    cutoff?: number
-  ): string {
-    if (filename.length >= (cutoff || 20)) {
-      return `${filename.slice(0, (cutoff || 20) - 3)}...`
-    } else {
-      return filename
-    }
-  }
-
-  function checkValidity(
-    file: File,
-    format: string,
-    fileExtension: string
-  ) {
-    return (
-      file['name'].endsWith(fileExtension) ||
-      file['type'] === format
-    )
-  }
-
+export function useTokenValidationSchema() {
+  const tokenSchema = z.object({
+    name: z
+      .string()
+      .min(1, i18n.t('messages.errors.required'))
+      .nullable()
+      .refine(
+        (val) => val !== null,
+        i18n.t('messages.errors.required')
+      ),
+    lifetime: z.string()
+  })
   return {
-    formatFilename,
-    formatCutFilename,
-    checkValidity
+    tokenSchema
   }
 }

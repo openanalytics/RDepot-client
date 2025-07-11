@@ -24,23 +24,27 @@
   <v-card
     class="pa-5"
     width="400"
-    :title="$t('forms.tokens.edit')"
+    :title="i18n.t('forms.tokens.edit')"
   >
     <v-divider></v-divider>
     <v-card-text>
       <validated-input-field
         id="token-name"
-        v-model="localToken.name"
+        v-model="token.name"
         type="text"
         clearable
         name="name"
-        :label="$t('forms.general.name')"
+        :label="i18n.t('forms.general.name')"
         as="v-text-field"
         max-width="unset"
       ></validated-input-field>
     </v-card-text>
-    <v-divider></v-divider>
-    <CardActions @submit="editToken" />
+    <v-divider />
+    <CardActions
+      :valid="meta.valid"
+      :touched="meta.dirty"
+      @submit="editToken"
+    />
   </v-card>
 </template>
 
@@ -48,38 +52,31 @@
 import ValidatedInputField from '@/components/common/fields/ValidatedInputField.vue'
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
-import { ref } from 'vue'
 import { z } from 'zod'
 import { useUtilities } from '@/composable/utilities'
 import { useAccessTokensStore } from '@/store/options/accessTokens'
 import CardActions from '@/components/common/overlay/CardActions.vue'
 import { useCommonStore } from '@/store/options/common'
+import { i18n } from '@/plugins/i18n'
+import { useTokenValidationSchema } from '@/composable/tokens/tokenSchema'
 
 const accessTokensStore = useAccessTokensStore()
 const commonStore = useCommonStore()
+const { tokenSchema } = useTokenValidationSchema()
 
 const { deepCopy } = useUtilities()
-
 let token = deepCopy(accessTokensStore.currentToken)
-const localToken = ref(token)
 
-const { meta, validate } = useForm({
+const { meta } = useForm({
   validationSchema: toTypedSchema(
     z.object({
-      name: z.string().min(1)
+      name: tokenSchema.shape.name
     })
   )
 })
 
 function editToken() {
-  validate()
-  if (meta.value.valid) {
-    const newToken = deepCopy(localToken.value)
-    accessTokensStore.patch(
-      deepCopy(accessTokensStore.currentToken),
-      newToken
-    )
-    commonStore.closeOverlay()
-  }
+  accessTokensStore.patch(token)
+  commonStore.closeOverlay()
 }
 </script>

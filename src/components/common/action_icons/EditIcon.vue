@@ -32,27 +32,18 @@
         >{{ Icons.get('edit') }}</v-icon
       >
     </template>
-    <span v-if="!disabled" id="action-delete">{{
-      text
-    }}</span>
-    <span v-else>
+    <span>
       {{ translatedHoverMessage }}
     </span>
   </v-tooltip>
 </template>
 
 <script setup lang="ts">
-import { OverlayEnum } from '@/enum/Overlay'
 import { i18n } from '@/plugins/i18n'
-import { useCommonStore } from '@/store/options/common'
 import { computed } from 'vue'
 import Icons from '@/maps/Icons'
 
 const componentProps = defineProps({
-  text: {
-    type: String,
-    required: true
-  },
   disabled: {
     type: Boolean,
     default: false
@@ -70,13 +61,10 @@ const componentProps = defineProps({
 })
 
 const emits = defineEmits(['setEntity'])
-const commonStore = useCommonStore()
 
 function edit() {
   if (!componentProps.disabled) {
     emits('setEntity')
-    commonStore.overlayText = componentProps.text
-    commonStore.openOverlay(OverlayEnum.enum.Edit)
   }
 }
 

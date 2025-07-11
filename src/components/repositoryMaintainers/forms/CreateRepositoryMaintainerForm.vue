@@ -25,8 +25,8 @@
     <v-card class="pa-5" width="400">
       <v-card-title>
         {{
-          $t('actions.createResource', {
-            resource_type: $t(
+          t('actions.general.createResource', {
+            resource_type: t(
               'resources.repositoryMaintainer'
             )
           })
@@ -99,8 +99,8 @@
                   text-color="white"
                   class="text-body-1"
                   size="x-small"
-                  >{{ item.raw.props.technology }}</v-chip
-                >
+                  >{{ item.raw.props.technology }}
+                </v-chip>
               </template>
             </v-list-item>
           </template>
@@ -136,8 +136,6 @@ import { onBeforeMount } from 'vue'
 import { useForm } from 'vee-validate'
 import ValidatedInputField from '@/components/common/fields/ValidatedInputField.vue'
 import { toTypedSchema } from '@vee-validate/zod'
-import { repositoryMaintainerSchema } from '@/models/Schemas'
-import { z } from 'zod'
 import { useToast } from '@/composable/toasts'
 import { useI18n } from 'vue-i18n'
 import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesFiltration'
@@ -145,6 +143,7 @@ import { useUsersFiltration } from '@/composable/filtration/usersFiltration'
 import { useCommonStore } from '@/store/options/common'
 import { i18n } from '@/plugins/i18n'
 import { Role } from '@/enum/UserRoles'
+import { useRepositoryMaintainerValidationSchema } from '@/composable/repositoryMaintainers/repositoryMaintainerSchema'
 
 const { t } = useI18n()
 const commonStore = useCommonStore()
@@ -171,50 +170,14 @@ function loadRepositories() {
   }
 }
 
+const {
+  repositoryMaintainerSchema,
+  transformedRepositoryMaintainerSchema
+} = useRepositoryMaintainerValidationSchema()
+
 const { meta, values, resetField } = useForm({
   validationSchema: toTypedSchema(
-    z.object({
-      user: z.object(
-        {
-          title:
-            repositoryMaintainerSchema.shape.user.shape
-              .name,
-          value:
-            repositoryMaintainerSchema.shape.user.shape.id
-        },
-        {
-          required_error: i18n.t(
-            'messages.errors.required'
-          ),
-          invalid_type_error: i18n.t(
-            'messages.errors.required'
-          )
-        }
-      ),
-      repository: z.object(
-        {
-          title:
-            repositoryMaintainerSchema.shape.repository
-              .shape.name,
-          value:
-            repositoryMaintainerSchema.shape.repository
-              .shape.id,
-          props: z.object({
-            technology:
-              repositoryMaintainerSchema.shape.repository
-                .shape.technology
-          })
-        },
-        {
-          required_error: i18n.t(
-            'messages.errors.required'
-          ),
-          invalid_type_error: i18n.t(
-            'messages.errors.required'
-          )
-        }
-      )
-    })
+    repositoryMaintainerSchema
   ),
   initialValues: {
     user: undefined,
@@ -233,12 +196,12 @@ function resetRepository() {
   }
 }
 
-function setMaintainer() {
+async function setMaintainer() {
   if (meta.value.valid) {
-    const maintainer = {
-      user: { id: values.user?.value },
-      repository: { id: values.repository?.value }
-    }
+    const maintainer =
+      await transformedRepositoryMaintainerSchema.parseAsync(
+        values
+      )
     maintainersStore
       .create(maintainer)
       .then(() => {

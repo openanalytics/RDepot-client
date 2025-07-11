@@ -65,7 +65,9 @@ test.describe(TITLE, () => {
 
     const eventsSubmissionSelector = page.getByRole(
       'option',
-      { name: 'Submission' }
+      {
+        name: 'Submission'
+      }
     )
 
     await eventsSubmissionSelector.waitFor()

@@ -20,40 +20,13 @@
  *
  */
 
-export function useFiles() {
-  function formatFilename(filename: string): string {
-    if (filename.length >= 50) {
-      return `${filename.slice(0, 25)}...${filename.slice(-13)}`
-    } else {
-      return filename
-    }
-  }
+import z from 'zod'
 
-  function formatCutFilename(
-    filename: string,
-    cutoff?: number
-  ): string {
-    if (filename.length >= (cutoff || 20)) {
-      return `${filename.slice(0, (cutoff || 20) - 3)}...`
-    } else {
-      return filename
-    }
-  }
-
-  function checkValidity(
-    file: File,
-    format: string,
-    fileExtension: string
-  ) {
-    return (
-      file['name'].endsWith(fileExtension) ||
-      file['type'] === format
-    )
-  }
-
+export function useUserValidationSchema() {
+  const userRoleSchema = z.object({
+    role: z.string().min(1)
+  })
   return {
-    formatFilename,
-    formatCutFilename,
-    checkValidity
+    userRoleSchema
   }
 }

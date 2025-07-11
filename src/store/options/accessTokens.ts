@@ -156,15 +156,14 @@ export const useAccessTokensStore = defineStore(
         this.currentToken = {}
       },
       async patch(
-        oldToken: EntityModelAccessTokenDto,
         newValues: Partial<EntityModelAccessTokenDto>
       ) {
-        this.pending.push(oldToken)
+        this.pending.push(this.currentToken)
         const newToken = {
-          ...deepCopy(oldToken),
+          ...deepCopy(this.currentToken),
           ...newValues
         }
-        await editToken(oldToken, newToken)
+        await editToken(this.currentToken, newToken)
           ?.then(async (success) => {
             if (success) {
               const toast = useToast()
@@ -174,7 +173,7 @@ export const useAccessTokensStore = defineStore(
           })
           .finally(() => {
             this.pending = this.pending.filter(
-              (item) => item.id != oldToken.id
+              (item) => item.id != this.currentToken.id
             )
           })
       },

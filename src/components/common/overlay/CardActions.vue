@@ -40,15 +40,34 @@
           <small>{{ button.text }}</small>
         </v-btn>
       </template>
-      <v-btn
-        v-if="submitButton"
-        id="submit-button"
-        :disabled="!valid"
-        color="primary darken-2"
-        class="mx-1"
-        @click="emit('submit')"
-        >{{ submitText }}</v-btn
-      >
+      <v-tooltip :disabled="valid && touched">
+        <template #activator="{ props }">
+          <div>
+            <v-btn
+              v-if="submitButton"
+              id="submit-button"
+              v-bind="props"
+              :color="
+                valid && touched
+                  ? 'primary darken-2'
+                  : 'grey'
+              "
+              :style="{
+                cursor:
+                  valid && touched ? 'pointer' : 'default'
+              }"
+              class="mx-1"
+              @click="valid ? emit('submit') : ''"
+              >{{ submitText }}</v-btn
+            >
+          </div>
+        </template>
+        <span v-if="!touched">
+          {{ $t('messages.errors.formNotChanged') }} </span
+        ><span v-else-if="!valid">
+          {{ $t('messages.errors.invalidForm') }}
+        </span>
+      </v-tooltip>
     </v-row>
   </v-card-actions>
 </template>
@@ -76,6 +95,7 @@ withDefaults(
     submitButton?: boolean
     justify?: Justify
     valid?: boolean
+    touched?: boolean
     buttons?: {
       id?: string
       text: string
@@ -85,6 +105,7 @@ withDefaults(
     justify: 'space-between',
     cancelButton: true,
     submitButton: true,
+    touched: true,
     valid: true,
     buttons: undefined
   }

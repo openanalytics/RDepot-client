@@ -29,20 +29,17 @@
           :component="OverlayEnum.enum.Create"
           size="small"
         >
-          <span class="pr-3">
-            {{ $t('actions.general.create') }}</span
-          >
-          <v-icon :icon="Icons.get('add')"
-        /></CommonButton>
+          <v-icon :icon="Icons.get('add')" />
+        </CommonButton>
       </div>
     </template>
     <span id="tooltip-wait"
       ><span>
         {{
-          $t('actions.general.create', {
-            resource_type: $t(
-              'resources.packageMaintainer'
-            ).toLowerCase()
+          i18n.t('actions.general.createResource', {
+            resource_type: i18n
+              .t(i18n.t('resources.packageMaintainer'))
+              .toLowerCase()
           })
         }}
       </span>
@@ -54,4 +51,5 @@
 import CommonButton from '@/components/common/buttons/CommonButton.vue'
 import { OverlayEnum } from '@/enum/Overlay'
 import Icons from '@/maps/Icons'
+import { i18n } from '@/plugins/i18n'
 </script>

@@ -26,8 +26,10 @@
       class="pa-5"
       width="400"
       :title="
-        $t('actions.general.editResource', {
-          resource_type: $t('resources.packageMaintainer')
+        i18n.t('actions.general.editResource', {
+          resource_type: i18n.t(
+            'resources.packageMaintainer'
+          )
         })
       "
     >
@@ -35,9 +37,10 @@
       <v-card-text style="height: 300px">
         <validated-input-field
           id="edit-package-maintainer-user"
-          as="v-text-field"
-          name="username"
-          :label="$t('resources.user')"
+          as="autocomplete"
+          name="user"
+          return-object
+          :label="i18n.t('resources.user')"
           disabled
           max-width="unset"
         />
@@ -45,7 +48,7 @@
           id="edit-package-maintainer-repository"
           as="autocomplete"
           name="repository"
-          :label="$t('resources.repository')"
+          :label="i18n.t('resources.repository')"
           :template="true"
           filled
           dense
@@ -68,8 +71,8 @@
                   text-color="white"
                   class="text-body-1"
                   size="x-small"
-                  >{{ item.raw.props.technology }}</v-chip
-                >
+                  >{{ item.raw.props.technology }}
+                </v-chip>
               </template>
             </v-list-item>
           </template>
@@ -86,7 +89,7 @@
           "
           as="combobox"
           name="package"
-          :label="$t('resources.package')"
+          :label="i18n.t('resources.package')"
           :template="true"
           filled
           dense
@@ -126,7 +129,8 @@
       </v-card-text>
       <v-divider></v-divider>
       <CardActions
-        :valid="isFormValid"
+        :valid="meta.valid"
+        :touched="meta.dirty"
         @submit="editMaintainer"
         @cancel="resetFiltration"
       />
@@ -140,11 +144,8 @@ import { usePackageMaintainersStore } from '@/store/options/packageMaintainers'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useForm } from 'vee-validate'
 import ValidatedInputField from '@/components/common/fields/ValidatedInputField.vue'
-import { ref, onBeforeMount, computed } from 'vue'
-import { packageMaintainerSchema } from '@/models/Schemas'
-import { z } from 'zod'
+import { onBeforeMount, computed } from 'vue'
 import { useUtilities } from '@/composable/utilities'
-import { useToast } from '@/composable/toasts'
 import { useI18n } from 'vue-i18n'
 import { Technologies } from '@/enum/Technologies'
 import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesFiltration'
@@ -152,11 +153,11 @@ import { usePackagesFiltration } from '@/composable/filtration/packagesFiltratio
 import { usePackagesStore } from '@/store/options/packages'
 import { useCommonStore } from '@/store/options/common'
 import { i18n } from '@/plugins/i18n'
+import { usePackageMaintainerValidationSchema } from '@/composable/packageMaintainers/packageMaintainerSchema'
 
 const maintainersStore = usePackageMaintainersStore()
 const packagesStore = usePackagesStore()
 const commonsStore = useCommonStore()
-const toasts = useToast()
 const { t } = useI18n()
 
 const {
@@ -173,17 +174,11 @@ const {
   resetPaginationPackages
 } = usePackagesFiltration()
 
-let maintainer = maintainersStore.chosenMaintainer
-const localMaintainer = ref(maintainer)
+const { deepCopy } = useUtilities()
+let maintainer = deepCopy(maintainersStore.chosenMaintainer)
 
 const isPackageFieldDisabled = computed(
-  () => !(localMaintainer.value.user && values.repository)
-)
-
-const isFormValid = computed(
-  () =>
-    meta.value.valid &&
-    (isFieldDirty('repository') || isFieldDirty('package'))
+  () => !(maintainer.user && values.repository)
 )
 
 function filtrateRepositories(value: string | undefined) {
@@ -194,50 +189,19 @@ function filtrateRepositories(value: string | undefined) {
   }
 }
 
+const { packageMaintainerSchema } =
+  usePackageMaintainerValidationSchema()
+
 const { meta, setFieldValue, isFieldDirty, values } =
   useForm({
     validationSchema: toTypedSchema(
-      z.object({
-        username:
-          packageMaintainerSchema.shape.user.shape.name,
-        repository: z.object(
-          {
-            title:
-              packageMaintainerSchema.shape.repository.shape
-                .name,
-            value:
-              packageMaintainerSchema.shape.repository.shape
-                .id,
-            props: z.object({
-              technology:
-                packageMaintainerSchema.shape.repository
-                  .shape.technology
-            })
-          },
-          {
-            required_error: i18n.t(
-              'messages.errors.required'
-            ),
-            invalid_type_error: i18n.t(
-              'messages.errors.required'
-            )
-          }
-        ),
-        package: z.object({
-          title: packageMaintainerSchema.shape.packageName,
-          value: packageMaintainerSchema.shape.packageName,
-          props: z.object({
-            subtitle:
-              packageMaintainerSchema.shape.user.shape.name,
-            repoId:
-              packageMaintainerSchema.shape.repository.shape
-                .id
-          })
-        })
-      })
+      packageMaintainerSchema
     ),
     initialValues: {
-      username: maintainer?.user?.name,
+      user: {
+        title: maintainer?.user.name,
+        value: maintainer?.user?.id
+      },
       repository: {
         title: maintainer.repository?.name,
         value: maintainer.repository?.id,
@@ -256,27 +220,20 @@ const { meta, setFieldValue, isFieldDirty, values } =
       }
     }
   })
-const { deepCopy } = useUtilities()
 
 function updateMaintainer() {
-  localMaintainer.value = deepCopy(
-    maintainersStore.chosenMaintainer
-  )
+  maintainer = deepCopy(maintainersStore.chosenMaintainer)
 }
 
 async function editMaintainer() {
-  if (meta.value.valid) {
-    await maintainersStore.patch(localMaintainer.value)
-    changeDialogOptions()
-  } else {
-    toasts.warning(t('messages.errors.invalidForm'))
-  }
+  await maintainersStore.patch(maintainer)
+  changeDialogOptions()
 }
 
 function updateForm(newValue: any) {
-  localMaintainer.value.repository!.id =
+  maintainer.repository!.id =
     newValue !== null ? newValue.value : undefined
-  localMaintainer.value.packageName = ''
+  maintainer.packageName = ''
   packagesStore.filtration.repository = values.repository
     ?.title
     ? [values.repository.title]
@@ -288,35 +245,21 @@ function updateForm(newValue: any) {
 }
 
 function loadPackages() {
-  if (
-    localMaintainer.value.user?.name &&
-    values.repository?.title
-  ) {
+  if (maintainer.user?.name && values.repository?.title) {
     loadPackagesObjects(
-      localMaintainer.value.user.name,
+      maintainer.user.name,
       values.repository.title
     )
   }
 }
 
 function setPackageName(newValue: any) {
-  localMaintainer.value.packageName =
+  maintainer.packageName =
     newValue.value !== null
       ? typeof newValue === 'string'
         ? newValue
         : newValue.value
       : ''
-  setFieldValue('package', getFieldValue(newValue))
-}
-
-function getFieldValue(newValue: any) {
-  if (typeof newValue === 'string') {
-    return {
-      title: newValue,
-      value: newValue,
-      props: { subtitle: 'a' }
-    }
-  } else return newValue
 }
 
 function changeDialogOptions() {
@@ -333,9 +276,9 @@ onBeforeMount(() => {
   resetRepositoriesPagination()
   updateMaintainer()
   resetPaginationPackages()
-  packagesStore.filtration.repository = localMaintainer
-    .value.repository?.name
-    ? [localMaintainer.value.repository?.name]
+  packagesStore.filtration.repository = maintainer
+    .repository?.name
+    ? [maintainer.repository?.name]
     : undefined
   loadPackages()
 })

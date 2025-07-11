@@ -148,7 +148,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
       page.locator(
         `#${CREATE_REPOSITORY_MAINTAINER_SUBMIT_ID}`
       )
-    ).toBeDisabled()
+    ).toHaveClass(/text-grey/)
   })
 
   test('display proper error messages', async ({
@@ -219,9 +219,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     await expect(albertEinsteinSelector).toHaveCount(0)
     await page
       .locator(
-        `#${
-          CREATE_REPOSITORY_MAINTAINER_REPOSITORY_INPUT_ID
-        }`
+        `#${CREATE_REPOSITORY_MAINTAINER_REPOSITORY_INPUT_ID}`
       )
       .click({ force: true })
 
@@ -244,9 +242,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
 
     await page
       .locator(
-        `#${
-          CREATE_REPOSITORY_MAINTAINER_REPOSITORY_INPUT_ID
-        }`
+        `#${CREATE_REPOSITORY_MAINTAINER_REPOSITORY_INPUT_ID}`
       )
       .click({ force: true })
 

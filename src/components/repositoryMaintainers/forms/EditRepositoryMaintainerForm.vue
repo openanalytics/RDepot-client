@@ -21,12 +21,12 @@
 -->
 
 <template>
-  <form ref="form" as="v-form" lazy-validation>
+  <form ref="form" as="v-form">
     <v-card class="pa-5" width="400">
       <v-card-title>
         {{
           i18n.t('actions.general.editResource', {
-            resource_type: $t(
+            resource_type: i18n.t(
               'resources.repositoryMaintainer'
             )
           })
@@ -37,11 +37,11 @@
         <validated-input-field
           id="edit-repository-maintainer-user"
           name="user"
-          as="v-text-field"
+          return-object
+          as="autocomplete"
           :label="i18n.t('resources.user')"
           disabled
           max-width="unset"
-          @update:model-value="resetRepository"
         />
         <validated-input-field
           id="edit-repository-maintainer-repository"
@@ -106,7 +106,8 @@
       </v-card-text>
       <v-divider></v-divider>
       <CardActions
-        :valid="isFormValid"
+        :valid="meta.valid"
+        :touched="meta.touched || meta.dirty"
         @submit="setMaintainer"
       />
     </v-card>
@@ -117,12 +118,10 @@
 import CardActions from '@/components/common/overlay/CardActions.vue'
 import { EntityModelRepositoryMaintainerDto } from '@/openapi'
 import { useRepositoryMaintainersStore } from '@/store/options/repositoryMaintainers'
-import { computed, onBeforeMount } from 'vue'
+import { onBeforeMount } from 'vue'
 import { useForm } from 'vee-validate'
 import ValidatedInputField from '@/components/common/fields/ValidatedInputField.vue'
 import { toTypedSchema } from '@vee-validate/zod'
-import { repositoryMaintainerSchema } from '@/models/Schemas'
-import { z } from 'zod'
 import { useUtilities } from '@/composable/utilities'
 import { useToast } from '@/composable/toasts'
 import { useI18n } from 'vue-i18n'
@@ -130,6 +129,7 @@ import { Technologies } from '@/enum/Technologies'
 import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesFiltration'
 import { useCommonStore } from '@/store/options/common'
 import { i18n } from '@/plugins/i18n'
+import { useRepositoryMaintainerValidationSchema } from '@/composable/repositoryMaintainers/repositoryMaintainerSchema'
 
 const { t } = useI18n()
 const commonStore = useCommonStore()
@@ -147,42 +147,18 @@ const { deepCopy } = useUtilities()
 let maintainer: EntityModelRepositoryMaintainerDto =
   deepCopy(maintainersStore.chosenMaintainer)
 
-const isFormValid = computed(
-  () => meta.value.valid && isFieldDirty('repository')
-)
+const { repositoryMaintainerSchema } =
+  useRepositoryMaintainerValidationSchema()
 
-const { meta, values, resetField, isFieldDirty } = useForm({
+const { meta, values } = useForm({
   validationSchema: toTypedSchema(
-    z.object({
-      user: repositoryMaintainerSchema.shape.user.shape
-        .name,
-      repository: z.object(
-        {
-          title:
-            repositoryMaintainerSchema.shape.repository
-              .shape.name,
-          value:
-            repositoryMaintainerSchema.shape.repository
-              .shape.id,
-          props: z.object({
-            technology:
-              repositoryMaintainerSchema.shape.repository
-                .shape.technology
-          })
-        },
-        {
-          required_error: i18n.t(
-            'messages.errors.required'
-          ),
-          invalid_type_error: i18n.t(
-            'messages.errors.required'
-          )
-        }
-      )
-    })
+    repositoryMaintainerSchema
   ),
   initialValues: {
-    user: maintainer.user?.name,
+    user: {
+      title: maintainer.user?.name,
+      value: maintainer.user?.id
+    },
     repository: {
       title: maintainer.repository?.name,
       value: maintainer.repository?.id,
@@ -195,13 +171,6 @@ const { meta, values, resetField, isFieldDirty } = useForm({
 })
 
 const toasts = useToast()
-
-function resetRepository() {
-  resetRepositoriesPagination()
-  resetField('repository')
-  filtrateRepositoriesObjects(undefined)
-  loadRepositoriesObjects(maintainer.user?.name)
-}
 
 function setMaintainer() {
   if (meta.value.valid) {

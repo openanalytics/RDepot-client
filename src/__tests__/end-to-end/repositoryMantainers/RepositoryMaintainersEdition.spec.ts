@@ -60,11 +60,15 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     const nameInputFieldSelector = page.locator(
       `#${EDIT_REPOSITORY_MAINTAINER_USER_INPUT_ID}`
     )
+    const parentDiv = page
+      .locator(
+        `#${EDIT_REPOSITORY_MAINTAINER_USER_INPUT_ID}`
+      )
+      .locator('..')
+
     await nameInputFieldSelector.waitFor()
     await expect(nameInputFieldSelector).toBeDisabled()
-    expect(
-      await nameInputFieldSelector.inputValue()
-    ).toEqual('Albert Einstein')
+    await expect(parentDiv).toContainText('Albert Einstein')
 
     const repositoryInputField = page.locator(
       `#${EDIT_REPOSITORY_MAINTAINER_REPOSITORY_INPUT_ID}`

@@ -101,9 +101,7 @@ const actionButtons = computed(() => [
     id: 'packages-multi-delete',
     icon: Icons.get('delete'),
     color: 'oared',
-    tooltipMessage: `${i18n.t('common.delete')} ${
-      onHoverMessage.value
-    }`,
+    tooltipMessage: `${i18n.t('actions.general.delete')} ${onHoverMessage.value}`,
     onClickAction: () => openDeletePackagesModal()
   }
 ])

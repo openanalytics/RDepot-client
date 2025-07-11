@@ -227,8 +227,10 @@ onBeforeUnmount(() => {
     transform: scale(1.05);
     cursor: pointer;
   }
+
   .year {
     font-size: 2em;
+
     .month {
       font-size: 1rem !important;
     }

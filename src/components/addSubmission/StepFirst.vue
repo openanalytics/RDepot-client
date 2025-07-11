@@ -22,17 +22,20 @@
 
 <template>
   <v-card class="mb-12 px-10 py-5 step" height="250px">
-    <AutocompleteField
+    <validated-input-field
       id="upload-submission-repository-field"
+      as="autocomplete"
+      name="repository"
       class="mt-5"
       :store-id="storeId"
-      :label="$t('forms.submissions.stepFirst')"
+      :label="i18n.t('forms.submissions.stepFirst')"
       filled
       dense
       clearable
       persistent-hint
       return-object
       :template="true"
+      max-width="unset"
       @load-items="loadRepositoriesObjects"
       @filtrate="filtrateRepositoriesObjects"
       @update:model-value="changeRepository"
@@ -62,34 +65,17 @@
           </template>
         </v-list-item>
       </template>
-    </AutocompleteField>
+    </validated-input-field>
   </v-card>
-  <div class="d-flex justify-end">
-    <v-btn
-      id="next-button"
-      color="primary"
-      :disabled="submissionsStore.repository === undefined"
-      @click="nextStep"
-    >
-      {{ $t('actions.general.continue') }}
-    </v-btn>
-  </div>
 </template>
 
 <script setup lang="ts">
-import { useSubmissionStore } from '@/store/options/submission'
-import { useToast } from '@/composable/toasts'
-import { useI18n } from 'vue-i18n'
-import { EntityModelRepositoryDto } from '@/openapi'
 import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesFiltration'
-import AutocompleteField from '@/components/common/fields/AutocompleteField.vue'
 import { onBeforeMount } from 'vue'
 import { useRepositoryStore } from '@/store/options/repositories'
-
-const emits = defineEmits(['next'])
-const submissionsStore = useSubmissionStore()
-const toasts = useToast()
-const { t } = useI18n()
+import ValidatedInputField from '@/components/common/fields/ValidatedInputField.vue'
+import { i18n } from '@/plugins/i18n'
+import { useField } from 'vee-validate'
 
 const {
   storeId,
@@ -100,33 +86,24 @@ const {
 
 type SelectRepository = {
   title?: string
-  value?: number
+  value?: string
   props: {
     technology?: string
   }
 }
 
+const { setValue: setRepository } = useField('repository')
+const { setValue: setTechnology } = useField('technology')
+
 function changeRepository(value: SelectRepository | null) {
   if (value) {
-    const repository = {
-      name: value.title,
-      id: value.value,
-      technology: value.props.technology
-    } as EntityModelRepositoryDto
-    submissionsStore.setRepository(repository)
+    setTechnology(value.props.technology)
   }
 }
 
 function clearRepository() {
-  submissionsStore.repository = undefined
-}
-
-function nextStep() {
-  if (submissionsStore.repository != null) {
-    emits('next', 2)
-  } else {
-    toasts.warning(t('messages.submissions.empty'))
-  }
+  setTechnology(undefined)
+  setRepository(undefined)
 }
 
 onBeforeMount(() => {

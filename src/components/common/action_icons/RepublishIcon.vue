@@ -40,6 +40,7 @@ import { useConfigStore } from '@/store/options/config'
 import { computed } from 'vue'
 import Icons from '@/maps/Icons'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
+import { useRepositoryStore } from '@/store/options/repositories'
 
 const componentProps = defineProps({
   repo: {
@@ -69,7 +70,7 @@ const tooltipText = computed(() => {
   } else if (componentProps.repo.published) {
     return i18n.t('messages.general.notAuthorized')
   }
-  return i18n.t('message.repositories.notPublished')
+  return i18n.t('messages.repositories.notPublished')
 })
 
 const disabled = computed(() => {
@@ -81,8 +82,12 @@ const disabled = computed(() => {
   )
 })
 
-function republish() {
+const repositoryStore = useRepositoryStore()
+
+async function republish() {
   if (!disabled.value) {
+    await repositoryStore.setChosen(componentProps.repo.id)
+
     emits('setEntity')
     commonStore.overlayText = i18n.t(
       'messages.repositories.republishQuestion',

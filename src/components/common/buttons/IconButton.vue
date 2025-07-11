@@ -23,11 +23,7 @@
 <template>
   <v-tooltip location="top">
     <template #activator="{ props }">
-      <div
-        id="tooltip-activator"
-        v-bind="props"
-        class="pl-3"
-      >
+      <div id="tooltip-activator" v-bind="props">
         <VIcon
           :id="id"
           :color="color"

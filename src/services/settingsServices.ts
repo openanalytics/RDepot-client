@@ -23,19 +23,19 @@
 import { TokensFiltration } from '@/models/Filtration'
 import {
   ApiV2AccessTokenControllerApiFactory,
-  EntityModelAccessTokenDto,
-  CreateAccessTokenDto
+  CreateAccessTokenDto,
+  EntityModelAccessTokenDto
 } from '@/openapi'
 import {
   openApiRequest,
   validatedData,
   validateRequest
 } from './openApiAccess'
-import { tokenSchema } from '@/models/Schemas'
 import { createPatch } from 'rfc6902'
 import { isAuthorized } from '@/plugins/casl'
 import { useToast } from '@/composable/toasts'
 import { i18n } from '@/plugins/i18n'
+import { useTokenValidationSchema } from '@/composable/tokens/tokenSchema.ts'
 
 type ValidatedTokens = Promise<
   validatedData<EntityModelAccessTokenDto[]>
@@ -79,6 +79,7 @@ export async function createToken(
   if (!isAuthorized('POST', 'settings')) {
     return new Promise(() => false)
   }
+  const { tokenSchema } = useTokenValidationSchema()
   const validatedToken = tokenSchema.safeParse(newToken)
 
   if (validatedToken.success) {

@@ -27,13 +27,6 @@ import { usePackageMaintainersStore } from '@/store/options/packageMaintainers'
 import { usePackagesStore } from '@/store/options/packages'
 import { useSubmissionStore } from '@/store/options/submission'
 
-export function prepareUploadPackagesView() {
-  const submissionStore = useSubmissionStore()
-  submissionStore.updateStepperKey()
-  submissionStore.repository = undefined
-  submissionStore.packages = []
-}
-
 export function preparePackagesView() {
   const packagesStore = usePackagesStore()
   const { resetRepositoriesPagination } =

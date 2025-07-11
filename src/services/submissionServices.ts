@@ -121,9 +121,8 @@ export async function updateSubmission(
   }
 }
 
-export async function addSubmission(
+export async function addRSubmission(
   repository: string,
-  technology: string,
   file: File,
   generateManual?: boolean,
   replace?: boolean,
@@ -137,49 +136,55 @@ export async function addSubmission(
     return new Promise(() => false)
   }
 
-  let submissionApi
+  const submissionApi = RSubmissionControllerApiFactory(
+    await getConfiguration()
+  ).submitRPackageForm
 
-  if (technology === Technologies.enum.R) {
-    submissionApi = RSubmissionControllerApiFactory(
-      await getConfiguration()
-    ).submitRPackageForm
+  return openApiRequest<EntityModelSubmissionDto>(
+    submissionApi,
+    [
+      repository,
+      file,
+      generateManual,
+      replace,
+      binary,
+      rVersion,
+      architecture,
+      distribution,
+      note
+    ],
+    false,
+    undefined,
+    undefined,
+    undefined,
+    false
+  )
+}
 
-    return openApiRequest<EntityModelSubmissionDto>(
-      submissionApi,
-      [
-        repository,
-        file,
-        generateManual,
-        replace,
-        binary,
-        rVersion,
-        architecture,
-        distribution,
-        note
-      ],
-      false,
-      undefined,
-      undefined,
-      undefined,
-      false
-    )
-  } else if (technology === Technologies.enum.Python) {
-    submissionApi = PythonSubmissionControllerApiFactory(
+export async function addPythonSubmission(
+  repository: string,
+  file: File,
+  replace?: boolean,
+  binary?: boolean,
+  note?: string
+): ValidatedSubmission {
+  if (!isAuthorized('POST', 'submissions')) {
+    return new Promise(() => false)
+  }
+  const submissionApi =
+    PythonSubmissionControllerApiFactory(
       await getConfiguration()
     ).submitPythonPackageForm
 
-    return openApiRequest<EntityModelSubmissionDto>(
-      submissionApi,
-      [repository, file, replace, binary, note],
-      false,
-      undefined,
-      undefined,
-      undefined,
-      false
-    )
-  } else {
-    return new Promise(() => false)
-  }
+  return openApiRequest<EntityModelSubmissionDto>(
+    submissionApi,
+    [repository, file, replace, binary, note],
+    false,
+    undefined,
+    undefined,
+    undefined,
+    false
+  )
 }
 
 export function fetchSubmission(
@@ -197,7 +202,7 @@ export function fetchSubmission(
   })
 }
 
-export function getRConfiguration(): ValidatedRConfiguration {
+export function getRConfigurationService(): ValidatedRConfiguration {
   if (!isAuthorized('GET', 'submissions')) {
     return new Promise(() => {})
   }

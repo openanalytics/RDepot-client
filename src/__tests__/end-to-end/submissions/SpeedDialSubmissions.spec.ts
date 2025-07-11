@@ -205,7 +205,9 @@ test.describe(TITLE, () => {
     const submitButtonLocator = page.locator(
       `#${SUBMIT_BUTTON_ID}`
     )
-    await expect(submitButtonLocator).toBeDisabled()
+    await expect(submitButtonLocator).toHaveClass(
+      /text-grey/
+    )
   })
 
   test('download a few waiting submission', async ({

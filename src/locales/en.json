@@ -200,7 +200,8 @@
       "500": "Internal server error",
       "copyFailed": "Copy failed",
       "email": "This should be an email",
-      "invalidForm": "The submitted form is not valid",
+      "invalidForm": "The form is not valid",
+      "formNotChanged": "The form has not changed",
       "message": {
         "500": "We are sorry, something went wrong! Please pass this message to an RDepot administrator.\n\ntrace ID:\n{traceId}\n\ntimestamp:\n{timestamp}"
       },
@@ -218,8 +219,10 @@
     },
     "general": {
       "chooseOneToEnable": "choose at least one {resource_type} to enable",
+      "chooseOneToContinue": "Please add {resource_type} to continue",
       "copied": "Copied to clipboard",
       "deactivateQuestion": "Are you sure you want to deactivate {resource_name}?",
+      "deleteQuestion": "Are you sure you want to delete {resource_name}?",
       "deleteResourcesQuestion": "Are you sure you want to delete the following {resource_type}?",
       "deleted": "This {resource_name} is deleted",
       "editResourceQuestion": "Are you sure you want to {edit_action} the following {resource_type}?",
@@ -311,7 +314,9 @@
           "unknown": "Unknown failure. Please try again."
         }
       },
-      "wrongExtension": "Choose packages that have the correct file extension (.tar.gz)"
+      "wrongExtension-Python": "Choose packages that have the correct file extension (.tar.gz/.whl)",
+      "wrongExtension-R": "Choose packages that have the correct file extension (.tar.gz)",
+      "wrongExtension": "Choose packages that have the correct file extension"
     },
     "users": {
       "editAdmin": "Cannot edit user which is an administrator",
@@ -421,7 +426,8 @@
     "submission": "Submission | Submissions",
     "technology": "Technology | Technologies",
     "token": "Token | Tokens",
-    "user": "User | Users"
+    "user": "User | Users",
+    "file": "File | Files"
   },
   "updatedProperties": {
     "title": "Updated properties"

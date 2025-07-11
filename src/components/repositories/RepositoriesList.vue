@@ -73,7 +73,7 @@
               >
                 <CopyableCell
                   :value="item.publicationUri"
-                  :tooltip-message="`${$t('actions.general.copy')} ${$t('fields.repositories.publicationUri').toLowerCase()}`"
+                  :tooltip-message="`${i18n.t('actions.general.copy')} ${i18n.t('fields.repositories.publicationUri').toLowerCase()}`"
                 />
                 <DeprecatedWarning
                   v-if="
@@ -115,26 +115,28 @@
           </span>
         </template>
         <span v-if="configStore.declarativeMode">{{
-          $t('messages.repositories.declarative.publish')
+          i18n.t(
+            'messages.repositories.declarative.publish'
+          )
         }}</span>
         <span v-else-if="!canPatch(item.links)">{{
-          $t('messages.general.notAuthorized')
+          i18n.t('messages.general.notAuthorized')
         }}</span>
         <span v-else-if="item.deleted">
           {{
-            $t('messages.general.deleted', {
-              resource_name: $t('resources.repository')
+            i18n.t('messages.general.deleted', {
+              resource_name: i18n.t('resources.repository')
             })
           }}</span
         >
         <span v-else-if="isPending(item)">
-          {{ $t('messages.general.pending') }}</span
+          {{ i18n.t('messages.general.pending') }}</span
         >
         <span v-else-if="item.published">
-          {{ $t('actions.repositories.unpublish') }}
+          {{ i18n.t('actions.repositories.unpublish') }}
         </span>
         <span v-else>
-          {{ $t('actions.repositories.publish') }}
+          {{ i18n.t('actions.repositories.publish') }}
         </span>
       </v-tooltip>
     </template>
@@ -143,12 +145,9 @@
       <ProgressCircularSmall v-if="isPending(item)" />
       <span
         v-else
-        class="d-flex justify-center align-center"
+        class="d-flex justify-center align-center ga-1"
       >
-        <RepublishIcon
-          :repo="item"
-          @set-entity="chooseRepositoryToUpdate(item)"
-        />
+        <RepublishIcon :repo="item" />
         <EditIcon
           :icon-id="`edit-repository-${item.id}`"
           :disabled="
@@ -156,20 +155,20 @@
             configStore.declarativeMode ||
             item.deleted
           "
-          :text="$t('actions.general.edit')"
           :hover-message="
             configStore.declarativeMode
-              ? $t('messages.repositories.declarative.edit')
+              ? i18n.t(
+                  'messages.repositories.declarative.edit'
+                )
               : item.deleted
-                ? $t('messages.general.deleted', {
-                    resource_name: $t(
+                ? i18n.t('messages.general.deleted', {
+                    resource_name: i18n.t(
                       `resources.repository`
                     )
                   })
-                : undefined
+                : i18n.t('actions.general.edit')
           "
-          class="mr-1"
-          @set-entity="chooseRepositoryToUpdate(item)"
+          @set-entity="prepareRepositoryEdition(item)"
         />
 
         <DeleteIcon
@@ -192,19 +191,19 @@
                     'messages.config.deletingRepositories'
                   )
                 : item.deleted
-                  ? $t('messages.general.deleted', {
-                      resource_name: $t(
+                  ? i18n.t('messages.general.deleted', {
+                      resource_name: i18n.t(
                         `resources.repository`
                       )
                     })
                   : undefined
           "
-          @set-resource-id="chooseRepositoryToUpdate(item)"
+          @set-resource-id="prepareRepositoryDeletion(item)"
         />
         <GoToButton
           :item="item"
           from="repositories"
-          :tooltip="$t('actions.repositories.goTo')"
+          :tooltip="i18n.t('actions.repositories.goTo')"
         /> </span
     ></template>
     <template #expanded-row="{ columns }">
@@ -249,6 +248,8 @@ import getEnv from '@/utils/env'
 import { useRepositoryDeprecated } from '@/composable/repositories/repositoriesDeprecatedAddress'
 import DeprecatedWarning from '@/components/common/datatable/DeprecatedWarning.vue'
 import GoToButton from '@/components/common/action_icons/GoToButton.vue'
+import { OverlayEnum } from '@/enum/Overlay'
+import { useCommonStore } from '@/store/options/common'
 
 const { deepCopy } = useUtilities()
 const repositoryStore = useRepositoryStore()
@@ -360,10 +361,30 @@ function updateRepositoryPublished(
   }
 }
 
-function chooseRepositoryToUpdate(
+const commonStore = useCommonStore()
+
+async function prepareRepositoryEdition(
   item: EntityModelRepositoryDto
 ) {
-  repositoryStore.setChosen(item.id)
+  await repositoryStore.fetchChosen(
+    item.id,
+    item.technology as Technologies
+  )
+  commonStore.overlayText = i18n.t('actions.general.edit')
+  commonStore.openOverlay(OverlayEnum.enum.Edit)
+}
+
+async function prepareRepositoryDeletion(
+  item: EntityModelRepositoryDto
+) {
+  await repositoryStore.setChosen(item.id)
+  commonStore.overlayText = i18n.t(
+    'messages.general.deleteQuestion',
+    {
+      resource_name: item.name
+    }
+  )
+  commonStore.openOverlay(OverlayEnum.enum.Delete)
 }
 
 function isPending(

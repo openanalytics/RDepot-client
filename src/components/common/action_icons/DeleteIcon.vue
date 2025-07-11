@@ -33,7 +33,7 @@
       >
     </template>
     <span v-if="!disabled" id="action-delete">{{
-      $t('actions.general.delete')
+      i18n.t('actions.general.delete')
     }}</span>
     <span v-else>
       {{ translatedHoverMessage }}
@@ -42,19 +42,13 @@
 </template>
 
 <script setup lang="ts">
-import { OverlayEnum } from '@/enum/Overlay'
 import Icons from '@/maps/Icons'
 import { i18n } from '@/plugins/i18n'
-import { useCommonStore } from '@/store/options/common'
 import { computed } from 'vue'
 
 const emits = defineEmits(['setResourceId'])
 
 const componentProps = defineProps({
-  name: {
-    type: String,
-    required: true
-  },
   disabled: {
     type: Boolean,
     default: false
@@ -76,17 +70,9 @@ const componentProps = defineProps({
   }
 })
 
-const commonStore = useCommonStore()
-
 function deleteDialog() {
   if (!componentProps.disabled) {
     emits('setResourceId')
-    commonStore.overlayText =
-      componentProps.overlayText ||
-      i18n.t('messages.general.deactivateQuestion', {
-        resource_name: componentProps.name
-      })
-    commonStore.openOverlay(OverlayEnum.enum.Delete)
   }
 }
 

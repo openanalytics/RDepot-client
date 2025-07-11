@@ -24,7 +24,7 @@
   <v-card
     class="pa-5"
     width="400"
-    :title="$t('forms.tokens.newToken')"
+    :title="i18n.t('forms.tokens.newToken')"
   >
     <v-divider></v-divider>
     <v-card-text>
@@ -33,7 +33,7 @@
         type="text"
         clearable
         name="name"
-        :label="$t('forms.general.name')"
+        :label="i18n.t('forms.general.name')"
         as="v-text-field"
         max-width="unset"
       ></validated-input-field>
@@ -48,13 +48,16 @@
         type="number"
         name="lifetime"
         min="0"
-        :label="$t('fields.tokens.expirationDate')"
+        :label="i18n.t('fields.tokens.expirationDate')"
         as="v-text-field"
         max-width="unset"
       ></validated-input-field>
     </v-card-text>
 
-    <CardActions @submit="createToken" />
+    <CardActions
+      :valid="meta.valid"
+      @submit="createToken"
+    />
   </v-card>
 </template>
 
@@ -62,26 +65,21 @@
 import ValidatedInputField from '@/components/common/fields/ValidatedInputField.vue'
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
-import { z } from 'zod'
-import { CreateToken } from '@/models/Token'
 import { useAccessTokensStore } from '@/store/options/accessTokens'
 import { useCommonStore } from '@/store/options/common'
 import CardActions from '@/components/common/overlay/CardActions.vue'
 import { useConfigStore } from '@/store/options/config'
 import { computed } from 'vue'
 import { i18n } from '@/plugins/i18n'
+import { useTokenValidationSchema } from '@/composable/tokens/tokenSchema'
 
 const accessTokensStore = useAccessTokensStore()
 const commonStore = useCommonStore()
 const configStore = useConfigStore()
+const { tokenSchema } = useTokenValidationSchema()
 
-const { values, meta, validate } = useForm({
-  validationSchema: toTypedSchema(
-    z.object({
-      name: z.string().min(1),
-      lifetime: z.string().min(0)
-    })
-  ),
+const { values, meta } = useForm({
+  validationSchema: toTypedSchema(tokenSchema),
   initialValues: {
     name: '',
     lifetime:
@@ -95,11 +93,9 @@ const tokenLifetimeHint = computed(() =>
     : i18n.t('forms.tokens.notConfigurableExpirationDate')
 )
 
-function createToken() {
-  validate()
-  if (meta.value.valid) {
-    accessTokensStore.create(values as CreateToken)
-    commonStore.closeOverlay()
-  }
+async function createToken() {
+  const token = await tokenSchema.parseAsync(values)
+  accessTokensStore.create(token)
+  commonStore.closeOverlay()
 }
 </script>

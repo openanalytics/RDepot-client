@@ -106,9 +106,7 @@
               submissionsStore.submissionsToEdit?.warnings?.notMutableState.find(
                 (submission) => submission.id == item.id
               )
-                ? `${
-                    item.packageBag?.repository?.name
-                  } (  ${i18n.t(
+                ? `${item.packageBag?.repository?.name} (  ${i18n.t(
                     'messsages.errors.notMutable',
                     {
                       actionType: editActionWarning,
@@ -117,9 +115,7 @@
                       )
                     }
                   )} )`
-                : `${
-                    item.packageBag?.repository?.name
-                  } (  ${i18n.t(
+                : `${item.packageBag?.repository?.name} (  ${i18n.t(
                     'messages.general.notAuthorized'
                   )})`
             "

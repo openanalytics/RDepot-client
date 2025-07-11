@@ -115,18 +115,19 @@
 </template>
 
 <script setup lang="ts">
-import { PackagePromise } from '@/store/options/submission'
 import { useFiles } from '@/composable/file'
 import Icons from '@/maps/Icons'
 import { Technologies } from '@/enum/Technologies'
+import { useField } from 'vee-validate'
+import { PackagePromise } from '@/store/setup/uploadSubmission.ts'
 
 defineProps<{
   promise: PackagePromise
   generateManual: boolean
-  technology?: string
 }>()
 
 const { formatFilename } = useFiles()
+const { value: technology } = useField('technology')
 </script>
 
 <style lang="scss">

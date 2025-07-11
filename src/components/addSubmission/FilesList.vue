@@ -23,166 +23,169 @@
 <template>
   <v-card-text class="mb-1">
     <div class="text-overline">
-      {{ $t('resources.repository') }}
+      {{ i18n.t('resources.repository') }}
     </div>
     <div id="repository-name" class="text-h4 mb-2">
-      {{ chosenRepository?.name }}
+      {{ repository?.title }}
     </div>
-
     <v-divider></v-divider>
     <v-data-table
-      v-model="selected"
-      v-model:expanded="expanded"
       :headers="filteredHeaders"
-      :items="filesStore.files"
+      :items="packages"
       hover
-      item-value="name"
+      item-value="file"
       hide-default-footer
       items-per-page="-1"
-      :no-data-text="$t('messages.general.noDataAvailable')"
+      :no-data-text="errors[0]"
     >
-      <template #[`item.remove`]="{ item }">
+      <template #[`item.remove`]="{ index }">
         <v-btn
           variant="plain"
           :icon="Icons.get('delete')"
           size="medium"
           class="mr-3"
           color="oared"
-          @click="filesStore.removeFile(item)"
+          @click="removePackage(index)"
         />
       </template>
-      <template #[`item.name`]="{ item }">
-        <div class="text-left">
-          {{ formatFilename(item.name) }}
+      <template #[`item.file.name`]="{ value, index }">
+        <div class="text-start">
+          {{ formatFilename(value) }}
+          <v-icon
+            v-if="getFileError(index)"
+            v-tooltip="getFileError(index)?.split(': ')[1]"
+            icon="mdi-alert-circle-outline"
+            color="red"
+          >
+          </v-icon>
         </div>
       </template>
-      <template #[`item.rversion`]="{ item }">
+      <template #[`item.rversion`]="{ item, index, value }">
         <validated-input-field
-          v-if="submissionsStore.getBinaryForPackage(item)"
+          v-show="item.binary"
           id="upload-package-rversion"
+          persistent-hint
           variant="underlined"
           closable-chips
-          :items="submissionsStore.allowedRVersions"
-          :errormsg="
-            (filesStore.fieldsError as any)[item.name]
-              ?.rversion || ''
+          :items="uploadSubmissionStore.allowedRVersions"
+          :name="`packages.${index}.rversion`"
+          :hint="
+            value
+              ? undefined
+              : i18n.t('messages.errors.required')
           "
-          name="rversion"
           as="v-select"
-          @update:model-value="
-            submissionsStore.addRversion($event, item)
-          "
-          @update:focused="
-            validate($event, 'rversion', item)
-          "
-        ></validated-input-field>
-      </template>
-      <template #[`item.architecture`]="{ item }">
-        <validated-input-field
-          v-if="submissionsStore.getBinaryForPackage(item)"
-          id="upload-package-architecture"
-          variant="underlined"
-          closable-chips
-          :items="submissionsStore.allowedArchitectures"
-          :errormsg="
-            (filesStore.fieldsError as any)[item.name]
-              ?.architecture
-          "
-          name="architecture"
-          as="v-select"
-          @update:model-value="
-            submissionsStore.addArchitecture($event, item)
-          "
-          @update:focused="
-            validate($event, 'architecture', item)
-          "
-        ></validated-input-field>
-      </template>
-      <template #[`item.distribution`]="{ item }">
-        <validated-input-field
-          v-if="submissionsStore.getBinaryForPackage(item)"
-          id="upload-package-distribution"
-          variant="underlined"
-          closable-chips
-          :items="submissionsStore.allowedDistributions"
-          :errormsg="
-            (filesStore.fieldsError as any)[item.name]
-              ?.distribution
-          "
-          name="distribution"
-          as="v-select"
-          @update:model-value="
-            submissionsStore.addDistribution($event, item)
-          "
-          @update:focused="
-            validate($event, 'distribution', item)
-          "
-        ></validated-input-field>
-      </template>
-      <template #[`item.binary`]="{ item }">
-        <BinaryOption :file="item" />
-      </template>
-      <template #[`item.notes`]="{ item }">
-        <NotesOption
-          :file="item"
-          @expand-notes="expandNotes"
         />
       </template>
       <template
-        v-if="
-          submissionsStore.repository?.technology !=
-          Technologies.enum.Python
-        "
-        #[`item.manual`]="{ item }"
-        ><v-tooltip location="top">
+        #[`item.architecture`]="{ item, index, value }"
+      >
+        <validated-input-field
+          v-show="item.binary"
+          id="upload-package-architecture"
+          persistent-hint
+          variant="underlined"
+          closable-chips
+          :items="
+            uploadSubmissionStore.allowedArchitectures
+          "
+          :name="`packages.${index}.architecture`"
+          :hint="
+            value
+              ? undefined
+              : i18n.t('messages.errors.required')
+          "
+          as="v-select"
+        />
+      </template>
+      <template
+        #[`item.distribution`]="{ item, index, value }"
+      >
+        <validated-input-field
+          v-show="item.binary"
+          id="upload-package-distribution"
+          variant="underlined"
+          persistent-hint
+          closable-chips
+          :items="
+            uploadSubmissionStore.allowedDistributions
+          "
+          :name="`packages.${index}.distribution`"
+          :hint="
+            value
+              ? undefined
+              : i18n.t('messages.errors.required')
+          "
+          as="v-select"
+        ></validated-input-field>
+      </template>
+      <template #[`item.binary`]="{ item, index }">
+        <div class="d-flex justify-center align-center">
+          <validated-input-field
+            id="binary-button"
+            as="v-checkbox"
+            hide-details
+            center-affix
+            :name="`packages.${index}.binary`"
+            :true-icon="Icons.get('checkbox')"
+            :false-icon="Icons.get('checkbox-not')"
+            @click="
+              !item.binary
+                ? (item.generateManual = false)
+                : ''
+            "
+          />
+        </div>
+      </template>
+      <template
+        #[`item.notes`]="{
+          index,
+          toggleExpand,
+          internalItem
+        }"
+      >
+        <div class="d-flex justify-center align-center">
+          <validated-input-field
+            id="notes-button"
+            as="v-checkbox"
+            hide-details
+            :name="`packages.${index}.showNotes`"
+            :true-icon="Icons.get('checkbox')"
+            max-width="40"
+            :false-icon="Icons.get('checkbox-not')"
+            @click="toggleExpand(internalItem)"
+          />
+        </div>
+      </template>
+      <template
+        v-if="technology != Technologies.enum.Python"
+        #[`item.manual`]="{ item, index }"
+      >
+        <v-tooltip location="top">
           <template #activator="{ props }">
-            <span v-bind="props">
-              <v-btn
-                v-if="
-                  submissionsStore.getGenerateManualForPackage(
-                    item
-                  ) &&
-                  !submissionsStore.getBinaryForPackage(
-                    item
-                  )
-                "
+            <span
+              v-bind="props"
+              class="d-flex justify-center align-center"
+            >
+              <validated-input-field
                 id="generate-manual-button"
-                :icon="Icons.get('checkbox')"
-                variant="text"
-                class="mx-8"
-                @click="
-                  submissionsStore.removeGenerateManualOptionForPackage(
-                    item
-                  )
-                "
-              ></v-btn>
-              <v-btn
-                v-else
-                id="generate-manual-button"
-                :icon="Icons.get('checkbox-not')"
-                class="mx-8"
-                variant="text"
-                :disabled="
-                  submissionsStore.getBinaryForPackage(item)
-                "
-                @click="
-                  submissionsStore.addGenerateManualOptionForPackage(
-                    item
-                  )
-                "
-              >
-              </v-btn>
+                :name="`packages.${index}.generateManual`"
+                :disabled="item.binary"
+                as="v-checkbox"
+                hide-details
+                center-affix
+                :true-icon="Icons.get('checkbox')"
+                :false-icon="Icons.get('checkbox-not')"
+              />
             </span>
           </template>
           <span id="tooltip-wait"
-            >{{ $t('forms.submissions.generateManual') }}
-            <span
-              v-if="
-                submissionsStore.getBinaryForPackage(item)
-              "
-            >
+            >{{
+              i18n.t('forms.submissions.generateManual')
+            }}
+            <span v-if="packages[index].binary">
               ({{
-                $t(
+                i18n.t(
                   'forms.submissions.generateManualNotAvailable'
                 )
               }})
@@ -190,19 +193,28 @@
           >
         </v-tooltip>
       </template>
-      <template #[`item.replace`]="{ item }">
-        <ReplaceOption
-          :disabled="!configStore.replacingPackages"
-          :file="item"
-        />
+      <template #[`item.replace`]="{ index }">
+        <div class="d-flex justify-center align-center">
+          <validated-input-field
+            id="replace-button"
+            :name="`packages.${index}.replace`"
+            :disabled="!configStore.replacingPackages"
+            as="v-checkbox"
+            hide-details
+            center-affix
+            :true-icon="Icons.get('checkbox')"
+            :false-icon="Icons.get('checkbox-not')"
+          />
+        </div>
       </template>
       <template #[`top`]>
         <v-tooltip
-          v-if="!!filesStore.files.length"
+          v-if="packages && !!packages.length"
           location="top"
-          ><template #activator="{ props }">
+        >
+          <template #activator="{ props }">
             <v-btn
-              v-if="!!filesStore.files.length"
+              v-if="packages && !!packages.length"
               size="x-small"
               color="oared mb-1"
               class="reset-opacity"
@@ -214,15 +226,15 @@
                 margin-top: 10px;
               "
               @click="resetPackages()"
-              >{{ $t('actions.general.clear') }}</v-btn
-            >
+              >{{ i18n.t('actions.general.clear') }}
+            </v-btn>
           </template>
           <span id="tooltip-reset">
-            {{ $t('actions.general.clear') }}</span
+            {{ i18n.t('actions.general.clear') }}</span
           ></v-tooltip
         >
       </template>
-      <template #expanded-row="{ columns, item }">
+      <template #expanded-row="{ columns, index }">
         <td :colspan="columns.length">
           <div class="additional-row">
             <v-card class="additional-row expanded-package">
@@ -232,12 +244,9 @@
                 style="padding: 0 0.5rem 0 0.5rem"
                 variant="underlined"
                 density="compact"
-                name="notes"
+                :name="`packages.${index}.notes`"
                 rows="5"
                 as="v-textarea"
-                @update:model-value="
-                  submissionsStore.addNote($event, item)
-                "
               ></validated-input-field>
             </v-card>
           </div>
@@ -248,12 +257,7 @@
 </template>
 
 <script setup lang="ts">
-import { useFilesListStore } from '@/store/options/localFiles'
-import { useSubmissionStore } from '@/store/options/submission'
-import { computed } from 'vue'
-import ReplaceOption from './ReplaceOption.vue'
-import BinaryOption from './BinaryOption.vue'
-import NotesOption from './NotesOption.vue'
+import { computed, nextTick, onMounted } from 'vue'
 import { useFiles } from '@/composable/file'
 import { useConfigStore } from '@/store/options/config'
 import Icons from '@/maps/Icons'
@@ -261,80 +265,60 @@ import { Technologies } from '@/enum/Technologies'
 import { useI18n } from 'vue-i18n'
 import { DataTableHeaders } from '@/models/DataTableOptions'
 import ValidatedInputField from '@/components/common/fields/ValidatedInputField.vue'
-import { onMounted, ref } from 'vue'
+import { i18n } from '@/plugins/i18n'
+import { useField } from 'vee-validate'
+import { useUploadSubmissionStore } from '@/store/setup/uploadSubmission.ts'
 
 const { t } = useI18n()
-const submissionsStore = useSubmissionStore()
-const filesStore = useFilesListStore()
+const uploadSubmissionStore = useUploadSubmissionStore()
 const configStore = useConfigStore()
 const { formatFilename } = useFiles()
-const chosenRepository = computed(() => {
-  return submissionsStore.repository
-})
-const selected = ref([])
 
-function validate(e: any, field: string, item: File) {
-  switch (field) {
-    case 'rversion':
-      if (!submissionsStore.getRVersionForPackage(item)) {
-        ;(filesStore.fieldsError as any)[
-          item.name
-        ].rversion = e ? '' : t('messages.errors.required')
-      }
-      break
-    case 'architecture':
-      if (
-        !submissionsStore.getArchitectureForPackage(item)
-      ) {
-        ;(filesStore.fieldsError as any)[
-          item.name
-        ].architecture = e
-          ? ''
-          : t('messages.errors.required')
-      }
-      break
-    case 'distribution':
-      if (
-        !submissionsStore.getDistributionForPackage(item)
-      ) {
-        ;(filesStore.fieldsError as any)[
-          item.name
-        ].distribution = e
-          ? ''
-          : t('messages.errors.required')
-      }
-      break
-    default:
-      break
-  }
+function getFileError(index: number): string | undefined {
+  return errors.value.find((err: string) =>
+    err.startsWith(`packages.${index}.file:`)
+  )
+}
+
+const {
+  value: packages,
+  errors,
+  validate,
+  setValue
+} = useField<
+  Array<{
+    file: File
+    binary: boolean
+    showNotes: boolean
+    notes: string
+    replace: boolean
+    generateManual: boolean
+  }>
+>('packages', {
+  initialValue: [], // Add this
+  validateOnValueUpdate: true // Add this to ensure validation triggers
+})
+const { value: technology } = useField('technology')
+const { value: repository } = useField<{ title: string }>(
+  'repository'
+)
+
+async function removePackage(index: number) {
+  const newFiles = [...Array.from(packages.value || [])]
+  newFiles.splice(index, 1)
+  await setValue(newFiles.length ? newFiles : [])
+  await nextTick()
+  await validate()
 }
 
 function resetPackages() {
-  filesStore.files = []
-  submissionsStore.packages = []
-  submissionsStore.binary = []
-  submissionsStore.rversion = []
-  submissionsStore.architecture = []
-  submissionsStore.distribution = []
-  // reset()
-}
-
-const expanded = ref<string[]>([])
-
-function expandNotes(file: File) {
-  if (expanded.value.includes(file.name)) {
-    expanded.value = expanded.value.filter(
-      (name) => name !== file.name
-    )
-  } else {
-    expanded.value.push(file.name)
-  }
+  packages.value = []
 }
 
 const headers = computed<DataTableHeaders[]>(() => [
   {
     title: t('forms.general.name'),
-    key: 'name',
+    key: 'file.name',
     align: 'start',
     sortable: false,
     width: '20%',
@@ -399,10 +383,7 @@ const headers = computed<DataTableHeaders[]>(() => [
 ])
 
 const filteredHeaders = computed(() => {
-  if (
-    submissionsStore.repository?.technology ===
-    Technologies.enum.Python
-  ) {
+  if (technology.value === Technologies.enum.Python) {
     return headers.value
       .filter(
         (header) =>
@@ -416,7 +397,10 @@ const filteredHeaders = computed(() => {
           ? { ...header, width: '90%' }
           : header
       )
-  } else if (submissionsStore.binary.length === 0) {
+  } else if (
+    packages.value &&
+    !packages.value.find((p) => p.binary)
+  ) {
     return headers.value
       .filter(
         (header) =>
@@ -450,6 +434,7 @@ onMounted(() => {
 .reset-opacity {
   opacity: 0.8 !important;
   font-weight: 800 !important;
+
   &:hover {
     transition: opacity ease-in-out 0.3s;
     opacity: 1 !important;

@@ -35,152 +35,88 @@
     <DropZone
       v-slot="{ dropZoneActive }"
       class="drop-area"
-      @new-files="filesStore.updateFilesAddNew"
+      @new-files="updateFiles"
       @click="open()"
     >
       <label for="file-input">
         <span v-if="dropZoneActive">
-          {{ $t('dragZone.active') }}
-          <i>{{ $t('dragZone.dropzone') }}</i>
+          {{ i18n.t('dragZone.active') }}
+          <i>{{ i18n.t('dragZone.dropzone') }}</i>
         </span>
         <span v-else>
           <span>
-            {{ $t('dragZone.inactive') }} <br />
+            {{ i18n.t('dragZone.inactive') }} <br />
             <small>
-              {{ $t('actions.general.or') }}
+              {{ i18n.t('actions.general.or') }}
               <strong>{{
-                $t('actions.general.click')
+                i18n.t('actions.general.click')
               }}</strong>
-              {{ $t('dragZone.click') }}</small
+              {{ i18n.t('dragZone.click') }}</small
             >
           </span>
         </span>
       </label>
     </DropZone>
-
     <div class="d-flex"></div>
   </v-card>
-
-  <div class="d-flex justify-space-between">
-    <v-btn
-      id="back-button"
-      color="primary"
-      @click="$emit('next', 1)"
-    >
-      {{ $t('actions.general.goBack') }}
-    </v-btn>
-    <v-btn
-      id="next-button"
-      color="primary"
-      :disabled="
-        filesStore.files.length <= 0 || isNextDisabled
-      "
-      @click="nextStep"
-    >
-      {{ $t('actions.general.submit') }}
-    </v-btn>
-  </div>
 </template>
 
 <script setup lang="ts">
-import { useSubmissionStore } from '@/store/options/submission'
-import { ref } from 'vue'
+import { onMounted, watch } from 'vue'
 import { useFileDialog } from '@vueuse/core'
-import { watch } from 'vue'
-import { onMounted } from 'vue'
 import DropZone from '@/components/common/files/DropZone.vue'
 import FilesList from '@/components/addSubmission/FilesList.vue'
-import { useFilesListStore } from '@/store/options/localFiles'
-import { useI18n } from 'vue-i18n'
-import { useToast } from '@/composable/toasts'
 import { Technologies } from '@/enum/Technologies'
-import { computed } from 'vue'
+import { useField } from 'vee-validate'
+import { i18n } from '@/plugins/i18n'
+import { useConfigStore } from '@/store/options/config'
+import { useUploadSubmissionStore } from '@/store/setup/uploadSubmission.ts'
 
 const { files, open } = useFileDialog({
   accept: 'application/gzip'
 })
 
-const emits = defineEmits(['next'])
-const filesStore = useFilesListStore()
-const submissionsStore = useSubmissionStore()
-const toasts = useToast()
-const { t } = useI18n()
-
-const valid = ref<boolean>(true)
+const uploadSubmissionsStore = useUploadSubmissionStore()
 
 watch(files, (files) => {
-  filesStore.updateFilesAddNew(files)
-})
-
-function savePackagesInStore() {
-  valid.value = filesStore.files.every(checkValidity)
-  if (valid.value) {
-    submissionsStore.packages = filesStore.files
-  } else {
-    submissionsStore.packages = []
+  if (files != undefined) {
+    updateFiles(files)
   }
-}
-
-const isNextDisabled = computed(() => {
-  return (
-    !(
-      submissionsStore.binary.length ===
-        submissionsStore.rversion.length &&
-      submissionsStore.rversion.length ===
-        submissionsStore.distribution.length &&
-      submissionsStore.distribution.length ===
-        submissionsStore.architecture.length &&
-      submissionsStore.repository?.technology ===
-        Technologies.Enum.R
-    ) &&
-    submissionsStore.repository?.technology !==
-      Technologies.Enum.Python
-  )
 })
 
-function checkValidity(file: File) {
-  return (
-    filesStore.checkValidity(
-      file,
-      'application/gzip',
-      '.tar.gz'
-    ) ||
-    filesStore.checkValidity(
-      file,
-      'application/x-gzip',
-      '.tar.gz'
-    ) ||
-    filesStore.checkValidity(
-      file,
-      'application/octet-stream',
-      '.whl'
-    )
-  )
+const { value: packages, setValue: setPackages } = useField<
+  Array<{
+    file: File
+    binary?: boolean
+    showNotes?: boolean
+    notes?: string
+    replace?: boolean
+  }>
+>('packages', { initialValue: [] })
+const { value: technology } = useField('technology')
+
+const configStore = useConfigStore()
+
+function updateFiles(files?: FileList) {
+  const newFiles = [...Array.from(files || [])]
+  const newPackages = newFiles.map((file) => {
+    return {
+      file: file,
+      binary: false,
+      showNotes: false,
+      notes: '',
+      replace: false,
+      generateManual: configStore.generateManuals
+    }
+  })
+  setPackages([...newPackages, ...(packages.value || [])])
 }
 
 onMounted(() => {
-  filesStore.files = submissionsStore.packages
-  if (
-    submissionsStore.repository?.technology !==
-    Technologies.enum.Python
-  ) {
-    submissionsStore.getRConfiguration()
+  if (technology.value !== Technologies.enum.Python) {
+    uploadSubmissionsStore.getRConfiguration()
   }
 })
-
-function nextStep() {
-  savePackagesInStore()
-  if (submissionsStore.packages.length > 0 && valid.value) {
-    emits('next', 3)
-    submissionsStore.addSubmissionRequests()
-  } else if (!valid.value) {
-    toasts.error(t('messages.submissions.wrongExtension'))
-  } else {
-    toasts.warning(
-      t('messages.submissions.noPackageChosen')
-    )
-  }
-}
 </script>
 
 <style lang="scss">
@@ -194,6 +130,7 @@ function nextStep() {
 
 .reset-opacity {
   opacity: 0.6;
+
   &:hover {
     transition: opacity ease-in-out 0.3s;
     opacity: 1;
