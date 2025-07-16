@@ -34,6 +34,10 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to) => {
+  console.log(to)
+  if (!helper.checkIfPathExists(to)) {
+    return '/page-not-found'
+  }
   const path = await helper.checkAuthorization(to)
   if (path !== undefined) return path
   helper.resetStoreValues()

@@ -30,6 +30,7 @@ import { useBlob } from '@/composable/blob'
 import { useToast } from '@/composable/toasts'
 import { i18n } from '@/plugins/i18n'
 import { BackendError } from '@/models/errors/BackendError'
+import router from '@/plugins/router'
 
 export async function openApiRequest<T>(
   // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
@@ -178,6 +179,10 @@ async function errorsHandler(
       case 403: {
         const authorizationStore = useAuthorizationStore()
         await authorizationStore.getUserInfo()
+        break
+      }
+      case 404: {
+        router.push({ name: 'pageNotFound' })
         break
       }
       case 405: {

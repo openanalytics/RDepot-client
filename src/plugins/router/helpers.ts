@@ -148,7 +148,9 @@ export async function prepareStores(to: any, from: any) {
 export async function checkAuthorization(to: any) {
   const authorizationStore = useAuthorizationStore()
   authorizationStore.getUserSettings()
-  if (to.fullPath.startsWith('/auth')) {
+  if (to.name === 'pageNotFound') {
+    return undefined
+  } else if (to.fullPath.startsWith('/auth')) {
     await handleAuthorization()
     getDefaultFiltration(to)
     return '/packages'
@@ -230,5 +232,27 @@ export function clearFiltrations(to: any, from: any) {
       break
     default:
       break
+  }
+}
+
+export function checkIfPathExists(to: any) {
+  switch (to.name) {
+    case 'Home':
+    case 'users':
+    case 'repositories':
+    case 'repositoryMaintainers':
+    case 'submissions':
+    case 'packages':
+    case 'packageDetails':
+    case 'packageMaintainers':
+    case 'addSubmission':
+    case 'events':
+    case 'settingsGeneral':
+    case 'settingsTokens':
+    case 'login':
+    case 'pageNotFound':
+      return true
+    default:
+      return false
   }
 }

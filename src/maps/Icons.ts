@@ -76,5 +76,6 @@ export default new Map<string, string>([
   ['healthCheckUndefined', 'mdi-cloud-question'],
   ['healthCheckCorrect', 'mdi-cloud-check'],
   ['healthCheckIncorrect', 'mdi-cloud-alert'],
-  ['goTo', 'mdi-arrow-right-bold']
+  ['goTo', 'mdi-arrow-right-bold'],
+  ['circleAlert', 'mdi-alert-circle-outline']
 ])
