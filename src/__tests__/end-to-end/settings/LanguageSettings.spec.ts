@@ -24,7 +24,9 @@ import { test, expect } from '@playwright/test'
 import {
   ACCESS_TOKENS_SIDEBAR_ID,
   CHANGE_LANGUAGE_NAVBAR_ID,
+  DUTCH_LANGUAGE_ID,
   ENGLISH_LANGUAGE_ID,
+  GERMAN_LANGUAGE_ID,
   PACKAGE_MAINTAINERS_SIDEBAR_ID,
   POLISH_LANGUAGE_ID,
   REPOSITORIES_SIDEBAR_ID,
@@ -41,6 +43,76 @@ test.describe(TITLE_SERIAL, { tag: '@serial' }, () => {
   // eslint-disable-next-line no-empty-pattern
   test.beforeAll(async ({}, testInfo) => {
     await restoreData(testInfo.project.name)
+  })
+
+  test('change language to polish', async ({ page }) => {
+    await login(page, 'einstein')
+
+    const plLanguageSelector = page.locator(
+      `#${POLISH_LANGUAGE_ID}`
+    )
+
+    await page
+      .locator(`#${CHANGE_LANGUAGE_NAVBAR_ID}`)
+      .click()
+
+    await plLanguageSelector.waitFor()
+    await plLanguageSelector.click()
+    await expect(
+      page.locator('.Toastify__toast--success')
+    ).toHaveCount(1)
+  })
+
+  test('change language to deutsch', async ({ page }) => {
+    await login(page, 'einstein')
+
+    const deLanguageSelector = page.locator(
+      `#${GERMAN_LANGUAGE_ID}`
+    )
+    await page
+      .locator(`#${CHANGE_LANGUAGE_NAVBAR_ID}`)
+      .click()
+
+    await deLanguageSelector.waitFor()
+    await deLanguageSelector.click()
+    await expect(
+      page.locator('.Toastify__toast--success')
+    ).toHaveCount(1)
+  })
+
+  test('change language to dutch', async ({ page }) => {
+    await login(page, 'einstein')
+
+    const nlLanguageSelector = page.locator(
+      `#${DUTCH_LANGUAGE_ID}`
+    )
+
+    await page
+      .locator(`#${CHANGE_LANGUAGE_NAVBAR_ID}`)
+      .click()
+
+    await nlLanguageSelector.waitFor()
+    await nlLanguageSelector.click()
+    await expect(
+      page.locator('.Toastify__toast--success')
+    ).toHaveCount(1)
+  })
+
+  test('change language to english', async ({ page }) => {
+    await login(page, 'einstein')
+    const enLanguageSelector = page.locator(
+      `#${ENGLISH_LANGUAGE_ID}`
+    )
+
+    await page
+      .locator(`#${CHANGE_LANGUAGE_NAVBAR_ID}`)
+      .click()
+
+    await enLanguageSelector.waitFor()
+    await enLanguageSelector.click()
+    await expect(
+      page.locator('.Toastify__toast--success')
+    ).toHaveCount(1)
   })
 
   test('change language on the packages site', async ({

@@ -264,10 +264,11 @@ export const RPackageControllerApiAxiosParamCreator = function (configuration?: 
          * @param {Array<string>} [technology] 
          * @param {string} [search] 
          * @param {Array<string>} [maintainer] 
+         * @param {Array<string>} [notMaintainedBy] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllRPackages: async (page?: number, size?: number, sort?: Array<string>, repository?: Array<string>, deleted?: boolean, submissionState?: Array<string>, technology?: Array<string>, search?: string, maintainer?: Array<string>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getAllRPackages: async (page?: number, size?: number, sort?: Array<string>, repository?: Array<string>, deleted?: boolean, submissionState?: Array<string>, technology?: Array<string>, search?: string, maintainer?: Array<string>, notMaintainedBy?: Array<string>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/v2/manager/r/packages`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -322,6 +323,10 @@ export const RPackageControllerApiAxiosParamCreator = function (configuration?: 
 
             if (maintainer) {
                 localVarQueryParameter['maintainer'] = maintainer;
+            }
+
+            if (notMaintainedBy) {
+                localVarQueryParameter['notMaintainedBy'] = notMaintainedBy;
             }
 
             const query = new URLSearchParams(localVarUrlObj.search);
@@ -622,11 +627,12 @@ export const RPackageControllerApiFp = function(configuration?: Configuration) {
          * @param {Array<string>} [technology] 
          * @param {string} [search] 
          * @param {Array<string>} [maintainer] 
+         * @param {Array<string>} [notMaintainedBy] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getAllRPackages(page?: number, size?: number, sort?: Array<string>, repository?: Array<string>, deleted?: boolean, submissionState?: Array<string>, technology?: Array<string>, search?: string, maintainer?: Array<string>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<ResponseDtoObject>>> {
-            const localVarAxiosArgs = await RPackageControllerApiAxiosParamCreator(configuration).getAllRPackages(page, size, sort, repository, deleted, submissionState, technology, search, maintainer, options);
+        async getAllRPackages(page?: number, size?: number, sort?: Array<string>, repository?: Array<string>, deleted?: boolean, submissionState?: Array<string>, technology?: Array<string>, search?: string, maintainer?: Array<string>, notMaintainedBy?: Array<string>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<ResponseDtoObject>>> {
+            const localVarAxiosArgs = await RPackageControllerApiAxiosParamCreator(configuration).getAllRPackages(page, size, sort, repository, deleted, submissionState, technology, search, maintainer, notMaintainedBy, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -745,11 +751,12 @@ export const RPackageControllerApiFactory = function (configuration?: Configurat
          * @param {Array<string>} [technology] 
          * @param {string} [search] 
          * @param {Array<string>} [maintainer] 
+         * @param {Array<string>} [notMaintainedBy] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getAllRPackages(page?: number, size?: number, sort?: Array<string>, repository?: Array<string>, deleted?: boolean, submissionState?: Array<string>, technology?: Array<string>, search?: string, maintainer?: Array<string>, options?: AxiosRequestConfig): Promise<AxiosResponse<ResponseDtoObject>> {
-            return RPackageControllerApiFp(configuration).getAllRPackages(page, size, sort, repository, deleted, submissionState, technology, search, maintainer, options).then((request) => request(axios, basePath));
+        async getAllRPackages(page?: number, size?: number, sort?: Array<string>, repository?: Array<string>, deleted?: boolean, submissionState?: Array<string>, technology?: Array<string>, search?: string, maintainer?: Array<string>, notMaintainedBy?: Array<string>, options?: AxiosRequestConfig): Promise<AxiosResponse<ResponseDtoObject>> {
+            return RPackageControllerApiFp(configuration).getAllRPackages(page, size, sort, repository, deleted, submissionState, technology, search, maintainer, notMaintainedBy, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -853,12 +860,13 @@ export class RPackageControllerApi extends BaseAPI {
      * @param {Array<string>} [technology] 
      * @param {string} [search] 
      * @param {Array<string>} [maintainer] 
+     * @param {Array<string>} [notMaintainedBy] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof RPackageControllerApi
      */
-    public async getAllRPackages(page?: number, size?: number, sort?: Array<string>, repository?: Array<string>, deleted?: boolean, submissionState?: Array<string>, technology?: Array<string>, search?: string, maintainer?: Array<string>, options?: AxiosRequestConfig) : Promise<AxiosResponse<ResponseDtoObject>> {
-        return RPackageControllerApiFp(this.configuration).getAllRPackages(page, size, sort, repository, deleted, submissionState, technology, search, maintainer, options).then((request) => request(this.axios, this.basePath));
+    public async getAllRPackages(page?: number, size?: number, sort?: Array<string>, repository?: Array<string>, deleted?: boolean, submissionState?: Array<string>, technology?: Array<string>, search?: string, maintainer?: Array<string>, notMaintainedBy?: Array<string>, options?: AxiosRequestConfig) : Promise<AxiosResponse<ResponseDtoObject>> {
+        return RPackageControllerApiFp(this.configuration).getAllRPackages(page, size, sort, repository, deleted, submissionState, technology, search, maintainer, notMaintainedBy, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 

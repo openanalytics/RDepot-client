@@ -202,10 +202,11 @@ export const PythonPackageControllerApiAxiosParamCreator = function (configurati
          * @param {Array<string>} [submissionState] 
          * @param {string} [search] 
          * @param {Array<string>} [maintainer] 
+         * @param {Array<string>} [notMaintainedBy] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllPythonPackages: async (page?: number, size?: number, sort?: Array<string>, repository?: Array<string>, deleted?: boolean, submissionState?: Array<string>, search?: string, maintainer?: Array<string>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getAllPythonPackages: async (page?: number, size?: number, sort?: Array<string>, repository?: Array<string>, deleted?: boolean, submissionState?: Array<string>, search?: string, maintainer?: Array<string>, notMaintainedBy?: Array<string>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/v2/manager/python/packages`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -256,6 +257,10 @@ export const PythonPackageControllerApiAxiosParamCreator = function (configurati
 
             if (maintainer) {
                 localVarQueryParameter['maintainer'] = maintainer;
+            }
+
+            if (notMaintainedBy) {
+                localVarQueryParameter['notMaintainedBy'] = notMaintainedBy;
             }
 
             const query = new URLSearchParams(localVarUrlObj.search);
@@ -396,11 +401,12 @@ export const PythonPackageControllerApiFp = function(configuration?: Configurati
          * @param {Array<string>} [submissionState] 
          * @param {string} [search] 
          * @param {Array<string>} [maintainer] 
+         * @param {Array<string>} [notMaintainedBy] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getAllPythonPackages(page?: number, size?: number, sort?: Array<string>, repository?: Array<string>, deleted?: boolean, submissionState?: Array<string>, search?: string, maintainer?: Array<string>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<ResponseDtoObject>>> {
-            const localVarAxiosArgs = await PythonPackageControllerApiAxiosParamCreator(configuration).getAllPythonPackages(page, size, sort, repository, deleted, submissionState, search, maintainer, options);
+        async getAllPythonPackages(page?: number, size?: number, sort?: Array<string>, repository?: Array<string>, deleted?: boolean, submissionState?: Array<string>, search?: string, maintainer?: Array<string>, notMaintainedBy?: Array<string>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<ResponseDtoObject>>> {
+            const localVarAxiosArgs = await PythonPackageControllerApiAxiosParamCreator(configuration).getAllPythonPackages(page, size, sort, repository, deleted, submissionState, search, maintainer, notMaintainedBy, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -468,11 +474,12 @@ export const PythonPackageControllerApiFactory = function (configuration?: Confi
          * @param {Array<string>} [submissionState] 
          * @param {string} [search] 
          * @param {Array<string>} [maintainer] 
+         * @param {Array<string>} [notMaintainedBy] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getAllPythonPackages(page?: number, size?: number, sort?: Array<string>, repository?: Array<string>, deleted?: boolean, submissionState?: Array<string>, search?: string, maintainer?: Array<string>, options?: AxiosRequestConfig): Promise<AxiosResponse<ResponseDtoObject>> {
-            return PythonPackageControllerApiFp(configuration).getAllPythonPackages(page, size, sort, repository, deleted, submissionState, search, maintainer, options).then((request) => request(axios, basePath));
+        async getAllPythonPackages(page?: number, size?: number, sort?: Array<string>, repository?: Array<string>, deleted?: boolean, submissionState?: Array<string>, search?: string, maintainer?: Array<string>, notMaintainedBy?: Array<string>, options?: AxiosRequestConfig): Promise<AxiosResponse<ResponseDtoObject>> {
+            return PythonPackageControllerApiFp(configuration).getAllPythonPackages(page, size, sort, repository, deleted, submissionState, search, maintainer, notMaintainedBy, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -536,12 +543,13 @@ export class PythonPackageControllerApi extends BaseAPI {
      * @param {Array<string>} [submissionState] 
      * @param {string} [search] 
      * @param {Array<string>} [maintainer] 
+     * @param {Array<string>} [notMaintainedBy] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PythonPackageControllerApi
      */
-    public async getAllPythonPackages(page?: number, size?: number, sort?: Array<string>, repository?: Array<string>, deleted?: boolean, submissionState?: Array<string>, search?: string, maintainer?: Array<string>, options?: AxiosRequestConfig) : Promise<AxiosResponse<ResponseDtoObject>> {
-        return PythonPackageControllerApiFp(this.configuration).getAllPythonPackages(page, size, sort, repository, deleted, submissionState, search, maintainer, options).then((request) => request(this.axios, this.basePath));
+    public async getAllPythonPackages(page?: number, size?: number, sort?: Array<string>, repository?: Array<string>, deleted?: boolean, submissionState?: Array<string>, search?: string, maintainer?: Array<string>, notMaintainedBy?: Array<string>, options?: AxiosRequestConfig) : Promise<AxiosResponse<ResponseDtoObject>> {
+        return PythonPackageControllerApiFp(this.configuration).getAllPythonPackages(page, size, sort, repository, deleted, submissionState, search, maintainer, notMaintainedBy, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 

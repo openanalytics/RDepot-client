@@ -29,6 +29,18 @@ interface Lang {
 
 const langs: Lang[] = [
   {
+    abbreviation: 'de',
+    display: 'Deutsch',
+    name: 'de-DE',
+    value: 'de-DE'
+  },
+  {
+    abbreviation: 'nl',
+    display: 'Nederlands',
+    name: 'nl-NL',
+    value: 'nl-NL'
+  },
+  {
     abbreviation: 'en',
     display: 'English',
     name: 'en-US',

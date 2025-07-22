@@ -76,6 +76,8 @@ export const CHANGE_LANGUAGE_NAVBAR_ID =
   'change-language-navbar-button'
 export const POLISH_LANGUAGE_ID = 'pl-PL'
 export const ENGLISH_LANGUAGE_ID = 'en-US'
+export const GERMAN_LANGUAGE_ID = 'de-DE'
+export const DUTCH_LANGUAGE_ID = 'nl-NL'
 
 //sidebar
 export const PACKAGE_MAINTAINERS_SIDEBAR_ID =

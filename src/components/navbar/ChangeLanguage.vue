@@ -21,7 +21,13 @@
 -->
 
 <template>
-  <v-menu location="bottom center">
+  <v-menu
+    v-if="
+      authorizationStore.me &&
+      Object.keys(authorizationStore.me).length > 0
+    "
+    location="bottom center"
+  >
     <template #activator="{ props }">
       <v-icon
         id="change-language-navbar-button"
@@ -35,7 +41,7 @@
     </template>
     <v-list>
       <v-list-item
-        v-for="(item, index) in langs"
+        v-for="(item, index) in availableLanguages"
         :id="item.name"
         :key="index"
         :active="$i18n.locale == item.abbreviation"
@@ -58,12 +64,22 @@
 <script setup lang="ts">
 import langs from '@/locales/index'
 import { useAuthorizationStore } from '@/store/options/authorization'
+import { useConfigStore } from '@/store/options/config.ts'
+import { computed } from 'vue'
 
 const authorizationStore = useAuthorizationStore()
 
+const configStore = useConfigStore()
+
+const availableLanguages = computed(() =>
+  langs.filter((lang) =>
+    configStore.supportedLanguages.includes(lang.name)
+  )
+)
+
 const changeLanguage = async (new_language: string) => {
   if (await authorizationStore.isUserLoggedIn()) {
-    var new_settings =
+    let new_settings =
       authorizationStore.getCurrentSettings()
     new_settings.language = new_language
     authorizationStore.updateSettings(

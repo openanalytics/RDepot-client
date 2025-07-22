@@ -77,4 +77,10 @@ export interface PublicConfigurationDto {
      * @memberof PublicConfigurationDto
      */
     repositoryNameValidationRegex?: { [key: string]: any; };
+
+    /**
+     * @type {Array<string>}
+     * @memberof PublicConfigurationDto
+     */
+    supportedLanguages?: Array<string>;
 }

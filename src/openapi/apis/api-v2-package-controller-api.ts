@@ -46,10 +46,11 @@ export const ApiV2PackageControllerApiAxiosParamCreator = function (configuratio
          * @param {Array<string>} [technology] 
          * @param {string} [search] 
          * @param {Array<string>} [maintainer] 
+         * @param {Array<string>} [notMaintainedBy] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllPackages: async (page?: number, size?: number, sort?: Array<string>, repository?: Array<string>, deleted?: boolean, submissionState?: Array<string>, technology?: Array<string>, search?: string, maintainer?: Array<string>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getAllPackages: async (page?: number, size?: number, sort?: Array<string>, repository?: Array<string>, deleted?: boolean, submissionState?: Array<string>, technology?: Array<string>, search?: string, maintainer?: Array<string>, notMaintainedBy?: Array<string>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/v2/manager/packages`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -104,6 +105,10 @@ export const ApiV2PackageControllerApiAxiosParamCreator = function (configuratio
 
             if (maintainer) {
                 localVarQueryParameter['maintainer'] = maintainer;
+            }
+
+            if (notMaintainedBy) {
+                localVarQueryParameter['notMaintainedBy'] = notMaintainedBy;
             }
 
             const query = new URLSearchParams(localVarUrlObj.search);
@@ -190,11 +195,12 @@ export const ApiV2PackageControllerApiFp = function(configuration?: Configuratio
          * @param {Array<string>} [technology] 
          * @param {string} [search] 
          * @param {Array<string>} [maintainer] 
+         * @param {Array<string>} [notMaintainedBy] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getAllPackages(page?: number, size?: number, sort?: Array<string>, repository?: Array<string>, deleted?: boolean, submissionState?: Array<string>, technology?: Array<string>, search?: string, maintainer?: Array<string>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<ResponseDtoPagedModelEntityModelPackageDto>>> {
-            const localVarAxiosArgs = await ApiV2PackageControllerApiAxiosParamCreator(configuration).getAllPackages(page, size, sort, repository, deleted, submissionState, technology, search, maintainer, options);
+        async getAllPackages(page?: number, size?: number, sort?: Array<string>, repository?: Array<string>, deleted?: boolean, submissionState?: Array<string>, technology?: Array<string>, search?: string, maintainer?: Array<string>, notMaintainedBy?: Array<string>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<ResponseDtoPagedModelEntityModelPackageDto>>> {
+            const localVarAxiosArgs = await ApiV2PackageControllerApiAxiosParamCreator(configuration).getAllPackages(page, size, sort, repository, deleted, submissionState, technology, search, maintainer, notMaintainedBy, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -233,11 +239,12 @@ export const ApiV2PackageControllerApiFactory = function (configuration?: Config
          * @param {Array<string>} [technology] 
          * @param {string} [search] 
          * @param {Array<string>} [maintainer] 
+         * @param {Array<string>} [notMaintainedBy] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getAllPackages(page?: number, size?: number, sort?: Array<string>, repository?: Array<string>, deleted?: boolean, submissionState?: Array<string>, technology?: Array<string>, search?: string, maintainer?: Array<string>, options?: AxiosRequestConfig): Promise<AxiosResponse<ResponseDtoPagedModelEntityModelPackageDto>> {
-            return ApiV2PackageControllerApiFp(configuration).getAllPackages(page, size, sort, repository, deleted, submissionState, technology, search, maintainer, options).then((request) => request(axios, basePath));
+        async getAllPackages(page?: number, size?: number, sort?: Array<string>, repository?: Array<string>, deleted?: boolean, submissionState?: Array<string>, technology?: Array<string>, search?: string, maintainer?: Array<string>, notMaintainedBy?: Array<string>, options?: AxiosRequestConfig): Promise<AxiosResponse<ResponseDtoPagedModelEntityModelPackageDto>> {
+            return ApiV2PackageControllerApiFp(configuration).getAllPackages(page, size, sort, repository, deleted, submissionState, technology, search, maintainer, notMaintainedBy, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -269,12 +276,13 @@ export class ApiV2PackageControllerApi extends BaseAPI {
      * @param {Array<string>} [technology] 
      * @param {string} [search] 
      * @param {Array<string>} [maintainer] 
+     * @param {Array<string>} [notMaintainedBy] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ApiV2PackageControllerApi
      */
-    public async getAllPackages(page?: number, size?: number, sort?: Array<string>, repository?: Array<string>, deleted?: boolean, submissionState?: Array<string>, technology?: Array<string>, search?: string, maintainer?: Array<string>, options?: AxiosRequestConfig) : Promise<AxiosResponse<ResponseDtoPagedModelEntityModelPackageDto>> {
-        return ApiV2PackageControllerApiFp(this.configuration).getAllPackages(page, size, sort, repository, deleted, submissionState, technology, search, maintainer, options).then((request) => request(this.axios, this.basePath));
+    public async getAllPackages(page?: number, size?: number, sort?: Array<string>, repository?: Array<string>, deleted?: boolean, submissionState?: Array<string>, technology?: Array<string>, search?: string, maintainer?: Array<string>, notMaintainedBy?: Array<string>, options?: AxiosRequestConfig) : Promise<AxiosResponse<ResponseDtoPagedModelEntityModelPackageDto>> {
+        return ApiV2PackageControllerApiFp(this.configuration).getAllPackages(page, size, sort, repository, deleted, submissionState, technology, search, maintainer, notMaintainedBy, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 

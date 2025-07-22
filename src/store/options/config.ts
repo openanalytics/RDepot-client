@@ -40,6 +40,7 @@ interface State {
   accessTokenLifetimeConfigurable: boolean
   accessTokenLifetimeDefault: number
   repositoryNameValidationRegex: RepositoryNameValidationRegex
+  supportedLanguages: string[]
 }
 
 export const useConfigStore = defineStore('configStore', {
@@ -58,7 +59,8 @@ export const useConfigStore = defineStore('configStore', {
           python: '.+',
           r: '.+'
         }
-      }
+      },
+      supportedLanguages: []
     }
   },
   actions: {
@@ -79,6 +81,8 @@ export const useConfigStore = defineStore('configStore', {
         config.accessTokenLifetimeDefault || 30
       this.repositoryNameValidationRegex =
         config.repositoryNameValidationRegex as RepositoryNameValidationRegex
+      this.supportedLanguages =
+        config.supportedLanguages || []
     }
   }
 })
