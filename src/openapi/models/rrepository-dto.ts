@@ -115,6 +115,12 @@ export interface RRepositoryDto {
     lastPublicationSuccessful?: boolean;
 
     /**
+     * @type {Array<{ [key: string]: string; }>}
+     * @memberof RRepositoryDto
+     */
+    allowedFiles?: Array<{ [key: string]: string; }>;
+
+    /**
      * @type {boolean}
      * @memberof RRepositoryDto
      */

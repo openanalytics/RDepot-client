@@ -116,6 +116,12 @@ export interface EntityModelRepositoryDto {
     lastPublicationSuccessful?: boolean;
 
     /**
+     * @type {Array<{ [key: string]: string; }>}
+     * @memberof EntityModelRepositoryDto
+     */
+    allowedFiles?: Array<{ [key: string]: string; }>;
+
+    /**
      * @type {Links}
      * @memberof EntityModelRepositoryDto
      */

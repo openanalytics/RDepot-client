@@ -37,7 +37,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
+
 const emit = defineEmits(['new-files'])
 
 let active = ref<boolean>(false)

@@ -93,10 +93,10 @@ function updateFiles(dir) {
     withFileTypes: true
   })) {
     if (file.isDirectory()) {
-      updateFiles(file.parentPath + file.name + '/')
+      updateFiles(file.path + file.name + '/')
     }
     if (file.isFile() && !file.isDirectory()) {
-      const filePath = file.parentPath + file.name
+      const filePath = (file.path ?? '') + file.name
       let content = fs.readFileSync(filePath).toString()
       content = replaceBasePath(content)
       content = replaceNeedsSerialization(content)

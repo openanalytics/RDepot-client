@@ -116,6 +116,12 @@ export interface EntityModelPythonRepositoryDto {
     lastPublicationSuccessful?: boolean;
 
     /**
+     * @type {Array<{ [key: string]: string; }>}
+     * @memberof EntityModelPythonRepositoryDto
+     */
+    allowedFiles?: Array<{ [key: string]: string; }>;
+
+    /**
      * @type {string}
      * @memberof EntityModelPythonRepositoryDto
      */

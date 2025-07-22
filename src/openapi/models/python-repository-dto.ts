@@ -115,6 +115,12 @@ export interface PythonRepositoryDto {
     lastPublicationSuccessful?: boolean;
 
     /**
+     * @type {Array<{ [key: string]: string; }>}
+     * @memberof PythonRepositoryDto
+     */
+    allowedFiles?: Array<{ [key: string]: string; }>;
+
+    /**
      * @type {string}
      * @memberof PythonRepositoryDto
      */

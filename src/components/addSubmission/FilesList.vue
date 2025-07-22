@@ -276,7 +276,7 @@ const { formatFilename } = useFiles()
 
 function getFileError(index: number): string | undefined {
   return errors.value.find((err: string) =>
-    err.startsWith(`packages.${index}.file:`)
+    err.startsWith(`${index}.file:`)
   )
 }
 

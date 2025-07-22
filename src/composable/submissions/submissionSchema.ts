@@ -38,46 +38,9 @@ export function useSubmissionValidationSchema() {
     })
   }
 
-  function packagePropertiesBaseFields(
-    technology?: Technologies
-  ) {
+  function packagePropertiesBaseFields() {
     return {
-      file: z.instanceof(File).superRefine((value, ctx) => {
-        const { checkValidity } = useFiles()
-        const isValid =
-          checkValidity(
-            value,
-            'application/gzip',
-            '.tar.gz'
-          ) ||
-          checkValidity(
-            value,
-            'application/x-gzip',
-            '.tar.gz'
-          ) ||
-          (technology == Technologies.enum.Python &&
-            checkValidity(
-              value,
-              'application/octet-stream',
-              '.whl'
-            ))
-        if (!isValid) {
-          let errorMessage = i18n.t(
-            'messages.submissions.wrongExtension'
-          )
-          if (technology) {
-            errorMessage = i18n.t(
-              `messages.submissions.wrongExtension-${technology}`
-            )
-          }
-
-          ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            message: `${ctx.path.join('.')}: ${errorMessage} 
-                `
-          })
-        }
-      }),
+      file: z.instanceof(File),
       showNotes: z.boolean(),
       notes: z.string().optional(),
       replace: z.boolean()
@@ -91,7 +54,13 @@ export function useSubmissionValidationSchema() {
         .min(1, i18n.t('messages.errors.required')),
       value: z.number(),
       props: z.object({
-        technology: z.string()
+        technology: z.string(),
+        allowedFiles: z.array(
+          z.object({
+            mimetype: z.string(),
+            extension: z.string()
+          })
+        )
       })
     })
     .nullable()
@@ -100,9 +69,8 @@ export function useSubmissionValidationSchema() {
       i18n.t('messages.errors.required')
     )
 
-  const submissionSchema = z.discriminatedUnion(
-    'technology',
-    [
+  const submissionSchema = z
+    .discriminatedUnion('technology', [
       z.object({
         technology: z.literal(undefined),
         repository: repositorySchema,
@@ -130,24 +98,18 @@ export function useSubmissionValidationSchema() {
             z.discriminatedUnion('binary', [
               z.object({
                 binary: z.literal(true),
-                ...packagePropertiesBaseFields(
-                  Technologies.enum.R
-                ),
+                ...packagePropertiesBaseFields(),
                 ...rPackagePropertiesBaseFieldsSchema
               }),
               z.object({
                 binary: z.literal(false),
                 generateManual: z.boolean(),
-                ...packagePropertiesBaseFields(
-                  Technologies.enum.R
-                )
+                ...packagePropertiesBaseFields()
               }),
               z.object({
                 binary: z.literal(undefined),
                 generateManual: z.boolean(),
-                ...packagePropertiesBaseFields(
-                  Technologies.enum.R
-                )
+                ...packagePropertiesBaseFields()
               })
             ])
           )
@@ -168,9 +130,7 @@ export function useSubmissionValidationSchema() {
           .array(
             z.object({
               binary: z.boolean(),
-              ...packagePropertiesBaseFields(
-                Technologies.enum.Python
-              )
+              ...packagePropertiesBaseFields()
             })
           )
           .min(
@@ -183,8 +143,24 @@ export function useSubmissionValidationSchema() {
           )
           .default([])
       })
-    ]
-  )
+    ])
+    .superRefine((values, ctx) => {
+      const { checkValidity } = useFiles()
+      const indexes = checkValidity(
+        values.packages,
+        values.repository?.props.allowedFiles
+      )
+      const errorMessage = i18n.t(
+        `messages.submissions.wrongExtension-${values.technology}`
+      )
+      indexes.forEach((idx) => {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ['packages'],
+          message: `${idx}.file: ${errorMessage}`
+        })
+      })
+    })
 
   return { submissionSchema }
 }

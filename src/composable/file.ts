@@ -41,14 +41,32 @@ export function useFiles() {
   }
 
   function checkValidity(
-    file: File,
-    format: string,
-    fileExtension: string
+    packages: {
+      file: File
+    }[],
+    allowedFiles: { [key: string]: string }[]
   ) {
-    return (
-      file['name'].endsWith(fileExtension) ||
-      file['type'] === format
-    )
+    const indexes: number[] = []
+    packages.forEach((packageBag, idx) => {
+      let flag = false
+
+      allowedFiles.forEach((file) => {
+        if (
+          packageBag.file['name'].endsWith(
+            file.extension
+          ) &&
+          (!packageBag.file['type'] ||
+            packageBag.file['type'] === file.mimetype)
+        ) {
+          flag = true
+        }
+      })
+
+      if (!flag) {
+        indexes.push(idx)
+      }
+    })
+    return indexes
   }
 
   return {

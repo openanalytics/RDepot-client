@@ -100,6 +100,7 @@ export * from './response-dto-paged-model-entity-model-submission-dto';
 export * from './response-dto-paged-model-entity-model-user-dto';
 export * from './response-dto-public-configuration-dto';
 export * from './response-dto-rpublic-configuration-dto';
+export * from './response-dto-string';
 export * from './role-dto';
 export * from './submission-projection';
 export * from './user-projection';

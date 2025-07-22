@@ -32,6 +32,7 @@ export * from './apis/api-v2-status-controller-api';
 export * from './apis/api-v2-submission-controller-api';
 export * from './apis/api-v2-user-controller-api';
 export * from './apis/api-v2-user-settings-controller-api';
+export * from './apis/api-v2-version-controller-api';
 export * from './apis/python-package-controller-api';
 export * from './apis/python-repository-controller-api';
 export * from './apis/python-submission-controller-api';
