@@ -40,9 +40,11 @@
       <v-tooltip
         location="top"
         :disabled="
-          item.id !== authorizationStore.me.id ||
-          !isPending(item) ||
-          !canPatch(item.links, 'active')
+          !(
+            item.id === authorizationStore.me.id ||
+            isPending(item) ||
+            !canPatch(item.links, 'active')
+          )
         "
       >
         <template #activator="{ props }">
@@ -83,11 +85,14 @@
           </span>
         </template>
         <span v-if="isPending(item)">
-          {{ i18n.t('messages.general.pending') }}</span
-        >
-        <span v-else>{{
-          i18n.t('message.users.unableDeactivation')
-        }}</span>
+          {{ i18n.t('messages.general.pending') }}
+        </span>
+        <span v-else-if="!canPatch(item.links, 'active')">
+          {{ i18n.t('messages.general.notAuthorized') }}
+        </span>
+        <span v-else>
+          {{ i18n.t('messages.users.unableDeactivation') }}
+        </span>
       </v-tooltip>
     </template>
     <template #[`item.actions`]="{ item }">
@@ -98,16 +103,11 @@
       >
         <EditIcon
           :icon-id="`edit-user-${item.id}`"
-          :disabled="
-            !canPatch(item.links, 'roleId') ||
-            item.role == 'admin'
-          "
+          :disabled="!canPatch(item.links, 'roleId')"
           :hover-message="
-            !canPatch(item.links, 'deleted')
+            !canPatch(item.links, 'roleId')
               ? i18n.t('messages.general.notAuthorized')
-              : item.role == 'admin'
-                ? i18n.t('messages.users.editAdmin')
-                : i18n.t('actions.general.edit')
+              : i18n.t('actions.general.edit')
           "
           @set-entity="prepareEdition(item)"
         />
@@ -119,7 +119,9 @@
           :name="item.name"
           :hover-message="
             !canPatch(item.links, 'deleted')
-              ? i18n.t('messages.general.notAuthorized')
+              ? item.id == authorizationStore.me.id
+                ? i18n.t('messages.users.unableDeletion')
+                : i18n.t('messages.general.notAuthorized')
               : item.deleted
                 ? i18n.t('messages.general.deleted', {
                     resource_name: i18n.t('resources.user')

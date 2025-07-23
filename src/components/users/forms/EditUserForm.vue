@@ -40,8 +40,17 @@
           :label="i18n.t('fields.users.role')"
           max-width="unset"
         />
+
+        <v-alert
+          v-if="requiresLoggingOut"
+          id="edit-user-alert"
+          variant="tonal"
+          color="warning"
+        >
+          Your role has been changed. You will be logged out
+          and need to login again.
+        </v-alert>
       </v-card-text>
-      <v-divider></v-divider>
       <CardActions
         :valid="meta.valid"
         :touched="meta.dirty"
@@ -63,6 +72,8 @@ import { toTypedSchema } from '@vee-validate/zod'
 import { useForm } from 'vee-validate'
 import { useUserValidationSchema } from '@/composable/user/userSchema'
 import { i18n } from '@/plugins/i18n'
+import { useAuthorizationStore } from '@/store/options/authorization.ts'
+import { computed } from 'vue'
 
 const commonStore = useCommonStore()
 
@@ -70,6 +81,7 @@ const { deepCopy } = useUtilities()
 const { roles } = useEnumFiltration()
 
 const userStore = useUserStore()
+const authStore = useAuthorizationStore()
 const { userRoleSchema } = useUserValidationSchema()
 
 const { meta, values } = useForm({
@@ -79,11 +91,27 @@ const { meta, values } = useForm({
   }
 })
 
+const requiresLoggingOut = computed(
+  () =>
+    userStore.chosenUser.id == authStore.me.id &&
+    values.role != authStore.me.role
+)
+
 async function setRole() {
   const newUser = deepCopy(userStore.chosenUser)
   newUser.roleId = stringToRole(values.role || 'user') + 1
-  await userStore.save(newUser)
-  await userStore.getPage()
-  commonStore.closeOverlay()
+
+  const response = await userStore.save(
+    newUser,
+    !requiresLoggingOut.value
+  )
+
+  if (response[3] === 'SUCCESS') {
+    if (requiresLoggingOut.value) {
+      await authStore.logout()
+    } else {
+      commonStore.closeOverlay()
+    }
+  }
 }
 </script>

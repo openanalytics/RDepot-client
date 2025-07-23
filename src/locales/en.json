@@ -321,8 +321,8 @@
       "wrongExtension": "Choose packages that have the correct file extension"
     },
     "users": {
-      "editAdmin": "Cannot edit user which is an administrator",
-      "unableDeactivation": "Users cannot deactivate themselves"
+      "unableDeactivation": "Users cannot deactivate themselves",
+      "unableDeletion": "Users cannot delete themselves"
     }
   },
   "properties": {
@@ -433,5 +433,12 @@
   },
   "updatedProperties": {
     "title": "Updated properties"
+  },
+  "backend": {
+    "no": {
+      "admin": {
+        "left": "Cannot modify the last administrator's role - at least one administrator must remain"
+      }
+    }
   }
 }

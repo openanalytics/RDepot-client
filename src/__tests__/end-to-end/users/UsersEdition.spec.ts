@@ -22,6 +22,8 @@
 
 import { test, expect } from '@playwright/test'
 import {
+  EDIT_USER_ALERT_ID,
+  EDIT_USER_MYSELF_ID,
   EDIT_USER_PACKAGE_MAINTAINER_ID,
   EDIT_USER_ROLE_FIELD_ID,
   EDIT_USER_USER_ID,
@@ -50,7 +52,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     )
     const usersRowsSelector = page.locator('role=row')
     await expect(usersRowsSelector).toHaveCount(8)
-    await expect(userDisabledEditionSelector).toHaveCount(2)
+    await expect(userDisabledEditionSelector).toHaveCount(0)
     await expect(
       page.getByRole('cell', { name: 'User', exact: true })
     ).toHaveCount(3)
@@ -69,7 +71,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
 
     await page.locator(`#${SUBMIT_BUTTON_ID}`).click()
 
-    await expect(userDisabledEditionSelector).toHaveCount(3)
+    await expect(userDisabledEditionSelector).toHaveCount(0)
     await expect(
       page.getByRole('cell', { name: 'User', exact: true })
     ).toHaveCount(2)
@@ -123,5 +125,29 @@ test.describe(TITLE, { tag: '@serial' }, () => {
         exact: true
       })
     ).toHaveCount(2)
+  })
+
+  test('should notify and log out when user changes their own role', async ({
+    page
+  }) => {
+    await login(page, 'einstein')
+
+    await page.locator(`#${USERS_SIDEBAR_ID}`).click()
+    await page.waitForURL('**/users')
+    await expect(page).toHaveTitle(/RDepot - users/)
+
+    await page.locator(`#${EDIT_USER_MYSELF_ID}`).click()
+    await page
+      .locator(`#${EDIT_USER_ROLE_FIELD_ID}`)
+      .press('Enter')
+    await page
+      .getByRole('option', {
+        name: 'Repository maintainer'
+      })
+      .press('Enter')
+
+    await page.locator(`#${EDIT_USER_ALERT_ID}`).waitFor()
+    await page.locator(`#${SUBMIT_BUTTON_ID}`).click()
+    await page.waitForURL('**/login')
   })
 })

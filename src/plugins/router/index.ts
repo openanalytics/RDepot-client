@@ -34,7 +34,6 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to) => {
-  console.log(to)
   if (!helper.checkIfPathExists(to)) {
     return '/page-not-found'
   }

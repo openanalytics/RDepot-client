@@ -51,9 +51,7 @@ export async function openApiRequest<T>(
         .then((result: AxiosResponse<Blob>) => {
           resolvedBlob(result, open, fileName)
         })
-        .catch((error: AxiosError) => {
-          rejected(error)
-        })
+        .catch((error: AxiosError) => rejected(error))
     } else {
       return callback(...parameters, await getHeaders())
         .then((result: AxiosResponse<ResponseDtoObject>) =>
@@ -192,11 +190,19 @@ async function errorsHandler(
         break
       }
       case 422: {
-        console.log(error.response)
+        let errorMessage = error.response.data.message
+        if (error.response.data.data[0]) {
+          const newMessage = i18n.t(
+            `backend.${error.response.data.data[0]}`
+          )
+          if (newMessage) {
+            errorMessage = newMessage
+          }
+        }
         toasts.error(
           i18n.t('messages.errors.422') +
             '\n' +
-            error.response.data.message
+            errorMessage
         )
         break
       }
