@@ -37,6 +37,7 @@ import { usePackageDetailsStore } from '@/store/options/packageDetails'
 import { nextTick } from 'vue'
 import { useUtilities } from '@/composable/utilities'
 import { PACKAGE_INSTALLATION_COMMAND_ID } from '@/__tests__/end-to-end/helpers/elementsIds'
+import { i18n } from '@/plugins/i18n.ts'
 
 let wrapper: any
 let packageDetailsStore: any
@@ -97,9 +98,14 @@ describe('Package Installation', () => {
     const localPackage = deepCopy(RPackage)
     localPackage.repository.published = false
     packageDetailsStore.packageBag = localPackage
-    await nextTick(() => {})
+
+    wrapper = mount(PackageInstallation, {
+      global: globalConfig
+    })
+    await nextTick()
+
     expect(wrapper.text()).toContain(
-      'properties.packages.noInstallInstruction'
+      i18n.t('properties.packages.noInstallInstruction')
     )
   })
 
@@ -107,7 +113,11 @@ describe('Package Installation', () => {
     const packageDetailsStore = usePackageDetailsStore()
     packageDetailsStore.packageBag = RPackage
     const pkg = RPackage
-    await nextTick(() => {})
+
+    wrapper = mount(PackageInstallation, {
+      global: globalConfig
+    })
+    await nextTick()
     expect(
       wrapper
         .find(`#${PACKAGE_INSTALLATION_COMMAND_ID}`)
@@ -121,7 +131,10 @@ describe('Package Installation', () => {
     const packageDetailsStore = usePackageDetailsStore()
     packageDetailsStore.packageBag = RPackage2
     const pkg = RPackage2
-    await nextTick(() => {})
+    wrapper = mount(PackageInstallation, {
+      global: globalConfig
+    })
+    await nextTick()
     expect(
       wrapper
         .find(`#${PACKAGE_INSTALLATION_COMMAND_ID}`)
@@ -135,7 +148,10 @@ describe('Package Installation', () => {
     const packageDetailsStore = usePackageDetailsStore()
     packageDetailsStore.packageBag = RBinaryPackage
     const pkg = RBinaryPackage
-    await nextTick(() => {})
+    wrapper = mount(PackageInstallation, {
+      global: globalConfig
+    })
+    await nextTick()
     expect(
       wrapper
         .find(`#${PACKAGE_INSTALLATION_COMMAND_ID}`)
@@ -149,7 +165,10 @@ describe('Package Installation', () => {
     const packageDetailsStore = usePackageDetailsStore()
     packageDetailsStore.packageBag = RBinaryPackage2
     const pkg = RBinaryPackage2
-    await nextTick(() => {})
+    wrapper = mount(PackageInstallation, {
+      global: globalConfig
+    })
+    await nextTick()
     expect(
       wrapper
         .find(`#${PACKAGE_INSTALLATION_COMMAND_ID}`)

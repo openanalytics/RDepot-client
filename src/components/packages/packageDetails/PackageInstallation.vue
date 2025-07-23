@@ -21,105 +21,47 @@
 -->
 
 <template>
-  <v-card :title="$t('actions.general.install')">
-    <div v-if="packageBag?.repository?.published">
-      <v-card-subtitle class="pb-3">
-        <template
-          v-if="
-            packageBag?.repository.requiresAuthentication
-          "
-        >
-          <i18n-t
-            v-if="packageBag?.binary"
-            keypath="properties.packages.installInstructionBinary"
-            tag="p"
+  <v-card :title="i18n.t('actions.general.install')">
+    <v-card-subtitle class="pb-3">
+      <i18n-t :keypath="installHint" tag="p">
+        <template #url>
+          <a
+            id="rclient-html"
+            target="_blank"
+            href="https://craneserver.net/docs/client/"
           >
-            <template #binary>
-              <b>{{ $t('properties.packages.binary') }}</b>
-            </template>
-          </i18n-t>
-          <p v-else>
-            {{ installInstruction }}
-          </p>
+            R Client
+          </a>
         </template>
-        <template v-else>
-          <i18n-t
-            v-if="packageBag?.binary"
-            keypath="properties.packages.installInstructionBinaryCrane"
-            tag="p"
-          >
-            <template #binary>
-              <b>{{ $t('properties.packages.binary') }}</b>
-            </template>
-            <template #url>
-              <a
-                id="rclient-html"
-                href="https://craneserver.net/docs/client/"
-              >
-                R Client
-              </a>
-            </template>
-          </i18n-t>
-          <i18n-t
-            v-else
-            :keypath="`properties.packages.installInstructionCrane-${packageBag?.technology}`"
-            tag="p"
-          >
-            <template #binary>
-              <b>{{ $t('properties.packages.binary') }}</b>
-            </template>
-            <template #url>
-              <a
-                id="rclient-html"
-                href="https://craneserver.net/docs/client/"
-              >
-                R Client
-              </a>
-            </template>
-          </i18n-t>
-        </template>
-      </v-card-subtitle>
-      <div class="code mb-4 mx-4">
-        <code
-          id="package-install-command"
-          style="font-size: 0.9em"
-          class="d-flex justify-lg-space-between align-center"
-        >
-          {{
-            packageBag?.binary
-              ? installCodeBinary
-              : packageBag?.repository
-                    .requiresAuthentication
-                ? installCodeCrane
-                : installCode
-          }}
-          <v-tooltip location="left">
-            <template #activator="{ props }">
-              <div
-                id="tooltip-activator"
-                class="d-flex align-center"
-                v-bind="props"
-              >
-                <v-icon
-                  :icon="Icons.get('copy')"
-                  size="large"
-                  start
-                  @click="copyContent()"
-                />
-              </div>
-            </template>
-            <span id="tooltip-wait">{{
-              $t('actions.general.copy')
-            }}</span>
-          </v-tooltip>
-        </code>
-      </div>
-    </div>
-    <div v-else>
-      <v-card-subtitle class="pb-3">
-        {{ $t('properties.packages.noInstallInstruction') }}
-      </v-card-subtitle>
-    </div>
+      </i18n-t>
+      <code
+        v-if="installCommand"
+        id="package-install-command"
+        style="font-size: 0.9em"
+        class="d-flex justify-lg-space-between align-center"
+      >
+        {{ installCommand }}
+        <v-tooltip location="left">
+          <template #activator="{ props }">
+            <div
+              id="tooltip-activator"
+              class="d-flex align-center"
+              v-bind="props"
+            >
+              <v-icon
+                :icon="Icons.get('copy')"
+                size="large"
+                start
+                @click="copyContent()"
+              />
+            </div>
+          </template>
+          <span id="tooltip-wait">{{
+            i18n.t('actions.general.copy')
+          }}</span>
+        </v-tooltip>
+      </code>
+    </v-card-subtitle>
   </v-card>
 </template>
 
@@ -132,6 +74,8 @@ import { useToast } from '@/composable/toasts'
 import { useI18n } from 'vue-i18n'
 import Icons from '@/maps/Icons'
 import { Technologies } from '@/enum/Technologies'
+import { usePackageInstallation } from '@/composable/packages/packageInstallation.ts'
+import { i18n } from '@/plugins/i18n.ts'
 
 const packageDetailsStore = usePackageDetailsStore()
 
@@ -144,48 +88,51 @@ const packageBag = computed<EntityModelRPackageDto>(
     packageDetailsStore.packageBag as EntityModelRPackageDto
 )
 
-const installInstruction = computed<string>(() =>
-  t(
-    `properties.packages.installInstruction-${packageBag.value.technology}`
-  )
-)
+const { installCommands, installHints } =
+  usePackageInstallation()
 
-const installCode = computed<string>(() => {
+const installCommand = computed(() => {
+  if (!packageBag.value.repository?.published) {
+    return ''
+  }
+
   if (
     packageBag.value.technology === Technologies.Enum.Python
   ) {
-    return `pip install --index-url ${packageBag.value.repository?.publicationUri} ${packageBag.value.name}`
-  } else {
-    return `install.packages("${packageBag.value.name}", repos = c("rdepot_${packageBag.value.repository?.name}" = "${packageBag.value.repository?.publicationUri}", getOption("repos")))`
+    return packageBag.value.repository
+      ?.requiresAuthentication
+      ? installCommands.python.crane
+      : installCommands.python.standard
   }
+
+  return packageBag.value.binary
+    ? installCommands.r.binary
+    : installCommands.r.standard
 })
 
-const installCodeCrane = computed<string>(() => {
+const installHint = computed(() => {
+  if (!packageBag.value.repository?.published) {
+    return installHints.value.notPublished
+  }
   if (
     packageBag.value.technology === Technologies.Enum.Python
   ) {
-    return `crane pip install --index-url ${packageBag.value.repository?.publicationUri} ${packageBag.value.name}`
-  } else {
-    return `install.packages("${packageBag.value.name}", repos = c("rdepot_${packageBag.value.repository?.name}" = "${packageBag.value.repository?.publicationUri}", getOption("repos")))`
+    return installHints.value.python.standard
   }
-})
 
-const installCodeBinary = computed<string>(
-  () =>
-    `install.packages("${packageBag.value.name}", repos = c("rdepot_${packageBag.value.repository?.name}_binary" = "${packageBag.value.repository?.publicationUri}/linux/${packageBag.value.distribution}", "rdepot_${packageBag.value.repository?.name}_source" = "${packageBag.value.repository?.publicationUri}", getOption("repos")), headers = c("User-Agent" = getOption("HTTPUserAgent")))`
-)
+  if (packageBag.value.repository.requiresAuthentication) {
+    return packageBag.value.binary
+      ? installHints.value.r.binaryCrane
+      : installHints.value.r.standardCrane
+  }
+  return packageBag.value.binary
+    ? installHints.value.r.binary
+    : installHints.value.r.standard
+})
 
 function copyContent() {
   try {
-    const requiresAuthentication =
-      packageBag?.value.repository?.requiresAuthentication
-    copy(
-      packageBag?.value.binary
-        ? installCodeBinary.value
-        : requiresAuthentication
-          ? installCodeCrane.value
-          : installCode.value
-    )
+    copy(installCommand.value)
     toasts.success(t('messages.general.copied'))
   } catch {
     toasts.error(t('messages.errors.copyFailed'))
