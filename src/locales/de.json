@@ -92,7 +92,8 @@
     },
     "submissions": {
       "approver": "Genehmiger",
-      "submitter": "Einreicher"
+      "submitter": "Einreicher",
+      "author": "Verfasser"
     },
     "tokens": {
       "expirationDate": "Ablaufdatum",
@@ -204,7 +205,9 @@
       "invalidForm": "Das eingereichte Formular ist nicht gültig",
       "message": {
         "500": "Es tut uns leid, etwas ist schief gelaufen! Bitte leiten Sie diese Nachricht an einen RDepot Administrator weiter.\n\nTrace ID:\n{traceId}\n\nZeitstempel:\n{timestamp}"
-      }
+      },
+      "oauth": "oauth Fehler",
+      "notMutable": "Kann nicht {actionType} werden da es bereits {currentState} worden ist"
     }
   }
 }
