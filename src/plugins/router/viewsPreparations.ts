@@ -66,3 +66,13 @@ export function prepareRepositoriesView() {
     useRepositoryMaintainersFiltration()
   resetPaginationMaintainers()
 }
+
+export function pageNotFoundPreparation(path: string) {
+  if (
+    path.startsWith('/auth') ||
+    path.startsWith('/logout')
+  ) {
+    return false
+  }
+  return true
+}

@@ -25,7 +25,8 @@ import {
   prepareSubmissionsView,
   prepareRepositoriesView,
   preparePackageMaintainersView,
-  prepareEventsView
+  prepareEventsView,
+  pageNotFoundPreparation
 } from './viewsPreparations'
 
 export const routes = [
@@ -163,16 +164,12 @@ export const routes = [
     ]
   },
   {
-    path: '/page-not-found',
-    component: () =>
-      import('@/layouts/default/ContentView.vue'),
-    children: [
-      {
-        path: '',
-        name: 'pageNotFound',
-        component: () => import('@/views/PageNotFound.vue'),
-        meta: { title: 'RDepot - Page not found' }
-      }
-    ]
+    path: '/:pathMatch(.*)*',
+    name: 'pageNotFound',
+    component: () => import('@/views/PageNotFound.vue'),
+    meta: { title: 'RDepot - Page not found' },
+    beforeEnter: (to: any) => {
+      return pageNotFoundPreparation(to.path)
+    }
   }
 ]
