@@ -92,7 +92,8 @@
     },
     "submissions": {
       "approver": "Genehmiger",
-      "submitter": "Einreicher"
+      "submitter": "Einreicher",
+      "author": "Verfasser"
     },
     "tokens": {
       "expirationDate": "Ablaufdatum",
@@ -201,10 +202,79 @@
       "notEdited": "nicht bearbeitet",
       "copyFailed": "Kopie fehlgeschlagen",
       "email": "Dies sollte eine E-Mail sein",
-      "invalidForm": "Das eingereichte Formular ist nicht gültig",
+      "invalidForm": "Das Formular ist nicht gültig",
       "message": {
         "500": "Es tut uns leid, etwas ist schief gelaufen! Bitte leiten Sie diese Nachricht an einen RDepot Administrator weiter.\n\nTrace ID:\n{traceId}\n\nZeitstempel:\n{timestamp}"
-      }
+      },
+      "oauth": "oauth Fehler",
+      "notMutable": "Kann nicht {actionType} werden da es bereits {currentState} worden ist",
+      "404": "Die Seite die Sie suchen besteht nicht.",
+      "formNotChanged": "Das Formular ist nicht geändert worden",
+      "oauthTitle": "Berechtigung",
+      "pageNotFound": "404 - Seite Nicht Gefunden",
+      "reponame": "Eingabe enthält ungültige Zeichen. Benutzen Sie bitte nur erlaubte Zeichen.",
+      "required": "Dieses Feld ist erforderlich",
+      "url": "Dies sollte ein URL sein"
+    },
+    "general": {
+      "deactivateQuestion": "Sind Sie sicher, dass Sie {resource_name} deaktivieren möchten?",
+      "editResourceQuestion": "Sind Sie sicher, dass Sie den nachstehenden {resource_type} {edit_action} möchten?",
+      "chooseOneToEnable": "mindestens ein {resource_type} wählen um zu ermöglichen",
+      "chooseOneToContinue": "Bitte {resource_type} hinzufügen um fortzufahren",
+      "copied": "In die Zwischenablage kopiert",
+      "deleteQuestion": "Sind Sie sicher, dass Sie {resource_name} löschen möchten?",
+      "deleteResourcesQuestion": "Sind Sie sicher, dass die den nachstehenden {resource_type} löschen möchten?",
+      "deleted": "Dieser {resource_name} ist gelöscht",
+      "goToDisabled": "Kann nicht zu den Details gehen",
+      "noDataAvailable": "Keine Daten verfügbar",
+      "notAuthorized": "Sind sind nicht berechtigt die Aktion auszuführen",
+      "pending": "ausstehende Aktion",
+      "success": "Anfrage erfolgreich verarbeitet",
+      "successFiltration": "Filteraktion erfolgreich"
+    },
+    "repositories": {
+      "republishQuestion": "Sind Sie sicher, dass Sie {repo_name} neu veröffentlichen möchten?",
+      "authenticationNotRequiredTooltip": "Dieses Repository erfordert keine Authentifizierung während der Paketinstallation",
+      "authenticationRequiredTooltip": "Dieses Repository erfordert Authentifizierung während der Paketinstallation",
+      "declarative": {
+        "create": "Die Aktion Erstellen ist im deklarativen Modus deaktiviert",
+        "delete": "Die Aktion Löschen ist im deklarativen Modus deaktiviert",
+        "edit": "Die Aktion Anpassen ist im deklarativen Modus deaktiviert",
+        "publish": "Die Aktion Veröffentlichen ist im deklarativen Modus deaktiviert "
+      },
+      "deprecatedAddressTooltip": "Eine Serveradresse, deren Pfad keine Technologie enthält, ist veraltet und wird in RDepot v3.0 nicht mehr unterstützt",
+      "notPublished": "Repository ist noch nicht veröffentlicht"
+    },
+    "notifications": {
+      "events": {
+        "state": {
+          "cancelled": "abgebrochen",
+          "accepted": "akzeptiert",
+          "rejected": "abgelehnt"
+        },
+        "active": {
+          "false": "deaktiviert",
+          "true": "aktiviert"
+        },
+        "published": {
+          "false": "unveröffentlicht",
+          "true": "veröffentlicht"
+        },
+        "updated": "aktualisiert",
+        "upload": "hochgeladen",
+        "create": "erstellt"
+      },
+      "alreadySeen": "bereits gesehen",
+      "seeAll": "alle Ereignisse sehen",
+      "title": "Meldungen",
+      "upToDate": "bereits auf dem neuesten Stand"
+    },
+    "filtration": {
+      "makeSure": "Diese Aktion wird all Filter löschen"
+    },
+    "packages": {
+      "noDescriptionProvided": "Keine Beschreibung gegeben",
+      "propertyNotProvided": "nicht gegeben"
     }
   }
 }
