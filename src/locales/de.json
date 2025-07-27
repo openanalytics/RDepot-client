@@ -275,6 +275,169 @@
     "packages": {
       "noDescriptionProvided": "Keine Beschreibung gegeben",
       "propertyNotProvided": "nicht gegeben"
+    },
+    "submissions": {
+      "warnings": {
+        "upload": {
+          "warning": "Einige hochgeladene Einreichungen enthielten Warnungen. Details finden Sie in den einzelnen Einreichungen"
+        },
+        "warning": {
+          "package": {
+            "duplicate": "Ein Paket mit demselben Namen und derselben Version ist bereits im ausgewählten Repository vorhanden. Bitte wiederholen Sie den Upload-Vorgang und klicken Sie auf 'Ersetzen', um es zu überschreiben."
+          },
+          "replacing": {
+            "packages": {
+              "disabled": "Das Ersetzen von Paketen ist deaktiviert."
+            }
+          },
+          "synchronization": {
+            "failure": "Ein Fehler bei der Repository-Synchronisierung ist aufgetreten. Bitte versuchen Sie erneut, das Paket hochzuladen."
+          },
+          "unknown": "Unbekannter Fehler. Bitte versuchen Sie es erneut."
+        },
+        "noSubmissionAvailable": "Keine gültigen Einreichungen ausgewählt",
+        "onSubmissionAvailableText": "Sie haben keine gültigen Einreichungen für {actionType} ausgewählt. Bitte wählen Sie andere Einreichungen aus und versuchen Sie es erneut.",
+        "replace": {
+          "duplication": "Ein Paket mit demselben Namen und derselben Version ist bereits im ausgewählten Repository vorhanden. Bitte wiederholen Sie den Upload-Vorgang und klicken Sie auf 'Ersetzen', um es zu überschreiben."
+        },
+        "notListedWarning": "Einige Einreichungen werden nicht angezeigt, da sie nicht {actionType} sein können.",
+        "onSubmissionAvailableTitle": "Bitte wählen Sie andere Einreichungen aus"
+      },
+      "wrongExtension": "Wählen Sie Pakete mit der richtigen Dateinamenerweiterung aus",
+      "addAnotherSubmission": "Andere Pakete hochladen",
+      "empty": "Kein Repository gewählt",
+      "noPackageChosen": "Keine Pakete gewählt",
+      "noChangesProvided": "Es gibt keine Anmerkungen für diese Einreichung",
+      "replaceOptionDesc": "Ersetzen falls Paket mit demselben Namen und derselben Version bereits im gewählten Repository vorhanden ist",
+      "replacingPackages": "Das Ersetzen vorhandener Pakete ist in der Konfiguration deaktiviert",
+      "waitForAllRequestsToFulfill": "Bitte warten Sie, bis alle Einreichungen hochgeladen sind",
+      "waitingForAction": "warten auf eine Aktion",
+      "wrongExtension-Python": "Wählen Sie Pakete mit der richtigen Dateinamenerweiterung aus (.tar.gz/.whl)",
+      "wrongExtension-R": "Wählen Sie Pakete mit der richtigen Dateinamenerweiterung aus (.tar.gz)"
+    },
+    "repositoryMaintainers": {
+      "warnings": {
+        "insufficientPermissions": "Die Berechtigungen des Benutzers reichen nicht aus, um einen Betreuer anzulegen."
+      }
+    },
+    "users": {
+      "unableDeactivation": "Benutzer können sich nicht selbst deaktivieren",
+      "unableDeletion": "Benutzer können sich nicht selbst löschen"
+    }
+  },
+  "properties": {
+    "packages": {
+      "needsCompilation": "muss kompiliert werden",
+      "noInstallInstruction": "Das Repository ist noch nicht veröffentlicht worden.",
+      "python": {
+        "classifiers": "Klassifikatoren",
+        "hash": "Hash",
+        "requiresExternal": "erfordert externe",
+        "requiresDist": "erfordert Distribution",
+        "platform": "Plattform",
+        "projectUrl": "Projekt-URL",
+        "providesExtra": "bietet zusätzlich",
+        "requiresPython": "erfordert Python"
+      },
+      "r": {
+        "depends": "hängt ab",
+        "url": "URL",
+        "encoding": "kodieren",
+        "imports": "importiert",
+        "manual": "Anleitung",
+        "md5sum": "md5sum",
+        "noVignetteNameProvided": "kein Name angegeben",
+        "suggests": "schlägt vor",
+        "systemRequirements": "Systemanforderungen",
+        "vignettes": "Vignetten"
+      },
+      "installInstructionBinaryCrane": "Um dieses binäre Paket zu installieren, besuchen Sie bitte {url}, starten Sie dann R und geben Sie Folgendes ein:",
+      "seeRelatedEvent": "siehe zugehörige Ereignisse",
+      "source": "Quelle",
+      "sourceFile": "Quelldatei",
+      "versions": "Paketversionen",
+      "withinRdepot": "innerhalb von RDepot",
+      "installInstruction-R": "Um dieses Paket zu installieren, starten Sie R und geben Sie dann Folgendes ein:",
+      "binary": "Binär",
+      "binary-R": {
+        "architecture": "Architektur",
+        "distribution": "Distribution",
+        "rversion": "R Version"
+      },
+      "binaryProperties": "Binäre Eigenschaften",
+      "current": "aktuell",
+      "installInstructionCrane-R": "Um dieses Paket zu installieren, besuchen Sie bitte {url}, starten Sie dann R und geben Sie Folgendes ein:",
+      "license": "Lizenz",
+      "installInstruction-Python": "Um dieses Paket zu installieren, führen Sie bitte folgenden Befehl aus:",
+      "installInstructionBinary": "Um dieses binäre Paket zu installieren, starten Sie R und geben Sie dann bitte Folgendes ein:",
+      "relatedEventPage": "Seite mit zugehörigen Ereignissen"
+    },
+    "repositories": {
+      "healthCheck": {
+        "correct": "Serveradresse ist korrekt",
+        "incorrect": "Serveradresse ist inkorrekt",
+        "undefined": "prüfen Sie ob die Serveradresse korrekt ist"
+      },
+      "published": {
+        "publicationFailed": "Veröffentlichung fehlgeschlagen",
+        "false": "nicht veröffentlicht",
+        "publicationSucceed": "Veröffentlichung erfolgreich",
+        "true": "veröffentlicht"
+      },
+      "lastModificationDate": "Datum der letzten Änderung",
+      "lastPublicationDate": "Datum der letzten Veröffentlichung",
+      "numberOfPackages": "Anzahl der Pakete"
+    },
+    "events": {
+      "type": {
+        "create": "Erstellen",
+        "delete": "Löschen",
+        "update": "Aktualisieren",
+        "upload": "Hochladen"
+      },
+      "general": {
+        "author": "Verfasser"
+      }
+    },
+    "general": {
+      "active": "Aktiv",
+      "deleted": "Gelöscht",
+      "details": "Details",
+      "inactive": "Inaktiv"
+    },
+    "submissions": {
+      "rejected": "ABGELEHNT",
+      "waiting": "WARTEN",
+      "accepted": "AKZEPTIERT",
+      "cancelled": "ABGEBROCHEN",
+      "downloaded": "HERUNTERGELADEN",
+      "notes": "Anmerkungen"
+    }
+  },
+  "resources": {
+    "packageMaintainer": "Paket-Betreuer | Paket-Betreuer",
+    "package": "Paket | Pakete",
+    "repository": "Repository | Repositorys",
+    "repositoryMaintainer": "Repository-Betreuer | Repository-Betreuer",
+    "settings": "Einstellungen",
+    "submission": "Einreichung | Einreichungen",
+    "technology": "Technologie | Technologien",
+    "user": "Benutzer | Benutzer",
+    "generalSettings": "Allgemein",
+    "file": "Datei | Dateien",
+    "token": "Token | Tokens",
+    "admin": "Admin | Admins",
+    "event": "Ereignis | Ereignisse",
+    "maintainer": "Betreuer | Betreuer"
+  },
+  "updatedProperties": {
+    "title": "Aktualisierte Eigenschaften"
+  },
+  "backend": {
+    "no": {
+      "admin": {
+        "left": "Die Rolle des letzten Administrators kann nicht geändert werden – mindestens ein Administrator muss verbleiben"
+      }
     }
   }
 }
