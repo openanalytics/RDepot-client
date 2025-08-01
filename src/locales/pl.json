@@ -2,7 +2,7 @@
   "actions": {
     "general": {
       "accept": "Zaakceptuj",
-      "activate": "",
+      "activate": "Aktywuj | Aktywuj {resource_type}",
       "cancel": "Anuluj",
       "clear": "Wyczyść",
       "clearAll": "Wyczyść wszystkie pakiety",
@@ -15,7 +15,7 @@
       "delete": "Usuń",
       "download": "Pobierz",
       "edit": "Edytuj",
-      "editResource": "",
+      "editResource": "Edytuj {resource_type}",
       "goBack": "Powróć",
       "goTo": "Przejdź do szczegółów",
       "install": "Zainstaluj",
@@ -112,7 +112,8 @@
     "submissions": {
       "approver": "Zatwierdzający",
       "package": "Pakiet",
-      "submitter": "Zgłaszający"
+      "submitter": "Zgłaszający",
+      "author": "Autor"
     },
     "tokens": {
       "active": "Aktywny",
@@ -251,7 +252,10 @@
       "oauthTitle": "Autoryzacja",
       "reponame": "Dozwolone znaki: A-Z, a-z, 0-9, myślnik (-), podkreślnik (_), kropka (.), i spacja.",
       "required": "Wymagane pole",
-      "url": "To powinien być adres url"
+      "url": "To powinien być adres url",
+      "404": "Strona, której szukasz nie istnieje.",
+      "pageNotFound": "404 - Strona nie istnieje",
+      "formNotChanged": "Formularz bez zmian"
     },
     "filtration": {
       "makeSure": "Ta akcja wyczyści wszystkie filtry"
@@ -268,7 +272,9 @@
       "notAuthorized": "Nie masz wystarczających uprawnień aby wykonać tę operację",
       "pending": "akcja w trakcie",
       "success": "Poprawnie wykonana operacja",
-      "successFiltration": "Udane filtrowanie"
+      "successFiltration": "Udane filtrowanie",
+      "chooseOneToContinue": "Dodaj {resource_type} aby kontynuować",
+      "deleteQuestion": "Czy na pewno chcesz usunąć {resource_name}?"
     },
     "notifications": {
       "alreadySeen": "przeczytane",
@@ -325,7 +331,7 @@
       "replaceOptionDesc": "Podmień, jeżeli pakiet o tej samej nazwie i wersji istnieje już w wybranym repozytorium",
       "replacingPackages": "Podmiana istniejącego pakietu nieaktywna z powodu konfiguracji",
       "waitForAllRequestsToFulfill": "Zaczekaj na zakończenie wszystkich zgłoszeń",
-      "waitingForAction": "",
+      "waitingForAction": "oczekiwanie na akcję",
       "warnings": {
         "noSubmissionAvailable": "Brak odpowiednich zgłoszeń",
         "notListedWarning": "Niektóre zgłoszenia nie są wylistowane ponieważ akcja {actionType} jest dla nich niedostępna",
@@ -352,11 +358,14 @@
           "unknown": "Nieznany błąd. Spróbuj ponownie."
         }
       },
-      "wrongExtension": "Wybierz pakiety z odpowiednim rozszerzeniem (.tar.gz)"
+      "wrongExtension": "Wybierz pakiety z odpowiednim rozszerzeniem (.tar.gz)",
+      "wrongExtension-Python": "Wybierz pakiety z odpowiednim rozszerzeniem (.tar.gz/.whl)",
+      "wrongExtension-R": "Wybierz pakiety z odpowiednim rozszerzeniem (.tar.gz)"
     },
     "users": {
       "editAdmin": "Nie można edytowac użytkownika, który jest administratorem",
-      "unableDeactivation": "Użytkownik nie może dezaktywować samego siebie"
+      "unableDeactivation": "Użytkownik nie może dezaktywować samego siebie",
+      "unableDeletion": "Użytkownik nie może usunąć sam siebie"
     }
   },
   "properties": {
@@ -401,7 +410,8 @@
         "providesExtra": "dostarcza dodatkowe",
         "requiresDist": "wymaga dystrybucji",
         "requiresExternal": "zewnętrzne wymagania",
-        "requiresPython": "wymaga Python"
+        "requiresPython": "wymaga Python",
+        "classifiers": "Klasyfikatory"
       },
       "r": {
         "depends": "zależności",
@@ -411,13 +421,15 @@
         "noVignetteNameProvided": "brak nazwy",
         "suggests": "sugestie",
         "systemRequirements": "wymagania systemowe",
-        "url": "URL"
+        "url": "URL",
+        "vignettes": "vignetty"
       },
       "relatedEventPage": "powiązane wydarzenia",
       "seeRelatedEvent": "zobacz powiązane zdarzenia",
       "source": "Źródło",
       "sourceFile": "plik źródłowy",
-      "versions": "Wersje pakietu"
+      "versions": "Wersje pakietu",
+      "binaryProperties": "Właściwości binarne"
     },
     "repositories": {
       "healthCheck": {
@@ -425,9 +437,9 @@
         "incorrect": "adres serwera jest niepoprawny",
         "undefined": "sprawdź, czy adres serwera jest poprawny"
       },
-      "lastModificationDate": "",
-      "lastPublicationDate": "",
-      "numberOfPackages": "",
+      "lastModificationDate": "Ostatnia data modyfikacji",
+      "lastPublicationDate": "Ostatnia data publikacji",
+      "numberOfPackages": "Liczba pakietów",
       "published": {
         "false": "nieopublikowano",
         "lastModificationDate": "Data ostatniej modyfikacji",
@@ -464,7 +476,8 @@
     "submission": "Zgłoszenie | Zgłoszenia",
     "technology": "Technologia | Technologie",
     "token": "Token | Tokeny",
-    "user": "Użytkownik | Użytkownicy"
+    "user": "Użytkownik | Użytkownicy",
+    "file": "Plik | Pliki"
   },
   "updatedProperties": {
     "title": "Zmiany"
