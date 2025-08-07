@@ -221,6 +221,12 @@ export interface EntityModelRPackageDto {
     encoding?: string;
 
     /**
+     * @type {boolean}
+     * @memberof EntityModelRPackageDto
+     */
+    manualAvailable?: boolean;
+
+    /**
      * @type {string}
      * @memberof EntityModelRPackageDto
      */

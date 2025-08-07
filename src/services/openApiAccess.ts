@@ -180,7 +180,13 @@ async function errorsHandler(
         break
       }
       case 404: {
-        router.push({ name: 'pageNotFound' })
+        if (error.request.responseURL.includes('/manual')) {
+          toasts.error(
+            i18n.t('messages.errors.manual.notFound')
+          )
+        } else {
+          router.push({ name: 'pageNotFound' })
+        }
         break
       }
       case 405: {

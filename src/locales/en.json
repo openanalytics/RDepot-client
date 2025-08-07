@@ -214,7 +214,10 @@
       "pageNotFound": "404 - Page Not Found",
       "reponame": "Input contains invalid characters. Please use only allowed characters.",
       "required": "This field is required",
-      "url": "This should be a url"
+      "url": "This should be a url",
+      "manual": {
+        "notFound": "Manual not found"
+      }
     },
     "filtration": {
       "makeSure": "This action will clear all filtration"

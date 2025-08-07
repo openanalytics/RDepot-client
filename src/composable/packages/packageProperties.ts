@@ -246,7 +246,9 @@ export function usePackageProperties() {
   const filesList = computed(() => {
     const rFiles: Property[] = []
     if (
-      packageBag.value.technology == Technologies.Values.R
+      packageBag.value.technology ==
+        Technologies.Values.R &&
+      packageBag.value.manualAvailable !== false
     ) {
       rFiles.push({
         id: 'package-property-manual',
