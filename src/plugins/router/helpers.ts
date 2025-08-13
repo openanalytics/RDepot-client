@@ -47,8 +47,14 @@ export async function loadPackageDetails(
 
 export async function redirectToLoginPage(to: any) {
   const authorizationStore = useAuthorizationStore()
+  const { isOIDCAuthAvailable } = useOIDCAuthorization()
+
   if (to && to.fullPath !== '/login') {
     authorizationStore.redirectUrl = to.fullPath
+  }
+
+  if (isOIDCAuthAvailable()) {
+    await authorizationStore.login()
   }
   return '/login'
 }
@@ -151,7 +157,6 @@ export async function checkAuthorization(to: any) {
   if (to.fullPath.startsWith('/auth')) {
     await handleAuthorization()
     getDefaultFiltration(to)
-    return '/packages'
   } else if (to.fullPath.startsWith('/logout')) {
     handleLogout()
     return '/'

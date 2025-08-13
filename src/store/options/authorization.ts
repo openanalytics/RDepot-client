@@ -93,7 +93,9 @@ export const useAuthorizationStore = defineStore(
           this.redirectUrl = ''
           await router.push({ path: localRedirectUrl })
         } else {
-          await router.push({ name: 'packages' })
+          await router.push({
+            name: this.redirectUrl || 'packages'
+          })
         }
       },
 
@@ -168,6 +170,7 @@ export const useAuthorizationStore = defineStore(
         this.$reset()
         this.redirectUrl = localRedirectUrl
         this.loginType = payload
+        this.$patch({ redirectUrl: localRedirectUrl })
       },
       async updateSettings(
         oldSettings: UserSettingsProjection,
