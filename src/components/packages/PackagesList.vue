@@ -108,7 +108,13 @@
         <GoToButton
           :item="item"
           from="packages"
-          :tooltip="i18n.t('actions.general.goTo')"
+          :tooltip="
+            $t('actions.general.goTo', {
+              resource_type: $t(
+                'resources.package'
+              ).toLowerCase()
+            })
+          "
         />
       </span>
     </template>

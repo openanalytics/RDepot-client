@@ -63,7 +63,13 @@
         "
         :item="relatedResource"
         from="submissions"
-        :tooltip="$t('actions.general.goTo')"
+        :tooltip="
+          $t('actions.general.goTo', {
+            resource_type: $t(
+              'resources.package'
+            ).toLowerCase()
+          })
+        "
       />
     </div>
     <v-spacer style="height: 0.75em" />

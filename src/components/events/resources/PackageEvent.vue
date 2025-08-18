@@ -62,7 +62,13 @@
     <GoToButton
       :item="relatedResource"
       from="packages"
-      :tooltip="$t('actions.general.goTo')"
+      :tooltip="
+        $t('actions.general.goTo', {
+          resource_type: $t(
+            'resources.package'
+          ).toLowerCase()
+        })
+      "
     />
     <br />
     <EventAuthor :user="event.user" />

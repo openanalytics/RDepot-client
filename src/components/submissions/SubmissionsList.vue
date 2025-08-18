@@ -114,12 +114,18 @@
         <GoToButton
           :item="item"
           from="submissions"
-          :tooltip="$t('actions.general.goTo')"
           :disabled="
             !(
               item.state ===
               EntityModelSubmissionDtoStateEnum.ACCEPTED
             )
+          "
+          :tooltip="
+            $t('actions.general.goTo', {
+              resource_type: $t(
+                'resources.package'
+              ).toLowerCase()
+            })
           "
         />
       </span>

@@ -215,6 +215,8 @@ export const PACKAGE_VIGNETTE_OPEN_ID =
   'package-vignette-open-1'
 export const PACKAGE_VIGNETTE_DOWNLOAD_ID =
   'package-vignette-download-1'
+export const PACKAGE_DETAILS_GO_TO_REPOSITORY_ID =
+  'goTo-button-4'
 export const PACKAGE_INSTALLATION_COMMAND_ID =
   'package-install-command'
 export const PACKAGE_REPOSITORY_CARD_ID =

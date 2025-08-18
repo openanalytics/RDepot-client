@@ -68,6 +68,18 @@
           "
         >
         </v-icon>
+        <GoToButton
+          size="xs"
+          :item="packageDetailsStore.packageBag.repository"
+          from="packageDetails"
+          :tooltip="
+            $t('actions.general.goTo', {
+              resource_type: $t(
+                'resources.repository'
+              ).toLowerCase()
+            })
+          "
+        />
       </div>
     </template>
     <v-card-subtitle class="pb-3">
@@ -89,6 +101,7 @@
 import CopyableCell from '@/components/common/datatable/CopyableCell.vue'
 import Icons from '@/maps/Icons'
 import { usePackageDetailsStore } from '@/store/options/packageDetails'
+import GoToButton from '@/components/common/action_icons/GoToButton.vue'
 
 const packageDetailsStore = usePackageDetailsStore()
 </script>

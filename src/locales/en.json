@@ -16,7 +16,7 @@
       "edit": "Edit",
       "editResource": "Edit {resource_type}",
       "goBack": "Go back",
-      "goTo": "Go to details",
+      "goTo": "See {resource_type} details",
       "install": "Install",
       "login": "Login",
       "logout": "Logout",

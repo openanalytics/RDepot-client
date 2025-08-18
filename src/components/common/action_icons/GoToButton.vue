@@ -37,9 +37,12 @@ import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { usePackagesStore } from '@/store/options/packages'
+import { useRepositoryStore } from '@/store/options/repositories.ts'
+import { i18n } from '@/plugins/i18n.ts'
 
 const router = useRouter()
 const packagesStore = usePackagesStore()
+const repositoriesStore = useRepositoryStore()
 const { t } = useI18n()
 
 const props = defineProps({
@@ -53,7 +56,8 @@ const props = defineProps({
   },
   tooltip: {
     type: String,
-    required: true
+    required: false,
+    default: i18n.t('actions.general.goTo')
   },
   disabled: {
     type: Boolean,
@@ -90,16 +94,30 @@ function goTo() {
         })
         break
       case 'repositories':
-        chooseRepository(props.item.name || '')
-        router.push({
-          name: 'packages'
-        })
+        preparePackagesPage()
+        break
+      case 'packageDetails':
+        prepareRepositoriesPage()
         break
     }
   }
 }
 
-function chooseRepository(name: string) {
-  packagesStore.setFiltrationBy({ repository: [name] })
+function prepareRepositoriesPage() {
+  repositoriesStore.setFiltration({
+    search: props.item.name || ''
+  })
+  router.push({
+    name: 'repositories'
+  })
+}
+
+function preparePackagesPage() {
+  packagesStore.setFiltrationBy({
+    repository: [props.item.name || '']
+  })
+  router.push({
+    name: 'packages'
+  })
 }
 </script>
