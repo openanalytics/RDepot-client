@@ -43,7 +43,8 @@ export function useSubmissionValidationSchema() {
       file: z.instanceof(File),
       showNotes: z.boolean(),
       notes: z.string().optional(),
-      replace: z.boolean()
+      replace: z.boolean(),
+      generateManual: z.boolean()
     }
   }
 
@@ -103,12 +104,10 @@ export function useSubmissionValidationSchema() {
               }),
               z.object({
                 binary: z.literal(false),
-                generateManual: z.boolean(),
                 ...packagePropertiesBaseFields()
               }),
               z.object({
                 binary: z.literal(undefined),
-                generateManual: z.boolean(),
                 ...packagePropertiesBaseFields()
               })
             ])

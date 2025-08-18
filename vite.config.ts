@@ -31,32 +31,41 @@ import { defineConfig } from 'vite'
 import { fileURLToPath, URL } from 'node:url'
 
 // https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [
-    vue({
-      template: { transformAssetUrls }
-    }),
-    // https://github.com/vuetifyjs/vuetify-loader/tree/next/packages/vite-plugin
-    vuetify({
-      autoImport: true
-    })
-  ],
-  define: { 'process.env': {} },
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+export default defineConfig(async () => {
+  const VueDevTools = (
+    await import('vite-plugin-vue-devtools')
+  ).default
+
+  return {
+    plugins: [
+      VueDevTools(),
+      vue({
+        template: { transformAssetUrls }
+      }),
+      // https://github.com/vuetifyjs/vuetify-loader/tree/next/packages/vite-plugin
+      vuetify({
+        autoImport: true
+      })
+    ],
+    define: { 'process.env': {} },
+    resolve: {
+      alias: {
+        '@': fileURLToPath(
+          new URL('./src', import.meta.url)
+        )
+      },
+      extensions: [
+        '.js',
+        '.json',
+        '.jsx',
+        '.mjs',
+        '.ts',
+        '.tsx',
+        '.vue'
+      ]
     },
-    extensions: [
-      '.js',
-      '.json',
-      '.jsx',
-      '.mjs',
-      '.ts',
-      '.tsx',
-      '.vue'
-    ]
-  },
-  server: {
-    port: 3001
+    server: {
+      port: 3001
+    }
   }
 })

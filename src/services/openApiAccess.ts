@@ -156,7 +156,7 @@ async function errorsHandler(
 ) {
   const toasts = useToast()
   if (!error.response?.status) {
-    toasts.error(i18n.t('errors.405'))
+    toasts.error(i18n.t('messages.errors.405'))
     const authorizationStore = useAuthorizationStore()
     authorizationStore.logout()
   } else {

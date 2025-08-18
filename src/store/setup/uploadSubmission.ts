@@ -104,7 +104,7 @@ export const useUploadSubmissionStore = defineStore(
                 promise: addRSubmission(
                   values.repository?.title!,
                   packageBag.file,
-                  undefined,
+                  packageBag.generateManual,
                   packageBag.replace,
                   packageBag.binary,
                   packageBag.rversion,
