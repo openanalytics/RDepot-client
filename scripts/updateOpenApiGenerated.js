@@ -61,6 +61,22 @@ const basePath =
   "'VITE_SERVER_ADDRESS'\n" +
   ").replace(/\\/+$/, '')"
 
+const searchParametersMethodGenerated =
+  '   for (const key in localVarQueryParameter) {\n' +
+  '                query.set(key, localVarQueryParameter[key]);\n' +
+  '            }'
+
+const searchParameterMethod =
+  '   for (const key in localVarQueryParameter) {\n' +
+  "              if (key === 'sort' && Array.isArray(localVarQueryParameter[key])) {\n" +
+  '                 localVarQueryParameter[key].forEach((sortValue: string) => {\n' +
+  '                    query.append(key, sortValue);\n' +
+  '                  });\n' +
+  '               } else {\n' +
+  '                  query.set(key, localVarQueryParameter[key]);\n' +
+  '                }\n' +
+  '             }'
+
 const importEnv = "import getEnv from '@/utils/env'\n"
 
 function replaceNeedsSerialization(content) {
@@ -88,6 +104,18 @@ function replaceLicenseHeader(content) {
   return content
 }
 
+function replaceSearchParameterMethod(content) {
+  if (
+    content.indexOf(searchParametersMethodGenerated) >= 0
+  ) {
+    content = content.replaceAll(
+      searchParametersMethodGenerated,
+      searchParameterMethod
+    )
+  }
+  return content
+}
+
 function updateFiles(dir) {
   for (const file of fs.readdirSync(dir, {
     withFileTypes: true
@@ -101,6 +129,7 @@ function updateFiles(dir) {
       content = replaceBasePath(content)
       content = replaceNeedsSerialization(content)
       content = replaceLicenseHeader(content)
+      content = replaceSearchParameterMethod(content)
       saveFile(filePath, content)
     }
   }
