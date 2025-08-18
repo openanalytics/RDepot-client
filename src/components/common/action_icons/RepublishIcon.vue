@@ -41,6 +41,8 @@ import { computed } from 'vue'
 import Icons from '@/maps/Icons'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
 import { useRepositoryStore } from '@/store/options/repositories'
+import { isAtLeastRepositoryMaintainer } from '@/enum/UserRoles'
+import { useAuthorizationStore } from '@/store/options/authorization'
 
 const componentProps = defineProps({
   repo: {
@@ -51,6 +53,7 @@ const componentProps = defineProps({
 
 const emits = defineEmits(['setEntity'])
 const commonStore = useCommonStore()
+const authorizationStore = useAuthorizationStore()
 const configStore = useConfigStore()
 const { canPatch } = useUserAuthorities()
 
@@ -76,7 +79,10 @@ const tooltipText = computed(() => {
 const disabled = computed(() => {
   return (
     !canPatch(componentProps.repo.links) ||
-    configStore.declarativeMode ||
+    (configStore.declarativeMode &&
+      !isAtLeastRepositoryMaintainer(
+        authorizationStore.userRole || 0
+      )) ||
     componentProps.repo.deleted ||
     !componentProps.repo.published
   )

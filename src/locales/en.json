@@ -273,7 +273,8 @@
         "create": "Create action is disabled in declarative mode",
         "delete": "Delete action is disabled in declarative mode",
         "edit": "Edit action is disabled in declarative mode",
-        "publish": "Publish action is disabled in declarative mode "
+        "publish": "Publish action is disabled in declarative mode ",
+        "republish": "Republishing is disabled in declarative mode"
       },
       "deprecatedAddressTooltip": "A server address without technology as part of its path is deprecated and will be unsupported in RDepot v3.0",
       "notPublished": "Repository is not published yet",
