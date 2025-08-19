@@ -28,7 +28,8 @@
       "save": "Save",
       "submit": "Submit",
       "unset": "Unset",
-      "uploadPackages": "Upload packages"
+      "uploadPackages": "Upload packages",
+      "refresh": "Refresh"
     },
     "repositories": {
       "goTo": "See packages",

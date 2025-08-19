@@ -41,7 +41,13 @@
         class="d-flex justify-space-between mx-3 my-5"
       >
         <h2>{{ title }}</h2>
-        <slot name="topAction" />
+        <div
+          class="d-flex"
+          style="justify-content: flex-end"
+        >
+          <slot name="topAction" />
+          <RefreshButton @refresh="emits('refresh')" />
+        </div>
       </div>
     </template>
 
@@ -120,7 +126,9 @@ import DateChip from '../chips/DateChip.vue'
 import StateIcon from '@/components/submissions/icons/StateIcon.vue'
 import CopyableCell from './CopyableCell.vue'
 import AuthenticationInformation from './AuthenticationInformation.vue'
+import RefreshButton from '@/components/common/buttons/RefreshButton.vue'
 
+const emits = defineEmits(['refresh'])
 const oaTableStore = useOATable()
 const technologyKeys = [
   'packageBag.repository.technology',

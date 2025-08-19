@@ -33,6 +33,7 @@
     :loading="submissionStore.loading"
     :sort-by="sortBy"
     @update:options="fetchData"
+    @refresh="fetchData"
   >
     <template
       #[`header.data-table-select`]="{
@@ -241,10 +242,16 @@ const headers = computed<DataTableHeaders[]>(() => [
   }
 ])
 
-function fetchData(options: DataTableOptions) {
+function fetchData(options?: DataTableOptions) {
+  if (options) {
+    submissionStore.localOptions = options
+  }
   expanded.value = []
-  sortBy.value = getSort(options.sortBy, defaultSort)
-  submissionStore.getPage(options)
+  sortBy.value = getSort(
+    submissionStore.localOptions.sortBy,
+    defaultSort
+  )
+  submissionStore.getPage(submissionStore.localOptions)
 }
 
 const expanded = ref<EntityModelSubmissionDto[]>([])

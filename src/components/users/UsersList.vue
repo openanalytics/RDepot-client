@@ -30,6 +30,7 @@
     :sort-by="sortBy"
     :title="i18n.t('resources.user', 2)"
     @update:options="fetchData"
+    @refresh="fetchData"
   >
     <template #[`item.role`]="{ item }">
       {{
@@ -235,9 +236,15 @@ async function prepareDeletion(item: EntityModelUserDto) {
   commonStore.openOverlay(OverlayEnum.enum.Delete)
 }
 
-function fetchData(options: DataTableOptions) {
-  sortBy.value = getSort(options.sortBy, defaultSort)
-  userStore.getPage(options)
+function fetchData(options?: DataTableOptions) {
+  if (options) {
+    userStore.localOptions = options
+  }
+  sortBy.value = getSort(
+    userStore.localOptions.sortBy,
+    defaultSort
+  )
+  userStore.getPage(userStore.localOptions)
 }
 
 function isPending(item: EntityModelUserDto): boolean {

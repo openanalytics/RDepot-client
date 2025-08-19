@@ -30,6 +30,7 @@
     :loading="accessTokensStore.loading"
     :sort-by="sortBy"
     @update:options="fetchData"
+    @refresh="fetchData"
   >
     <template #topAction>
       <AddToken />
@@ -198,9 +199,15 @@ const filteredHeaders = computed(() => {
   return headers.value
 })
 
-function fetchData(options: DataTableOptions) {
-  sortBy.value = getSort(options.sortBy, defaultSort)
-  accessTokensStore.getPage(options)
+function fetchData(options?: DataTableOptions) {
+  if (options) {
+    accessTokensStore.localOptions = options
+  }
+  sortBy.value = getSort(
+    accessTokensStore.localOptions.sortBy,
+    defaultSort
+  )
+  accessTokensStore.getPage(accessTokensStore.localOptions)
 }
 
 const commonStore = useCommonStore()

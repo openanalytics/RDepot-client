@@ -71,6 +71,7 @@ interface State {
   resolved: boolean
   pending: EntityModelPackageDto[]
   tableOptions?: DataTableOptions
+  localOptions: DataTableOptions
 }
 
 const { deepCopy } = useUtilities()
@@ -93,7 +94,12 @@ export const usePackagesStore = defineStore(
         next: false,
         loading: false,
         pending: [],
-        tableOptions: undefined
+        tableOptions: undefined,
+        localOptions: {
+          itemsPerPage: -1,
+          page: -1,
+          sortBy: []
+        }
       }
     },
     getters: {

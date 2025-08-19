@@ -30,6 +30,7 @@
     :title="i18n.t('resources.packageMaintainer', 2)"
     :sort-by="sortBy"
     @update:options="fetchData"
+    @refresh="fetchData"
   >
     <template #topAction>
       <AddMaintainerButton v-if="postCondition" />
@@ -142,9 +143,17 @@ const headers = computed<DataTableHeaders[]>(() => [
   }
 ])
 
-function fetchData(options: DataTableOptions) {
-  sortBy.value = getSort(options.sortBy, defaultSort)
-  packageMaintainersStore.getPage(options)
+function fetchData(options?: DataTableOptions) {
+  if (options) {
+    packageMaintainersStore.localOptions = options
+  }
+  sortBy.value = getSort(
+    packageMaintainersStore.localOptions.sortBy,
+    defaultSort
+  )
+  packageMaintainersStore.getPage(
+    packageMaintainersStore.localOptions
+  )
 }
 
 const commonStore = useCommonStore()

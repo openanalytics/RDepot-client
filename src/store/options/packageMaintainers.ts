@@ -54,6 +54,7 @@ interface State {
   loading: boolean
   totalNumber: number
   tableOptions?: DataTableOptions
+  localOptions: DataTableOptions
 }
 
 const { deepCopy } = useUtilities()
@@ -73,7 +74,12 @@ export const usePackageMaintainersStore = defineStore(
         chosenMaintainer: {},
         loading: false,
         totalNumber: 0,
-        tableOptions: undefined
+        tableOptions: undefined,
+        localOptions: {
+          itemsPerPage: -1,
+          page: -1,
+          sortBy: []
+        }
       }
     },
     getters: {

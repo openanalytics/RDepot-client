@@ -49,6 +49,7 @@ interface State {
   loading: boolean
   totalNumber: number
   tableOptions?: DataTableOptions
+  localOptions: DataTableOptions
 }
 
 export const useUserStore = defineStore('userStore', {
@@ -63,7 +64,12 @@ export const useUserStore = defineStore('userStore', {
       roles: [],
       loading: false,
       totalNumber: 0,
-      tableOptions: undefined
+      tableOptions: undefined,
+      localOptions: {
+        itemsPerPage: -1,
+        page: -1,
+        sortBy: []
+      }
     }
   },
   getters: {

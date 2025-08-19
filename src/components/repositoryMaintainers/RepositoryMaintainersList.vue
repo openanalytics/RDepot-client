@@ -30,6 +30,7 @@
     :sort-by="sortBy"
     :title="i18n.t('resources.repositoryMaintainer', 2)"
     @update:options="fetchData"
+    @refresh="fetchData"
   >
     <template #topAction>
       <AddMaintainerButton v-if="postCondition" />
@@ -144,9 +145,17 @@ const headers = computed<DataTableHeaders[]>(() => [
   }
 ])
 
-function fetchData(options: DataTableOptions) {
-  sortBy.value = getSort(options.sortBy, defaultSort)
-  repositoryMaintainersStore.getPage(options)
+function fetchData(options?: DataTableOptions) {
+  if (options) {
+    repositoryMaintainersStore.localOptions = options
+  }
+  sortBy.value = getSort(
+    repositoryMaintainersStore.localOptions.sortBy,
+    defaultSort
+  )
+  repositoryMaintainersStore.getPage(
+    repositoryMaintainersStore.localOptions
+  )
 }
 
 function isPending(

@@ -28,7 +28,8 @@
           id="add-maintainer"
           :disabled="configStore.declarativeMode"
           :component="OverlayEnum.enum.Create"
-          size="small"
+          size="x-small"
+          icon
         >
           <v-icon :icon="Icons.get('add')"
         /></CommonButton>

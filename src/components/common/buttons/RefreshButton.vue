@@ -23,33 +23,37 @@
 <template>
   <v-tooltip location="left">
     <template #activator="{ props }">
-      <div id="tooltip-activator">
-        <CommonButton
-          id="add-token"
-          :component="OverlayEnum.enum.Create"
+      <div
+        id="tooltip-activator"
+        v-bind="props"
+        class="ml-n3"
+      >
+        <v-btn
+          id="refresh-button"
+          color="primary"
+          dark
+          dense
           size="x-small"
           icon
-          v-bind="props"
+          class="mx-3"
+          @click="refresh"
         >
-          <v-icon :icon="Icons.get('add')"
-        /></CommonButton>
+          <v-icon :icon="Icons.get('republish')" />
+        </v-btn>
       </div>
     </template>
-    <span id="tooltip-wait"
-      ><span>{{
-        i18n.t('actions.general.createResource', {
-          resource_type: i18n
-            .t('resources.token')
-            .toLowerCase()
-        })
-      }}</span>
-    </span>
+    <span id="tooltip-wait">
+      {{ i18n.t('actions.general.refresh') }}</span
+    >
   </v-tooltip>
 </template>
 
 <script setup lang="ts">
-import { OverlayEnum } from '@/enum/Overlay'
-import CommonButton from '@/components/common/buttons/CommonButton.vue'
 import Icons from '@/maps/Icons'
 import { i18n } from '@/plugins/i18n'
+
+const emits = defineEmits(['refresh'])
+async function refresh() {
+  emits('refresh')
+}
 </script>

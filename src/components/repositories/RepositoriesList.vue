@@ -33,6 +33,7 @@
     :sort-by="sortBy"
     :return-object="false"
     @update:options="fetchData"
+    @refresh="fetchData"
   >
     <template #topAction>
       <AddButton v-if="postCondition" />
@@ -336,9 +337,15 @@ const filteredHeaders = computed(() => {
   return filteredHeaders
 })
 
-function fetchData(options: DataTableOptions) {
-  sortBy.value = getSort(options.sortBy, defaultSort)
-  repositoryStore.getPage(options)
+function fetchData(options?: DataTableOptions) {
+  if (options) {
+    repositoryStore.localOptions = options
+  }
+  sortBy.value = getSort(
+    repositoryStore.localOptions.sortBy,
+    defaultSort
+  )
+  repositoryStore.getPage(repositoryStore.localOptions)
 }
 
 function isDisabled(item: EntityModelRepositoryDto) {

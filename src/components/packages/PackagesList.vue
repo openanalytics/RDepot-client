@@ -34,6 +34,7 @@
     expand-on-click
     :sort-by="sortBy"
     @update:options="fetchData"
+    @refresh="fetchData"
   >
     <template
       #[`header.data-table-select`]="{
@@ -234,10 +235,16 @@ const filteredHeaders = computed(() => {
   return headers.value
 })
 
-function fetchData(options: DataTableOptions) {
+function fetchData(options?: DataTableOptions) {
+  if (options) {
+    packagesStore.localOptions = options
+  }
   expanded.value = []
-  sortBy.value = getSort(options.sortBy, defaultSort)
-  packagesStore.getPage(options)
+  sortBy.value = getSort(
+    packagesStore.localOptions.sortBy,
+    defaultSort
+  )
+  packagesStore.getPage(packagesStore.localOptions)
 }
 </script>
 

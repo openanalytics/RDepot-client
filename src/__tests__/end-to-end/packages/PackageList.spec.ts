@@ -78,4 +78,18 @@ test.describe(TITLE, () => {
       page.locator(`#${OA_LIST_NOTES_RST}`)
     ).toHaveCount(1)
   })
+
+  test('refresh buton', async ({ page }) => {
+    await login(page, 'einstein')
+
+    await page
+      .locator('#packages-filtration-search')
+      .fill('A3')
+
+    const packagesRowsSelector = page.locator('role=row')
+    await expect(packagesRowsSelector).toHaveCount(4)
+
+    await page.locator('#refresh-button').click()
+    await expect(packagesRowsSelector).toHaveCount(4)
+  })
 })
