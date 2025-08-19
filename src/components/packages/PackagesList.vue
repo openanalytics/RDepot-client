@@ -160,7 +160,10 @@ import GoToButton from '@/components/common/action_icons/GoToButton.vue'
 const exp = ref<string[]>([])
 
 const { getSort } = useSort()
-const defaultSort: Sort[] = [{ key: 'name', order: 'asc' }]
+const defaultSort: Sort[] = [
+  { key: 'name', order: 'asc' },
+  { key: 'version', order: 'desc' }
+]
 const sortBy = ref(defaultSort)
 
 const expanded = computed({

@@ -68,8 +68,14 @@ export const ApiV2UserSettingsControllerApiAxiosParamCreator = function (configu
 
             const query = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
+              if (key === 'sort' && Array.isArray(localVarQueryParameter[key])) {
+                 localVarQueryParameter[key].forEach((sortValue: string) => {
+                    query.append(key, sortValue);
+                  });
+               } else {
+                  query.set(key, localVarQueryParameter[key]);
+                }
+             }
             for (const key in options.params) {
                 query.set(key, options.params[key]);
             }
@@ -123,8 +129,14 @@ export const ApiV2UserSettingsControllerApiAxiosParamCreator = function (configu
 
             const query = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
+              if (key === 'sort' && Array.isArray(localVarQueryParameter[key])) {
+                 localVarQueryParameter[key].forEach((sortValue: string) => {
+                    query.append(key, sortValue);
+                  });
+               } else {
+                  query.set(key, localVarQueryParameter[key]);
+                }
+             }
             for (const key in options.params) {
                 query.set(key, options.params[key]);
             }
