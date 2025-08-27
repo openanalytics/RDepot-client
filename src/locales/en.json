@@ -167,7 +167,9 @@
       "generateManualNotAvailable": "not available for binary packages",
       "stepFirst": "Choose repository",
       "stepSecond": "Upload {technology} packages",
-      "stepThird": "Summary"
+      "stepThird": "Summary",
+      "binaryPython": "Uploaded package is binary (.whl)",
+      "noBinaryPython": "Uploaded package is not binary"
     },
     "tokens": {
       "copyWarning": "Make sure to copy the access token now. You won't be able to see it again!",

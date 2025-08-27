@@ -198,9 +198,12 @@ test.describe(TITLE, { tag: '@serial' }, () => {
       './src/__tests__/end-to-end/testData/tetrapolyscope-0.0.4-cp311-cp311-manylinux_2_17_i686.manylinux2014_i686.whl'
     )
 
-    await page
-      .locator(`#${BINARY_SUBMISSION_CHECKBOX}`)
-      .click()
+    const binary = page.locator(
+      `#${BINARY_SUBMISSION_CHECKBOX}`
+    )
+
+    await expect(binary).toBeDisabled()
+    await expect(binary).toBeChecked()
 
     await page
       .locator(`#${UPLOAD_SUBMISSION_REPLACE_CHECKBOX}`)

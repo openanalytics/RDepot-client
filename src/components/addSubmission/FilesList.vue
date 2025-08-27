@@ -120,22 +120,44 @@
         ></validated-input-field>
       </template>
       <template #[`item.binary`]="{ item, index }">
-        <div class="d-flex justify-center align-center">
-          <validated-input-field
-            id="binary-button"
-            as="v-checkbox"
-            hide-details
-            center-affix
-            :name="`packages.${index}.binary`"
-            :true-icon="Icons.get('checkbox')"
-            :false-icon="Icons.get('checkbox-not')"
-            @click="
-              !item.binary
-                ? (item.generateManual = false)
-                : ''
-            "
-          />
-        </div>
+        <v-tooltip location="top">
+          <template #activator="{ props }">
+            <span
+              v-bind="props"
+              class="d-flex justify-center align-center"
+            >
+              <validated-input-field
+                id="binary-button"
+                as="v-checkbox"
+                hide-details
+                center-affix
+                :name="`packages.${index}.binary`"
+                :true-icon="Icons.get('checkbox')"
+                :false-icon="Icons.get('checkbox-not')"
+                :disabled="
+                  technology === Technologies.enum.Python
+                "
+                @click="
+                  !item.binary
+                    ? (item.generateManual = false)
+                    : ''
+                "
+              />
+            </span>
+          </template>
+          <span
+            v-if="technology === Technologies.enum.Python"
+          >
+            {{
+              item.binary
+                ? i18n.t('forms.submissions.binaryPython')
+                : i18n.t('forms.submissions.noBinaryPython')
+            }}
+          </span>
+          <span v-else>
+            {{ i18n.t('forms.submissions.binary') }}
+          </span>
+        </v-tooltip>
       </template>
       <template
         #[`item.notes`]="{

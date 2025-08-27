@@ -120,7 +120,9 @@ function updateFiles(files?: FileList) {
   const newPackages = newFiles.map((file) => {
     return {
       file: file,
-      binary: false,
+      binary:
+        file.name.includes('.whl') &&
+        technology.value === Technologies.enum.Python,
       showNotes: false,
       notes: '',
       replace: false,
