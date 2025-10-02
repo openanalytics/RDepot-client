@@ -54,15 +54,7 @@
           @filtrate="filtrateUsers"
         >
           <template #item="{ props }">
-            <v-list-item
-              v-intersect="
-                loadUsersObjects(
-                  Role.enum.repositoryMaintainer
-                )
-              "
-              v-bind="props"
-            >
-            </v-list-item>
+            <v-list-item v-bind="props"> </v-list-item>
           </template>
         </validated-input-field>
         <validated-input-field
@@ -90,10 +82,7 @@
           @filtrate="filtrateRepositoriesObjects"
         >
           <template #item="{ item, props }">
-            <v-list-item
-              v-intersect="loadRepositories"
-              v-bind="props"
-            >
+            <v-list-item v-bind="props">
               <template #append>
                 <v-chip
                   text-color="white"

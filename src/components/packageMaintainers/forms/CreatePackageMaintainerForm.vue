@@ -52,18 +52,10 @@
           @load-items="
             loadUsersObjects(Role.enum.packageMaintainer)
           "
-          @filtrate="filtrateUsers(undefined)"
+          @filtrate="filtrateUsers"
         >
           <template #item="{ props }">
-            <v-list-item
-              v-intersect="
-                loadUsersObjects(
-                  Role.enum.packageMaintainer
-                )
-              "
-              v-bind="props"
-            >
-            </v-list-item>
+            <v-list-item v-bind="props"> </v-list-item>
           </template>
         </validated-input-field>
         <validated-input-field
@@ -81,13 +73,10 @@
           max-width="unset"
           @update:model-value="resetPackageName"
           @load-items="loadRepositoriesObjects"
-          @filtrate="filtrateRepositoriesObjects(undefined)"
+          @filtrate="filtrateRepositoriesObjects"
         >
           <template #item="{ item, props }">
-            <v-list-item
-              v-intersect="loadRepositoriesObjects()"
-              v-bind="props"
-            >
+            <v-list-item v-bind="props">
               <template #append>
                 <v-chip
                   text-color="white"
@@ -121,14 +110,10 @@
           :store-id="storeIdPackage"
           max-width="unset"
           @load-items="loadPackages"
-          @filtrate="filtratePackagesObjects(undefined)"
+          @filtrate="filtratePackagesObjects"
         >
           <template #item="{ props }">
-            <v-list-item
-              v-intersect="loadPackages"
-              v-bind="props"
-            >
-            </v-list-item>
+            <v-list-item v-bind="props"> </v-list-item>
           </template>
         </validated-input-field>
       </v-card-text>

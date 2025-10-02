@@ -40,6 +40,11 @@
     <template #append-item>
       <div
         v-if="!selectStore.ifAllFetched"
+        v-intersect="
+          () => {
+            emits('loadItems')
+          }
+        "
         class="p3"
         justify="center"
         align="center"

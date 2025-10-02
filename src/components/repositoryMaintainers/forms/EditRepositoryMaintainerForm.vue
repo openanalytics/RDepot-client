@@ -70,14 +70,7 @@
           @filtrate="filtrateRepositoriesObjects"
         >
           <template #item="{ item, props }">
-            <v-list-item
-              v-intersect="
-                loadRepositoriesObjects(
-                  maintainer.user?.name
-                )
-              "
-              v-bind="props"
-            >
+            <v-list-item v-bind="props">
               <template #append>
                 <v-chip
                   text-color="white"

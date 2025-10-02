@@ -43,7 +43,6 @@
     >
       <template #item="{ item, props }">
         <v-list-item
-          v-intersect="loadRepositoriesObjects"
           v-bind="{
             ...props,
             id: `upload-submission-repository-${item.title}`

@@ -62,10 +62,7 @@
           @filtrate="filtrateRepositories"
         >
           <template #item="{ item, props }">
-            <v-list-item
-              v-intersect="loadRepositoriesObjects"
-              v-bind="props"
-            >
+            <v-list-item v-bind="props">
               <template #append>
                 <v-chip
                   text-color="white"
@@ -102,14 +99,10 @@
           @load-items="
             isFieldDirty('package') ? loadPackages() : null
           "
-          @filtrate="filtratePackagesObjects(undefined)"
+          @filtrate="filtratePackagesObjects"
         >
           <template #item="{ props }">
-            <v-list-item
-              v-intersect="loadPackages"
-              v-bind="props"
-            >
-            </v-list-item>
+            <v-list-item v-bind="props"> </v-list-item>
           </template>
         </validated-input-field>
       </v-card-text>

@@ -41,3 +41,19 @@ export async function restoreData(project?: string) {
     console.log(error)
   }
 }
+
+export async function addRepositories(project?: string) {
+  try {
+    if (project == 'firefox') {
+      await execPromise(
+        'sh ./src/__tests__/end-to-end/config/addRepositories-firefox.sh'
+      )
+    } else if (project == 'chrome') {
+      await execPromise(
+        'sh ./src/__tests__/end-to-end/config/addRepositories-chrome.sh'
+      )
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}

@@ -94,7 +94,6 @@
     >
       <template #item="{ props, item }">
         <v-list-item
-          v-intersect="loadRepositories"
           v-bind="{
             ...props,
             id: `submissions-filtration-repository-${item.title.replaceAll(

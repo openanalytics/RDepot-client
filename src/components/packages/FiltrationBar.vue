@@ -68,10 +68,7 @@
       @filtrate="filtrateRepositoriesObjects"
     >
       <template #item="{ props }">
-        <v-list-item
-          v-intersect="loadRepositories"
-          v-bind="props"
-        >
+        <v-list-item v-bind="props">
           <template #prepend="{ isActive }">
             <v-list-item-action start>
               <v-checkbox-btn
@@ -125,7 +122,6 @@
     >
       <template #item="{ props, item }">
         <v-list-item
-          v-intersect="loadMaintainers"
           v-bind="{
             ...props,
             id: `packages-filtration-maintainer-${item.title.replaceAll(
