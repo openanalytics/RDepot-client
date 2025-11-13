@@ -209,9 +209,12 @@
       "notMutable": "Kan niet worden {actionType} omdat het al werd {currentState}",
       "oauth": "Probleem met inloggen",
       "oauthTitle": "Autorisatie",
-      "reponame": "Toegestane tekens: A-Z, a-z, 0-9, koppelteken (-), onderstrepingsteken (_), punt (.), en spatie.",
+      "reponame": "Tekst bevat tekens die niet worden toegestaan. Gelieve enkel toegestane tekens te gebruiken.",
       "required": "Dit veld is verplicht",
-      "url": "Dit moet een URL zijn"
+      "url": "Dit moet een URL zijn",
+      "404": "De pagina die je wenst te bereiken, bestaat niet.",
+      "formNotChanged": "Er werden geen velden gewijzigd",
+      "pageNotFound": "404 - Pagina niet gevonden"
     },
     "filtration": {
       "makeSure": "Dit zal alle filters wissen"
@@ -256,7 +259,9 @@
       "replaceOptionDesc": "Vervang het package indien er reeds een package bestaat met zelfde naam en versie in de gekozen repository",
       "waitForAllRequestsToFulfill": "Wacht tot alle submissies zijn opgeladen",
       "waitingForAction": "aan het wachten op actie",
-      "wrongExtension": "Kies packages dewelke een correcte file-extensie hebben (.tar.gz)"
+      "wrongExtension": "Kies bestanden met de juiste extensie",
+      "wrongExtension-Python": "Kies bestanden met de juiste extensie (.tar.gz/.whl)",
+      "wrongExtension-R": "Kies bestanden met de juiste extensie (.tar.gz)"
     },
     "general": {
       "chooseOneToEnable": "kies tenminste één {resource_type} om te activeren",
@@ -270,7 +275,9 @@
       "success": "Verzoek succesvol verwerkt",
       "successFiltration": "Filtratie succesvol toegepast",
       "goToDisabled": "Niet mogelijk om details te bekijken",
-      "notAuthorized": "U bent niet geauthorizeerd om deze actie uit te voeren"
+      "notAuthorized": "U bent niet geauthorizeerd om deze actie uit te voeren",
+      "chooseOneToContinue": "Gelieve een {resource_type} te selecteren alvorens verder te gaan",
+      "deleteQuestion": "Bent u zeker dat u {resource_name} wenst te verwijderen?"
     },
     "repositories": {
       "deprecatedAddressTooltip": "Een server adres zonder technologie als onderdeel van het path is deprecated en zal niet langer ondersteund worden in RDepot v3.0",
@@ -315,7 +322,8 @@
     },
     "users": {
       "editAdmin": "Niet mogelijk om een gebruiker te bewerken die een administrator is",
-      "unableDeactivation": "Gebruikers kunnen zichzelf niet deactiveren"
+      "unableDeactivation": "Gebruikers kunnen zichzelf niet deactiveren",
+      "unableDeletion": "Gebruikers kunnen zichzelf niet verwijderen"
     }
   },
   "properties": {
@@ -345,8 +353,8 @@
       "installCodeCrane-Python": "crane pip install --index-url {1} {0}",
       "installCodeCrane-R": "install.packages(\"{0}\", repos = c(\"rdepot_{2}\" = \"{1}\", getOption(\"repos\")))",
       "installInstruction-Python": "Om dit package te installeren:",
-      "installInstructionBinaryCrane": "Om dit {binary} package te installeren, navigeer naar {url}. Start daarna de R console en voer het volgende uit:",
-      "installInstructionBinary": "Om dit {binary} package te installeren, start de R console en voer het volgende uit:",
+      "installInstructionBinaryCrane": "Om dit binaire package te installeren, navigeer naar {url}. Start daarna de R console en voer het volgende uit:",
+      "installInstructionBinary": "Om dit binaire package te installeren, start de R console en voer het volgende uit:",
       "installInstruction-R": "Om dit package te installeren, start de R console en voer het volgende uit:",
       "installInstructionCrane-Python": "Om dit package te installeren, voer het volgende uit:",
       "license": "Licentie",
@@ -429,6 +437,14 @@
     "submission": "Inzending | Inzendingen",
     "technology": "Technologie | Technologieën",
     "token": "Token | Tokens",
-    "user": "Gebruiker | Gebruikers"
+    "user": "Gebruiker | Gebruikers",
+    "file": "Bestand | Bestanden"
+  },
+  "backend": {
+    "no": {
+      "admin": {
+        "left": "Kan de rol van de laatste administrator niet veranderen - er moet minstens één administrator zijn"
+      }
+    }
   }
 }
