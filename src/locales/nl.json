@@ -13,7 +13,7 @@
       "edit": "Bewerken",
       "editResource": "{resource_type} Bewerken",
       "goBack": "Terug",
-      "goTo": "Details bekijken",
+      "goTo": "Details bekijken van {resource_type}",
       "install": "Installeren",
       "login": "Inloggen",
       "logout": "Uitloggen",
@@ -28,7 +28,8 @@
       "uploadPackages": "Opladen",
       "accept": "Aanvaarden",
       "activate": "Activeren | {resource_type} Activeren",
-      "deactivate": "Deactiveren | {resource_type} Deactiveren"
+      "deactivate": "Deactiveren | {resource_type} Deactiveren",
+      "refresh": "Ververs"
     },
     "repositories": {
       "publish": "Publiceren",
@@ -160,7 +161,9 @@
       "stepFirst": "Repository kiezen",
       "stepSecond": "{technology} packages opladen",
       "stepThird": "Samenvatting",
-      "generateManualNotAvailable": "niet beschikbaar voor binaire package"
+      "generateManualNotAvailable": "niet beschikbaar voor binaire package",
+      "binaryPython": "Geüpload package is binair (.whl)",
+      "noBinaryPython": "Geüpload package is niet binair"
     },
     "tokens": {
       "deactivateQuestion": "Ben je zeker dat je volgende token wilt deactiveren: <strong>{0}</strong>\"?",
@@ -214,7 +217,10 @@
       "url": "Dit moet een URL zijn",
       "404": "De pagina die je wenst te bereiken, bestaat niet.",
       "formNotChanged": "Er werden geen velden gewijzigd",
-      "pageNotFound": "404 - Pagina niet gevonden"
+      "pageNotFound": "404 - Pagina niet gevonden",
+      "manual": {
+        "notFound": "Handleiding niet gevonden"
+      }
     },
     "filtration": {
       "makeSure": "Dit zal alle filters wissen"
@@ -288,7 +294,8 @@
         "create": "Aanmaken is niet mogelijk in declaratieve modus",
         "delete": "Verwijderen is niet mogelijk in declaratieve modus",
         "edit": "Bewerken is niet mogelijk in declaratieve modus",
-        "publish": "Publiceren is niet mogelijk in declaratieve modus "
+        "publish": "Publiceren is niet mogelijk in declaratieve modus ",
+        "republish": "Opnieuw publiceren is niet toegestaan in declaratieve modus"
       },
       "authenticationNotRequiredTooltip": "Deze repository vereiest geen authenticatie voor het installeren van packages"
     },
