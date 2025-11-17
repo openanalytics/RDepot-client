@@ -115,7 +115,8 @@ import {
   ref,
   onMounted,
   nextTick,
-  onBeforeUnmount
+  onBeforeUnmount,
+  onBeforeMount
 } from 'vue'
 import { useDisplay } from 'vuetify'
 import NoEvents from './NoEvents.vue'
@@ -183,8 +184,11 @@ async function loadMoreEvents() {
 
 var lastScrollTop = 0
 
-onMounted(async () => {
+onBeforeMount(async () => {
   await eventsStore.get()
+})
+
+onMounted(async () => {
   nextTick(() => {
     window.addEventListener('scroll', () => {
       var st =
@@ -202,6 +206,7 @@ onBeforeUnmount(() => {
   window.removeEventListener('scroll', () => {
     loadMoreEvents()
   })
+  eventsStore.events = []
 })
 </script>
 

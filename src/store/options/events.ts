@@ -68,7 +68,6 @@ export const useEventsStore = defineStore('eventsStore', {
       Map<string, EntityModelNewsfeedEventDto[]>
     > {
       const { getDate, getMonthAndYear } = useDates()
-
       const mapByMonths = state.events.reduce(
         (entryMap, e) =>
           entryMap.set(
@@ -140,8 +139,11 @@ export const useEventsStore = defineStore('eventsStore', {
           }
         })
       }
-
-      this.events = this.events.concat(newEvents)
+      if (this.page > 0) {
+        this.events = this.events.concat(newEvents)
+      } else {
+        this.events = newEvents
+      }
     },
     async setFiltration(
       payload: EventsFiltration,
