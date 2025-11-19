@@ -22,31 +22,25 @@
 
 import { test, expect } from '@playwright/test'
 import {
-  COPY_ADMIN_EMAIL_BUTTON_ID,
-  USERS_SIDEBAR_ID
+  ACCESS_TOKENS_SIDEBAR_ID,
+  SETTINGS_LIST_SIDEBAR_ID
 } from '@/__tests__/end-to-end/helpers/elementsIds'
-import { login } from '../helpers/login'
+import { login } from '@/__tests__/end-to-end/helpers/login'
 
-const TITLE = 'users list'
-test.describe(TITLE, () => {
-  test('displays data-table', async ({ page }) => {
-    await login(page, 'einstein')
-    await page.locator(`#${USERS_SIDEBAR_ID}`).click()
-    await page.waitForURL('**/users')
-    const usersRowsSelector = page.locator('role=row')
-    await expect(usersRowsSelector).toHaveCount(8)
-  })
+const TITLE_SERIAL = 'tokens list'
 
-  test("copy user's email", async ({ page }) => {
+test.describe(TITLE_SERIAL, () => {
+  test('renders properly', async ({ page }) => {
     await login(page, 'einstein')
-    await page.locator(`#${USERS_SIDEBAR_ID}`).click()
-    await page.waitForURL('**/users')
-    const usersRowsSelector = page.locator('role=row')
-    await expect(usersRowsSelector).toHaveCount(8)
-    const adminEmailCopyButtonLocator = page.locator(
-      `#${COPY_ADMIN_EMAIL_BUTTON_ID}`
-    )
-    await adminEmailCopyButtonLocator.waitFor()
-    await adminEmailCopyButtonLocator.click()
+    await page
+      .locator(`#${SETTINGS_LIST_SIDEBAR_ID}`)
+      .click()
+    await page
+      .locator(`#${ACCESS_TOKENS_SIDEBAR_ID}`)
+      .click()
+    await page.waitForURL('**/settings-tokens')
+
+    const tokensRowSelector = page.locator('role=row')
+    await expect(tokensRowSelector).toHaveCount(3)
   })
 })

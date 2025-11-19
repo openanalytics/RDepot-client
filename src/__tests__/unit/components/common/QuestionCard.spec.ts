@@ -27,6 +27,10 @@ import QuestionCard from '@/components/common/overlay/QuestionCard.vue'
 import { plugins } from '@/__tests__/config/plugins'
 import { mocks } from '@/__tests__/config/mocks'
 import { createPinia, setActivePinia } from 'pinia'
+import {
+  SUBMIT_BUTTON_ID,
+  CANCEL_BUTTON_ID
+} from '@/__tests__/end-to-end/helpers/elementsIds'
 
 let wrapper: any
 const MESSAGE = 'Do you want to reset the form?'
@@ -50,14 +54,14 @@ describe('QuestionCard', () => {
   })
 
   it('emit false on cancel action', async () => {
-    const content = wrapper.find('#cancel-button')
+    const content = wrapper.find(`#${CANCEL_BUTTON_ID}`)
     expect(content.exists()).toBeTruthy()
     await content.trigger('click')
     expect(wrapper.emitted().cancel).toBeTruthy()
   })
 
   it('emit true on apply action', async () => {
-    const content = wrapper.find('#submit-button')
+    const content = wrapper.find(`#${SUBMIT_BUTTON_ID}`)
     expect(content.exists()).toBeTruthy()
     await content.trigger('click')
     expect(wrapper.emitted().reset).toBeTruthy()

@@ -25,7 +25,8 @@ import {
   ACCESS_TOKENS_SIDEBAR_ID,
   SETTINGS_LIST_SIDEBAR_ID,
   TOKENS_FILTRATION_ACTIVE_ID,
-  TOKENS_FILTRATION_EXPIRED_ID
+  TOKENS_FILTRATION_EXPIRED_ID,
+  TOKENS_FILTRATION_SEARCH_ID
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '@/__tests__/end-to-end/helpers/login'
 
@@ -46,28 +47,28 @@ test.describe(TITLE_SERIAL, () => {
     })
     const tokensRowSelector = page.locator('role=row')
     await expect(tokensRowSelector).toHaveCount(3)
-    await expect(tokenActiveSelector).toHaveCount(2)
-
-    await page
-      .locator(`#${TOKENS_FILTRATION_ACTIVE_ID}`)
-      .click()
-
-    await expect(tokensRowSelector).toHaveCount(3)
-    await expect(tokenActiveSelector).toHaveCount(2)
-
-    await page
-      .locator(`#${TOKENS_FILTRATION_ACTIVE_ID}`)
-      .click()
-
-    await expect(tokensRowSelector).toHaveCount(3)
-    await expect(tokenActiveSelector).toHaveCount(2)
-
-    await page
-      .locator(`#${TOKENS_FILTRATION_ACTIVE_ID}`)
-      .click()
-
-    await expect(tokensRowSelector).toHaveCount(1)
     await expect(tokenActiveSelector).toHaveCount(0)
+
+    await page
+      .locator(`#${TOKENS_FILTRATION_ACTIVE_ID}`)
+      .click()
+
+    await expect(tokensRowSelector).toHaveCount(2)
+    await expect(tokenActiveSelector).toHaveCount(0)
+
+    await page
+      .locator(`#${TOKENS_FILTRATION_ACTIVE_ID}`)
+      .click()
+
+    await expect(tokensRowSelector).toHaveCount(3)
+    await expect(tokenActiveSelector).toHaveCount(0)
+
+    await page
+      .locator(`#${TOKENS_FILTRATION_ACTIVE_ID}`)
+      .click()
+
+    await expect(tokensRowSelector).toHaveCount(3)
+    await expect(tokenActiveSelector).toHaveCount(1)
   })
 
   test('expired', async ({ page }) => {
@@ -88,7 +89,7 @@ test.describe(TITLE_SERIAL, () => {
       .locator(`#${TOKENS_FILTRATION_EXPIRED_ID}`)
       .click()
 
-    await expect(tokensRowSelector).toHaveCount(3)
+    await expect(tokensRowSelector).toHaveCount(2)
 
     await page
       .locator(`#${TOKENS_FILTRATION_EXPIRED_ID}`)
@@ -100,6 +101,31 @@ test.describe(TITLE_SERIAL, () => {
       .locator(`#${TOKENS_FILTRATION_EXPIRED_ID}`)
       .click()
 
-    await expect(tokensRowSelector).toHaveCount(1)
+    await expect(tokensRowSelector).toHaveCount(2)
+  })
+
+  test('no data available', async ({ page }) => {
+    await login(page, 'einstein')
+    await page
+      .locator(`#${SETTINGS_LIST_SIDEBAR_ID}`)
+      .click()
+    await page
+      .locator(`#${ACCESS_TOKENS_SIDEBAR_ID}`)
+      .click()
+    await page.waitForURL('**/settings-tokens')
+    await expect(page).toHaveTitle(/RDepot - access tokens/)
+
+    const tokensRowSelector = page.locator('role=row')
+    await expect(tokensRowSelector).toHaveCount(9)
+
+    await page
+      .locator(`#${TOKENS_FILTRATION_SEARCH_ID}`)
+      .fill('aaaaaaaaaa')
+    await expect(tokensRowSelector).toHaveCount(2)
+    await expect(
+      await page
+        .locator('.v-data-table__tbody')
+        .textContent()
+    ).toContain('No data available')
   })
 })

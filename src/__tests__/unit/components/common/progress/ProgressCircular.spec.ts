@@ -29,6 +29,7 @@ import ProgressCircularVue from '@/components/common/progress/ProgressCircular.v
 import { createPinia, setActivePinia } from 'pinia'
 import { useCommonStore } from '@/store/options/common'
 import { nextTick } from 'vue'
+import { PROGRESS_CIRCULAR_ID } from '@/__tests__/end-to-end/helpers/elementsIds'
 
 let wrapper: any
 const globalConfig = {
@@ -53,14 +54,14 @@ describe('Progress Circular', () => {
   it('is not showing if nothing is loading', async () => {
     commonStore.progressCircularActive = false
     await nextTick()
-    const content = wrapper.find('#progress-circular')
+    const content = wrapper.find(`#${PROGRESS_CIRCULAR_ID}`)
     expect(content.isVisible()).toBeFalsy()
   })
 
   it('is showing progress if something is loading', async () => {
     commonStore.progressCircularActive = true
     await nextTick()
-    const content = wrapper.find('#progress-circular')
+    const content = wrapper.find(`#${PROGRESS_CIRCULAR_ID}`)
     expect(content.isVisible()).toBeTruthy()
   })
 })

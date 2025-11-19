@@ -23,7 +23,9 @@
 import { test, expect } from '@playwright/test'
 import {
   PACKAGE_MAINTAINERS_FILTRATION_DELETED_FIELD_ID,
-  PACKAGE_MAINTAINERS_SIDEBAR_ID
+  PACKAGE_MAINTAINERS_SIDEBAR_ID,
+  PACKAGE_MAINTAINERS_FILTRATION_SEARCH_FIELD_ID,
+  FILTRATION_RESET_BUTTON_ID
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '../helpers/login'
 
@@ -69,5 +71,64 @@ test.describe(TITLE, () => {
 
     await expect(maintainersRowsSelector).toHaveCount(3)
     await expect(maintainerDeletedSelector).toHaveCount(2)
+  })
+
+  test('reset button', async ({ page }) => {
+    await login(page, 'einstein')
+    await page
+      .locator(`#${PACKAGE_MAINTAINERS_SIDEBAR_ID}`)
+      .click()
+    await page.waitForURL('**/package-maintainers')
+    const maintainersRowsSelector = page.locator('role=row')
+    await expect(maintainersRowsSelector).toHaveCount(12)
+    await expect(
+      page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
+    ).toBeHidden()
+    await page
+      .locator(
+        `#${PACKAGE_MAINTAINERS_FILTRATION_DELETED_FIELD_ID}`
+      )
+      .click()
+
+    await expect(
+      page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
+    ).toBeVisible()
+
+    await expect(maintainersRowsSelector).toHaveCount(10)
+
+    await page
+      .locator(`#${FILTRATION_RESET_BUTTON_ID}`)
+      .click()
+
+    await expect(
+      page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
+    ).toBeHidden()
+
+    await expect(maintainersRowsSelector).toHaveCount(12)
+  })
+
+  test('no data available', async ({ page }) => {
+    await login(page, 'einstein')
+    await page
+      .locator(`#${PACKAGE_MAINTAINERS_SIDEBAR_ID}`)
+      .click()
+
+    await page.waitForURL('**/package-maintainers')
+
+    const maintainersRowsSelector = page.locator('role=row')
+    await expect(maintainersRowsSelector).toHaveCount(12)
+
+    await page
+      .locator(
+        `#${PACKAGE_MAINTAINERS_FILTRATION_SEARCH_FIELD_ID}`
+      )
+      .fill('aaaaaaaaaa')
+    await expect(maintainersRowsSelector).toHaveCount(2)
+
+    await expect(
+      await page
+        .locator('.v-data-table__tbody')
+        .textContent()
+    ).toContain('No data available')
   })
 })

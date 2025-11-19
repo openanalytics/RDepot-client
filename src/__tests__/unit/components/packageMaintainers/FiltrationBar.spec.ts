@@ -37,7 +37,7 @@ import flushPromises from 'flush-promises'
 import waitForExpect from 'wait-for-expect'
 import { useAuthorizationStore } from '@/store/options/authorization'
 import me from '@/__tests__/config/mockData/me.json'
-
+import { FILTRATION_RESET_BUTTON_ID } from '@/__tests__/end-to-end/helpers/elementsIds'
 let wrapper: any
 let authorizationStore: any
 const globalConfig = {
@@ -65,35 +65,17 @@ beforeEach(async () => {
 })
 
 describe('Packages Maintainers - filtration', () => {
-  it('renders properly', () => {
-    expect(wrapper.exists()).toBe(true)
-  })
-
-  it('reset button hidden without filtration', () => {
-    expect(wrapper.find('#reset-button').isVisible()).toBe(
-      false
-    )
-  })
-
-  it('reset button visible with filtration', async () => {
-    await fillTheFormWithRandomData()
-    fillPiniaFiltrationWithRandomData()
-    await waitForExpect(() => {
-      expect(
-        wrapper.find('#reset-button').isVisible()
-      ).toBe(true)
-    })
-  })
-
   it('reset form', async () => {
     await fillTheFormWithRandomData()
     fillPiniaFiltrationWithRandomData()
     await waitForExpect(() => {
       expect(
-        wrapper.find('#reset-button').isVisible()
+        wrapper
+          .find(`#${FILTRATION_RESET_BUTTON_ID}`)
+          .isVisible()
       ).toBe(true)
     })
-    await clickButton('#reset-button')
+    await clickButton(`#${FILTRATION_RESET_BUTTON_ID}`)
     checkIfFiltrationIsEmpty()
     checkIfPiniaFiltrationIsEmpty()
   })

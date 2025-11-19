@@ -45,6 +45,7 @@ let wrapper: any
 let usersStore: any
 let authorizationStore: any
 const { roles } = useEnumFiltration()
+let headers: any
 
 const globalConfig = {
   mocks: mocks,
@@ -64,39 +65,10 @@ beforeEach(async () => {
   })
   usersStore.users = users.data.content
   usersStore.loading = false
-})
-
-describe('User list - user row', () => {
-  it('displays data-table', async () => {
-    const dataTable = wrapper.findComponent('.v-data-table')
-    expect(dataTable.exists()).toBeTruthy()
-  })
-
-  it('displays one row per each user', async () => {
-    const userRows = wrapper.findAllComponents('tr')
-    expect(userRows.length).toEqual(
-      users.data.content.length
-    )
-  })
-
-  it('displays no data available text', async () => {
-    usersStore.users = []
-    await nextTick()
-    expect(wrapper.text()).toContain(
-      'datatable.noDataAvailable'
-    )
-    expect(wrapper.findAllComponents('tr').length).toEqual(
-      1
-    )
-  })
+  headers = wrapper.findAllComponents('th')
 })
 
 describe('Users - list headers', () => {
-  let headers: any
-  beforeAll(() => {
-    headers = wrapper.findAllComponents('th')
-  })
-
   it('displays all headers', () => {
     expect(headers.length).toEqual(6)
   })

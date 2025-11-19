@@ -35,7 +35,6 @@ import { createPinia, setActivePinia } from 'pinia'
 import tokens from '@/__tests__/config/mockData/tokens.json'
 import { useAuthorizationStore } from '@/store/options/authorization'
 import me from '@/__tests__/config/mockData/me.json'
-import { nextTick } from 'vue'
 import { i18n } from '@/plugins/i18n'
 import TokensList from '@/components/accessTokens/TokensList.vue'
 import { useAccessTokensStore } from '@/store/options/accessTokens'
@@ -45,6 +44,7 @@ const { formatDate } = useDates()
 let wrapper: any
 let authorizationStore: any
 let accessTokensStore: any
+let headers: any
 
 const globalConfig = {
   mocks: mocks,
@@ -64,43 +64,10 @@ beforeEach(async () => {
   })
   accessTokensStore.tokens = tokens.data.content
   accessTokensStore.loading = false
-})
-
-describe('Tokens - list', () => {
-  it('renders properly', () => {
-    expect(wrapper.exists()).toBe(true)
-  })
-
-  it('displays data-table', async () => {
-    const dataTable = wrapper.findComponent('.v-data-table')
-    expect(dataTable.exists()).toBeTruthy()
-  })
-
-  it('displays one row per each repository', async () => {
-    const repositoriesRows = wrapper.findAllComponents('tr')
-    expect(repositoriesRows.length).toEqual(
-      tokens.data.content.length
-    )
-  })
-
-  it('displays no data available text', async () => {
-    accessTokensStore.tokens = []
-    await nextTick()
-    expect(wrapper.text()).toContain(
-      'datatable.noDataAvailable'
-    )
-    expect(wrapper.findAllComponents('tr').length).toEqual(
-      1
-    )
-  })
+  headers = wrapper.findAllComponents('th')
 })
 
 describe('Tokens - list headers', () => {
-  let headers: any
-  beforeAll(() => {
-    headers = wrapper.findAllComponents('th')
-  })
-
   it('displays all headers', () => {
     expect(headers.length).toEqual(6)
   })
@@ -204,12 +171,4 @@ describe('Tokens - cells', () => {
     const cell = cells[5]
     expect(cell.find('#delete-icon').exists()).toBe(true)
   })
-
-  // Commented out for now, feature will be brought back
-  // it('displays deactivate icon', () => {
-  //   const cell = cells[4]
-  //   expect(cell.find('#deactivate-icon').exists()).toBe(
-  //     true
-  //   )
-  // })
 })

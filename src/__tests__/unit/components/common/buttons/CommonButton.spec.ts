@@ -29,6 +29,7 @@ import CommonButton from '@/components/common/buttons/CommonButton.vue'
 import { useCommonStore } from '@/store/options/common'
 import { createPinia, setActivePinia } from 'pinia'
 import { i18n } from '@/plugins/i18n'
+import { COMMON_BUTTON_ID } from '@/__tests__/end-to-end/helpers/elementsIds'
 
 let wrapper: any
 let commonStore: any
@@ -55,7 +56,7 @@ describe('CommonButton', () => {
   })
 
   it('set overaly values after click', async () => {
-    const content = wrapper.find('#common-button')
+    const content = wrapper.find(`#${COMMON_BUTTON_ID}`)
     expect(content.exists()).toBeTruthy()
     await content.trigger('click')
     expect(commonStore.overlayText).toEqual(

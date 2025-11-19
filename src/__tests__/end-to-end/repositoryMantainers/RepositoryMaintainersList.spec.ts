@@ -21,32 +21,22 @@
  */
 
 import { test, expect } from '@playwright/test'
-import {
-  COPY_ADMIN_EMAIL_BUTTON_ID,
-  USERS_SIDEBAR_ID
-} from '@/__tests__/end-to-end/helpers/elementsIds'
+import { REPOSITORY_MAINTAINERS_SIDEBAR_ID } from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '../helpers/login'
 
-const TITLE = 'users list'
+const TITLE = 'repository maintainers list'
 test.describe(TITLE, () => {
-  test('displays data-table', async ({ page }) => {
+  test('displays one row per each maintainer', async ({
+    page
+  }) => {
     await login(page, 'einstein')
-    await page.locator(`#${USERS_SIDEBAR_ID}`).click()
-    await page.waitForURL('**/users')
-    const usersRowsSelector = page.locator('role=row')
-    await expect(usersRowsSelector).toHaveCount(8)
-  })
 
-  test("copy user's email", async ({ page }) => {
-    await login(page, 'einstein')
-    await page.locator(`#${USERS_SIDEBAR_ID}`).click()
-    await page.waitForURL('**/users')
-    const usersRowsSelector = page.locator('role=row')
-    await expect(usersRowsSelector).toHaveCount(8)
-    const adminEmailCopyButtonLocator = page.locator(
-      `#${COPY_ADMIN_EMAIL_BUTTON_ID}`
-    )
-    await adminEmailCopyButtonLocator.waitFor()
-    await adminEmailCopyButtonLocator.click()
+    await page
+      .locator(`#${REPOSITORY_MAINTAINERS_SIDEBAR_ID}`)
+      .click()
+    await page.waitForURL('**/repository-maintainers')
+
+    const maintainersRowsSelector = page.locator('role=row')
+    await expect(maintainersRowsSelector).toHaveCount(7)
   })
 })

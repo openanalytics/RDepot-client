@@ -23,7 +23,9 @@
 import { test, expect } from '@playwright/test'
 import {
   REPOSITORIES_FILTRATION_PUBLISHED_FIELD_ID,
-  REPOSITORIES_SIDEBAR_ID
+  REPOSITORIES_FILTRATION_SEARCH_FIELD_ID,
+  REPOSITORIES_SIDEBAR_ID,
+  FILTRATION_RESET_BUTTON_ID
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '../helpers/login'
 
@@ -74,5 +76,68 @@ test.describe(TITLE, () => {
 
     await expect(repositoriesRowsSelector).toHaveCount(4)
     await expect(repositoryPublishedSelector).toHaveCount(4)
+  })
+
+  test('reset button', async ({ page }) => {
+    await login(page, 'einstein')
+
+    await page
+      .locator(`#${REPOSITORIES_SIDEBAR_ID}`)
+      .click()
+    await page.waitForURL('**/repositories')
+    const repositoriesRowsSelector =
+      page.locator('role=row')
+
+    await expect(repositoriesRowsSelector).toHaveCount(8)
+
+    await expect(
+      page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
+    ).toBeHidden()
+
+    await page
+      .locator(
+        `#${REPOSITORIES_FILTRATION_PUBLISHED_FIELD_ID}`
+      )
+      .click()
+    await expect(repositoriesRowsSelector).toHaveCount(5)
+
+    await expect(
+      page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
+    ).toBeVisible()
+
+    await page
+      .locator(`#${FILTRATION_RESET_BUTTON_ID}`)
+      .click()
+
+    await expect(
+      page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
+    ).toBeHidden()
+    await expect(repositoriesRowsSelector).toHaveCount(8)
+  })
+
+  test('no data available', async ({ page }) => {
+    await login(page, 'einstein')
+
+    await page
+      .locator(`#${REPOSITORIES_SIDEBAR_ID}`)
+      .click()
+    await page.waitForURL('**/repositories')
+
+    const repositoriesRowsSelector =
+      page.locator('role=row')
+    await expect(repositoriesRowsSelector).toHaveCount(8)
+
+    await page
+      .locator(
+        `#${REPOSITORIES_FILTRATION_SEARCH_FIELD_ID}`
+      )
+      .fill('aaaaaaaaaa')
+    await expect(repositoriesRowsSelector).toHaveCount(2)
+
+    await expect(
+      await page
+        .locator('.v-data-table__tbody')
+        .textContent()
+    ).toContain('No data available')
   })
 })

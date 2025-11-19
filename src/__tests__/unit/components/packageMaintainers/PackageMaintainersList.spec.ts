@@ -43,6 +43,7 @@ import { i18n } from '@/plugins/i18n'
 let wrapper: any
 let packageMaintainersStore: any
 let authorizationStore: any
+let headers: any
 
 const globalConfig = {
   mocks: mocks,
@@ -62,43 +63,10 @@ beforeEach(async () => {
   packageMaintainersStore.maintainers =
     packageMaintainers.data.content
   packageMaintainersStore.loading = false
-})
-
-describe('Package Maintainers - list', () => {
-  it('renders properly', () => {
-    expect(wrapper.exists()).toBe(true)
-  })
-
-  it('displays data-table', async () => {
-    const dataTable = wrapper.findComponent('.v-data-table')
-    expect(dataTable.exists()).toBeTruthy()
-  })
-
-  it('displays one row per each maintainer', async () => {
-    const maintainersRow = wrapper.findAllComponents('tr')
-    expect(maintainersRow.length).toEqual(
-      packageMaintainers.data.content.length
-    )
-  })
-
-  it('displays no data available text', async () => {
-    packageMaintainersStore.maintainers = []
-    await nextTick()
-    expect(wrapper.text()).toContain(
-      'datatable.noDataAvailable'
-    )
-    expect(wrapper.findAllComponents('tr').length).toEqual(
-      1
-    )
-  })
+  headers = wrapper.findAllComponents('th')
 })
 
 describe('Packages  maintainers - list headers', () => {
-  let headers: any
-  beforeAll(() => {
-    headers = wrapper.findAllComponents('th')
-  })
-
   it('displays all headers', () => {
     expect(headers.length).toEqual(5)
   })

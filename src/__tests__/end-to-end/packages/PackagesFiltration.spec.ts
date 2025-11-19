@@ -21,7 +21,11 @@
  */
 
 import { expect, test } from '@playwright/test'
-import { PACKAGES_FILTRATION_DELETED_FIELD_ID } from '@/__tests__/end-to-end/helpers/elementsIds'
+import {
+  PACKAGES_FILTRATION_DELETED_FIELD_ID,
+  PACKAGES_FILTRATION_SEARCH_FIELD_ID,
+  FILTRATION_RESET_BUTTON_ID
+} from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '../helpers/login'
 
 const TITLE = 'packages filtration'
@@ -57,6 +61,32 @@ test.describe(TITLE, () => {
 
     await expect(packagesRowsSelector).toHaveCount(21)
     await expect(packagesDeletedSelector).toHaveCount(4)
+  })
+
+  test('reset button', async ({ page }) => {
+    await login(page, 'einstein')
+    const packagesRowsSelector = page.locator('role=row')
+    await expect(packagesRowsSelector).toHaveCount(21)
+
+    await expect(
+      page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
+    ).toBeVisible()
+
+    await page
+      .locator(`#${PACKAGES_FILTRATION_SEARCH_FIELD_ID}`)
+      .fill('A3')
+
+    await expect(packagesRowsSelector).toHaveCount(4)
+
+    await page
+      .locator(`#${FILTRATION_RESET_BUTTON_ID}`)
+      .click()
+
+    await expect(
+      page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
+    ).toBeHidden()
+
+    await expect(packagesRowsSelector).toHaveCount(21)
   })
 
   test('submission state', async ({ page }) => {
@@ -99,5 +129,23 @@ test.describe(TITLE, () => {
       .first()
       .waitFor()
     await expect(closableTags).toHaveCount(1)
+  })
+
+  test('no data available', async ({ page }) => {
+    await login(page, 'einstein')
+
+    const packagesRowsSelector = page.locator('role=row')
+    await expect(packagesRowsSelector).toHaveCount(21)
+
+    await page
+      .locator(`#${PACKAGES_FILTRATION_SEARCH_FIELD_ID}`)
+      .fill('aaaaaaaaaa')
+    await expect(packagesRowsSelector).toHaveCount(2)
+
+    await expect(
+      await page
+        .locator('.v-data-table__tbody')
+        .textContent()
+    ).toContain('No data available')
   })
 })

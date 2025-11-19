@@ -416,6 +416,9 @@ export const USERS_FILTRATION_ACTIVE_ID =
   'users-filtration-active'
 export const USERS_FILTRATION_DELETED_ID =
   'user-filtration-deleted'
+export const FILTRATION_RESET_BUTTON_ID = 'reset-button'
+export const COMMON_BUTTON_ID = 'common-button'
+export const PROGRESS_CIRCULAR_ID = 'progress-circular'
 
 //TOKENS FILTRATION
 export const TOKENS_FILTRATION_SEARCH_ID =

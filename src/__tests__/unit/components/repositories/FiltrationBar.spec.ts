@@ -66,26 +66,6 @@ beforeEach(async () => {
 })
 
 describe('Repositories - filtration', () => {
-  it('renders properly', () => {
-    expect(wrapper.exists()).toBe(true)
-  })
-
-  it('reset button hidden without filtration', () => {
-    expect(wrapper.find('#reset-button').isVisible()).toBe(
-      false
-    )
-  })
-
-  it('reset button visible with filtration', async () => {
-    await fillTheFormWithRandomData()
-    fillPiniaFiltrationWithRandomData()
-    await waitForExpect(() => {
-      expect(
-        wrapper.find('#reset-button').isVisible()
-      ).toBe(true)
-    })
-  })
-
   it('reset form', async () => {
     await fillTheFormWithRandomData()
     fillPiniaFiltrationWithRandomData()

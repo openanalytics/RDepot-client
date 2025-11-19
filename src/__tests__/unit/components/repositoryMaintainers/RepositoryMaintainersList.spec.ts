@@ -47,6 +47,7 @@ const globalConfig = {
   mocks: mocks,
   plugins: plugins
 }
+let headers: any
 
 beforeEach(async () => {
   setActivePinia(createPinia())
@@ -62,43 +63,10 @@ beforeEach(async () => {
   repositoryMaintainersStore.maintainers =
     maintainers.data.content
   repositoryMaintainersStore.loading = false
-})
-
-describe('Repository Maintainers - list', () => {
-  it('renders properly', () => {
-    expect(wrapper.exists()).toBe(true)
-  })
-
-  it('displays data-table', async () => {
-    const dataTable = wrapper.findComponent('.v-data-table')
-    expect(dataTable.exists()).toBeTruthy()
-  })
-
-  it('displays one row per each maintainer', async () => {
-    const maintainersRow = wrapper.findAllComponents('tr')
-    expect(maintainersRow.length).toEqual(
-      maintainers.data.content.length
-    )
-  })
-
-  it('displays no data available text', async () => {
-    repositoryMaintainersStore.maintainers = []
-    await nextTick()
-    expect(wrapper.text()).toContain(
-      'datatable.noDataAvailable'
-    )
-    expect(wrapper.findAllComponents('tr').length).toEqual(
-      1
-    )
-  })
+  headers = wrapper.findAllComponents('th')
 })
 
 describe('Repository  maintainers - list headers', () => {
-  let headers: any
-  beforeAll(() => {
-    headers = wrapper.findAllComponents('th')
-  })
-
   it('displays all headers', () => {
     expect(headers.length).toEqual(4)
   })
