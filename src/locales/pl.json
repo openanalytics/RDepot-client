@@ -11,7 +11,7 @@
       "copy": "Kopiuj",
       "create": "Utwórz",
       "createResource": "Utwórz {resource_type}",
-      "deactivate": "Deaktywuj",
+      "deactivate": "Dezaktywuj",
       "delete": "Usuń",
       "download": "Pobierz",
       "edit": "Edytuj",
@@ -28,8 +28,9 @@
       "reset": "Wyczyść",
       "save": "Zapisz",
       "submit": "Zatwierdź",
-      "unset": "nieustawiony",
-      "uploadPackages": "Prześlij Pakiety"
+      "unset": "Nieustawiony",
+      "uploadPackages": "Prześlij Pakiety",
+      "refresh": "Odśwież"
     },
     "packageMaintainer": {
       "create": "Utwórz Opiekuna"
@@ -48,8 +49,8 @@
     "settings": {
       "changeLanguage": "Zmień język",
       "changeTheme": "Zmień motyw",
-      "language": "język",
-      "theme": "motyw",
+      "language": "Język",
+      "theme": "Motyw",
       "themes": {
         "dark": "ciemny",
         "light": "jasny"
@@ -200,8 +201,10 @@
       "generateManual": "Generuj instrukcję",
       "generateManualNotAvailable": "Niedostępne dla binarnych pakietów",
       "stepFirst": "Wybierz repozytorium",
-      "stepSecond": "Wgraj pakiety {0}",
-      "stepThird": "Podsumowanie"
+      "stepSecond": "Wgraj pakiety {technology}",
+      "stepThird": "Podsumowanie",
+      "binaryPython": "Wgrano pakiet binarny (.whl)",
+      "noBinaryPython": "Wgrany pakiet nie jest binarny"
     },
     "tokens": {
       "copyWarning": "Upewnij się, że skopiowałeś token. Nie będzie on widoczny później!",
@@ -241,7 +244,7 @@
       "500": "Serwer nie mógl zrealizować Twojego żądania",
       "copyFailed": "Nie udało się skopiować",
       "email": "To powinien być adres mailowy",
-      "invalidForm": "Przesłane dane są niepoprawne",
+      "invalidForm": "Podane dane są niepoprawne",
       "message": {
         "500": "Przepraszamy, coś poszło nie tak! Przekaż tę wiadomość administratorowi RDepot.\n\nidentyfikator błędu:\n{traceId}\n\nczas wystąpienia:\n{timestamp}"
       },
@@ -250,12 +253,15 @@
       "notMutable": "Zgłoszenie nie może zostać {actionType} ponieważ jego stan to {currentState}",
       "oauth": "Błąd autoryzacji",
       "oauthTitle": "Autoryzacja",
-      "reponame": "Dozwolone znaki: A-Z, a-z, 0-9, myślnik (-), podkreślnik (_), kropka (.), i spacja.",
+      "reponame": "Wprowadzona nazwa zawiera niedozwolone znaki.",
       "required": "Wymagane pole",
       "url": "To powinien być adres url",
       "404": "Strona, której szukasz nie istnieje.",
       "pageNotFound": "404 - Strona nie istnieje",
-      "formNotChanged": "Formularz bez zmian"
+      "formNotChanged": "Formularz bez zmian",
+      "manual": {
+        "notFound": "Nie znaleziono instrukcji"
+      }
     },
     "filtration": {
       "makeSure": "Ta akcja wyczyści wszystkie filtry"
@@ -312,7 +318,8 @@
         "create": "Tworzenie repozytorium jest niedostępne w deklaratywnym trybie",
         "delete": "Usuwanie jest niedostępne w deklaratywnym trybie",
         "edit": "Edycja jest niedostępna w deklaratywnym trybie",
-        "publish": "Publikowanie jest niedostępne w deklaratywnym trybie "
+        "publish": "Publikowanie jest niedostępne w deklaratywnym trybie ",
+        "republish": "Ponowna publikacja jest niedozwolona w trybie deklaratywnym"
       },
       "deprecatedAddressTooltip": "Adres serwera bez technologii jest przestarzały i nie będzie wspierany w RDepot v3.0",
       "notPublished": "Repozytorium nie jest jeszcze opublikowane",
@@ -334,7 +341,7 @@
       "waitingForAction": "oczekiwanie na akcję",
       "warnings": {
         "noSubmissionAvailable": "Brak odpowiednich zgłoszeń",
-        "notListedWarning": "Niektóre zgłoszenia nie są wylistowane ponieważ akcja {actionType} jest dla nich niedostępna",
+        "notListedWarning": "Niektóre zgłoszenia nie są wylistowane ponieważ akcja {actionType} jest dla nich niedostępna.",
         "onSubmissionAvailableText": "Nie wybrałeś żadnego zgłoszenia, na którym może być wykonana akcja {actionType}. Proszę wybrać inne zgłoszenia i spróbować jeszcze raz.",
         "onSubmissionAvailableTitle": "Proszę wybrać inne zgłoszenia",
         "replace": {
@@ -358,7 +365,7 @@
           "unknown": "Nieznany błąd. Spróbuj ponownie."
         }
       },
-      "wrongExtension": "Wybierz pakiety z odpowiednim rozszerzeniem (.tar.gz)",
+      "wrongExtension": "Wybierz pakiety z odpowiednim rozszerzeniem",
       "wrongExtension-Python": "Wybierz pakiety z odpowiednim rozszerzeniem (.tar.gz/.whl)",
       "wrongExtension-R": "Wybierz pakiety z odpowiednim rozszerzeniem (.tar.gz)"
     },
@@ -396,8 +403,8 @@
       "current": "obecna",
       "installInstruction-Python": "Aby zainstalować ten pakiet, wykonaj polecenie:",
       "installInstruction-R": "Aby zainstalować ten pakiet, uruchom R i wprowadź komendę:",
-      "installInstructionBinary": "Aby zainstalować ten {binary} pakiet, uruchom R i wprowadź komendę:",
-      "installInstructionBinaryCrane": "Aby zainstalować ten {binary} pakiet odwiedź {url}, uruchom R i wprowadź komendę:",
+      "installInstructionBinary": "Aby zainstalować ten pakiet binarny, uruchom R i wprowadź komendę:",
+      "installInstructionBinaryCrane": "Aby zainstalować ten pakiet binarny odwiedź {url}, uruchom R i wprowadź komendę:",
       "installInstructionCrane-Python": "Aby zainstalować ten pakiet, wykonaj polecenie:",
       "installInstructionCrane-R": "Aby zainstalować ten pakiet odwiedź {url}, uruchom R i wprowadź komendę:",
       "license": "Licencja",
@@ -422,14 +429,16 @@
         "suggests": "sugestie",
         "systemRequirements": "wymagania systemowe",
         "url": "URL",
-        "vignettes": "vignetty"
+        "vignettes": "vignetty",
+        "encoding": "kodowanie"
       },
       "relatedEventPage": "powiązane wydarzenia",
       "seeRelatedEvent": "zobacz powiązane zdarzenia",
       "source": "Źródło",
       "sourceFile": "plik źródłowy",
       "versions": "Wersje pakietu",
-      "binaryProperties": "Właściwości binarne"
+      "binaryProperties": "Właściwości binarne",
+      "withinRdepot": "w RDepot"
     },
     "repositories": {
       "healthCheck": {
@@ -481,5 +490,12 @@
   },
   "updatedProperties": {
     "title": "Zmiany"
+  },
+  "backend": {
+    "no": {
+      "admin": {
+        "left": "Nie można zmieniać roli ostatniego administratora - przynajmniej jeden użytkownik musi być administratorem"
+      }
+    }
   }
 }
