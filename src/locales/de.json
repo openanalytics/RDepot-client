@@ -1,13 +1,13 @@
 {
   "actions": {
     "settings": {
-      "theme": "Ausgestaltung",
+      "theme": "Theme",
       "themes": {
         "dark": "dunkel",
         "light": "hell"
       },
       "changeLanguage": "Sprache ändern",
-      "changeTheme": "Ausgestaltung ändern",
+      "changeTheme": "Theme ändern",
       "language": "Sprache"
     },
     "submissions": {
@@ -17,22 +17,22 @@
     "general": {
       "cancel": "Abbrechen",
       "accept": "Akzeptieren",
-      "clear": "Alle löschen",
-      "click": "klicken Sie",
+      "clear": "Alles löschen",
+      "click": "Klicken Sie",
       "copy": "kopieren",
       "create": "erstellen",
       "createResource": "{resource_type} erstellen",
       "deactivate": "deaktivieren | {resource_type} deaktivieren",
       "delete": "löschen",
-      "download": "runterladen",
+      "download": "herunterladen",
       "edit": "bearbeiten",
       "goBack": "zurück",
-      "goTo": "Nähere Angaben {resource_type} anschauen",
+      "goTo": "Details {resource_type} anschauen",
       "install": "installieren",
       "login": "anmelden",
       "logout": "abmelden",
       "ok": "OK",
-      "open": "in einer neuen Registerkarte öffnen",
+      "open": "In einem neuen Tab öffnen",
       "or": "oder",
       "reject": "ablehnen",
       "reset": "zurücksetzen",
@@ -41,7 +41,7 @@
       "continue": "weiter",
       "activate": "Aktivieren | {resource_type} aktivieren",
       "editResource": "{resource_type} bearbeiten",
-      "submit": "einreichen",
+      "submit": "Bestätigen",
       "unset": "aufheben",
       "refresh": "Aktualisieren"
     },
@@ -50,7 +50,7 @@
       "republish": "neu veröffentlichen",
       "seePackages": "siehe Pakete des Repositorys",
       "unpublish": "unveröffentlichen",
-      "goTo": "Pakete zeigen"
+      "goTo": "Pakete anzeigen"
     }
   },
   "datatable": {
@@ -60,7 +60,7 @@
   },
   "dragZone": {
     "click": "um sie manuell auszuwählen",
-    "inactive": "legen Sie Dateien ab zum hochladen",
+    "inactive": "legen Sie Dateien ab zum Hochladen",
     "active": "ziehen Sie eine oder mehrere Dateien hierher",
     "dropzone": "Ablegefeld"
   },
@@ -68,14 +68,14 @@
     "files": {
       "architecture": "Architektur",
       "binary": "binär",
-      "distribution": "Verteilung",
+      "distribution": "Distribution",
       "generateManual": "erstellen Sie eine Anleitung",
       "notes": "Anmerkungen",
       "replace": "ersetzen",
       "rVersion": "R Version"
     },
     "general": {
-      "actions": "Aktionen",
+      "actions": "Handlungen",
       "createdOn": "erstellt am",
       "date": "Datum",
       "deleted": "gelöscht"
@@ -88,7 +88,7 @@
     "repositories": {
       "publicationUri": "URI Veröffentlichung",
       "published": "veröffentlicht",
-      "synchronizing": "die Synchronisierung wird bearbeitet",
+      "synchronizing": "Synchronisiert",
       "serverAddress": "Serveradresse"
     },
     "submissions": {
@@ -105,7 +105,7 @@
       "lastLoggedIn": "zuletzt angemeldet",
       "name": "Anzeigename",
       "role": "Rolle | Rollen",
-      "username": "Nutzername"
+      "username": "Benutzername"
     }
   },
   "filtration": {
@@ -115,10 +115,10 @@
       "eventType": "Ereignisart"
     },
     "general": {
-      "fromDate": "Von Datum",
+      "fromDate": "Datum von",
       "searchPlaceholder": "suchen",
-      "title": "Filtrierung",
-      "toDate": "Bis Datum"
+      "title": "Filterung",
+      "toDate": "Datum bis"
     },
     "tokens": {
       "expired": "abgelaufen",
@@ -132,7 +132,7 @@
         "passwordError": "Passwort ist erforderlich"
       },
       "password": "Passwort",
-      "username": "Anmeldung"
+      "username": "Anmelden"
     },
     "general": {
       "name": "Name"
@@ -140,7 +140,7 @@
     "packageMaintainers": {
       "hints": {
         "disabledPackageMessage": "Wählen Sie einen Benutzer und ein Repository zur Aktivierung",
-        "disclaimerPackages": "Nur Benutzer mit mindestens der Rolle des Paketbetreuers verfügbar."
+        "disclaimerPackages": "Nur Benutzer mit mindestens Paket-Maintainer Rolle verfügbar."
       }
     },
     "repositories": {
@@ -152,13 +152,13 @@
         "deprecatedAddress": "Eine Serveradresse ohne Technologie als Teil des Pfades ist veraltet und wird in RDepot v3.0 nicht mehr unterstützt. Bitte verwenden Sie stattdessen {address}."
       },
       "redirectToSource": "zur Quelle umleiten",
-      "requiresAuthentication": "erfordert Authentifizierung"
+      "requiresAuthentication": "Authentifizierung nötig"
     },
     "repositoryMaintainers": {
       "hints": {
         "disabledPackageMessage": "wählen Sie einen Benutzer und ein Repository zur Aktivierung",
         "disabledRepositoryMessage": "wählen Sie einen Benutzer zur Aktivierung",
-        "disclaimer": "Nur Benutzer mit mindestens der Rolle des Repository-Betreuers verfügbar."
+        "disclaimer": "Nur Benutzer mit mindestens der Maintainer-Rolle des Repository verfügbar."
       }
     },
     "submissions": {
@@ -180,7 +180,7 @@
       "edited": "Token angepasst",
       "newToken": "Neues Zugriffstoken",
       "notConfigurableExpirationDate": "Laufzeit Zugriffstoken ist nicht konfigurierbar",
-      "copyWarning": "Achten Sie darauf, dass Sie das Zugriffstoken jetzt kopieren. Sie werden es nicht mehr sehen können!"
+      "copyWarning": "Achten Sie darauf, dass Sie das Zugriffstoken jetzt kopieren. Sie werden es danach nicht mehr sehen können!"
     }
   },
   "messages": {
@@ -189,7 +189,7 @@
       "loggedIn": "angemeldet",
       "notLoggedIn": "nicht angemeldet",
       "oidc": "Anmeldung über OIDC",
-      "success": "Anmeldung erfolgt"
+      "success": "Anmeldung erfolgreich"
     },
     "config": {
       "deletingRepositories": "Das Löschen von Repositorys ist in der Konfiguration deaktiviert",
@@ -224,12 +224,12 @@
     },
     "general": {
       "deactivateQuestion": "Sind Sie sicher, dass Sie {resource_name} deaktivieren möchten?",
-      "editResourceQuestion": "Sind Sie sicher, dass Sie den nachstehenden {resource_type} {edit_action} möchten?",
+      "editResourceQuestion": "Sind Sie sicher, dass Sie den folgenden {resource_type} {edit_action} möchten?",
       "chooseOneToEnable": "mindestens ein {resource_type} wählen um zu ermöglichen",
       "chooseOneToContinue": "Bitte {resource_type} hinzufügen um fortzufahren",
       "copied": "In die Zwischenablage kopiert",
       "deleteQuestion": "Sind Sie sicher, dass Sie {resource_name} löschen möchten?",
-      "deleteResourcesQuestion": "Sind Sie sicher, dass die den nachstehenden {resource_type} löschen möchten?",
+      "deleteResourcesQuestion": "Sind Sie sicher, dass die den folgenden {resource_type} löschen möchten?",
       "deleted": "Dieser {resource_name} ist gelöscht",
       "goToDisabled": "Kann nicht zu den Details gehen",
       "noDataAvailable": "Keine Daten verfügbar",
@@ -277,7 +277,7 @@
       "upToDate": "bereits auf dem neuesten Stand"
     },
     "filtration": {
-      "makeSure": "Diese Aktion wird all Filter löschen"
+      "makeSure": "Diese Aktion wird alle Filter löschen"
     },
     "packages": {
       "noDescriptionProvided": "Keine Beschreibung gegeben",
@@ -422,10 +422,10 @@
     }
   },
   "resources": {
-    "packageMaintainer": "Paket-Betreuer | Paket-Betreuer",
+    "packageMaintainer": "Paket-Maintainer| Paket-Maintainer",
     "package": "Paket | Pakete",
     "repository": "Repository | Repositorys",
-    "repositoryMaintainer": "Repository-Betreuer | Repository-Betreuer",
+    "repositoryMaintainer": "Repository-Maintainer| Repository-Maintainer",
     "settings": "Einstellungen",
     "submission": "Einreichung | Einreichungen",
     "technology": "Technologie | Technologien",
@@ -435,7 +435,7 @@
     "token": "Token | Tokens",
     "admin": "Admin | Admins",
     "event": "Ereignis | Ereignisse",
-    "maintainer": "Betreuer | Betreuer"
+    "maintainer": "Maintainer | Maintainer"
   },
   "updatedProperties": {
     "title": "Aktualisierte Eigenschaften"
