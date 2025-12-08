@@ -26,7 +26,7 @@
     <span class="d-flex ga-3">
       <EventTag
         v-if="relatedResource?.binary"
-        :value="$t('packageDetails.props.binary')"
+        :value="$t('properties.packages.binary')"
         size="small"
         disable-copying
         disable-tooltip
@@ -59,6 +59,19 @@
       v-if="event.eventType"
       :event-type="event.eventType"
     />
+    <GoToButton
+      :item="relatedResource"
+      from="packages"
+      :tooltip="
+        $t('actions.general.goTo', {
+          resource_type: $t(
+            'resources.package'
+          ).toLowerCase()
+        })
+      "
+    />
+    <br />
+    <EventAuthor :user="event.user" />
   </v-card-subtitle>
 
   <v-divider class="my-2 mx-2" />
@@ -87,7 +100,7 @@
 
       <EventTag
         v-if="relatedResource?.deleted"
-        :value="i18n.t('columns.tokens.deleted')"
+        :value="i18n.t('properties.general.deleted')"
         color="oared"
         disable-copying
         disable-tooltip
@@ -95,27 +108,23 @@
 
       <EventTag
         :value="relatedResource?.user?.login"
-        :hover-message="
-          i18n.t('columns.package.maintainer')
-        "
+        :hover-message="i18n.t('resources.maintainer')"
       />
       <EventTag
         :value="relatedResource?.repository?.name"
-        :hover-message="
-          i18n.t('columns.package.repository')
-        "
+        :hover-message="i18n.t('resources.repository')"
       />
 
       <EventTag
         v-if="relatedResource?.repository?.published"
-        :value="i18n.t('columns.repository.published')"
+        :value="i18n.t('fields.repositories.published')"
         disable-copying
         disable-tooltip
       />
 
       <EventTag
         v-if="relatedResource?.active"
-        :value="i18n.t('columns.active')"
+        :value="i18n.t('properties.general.active')"
         disable-copying
         disable-tooltip
       />
@@ -123,7 +132,7 @@
       <EventTag
         v-if="relatedResource?.source"
         :value="relatedResource?.source"
-        :hover-message="i18n.t('columns.package.source')"
+        :hover-message="i18n.t('fields.packages.source')"
       />
     </div>
   </v-card-text>
@@ -141,6 +150,8 @@ import EventTag from '../EventTag.vue'
 import { i18n } from '@/plugins/i18n'
 import { computed } from 'vue'
 import EventTypeTag from './EventTypeTag.vue'
+import GoToButton from '@/components/common/action_icons/GoToButton.vue'
+import EventAuthor from '../EventAuthor.vue'
 
 const componentProps = defineProps({
   event: {
@@ -158,13 +169,22 @@ const { getStatusIcon, getStatusColor } =
   useSubmissionIcons()
 
 const resourceType = computed(() =>
-  i18n.t('resourceType.package').toUpperCase()
+  i18n.t('resources.package').toUpperCase()
 )
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .value {
   flex-basis: 70%;
   margin: 10px 0;
+}
+
+div:deep(#tooltip-activator:has(i[id^='goTo-button'])) {
+  float: right;
+}
+
+div:deep(i[id^='goTo-button']) {
+  padding-top: 10px;
+  float: right;
 }
 </style>

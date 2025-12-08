@@ -47,12 +47,33 @@
       />
     </span>
   </v-card-title>
-  <v-card-subtitle
-    >{{ resourceType }}
-    <EventTypeTag
-      v-if="event.eventType"
-      :event-type="event.eventType"
-    />
+  <v-card-subtitle>
+    <div style="display: flex; align-items: center">
+      <span style="padding-right: 10px">{{
+        resourceType
+      }}</span>
+      <EventTypeTag
+        v-if="event.eventType"
+        :event-type="event.eventType"
+      />
+      <GoToButton
+        v-if="
+          relatedResource.state ===
+          EntityModelSubmissionDtoStateEnum.ACCEPTED
+        "
+        :item="relatedResource"
+        from="submissions"
+        :tooltip="
+          $t('actions.general.goTo', {
+            resource_type: $t(
+              'resources.package'
+            ).toLowerCase()
+          })
+        "
+      />
+    </div>
+    <v-spacer style="height: 0.75em" />
+    <EventAuthor :user="event.user" />
   </v-card-subtitle>
 
   <v-divider class="my-2 mx-2" />
@@ -62,7 +83,7 @@
         v-if="relatedResource.submitter"
         id="submitter"
         :placeholder="relatedResource.submitter.name"
-        :label="i18n.t('columns.submissions.submitter')"
+        :label="i18n.t('fields.submissions.submitter')"
         disabled
         density="compact"
         persistent-placeholder
@@ -71,7 +92,7 @@
         v-if="relatedResource?.approver"
         id="approver"
         :placeholder="relatedResource?.approver?.name"
-        :label="i18n.t('columns.submissions.approver')"
+        :label="i18n.t('fields.submissions.approver')"
         disabled
         density="compact"
         persistent-placeholder
@@ -104,7 +125,7 @@
 
       <EventTag
         v-if="relatedResource?.packageBag?.deleted"
-        :value="i18n.t('columns.submissions.deleted')"
+        :value="i18n.t('properties.general.deleted')"
         color="oared"
         disable-copying
         disable-tooltip
@@ -112,9 +133,7 @@
 
       <EventTag
         :value="relatedResource?.packageBag?.user?.login"
-        :hover-message="
-          i18n.t('columns.package.maintainer')
-        "
+        :hover-message="i18n.t('resources.maintainer')"
       />
 
       <EventTag
@@ -122,30 +141,28 @@
         :value="
           relatedResource?.packageBag?.repository?.name
         "
-        :hover-message="
-          i18n.t('columns.package.repository')
-        "
+        :hover-message="i18n.t('resources.repository')"
       />
 
       <EventTag
         v-if="
           relatedResource?.packageBag?.repository?.published
         "
-        :value="i18n.t('columns.repository.published')"
+        :value="i18n.t('fields.repositories.published')"
         disable-copying
         disable-tooltip
       />
 
       <EventTag
         v-if="relatedResource?.packageBag?.active"
-        :value="i18n.t('columns.active')"
+        :value="i18n.t('properties.general.active')"
         disable-copying
         disable-tooltip
       />
 
       <EventTag
         :value="relatedResource?.packageBag?.source"
-        :hover-message="i18n.t('columns.package.source')"
+        :hover-message="i18n.t('fields.packages.source')"
       />
     </div>
   </v-card-text>
@@ -154,7 +171,8 @@
 <script setup lang="ts">
 import {
   EntityModelNewsfeedEventDto,
-  EntityModelSubmissionDto
+  EntityModelSubmissionDto,
+  EntityModelSubmissionDtoStateEnum
 } from '@/openapi'
 import UpdateDescription from '@/components/events/resources/UpdateDescription.vue'
 import { useDates } from '@/composable/date'
@@ -164,6 +182,8 @@ import { computed } from 'vue'
 import { i18n } from '@/plugins/i18n'
 import EventTypeTag from './EventTypeTag.vue'
 import { useTranslations } from '@/composable/translations/translations'
+import GoToButton from '@/components/common/action_icons/GoToButton.vue'
+import EventAuthor from '../EventAuthor.vue'
 
 const componentProps = defineProps({
   event: {
@@ -184,6 +204,16 @@ const { getTranslationWithFallbackValue } =
   useTranslations()
 
 const resourceType = computed(() =>
-  i18n.t('resourceType.submission').toUpperCase()
+  i18n.t('resources.submission').toUpperCase()
 )
 </script>
+
+<style scoped lang="scss">
+div:deep(#tooltip-activator:has(i[id^='goTo-button'])) {
+  margin-left: auto;
+}
+
+div:deep(i[id^='goTo-button']) {
+  margin-left: auto;
+}
+</style>

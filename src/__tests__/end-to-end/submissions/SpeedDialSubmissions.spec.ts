@@ -52,7 +52,11 @@ test.describe(TITLE, () => {
     await page.locator(`#${SUBMISSIONS_SIDEBAR_ID}`).click()
     await page.waitForURL('**/submissions')
     await expect(page).toHaveTitle(/RDepot - submissions/)
-
+    const sortByStateIcon = await page.locator(
+      'tr > th:nth-child(8) > div > i'
+    )
+    await sortByStateIcon.click()
+    await sortByStateIcon.click()
     const submissionRowsSelector = page.locator('role=row')
     await expect(submissionRowsSelector).toHaveCount(21)
 
@@ -201,7 +205,9 @@ test.describe(TITLE, () => {
     const submitButtonLocator = page.locator(
       `#${SUBMIT_BUTTON_ID}`
     )
-    await expect(submitButtonLocator).toBeDisabled()
+    await expect(submitButtonLocator).toHaveClass(
+      /text-grey/
+    )
   })
 
   test('download a few waiting submission', async ({
@@ -213,7 +219,11 @@ test.describe(TITLE, () => {
     await expect(page).toHaveTitle(/RDepot - submissions/)
     const submissionRowsSelector = page.locator('role=row')
     await expect(submissionRowsSelector).toHaveCount(21)
-
+    const sortByStateIcon = await page.locator(
+      'tr > th:nth-child(8) > div > i'
+    )
+    await sortByStateIcon.click()
+    await sortByStateIcon.click()
     await page
       .locator(
         `#${SUBMISSIONS_LIST_ACTIONS_BENCHMARKING_010_TESTREPO4_ID}`
@@ -285,7 +295,11 @@ test.describe(TITLE_SERIAL, { tag: '@serial' }, () => {
     const speedDialOptionSelector = page.locator(
       `#${SUBMISSIONS_MULTI_REJECT_ID}`
     )
-
+    const sortByStateIcon = await page.locator(
+      'tr > th:nth-child(8) > div > i'
+    )
+    await sortByStateIcon.click()
+    await sortByStateIcon.click()
     await page
       .locator(
         `#${SUBMISSIONS_LIST_ACTIONS_VISDAT_010_TESTREPO2_ID}`
@@ -327,7 +341,11 @@ test.describe(TITLE_SERIAL, { tag: '@serial' }, () => {
     const speedDialOptionSelector = page.locator(
       `#${SUBMISSIONS_MULTI_CANCEL_ID}`
     )
-
+    const sortByStateIcon = await page.locator(
+      'tr > th:nth-child(8) > div > i'
+    )
+    await sortByStateIcon.click()
+    await sortByStateIcon.click()
     await page
       .locator(
         `#${SUBMISSIONS_LIST_ACTIONS_A3_091_TESTREPO4_ID}`
@@ -368,7 +386,11 @@ test.describe(TITLE_SERIAL, { tag: '@serial' }, () => {
     const speedDialOptionSelector = page.locator(
       `#${SUBMISSIONS_MULTI_ACCEPT_ID}`
     )
-
+    const sortByStateIcon = await page.locator(
+      'tr > th:nth-child(8) > div > i'
+    )
+    await sortByStateIcon.click()
+    await sortByStateIcon.click()
     await page
       .locator(
         `#${SUBMISSIONS_LIST_ACTIONS_REQUESTS_2281_TESTREPO8_ID}`

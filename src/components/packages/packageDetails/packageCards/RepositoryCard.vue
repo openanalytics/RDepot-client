@@ -34,12 +34,10 @@
       <div class="d-flex ga-1 align-center">
         <v-chip
           v-tooltip="
-            $t(
-              'repositories.creation.technology'
-            ).toLowerCase()
+            $t('resources.technology').toLowerCase()
           "
           size="x-small"
-          color="oablue"
+          color="primary"
           >{{
             packageDetailsStore.packageBag.technology
           }}</v-chip
@@ -50,8 +48,10 @@
           v-tooltip="
             packageDetailsStore.packageBag.repository
               .published
-              ? $t('repositories.published.true')
-              : $t('repositories.published.false')
+              ? $t('properties.repositories.published.true')
+              : $t(
+                  'properties.repositories.published.false'
+                )
           "
           :icon="
             packageDetailsStore.packageBag.repository
@@ -68,6 +68,18 @@
           "
         >
         </v-icon>
+        <GoToButton
+          size="xs"
+          :item="packageDetailsStore.packageBag.repository"
+          from="packageDetails"
+          :tooltip="
+            $t('actions.general.goTo', {
+              resource_type: $t(
+                'resources.repository'
+              ).toLowerCase()
+            })
+          "
+        />
       </div>
     </template>
     <v-card-subtitle class="pb-3">
@@ -89,6 +101,7 @@
 import CopyableCell from '@/components/common/datatable/CopyableCell.vue'
 import Icons from '@/maps/Icons'
 import { usePackageDetailsStore } from '@/store/options/packageDetails'
+import GoToButton from '@/components/common/action_icons/GoToButton.vue'
 
 const packageDetailsStore = usePackageDetailsStore()
 </script>

@@ -23,7 +23,7 @@
 <template>
   <div class="d-flex flex-row" style="align-items: center">
     <h2 class="my-5">
-      {{ $t('common.settings') }}
+      {{ i18n.t('resources.settings') }}
     </h2>
   </div>
   <SettingsTable />
@@ -31,10 +31,11 @@
 
 <script setup lang="ts">
 import SettingsTable from '@/components/settings/SettingsTable.vue'
+import { i18n } from '@/plugins/i18n'
 </script>
 
 <style scoped type="scss">
-.settings-container {
+s .settings-container {
   max-width: 90%;
   width: 100%;
   display: flex;

@@ -87,7 +87,9 @@ export function useUtilities() {
 
   function copyText(
     value: string,
-    feedbackMessage: string = i18n.t('common.copied')
+    feedbackMessage: string = i18n.t(
+      'messages.general.copied'
+    )
   ) {
     try {
       if (value) {
@@ -95,7 +97,7 @@ export function useUtilities() {
         toasts.success(feedbackMessage)
       }
     } catch {
-      toasts.error(i18n.t('common.errors.copyFailed'))
+      toasts.error(i18n.t('messages.errors.copyFailed'))
     }
   }
 

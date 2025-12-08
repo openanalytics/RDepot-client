@@ -33,7 +33,7 @@
       >
     </template>
     <span v-if="!disabled" id="action-deactivate">{{
-      $t('common.deactivate')
+      $t('actions.general.deactivate')
     }}</span>
     <span v-else>
       {{ translatedHoverMessage }}
@@ -76,7 +76,7 @@ const commonStore = useCommonStore()
 function deactivateDialog() {
   emits('setResourceId')
   commonStore.overlayText = i18n.t(
-    'common.deactivateQuestion',
+    'messages.general.deactivateQuestion',
     {
       resource_name: componentProps.name
     }
@@ -88,7 +88,7 @@ function deactivateDialog() {
 const translatedHoverMessage = computed(() => {
   return (
     componentProps.hoverMessage ||
-    i18n.t('common.notAuthorized')
+    i18n.t('messages.general.notAuthorized')
   )
 })
 </script>

@@ -27,8 +27,8 @@
       name="username"
       as="v-text-field"
       class="mt-10"
-      :label="$t('authorization.username')"
-      color="oablue"
+      :label="$t('forms.authorization.username')"
+      color="primary"
       required
       autofocus
       max-width="unset"
@@ -38,24 +38,34 @@
       id="password-input"
       name="password"
       as="v-text-field"
-      :label="$t('authorization.password')"
+      :label="$t('forms.authorization.password')"
       type="password"
-      color="oablue"
+      color="primary"
       required
       max-width="unset"
     />
 
     <v-row class="form-buttons my-10">
       <v-col>
-        <v-btn
-          id="login-simple-button"
-          style="width: 100%; justify-self: center"
-          class="btn"
-          color="oablue"
-          @click="loginSimple"
-        >
-          {{ $t('authorization.login') }}
-        </v-btn>
+        <v-tooltip :disabled="meta.valid && meta.touched">
+          <template #activator="{ props }">
+            <span v-bind="props">
+              <v-btn
+                id="login-simple-button"
+                style="width: 100%; justify-self: center"
+                class="btn"
+                color="primary"
+                :disabled="!meta.valid || !meta.touched"
+                @click="loginSimple"
+              >
+                {{ i18n.t('actions.general.login') }}
+              </v-btn>
+            </span>
+          </template>
+          <span>
+            {{ i18n.t('messages.errors.invalidForm') }}
+          </span>
+        </v-tooltip>
       </v-col>
     </v-row>
   </div>
@@ -63,30 +73,22 @@
 
 <script setup lang="ts">
 import ValidatedInputField from '@/components/common/fields/ValidatedInputField.vue'
-import { useI18n } from 'vue-i18n'
-import { z } from 'zod'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useForm } from 'vee-validate'
 import { Login } from '@/models/users/Login'
 import { onKeyStroke } from '@vueuse/core'
 import { useAuthorizationStore } from '@/store/options/authorization'
 import { useSimpleAuthorization } from '@/composable/auth/simpleAuthorization'
+import { useSimpleLoginValidationSchema } from '@/composable/auth/simpleLoginSchema'
+import { i18n } from '@/plugins/i18n'
 
-const { t } = useI18n()
 const authorizationStore = useAuthorizationStore()
 const { isSimpleAuthAvailable } = useSimpleAuthorization()
+const { simpleLoginSchema } =
+  useSimpleLoginValidationSchema()
 
-const { values, meta, validate } = useForm({
-  validationSchema: toTypedSchema(
-    z.object({
-      username: z
-        .string()
-        .nonempty(t('authorization.usernameError')),
-      password: z
-        .string()
-        .nonempty(t('authorization.passwordError'))
-    })
-  )
+const { values, meta } = useForm({
+  validationSchema: toTypedSchema(simpleLoginSchema)
 })
 
 onKeyStroke('Enter', () => {
@@ -94,9 +96,7 @@ onKeyStroke('Enter', () => {
 })
 
 async function loginSimple() {
-  await validate()
-  if (meta.value.valid)
-    authorizationStore.simpleLogin(values as Login)
+  authorizationStore.simpleLogin(values as Login)
 }
 </script>
 

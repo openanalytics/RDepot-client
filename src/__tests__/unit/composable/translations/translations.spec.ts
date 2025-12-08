@@ -35,7 +35,7 @@ describe('translations composable', () => {
       useTranslations()
     const translation =
       getTranslationWithFallbackValue('accepted')
-    expect(translation).toEqual('ACCEPTED')
+    expect(translation).toEqual('accepted')
   })
 
   it('should return correct translation when non-default key is used', () => {
@@ -43,7 +43,7 @@ describe('translations composable', () => {
       useTranslations()
     const translation = getTranslationWithFallbackValue(
       'repository',
-      'resourceType'
+      'resources'
     )
     expect(translation).toEqual('Repository')
   })

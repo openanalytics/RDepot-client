@@ -24,41 +24,35 @@
   <v-card class="mb-12 px-10 py-3 step text-center">
     <v-card-text class="mb-1">
       <div class="text-overline">
-        {{ $t('common.repository') }}
+        {{ i18n.t('resources.repository') }}
       </div>
       <div id="repository-name" class="text-h4 mb-2">
-        {{ chosenRepository?.name }}
+        {{ repository?.title }}
       </div>
       <v-divider></v-divider>
       <v-list class="text-left">
         <v-list-item class="text-overline">
           <template #prepend>
-            {{ $t('columns.package.name') }}
+            {{ i18n.t('forms.general.name') }}
           </template>
           <template
-            v-if="
-              submissionsStore.repository?.technology !=
-              Technologies.enum.Python
-            "
+            v-if="technology != Technologies.enum.Python"
             #append
           >
-            {{ $t('addSubmission.generateManual') }}
+            {{ i18n.t('fields.files.generateManual') }}
           </template>
         </v-list-item>
         <template
-          v-for="(promise, i) in submissionsStore.promises"
+          v-for="(
+            promise, i
+          ) in uploadSubmissionStore.promises"
         >
           <UploadSummary
             v-if="promise.packageBag"
             :key="i"
             :promise="promise"
             :generate-manual="
-              submissionsStore.getGenerateManualForPackage(
-                promise.packageBag
-              )
-            "
-            :technology="
-              submissionsStore.repository?.technology
+              promise.generateManual ?? false
             "
           />
         </template>
@@ -67,53 +61,65 @@
   </v-card>
   <div class="d-flex justify-center">
     <v-tooltip
-      v-if="!submissionsStore.resolved"
+      v-if="!uploadSubmissionStore.resolved"
       location="center"
     >
       <template #activator="{ props }">
         <div id="tooltip-activator" v-bind="props">
           <v-btn
             id="back-button-disabled"
-            color="oablue"
+            color="primary"
             style="pointer-events: none"
             disabled
           >
-            {{ $t('submissions.addAnotherSubmission') }}
+            {{
+              i18n.t(
+                'messages.submissions.addAnotherSubmission'
+              )
+            }}
           </v-btn>
         </div>
       </template>
       <span id="tooltip-wait">{{
-        $t('submissions.waitForAllRequestsToFulfill')
+        i18n.t(
+          'messages.submissions.waitForAllRequestsToFulfill'
+        )
       }}</span>
     </v-tooltip>
     <v-btn
       v-else
       id="back-button"
-      color="oablue"
+      color="primary"
       @click="emits('next', 1)"
     >
-      {{ $t('submissions.addAnotherSubmission') }}
+      {{
+        i18n.t('messages.submissions.addAnotherSubmission')
+      }}
     </v-btn>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useSubmissionStore } from '@/store/options/submission'
-import { computed } from 'vue'
 import UploadSummary from '@/components/addSubmission/UploadSummary.vue'
 import { Technologies } from '@/enum/Technologies'
+import { useField } from 'vee-validate'
+import { i18n } from '@/plugins/i18n'
+import { useUploadSubmissionStore } from '@/store/setup/uploadSubmission'
 
 const emits = defineEmits(['next'])
 
-const submissionsStore = useSubmissionStore()
-const chosenRepository = computed(() => {
-  return submissionsStore.repository
-})
+const { value: repository } = useField<{ title: string }>(
+  'repository'
+)
+const { value: technology } = useField('technology')
+
+const uploadSubmissionStore = useUploadSubmissionStore()
 </script>
 
 <style lang="scss">
 .hoverable {
   transition: background-color 0.5s ease;
+
   &:hover {
     background-color: rgb(var(--v-theme-docsblue));
   }

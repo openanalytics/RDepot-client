@@ -35,11 +35,17 @@
     </span>
   </v-card-title>
   <v-card-subtitle
-    >{{ resourceType }}
-    <EventTypeTag
-      v-if="event.eventType"
-      :event-type="event.eventType"
-    />
+    ><div style="display: flex; align-items: center">
+      <span style="padding-right: 10px"
+        >{{ resourceType }}
+        <EventTypeTag
+          v-if="event.eventType"
+          :event-type="event.eventType"
+        />
+      </span>
+    </div>
+    <v-spacer style="height: 0.75em" />
+    <EventAuthor :user="event.user" />
   </v-card-subtitle>
 
   <v-divider class="my-2 mx-2" />
@@ -57,9 +63,7 @@
       >
         <EventTag
           v-if="relatedResource?.deleted"
-          :value="
-            i18n.t('columns.packageMaintainer.deleted')
-          "
+          :value="i18n.t('properties.general.deleted')"
           color="oared"
           disable-copying
           disable-tooltip
@@ -68,14 +72,14 @@
         <EventTag
           :value="relatedResource?.packageName"
           :hover-message="
-            i18n.t('columns.packageMaintainer.packageName')
+            i18n.t('fields.packageMaintainers.packageName')
           "
         />
 
         <EventTag
           :value="relatedResource?.repository?.name"
           :hover-message="
-            i18n.t('columns.packageMaintainer.repository')
+            i18n.t('fields.packageMaintainers.repository')
           "
         />
 
@@ -84,20 +88,20 @@
             relatedResource?.repository?.publicationUri
           "
           :hover-message="
-            i18n.t('columns.repository.publicationUri')
+            i18n.t('fields.repositories.publicationUri')
           "
         />
 
         <EventTag
           v-if="relatedResource?.repository?.published"
-          :value="i18n.t('columns.repository.published')"
+          :value="i18n.t('fields.repositories.published')"
           disable-copying
           disable-tooltip
         />
 
         <EventTag
           :value="relatedResource?.user?.email"
-          :hover-message="i18n.t('columns.users.email')"
+          :hover-message="i18n.t('fields.users.email')"
         />
       </div>
     </v-expand-transition>
@@ -115,6 +119,7 @@ import EventTag from '../EventTag.vue'
 import { i18n } from '@/plugins/i18n'
 import { computed } from 'vue'
 import EventTypeTag from './EventTypeTag.vue'
+import EventAuthor from '../EventAuthor.vue'
 
 const componentProps = defineProps({
   event: {
@@ -130,6 +135,6 @@ const relatedResource: EntityModelPackageMaintainerDto =
 const { getTime } = useDates()
 
 const resourceType = computed(() =>
-  i18n.t('resourceType.packageMaintainer').toUpperCase()
+  i18n.t('resources.packageMaintainer').toUpperCase()
 )
 </script>

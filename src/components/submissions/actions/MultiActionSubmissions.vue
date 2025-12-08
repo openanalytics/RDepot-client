@@ -40,7 +40,7 @@
           variant="text"
           size="x-small"
           :icon="Icons.get('more')"
-          color="oablue"
+          color="primary"
           v-bind="activatorProps"
           style="margin-left: -10px"
         />
@@ -93,7 +93,9 @@ const emit = defineEmits(['selectAll'])
 
 const chooseAtLeasOneMessage = computed(() =>
   submissionStore.selected.length == 0
-    ? ' (' + i18n.t('package.chooseOneToEnable') + ')'
+    ? ' (' +
+      i18n.t('messages.general.chooseOneToEnable') +
+      ')'
     : ''
 )
 
@@ -102,7 +104,7 @@ const actionButtons = computed(() => [
     id: 'submissions-multi-accept',
     icon: Icons.get('accept'),
     color: 'success',
-    tooltipMessage: `${i18n.t('action.accept')} ${
+    tooltipMessage: `${i18n.t('actions.general.accept')} ${
       chooseAtLeasOneMessage.value
     }`,
     onClickAction: () =>
@@ -112,7 +114,7 @@ const actionButtons = computed(() => [
     id: 'submissions-multi-reject',
     icon: Icons.get('reject'),
     color: 'oared',
-    tooltipMessage: `${i18n.t('action.reject')} ${
+    tooltipMessage: `${i18n.t('actions.general.reject')} ${
       chooseAtLeasOneMessage.value
     }`,
     onClickAction: () =>
@@ -122,7 +124,7 @@ const actionButtons = computed(() => [
     id: 'submissions-multi-cancel',
     icon: Icons.get('cancel'),
     color: 'oared',
-    tooltipMessage: `${i18n.t('action.cancel')} ${
+    tooltipMessage: `${i18n.t('actions.general.cancel')} ${
       chooseAtLeasOneMessage.value
     }`,
     onClickAction: () =>
@@ -132,7 +134,7 @@ const actionButtons = computed(() => [
     id: 'submissions-multi-download',
     icon: Icons.get('download'),
     color: 'gray',
-    tooltipMessage: `${i18n.t('action.download')} ${
+    tooltipMessage: `${i18n.t('actions.general.download')} ${
       chooseAtLeasOneMessage.value
     }`,
     onClickAction: () =>

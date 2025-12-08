@@ -21,11 +21,17 @@
 -->
 
 <template>
-  <v-menu location="bottom center">
+  <v-menu
+    v-if="
+      authorizationStore.me &&
+      Object.keys(authorizationStore.me).length > 0
+    "
+    location="bottom center"
+  >
     <template #activator="{ props }">
       <v-icon
         id="change-language-navbar-button"
-        v-tooltip="$t('settings.changeLanguage')"
+        v-tooltip="$t('actions.settings.changeLanguage')"
         color="text"
         v-bind="props"
         depressed
@@ -35,17 +41,12 @@
     </template>
     <v-list>
       <v-list-item
-        v-for="(item, index) in langs"
+        v-for="(item, index) in availableLanguages"
         :id="item.name"
         :key="index"
-        :active="$i18n.locale == item.abbreviation"
+        :active="locale == item.value"
         link
-        @click="
-          () => {
-            $i18n.locale = item.abbreviation
-            changeLanguage(item.name)
-          }
-        "
+        @click="handleLanguageChange(item)"
       >
         <v-list-item-title
           >{{ item.display }}
@@ -58,20 +59,61 @@
 <script setup lang="ts">
 import langs from '@/locales/index'
 import { useAuthorizationStore } from '@/store/options/authorization'
+import { useConfigStore } from '@/store/options/config.ts'
+import { computed, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 const authorizationStore = useAuthorizationStore()
 
-const changeLanguage = async (new_language: string) => {
+const configStore = useConfigStore()
+
+const availableLanguages = computed(() =>
+  langs.filter((lang) =>
+    configStore.supportedLanguages.includes(lang.name)
+  )
+)
+
+const { locale } = useI18n()
+
+const handleLanguageChange = async (item: {
+  name: string
+  abbreviation: string
+}) => {
+  locale.value = item.abbreviation
+
   if (await authorizationStore.isUserLoggedIn()) {
-    var new_settings =
+    let new_settings =
       authorizationStore.getCurrentSettings()
-    new_settings.language = new_language
+    new_settings.language = item.name
     authorizationStore.updateSettings(
       authorizationStore.getCurrentSettings(),
       new_settings
     )
   }
 }
+
+onMounted(async () => {
+  if (await authorizationStore.isUserLoggedIn()) {
+    const userLang =
+      authorizationStore.me.userSettings?.language
+    if (configStore.supportedLanguages.length > 0) {
+      if (
+        userLang &&
+        configStore.supportedLanguages.includes(userLang)
+      ) {
+        locale.value = userLang
+      } else if (
+        configStore.supportedLanguages.includes('en-US')
+      ) {
+        locale.value = 'en-US'
+      } else {
+        locale.value = configStore.supportedLanguages[0]
+      }
+    } else {
+      locale.value = 'en-US'
+    }
+  }
+})
 </script>
 
 <style lang="scss">

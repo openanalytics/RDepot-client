@@ -79,7 +79,8 @@ export async function fetchPackagesService(
       filtration?.submissionState,
       filtration?.technologies,
       filtration?.search,
-      filtration?.maintainer
+      filtration?.maintainer,
+      undefined
     ],
     showProgress
   ).catch(() => {

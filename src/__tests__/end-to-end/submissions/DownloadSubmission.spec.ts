@@ -36,6 +36,11 @@ test.describe(TITLE, () => {
     await page.locator(`#${SUBMISSIONS_SIDEBAR_ID}`).click()
     await page.waitForURL('**/submissions')
     await expect(page).toHaveTitle(/RDepot - submissions/)
+    const sortByStateIcon = await page.locator(
+      'tr > th:nth-child(8) > div > i'
+    )
+    await sortByStateIcon.click()
+    await sortByStateIcon.click()
     const submissionRowsSelector = page.locator('role=row')
     await expect(submissionRowsSelector).toHaveCount(21)
 

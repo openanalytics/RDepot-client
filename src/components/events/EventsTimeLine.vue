@@ -115,9 +115,10 @@ import {
   ref,
   onMounted,
   nextTick,
-  onBeforeUnmount
+  onBeforeUnmount,
+  onBeforeMount
 } from 'vue'
-import { useDisplay } from 'vuetify/lib/framework.mjs'
+import { useDisplay } from 'vuetify'
 import NoEvents from './NoEvents.vue'
 import { useCommonStore } from '@/store/options/common'
 import EventIcon from './EventIcon.vue'
@@ -140,7 +141,7 @@ const eventBoxWidth = computed(() => {
 function getDotColor(item: any) {
   return item && !item.eventType
     ? 'rgba(0, 0, 0, 0)'
-    : 'oablue'
+    : 'primary'
 }
 
 function hideDay(day: string) {
@@ -183,8 +184,11 @@ async function loadMoreEvents() {
 
 var lastScrollTop = 0
 
-onMounted(async () => {
+onBeforeMount(async () => {
   await eventsStore.get()
+})
+
+onMounted(async () => {
   nextTick(() => {
     window.addEventListener('scroll', () => {
       var st =
@@ -202,6 +206,7 @@ onBeforeUnmount(() => {
   window.removeEventListener('scroll', () => {
     loadMoreEvents()
   })
+  eventsStore.events = []
 })
 </script>
 
@@ -227,8 +232,10 @@ onBeforeUnmount(() => {
     transform: scale(1.05);
     cursor: pointer;
   }
+
   .year {
     font-size: 2em;
+
     .month {
       font-size: 1rem !important;
     }

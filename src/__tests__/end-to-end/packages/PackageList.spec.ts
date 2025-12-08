@@ -33,11 +33,16 @@ test.describe(TITLE, () => {
   test('no description provided', async ({ page }) => {
     await login(page, 'einstein')
 
-    await page.locator("td:has-text('boto3')").click()
+    await page
+      .locator("td:has-text('pandas')")
+      .first()
+      .click()
 
     expect(
       await page.locator('.additional-row p').textContent()
-    ).toContain(i18n.t('package.noDescriptionProvided'))
+    ).toContain(
+      i18n.t('messages.packages.noDescriptionProvided')
+    )
   })
 
   test('expanded markdown description', async ({
@@ -62,11 +67,6 @@ test.describe(TITLE, () => {
     await login(page, 'einstein')
 
     await page
-      .locator("td:has-text('accelerated-numpy')")
-      .click()
-
-    await page.getByLabel('Next page').click()
-    await page
       .locator("td:has-text('python-dateutil')")
       .click()
 
@@ -77,5 +77,36 @@ test.describe(TITLE, () => {
     await expect(
       page.locator(`#${OA_LIST_NOTES_RST}`)
     ).toHaveCount(1)
+  })
+
+  test('refresh buton', async ({ page }) => {
+    await login(page, 'einstein')
+
+    await page
+      .locator('#packages-filtration-search')
+      .fill('A3')
+
+    const packagesRowsSelector = page.locator('role=row')
+    await expect(packagesRowsSelector).toHaveCount(4)
+
+    await page.locator('#refresh-button').click()
+    await expect(packagesRowsSelector).toHaveCount(4)
+  })
+
+  test('should check how many packages are in the table footer', async ({
+    page
+  }) => {
+    await login(page, 'einstein')
+    await page.waitForURL('**/packages')
+    await expect(page).toHaveTitle(/RDepot - packages/)
+    const packagesRowsSelector = page.locator('role=row')
+    await expect(packagesRowsSelector).toHaveCount(21)
+    await expect(
+      (
+        await page
+          .locator('.v-data-table-footer__info')
+          .innerText()
+      ).includes('1-20 of 24')
+    ).toBe(true)
   })
 })

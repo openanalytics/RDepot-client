@@ -24,16 +24,16 @@
   <OATable
     v-model="submissionStore.selected"
     v-model:expanded="expanded"
-    expand-on-click
     show-select
     :headers="headers"
     :items="submissionStore.submissions"
-    :title="i18n.t('common.submissions')"
+    :title="i18n.t('resources.submission', 2)"
     :items-length="submissionStore.totalNumber"
     item-value="name"
     :loading="submissionStore.loading"
     :sort-by="sortBy"
     @update:options="fetchData"
+    @refresh="fetchData"
   >
     <template
       #[`header.data-table-select`]="{
@@ -108,7 +108,27 @@
         <AcceptSubmission :item="item" />
         <RejectSubmission :item="item" />
         <DownloadSubmission :item="item" />
-        <CommentSubmission :item="item" />
+        <CommentSubmission
+          :item="item"
+          @show-note="expandRow"
+        />
+        <GoToButton
+          :item="item"
+          from="submissions"
+          :disabled="
+            !(
+              item.state ===
+              EntityModelSubmissionDtoStateEnum.ACCEPTED
+            )
+          "
+          :tooltip="
+            $t('actions.general.goTo', {
+              resource_type: $t(
+                'resources.package'
+              ).toLowerCase()
+            })
+          "
+        />
       </span>
     </template>
     <template #expanded-row="{ columns, item }">
@@ -120,7 +140,9 @@
               :description="
                 item.changes
                   ? item.changes
-                  : $t('submissions.noChangesProvided')
+                  : $t(
+                      'messages.submissions.noChangesProvided'
+                    )
               "
               :short="undefined"
             ></MarkdownDescription>
@@ -133,7 +155,10 @@
 
 <script setup lang="ts">
 import { useSubmissionStore } from '@/store/options/submission'
-import { EntityModelSubmissionDto } from '@/openapi'
+import {
+  EntityModelSubmissionDto,
+  EntityModelSubmissionDtoStateEnum
+} from '@/openapi'
 import {
   DataTableHeaders,
   DataTableOptions,
@@ -149,6 +174,7 @@ import ProgressCircularSmall from '../common/progress/ProgressCircularSmall.vue'
 import AcceptSubmission from './actions/AcceptSubmission.vue'
 import RejectSubmission from './actions/RejectSubmission.vue'
 import CancelSubmission from './actions/CancelSubmission.vue'
+import GoToButton from '@/components/common/action_icons/GoToButton.vue'
 import DownloadSubmission from './actions/DownloadSubmission.vue'
 import CommentSubmission from './actions/CommentSubmission.vue'
 import OATable from '../common/datatable/OATable.vue'
@@ -160,56 +186,55 @@ const submissionStore = useSubmissionStore()
 
 const { getSort } = useSort()
 const defaultSort: Sort[] = [
-  { key: 'state', order: 'desc' }
+  { key: 'created', order: 'desc' }
 ]
 const sortBy = ref(defaultSort)
-const exp = ref<string[]>([])
 
 const headers = computed<DataTableHeaders[]>(() => [
   {
-    title: i18n.t('columns.submissions.package'),
+    title: i18n.t('resources.package'),
     align: 'start',
     key: 'packageBag.name'
     // width: 150
   },
   {
-    title: i18n.t('columns.package.fileType'),
+    title: i18n.t('fields.packages.fileType'),
     align: 'center',
     key: 'packageBag.binary',
     width: 100
   },
   {
-    title: i18n.t('columns.submissions.repository'),
+    title: i18n.t('resources.repository'),
     align: 'start',
     key: 'packageBag.repository',
     value: 'packageBag.repository.name'
   },
   {
-    title: i18n.t('columns.submissions.date'),
+    title: i18n.t('fields.general.date'),
     align: 'center',
     key: 'created',
     width: 100
   },
   {
-    title: i18n.t('columns.submissions.submitter'),
+    title: i18n.t('fields.submissions.submitter'),
     align: 'start',
     key: 'submitter.name',
     width: 200
   },
   {
-    title: i18n.t('columns.submissions.approver'),
+    title: i18n.t('fields.submissions.approver'),
     align: 'start',
     key: 'approver.name',
     width: 200
   },
   {
-    title: i18n.t('columns.submissions.status'),
+    title: i18n.t('fields.packages.submissionState'),
     align: 'center',
     key: 'state',
     width: 100
   },
   {
-    title: i18n.t('columns.actions'),
+    title: i18n.t('fields.general.actions'),
     align: 'center',
     key: 'actions',
     width: '130',
@@ -217,21 +242,19 @@ const headers = computed<DataTableHeaders[]>(() => [
   }
 ])
 
-function fetchData(options: DataTableOptions) {
+function fetchData(options?: DataTableOptions) {
+  if (options) {
+    submissionStore.localOptions = options
+  }
   expanded.value = []
-  sortBy.value = getSort(options.sortBy, defaultSort)
-  submissionStore.getPage(options)
+  sortBy.value = getSort(
+    submissionStore.localOptions.sortBy,
+    defaultSort
+  )
+  submissionStore.getPage(submissionStore.localOptions)
 }
 
-const expanded = computed({
-  get(): string[] {
-    return exp.value
-  },
-  set(newVal: string[]) {
-    exp.value = []
-    exp.value.push(newVal[1])
-  }
-})
+const expanded = ref<EntityModelSubmissionDto[]>([])
 
 function isPending(
   item: EntityModelSubmissionDto
@@ -239,6 +262,22 @@ function isPending(
   return !!submissionStore.pending.find(
     (submission) => submission.id == item.id
   )
+}
+
+function expandRow(row: EntityModelSubmissionDto) {
+  if (
+    expanded.value.find(
+      (item: EntityModelSubmissionDto) => {
+        return item.id === row.id
+      }
+    )
+  ) {
+    expanded.value = expanded.value.filter(
+      (item: EntityModelSubmissionDto) => item.id !== row.id
+    )
+  } else {
+    expanded.value.push(row)
+  }
 }
 </script>
 

@@ -101,7 +101,7 @@ describe('Events - Package', () => {
 
   it('display resource type', () => {
     expect(wrapper.text()).toContain(
-      i18n.t('resourceType.package').toUpperCase()
+      i18n.t('resources.package').toUpperCase()
     )
   })
 
@@ -115,7 +115,7 @@ describe('Events - Package', () => {
   it('display deleted tag', () => {
     expect(chips[5].exists()).toBeTruthy()
     expect(chips[5].text()).toBe(
-      i18n.t('columns.tokens.deleted')
+      i18n.t('properties.general.deleted')
     )
   })
 
@@ -135,7 +135,9 @@ describe('Events - Package', () => {
 
   it('display active tag', () => {
     expect(chips[8].exists()).toBeTruthy()
-    expect(chips[8].text()).toBe(i18n.t('columns.active'))
+    expect(chips[8].text()).toBe(
+      i18n.t('properties.general.active')
+    )
   })
 
   it('display source', () => {

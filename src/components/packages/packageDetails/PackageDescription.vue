@@ -58,20 +58,6 @@
       ></div>
     </div>
   </div>
-  <div v-if="packageBagShort" class="center">
-    <v-divider :thickness="3"></v-divider>
-    <v-btn
-      id="see-package-details-button"
-      ref="button"
-      color="oablue"
-      size="x-small"
-      variant="text"
-      class="button mt-3 ml-3 my-3"
-      @click="goToDetailsPage(packageBagShort || {})"
-    >
-      {{ $t('common.details') }}</v-btn
-    >
-  </div>
 </template>
 
 <script setup lang="ts">
@@ -84,7 +70,6 @@ import { usePackageDetailsStore } from '@/store/options/packageDetails'
 import { Technologies } from '@/enum/Technologies'
 import MarkdownDescription from '@/components/common/markdown/MarkdownDescription.vue'
 import RSTDescription from '@/components/common/markdown/RSTDescription.vue'
-import router from '@/plugins/router'
 
 var props = defineProps<{
   packageBagShort?: EntityModelPackageDto
@@ -112,19 +97,6 @@ const RDescription = computed(() => {
     ?.replaceAll(dotRegex, '.<br/>')
     .replaceAll('\\n', ' ')
 })
-
-function goToDetailsPage({
-  id,
-  technology
-}: EntityModelPackageDto) {
-  router.push({
-    name: 'packageDetails',
-    params: {
-      id: id,
-      technology: technology
-    }
-  })
-}
 </script>
 
 <style scoped>

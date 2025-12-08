@@ -30,7 +30,7 @@
       class="d-flex flex-column ga-3"
     >
       <v-timeline
-        dot-color="oablue"
+        dot-color="primary"
         fill-dot
         side="end"
         density="compact"
@@ -50,11 +50,11 @@
             <div>
               {{
                 $t(
-                  'repositories.details.last-modification-date'
+                  'properties.repositories.lastModificationDate'
                 )
               }}
             </div>
-            <v-chip size="small" color="oablue">
+            <v-chip size="small" color="primary">
               {{
                 formatDateTime(
                   new Date(
@@ -80,14 +80,14 @@
             <div>
               {{
                 $t(
-                  'repositories.details.last-publication-date'
+                  'properties.repositories.lastPublicationDate'
                 )
               }}
             </div>
             <div
               class="d-flex flex-no-wrap align-center ga-1"
             >
-              <v-chip size="small" color="oablue">
+              <v-chip size="small" color="primary">
                 {{
                   formatDateTime(
                     new Date(
@@ -102,10 +102,10 @@
                   repositoryStore.chosenRepository
                     .lastPublicationSuccessful
                     ? $t(
-                        `repositories.details.publication-succeed`
+                        `properties.repositories.publicationSucceed`
                       )
                     : $t(
-                        `repositories.details.publication-failed`
+                        `properties.repositories.publicationFailed`
                       )
                 "
                 :icon="
@@ -139,7 +139,9 @@
           <div
             class="d-flex flex-no-wrap ga-3 align-center"
           >
-            <div>{{ $t('columns.serverAddress') }}:</div>
+            <div>
+              {{ $t('fields.repositories.serverAddress') }}:
+            </div>
             <div
               class="d-flex justify-start align-center ga-2"
             >
@@ -148,7 +150,7 @@
                   repositoryStore.chosenRepository
                     .serverAddress || ''
                 "
-                :tooltip-message="`${$t('packages.copy')} ${$t('columns.serverAddress').toLowerCase()}`"
+                :tooltip-message="`${$t('actions.general.copy')} ${$t('fields.repositories.serverAddress').toLowerCase()}`"
               />
               <DeprecatedWarning
                 v-if="
@@ -181,9 +183,9 @@
             class="d-flex flex-no-wrap ga-3 align-center"
           >
             <div>
-              {{ $t('repositories.details.hash-method') }}
+              {{ $t('forms.repositories.hash') }}
             </div>
-            <v-chip size="small" color="oablue">
+            <v-chip size="small" color="primary">
               {{
                 repositoryStore.chosenRepository.hashMethod
               }}
@@ -201,7 +203,7 @@
             <div>
               {{
                 $t(
-                  'repositories.details.number-of-packages'
+                  'properties.repositories.numberOfPackages'
                 )
               }}:
             </div>
@@ -227,7 +229,7 @@
           >
             <div>
               {{
-                $t('repositories.details.redirectToSource')
+                $t('forms.repositories.redirectToSource')
               }}:
             </div>
             <v-icon
@@ -249,31 +251,12 @@
         </v-timeline-item>
       </v-timeline>
     </v-card-text>
-
-    <v-divider
-      v-if="repositoryStore.chosenRepository.id"
-      :thickness="3"
-    />
-    <v-btn
-      id="see-repository-packages-button"
-      ref="button"
-      color="oablue"
-      size="x-small"
-      variant="text"
-      class="button mt-3 ml-3 my-3"
-      @click="navigate(repositoryStore.chosenRepository)"
-    >
-      {{ $t('common.seepackages') }}
-    </v-btn>
   </v-card>
 </template>
 
 <script setup lang="ts">
 import { useDates } from '@/composable/date'
 import Icons from '@/maps/Icons'
-import { EntityModelRepositoryDto } from '@/openapi'
-import router from '@/plugins/router'
-import { usePackagesStore } from '@/store/options/packages'
 import { useRepositoryStore } from '@/store/options/repositories'
 import getEnv from '@/utils/env'
 import DeprecatedWarning from '@/components/common/datatable/DeprecatedWarning.vue'
@@ -282,21 +265,9 @@ import { isAtLeastRepositoryMaintainer } from '@/enum/UserRoles'
 import { useAuthorizationStore } from '@/store/options/authorization'
 import { useRepositoryDeprecated } from '@/composable/repositories/repositoriesDeprecatedAddress'
 
-const packagesStore = usePackagesStore()
 const repositoryStore = useRepositoryStore()
 const authorizationStore = useAuthorizationStore()
 const { formatDateTime } = useDates()
 const { deprecatedAddressTooltip } =
   useRepositoryDeprecated()
-
-function chooseRepository(name: string) {
-  packagesStore.setFiltrationBy({ repository: [name] })
-}
-
-function navigate(repository: EntityModelRepositoryDto) {
-  chooseRepository(repository.name || '')
-  router.push({
-    name: 'packages'
-  })
-}
 </script>

@@ -55,7 +55,9 @@
         <v-card-title
           class="d-flex justify-center ga-2 align-center pt-5"
         >
-          <span> {{ $t('notifications.title') }}</span>
+          <span>
+            {{ $t('messages.notifications.title') }}</span
+          >
           <v-icon
             v-tooltip="'refresh'"
             icon="mdi-refresh"
@@ -70,7 +72,7 @@
               <div v-if="!newEvents.length" color="grey">
                 {{
                   $t(
-                    'notifications.events.upToDate'
+                    'messages.notifications.upToDate'
                   ).replaceAll(' ', '&nbsp;')
                 }}
               </div>
@@ -95,7 +97,7 @@
               <div color="grey">
                 {{
                   $t(
-                    'notifications.events.alreadySeen'
+                    'messages.notifications.alreadySeen'
                   ).replaceAll(' ', '&nbsp;')
                 }}
               </div>
@@ -115,10 +117,12 @@
               ><v-btn
                 id="notifications-see-all-events"
                 variant="outlined"
-                color="oablue"
+                color="primary"
                 class="mt-5"
                 @click="goToEventsPage"
-                >{{ $t('notifications.seeAll') }}</v-btn
+                >{{
+                  $t('messages.notifications.seeAll')
+                }}</v-btn
               ></v-list-item
             >
           </v-list>

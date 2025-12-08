@@ -48,11 +48,17 @@
     </span>
   </v-card-title>
   <v-card-subtitle
-    >{{ resourceType }}
-    <EventTypeTag
-      v-if="event.eventType"
-      :event-type="event.eventType"
-    />
+    ><div style="display: flex; align-items: center">
+      <span style="padding-right: 10px">{{
+        resourceType
+      }}</span>
+      <EventTypeTag
+        v-if="event.eventType"
+        :event-type="event.eventType"
+      />
+    </div>
+    <v-spacer style="height: 0.75em" />
+    <EventAuthor :user="event.user" />
   </v-card-subtitle>
 
   <v-divider class="my-2 mx-2" />
@@ -71,7 +77,7 @@
     >
       <EventTag
         v-if="relatedResource.deleted"
-        :value="i18n.t('columns.repository.deleted')"
+        :value="i18n.t('properties.general.deleted')"
         color="oared"
         disable-copying
         disable-tooltip
@@ -79,14 +85,14 @@
 
       <EventTag
         v-if="relatedResource.published"
-        :value="i18n.t('columns.repository.published')"
+        :value="i18n.t('fields.repositories.published')"
         disable-copying
         disable-tooltip
       />
 
       <EventTag
         v-if="relatedResource.synchronizing"
-        :value="i18n.t('columns.repository.synchronizing')"
+        :value="i18n.t('fields.repositories.synchronizing')"
         disable-copying
         disable-tooltip
       />
@@ -101,14 +107,14 @@
         "
         :value="relatedResource.serverAddress"
         :hover-message="
-          i18n.t('columns.repository.serverAddress')
+          i18n.t('fields.repositories.serverAddress')
         "
       />
 
       <EventTag
         :value="relatedResource.publicationUri"
         :hover-message="
-          i18n.t('columns.repository.publicationUri')
+          i18n.t('fields.repositories.publicationUri')
         "
       />
     </div>
@@ -128,6 +134,7 @@ import { i18n } from '@/plugins/i18n'
 import { computed } from 'vue'
 import EventTypeTag from './EventTypeTag.vue'
 import { useAuthorizationStore } from '@/store/options/authorization'
+import EventAuthor from '../EventAuthor.vue'
 
 const componentProps = defineProps({
   event: {
@@ -145,6 +152,6 @@ const authorizationStore = useAuthorizationStore()
 const { getTime } = useDates()
 
 const resourceType = computed(() =>
-  i18n.t('resourceType.repository').toUpperCase()
+  i18n.t('resources.repository').toUpperCase()
 )
 </script>

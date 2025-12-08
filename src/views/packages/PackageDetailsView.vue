@@ -30,20 +30,7 @@
     >
       <div class="flex-grow-1">
         <div class="d-flex ga-4">
-          <div
-            :class="[
-              {
-                basePanePython:
-                  packageBag.technology ==
-                  Technologies.Values.Python
-              },
-              {
-                basePaneOther:
-                  packageBag.technology !=
-                  Technologies.Values.Python
-              }
-            ]"
-          >
+          <div class="basePaneOther">
             <div class="d-flex ga-4">
               <RepositoryCard />
               <LicenseCard />
@@ -52,8 +39,30 @@
             <v-card class="proptable mt-4">
               <BaseProperties />
             </v-card>
+            <v-card
+              v-if="
+                packageBag.binary &&
+                packageBag.technology == Technologies.Enum.R
+              "
+              class="proptable mt-4"
+              :subtitle="
+                i18n.t(
+                  'properties.packages.binaryProperties'
+                )
+              "
+            >
+              <PropertiesTable
+                id="package-binary-properties"
+                :items="binaryPackageProperties"
+              />
+            </v-card>
           </div>
+        </div>
+        <div class="mt-4">
+          <PackageInstallation />
+        </div>
 
+        <div class="mt-4">
           <v-card
             v-if="
               packageBag.technology ==
@@ -61,13 +70,12 @@
             "
             prepend-icon="mdi-language-python"
             class="proptable flex-grow-1"
-            :title="$t('packageDetails.classifiers')"
+            :title="
+              $t('properties.packages.python.classifiers')
+            "
           >
             <ClassifiersProperties />
           </v-card>
-        </div>
-        <div class="mt-4">
-          <PackageInstallation />
         </div>
 
         <v-card class="mt-4">
@@ -98,14 +106,38 @@
         </v-card>
 
         <v-card
+          v-show="filesList.length > 0"
           class="my-4"
           style="width: 100%; max-width: 100%"
         >
-          <FilesProperties />
+          <FilesProperties :files="filesList" />
+        </v-card>
+
+        <v-card
+          v-show="vignettesList.length > 0"
+          class="my-4"
+          style="width: 100%; max-width: 100%"
+        >
+          <FilesProperties
+            id="package-vignettes-list"
+            :files="vignettesList"
+            :subtitle="
+              i18n.t('properties.packages.r.vignettes')
+            "
+          />
         </v-card>
 
         <v-card class="mt-4">
           <AuthorsProperties />
+        </v-card>
+
+        <v-card
+          class="mt-4"
+          :subtitle="
+            i18n.t('properties.packages.withinRdepot')
+          "
+        >
+          <RDepotUsersProperties />
         </v-card>
       </div>
     </div>
@@ -133,6 +165,11 @@ import {
 import { i18n } from '@/plugins/i18n'
 import { usePackageDetailsStore } from '@/store/options/packageDetails'
 import { computed } from 'vue'
+import { usePackageProperties } from '@/composable/packages/packageProperties'
+import PropertiesTable from '@/components/common/properties/PropertiesTable.vue'
+import RDepotUsersProperties from '@/components/packages/packageDetails/properties/RDepotUsersProperties.vue'
+
+const { binaryPackageProperties } = usePackageProperties()
 
 const packageDetailsStore = usePackageDetailsStore()
 const packageBag = computed<EntityModelRPackageDto>(
@@ -144,10 +181,11 @@ const submission = computed<EntityModelSubmissionDto>(
   () =>
     packageDetailsStore.submission as EntityModelSubmissionDto
 )
+const { filesList, vignettesList } = usePackageProperties()
 
 const items = computed(() => [
   {
-    title: i18n.t('common.packages').toLowerCase(),
+    title: i18n.t('resources.package', 2).toLowerCase(),
     disabled: false,
     to: { name: 'packages' }
   },

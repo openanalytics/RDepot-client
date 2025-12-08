@@ -25,8 +25,8 @@
     :id="`comment-button-${item.id}`"
     :tooltip="
       item.changes
-        ? $t('action.changes')
-        : $t('action.noChanges')
+        ? $t('actions.submissions.showNotes')
+        : $t('actions.submissions.noNotes')
     "
     :icon="
       item.changes
@@ -34,6 +34,7 @@
         : Icons.get('message-outline')
     "
     color="warning"
+    @click="showNotes"
   />
 </template>
 
@@ -42,10 +43,16 @@ import { EntityModelSubmissionDto } from '@/openapi'
 import IconButton from '@/components/common/buttons/IconButton.vue'
 import Icons from '@/maps/Icons'
 
-defineProps({
+const props = defineProps({
   item: {
     type: Object as () => EntityModelSubmissionDto,
     required: true
   }
 })
+
+const emits = defineEmits(['showNote'])
+
+function showNotes() {
+  emits('showNote', props.item)
+}
 </script>

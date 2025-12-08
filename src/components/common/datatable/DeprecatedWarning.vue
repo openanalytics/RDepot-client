@@ -33,7 +33,7 @@
       />
     </template>
     {{
-      $t('repositories.creation.deprecatedAddressTooltip')
+      $t('messages.repositories.deprecatedAddressTooltip')
     }}
   </v-tooltip>
 </template>

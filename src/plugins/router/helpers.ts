@@ -45,7 +45,17 @@ export async function loadPackageDetails(
   return packageDetailsStore.get(id, technology)
 }
 
-export async function redirectToLoginPage() {
+export async function redirectToLoginPage(to: any) {
+  const authorizationStore = useAuthorizationStore()
+  const { isOIDCAuthAvailable } = useOIDCAuthorization()
+
+  if (to && to.fullPath !== '/login') {
+    authorizationStore.redirectUrl = to.fullPath
+  }
+
+  if (isOIDCAuthAvailable()) {
+    await authorizationStore.login()
+  }
   return '/login'
 }
 
@@ -147,7 +157,6 @@ export async function checkAuthorization(to: any) {
   if (to.fullPath.startsWith('/auth')) {
     await handleAuthorization()
     getDefaultFiltration(to)
-    return '/packages'
   } else if (to.fullPath.startsWith('/logout')) {
     handleLogout()
     return '/'
@@ -157,7 +166,7 @@ export async function checkAuthorization(to: any) {
     if (await authorizationStore.isUserLoggedIn()) {
       const configStore = useConfigStore()
       await configStore.fetchConfiguration()
-      return '/packages'
+      return authorizationStore.redirectUrl || '/packages'
     }
   }
 }
@@ -165,7 +174,7 @@ export async function checkAuthorization(to: any) {
 export async function authorizeInternalPath(to: any) {
   const authorizationStore = useAuthorizationStore()
   if (!(await authorizationStore.isUserLoggedIn())) {
-    return redirectToLoginPage()
+    return redirectToLoginPage(to)
   }
   if (!authorizationStore.me.role) {
     await authorizationStore.postLoginOperations()
@@ -178,7 +187,7 @@ export async function authorizeInternalPath(to: any) {
     to.name || ' '
   )
   if (!canRedirect) {
-    return '/packages'
+    return authorizationStore.redirectUrl
   }
   return undefined
 }

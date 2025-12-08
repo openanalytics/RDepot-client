@@ -26,9 +26,9 @@ import { createI18n } from 'vue-i18n'
 export const i18nInstance = createI18n({
   legacy: false,
   globalInjection: true,
-  locale: process.env.VUE_APP_I18N_LOCALE || 'en',
+  locale: process.env.VUE_APP_I18N_LOCALE || 'en-US',
   fallbackLocale:
-    process.env.VUE_APP_I18N_FALLBACK_LOCALE || 'en',
+    process.env.VUE_APP_I18N_FALLBACK_LOCALE || 'en-US',
   allowComposition: true,
   messages: messages
 })

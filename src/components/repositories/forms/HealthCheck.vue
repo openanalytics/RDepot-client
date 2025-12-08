@@ -1,23 +1,23 @@
 <!--
  R Depot
-
+ 
  Copyright (C) 2012-2025 Open Analytics NV
-
+ 
  ===========================================================================
-
+ 
  This program is free software: you can redistribute it and/or modify
  it under the terms of the Apache License as published by
  The Apache Software Foundation, either version 2 of the License, or
  (at your option) any later version.
-
+ 
  This program is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  Apache License for more details.
-
+ 
  You should have received a copy of the Apache License
  along with this program. If not, see <http://www.apache.org/licenses/>
-
+ 
 -->
 
 <template>
@@ -69,18 +69,26 @@ const icon = computed(() =>
 )
 const color = computed(() =>
   shouldCheckAddress.value
-    ? 'oablue'
+    ? 'primary'
     : serverAddressHealthCheck.value
       ? 'success'
       : 'oared'
 )
-const tooltip = computed(() =>
-  shouldCheckAddress.value
-    ? i18n.t('repositories.healthCheck.undefined')
-    : serverAddressHealthCheck.value
-      ? i18n.t('repositories.healthCheck.correct')
-      : i18n.t('repositories.healthCheck.incorrect')
-)
+const tooltip = computed(() => {
+  if (shouldCheckAddress.value)
+    return i18n.t(
+      'properties.repositories.healthCheck.undefined'
+    )
+  else if (serverAddressHealthCheck.value) {
+    return i18n.t(
+      'properties.repositories.healthCheck.correct'
+    )
+  }
+  return i18n.t(
+    'properties.repositories.healthCheck.incorrect'
+  )
+})
+
 const id = computed(() =>
   shouldCheckAddress.value
     ? 'check-server-address'

@@ -28,8 +28,9 @@
     item-value="id"
     :loading="userStore.loading"
     :sort-by="sortBy"
-    :title="i18n.t('common.users')"
+    :title="i18n.t('resources.user', 2)"
     @update:options="fetchData"
+    @refresh="fetchData"
   >
     <template #[`item.role`]="{ item }">
       {{
@@ -40,9 +41,11 @@
       <v-tooltip
         location="top"
         :disabled="
-          item.id !== authorizationStore.me.id ||
-          !isPending(item) ||
-          !canPatch(item.links, 'active')
+          !(
+            item.id === authorizationStore.me.id ||
+            isPending(item) ||
+            !canPatch(item.links, 'active')
+          )
         "
       >
         <template #activator="{ props }">
@@ -75,7 +78,7 @@
                 item.id === authorizationStore.me.id ||
                 isPending(item)
                   ? 'grey'
-                  : 'oablue'
+                  : 'primary'
               "
               @click.stop
               @change="updateUserActive(item)"
@@ -83,13 +86,16 @@
           </span>
         </template>
         <span v-if="isPending(item)">
-          {{ $t('common.pending') }}</span
-        >
-        <span v-else>{{
-          $t('users.unableDeactivation')
-        }}</span>
-      </v-tooltip></template
-    >
+          {{ i18n.t('messages.general.pending') }}
+        </span>
+        <span v-else-if="!canPatch(item.links, 'active')">
+          {{ i18n.t('messages.general.notAuthorized') }}
+        </span>
+        <span v-else>
+          {{ i18n.t('messages.users.unableDeactivation') }}
+        </span>
+      </v-tooltip>
+    </template>
     <template #[`item.actions`]="{ item }">
       <ProgressCircularSmall v-if="isPending(item)" />
       <span
@@ -98,19 +104,13 @@
       >
         <EditIcon
           :icon-id="`edit-user-${item.id}`"
-          :disabled="
-            !canPatch(item.links, 'roleId') ||
-            item.role == 'admin'
-          "
+          :disabled="!canPatch(item.links, 'roleId')"
           :hover-message="
-            !canPatch(item.links, 'deleted')
-              ? $t('common.notAuthorized')
-              : item.role == 'admin'
-                ? $t('users.editAdmin')
-                : undefined
+            !canPatch(item.links, 'roleId')
+              ? i18n.t('messages.general.notAuthorized')
+              : i18n.t('actions.general.edit')
           "
-          :text="$t('common.edit')"
-          @set-entity="setEditUser(item)"
+          @set-entity="prepareEdition(item)"
         />
         <DeleteIcon
           :id="`delete-user-${item.id}`"
@@ -120,19 +120,23 @@
           :name="item.name"
           :hover-message="
             !canPatch(item.links, 'deleted')
-              ? $t('common.notAuthorized')
+              ? item.id == authorizationStore.me.id
+                ? i18n.t('messages.users.unableDeletion')
+                : i18n.t('messages.general.notAuthorized')
               : item.deleted
-                ? $t('users.deleted')
+                ? i18n.t('messages.general.deleted', {
+                    resource_name: i18n.t('resources.user')
+                  })
                 : undefined
           "
-          @set-resource-id="setEditUser(item)"
+          @set-resource-id="prepareDeletion(item)"
         /> </span
     ></template>
   </OATable>
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import EditIcon from '@/components/common/action_icons/EditIcon.vue'
 import { useUserStore } from '@/store/options/users'
 import { i18n } from '@/plugins/i18n'
@@ -146,12 +150,13 @@ import {
   Sort
 } from '@/models/DataTableOptions'
 import { useAuthorizationStore } from '@/store/options/authorization'
-import { ref, computed } from 'vue'
 import { useSort } from '@/composable/sort'
 import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
 import { useEnumFiltration } from '@/composable/filtration/enumFiltration'
 import ProgressCircularSmall from '@/components/common/progress/ProgressCircularSmall.vue'
 import OATable from '@/components/common/datatable/OATable.vue'
+import { useCommonStore } from '@/store/options/common'
+import { OverlayEnum } from '@/enum/Overlay'
 
 const authorizationStore = useAuthorizationStore()
 const userStore = useUserStore()
@@ -163,36 +168,36 @@ const { roles } = useEnumFiltration()
 
 const headers = computed<DataTableHeaders[]>(() => [
   {
-    title: i18n.t('columns.users.username'),
+    title: i18n.t('fields.users.username'),
     align: 'start',
     key: 'login',
     width: 200
   },
   {
-    title: i18n.t('columns.users.name'),
+    title: i18n.t('fields.users.name'),
     align: 'start',
     key: 'name',
     width: 200
   },
   {
-    title: i18n.t('columns.users.email'),
+    title: i18n.t('fields.users.email'),
     align: 'start',
     key: 'email'
   },
   {
-    title: i18n.t('columns.users.role'),
+    title: i18n.t('fields.users.role'),
     align: 'start',
     key: 'role',
     width: 200
   },
   {
-    title: i18n.t('columns.users.active'),
+    title: i18n.t('properties.general.active'),
     align: 'center',
     key: 'active',
     width: 200
   },
   {
-    title: i18n.t('columns.actions'),
+    title: i18n.t('fields.general.actions'),
     align: 'center',
     key: 'actions',
     width: 50,
@@ -201,14 +206,10 @@ const headers = computed<DataTableHeaders[]>(() => [
 ])
 
 const { canPatch } = useUserAuthorities()
-
-function setEditUser(item: EntityModelUserDto) {
-  userStore.chosenUser = item
-}
 const { deepCopy } = useUtilities()
 
 function updateUserActive(item: EntityModelUserDto): void {
-  if (canPatch(item.links)) {
+  if (canPatch(item.links, 'active')) {
     const oldUser = deepCopy(item)
     userStore.chosenUser = oldUser
     oldUser.active = !oldUser.active
@@ -216,17 +217,34 @@ function updateUserActive(item: EntityModelUserDto): void {
   }
 }
 
-// function softDeleteUser(item: EntityModelUserDto): void {
-//   if (canDelete(item.links)) {
-//   userStore.chosenUser = item
-//   item.deleted = true
-//     userStore.save(item)
-//   }
-// }
+const commonStore = useCommonStore()
 
-function fetchData(options: DataTableOptions) {
-  sortBy.value = getSort(options.sortBy, defaultSort)
-  userStore.getPage(options)
+async function prepareEdition(item: EntityModelUserDto) {
+  userStore.chosenUser = item
+  commonStore.overlayText = i18n.t('actions.general.edit')
+  commonStore.openOverlay(OverlayEnum.enum.Edit)
+}
+
+async function prepareDeletion(item: EntityModelUserDto) {
+  userStore.chosenUser = item
+  commonStore.overlayText = i18n.t(
+    'messages.general.deleteQuestion',
+    {
+      resource_name: item.name
+    }
+  )
+  commonStore.openOverlay(OverlayEnum.enum.Delete)
+}
+
+function fetchData(options?: DataTableOptions) {
+  if (options) {
+    userStore.localOptions = options
+  }
+  sortBy.value = getSort(
+    userStore.localOptions.sortBy,
+    defaultSort
+  )
+  userStore.getPage(userStore.localOptions)
 }
 
 function isPending(item: EntityModelUserDto): boolean {

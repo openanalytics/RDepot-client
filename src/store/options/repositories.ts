@@ -32,6 +32,7 @@ import {
 } from '@/models/Filtration'
 import {
   fetchRepositoriesService,
+  fetchRepositoryByIdService,
   isServerAddressHealthy,
   republishRepositoryService
 } from '@/services/repositoryServices'
@@ -59,6 +60,7 @@ interface State {
   loading: boolean
   totalNumber: number
   tableOptions?: DataTableOptions
+  localOptions: DataTableOptions
 }
 
 export const useRepositoryStore = defineStore(
@@ -72,7 +74,12 @@ export const useRepositoryStore = defineStore(
         pending: [],
         loading: false,
         totalNumber: 0,
-        tableOptions: undefined
+        tableOptions: undefined,
+        localOptions: {
+          itemsPerPage: -1,
+          page: -1,
+          sortBy: []
+        }
       }
     },
     getters: {
@@ -125,6 +132,7 @@ export const useRepositoryStore = defineStore(
         this.repositories = repositories
         return pageData
       },
+
       async get(
         name: string,
         technology?: Technologies,
@@ -149,6 +157,22 @@ export const useRepositoryStore = defineStore(
           return repository
         }
         return []
+      },
+      async isRepositoryNameTaken(
+        name: string,
+        id?: number
+      ) {
+        let repositories = await this.get(
+          name,
+          undefined,
+          false
+        )
+        if (id) {
+          repositories = repositories.filter(
+            (repo) => repo.id != id
+          )
+        }
+        return repositories.length > 0
       },
       async fetchData(
         page: number,
@@ -259,16 +283,31 @@ export const useRepositoryStore = defineStore(
           }
         )
       },
-      setChosen(id: number | undefined) {
-        let flag = true
-        this.repositories.forEach((repository) => {
-          if (repository.id == id) {
-            this.chosenRepository = repository
-            flag = false
-          }
-        })
-        if (flag) {
+
+      async setChosen(id: number | undefined) {
+        const repo = this.repositories.find(
+          (repository) => repository.id == id
+        )
+        if (repo) {
+          this.chosenRepository = repo
+        } else {
           this.chosenRepository = {}
+        }
+      },
+
+      async fetchChosen(
+        id: number | undefined,
+        technology: Technologies | undefined
+      ) {
+        // let flag = true
+        if (id && technology) {
+          const [repository] =
+            await fetchRepositoryByIdService(
+              id,
+              technology,
+              true
+            )
+          this.chosenRepository = repository
         }
       },
       async setFiltration(payload: RepositoriesFiltration) {

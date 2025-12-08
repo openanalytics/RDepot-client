@@ -71,6 +71,7 @@ interface State {
   resolved: boolean
   pending: EntityModelPackageDto[]
   tableOptions?: DataTableOptions
+  localOptions: DataTableOptions
 }
 
 const { deepCopy } = useUtilities()
@@ -93,7 +94,12 @@ export const usePackagesStore = defineStore(
         next: false,
         loading: false,
         pending: [],
-        tableOptions: undefined
+        tableOptions: undefined,
+        localOptions: {
+          itemsPerPage: -1,
+          page: -1,
+          sortBy: []
+        }
       }
     },
     getters: {
@@ -111,7 +117,8 @@ export const usePackagesStore = defineStore(
         }
         if (this.tableOptions?.sortBy.length == 0) {
           this.tableOptions.sortBy = [
-            { key: 'name', order: 'asc' }
+            { key: 'name', order: 'asc' },
+            { key: 'version', order: 'desc' }
           ]
         }
         this.loading = true
@@ -119,13 +126,23 @@ export const usePackagesStore = defineStore(
           this.tableOptions?.sortBy[0].key || 'name'
         const sortOrder =
           this.tableOptions?.sortBy[0].order || 'asc'
+        let sorting
+        if (sortField === 'name') {
+          sorting = [
+            sortField + ',' + sortOrder,
+            'version,desc'
+          ]
+        } else {
+          sorting = [sortField + ',' + sortOrder]
+        }
+
         const [packages, pageData] =
           await fetchPackagesService(
             this.filtration,
             (this.tableOptions?.page || 1) - 1,
             this.tableOptions?.itemsPerPage ||
               useOATable().pageSize,
-            [sortField + ',' + sortOrder]
+            sorting
           )
         this.packages = packages
         this.totalNumber = pageData.totalNumber

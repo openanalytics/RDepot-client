@@ -21,7 +21,7 @@
 -->
 
 <template>
-  <v-card v-ripple class="eventCard elevation-2" rounded>
+  <v-card class="eventCard elevation-2" rounded>
     <v-icon
       style="
         position: absolute;
@@ -30,14 +30,14 @@
         opacity: 0.4;
         z-index: 100;
       "
-      color="oablue"
+      color="primary"
       size="60"
       class="mb-1 mr-1"
       >{{ getIcon(event?.resourceType)[0] }}</v-icon
     >
     <v-icon
       v-if="getIcon(event?.resourceType).length > 1"
-      color="oablue"
+      color="primary"
       size="40"
       class="mb-1 mr-1 nestedIcon"
       >{{ getIcon(event?.resourceType)[1] }}</v-icon
@@ -87,8 +87,8 @@ const eventType = computed(() => {
 
   .date {
     font-size: 12px;
-    border-left: solid rgb(var(--v-theme-oablue)) 1px;
-    border-bottom: solid rgb(var(--v-theme-oablue)) 1px;
+    border-left: solid rgb(var(--v-theme-primary)) 1px;
+    border-bottom: solid rgb(var(--v-theme-primary)) 1px;
     border-bottom-left-radius: 16px;
     padding: 10px 10px 10px 10px;
     max-height: 40px;

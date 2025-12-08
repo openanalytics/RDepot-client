@@ -103,13 +103,15 @@ describe('Events - Package', () => {
 
   it('display resource type', () => {
     expect(wrapper.text()).toContain(
-      i18n.t('resourceType.submission').toUpperCase()
+      i18n.t('resources.submission').toUpperCase()
     )
   })
 
   it('display submission state', () => {
     expect(chips[4].exists()).toBeTruthy()
-    expect(chips[4].text()).toBe(relatedResource.state)
+    expect(chips[4].text()).toBe(
+      relatedResource.state?.toLowerCase()
+    )
   })
 
   it('display maintainer', () => {
@@ -129,13 +131,15 @@ describe('Events - Package', () => {
   it('display published tag', () => {
     expect(chips[7].exists()).toBeTruthy()
     expect(chips[7].text()).toBe(
-      i18n.t('columns.repository.published')
+      i18n.t('fields.repositories.published')
     )
   })
 
   it('display active tag', () => {
     expect(chips[8].exists()).toBeTruthy()
-    expect(chips[8].text()).toBe(i18n.t('columns.active'))
+    expect(chips[8].text()).toBe(
+      i18n.t('properties.general.active')
+    )
   })
 
   it('display source', () => {

@@ -26,10 +26,11 @@
     :items="accessTokensStore.tokens"
     :items-length="accessTokensStore.totalNumber"
     item-value="id"
-    :title="i18n.t('settings.tab.token')"
+    :title="i18n.t('resources.token', 2)"
     :loading="accessTokensStore.loading"
     :sort-by="sortBy"
     @update:options="fetchData"
+    @refresh="fetchData"
   >
     <template #topAction>
       <AddToken />
@@ -40,8 +41,8 @@
         id="access-token-active-icon"
         v-tooltip="
           item.active
-            ? $t('tokens.active')
-            : $t('tokens.inactive')
+            ? i18n.t('properties.general.active')
+            : i18n.t('properties.general.inactive')
         "
         :icon="
           item.active
@@ -66,13 +67,14 @@
             (!canPatch(item.links) && item.active) ||
             !item.active
           "
-          :text="$t('common.edit')"
+          :text="i18n.t('actions.general.edit')"
           :hover-message="
-            !canPatch(item.links) && item.active
-              ? undefined
-              : $t('tokens.inactive')
+            (!canPatch(item.links) && item.active) ||
+            !item.active
+              ? i18n.t('properties.general.inactive')
+              : i18n.t('actions.general.edit')
           "
-          @set-entity="setEditEntity(item)"
+          @set-entity="prepareEdition(item)"
         />
         <DeactivateIcon
           v-if="item.name"
@@ -83,16 +85,17 @@
           :name="item.name"
           :hover-message="
             !canPatch(item.links) && item.active
-              ? undefined
-              : $t('tokens.inacitve')
+              ? i18n.t('actions.general.deactivate')
+              : i18n.t('properties.general.inactive')
           "
-          @set-resource-id="setEditEntity(item)"
+          @set-resource-id="
+            accessTokensStore.currentToken = item
+          "
         />
         <DeleteIcon
           v-if="item.name"
           :disabled="!canDelete(item.links)"
-          :name="item.name"
-          @set-resource-id="setEditEntity(item)"
+          @set-resource-id="prepareDeletion(item)"
         /> </span
     ></template>
   </OATable>
@@ -113,13 +116,14 @@ import DeactivateIcon from '@/components/common/action_icons/DeactivateIcon.vue'
 import EditIcon from '@/components/common/action_icons/EditIcon.vue'
 import { EntityModelAccessTokenDto } from '@/openapi'
 import { isAtLeastAdmin } from '@/enum/UserRoles'
-import { computed } from 'vue'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useSort } from '@/composable/sort'
 import AddToken from '@/components/common/buttons/AddToken.vue'
 import OATable from '../common/datatable/OATable.vue'
 import { useAccessTokensStore } from '@/store/options/accessTokens'
 import Icons from '@/maps/Icons'
+import { useCommonStore } from '@/store/options/common'
+import { OverlayEnum } from '@/enum/Overlay'
 
 const authorizationStore = useAuthorizationStore()
 const accessTokensStore = useAccessTokensStore()
@@ -131,43 +135,43 @@ const sortBy = ref(defaultSort)
 
 const headers = computed<DataTableHeaders[]>(() => [
   {
-    title: i18n.t('columns.tokens.name'),
+    title: i18n.t('forms.general.name'),
     align: 'start',
     key: 'name',
     width: 150
   },
   {
-    title: i18n.t('columns.tokens.user'),
+    title: i18n.t('resources.user'),
     align: 'start',
     key: 'user',
     value: 'user.name'
   },
   {
-    title: i18n.t('columns.tokens.lastUsed'),
+    title: i18n.t('fields.tokens.lastUsed'),
     align: 'center',
     key: 'lastUsed',
     width: 150
   },
   {
-    title: i18n.t('columns.tokens.creationDate'),
+    title: i18n.t('fields.general.createdOn'),
     align: 'center',
     key: 'creationDate',
     width: 150
   },
   {
-    title: i18n.t('columns.tokens.expirationDate'),
+    title: i18n.t('fields.tokens.expirationDate'),
     align: 'center',
     key: 'expirationDate',
     width: 150
   },
   {
-    title: i18n.t('columns.tokens.active'),
+    title: i18n.t('properties.general.active'),
     align: 'start',
     key: 'active',
     width: 100
   },
   {
-    title: i18n.t('columns.actions'),
+    title: i18n.t('fields.general.actions'),
     align: 'center',
     key: 'actions',
     width: 50,
@@ -195,14 +199,38 @@ const filteredHeaders = computed(() => {
   return headers.value
 })
 
-function fetchData(options: DataTableOptions) {
-  sortBy.value = getSort(options.sortBy, defaultSort)
-  accessTokensStore.getPage(options)
+function fetchData(options?: DataTableOptions) {
+  if (options) {
+    accessTokensStore.localOptions = options
+  }
+  sortBy.value = getSort(
+    accessTokensStore.localOptions.sortBy,
+    defaultSort
+  )
+  accessTokensStore.getPage(accessTokensStore.localOptions)
 }
 
-function setEditEntity(item: EntityModelAccessTokenDto) {
+const commonStore = useCommonStore()
+
+async function prepareEdition(
+  item: EntityModelAccessTokenDto
+) {
   accessTokensStore.currentToken = item
-  accessTokensStore.save()
+  commonStore.overlayText = i18n.t('actions.general.edit')
+  commonStore.openOverlay(OverlayEnum.enum.Edit)
+}
+
+async function prepareDeletion(
+  item: EntityModelAccessTokenDto
+) {
+  accessTokensStore.currentToken = item
+  commonStore.overlayText = i18n.t(
+    'messages.general.deleteQuestion',
+    {
+      resource_name: item.name
+    }
+  )
+  commonStore.openOverlay(OverlayEnum.enum.Delete)
 }
 
 function isPending(

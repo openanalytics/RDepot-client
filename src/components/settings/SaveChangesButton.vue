@@ -25,10 +25,10 @@
     <v-btn
       id="save-changes"
       class="ml-6"
-      color="oablue"
+      color="primary"
       size="small"
       @click="saveSettings"
-      >{{ $t('settings.save') }}</v-btn
+      >{{ $t('actions.general.save') }}</v-btn
     >
   </div>
 </template>
@@ -38,7 +38,7 @@ import { useI18n } from 'vue-i18n'
 import { useSettingsStore } from '@/store/options/settings'
 import { useAuthorizationStore } from '@/store/options/authorization'
 import { UserSettingsProjection } from '@/openapi/models/user-settings-projection'
-import { useTheme } from 'vuetify/lib/framework.mjs'
+import { useTheme } from 'vuetify'
 import { useCommonStore } from '@/store/options/common'
 import langs from '@/locales/index'
 

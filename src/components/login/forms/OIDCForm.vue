@@ -29,7 +29,7 @@
       @click="loginOIDC"
     >
       <div class="loginType">
-        {{ $t('authorization.oidc') }}
+        {{ $t('messages.authorization.oidc') }}
       </div>
     </v-btn>
   </v-row>

@@ -108,7 +108,7 @@ describe('status icons composable', () => {
       getTooltipMessage(
         EntityModelSubmissionDtoStateEnum.ACCEPTED
       )
-    ).toEqual(i18n.t('submissions.accepted'))
+    ).toEqual(i18n.t('properties.submissions.accepted'))
   })
   it('should return tooltip message for waiting submission', () => {
     const { getTooltipMessage } = useSubmissionIcons()
@@ -116,7 +116,9 @@ describe('status icons composable', () => {
       getTooltipMessage(
         EntityModelSubmissionDtoStateEnum.WAITING
       )
-    ).toEqual(i18n.t('submissions.waitingForAction'))
+    ).toEqual(
+      i18n.t('messages.submissions.waitingForAction')
+    )
   })
 
   it('should return tooltip message for rejected submission', () => {
@@ -125,7 +127,7 @@ describe('status icons composable', () => {
       getTooltipMessage(
         EntityModelSubmissionDtoStateEnum.REJECTED
       )
-    ).toEqual(i18n.t('submissions.rejected'))
+    ).toEqual(i18n.t('properties.submissions.rejected'))
   })
 
   it('should return tooltip message for cancelled submission', () => {
@@ -134,6 +136,6 @@ describe('status icons composable', () => {
       getTooltipMessage(
         EntityModelSubmissionDtoStateEnum.CANCELLED
       )
-    ).toEqual(i18n.t('submissions.cancelled'))
+    ).toEqual(i18n.t('properties.submissions.cancelled'))
   })
 })

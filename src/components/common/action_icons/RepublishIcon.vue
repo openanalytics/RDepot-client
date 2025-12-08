@@ -24,7 +24,7 @@
   <v-icon
     :id="`republish-repository-${repo.id}`"
     v-tooltip="tooltipText"
-    :color="disabled ? 'grey' : 'oablue'"
+    :color="disabled ? 'grey' : 'primary'"
     style="margin-left: 2px"
     @click.stop
     @click="republish"
@@ -40,6 +40,9 @@ import { useConfigStore } from '@/store/options/config'
 import { computed } from 'vue'
 import Icons from '@/maps/Icons'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
+import { useRepositoryStore } from '@/store/options/repositories'
+import { isAtLeastRepositoryMaintainer } from '@/enum/UserRoles'
+import { useAuthorizationStore } from '@/store/options/authorization'
 
 const componentProps = defineProps({
   repo: {
@@ -50,37 +53,52 @@ const componentProps = defineProps({
 
 const emits = defineEmits(['setEntity'])
 const commonStore = useCommonStore()
+const authorizationStore = useAuthorizationStore()
 const configStore = useConfigStore()
 const { canPatch } = useUserAuthorities()
 
-const tooltipText = computed(() =>
-  !disabled.value
-    ? i18n.t('common.republish')
-    : configStore.declarativeMode
-      ? i18n.t('repositories.declarative.republish')
-      : componentProps.repo.deleted
-        ? i18n.t('repositories.deleted')
-        : componentProps.repo.published
-          ? i18n.t('common.notAuthorized')
-          : i18n.t('repositories.notPublished.republish')
-)
+const tooltipText = computed(() => {
+  if (!disabled.value) {
+    return i18n.t('actions.repositories.republish')
+  } else if (configStore.declarativeMode) {
+    return i18n.t(
+      'messages.repositories.declarative.republish'
+    )
+  } else if (componentProps.repo.deleted) {
+    return i18n.t('messages.general.deleted', {
+      resource_name: i18n
+        .t('resources.packageMaintainer')
+        .toLowerCase()
+    })
+  } else if (componentProps.repo.published) {
+    return i18n.t('messages.general.notAuthorized')
+  }
+  return i18n.t('messages.repositories.notPublished')
+})
 
 const disabled = computed(() => {
   return (
     !canPatch(componentProps.repo.links) ||
-    configStore.declarativeMode ||
+    (configStore.declarativeMode &&
+      !isAtLeastRepositoryMaintainer(
+        authorizationStore.userRole || 0
+      )) ||
     componentProps.repo.deleted ||
     !componentProps.repo.published
   )
 })
 
-function republish() {
+const repositoryStore = useRepositoryStore()
+
+async function republish() {
   if (!disabled.value) {
+    await repositoryStore.setChosen(componentProps.repo.id)
+
     emits('setEntity')
     commonStore.overlayText = i18n.t(
-      'common.republishQuestion',
+      'messages.repositories.republishQuestion',
       {
-        resource_name: componentProps.repo.name
+        repo_name: componentProps.repo.name
       }
     )
     commonStore.openOverlay(OverlayEnum.enum.Republish)

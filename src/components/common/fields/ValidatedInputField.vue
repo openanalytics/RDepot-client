@@ -24,15 +24,17 @@
   <component
     :is="isas"
     v-model="value"
+    :initial-value="value"
     :error-messages="errors"
     v-bind="attrs"
-    color="oablue"
+    color="primary"
     :template="template"
     :style="{
       maxWidth: fieldMaxWidth + 'px'
     }"
-    :no-data-text="$t('datatable.noDataAvailable')"
-    @blur="handleBlur"
+    validate-on-blur
+    :no-data-text="i18n.t('datatable.noDataAvailable')"
+    @blur="(e: Event) => handleBlur(e, true)"
     @set-value="update"
   >
     <template
@@ -60,6 +62,7 @@ import AutocompleteField from '@/components/common/fields/AutocompleteField.vue'
 import ComboboxField from '@/components/common/fields/ComboboxField.vue'
 import { computed } from 'vue'
 import SwitchField from './SwitchField.vue'
+import { i18n } from '@/plugins/i18n'
 
 const componentProps = defineProps<{
   name: string

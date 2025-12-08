@@ -35,8 +35,10 @@ import {
   UPLOAD_SUBMISSION_GENERATE_MANUAL_CHECKBOX,
   UPLOAD_SUBMISSION_NOTES_CHECKBOX,
   UPLOAD_SUBMISSION_NOTES_INPUT,
+  UPLOAD_SUBMISSION_REPLACE_CHECKBOX,
   UPLOAD_SUBMISSION_REPOSITORY_FIELD_ID,
   UPLOAD_SUBMISSION_REPOSITORY_TESTREPO3_ID,
+  UPLOAD_SUBMISSION_REPOSITORY_TESTREPO9_ID,
   UPLOAD_SUBMISSION_RVERSION,
   UPLOAD_SUBMISSION_RVERSION_MESSAGES_ID,
   UPLOAD_SUBMISSION_SUCCESS_ICON
@@ -52,7 +54,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     await restoreData(testInfo.project.name)
   })
 
-  test('upload binary package', async ({ page }) => {
+  test('upload binary R package', async ({ page }) => {
     await login(page, 'einstein')
     await page
       .locator(`#${UPLOAD_PACKAGES_SIDEBAR_ID}`)
@@ -103,7 +105,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
           `#${UPLOAD_SUBMISSION_RVERSION_MESSAGES_ID}`
         )
         .innerHTML()
-    ).toContain(i18n.t('common.errors.required'))
+    ).toContain(i18n.t('messages.errors.required'))
     await page
       .locator(`#${UPLOAD_SUBMISSION_RVERSION}`)
       .click({ force: true })
@@ -121,7 +123,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
           `#${UPLOAD_SUBMISSION_RVERSION_MESSAGES_ID}`
         )
         .textContent()
-    ).not.toContain(i18n.t('common.errors.required'))
+    ).not.toContain(i18n.t('messages.errors.required'))
     await page
       .locator(`#${UPLOAD_SUBMISSION_DISTRIBUTION}`)
       .click({ force: true })
@@ -165,5 +167,64 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     await expect(notesMarkdown).toHaveText(
       'Test notes for upload'
     )
+  })
+
+  test('upload binary Python package', async ({ page }) => {
+    await login(page, 'einstein')
+    await page
+      .locator(`#${UPLOAD_PACKAGES_SIDEBAR_ID}`)
+      .click()
+    await page.waitForURL('**/upload-packages')
+    await expect(page).toHaveTitle(
+      /RDepot - upload packages/
+    )
+    await page
+      .locator(`#${UPLOAD_SUBMISSION_REPOSITORY_FIELD_ID}`)
+      .click({ force: true })
+    await page
+      .locator(
+        `#${UPLOAD_SUBMISSION_REPOSITORY_TESTREPO9_ID}`
+      )
+      .click()
+    await page
+      .locator(`#${UPLOAD_SUBMISSION_CONTINUE_BUTTON_ID}`)
+      .click()
+
+    const fileChooserPromise =
+      page.waitForEvent('filechooser')
+    await page.locator(`.${DROP_ZONE_CLASS}`).click()
+    const fileChooser = await fileChooserPromise
+    await fileChooser.setFiles(
+      './src/__tests__/end-to-end/testData/tetrapolyscope-0.0.4-cp311-cp311-manylinux_2_17_i686.manylinux2014_i686.whl'
+    )
+
+    const binary = page.locator(
+      `#${BINARY_SUBMISSION_CHECKBOX}`
+    )
+
+    await expect(binary).toBeDisabled()
+    await expect(binary).toBeChecked()
+
+    await page
+      .locator(`#${UPLOAD_SUBMISSION_REPLACE_CHECKBOX}`)
+      .click()
+
+    await page
+      .locator(`#${UPLOAD_SUBMISSION_CONTINUE_BUTTON_ID}`)
+      .click()
+    await expect(
+      page.locator(`#${UPLOAD_SUBMISSION_SUCCESS_ICON}`)
+    ).toBeVisible()
+
+    await page.locator(`#${SUBMISSIONS_SIDEBAR_ID}`).click()
+    await page.waitForURL('**/submissions')
+    await expect(page).toHaveTitle(/RDepot - submissions/)
+
+    await page
+      .locator(`#${SUBMISSIONS_FILTRATION_SEARCH_FIELD_ID}`)
+      .fill('tetrapolyscope')
+
+    const submissionRowsSelector = page.locator('role=row')
+    await expect(submissionRowsSelector).toHaveCount(2)
   })
 })

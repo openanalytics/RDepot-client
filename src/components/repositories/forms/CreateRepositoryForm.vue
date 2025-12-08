@@ -21,10 +21,14 @@
 -->
 
 <template>
-  <form as="v-form" lazy-validation>
+  <v-form>
     <v-card class="pa-5" width="400">
       <v-card-title>
-        {{ $t('repositories.creation.title') }}
+        {{
+          t('actions.general.createResource', {
+            resource_type: t('resources.repository')
+          })
+        }}
       </v-card-title>
       <v-divider />
       <v-card-text>
@@ -32,18 +36,15 @@
           id="repository-create-name"
           name="name"
           as="v-text-field"
-          :label="$t('repositories.creation.name')"
+          :label="t('forms.general.name')"
           :loading="loading"
-          lazy-validation
           max-width="unset"
         />
         <validated-input-field
           id="repository-create-publication-uri"
           name="publicationUri"
           as="v-text-field"
-          :label="
-            $t('repositories.creation.publicationUri')
-          "
+          :label="$t('fields.repositories.publicationUri')"
           max-width="unset"
         />
         <span
@@ -54,9 +55,7 @@
             name="serverAddress"
             as="v-text-field"
             max-width="unset"
-            :label="
-              $t('repositories.creation.serverAddress')
-            "
+            :label="t('fields.repositories.serverAddress')"
           />
           <HealthCheck
             :server-address="values.serverAddress || ''"
@@ -67,28 +66,26 @@
           :items="technologies"
           name="technology"
           as="v-select"
-          :label="$t('repositories.creation.technology')"
+          :label="t('resources.technology')"
           max-width="unset"
         />
         <validated-input-field
-          v-if="values.technology == 'Python'"
+          v-show="values.technology == 'Python'"
           id="repository-create-hash-method"
           :items="hashMethods"
           name="hashMethod"
           as="v-select"
-          :label="$t('repositories.creation.hash')"
+          :label="t('forms.repositories.hash')"
           max-width="unset"
         />
         <validated-input-field
-          v-if="values.technology == 'R'"
+          v-show="values.technology == 'R'"
           id="repository-create-redirect-to-source"
           name="redirectToSource"
           as="v-checkbox"
           max-width="unset"
           style="display: flex; justify-content: start"
-          :label="
-            $t('repositories.creation.redirectToSource')
-          "
+          :label="t('forms.repositories.redirectToSource')"
         ></validated-input-field>
         <validated-input-field
           id="repository-create-requires-authentication"
@@ -97,9 +94,7 @@
           max-width="unset"
           style="display: flex; justify-content: start"
           :label="
-            $t(
-              'repositories.creation.requiresAuthentication'
-            )
+            t('forms.repositories.requiresAuthentication')
           "
         />
       </v-card-text>
@@ -119,7 +114,7 @@
           color="warning"
         >
           <i18n-t
-            keypath="repositories.creation.deprecatedAddress"
+            keypath="forms.repositories.hints.deprecatedAddress"
             tag="p"
           >
             <template #address>
@@ -130,29 +125,29 @@
         </v-alert>
       </v-card-text>
       <v-divider></v-divider>
-      <CardActions @submit="createRepository" />
+      <CardActions
+        :valid="meta.valid"
+        @submit="createRepository"
+      />
     </v-card>
-  </form>
+  </v-form>
 </template>
 
 <script setup lang="ts">
 import { useRepositoryStore } from '@/store/options/repositories'
-import { ref } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 import { Technologies } from '@/enum/Technologies'
 import { HashMethods } from '@/enum/HashMethods'
-import { repositorySchema } from '@/models/Schemas'
 import { toTypedSchema } from '@vee-validate/zod/dist/vee-validate-zod'
 import { useForm } from 'vee-validate'
 import ValidatedInputField from '@/components/common/fields/ValidatedInputField.vue'
 import CardActions from '@/components/common/overlay/CardActions.vue'
-import { z } from 'zod'
-import { useToast } from '@/composable/toasts'
 import { useI18n } from 'vue-i18n'
 import { useCommonStore } from '@/store/options/common'
-import { watch, computed } from 'vue'
 import getEnv from '@/utils/env'
 import { useRepositoryDeprecated } from '@/composable/repositories/repositoriesDeprecatedAddress'
 import HealthCheck from '@/components/repositories/forms/HealthCheck.vue'
+import { useRepositoryValidationSchema } from '@/composable/repositories/repositoriesSchema'
 
 const repositoryStore = useRepositoryStore()
 const commonStore = useCommonStore()
@@ -162,64 +157,31 @@ const { deprecatedAddress, getNewServerAddress } =
 const technologies = ref(Technologies.options)
 const hashMethods = ref(HashMethods.options)
 
+const { createRepositorySchema } =
+  useRepositoryValidationSchema()
+
 const { t } = useI18n()
 
 const loading = ref(false)
-let previousVal = ''
-let previousReturn = true
+const repositorySchema =
+  createRepositorySchema(repositoryStore)
 
-const {
-  meta,
-  values,
-  setFieldValue,
-  setTouched,
-  isFieldDirty
-} = useForm({
-  validationSchema: toTypedSchema(
-    z.object({
-      name: repositorySchema.shape.name.refine(
-        async (value) => {
-          if (previousVal === value) {
-            return previousReturn
-          }
-          previousVal = value
-          loading.value = true
-          const repositoryWithSameName =
-            await repositoryStore.get(
-              value,
-              undefined,
-              false
-            )
-          loading.value = false
-          previousReturn =
-            repositoryWithSameName.length === 0
-          return previousReturn
-        },
-        t('repositories.creation.duplicateName')
-      ),
-      publicationUri: repositorySchema.shape.publicationUri,
-      serverAddress: repositorySchema.shape.serverAddress,
-      requiresAuthentication:
-        repositorySchema.shape.requiresAuthentication,
-      technology: repositorySchema.shape.technology,
-      hashMethod: repositorySchema.shape.hashMethod,
-      redirectToSource:
-        repositorySchema.shape.redirectToSource
-    })
-  )
-})
+const { meta, values, isFieldDirty, validateField } =
+  useForm({
+    validationSchema: toTypedSchema(repositorySchema),
+    initialValues: {
+      technology: undefined,
+      hashMethod: HashMethods.enum.MD5,
+      redirectToSource: false
+    }
+  })
 
 watch(
-  () => values.technology,
-  (nevValue: Technologies | undefined) => {
-    if (nevValue == Technologies.Enum.Python) {
-      setFieldValue('hashMethod', HashMethods.Values.MD5)
-      setFieldValue('redirectToSource', undefined)
-      setTouched(true)
-    } else {
-      setFieldValue('hashMethod', undefined)
-      setFieldValue('redirectToSource', false)
-    }
+  () => values.name,
+  async (newValue) => {
+    console.log('Name changed to:', newValue)
+    await nextTick()
+    await validateField('name')
   }
 )
 
@@ -238,14 +200,10 @@ const newServerAddress = computed(() => {
   }
 })
 
-const toasts = useToast()
-
-function createRepository() {
-  if (meta.value.valid && meta.value.touched) {
-    repositoryStore.create(values)
-    commonStore.closeOverlay()
-  } else {
-    toasts.warning(t('notifications.invalidform'))
-  }
+async function createRepository() {
+  const newRepository =
+    await repositorySchema.parseAsync(values)
+  await repositoryStore.create(newRepository)
+  commonStore.closeOverlay()
 }
 </script>

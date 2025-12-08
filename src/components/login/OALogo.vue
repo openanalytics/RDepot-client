@@ -22,12 +22,24 @@
 
 <template>
   <v-img
+    v-if="logoUrl"
     id="logo-oa"
-    src="@/assets/logo.png"
-    class="my-3 mb-5"
+    :src="logoUrl"
+    :height="logoHeight"
+    :width="logoWidth"
+    :class="logoClasses"
+    :style="logoStyle"
+    class="mt-3 mb-5 mx-auto"
     contain
-    height="200"
   />
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import getEnv from '@/utils/env'
+
+const logoUrl = getEnv('VITE_LOGO_BIG_URL')
+const logoHeight = getEnv('VITE_LOGO_BIG_HEIGHT')
+const logoWidth = getEnv('VITE_LOGO_BIG_WIDTH')
+const logoClasses = getEnv('VITE_LOGO_BIG_CLASSES')
+const logoStyle = getEnv('VITE_LOGO_BIG_STYLE')
+</script>

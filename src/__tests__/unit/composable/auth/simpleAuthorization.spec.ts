@@ -45,7 +45,7 @@ describe('simple authorization composable', () => {
     const { logout } = useSimpleAuthorization()
     const spy = vi.spyOn(Storage.prototype, 'removeItem')
     logout()
-    expect(spy).toHaveBeenCalledOnce()
+    expect(spy).toHaveBeenCalledTimes(3)
   })
 
   it('should check if OIDC is Available', () => {

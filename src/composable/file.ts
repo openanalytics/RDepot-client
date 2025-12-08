@@ -23,9 +23,7 @@
 export function useFiles() {
   function formatFilename(filename: string): string {
     if (filename.length >= 50) {
-      return `${filename.slice(0, 25)}...${filename.slice(
-        -13
-      )}`
+      return `${filename.slice(0, 25)}...${filename.slice(-13)}`
     } else {
       return filename
     }
@@ -42,8 +40,38 @@ export function useFiles() {
     }
   }
 
+  function checkValidity(
+    packages: {
+      file: File
+    }[],
+    allowedFiles: { [key: string]: string }[]
+  ) {
+    const indexes: number[] = []
+    packages.forEach((packageBag, idx) => {
+      let flag = false
+
+      allowedFiles.forEach((file) => {
+        if (
+          packageBag.file['name'].endsWith(
+            file.extension
+          ) &&
+          (!packageBag.file['type'] ||
+            packageBag.file['type'] === file.mimetype)
+        ) {
+          flag = true
+        }
+      })
+
+      if (!flag) {
+        indexes.push(idx)
+      }
+    })
+    return indexes
+  }
+
   return {
     formatFilename,
-    formatCutFilename
+    formatCutFilename,
+    checkValidity
   }
 }

@@ -40,7 +40,7 @@
           variant="text"
           size="x-small"
           :icon="Icons.get('more')"
-          color="oablue"
+          color="primary"
           v-bind="activatorProps"
           style="margin-left: -10px"
         >
@@ -101,9 +101,7 @@ const actionButtons = computed(() => [
     id: 'packages-multi-delete',
     icon: Icons.get('delete'),
     color: 'oared',
-    tooltipMessage: `${i18n.t('common.delete')} ${
-      onHoverMessage.value
-    }`,
+    tooltipMessage: `${i18n.t('actions.general.delete')} ${onHoverMessage.value}`,
     onClickAction: () => openDeletePackagesModal()
   }
 ])
@@ -122,12 +120,20 @@ const onHoverMessage = computed(() => {
   if (!configStore.deletingPackages) {
     return (
       ' (' +
-      i18n.t('config.deletingPackages').toLowerCase() +
+      i18n
+        .t('messages.config.deletingPackages')
+        .toLowerCase() +
       ')'
     )
   }
   if (packagesStore.packagesSelected.length == 0) {
-    return ' (' + i18n.t('package.chooseOneToEnable') + ')'
+    return (
+      ' (' +
+      i18n.t('messages.general.chooseOneToEnable', {
+        resource_type: i18n.t('resources.package')
+      }) +
+      ')'
+    )
   }
   return ''
 })

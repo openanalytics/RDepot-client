@@ -38,6 +38,11 @@
     <template #append-item>
       <div
         v-if="!selectStore.ifAllFetched"
+        v-intersect="
+          () => {
+            emits('loadItems')
+          }
+        "
         class="p3"
         justify="center"
         align="center"
@@ -88,7 +93,7 @@ async function loadItems() {
     selectStore.paginationData.totalNumber < 0 ||
     !selectStore.shouldFetchNextPage
   ) {
-    emits('loadItems')
+    await emits('loadItems')
   }
 }
 

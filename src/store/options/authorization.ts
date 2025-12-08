@@ -56,6 +56,7 @@ interface State {
   ability?: Ability
   me: EntityModelUserDto
   userRole?: Role
+  redirectUrl: string
 }
 
 export const useAuthorizationStore = defineStore(
@@ -69,7 +70,8 @@ export const useAuthorizationStore = defineStore(
         loginType: LoginType.Enum.OIDC,
         ability: undefined,
         me: {},
-        userRole: undefined
+        userRole: undefined,
+        redirectUrl: ''
       }
     },
 
@@ -82,9 +84,22 @@ export const useAuthorizationStore = defineStore(
         commonStore.closeOverlay()
         const configStore = useConfigStore()
         configStore.fetchConfiguration()
+        await this.redirectFromLogin()
       },
 
-      async postLoginAsyncOperations() {
+      async redirectFromLogin() {
+        if (this.redirectUrl) {
+          const localRedirectUrl = this.redirectUrl
+          this.redirectUrl = ''
+          await router.push({ path: localRedirectUrl })
+        } else {
+          await router.push({
+            name: this.redirectUrl || 'packages'
+          })
+        }
+      },
+
+      postLoginAsyncOperations() {
         localStorage.setItem('shouldNotifyEvents', 'true')
         const notificationStore = useNotificationStore()
         notificationStore.getNotifications()
@@ -92,7 +107,8 @@ export const useAuthorizationStore = defineStore(
 
       async login() {
         this.chooseLoginType(LoginType.Enum.OIDC)
-        authService.login()
+        await authService.login()
+        await this.redirectFromLogin()
       },
 
       async simpleLogin(data: Login) {
@@ -102,7 +118,6 @@ export const useAuthorizationStore = defineStore(
           this.userToken = token
           await this.postLoginOperations()
           this.postLoginAsyncOperations()
-          router.push({ name: 'packages' })
         })
       },
 
@@ -151,8 +166,11 @@ export const useAuthorizationStore = defineStore(
       },
 
       chooseLoginType(payload: LoginType) {
+        const localRedirectUrl = this.redirectUrl
         this.$reset()
+        this.redirectUrl = localRedirectUrl
         this.loginType = payload
+        this.$patch({ redirectUrl: localRedirectUrl })
       },
       async updateSettings(
         oldSettings: UserSettingsProjection,

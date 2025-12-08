@@ -33,16 +33,24 @@ export function useSubmissionActionTranslations() {
       submissionsStore.submissionsToEdit?.editOption
     ) {
       case SubmissionEditOptions.enum.accept: {
-        return i18n.t('action.accept').toUpperCase()
+        return i18n
+          .t('actions.general.accept')
+          .toUpperCase()
       }
       case SubmissionEditOptions.enum.reject: {
-        return i18n.t('action.reject').toUpperCase()
+        return i18n
+          .t('actions.general.reject')
+          .toUpperCase()
       }
       case SubmissionEditOptions.enum.cancel: {
-        return i18n.t('action.cancel').toUpperCase()
+        return i18n
+          .t('actions.general.cancel')
+          .toUpperCase()
       }
       case SubmissionEditOptions.enum.download: {
-        return i18n.t('action.download').toUpperCase()
+        return i18n
+          .t('actions.general.download')
+          .toUpperCase()
       }
       default:
         return ''
@@ -55,22 +63,22 @@ export function useSubmissionActionTranslations() {
     ) {
       case SubmissionEditOptions.enum.accept: {
         return i18n
-          .t('updatedProperties.accepted')
+          .t('properties.submissions.accepted')
           .toLowerCase()
       }
       case SubmissionEditOptions.enum.reject: {
         return i18n
-          .t('updatedProperties.rejected')
+          .t('properties.submissions.rejected')
           .toLowerCase()
       }
       case SubmissionEditOptions.enum.cancel: {
         return i18n
-          .t('updatedProperties.cancelled')
+          .t('properties.submissions.cancelled')
           .toLowerCase()
       }
       case SubmissionEditOptions.enum.download: {
         return i18n
-          .t('updatedProperties.downloaded')
+          .t('properties.submissions.downloaded')
           .toLowerCase()
       }
       default:

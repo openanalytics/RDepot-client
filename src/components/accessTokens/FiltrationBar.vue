@@ -31,8 +31,8 @@
       hide-details
       name="search"
       as="v-text-field"
-      :label="$t('settings.filtration.searchPlaceholder')"
-      color="oablue"
+      :label="$t('filtration.general.searchPlaceholder')"
+      color="primary"
       @update:model-value="setFiltration"
     />
 
@@ -52,14 +52,14 @@
       as="autocomplete"
       multiple
       clearable
-      :label="$t('settings.filtration.userLogin')"
+      :label="$t('filtration.tokens.userLogin')"
       :store-id="storeIdUser"
       :template="true"
       @update:model-value="setFiltration"
       @load-items="loadUsers"
     >
       <template #item="{ props }">
-        <v-list-item v-intersect="loadUsers" v-bind="props">
+        <v-list-item v-bind="props">
           <template #prepend="{ isActive }">
             <v-list-item-action start>
               <v-checkbox-btn
@@ -76,9 +76,9 @@
       density="compact"
       hide-details
       name="active"
-      :label="$t('settings.filtration.active')"
+      :label="$t('properties.general.active')"
       as="switch-indeterminate"
-      color="oablue"
+      color="primary"
       class="flex-grow-0"
       @change="setFiltration"
     ></validated-input-field>
@@ -88,9 +88,9 @@
       density="compact"
       hide-details
       name="expired"
-      :label="$t('settings.filtration.expired')"
+      :label="$t('filtration.tokens.expired')"
       as="switch-indeterminate"
-      color="oablue"
+      color="primary"
       class="flex-grow-0"
       @change="setFiltration"
     ></validated-input-field>

@@ -27,7 +27,7 @@
     @click="emit('hideDate', date)"
   >
     <div v-if="isFullDate(date)">
-      <v-chip color="oablue" variant="elevated">
+      <v-chip color="primary" variant="elevated">
         {{ date }}</v-chip
       >
     </div>
@@ -39,7 +39,7 @@
         >
           {{ getFullYear(date) }}
           <div class="month py-1 px-0">
-            <v-chip color="oablue" variant="elevated">
+            <v-chip color="primary" variant="elevated">
               {{ getMonthName(date) }}</v-chip
             >
           </div>

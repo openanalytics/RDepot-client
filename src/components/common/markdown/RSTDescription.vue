@@ -49,7 +49,7 @@ const compiler = new RstToHtmlCompiler()
 const description = computed(
   () =>
     componentProps.description?.replaceAll('\\n', '\n') ||
-    i18n.t('package.noDescriptionProvided')
+    i18n.t('messages.packages.noDescriptionProvided')
 )
 
 const parsedDescription = computed(() =>

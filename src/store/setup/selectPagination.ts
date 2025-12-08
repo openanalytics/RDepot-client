@@ -55,6 +55,7 @@ export type RepositoryObject = {
   value: number
   props: {
     technology: string
+    allowedFiles: Array<{ [key: string]: string }>
   }
 }
 export type PackageObject = {
@@ -179,13 +180,12 @@ function defineSelectStore<SelectState>(id: SelectState) {
 
     const fetchNextPageCondition = computed(
       () =>
-        shouldFetchNextPage.value &&
-        ((paginationData.value.totalNumber > 0 &&
+        (paginationData.value.totalNumber > 0 &&
           paginationData.value.page <=
             Math.ceil(
               paginationData.value.totalNumber / pageSize
             )) ||
-          paginationData.value.totalNumber < 0)
+        paginationData.value.totalNumber < 0
     )
 
     return {

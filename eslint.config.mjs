@@ -32,7 +32,8 @@ export default [
       '.vscode',
       '**/*.json',
       '**/dist/',
-      '**/docker/'
+      '**/docker/',
+      'src/openapi/'
     ]
   },
   {

@@ -30,6 +30,7 @@ import { useBlob } from '@/composable/blob'
 import { useToast } from '@/composable/toasts'
 import { i18n } from '@/plugins/i18n'
 import { BackendError } from '@/models/errors/BackendError'
+import router from '@/plugins/router'
 
 export async function openApiRequest<T>(
   // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
@@ -50,9 +51,7 @@ export async function openApiRequest<T>(
         .then((result: AxiosResponse<Blob>) => {
           resolvedBlob(result, open, fileName)
         })
-        .catch((error: AxiosError) => {
-          rejected(error)
-        })
+        .catch((error: AxiosError) => rejected(error))
     } else {
       return callback(...parameters, await getHeaders())
         .then((result: AxiosResponse<ResponseDtoObject>) =>
@@ -157,7 +156,7 @@ async function errorsHandler(
 ) {
   const toasts = useToast()
   if (!error.response?.status) {
-    toasts.error(i18n.t('errors.405'))
+    toasts.error(i18n.t('messages.errors.405'))
     const authorizationStore = useAuthorizationStore()
     authorizationStore.logout()
   } else {
@@ -170,7 +169,7 @@ async function errorsHandler(
         break
       }
       case 401: {
-        toasts.error(i18n.t('errors.401'))
+        toasts.error(i18n.t('messages.errors.401'))
         const authorizationStore = useAuthorizationStore()
         authorizationStore.logout()
         break
@@ -180,18 +179,36 @@ async function errorsHandler(
         await authorizationStore.getUserInfo()
         break
       }
+      case 404: {
+        if (error.request.responseURL.includes('/manual')) {
+          toasts.error(
+            i18n.t('messages.errors.manual.notFound')
+          )
+        } else {
+          router.push({ name: 'pageNotFound' })
+        }
+        break
+      }
       case 405: {
-        toasts.error(i18n.t('errors.405'))
+        toasts.error(i18n.t('messages.errors.405'))
         const authorizationStore = useAuthorizationStore()
         authorizationStore.logout()
         break
       }
       case 422: {
-        console.log(error.response)
+        let errorMessage = error.response.data.message
+        if (error.response.data.data[0]) {
+          const newMessage = i18n.t(
+            `backend.${error.response.data.data[0]}`
+          )
+          if (newMessage) {
+            errorMessage = newMessage
+          }
+        }
         toasts.error(
-          i18n.t('errors.422') +
+          i18n.t('messages.errors.422') +
             '\n' +
-            error.response.data.message
+            errorMessage
         )
         break
       }

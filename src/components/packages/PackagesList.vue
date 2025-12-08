@@ -27,13 +27,14 @@
     :headers="filteredHeaders"
     :items="packagesStore.packages"
     :items-length="packagesStore.totalNumber"
-    :title="i18n.t('packages.list')"
+    :title="i18n.t('resources.package', 2)"
     item-value="id"
     :show-select="!packagesStore.filtration.deleted"
     :loading="packagesStore.loading"
     expand-on-click
     :sort-by="sortBy"
     @update:options="fetchData"
+    @refresh="fetchData"
   >
     <template
       #[`header.data-table-select`]="{
@@ -103,7 +104,20 @@
     </template>
     <template #[`item.actions`]="{ item }">
       <ProgressCircularSmall v-if="isPending(item)" />
-      <DeletePackage v-else :item="item" />
+      <span v-else class="d-flex justify-end align-right">
+        <DeletePackage :item="item" />
+        <GoToButton
+          :item="item"
+          from="packages"
+          :tooltip="
+            $t('actions.general.goTo', {
+              resource_type: $t(
+                'resources.package'
+              ).toLowerCase()
+            })
+          "
+        />
+      </span>
     </template>
     <template #expanded-row="{ columns, item }">
       <td :colspan="columns.length">
@@ -142,11 +156,15 @@ import SelectBoxPackages from './actions/SelectBoxPackages.vue'
 import { usePackagesActions } from '@/composable/packages/packagesActions'
 import OATable from '../common/datatable/OATable.vue'
 import TechnologyChip from '@/components/common/chips/TechnologyChip.vue'
+import GoToButton from '@/components/common/action_icons/GoToButton.vue'
 
 const exp = ref<string[]>([])
 
 const { getSort } = useSort()
-const defaultSort: Sort[] = [{ key: 'name', order: 'asc' }]
+const defaultSort: Sort[] = [
+  { key: 'name', order: 'asc' },
+  { key: 'version', order: 'desc' }
+]
 const sortBy = ref(defaultSort)
 
 const expanded = computed({
@@ -164,43 +182,43 @@ const { isPending } = usePackagesActions()
 
 const headers = computed<DataTableHeaders[]>(() => [
   {
-    title: i18n.t('columns.package.name'),
+    title: i18n.t('forms.general.name'),
     align: 'start',
     key: 'name'
   },
   {
-    title: i18n.t('columns.package.maintainer'),
+    title: i18n.t('resources.maintainer'),
     align: 'start',
     key: 'user.name',
     width: 200
   },
   {
-    title: i18n.t('columns.package.repository'),
+    title: i18n.t('resources.repository'),
     align: 'start',
     key: 'repository',
     value: 'repository.name',
     width: 200
   },
   {
-    title: i18n.t('columns.package.fileType'),
+    title: i18n.t('fields.packages.fileType'),
     align: 'center',
     key: 'binary',
     width: 100
   },
   {
-    title: i18n.t('columns.package.state'),
+    title: i18n.t('fields.packages.submissionState'),
     align: 'center',
     key: 'submission.state',
     width: 100
   },
   {
-    title: i18n.t('columns.package.active'),
+    title: i18n.t('properties.general.active'),
     align: 'center',
     key: 'active',
     width: 80
   },
   {
-    title: i18n.t('columns.actions'),
+    title: i18n.t('fields.general.actions'),
     align: 'center',
     key: 'actions',
     width: 100,
@@ -217,10 +235,16 @@ const filteredHeaders = computed(() => {
   return headers.value
 })
 
-function fetchData(options: DataTableOptions) {
+function fetchData(options?: DataTableOptions) {
+  if (options) {
+    packagesStore.localOptions = options
+  }
   expanded.value = []
-  sortBy.value = getSort(options.sortBy, defaultSort)
-  packagesStore.getPage(options)
+  sortBy.value = getSort(
+    packagesStore.localOptions.sortBy,
+    defaultSort
+  )
+  packagesStore.getPage(packagesStore.localOptions)
 }
 </script>
 

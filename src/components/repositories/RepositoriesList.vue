@@ -27,12 +27,13 @@
     :items="repositoryStore.repositories"
     :items-length="repositoryStore.totalNumber"
     item-value="name"
-    :title="i18n.t('repositories.list')"
+    :title="i18n.t('resources.repository', 2)"
     :loading="repositoryStore.loading"
     expand-on-click
     :sort-by="sortBy"
     :return-object="false"
     @update:options="fetchData"
+    @refresh="fetchData"
   >
     <template #topAction>
       <AddButton v-if="postCondition" />
@@ -73,7 +74,7 @@
               >
                 <CopyableCell
                   :value="item.publicationUri"
-                  :tooltip-message="`${$t('packages.copy')} ${$t('columns.publicationUri').toLowerCase()}`"
+                  :tooltip-message="`${i18n.t('actions.general.copy')} ${i18n.t('fields.repositories.publicationUri').toLowerCase()}`"
                 />
                 <DeprecatedWarning
                   v-if="
@@ -107,7 +108,7 @@
               :disabled="isDisabled(item)"
               hide-details
               :readonly="isDisabled(item)"
-              :color="isDisabled(item) ? 'grey' : 'oablue'"
+              :color="isDisabled(item) ? 'grey' : 'primary'"
               @click.stop="updateRepositoryPublished(item)"
             >
               <template #append> </template>
@@ -115,22 +116,28 @@
           </span>
         </template>
         <span v-if="configStore.declarativeMode">{{
-          $t('repositories.declarative.publish')
+          i18n.t(
+            'messages.repositories.declarative.publish'
+          )
         }}</span>
         <span v-else-if="!canPatch(item.links)">{{
-          $t('common.notAuthorized')
+          i18n.t('messages.general.notAuthorized')
         }}</span>
         <span v-else-if="item.deleted">
-          {{ $t('repositories.deleted') }}</span
+          {{
+            i18n.t('messages.general.deleted', {
+              resource_name: i18n.t('resources.repository')
+            })
+          }}</span
         >
         <span v-else-if="isPending(item)">
-          {{ $t('common.pending') }}</span
+          {{ i18n.t('messages.general.pending') }}</span
         >
         <span v-else-if="item.published">
-          {{ $t('repositories.edit.unpublish') }}
+          {{ i18n.t('actions.repositories.unpublish') }}
         </span>
         <span v-else>
-          {{ $t('repositories.edit.publish') }}
+          {{ i18n.t('actions.repositories.publish') }}
         </span>
       </v-tooltip>
     </template>
@@ -139,12 +146,9 @@
       <ProgressCircularSmall v-if="isPending(item)" />
       <span
         v-else
-        class="d-flex justify-center align-center"
+        class="d-flex justify-center align-center ga-1"
       >
-        <RepublishIcon
-          :repo="item"
-          @set-entity="chooseRepositoryToUpdate(item)"
-        />
+        <RepublishIcon :repo="item" />
         <EditIcon
           :icon-id="`edit-repository-${item.id}`"
           :disabled="
@@ -152,16 +156,20 @@
             configStore.declarativeMode ||
             item.deleted
           "
-          :text="$t('common.edit')"
           :hover-message="
             configStore.declarativeMode
-              ? $t('repositories.declarative.edit')
+              ? i18n.t(
+                  'messages.repositories.declarative.edit'
+                )
               : item.deleted
-                ? $t('repositories.deleted')
-                : undefined
+                ? i18n.t('messages.general.deleted', {
+                    resource_name: i18n.t(
+                      `resources.repository`
+                    )
+                  })
+                : i18n.t('actions.general.edit')
           "
-          class="mr-1"
-          @set-entity="chooseRepositoryToUpdate(item)"
+          @set-entity="prepareRepositoryEdition(item)"
         />
 
         <DeleteIcon
@@ -176,14 +184,27 @@
           :name="item.name"
           :hover-message="
             configStore.declarativeMode
-              ? i18n.t('repositories.declarative.delete')
+              ? i18n.t(
+                  'messages.repositories.declarative.delete'
+                )
               : !configStore.deletingRepositories
-                ? i18n.t('config.deletingRepositories')
+                ? i18n.t(
+                    'messages.config.deletingRepositories'
+                  )
                 : item.deleted
-                  ? i18n.t('repositories.deleted')
+                  ? i18n.t('messages.general.deleted', {
+                      resource_name: i18n.t(
+                        `resources.repository`
+                      )
+                    })
                   : undefined
           "
-          @set-resource-id="chooseRepositoryToUpdate(item)"
+          @set-resource-id="prepareRepositoryDeletion(item)"
+        />
+        <GoToButton
+          :item="item"
+          from="repositories"
+          :tooltip="i18n.t('actions.repositories.goTo')"
         /> </span
     ></template>
     <template #expanded-row="{ columns }">
@@ -227,6 +248,9 @@ import AuthenticationInformation from '@/components/common/datatable/Authenticat
 import getEnv from '@/utils/env'
 import { useRepositoryDeprecated } from '@/composable/repositories/repositoriesDeprecatedAddress'
 import DeprecatedWarning from '@/components/common/datatable/DeprecatedWarning.vue'
+import GoToButton from '@/components/common/action_icons/GoToButton.vue'
+import { OverlayEnum } from '@/enum/Overlay'
+import { useCommonStore } from '@/store/options/common'
 
 const { deepCopy } = useUtilities()
 const repositoryStore = useRepositoryStore()
@@ -267,18 +291,18 @@ const postCondition = computed(() =>
 
 const headers = computed<DataTableHeaders[]>(() => [
   {
-    title: i18n.t('columns.repository.name'),
+    title: i18n.t('forms.general.name'),
     align: 'start',
     key: 'name'
   },
   {
-    title: i18n.t('columns.repository.published'),
+    title: i18n.t('fields.repositories.published'),
     align: 'center',
     key: 'published',
     width: 140
   },
   {
-    title: i18n.t('columns.actions'),
+    title: i18n.t('fields.general.actions'),
     align: 'center',
     key: 'actions',
     width: 100,
@@ -313,9 +337,15 @@ const filteredHeaders = computed(() => {
   return filteredHeaders
 })
 
-function fetchData(options: DataTableOptions) {
-  sortBy.value = getSort(options.sortBy, defaultSort)
-  repositoryStore.getPage(options)
+function fetchData(options?: DataTableOptions) {
+  if (options) {
+    repositoryStore.localOptions = options
+  }
+  sortBy.value = getSort(
+    repositoryStore.localOptions.sortBy,
+    defaultSort
+  )
+  repositoryStore.getPage(repositoryStore.localOptions)
 }
 
 function isDisabled(item: EntityModelRepositoryDto) {
@@ -338,10 +368,30 @@ function updateRepositoryPublished(
   }
 }
 
-function chooseRepositoryToUpdate(
+const commonStore = useCommonStore()
+
+async function prepareRepositoryEdition(
   item: EntityModelRepositoryDto
 ) {
-  repositoryStore.setChosen(item.id)
+  await repositoryStore.fetchChosen(
+    item.id,
+    item.technology as Technologies
+  )
+  commonStore.overlayText = i18n.t('actions.general.edit')
+  commonStore.openOverlay(OverlayEnum.enum.Edit)
+}
+
+async function prepareRepositoryDeletion(
+  item: EntityModelRepositoryDto
+) {
+  await repositoryStore.setChosen(item.id)
+  commonStore.overlayText = i18n.t(
+    'messages.general.deleteQuestion',
+    {
+      resource_name: item.name
+    }
+  )
+  commonStore.openOverlay(OverlayEnum.enum.Delete)
 }
 
 function isPending(

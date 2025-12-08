@@ -64,7 +64,7 @@ const displayValue = computed<string>(() => {
   } else
     return (
       componentProps.value ||
-      i18n.t('updatedProperties.unset')
+      i18n.t('actions.general.unset')
     )
 })
 </script>

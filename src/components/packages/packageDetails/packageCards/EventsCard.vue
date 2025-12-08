@@ -24,16 +24,16 @@
   <v-card
     id="package-events-card"
     v-tooltip:bottom="
-      $t('packageDetails.events.seeRelatedEvent')
+      $t('properties.packages.seeRelatedEvent')
     "
     color=""
-    :title="$t('packageDetails.events.events')"
+    :title="$t('resources.event', 2)"
     max-height="100px"
     :prepend-icon="Icons.get('events')"
     @click="navigate"
   >
     <v-card-subtitle class="pb-3">{{
-      $t('packageDetails.events.relatedEventPage')
+      $t('properties.packages.relatedEventPage')
     }}</v-card-subtitle>
   </v-card>
 </template>
@@ -53,18 +53,16 @@ async function navigate() {
     packageDetailsStore.packageBag?.name &&
     packageDetailsStore.packageBag?.repository?.name
   ) {
-    await eventsStore.setFiltration({
-      packageName: [packageDetailsStore.packageBag.name],
-      repositoryName: [
-        packageDetailsStore.packageBag.repository.name
-      ]
-    })
-    router.push({
-      name: 'events',
-      params: {
-        packageName: packageDetailsStore.packageBag.name
-      }
-    })
+    await eventsStore.setFiltration(
+      {
+        packageName: [packageDetailsStore.packageBag.name],
+        repositoryName: [
+          packageDetailsStore.packageBag.repository.name
+        ]
+      },
+      false
+    )
+    await router.push({ name: 'events' })
   }
 }
 </script>

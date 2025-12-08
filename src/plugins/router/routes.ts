@@ -21,11 +21,12 @@
  */
 
 import {
-  prepareUploadPackagesView,
   preparePackagesView,
   prepareSubmissionsView,
   prepareRepositoriesView,
-  preparePackageMaintainersView
+  preparePackageMaintainersView,
+  prepareEventsView,
+  pageNotFoundPreparation
 } from './viewsPreparations'
 
 export const routes = [
@@ -118,9 +119,6 @@ export const routes = [
             '@/views/submissions/AddSubmissionView.vue'
           ),
         meta: { title: 'RDepot - upload packages' },
-        beforeEnter: () => {
-          prepareUploadPackagesView()
-        },
         props: true
       },
       {
@@ -128,7 +126,10 @@ export const routes = [
         name: 'events',
         component: () =>
           import('@/views/events/EventsView.vue'),
-        meta: { title: 'RDepot - events' }
+        meta: { title: 'RDepot - events' },
+        beforeEnter: () => {
+          prepareEventsView()
+        }
       },
       {
         path: '/settings-general',
@@ -159,6 +160,22 @@ export const routes = [
         component: () =>
           import('@/views/users/LoginView.vue'),
         meta: { title: 'RDepot - login' }
+      }
+    ]
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    component: () =>
+      import('@/layouts/default/ContentView.vue'),
+    children: [
+      {
+        path: '',
+        name: 'pageNotFound',
+        component: () => import('@/views/PageNotFound.vue'),
+        meta: { title: 'RDepot - Page not found' },
+        beforeEnter: (to: any) => {
+          return pageNotFoundPreparation(to.path)
+        }
       }
     ]
   }

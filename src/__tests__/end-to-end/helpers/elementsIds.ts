@@ -76,6 +76,9 @@ export const CHANGE_LANGUAGE_NAVBAR_ID =
   'change-language-navbar-button'
 export const POLISH_LANGUAGE_ID = 'pl-PL'
 export const ENGLISH_LANGUAGE_ID = 'en-US'
+export const GERMAN_LANGUAGE_ID = 'de-DE'
+export const DUTCH_LANGUAGE_ID = 'nl-NL'
+export const CHANGE_THEME_ID = 'change-theme-icon'
 
 //sidebar
 export const PACKAGE_MAINTAINERS_SIDEBAR_ID =
@@ -179,8 +182,8 @@ export const PACKAGES_MULTI_ACTIONS_ID =
   'packages-multi-actions'
 export const PACKAGES_MULTI_DELETE_ID =
   'packages-multi-delete'
-export const PACKAGE_DETAILS_BUTTON_ID =
-  'see-package-details-button'
+export const PACKAGE_DETAILS_BUTTON_ID = 'goTo-button-43'
+export const PACKAGE_DETAILS_BUTTON_R_ID = 'goTo-button-9'
 export const PACKAGES_LIST_A3_092_TESTREPO3_ID =
   'packages-list-A3-0-9-2-testrepo3'
 export const PACKAGES_LIST_ACCELERATED_NUMPY_010_TESTREPO8_ID =
@@ -213,6 +216,8 @@ export const PACKAGE_VIGNETTE_OPEN_ID =
   'package-vignette-open-1'
 export const PACKAGE_VIGNETTE_DOWNLOAD_ID =
   'package-vignette-download-1'
+export const PACKAGE_DETAILS_GO_TO_REPOSITORY_ID =
+  'goTo-button-4'
 export const PACKAGE_INSTALLATION_COMMAND_ID =
   'package-install-command'
 export const PACKAGE_REPOSITORY_CARD_ID =
@@ -220,6 +225,10 @@ export const PACKAGE_REPOSITORY_CARD_ID =
 export const PACKAGE_LICENSE_CARD_ID =
   'package-license-card'
 export const PACKAGE_EVENTS_CARD_ID = 'package-events-card'
+export const PACKAGE_BINARY_LIST_ID =
+  'package-binary-properties'
+export const PACKAGE_VIGNETTES_LIST_ID =
+  'package-vignettes-list'
 
 //package details - property tables
 export const PACKAGE_BOOLEAN_PROPERTIES_ID =
@@ -258,6 +267,8 @@ export const PACKAGE_PROPERTY_URL_ID =
   'package-property-url'
 export const PACKAGE_PROPERTY_MD5SUM_ID =
   'package-property-md5sum'
+export const PACKAGE_PROPERTY_ENCODING_ID =
+  'package-property-encoding'
 export const PACKAGE_PROPERTY_AUTHOR_ID =
   'package-property-author'
 export const PACKAGE_PROPERTY_SUBMITTER_ID =
@@ -266,6 +277,8 @@ export const PACKAGE_PROPERTY_APPROVER_ID =
   'package-property-approver'
 export const PACKAGE_PROPERTY_MAINTAINER_ID =
   'package-property-maintainer'
+export const PACKAGE_PROPERTY_REMOTE_MAINTAINER_ID =
+  'package-property-remote-maintainer'
 export const PACKAGE_PROPERTY_VIGNETTE_ID =
   'package-property-vignette-vignette.html'
 export const PACKAGE_PROPERTY_MANUAL_ID =
@@ -286,6 +299,8 @@ export const UPLOAD_SUBMISSION_REPOSITORY_FIELD_ID =
   'upload-submission-repository-field'
 export const UPLOAD_SUBMISSION_REPOSITORY_TESTREPO3_ID =
   'upload-submission-repository-testrepo3'
+export const UPLOAD_SUBMISSION_REPOSITORY_TESTREPO9_ID =
+  'upload-submission-repository-testrepo9'
 export const UPLOAD_SUBMISSION_CONTINUE_BUTTON_ID =
   'next-button'
 export const DROP_ZONE_CLASS = 'drop-area'
@@ -306,6 +321,8 @@ export const UPLOAD_SUBMISSION_NOTES_CHECKBOX =
   'notes-button'
 export const UPLOAD_SUBMISSION_NOTES_INPUT =
   'upload-package-notes'
+export const UPLOAD_SUBMISSION_REPLACE_CHECKBOX =
+  'replace-button'
 
 //REPOSITORIES FILTRATION
 export const REPOSITORIES_FILTRATION_SEARCH_FIELD_ID =
@@ -318,6 +335,12 @@ export const REPOSITORIES_FILTRATION_DELETED_FIELD_ID =
   'repositories-filtration-deleted'
 export const REPOSITORIES_FILTRATION_PUBLISHED_FIELD_ID =
   'repositories-filtration-published'
+
+//CREATE REPOSITORY
+export const REPOSITORY_NAME_FIELD_MESSAGES_ID =
+  'repository-create-name-messages'
+export const EDIT_REPOSITORY_NAME_FIELD_MESSAGES_ID =
+  'edit-name-messages'
 
 //REPOSITORY MAINTAINERS FILTRATION
 export const REPOSITORY_MAINTAINERS_FILTRATION_SEARCH_FIELD_ID =
@@ -394,6 +417,9 @@ export const USERS_FILTRATION_ACTIVE_ID =
   'users-filtration-active'
 export const USERS_FILTRATION_DELETED_ID =
   'user-filtration-deleted'
+export const FILTRATION_RESET_BUTTON_ID = 'reset-button'
+export const COMMON_BUTTON_ID = 'common-button'
+export const PROGRESS_CIRCULAR_ID = 'progress-circular'
 
 //TOKENS FILTRATION
 export const TOKENS_FILTRATION_SEARCH_ID =
@@ -449,6 +475,10 @@ export const SUBMISSIONS_LIST_NOTES_ARROW_TESTREPO3_ID =
 export const SUBMISSIONS_LIST_NOTES_MARKDOWN =
   'markdown-description'
 export const OA_LIST_NOTES_RST = 'rst-description'
+export const SUBMISSIONS_LIST_NOT_ACCEPTED_GOTO_ID =
+  'goTo-button-45'
+export const SUBMISSIONS_LIST_ACCEPTED_PACKAGE_GOTO_ID =
+  'goTo-button-4'
 
 //REPOSITORIES LIST
 export const DELETE_REPO_2_ICON_ID =
@@ -531,6 +561,7 @@ export const REPOSITORY_REDIRECT_TO_SOURCE_ID =
 // SETTINGS FIELD
 export const PAGE_SIZE_ID = 'page-size-input'
 export const SAVE_SETTINGS_BUTTON_ID = 'save-changes'
+export const THEME_SETTINGS_ID = 'theme-input'
 
 // GENERAL SETTINGS PAGE
 export const SAVE_CHANGES_BUTTON_ID = 'save-changes'
@@ -549,12 +580,17 @@ export const DELETE_USER_ROLE_ADMIN_ID = 'delete-user-8'
 export const DELETE_USER_ROLE_ADMIN_LOGGED_IN_ID =
   'delete-user-4'
 export const EDIT_USER_PACKAGE_MAINTAINER_ID = 'edit-user-6'
+export const EDIT_USER_MYSELF_ID = 'edit-user-4'
 export const EDIT_USER_USER_ID = 'edit-user-10'
 export const SUBMIT_USER_DELETION_BUTTON_ID =
   'submit-button'
 export const COPY_ADMIN_EMAIL_BUTTON_ID =
   'resources-list-admin-localhost-copy'
 export const EDIT_USER_ROLE_FIELD_ID = 'edit-user-role'
+export const ACTIVE_CHECKBOX_ID = 'checkbox-active'
+
+//edit user
+export const EDIT_USER_ALERT_ID = 'edit-user-alert'
 
 // USERS FILTRATION
 export const USERS_FILTRATION_SEARCH_FIELD_ID =

@@ -31,8 +31,8 @@
       hide-details
       name="search"
       as="v-text-field"
-      :label="$t('repositories.filtration.searchBox')"
-      color="oablue"
+      :label="$t('filtration.general.searchPlaceholder')"
+      color="primary"
       @update:model-value="setFiltration"
     />
 
@@ -47,7 +47,7 @@
       multiple
       clearable
       as="v-select"
-      :label="$t('filtration.technologies')"
+      :label="$t('resources.technology')"
       @update:model-value="setFiltration"
     ></validated-input-field>
 
@@ -68,7 +68,7 @@
       as="autocomplete"
       multiple
       clearable
-      :label="$t('packages.filtration.maintainer')"
+      :label="$t('resources.maintainer')"
       :store-id="storeIdMaintainer"
       :template="true"
       @update:model-value="setFiltration"
@@ -76,10 +76,7 @@
       @filtrate="filtrateMaintainers"
     >
       <template #item="{ props }">
-        <v-list-item
-          v-intersect="loadMaintainers"
-          v-bind="props"
-        >
+        <v-list-item v-bind="props">
           <template #prepend="{ isActive }">
             <v-list-item-action start>
               <v-checkbox-btn
@@ -103,9 +100,9 @@
       density="compact"
       hide-details
       name="deleted"
-      :label="$t('packages.filtration.deleted')"
+      :label="$t('properties.general.deleted')"
       as="v-switch"
-      color="oablue"
+      color="primary"
       class="ml-2 flex-grow-0"
       @update:model-value="setFiltration"
     ></validated-input-field>
@@ -115,9 +112,9 @@
       density="compact"
       hide-details
       name="published"
-      :label="$t('repositories.filtration.published')"
+      :label="$t('fields.repositories.published')"
       as="switch-indeterminate"
-      color="oablue"
+      color="primary"
       class="flex-grow-0"
       cancel
       @change="setFiltration"

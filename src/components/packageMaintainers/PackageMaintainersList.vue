@@ -27,9 +27,10 @@
     :items-length="packageMaintainersStore.totalNumber"
     item-value="id"
     :loading="packageMaintainersStore.loading"
-    :title="i18n.t('packages.maintainers')"
+    :title="i18n.t('resources.packageMaintainer', 2)"
     :sort-by="sortBy"
     @update:options="fetchData"
+    @refresh="fetchData"
   >
     <template #topAction>
       <AddMaintainerButton v-if="postCondition" />
@@ -39,27 +40,36 @@
       <span v-else class="d-flex justify-end align-center">
         <EditIcon
           :disabled="!canPatch(item.links) || item.deleted"
-          :text="getEditMessage(item)"
           :hover-message="
             item.deleted
-              ? i18n.t('maintainers.deleted')
-              : undefined
+              ? i18n.t('messages.general.deleted', {
+                  resource_name: i18n.t(
+                    'resources.packageMaintainer',
+                    2
+                  )
+                })
+              : i18n.t('actions.general.edit')
           "
           :icon-id="`edit-package-maintainer-${item.user?.name?.replace(
             ' ',
             '-'
           )}-${item.packageName}-${item.repository?.name}`"
-          @set-entity="setEditEntity(item)" />
+          @set-entity="prepareEdition(item)" />
         <DeleteIcon
           v-if="item.user?.name"
           :disabled="!canDelete(item.links) || item.deleted"
           :name="item.user?.name"
           :hover-message="
             item.deleted
-              ? i18n.t('maintainers.deleted')
+              ? i18n.t('messages.general.deleted', {
+                  resource_name: i18n.t(
+                    'resources.packageMaintainer',
+                    2
+                  )
+                })
               : undefined
           "
-          @set-resource-id="chooseMaintainer(item)" /></span
+          @set-resource-id="prepareDeletion(item)" /></span
     ></template>
   </OATable>
 </template>
@@ -83,6 +93,8 @@ import { useAuthorizationStore } from '@/store/options/authorization'
 import { computed } from 'vue'
 import ProgressCircularSmall from '../common/progress/ProgressCircularSmall.vue'
 import OATable from '../common/datatable/OATable.vue'
+import { OverlayEnum } from '@/enum/Overlay'
+import { useCommonStore } from '@/store/options/common'
 
 const packageMaintainersStore = usePackageMaintainersStore()
 const { canPatch, canDelete } = useUserAuthorities()
@@ -98,63 +110,73 @@ const postCondition = computed(() =>
 
 const headers = computed<DataTableHeaders[]>(() => [
   {
-    title: i18n.t('columns.packageMaintainer.name'),
+    title: i18n.t('forms.general.name'),
     align: 'start',
     key: 'user',
     value: 'user.name',
     width: 200
   },
   {
-    title: i18n.t('columns.packageMaintainer.packageName'),
+    title: i18n.t('resources.package'),
     align: 'start',
     key: 'packageName',
     width: 200
   },
   {
-    title: i18n.t('columns.packageMaintainer.repository'),
+    title: i18n.t('resources.repository'),
     align: 'start',
     key: 'repository',
     value: 'repository.name'
   },
   {
-    title: i18n.t('columns.packageMaintainer.technology'),
+    title: i18n.t('resources.technology'),
     align: 'center',
     key: 'repository.technology',
     width: 100
   },
   {
-    title: i18n.t('columns.actions'),
+    title: i18n.t('fields.general.actions'),
     align: 'center',
     width: 100,
     key: 'actions',
     sortable: false
   }
 ])
-function fetchData(options: DataTableOptions) {
-  sortBy.value = getSort(options.sortBy, defaultSort)
-  packageMaintainersStore.getPage(options)
+
+function fetchData(options?: DataTableOptions) {
+  if (options) {
+    packageMaintainersStore.localOptions = options
+  }
+  sortBy.value = getSort(
+    packageMaintainersStore.localOptions.sortBy,
+    defaultSort
+  )
+  packageMaintainersStore.getPage(
+    packageMaintainersStore.localOptions
+  )
 }
 
-function chooseMaintainer(
+const commonStore = useCommonStore()
+
+async function prepareEdition(
   item: EntityModelPackageMaintainerDto
 ) {
   packageMaintainersStore.chosenMaintainer = item
-  packageMaintainersStore.save()
+  commonStore.overlayText = i18n.t('actions.general.edit')
+  commonStore.openOverlay(OverlayEnum.enum.Edit)
 }
 
-function setEditEntity(
+async function prepareDeletion(
   item: EntityModelPackageMaintainerDto
 ) {
   packageMaintainersStore.chosenMaintainer = item
-  packageMaintainersStore.save()
-}
-
-function getEditMessage(
-  item: EntityModelPackageMaintainerDto
-) {
-  return i18n.t('maintainers.edit', {
-    maintainerName: item.user?.id
-  })
+  commonStore.overlayText = i18n.t(
+    'messages.general.deleteQuestion',
+    {
+      resource_name: item.user?.name
+    }
+  )
+  commonStore.openOverlay(OverlayEnum.enum.Delete)
 }
 
 function isPending(

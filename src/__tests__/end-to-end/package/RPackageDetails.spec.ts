@@ -23,7 +23,7 @@
 import { test, expect } from '@playwright/test'
 import { login } from '../helpers/login'
 import {
-  PACKAGE_DETAILS_BUTTON_ID,
+  PACKAGE_DETAILS_BUTTON_R_ID,
   PACKAGE_PROPERTY_DEPENDS_ID,
   PACKAGE_PROPERTY_IMPORTS_ID,
   PACKAGE_LICENSE_CARD_ID,
@@ -38,7 +38,9 @@ import {
   PACKAGE_PROPERTY_MAINTAINER_ID,
   PACKAGE_PROPERTY_AUTHOR_ID,
   PACKAGE_PROPERTY_MANUAL_ID,
-  PACKAGE_PROPERTY_SOURCE_FILE_ID
+  PACKAGE_PROPERTY_SOURCE_FILE_ID,
+  PACKAGE_PROPERTY_REMOTE_MAINTAINER_ID,
+  PACKAGE_PROPERTY_ENCODING_ID
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 
 const TITLE = 'R package details'
@@ -47,12 +49,8 @@ test.describe(TITLE, () => {
     page
   }) => {
     await login(page, 'einstein')
-    await page
-      .locator('.v-data-table__tr:nth-child(1)')
-      .click()
-
     const seeDetailsButtonSelector = page.locator(
-      `#${PACKAGE_DETAILS_BUTTON_ID}`
+      `#${PACKAGE_DETAILS_BUTTON_R_ID}`
     )
 
     await seeDetailsButtonSelector.waitFor()
@@ -90,6 +88,9 @@ test.describe(TITLE, () => {
       .locator(`#${PACKAGE_PROPERTY_MD5SUM_ID}`)
       .waitFor()
     await page
+      .locator(`#${PACKAGE_PROPERTY_ENCODING_ID}`)
+      .waitFor()
+    await page
       .locator(`#${PACKAGE_PROPERTY_SUBMITTER_ID}`)
       .waitFor()
     await page
@@ -106,6 +107,9 @@ test.describe(TITLE, () => {
       .waitFor()
     await page
       .locator(`#${PACKAGE_PROPERTY_SOURCE_FILE_ID}`)
+      .waitFor()
+    await page
+      .locator(`#${PACKAGE_PROPERTY_REMOTE_MAINTAINER_ID}`)
       .waitFor()
   })
 })

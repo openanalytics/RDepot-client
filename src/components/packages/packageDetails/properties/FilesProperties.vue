@@ -23,11 +23,11 @@
 <template>
   <PropertiesTable
     id="package-files-properties"
-    :items="filesList"
+    :items="files"
     @property-clicked="handlePropertyClicked"
   >
     <template
-      v-for="(item, i) in filesList"
+      v-for="(item, i) in files"
       :key="i"
       #[`${item.iconSlotName}`]
     >
@@ -47,7 +47,7 @@
             ></v-btn>
           </template>
           <v-list-item-title>{{
-            i18n.t('packageDetails.vignette.open')
+            i18n.t('actions.general.open')
           }}</v-list-item-title>
         </v-list-item>
         <v-list-item
@@ -62,7 +62,7 @@
             ></v-btn>
           </template>
           <v-list-item-title>{{
-            i18n.t('packageDetails.vignette.download')
+            i18n.t('actions.general.download')
           }}</v-list-item-title>
         </v-list-item>
       </v-list>
@@ -73,14 +73,20 @@
 <script setup lang="ts">
 import PropertiesTable from '@/components/common/properties/PropertiesTable.vue'
 import { usePackageFiles } from '@/composable/packages/packageFiles'
-import { usePackageProperties } from '@/composable/packages/packageProperties'
 import Icons from '@/maps/Icons'
 import { Vignette } from '@/openapi'
 import { i18n } from '@/plugins/i18n'
 import { usePackageDetailsStore } from '@/store/options/packageDetails'
+import { Property } from '@/models/Property'
+
+defineProps({
+  files: {
+    type: Object as () => Property[],
+    required: true
+  }
+})
 
 const packageDetailsStore = usePackageDetailsStore()
-const { filesList } = usePackageProperties()
 const {
   openVignette,
   downloadManual,

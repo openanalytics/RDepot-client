@@ -31,8 +31,10 @@
       hide-details
       name="search"
       as="v-text-field"
-      :label="$t('users.filtration.searchBox')"
-      color="oablue"
+      :label="
+        i18n.t('filtration.general.searchPlaceholder')
+      "
+      color="primary"
       @update:model-value="setFiltration"
     />
 
@@ -47,7 +49,7 @@
       multiple
       clearable
       as="v-select"
-      :label="$t('users.filtration.roles')"
+      :label="i18n.t('fields.users.role', 2)"
       @update:model-value="setFiltration"
     ></validated-input-field>
 
@@ -56,9 +58,9 @@
       density="compact"
       hide-details
       name="active"
-      :label="$t('users.filtration.active')"
+      :label="i18n.t('properties.general.active')"
       as="switch-indeterminate"
-      color="oablue"
+      color="primary"
       class="flex-grow-0"
       @change="setFiltration"
     ></validated-input-field>
@@ -68,9 +70,9 @@
       density="compact"
       hide-details
       name="deleted"
-      :label="$t('users.filtration.deleted')"
+      :label="i18n.t('properties.general.deleted')"
       as="switch-indeterminate"
-      color="oablue"
+      color="primary"
       class="flex-grow-0"
       @change="setFiltration"
     ></validated-input-field>
@@ -97,6 +99,7 @@ import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useUserStore } from '@/store/options/users'
 import ResetButton from '@/components/common/buttons/ResetButton.vue'
+import { i18n } from '@/plugins/i18n'
 
 const { roles, sortValues } = useEnumFiltration()
 

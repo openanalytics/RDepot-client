@@ -41,11 +41,15 @@ export function useSimpleAuthorization() {
           'simpleAuthToken',
           res.data.data.token
         )
-        toasts.success(i18n.t('authorization.success'))
+        toasts.success(
+          i18n.t('messages.authorization.success')
+        )
         return res.data.data.token
       })
       .catch((err) => {
-        toasts.error(i18n.t('authorization.error', [err]))
+        toasts.error(
+          i18n.t('messages.authorization.error', [err])
+        )
         return ''
       })
   }

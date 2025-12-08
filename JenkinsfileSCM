@@ -2,7 +2,7 @@ pipeline {
   agent {
     kubernetes {
       inheritFrom 'kaniko'
-      yamlFile 'kubernetesPod.yaml'
+      yamlFile 'agent.pod.yaml'
       defaultContainer 'rdepot-client-build'
       yamlMergeStrategy merge()
     }
@@ -53,7 +53,7 @@ pipeline {
         publishHTML([
           reportDir: 'reports', reportFiles: 'lint-report.html',
           reportName: 'UI Linting Report',
-          allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true])        
+          allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true])
       }
     }
     stage('Build') {
@@ -79,7 +79,7 @@ pipeline {
       }
     }
     stage('End To End Tests') {
-      steps {                  
+      steps {
         sh """
           npm run test:e2e:setup
           npm run test:e2e
@@ -89,8 +89,8 @@ pipeline {
         withChecks('UI e2e Tests') {
           junit "reports/test-report-e2e.xml"
         }
-      }      
-    } 
+      }
+    }
     stage('Publish') {
       when {
         anyOf {

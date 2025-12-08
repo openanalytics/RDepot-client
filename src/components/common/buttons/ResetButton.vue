@@ -25,10 +25,10 @@
     id="reset-button"
     class="my-2"
     density="compact"
-    color="oablue"
+    color="primary"
     @click="resetValues"
   >
-    {{ $t('filtration.reset') }}</v-btn
+    {{ $t('actions.general.reset') }}</v-btn
   >
 </template>
 

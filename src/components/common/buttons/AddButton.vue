@@ -28,20 +28,25 @@
           id="add-maintainer"
           :disabled="configStore.declarativeMode"
           :component="OverlayEnum.enum.Create"
-          size="small"
+          size="x-small"
+          icon
         >
-          <span class="pr-3">
-            {{ $t('common.create') }}</span
-          ><v-icon :icon="Icons.get('add')"
+          <v-icon :icon="Icons.get('add')"
         /></CommonButton>
       </div>
     </template>
     <span id="tooltip-wait"
       ><span v-if="!configStore.declarativeMode">{{
-        $t('repositories.addRepository')
+        i18n.t('actions.general.createResource', {
+          resource_type: i18n
+            .t('resources.repository')
+            .toLowerCase()
+        })
       }}</span
       ><span v-else>
-        {{ $t('repositories.declarative.create') }}</span
+        {{
+          i18n.t('messages.repositories.declarative.create')
+        }}</span
       >
     </span>
   </v-tooltip>
@@ -52,6 +57,7 @@ import CommonButton from '@/components/common/buttons/CommonButton.vue'
 import { OverlayEnum } from '@/enum/Overlay'
 import { useConfigStore } from '@/store/options/config'
 import Icons from '@/maps/Icons'
+import { i18n } from '@/plugins/i18n'
 
 const configStore = useConfigStore()
 </script>

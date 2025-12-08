@@ -22,8 +22,12 @@
 
 import en from './en.json'
 import pl from './pl.json'
+import nl from './nl.json'
+import de from './de.json'
 
 export const messages = {
   en: en,
-  pl: pl
+  pl: pl,
+  nl: nl,
+  de: de
 }

@@ -20,54 +20,33 @@
  *
  */
 
-import { setActivePinia, createPinia } from 'pinia'
+import { createPinia, setActivePinia } from 'pinia'
 import { useSubmissionStore } from '@/store/options/submission'
 import {
-  describe,
-  beforeEach,
-  it,
-  expect,
   afterAll,
-  vi,
-  afterEach
+  afterEach,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi
 } from 'vitest'
-import {
-  EntityModelRepositoryDto,
-  EntityModelSubmissionDtoStateEnum
-} from '@/openapi'
-import packages from '@/__tests__/config/mockData/packages.json'
+import { EntityModelSubmissionDtoStateEnum } from '@/openapi'
 import submissions from '@/__tests__/config/mockData/submissions.json'
 import { useUtilities } from '@/composable/utilities'
 import {
-  SubmissionsFiltration,
-  defaultValues
+  defaultValues,
+  SubmissionsFiltration
 } from '@/models/Filtration'
-import { Technologies } from '@/enum/Technologies'
 import { useAuthorizationStore } from '@/store/options/authorization'
 import { server } from '@/__tests__/config/backend/server'
 import { failingServer } from '@/__tests__/config/backend/failingServer'
 
 const { deepCopyAny } = useUtilities()
-const files = [
-  {
-    name: 'A3_1.0.0.tar.gz',
-    type: 'application/gzip'
-  } as File
-]
 
 const defaultFiltration = defaultValues(
   SubmissionsFiltration
 )
-
-const randomFiltration = {
-  state: ['ACCEPTED'],
-  assignedToMe: false,
-  search: 'accured',
-  technologies: [Technologies.enum.Python],
-  repository: ['repository1'],
-  fromDate: '2019-05-03',
-  toDate: '2022-09-20'
-} as SubmissionsFiltration
 
 describe('Submissions Store', () => {
   beforeEach(async () => {
@@ -82,132 +61,12 @@ describe('Submissions Store', () => {
   it('Initial store state', () => {
     const submissionStore = useSubmissionStore()
 
-    expect(submissionStore.packages).toStrictEqual([])
     expect(submissionStore.submissions).toStrictEqual([])
     expect(submissionStore.pending).toStrictEqual([])
-    expect(submissionStore.repository).toBeUndefined()
     expect(submissionStore.filtration).toStrictEqual(
       defaultFiltration
     )
     expect(submissionStore.totalNumber).toEqual(0)
-  })
-
-  it('Clear filtration', () => {
-    const submissionStore = useSubmissionStore()
-    submissionStore.filtration = randomFiltration
-
-    submissionStore.clearFiltration()
-
-    expect(submissionStore.filtration).toStrictEqual(
-      defaultFiltration
-    )
-  })
-
-  it('Clear filtration and fetch', async () => {
-    const submissionStore = useSubmissionStore()
-    const spy = vi.spyOn(submissionStore, 'getPage')
-    submissionStore.filtration = randomFiltration
-
-    await submissionStore.clearFiltrationAndFetch()
-
-    expect(submissionStore.filtration).toStrictEqual(
-      defaultFiltration
-    )
-    expect(spy).toBeCalled()
-    expect(submissionStore.submissions).toStrictEqual(
-      submissions.data.content
-    )
-    expect(submissionStore.totalNumber).toStrictEqual(
-      submissions.data.page.totalElements
-    )
-  })
-
-  it('Set filtration', () => {
-    const submissionStore = useSubmissionStore()
-
-    submissionStore.setFiltration(randomFiltration)
-
-    expect(submissionStore.filtration).toStrictEqual(
-      randomFiltration
-    )
-  })
-
-  it('Set packages', () => {
-    const submissionStore = useSubmissionStore()
-
-    submissionStore.packages = files
-
-    expect(submissionStore.packages).toStrictEqual(files)
-  })
-
-  it('Add package', () => {
-    const submissionStore = useSubmissionStore()
-
-    submissionStore.addPackage(files[0])
-
-    expect(submissionStore.packages).toStrictEqual(files)
-  })
-
-  it('Add packages', () => {
-    const submissionStore = useSubmissionStore()
-
-    submissionStore.addPackages(files)
-
-    expect(submissionStore.packages).toStrictEqual(files)
-  })
-
-  it('Set a repository', () => {
-    const submissionStore = useSubmissionStore()
-    const repository: EntityModelRepositoryDto =
-      packages.data.content[0].repository
-
-    submissionStore.setRepository(repository)
-
-    expect(submissionStore.repository).toMatchObject(
-      repository
-    )
-  })
-
-  it('Fetch submissions', async () => {
-    const submissionStore = useSubmissionStore()
-
-    await submissionStore.getPage()
-
-    expect(submissionStore.submissions).toStrictEqual(
-      submissions.data.content
-    )
-  })
-
-  it('Get replace default value', () => {
-    const submissionStore = useSubmissionStore()
-    expect(
-      submissionStore.getReplaceForPackage(files[0])
-    ).toBeFalsy()
-  })
-
-  it('Get generate manual for random R', () => {
-    const submissionStore = useSubmissionStore()
-    submissionStore.repository = { technology: 'R' }
-    expect(
-      submissionStore.getGenerateManualForPackage(files[0])
-    ).toBeFalsy()
-  })
-
-  it('Update submissions', async () => {
-    const submissionStore = useSubmissionStore()
-    const spy = vi.spyOn(submissionStore, 'getPage')
-    const submission = deepCopyAny(
-      submissions.data.content[0]
-    )
-
-    await submissionStore.patch(submission, {
-      state: EntityModelSubmissionDtoStateEnum.CANCELLED
-    })
-
-    expect(spy).toBeCalled()
-    expect(submissionStore.submissions).toStrictEqual(
-      submissions.data.content
-    )
   })
 })
 

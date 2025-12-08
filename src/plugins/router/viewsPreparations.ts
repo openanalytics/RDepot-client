@@ -27,13 +27,6 @@ import { usePackageMaintainersStore } from '@/store/options/packageMaintainers'
 import { usePackagesStore } from '@/store/options/packages'
 import { useSubmissionStore } from '@/store/options/submission'
 
-export function prepareUploadPackagesView() {
-  const submissionStore = useSubmissionStore()
-  submissionStore.updateStepperKey()
-  submissionStore.repository = undefined
-  submissionStore.packages = []
-}
-
 export function preparePackagesView() {
   const packagesStore = usePackagesStore()
   const { resetRepositoriesPagination } =
@@ -42,6 +35,12 @@ export function preparePackagesView() {
     usePackageMaintainersFiltration()
   packagesStore.pending = []
   resetPaginationMaintainers()
+  resetRepositoriesPagination()
+}
+
+export function prepareEventsView() {
+  const { resetRepositoriesPagination } =
+    useRepositoriesFiltration()
   resetRepositoriesPagination()
 }
 
@@ -66,4 +65,14 @@ export function prepareRepositoriesView() {
   const { resetPaginationMaintainers } =
     useRepositoryMaintainersFiltration()
   resetPaginationMaintainers()
+}
+
+export function pageNotFoundPreparation(path: string) {
+  if (
+    path.startsWith('/auth') ||
+    path.startsWith('/logout')
+  ) {
+    return false
+  }
+  return true
 }

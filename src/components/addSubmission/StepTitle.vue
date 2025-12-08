@@ -27,10 +27,10 @@
       :key="index"
       :dot-color="
         e1 === index + 1
-          ? 'oablue-lighten-2'
+          ? 'primary-lighten-2'
           : e1 > index + 1
-            ? 'oablue'
-            : 'oablue-darken-2'
+            ? 'primary'
+            : 'primary-darken-2'
       "
       :size="e1 !== index + 1 ? 'small' : 'default'"
     >
@@ -61,25 +61,27 @@
 
 <script setup lang="ts">
 import { i18n } from '@/plugins/i18n'
-import { useSubmissionStore } from '@/store/options/submission'
 import { computed } from 'vue'
 
-defineProps({
+const componentProps = defineProps({
   e1: {
     type: Number,
     required: true
+  },
+  technology: {
+    type: String,
+    required: false,
+    default: ''
   }
 })
 
-const submissionsStore = useSubmissionStore()
-
 const steps = computed(() => {
   return [
-    i18n.t('addSubmission.step1Title'),
-    i18n.t('addSubmission.step2Title', [
-      submissionsStore.repository?.technology
-    ]),
-    i18n.t('addSubmission.step3Title')
+    i18n.t('forms.submissions.stepFirst'),
+    i18n.t('forms.submissions.stepSecond', {
+      technology: componentProps.technology
+    }),
+    i18n.t('forms.submissions.stepThird')
   ]
 })
 </script>

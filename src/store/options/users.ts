@@ -49,6 +49,7 @@ interface State {
   loading: boolean
   totalNumber: number
   tableOptions?: DataTableOptions
+  localOptions: DataTableOptions
 }
 
 export const useUserStore = defineStore('userStore', {
@@ -63,7 +64,12 @@ export const useUserStore = defineStore('userStore', {
       roles: [],
       loading: false,
       totalNumber: 0,
-      tableOptions: undefined
+      tableOptions: undefined,
+      localOptions: {
+        itemsPerPage: -1,
+        page: -1,
+        sortBy: []
+      }
     }
   },
   getters: {
@@ -114,18 +120,22 @@ export const useUserStore = defineStore('userStore', {
         this.roles = roles
       }
     },
-    async save(newUser: EntityModelUserDto) {
+    async save(newUser: EntityModelUserDto, fetch = true) {
       this.pending.push(this.chosenUser)
-      await updateUser(this.chosenUser, newUser)
-        .then(() => {
+      try {
+        const response = await updateUser(
+          this.chosenUser,
+          newUser
+        )
+        if (fetch) {
           this.getPage()
-        })
-        .finally(() => {
-          console.log('finally')
-          this.pending = this.pending.filter(
-            (item) => item.id != this.chosenUser.id
-          )
-        })
+        }
+        return response
+      } finally {
+        this.pending = this.pending.filter(
+          (item) => item.id != this.chosenUser.id
+        )
+      }
     },
     async setFiltration(payload: UsersFiltration) {
       if (UsersFiltration.safeParse(payload).success) {

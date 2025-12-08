@@ -20,20 +20,23 @@
  *
  */
 
-import { test, expect } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 import {
   EDIT_REPOSITORY_HASH_METHOD_FIELD_ID,
+  EDIT_REPOSITORY_NAME_FIELD_ID,
+  EDIT_REPOSITORY_NAME_FIELD_MESSAGES_ID,
+  EDIT_REPOSITORY_PUBLICATION_URI_FIELD_ID,
+  EDIT_REPOSITORY_SERVER_ADDRESS_ALERT,
+  EDIT_REPOSITORY_SERVER_ADDRESS_FIELD_ID,
   EDIT_REPOSITORY_SUBMIT_ID,
   EDIT_REPOSITORY_TESTREPO8_ICON_ID,
   REPOSITORIES_LIST_PYTHON_REPO_ID,
   REPOSITORIES_SIDEBAR_ID,
-  EDIT_REPOSITORY_SERVER_ADDRESS_ALERT,
-  EDIT_REPOSITORY_SERVER_ADDRESS_FIELD_ID,
-  REPOSITORY_DESCRIPTION_HASH_METHOD_ID,
-  EDIT_REPOSITORY_PUBLICATION_URI_FIELD_ID
+  REPOSITORY_DESCRIPTION_HASH_METHOD_ID
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '../helpers/login'
 import { restoreData } from '@/__tests__/end-to-end/helpers/restoreData'
+import { i18n } from '@/plugins/i18n'
 
 // eslint-disable-next-line no-empty-pattern
 test.beforeAll(async ({}, testInfo) => {
@@ -196,5 +199,38 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     await expect(
       repositoryNewHashMethodSelector
     ).toHaveCount(1)
+  })
+
+  test('edit repository name validation', async ({
+    page
+  }) => {
+    await login(page, 'einstein')
+    await page
+      .locator(`#${REPOSITORIES_SIDEBAR_ID}`)
+      .click()
+    await page.waitForURL('**/repositories')
+    await expect(page).toHaveTitle(/RDepot - repositories/)
+
+    await page
+      .locator(`#${EDIT_REPOSITORY_TESTREPO8_ICON_ID}`)
+      .click()
+
+    const nameError = page.locator(
+      `#${EDIT_REPOSITORY_NAME_FIELD_MESSAGES_ID}`
+    )
+    await expect(nameError).toHaveText('')
+
+    await page
+      .locator(`#${EDIT_REPOSITORY_NAME_FIELD_ID}`)
+      .fill('!@#$')
+    await expect(nameError).toHaveText(
+      i18n.t('messages.errors.reponame')
+    )
+
+    await page
+      .locator(`#${EDIT_REPOSITORY_NAME_FIELD_ID}`)
+      .fill('test123')
+
+    await expect(nameError).toHaveText('')
   })
 })

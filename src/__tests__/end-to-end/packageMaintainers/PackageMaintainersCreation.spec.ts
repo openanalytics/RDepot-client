@@ -171,7 +171,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
       page.locator(
         `#${CREATE_PACKAGE_MAINTAINER_SUBMIT_ID}`
       )
-    ).toBeDisabled()
+    ).toHaveClass(/text-grey/)
   })
 
   test('should display proper error messages', async ({
@@ -212,7 +212,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
       await packageInputMessagesSelector.textContent()
     ).toContain(
       i18n.t(
-        'maintainers.createForm.disabledPackageMessage'
+        'forms.packageMaintainers.hints.disabledPackageMessage'
       )
     )
 
@@ -262,7 +262,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     await repoInputMessagesSelector.waitFor()
     expect(
       await repoInputMessagesSelector.textContent()
-    ).toContain(i18n.t('common.errors.required'))
+    ).toContain(i18n.t('messages.errors.required'))
 
     await repoInputSelector.click({ force: true })
     await testRepo3Option.waitFor()
@@ -288,7 +288,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     await packageInputMessagesSelector.waitFor()
     expect(
       await packageInputMessagesSelector.textContent()
-    ).toContain(i18n.t('common.errors.required'))
+    ).toContain(i18n.t('messages.errors.required'))
 
     await packageInputSelector.click({ force: true })
     await a3Testrepo3Option.waitFor()
@@ -306,7 +306,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
       page.locator(
         `#${CREATE_PACKAGE_MAINTAINER_SUBMIT_ID}`
       )
-    ).toBeDisabled()
+    ).toHaveClass(/text-grey/)
 
     const userInputMessagesSelector =
       page.locator(`#${CREATE_PACKAGE_MAINTAINER_USER_INPUT_MESSAGES_ID} 
@@ -315,6 +315,6 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     await userInputMessagesSelector.waitFor()
     expect(
       await userInputMessagesSelector.textContent()
-    ).toContain(i18n.t('common.errors.required'))
+    ).toContain(i18n.t('messages.errors.required'))
   })
 })

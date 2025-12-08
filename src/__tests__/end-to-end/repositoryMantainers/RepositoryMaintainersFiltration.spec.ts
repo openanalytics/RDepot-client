@@ -23,7 +23,10 @@
 import { test, expect } from '@playwright/test'
 import {
   REPOSITORY_MAINTAINERS_FILTRATION_DELETED_FIELD_ID,
-  REPOSITORY_MAINTAINERS_SIDEBAR_ID
+  REPOSITORY_MAINTAINERS_FILTRATION_SEARCH_FIELD_ID,
+  REPOSITORY_MAINTAINERS_FILTRATION_TECHNOLOGY_FIELD_ID,
+  REPOSITORY_MAINTAINERS_SIDEBAR_ID,
+  FILTRATION_RESET_BUTTON_ID
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '../helpers/login'
 
@@ -50,8 +53,8 @@ test.describe(TITLE, () => {
       )
       .click()
 
-    await expect(maintainersRowsSelector).toHaveCount(2)
-    await expect(maintainerDeletedSelector).toHaveCount(1)
+    await expect(maintainersRowsSelector).toHaveCount(6)
+    await expect(maintainerDeletedSelector).toHaveCount(0)
 
     await page
       .locator(
@@ -68,7 +71,140 @@ test.describe(TITLE, () => {
       )
       .click()
 
+    await expect(maintainersRowsSelector).toHaveCount(2)
+    await expect(maintainerDeletedSelector).toHaveCount(1)
+  })
+
+  test('reset button', async ({ page }) => {
+    await login(page, 'einstein')
+    await page
+      .locator(`#${REPOSITORY_MAINTAINERS_SIDEBAR_ID}`)
+      .click()
+    await page.waitForURL('**/repository-maintainers')
+    const maintainersRowsSelector = page.locator('role=row')
+    await expect(maintainersRowsSelector).toHaveCount(7)
+
+    await expect(
+      page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
+    ).toBeHidden()
+    await page
+      .locator(
+        `#${REPOSITORY_MAINTAINERS_FILTRATION_DELETED_FIELD_ID}`
+      )
+      .click()
+    await expect(
+      page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
+    ).toBeVisible()
+
     await expect(maintainersRowsSelector).toHaveCount(6)
-    await expect(maintainerDeletedSelector).toHaveCount(0)
+
+    await page
+      .locator(`#${FILTRATION_RESET_BUTTON_ID}`)
+      .click()
+
+    await expect(
+      page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
+    ).toBeHidden()
+
+    await expect(maintainersRowsSelector).toHaveCount(7)
+  })
+
+  test('should check filtration fields before and after reset', async ({
+    page
+  }) => {
+    await login(page, 'einstein')
+    await page
+      .locator(`#${REPOSITORY_MAINTAINERS_SIDEBAR_ID}`)
+      .click()
+    await page.waitForURL('**/repository-maintainers')
+    await expect(page).toHaveTitle(
+      /RDepot - repository maintainers/
+    )
+    const maintainersRowsSelector = page.locator('role=row')
+
+    await expect(
+      page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
+    ).toBeHidden()
+    await expect(maintainersRowsSelector).toHaveCount(7)
+
+    const searchValue = await page.locator(
+      `#${REPOSITORY_MAINTAINERS_FILTRATION_SEARCH_FIELD_ID}`
+    )
+    const deletedValue = await page.locator(
+      `#${REPOSITORY_MAINTAINERS_FILTRATION_DELETED_FIELD_ID}`
+    )
+    const technologyValue = await page.locator(
+      `#${REPOSITORY_MAINTAINERS_FILTRATION_TECHNOLOGY_FIELD_ID}`
+    )
+
+    await expect(await searchValue.inputValue()).toBe('')
+    await expect(await deletedValue.inputValue()).toBe(
+      'true'
+    )
+    await expect(await technologyValue.inputValue()).toBe(
+      ''
+    )
+
+    await technologyValue.waitFor()
+    await technologyValue.click({ force: true })
+
+    await page.getByRole('option', { name: 'R' }).click()
+
+    await page
+      .locator(
+        `#${REPOSITORY_MAINTAINERS_FILTRATION_SEARCH_FIELD_ID}`
+      )
+      .fill('Tesla')
+
+    await expect(
+      page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
+    ).toBeVisible()
+    await expect(maintainersRowsSelector).toHaveCount(4)
+    await expect(await searchValue.inputValue()).toBe(
+      'Tesla'
+    )
+    await expect(await technologyValue.inputValue()).toBe(
+      'R'
+    )
+
+    await page
+      .locator(`#${FILTRATION_RESET_BUTTON_ID}`)
+      .click()
+
+    await expect(
+      page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
+    ).toBeHidden()
+    await expect(maintainersRowsSelector).toHaveCount(7)
+
+    await expect(await searchValue.inputValue()).toBe('')
+    await expect(await technologyValue.inputValue()).toBe(
+      ''
+    )
+  })
+
+  test('displays no data available text', async ({
+    page
+  }) => {
+    await login(page, 'einstein')
+
+    await page
+      .locator(`#${REPOSITORY_MAINTAINERS_SIDEBAR_ID}`)
+      .click()
+    await page.waitForURL('**/repository-maintainers')
+
+    const maintainersRowsSelector = page.locator('role=row')
+    await expect(maintainersRowsSelector).toHaveCount(7)
+
+    await page
+      .locator(
+        `#${REPOSITORY_MAINTAINERS_FILTRATION_SEARCH_FIELD_ID}`
+      )
+      .fill('aaaaaaaaaa')
+    await expect(maintainersRowsSelector).toHaveCount(2)
+    await expect(
+      await page
+        .locator('.v-data-table__tbody')
+        .textContent()
+    ).toContain('No data available')
   })
 })

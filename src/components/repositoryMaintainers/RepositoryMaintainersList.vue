@@ -28,8 +28,9 @@
     item-value="id"
     :loading="repositoryMaintainersStore.loading"
     :sort-by="sortBy"
-    :title="i18n.t('repositories.maintainers')"
+    :title="i18n.t('resources.repositoryMaintainer', 2)"
     @update:options="fetchData"
+    @refresh="fetchData"
   >
     <template #topAction>
       <AddMaintainerButton v-if="postCondition" />
@@ -42,30 +43,37 @@
       >
         <EditIcon
           :disabled="!canPatch(item.links) || item.deleted"
-          :text="i18n.t('maintainers.edit')"
           :hover-message="
             item.deleted
-              ? i18n.t('maintainers.deleted')
-              : undefined
+              ? i18n.t('messages.general.deleted', {
+                  resource_name: i18n.t(
+                    'resources.repositoryMaintainer'
+                  )
+                })
+              : i18n.t('actions.general.edit')
           "
           :icon-id="`edit-repository-maintainer-${item.user?.name?.replace(
             ' ',
             '-'
           )}-${item.repository?.name}`"
-          @set-entity="setEditMaintainer(item)"
+          @set-entity="prepareEdition(item)"
         >
         </EditIcon>
 
-        <delete-icon
+        <DeleteIcon
           v-if="item.user?.name"
           :disabled="!canDelete(item.links) || item.deleted"
           :name="item.user?.name"
           :hover-message="
             item.deleted
-              ? i18n.t('maintainers.deleted')
+              ? i18n.t('messages.general.deleted', {
+                  resource_name: i18n.t(
+                    'resources.repositoryMaintainer'
+                  )
+                })
               : undefined
           "
-          @set-resource-id="setEditMaintainer(item)"
+          @set-resource-id="prepareDeletion(item)"
         /> </span
     ></template>
   </OATable>
@@ -81,15 +89,19 @@ import {
   Sort
 } from '@/models/DataTableOptions'
 import { i18n } from '@/plugins/i18n'
-import { EntityModelRepositoryMaintainerDto } from '@/openapi'
+import {
+  EntityModelPackageMaintainerDto,
+  EntityModelRepositoryMaintainerDto
+} from '@/openapi'
 import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useSort } from '@/composable/sort'
 import { useAuthorizationStore } from '@/store/options/authorization'
 import AddMaintainerButton from '@/components/common/buttons/AddMaintainerButton.vue'
-import { computed } from 'vue'
 import ProgressCircularSmall from '../common/progress/ProgressCircularSmall.vue'
 import OATable from '../common/datatable/OATable.vue'
+import { OverlayEnum } from '@/enum/Overlay.ts'
+import { useCommonStore } from '@/store/options/common.ts'
 
 const repositoryMaintainersStore =
   useRepositoryMaintainersStore()
@@ -106,30 +118,26 @@ const postCondition = computed(() =>
 
 const headers = computed<DataTableHeaders[]>(() => [
   {
-    title: i18n.t('columns.repositoryMaintainer.name'),
+    title: i18n.t('forms.general.name'),
     align: 'start',
     key: 'user',
     value: 'user.name',
     width: 200
   },
   {
-    title: i18n.t(
-      'columns.repositoryMaintainer.repository'
-    ),
+    title: i18n.t('resources.repository'),
     value: 'repository.name',
     align: 'start',
     key: 'repository'
   },
   {
-    title: i18n.t(
-      'columns.repositoryMaintainer.technology'
-    ),
+    title: i18n.t('resources.technology'),
     align: 'center',
     key: 'repository.technology',
     width: 130
   },
   {
-    title: i18n.t('columns.actions'),
+    title: i18n.t('fields.general.actions'),
     align: 'center',
     key: 'actions',
     width: 50,
@@ -137,15 +145,17 @@ const headers = computed<DataTableHeaders[]>(() => [
   }
 ])
 
-function fetchData(options: DataTableOptions) {
-  sortBy.value = getSort(options.sortBy, defaultSort)
-  repositoryMaintainersStore.getPage(options)
-}
-
-function setEditMaintainer(
-  item: EntityModelRepositoryMaintainerDto
-) {
-  repositoryMaintainersStore.chosenMaintainer = item
+function fetchData(options?: DataTableOptions) {
+  if (options) {
+    repositoryMaintainersStore.localOptions = options
+  }
+  sortBy.value = getSort(
+    repositoryMaintainersStore.localOptions.sortBy,
+    defaultSort
+  )
+  repositoryMaintainersStore.getPage(
+    repositoryMaintainersStore.localOptions
+  )
 }
 
 function isPending(
@@ -154,5 +164,28 @@ function isPending(
   return !!repositoryMaintainersStore.pending.find(
     (maintainer) => maintainer.id == item.id
   )
+}
+
+const commonStore = useCommonStore()
+
+async function prepareEdition(
+  item: EntityModelPackageMaintainerDto
+) {
+  repositoryMaintainersStore.chosenMaintainer = item
+  commonStore.overlayText = i18n.t('actions.general.edit')
+  commonStore.openOverlay(OverlayEnum.enum.Edit)
+}
+
+async function prepareDeletion(
+  item: EntityModelPackageMaintainerDto
+) {
+  repositoryMaintainersStore.chosenMaintainer = item
+  commonStore.overlayText = i18n.t(
+    'messages.general.deleteQuestion',
+    {
+      resource_name: item.user?.name
+    }
+  )
+  commonStore.openOverlay(OverlayEnum.enum.Delete)
 }
 </script>

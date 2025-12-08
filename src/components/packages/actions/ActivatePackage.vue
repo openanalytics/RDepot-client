@@ -74,7 +74,7 @@ const isPending = computed(
 )
 
 const color = computed(() =>
-  !canPatch(packageBag.value.links) ? 'grey' : 'oablue'
+  !canPatch(packageBag.value.links) ? 'grey' : 'primary'
 )
 
 const disabled = computed(
@@ -83,13 +83,16 @@ const disabled = computed(
 
 const onHoverMessage = computed(() => {
   if (!canPatch(packageBag.value.links))
-    return i18n.t('common.notAuthorized')
+    return i18n.t('messages.general.notAuthorized')
   if (packageBag.value.deleted)
-    return i18n.t('packages.deleted')
-  if (isPending.value) return i18n.t('common.pending')
+    return i18n.t('messages.general.deleted', {
+      resource_name: 'package'
+    })
+  if (isPending.value)
+    return i18n.t('messages.general.pending')
   if (packageBag.value.active)
-    return i18n.t('common.deactivate')
-  return i18n.t('common.activate')
+    return i18n.t('actions.general.deactivate')
+  return i18n.t('actions.general.activate')
 })
 
 function updatePackageActive() {

@@ -27,12 +27,12 @@
     :title="packageDetailsStore.packageBag?.license"
   >
     <v-card-subtitle class="pb-3">
-      license
+      {{ $t('properties.packages.license') }}
       <v-icon
         id="repository-description-publication-status"
         icon="mdi-license"
         size="15"
-        color="oablue"
+        color="primary"
       ></v-icon>
     </v-card-subtitle>
   </v-card>

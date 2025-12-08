@@ -36,7 +36,9 @@ export function useEnumFiltration() {
     Object.values(EntityModelSubmissionDtoStateEnum).map(
       (state) => {
         return {
-          title: i18n.t('states.' + state.toLowerCase()),
+          title: i18n.t(
+            'properties.submissions.' + state.toLowerCase()
+          ),
           value: state
         }
       }
@@ -47,60 +49,60 @@ export function useEnumFiltration() {
 
   const resourceTypes = computed(() => [
     {
-      title: i18n.t('resourceType.package'),
+      title: i18n.t('resources.package'),
       value: 'package'
     },
     {
-      title: i18n.t('resourceType.repository'),
+      title: i18n.t('resources.repository'),
       value: 'repository'
     },
-    { title: i18n.t('resourceType.user'), value: 'user' },
+    { title: i18n.t('resources.user'), value: 'user' },
     {
-      title: i18n.t('resourceType.submission'),
+      title: i18n.t('resources.submission'),
       value: 'submission'
     },
     {
-      title: i18n.t('resourceType.packageMaintainer'),
+      title: i18n.t('resources.packageMaintainer'),
       value: 'packageMaintainer'
     },
     {
-      title: i18n.t('resourceType.repositoryMaintainer'),
+      title: i18n.t('resources.repositoryMaintainer'),
       value: 'repositoryMaintainer'
     },
     {
-      title: i18n.t('resourceType.accessToken'),
+      title: i18n.t('resources.token'),
       value: 'accessToken'
     }
   ])
 
   const roles = computed(() => [
-    { title: i18n.t('role.admin'), value: 'admin' },
-    { title: i18n.t('resourceType.user'), value: 'user' },
+    { title: i18n.t('resources.admin'), value: 'admin' },
+    { title: i18n.t('resources.user'), value: 'user' },
     {
-      title: i18n.t('resourceType.packageMaintainer'),
+      title: i18n.t('resources.packageMaintainer'),
       value: 'packagemaintainer'
     },
     {
-      title: i18n.t('resourceType.repositoryMaintainer'),
+      title: i18n.t('resources.repositoryMaintainer'),
       value: 'repositorymaintainer'
     }
   ])
 
   const eventTypes = computed(() => [
     {
-      title: i18n.t('eventTypes.create'),
+      title: i18n.t('properties.events.type.create'),
       value: 'create'
     },
     {
-      title: i18n.t('eventTypes.update'),
+      title: i18n.t('properties.events.type.update'),
       value: 'update'
     },
     {
-      title: i18n.t('eventTypes.delete'),
+      title: i18n.t('properties.events.type.delete'),
       value: 'delete'
     },
     {
-      title: i18n.t('eventTypes.upload'),
+      title: i18n.t('properties.events.type.upload'),
       value: 'upload'
     }
   ])

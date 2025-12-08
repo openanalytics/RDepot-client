@@ -43,7 +43,8 @@
         <UrlValue
           v-if="item.hideValue != true"
           :to-parse-value="
-            item.value || $t('package.propertyNotProvided')
+            item.value ||
+            $t('messages.packages.propertyNotProvided')
           "
           :style="{ lineBreak: item.breakLine }"
         />
@@ -100,7 +101,7 @@ function clicked(property: Property) {
   if (property.copyable && property.appendIconTooltip)
     copyText(
       property.appendIconTooltip,
-      i18n.t('common.copiedMessage')
+      i18n.t('messages.general.copied')
     )
 }
 </script>

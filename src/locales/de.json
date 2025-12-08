@@ -1,0 +1,450 @@
+{
+  "actions": {
+    "settings": {
+      "theme": "Theme",
+      "themes": {
+        "dark": "dunkel",
+        "light": "hell"
+      },
+      "changeLanguage": "Sprache ändern",
+      "changeTheme": "Theme ändern",
+      "language": "Sprache"
+    },
+    "submissions": {
+      "noNotes": "keine Anmerkungen",
+      "showNotes": "Anmerkungen zeigen"
+    },
+    "general": {
+      "cancel": "Abbrechen",
+      "accept": "Akzeptieren",
+      "clear": "Alles löschen",
+      "click": "Klicken Sie",
+      "copy": "kopieren",
+      "create": "erstellen",
+      "createResource": "{resource_type} erstellen",
+      "deactivate": "deaktivieren | {resource_type} deaktivieren",
+      "delete": "löschen",
+      "download": "herunterladen",
+      "edit": "bearbeiten",
+      "goBack": "zurück",
+      "goTo": "Details {resource_type} anschauen",
+      "install": "installieren",
+      "login": "anmelden",
+      "logout": "abmelden",
+      "ok": "OK",
+      "open": "In einem neuen Tab öffnen",
+      "or": "oder",
+      "reject": "ablehnen",
+      "reset": "zurücksetzen",
+      "save": "speichern",
+      "uploadPackages": "Pakete hochladen",
+      "continue": "weiter",
+      "activate": "Aktivieren | {resource_type} aktivieren",
+      "editResource": "{resource_type} bearbeiten",
+      "submit": "Bestätigen",
+      "unset": "aufheben",
+      "refresh": "Aktualisieren"
+    },
+    "repositories": {
+      "publish": "veröffentlichen",
+      "republish": "neu veröffentlichen",
+      "seePackages": "siehe Pakete des Repositorys",
+      "unpublish": "unveröffentlichen",
+      "goTo": "Pakete anzeigen"
+    }
+  },
+  "datatable": {
+    "itemsPerPage": "Items pro Seite",
+    "noDataAvailable": "keine Daten verfügbar",
+    "size": "Items pro Seite (Paginierung)"
+  },
+  "dragZone": {
+    "click": "um sie manuell auszuwählen",
+    "inactive": "legen Sie Dateien ab zum Hochladen",
+    "active": "ziehen Sie eine oder mehrere Dateien hierher",
+    "dropzone": "Ablegefeld"
+  },
+  "fields": {
+    "files": {
+      "architecture": "Architektur",
+      "binary": "binär",
+      "distribution": "Distribution",
+      "generateManual": "erstellen Sie eine Anleitung",
+      "notes": "Anmerkungen",
+      "replace": "ersetzen",
+      "rVersion": "R Version"
+    },
+    "general": {
+      "actions": "Handlungen",
+      "createdOn": "erstellt am",
+      "date": "Datum",
+      "deleted": "gelöscht"
+    },
+    "packages": {
+      "fileType": "Typ",
+      "source": "Quelle",
+      "submissionState": "Status"
+    },
+    "repositories": {
+      "publicationUri": "URI Veröffentlichung",
+      "published": "Veröffentlicht",
+      "synchronizing": "Synchronisiert",
+      "serverAddress": "Serveradresse"
+    },
+    "submissions": {
+      "approver": "Genehmiger",
+      "submitter": "Einreicher",
+      "author": "Verfasser"
+    },
+    "tokens": {
+      "expirationDate": "Ablaufdatum",
+      "lastUsed": "zuletzt benutzt"
+    },
+    "users": {
+      "email": "E-Mail",
+      "lastLoggedIn": "zuletzt angemeldet",
+      "name": "Anzeigename",
+      "role": "Rolle | Rollen",
+      "username": "Benutzername"
+    }
+  },
+  "filtration": {
+    "events": {
+      "noEvents": "keine Ereignisse verfügbar",
+      "resourceType": "Ressourcenart",
+      "eventType": "Ereignisart"
+    },
+    "general": {
+      "fromDate": "Datum von",
+      "searchPlaceholder": "suchen",
+      "title": "Filterung",
+      "toDate": "Datum bis"
+    },
+    "tokens": {
+      "expired": "abgelaufen",
+      "userLogin": "Benutzer"
+    }
+  },
+  "forms": {
+    "authorization": {
+      "errors": {
+        "usernameError": "Name ist erforderlich",
+        "passwordError": "Passwort ist erforderlich"
+      },
+      "password": "Passwort",
+      "username": "Anmelden"
+    },
+    "general": {
+      "name": "Name"
+    },
+    "packageMaintainers": {
+      "hints": {
+        "disabledPackageMessage": "Wählen Sie einen Benutzer und ein Repository zur Aktivierung",
+        "disclaimerPackages": "Nur Benutzer mit mindestens Paket-Maintainer Rolle verfügbar."
+      }
+    },
+    "repositories": {
+      "errors": {
+        "duplicateName": "Name des Repositorys ist bereits vergeben"
+      },
+      "hash": "Hash-Methode",
+      "hints": {
+        "deprecatedAddress": "Eine Serveradresse ohne Technologie als Teil des Pfades ist veraltet und wird in RDepot v3.0 nicht mehr unterstützt. Bitte verwenden Sie stattdessen {address}."
+      },
+      "redirectToSource": "zur Quelle umleiten",
+      "requiresAuthentication": "Authentifizierung nötig"
+    },
+    "repositoryMaintainers": {
+      "hints": {
+        "disabledPackageMessage": "wählen Sie einen Benutzer und ein Repository zur Aktivierung",
+        "disabledRepositoryMessage": "wählen Sie einen Benutzer zur Aktivierung",
+        "disclaimer": "Nur Benutzer mit mindestens der Maintainer-Rolle des Repository verfügbar."
+      }
+    },
+    "submissions": {
+      "binary": "Binärdatei",
+      "generateManual": "Anleitung erstellen",
+      "stepFirst": "Repository wählen",
+      "stepSecond": "{technology} Pakete hochladen",
+      "stepThird": "Übersicht",
+      "generateManualNotAvailable": "nicht verfügbar für binäre Pakete",
+      "binaryPython": "Hochgeladenes Paket ist binär (.whl)",
+      "noBinaryPython": "Hochgeladenes Paket ist nicht binär"
+    },
+    "tokens": {
+      "deactivateQuestion": "Sind Sie sicher, dass Sie das Token <strong>{0}</strong> deaktivieren möchten?",
+      "deactivated": "Token deaktiviert",
+      "delete": "Token löschen",
+      "deleted": "Token gelöscht",
+      "edit": "Token-Name anpassen",
+      "edited": "Token angepasst",
+      "newToken": "Neues Zugriffstoken",
+      "notConfigurableExpirationDate": "Laufzeit Zugriffstoken ist nicht konfigurierbar",
+      "copyWarning": "Achten Sie darauf, dass Sie das Zugriffstoken jetzt kopieren. Sie werden es danach nicht mehr sehen können!"
+    }
+  },
+  "messages": {
+    "authorization": {
+      "error": "Anmeldung fehlgeschlagen",
+      "loggedIn": "angemeldet",
+      "notLoggedIn": "nicht angemeldet",
+      "oidc": "Anmeldung über OIDC",
+      "success": "Anmeldung erfolgreich"
+    },
+    "config": {
+      "deletingRepositories": "Das Löschen von Repositorys ist in der Konfiguration deaktiviert",
+      "deletingPackages": "Das Löschen von Paketen ist in der Konfiguration deaktiviert"
+    },
+    "errors": {
+      "401": "Diese Anfrage kann nicht ausgeführt werden, da der Benutzer nicht authentifiziert ist.",
+      "403": "Diese Anfrage kann nicht ausgeführt werden, da der Benutzer nicht berechtigt ist",
+      "405": "Es scheint ein Konfigurationsproblem im Back-End zu geben. Bitte wenden Sie sich an Ihren Administrator, um es zu beheben.",
+      "422": "Validierung fehlgeschlagen",
+      "500": "interner Serverfehler",
+      "notDownloaded": "nicht heruntergeladen",
+      "notEdited": "nicht bearbeitet",
+      "copyFailed": "Kopie fehlgeschlagen",
+      "email": "Dies sollte eine E-Mail sein",
+      "invalidForm": "Das Formular ist nicht gültig",
+      "message": {
+        "500": "Es tut uns leid, etwas ist schief gelaufen! Bitte leiten Sie diese Nachricht an einen RDepot Administrator weiter.\n\nTrace ID:\n{traceId}\n\nZeitstempel:\n{timestamp}"
+      },
+      "oauth": "oauth Fehler",
+      "notMutable": "Kann nicht {actionType} werden da es bereits {currentState} worden ist",
+      "404": "Die Seite die Sie suchen besteht nicht.",
+      "formNotChanged": "Das Formular ist nicht geändert worden",
+      "oauthTitle": "Berechtigung",
+      "pageNotFound": "404 - Seite Nicht Gefunden",
+      "reponame": "Eingabe enthält ungültige Zeichen. Benutzen Sie bitte nur erlaubte Zeichen.",
+      "required": "Dieses Feld ist erforderlich",
+      "url": "Dies sollte ein URL sein",
+      "manual": {
+        "notFound": "Anleitung nicht gefunden"
+      }
+    },
+    "general": {
+      "deactivateQuestion": "Sind Sie sicher, dass Sie {resource_name} deaktivieren möchten?",
+      "editResourceQuestion": "Sind Sie sicher, dass Sie den folgenden {resource_type} {edit_action} möchten?",
+      "chooseOneToEnable": "mindestens ein {resource_type} wählen um zu ermöglichen",
+      "chooseOneToContinue": "Bitte {resource_type} hinzufügen um fortzufahren",
+      "copied": "In die Zwischenablage kopiert",
+      "deleteQuestion": "Sind Sie sicher, dass Sie {resource_name} löschen möchten?",
+      "deleteResourcesQuestion": "Sind Sie sicher, dass die den folgenden {resource_type} löschen möchten?",
+      "deleted": "Dieser {resource_name} ist gelöscht",
+      "goToDisabled": "Kann nicht zu den Details gehen",
+      "noDataAvailable": "Keine Daten verfügbar",
+      "notAuthorized": "Sind sind nicht berechtigt die Aktion auszuführen",
+      "pending": "ausstehende Aktion",
+      "success": "Anfrage erfolgreich verarbeitet",
+      "successFiltration": "Filteraktion erfolgreich"
+    },
+    "repositories": {
+      "republishQuestion": "Sind Sie sicher, dass Sie {repo_name} neu veröffentlichen möchten?",
+      "authenticationNotRequiredTooltip": "Dieses Repository erfordert keine Authentifizierung während der Paketinstallation",
+      "authenticationRequiredTooltip": "Dieses Repository erfordert Authentifizierung während der Paketinstallation",
+      "declarative": {
+        "create": "Die Aktion Erstellen ist im deklarativen Modus deaktiviert",
+        "delete": "Die Aktion Löschen ist im deklarativen Modus deaktiviert",
+        "edit": "Die Aktion Anpassen ist im deklarativen Modus deaktiviert",
+        "publish": "Die Aktion Veröffentlichen ist im deklarativen Modus deaktiviert ",
+        "republish": "Die erneute Veröffentlichung ist im deklarativen Modus deaktiviert"
+      },
+      "deprecatedAddressTooltip": "Eine Serveradresse, deren Pfad keine Technologie enthält, ist veraltet und wird in RDepot v3.0 nicht mehr unterstützt",
+      "notPublished": "Repository ist noch nicht veröffentlicht"
+    },
+    "notifications": {
+      "events": {
+        "state": {
+          "cancelled": "abgebrochen",
+          "accepted": "akzeptiert",
+          "rejected": "abgelehnt"
+        },
+        "active": {
+          "false": "deaktiviert",
+          "true": "aktiviert"
+        },
+        "published": {
+          "false": "unveröffentlicht",
+          "true": "veröffentlicht"
+        },
+        "updated": "aktualisiert",
+        "upload": "hochgeladen",
+        "create": "erstellt"
+      },
+      "alreadySeen": "bereits gesehen",
+      "seeAll": "alle Ereignisse sehen",
+      "title": "Meldungen",
+      "upToDate": "bereits auf dem neuesten Stand"
+    },
+    "filtration": {
+      "makeSure": "Diese Aktion wird alle Filter löschen"
+    },
+    "packages": {
+      "noDescriptionProvided": "Keine Beschreibung gegeben",
+      "propertyNotProvided": "nicht gegeben"
+    },
+    "submissions": {
+      "warnings": {
+        "upload": {
+          "warning": "Einige hochgeladene Einreichungen enthielten Warnungen. Details finden Sie in den einzelnen Einreichungen"
+        },
+        "warning": {
+          "package": {
+            "duplicate": "Ein Paket mit demselben Namen und derselben Version ist bereits im ausgewählten Repository vorhanden. Bitte wiederholen Sie den Upload-Vorgang und klicken Sie auf 'Ersetzen', um es zu überschreiben."
+          },
+          "replacing": {
+            "packages": {
+              "disabled": "Das Ersetzen von Paketen ist deaktiviert."
+            }
+          },
+          "synchronization": {
+            "failure": "Ein Fehler bei der Repository-Synchronisierung ist aufgetreten. Bitte versuchen Sie erneut, das Paket hochzuladen."
+          },
+          "unknown": "Unbekannter Fehler. Bitte versuchen Sie es erneut."
+        },
+        "noSubmissionAvailable": "Keine gültigen Einreichungen ausgewählt",
+        "onSubmissionAvailableText": "Sie haben keine gültigen Einreichungen für {actionType} ausgewählt. Bitte wählen Sie andere Einreichungen aus und versuchen Sie es erneut.",
+        "replace": {
+          "duplication": "Ein Paket mit demselben Namen und derselben Version ist bereits im ausgewählten Repository vorhanden. Bitte wiederholen Sie den Upload-Vorgang und klicken Sie auf 'Ersetzen', um es zu überschreiben."
+        },
+        "notListedWarning": "Einige Einreichungen werden nicht angezeigt, da sie nicht {actionType} sein können.",
+        "onSubmissionAvailableTitle": "Bitte wählen Sie andere Einreichungen aus"
+      },
+      "wrongExtension": "Wählen Sie Pakete mit der richtigen Dateinamenerweiterung aus",
+      "addAnotherSubmission": "Andere Pakete hochladen",
+      "empty": "Kein Repository gewählt",
+      "noPackageChosen": "Keine Pakete gewählt",
+      "noChangesProvided": "Es gibt keine Anmerkungen für diese Einreichung",
+      "replaceOptionDesc": "Ersetzen falls Paket mit demselben Namen und derselben Version bereits im gewählten Repository vorhanden ist",
+      "replacingPackages": "Das Ersetzen vorhandener Pakete ist in der Konfiguration deaktiviert",
+      "waitForAllRequestsToFulfill": "Bitte warten Sie, bis alle Einreichungen hochgeladen sind",
+      "waitingForAction": "warten auf eine Aktion",
+      "wrongExtension-Python": "Wählen Sie Pakete mit der richtigen Dateinamenerweiterung aus (.tar.gz/.whl)",
+      "wrongExtension-R": "Wählen Sie Pakete mit der richtigen Dateinamenerweiterung aus (.tar.gz)"
+    },
+    "repositoryMaintainers": {
+      "warnings": {
+        "insufficientPermissions": "Die Berechtigungen des Benutzers reichen nicht aus, um einen Betreuer anzulegen."
+      }
+    },
+    "users": {
+      "unableDeactivation": "Benutzer können sich nicht selbst deaktivieren",
+      "unableDeletion": "Benutzer können sich nicht selbst löschen"
+    }
+  },
+  "properties": {
+    "packages": {
+      "needsCompilation": "muss kompiliert werden",
+      "noInstallInstruction": "Das Repository ist noch nicht veröffentlicht worden.",
+      "python": {
+        "classifiers": "Klassifikatoren",
+        "hash": "Hash",
+        "requiresExternal": "erfordert externe",
+        "requiresDist": "erfordert Distribution",
+        "platform": "Plattform",
+        "projectUrl": "Projekt-URL",
+        "providesExtra": "bietet zusätzlich",
+        "requiresPython": "erfordert Python"
+      },
+      "r": {
+        "depends": "hängt ab",
+        "url": "URL",
+        "encoding": "kodieren",
+        "imports": "importiert",
+        "manual": "Anleitung",
+        "md5sum": "md5sum",
+        "noVignetteNameProvided": "kein Name angegeben",
+        "suggests": "schlägt vor",
+        "systemRequirements": "Systemanforderungen",
+        "vignettes": "Vignetten"
+      },
+      "installInstructionBinaryCrane": "Um dieses binäre Paket zu installieren, besuchen Sie bitte {url}, starten Sie dann R und geben Sie Folgendes ein:",
+      "seeRelatedEvent": "siehe zugehörige Ereignisse",
+      "source": "Quelle",
+      "sourceFile": "Quelldatei",
+      "versions": "Paketversionen",
+      "withinRdepot": "innerhalb von RDepot",
+      "installInstruction-R": "Um dieses Paket zu installieren, starten Sie R und geben Sie dann Folgendes ein:",
+      "binary": "Binär",
+      "binary-R": {
+        "architecture": "Architektur",
+        "distribution": "Distribution",
+        "rversion": "R Version"
+      },
+      "binaryProperties": "Binäre Eigenschaften",
+      "current": "aktuell",
+      "installInstructionCrane-R": "Um dieses Paket zu installieren, besuchen Sie bitte {url}, starten Sie dann R und geben Sie Folgendes ein:",
+      "license": "Lizenz",
+      "installInstruction-Python": "Um dieses Paket zu installieren, führen Sie bitte folgenden Befehl aus:",
+      "installInstructionBinary": "Um dieses binäre Paket zu installieren, starten Sie R und geben Sie dann bitte Folgendes ein:",
+      "relatedEventPage": "Seite mit zugehörigen Ereignissen"
+    },
+    "repositories": {
+      "healthCheck": {
+        "correct": "Serveradresse ist korrekt",
+        "incorrect": "Serveradresse ist inkorrekt",
+        "undefined": "prüfen Sie ob die Serveradresse korrekt ist"
+      },
+      "published": {
+        "publicationFailed": "Veröffentlichung fehlgeschlagen",
+        "false": "nicht veröffentlicht",
+        "publicationSucceed": "Veröffentlichung erfolgreich",
+        "true": "veröffentlicht"
+      },
+      "lastModificationDate": "Datum der letzten Änderung",
+      "lastPublicationDate": "Datum der letzten Veröffentlichung",
+      "numberOfPackages": "Anzahl der Pakete"
+    },
+    "events": {
+      "type": {
+        "create": "Erstellen",
+        "delete": "Löschen",
+        "update": "Aktualisieren",
+        "upload": "Hochladen"
+      },
+      "general": {
+        "author": "Verfasser"
+      }
+    },
+    "general": {
+      "active": "Aktiv",
+      "deleted": "Gelöscht",
+      "details": "Details",
+      "inactive": "Inaktiv"
+    },
+    "submissions": {
+      "rejected": "ABGELEHNT",
+      "waiting": "WARTEN",
+      "accepted": "AKZEPTIERT",
+      "cancelled": "ABGEBROCHEN",
+      "downloaded": "HERUNTERGELADEN",
+      "notes": "Anmerkungen"
+    }
+  },
+  "resources": {
+    "packageMaintainer": "Paket-Maintainer| Paket-Maintainer",
+    "package": "Paket | Pakete",
+    "repository": "Repository | Repositorys",
+    "repositoryMaintainer": "Repository-Maintainer| Repository-Maintainer",
+    "settings": "Einstellungen",
+    "submission": "Einreichung | Einreichungen",
+    "technology": "Technologie | Technologien",
+    "user": "Benutzer | Benutzer",
+    "generalSettings": "Allgemein",
+    "file": "Datei | Dateien",
+    "token": "Token | Tokens",
+    "admin": "Admin | Admins",
+    "event": "Ereignis | Ereignisse",
+    "maintainer": "Maintainer | Maintainer"
+  },
+  "updatedProperties": {
+    "title": "Aktualisierte Eigenschaften"
+  },
+  "backend": {
+    "no": {
+      "admin": {
+        "left": "Die Rolle des letzten Administrators kann nicht geändert werden – mindestens ein Administrator muss verbleiben"
+      }
+    }
+  }
+}

@@ -90,14 +90,14 @@ describe('Events - Access Token (active, !deleted)', () => {
 
   it('display resource type', () => {
     expect(wrapper.text()).toContain(
-      i18n.t('resourceType.accessToken').toUpperCase()
+      i18n.t('resources.token').toUpperCase()
     )
   })
 
   it('display active tag', () => {
     expect(chips[2].exists()).toBeTruthy()
     expect(chips[2].text()).toBe(
-      i18n.t('columns.tokens.active')
+      i18n.t('properties.general.active')
     )
   })
 
@@ -181,7 +181,7 @@ describe('Events - Access Token (!active, !deleted)', () => {
   it('!display active tag', () => {
     expect(chips[2].exists()).toBeTruthy()
     expect(chips[2].text()).not.toBe(
-      i18n.t('columns.tokens.active')
+      i18n.t('properties.general.active')
     )
   })
 
@@ -224,14 +224,14 @@ describe('Events - Access Token (active, deleted)', () => {
   it('!display active tag', () => {
     expect(chips[2].exists()).toBeTruthy()
     expect(chips[2].text()).toBe(
-      i18n.t('columns.tokens.deleted')
+      i18n.t('properties.general.deleted')
     )
   })
 
   it('!display active tag', () => {
     expect(chips[3].exists()).toBeTruthy()
     expect(chips[3].text()).toBe(
-      i18n.t('columns.tokens.active')
+      i18n.t('properties.general.active')
     )
   })
 })

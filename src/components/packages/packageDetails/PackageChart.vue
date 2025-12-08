@@ -79,14 +79,14 @@ var chartOptions: any = {
     type: 'donut'
   },
   colors: [
-    vuetify.theme.current.value.colors.oablue,
+    vuetify.theme.current.value.colors.primary,
     vuetify.theme.current.value.colors.oared
   ],
   tooltip: {
     enabled: true,
     custom: function (value: { seriesIndex: number }) {
       return `<div class="arrow_box">${labels.value[value.seriesIndex]}:
-      ${series.value[value.seriesIndex]} ${i18n.t('packageDetails.package', { count: series.value[value.seriesIndex] })}
+      ${series.value[value.seriesIndex]} ${i18n.t('resources.package', { count: series.value[value.seriesIndex] })}
       </div>`
     }
   },
@@ -103,10 +103,18 @@ var chartOptions: any = {
     }
   },
   title: {
-    text: packageBag.value.name,
+    text: `${packageBag.value.name}`,
     align: 'center',
     style: {
       fontSize: '18px',
+      color: 'rgba(var(--v-theme-secondary))'
+    }
+  },
+  subtitle: {
+    text: `v${packageBag.value.version}`,
+    align: 'center',
+    style: {
+      fontSize: '12px',
       color: 'rgba(var(--v-theme-secondary))'
     }
   },
@@ -122,16 +130,16 @@ var chartOptions: any = {
             offsetY: 0
           },
           name: {
-            offsetY: 2,
+            offsetY: 6,
             formatter: function () {
-              return i18n.t('common.current')
+              return ''
             }
           },
           total: {
             show: true,
-            color: 'rgba(var(--v-theme-oablue))',
+            color: 'rgba(var(--v-theme-primary))',
             formatter: function () {
-              return `v${packageBag.value.version}`
+              return ''
             }
           }
         }

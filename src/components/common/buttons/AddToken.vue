@@ -27,18 +27,22 @@
         <CommonButton
           id="add-token"
           :component="OverlayEnum.enum.Create"
-          size="small"
+          size="x-small"
+          icon
           v-bind="props"
         >
-          <span class="pr-3">
-            {{ $t('common.create') }}</span
-          >
           <v-icon :icon="Icons.get('add')"
         /></CommonButton>
       </div>
     </template>
     <span id="tooltip-wait"
-      ><span>{{ $t('settings.create') }}</span>
+      ><span>{{
+        i18n.t('actions.general.createResource', {
+          resource_type: i18n
+            .t('resources.token')
+            .toLowerCase()
+        })
+      }}</span>
     </span>
   </v-tooltip>
 </template>
@@ -47,4 +51,5 @@
 import { OverlayEnum } from '@/enum/Overlay'
 import CommonButton from '@/components/common/buttons/CommonButton.vue'
 import Icons from '@/maps/Icons'
+import { i18n } from '@/plugins/i18n'
 </script>

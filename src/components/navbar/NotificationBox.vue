@@ -46,7 +46,7 @@
 
         <div
           style="
-            color: rgb(var(--v-theme-oablue)) !important;
+            color: rgb(var(--v-theme-primary)) !important;
           "
         >
           {{ getTime }}
@@ -55,7 +55,7 @@
       <v-icon
         v-tooltip="
           $t(
-            'resourceType.' +
+            'resource.' +
               event.resourceType
                 ?.toLowerCase()
                 .split('_')
@@ -68,14 +68,14 @@
                 .join('')
           )
         "
-        color="oablue"
+        color="primary"
         size="20"
         class="ml-3"
         style="position: relative"
         >{{ getIcon(event?.resourceType)[0] }}
         <v-icon
           v-if="getIcon(event?.resourceType).length > 1"
-          color="oablue"
+          color="primary"
           size="20"
           class="mb-1 mr-1 nestedIcon"
           >{{ getIcon(event?.resourceType)[1] }}</v-icon
@@ -126,8 +126,8 @@ const getAction = computed(() => {
         props.event.changedProperties[1].property
       ) {
         return i18n.t(
-          `notifications.events.${props.event.changedProperties[1].property}.${props.event.changedProperties[1].valueAfter}`,
-          i18n.t('notifications.events.updated')
+          `messages.notifications.events.${props.event.changedProperties[1].property}.${props.event.changedProperties[1].valueAfter}`,
+          i18n.t('messages.notifications.events.updated')
         )
       }
       if (
@@ -136,15 +136,15 @@ const getAction = computed(() => {
         props.event.changedProperties[0].property
       ) {
         return i18n.t(
-          `notifications.events.${props.event.changedProperties[0].property}.${props.event.changedProperties[0].valueAfter}`,
-          i18n.t('notifications.events.updated')
+          `messages.notifications.events.${props.event.changedProperties[0].property}.${props.event.changedProperties[0].valueAfter}`,
+          i18n.t('messages.notifications.events.updated')
         )
       }
-      return i18n.t('notifications.events.updated')
+      return i18n.t('messages.notifications.events.updated')
     }
     default:
       return i18n.t(
-        `notifications.events.${props.event.eventType}`
+        `messages.notifications.events.${props.event.eventType}`
       )
   }
 })

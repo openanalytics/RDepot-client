@@ -23,16 +23,12 @@
 <template>
   <v-tooltip location="top">
     <template #activator="{ props }">
-      <div
-        id="tooltip-activator"
-        v-bind="props"
-        class="pl-3"
-      >
+      <div id="tooltip-activator" v-bind="props">
         <VIcon
           :id="id"
           :color="color"
           :size="size"
-          @click="emit('click')"
+          @click.stop="emit('click')"
           >{{ icon }}</VIcon
         >
       </div>

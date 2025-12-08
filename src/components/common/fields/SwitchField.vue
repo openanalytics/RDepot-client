@@ -31,26 +31,30 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-
+import { computed, ref } from 'vue'
+const componentProps = defineProps<{
+  initialValue?: boolean
+}>()
 const emits = defineEmits(['setValue'])
 
-const indeterminate = ref(true)
-const value = ref<boolean | undefined>(undefined)
-const previousValue = ref(false)
+const indeterminate = computed(
+  () => value.value === undefined || value.value === null
+)
+
+const value = ref<boolean | undefined>(
+  componentProps.initialValue
+)
+const previousValue = ref(!value.value)
 const key = ref(1)
 
 function update() {
   if (value.value != undefined) {
-    indeterminate.value = true
     previousValue.value = value.value
     value.value = undefined
-    key.value = ++key.value % 100
   } else {
-    indeterminate.value = false
     value.value = !previousValue.value
-    key.value = ++key.value % 100
   }
+  key.value = ++key.value % 100
   emits('setValue', value.value)
 }
 </script>

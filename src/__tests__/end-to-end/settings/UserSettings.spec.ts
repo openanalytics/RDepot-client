@@ -26,6 +26,8 @@ import {
   SAVE_SETTINGS_BUTTON_ID,
   SETTINGS_GENERAL_LIST_SIDEBAR_ID,
   SETTINGS_LIST_SIDEBAR_ID,
+  THEME_SETTINGS_ID,
+  CHANGE_THEME_ID,
   SUBMISSIONS_SIDEBAR_ID
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 import { restoreData } from '@/__tests__/end-to-end/helpers/restoreData'
@@ -104,5 +106,39 @@ test.describe(TITLE_SERIAL, { tag: '@serial' }, () => {
     await pageSelector.waitFor()
     await expect(pageSelector).toHaveCount(1)
     await expect(customPageSelector).toHaveCount(0)
+  })
+
+  test('change color theme of application', async ({
+    page
+  }) => {
+    await login(page, 'einstein')
+    await expect(
+      await page.locator(`#${CHANGE_THEME_ID}`)
+    ).toHaveClass(/mdi-weather-night/)
+    await expect(page.locator('#app > div')).toHaveClass(
+      /v-theme--light/
+    )
+
+    await page.locator(`#${CHANGE_THEME_ID}`).click()
+
+    await expect(
+      await page.locator(`#${CHANGE_THEME_ID}`)
+    ).toHaveClass(/mdi-weather-sunny/)
+    await expect(page.locator('#app > div')).toHaveClass(
+      /v-theme--dark/
+    )
+
+    await page
+      .locator(`#${SETTINGS_LIST_SIDEBAR_ID}`)
+      .click()
+    await page
+      .locator(`#${SETTINGS_GENERAL_LIST_SIDEBAR_ID}`)
+      .click()
+    await page.waitForURL('**/settings-general')
+    await expect(
+      await page
+        .locator(`#${THEME_SETTINGS_ID}`)
+        .inputValue()
+    ).toEqual('dark')
   })
 })

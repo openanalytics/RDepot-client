@@ -64,6 +64,7 @@ interface State {
   loading: boolean
   totalNumber: number
   tableOptions?: DataTableOptions
+  localOptions: DataTableOptions
 }
 
 const { deepCopy } = useUtilities()
@@ -81,7 +82,12 @@ export const useAccessTokensStore = defineStore(
         currentToken: {},
         loading: false,
         totalNumber: 0,
-        tableOptions: undefined
+        tableOptions: undefined,
+        localOptions: {
+          itemsPerPage: -1,
+          page: -1,
+          sortBy: []
+        }
       }
     },
     getters: {
@@ -142,9 +148,7 @@ export const useAccessTokensStore = defineStore(
           await deleteToken(this.currentToken.id)
             .then(async () => {
               const toast = useToast()
-              toast.success(
-                i18n.t('settings.message.deleted')
-              )
+              toast.success(i18n.t('forms.tokens.deleted'))
               const commonStore = useCommonStore()
               commonStore.closeOverlay()
               await this.getPage()
@@ -158,27 +162,24 @@ export const useAccessTokensStore = defineStore(
         this.currentToken = {}
       },
       async patch(
-        oldToken: EntityModelAccessTokenDto,
         newValues: Partial<EntityModelAccessTokenDto>
       ) {
-        this.pending.push(oldToken)
+        this.pending.push(this.currentToken)
         const newToken = {
-          ...deepCopy(oldToken),
+          ...deepCopy(this.currentToken),
           ...newValues
         }
-        await editToken(oldToken, newToken)
+        await editToken(this.currentToken, newToken)
           ?.then(async (success) => {
             if (success) {
               const toast = useToast()
-              toast.success(
-                i18n.t('settings.message.edited')
-              )
+              toast.success(i18n.t('forms.tokens.edited'))
               await this.getPage()
             }
           })
           .finally(() => {
             this.pending = this.pending.filter(
-              (item) => item.id != oldToken.id
+              (item) => item.id != this.currentToken.id
             )
           })
       },
@@ -211,7 +212,7 @@ export const useAccessTokensStore = defineStore(
             if (success) {
               const toast = useToast()
               toast.success(
-                i18n.t('settings.message.deactivated')
+                i18n.t('forms.tokens.deactivated')
               )
               const commonStore = useCommonStore()
               commonStore.closeOverlay()
@@ -242,10 +243,6 @@ export const useAccessTokensStore = defineStore(
           this.filtration = TokensFiltration.parse(payload)
         }
         await this.getPage()
-        const toasts = useToast()
-        toasts.success(
-          i18n.t('notifications.successFiltration')
-        )
       },
       clearFiltration() {
         this.filtration = defaultValues(TokensFiltration)

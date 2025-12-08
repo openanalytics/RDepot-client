@@ -31,7 +31,7 @@
       hide-details
       name="search"
       as="v-text-field"
-      :label="$t('packages.filtration.searchBox')"
+      :label="$t('filtration.general.searchPlaceholder')"
       @update:model-value="setFiltration"
     />
 
@@ -46,7 +46,7 @@
       multiple
       clearable
       as="v-select"
-      :label="$t('filtration.technologies')"
+      :label="$t('resources.technology', 2)"
       @update:model-value="setFiltration"
     ></validated-input-field>
 
@@ -60,7 +60,7 @@
       as="autocomplete"
       multiple
       clearable
-      :label="$t('packages.filtration.repository')"
+      :label="$t('resources.repository')"
       :store-id="storeId"
       :template="true"
       @update:model-value="setFiltration"
@@ -68,10 +68,7 @@
       @filtrate="filtrateRepositoriesObjects"
     >
       <template #item="{ props }">
-        <v-list-item
-          v-intersect="loadRepositories"
-          v-bind="props"
-        >
+        <v-list-item v-bind="props">
           <template #prepend="{ isActive }">
             <v-list-item-action start>
               <v-checkbox-btn
@@ -94,7 +91,7 @@
       multiple
       clearable
       as="v-select"
-      :label="$t('packages.filtration.submissionState')"
+      :label="$t('fields.packages.submissionState')"
       @click:clear="resetStateField"
       @update:model-value="setFiltration"
     ></validated-input-field>
@@ -116,7 +113,7 @@
       as="autocomplete"
       multiple
       clearable
-      :label="$t('packages.filtration.maintainer')"
+      :label="$t('resources.maintainer')"
       :store-id="storeIdMaintainer"
       :template="true"
       @update:model-value="setFiltration"
@@ -125,7 +122,6 @@
     >
       <template #item="{ props, item }">
         <v-list-item
-          v-intersect="loadMaintainers"
           v-bind="{
             ...props,
             id: `packages-filtration-maintainer-${item.title.replaceAll(
@@ -157,9 +153,9 @@
       density="compact"
       hide-details
       name="deleted"
-      :label="$t('packages.filtration.deleted')"
+      :label="$t('properties.general.deleted')"
       as="switch-indeterminate"
-      color="oablue"
+      color="primary"
       class="flex-grow-0"
       @change="setFiltration"
     ></validated-input-field>
@@ -212,8 +208,13 @@ const packageStore = usePackagesStore()
 
 const { setValues, values, setFieldValue } = useForm({
   validationSchema: toTypedSchema(PackagesFiltration),
-  initialValues: packageStore.filtration
+  initialValues: {
+    ...packageStore.filtration,
+    deleted: false
+  }
 })
+
+setFiltration()
 
 function setFiltration() {
   packageStore.setFiltration(values as PackagesFiltration)

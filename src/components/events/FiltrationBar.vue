@@ -45,7 +45,7 @@
       multiple
       clearable
       as="v-select"
-      :label="$t('filtration.technologies')"
+      :label="$t('resources.technology')"
       @update:model-value="setFiltration"
     ></validated-input-field>
 
@@ -60,7 +60,7 @@
       as="v-select"
       clearable
       multiple
-      :label="$t('events.filtration.eventType')"
+      :label="$t('filtration.events.eventType')"
       @update:model-value="setFiltration"
     ></validated-input-field>
 
@@ -75,7 +75,7 @@
       multiple
       clearable
       as="v-select"
-      :label="$t('filtration.resourceType')"
+      :label="$t('filtration.events.resourceType')"
       @update:model-value="setFiltration"
     ></validated-input-field>
 
@@ -85,8 +85,8 @@
       hide-details
       name="fromDate"
       as="v-text-field"
-      :label="$t('submissions.filtration.fromDate')"
-      color="oablue"
+      :label="$t('filtration.general.fromDate')"
+      color="primary"
       @update:focused="selectFromDate"
     />
 
@@ -96,8 +96,8 @@
       hide-details
       name="toDate"
       as="v-text-field"
-      :label="$t('submissions.filtration.toDate')"
-      color="oablue"
+      :label="$t('filtration.general.toDate')"
+      color="primary"
       @update:focused="selectToDate"
     />
 
@@ -111,7 +111,7 @@
       as="autocomplete"
       multiple
       clearable
-      :label="$t('packages.filtration.repository')"
+      :label="$t('resources.repository')"
       :store-id="storeId"
       :template="true"
       @update:model-value="setFiltration"
@@ -119,10 +119,7 @@
       @filtrate="filtrateRepositoriesObjects"
     >
       <template #item="{ props }">
-        <v-list-item
-          v-intersect="loadRepositories"
-          v-bind="props"
-        >
+        <v-list-item v-bind="props">
           <template #prepend="{ isActive }">
             <v-list-item-action start>
               <v-checkbox-btn
@@ -144,18 +141,15 @@
       as="autocomplete"
       multiple
       clearable
-      :label="$t('maintainers.editform.package')"
+      :label="$t('resources.package')"
       :store-id="storeIdPackage"
       :template="true"
       @update:model-value="setFiltration"
       @load-items="loadPackages"
-      @filtrate="filtratePackagesObjects(undefined)"
+      @filtrate="filtratePackagesObjects"
     >
       <template #item="{ props }">
-        <v-list-item
-          v-intersect="loadPackages"
-          v-bind="props"
-        >
+        <v-list-item v-bind="props">
           <template #prepend="{ isActive }">
             <v-list-item-action start>
               <v-checkbox-btn

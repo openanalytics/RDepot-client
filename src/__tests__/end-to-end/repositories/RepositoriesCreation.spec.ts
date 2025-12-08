@@ -34,10 +34,12 @@ import {
   CREATE_REPOSITORY_REDIRECT_TO_SOURCE_FIELD_ID,
   SUBMIT_BUTTON_ID,
   CREATE_REPOSITORY_TECHNOLOGY_FIELD_ID,
-  CREATE_REPOSITORY_HASH_METHOD_FIELD_ID
+  CREATE_REPOSITORY_HASH_METHOD_FIELD_ID,
+  REPOSITORY_NAME_FIELD_MESSAGES_ID
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '../helpers/login'
 import { restoreData } from '@/__tests__/end-to-end/helpers/restoreData'
+import { i18n } from '@/plugins/i18n'
 
 // eslint-disable-next-line no-empty-pattern
 test.beforeAll(async ({}, testInfo) => {
@@ -89,7 +91,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
       page.locator(
         `#${CREATE_REPOSITORY_HASH_METHOD_FIELD_ID}`
       )
-    ).toHaveCount(0)
+    ).not.toBeVisible()
     await page
       .locator(
         `#${CREATE_REPOSITORY_REDIRECT_TO_SOURCE_FIELD_ID}`
@@ -144,7 +146,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
       page.locator(
         `#${CREATE_REPOSITORY_REDIRECT_TO_SOURCE_FIELD_ID}`
       )
-    ).toHaveCount(0)
+    ).not.toBeVisible()
     await page
       .locator(`#${SUBMIT_BUTTON_ID}`)
       .press('Enter')
@@ -269,5 +271,69 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     await expect(incorrectAddress).toHaveCount(0)
     await expect(correctAddress).toHaveCount(1)
     await expect(healthCheckIcon).toHaveCount(0)
+  })
+
+  test('create repository name validation', async ({
+    page
+  }) => {
+    await login(page, 'einstein')
+    await page
+      .locator(`#${REPOSITORIES_SIDEBAR_ID}`)
+      .click()
+    await page.waitForURL('**/repositories')
+    await expect(page).toHaveTitle(/RDepot - repositories/)
+
+    const createRepositorySelector = page.locator(
+      `#${ADD_MAINTAINER_ID}`
+    )
+    await createRepositorySelector.waitFor()
+    await createRepositorySelector.click()
+
+    const nameError = page.locator(
+      `#${REPOSITORY_NAME_FIELD_MESSAGES_ID}`
+    )
+
+    await page
+      .locator(`#${CREATE_REPOSITORY_NAME_FIELD_ID}`)
+      .fill('!@#$')
+
+    await expect(nameError).toHaveText('')
+
+    await page
+      .locator(`#${CREATE_REPOSITORY_TECHNOLOGY_FIELD_ID}`)
+      .press('Enter')
+    await page
+      .getByRole('option', { name: 'Python' })
+      .press('Enter')
+
+    await expect(nameError).toHaveText(
+      i18n.t('messages.errors.reponame')
+    )
+
+    await page
+      .locator(`#${CREATE_REPOSITORY_NAME_FIELD_ID}`)
+      .fill('test~123')
+
+    await expect(nameError).toHaveText('')
+
+    await page
+      .locator(`#${CREATE_REPOSITORY_TECHNOLOGY_FIELD_ID}`)
+      .press('Enter')
+    await page
+      .getByRole('option', { name: 'Python' })
+      .press('ArrowDown')
+    await page
+      .getByRole('option', { name: 'R' })
+      .press('Enter')
+
+    await expect(nameError).toHaveText(
+      i18n.t('messages.errors.reponame')
+    )
+
+    await page
+      .locator(`#${CREATE_REPOSITORY_NAME_FIELD_ID}`)
+      .fill('test123')
+
+    await expect(nameError).toHaveText('')
   })
 })

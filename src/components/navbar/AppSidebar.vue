@@ -39,7 +39,7 @@
         <template #append>
           <v-btn
             id="logout-button"
-            v-tooltip:end="$t('common.logout')"
+            v-tooltip:end="$t('actions.general.logout')"
             color="grey-lighten-1"
             :icon="Icons.get('logout')"
             variant="text"
@@ -52,8 +52,8 @@
         v-if="authorizationStore.can('GET', 'events')"
         id="sidebar-events"
         :prepend-icon="Icons.get('events')"
-        :title="$t('common.events')"
-        :value="$t('common.events')"
+        :title="$t('resources.event', 2)"
+        :value="$t('resources.event', 2)"
         :active="'events' === $route.name"
         to="/events"
       >
@@ -62,8 +62,8 @@
         v-if="authorizationStore.can('POST', 'submissions')"
         id="sidebar-upload-packages"
         :prepend-icon="Icons.get('upload')"
-        :title="$t('common.uploadPackages')"
-        :value="$t('common.uploadPackages')"
+        :title="$t('actions.general.uploadPackages')"
+        :value="$t('actions.general.uploadPackages')"
         :active="'addSubmission' === $route.name"
         to="/upload-packages"
       ></v-list-item>
@@ -72,8 +72,8 @@
         v-if="authorizationStore.can('GET', 'packages')"
         id="sidebar-packages-list"
         :prepend-icon="Icons.get('package')"
-        :title="$t('packages.list')"
-        :value="$t('packages.list')"
+        :title="$t('resources.package', 2)"
+        :value="$t('resources.package', 2)"
         :active="
           'packages' === $route.name ||
           'Home' === $route.name
@@ -89,8 +89,8 @@
           )
         "
         id="sidebar-package-maintainers"
-        :title="$t('packages.maintainers')"
-        :value="$t('packages.maintainers')"
+        :title="$t('resources.packageMaintainer', 2)"
+        :value="$t('resources.packageMaintainer', 2)"
         :active="'packageMaintainers' === $route.name"
         to="/package-maintainers"
       >
@@ -110,8 +110,8 @@
       <v-list-item
         v-if="authorizationStore.can('GET', 'repositories')"
         id="sidebar-repositories-list"
-        :title="$t('repositories.list')"
-        :value="$t('repositories.list')"
+        :title="$t('resources.repository', 2)"
+        :value="$t('resources.repository', 2)"
         :prepend-icon="Icons.get('repositories')"
         :active="'repositories' === $route.name"
         to="/repositories"
@@ -125,8 +125,8 @@
           )
         "
         id="sidebar-repository-maintainers"
-        :title="$t('repositories.maintainers')"
-        :value="$t('repositories.maintainers')"
+        :title="$t('resources.repositoryMaintainer', 2)"
+        :value="$t('resources.repositoryMaintainer', 2)"
         :active="'repositoryMaintainers' === $route.name"
         to="/repository-maintainers"
       >
@@ -147,8 +147,8 @@
         v-if="authorizationStore.can('GET', 'users')"
         id="sidebar-users-page"
         :prepend-icon="Icons.get('users')"
-        :title="$t('common.users')"
-        :value="$t('common.users')"
+        :title="$t('resources.user', 2)"
+        :value="$t('resources.user', 2)"
         :active="'users' === $route.name"
         to="/users"
       ></v-list-item>
@@ -157,8 +157,8 @@
         v-if="authorizationStore.can('GET', 'submissions')"
         id="sidebar-submissions"
         :prepend-icon="Icons.get('submissions')"
-        :title="$t('common.submissions')"
-        :value="$t('common.submissions')"
+        :title="$t('resources.submission', 2)"
+        :value="$t('resources.submission', 2)"
         :active="'submissions' === $route.name"
         to="/submissions"
       ></v-list-item>
@@ -170,21 +170,21 @@
               ...props,
               id: 'sidebar-settings-list'
             }"
-            :title="$t('common.settings')"
+            :title="$t('resources.settings')"
           ></v-list-item>
         </template>
 
         <v-list-item
           id="sidebar-settings-general"
-          :title="$t('settings.tab.general')"
-          :value="$t('settings.tab.general')"
+          :title="$t('resources.generalSettings')"
+          :value="$t('resources.generalSettings')"
           :active="'settingsGeneral' === $route.name"
           to="/settings-general"
         ></v-list-item>
         <v-list-item
           id="sidebar-settings-access-tokens"
-          :title="$t('settings.tab.token')"
-          :value="$t('settings.tab.token')"
+          :title="$t('resources.token', 2)"
+          :value="$t('resources.token', 2)"
           :active="'settingsTokens' === $route.name"
           to="/settings-tokens"
         ></v-list-item>
@@ -193,7 +193,7 @@
 
     <template #append>
       <v-list-item style="font-size: 0.7rem">
-        v2.6.2
+        v2.7.0
         <span v-if="getEnv('VITE_DEV_MODE') === 'true'"
           >({{
             getEnv('VITE_CURRENT_COMMIT_VERSION')
@@ -209,7 +209,7 @@ import { i18n } from '@/plugins/i18n'
 import { useCommonStore } from '@/store/options/common'
 import { useAuthorizationStore } from '@/store/options/authorization'
 import { computed } from 'vue'
-import { useDisplay } from 'vuetify/lib/framework.mjs'
+import { useDisplay } from 'vuetify'
 import getEnv from '@/utils/env'
 import Icons from '@/maps/Icons'
 import UserAvatar from '@/components/common/users/UserAvatar.vue'
@@ -223,8 +223,8 @@ const getUserLogin = computed(() => {
 
 const getSubtitle = computed(() => {
   return authorizationStore.me.name
-    ? i18n.t('authorization.logged-in')
-    : i18n.t('authorization.not-logged-in')
+    ? i18n.t('messages.authorization.loggedIn')
+    : i18n.t('messages.authorization.notLoggedIn')
 })
 
 const drawer = computed({

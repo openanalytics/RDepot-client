@@ -20,7 +20,7 @@
  *
  */
 
-import { createVuetify } from 'vuetify/lib/framework.mjs'
+import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 import { i18nInstance } from '@/plugins/i18n'

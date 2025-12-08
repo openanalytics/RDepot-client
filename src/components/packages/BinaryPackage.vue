@@ -23,14 +23,14 @@
 <template>
   <v-chip
     size="small"
-    color="oablue"
+    color="primary"
     class="mr-3"
     style="cursor: pointer"
   >
     {{
       packageBag.binary
-        ? $t('columns.package.binary')
-        : $t('columns.package.source')
+        ? $t('properties.packages.binary')
+        : $t('properties.packages.source')
     }}</v-chip
   >
 </template>

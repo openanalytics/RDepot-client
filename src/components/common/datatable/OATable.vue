@@ -27,12 +27,13 @@
     :headers="headers"
     :sort-asc-icon="Icons.get('ascending')"
     :sort-desc-icon="Icons.get('descending')"
-    color="oablue"
+    color="primary"
     :items-per-page-options="oaTableStore.itemsPerPage"
     :items-per-page-text="$t('datatable.itemsPerPage')"
     :items-length="itemsLength"
     :items="items"
     :no-data-text="$t('datatable.noDataAvailable')"
+    :row-props="rowProps"
   >
     <template #top>
       <div
@@ -40,7 +41,13 @@
         class="d-flex justify-space-between mx-3 my-5"
       >
         <h2>{{ title }}</h2>
-        <slot name="topAction" />
+        <div
+          class="d-flex"
+          style="justify-content: flex-end"
+        >
+          <slot name="topAction" />
+          <RefreshButton @refresh="emits('refresh')" />
+        </div>
       </div>
     </template>
 
@@ -119,7 +126,9 @@ import DateChip from '../chips/DateChip.vue'
 import StateIcon from '@/components/submissions/icons/StateIcon.vue'
 import CopyableCell from './CopyableCell.vue'
 import AuthenticationInformation from './AuthenticationInformation.vue'
+import RefreshButton from '@/components/common/buttons/RefreshButton.vue'
 
+const emits = defineEmits(['refresh'])
 const oaTableStore = useOATable()
 const technologyKeys = [
   'packageBag.repository.technology',
@@ -161,4 +170,20 @@ defineProps({
     required: true
   }
 })
+
+function rowProps(item: any) {
+  return {
+    class: item.item.deleted ? 'deletedItem' : ''
+  }
+}
 </script>
+
+<style>
+.deletedItem {
+  background: rgb(183 28 28 / 20%) !important;
+}
+
+.v-theme--dark .deletedItem {
+  background: rgb(183 28 28 / 40%) !important;
+}
+</style>

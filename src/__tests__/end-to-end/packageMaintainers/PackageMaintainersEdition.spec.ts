@@ -20,7 +20,7 @@
  *
  */
 
-import { test, expect } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 import {
   ABC_TESTREPO1_ID,
   EDIT_PACKAGE_MAINTAINER_PACKAGE_INPUT_ID,
@@ -70,9 +70,12 @@ test.describe(TITLE, { tag: '@serial' }, () => {
 
     await userInputSelector.waitFor()
     await expect(userInputSelector).toBeDisabled()
-    expect(await userInputSelector.inputValue()).toEqual(
-      'Galileo Galilei'
-    )
+
+    const parentDiv = page
+      .locator(`#${EDIT_PACKAGE_MAINTAINER_USER_INPUT_ID}`)
+      .locator('..')
+
+    await expect(parentDiv).toContainText('Galileo Galilei')
 
     await page
       .locator(
@@ -223,7 +226,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     await repositoryInputMessagesSelector.waitFor()
     expect(
       await repositoryInputMessagesSelector.textContent()
-    ).toContain(i18n.t('common.errors.required'))
+    ).toContain(i18n.t('messages.errors.required'))
 
     const packageInputMessagesSelector =
       page.locator(`#${EDIT_PACKAGE_MAINTAINER_PACKAGE_INPUT_MESSAGES_ID} 
