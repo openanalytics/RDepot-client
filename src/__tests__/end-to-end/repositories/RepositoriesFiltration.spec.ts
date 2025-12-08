@@ -25,7 +25,10 @@ import {
   REPOSITORIES_FILTRATION_PUBLISHED_FIELD_ID,
   REPOSITORIES_FILTRATION_SEARCH_FIELD_ID,
   REPOSITORIES_SIDEBAR_ID,
-  FILTRATION_RESET_BUTTON_ID
+  FILTRATION_RESET_BUTTON_ID,
+  REPOSITORIES_FILTRATION_TECHNOLOGY_FIELD_ID,
+  REPOSITORIES_FILTRATION_MAINTAINER_FIELD_ID,
+  REPOSITORIES_FILTRATION_DELETED_FIELD_ID
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '../helpers/login'
 
@@ -113,6 +116,88 @@ test.describe(TITLE, () => {
       page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
     ).toBeHidden()
     await expect(repositoriesRowsSelector).toHaveCount(8)
+  })
+
+  test('should check filtration fields before and after reset', async ({
+    page
+  }) => {
+    await login(page, 'einstein')
+    await page
+      .locator(`#${REPOSITORIES_SIDEBAR_ID}`)
+      .click()
+    await page.waitForURL('**/repositories')
+    await expect(page).toHaveTitle(/RDepot - repositories/)
+    const repositoriesRowsSelector =
+      page.locator('role=row')
+
+    await expect(
+      page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
+    ).toBeHidden()
+    await expect(repositoriesRowsSelector).toHaveCount(8)
+
+    const searchValue = await page.locator(
+      `#${REPOSITORIES_FILTRATION_SEARCH_FIELD_ID}`
+    )
+    const technologyValue = await page.locator(
+      `#${REPOSITORIES_FILTRATION_TECHNOLOGY_FIELD_ID}`
+    )
+    const maintainerValue = await page.locator(
+      `#${REPOSITORIES_FILTRATION_MAINTAINER_FIELD_ID}`
+    )
+    const deletedValue = await page.locator(
+      `#${REPOSITORIES_FILTRATION_DELETED_FIELD_ID}`
+    )
+
+    await expect(await searchValue.inputValue()).toBe('')
+    await expect(await technologyValue.inputValue()).toBe(
+      ''
+    )
+    await expect(await maintainerValue.inputValue()).toBe(
+      ''
+    )
+    await expect(await deletedValue.inputValue()).toBe(
+      'true'
+    )
+
+    await technologyValue.waitFor()
+    await technologyValue.click({ force: true })
+
+    await page.getByRole('option', { name: 'R' }).click()
+
+    await page
+      .locator(
+        `#${REPOSITORIES_FILTRATION_SEARCH_FIELD_ID}`
+      )
+      .fill('2')
+
+    await expect(
+      page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
+    ).toBeVisible()
+    await expect(repositoriesRowsSelector).toHaveCount(2)
+    await expect(await searchValue.inputValue()).toBe('2')
+    await expect(await technologyValue.inputValue()).toBe(
+      'R'
+    )
+
+    await page
+      .locator(`#${FILTRATION_RESET_BUTTON_ID}`)
+      .click()
+
+    await expect(
+      page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
+    ).toBeHidden()
+    await expect(repositoriesRowsSelector).toHaveCount(8)
+
+    await expect(await searchValue.inputValue()).toBe('')
+    await expect(await technologyValue.inputValue()).toBe(
+      ''
+    )
+    await expect(await maintainerValue.inputValue()).toBe(
+      ''
+    )
+    await expect(await deletedValue.inputValue()).toBe(
+      'true'
+    )
   })
 
   test('no data available', async ({ page }) => {

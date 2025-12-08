@@ -92,4 +92,21 @@ test.describe(TITLE, () => {
     await page.locator('#refresh-button').click()
     await expect(packagesRowsSelector).toHaveCount(4)
   })
+
+  test('should check how many packages are in the table footer', async ({
+    page
+  }) => {
+    await login(page, 'einstein')
+    await page.waitForURL('**/packages')
+    await expect(page).toHaveTitle(/RDepot - packages/)
+    const packagesRowsSelector = page.locator('role=row')
+    await expect(packagesRowsSelector).toHaveCount(21)
+    await expect(
+      (
+        await page
+          .locator('.v-data-table-footer__info')
+          .innerText()
+      ).includes('1-20 of 24')
+    ).toBe(true)
+  })
 })

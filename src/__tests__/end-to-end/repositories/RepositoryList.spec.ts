@@ -263,4 +263,25 @@ test.describe(TITLE, { tag: '@serial' }, () => {
       repositoryServerAddressWarnings
     ).toHaveCount(6)
   })
+
+  test('should check how many repositories are in the table footer', async ({
+    page
+  }) => {
+    await login(page, 'einstein')
+    await page
+      .locator(`#${REPOSITORIES_SIDEBAR_ID}`)
+      .click()
+    await page.waitForURL('**/repositories')
+    await expect(page).toHaveTitle(/RDepot - repositories/)
+    const repositoriesRowsSelector =
+      page.locator('role=row')
+    await expect(repositoriesRowsSelector).toHaveCount(8)
+    await expect(
+      (
+        await page
+          .locator('.v-data-table-footer__info')
+          .innerText()
+      ).includes('1-7 of 7')
+    ).toBe(true)
+  })
 })

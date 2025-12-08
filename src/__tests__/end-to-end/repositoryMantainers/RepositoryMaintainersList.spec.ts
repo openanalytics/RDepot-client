@@ -39,4 +39,26 @@ test.describe(TITLE, () => {
     const maintainersRowsSelector = page.locator('role=row')
     await expect(maintainersRowsSelector).toHaveCount(7)
   })
+
+  test('should check how many repo maintainers are in the table footer', async ({
+    page
+  }) => {
+    await login(page, 'einstein')
+    await page
+      .locator(`#${REPOSITORY_MAINTAINERS_SIDEBAR_ID}`)
+      .click()
+    await page.waitForURL('**/repository-maintainers')
+    await expect(page).toHaveTitle(
+      /RDepot - repository maintainers/
+    )
+    const maintainersRowsSelector = page.locator('role=row')
+    await expect(maintainersRowsSelector).toHaveCount(7)
+    await expect(
+      (
+        await page
+          .locator('.v-data-table-footer__info')
+          .innerText()
+      ).includes('1-6 of 6')
+    ).toBe(true)
+  })
 })

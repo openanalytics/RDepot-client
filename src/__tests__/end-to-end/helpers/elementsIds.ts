@@ -78,6 +78,7 @@ export const POLISH_LANGUAGE_ID = 'pl-PL'
 export const ENGLISH_LANGUAGE_ID = 'en-US'
 export const GERMAN_LANGUAGE_ID = 'de-DE'
 export const DUTCH_LANGUAGE_ID = 'nl-NL'
+export const CHANGE_THEME_ID = 'change-theme-icon'
 
 //sidebar
 export const PACKAGE_MAINTAINERS_SIDEBAR_ID =
@@ -560,6 +561,7 @@ export const REPOSITORY_REDIRECT_TO_SOURCE_ID =
 // SETTINGS FIELD
 export const PAGE_SIZE_ID = 'page-size-input'
 export const SAVE_SETTINGS_BUTTON_ID = 'save-changes'
+export const THEME_SETTINGS_ID = 'theme-input'
 
 // GENERAL SETTINGS PAGE
 export const SAVE_CHANGES_BUTTON_ID = 'save-changes'
@@ -585,6 +587,7 @@ export const SUBMIT_USER_DELETION_BUTTON_ID =
 export const COPY_ADMIN_EMAIL_BUTTON_ID =
   'resources-list-admin-localhost-copy'
 export const EDIT_USER_ROLE_FIELD_ID = 'edit-user-role'
+export const ACTIVE_CHECKBOX_ID = 'checkbox-active'
 
 //edit user
 export const EDIT_USER_ALERT_ID = 'edit-user-alert'

@@ -90,4 +90,22 @@ test.describe(TITLE, () => {
       /RDepot - package details/
     )
   })
+
+  test('should check how many submissions are in the table footer', async ({
+    page
+  }) => {
+    await login(page, 'einstein')
+    await page.locator(`#${SUBMISSIONS_SIDEBAR_ID}`).click()
+    await page.waitForURL('**/submissions')
+    await expect(page).toHaveTitle(/RDepot - submissions/)
+    const submissionsRowsSelector = page.locator('role=row')
+    await expect(submissionsRowsSelector).toHaveCount(21)
+    await expect(
+      (
+        await page
+          .locator('.v-data-table-footer__info')
+          .innerText()
+      ).includes('1-20 of 42')
+    ).toBe(true)
+  })
 })

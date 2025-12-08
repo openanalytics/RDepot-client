@@ -23,6 +23,7 @@
 import { test, expect } from '@playwright/test'
 import {
   COPY_ADMIN_EMAIL_BUTTON_ID,
+  ACTIVE_CHECKBOX_ID,
   USERS_SIDEBAR_ID
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '../helpers/login'
@@ -48,5 +49,26 @@ test.describe(TITLE, () => {
     )
     await adminEmailCopyButtonLocator.waitFor()
     await adminEmailCopyButtonLocator.click()
+  })
+
+  test('check if user can deactivate themselves', async ({
+    page
+  }) => {
+    await login(page, 'einstein')
+    await page.locator(`#${USERS_SIDEBAR_ID}`).click()
+    await page.waitForURL('**/users')
+    const usersRowsSelector = page.locator('role=row')
+    await expect(usersRowsSelector).toHaveCount(8)
+
+    const activeCheckbox = await page.locator(
+      `#${ACTIVE_CHECKBOX_ID}`
+    )
+    await expect(activeCheckbox.nth(2)).toBeChecked()
+
+    await activeCheckbox.nth(2).hover()
+
+    await expect(
+      await page.locator('.v-tooltip.v-overlay--active')
+    ).toHaveText('Users cannot deactivate themselves')
   })
 })

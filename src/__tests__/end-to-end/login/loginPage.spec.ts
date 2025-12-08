@@ -25,7 +25,8 @@ import { login } from '@/__tests__/end-to-end/helpers/login'
 import {
   PASSWORD_INPUT_ID,
   SUBMIT_LOGIN_BUTTON_ID,
-  USERNAME_INPUT_ID
+  USERNAME_INPUT_ID,
+  REPOSITORY_MAINTAINERS_SIDEBAR_ID
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 
 test.describe('login page', () => {
@@ -52,5 +53,43 @@ test.describe('login page', () => {
       .fill('testpassword')
     await page.locator(`#${SUBMIT_LOGIN_BUTTON_ID}`).click()
     await expect(page).toHaveTitle(/repositories/)
+  })
+
+  test('should update sidebar after re-login on different account', async ({
+    page
+  }) => {
+    await page.goto('/')
+    await expect(page).toHaveTitle(/login/)
+    await page
+      .locator(`#${USERNAME_INPUT_ID}`)
+      .fill('einstein')
+    await page
+      .locator(`#${PASSWORD_INPUT_ID}`)
+      .fill('testpassword')
+    await page.locator(`#${SUBMIT_LOGIN_BUTTON_ID}`).click()
+
+    await page
+      .locator(`#${REPOSITORY_MAINTAINERS_SIDEBAR_ID}`)
+      .click()
+    await page.waitForURL('**/repository-maintainers')
+
+    await expect(page).toHaveTitle(/repository maintainers/)
+
+    await page.locator('#logout-button').click()
+
+    await expect(page).toHaveTitle(/login/)
+    await page
+      .locator(`#${USERNAME_INPUT_ID}`)
+      .fill('tesla')
+    await page
+      .locator(`#${PASSWORD_INPUT_ID}`)
+      .fill('testpassword')
+    await page.locator(`#${SUBMIT_LOGIN_BUTTON_ID}`).click()
+
+    await expect(
+      await page.locator(
+        `#${REPOSITORY_MAINTAINERS_SIDEBAR_ID}`
+      )
+    ).toBeHidden()
   })
 })

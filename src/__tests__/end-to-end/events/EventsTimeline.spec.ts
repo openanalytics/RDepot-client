@@ -47,10 +47,9 @@ test.describe(TITLE, () => {
     await resourceTypeField.click({ force: true })
 
     await page
-      .locator(
-        '#v-menu-260 > div > div > div:nth-child(3) > div.v-list-item__content > div'
-      )
+      .getByRole('option', { name: 'Package Maintainer' })
       .click()
+
     await expect(
       page.locator('#reset-button')
     ).toBeVisible()

@@ -38,4 +38,26 @@ test.describe(TITLE_SERIAL, () => {
     const maintainersRowsSelector = page.locator('role=row')
     await expect(maintainersRowsSelector).toHaveCount(12)
   })
+
+  test('should check how many package maintainers are in the table footer', async ({
+    page
+  }) => {
+    await login(page, 'einstein')
+    await page
+      .locator(`#${PACKAGE_MAINTAINERS_SIDEBAR_ID}`)
+      .click()
+    await page.waitForURL('**/package-maintainers')
+    await expect(page).toHaveTitle(
+      /RDepot - package maintainers/
+    )
+    const maintainersRowsSelector = page.locator('role=row')
+    await expect(maintainersRowsSelector).toHaveCount(12)
+    await expect(
+      (
+        await page
+          .locator('.v-data-table-footer__info')
+          .innerText()
+      ).includes('1-11 of 11')
+    ).toBe(true)
+  })
 })

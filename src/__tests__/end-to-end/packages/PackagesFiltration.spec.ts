@@ -24,6 +24,10 @@ import { expect, test } from '@playwright/test'
 import {
   PACKAGES_FILTRATION_DELETED_FIELD_ID,
   PACKAGES_FILTRATION_SEARCH_FIELD_ID,
+  PACKAGES_FILTRATION_TECHNOLOGY_FIELD_ID,
+  PACKAGES_FILTRATION_REPOSITORY_FIELD_ID,
+  PACKAGES_FILTRATION_SUBMISSION_STATE_FIELD_ID,
+  PACKAGES_FILTRATION_MAINTAINER_FIELD_ID,
   FILTRATION_RESET_BUTTON_ID
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '../helpers/login'
@@ -129,6 +133,105 @@ test.describe(TITLE, () => {
       .first()
       .waitFor()
     await expect(closableTags).toHaveCount(1)
+  })
+
+  test('should check filtration fields before and after reset', async ({
+    page
+  }) => {
+    await login(page, 'einstein')
+    await page.waitForURL('**/packages')
+    await expect(page).toHaveTitle(/RDepot - packages/)
+    const packagesRowsSelector = page.locator('role=row')
+
+    await expect(
+      page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
+    ).toBeVisible()
+    await expect(packagesRowsSelector).toHaveCount(21)
+
+    const searchValue = await page.locator(
+      `#${PACKAGES_FILTRATION_SEARCH_FIELD_ID}`
+    )
+    const technologyValue = await page.locator(
+      `#${PACKAGES_FILTRATION_TECHNOLOGY_FIELD_ID}`
+    )
+    const repositoryValue = await page.locator(
+      `#${PACKAGES_FILTRATION_REPOSITORY_FIELD_ID}`
+    )
+    const stateValue = await page.locator(
+      `#${PACKAGES_FILTRATION_SUBMISSION_STATE_FIELD_ID}`
+    )
+    const deletedValue = await page.locator(
+      `#${PACKAGES_FILTRATION_DELETED_FIELD_ID}`
+    )
+    const maintainerValue = await page.locator(
+      `#${PACKAGES_FILTRATION_MAINTAINER_FIELD_ID}`
+    )
+
+    await expect(await searchValue.inputValue()).toBe('')
+    await expect(await technologyValue.inputValue()).toBe(
+      ''
+    )
+    await expect(await repositoryValue.inputValue()).toBe(
+      ''
+    )
+    await expect(await deletedValue.inputValue()).toBe(
+      'true'
+    )
+    await expect(await maintainerValue.inputValue()).toBe(
+      ''
+    )
+    await expect(await stateValue.inputValue()).toBe(
+      'ACCEPTED'
+    )
+
+    await repositoryValue.waitFor()
+    await repositoryValue.click({ force: true })
+    await page
+      .locator('.v-list-item', { hasText: /^testrepo1$/ })
+      .click()
+
+    await page
+      .locator(`#${PACKAGES_FILTRATION_SEARCH_FIELD_ID}`)
+      .fill('A3')
+
+    await technologyValue.waitFor()
+    await technologyValue.click({ force: true })
+    await page.getByRole('option', { name: 'R' }).click()
+
+    await expect(
+      page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
+    ).toBeVisible()
+    await expect(packagesRowsSelector).toHaveCount(2)
+    await expect(await searchValue.inputValue()).toBe('A3')
+    await expect(await technologyValue.inputValue()).toBe(
+      'R'
+    )
+
+    await page
+      .locator(`#${FILTRATION_RESET_BUTTON_ID}`)
+      .click()
+
+    await expect(
+      page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
+    ).toBeHidden()
+    await expect(packagesRowsSelector).toHaveCount(21)
+
+    await expect(await searchValue.inputValue()).toBe('')
+    await expect(await technologyValue.inputValue()).toBe(
+      ''
+    )
+    await expect(await repositoryValue.inputValue()).toBe(
+      ''
+    )
+    await expect(await maintainerValue.inputValue()).toBe(
+      ''
+    )
+    await expect(await deletedValue.inputValue()).toBe(
+      'true'
+    )
+    await expect(await stateValue.inputValue()).toBe(
+      'ACCEPTED'
+    )
   })
 
   test('no data available', async ({ page }) => {

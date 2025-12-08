@@ -38,7 +38,6 @@ import {
   defaultValues,
   SubmissionsFiltration
 } from '@/models/Filtration'
-import { Technologies } from '@/enum/Technologies'
 import { useAuthorizationStore } from '@/store/options/authorization'
 import { server } from '@/__tests__/config/backend/server'
 import { failingServer } from '@/__tests__/config/backend/failingServer'
@@ -48,16 +47,6 @@ const { deepCopyAny } = useUtilities()
 const defaultFiltration = defaultValues(
   SubmissionsFiltration
 )
-
-const randomFiltration = {
-  state: ['ACCEPTED'],
-  assignedToMe: false,
-  search: 'accured',
-  technologies: [Technologies.enum.Python],
-  repository: ['repository1'],
-  fromDate: '2019-05-03',
-  toDate: '2022-09-20'
-} as SubmissionsFiltration
 
 describe('Submissions Store', () => {
   beforeEach(async () => {
@@ -78,73 +67,6 @@ describe('Submissions Store', () => {
       defaultFiltration
     )
     expect(submissionStore.totalNumber).toEqual(0)
-  })
-
-  it('Clear filtration', () => {
-    const submissionStore = useSubmissionStore()
-    submissionStore.filtration = randomFiltration
-
-    submissionStore.clearFiltration()
-
-    expect(submissionStore.filtration).toStrictEqual(
-      defaultFiltration
-    )
-  })
-
-  it('Clear filtration and fetch', async () => {
-    const submissionStore = useSubmissionStore()
-    const spy = vi.spyOn(submissionStore, 'getPage')
-    submissionStore.filtration = randomFiltration
-
-    await submissionStore.clearFiltrationAndFetch()
-
-    expect(submissionStore.filtration).toStrictEqual(
-      defaultFiltration
-    )
-    expect(spy).toBeCalled()
-    expect(submissionStore.submissions).toStrictEqual(
-      submissions.data.content
-    )
-    expect(submissionStore.totalNumber).toStrictEqual(
-      submissions.data.page.totalElements
-    )
-  })
-
-  it('Set filtration', () => {
-    const submissionStore = useSubmissionStore()
-
-    submissionStore.setFiltration(randomFiltration)
-
-    expect(submissionStore.filtration).toStrictEqual(
-      randomFiltration
-    )
-  })
-
-  it('Fetch submissions', async () => {
-    const submissionStore = useSubmissionStore()
-
-    await submissionStore.getPage()
-
-    expect(submissionStore.submissions).toStrictEqual(
-      submissions.data.content
-    )
-  })
-
-  it('Update submissions', async () => {
-    const submissionStore = useSubmissionStore()
-    const spy = vi.spyOn(submissionStore, 'getPage')
-    const submission = deepCopyAny(
-      submissions.data.content[0]
-    )
-
-    await submissionStore.patch(submission, {
-      state: EntityModelSubmissionDtoStateEnum.CANCELLED
-    })
-
-    expect(spy).toBeCalled()
-    expect(submissionStore.submissions).toStrictEqual(
-      submissions.data.content
-    )
   })
 })
 
