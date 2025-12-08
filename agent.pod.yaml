@@ -14,12 +14,12 @@ spec:
       image: registry.openanalytics.eu/openanalytics/rdepot-client-build:latest
       resources:
         limits:
-          memory: '8Gi'
-          ephemeral-storage: '8Gi'
-          cpu: 2
-        requests:
           memory: '4Gi'
           ephemeral-storage: '4Gi'
+          cpu: 2
+        requests:
+          memory: '2Gi'
+          ephemeral-storage: '1Gi'
           cpu: 1
       tty: true
       securityContext:
@@ -35,10 +35,19 @@ spec:
     - name: jnlp
       resources:
         requests:
-          memory: '4Gi'
-          ephemeral-storage: '4Gi'
+          memory: '2Gi'
+          ephemeral-storage: '1Gi'
           cpu: 1
         limits:
-          memory: '6Gi'
-          ephemeral-storage: '6Gi'
+          memory: '4Gi'
+          ephemeral-storage: '4Gi'
           cpu: 2
+    - name: kaniko
+      resources:
+        requests:
+          memory: '4Gi'
+          cpu: 1
+        limits:
+          cpu: 2
+          memory: '8Gi'
+      imagePullPolicy: Always
