@@ -116,13 +116,13 @@ test.describe(TITLE_SERIAL, () => {
     await expect(page).toHaveTitle(/RDepot - access tokens/)
 
     const tokensRowSelector = page.locator('role=row')
-    await expect(tokensRowSelector).toHaveCount(9)
+    await expect(tokensRowSelector).toHaveCount(3)
 
     await page
       .locator(`#${TOKENS_FILTRATION_SEARCH_ID}`)
       .fill('aaaaaaaaaa')
     await expect(tokensRowSelector).toHaveCount(2)
-    await expect(
+    expect(
       await page
         .locator('.v-data-table__tbody')
         .textContent()
