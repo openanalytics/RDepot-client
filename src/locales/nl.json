@@ -87,7 +87,7 @@
     },
     "repositories": {
       "publicationUri": "Publicatie URI",
-      "published": "Geplubliceerd",
+      "published": "Gepubliceerd",
       "serverAddress": "Server adres",
       "synchronizing": "Aan het synchroniseren"
     },
