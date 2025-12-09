@@ -168,4 +168,9 @@ $code_color: rgba(var(--v-theme-code));
   max-width: 1200px;
   font-size: 0.9em;
 }
+
+code {
+  white-space: pre-wrap;
+  word-break: break-all;
+}
 </style>
