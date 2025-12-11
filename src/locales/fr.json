@@ -1,1 +1,189 @@
-{}
+{
+  "forms": {
+    "repositoryMaintainers": {
+      "hints": {
+        "disabledPackageMessage": "Veuillez choisir un utilisateur et un dépot à activer",
+        "disabledRepositoryMessage": "Veuillez choisir un utilisateur à activer",
+        "disclaimer": "Seulement les utilisateurs avec au moins un rôle de maintenance de dépôt."
+      }
+    },
+    "submissions": {
+      "binaryPython": "Le paquet téléchargé est binaire {.whl}",
+      "binary": "Fichier binaire",
+      "generateManual": "Générer la documentaion",
+      "generateManualNotAvailable": "pas disponible pour les paquets binaires",
+      "stepFirst": "Choisir un dépôt",
+      "stepSecond": "Télécharger les paquets {technology}",
+      "stepThird": "Résumé",
+      "noBinaryPython": "Le paquet téléchargé n'est pas binaire"
+    },
+    "tokens": {
+      "deactivateQuestion": "Êtes-vous sûr de vouloir désactiver le jeton <strong>{0}</strong>?",
+      "copyWarning": "Assurez-vous maintenant de copier  le jeton d'accès. Vous ne pourrez pas le voir de nouveau!",
+      "deactivated": "Le jeton est désactivé",
+      "delete": "Supprimer le jeton",
+      "deleted": "Le jeton est supprimé",
+      "edit": "Éditer le nom du jeton",
+      "edited": "Le jeton est édité",
+      "newToken": "Nouveau jeton d'accès",
+      "notConfigurableExpirationDate": "Le durée de vie du jeton d'accès n'est pas configurable"
+    },
+    "authorization": {
+      "errors": {
+        "passwordError": "Le mot de passe est requis",
+        "usernameError": "Le nom est requis"
+      },
+      "username": "Se connecter",
+      "password": "Mot de passe"
+    },
+    "general": {
+      "name": "Nom"
+    },
+    "packageMaintainers": {
+      "hints": {
+        "disabledPackageMessage": "Choisit un utilisateur et un dépot à activer"
+      }
+    },
+    "repositories": {
+      "errors": {
+        "duplicateName": "Le nom du dépôt existe déjà"
+      },
+      "hints": {
+        "deprecatedAddress": "Une adresse de serveur sans technologie dans  son chemin est déprécié et ne sera plus prise en charge  avec RDepot v3.0. Veuillez utiliser une {adresse} à la place."
+      },
+      "redirectToSource": "Rediriger à la source",
+      "requiresAuthentication": "Nécessite une authentification"
+    }
+  },
+  "actions": {
+    "general": {
+      "accept": "Accepter",
+      "activate": "Activer",
+      "cancel": "Annuler",
+      "clear": "Effacer tout",
+      "continue": "Continuer",
+      "copy": "Copier",
+      "create": "Créer",
+      "createResource": "Créer",
+      "deactivate": "Désactiver",
+      "delete": "Supprimer",
+      "download": "Télécharger",
+      "edit": "Éditer",
+      "goBack": "Retourner",
+      "goTo": "Voir les détails de {resource_type}",
+      "install": "Installer",
+      "login": "Se connecter",
+      "logout": "Se déconnecter",
+      "ok": "Ok",
+      "open": "Ouvrir dans un nouvel onglet",
+      "or": "ou",
+      "save": "Sauvegarder",
+      "uploadPackages": "Télécharger des packets"
+    },
+    "settings": {
+      "theme": "Thème",
+      "changeLanguage": "Changer la langue",
+      "changeTheme": "Changer le thème",
+      "themes": {
+        "dark": "Foncé",
+        "light": "Clair"
+      },
+      "language": "Langue"
+    },
+    "repositories": {
+      "goTo": "Voir les paquets",
+      "publish": "Publier",
+      "republish": "Republier"
+    },
+    "submissions": {
+      "showNotes": "Voir les notes"
+    }
+  },
+  "messages": {
+    "general": {
+      "pending": "Action en attente",
+      "noDataAvailable": "Pas de données disponibles",
+      "notAuthorized": "Vous n'êtes pas autorisé à effectuer cette action",
+      "success": "Requête traitée avec succès"
+    },
+    "authorization": {
+      "error": "Échec de la connexion",
+      "loggedIn": "Connecté",
+      "notLoggedIn": "Non connecté",
+      "oidc": "Se connecter par OIDC"
+    },
+    "notifications": {
+      "alreadySeen": "déjà vu",
+      "events": {
+        "active": {
+          "false": "désactivé",
+          "true": "activé"
+        },
+        "create": "créé",
+        "published": {
+          "false": "non publié",
+          "true": "publié"
+        },
+        "state": {
+          "accepted": "accepté",
+          "cancelled": "annulé",
+          "rejected": "rejeté"
+        },
+        "updated": "mis à jour",
+        "upload": "téléchargé"
+      },
+      "seeAll": "voir tous les événements",
+      "title": "notifications",
+      "upToDate": "déjà mis à jour"
+    },
+    "packages": {
+      "noDescriptionProvided": "Aucune description fournie",
+      "propertyNotProvided": "pas fourni"
+    },
+    "repositories": {
+      "authenticationNotRequiredTooltip": "Ce dépôt ne nécessite pas d'authentification pour l'installation de paquet",
+      "authenticationRequiredTooltip": "Ce dépôt nécessite une authentification pour l'installation de paquet",
+      "declarative": {
+        "create": "L'action de création est désactivée en mode déclaratif",
+        "delete": "L'action de suppression est désactivée en mode déclaratif",
+        "edit": "L'action d'édition est désactivée en mode déclaratif",
+        "publish": "L'action de publication est désactivée en mode déclaratif ",
+        "republish": "L'action de republication est désactivée en mode déclaratif"
+      },
+      "deprecatedAddressTooltip": "Une adresse de serveur sans technologie dans son chemin d'accès est déprécié et ne sera plus prise en charge dans RDepot v3.0",
+      "notPublished": "Le dépôt n'est pas encore publié",
+      "republishQuestion": "Êtes-vous sûr de vouloir republier {repo_name}?"
+    },
+    "repositoryMaintainers": {
+      "warnings": {
+        "insufficientPermissions": "Les autorisations de l'utilisateur ne sont pas suffisantes pour créer un mainteneur."
+      }
+    },
+    "submissions": {
+      "addAnotherSubmission": "Télécharger d'autre paquets",
+      "empty": "Pas de dépôt sélectionné",
+      "noChangesProvided": "Il n'y a pas notes pour cette submission",
+      "noPackageChosen": "Aucun paquet sélectionné",
+      "replaceOptionDesc": "Remplacer le paquet s'il les même nom et version existent déjà dans le dépôt sélectionné.",
+      "replacingPackages": "Le remplacement des paquets existants est désactivé dans la configuration."
+    }
+  },
+  "datatable": {
+    "noDataAvailable": "Pas de données disponibles",
+    "size": "Objets par page (pagination)"
+  },
+  "dragZone": {
+    "inactive": "Déposez vos fichiers pour les télécharger"
+  },
+  "fields": {
+    "files": {
+      "architecture": "Architecture"
+    }
+  },
+  "filtration": {
+    "tokens": {
+      "expired": "Expiré",
+      "userLogin": "Utilisateurs"
+    }
+  }
+}
