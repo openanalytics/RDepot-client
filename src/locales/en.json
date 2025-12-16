@@ -309,6 +309,15 @@
           "warning": "Some uploaded submissions had warnings, see the individual submissions for details"
         },
         "warning": {
+          "file": {
+            "name": {
+              "has": {
+                "been": {
+                  "updated": "The package was submitted successfully but the file name has been updated to reflect the package metadata."
+                }
+              }
+            }
+          },
           "package": {
             "duplicate": "A package with the same name and version already exists in the selected repository. Please go through the upload process again and click 'replace' to overwrite it."
           },
@@ -410,7 +419,9 @@
         "publicationFailed": "publication failed",
         "publicationSucceed": "publication succeed",
         "true": "published"
-      }
+      },
+      "publicationSucceed": "Publication successful",
+      "publicationFailed": "Publication failed"
     },
     "submissions": {
       "accepted": "ACCEPTED",
@@ -433,7 +444,7 @@
     "settings": "Settings",
     "submission": "Submission | Submissions",
     "technology": "Technology | Technologies",
-    "token": "Token | Tokens",
+    "accessToken": "Token | Tokens",
     "user": "User | Users",
     "file": "File | Files"
   },
@@ -446,5 +457,8 @@
         "left": "Cannot modify the last administrator's role - at least one administrator must remain"
       }
     }
+  },
+  "packages": {
+    "notes": "Notes"
   }
 }

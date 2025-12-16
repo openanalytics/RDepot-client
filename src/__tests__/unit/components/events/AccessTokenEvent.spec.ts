@@ -90,7 +90,7 @@ describe('Events - Access Token (active, !deleted)', () => {
 
   it('display resource type', () => {
     expect(wrapper.text()).toContain(
-      i18n.t('resources.token').toUpperCase()
+      i18n.t('resources.accessToken').toUpperCase()
     )
   })
 

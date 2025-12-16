@@ -55,7 +55,7 @@
       <v-icon
         v-tooltip="
           $t(
-            'resource.' +
+            'resources.' +
               event.resourceType
                 ?.toLowerCase()
                 .split('_')

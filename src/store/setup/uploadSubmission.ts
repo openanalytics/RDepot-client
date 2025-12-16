@@ -170,7 +170,9 @@ export const useUploadSubmissionStore = defineStore(
               resolved.value = true
               if (warnings > 0) {
                 toasts.warning(
-                  i18n.t('submissions.upload.warning')
+                  i18n.t(
+                    'messages.submissions.warnings.upload.warning'
+                  )
                 )
               }
             }

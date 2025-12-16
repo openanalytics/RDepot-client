@@ -132,6 +132,6 @@ const relatedResource: EntityModelAccessTokenDto =
 const { getTime } = useDates()
 
 const resourceType = computed(() =>
-  i18n.t('resources.token').toUpperCase()
+  i18n.t('resources.accessToken').toUpperCase()
 )
 </script>

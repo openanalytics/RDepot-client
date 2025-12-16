@@ -183,8 +183,8 @@
         ></v-list-item>
         <v-list-item
           id="sidebar-settings-access-tokens"
-          :title="$t('resources.token', 2)"
-          :value="$t('resources.token', 2)"
+          :title="$t('resources.accessToken', 2)"
+          :value="$t('resources.accessToken', 2)"
           :active="'settingsTokens' === $route.name"
           to="/settings-tokens"
         ></v-list-item>

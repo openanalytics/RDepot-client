@@ -26,7 +26,7 @@
     :items="accessTokensStore.tokens"
     :items-length="accessTokensStore.totalNumber"
     item-value="id"
-    :title="i18n.t('resources.token', 2)"
+    :title="$t('resources.accessToken', 2)"
     :loading="accessTokensStore.loading"
     :sort-by="sortBy"
     @update:options="fetchData"
@@ -41,8 +41,8 @@
         id="access-token-active-icon"
         v-tooltip="
           item.active
-            ? i18n.t('properties.general.active')
-            : i18n.t('properties.general.inactive')
+            ? $t('properties.general.active')
+            : $t('properties.general.inactive')
         "
         :icon="
           item.active
@@ -67,12 +67,12 @@
             (!canPatch(item.links) && item.active) ||
             !item.active
           "
-          :text="i18n.t('actions.general.edit')"
+          :text="$t('actions.general.edit')"
           :hover-message="
             (!canPatch(item.links) && item.active) ||
             !item.active
-              ? i18n.t('properties.general.inactive')
-              : i18n.t('actions.general.edit')
+              ? $t('properties.general.inactive')
+              : $t('actions.general.edit')
           "
           @set-entity="prepareEdition(item)"
         />
@@ -85,8 +85,8 @@
           :name="item.name"
           :hover-message="
             !canPatch(item.links) && item.active
-              ? i18n.t('actions.general.deactivate')
-              : i18n.t('properties.general.inactive')
+              ? $t('actions.general.deactivate')
+              : $t('properties.general.inactive')
           "
           @set-resource-id="
             accessTokensStore.currentToken = item

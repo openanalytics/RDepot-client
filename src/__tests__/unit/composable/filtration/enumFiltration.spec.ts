@@ -124,7 +124,7 @@ describe('enum filtration composable', () => {
         value: 'repositoryMaintainer'
       },
       {
-        title: i18n.t('resources.token'),
+        title: i18n.t('resources.accessToken'),
         value: 'accessToken'
       }
     ])

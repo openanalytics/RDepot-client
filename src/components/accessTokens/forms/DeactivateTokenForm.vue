@@ -25,7 +25,7 @@
     <v-card-title>
       {{
         $t('actions.general.deactivate', {
-          resource_type: $t('resources.token')
+          resource_type: $t('resources.accessToken')
         })
       }}
     </v-card-title>

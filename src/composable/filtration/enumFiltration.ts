@@ -70,7 +70,7 @@ export function useEnumFiltration() {
       value: 'repositoryMaintainer'
     },
     {
-      title: i18n.t('resources.token'),
+      title: i18n.t('resources.accessToken'),
       value: 'accessToken'
     }
   ])

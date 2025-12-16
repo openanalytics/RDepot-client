@@ -39,7 +39,7 @@
       ><span>{{
         i18n.t('actions.general.createResource', {
           resource_type: i18n
-            .t('resources.token')
+            .t('resources.accessToken')
             .toLowerCase()
         })
       }}</span>
