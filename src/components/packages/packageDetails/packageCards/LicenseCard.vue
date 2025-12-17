@@ -24,7 +24,7 @@
   <v-card
     id="package-license-card"
     max-height="100px"
-    :title="packageDetailsStore.packageBag?.license"
+    :title="packageLicense"
   >
     <v-card-subtitle class="pb-3">
       {{ $t('properties.packages.license') }}
@@ -39,7 +39,14 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import { usePackageDetailsStore } from '@/store/options/packageDetails'
 
 const packageDetailsStore = usePackageDetailsStore()
+
+const packageLicense = computed(() => {
+  return packageDetailsStore.packageBag?.license?.split(
+    '\\n'
+  )[0]
+})
 </script>
