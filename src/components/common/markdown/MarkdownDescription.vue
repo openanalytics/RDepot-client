@@ -105,5 +105,9 @@ $code_color: rgba(var(--v-theme-code));
   ol > li {
     margin-left: 45px;
   }
+
+  img {
+    max-width: 100%;
+  }
 }
 </style>
