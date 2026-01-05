@@ -446,8 +446,8 @@
         "incorrect": "adres serwera jest niepoprawny",
         "undefined": "sprawdź, czy adres serwera jest poprawny"
       },
-      "lastModificationDate": "Ostatnia data modyfikacji",
-      "lastPublicationDate": "Ostatnia data publikacji",
+      "lastModificationDate": "Data ostatniej modyfikacji",
+      "lastPublicationDate": "Data ostatniej publikacji",
       "numberOfPackages": "Liczba pakietów",
       "published": {
         "false": "nieopublikowano",
