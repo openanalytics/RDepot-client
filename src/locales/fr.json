@@ -78,7 +78,14 @@
       "open": "Ouvrir dans un nouvel onglet",
       "or": "ou",
       "save": "Sauvegarder",
-      "uploadPackages": "Télécharger des packets"
+      "uploadPackages": "Télécharger des packets",
+      "click": "Cliquer",
+      "editResource": "Éditer",
+      "reject": "Rejeter",
+      "reset": "Réinitialiser",
+      "submit": "Soumettre",
+      "unset": "Désélectionner",
+      "refresh": "Rafraîchir"
     },
     "settings": {
       "theme": "Thème",
@@ -93,10 +100,13 @@
     "repositories": {
       "goTo": "Voir les paquets",
       "publish": "Publier",
-      "republish": "Republier"
+      "republish": "Republier",
+      "seePackages": "Voir les paquets du répertoire",
+      "unpublish": "dépublier"
     },
     "submissions": {
-      "showNotes": "Voir les notes"
+      "showNotes": "Voir les notes",
+      "noNotes": "Pas de notes"
     }
   },
   "messages": {
@@ -170,14 +180,40 @@
   },
   "datatable": {
     "noDataAvailable": "Pas de données disponibles",
-    "size": "Objets par page (pagination)"
+    "size": "Objets par page (pagination)",
+    "itemsPerPage": "Éléments par page"
   },
   "dragZone": {
-    "inactive": "Déposez vos fichiers pour les télécharger"
+    "inactive": "Déposez vos fichiers pour les télécharger",
+    "active": "Glisse-dépose un fichier ici",
+    "click": "Sélectionner les manuellement",
+    "dropzone": "Zone de dépôt"
   },
   "fields": {
     "files": {
-      "architecture": "Architecture"
+      "architecture": "Architecture",
+      "binary": "Binaire",
+      "generateManual": "Générer le manuel",
+      "notes": "Notes",
+      "rVersion": "Version R",
+      "replace": "Remplacer"
+    },
+    "repositories": {
+      "published": "Publié",
+      "serverAddress": "Adresse du serveur",
+      "publicationUri": "URI de publication",
+      "synchronizing": "Synchronisation"
+    },
+    "general": {
+      "date": "Date",
+      "deleted": "Supprimé",
+      "actions": "Actions",
+      "createdOn": "Créé le"
+    },
+    "packages": {
+      "fileType": "Type",
+      "source": "Source",
+      "submissionState": "Statut"
     }
   },
   "filtration": {
