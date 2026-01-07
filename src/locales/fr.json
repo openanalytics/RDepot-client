@@ -196,7 +196,8 @@
       "generateManual": "Générer le manuel",
       "notes": "Notes",
       "rVersion": "Version R",
-      "replace": "Remplacer"
+      "replace": "Remplacer",
+      "distribution": "Distribution"
     },
     "repositories": {
       "published": "Publié",
@@ -214,6 +215,10 @@
       "fileType": "Type",
       "source": "Source",
       "submissionState": "Statut"
+    },
+    "submissions": {
+      "approver": "Approbateur",
+      "author": "Auteur"
     }
   },
   "filtration": {
