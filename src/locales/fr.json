@@ -19,7 +19,7 @@
     },
     "tokens": {
       "deactivateQuestion": "Êtes-vous sûr de vouloir désactiver le jeton <strong>{0}</strong>?",
-      "copyWarning": "Assurez-vous maintenant de copier  le jeton d'accès. Vous ne pourrez pas le voir de nouveau!",
+      "copyWarning": "Assurez-vous maintenant de copier le jeton d'accès. Vous ne pourrez pas le voir de nouveau!",
       "deactivated": "Le jeton est désactivé",
       "delete": "Supprimer le jeton",
       "deleted": "Le jeton est supprimé",
@@ -41,7 +41,8 @@
     },
     "packageMaintainers": {
       "hints": {
-        "disabledPackageMessage": "Choisit un utilisateur et un dépot à activer"
+        "disabledPackageMessage": "Choisit un utilisateur et un dépot à activer",
+        "disclaimerPackages": "Seulement les utilisateurs ayant le rôle de mainteneur de paquet disponible."
       }
     },
     "repositories": {
@@ -49,10 +50,11 @@
         "duplicateName": "Le nom du dépôt existe déjà"
       },
       "hints": {
-        "deprecatedAddress": "Une adresse de serveur sans technologie dans  son chemin est déprécié et ne sera plus prise en charge  avec RDepot v3.0. Veuillez utiliser une {adresse} à la place."
+        "deprecatedAddress": "Une adresse de serveur sans technologie dans son chemin est déprécié et ne sera plus prise en charge avec RDepot v3.0. Veuillez utiliser une {adresse} à la place."
       },
       "redirectToSource": "Rediriger à la source",
-      "requiresAuthentication": "Nécessite une authentification"
+      "requiresAuthentication": "Nécessite une authentification",
+      "hash": "Fonction de hachage"
     }
   },
   "actions": {
@@ -114,13 +116,18 @@
       "pending": "Action en attente",
       "noDataAvailable": "Pas de données disponibles",
       "notAuthorized": "Vous n'êtes pas autorisé à effectuer cette action",
-      "success": "Requête traitée avec succès"
+      "success": "Requête traitée avec succès",
+      "chooseOneToContinue": "Veuillez ajouter {resource_type} pour continuer",
+      "deactivateQuestion": "Êtes-vous sûr de vouloir désactiver {resource_name}?",
+      "copied": "Copié dans le presse-papier",
+      "chooseOneToEnable": "Choisissez au moins un {resource_type} à activer"
     },
     "authorization": {
       "error": "Échec de la connexion",
       "loggedIn": "Connecté",
       "notLoggedIn": "Non connecté",
-      "oidc": "Se connecter par OIDC"
+      "oidc": "Se connecter par OIDC",
+      "success": "Connection réussie"
     },
     "notifications": {
       "alreadySeen": "déjà vu",
@@ -176,6 +183,40 @@
       "noPackageChosen": "Aucun paquet sélectionné",
       "replaceOptionDesc": "Remplacer le paquet s'il les même nom et version existent déjà dans le dépôt sélectionné.",
       "replacingPackages": "Le remplacement des paquets existants est désactivé dans la configuration."
+    },
+    "config": {
+      "deletingPackages": "La suppression de paquet est désactivée dans la configuration",
+      "deletingRepositories": "Supprimer les répertoires est désactivé dans la configuration"
+    },
+    "errors": {
+      "401": "La requête ne peut pas être exécutée parce que l'utilisateur n'est pas authentifié.",
+      "403": "La requête ne peut pas être exécutée parce que l'utilisateur n'est pas autorisé",
+      "manual": {
+        "notFound": "Le manuel n'est pas trouvé"
+      },
+      "404": "La page que vous cherchez n'existe pas.",
+      "405": "Il semble avoir un problème de configuration dans l'infrastructure. Contactez votre administrateur pour le résoudre.",
+      "422": "Validation échouée",
+      "500": "Erreur de serveur interne",
+      "copyFailed": "Copie échouée",
+      "required": "Ce champ est requis",
+      "email": "Cela doit être un e-mail",
+      "invalidForm": "Le formulaire n'est pas valable",
+      "formNotChanged": "Le formulaire n'a pas changé",
+      "message": {
+        "500": "Nous sommes désolés, un problème est survenu! Veuillez passer ce message à un administrateur du RDepot.\n\nID de la trace:\n{traceId}\n\ndate:\n{timestamp}"
+      },
+      "notDownloaded": "Pas téléchargé",
+      "notEdited": "Pas édité",
+      "notMutable": "{actionType} ne peut pas être exécutée parce qu'elle est déjà {currentState}",
+      "oauth": "Erreur avec oauth",
+      "oauthTitle": "Autorisation",
+      "pageNotFound": "404 - Page non trouvée",
+      "reponame": "La zone de saisie contient des caractères invalides. Veuillez utiliser seulement les caractères autorisés.",
+      "url": "Ce doit être un URI"
+    },
+    "filtration": {
+      "makeSure": "Cette action supprimera toutes les filtrations"
     }
   },
   "datatable": {
@@ -184,7 +225,7 @@
     "itemsPerPage": "Éléments par page"
   },
   "dragZone": {
-    "inactive": "Déposez vos fichiers pour les télécharger",
+    "inactive": "Déposer les fichiers pour les télécharger",
     "active": "Glisse-dépose un fichier ici",
     "click": "Sélectionner les manuellement",
     "dropzone": "Zone de dépôt"
@@ -218,13 +259,36 @@
     },
     "submissions": {
       "approver": "Approbateur",
-      "author": "Auteur"
+      "author": "Auteur",
+      "submitter": "Soumetteur"
+    },
+    "tokens": {
+      "expirationDate": "Date d'expiration",
+      "lastUsed": "Dernièrement utilisé"
+    },
+    "users": {
+      "email": "E-mail",
+      "lastLoggedIn": "Dernièrement connecté",
+      "name": "Afficher le nom",
+      "role": "Rôle | Rôles",
+      "username": "Nom d'utilisateur"
     }
   },
   "filtration": {
     "tokens": {
       "expired": "Expiré",
       "userLogin": "Utilisateurs"
+    },
+    "events": {
+      "eventType": "Type d'événement",
+      "noEvents": "Pas d'évènements disponibles",
+      "resourceType": "Type de ressource"
+    },
+    "general": {
+      "fromDate": "À partir de la date",
+      "searchPlaceholder": "Chercher",
+      "title": "Filtration",
+      "toDate": "À la date"
     }
   }
 }
