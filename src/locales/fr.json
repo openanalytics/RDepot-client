@@ -120,7 +120,13 @@
       "chooseOneToContinue": "Veuillez ajouter {resource_type} pour continuer",
       "deactivateQuestion": "Êtes-vous sûr de vouloir désactiver {resource_name}?",
       "copied": "Copié dans le presse-papier",
-      "chooseOneToEnable": "Choisissez au moins un {resource_type} à activer"
+      "chooseOneToEnable": "Choisissez au moins un {resource_type} à activer",
+      "editResourceQuestion": "Êtes-vous sûr de vouloir {edit_action} la {resource_type} suivante?",
+      "deleteQuestion": "Êtes-vous sûr de vouloir supprimer {resource_name}?",
+      "deleteResourcesQuestion": "Êtes-vous sûr de vouloir supprimer la {resource_type} suivante?",
+      "deleted": "Cette {resource_name} est supprimée",
+      "goToDisabled": "Il n'est pas possible d'accéder aux détails",
+      "successFiltration": "Action de filtration réussie"
     },
     "authorization": {
       "error": "Échec de la connexion",
@@ -181,8 +187,48 @@
       "empty": "Pas de dépôt sélectionné",
       "noChangesProvided": "Il n'y a pas notes pour cette submission",
       "noPackageChosen": "Aucun paquet sélectionné",
-      "replaceOptionDesc": "Remplacer le paquet s'il les même nom et version existent déjà dans le dépôt sélectionné.",
-      "replacingPackages": "Le remplacement des paquets existants est désactivé dans la configuration."
+      "replaceOptionDesc": "Remplacer le paquet si un paquet du même nom et de la même version existe déjà dans le répertoire choisi.",
+      "replacingPackages": "Le remplacement des paquets existants est désactivé dans la configuration.",
+      "warnings": {
+        "warning": {
+          "file": {
+            "name": {
+              "has": {
+                "been": {
+                  "updated": "Le paquet a été soumis avec succès mais le nom du fichier a été mis à jour pour refléter les métadonnées du paquet."
+                }
+              }
+            }
+          },
+          "package": {
+            "duplicate": "Un paquet avec le même nom et la même version existe déjà dans le répertoire sélectionné. Veuillez recommencer le processus de téléchargement et cliquer 'remplacer'."
+          },
+          "replacing": {
+            "packages": {
+              "disabled": "Le remplacement de paquets est désactivé."
+            }
+          },
+          "synchronization": {
+            "failure": "Échec de synchronisation du répertoire. Veuillez essayer de nouveau de télécharger le paquet."
+          },
+          "unknown": "Échec inconnu. Veuillez essayer de nouveau."
+        },
+        "noSubmissionAvailable": "Aucune soumission valable sélectionnée",
+        "notListedWarning": "Certaines soumissions ne sont pas listées parce qu'elle ne peuvent pas être {actionType}.",
+        "onSubmissionAvailableText": "Vous n'avez pas sélectionné de soumissions valables pour être {actionType}. Veuillez sélectionner d'autres soumissions et essayer de nouveau.",
+        "onSubmissionAvailableTitle": "Veuillez sélectionner d'autres soumissions",
+        "replace": {
+          "duplication": "Un paquet avec le même nom et la même version existe déjà dans le répertoire sélectionné. Veuillez recommencer le processus de téléchargement et cliquer 'remplacer'."
+        },
+        "upload": {
+          "warning": "Certaines soumissions téléchargées ont des avertissements, voir les soumissions individuelles pour plus de détails"
+        }
+      },
+      "waitForAllRequestsToFulfill": "Veuillez attendre que toutes les soumissions ont été téléchargées",
+      "waitingForAction": "en attente d'une action",
+      "wrongExtension": "Choisissez les paquets qui ont une extension de fichier correcte",
+      "wrongExtension-Python": "Choisissez les paquets qui ont une extension de fichier correcte (.tar.gz/.whl)",
+      "wrongExtension-R": "Choisissez les paquets qui ont une extension de fichier correcte (.tar.gz)"
     },
     "config": {
       "deletingPackages": "La suppression de paquet est désactivée dans la configuration",
@@ -217,6 +263,10 @@
     },
     "filtration": {
       "makeSure": "Cette action supprimera toutes les filtrations"
+    },
+    "users": {
+      "unableDeactivation": "Les utilisateurs ne peuvent pas désactiver eux-mêmes",
+      "unableDeletion": "Les utilisateurs ne peuvent pas supprimer eux-mêmes"
     }
   },
   "datatable": {
@@ -289,6 +339,58 @@
       "searchPlaceholder": "Chercher",
       "title": "Filtration",
       "toDate": "À la date"
+    }
+  },
+  "properties": {
+    "packages": {
+      "installInstructionCrane-R": "Pour installer ce paquet veuillez visiter {url}, puis démarrer R et saisir:",
+      "license": "Licence",
+      "noInstallInstruction": "Le répertoire n'a pas encore été publié.",
+      "python": {
+        "classifiers": "Classificateurs",
+        "hash": "hachage",
+        "platform": "platforme",
+        "requiresPython": "nécessite Python",
+        "projectUrl": "URI du projet",
+        "providesExtra": "fourni en plus",
+        "requiresDist": "nécessite une distribution",
+        "requiresExternal": "nécessite externe"
+      },
+      "r": {
+        "depends": "dépendent",
+        "encoding": "Encodage",
+        "manual": "manuel"
+      },
+      "binary": "Binaire",
+      "binary-R": {
+        "architecture": "architecture",
+        "distribution": "distribution",
+        "rversion": "Version R"
+      },
+      "binaryProperties": "Propriétés binaires",
+      "current": "courant",
+      "installInstruction-Python": "Pour installer le paquet, veuillez exécuter:",
+      "installInstructionBinary": "Pour installer le paquet binaire, démarrer R et saisir:",
+      "installInstructionBinaryCrane": "Pour installer le paquet binaire veuillez visiter {url}, puis démarrer R et saisir:",
+      "installInstruction-R": "Pour installer le paquet, démarrer R et saisir:",
+      "needsCompilation": "nécessite une compilation"
+    },
+    "events": {
+      "general": {
+        "author": "Auteur"
+      },
+      "type": {
+        "create": "Créer",
+        "delete": "Supprimer",
+        "upload": "Télécharger",
+        "update": "Mettre à jour"
+      }
+    },
+    "general": {
+      "active": "Actif",
+      "deleted": "Supprimé",
+      "details": "Détails",
+      "inactive": "Inactif"
     }
   }
 }
