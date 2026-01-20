@@ -2,17 +2,17 @@
   "forms": {
     "repositoryMaintainers": {
       "hints": {
-        "disabledPackageMessage": "Veuillez choisir un utilisateur et un dépot à activer",
+        "disabledPackageMessage": "Veuillez choisir un utilisateur et un répertoire à activer",
         "disabledRepositoryMessage": "Veuillez choisir un utilisateur à activer",
-        "disclaimer": "Seulement les utilisateurs avec au moins un rôle de maintenance de dépôt."
+        "disclaimer": "Seulement les utilisateurs avec au moins un rôle de responsable du répertoire disponible."
       }
     },
     "submissions": {
-      "binaryPython": "Le paquet téléchargé est binaire {.whl}",
+      "binaryPython": "Le paquet téléchargé est binaire (.whl)",
       "binary": "Fichier binaire",
       "generateManual": "Générer la documentaion",
       "generateManualNotAvailable": "pas disponible pour les paquets binaires",
-      "stepFirst": "Choisir un dépôt",
+      "stepFirst": "Choisir un répertoire",
       "stepSecond": "Télécharger les paquets {technology}",
       "stepThird": "Résumé",
       "noBinaryPython": "Le paquet téléchargé n'est pas binaire"
@@ -41,13 +41,13 @@
     },
     "packageMaintainers": {
       "hints": {
-        "disabledPackageMessage": "Choisit un utilisateur et un dépot à activer",
-        "disclaimerPackages": "Seulement les utilisateurs ayant le rôle de mainteneur de paquet disponible."
+        "disabledPackageMessage": "Choisit un utilisateur et un répertoire à activer",
+        "disclaimerPackages": "Seulement les utilisateurs ayant un rôle de responsable de paquet disponible."
       }
     },
     "repositories": {
       "errors": {
-        "duplicateName": "Le nom du dépôt existe déjà"
+        "duplicateName": "Le nom du répertoire existe déjà"
       },
       "hints": {
         "deprecatedAddress": "Une adresse de serveur sans technologie dans son chemin est déprécié et ne sera plus prise en charge avec RDepot v3.0. Veuillez utiliser une {adresse} à la place."
@@ -60,14 +60,14 @@
   "actions": {
     "general": {
       "accept": "Accepter",
-      "activate": "Activer",
+      "activate": "Activer | Activer {resource_type}",
       "cancel": "Annuler",
       "clear": "Effacer tout",
       "continue": "Continuer",
       "copy": "Copier",
       "create": "Créer",
-      "createResource": "Créer",
-      "deactivate": "Désactiver",
+      "createResource": "Créer {resource_type}",
+      "deactivate": "Désactiver | Désactiver {resource_type}",
       "delete": "Supprimer",
       "download": "Télécharger",
       "edit": "Éditer",
@@ -82,7 +82,7 @@
       "save": "Sauvegarder",
       "uploadPackages": "Télécharger des packets",
       "click": "Cliquer",
-      "editResource": "Éditer",
+      "editResource": "Éditer {resource_type}",
       "reject": "Rejeter",
       "reset": "Réinitialiser",
       "submit": "Soumettre",
@@ -94,8 +94,8 @@
       "changeLanguage": "Changer la langue",
       "changeTheme": "Changer le thème",
       "themes": {
-        "dark": "Foncé",
-        "light": "Clair"
+        "dark": "foncé",
+        "light": "clair"
       },
       "language": "Langue"
     },
@@ -104,10 +104,10 @@
       "publish": "Publier",
       "republish": "Republier",
       "seePackages": "Voir les paquets du répertoire",
-      "unpublish": "dépublier"
+      "unpublish": "Dépublier"
     },
     "submissions": {
-      "showNotes": "Voir les notes",
+      "showNotes": "Montrer les notes",
       "noNotes": "Pas de notes"
     }
   },
@@ -174,18 +174,18 @@
         "republish": "L'action de republication est désactivée en mode déclaratif"
       },
       "deprecatedAddressTooltip": "Une adresse de serveur sans technologie dans son chemin d'accès est déprécié et ne sera plus prise en charge dans RDepot v3.0",
-      "notPublished": "Le dépôt n'est pas encore publié",
+      "notPublished": "Le répertoire n'est pas encore publié",
       "republishQuestion": "Êtes-vous sûr de vouloir republier {repo_name}?"
     },
     "repositoryMaintainers": {
       "warnings": {
-        "insufficientPermissions": "Les autorisations de l'utilisateur ne sont pas suffisantes pour créer un mainteneur."
+        "insufficientPermissions": "Les autorisations de l'utilisateur ne sont pas suffisantes pour créer un responsable."
       }
     },
     "submissions": {
-      "addAnotherSubmission": "Télécharger d'autre paquets",
+      "addAnotherSubmission": "Télécharger d'autres paquets",
       "empty": "Pas de dépôt sélectionné",
-      "noChangesProvided": "Il n'y a pas notes pour cette submission",
+      "noChangesProvided": "Il n'y a pas de notes listées pour cette soumission",
       "noPackageChosen": "Aucun paquet sélectionné",
       "replaceOptionDesc": "Remplacer le paquet si un paquet du même nom et de la même version existe déjà dans le répertoire choisi.",
       "replacingPackages": "Le remplacement des paquets existants est désactivé dans la configuration.",
@@ -209,7 +209,7 @@
             }
           },
           "synchronization": {
-            "failure": "Échec de synchronisation du répertoire. Veuillez essayer de nouveau de télécharger le paquet."
+            "failure": "Échec de synchronisation du répertoire. Veuillez essayer de télécharger le paquet de nouveau."
           },
           "unknown": "Échec inconnu. Veuillez essayer de nouveau."
         },
@@ -259,7 +259,7 @@
       "oauthTitle": "Autorisation",
       "pageNotFound": "404 - Page non trouvée",
       "reponame": "La zone de saisie contient des caractères invalides. Veuillez utiliser seulement les caractères autorisés.",
-      "url": "Ce doit être un URI"
+      "url": "Ceci doit être un URL"
     },
     "filtration": {
       "makeSure": "Cette action supprimera toutes les filtrations"
@@ -276,8 +276,8 @@
   },
   "dragZone": {
     "inactive": "Déposer les fichiers pour les télécharger",
-    "active": "Glisse-dépose un fichier ici",
-    "click": "Sélectionner les manuellement",
+    "active": "Glisse-dépose un ou plusieurs fichiers ici",
+    "click": "pour les sélectionner manuellement",
     "dropzone": "Zone de dépôt"
   },
   "fields": {
@@ -293,8 +293,8 @@
     "repositories": {
       "published": "Publié",
       "serverAddress": "Adresse du serveur",
-      "publicationUri": "URI de publication",
-      "synchronizing": "Synchronisation"
+      "publicationUri": "URL de publication",
+      "synchronizing": "En synchronisation"
     },
     "general": {
       "date": "Date",
@@ -351,15 +351,22 @@
         "hash": "hachage",
         "platform": "platforme",
         "requiresPython": "nécessite Python",
-        "projectUrl": "URI du projet",
+        "projectUrl": "URL du projet",
         "providesExtra": "fourni en plus",
         "requiresDist": "nécessite une distribution",
         "requiresExternal": "nécessite externe"
       },
       "r": {
-        "depends": "dépendent",
+        "depends": "dépends",
         "encoding": "Encodage",
-        "manual": "manuel"
+        "manual": "manuel",
+        "md5sum": "somme de contrôle",
+        "vignettes": "vignettes",
+        "noVignetteNameProvided": "aucun nom n'est fourni",
+        "suggests": "suggère",
+        "systemRequirements": "configuration du système requise",
+        "url": "URL",
+        "imports": "Importes"
       },
       "binary": "Binaire",
       "binary-R": {
@@ -369,11 +376,17 @@
       },
       "binaryProperties": "Propriétés binaires",
       "current": "courant",
-      "installInstruction-Python": "Pour installer le paquet, veuillez exécuter:",
-      "installInstructionBinary": "Pour installer le paquet binaire, démarrer R et saisir:",
-      "installInstructionBinaryCrane": "Pour installer le paquet binaire veuillez visiter {url}, puis démarrer R et saisir:",
-      "installInstruction-R": "Pour installer le paquet, démarrer R et saisir:",
-      "needsCompilation": "nécessite une compilation"
+      "installInstruction-Python": "Pour installer ce paquet, veuillez exécuter:",
+      "installInstructionBinary": "Pour installer ce paquet binaire, démarrer R et saisir:",
+      "installInstructionBinaryCrane": "Pour installer ce paquet binaire veuillez visiter {url}, puis démarrer R et saisir:",
+      "installInstruction-R": "Pour installer ce paquet, démarrer R et saisir:",
+      "needsCompilation": "nécessite une compilation",
+      "relatedEventPage": "page d'évènements liés",
+      "seeRelatedEvent": "voir évènements liés",
+      "source": "Source",
+      "sourceFile": "Fichier source",
+      "versions": "Versions du paquet",
+      "withinRdepot": "à l'intérieur de RDepot"
     },
     "events": {
       "general": {
@@ -391,6 +404,61 @@
       "deleted": "Supprimé",
       "details": "Détails",
       "inactive": "Inactif"
+    },
+    "submissions": {
+      "rejected": "REJETÉ",
+      "accepted": "ACCEPTÉ",
+      "cancelled": "ANNULÉ",
+      "downloaded": "TÉLÉCHARGÉ",
+      "notes": "Notes",
+      "waiting": "EN ATTENTE"
+    },
+    "repositories": {
+      "published": {
+        "publicationFailed": "publication échouée",
+        "false": "pas publié",
+        "publicationSucceed": "publication réussie",
+        "true": "publié"
+      },
+      "healthCheck": {
+        "correct": "l'adresse du serveur est correcte",
+        "incorrect": "l'adresse du serveur est incorrecte",
+        "undefined": "vérifier si l'adresse du serveur est correcte"
+      },
+      "lastModificationDate": "Date de la dernière modification",
+      "lastPublicationDate": "Date de la dernière publication",
+      "numberOfPackages": "Nombre de paquets",
+      "publicationSucceed": "Publication réussie",
+      "publicationFailed": "Publication échouée"
+    }
+  },
+  "resources": {
+    "maintainer": "Responsable | Responsables",
+    "settings": "Paramètres",
+    "admin": "Administrateur | Administrateurs",
+    "event": "Événement | Événements",
+    "generalSettings": "Général",
+    "repositoryMaintainer": "Responsable du répertoire| Responsables du répertoire",
+    "package": "Paquet | Paquets",
+    "packageMaintainer": "Responsable du paquet | Responsables du paquet",
+    "repository": "Répertoire | Répertoires",
+    "submission": "Soumission | Soumissions",
+    "technology": "Technologie | Technologies",
+    "accessToken": "Jeton | Jetons",
+    "user": "Utilisateur | Utilisateurs",
+    "file": "Fichier | Fichiers"
+  },
+  "updatedProperties": {
+    "title": "Propriétés mises à jour"
+  },
+  "packages": {
+    "notes": "Notes"
+  },
+  "backend": {
+    "no": {
+      "admin": {
+        "left": "Il n'est pas possible de modifier le rôle du dernier administrateur - au moins un administrateur doit rester"
+      }
     }
   }
 }
