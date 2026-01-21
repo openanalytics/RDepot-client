@@ -26,6 +26,7 @@ import { useRepositoryMaintainersFiltration } from '@/composable/filtration/repo
 import { usePackageMaintainersStore } from '@/store/options/packageMaintainers'
 import { usePackagesStore } from '@/store/options/packages'
 import { useSubmissionStore } from '@/store/options/submission'
+import { useUsersFiltration } from '@/composable/filtration/usersFiltration'
 
 export function preparePackagesView() {
   const packagesStore = usePackagesStore()
@@ -42,6 +43,11 @@ export function prepareEventsView() {
   const { resetRepositoriesPagination } =
     useRepositoriesFiltration()
   resetRepositoriesPagination()
+}
+
+export function prepareTokensView() {
+  const { resetPaginationUsers } = useUsersFiltration()
+  resetPaginationUsers()
 }
 
 export function prepareSubmissionsView() {

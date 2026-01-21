@@ -116,17 +116,15 @@ import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { isAtLeastAdmin } from '@/enum/UserRoles'
 import { useUsersFiltration } from '@/composable/filtration/usersFiltration'
-import { onMounted } from 'vue'
-import ResetButton from '@/components/common/buttons/ResetButton.vue'
 import { onBeforeMount } from 'vue'
+import ResetButton from '@/components/common/buttons/ResetButton.vue'
 import { useAccessTokensStore } from '@/store/options/accessTokens'
 import { useAuthorizationStore } from '@/store/options/authorization'
 
 const authorizationStore = useAuthorizationStore()
 const accessTokensStore = useAccessTokensStore()
 
-const { storeIdUser, loadUsers, resetPaginationUsers } =
-  useUsersFiltration()
+const { storeIdUser, loadUsers } = useUsersFiltration()
 
 const { setValues, values, setFieldValue } = useForm({
   validationSchema: toTypedSchema(TokensFiltration),
@@ -146,7 +144,7 @@ function resetValues() {
   )
 }
 
-onMounted(() => {
+onBeforeMount(() => {
   if (
     isAtLeastAdmin(
       authorizationStore.userRole
@@ -161,8 +159,6 @@ onMounted(() => {
     setFiltration()
   }
 })
-
-onBeforeMount(() => resetPaginationUsers())
 </script>
 
 <style lang="scss">

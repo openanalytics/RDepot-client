@@ -26,6 +26,7 @@ import {
   prepareRepositoriesView,
   preparePackageMaintainersView,
   prepareEventsView,
+  prepareTokensView,
   pageNotFoundPreparation
 } from './viewsPreparations'
 
@@ -145,7 +146,10 @@ export const routes = [
         name: 'settingsTokens',
         component: () =>
           import('@/views/settings/AccessTokensView.vue'),
-        meta: { title: 'RDepot - access tokens' }
+        meta: { title: 'RDepot - access tokens' },
+        beforeEnter: () => {
+          prepareTokensView()
+        }
       }
     ]
   },

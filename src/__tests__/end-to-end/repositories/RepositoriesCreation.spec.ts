@@ -332,6 +332,10 @@ test.describe(TITLE, { tag: '@serial' }, () => {
 
     await page
       .locator(`#${CREATE_REPOSITORY_NAME_FIELD_ID}`)
+      .click()
+
+    await page
+      .locator(`#${CREATE_REPOSITORY_NAME_FIELD_ID}`)
       .fill('test123')
 
     await expect(nameError).toHaveText('')

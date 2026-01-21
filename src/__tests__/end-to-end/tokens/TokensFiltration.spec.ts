@@ -31,7 +31,7 @@ import {
 import { login } from '@/__tests__/end-to-end/helpers/login'
 
 const TITLE_SERIAL = 'tokens filtration'
-test.describe(TITLE_SERIAL, () => {
+test.describe(TITLE_SERIAL, { tag: '@serial' }, () => {
   test('active', async ({ page }) => {
     await login(page, 'einstein')
     await page
