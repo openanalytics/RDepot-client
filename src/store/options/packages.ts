@@ -251,7 +251,6 @@ export const usePackagesStore = defineStore(
           this.filtration =
             PackagesFiltration.parse(payload)
         }
-        await this.getPage()
       },
       setFiltrationBy(filtration: object) {
         this.clearFiltration()
@@ -265,10 +264,6 @@ export const usePackagesStore = defineStore(
       },
       async clearFiltrationAndFetch() {
         this.clearFiltration()
-        // console.log(
-        //   '=================================' +
-        //     this.tableOptions
-        // )
         await this.getPage()
       },
       async deletePackages() {

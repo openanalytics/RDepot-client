@@ -89,18 +89,6 @@ describe('Package Store', () => {
     )
   })
 
-  it('Edit filtration', () => {
-    const packageStore = usePackagesStore()
-    const spy = vi.spyOn(packageStore, 'getPage')
-
-    packageStore.setFiltration(randomFiltration)
-
-    expect(packageStore.filtration).toStrictEqual(
-      randomFiltration
-    )
-    expect(spy).toHaveBeenCalled()
-  })
-
   it('Clear filtration', () => {
     const packageStore = usePackagesStore()
 

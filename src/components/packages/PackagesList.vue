@@ -147,7 +147,7 @@ import {
   DataTableOptions
 } from '@/models/DataTableOptions'
 import { i18n } from '@/plugins/i18n'
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { Sort } from '@/models/DataTableOptions'
 import { useSort } from '@/composable/sort'
 import ProgressCircularSmall from '../common/progress/ProgressCircularSmall.vue'
@@ -244,8 +244,17 @@ function fetchData(options?: DataTableOptions) {
     packagesStore.localOptions.sortBy,
     defaultSort
   )
-  packagesStore.getPage(packagesStore.localOptions)
 }
+
+watch(
+  () => [
+    packagesStore.filtration,
+    packagesStore.localOptions
+  ],
+  () => {
+    packagesStore.getPage(packagesStore.localOptions)
+  }
+)
 </script>
 
 <style lang="scss">
