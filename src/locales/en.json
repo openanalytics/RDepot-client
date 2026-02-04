@@ -180,7 +180,8 @@
       "edit": "Edit token name",
       "edited": "Token edited",
       "newToken": "New access token",
-      "notConfigurableExpirationDate": "Access token lifetime is not configurable"
+      "notConfigurableExpirationDate": "Access token lifetime is not configurable",
+      "expirationDate": "Lifetime (in days)"
     }
   },
   "messages": {

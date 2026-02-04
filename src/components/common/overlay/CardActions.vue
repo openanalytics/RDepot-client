@@ -89,13 +89,14 @@ type Justify =
   | 'space-evenly'
   | 'stretch'
 
-withDefaults(
+const prop = withDefaults(
   defineProps<{
     cancelButton?: boolean
     submitButton?: boolean
     justify?: Justify
     valid?: boolean
     touched?: boolean
+    submitText?: string
     buttons?: {
       id?: string
       text: string
@@ -106,15 +107,18 @@ withDefaults(
     cancelButton: true,
     submitButton: true,
     touched: true,
+    submitText: '',
     valid: true,
     buttons: undefined
   }
 )
 
 const submitText = computed(() =>
-  commonStore.isDelete
-    ? i18n.t('actions.general.delete')
-    : i18n.t('actions.general.submit')
+  prop.submitText
+    ? prop.submitText
+    : commonStore.isDelete
+      ? i18n.t('actions.general.delete')
+      : i18n.t('actions.general.submit')
 )
 
 function cancel() {

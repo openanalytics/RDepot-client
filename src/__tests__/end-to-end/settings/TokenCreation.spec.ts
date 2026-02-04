@@ -71,5 +71,9 @@ test.describe(TITLE_SERIAL, { tag: '@serial' }, () => {
     await page
       .locator(`#${CREATE_TOKEN_SUBMIT_BUTTON_ID}`)
       .click()
+
+    await expect(
+      await page.locator('#submit-button')
+    ).toHaveText('Ok')
   })
 })
