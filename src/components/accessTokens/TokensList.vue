@@ -116,7 +116,7 @@ import DeactivateIcon from '@/components/common/action_icons/DeactivateIcon.vue'
 import EditIcon from '@/components/common/action_icons/EditIcon.vue'
 import { EntityModelAccessTokenDto } from '@/openapi'
 import { isAtLeastAdmin } from '@/enum/UserRoles'
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useSort } from '@/composable/sort'
 import AddToken from '@/components/common/buttons/AddToken.vue'
 import OATable from '../common/datatable/OATable.vue'
@@ -207,7 +207,6 @@ function fetchData(options?: DataTableOptions) {
     accessTokensStore.localOptions.sortBy,
     defaultSort
   )
-  accessTokensStore.getPage(accessTokensStore.localOptions)
 }
 
 const commonStore = useCommonStore()
@@ -240,4 +239,16 @@ function isPending(
     (token) => token.id == item.id
   )
 }
+
+watch(
+  () => [
+    accessTokensStore.filtration,
+    accessTokensStore.localOptions
+  ],
+  () => {
+    accessTokensStore.getPage(
+      accessTokensStore.localOptions
+    )
+  }
+)
 </script>

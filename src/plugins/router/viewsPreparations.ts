@@ -27,6 +27,9 @@ import { usePackageMaintainersStore } from '@/store/options/packageMaintainers'
 import { usePackagesStore } from '@/store/options/packages'
 import { useSubmissionStore } from '@/store/options/submission'
 import { useUsersFiltration } from '@/composable/filtration/usersFiltration'
+import { isAtLeastAdmin } from '@/enum/UserRoles'
+import { useAuthorizationStore } from '@/store/options/authorization'
+import { useAccessTokensStore } from '@/store/options/accessTokens'
 
 export function preparePackagesView() {
   const packagesStore = usePackagesStore()
@@ -48,6 +51,20 @@ export function prepareEventsView() {
 export function prepareTokensView() {
   const { resetPaginationUsers } = useUsersFiltration()
   resetPaginationUsers()
+  const authorizationStore = useAuthorizationStore()
+  const accessTokensStore = useAccessTokensStore()
+  if (
+    isAtLeastAdmin(
+      authorizationStore.userRole
+        ? authorizationStore.userRole
+        : 0
+    ) &&
+    authorizationStore.me.login
+  ) {
+    accessTokensStore.filtration.userLogin = [
+      authorizationStore.me.login
+    ]
+  }
 }
 
 export function prepareSubmissionsView() {

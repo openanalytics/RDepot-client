@@ -116,7 +116,6 @@ import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { isAtLeastAdmin } from '@/enum/UserRoles'
 import { useUsersFiltration } from '@/composable/filtration/usersFiltration'
-import { onBeforeMount } from 'vue'
 import ResetButton from '@/components/common/buttons/ResetButton.vue'
 import { useAccessTokensStore } from '@/store/options/accessTokens'
 import { useAuthorizationStore } from '@/store/options/authorization'
@@ -126,7 +125,7 @@ const accessTokensStore = useAccessTokensStore()
 
 const { storeIdUser, loadUsers } = useUsersFiltration()
 
-const { setValues, values, setFieldValue } = useForm({
+const { setValues, values } = useForm({
   validationSchema: toTypedSchema(TokensFiltration),
   initialValues: accessTokensStore.filtration
 })
@@ -143,22 +142,6 @@ function resetValues() {
     values as TokensFiltration
   )
 }
-
-onBeforeMount(() => {
-  if (
-    isAtLeastAdmin(
-      authorizationStore.userRole
-        ? authorizationStore.userRole
-        : 0
-    ) &&
-    authorizationStore.me.login
-  ) {
-    setFieldValue('userLogin', [
-      authorizationStore.me.login
-    ])
-    setFiltration()
-  }
-})
 </script>
 
 <style lang="scss">

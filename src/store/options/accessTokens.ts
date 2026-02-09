@@ -242,7 +242,6 @@ export const useAccessTokensStore = defineStore(
         if (TokensFiltration.safeParse(payload).success) {
           this.filtration = TokensFiltration.parse(payload)
         }
-        await this.getPage()
       },
       clearFiltration() {
         this.filtration = defaultValues(TokensFiltration)
