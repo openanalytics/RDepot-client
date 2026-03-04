@@ -14,8 +14,8 @@ services:
       - backend-chrome
       - repo-chrome
       - frontend-chrome
-    # ports:
-    # - 8018:80
+    #    ports:
+    #     - "8017:80"
     networks:
       oa-rdepot-chrome:
         ipv4_address: 192.168.53.20

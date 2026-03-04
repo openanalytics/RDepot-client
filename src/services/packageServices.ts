@@ -141,7 +141,7 @@ export async function updateRPackage(
 
   return openApiRequest<EntityModelPackageDto>(
     RPackageControllerApiFactory().updatePackage,
-    [patch, oldPackage.id]
+    [oldPackage.id, patch]
   ).catch(() => {
     return validateRequest({})
   })
@@ -158,7 +158,7 @@ export async function updatePythonPackage(
 
   return openApiRequest<EntityModelPackageDto>(
     PythonPackageControllerApiFactory().updatePythonPackage,
-    [patch, oldPackage.id]
+    [oldPackage.id, patch]
   ).catch(() => {
     return validateRequest({})
   })
@@ -324,6 +324,7 @@ export async function deletePackage(
   newPackage.deleted = true
 
   const patch_body = createPatch(oldPackage, newPackage)
+
   if (oldPackage.technology === Technologies.enum.R) {
     packagesApi =
       RPackageControllerApiFactory().updatePackage
@@ -339,58 +340,11 @@ export async function deletePackage(
 
   return openApiRequest<EntityModelPackageDto>(
     packagesApi,
-    [patch_body, oldPackage.id!],
+    [oldPackage.id!, patch_body],
     undefined,
     undefined,
     undefined,
     undefined,
     ifToast
   )
-}
-
-export async function deletePythonPackage(
-  oldPackage: EntityModelPackageDto,
-  newPackage: EntityModelPackageDto,
-  ifToast = false
-) {
-  // if (!isAuthorized('PATCH', 'packages')) {
-  //   return new Promise(() => false)
-  // }
-
-  const patch_body = createPatch(oldPackage, newPackage)
-
-  return openApiRequest<EntityModelPackageDto>(
-    PythonPackageControllerApiFactory().updatePythonPackage,
-    [patch_body, oldPackage.id!],
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    ifToast
-  ).catch(() => {
-    return validateRequest({})
-  })
-}
-
-export async function deleteRPackage(
-  oldPackage: EntityModelPackageDto,
-  newPackage: EntityModelPackageDto,
-  ifToast = false
-) {
-  // if (!isAuthorized('PATCH', 'packages')) {
-  //   return new Promise(() => false)
-  // }
-
-  const patch_body = createPatch(oldPackage, newPackage)
-  return openApiRequest<EntityModelPackageDto>(
-    RPackageControllerApiFactory().updatePackage,
-    [patch_body, oldPackage.id!],
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    ifToast
-  ).catch(() => {
-    return validateRequest({})
-  })
 }

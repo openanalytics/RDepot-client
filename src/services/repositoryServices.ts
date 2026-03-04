@@ -23,6 +23,8 @@
 import { RepositoriesFiltration } from '@/models/Filtration'
 import {
   ApiV2RepositoryControllerApiFactory,
+  ApiV2StatusControllerApiFactory,
+  CheckServerAddressDto,
   EntityModelPythonRepositoryDto,
   EntityModelRepositoryDto,
   EntityModelRRepositoryDto,
@@ -39,7 +41,6 @@ import {
 } from './openApiAccess'
 import { createPatch } from 'rfc6902'
 import { isAuthorized } from '@/plugins/casl'
-import { ApiV2StatusControllerApiFactory } from '@/openapi/apis/api-v2-status-controller-api'
 import { CombinedRepositoryModel } from '@/store/options/repositories'
 
 type ValidatedRepositories = Promise<
@@ -210,7 +211,7 @@ export async function updateRRepositoryService(
   if (oldRepository.technology === Technologies.enum.R) {
     return openApiRequest<RRepositoryDto>(
       RRepositoryControllerApiFactory().updateRRepository,
-      [patchBody, newRepository.id]
+      [newRepository.id, patchBody]
     )
   } else if (
     oldRepository.technology === Technologies.enum.Python
@@ -218,7 +219,7 @@ export async function updateRRepositoryService(
     return openApiRequest<PythonRepositoryDto>(
       PythonRepositoryControllerApiFactory()
         .updatePythonRepository,
-      [patchBody, newRepository.id]
+      [newRepository.id, patchBody]
     )
   } else {
     throw new Error(
@@ -244,7 +245,7 @@ export async function updatePythonRepositoryService(
   if (oldRepository.technology === Technologies.enum.R) {
     return openApiRequest<RRepositoryDto>(
       RRepositoryControllerApiFactory().updateRRepository,
-      [patchBody, newRepository.id]
+      [newRepository.id, patchBody]
     )
   } else if (
     oldRepository.technology === Technologies.enum.Python
@@ -252,7 +253,7 @@ export async function updatePythonRepositoryService(
     return openApiRequest<PythonRepositoryDto>(
       PythonRepositoryControllerApiFactory()
         .updatePythonRepository,
-      [patchBody, newRepository.id]
+      [newRepository.id, patchBody]
     )
   } else {
     throw new Error(
@@ -292,9 +293,12 @@ export async function republishRepositoryService(
 export async function isServerAddressHealthy(
   serverAddress: string
 ): Promise<validatedData<boolean>> {
+  const checkServerAddressDto: CheckServerAddressDto = {
+    serverAddress: serverAddress
+  }
   return openApiRequest(
     ApiV2StatusControllerApiFactory()
       .validateNewServerAddress,
-    [serverAddress]
+    [checkServerAddressDto]
   )
 }

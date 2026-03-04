@@ -42,10 +42,7 @@ import { DataTableOptions } from '@/models/DataTableOptions'
 import { validatedData } from '@/services/openApiAccess'
 import { useToast } from '@/composable/toasts'
 import { useSortStore } from '@/store/options/sort'
-import {
-  deleteTechnologyPackage,
-  updateTechnologyPackage
-} from '@/maps/package/Technology'
+import { updateTechnologyPackage } from '@/maps/package/Technology'
 import { useOATable } from '@/store/setup/oatable'
 
 export type PackagePromise = {
@@ -202,29 +199,6 @@ export const usePackagesStore = defineStore(
           )
         this.packages = packages
         return pageData
-      },
-      async delete() {
-        if (this.chosenPackage) {
-          this.pending.push(this.chosenPackage)
-          const oldPackage: EntityModelPackageDto =
-            deepCopy(this.chosenPackage)
-          const newPackage = deepCopy(oldPackage)
-          newPackage.deleted = true
-          const deleteFn = deleteTechnologyPackage.get(
-            oldPackage.technology as Technologies
-          )
-          if (deleteFn) {
-            await deleteFn(oldPackage, newPackage).then(
-              async (success: any) => {
-                if (success) await this.getPage()
-              }
-            )
-          }
-          this.pending = this.pending.filter(
-            (packageBag) =>
-              packageBag.id != this.chosenPackage?.id
-          )
-        }
       },
       async activatePackage(
         newPackage: EntityModelPackageDto

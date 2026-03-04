@@ -1,7 +1,12 @@
 #!/bin/sh
+DOCKER_CONFIG_FLAG=""
+if [ "$1" = "--ci" ]; then
+  DOCKER_CONFIG_FLAG="--config=/.docker"
+fi
+
 mkdir docker/testData docker/testData/itestGenerated docker/testData/itestNewFiles docker/testData/itestSourceFiles docker/testData/itestTrashFiles
 mkdir -m 777 downloads
-docker --config=/.docker compose \
+docker $DOCKER_CONFIG_FLAG compose \
   --env-file src/__tests__/config/.env.test \
   --file src/__tests__/end-to-end/config/docker-compose-test-chrome.yml \
   --file src/__tests__/end-to-end/config/docker-compose-test-firefox.yml up -d

@@ -81,7 +81,7 @@ export async function updateUser(
   const patch = createPatch(oldUser, newUser)
   return openApiRequest<EntityModelUserDto>(
     ApiV2UserControllerApiFactory().patchUser,
-    [patch, oldUser.id]
+    [oldUser.id, patch]
   ).catch(() => {
     return validateRequest({})
   })

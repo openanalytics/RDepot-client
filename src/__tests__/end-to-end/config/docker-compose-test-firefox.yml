@@ -14,8 +14,8 @@ services:
       - backend
       - repo
       - frontend
-    # ports:
-    #   - 8018:80
+    #    ports:
+    #       - 8018:80
     networks:
       oa-rdepot:
         ipv4_address: 192.168.51.20

@@ -95,7 +95,7 @@ export async function updateSubmission(
   if (oldSubmission.technology === Technologies.enum.R) {
     return openApiRequest<EntityModelSubmissionDto>(
       RSubmissionControllerApiFactory().updateRSubmission,
-      [patch_body, oldSubmission.id!]
+      [oldSubmission.id!, patch_body]
     ).catch(() => {
       return validateRequest({})
     })
@@ -105,7 +105,7 @@ export async function updateSubmission(
     return openApiRequest<EntityModelSubmissionDto>(
       PythonSubmissionControllerApiFactory()
         .updatePythonSubmission,
-      [patch_body, oldSubmission.id!]
+      [oldSubmission.id!, patch_body]
     ).catch(() => {
       return validateRequest({})
     })
@@ -138,7 +138,7 @@ export async function addRSubmission(
 
   const submissionApi = RSubmissionControllerApiFactory(
     await getConfiguration()
-  ).submitRPackageForm
+  ).submitRPackage
 
   return openApiRequest<EntityModelSubmissionDto>(
     submissionApi,
@@ -174,7 +174,7 @@ export async function addPythonSubmission(
   const submissionApi =
     PythonSubmissionControllerApiFactory(
       await getConfiguration()
-    ).submitPythonPackageForm
+    ).submitPythonPackage
 
   return openApiRequest<EntityModelSubmissionDto>(
     submissionApi,

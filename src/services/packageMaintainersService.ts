@@ -97,7 +97,7 @@ export async function updatePackageMaintainerService(
   return openApiRequest<EntityModelPackageMaintainerDto>(
     ApiV2PackageMaintainerControllerApiFactory()
       .updatePackageMaintainer,
-    [patch, oldMaintainer.id]
+    [oldMaintainer.id, patch]
   ).catch(() => {
     return validateRequest({})
   })

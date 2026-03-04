@@ -82,7 +82,7 @@ export async function updateRepositoryMaintainer(
   return openApiRequest<EntityModelRepositoryMaintainerDto>(
     ApiV2RepositoryMaintainerControllerApiFactory()
       .updateRepositoryMaintainer,
-    [patch, oldMaintainer.id],
+    [oldMaintainer.id, patch],
     true
   ).catch(() => {
     return validateRequest({})

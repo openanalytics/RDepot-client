@@ -64,6 +64,8 @@ if (openApiSpec.indexOf(oldIDtoDefinition) >= 0) {
   console.log('replaced old IDto definition')
 }
 
+openApiSpec = openApiSpec.replaceAll('"_links"', '"links"')
+
 fs.writeFile(
   openApiFile,
   openApiSpec,

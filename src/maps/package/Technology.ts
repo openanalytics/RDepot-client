@@ -26,8 +26,6 @@ import {
   fetchRPackageService,
   downloadRPackageSourceFile,
   downloadPythonPackageSourceFile,
-  deleteRPackage,
-  deletePythonPackage,
   updatePythonPackage,
   updateRPackage
 } from '@/services/packageServices'
@@ -49,14 +47,6 @@ export const downloadTechnologyPackage: Map<
     downloadPythonPackageSourceFile
   ],
   [Technologies.Enum.R, downloadRPackageSourceFile]
-])
-
-export const deleteTechnologyPackage: Map<
-  Technologies,
-  (...args: any[]) => any
-> = new Map<Technologies, (...args: any[]) => any>([
-  [Technologies.Enum.Python, deletePythonPackage],
-  [Technologies.Enum.R, deleteRPackage]
 ])
 
 export const updateTechnologyPackage: Map<

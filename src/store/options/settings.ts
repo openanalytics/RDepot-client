@@ -20,8 +20,8 @@
  *
  */
 
-import { UserSettingsProjection } from '@/openapi/models/user-settings-projection'
 import { defineStore } from 'pinia'
+import { UserSettingsProjection } from '@/openapi'
 
 interface State {
   changes: boolean
