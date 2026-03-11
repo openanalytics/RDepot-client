@@ -23,9 +23,14 @@
 import { usePackageMaintainersFiltration } from '@/composable/filtration/packageMaintainersFiltration'
 import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesFiltration'
 import { useRepositoryMaintainersFiltration } from '@/composable/filtration/repositoryMaintainersFiltration'
+import { useEventsStore } from '@/store/options/events'
 import { usePackageMaintainersStore } from '@/store/options/packageMaintainers'
 import { usePackagesStore } from '@/store/options/packages'
 import { useSubmissionStore } from '@/store/options/submission'
+import {
+  EventsFiltration,
+  defaultValues
+} from '@/models/Filtration'
 import { useUsersFiltration } from '@/composable/filtration/usersFiltration'
 import { isAtLeastAdmin } from '@/enum/UserRoles'
 import { useAuthorizationStore } from '@/store/options/authorization'
@@ -46,6 +51,9 @@ export function prepareEventsView() {
   const { resetRepositoriesPagination } =
     useRepositoriesFiltration()
   resetRepositoriesPagination()
+  useEventsStore().setFiltration(
+    defaultValues(EventsFiltration)
+  )
 }
 
 export function prepareTokensView() {

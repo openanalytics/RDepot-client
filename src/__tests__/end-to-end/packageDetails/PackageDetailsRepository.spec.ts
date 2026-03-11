@@ -24,9 +24,10 @@ import { expect, test } from '@playwright/test'
 import { login } from '../helpers/login'
 import {
   PACKAGE_DETAILS_BUTTON_R_ID,
-  PACKAGE_DETAILS_GO_TO_REPOSITORY_ID,
-  PACKAGE_EVENTS_CARD_ID,
-  REPOSITORIES_FILTRATION_SEARCH_FIELD_ID
+  REPOSITORY_DESCRIPTION_LAST_MODIFICATION_DATE_ID,
+  REPOSITORY_DESCRIPTION_HASH_METHOD_ID,
+  REPOSITORY_REDIRECT_TO_SOURCE_ID,
+  PACKAGE_REPOSITORY_CARD_ID
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 
 const TITLE = 'package details repository'
@@ -47,29 +48,26 @@ test.describe(TITLE, () => {
       /RDepot - package details/
     )
 
-    const goToEventsPageButtonLocator = page.locator(
-      `#${PACKAGE_EVENTS_CARD_ID}`
+    const repositoryDetailsButtonLocator = page.locator(
+      `#${PACKAGE_REPOSITORY_CARD_ID}`
     )
-    await goToEventsPageButtonLocator.waitFor()
+    await repositoryDetailsButtonLocator.waitFor()
+    await repositoryDetailsButtonLocator.click()
 
-    const goToRepositoryPageButtonLocator = page.locator(
-      `#${PACKAGE_DETAILS_GO_TO_REPOSITORY_ID}`
+    const repoModificationDateSelector = page.locator(
+      `#${REPOSITORY_DESCRIPTION_LAST_MODIFICATION_DATE_ID}`
     )
-    await goToRepositoryPageButtonLocator.waitFor()
-    await goToRepositoryPageButtonLocator.click()
-
-    await page.waitForURL('**/repositories')
-    await expect(page).toHaveTitle(/RDepot - repositories/)
-
-    const repositoryFiltrationLocator = page.locator(
-      `#${REPOSITORIES_FILTRATION_SEARCH_FIELD_ID}`
+    const repoHashMethodSelector = page.locator(
+      `#${REPOSITORY_DESCRIPTION_HASH_METHOD_ID}`
+    )
+    const repoRedirectToSourceSelector = page.locator(
+      `#${REPOSITORY_REDIRECT_TO_SOURCE_ID}`
     )
 
-    await repositoryFiltrationLocator.waitFor()
-
-    await expect(page.getByLabel('Search')).toHaveValue(
-      'testrepo3'
+    await repoModificationDateSelector.waitFor()
+    await expect(repoHashMethodSelector).toHaveCount(0)
+    await expect(repoRedirectToSourceSelector).toHaveClass(
+      /mdi-close-circle-outline/
     )
-    await expect(rowsSelector).toHaveCount(2)
   })
 })

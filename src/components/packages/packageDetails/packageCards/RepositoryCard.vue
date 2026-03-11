@@ -28,71 +28,72 @@
     color=""
     class="flex-grow-1"
     max-height="100px"
-    :title="packageDetailsStore.packageBag.repository?.name"
   >
-    <template #append>
-      <div class="d-flex ga-1 align-center">
-        <v-chip
-          v-tooltip="
-            $t('resources.technology').toLowerCase()
-          "
-          size="x-small"
-          color="primary"
-          >{{
-            packageDetailsStore.packageBag.technology
-          }}</v-chip
-        >
-        <v-icon
-          v-if="packageDetailsStore.packageBag.repository"
-          id="repository-description-publication-status"
-          v-tooltip="
-            packageDetailsStore.packageBag.repository
-              .published
-              ? $t('properties.repositories.published.true')
-              : $t(
-                  'properties.repositories.published.false'
-                )
-          "
-          :icon="
-            packageDetailsStore.packageBag.repository
-              .published
-              ? Icons.get('success')
-              : 'mdi-close'
-          "
-          size="15"
-          :color="
-            packageDetailsStore.packageBag.repository
-              .published
-              ? 'success'
-              : 'error'
-          "
-        >
-        </v-icon>
-        <GoToButton
-          size="xs"
-          :item="packageDetailsStore.packageBag.repository"
-          from="packageDetails"
-          :tooltip="
-            $t('actions.general.goTo', {
-              resource_type: $t(
-                'resources.repository'
-              ).toLowerCase()
-            })
-          "
-        />
-      </div>
-    </template>
+    <div class="d-flex ga-1 align-center">
+      <v-card-title
+        style="font-size: 1.15rem; margin-right: auto"
+        >{{
+          packageDetailsStore.packageBag.repository?.name
+        }}</v-card-title
+      >
+      <v-chip
+        v-tooltip="$t('resources.technology').toLowerCase()"
+        size="x-small"
+        color="primary"
+        >{{
+          packageDetailsStore.packageBag.technology
+        }}</v-chip
+      >
+      <v-icon
+        v-if="packageDetailsStore.packageBag.repository"
+        id="repository-description-publication-status"
+        v-tooltip="
+          packageDetailsStore.packageBag.repository
+            .published
+            ? $t('properties.repositories.published.true')
+            : $t('properties.repositories.published.false')
+        "
+        :icon="
+          packageDetailsStore.packageBag.repository
+            .published
+            ? Icons.get('success')
+            : 'mdi-close'
+        "
+        size="15"
+        :color="
+          packageDetailsStore.packageBag.repository
+            .published
+            ? 'success'
+            : 'error'
+        "
+        style="margin-right: 15px"
+      >
+      </v-icon>
+    </div>
     <v-card-subtitle class="pb-3">
-      <CopyableCell
-        v-if="
-          packageDetailsStore.packageBag.repository
-            ?.publicationUri
-        "
-        :value="
-          packageDetailsStore.packageBag.repository
-            ?.publicationUri
-        "
-      />
+      <v-tooltip location="top">
+        <template #activator="{ props }">
+          <span v-bind="props">
+            <CopyableCell
+              v-if="
+                packageDetailsStore.packageBag.repository
+                  ?.publicationUri
+              "
+              :value="
+                packageDetailsStore.packageBag.repository
+                  ?.publicationUri
+              "
+              truncate
+            />
+          </span>
+        </template>
+        <span>
+          {{
+            packageDetailsStore.packageBag.repository
+              ?.publicationUri
+          }}
+        </span>
+      </v-tooltip>
     </v-card-subtitle>
   </v-card>
 </template>
@@ -101,7 +102,6 @@
 import CopyableCell from '@/components/common/datatable/CopyableCell.vue'
 import Icons from '@/maps/Icons'
 import { usePackageDetailsStore } from '@/store/options/packageDetails'
-import GoToButton from '@/components/common/action_icons/GoToButton.vue'
 
 const packageDetailsStore = usePackageDetailsStore()
 </script>

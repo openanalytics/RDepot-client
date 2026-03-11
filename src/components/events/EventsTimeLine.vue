@@ -116,12 +116,22 @@ import {
   onMounted,
   nextTick,
   onBeforeUnmount,
-  onBeforeMount
+  onBeforeMount,
+  watch
 } from 'vue'
 import { useDisplay } from 'vuetify'
 import NoEvents from './NoEvents.vue'
 import { useCommonStore } from '@/store/options/common'
 import EventIcon from './EventIcon.vue'
+import { useRoute } from 'vue-router'
+
+const props = defineProps({
+  scrollEl: {
+    type: Object || null,
+    default: null
+  }
+})
+const router = useRoute()
 
 const { xlAndUp, lgAndUp, mdAndUp, smAndDown } =
   useDisplay()
@@ -189,25 +199,45 @@ onBeforeMount(async () => {
 })
 
 onMounted(async () => {
-  nextTick(() => {
-    window.addEventListener('scroll', () => {
-      var st =
-        window.pageYOffset ||
-        document.documentElement.scrollTop
-      if (st > lastScrollTop) {
-        loadMoreEvents()
-      }
-      lastScrollTop = st <= 0 ? 0 : st
+  if (router.name === 'events') {
+    nextTick(() => {
+      window.addEventListener('scroll', () => {
+        var st =
+          window.pageYOffset ||
+          document.documentElement.scrollTop
+        if (st > lastScrollTop) {
+          loadMoreEvents()
+        }
+        lastScrollTop = st <= 0 ? 0 : st
+      })
     })
-  })
+  }
 })
 
 onBeforeUnmount(() => {
   window.removeEventListener('scroll', () => {
     loadMoreEvents()
   })
+  props.scrollEl?.removeEventListener('scroll', () => {
+    loadMoreEvents()
+  })
   eventsStore.events = []
 })
+
+watch(
+  () => props.scrollEl,
+  (el) => {
+    if (!el) return
+    el.addEventListener('scroll', (e: any) => {
+      var st = e.target.scrollTop
+      if (st > lastScrollTop) {
+        loadMoreEvents()
+      }
+      lastScrollTop = st <= 0 ? 0 : st
+    })
+  },
+  { immediate: true }
+)
 </script>
 
 <style lang="scss">

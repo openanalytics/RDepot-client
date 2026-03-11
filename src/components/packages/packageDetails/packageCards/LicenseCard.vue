@@ -21,11 +21,10 @@
 -->
 
 <template>
-  <v-card
-    id="package-license-card"
-    max-height="100px"
-    :title="packageLicense"
-  >
+  <v-card id="package-license-card" max-height="100px">
+    <v-card-title style="font-size: 1.15rem">{{
+      packageLicense
+    }}</v-card-title>
     <v-card-subtitle class="pb-3">
       {{ $t('properties.packages.license') }}
       <v-icon

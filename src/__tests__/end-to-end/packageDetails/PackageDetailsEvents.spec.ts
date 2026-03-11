@@ -23,15 +23,13 @@
 import { test, expect } from '@playwright/test'
 import { login } from '../helpers/login'
 import {
-  EVENTS_FILTRATION_PACKAGE_FIELD_ID,
-  EVENTS_FILTRATION_REPOSITORY_FIELD_ID,
   PACKAGE_DETAILS_BUTTON_R_ID,
   PACKAGE_EVENTS_CARD_ID
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 
 const TITLE = 'package details events'
 test.describe(TITLE, () => {
-  test('should redirect to events page with correct filtration', async ({
+  test('should display events with correct filtration', async ({
     page
   }) => {
     await login(page, 'einstein')
@@ -53,34 +51,13 @@ test.describe(TITLE, () => {
     await goToEventsPageButtonLocator.waitFor()
     await goToEventsPageButtonLocator.click()
 
-    await page.waitForURL('**/events')
-    await expect(page).toHaveTitle(/RDepot - events/)
-
-    const repositoryFiltrationLocator = page.locator(
-      `#${EVENTS_FILTRATION_REPOSITORY_FIELD_ID}`
-    )
-    const packageFiltrationLocator = page.locator(
-      `#${EVENTS_FILTRATION_PACKAGE_FIELD_ID}`
-    )
-
-    await repositoryFiltrationLocator.waitFor()
-    await packageFiltrationLocator.waitFor()
-
-    const comboboxesValues = await page
-      .getByRole('combobox')
-      .allTextContents()
-
-    const packageChips = page
-      .locator('.v-field__input span')
-      .filter({ hasText: /^A3$/ })
-    await packageChips.waitFor()
-
-    expect(comboboxesValues[3]).toContain('testrepo3')
-    expect(comboboxesValues[4]).toContain('A3')
-    await expect(packageChips).toHaveCount(1)
+    const timeline = page.locator('#eventsTimeline')
+    await timeline.waitFor()
 
     await expect(
       page.locator('css=.eventCard')
     ).toHaveCount(10)
+
+    await expect(page.locator('.dateDot')).toHaveCount(4)
   })
 })
