@@ -29,6 +29,7 @@
       short ? ' short' : changes ? 'pa-4 py-1' : 'pa-5',
       changes ? '' : description ? 'my-5' : ''
     ]"
+    @click="onMarkdownClick"
   ></div>
 </template>
 
@@ -45,7 +46,7 @@ const componentProps = defineProps<{
   changes?: boolean
 }>()
 
-const { renderer } = useUtilities()
+const { renderer, copyText } = useUtilities()
 
 // Reset marked settings to use defaults
 marked.use(marked.getDefaults())
@@ -63,6 +64,18 @@ const mdDescription = computed(() => {
     gfm: true
   })
 })
+
+function onMarkdownClick(e: MouseEvent) {
+  const btn = (e.target as HTMLElement).closest(
+    '.copy-btn'
+  ) as HTMLElement | null
+  if (!btn) return
+
+  const text = btn.dataset.copy
+  if (!text) return
+
+  copyText(text, i18n.t('messages.general.copied'))
+}
 </script>
 
 <style local lang="scss">

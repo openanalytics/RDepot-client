@@ -39,6 +39,28 @@ export function useUtilities() {
 
   const copyIcon = Icons.get('copy')
 
+  function extractCopyText(code: string): string {
+    const hasPythonPrompt = /^\s*>>>/m.test(code)
+    const hasShellPrompt = /^\s*\$/m.test(code)
+
+    if (hasPythonPrompt) {
+      return code
+        .split('\n')
+        .filter((l) => /^\s*>>>/.test(l))
+        .map((l) => l.replace(/^\s*>>>\s?/, ''))
+        .join('\n')
+    }
+
+    if (hasShellPrompt) {
+      return code
+        .split('\n')
+        .map((l) => l.replace(/^\s*\$\s?/, ''))
+        .join('\n')
+    }
+
+    return code
+  }
+
   const renderer = {
     code(
       code: string,
@@ -46,13 +68,14 @@ export function useUtilities() {
       escaped: boolean
     ) {
       code = code.trim()
-      const copy = code.replaceAll('\n', '\\n')
+      const copyText = extractCopyText(code)
+
       return `
         <pre class="code d-flex justify-lg-space-between my-2">
         <code>
           ${escaped ? code : escape(code)}
         </code>
-        <i class="${copyIcon} mdi v-icon notranslate v-theme--dark v-icon--size-large v-icon--clickable v-icon--start" role="button" onclick="navigator.clipboard.writeText('${copy}')">
+        <i class="${copyIcon} copy-btn mdi v-icon notranslate v-theme--dark v-icon--size-large v-icon--clickable v-icon--start" role="button" data-copy="${escape(copyText)}">
         </i>
         </pre>`
     },

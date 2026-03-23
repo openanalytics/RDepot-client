@@ -11,7 +11,6 @@
 
 Open Source Enterprise Management of R and Python Repositories
 
-
 ## Running application
 
 ### Backend (for frontend development)

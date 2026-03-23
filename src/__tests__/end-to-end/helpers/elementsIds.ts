@@ -184,6 +184,8 @@ export const PACKAGES_MULTI_DELETE_ID =
   'packages-multi-delete'
 export const PACKAGE_DETAILS_BUTTON_ID = 'goTo-button-43'
 export const PACKAGE_DETAILS_BUTTON_R_ID = 'goTo-button-9'
+export const PACKAGE_DETAILS_BUTTON_URLLIB_ID =
+  'goTo-button-48'
 export const PACKAGES_LIST_A3_092_TESTREPO3_ID =
   'packages-list-A3-0-9-2-testrepo3'
 export const PACKAGES_LIST_ACCELERATED_NUMPY_010_TESTREPO8_ID =
@@ -229,6 +231,8 @@ export const PACKAGE_BINARY_LIST_ID =
   'package-binary-properties'
 export const PACKAGE_VIGNETTES_LIST_ID =
   'package-vignettes-list'
+export const PACKAGE_DESCRIPTION_MARKDOWN_ID =
+  'markdown-description'
 
 //package details - property tables
 export const PACKAGE_BOOLEAN_PROPERTIES_ID =
