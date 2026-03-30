@@ -37,9 +37,6 @@ router.beforeEach(async (to) => {
   const path = await helper.checkAuthorization(to)
   if (path !== undefined) return path
   helper.resetStoreValues()
-  document.title = to.meta.title
-    ? (to.meta.title as string)
-    : DEFAULT_TITLE
   helper.getDefaultFiltration(to)
 })
 
@@ -50,6 +47,10 @@ router.beforeResolve(async (to, from) => {
 
 router.afterEach((to, from) => {
   helper.clearFiltrations(to.name, from.name)
+  if (to.path.startsWith('/auth')) return
+  document.title = to.meta.title
+    ? (to.meta.title as string)
+    : DEFAULT_TITLE
 })
 
 export default router
