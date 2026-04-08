@@ -128,6 +128,7 @@ async function resolved(
   ifToast = true
 ): Promise<validatedData<any>> {
   const commonStore = useCommonStore()
+  commonStore.error502 = false
   commonStore.progressCircularActive = false
   if (ifToast) {
     const toasts = useToast()
@@ -220,6 +221,11 @@ async function errorsHandler(
         if (error.response?.data) {
           toasts.error500(error)
         }
+        break
+      }
+      case 502:
+      case 504: {
+        useCommonStore().error502 = true
         break
       }
     }

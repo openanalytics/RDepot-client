@@ -203,6 +203,7 @@
       "405": "There seems to be a configuration issue in the back-end. Please contact your administrator to fix this.",
       "422": "Validation failed",
       "500": "Internal server error",
+      "502": "Sorry, our servers are having trouble. Please try again later.",
       "copyFailed": "Copy failed",
       "email": "This should be an email",
       "invalidForm": "The form is not valid",
@@ -221,7 +222,8 @@
       "url": "This should be a url",
       "manual": {
         "notFound": "Manual not found"
-      }
+      },
+      "badGateway": "502 - Bad Gateway"
     },
     "filtration": {
       "makeSure": "This action will clear all filtration"

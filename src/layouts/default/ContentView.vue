@@ -23,10 +23,15 @@
 <template>
   <Navbar style="max-width: 100%; position: sticky" />
   <v-main style="--v-layout-top: 15px" class="mx-5">
-    <router-view />
+    <BadGateway v-if="commonStore.error502" />
+    <router-view v-else />
   </v-main>
 </template>
 
 <script lang="ts" setup>
 import Navbar from '@/components/navbar/AppNavbar.vue'
+import BadGateway from '@/views/BadGateway.vue'
+import { useCommonStore } from '@/store/options/common'
+
+const commonStore = useCommonStore()
 </script>

@@ -21,25 +21,34 @@
 -->
 
 <template>
-  <Navbar style="max-width: 100%; position: sticky" />
-  <Sidebar
-    v-if="!commonStore.error502"
-    style="height: calc(100vh - 64px); position: fixed"
-  />
-  <v-main
-    style="--v-layout-top: 15px; --v-layout-bottom: 15px"
-    class="mx-5"
+  <v-container
+    class="fill-height d-flex flex-column align-center justify-center text-center"
   >
-    <BadGateway v-if="commonStore.error502" />
-    <router-view v-else />
-  </v-main>
+    <v-img
+      :src="penguinImg"
+      width="300"
+      height="250"
+      max-height="550"
+      class="mb-6"
+      contain
+    />
+    <h1 class="text-h3 font-weight-bold mb-2">
+      {{ $t('messages.errors.badGateway') }}
+    </h1>
+    <p class="subtitle-1 mb-6">
+      {{ $t('messages.errors.502') }}
+    </p>
+  </v-container>
 </template>
 
-<script lang="ts" setup>
-import Navbar from '@/components/navbar/AppNavbar.vue'
-import Sidebar from '@/components/navbar/AppSidebar.vue'
-import BadGateway from '@/views/BadGateway.vue'
-import { useCommonStore } from '@/store/options/common'
+<script setup lang="ts">
+import { ref } from 'vue'
 
-const commonStore = useCommonStore()
+const penguinImg = ref('/images/sadPenguin.png')
 </script>
+
+<style scoped lang="scss">
+.fill-height {
+  height: 100vh;
+}
+</style>

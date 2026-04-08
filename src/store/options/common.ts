@@ -34,6 +34,7 @@ interface State {
   key: number
   activeId: string
   themeKey: number
+  error502: boolean
 }
 
 export const useCommonStore = defineStore('commonStore', {
@@ -48,7 +49,8 @@ export const useCommonStore = defineStore('commonStore', {
       activeId: 'name',
       overlayComponent: undefined,
       key: 0,
-      themeKey: 0
+      themeKey: 0,
+      error502: false
     }
   },
   getters: {
