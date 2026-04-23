@@ -111,9 +111,9 @@
       "name": "Opiekun"
     },
     "submissions": {
-      "approver": "Zatwierdzający",
+      "approver": "Zatwierdzający(-ca)",
       "package": "Pakiet",
-      "submitter": "Zgłaszający",
+      "submitter": "Zgłaszający(-ca)",
       "author": "Autor"
     },
     "tokens": {
@@ -169,7 +169,7 @@
       "createTitle": "Utwórz opiekuna",
       "editTitle": "Edytuj opiekuna pakietów | Edytuj opiekuna pakietów {maintainerName}",
       "hints": {
-        "disabledPackageMessage": "Wybierz użytkownika aby odblokować repozytoria",
+        "disabledPackageMessage": "Wybierz użytkownika i repozytorium aby odblokować",
         "disclaimerPackages": "Wyłącznie użytkownicy z rolą opiekuna pakietów lub wyższą są dostępni."
       }
     },
@@ -362,7 +362,16 @@
           "synchronization": {
             "failure": "Synchronizacja repozytorium nie powiodła się. Proszę spróbować wgrać pakiet ponownie."
           },
-          "unknown": "Nieznany błąd. Spróbuj ponownie."
+          "unknown": "Nieznany błąd. Spróbuj ponownie.",
+          "file": {
+            "name": {
+              "has": {
+                "been": {
+                  "updated": "Pakiet został wgrany pomyślnie, lecz jego nazwa została zmieniona by odzwierciedlać zawarte w nim metadane."
+                }
+              }
+            }
+          }
         }
       },
       "wrongExtension": "Wybierz pakiety z odpowiednim rozszerzeniem",
@@ -446,8 +455,8 @@
         "incorrect": "adres serwera jest niepoprawny",
         "undefined": "sprawdź, czy adres serwera jest poprawny"
       },
-      "lastModificationDate": "Ostatnia data modyfikacji",
-      "lastPublicationDate": "Ostatnia data publikacji",
+      "lastModificationDate": "Data ostatniej modyfikacji",
+      "lastPublicationDate": "Data ostatniej publikacji",
       "numberOfPackages": "Liczba pakietów",
       "published": {
         "false": "nieopublikowano",
@@ -457,7 +466,9 @@
         "publicationFailed": "publikacja nie powiodła się",
         "publicationSucceed": "publikacja powiodła się",
         "true": "opublikowano"
-      }
+      },
+      "publicationSucceed": "Publikacja repozytorium zakończona sukcesem.",
+      "publicationFailed": "Publikacja repozytorium nie powiodła się"
     },
     "submissions": {
       "accepted": "ZAAKCEPTOWANE",
@@ -478,15 +489,16 @@
     "generalSettings": "Ogólne",
     "maintainer": "Opiekun | Opiekunowie",
     "package": "Pakiet | Pakiety",
-    "packageMaintainer": "Opiekun Pakietu | Opiekunowie Pakietu",
+    "packageMaintainer": "Opiekun Pakietu | Opiekunowie Pakietów",
     "repository": "Repozytorium | Repozytoria",
-    "repositoryMaintainer": "Opiekun Repozytorium | Opiekunowie Repozytorium",
+    "repositoryMaintainer": "Opiekun Repozytorium | Opiekunowie Repozytoriów",
     "settings": "Ustawienia",
     "submission": "Zgłoszenie | Zgłoszenia",
     "technology": "Technologia | Technologie",
     "token": "Token | Tokeny",
     "user": "Użytkownik | Użytkownicy",
-    "file": "Plik | Pliki"
+    "file": "Plik | Pliki",
+    "accessToken": "Tokeny"
   },
   "updatedProperties": {
     "title": "Zmiany"
@@ -497,5 +509,8 @@
         "left": "Nie można zmieniać roli ostatniego administratora - przynajmniej jeden użytkownik musi być administratorem"
       }
     }
+  },
+  "packages": {
+    "notes": "Notatki"
   }
 }
