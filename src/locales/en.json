@@ -29,7 +29,8 @@
       "submit": "Submit",
       "unset": "Unset",
       "uploadPackages": "Upload packages",
-      "refresh": "Refresh"
+      "refresh": "Refresh",
+      "confirm": "Confirm"
     },
     "repositories": {
       "goTo": "See packages",

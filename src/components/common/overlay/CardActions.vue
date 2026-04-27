@@ -118,7 +118,9 @@ const submitText = computed(() =>
     ? prop.submitText
     : commonStore.isDelete
       ? i18n.t('actions.general.delete')
-      : i18n.t('actions.general.submit')
+      : commonStore.isRepublish
+        ? i18n.t('actions.general.confirm')
+        : i18n.t('actions.general.submit')
 )
 
 function cancel() {
