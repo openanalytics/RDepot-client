@@ -354,7 +354,8 @@
         "create": "Create",
         "delete": "Delete",
         "update": "Update",
-        "upload": "Upload"
+        "upload": "Upload",
+        "republish": "Republish"
       }
     },
     "general": {

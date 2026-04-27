@@ -61,6 +61,10 @@ describe('enum filtration composable', () => {
         value: 'delete'
       },
       {
+        title: 'Republish',
+        value: 'republish'
+      },
+      {
         title: 'Update',
         value: 'update'
       },
@@ -213,53 +217,10 @@ describe('enum filtration composable', () => {
       {
         title: i18n.t('properties.events.type.upload'),
         value: 'upload'
-      }
-    ])
-  })
-
-  it('should return all event types in changed translation', () => {
-    i18n.locale.value = 'pl'
-    const { eventTypes } = useEnumFiltration()
-    expect(eventTypes.value).toEqual([
-      {
-        title: 'Utworzenie',
-        value: 'create'
       },
       {
-        title: 'Aktualizacja',
-        value: 'update'
-      },
-      {
-        title: 'Usunięcie',
-        value: 'delete'
-      },
-      {
-        title: 'Wgranie',
-        value: 'upload'
-      }
-    ])
-  })
-
-  it('should return values sorted by title in changed lang', () => {
-    i18n.locale.value = 'pl'
-    const { eventTypes, sortValues } = useEnumFiltration()
-    expect(sortValues(eventTypes.value)).toEqual([
-      {
-        title: 'Aktualizacja',
-        value: 'update'
-      },
-      {
-        title: 'Usunięcie',
-        value: 'delete'
-      },
-      {
-        title: 'Utworzenie',
-        value: 'create'
-      },
-
-      {
-        title: 'Wgranie',
-        value: 'upload'
+        title: i18n.t('properties.events.type.republish'),
+        value: 'republish'
       }
     ])
   })

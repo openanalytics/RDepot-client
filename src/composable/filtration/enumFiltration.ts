@@ -104,6 +104,10 @@ export function useEnumFiltration() {
     {
       title: i18n.t('properties.events.type.upload'),
       value: 'upload'
+    },
+    {
+      title: i18n.t('properties.events.type.republish'),
+      value: 'republish'
     }
   ])
 
