@@ -98,7 +98,7 @@
     </template>
 
     <template #[`item.packageBag.binary`]="{ item }">
-      <BinaryPackage :item="item" />
+      <BinaryPackage :item="item.packageBag" />
     </template>
 
     <template #[`item.actions`]="{ item }">
