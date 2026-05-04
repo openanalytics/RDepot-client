@@ -42,7 +42,7 @@
     "packageMaintainers": {
       "hints": {
         "disabledPackageMessage": "Choisit un utilisateur et un répertoire à activer",
-        "disclaimerPackages": "Seulement les utilisateurs ayant un rôle de responsable de paquet disponible."
+        "disclaimerPackages": "Seulement les utilisateurs avec au moins un rôle de maintenance de package disponible."
       }
     },
     "repositories": {
@@ -54,7 +54,7 @@
       },
       "redirectToSource": "Rediriger à la source",
       "requiresAuthentication": "Nécessite une authentification",
-      "hash": "Fonction de hachage"
+      "hash": "Méthode de hachage"
     }
   },
   "actions": {
@@ -104,7 +104,7 @@
       "publish": "Publier",
       "republish": "Republier",
       "seePackages": "Voir les paquets du répertoire",
-      "unpublish": "Dépublier"
+      "unpublish": "Retirer"
     },
     "submissions": {
       "showNotes": "Montrer les notes",
@@ -272,12 +272,12 @@
   "datatable": {
     "noDataAvailable": "Pas de données disponibles",
     "size": "Objets par page (pagination)",
-    "itemsPerPage": "Éléments par page"
+    "itemsPerPage": "Objets par page"
   },
   "dragZone": {
     "inactive": "Déposer les fichiers pour les télécharger",
-    "active": "Glisse-dépose un ou plusieurs fichiers ici",
-    "click": "pour les sélectionner manuellement",
+    "active": "Faites glisser un fichier ou plus ici",
+    "click": "sélectionner les manuellement",
     "dropzone": "Zone de dépôt"
   },
   "fields": {
