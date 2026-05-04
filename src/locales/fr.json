@@ -232,7 +232,7 @@
     },
     "config": {
       "deletingPackages": "La suppression de paquet est désactivée dans la configuration",
-      "deletingRepositories": "La suppression des répertoires est désactivée dans la configuration"
+      "deletingRepositories": "La suppression des dépôts est désactivée dans la configuration"
     },
     "errors": {
       "401": "La requête ne peut pas être exécutée parce que l'utilisateur n'est pas authentifié.",
