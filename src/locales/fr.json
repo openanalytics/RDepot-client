@@ -11,7 +11,7 @@
       "binaryPython": "Le paquet téléchargé est binaire (.whl)",
       "binary": "Fichier binaire",
       "generateManual": "Générer la documentaion",
-      "generateManualNotAvailable": "pas disponible pour les paquets binaires",
+      "generateManualNotAvailable": "pas disponible pour les packages binaires",
       "stepFirst": "Choisir un répertoire",
       "stepSecond": "Télécharger les paquets {technology}",
       "stepThird": "Résumé",
@@ -26,7 +26,7 @@
       "edit": "Éditer le nom du jeton",
       "edited": "Le jeton est édité",
       "newToken": "Nouveau jeton d'accès",
-      "notConfigurableExpirationDate": "Le durée de vie du jeton d'accès n'est pas configurable"
+      "notConfigurableExpirationDate": "La durée de vie du jeton d'accès n'est pas configurable"
     },
     "authorization": {
       "errors": {
@@ -52,7 +52,7 @@
       "hints": {
         "deprecatedAddress": "Une adresse de serveur sans technologie dans son chemin est déprécié et ne sera plus prise en charge avec RDepot v3.0. Veuillez utiliser une {adresse} à la place."
       },
-      "redirectToSource": "Rediriger à la source",
+      "redirectToSource": "Accéder à la source",
       "requiresAuthentication": "Nécessite une authentification",
       "hash": "Méthode de hachage"
     }
@@ -62,7 +62,7 @@
       "accept": "Accepter",
       "activate": "Activer | Activer {resource_type}",
       "cancel": "Annuler",
-      "clear": "Effacer tout",
+      "clear": "Tout supprimer",
       "continue": "Continuer",
       "copy": "Copier",
       "create": "Créer",
@@ -71,7 +71,7 @@
       "delete": "Supprimer",
       "download": "Télécharger",
       "edit": "Éditer",
-      "goBack": "Retourner",
+      "goBack": "Retour",
       "goTo": "Voir les détails de {resource_type}",
       "install": "Installer",
       "login": "Se connecter",
@@ -87,14 +87,14 @@
       "reset": "Réinitialiser",
       "submit": "Soumettre",
       "unset": "Désélectionner",
-      "refresh": "Rafraîchir"
+      "refresh": "Actualiser"
     },
     "settings": {
       "theme": "Thème",
       "changeLanguage": "Changer la langue",
       "changeTheme": "Changer le thème",
       "themes": {
-        "dark": "foncé",
+        "dark": "sombre",
         "light": "clair"
       },
       "language": "Langue"
@@ -103,7 +103,7 @@
       "goTo": "Voir les paquets",
       "publish": "Publier",
       "republish": "Republier",
-      "seePackages": "Voir les paquets du répertoire",
+      "seePackages": "Voir les packages du dépôt",
       "unpublish": "Retirer"
     },
     "submissions": {
@@ -232,7 +232,7 @@
     },
     "config": {
       "deletingPackages": "La suppression de paquet est désactivée dans la configuration",
-      "deletingRepositories": "Supprimer les répertoires est désactivé dans la configuration"
+      "deletingRepositories": "La suppression des répertoires est désactivée dans la configuration"
     },
     "errors": {
       "401": "La requête ne peut pas être exécutée parce que l'utilisateur n'est pas authentifié.",
@@ -294,7 +294,7 @@
       "published": "Publié",
       "serverAddress": "Adresse du serveur",
       "publicationUri": "URL de publication",
-      "synchronizing": "En synchronisation"
+      "synchronizing": "Synchronisation en cours"
     },
     "general": {
       "date": "Date",
@@ -310,7 +310,7 @@
     "submissions": {
       "approver": "Approbateur",
       "author": "Auteur",
-      "submitter": "Soumetteur"
+      "submitter": "Auteur de la soumission"
     },
     "tokens": {
       "expirationDate": "Date d'expiration",
@@ -337,7 +337,7 @@
     "general": {
       "fromDate": "À partir de la date",
       "searchPlaceholder": "Chercher",
-      "title": "Filtration",
+      "title": "Filtrage",
       "toDate": "À la date"
     }
   },
