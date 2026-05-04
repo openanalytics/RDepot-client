@@ -1,1 +1,464 @@
-{}
+{
+  "forms": {
+    "repositoryMaintainers": {
+      "hints": {
+        "disabledPackageMessage": "Veuillez choisir un utilisateur et un répertoire à activer",
+        "disabledRepositoryMessage": "Veuillez choisir un utilisateur à activer",
+        "disclaimer": "Seulement les utilisateurs avec au moins un rôle de responsable du répertoire disponible."
+      }
+    },
+    "submissions": {
+      "binaryPython": "Le paquet téléchargé est binaire (.whl)",
+      "binary": "Fichier binaire",
+      "generateManual": "Générer la documentaion",
+      "generateManualNotAvailable": "pas disponible pour les packages binaires",
+      "stepFirst": "Choisir un répertoire",
+      "stepSecond": "Télécharger les paquets {technology}",
+      "stepThird": "Résumé",
+      "noBinaryPython": "Le paquet téléchargé n'est pas binaire"
+    },
+    "tokens": {
+      "deactivateQuestion": "Êtes-vous sûr de vouloir désactiver le jeton <strong>{0}</strong>?",
+      "copyWarning": "Assurez-vous maintenant de copier le jeton d'accès. Vous ne pourrez pas le voir de nouveau!",
+      "deactivated": "Le jeton est désactivé",
+      "delete": "Supprimer le jeton",
+      "deleted": "Le jeton est supprimé",
+      "edit": "Éditer le nom du jeton",
+      "edited": "Le jeton est édité",
+      "newToken": "Nouveau jeton d'accès",
+      "notConfigurableExpirationDate": "La durée de vie du jeton d'accès n'est pas configurable"
+    },
+    "authorization": {
+      "errors": {
+        "passwordError": "Le mot de passe est requis",
+        "usernameError": "Le nom est requis"
+      },
+      "username": "Se connecter",
+      "password": "Mot de passe"
+    },
+    "general": {
+      "name": "Nom"
+    },
+    "packageMaintainers": {
+      "hints": {
+        "disabledPackageMessage": "Choisit un utilisateur et un répertoire à activer",
+        "disclaimerPackages": "Seulement les utilisateurs avec au moins un rôle de maintenance de package disponible."
+      }
+    },
+    "repositories": {
+      "errors": {
+        "duplicateName": "Le nom du répertoire existe déjà"
+      },
+      "hints": {
+        "deprecatedAddress": "Une adresse de serveur sans technologie dans son chemin est déprécié et ne sera plus prise en charge avec RDepot v3.0. Veuillez utiliser une {adresse} à la place."
+      },
+      "redirectToSource": "Accéder à la source",
+      "requiresAuthentication": "Nécessite une authentification",
+      "hash": "Méthode de hachage"
+    }
+  },
+  "actions": {
+    "general": {
+      "accept": "Accepter",
+      "activate": "Activer | Activer {resource_type}",
+      "cancel": "Annuler",
+      "clear": "Tout supprimer",
+      "continue": "Continuer",
+      "copy": "Copier",
+      "create": "Créer",
+      "createResource": "Créer {resource_type}",
+      "deactivate": "Désactiver | Désactiver {resource_type}",
+      "delete": "Supprimer",
+      "download": "Télécharger",
+      "edit": "Éditer",
+      "goBack": "Retour",
+      "goTo": "Voir les détails de {resource_type}",
+      "install": "Installer",
+      "login": "Se connecter",
+      "logout": "Se déconnecter",
+      "ok": "Ok",
+      "open": "Ouvrir dans un nouvel onglet",
+      "or": "ou",
+      "save": "Sauvegarder",
+      "uploadPackages": "Télécharger des packets",
+      "click": "Cliquer",
+      "editResource": "Éditer {resource_type}",
+      "reject": "Rejeter",
+      "reset": "Réinitialiser",
+      "submit": "Soumettre",
+      "unset": "Désélectionner",
+      "refresh": "Actualiser"
+    },
+    "settings": {
+      "theme": "Thème",
+      "changeLanguage": "Changer la langue",
+      "changeTheme": "Changer le thème",
+      "themes": {
+        "dark": "sombre",
+        "light": "clair"
+      },
+      "language": "Langue"
+    },
+    "repositories": {
+      "goTo": "Voir les paquets",
+      "publish": "Publier",
+      "republish": "Republier",
+      "seePackages": "Voir les packages du dépôt",
+      "unpublish": "Retirer"
+    },
+    "submissions": {
+      "showNotes": "Montrer les notes",
+      "noNotes": "Pas de notes"
+    }
+  },
+  "messages": {
+    "general": {
+      "pending": "Action en attente",
+      "noDataAvailable": "Pas de données disponibles",
+      "notAuthorized": "Vous n'êtes pas autorisé à effectuer cette action",
+      "success": "Requête traitée avec succès",
+      "chooseOneToContinue": "Veuillez ajouter {resource_type} pour continuer",
+      "deactivateQuestion": "Êtes-vous sûr de vouloir désactiver {resource_name}?",
+      "copied": "Copié dans le presse-papier",
+      "chooseOneToEnable": "Choisissez au moins un {resource_type} à activer",
+      "editResourceQuestion": "Êtes-vous sûr de vouloir {edit_action} la {resource_type} suivante?",
+      "deleteQuestion": "Êtes-vous sûr de vouloir supprimer {resource_name}?",
+      "deleteResourcesQuestion": "Êtes-vous sûr de vouloir supprimer la {resource_type} suivante?",
+      "deleted": "Cette {resource_name} est supprimée",
+      "goToDisabled": "Il n'est pas possible d'accéder aux détails",
+      "successFiltration": "Action de filtration réussie"
+    },
+    "authorization": {
+      "error": "Échec de la connexion",
+      "loggedIn": "Connecté",
+      "notLoggedIn": "Non connecté",
+      "oidc": "Se connecter par OIDC",
+      "success": "Connection réussie"
+    },
+    "notifications": {
+      "alreadySeen": "déjà vu",
+      "events": {
+        "active": {
+          "false": "désactivé",
+          "true": "activé"
+        },
+        "create": "créé",
+        "published": {
+          "false": "non publié",
+          "true": "publié"
+        },
+        "state": {
+          "accepted": "accepté",
+          "cancelled": "annulé",
+          "rejected": "rejeté"
+        },
+        "updated": "mis à jour",
+        "upload": "téléchargé"
+      },
+      "seeAll": "voir tous les événements",
+      "title": "notifications",
+      "upToDate": "déjà mis à jour"
+    },
+    "packages": {
+      "noDescriptionProvided": "Aucune description fournie",
+      "propertyNotProvided": "pas fourni"
+    },
+    "repositories": {
+      "authenticationNotRequiredTooltip": "Ce dépôt ne nécessite pas d'authentification pour l'installation de paquet",
+      "authenticationRequiredTooltip": "Ce dépôt nécessite une authentification pour l'installation de paquet",
+      "declarative": {
+        "create": "L'action de création est désactivée en mode déclaratif",
+        "delete": "L'action de suppression est désactivée en mode déclaratif",
+        "edit": "L'action d'édition est désactivée en mode déclaratif",
+        "publish": "L'action de publication est désactivée en mode déclaratif ",
+        "republish": "L'action de republication est désactivée en mode déclaratif"
+      },
+      "deprecatedAddressTooltip": "Une adresse de serveur sans technologie dans son chemin d'accès est déprécié et ne sera plus prise en charge dans RDepot v3.0",
+      "notPublished": "Le répertoire n'est pas encore publié",
+      "republishQuestion": "Êtes-vous sûr de vouloir republier {repo_name}?"
+    },
+    "repositoryMaintainers": {
+      "warnings": {
+        "insufficientPermissions": "Les autorisations de l'utilisateur ne sont pas suffisantes pour créer un responsable."
+      }
+    },
+    "submissions": {
+      "addAnotherSubmission": "Télécharger d'autres paquets",
+      "empty": "Pas de dépôt sélectionné",
+      "noChangesProvided": "Il n'y a pas de notes listées pour cette soumission",
+      "noPackageChosen": "Aucun paquet sélectionné",
+      "replaceOptionDesc": "Remplacer le paquet si un paquet du même nom et de la même version existe déjà dans le répertoire choisi.",
+      "replacingPackages": "Le remplacement des paquets existants est désactivé dans la configuration.",
+      "warnings": {
+        "warning": {
+          "file": {
+            "name": {
+              "has": {
+                "been": {
+                  "updated": "Le paquet a été soumis avec succès mais le nom du fichier a été mis à jour pour refléter les métadonnées du paquet."
+                }
+              }
+            }
+          },
+          "package": {
+            "duplicate": "Un paquet avec le même nom et la même version existe déjà dans le répertoire sélectionné. Veuillez recommencer le processus de téléchargement et cliquer 'remplacer'."
+          },
+          "replacing": {
+            "packages": {
+              "disabled": "Le remplacement de paquets est désactivé."
+            }
+          },
+          "synchronization": {
+            "failure": "Échec de synchronisation du répertoire. Veuillez essayer de télécharger le paquet de nouveau."
+          },
+          "unknown": "Échec inconnu. Veuillez essayer de nouveau."
+        },
+        "noSubmissionAvailable": "Aucune soumission valable sélectionnée",
+        "notListedWarning": "Certaines soumissions ne sont pas listées parce qu'elle ne peuvent pas être {actionType}.",
+        "onSubmissionAvailableText": "Vous n'avez pas sélectionné de soumissions valables pour être {actionType}. Veuillez sélectionner d'autres soumissions et essayer de nouveau.",
+        "onSubmissionAvailableTitle": "Veuillez sélectionner d'autres soumissions",
+        "replace": {
+          "duplication": "Un paquet avec le même nom et la même version existe déjà dans le répertoire sélectionné. Veuillez recommencer le processus de téléchargement et cliquer 'remplacer'."
+        },
+        "upload": {
+          "warning": "Certaines soumissions téléchargées ont des avertissements, voir les soumissions individuelles pour plus de détails"
+        }
+      },
+      "waitForAllRequestsToFulfill": "Veuillez attendre que toutes les soumissions ont été téléchargées",
+      "waitingForAction": "en attente d'une action",
+      "wrongExtension": "Choisissez les paquets qui ont une extension de fichier correcte",
+      "wrongExtension-Python": "Choisissez les paquets qui ont une extension de fichier correcte (.tar.gz/.whl)",
+      "wrongExtension-R": "Choisissez les paquets qui ont une extension de fichier correcte (.tar.gz)"
+    },
+    "config": {
+      "deletingPackages": "La suppression de paquet est désactivée dans la configuration",
+      "deletingRepositories": "La suppression des dépôts est désactivée dans la configuration"
+    },
+    "errors": {
+      "401": "La requête ne peut pas être exécutée parce que l'utilisateur n'est pas authentifié.",
+      "403": "La requête ne peut pas être exécutée parce que l'utilisateur n'est pas autorisé",
+      "manual": {
+        "notFound": "Le manuel n'est pas trouvé"
+      },
+      "404": "La page que vous cherchez n'existe pas.",
+      "405": "Il semble avoir un problème de configuration dans l'infrastructure. Contactez votre administrateur pour le résoudre.",
+      "422": "Validation échouée",
+      "500": "Erreur de serveur interne",
+      "copyFailed": "Copie échouée",
+      "required": "Ce champ est requis",
+      "email": "Cela doit être un e-mail",
+      "invalidForm": "Le formulaire n'est pas valable",
+      "formNotChanged": "Le formulaire n'a pas changé",
+      "message": {
+        "500": "Nous sommes désolés, un problème est survenu! Veuillez passer ce message à un administrateur du RDepot.\n\nID de la trace:\n{traceId}\n\ndate:\n{timestamp}"
+      },
+      "notDownloaded": "Pas téléchargé",
+      "notEdited": "Pas édité",
+      "notMutable": "{actionType} ne peut pas être exécutée parce qu'elle est déjà {currentState}",
+      "oauth": "Erreur avec oauth",
+      "oauthTitle": "Autorisation",
+      "pageNotFound": "404 - Page non trouvée",
+      "reponame": "La zone de saisie contient des caractères invalides. Veuillez utiliser seulement les caractères autorisés.",
+      "url": "Ceci doit être un URL"
+    },
+    "filtration": {
+      "makeSure": "Cette action supprimera toutes les filtrations"
+    },
+    "users": {
+      "unableDeactivation": "Les utilisateurs ne peuvent pas désactiver eux-mêmes",
+      "unableDeletion": "Les utilisateurs ne peuvent pas supprimer eux-mêmes"
+    }
+  },
+  "datatable": {
+    "noDataAvailable": "Pas de données disponibles",
+    "size": "Objets par page (pagination)",
+    "itemsPerPage": "Objets par page"
+  },
+  "dragZone": {
+    "inactive": "Déposer les fichiers pour les télécharger",
+    "active": "Faites glisser un fichier ou plus ici",
+    "click": "sélectionner les manuellement",
+    "dropzone": "Zone de dépôt"
+  },
+  "fields": {
+    "files": {
+      "architecture": "Architecture",
+      "binary": "Binaire",
+      "generateManual": "Générer le manuel",
+      "notes": "Notes",
+      "rVersion": "Version R",
+      "replace": "Remplacer",
+      "distribution": "Distribution"
+    },
+    "repositories": {
+      "published": "Publié",
+      "serverAddress": "Adresse du serveur",
+      "publicationUri": "URL de publication",
+      "synchronizing": "Synchronisation en cours"
+    },
+    "general": {
+      "date": "Date",
+      "deleted": "Supprimé",
+      "actions": "Actions",
+      "createdOn": "Créé le"
+    },
+    "packages": {
+      "fileType": "Type",
+      "source": "Source",
+      "submissionState": "Statut"
+    },
+    "submissions": {
+      "approver": "Approbateur",
+      "author": "Auteur",
+      "submitter": "Auteur de la soumission"
+    },
+    "tokens": {
+      "expirationDate": "Date d'expiration",
+      "lastUsed": "Dernièrement utilisé"
+    },
+    "users": {
+      "email": "E-mail",
+      "lastLoggedIn": "Dernièrement connecté",
+      "name": "Afficher le nom",
+      "role": "Rôle | Rôles",
+      "username": "Nom d'utilisateur"
+    }
+  },
+  "filtration": {
+    "tokens": {
+      "expired": "Expiré",
+      "userLogin": "Utilisateurs"
+    },
+    "events": {
+      "eventType": "Type d'événement",
+      "noEvents": "Pas d'évènements disponibles",
+      "resourceType": "Type de ressource"
+    },
+    "general": {
+      "fromDate": "À partir de la date",
+      "searchPlaceholder": "Chercher",
+      "title": "Filtrage",
+      "toDate": "À la date"
+    }
+  },
+  "properties": {
+    "packages": {
+      "installInstructionCrane-R": "Pour installer ce paquet veuillez visiter {url}, puis démarrer R et saisir:",
+      "license": "Licence",
+      "noInstallInstruction": "Le répertoire n'a pas encore été publié.",
+      "python": {
+        "classifiers": "Classificateurs",
+        "hash": "hachage",
+        "platform": "platforme",
+        "requiresPython": "nécessite Python",
+        "projectUrl": "URL du projet",
+        "providesExtra": "fourni en plus",
+        "requiresDist": "nécessite une distribution",
+        "requiresExternal": "nécessite externe"
+      },
+      "r": {
+        "depends": "dépends",
+        "encoding": "Encodage",
+        "manual": "manuel",
+        "md5sum": "somme de contrôle",
+        "vignettes": "vignettes",
+        "noVignetteNameProvided": "aucun nom n'est fourni",
+        "suggests": "suggère",
+        "systemRequirements": "configuration du système requise",
+        "url": "URL",
+        "imports": "Importes"
+      },
+      "binary": "Binaire",
+      "binary-R": {
+        "architecture": "architecture",
+        "distribution": "distribution",
+        "rversion": "Version R"
+      },
+      "binaryProperties": "Propriétés binaires",
+      "current": "courant",
+      "installInstruction-Python": "Pour installer ce paquet, veuillez exécuter:",
+      "installInstructionBinary": "Pour installer ce paquet binaire, démarrer R et saisir:",
+      "installInstructionBinaryCrane": "Pour installer ce paquet binaire veuillez visiter {url}, puis démarrer R et saisir:",
+      "installInstruction-R": "Pour installer ce paquet, démarrer R et saisir:",
+      "needsCompilation": "nécessite une compilation",
+      "relatedEventPage": "page d'évènements liés",
+      "seeRelatedEvent": "voir évènements liés",
+      "source": "Source",
+      "sourceFile": "Fichier source",
+      "versions": "Versions du paquet",
+      "withinRdepot": "à l'intérieur de RDepot"
+    },
+    "events": {
+      "general": {
+        "author": "Auteur"
+      },
+      "type": {
+        "create": "Créer",
+        "delete": "Supprimer",
+        "upload": "Télécharger",
+        "update": "Mettre à jour"
+      }
+    },
+    "general": {
+      "active": "Actif",
+      "deleted": "Supprimé",
+      "details": "Détails",
+      "inactive": "Inactif"
+    },
+    "submissions": {
+      "rejected": "REJETÉ",
+      "accepted": "ACCEPTÉ",
+      "cancelled": "ANNULÉ",
+      "downloaded": "TÉLÉCHARGÉ",
+      "notes": "Notes",
+      "waiting": "EN ATTENTE"
+    },
+    "repositories": {
+      "published": {
+        "publicationFailed": "publication échouée",
+        "false": "pas publié",
+        "publicationSucceed": "publication réussie",
+        "true": "publié"
+      },
+      "healthCheck": {
+        "correct": "l'adresse du serveur est correcte",
+        "incorrect": "l'adresse du serveur est incorrecte",
+        "undefined": "vérifier si l'adresse du serveur est correcte"
+      },
+      "lastModificationDate": "Date de la dernière modification",
+      "lastPublicationDate": "Date de la dernière publication",
+      "numberOfPackages": "Nombre de paquets",
+      "publicationSucceed": "Publication réussie",
+      "publicationFailed": "Publication échouée"
+    }
+  },
+  "resources": {
+    "maintainer": "Responsable | Responsables",
+    "settings": "Paramètres",
+    "admin": "Administrateur | Administrateurs",
+    "event": "Événement | Événements",
+    "generalSettings": "Général",
+    "repositoryMaintainer": "Responsable du répertoire| Responsables du répertoire",
+    "package": "Paquet | Paquets",
+    "packageMaintainer": "Responsable du paquet | Responsables du paquet",
+    "repository": "Répertoire | Répertoires",
+    "submission": "Soumission | Soumissions",
+    "technology": "Technologie | Technologies",
+    "accessToken": "Jeton | Jetons",
+    "user": "Utilisateur | Utilisateurs",
+    "file": "Fichier | Fichiers"
+  },
+  "updatedProperties": {
+    "title": "Propriétés mises à jour"
+  },
+  "packages": {
+    "notes": "Notes"
+  },
+  "backend": {
+    "no": {
+      "admin": {
+        "left": "Il n'est pas possible de modifier le rôle du dernier administrateur - au moins un administrateur doit rester"
+      }
+    }
+  }
+}
