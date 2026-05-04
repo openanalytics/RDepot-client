@@ -126,7 +126,7 @@
       "deleteResourcesQuestion": "Êtes-vous sûr de vouloir supprimer la {resource_type} suivante?",
       "deleted": "Cette {resource_name} est supprimée",
       "goToDisabled": "Il n'est pas possible d'accéder aux détails",
-      "successFiltration": "Action de filtration réussie"
+      "successFiltration": "Filtrage réussi"
     },
     "authorization": {
       "error": "Échec de la connexion",
@@ -161,7 +161,7 @@
     },
     "packages": {
       "noDescriptionProvided": "Aucune description fournie",
-      "propertyNotProvided": "pas fourni"
+      "propertyNotProvided": "Non fourni"
     },
     "repositories": {
       "authenticationNotRequiredTooltip": "Ce dépôt ne nécessite pas d'authentification pour l'installation de paquet",
@@ -211,7 +211,7 @@
           "synchronization": {
             "failure": "Échec de synchronisation du répertoire. Veuillez essayer de télécharger le paquet de nouveau."
           },
-          "unknown": "Échec inconnu. Veuillez essayer de nouveau."
+          "unknown": "Erreur inconnue. Veuillez réessayer."
         },
         "noSubmissionAvailable": "Aucune soumission valable sélectionnée",
         "notListedWarning": "Certaines soumissions ne sont pas listées parce qu'elle ne peuvent pas être {actionType}.",
@@ -224,7 +224,7 @@
           "warning": "Certaines soumissions téléchargées ont des avertissements, voir les soumissions individuelles pour plus de détails"
         }
       },
-      "waitForAllRequestsToFulfill": "Veuillez attendre que toutes les soumissions ont été téléchargées",
+      "waitForAllRequestsToFulfill": "Veuillez attendre que toutes les soumissions  aient été téléchargées",
       "waitingForAction": "en attente d'une action",
       "wrongExtension": "Choisissez les paquets qui ont une extension de fichier correcte",
       "wrongExtension-Python": "Choisissez les paquets qui ont une extension de fichier correcte (.tar.gz/.whl)",
@@ -238,15 +238,15 @@
       "401": "La requête ne peut pas être exécutée parce que l'utilisateur n'est pas authentifié.",
       "403": "La requête ne peut pas être exécutée parce que l'utilisateur n'est pas autorisé",
       "manual": {
-        "notFound": "Le manuel n'est pas trouvé"
+        "notFound": "Manuel introuvable"
       },
       "404": "La page que vous cherchez n'existe pas.",
       "405": "Il semble avoir un problème de configuration dans l'infrastructure. Contactez votre administrateur pour le résoudre.",
       "422": "Validation échouée",
-      "500": "Erreur de serveur interne",
+      "500": "Erreur interne de serveur",
       "copyFailed": "Copie échouée",
       "required": "Ce champ est requis",
-      "email": "Cela doit être un e-mail",
+      "email": "Le format attendu est une adresse e‑mail",
       "invalidForm": "Le formulaire n'est pas valable",
       "formNotChanged": "Le formulaire n'a pas changé",
       "message": {
@@ -262,11 +262,11 @@
       "url": "Ceci doit être un URL"
     },
     "filtration": {
-      "makeSure": "Cette action supprimera toutes les filtrations"
+      "makeSure": "Cette action supprimera toutes les filtres"
     },
     "users": {
-      "unableDeactivation": "Les utilisateurs ne peuvent pas désactiver eux-mêmes",
-      "unableDeletion": "Les utilisateurs ne peuvent pas supprimer eux-mêmes"
+      "unableDeactivation": "Les utilisateurs ne peuvent pas se désactiver eux-mêmes",
+      "unableDeletion": "Les utilisateurs ne peuvent pas se supprimer eux-mêmes"
     }
   },
   "datatable": {
@@ -354,7 +354,7 @@
         "projectUrl": "URL du projet",
         "providesExtra": "fourni en plus",
         "requiresDist": "nécessite une distribution",
-        "requiresExternal": "nécessite externe"
+        "requiresExternal": "requiert une dépendance externe"
       },
       "r": {
         "depends": "dépends",
@@ -457,7 +457,7 @@
   "backend": {
     "no": {
       "admin": {
-        "left": "Il n'est pas possible de modifier le rôle du dernier administrateur - au moins un administrateur doit rester"
+        "left": "Il n'est pas possible de modifier le rôle du dernier administrateur - il doit rester au moins un administrateur"
       }
     }
   }
