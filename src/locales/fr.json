@@ -358,7 +358,7 @@
       },
       "r": {
         "depends": "dépends",
-        "encoding": "Encodage",
+        "encoding": "codage",
         "manual": "manuel",
         "md5sum": "somme de contrôle",
         "vignettes": "vignettes",
@@ -366,7 +366,7 @@
         "suggests": "suggère",
         "systemRequirements": "configuration du système requise",
         "url": "URL",
-        "imports": "Importes"
+        "imports": "importations"
       },
       "binary": "Binaire",
       "binary-R": {
