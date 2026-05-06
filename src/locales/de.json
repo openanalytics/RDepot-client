@@ -43,7 +43,8 @@
       "editResource": "{resource_type} bearbeiten",
       "submit": "Bestätigen",
       "unset": "aufheben",
-      "refresh": "Aktualisieren"
+      "refresh": "Aktualisieren",
+      "confirm": "Bestätigen"
     },
     "repositories": {
       "publish": "veröffentlichen",
@@ -180,7 +181,8 @@
       "edited": "Token angepasst",
       "newToken": "Neues Zugriffstoken",
       "notConfigurableExpirationDate": "Laufzeit Zugriffstoken ist nicht konfigurierbar",
-      "copyWarning": "Achten Sie darauf, dass Sie das Zugriffstoken jetzt kopieren. Sie werden es danach nicht mehr sehen können!"
+      "copyWarning": "Achten Sie darauf, dass Sie das Zugriffstoken jetzt kopieren. Sie werden es danach nicht mehr sehen können!",
+      "expirationDate": "Lebensdauer (in Tagen)"
     }
   },
   "messages": {
@@ -220,7 +222,9 @@
       "url": "Dies sollte ein URL sein",
       "manual": {
         "notFound": "Anleitung nicht gefunden"
-      }
+      },
+      "502": "Entschuldigung, unsere Server haben derzeit Probleme. Bitte versuchen Sie es später noch einmal.",
+      "badGateway": "502 - Bad Gateway"
     },
     "general": {
       "deactivateQuestion": "Sind Sie sicher, dass Sie {resource_name} deaktivieren möchten?",
@@ -300,7 +304,16 @@
           "synchronization": {
             "failure": "Ein Fehler bei der Repository-Synchronisierung ist aufgetreten. Bitte versuchen Sie erneut, das Paket hochzuladen."
           },
-          "unknown": "Unbekannter Fehler. Bitte versuchen Sie es erneut."
+          "unknown": "Unbekannter Fehler. Bitte versuchen Sie es erneut.",
+          "file": {
+            "name": {
+              "has": {
+                "been": {
+                  "updated": "Das Paket wurde erfolgreich übermittelt, der Dateiname wurde jedoch aktualisiert, um die Paketmetadaten widerzuspiegeln."
+                }
+              }
+            }
+          }
         },
         "noSubmissionAvailable": "Keine gültigen Einreichungen ausgewählt",
         "onSubmissionAvailableText": "Sie haben keine gültigen Einreichungen für {actionType} ausgewählt. Bitte wählen Sie andere Einreichungen aus und versuchen Sie es erneut.",
@@ -393,14 +406,17 @@
       },
       "lastModificationDate": "Datum der letzten Änderung",
       "lastPublicationDate": "Datum der letzten Veröffentlichung",
-      "numberOfPackages": "Anzahl der Pakete"
+      "numberOfPackages": "Anzahl der Pakete",
+      "publicationSucceed": "Veröffentlichung erfolgreich",
+      "publicationFailed": "Veröffentlichung fehlgeschlagen"
     },
     "events": {
       "type": {
         "create": "Erstellen",
         "delete": "Löschen",
         "update": "Aktualisieren",
-        "upload": "Hochladen"
+        "upload": "Hochladen",
+        "republish": "Wiederveröffentlichen"
       },
       "general": {
         "author": "Verfasser"
@@ -435,7 +451,8 @@
     "token": "Token | Tokens",
     "admin": "Admin | Admins",
     "event": "Ereignis | Ereignisse",
-    "maintainer": "Maintainer | Maintainer"
+    "maintainer": "Maintainer | Maintainer",
+    "accessToken": "Token | Token"
   },
   "updatedProperties": {
     "title": "Aktualisierte Eigenschaften"
@@ -446,5 +463,8 @@
         "left": "Die Rolle des letzten Administrators kann nicht geändert werden – mindestens ein Administrator muss verbleiben"
       }
     }
+  },
+  "packages": {
+    "notes": "Anmerkungen"
   }
 }

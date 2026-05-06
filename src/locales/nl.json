@@ -29,7 +29,8 @@
       "accept": "Aanvaarden",
       "activate": "Activeren | {resource_type} Activeren",
       "deactivate": "Deactiveren | {resource_type} Deactiveren",
-      "refresh": "Ververs"
+      "refresh": "Ververs",
+      "confirm": "Bevestigen"
     },
     "repositories": {
       "publish": "Publiceren",
@@ -174,7 +175,8 @@
       "edited": "Token aangepast",
       "newToken": "Nieuw access token",
       "copyWarning": "Let erop het access token nu te kopiëren. Het zal later niet meer te zien zijn!",
-      "notConfigurableExpirationDate": "Levensduur van het access token is niet configureerbaar"
+      "notConfigurableExpirationDate": "Levensduur van het access token is niet configureerbaar",
+      "expirationDate": "Levensduur (in dagen)"
     },
     "packageMaintainers": {
       "hints": {
@@ -220,7 +222,9 @@
       "pageNotFound": "404 - Pagina niet gevonden",
       "manual": {
         "notFound": "Handleiding niet gevonden"
-      }
+      },
+      "502": "Sorry, onze servers ondervinden problemen. Probeer het later opnieuw.",
+      "badGateway": "502 - Bad Gateway"
     },
     "filtration": {
       "makeSure": "Dit zal alle filters wissen"
@@ -249,7 +253,16 @@
           "synchronization": {
             "failure": "Het synchroniseren van de repository is mislukt. Probeer om het package opnieuw toe te voegen."
           },
-          "unknown": "Ongekende fout. Probeer opnieuw."
+          "unknown": "Ongekende fout. Probeer opnieuw.",
+          "file": {
+            "name": {
+              "has": {
+                "been": {
+                  "updated": "Het package is met succes verwerkt, maar de bestandsnaam is bijgewerkt zodat het consistent is met de package metadata."
+                }
+              }
+            }
+          }
         },
         "noSubmissionAvailable": "Geen geldige submissies geselecteerd",
         "onSubmissionAvailableTitle": "Selecteer andere inzendingen",
@@ -400,14 +413,17 @@
         "publicationFailed": "publiceren gefaald",
         "publicationSucceed": "publiceren gelukt",
         "true": "gepubliceerd"
-      }
+      },
+      "publicationSucceed": "Publicatie gelukt",
+      "publicationFailed": "Publicatie mislukt"
     },
     "events": {
       "type": {
         "create": "Aanmaken",
         "delete": "Verwijderen",
         "update": "Updaten",
-        "upload": "Toevoegen"
+        "upload": "Toevoegen",
+        "republish": "Herpubliceren"
       },
       "general": {
         "author": "Auteur"
@@ -445,7 +461,8 @@
     "technology": "Technologie | Technologieën",
     "token": "Token | Tokens",
     "user": "Gebruiker | Gebruikers",
-    "file": "Bestand | Bestanden"
+    "file": "Bestand | Bestanden",
+    "accessToken": "Token | Tokens"
   },
   "backend": {
     "no": {
@@ -453,5 +470,8 @@
         "left": "Kan de rol van de laatste administrator niet veranderen - er moet minstens één administrator zijn"
       }
     }
+  },
+  "packages": {
+    "notes": "Notities"
   }
 }
