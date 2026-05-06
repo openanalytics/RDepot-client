@@ -2,20 +2,20 @@
   "forms": {
     "repositoryMaintainers": {
       "hints": {
-        "disabledPackageMessage": "Veuillez choisir un utilisateur et un répertoire à activer",
+        "disabledPackageMessage": "Veuillez choisir un utilisateur et un dépôt à activer",
         "disabledRepositoryMessage": "Veuillez choisir un utilisateur à activer",
-        "disclaimer": "Seulement les utilisateurs avec au moins un rôle de responsable du répertoire disponible."
+        "disclaimer": "Seulement les utilisateurs avec au moins un rôle de responsable du dépôt disponible."
       }
     },
     "submissions": {
-      "binaryPython": "Le paquet téléchargé est binaire (.whl)",
+      "binaryPython": "Le package téléchargé est binaire (.whl)",
       "binary": "Fichier binaire",
       "generateManual": "Générer la documentaion",
       "generateManualNotAvailable": "pas disponible pour les packages binaires",
-      "stepFirst": "Choisir un répertoire",
-      "stepSecond": "Télécharger les paquets {technology}",
+      "stepFirst": "Choisir un dépôt",
+      "stepSecond": "Télécharger les packages {technology}",
       "stepThird": "Résumé",
-      "noBinaryPython": "Le paquet téléchargé n'est pas binaire"
+      "noBinaryPython": "Le package téléchargé n'est pas binaire"
     },
     "tokens": {
       "deactivateQuestion": "Êtes-vous sûr de vouloir désactiver le jeton <strong>{0}</strong>?",
@@ -26,7 +26,8 @@
       "edit": "Éditer le nom du jeton",
       "edited": "Le jeton est édité",
       "newToken": "Nouveau jeton d'accès",
-      "notConfigurableExpirationDate": "La durée de vie du jeton d'accès n'est pas configurable"
+      "notConfigurableExpirationDate": "La durée de vie du jeton d'accès n'est pas configurable",
+      "expirationDate": "Durée de vie (en jours)"
     },
     "authorization": {
       "errors": {
@@ -41,13 +42,13 @@
     },
     "packageMaintainers": {
       "hints": {
-        "disabledPackageMessage": "Choisit un utilisateur et un répertoire à activer",
+        "disabledPackageMessage": "Choisit un utilisateur et un dépôt à activer",
         "disclaimerPackages": "Seulement les utilisateurs avec au moins un rôle de maintenance de package disponible."
       }
     },
     "repositories": {
       "errors": {
-        "duplicateName": "Le nom du répertoire existe déjà"
+        "duplicateName": "Le nom du dépôt existe déjà"
       },
       "hints": {
         "deprecatedAddress": "Une adresse de serveur sans technologie dans son chemin est déprécié et ne sera plus prise en charge avec RDepot v3.0. Veuillez utiliser une {adresse} à la place."
@@ -87,7 +88,8 @@
       "reset": "Réinitialiser",
       "submit": "Soumettre",
       "unset": "Désélectionner",
-      "refresh": "Actualiser"
+      "refresh": "Actualiser",
+      "confirm": "Confirmer"
     },
     "settings": {
       "theme": "Thème",
@@ -100,7 +102,7 @@
       "language": "Langue"
     },
     "repositories": {
-      "goTo": "Voir les paquets",
+      "goTo": "Voir les packages",
       "publish": "Publier",
       "republish": "Republier",
       "seePackages": "Voir les packages du dépôt",
@@ -164,8 +166,8 @@
       "propertyNotProvided": "Non fourni"
     },
     "repositories": {
-      "authenticationNotRequiredTooltip": "Ce dépôt ne nécessite pas d'authentification pour l'installation de paquet",
-      "authenticationRequiredTooltip": "Ce dépôt nécessite une authentification pour l'installation de paquet",
+      "authenticationNotRequiredTooltip": "Ce dépôt ne nécessite pas d'authentification pour l'installation des packages",
+      "authenticationRequiredTooltip": "Ce dépôt nécessite une authentification pour l'installation des packages",
       "declarative": {
         "create": "L'action de création est désactivée en mode déclaratif",
         "delete": "L'action de suppression est désactivée en mode déclaratif",
@@ -174,7 +176,7 @@
         "republish": "L'action de republication est désactivée en mode déclaratif"
       },
       "deprecatedAddressTooltip": "Une adresse de serveur sans technologie dans son chemin d'accès est déprécié et ne sera plus prise en charge dans RDepot v3.0",
-      "notPublished": "Le répertoire n'est pas encore publié",
+      "notPublished": "Le dépôt n'est pas encore publié",
       "republishQuestion": "Êtes-vous sûr de vouloir republier {repo_name}?"
     },
     "repositoryMaintainers": {
@@ -183,33 +185,33 @@
       }
     },
     "submissions": {
-      "addAnotherSubmission": "Télécharger d'autres paquets",
+      "addAnotherSubmission": "Télécharger d'autres packages",
       "empty": "Pas de dépôt sélectionné",
       "noChangesProvided": "Il n'y a pas de notes listées pour cette soumission",
-      "noPackageChosen": "Aucun paquet sélectionné",
-      "replaceOptionDesc": "Remplacer le paquet si un paquet du même nom et de la même version existe déjà dans le répertoire choisi.",
-      "replacingPackages": "Le remplacement des paquets existants est désactivé dans la configuration.",
+      "noPackageChosen": "Aucun package sélectionné",
+      "replaceOptionDesc": "Remplacer le package si un package du même nom et de la même version existe déjà dans le dépôt choisi",
+      "replacingPackages": "Le remplacement des packages existants est désactivé dans la configuration",
       "warnings": {
         "warning": {
           "file": {
             "name": {
               "has": {
                 "been": {
-                  "updated": "Le paquet a été soumis avec succès mais le nom du fichier a été mis à jour pour refléter les métadonnées du paquet."
+                  "updated": "Le package a été soumis avec succès mais le nom du fichier a été mis à jour pour refléter les métadonnées du package."
                 }
               }
             }
           },
           "package": {
-            "duplicate": "Un paquet avec le même nom et la même version existe déjà dans le répertoire sélectionné. Veuillez recommencer le processus de téléchargement et cliquer 'remplacer'."
+            "duplicate": "Un package avec le même nom et la même version existe déjà dans le dépôt sélectionné. Veuillez recommencer le processus de téléchargement et cliquer 'remplacer'."
           },
           "replacing": {
             "packages": {
-              "disabled": "Le remplacement de paquets est désactivé."
+              "disabled": "Le remplacement des packages est désactivé."
             }
           },
           "synchronization": {
-            "failure": "Échec de synchronisation du répertoire. Veuillez essayer de télécharger le paquet de nouveau."
+            "failure": "Échec de synchronisation du dépôt. Veuillez essayer de télécharger le package de nouveau."
           },
           "unknown": "Erreur inconnue. Veuillez réessayer."
         },
@@ -218,20 +220,20 @@
         "onSubmissionAvailableText": "Vous n'avez pas sélectionné de soumissions valables pour être {actionType}. Veuillez sélectionner d'autres soumissions et essayer de nouveau.",
         "onSubmissionAvailableTitle": "Veuillez sélectionner d'autres soumissions",
         "replace": {
-          "duplication": "Un paquet avec le même nom et la même version existe déjà dans le répertoire sélectionné. Veuillez recommencer le processus de téléchargement et cliquer 'remplacer'."
+          "duplication": "Un package avec le même nom et la même version existe déjà dans le dépôt sélectionné. Veuillez recommencer le processus de téléchargement et cliquer 'remplacer'."
         },
         "upload": {
           "warning": "Certaines soumissions téléchargées ont des avertissements, voir les soumissions individuelles pour plus de détails"
         }
       },
-      "waitForAllRequestsToFulfill": "Veuillez attendre que toutes les soumissions  aient été téléchargées",
+      "waitForAllRequestsToFulfill": "Veuillez attendre que toutes les soumissions aient été téléchargées",
       "waitingForAction": "en attente d'une action",
-      "wrongExtension": "Choisissez les paquets qui ont une extension de fichier correcte",
-      "wrongExtension-Python": "Choisissez les paquets qui ont une extension de fichier correcte (.tar.gz/.whl)",
-      "wrongExtension-R": "Choisissez les paquets qui ont une extension de fichier correcte (.tar.gz)"
+      "wrongExtension": "Choisissez les packages qui ont une extension de fichier correcte",
+      "wrongExtension-Python": "Choisissez les packages qui ont une extension de fichier correcte (.tar.gz/.whl)",
+      "wrongExtension-R": "Choisissez les packages qui ont une extension de fichier correcte (.tar.gz)"
     },
     "config": {
-      "deletingPackages": "La suppression de paquet est désactivée dans la configuration",
+      "deletingPackages": "La suppression des packages est désactivée dans la configuration",
       "deletingRepositories": "La suppression des dépôts est désactivée dans la configuration"
     },
     "errors": {
@@ -259,7 +261,9 @@
       "oauthTitle": "Autorisation",
       "pageNotFound": "404 - Page non trouvée",
       "reponame": "La zone de saisie contient des caractères invalides. Veuillez utiliser seulement les caractères autorisés.",
-      "url": "Ceci doit être un URL"
+      "url": "Ceci doit être un URL",
+      "badGateway": "502 - Bad Gateway",
+      "502": "Désolé, nos serveurs rencontrent actuellement des problèmes. Veuillez réessayer plus tard."
     },
     "filtration": {
       "makeSure": "Cette action supprimera toutes les filtres"
@@ -343,9 +347,9 @@
   },
   "properties": {
     "packages": {
-      "installInstructionCrane-R": "Pour installer ce paquet veuillez visiter {url}, puis démarrer R et saisir:",
+      "installInstructionCrane-R": "Pour installer ce package veuillez visiter {url}, puis démarrer R et saisir:",
       "license": "Licence",
-      "noInstallInstruction": "Le répertoire n'a pas encore été publié.",
+      "noInstallInstruction": "Le dépôt n'a pas encore été publié.",
       "python": {
         "classifiers": "Classificateurs",
         "hash": "hachage",
@@ -376,16 +380,16 @@
       },
       "binaryProperties": "Propriétés binaires",
       "current": "courant",
-      "installInstruction-Python": "Pour installer ce paquet, veuillez exécuter:",
-      "installInstructionBinary": "Pour installer ce paquet binaire, démarrer R et saisir:",
-      "installInstructionBinaryCrane": "Pour installer ce paquet binaire veuillez visiter {url}, puis démarrer R et saisir:",
-      "installInstruction-R": "Pour installer ce paquet, démarrer R et saisir:",
+      "installInstruction-Python": "Pour installer ce package, veuillez exécuter:",
+      "installInstructionBinary": "Pour installer ce package binaire, démarrer R et saisir:",
+      "installInstructionBinaryCrane": "Pour installer ce package binaire veuillez visiter {url}, puis démarrer R et saisir:",
+      "installInstruction-R": "Pour installer ce package, démarrer R et saisir:",
       "needsCompilation": "nécessite une compilation",
       "relatedEventPage": "page d'évènements liés",
       "seeRelatedEvent": "voir évènements liés",
       "source": "Source",
       "sourceFile": "Fichier source",
-      "versions": "Versions du paquet",
+      "versions": "Versions du package",
       "withinRdepot": "à l'intérieur de RDepot"
     },
     "events": {
@@ -396,7 +400,8 @@
         "create": "Créer",
         "delete": "Supprimer",
         "upload": "Télécharger",
-        "update": "Mettre à jour"
+        "update": "Mettre à jour",
+        "republish": "Republier"
       }
     },
     "general": {
@@ -427,7 +432,7 @@
       },
       "lastModificationDate": "Date de la dernière modification",
       "lastPublicationDate": "Date de la dernière publication",
-      "numberOfPackages": "Nombre de paquets",
+      "numberOfPackages": "Nombre de packages",
       "publicationSucceed": "Publication réussie",
       "publicationFailed": "Publication échouée"
     }
@@ -438,10 +443,10 @@
     "admin": "Administrateur | Administrateurs",
     "event": "Événement | Événements",
     "generalSettings": "Général",
-    "repositoryMaintainer": "Responsable du répertoire| Responsables du répertoire",
+    "repositoryMaintainer": "Responsable du dépôt | Responsables du dépôt",
     "package": "Paquet | Paquets",
-    "packageMaintainer": "Responsable du paquet | Responsables du paquet",
-    "repository": "Répertoire | Répertoires",
+    "packageMaintainer": "Responsable du package | Responsables du package",
+    "repository": "Dépôt | Dépôts",
     "submission": "Soumission | Soumissions",
     "technology": "Technologie | Technologies",
     "accessToken": "Jeton | Jetons",
