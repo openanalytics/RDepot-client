@@ -30,7 +30,8 @@
       "submit": "Zatwierdź",
       "unset": "Nieustawiony",
       "uploadPackages": "Prześlij Pakiety",
-      "refresh": "Odśwież"
+      "refresh": "Odśwież",
+      "confirm": "Potwierdzać"
     },
     "packageMaintainer": {
       "create": "Utwórz Opiekuna"
@@ -261,7 +262,9 @@
       "formNotChanged": "Formularz bez zmian",
       "manual": {
         "notFound": "Nie znaleziono instrukcji"
-      }
+      },
+      "502": "Przepraszamy, nasze serwery mają problemy. Spróbuj ponownie później.",
+      "badGateway": "502 - Bad Gateway"
     },
     "filtration": {
       "makeSure": "Ta akcja wyczyści wszystkie filtry"
@@ -393,7 +396,8 @@
         "create": "Utworzenie",
         "delete": "Usunięcie",
         "update": "Aktualizacja",
-        "upload": "Wgranie"
+        "upload": "Wgranie",
+        "republish": "Opublikuj ponownie"
       }
     },
     "general": {
@@ -467,7 +471,7 @@
         "publicationSucceed": "publikacja powiodła się",
         "true": "opublikowano"
       },
-      "publicationSucceed": "Publikacja repozytorium zakończona sukcesem.",
+      "publicationSucceed": "Publikacja repozytorium zakończona sukcesem",
       "publicationFailed": "Publikacja repozytorium nie powiodła się"
     },
     "submissions": {
