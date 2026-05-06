@@ -160,7 +160,7 @@ describe('enum filtration composable', () => {
         value: 'repositoryMaintainer'
       },
       {
-        title: 'Token',
+        title: 'Tokeny',
         value: 'accessToken'
       }
     ])
