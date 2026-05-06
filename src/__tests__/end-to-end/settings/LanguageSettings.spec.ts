@@ -342,7 +342,7 @@ test.describe(TITLE_SERIAL, { tag: '@serial' }, () => {
     const englishHeaders =
       'PackageTypeRepositoryDateSubmitterApproverStatusActions'
     const polishHeaders =
-      'PakietTypplikuRepozytoriumDataZgłaszającyZatwierdzającyStatusAkcje'
+      'PakietTypplikuRepozytoriumDataZgłaszający(-ca)Zatwierdzający(-ca)StatusAkcje'
 
     const plLanguageSelector = page.locator(
       `#${POLISH_LANGUAGE_ID}`
