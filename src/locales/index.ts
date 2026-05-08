@@ -51,6 +51,12 @@ const langs: Lang[] = [
     display: 'Polski',
     name: 'pl-PL',
     value: 'pl-PL'
+  },
+  {
+    abbreviation: 'fr',
+    display: 'Français',
+    name: 'fr-FR',
+    value: 'fr-FR'
   }
 ]
 

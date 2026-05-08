@@ -78,6 +78,7 @@ export const POLISH_LANGUAGE_ID = 'pl-PL'
 export const ENGLISH_LANGUAGE_ID = 'en-US'
 export const GERMAN_LANGUAGE_ID = 'de-DE'
 export const DUTCH_LANGUAGE_ID = 'nl-NL'
+export const FRENCH_LANGUAGE_ID = 'fr-FR'
 export const CHANGE_THEME_ID = 'change-theme-icon'
 
 //sidebar
