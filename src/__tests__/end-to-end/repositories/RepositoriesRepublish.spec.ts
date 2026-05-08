@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2025 Open Analytics NV
+ * Copyright (C) 2012-2026 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -51,10 +51,10 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     await page
       .locator(`#${REPUBLISH_REPOSITORY_TESTREPO2_ICON_ID}`)
       .click()
-    await page.locator('button:has-text("Submit")').click()
+    await page.locator('button:has-text("Confirm")').click()
 
     await expect(
-      await page.locator('button:has-text("Submit")')
+      await page.locator('button:has-text("Confirm")')
     ).toHaveCount(0)
     await expect(
       await page.locator('.v-progress-circular__overlay')

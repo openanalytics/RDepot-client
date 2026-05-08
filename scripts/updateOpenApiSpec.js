@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2025 Open Analytics NV
+ * Copyright (C) 2012-2026 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -63,6 +63,8 @@ if (openApiSpec.indexOf(oldIDtoDefinition) >= 0) {
   )
   console.log('replaced old IDto definition')
 }
+
+openApiSpec = openApiSpec.replaceAll('"_links"', '"links"')
 
 fs.writeFile(
   openApiFile,

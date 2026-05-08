@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2025 Open Analytics NV
+ * Copyright (C) 2012-2026 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -39,8 +39,8 @@ export function usePackageInstallation() {
     },
 
     r: {
-      standard: `install.packages("${packageBag.value.name}", repos = c("rdepot_${packageBag.value.repository?.name}" = "${packageBag.value.repository?.publicationUri}", getOption("repos")))`,
-      binary: `install.packages("${packageBag.value.name}", repos = c("rdepot_${packageBag.value.repository?.name}_binary" = "${packageBag.value.repository?.publicationUri}/linux/${packageBag.value.distribution}", "rdepot_${packageBag.value.repository?.name}_source" = "${packageBag.value.repository?.publicationUri}", getOption("repos")), headers = c("User-Agent" = getOption("HTTPUserAgent")))`
+      standard: `install.packages(\n\t"${packageBag.value.name}",\n\trepos = c(\n\t\t"rdepot_${packageBag.value.repository?.name}" = "${packageBag.value.repository?.publicationUri}",\n\t\tgetOption("repos")\n\t)\n)`,
+      binary: `install.packages(\n\t"${packageBag.value.name}",\n\trepos = c(\n\t\t"rdepot_${packageBag.value.repository?.name}_binary" = "${packageBag.value.repository?.publicationUri}/linux/${packageBag.value.distribution}",\n\t\t"rdepot_${packageBag.value.repository?.name}_source" = "${packageBag.value.repository?.publicationUri}",\n\t\tgetOption("repos")\n\t),\n\theaders = c("User-Agent" = getOption("HTTPUserAgent"))\n)`
     }
   }
 

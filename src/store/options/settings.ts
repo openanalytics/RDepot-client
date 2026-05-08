@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2025 Open Analytics NV
+ * Copyright (C) 2012-2026 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -20,8 +20,8 @@
  *
  */
 
-import { UserSettingsProjection } from '@/openapi/models/user-settings-projection'
 import { defineStore } from 'pinia'
+import { UserSettingsProjection } from '@/openapi'
 
 interface State {
   changes: boolean

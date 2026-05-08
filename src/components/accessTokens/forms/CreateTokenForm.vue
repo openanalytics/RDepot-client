@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2025 Open Analytics NV
+ Copyright (C) 2012-2026 Open Analytics NV
  
  ===========================================================================
  
@@ -48,7 +48,7 @@
         type="number"
         name="lifetime"
         min="0"
-        :label="i18n.t('fields.tokens.expirationDate')"
+        :label="i18n.t('forms.tokens.expirationDate')"
         as="v-text-field"
         max-width="unset"
       ></validated-input-field>

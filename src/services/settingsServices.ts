@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2025 Open Analytics NV
+ * Copyright (C) 2012-2026 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -112,7 +112,7 @@ export async function editToken(
   const patch_body = createPatch(oldToken, newToken)
   return openApiRequest<EntityModelAccessTokenDto>(
     ApiV2AccessTokenControllerApiFactory().patchAccessToken,
-    [patch_body, oldToken.id!]
+    [oldToken.id!, patch_body]
   ).catch(() => {
     return validateRequest({})
   })
@@ -124,7 +124,7 @@ export async function deactivateToken(
   const patch_body = createPatch(oldToken, newToken)
   return openApiRequest<EntityModelAccessTokenDto>(
     ApiV2AccessTokenControllerApiFactory().patchAccessToken,
-    [patch_body, oldToken.id!]
+    [oldToken.id!, patch_body]
   ).catch(() => {
     return validateRequest({})
   })

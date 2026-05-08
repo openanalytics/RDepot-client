@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2025 Open Analytics NV
+ * Copyright (C) 2012-2026 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -71,5 +71,9 @@ test.describe(TITLE_SERIAL, { tag: '@serial' }, () => {
     await page
       .locator(`#${CREATE_TOKEN_SUBMIT_BUTTON_ID}`)
       .click()
+
+    await expect(
+      await page.locator('#submit-button')
+    ).toHaveText('Ok')
   })
 })

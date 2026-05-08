@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2025 Open Analytics NV
+ * Copyright (C) 2012-2026 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -51,6 +51,22 @@ export async function addRepositories(project?: string) {
     } else if (project == 'chrome') {
       await execPromise(
         'sh ./src/__tests__/end-to-end/config/addRepositories-chrome.sh'
+      )
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function packageDescription(project?: string) {
+  try {
+    if (project == 'firefox') {
+      await execPromise(
+        'sh ./src/__tests__/end-to-end/config/packageDescription-firefox.sh'
+      )
+    } else if (project == 'chrome') {
+      await execPromise(
+        'sh ./src/__tests__/end-to-end/config/packageDescription-chrome.sh'
       )
     }
   } catch (error) {

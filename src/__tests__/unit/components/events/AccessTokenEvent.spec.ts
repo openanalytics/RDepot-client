@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2025 Open Analytics NV
+ * Copyright (C) 2012-2026 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -90,7 +90,7 @@ describe('Events - Access Token (active, !deleted)', () => {
 
   it('display resource type', () => {
     expect(wrapper.text()).toContain(
-      i18n.t('resources.token').toUpperCase()
+      i18n.t('resources.accessToken').toUpperCase()
     )
   })
 

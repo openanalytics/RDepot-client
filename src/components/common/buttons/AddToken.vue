@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2025 Open Analytics NV
+ Copyright (C) 2012-2026 Open Analytics NV
  
  ===========================================================================
  
@@ -39,7 +39,7 @@
       ><span>{{
         i18n.t('actions.general.createResource', {
           resource_type: i18n
-            .t('resources.token')
+            .t('resources.accessToken')
             .toLowerCase()
         })
       }}</span>

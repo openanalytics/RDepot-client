@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2025 Open Analytics NV
+ * Copyright (C) 2012-2026 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -81,7 +81,7 @@ export async function updateUser(
   const patch = createPatch(oldUser, newUser)
   return openApiRequest<EntityModelUserDto>(
     ApiV2UserControllerApiFactory().patchUser,
-    [patch, oldUser.id]
+    [oldUser.id, patch]
   ).catch(() => {
     return validateRequest({})
   })

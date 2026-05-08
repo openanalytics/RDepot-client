@@ -29,7 +29,8 @@
       "submit": "Submit",
       "unset": "Unset",
       "uploadPackages": "Upload packages",
-      "refresh": "Refresh"
+      "refresh": "Refresh",
+      "confirm": "Confirm"
     },
     "repositories": {
       "goTo": "See packages",
@@ -180,7 +181,8 @@
       "edit": "Edit token name",
       "edited": "Token edited",
       "newToken": "New access token",
-      "notConfigurableExpirationDate": "Access token lifetime is not configurable"
+      "notConfigurableExpirationDate": "Access token lifetime is not configurable",
+      "expirationDate": "Lifetime (in days)"
     }
   },
   "messages": {
@@ -202,6 +204,7 @@
       "405": "There seems to be a configuration issue in the back-end. Please contact your administrator to fix this.",
       "422": "Validation failed",
       "500": "Internal server error",
+      "502": "Sorry, our servers are having trouble. Please try again later.",
       "copyFailed": "Copy failed",
       "email": "This should be an email",
       "invalidForm": "The form is not valid",
@@ -220,7 +223,8 @@
       "url": "This should be a url",
       "manual": {
         "notFound": "Manual not found"
-      }
+      },
+      "badGateway": "502 - Bad Gateway"
     },
     "filtration": {
       "makeSure": "This action will clear all filtration"
@@ -309,6 +313,15 @@
           "warning": "Some uploaded submissions had warnings, see the individual submissions for details"
         },
         "warning": {
+          "file": {
+            "name": {
+              "has": {
+                "been": {
+                  "updated": "The package was submitted successfully but the file name has been updated to reflect the package metadata."
+                }
+              }
+            }
+          },
           "package": {
             "duplicate": "A package with the same name and version already exists in the selected repository. Please go through the upload process again and click 'replace' to overwrite it."
           },
@@ -341,7 +354,8 @@
         "create": "Create",
         "delete": "Delete",
         "update": "Update",
-        "upload": "Upload"
+        "upload": "Upload",
+        "republish": "Republish"
       }
     },
     "general": {
@@ -410,7 +424,9 @@
         "publicationFailed": "publication failed",
         "publicationSucceed": "publication succeed",
         "true": "published"
-      }
+      },
+      "publicationSucceed": "Publication successful",
+      "publicationFailed": "Publication failed"
     },
     "submissions": {
       "accepted": "ACCEPTED",
@@ -433,7 +449,7 @@
     "settings": "Settings",
     "submission": "Submission | Submissions",
     "technology": "Technology | Technologies",
-    "token": "Token | Tokens",
+    "accessToken": "Token | Tokens",
     "user": "User | Users",
     "file": "File | Files"
   },
@@ -446,5 +462,8 @@
         "left": "Cannot modify the last administrator's role - at least one administrator must remain"
       }
     }
+  },
+  "packages": {
+    "notes": "Notes"
   }
 }

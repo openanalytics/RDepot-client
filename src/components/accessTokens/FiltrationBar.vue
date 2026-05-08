@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2025 Open Analytics NV
+ Copyright (C) 2012-2026 Open Analytics NV
  
  ===========================================================================
  
@@ -116,19 +116,16 @@ import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { isAtLeastAdmin } from '@/enum/UserRoles'
 import { useUsersFiltration } from '@/composable/filtration/usersFiltration'
-import { onMounted } from 'vue'
 import ResetButton from '@/components/common/buttons/ResetButton.vue'
-import { onBeforeMount } from 'vue'
 import { useAccessTokensStore } from '@/store/options/accessTokens'
 import { useAuthorizationStore } from '@/store/options/authorization'
 
 const authorizationStore = useAuthorizationStore()
 const accessTokensStore = useAccessTokensStore()
 
-const { storeIdUser, loadUsers, resetPaginationUsers } =
-  useUsersFiltration()
+const { storeIdUser, loadUsers } = useUsersFiltration()
 
-const { setValues, values, setFieldValue } = useForm({
+const { setValues, values } = useForm({
   validationSchema: toTypedSchema(TokensFiltration),
   initialValues: accessTokensStore.filtration
 })
@@ -145,24 +142,6 @@ function resetValues() {
     values as TokensFiltration
   )
 }
-
-onMounted(() => {
-  if (
-    isAtLeastAdmin(
-      authorizationStore.userRole
-        ? authorizationStore.userRole
-        : 0
-    ) &&
-    authorizationStore.me.login
-  ) {
-    setFieldValue('userLogin', [
-      authorizationStore.me.login
-    ])
-    setFiltration()
-  }
-})
-
-onBeforeMount(() => resetPaginationUsers())
 </script>
 
 <style lang="scss">

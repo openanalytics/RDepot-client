@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2025 Open Analytics NV
+ * Copyright (C) 2012-2026 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -51,6 +51,12 @@ const langs: Lang[] = [
     display: 'Polski',
     name: 'pl-PL',
     value: 'pl-PL'
+  },
+  {
+    abbreviation: 'fr',
+    display: 'Français',
+    name: 'fr-FR',
+    value: 'fr-FR'
   }
 ]
 

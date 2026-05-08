@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2025 Open Analytics NV
+ * Copyright (C) 2012-2026 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -26,7 +26,6 @@ import { useUtilities } from '@/composable/utilities'
 import { LoginType } from '@/enum/LoginType'
 import { Role, stringToRole } from '@/enum/UserRoles'
 import { Login } from '@/models/users/Login'
-import { UserSettingsProjection } from '@/openapi/models/user-settings-projection'
 import {
   defineAbilityFor,
   Ability,
@@ -44,7 +43,10 @@ import { useOIDCAuthorization } from '@/composable/auth/oidcAuthorization'
 import { useConfigStore } from './config'
 import { RouteRecordName } from 'vue-router'
 import { useCommonStore } from './common'
-import { EntityModelUserDto } from '@/openapi'
+import {
+  EntityModelUserDto,
+  UserSettingsProjection
+} from '@/openapi'
 import vuetify from '@/plugins/vuetify'
 import { useNotificationStore } from './notifications'
 

@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2025 Open Analytics NV
+ Copyright (C) 2012-2026 Open Analytics NV
  
  ===========================================================================
  
@@ -89,13 +89,14 @@ type Justify =
   | 'space-evenly'
   | 'stretch'
 
-withDefaults(
+const prop = withDefaults(
   defineProps<{
     cancelButton?: boolean
     submitButton?: boolean
     justify?: Justify
     valid?: boolean
     touched?: boolean
+    submitText?: string
     buttons?: {
       id?: string
       text: string
@@ -106,15 +107,20 @@ withDefaults(
     cancelButton: true,
     submitButton: true,
     touched: true,
+    submitText: '',
     valid: true,
     buttons: undefined
   }
 )
 
 const submitText = computed(() =>
-  commonStore.isDelete
-    ? i18n.t('actions.general.delete')
-    : i18n.t('actions.general.submit')
+  prop.submitText
+    ? prop.submitText
+    : commonStore.isDelete
+      ? i18n.t('actions.general.delete')
+      : commonStore.isRepublish
+        ? i18n.t('actions.general.confirm')
+        : i18n.t('actions.general.submit')
 )
 
 function cancel() {

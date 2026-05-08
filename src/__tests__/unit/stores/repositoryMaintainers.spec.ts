@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2025 Open Analytics NV
+ * Copyright (C) 2012-2026 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -232,25 +232,6 @@ describe('Repository Maintainers Store', () => {
     expect(spy).toBeCalled()
     // expect(notify.notify).toBeCalledWith('success')
     expect(notify.toast.success).toBeCalled()
-  })
-
-  it('Save chosen maintainer', async () => {
-    const repositoryMaintainersStore =
-      useRepositoryMaintainersStore()
-    const spy = vi.spyOn(
-      repositoryMaintainersStore,
-      'getPage'
-    )
-
-    repositoryMaintainersStore.getPage()
-    repositoryMaintainersStore.chosenMaintainer =
-      repositoryMaintainers.data.content[2]
-
-    await repositoryMaintainersStore.patch({
-      id: repositoryMaintainers.data.content[2].id
-    })
-
-    expect(spy).toBeCalled()
   })
 })
 

@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2025 Open Analytics NV
+ * Copyright (C) 2012-2026 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -65,7 +65,8 @@ const EXTENSION_WITHOUT_LICENSE = [
   'prettierignore',
   'gitattributes',
   'eslintoutputrc',
-  'eslintignore'
+  'eslintignore',
+  'openapi-generator-ignore'
 ]
 
 const DIRS_WITHOUT_LICENSE_CHECKING = [

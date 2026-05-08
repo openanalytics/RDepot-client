@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2025 Open Analytics NV
+ * Copyright (C) 2012-2026 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -329,6 +329,10 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     await expect(nameError).toHaveText(
       i18n.t('messages.errors.reponame')
     )
+
+    await page
+      .locator(`#${CREATE_REPOSITORY_NAME_FIELD_ID}`)
+      .click()
 
     await page
       .locator(`#${CREATE_REPOSITORY_NAME_FIELD_ID}`)

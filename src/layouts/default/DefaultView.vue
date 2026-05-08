@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2025 Open Analytics NV
+ Copyright (C) 2012-2026 Open Analytics NV
  
  ===========================================================================
  
@@ -23,17 +23,23 @@
 <template>
   <Navbar style="max-width: 100%; position: sticky" />
   <Sidebar
+    v-if="!commonStore.error502"
     style="height: calc(100vh - 64px); position: fixed"
   />
   <v-main
     style="--v-layout-top: 15px; --v-layout-bottom: 15px"
     class="mx-5"
   >
-    <router-view />
+    <BadGateway v-if="commonStore.error502" />
+    <router-view v-else />
   </v-main>
 </template>
 
 <script lang="ts" setup>
 import Navbar from '@/components/navbar/AppNavbar.vue'
 import Sidebar from '@/components/navbar/AppSidebar.vue'
+import BadGateway from '@/views/BadGateway.vue'
+import { useCommonStore } from '@/store/options/common'
+
+const commonStore = useCommonStore()
 </script>

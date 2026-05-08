@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2025 Open Analytics NV
+ Copyright (C) 2012-2026 Open Analytics NV
  
  ===========================================================================
  
@@ -132,6 +132,6 @@ const relatedResource: EntityModelAccessTokenDto =
 const { getTime } = useDates()
 
 const resourceType = computed(() =>
-  i18n.t('resources.token').toUpperCase()
+  i18n.t('resources.accessToken').toUpperCase()
 )
 </script>

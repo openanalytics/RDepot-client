@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2025 Open Analytics NV
+ * Copyright (C) 2012-2026 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -123,7 +123,7 @@ describe('Package Installation', () => {
         .find(`#${PACKAGE_INSTALLATION_COMMAND_ID}`)
         .text()
     ).toBe(
-      `install.packages("${pkg.name}", repos = c("rdepot_${pkg.repository.name}" = "${pkg.repository.publicationUri}", getOption("repos")))`
+      `install.packages(\n\t"${pkg.name}",\n\trepos = c(\n\t\t"rdepot_${pkg.repository.name}" = "${pkg.repository.publicationUri}",\n\t\tgetOption("repos")\n\t)\n)`
     )
   })
 
@@ -140,7 +140,7 @@ describe('Package Installation', () => {
         .find(`#${PACKAGE_INSTALLATION_COMMAND_ID}`)
         .text()
     ).toBe(
-      `install.packages("${pkg.name}", repos = c("rdepot_${pkg.repository.name}" = "${pkg.repository.publicationUri}", getOption("repos")))`
+      `install.packages(\n\t"${pkg.name}",\n\trepos = c(\n\t\t"rdepot_${pkg.repository.name}" = "${pkg.repository.publicationUri}",\n\t\tgetOption("repos")\n\t)\n)`
     )
   })
 
@@ -157,7 +157,7 @@ describe('Package Installation', () => {
         .find(`#${PACKAGE_INSTALLATION_COMMAND_ID}`)
         .text()
     ).toBe(
-      `install.packages("${pkg.name}", repos = c("rdepot_${pkg.repository.name}_binary" = "${pkg.repository.publicationUri}/linux/${pkg.distribution}", "rdepot_${pkg.repository.name}_source" = "${pkg.repository.publicationUri}", getOption("repos")), headers = c("User-Agent" = getOption("HTTPUserAgent")))`
+      `install.packages(\n\t"${pkg.name}",\n\trepos = c(\n\t\t"rdepot_${pkg.repository.name}_binary" = "${pkg.repository.publicationUri}/linux/${pkg.distribution}",\n\t\t"rdepot_${pkg.repository.name}_source" = "${pkg.repository.publicationUri}",\n\t\tgetOption("repos")\n\t),\n\theaders = c("User-Agent" = getOption("HTTPUserAgent"))\n)`
     )
   })
 
@@ -174,7 +174,7 @@ describe('Package Installation', () => {
         .find(`#${PACKAGE_INSTALLATION_COMMAND_ID}`)
         .text()
     ).toBe(
-      `install.packages("${pkg.name}", repos = c("rdepot_${pkg.repository.name}_binary" = "${pkg.repository.publicationUri}/linux/${pkg.distribution}", "rdepot_${pkg.repository.name}_source" = "${pkg.repository.publicationUri}", getOption("repos")), headers = c("User-Agent" = getOption("HTTPUserAgent")))`
+      `install.packages(\n\t"${pkg.name}",\n\trepos = c(\n\t\t"rdepot_${pkg.repository.name}_binary" = "${pkg.repository.publicationUri}/linux/${pkg.distribution}",\n\t\t"rdepot_${pkg.repository.name}_source" = "${pkg.repository.publicationUri}",\n\t\tgetOption("repos")\n\t),\n\theaders = c("User-Agent" = getOption("HTTPUserAgent"))\n)`
     )
   })
 })

@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2025 Open Analytics NV
+ * Copyright (C) 2012-2026 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -97,7 +97,7 @@ export async function updatePackageMaintainerService(
   return openApiRequest<EntityModelPackageMaintainerDto>(
     ApiV2PackageMaintainerControllerApiFactory()
       .updatePackageMaintainer,
-    [patch, oldMaintainer.id]
+    [oldMaintainer.id, patch]
   ).catch(() => {
     return validateRequest({})
   })

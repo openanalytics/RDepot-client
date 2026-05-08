@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2025 Open Analytics NV
+ Copyright (C) 2012-2026 Open Analytics NV
  
  ===========================================================================
  
@@ -31,10 +31,64 @@
       <div class="flex-grow-1">
         <div class="d-flex ga-4">
           <div class="basePaneOther">
-            <div class="d-flex ga-4">
-              <RepositoryCard />
-              <LicenseCard />
-              <EventsCard />
+            <div class="ga-4">
+              <v-tabs
+                v-model="activeTab"
+                style="--v-tabs-height: 82px"
+                :mandatory="false"
+              >
+                <v-tab
+                  value="one"
+                  @click.prevent="onTabClick('one')"
+                >
+                  <RepositoryCard />
+                </v-tab>
+                <v-tab
+                  value="two"
+                  style="--v-tabs-height: 82px"
+                  @click.prevent="onTabClick('two')"
+                  ><LicenseCard
+                /></v-tab>
+                <v-tab
+                  value="three"
+                  style="--v-tabs-height: 82px"
+                  @click.prevent="onTabClick('three')"
+                >
+                  <EventsCard />
+                </v-tab>
+              </v-tabs>
+              <v-expand-transition style="margin-top: 16px">
+                <v-tabs-window
+                  v-if="windowVisible"
+                  v-model="activeTab"
+                >
+                  <v-tabs-window-item value="one">
+                    <RepositoryDescription />
+                  </v-tabs-window-item>
+                  <v-tabs-window-item value="two">
+                    <v-card>
+                      <v-card-text>
+                        <MarkdownDescription
+                          :description="packageBag.license"
+                          changes
+                        />
+                      </v-card-text>
+                    </v-card>
+                  </v-tabs-window-item>
+                  <v-tabs-window-item value="three">
+                    <div
+                      id="scrollContainer"
+                      ref="scrollContainer"
+                      class="v-card__text events-list"
+                      style="min-height: 500px"
+                    >
+                      <EventsTimeLine
+                        :scroll-el="scrollContainer"
+                      />
+                    </div>
+                  </v-tabs-window-item>
+                </v-tabs-window>
+              </v-expand-transition>
             </div>
             <v-card class="proptable mt-4">
               <BaseProperties />
@@ -164,12 +218,43 @@ import {
 } from '@/openapi'
 import { i18n } from '@/plugins/i18n'
 import { usePackageDetailsStore } from '@/store/options/packageDetails'
-import { computed } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { usePackageProperties } from '@/composable/packages/packageProperties'
 import PropertiesTable from '@/components/common/properties/PropertiesTable.vue'
 import RDepotUsersProperties from '@/components/packages/packageDetails/properties/RDepotUsersProperties.vue'
+import RepositoryDescription from '@/components/repositories/repositoryDetails/RepositoryDescription.vue'
+import { useRepositoryStore } from '@/store/options/repositories'
+import MarkdownDescription from '@/components/common/markdown/MarkdownDescription.vue'
+import EventsTimeLine from '@/components/events/EventsTimeLine.vue'
 
 const { binaryPackageProperties } = usePackageProperties()
+
+const activeTab = ref<string | null>(null)
+const previousTab = ref<string | null>(null)
+const windowVisible = ref(false)
+const scrollContainer = ref(undefined)
+
+function onTabClick(tab: string) {
+  console.log(tab, activeTab.value)
+  if (tab === previousTab.value) {
+    windowVisible.value = false // hide only if active tab
+    activeTab.value = null
+    previousTab.value = null
+  } else {
+    activeTab.value = tab
+    previousTab.value = tab
+    windowVisible.value = true // show content on ANY click
+  }
+}
+
+const repositoryStore = useRepositoryStore()
+
+onMounted(() => {
+  repositoryStore.fetchChosen(
+    packageBag.value.repository?.id,
+    packageBag.value.technology as Technologies
+  )
+})
 
 const packageDetailsStore = usePackageDetailsStore()
 const packageBag = computed<EntityModelRPackageDto>(
@@ -204,5 +289,27 @@ const items = computed(() => [
 }
 .basePaneOther {
   width: 100%;
+}
+
+.v-tab {
+  padding-left: 0px;
+  padding-right: 8px;
+}
+
+.v-tab:not(.v-tab--selected) .v-card {
+  background-color: rgba(0, 0, 0, 0.08);
+}
+
+.events-list {
+  height: calc(100vh - 900px);
+  overflow-y: auto;
+}
+
+#scrollContainer {
+  background-color: rgb(var(--v-theme-surface));
+}
+
+.v-tab__slider {
+  visibility: hidden;
 }
 </style>

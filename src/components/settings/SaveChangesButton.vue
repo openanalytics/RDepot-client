@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2025 Open Analytics NV
+ Copyright (C) 2012-2026 Open Analytics NV
  
  ===========================================================================
  
@@ -37,10 +37,10 @@
 import { useI18n } from 'vue-i18n'
 import { useSettingsStore } from '@/store/options/settings'
 import { useAuthorizationStore } from '@/store/options/authorization'
-import { UserSettingsProjection } from '@/openapi/models/user-settings-projection'
 import { useTheme } from 'vuetify'
 import { useCommonStore } from '@/store/options/common'
 import langs from '@/locales/index'
+import { UserSettingsProjection } from '@/openapi'
 
 const t = useI18n()
 const theme = useTheme()

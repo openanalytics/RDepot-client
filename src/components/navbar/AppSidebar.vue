@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2025 Open Analytics NV
+ Copyright (C) 2012-2026 Open Analytics NV
  
  ===========================================================================
  
@@ -183,8 +183,8 @@
         ></v-list-item>
         <v-list-item
           id="sidebar-settings-access-tokens"
-          :title="$t('resources.token', 2)"
-          :value="$t('resources.token', 2)"
+          :title="$t('resources.accessToken', 2)"
+          :value="$t('resources.accessToken', 2)"
           :active="'settingsTokens' === $route.name"
           to="/settings-tokens"
         ></v-list-item>
@@ -193,7 +193,7 @@
 
     <template #append>
       <v-list-item style="font-size: 0.7rem">
-        v2.7.0
+        v2.8.0
         <span v-if="getEnv('VITE_DEV_MODE') === 'true'"
           >({{
             getEnv('VITE_CURRENT_COMMIT_VERSION')

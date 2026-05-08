@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2025 Open Analytics NV
+ * Copyright (C) 2012-2026 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -20,7 +20,6 @@
  *
  */
 
-import { UserSettingsProjection } from '@/openapi/models/user-settings-projection'
 import { useAuthorizationStore } from '@/store/options/authorization'
 import { createPinia, setActivePinia } from 'pinia'
 import {
@@ -34,6 +33,7 @@ import {
 } from 'vitest'
 import { server } from '@/__tests__/config/backend/server'
 import me from '@/__tests__/config/mockData/me.json'
+import { UserSettingsProjection } from '@/openapi'
 
 describe('Logged user store tests', () => {
   beforeAll(() => {

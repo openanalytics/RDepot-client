@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2025 Open Analytics NV
+ * Copyright (C) 2012-2026 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -22,9 +22,12 @@
 
 import { useCommonStore } from '@/store/options/common'
 import { AxiosError, AxiosResponse } from 'axios'
-import { Link, PageMetadata } from '@/openapi'
+import {
+  Link,
+  PageMetadata,
+  ResponseDtoObject
+} from '@/openapi'
 import { getHeaders } from './apiConfig'
-import { ResponseDtoObject } from '@/openapi/models'
 import { useAuthorizationStore } from '@/store/options/authorization'
 import { useBlob } from '@/composable/blob'
 import { useToast } from '@/composable/toasts'
@@ -125,6 +128,7 @@ async function resolved(
   ifToast = true
 ): Promise<validatedData<any>> {
   const commonStore = useCommonStore()
+  commonStore.error502 = false
   commonStore.progressCircularActive = false
   if (ifToast) {
     const toasts = useToast()
@@ -217,6 +221,11 @@ async function errorsHandler(
         if (error.response?.data) {
           toasts.error500(error)
         }
+        break
+      }
+      case 502:
+      case 504: {
+        useCommonStore().error502 = true
         break
       }
     }

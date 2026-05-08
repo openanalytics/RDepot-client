@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2025 Open Analytics NV
+ * Copyright (C) 2012-2026 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -38,13 +38,13 @@ import { login } from '../helpers/login'
 import { restoreData } from '@/__tests__/end-to-end/helpers/restoreData'
 import { i18n } from '@/plugins/i18n'
 
-// eslint-disable-next-line no-empty-pattern
-test.beforeAll(async ({}, testInfo) => {
-  await restoreData(testInfo.project.name)
-})
-
 const TITLE = 'repositories edition'
 test.describe(TITLE, { tag: '@serial' }, () => {
+  // eslint-disable-next-line no-empty-pattern
+  test.beforeAll(async ({}, testInfo) => {
+    await restoreData(testInfo.project.name)
+  })
+
   test('server address alert as admin', async ({
     page
   }) => {

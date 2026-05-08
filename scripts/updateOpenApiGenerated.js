@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2025 Open Analytics NV
+ * Copyright (C) 2012-2026 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -54,7 +54,7 @@ const needsSerialization =
   "    ] === 'application/json')"
 
 const basePathGenerated =
-  'export const BASE_PATH = "http://localhost:8017/".replace(/\\/+$/, "");'
+  'export const BASE_PATH = "http://localhost:8017".replace(/\\/+$/, "");'
 
 const basePath =
   'export const BASE_PATH = getEnv(\n' +
@@ -80,11 +80,10 @@ const searchParameterMethod =
 const importEnv = "import getEnv from '@/utils/env'\n"
 
 function replaceNeedsSerialization(content) {
-  content = content.replaceAll(
+  return content.replaceAll(
     needsSerializationGenerated,
     needsSerialization
   )
-  return content
 }
 
 function replaceBasePath(content) {
@@ -116,21 +115,31 @@ function replaceSearchParameterMethod(content) {
   return content
 }
 
+function normalizeEnumKeys(content) {
+  return content.replace(
+    /(\s+)([A-Z0-9_]+):\s*'([A-Z0-9_]+)'/g,
+    (match, space, key, value) => {
+      const newKey = key.replace(/_/g, '')
+      return `${space}${newKey}: '${value}'`
+    }
+  )
+}
+
 function updateFiles(dir) {
   for (const file of fs.readdirSync(dir, {
     withFileTypes: true
   })) {
+    const fullPath = dir + file.name
     if (file.isDirectory()) {
-      updateFiles(file.path + file.name + '/')
-    }
-    if (file.isFile() && !file.isDirectory()) {
-      const filePath = (file.path ?? '') + file.name
-      let content = fs.readFileSync(filePath).toString()
+      updateFiles(fullPath + '/')
+    } else if (file.isFile() && file.name.endsWith('.ts')) {
+      let content = fs.readFileSync(fullPath, 'utf8')
       content = replaceBasePath(content)
       content = replaceNeedsSerialization(content)
       content = replaceLicenseHeader(content)
       content = replaceSearchParameterMethod(content)
-      saveFile(filePath, content)
+      content = normalizeEnumKeys(content)
+      saveFile(fullPath, content)
     }
   }
 }

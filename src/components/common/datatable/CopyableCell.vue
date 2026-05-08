@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2025 Open Analytics NV
+ Copyright (C) 2012-2026 Open Analytics NV
  
  ===========================================================================
  
@@ -25,7 +25,7 @@
     :id="`resources-list-${value.replaceAll('@', '-').replaceAll(':', '')}`"
     class="d-flex justify-start align-center ga-2"
   >
-    <span> {{ value }} </span>
+    <span> {{ displayValue }} </span>
     <v-icon
       :id="`resources-list-${value.replace('@', '-').replaceAll('/', '').replaceAll(':', '')}-copy`"
       v-tooltip="onHoverMessage"
@@ -53,6 +53,11 @@ const componentProps = defineProps({
     type: String,
     required: false,
     default: ''
+  },
+  truncate: {
+    type: Boolean,
+    required: false,
+    default: false
   }
 })
 
@@ -61,5 +66,12 @@ const onHoverMessage = computed(
   () =>
     componentProps.tooltipMessage ||
     i18n.t('actions.general.copy')
+)
+
+const displayValue = computed(() =>
+  componentProps.truncate &&
+  componentProps.value.length > 35
+    ? componentProps.value.substring(0, 35) + '...'
+    : componentProps.value
 )
 </script>

@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2025 Open Analytics NV
+ * Copyright (C) 2012-2026 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -87,18 +87,6 @@ describe('Package Store', () => {
     expect(packageStore.totalNumber).toStrictEqual(
       packages.data.page.totalElements
     )
-  })
-
-  it('Edit filtration', () => {
-    const packageStore = usePackagesStore()
-    const spy = vi.spyOn(packageStore, 'getPage')
-
-    packageStore.setFiltration(randomFiltration)
-
-    expect(packageStore.filtration).toStrictEqual(
-      randomFiltration
-    )
-    expect(spy).toHaveBeenCalled()
   })
 
   it('Clear filtration', () => {

@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2025 Open Analytics NV
+ * Copyright (C) 2012-2026 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -70,7 +70,7 @@ export function useEnumFiltration() {
       value: 'repositoryMaintainer'
     },
     {
-      title: i18n.t('resources.token'),
+      title: i18n.t('resources.accessToken'),
       value: 'accessToken'
     }
   ])
@@ -104,6 +104,10 @@ export function useEnumFiltration() {
     {
       title: i18n.t('properties.events.type.upload'),
       value: 'upload'
+    },
+    {
+      title: i18n.t('properties.events.type.republish'),
+      value: 'republish'
     }
   ])
 

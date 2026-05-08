@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2025 Open Analytics NV
+ Copyright (C) 2012-2026 Open Analytics NV
  
  ===========================================================================
  
@@ -27,11 +27,15 @@
       $t('properties.packages.seeRelatedEvent')
     "
     color=""
-    :title="$t('resources.event', 2)"
     max-height="100px"
-    :prepend-icon="Icons.get('events')"
     @click="navigate"
   >
+    <v-card-title style="font-size: 1.15rem">
+      <v-icon style="padding-right: 20px">{{
+        Icons.get('events')
+      }}</v-icon
+      >{{ $t('resources.event', 2) }}</v-card-title
+    >
     <v-card-subtitle class="pb-3">{{
       $t('properties.packages.relatedEventPage')
     }}</v-card-subtitle>
@@ -42,11 +46,9 @@
 import Icons from '@/maps/Icons'
 import { useEventsStore } from '@/store/options/events'
 import { usePackageDetailsStore } from '@/store/options/packageDetails'
-import { useRouter } from 'vue-router'
 
 const packageDetailsStore = usePackageDetailsStore()
 const eventsStore = useEventsStore()
-const router = useRouter()
 
 async function navigate() {
   if (
@@ -60,9 +62,9 @@ async function navigate() {
           packageDetailsStore.packageBag.repository.name
         ]
       },
+      false,
       false
     )
-    await router.push({ name: 'events' })
   }
 }
 </script>

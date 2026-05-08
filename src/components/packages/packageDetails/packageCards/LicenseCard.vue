@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2025 Open Analytics NV
+ Copyright (C) 2012-2026 Open Analytics NV
  
  ===========================================================================
  
@@ -21,11 +21,10 @@
 -->
 
 <template>
-  <v-card
-    id="package-license-card"
-    max-height="100px"
-    :title="packageDetailsStore.packageBag?.license"
-  >
+  <v-card id="package-license-card" max-height="100px">
+    <v-card-title style="font-size: 1.15rem">{{
+      packageLicense
+    }}</v-card-title>
     <v-card-subtitle class="pb-3">
       {{ $t('properties.packages.license') }}
       <v-icon
@@ -39,7 +38,14 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import { usePackageDetailsStore } from '@/store/options/packageDetails'
 
 const packageDetailsStore = usePackageDetailsStore()
+
+const packageLicense = computed(() => {
+  return packageDetailsStore.packageBag?.license?.split(
+    '\\n'
+  )[0]
+})
 </script>

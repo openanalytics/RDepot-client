@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2025 Open Analytics NV
+ * Copyright (C) 2012-2026 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -23,9 +23,18 @@
 import { usePackageMaintainersFiltration } from '@/composable/filtration/packageMaintainersFiltration'
 import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesFiltration'
 import { useRepositoryMaintainersFiltration } from '@/composable/filtration/repositoryMaintainersFiltration'
+import { useEventsStore } from '@/store/options/events'
 import { usePackageMaintainersStore } from '@/store/options/packageMaintainers'
 import { usePackagesStore } from '@/store/options/packages'
 import { useSubmissionStore } from '@/store/options/submission'
+import {
+  EventsFiltration,
+  defaultValues
+} from '@/models/Filtration'
+import { useUsersFiltration } from '@/composable/filtration/usersFiltration'
+import { isAtLeastAdmin } from '@/enum/UserRoles'
+import { useAuthorizationStore } from '@/store/options/authorization'
+import { useAccessTokensStore } from '@/store/options/accessTokens'
 
 export function preparePackagesView() {
   const packagesStore = usePackagesStore()
@@ -42,6 +51,28 @@ export function prepareEventsView() {
   const { resetRepositoriesPagination } =
     useRepositoriesFiltration()
   resetRepositoriesPagination()
+  useEventsStore().setFiltration(
+    defaultValues(EventsFiltration)
+  )
+}
+
+export function prepareTokensView() {
+  const { resetPaginationUsers } = useUsersFiltration()
+  resetPaginationUsers()
+  const authorizationStore = useAuthorizationStore()
+  const accessTokensStore = useAccessTokensStore()
+  if (
+    isAtLeastAdmin(
+      authorizationStore.userRole
+        ? authorizationStore.userRole
+        : 0
+    ) &&
+    authorizationStore.me.login
+  ) {
+    accessTokensStore.filtration.userLogin = [
+      authorizationStore.me.login
+    ]
+  }
 }
 
 export function prepareSubmissionsView() {

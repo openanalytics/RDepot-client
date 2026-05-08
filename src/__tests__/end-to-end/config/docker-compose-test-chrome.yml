@@ -14,15 +14,15 @@ services:
       - backend-chrome
       - repo-chrome
       - frontend-chrome
-    # ports:
-    # - 8018:80
+    #    ports:
+    #     - "8017:80"
     networks:
       oa-rdepot-chrome:
         ipv4_address: 192.168.53.20
         aliases:
           - oa-rdepot-proxy
   backend-chrome:
-    image: registry.openanalytics.eu/openanalytics/rdepot-app:2.7.0
+    image: registry.openanalytics.eu/openanalytics/rdepot-app:2.8.0
     restart: unless-stopped
     hostname: oa-rdepot-backend
     container_name: oa-rdepot-backend-chrome
@@ -75,7 +75,7 @@ services:
         aliases:
           - oa-rdepot-db-chrome
   repo-chrome:
-    image: registry.openanalytics.eu/openanalytics/rdepot-repo:2.7.0
+    image: registry.openanalytics.eu/openanalytics/rdepot-repo:2.8.0
     restart: unless-stopped
     container_name: oa-rdepot-repo-chrome
     labels:

@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2025 Open Analytics NV
+ * Copyright (C) 2012-2026 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -26,8 +26,6 @@ import {
   fetchRPackageService,
   downloadRPackageSourceFile,
   downloadPythonPackageSourceFile,
-  deleteRPackage,
-  deletePythonPackage,
   updatePythonPackage,
   updateRPackage
 } from '@/services/packageServices'
@@ -49,14 +47,6 @@ export const downloadTechnologyPackage: Map<
     downloadPythonPackageSourceFile
   ],
   [Technologies.Enum.R, downloadRPackageSourceFile]
-])
-
-export const deleteTechnologyPackage: Map<
-  Technologies,
-  (...args: any[]) => any
-> = new Map<Technologies, (...args: any[]) => any>([
-  [Technologies.Enum.Python, deletePythonPackage],
-  [Technologies.Enum.R, deleteRPackage]
 ])
 
 export const updateTechnologyPackage: Map<

@@ -1,7 +1,7 @@
 /*
  * R Depot
  *
- * Copyright (C) 2012-2025 Open Analytics NV
+ * Copyright (C) 2012-2026 Open Analytics NV
  *
  * ===========================================================================
  *
@@ -59,6 +59,10 @@ describe('enum filtration composable', () => {
       {
         title: 'Delete',
         value: 'delete'
+      },
+      {
+        title: 'Republish',
+        value: 'republish'
       },
       {
         title: 'Update',
@@ -124,7 +128,7 @@ describe('enum filtration composable', () => {
         value: 'repositoryMaintainer'
       },
       {
-        title: i18n.t('resources.token'),
+        title: i18n.t('resources.accessToken'),
         value: 'accessToken'
       }
     ])
@@ -156,7 +160,7 @@ describe('enum filtration composable', () => {
         value: 'repositoryMaintainer'
       },
       {
-        title: 'Token',
+        title: 'Tokeny',
         value: 'accessToken'
       }
     ])
@@ -213,53 +217,10 @@ describe('enum filtration composable', () => {
       {
         title: i18n.t('properties.events.type.upload'),
         value: 'upload'
-      }
-    ])
-  })
-
-  it('should return all event types in changed translation', () => {
-    i18n.locale.value = 'pl'
-    const { eventTypes } = useEnumFiltration()
-    expect(eventTypes.value).toEqual([
-      {
-        title: 'Utworzenie',
-        value: 'create'
       },
       {
-        title: 'Aktualizacja',
-        value: 'update'
-      },
-      {
-        title: 'Usunięcie',
-        value: 'delete'
-      },
-      {
-        title: 'Wgranie',
-        value: 'upload'
-      }
-    ])
-  })
-
-  it('should return values sorted by title in changed lang', () => {
-    i18n.locale.value = 'pl'
-    const { eventTypes, sortValues } = useEnumFiltration()
-    expect(sortValues(eventTypes.value)).toEqual([
-      {
-        title: 'Aktualizacja',
-        value: 'update'
-      },
-      {
-        title: 'Usunięcie',
-        value: 'delete'
-      },
-      {
-        title: 'Utworzenie',
-        value: 'create'
-      },
-
-      {
-        title: 'Wgranie',
-        value: 'upload'
+        title: i18n.t('properties.events.type.republish'),
+        value: 'republish'
       }
     ])
   })

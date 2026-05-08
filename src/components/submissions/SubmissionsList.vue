@@ -1,7 +1,7 @@
 <!--
  R Depot
  
- Copyright (C) 2012-2025 Open Analytics NV
+ Copyright (C) 2012-2026 Open Analytics NV
  
  ===========================================================================
  
@@ -98,7 +98,7 @@
     </template>
 
     <template #[`item.packageBag.binary`]="{ item }">
-      <BinaryPackage :item="item" />
+      <BinaryPackage :item="item.packageBag" />
     </template>
 
     <template #[`item.actions`]="{ item }">
