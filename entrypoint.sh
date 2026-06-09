@@ -1,4 +1,5 @@
 #!/bin/sh
+VITE_URL_PREFIX="${VITE_URL_PREFIX:-/}"
 JSON_STRING='window.configs = { \
   "VITE_LOGIN_OIDC":"'"${VITE_LOGIN_OIDC}"'", \
   "VITE_LOGIN_SIMPLE":"'"${VITE_LOGIN_SIMPLE}"'", \
@@ -29,5 +30,13 @@ JSON_STRING='window.configs = { \
   "VITE_LOGO_BIG_CLASSES":"'"${VITE_LOGO_BIG_CLASSES}"'", \
   "VITE_LOGO_BIG_STYLE":"'"${VITE_LOGO_BIG_STYLE}"'", \
 }'
-sed -i "s@// CONFIGURATIONS_PLACEHOLDER@${JSON_STRING}@" /usr/share/nginx/html/index.html
+sed -i "s@// CONFIGURATIONS_PLACEHOLDER@${JSON_STRING}@;s@src=\"/assets/@src=\"${VITE_URL_PREFIX}assets/@;s@href=\"/assets/@href=\"${VITE_URL_PREFIX}assets/@;s@/favicon.ico@${VITE_URL_PREFIX}favicon.ico@" /usr/share/nginx/html/index.html
+for index in /usr/share/nginx/html/assets/index-*.js;
+do
+    sed -i "s@\"assets/@\".${VITE_URL_PREFIX}assets/@g" $index
+done
+for index in /usr/share/nginx/html/assets/index-*.css;
+do
+    sed -i "s@url(/assets/@url(${VITE_URL_PREFIX}assets/@g" $index
+done
 exec "$@"
