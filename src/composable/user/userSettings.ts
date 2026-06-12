@@ -20,7 +20,6 @@
  *
  */
 
-import { i18n } from '@/plugins/i18n'
 import { useCommonStore } from '@/store/options/common'
 import { useOATable } from '@/store/setup/oatable'
 import { useAuthorizationStore } from '@/store/options/authorization'
@@ -28,32 +27,12 @@ import { useAuthorizationStore } from '@/store/options/authorization'
 export function useUserSettings() {
   async function getUserSettings() {
     setTheme()
-    setLanguage()
     setPageSize()
   }
 
   function setTheme() {
     const commonStore = useCommonStore()
     commonStore.updateThemeKey()
-  }
-
-  function setLanguage() {
-    const authorizationStore = useAuthorizationStore()
-    if (authorizationStore.me.userSettings?.language) {
-      switch (authorizationStore.me.userSettings.language) {
-        case 'en-US': {
-          i18n.locale.value = 'en'
-          break
-        }
-        case 'pl-PL': {
-          i18n.locale.value = 'pl'
-          break
-        }
-        default: {
-          break
-        }
-      }
-    }
   }
 
   function setPageSize() {
