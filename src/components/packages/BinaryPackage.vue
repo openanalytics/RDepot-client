@@ -37,7 +37,7 @@
 
 <script setup lang="ts">
 import { EntityModelPackageDto } from '@/openapi'
-import { ref, watch } from 'vue'
+import { computed } from 'vue'
 
 const componentProps = defineProps({
   item: {
@@ -46,9 +46,5 @@ const componentProps = defineProps({
   }
 })
 
-watch(componentProps.item, (newVal) => {
-  packageBag.value = newVal
-})
-
-const packageBag = ref(componentProps.item)
+const packageBag = computed(() => componentProps.item)
 </script>

@@ -114,6 +114,22 @@
     </validated-input-field>
 
     <validated-input-field
+      id="submissions-filtration-file-type"
+      density="compact"
+      hide-details
+      chips
+      closable-chips
+      :items="sortValues(fileTypes)"
+      name="fileType"
+      multiple
+      clearable
+      as="v-select"
+      :label="$t('fields.packages.fileType')"
+      @click:clear="resetFileField"
+      @update:model-value="setFiltration"
+    ></validated-input-field>
+
+    <validated-input-field
       id="submissions-filtration-from-date"
       density="compact"
       hide-details
@@ -162,7 +178,7 @@ import { useDatePicker } from '@/composable/datePicker'
 import ResetButton from '@/components/common/buttons/ResetButton.vue'
 import { computed } from 'vue'
 
-const { states, technologies, sortValues } =
+const { states, fileTypes, technologies, sortValues } =
   useEnumFiltration()
 const {
   fromDatePicker,
@@ -243,5 +259,9 @@ function resetDate() {
   }
   closeModal()
   setFiltration()
+}
+
+function resetFileField() {
+  setFieldValue('fileType', [])
 }
 </script>

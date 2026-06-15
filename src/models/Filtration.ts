@@ -76,6 +76,15 @@ const PackagesFiltration = z
           return undefined
         }
         return val
+      }),
+    fileType: z
+      .array(z.string())
+      .optional()
+      .transform((val) => {
+        if (val?.length == 0) {
+          return undefined
+        }
+        return val
       })
   })
   .default({
@@ -86,7 +95,8 @@ const PackagesFiltration = z
     technologies: undefined,
     deleted: undefined,
     search: undefined,
-    maintainer: undefined
+    maintainer: undefined,
+    fileType: undefined
   })
 
 type PackagesFiltration = z.infer<typeof PackagesFiltration>
@@ -179,7 +189,16 @@ const SubmissionsFiltration = z
         return val
       }),
     fromDate: z.string().optional(),
-    toDate: z.string().optional()
+    toDate: z.string().optional(),
+    fileType: z
+      .array(z.string())
+      .optional()
+      .transform((val) => {
+        if (val?.length == 0) {
+          return undefined
+        }
+        return val
+      })
   })
   .default({
     assignedToMe: undefined,
@@ -188,7 +207,8 @@ const SubmissionsFiltration = z
     technologies: undefined,
     repository: undefined,
     fromDate: undefined,
-    toDate: undefined
+    toDate: undefined,
+    fileType: undefined
   })
 
 type SubmissionsFiltration = z.infer<

@@ -375,6 +375,8 @@ export const PACKAGES_FILTRATION_SUBMISSION_STATE_FIELD_ID =
   'packages-filtration-submission-state'
 export const PACKAGES_FILTRATION_MAINTAINER_FIELD_ID =
   'packages-filtration-maintainer'
+export const PACKAGES_FILTRATION_FILE_TYPE_FIELD_ID =
+  'packages-filtration-file-type'
 export const PACKAGES_FILTRATION_MAINTAINER_FIELD_GALILEO_ID =
   'packages-filtration-maintainer-Galileo-Galilei'
 export const PACKAGES_FILTRATION_DELETED_FIELD_ID =
@@ -387,6 +389,8 @@ export const SUBMISSIONS_FILTRATION_TECHNOLOGY_FIELD_ID =
   'submissions-filtration-technology'
 export const SUBMISSIONS_FILTRATION_REPOSITORY_FIELD_ID =
   'submissions-filtration-repository'
+export const SUBMISSIONS_FILTRATION_FILE_TYPE_FIELD_ID =
+  'submissions-filtration-file-type'
 export const SUBMISSIONS_FILTRATION_REPOSITORY_FIELD_TESTREPO1_ID =
   'submissions-filtration-repository-testrepo1'
 export const SUBMISSIONS_FILTRATION_STATE_FIELD_ID =

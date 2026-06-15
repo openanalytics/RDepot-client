@@ -27,6 +27,7 @@ import {
   PACKAGES_FILTRATION_TECHNOLOGY_FIELD_ID,
   PACKAGES_FILTRATION_REPOSITORY_FIELD_ID,
   PACKAGES_FILTRATION_SUBMISSION_STATE_FIELD_ID,
+  PACKAGES_FILTRATION_FILE_TYPE_FIELD_ID,
   PACKAGES_FILTRATION_MAINTAINER_FIELD_ID,
   FILTRATION_RESET_BUTTON_ID
 } from '@/__tests__/end-to-end/helpers/elementsIds'
@@ -106,7 +107,11 @@ test.describe(TITLE, () => {
       .getByRole('combobox')
       .nth(2)
     await packagesSubmissionStateSelector.waitFor()
-    await packagesSubmissionStateSelector.click()
+    await packagesSubmissionStateSelector.evaluate((el) => {
+      el.dispatchEvent(
+        new MouseEvent('mousedown', { bubbles: true })
+      )
+    })
 
     const packageSubmissionStateRejectedOptionSelector =
       page.getByRole('option', { name: 'REJECTED' })
@@ -166,6 +171,9 @@ test.describe(TITLE, () => {
     const maintainerValue = await page.locator(
       `#${PACKAGES_FILTRATION_MAINTAINER_FIELD_ID}`
     )
+    const fileTypeValue = await page.locator(
+      `#${PACKAGES_FILTRATION_FILE_TYPE_FIELD_ID}`
+    )
 
     await expect(await searchValue.inputValue()).toBe('')
     await expect(await technologyValue.inputValue()).toBe(
@@ -183,6 +191,7 @@ test.describe(TITLE, () => {
     await expect(await stateValue.inputValue()).toBe(
       'ACCEPTED'
     )
+    await expect(await fileTypeValue.inputValue()).toBe('')
 
     await repositoryValue.waitFor()
     await repositoryValue.click({ force: true })
@@ -206,6 +215,22 @@ test.describe(TITLE, () => {
     await expect(await technologyValue.inputValue()).toBe(
       'R'
     )
+
+    await page
+      .locator(`#${FILTRATION_RESET_BUTTON_ID}`)
+      .click()
+
+    await expect(
+      page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
+    ).toBeHidden()
+    await expect(packagesRowsSelector).toHaveCount(21)
+
+    await fileTypeValue.waitFor()
+    await fileTypeValue.click({ force: true })
+    await page
+      .getByRole('option', { name: 'Binary' })
+      .click()
+    await expect(packagesRowsSelector).toHaveCount(2)
 
     await page
       .locator(`#${FILTRATION_RESET_BUTTON_ID}`)

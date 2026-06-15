@@ -61,6 +61,10 @@ export async function fetchSubmissionsService(
   if (!isAuthorized('GET', 'submissions')) {
     return new Promise(() => validateRequest([]))
   }
+  let fileType = undefined
+  if (filtration.fileType?.length === 1) {
+    fileType = filtration.fileType[0]
+  }
   return openApiRequest<EntityModelSubmissionDto[]>(
     ApiV2SubmissionControllerApiFactory().getAllSubmissions,
     [
@@ -72,7 +76,8 @@ export async function fetchSubmissionsService(
       filtration?.repository,
       filtration?.fromDate,
       filtration?.toDate,
-      filtration?.search
+      filtration?.search,
+      fileType
     ],
     showProgress
   ).catch(() => {

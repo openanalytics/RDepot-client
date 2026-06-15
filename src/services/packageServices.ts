@@ -68,6 +68,10 @@ export async function fetchPackagesService(
   if (!isAuthorized('GET', 'submissions')) {
     return new Promise(() => validateRequest([]))
   }
+  let fileType = undefined
+  if (filtration.fileType?.length === 1) {
+    fileType = filtration.fileType[0]
+  }
   return openApiRequest<EntityModelPackageDto[]>(
     ApiV2PackageControllerApiFactory().getAllPackages,
     [
@@ -80,7 +84,8 @@ export async function fetchPackagesService(
       filtration?.technologies,
       filtration?.search,
       filtration?.maintainer,
-      undefined
+      undefined,
+      fileType
     ],
     showProgress
   ).catch(() => {

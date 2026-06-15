@@ -142,6 +142,22 @@
     </validated-input-field>
 
     <validated-input-field
+      id="packages-filtration-file-type"
+      density="compact"
+      hide-details
+      chips
+      closable-chips
+      :items="sortValues(fileTypes)"
+      name="fileType"
+      multiple
+      clearable
+      as="v-select"
+      :label="$t('fields.packages.fileType')"
+      @click:clear="resetFileField"
+      @update:model-value="setFiltration"
+    ></validated-input-field>
+
+    <validated-input-field
       v-if="
         isAtLeastAdmin(
           authorizationStore.userRole
@@ -191,7 +207,7 @@ import {
 import ResetButton from '@/components/common/buttons/ResetButton.vue'
 import { useAuthorizationStore } from '@/store/options/authorization'
 
-const { states, technologies, sortValues } =
+const { states, fileTypes, technologies, sortValues } =
   useEnumFiltration()
 const authorizationStore = useAuthorizationStore()
 const {
@@ -222,6 +238,10 @@ function setFiltration() {
 
 function resetStateField() {
   setFieldValue('submissionState', [])
+}
+
+function resetFileField() {
+  setFieldValue('fileType', [])
 }
 
 function resetValues() {

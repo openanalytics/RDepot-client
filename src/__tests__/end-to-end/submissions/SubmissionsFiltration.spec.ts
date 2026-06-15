@@ -28,6 +28,7 @@ import {
   SUBMISSIONS_FILTRATION_FROM_DATE_FIELD_ID,
   SUBMISSIONS_FILTRATION_TECHNOLOGY_FIELD_ID,
   SUBMISSIONS_FILTRATION_REPOSITORY_FIELD_ID,
+  SUBMISSIONS_FILTRATION_FILE_TYPE_FIELD_ID,
   SUBMISSIONS_FILTRATION_REPOSITORY_FIELD_TESTREPO1_ID,
   SUBMISSIONS_SIDEBAR_ID,
   FILTRATION_RESET_BUTTON_ID
@@ -92,6 +93,9 @@ test.describe(TITLE, () => {
     const stateValue = await page.locator(
       `#${SUBMISSIONS_FILTRATION_STATE_FIELD_ID}`
     )
+    const fileTypeValue = await page.locator(
+      `#${SUBMISSIONS_FILTRATION_FILE_TYPE_FIELD_ID}`
+    )
     const fromDateValue = await page.locator(
       `#${SUBMISSIONS_FILTRATION_FROM_DATE_FIELD_ID}`
     )
@@ -106,6 +110,7 @@ test.describe(TITLE, () => {
     await expect(await repositoryValue.inputValue()).toBe(
       ''
     )
+    await expect(await fileTypeValue.inputValue()).toBe('')
     await expect(await fromDateValue.inputValue()).toBe('')
     await expect(await toDateValue.inputValue()).toBe('')
     await expect(await stateValue.inputValue()).toBe('')
@@ -135,6 +140,22 @@ test.describe(TITLE, () => {
     await expect(await technologyValue.inputValue()).toBe(
       'R'
     )
+
+    await page
+      .locator(`#${FILTRATION_RESET_BUTTON_ID}`)
+      .click()
+
+    await expect(
+      page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
+    ).toBeHidden()
+    await expect(submissionsRowsSelector).toHaveCount(21)
+
+    await fileTypeValue.waitFor()
+    await fileTypeValue.click({ force: true })
+    await page
+      .getByRole('option', { name: 'Binary' })
+      .click()
+    await expect(submissionsRowsSelector).toHaveCount(2)
 
     await page
       .locator(`#${FILTRATION_RESET_BUTTON_ID}`)
