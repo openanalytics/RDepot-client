@@ -24,14 +24,11 @@
   <form ref="form" as="v-form">
     <v-card class="pa-5" width="400">
       <v-card-title>
-        {{
-          i18n.t('actions.general.editResource', {
-            resource_type: i18n.t(
-              'resources.repositoryMaintainer'
-            )
-          })
-        }}
+        {{ i18n.t('actions.general.edit') }}
       </v-card-title>
+      <v-card-subtitle>
+        {{ i18n.t('resources.repositoryMaintainer') }}
+      </v-card-subtitle>
       <v-divider></v-divider>
       <v-card-text style="height: 300px">
         <validated-input-field

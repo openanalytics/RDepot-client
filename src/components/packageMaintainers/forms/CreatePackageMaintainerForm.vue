@@ -25,14 +25,13 @@
     <v-card
       class="pa-5"
       width="400"
-      :title="
-        i18n.t('actions.general.createResource', {
-          resource_type: i18n.t(
-            'resources.packageMaintainer'
-          )
-        })
-      "
+      :title="i18n.t('actions.general.create')"
     >
+      <v-card-subtitle>
+        {{
+          t('resources.packageMaintainer')
+        }}</v-card-subtitle
+      >
       <v-divider />
       <v-card-text style="height: 300px">
         <validated-input-field

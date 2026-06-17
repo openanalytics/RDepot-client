@@ -24,14 +24,11 @@
   <form ref="form" as="v-form" lazy-validation>
     <v-card class="pa-5" width="400">
       <v-card-title>
-        {{
-          t('actions.general.createResource', {
-            resource_type: t(
-              'resources.repositoryMaintainer'
-            )
-          })
-        }}
+        {{ t('actions.general.create') }}
       </v-card-title>
+      <v-card-subtitle>
+        {{ t('resources.repositoryMaintainer') }}
+      </v-card-subtitle>
       <v-divider></v-divider>
       <v-card-text>
         <validated-input-field

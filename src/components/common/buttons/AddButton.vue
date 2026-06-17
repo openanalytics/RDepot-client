@@ -37,11 +37,7 @@
     </template>
     <span id="tooltip-wait"
       ><span v-if="!configStore.declarativeMode">{{
-        i18n.t('actions.general.createResource', {
-          resource_type: i18n
-            .t('resources.repository')
-            .toLowerCase()
-        })
+        i18n.t('actions.general.create')
       }}</span
       ><span v-else>
         {{

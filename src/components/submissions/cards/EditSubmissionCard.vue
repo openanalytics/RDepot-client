@@ -25,12 +25,14 @@
     <template v-if="items.length > 0">
       <v-card-title>
         {{
-          i18n.t('messages.general.editResourceQuestion', {
-            edit_action: editText,
-            resource_type: i18n
-              .t('resources.submission', 2)
-              .toLocaleLowerCase()
-          })
+          i18n.t(
+            `messages.general.${submissionsStore.submissionsToEdit?.editOption}Question`,
+            {
+              resource_type: i18n
+                .t('resources.submission', 2)
+                .toLocaleLowerCase()
+            }
+          )
         }}
       </v-card-title>
       <v-virtual-scroll :items="items">
@@ -146,7 +148,7 @@ const { canChangeState } = useSubmissionAuthorizationCheck()
 const submissionsStore = useSubmissionStore()
 const commonStore = useCommonStore()
 
-const { editText, editActionWarning } =
+const { editActionWarning } =
   useSubmissionActionTranslations()
 
 const { getTooltipMessage } = useSubmissionIcons()

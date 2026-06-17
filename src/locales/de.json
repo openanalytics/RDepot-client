@@ -21,7 +21,6 @@
       "click": "Klicken Sie",
       "copy": "kopieren",
       "create": "erstellen",
-      "createResource": "{resource_type} erstellen",
       "deactivate": "deaktivieren | {resource_type} deaktivieren",
       "delete": "löschen",
       "download": "herunterladen",
@@ -40,7 +39,6 @@
       "uploadPackages": "Pakete hochladen",
       "continue": "weiter",
       "activate": "Aktivieren | {resource_type} aktivieren",
-      "editResource": "{resource_type} bearbeiten",
       "submit": "Bestätigen",
       "unset": "aufheben",
       "refresh": "Aktualisieren",
@@ -228,7 +226,6 @@
     },
     "general": {
       "deactivateQuestion": "Sind Sie sicher, dass Sie {resource_name} deaktivieren möchten?",
-      "editResourceQuestion": "Sind Sie sicher, dass Sie den folgenden {resource_type} {edit_action} möchten?",
       "chooseOneToEnable": "mindestens ein {resource_type} wählen um zu ermöglichen",
       "chooseOneToContinue": "Bitte {resource_type} hinzufügen um fortzufahren",
       "copied": "In die Zwischenablage kopiert",

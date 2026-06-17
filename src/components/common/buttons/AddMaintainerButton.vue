@@ -36,13 +36,7 @@
     </template>
     <span id="tooltip-wait"
       ><span>
-        {{
-          i18n.t('actions.general.createResource', {
-            resource_type: i18n
-              .t(i18n.t('resources.packageMaintainer'))
-              .toLowerCase()
-          })
-        }}
+        {{ i18n.t('actions.general.create') }}
       </span>
     </span>
   </v-tooltip>
