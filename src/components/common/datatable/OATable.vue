@@ -180,10 +180,10 @@ function rowProps(item: any) {
 
 <style>
 .deletedItem {
-  background: rgb(183 28 28 / 20%) !important;
+  background: rgb(255 230 230 / 20%) !important;
 }
 
 .v-theme--dark .deletedItem {
-  background: rgb(183 28 28 / 40%) !important;
+  background: rgb(255 86 86 / 20%) !important;
 }
 </style>
