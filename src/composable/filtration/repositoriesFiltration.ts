@@ -60,18 +60,17 @@ export function useRepositoriesFiltration() {
   }
 
   async function loadRepositories() {
-    if (selectStore.shouldFetchNextPage) {
-      selectStore.nextPage()
-      if (selectStore.fetchNextPageCondition) {
-        await getRepositories()
-        selectStore.addItems(
-          repositoriesStore.repositories.map(
-            (repository: EntityModelRepositoryDto) =>
-              repository.name
-          )
-        )
-      }
+    if (!selectStore.shouldFetchNextPage) {
+      return
     }
+    selectStore.nextPage()
+    await getRepositories()
+    selectStore.addItems(
+      repositoriesStore.repositories.map(
+        (repository: EntityModelRepositoryDto) =>
+          repository.name
+      )
+    )
   }
 
   function prepareRepositoryObject(
@@ -123,15 +122,14 @@ export function useRepositoriesFiltration() {
   async function loadRepositoriesObjects(
     userName?: string
   ) {
-    if (selectStore.shouldFetchNextPage) {
-      selectStore.nextPage()
-      if (selectStore.fetchNextPageCondition) {
-        await getRepositories()
-        selectStore.addItems(
-          await prepareRepositories(userName)
-        )
-      }
+    if (!selectStore.shouldFetchNextPage) {
+      return
     }
+    selectStore.nextPage()
+    await getRepositories()
+    selectStore.addItems(
+      await prepareRepositories(userName)
+    )
   }
 
   function filtrateRepositories(value: string | undefined) {

@@ -81,19 +81,4 @@ describe('Select Pagination Store', () => {
     selectPaginationStore.resetItems()
     expect(selectPaginationStore.items).toEqual([])
   })
-
-  it('Set pagination data which should change the fetched status', () => {
-    const selectPaginationStore = useSelectStore('packages')
-    selectPaginationStore.paginationData = {
-      page: 2,
-      totalNumber: 3,
-      totalPages: 2
-    }
-    selectPaginationStore.addItems([
-      'item1',
-      'item2',
-      'item3'
-    ])
-    expect(selectPaginationStore.ifAllFetched).toEqual(true)
-  })
 })

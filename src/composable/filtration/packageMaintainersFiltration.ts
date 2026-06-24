@@ -56,18 +56,17 @@ export function usePackageMaintainersFiltration() {
   }
 
   async function loadMaintainers() {
-    if (selectStore.shouldFetchNextPage) {
-      selectStore.nextPage()
-      if (selectStore.fetchNextPageCondition) {
-        await getMaintainers()
-        selectStore.addItems(
-          packageMaintainerStore.maintainers.map(
-            (maintainer: EntityModelPackageMaintainerDto) =>
-              maintainer.user?.name
-          )
-        )
-      }
+    if (!selectStore.shouldFetchNextPage) {
+      return
     }
+    selectStore.nextPage()
+    await getMaintainers()
+    selectStore.addItems(
+      packageMaintainerStore.maintainers.map(
+        (maintainer: EntityModelPackageMaintainerDto) =>
+          maintainer.user?.name
+      )
+    )
   }
 
   function filtrateMaintainers(value: string | undefined) {
