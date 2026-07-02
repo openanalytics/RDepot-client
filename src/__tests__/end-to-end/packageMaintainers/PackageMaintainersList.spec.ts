@@ -36,7 +36,7 @@ test.describe(TITLE_SERIAL, () => {
     await page.waitForURL('**/package-maintainers')
 
     const maintainersRowsSelector = page.locator('role=row')
-    await expect(maintainersRowsSelector).toHaveCount(12)
+    await expect(maintainersRowsSelector).toHaveCount(21)
   })
 
   test('should check how many package maintainers are in the table footer', async ({
@@ -51,13 +51,13 @@ test.describe(TITLE_SERIAL, () => {
       /RDepot - package maintainers/
     )
     const maintainersRowsSelector = page.locator('role=row')
-    await expect(maintainersRowsSelector).toHaveCount(12)
+    await expect(maintainersRowsSelector).toHaveCount(21)
     await expect(
       (
         await page
           .locator('.v-data-table-footer__info')
           .innerText()
-      ).includes('1-11 of 11')
+      ).includes('1-20 of 33')
     ).toBe(true)
   })
 })

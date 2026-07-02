@@ -42,8 +42,8 @@ test.describe(TITLE, () => {
       '.mdi-trash-can.text-grey'
     )
     const maintainersRowsSelector = page.locator('role=row')
-    await expect(maintainersRowsSelector).toHaveCount(12)
-    await expect(maintainerDeletedSelector).toHaveCount(2)
+    await expect(maintainersRowsSelector).toHaveCount(21)
+    await expect(maintainerDeletedSelector).toHaveCount(11)
 
     await page
       .locator(
@@ -60,8 +60,8 @@ test.describe(TITLE, () => {
       )
       .click()
 
-    await expect(maintainersRowsSelector).toHaveCount(12)
-    await expect(maintainerDeletedSelector).toHaveCount(2)
+    await expect(maintainersRowsSelector).toHaveCount(21)
+    await expect(maintainerDeletedSelector).toHaveCount(11)
 
     await page
       .locator(
@@ -69,8 +69,8 @@ test.describe(TITLE, () => {
       )
       .click()
 
-    await expect(maintainersRowsSelector).toHaveCount(3)
-    await expect(maintainerDeletedSelector).toHaveCount(2)
+    await expect(maintainersRowsSelector).toHaveCount(4)
+    await expect(maintainerDeletedSelector).toHaveCount(3)
   })
 
   test('reset button', async ({ page }) => {
@@ -80,7 +80,7 @@ test.describe(TITLE, () => {
       .click()
     await page.waitForURL('**/package-maintainers')
     const maintainersRowsSelector = page.locator('role=row')
-    await expect(maintainersRowsSelector).toHaveCount(12)
+    await expect(maintainersRowsSelector).toHaveCount(21)
     await expect(
       page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
     ).toBeHidden()
@@ -104,7 +104,7 @@ test.describe(TITLE, () => {
       page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
     ).toBeHidden()
 
-    await expect(maintainersRowsSelector).toHaveCount(12)
+    await expect(maintainersRowsSelector).toHaveCount(21)
   })
 
   test('no data available', async ({ page }) => {
@@ -116,7 +116,7 @@ test.describe(TITLE, () => {
     await page.waitForURL('**/package-maintainers')
 
     const maintainersRowsSelector = page.locator('role=row')
-    await expect(maintainersRowsSelector).toHaveCount(12)
+    await expect(maintainersRowsSelector).toHaveCount(21)
 
     await page
       .locator(

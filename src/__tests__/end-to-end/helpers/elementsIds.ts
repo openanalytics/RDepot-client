@@ -57,8 +57,8 @@ export const ABC_TESTREPO1_ID =
 //package maintainers
 export const GALILEO_GALILEI_ACCRUED_TESTREPO1_ID =
   'edit-package-maintainer-Galileo-Galilei-accrued-testrepo1'
-export const GALILEO_GALILEI_USL_TESTREPO1_ID =
-  'edit-package-maintainer-Galileo-Galilei-usl-testrepo1'
+export const NIKOLA_TESLA_USL_TESTREPO1_ID =
+  'edit-package-maintainer-Nikola-Tesla-usl-testrepo1'
 export const GALILEO_GALILEI_ABC_TESTREPO1_ID =
   'edit-package-maintainer-Galileo-Galilei-abc-testrepo1'
 export const GALILEO_GALILEI_ABC_TESTREPO3_ID =

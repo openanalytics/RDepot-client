@@ -45,7 +45,6 @@ import {
 } from '@/services/packageServices'
 import { fetchSubmission } from '@/services/submissionServices'
 import { Technologies } from '@/enum/Technologies'
-import { useSortStore } from '@/store/options/sort'
 
 interface State {
   packages: EntityModelPackageDto[]
@@ -107,13 +106,12 @@ export const usePackageDetailsStore = defineStore(
             ]
           }
           filtration.search = this.packageBag.name
-          const sort = useSortStore()
           const [packages, pageData] =
             await fetchPackagesService(
               filtration,
               page,
               pageSize,
-              sort.getSortBy(),
+              ['version,desc'],
               false
             )
           this.packages = [...this.packages, ...packages]

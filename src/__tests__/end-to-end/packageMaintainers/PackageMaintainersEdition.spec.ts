@@ -29,9 +29,9 @@ import {
   EDIT_PACKAGE_MAINTAINER_REPOSITORY_INPUT_MESSAGES_ID,
   EDIT_PACKAGE_MAINTAINER_SUBMIT_ID,
   EDIT_PACKAGE_MAINTAINER_USER_INPUT_ID,
-  GALILEO_GALILEI_ABC_TESTREPO1_ID,
   GALILEO_GALILEI_ABC_TESTREPO3_ID,
   GALILEO_GALILEI_ACCRUED_TESTREPO1_ID,
+  GALILEO_GALILEI_ABC_TESTREPO1_ID,
   NUMPY_TESTREPO10_ID,
   PACKAGE_MAINTAINERS_SIDEBAR_ID,
   TEST_REPO_10_ID,
@@ -42,7 +42,7 @@ import { restoreData } from '@/__tests__/end-to-end/helpers/restoreData'
 import { i18n } from '@/plugins/i18n'
 
 const TITLE = 'package maintainers edition'
-test.describe(TITLE, { tag: '@serial' }, () => {
+test.describe.serial(TITLE, { tag: '@serial' }, () => {
   // eslint-disable-next-line no-empty-pattern
   test.beforeAll(async ({}, testInfo) => {
     await restoreData(testInfo.project.name)
@@ -56,7 +56,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
       .click()
     await page.waitForURL('**/package-maintainers')
     const maintainersRowsSelector = page.locator('role=row')
-    await expect(maintainersRowsSelector).toHaveCount(12)
+    await expect(maintainersRowsSelector).toHaveCount(21)
 
     const editMaintainerButtonSelector = page.locator(
       `#${GALILEO_GALILEI_ACCRUED_TESTREPO1_ID}`
@@ -98,7 +98,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
       .click()
     await page.waitForURL('**/package-maintainers')
     const maintainersRowsSelector = page.locator('role=row')
-    await expect(maintainersRowsSelector).toHaveCount(12)
+    await expect(maintainersRowsSelector).toHaveCount(21)
 
     const editMaintainerButtonSelector = page.locator(
       `#${GALILEO_GALILEI_ACCRUED_TESTREPO1_ID}`
@@ -137,7 +137,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
       .click()
     await page.waitForURL('**/package-maintainers')
     const maintainersRowsSelector = page.locator('role=row')
-    await expect(maintainersRowsSelector).toHaveCount(12)
+    await expect(maintainersRowsSelector).toHaveCount(21)
 
     const editMaintainerButtonSelector = page.locator(
       `#${GALILEO_GALILEI_ABC_TESTREPO3_ID}`
@@ -194,7 +194,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
       .click()
     await page.waitForURL('**/package-maintainers')
     const maintainersRowsSelector = page.locator('role=row')
-    await expect(maintainersRowsSelector).toHaveCount(12)
+    await expect(maintainersRowsSelector).toHaveCount(21)
 
     const editMaintainerSelector = page.locator(
       `#${GALILEO_GALILEI_ABC_TESTREPO1_ID}`

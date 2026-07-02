@@ -21,7 +21,7 @@ docker exec $CONTAINER /bin/bash -c "rm -rf /opt/rdepot/repositories; rm -rf /op
 
 echo "RESTORING DB...";
 
-docker exec $CONTAINER_DB su - postgres -c "psql rdepot -c 'TRUNCATE public.access_token, public.changed_variable, public.newsfeed_event, public.submission, public.repository_maintainer, public.package_maintainer, public.rpackage, public.package, public.rrepository, public.pythonpackage, public.pythonrepository, public.repository, public.api_token, public.user, public.user_settings'; psql rdepot < /opt/sql_files/rdepot.sql"
+docker exec $CONTAINER_DB su - postgres -c "psql rdepot -c 'TRUNCATE public.access_token, public.changed_variable, public.newsfeed_event, public.submission, public.repository_maintainer, public.package_maintainer, public.rpackage, public.package, public.rrepository, public.pythonpackage, public.pythonrepository, public.repository, public.package_package_maintainer, public.api_token, public.user, public.user_settings'; psql rdepot < /opt/sql_files/rdepot.sql"
 docker exec $CONTAINER_REPO /bin/sh -c "rm -r /opt/rdepot/*; cp -rf /opt/testServer/* /opt/rdepot";
 
 if [ $? -eq 0 ]; then

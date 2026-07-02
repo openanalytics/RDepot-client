@@ -1088,6 +1088,27 @@ COPY public.access_token (id, user_id, name, value, creation_date, expiration_da
 \.
 
 --
+-- Data for Name: package_package_maintainer; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.package_package_maintainer (package_id, package_maintainer_id) FROM stdin;
+13	1
+12	2
+11	2
+9	3
+10	3
+15	4
+20	5
+38	6
+39	6
+40	7
+41	8
+42	9
+43	10
+44	11
+\.
+
+--
 -- Name: access_token_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
