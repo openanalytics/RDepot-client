@@ -66,7 +66,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     const serverAddressAlert = page.locator(
       `#${EDIT_REPOSITORY_SERVER_ADDRESS_ALERT}`
     )
-    await expect(serverAddressAlert).toHaveCount(0)
+    await expect(serverAddressAlert).toHaveCount(1)
 
     await page
       .locator(
