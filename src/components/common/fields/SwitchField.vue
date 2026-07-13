@@ -24,37 +24,51 @@
   <v-switch
     :key="key"
     v-model="value"
-    :indeterminate="indeterminate"
+    :indeterminate="isIndeterminate"
     @click="update"
   >
   </v-switch>
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 const componentProps = defineProps<{
   initialValue?: boolean
+  indeterminate?: boolean
 }>()
 const emits = defineEmits(['setValue'])
 
-const indeterminate = computed(
+const isIndeterminate = computed(
   () => value.value === undefined || value.value === null
 )
 
 const value = ref<boolean | undefined>(
   componentProps.initialValue
 )
-const previousValue = ref(!value.value)
+
 const key = ref(1)
 
 function update() {
-  if (value.value != undefined) {
-    previousValue.value = value.value
-    value.value = undefined
-  } else {
-    value.value = !previousValue.value
-  }
-  key.value = ++key.value % 100
+  const states = componentProps.indeterminate
+    ? [false, undefined, true]
+    : [false, true]
+  const currentIndex = states.indexOf(value.value)
+
+  const nextIndex =
+    currentIndex === -1
+      ? 0
+      : (currentIndex + 1) % states.length
+
+  value.value = states[nextIndex]
+
+  key.value = (key.value + 1) % 100
   emits('setValue', value.value)
 }
+
+watch(
+  () => componentProps.initialValue,
+  (newVal) => {
+    value.value = newVal
+  }
+)
 </script>

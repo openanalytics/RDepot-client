@@ -42,12 +42,19 @@ test.describe(TITLE_SERIAL, { tag: '@serial' }, () => {
       .click()
     await page.waitForURL('**/settings-tokens')
 
-    const tokenActiveSelector = page.getByRole('checkbox', {
-      checked: true
-    })
+    const tokenActiveSelector = page.locator(
+      '#access-token-active-icon'
+    )
     const tokensRowSelector = page.locator('role=row')
     await expect(tokensRowSelector).toHaveCount(3)
-    await expect(tokenActiveSelector).toHaveCount(0)
+    await expect(tokenActiveSelector).toHaveCount(2)
+
+    await page
+      .locator(`#${TOKENS_FILTRATION_ACTIVE_ID}`)
+      .click()
+
+    await expect(tokensRowSelector).toHaveCount(3)
+    await expect(tokenActiveSelector).toHaveCount(2)
 
     await page
       .locator(`#${TOKENS_FILTRATION_ACTIVE_ID}`)
@@ -61,14 +68,7 @@ test.describe(TITLE_SERIAL, { tag: '@serial' }, () => {
       .click()
 
     await expect(tokensRowSelector).toHaveCount(3)
-    await expect(tokenActiveSelector).toHaveCount(0)
-
-    await page
-      .locator(`#${TOKENS_FILTRATION_ACTIVE_ID}`)
-      .click()
-
-    await expect(tokensRowSelector).toHaveCount(3)
-    await expect(tokenActiveSelector).toHaveCount(1)
+    await expect(tokenActiveSelector).toHaveCount(2)
   })
 
   test('expired', async ({ page }) => {
@@ -95,13 +95,13 @@ test.describe(TITLE_SERIAL, { tag: '@serial' }, () => {
       .locator(`#${TOKENS_FILTRATION_EXPIRED_ID}`)
       .click()
 
-    await expect(tokensRowSelector).toHaveCount(3)
+    await expect(tokensRowSelector).toHaveCount(2)
 
     await page
       .locator(`#${TOKENS_FILTRATION_EXPIRED_ID}`)
       .click()
 
-    await expect(tokensRowSelector).toHaveCount(2)
+    await expect(tokensRowSelector).toHaveCount(3)
   })
 
   test('no data available', async ({ page }) => {

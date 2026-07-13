@@ -51,26 +51,35 @@ test.describe(TITLE, () => {
       )
       .click()
 
-    await expect(maintainersRowsSelector).toHaveCount(10)
-    await expect(maintainerDeletedSelector).toHaveCount(0)
-
-    await page
-      .locator(
-        `#${PACKAGE_MAINTAINERS_FILTRATION_DELETED_FIELD_ID}`
-      )
-      .click()
-
-    await expect(maintainersRowsSelector).toHaveCount(21)
-    await expect(maintainerDeletedSelector).toHaveCount(11)
-
-    await page
-      .locator(
-        `#${PACKAGE_MAINTAINERS_FILTRATION_DELETED_FIELD_ID}`
-      )
-      .click()
-
     await expect(maintainersRowsSelector).toHaveCount(4)
     await expect(maintainerDeletedSelector).toHaveCount(3)
+
+    await page
+      .locator(
+        `#${PACKAGE_MAINTAINERS_FILTRATION_DELETED_FIELD_ID}`
+      )
+      .click()
+
+    await expect(maintainersRowsSelector).toHaveCount(22)
+    await expect(maintainerDeletedSelector).toHaveCount(12)
+
+    await page
+      .locator(
+        `#${PACKAGE_MAINTAINERS_FILTRATION_DELETED_FIELD_ID}`
+      )
+      .click()
+
+    await expect(maintainersRowsSelector).toHaveCount(28)
+    await expect(maintainerDeletedSelector).toHaveCount(12)
+
+    await page
+      .locator(
+        `#${PACKAGE_MAINTAINERS_FILTRATION_DELETED_FIELD_ID}`
+      )
+      .click()
+
+    await expect(maintainersRowsSelector).toHaveCount(11)
+    await expect(maintainerDeletedSelector).toHaveCount(4)
   })
 
   test('reset button', async ({ page }) => {
@@ -94,7 +103,7 @@ test.describe(TITLE, () => {
       page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
     ).toBeVisible()
 
-    await expect(maintainersRowsSelector).toHaveCount(10)
+    await expect(maintainersRowsSelector).toHaveCount(4)
 
     await page
       .locator(`#${FILTRATION_RESET_BUTTON_ID}`)

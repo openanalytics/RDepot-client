@@ -65,7 +65,7 @@ test.describe(TITLE, () => {
       .click()
 
     await expect(packagesRowsSelector).toHaveCount(21)
-    await expect(packagesDeletedSelector).toHaveCount(4)
+    await expect(packagesDeletedSelector).toHaveCount(0)
   })
 
   test('reset button', async ({ page }) => {

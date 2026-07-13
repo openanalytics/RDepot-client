@@ -53,6 +53,15 @@ test.describe(TITLE, () => {
       )
       .click()
 
+    await expect(maintainersRowsSelector).toHaveCount(2)
+    await expect(maintainerDeletedSelector).toHaveCount(1)
+
+    await page
+      .locator(
+        `#${REPOSITORY_MAINTAINERS_FILTRATION_DELETED_FIELD_ID}`
+      )
+      .click()
+
     await expect(maintainersRowsSelector).toHaveCount(6)
     await expect(maintainerDeletedSelector).toHaveCount(0)
 
@@ -63,15 +72,6 @@ test.describe(TITLE, () => {
       .click()
 
     await expect(maintainersRowsSelector).toHaveCount(7)
-    await expect(maintainerDeletedSelector).toHaveCount(1)
-
-    await page
-      .locator(
-        `#${REPOSITORY_MAINTAINERS_FILTRATION_DELETED_FIELD_ID}`
-      )
-      .click()
-
-    await expect(maintainersRowsSelector).toHaveCount(2)
     await expect(maintainerDeletedSelector).toHaveCount(1)
   })
 
@@ -96,7 +96,7 @@ test.describe(TITLE, () => {
       page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
     ).toBeVisible()
 
-    await expect(maintainersRowsSelector).toHaveCount(6)
+    await expect(maintainersRowsSelector).toHaveCount(2)
 
     await page
       .locator(`#${FILTRATION_RESET_BUTTON_ID}`)
