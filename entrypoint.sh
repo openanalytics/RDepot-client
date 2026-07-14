@@ -1,4 +1,25 @@
 #!/bin/sh
+
+# Load configuration from YAML file if it exists.
+# Environment variables take precedence over YAML values
+# YAML values are only applied when the env var is unset or empty.
+CONFIG_FILE="${CONFIG_FILE:-/opt/rdepot/config.yaml}"
+if [ -f "$CONFIG_FILE" ]; then
+  while IFS= read -r line; do
+    case "$line" in
+      ''|\#*) continue ;;
+    esac
+    key=$(echo "$line" | sed -n 's/^\([A-Za-z_][A-Za-z0-9_]*\):.*/\1/p')
+    value=$(echo "$line" | sed -n 's/^[A-Za-z_][A-Za-z0-9_]*:[[:space:]]*//p')
+    if [ -n "$key" ]; then
+      eval current_val=\${$key}
+      if [ -z "$current_val" ]; then
+        export "$key=$value"
+      fi
+    fi
+  done < "$CONFIG_FILE"
+fi
+
 VITE_URL_PREFIX="${VITE_URL_PREFIX:-/}"
 JSON_STRING='window.configs = { \
   "VITE_LOGIN_OIDC":"'"${VITE_LOGIN_OIDC}"'", \

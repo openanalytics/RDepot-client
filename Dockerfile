@@ -20,6 +20,8 @@ RUN mkdir -p /var/cache/nginx && chown -R $RDEPOT_USER:$RDEPOT_USER /var/cache/n
 COPY --chown=$RDEPOT_USER:$RDEPOT_USER nginx.conf /etc/nginx/conf.d/default.conf
 COPY --chown=$RDEPOT_USER:$RDEPOT_USER --from=build-stage /app/dist /usr/share/nginx/html
 COPY --chown=$RDEPOT_USER:$RDEPOT_USER entrypoint.sh /usr/share/nginx/
+RUN mkdir -p /opt/rdepot && chown $RDEPOT_USER:$RDEPOT_USER /opt/rdepot
+COPY --chown=$RDEPOT_USER:$RDEPOT_USER config.yaml /opt/rdepot/config.yaml
 RUN chown -R $RDEPOT_USER:$RDEPOT_USER /usr/share/nginx/
 USER $RDEPOT_USER
 RUN chmod +x /usr/share/nginx/entrypoint.sh

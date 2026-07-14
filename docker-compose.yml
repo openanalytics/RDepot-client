@@ -91,6 +91,8 @@ services:
       oa-rdepot:
         aliases:
           - oa-rdepot-frontend
+    volumes:
+      - ./config.yaml:/opt/rdepot/config.yaml:ro
     environment:
       - VITE_LOGIN_SIMPLE=false
       - VITE_LOGIN_OIDC=true
