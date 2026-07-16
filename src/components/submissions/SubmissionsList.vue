@@ -34,6 +34,7 @@
     :sort-by="sortBy"
     @update:options="fetchData"
     @refresh="fetchData"
+    @date-click="filterByDate"
   >
     <template
       #[`header.data-table-select`]="{
@@ -241,6 +242,17 @@ const headers = computed<DataTableHeaders[]>(() => [
     sortable: false
   }
 ])
+
+function filterByDate(date: string) {
+  const dateValue = new Date(date).toLocaleDateString(
+    'en-CA'
+  )
+  submissionStore.setFiltration({
+    ...submissionStore.filtration,
+    fromDate: dateValue,
+    toDate: dateValue
+  })
+}
 
 function fetchData(options?: DataTableOptions) {
   if (options) {

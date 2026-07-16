@@ -64,7 +64,11 @@
       :key="i"
       #[`item.${item}`]="{ value }"
     >
-      <DateChip v-if="value" :date="value" />
+      <DateChip
+        v-if="value"
+        :date="value"
+        @click="emits('dateClick', value)"
+      />
     </template>
 
     <template
@@ -128,7 +132,10 @@ import CopyableCell from './CopyableCell.vue'
 import AuthenticationInformation from './AuthenticationInformation.vue'
 import RefreshButton from '@/components/common/buttons/RefreshButton.vue'
 
-const emits = defineEmits(['refresh'])
+const emits = defineEmits<{
+  refresh: []
+  dateClick: [date: string]
+}>()
 const oaTableStore = useOATable()
 const technologyKeys = [
   'packageBag.repository.technology',

@@ -176,7 +176,7 @@ import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesF
 import DatePickerField from '@/components/common/fields/DatePickerField.vue'
 import { useDatePicker } from '@/composable/datePicker'
 import ResetButton from '@/components/common/buttons/ResetButton.vue'
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
 
 const { states, fileTypes, technologies, sortValues } =
   useEnumFiltration()
@@ -199,6 +199,14 @@ const { setValues, values, setFieldValue } = useForm({
   validationSchema: toTypedSchema(SubmissionsFiltration),
   initialValues: submissionsStore.filtration
 })
+
+watch(
+  () => submissionsStore.filtration,
+  (newFiltration) => {
+    setValues(newFiltration)
+  },
+  { deep: true }
+)
 
 function setFiltration() {
   submissionsStore.setFiltration(
