@@ -38,6 +38,7 @@ const EXTENSION_WITHOUT_LICENSE = [
   'sh',
   'gz',
   'env',
+  'git',
   'ico',
   'yml',
   'jar',
