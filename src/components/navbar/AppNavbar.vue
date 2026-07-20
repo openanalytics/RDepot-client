@@ -21,7 +21,13 @@
 -->
 
 <template>
-  <v-app-bar app color="primary" dark class="navbar">
+  <v-app-bar
+    app
+    color="primary"
+    dark
+    class="navbar"
+    :height="navbarHeight"
+  >
     <v-row justify="space-around" align="center">
       <v-row justify="start" align="center" class="ml-4">
         <v-app-bar-nav-icon
@@ -78,6 +84,7 @@ const currentRoute = computed(() => {
   return router.currentRoute.value.name
 })
 
+const navbarHeight = getEnv('VITE_NAVBAR_HEIGHT')
 const logoUrl = getEnv('VITE_LOGO_SMALL_URL')
 const logoHeight = getEnv('VITE_LOGO_SMALL_HEIGHT')
 const logoWidth = getEnv('VITE_LOGO_SMALL_WIDTH')
@@ -96,7 +103,6 @@ function showSidebar() {
 }
 .navbar {
   width: 100%;
-  height: auto !important;
   box-sizing: content-box;
 
   .logotext {

@@ -67,6 +67,16 @@ sh restore.sh
 
 With the backend ready, switch to the frontend project.
 
+### Theme configuration (optional)
+
+In development mode, theme variables are loaded from `.env.local` (gitignored). Copy the template to get started:
+
+```
+cp .env.local.template .env.local
+```
+
+You can then customize navbar title, colours, logo, and other theme settings in `.env.local`. In production (Docker), these are configured via `config.yaml` instead.
+
 Install frontend dependencies:
 
 ```
