@@ -193,4 +193,14 @@ function rowProps(item: any) {
 .v-theme--dark .deletedItem {
   background: rgb(255 86 86 / 20%) !important;
 }
+
+th.v-data-table__th--sortable {
+  pointer-events: none;
+}
+
+th.v-data-table__th--sortable
+  .v-data-table-header__content {
+  pointer-events: auto;
+  width: fit-content;
+}
 </style>
