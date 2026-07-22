@@ -54,11 +54,20 @@ export const useUploadSubmissionStore = defineStore(
         typeof useSubmissionValidationSchema
       >['submissionSchema']
     >
+    type PreselectedRepository =
+      | {
+          name: string
+          technology: string
+        }
+      | undefined
+
     const promises = ref<PackagePromise[]>([])
     const resolved = ref(false)
     const allowedRVersions = ref<string[]>([])
     const allowedDistributions = ref<string[]>([])
     const allowedArchitectures = ref<string[]>([])
+    const preselectedRepository =
+      ref<PreselectedRepository>(undefined)
 
     async function getRConfiguration() {
       await getRConfigurationService().then((response) => {
@@ -187,7 +196,8 @@ export const useUploadSubmissionStore = defineStore(
       getRConfiguration,
       allowedDistributions,
       allowedArchitectures,
-      allowedRVersions
+      allowedRVersions,
+      preselectedRepository
     }
   }
 )

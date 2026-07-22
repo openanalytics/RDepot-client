@@ -36,6 +36,9 @@
     @refresh="fetchData"
     @date-click="filterByDate"
   >
+    <template #topAction>
+      <UploadPackageButton size="x-small" />
+    </template>
     <template
       #[`header.data-table-select`]="{
         selectAll,
@@ -179,6 +182,7 @@ import GoToButton from '@/components/common/action_icons/GoToButton.vue'
 import DownloadSubmission from './actions/DownloadSubmission.vue'
 import CommentSubmission from './actions/CommentSubmission.vue'
 import OATable from '../common/datatable/OATable.vue'
+import UploadPackageButton from '@/components/common/buttons/UploadPackageButton.vue'
 import MarkdownDescription from '@/components/common/markdown/MarkdownDescription.vue'
 import TechnologyChip from '@/components/common/chips/TechnologyChip.vue'
 import BinaryPackage from '@/components/packages/BinaryPackage.vue'

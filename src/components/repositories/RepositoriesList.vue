@@ -149,6 +149,7 @@
         class="d-flex justify-center align-center ga-1"
       >
         <RepublishIcon :repo="item" />
+        <UploadPackageButton :repo="item" variant="text" />
         <EditIcon
           :icon-id="`edit-repository-${item.id}`"
           :disabled="
@@ -249,6 +250,7 @@ import getEnv from '@/utils/env'
 import { useRepositoryDeprecated } from '@/composable/repositories/repositoriesDeprecatedAddress'
 import DeprecatedWarning from '@/components/common/datatable/DeprecatedWarning.vue'
 import GoToButton from '@/components/common/action_icons/GoToButton.vue'
+import UploadPackageButton from '@/components/common/buttons/UploadPackageButton.vue'
 import { OverlayEnum } from '@/enum/Overlay'
 import { useCommonStore } from '@/store/options/common'
 
@@ -305,7 +307,7 @@ const headers = computed<DataTableHeaders[]>(() => [
     title: i18n.t('fields.general.actions'),
     align: 'center',
     key: 'actions',
-    width: 100,
+    width: 130,
     sortable: false
   }
 ])

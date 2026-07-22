@@ -488,6 +488,14 @@ export const SUBMISSIONS_LIST_NOT_ACCEPTED_GOTO_ID =
 export const SUBMISSIONS_LIST_ACCEPTED_PACKAGE_GOTO_ID =
   'goTo-button-4'
 
+//UPLOAD PACKAGE BUTTON
+export const UPLOAD_PACKAGE_BUTTON_ID =
+  'upload-package-button'
+export const UPLOAD_PACKAGE_REPOSITORY_TESTREPO2_ICON_ID =
+  'upload-package-3'
+export const UPLOAD_PACKAGE_REPOSITORY_TESTREPO3_ICON_ID =
+  'upload-package-4'
+
 //REPOSITORIES LIST
 export const DELETE_REPO_2_ICON_ID =
   'delete-repository-icon-2'

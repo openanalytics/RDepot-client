@@ -42,7 +42,7 @@
       >
         <h2>{{ title }}</h2>
         <div
-          class="d-flex"
+          class="d-flex ga-2"
           style="justify-content: flex-end"
         >
           <slot name="topAction" />

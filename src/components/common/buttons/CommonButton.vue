@@ -26,7 +26,6 @@
     color="primary"
     dark
     dense
-    class="mx-3"
     @click="openModal"
   >
     <slot>{{ $t('filtration.general.title') }}</slot>

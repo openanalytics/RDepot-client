@@ -21,7 +21,7 @@
 -->
 
 <template>
-  <v-tooltip location="left">
+  <v-tooltip location="top">
     <template #activator="{ props }">
       <div id="tooltip-activator" v-bind="props">
         <CommonButton

@@ -36,6 +36,9 @@
     @update:options="fetchData"
     @refresh="fetchData"
   >
+    <template #topAction>
+      <UploadPackageButton size="x-small" />
+    </template>
     <template
       #[`header.data-table-select`]="{
         selectAll,
@@ -157,6 +160,7 @@ import { usePackagesActions } from '@/composable/packages/packagesActions'
 import OATable from '../common/datatable/OATable.vue'
 import TechnologyChip from '@/components/common/chips/TechnologyChip.vue'
 import GoToButton from '@/components/common/action_icons/GoToButton.vue'
+import UploadPackageButton from '@/components/common/buttons/UploadPackageButton.vue'
 
 const exp = ref<string[]>([])
 
