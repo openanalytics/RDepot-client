@@ -100,7 +100,6 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     await page
       .locator(`#${SUBMIT_BUTTON_ID}`)
       .press('Enter')
-    await page.getByTestId('toast-content').dblclick()
     await expect(
       page.locator('#repositories-list-testRepoR')
     ).toHaveCount(1)
@@ -150,7 +149,6 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     await page
       .locator(`#${SUBMIT_BUTTON_ID}`)
       .press('Enter')
-    await page.getByTestId('toast-content').dblclick()
     await expect(
       page.locator('#repositories-list-testRepoPython')
     ).toHaveCount(1)

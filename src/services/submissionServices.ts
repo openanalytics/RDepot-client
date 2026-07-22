@@ -158,10 +158,6 @@ export async function addRSubmission(
       distribution,
       note
     ],
-    false,
-    undefined,
-    undefined,
-    undefined,
     false
   )
 }
@@ -184,10 +180,6 @@ export async function addPythonSubmission(
   return openApiRequest<EntityModelSubmissionDto>(
     submissionApi,
     [repository, file, replace, binary, note],
-    false,
-    undefined,
-    undefined,
-    undefined,
     false
   )
 }

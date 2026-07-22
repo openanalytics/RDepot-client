@@ -173,11 +173,8 @@
     "tokens": {
       "copyWarning": "Make sure to copy the access token now. You won't be able to see it again!",
       "deactivateQuestion": "Are you sure you want to deactivate token <strong>{0}</strong>?",
-      "deactivated": "Token deactivated",
       "delete": "Delete token",
-      "deleted": "Token deleted",
       "edit": "Edit token name",
-      "edited": "Token edited",
       "newToken": "New access token",
       "notConfigurableExpirationDate": "Access token lifetime is not configurable",
       "expirationDate": "Lifetime (in days)"
@@ -188,8 +185,7 @@
       "error": "Unsuccessful login",
       "loggedIn": "Logged in",
       "notLoggedIn": "Not logged in",
-      "oidc": "Login via OIDC",
-      "success": "Successful login"
+      "oidc": "Login via OIDC"
     },
     "config": {
       "deletingPackages": "Deleting packages is disabled in the configuration",
@@ -249,7 +245,6 @@
       "notAuthorized": "You are not authorized to perform this action",
       "pending": "pending action",
       "rejectQuestion": "Are you sure you want to reject the following {resource_type}?",
-      "success": "Request processed successfully",
       "successFiltration": "Successful filtration action"
     },
     "notifications": {

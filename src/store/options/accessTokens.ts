@@ -38,8 +38,6 @@ import {
 } from '@/services/settingsServices'
 import { useUtilities } from '@/composable/utilities'
 import { validatedData } from '@/services/openApiAccess'
-import { useToast } from '@/composable/toasts'
-import { i18n } from '@/plugins/i18n'
 import { useCommonStore } from '@/store/options/common'
 import { OverlayEnum } from '@/enum/Overlay'
 import { DataTableOptions } from '@/models/DataTableOptions'
@@ -147,8 +145,6 @@ export const useAccessTokensStore = defineStore(
           this.pending.push(this.currentToken)
           await deleteToken(this.currentToken.id)
             .then(async () => {
-              const toast = useToast()
-              toast.success(i18n.t('forms.tokens.deleted'))
               const commonStore = useCommonStore()
               commonStore.closeOverlay()
               await this.getPage()
@@ -172,8 +168,6 @@ export const useAccessTokensStore = defineStore(
         await editToken(this.currentToken, newToken)
           ?.then(async (success) => {
             if (success) {
-              const toast = useToast()
-              toast.success(i18n.t('forms.tokens.edited'))
               await this.getPage()
             }
           })
@@ -210,10 +204,6 @@ export const useAccessTokensStore = defineStore(
         await deactivateToken(oldToken, newToken)
           ?.then(async (success) => {
             if (success) {
-              const toast = useToast()
-              toast.success(
-                i18n.t('forms.tokens.deactivated')
-              )
               const commonStore = useCommonStore()
               commonStore.closeOverlay()
               await this.getPage()

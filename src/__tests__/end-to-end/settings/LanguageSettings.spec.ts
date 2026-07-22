@@ -58,9 +58,6 @@ test.describe(TITLE_SERIAL, { tag: '@serial' }, () => {
 
     await plLanguageSelector.waitFor()
     await plLanguageSelector.click()
-    await expect(
-      page.locator('.Toastify__toast--success')
-    ).toHaveCount(1)
   })
 
   test('change language to deutsch', async ({ page }) => {
@@ -75,9 +72,6 @@ test.describe(TITLE_SERIAL, { tag: '@serial' }, () => {
 
     await deLanguageSelector.waitFor()
     await deLanguageSelector.click()
-    await expect(
-      page.locator('.Toastify__toast--success')
-    ).toHaveCount(1)
   })
 
   test('change language to dutch', async ({ page }) => {
@@ -93,9 +87,6 @@ test.describe(TITLE_SERIAL, { tag: '@serial' }, () => {
 
     await nlLanguageSelector.waitFor()
     await nlLanguageSelector.click()
-    await expect(
-      page.locator('.Toastify__toast--success')
-    ).toHaveCount(1)
   })
 
   test('change language to english', async ({ page }) => {
@@ -110,9 +101,6 @@ test.describe(TITLE_SERIAL, { tag: '@serial' }, () => {
 
     await enLanguageSelector.waitFor()
     await enLanguageSelector.click()
-    await expect(
-      page.locator('.Toastify__toast--success')
-    ).toHaveCount(1)
   })
 
   test('change language on the packages site', async ({

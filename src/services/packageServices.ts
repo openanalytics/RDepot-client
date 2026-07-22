@@ -315,8 +315,7 @@ export async function fetchVignettes(
 // }
 
 export async function deletePackage(
-  oldPackage: EntityModelPackageDto,
-  ifToast = false
+  oldPackage: EntityModelPackageDto
 ): Promise<validatedData<EntityModelPackageDto>> {
   // if (!isAuthorized('PATCH', 'packages')) {
   //   return new Promise(() => false)
@@ -345,11 +344,6 @@ export async function deletePackage(
 
   return openApiRequest<EntityModelPackageDto>(
     packagesApi,
-    [oldPackage.id!, patch_body],
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    ifToast
+    [oldPackage.id!, patch_body]
   )
 }

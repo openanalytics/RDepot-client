@@ -43,8 +43,7 @@ export async function openApiRequest<T>(
   showProgress = false,
   blob = false,
   open = false,
-  fileName = '',
-  ifToast = true
+  fileName = ''
 ): Promise<validatedData<T>> {
   if (showProgress) {
     turnOnProgress()
@@ -59,7 +58,7 @@ export async function openApiRequest<T>(
     } else {
       return callback(...parameters, await getHeaders())
         .then((result: AxiosResponse<ResponseDtoObject>) =>
-          resolved(result, ifToast)
+          resolved(result)
         )
         .catch((error: AxiosError) => rejected(error))
     }
@@ -125,16 +124,11 @@ async function resolvedBlob(
 }
 
 async function resolved(
-  result: AxiosResponse<ResponseDtoObject>,
-  ifToast = true
+  result: AxiosResponse<ResponseDtoObject>
 ): Promise<validatedData<any>> {
   const commonStore = useCommonStore()
   commonStore.error502 = false
   commonStore.progressCircularActive = false
-  if (ifToast) {
-    const toasts = useToast()
-    toasts.notifyAPISuccess(result)
-  }
   const data = result.data.data?.content
     ? result.data.data?.content
     : result.data.data

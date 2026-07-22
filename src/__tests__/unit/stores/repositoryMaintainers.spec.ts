@@ -216,8 +216,6 @@ describe('Repository Maintainers Store', () => {
     const repositoryMaintainersStore =
       useRepositoryMaintainersStore()
     // vi.mock('@kyvg/vue3-notification')
-    vi.mock('vue3-toastify')
-    const notify = await import('vue3-toastify')
     const spy = vi.spyOn(
       repositoryMaintainersStore,
       'getPage'
@@ -230,8 +228,6 @@ describe('Repository Maintainers Store', () => {
     await repositoryMaintainersStore.delete()
 
     expect(spy).toBeCalled()
-    // expect(notify.notify).toBeCalledWith('success')
-    expect(notify.toast.success).toBeCalled()
   })
 })
 
