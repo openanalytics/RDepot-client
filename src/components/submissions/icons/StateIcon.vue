@@ -27,6 +27,7 @@
         id="tooltip-activator"
         v-bind="props"
         class="mr-6"
+        style="cursor: pointer"
       >
         <v-icon
           :icon="getStatusIcon(state)"

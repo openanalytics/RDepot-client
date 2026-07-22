@@ -34,7 +34,7 @@
     :sort-by="sortBy"
     @update:options="fetchData"
     @refresh="fetchData"
-    @date-click="filterByDate"
+    @chip-click="filterByChip"
   >
     <template #topAction>
       <UploadPackageButton size="x-small" />
@@ -85,6 +85,12 @@
             size="x-small"
             class="ml-1"
             :technology="item.packageBag.technology"
+            @click="
+              filterByChip(
+                'packageBag.repository.technology',
+                item.packageBag.technology
+              )
+            "
           />
         </template>
         <template #subtitle>
@@ -102,7 +108,15 @@
     </template>
 
     <template #[`item.packageBag.binary`]="{ item }">
-      <BinaryPackage :item="item.packageBag" />
+      <BinaryPackage
+        :item="item.packageBag"
+        @click="
+          filterByChip(
+            'packageBag.binary',
+            String(item.packageBag.binary)
+          )
+        "
+      />
     </template>
 
     <template #[`item.actions`]="{ item }">
@@ -168,6 +182,7 @@ import {
   DataTableOptions,
   Sort
 } from '@/models/DataTableOptions'
+import { useSubmissionChipFiltration } from '@/composable/submissions/submissionChipFiltration'
 import { i18n } from '@/plugins/i18n'
 import { ref, computed } from 'vue'
 import { useSort } from '@/composable/sort'
@@ -247,16 +262,7 @@ const headers = computed<DataTableHeaders[]>(() => [
   }
 ])
 
-function filterByDate(date: string) {
-  const dateValue = new Date(date).toLocaleDateString(
-    'en-CA'
-  )
-  submissionStore.setFiltration({
-    ...submissionStore.filtration,
-    fromDate: dateValue,
-    toDate: dateValue
-  })
-}
+const { filterByChip } = useSubmissionChipFiltration()
 
 function fetchData(options?: DataTableOptions) {
   if (options) {

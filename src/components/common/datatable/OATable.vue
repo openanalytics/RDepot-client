@@ -56,7 +56,10 @@
       :key="i"
       #[`item.${item}`]="{ value }"
     >
-      <TechnologyChip :technology="value" />
+      <TechnologyChip
+        :technology="value"
+        @click="emits('chipClick', item, value)"
+      />
     </template>
 
     <template
@@ -67,7 +70,7 @@
       <DateChip
         v-if="value"
         :date="value"
-        @click="emits('dateClick', value)"
+        @click="emits('chipClick', item, value)"
       />
     </template>
 
@@ -76,7 +79,9 @@
       :key="i"
       #[`item.${item}`]="{ value }"
     >
-      <StateIcon :state="value" />
+      <div @click="emits('chipClick', item, value)">
+        <StateIcon :state="value" />
+      </div>
     </template>
 
     <template #[`item.requiresAuthentication`]="{ value }">
@@ -134,7 +139,7 @@ import RefreshButton from '@/components/common/buttons/RefreshButton.vue'
 
 const emits = defineEmits<{
   refresh: []
-  dateClick: [date: string]
+  chipClick: [field: string, value: string]
 }>()
 const oaTableStore = useOATable()
 const technologyKeys = [
