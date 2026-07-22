@@ -42,6 +42,7 @@ const EXTENSION_WITHOUT_LICENSE = [
   'ico',
   'yml',
   'jar',
+  'ttf',
   'war',
   'whl',
   'png',
