@@ -30,19 +30,18 @@
 <script setup lang="ts">
 import ProgressCircular from './components/common/progress/ProgressCircular.vue'
 import { onBeforeMount } from 'vue'
-import { useTheme } from 'vuetify'
-import { useAuthorizationStore } from './store/options/authorization'
 import en from 'javascript-time-ago/locale/en'
 import pl from 'javascript-time-ago/locale/pl'
 import TimeAgo from 'javascript-time-ago'
+import { useThemeConfig } from '@/composable/theme'
 
 TimeAgo.addDefaultLocale(en)
 TimeAgo.addLocale(pl)
 
+const { applyTheme } = useThemeConfig()
+
 onBeforeMount(() => {
-  const theme = useTheme()
-  theme.global.name.value =
-    useAuthorizationStore().me.userSettings?.theme || 'dark'
+  applyTheme()
 })
 </script>
 

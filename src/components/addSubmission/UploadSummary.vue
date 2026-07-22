@@ -136,7 +136,7 @@ const { value: technology } = useField('technology')
   background-color: rgb(var(--v-theme-oared)) !important;
   color: white !important;
   font-size: 18px !important;
-  border-radius: 16px !important;
+  border-radius: var(--rdepot-border-radius) !important;
   padding: 10px 30px !important;
 }
 

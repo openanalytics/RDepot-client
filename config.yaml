@@ -41,3 +41,6 @@ VITE_LOGO_BIG_HEIGHT: 200
 VITE_LOGO_BIG_WIDTH: 200
 VITE_LOGO_BIG_CLASSES:
 VITE_LOGO_BIG_STYLE:
+
+#border radius (true = rounded, false = sharp corners)
+VITE_BORDER_RADIUS: true

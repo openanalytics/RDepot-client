@@ -89,7 +89,7 @@ const eventType = computed(() => {
     font-size: 12px;
     border-left: solid rgb(var(--v-theme-primary)) 1px;
     border-bottom: solid rgb(var(--v-theme-primary)) 1px;
-    border-bottom-left-radius: 16px;
+    border-bottom-left-radius: var(--rdepot-border-radius);
     padding: 10px 10px 10px 10px;
     max-height: 40px;
     display: flex;

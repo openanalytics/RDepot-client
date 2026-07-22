@@ -34,7 +34,15 @@ import { createVuetify } from 'vuetify'
 import getEnv from '@/utils/env'
 
 const primary = `#${getEnv('VITE_PRIMARY_COLOUR') || '32a6d3'}`
+const borderRadiusEnabled =
+  getEnv('VITE_BORDER_RADIUS') !== 'false'
+
 export default createVuetify({
+  defaults: {
+    global: {
+      rounded: borderRadiusEnabled ? undefined : 0
+    }
+  },
   theme: {
     defaultTheme: 'dark',
     themes: {
