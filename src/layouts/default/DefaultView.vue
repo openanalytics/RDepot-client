@@ -30,6 +30,7 @@
     style="--v-layout-top: 15px; --v-layout-bottom: 15px"
     class="mx-5"
   >
+    <ConnectionBanner />
     <BadGateway v-if="commonStore.error502" />
     <router-view v-else />
   </v-main>
@@ -39,6 +40,7 @@
 import Navbar from '@/components/navbar/AppNavbar.vue'
 import Sidebar from '@/components/navbar/AppSidebar.vue'
 import BadGateway from '@/views/BadGateway.vue'
+import ConnectionBanner from '@/components/common/ConnectionBanner.vue'
 import { useCommonStore } from '@/store/options/common'
 
 const commonStore = useCommonStore()

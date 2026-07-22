@@ -614,3 +614,6 @@ export const NOTIFICATIONS_NOT_SEEN_EVENT_ID =
   'notifications-list-item-398'
 export const NOTIFICATIONS_SEEN_EVENT_ID =
   'notifications-list-item-394'
+
+// CONNECTION BANNER
+export const CONNECTION_BANNER_ID = 'connection-banner'

@@ -224,6 +224,13 @@
       },
       "badGateway": "502 - Bad Gateway"
     },
+    "connection": {
+      "lost": "Connection to the back-end API is lost.",
+      "retryIn": "Next retry in {seconds}s.",
+      "restored": "Connection to the back-end API has been restored. Reload the page to refresh the data.",
+      "retry": "Retry now",
+      "reloadPage": "Reload page"
+    },
     "filtration": {
       "makeSure": "This action will clear all filtration"
     },

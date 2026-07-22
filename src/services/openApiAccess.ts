@@ -34,6 +34,7 @@ import { useToast } from '@/composable/toasts'
 import { i18n } from '@/plugins/i18n'
 import { BackendError } from '@/models/errors/BackendError'
 import router from '@/plugins/router'
+import { useHealthCheck } from '@/composable/healthCheck'
 
 export async function openApiRequest<T>(
   // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
@@ -160,9 +161,8 @@ async function errorsHandler(
 ) {
   const toasts = useToast()
   if (!error.response?.status) {
-    toasts.error(i18n.t('messages.errors.405'))
-    const authorizationStore = useAuthorizationStore()
-    authorizationStore.logout()
+    useHealthCheck().startConnectionHealthCheck()
+    return
   } else {
     switch (error.response?.status) {
       case 304: {
@@ -223,9 +223,12 @@ async function errorsHandler(
         }
         break
       }
-      case 502:
-      case 504: {
+      case 502: {
         useCommonStore().error502 = true
+        break
+      }
+      case 504: {
+        useHealthCheck().startConnectionHealthCheck()
         break
       }
     }
