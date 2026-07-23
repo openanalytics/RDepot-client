@@ -30,6 +30,9 @@ import {
   REPOSITORY_MAINTAINERS_SIDEBAR_ID,
   SETTINGS_GENERAL_LIST_SIDEBAR_ID,
   SETTINGS_LIST_SIDEBAR_ID,
+  SIDEBAR_COLLAPSE_TOGGLE_ID,
+  LOGOUT_BUTTON_ID,
+  SIDEBAR_VERSION_ID,
   SUBMISSIONS_SIDEBAR_ID,
   UPLOAD_PACKAGES_SIDEBAR_ID,
   USERS_SIDEBAR_ID
@@ -134,5 +137,127 @@ test.describe(TITLE, () => {
       .click()
     await page.waitForURL('**/settings-tokens')
     await expect(page).toHaveTitle(/RDepot - access tokens/)
+  })
+})
+
+test.describe('sidebar collapse', () => {
+  test('collapse toggle button is visible', async ({
+    page
+  }) => {
+    await login(page, 'einstein')
+
+    await expect(
+      page.locator(`#${SIDEBAR_COLLAPSE_TOGGLE_ID}`)
+    ).toBeVisible()
+  })
+
+  test('clicking collapse toggle hides settings group', async ({
+    page
+  }) => {
+    await login(page, 'einstein')
+
+    await expect(
+      page.locator(`#${SETTINGS_LIST_SIDEBAR_ID}`)
+    ).toBeVisible()
+
+    await page
+      .locator(`#${SIDEBAR_COLLAPSE_TOGGLE_ID}`)
+      .click()
+
+    await expect(
+      page.locator(`#${SETTINGS_LIST_SIDEBAR_ID}`)
+    ).toBeHidden()
+  })
+
+  test('collapsed sidebar still allows navigation to settings', async ({
+    page
+  }) => {
+    await login(page, 'einstein')
+
+    await page
+      .locator(`#${SIDEBAR_COLLAPSE_TOGGLE_ID}`)
+      .click()
+
+    await page
+      .locator('a[href="/settings-general"]')
+      .click()
+    await page.waitForURL('**/settings-general')
+    await expect(page).toHaveTitle(/RDepot - settings/)
+  })
+
+  test('collapsed sidebar still allows navigation to tokens', async ({
+    page
+  }) => {
+    await login(page, 'einstein')
+
+    await page
+      .locator(`#${SIDEBAR_COLLAPSE_TOGGLE_ID}`)
+      .click()
+
+    await page.locator('a[href="/settings-tokens"]').click()
+    await page.waitForURL('**/settings-tokens')
+    await expect(page).toHaveTitle(/RDepot - access tokens/)
+  })
+
+  test('version text is hidden in collapsed mode', async ({
+    page
+  }) => {
+    await login(page, 'einstein')
+
+    await expect(
+      page.locator(`#${SIDEBAR_VERSION_ID}`)
+    ).toBeVisible()
+
+    await page
+      .locator(`#${SIDEBAR_COLLAPSE_TOGGLE_ID}`)
+      .click()
+
+    await expect(
+      page.locator(`#${SIDEBAR_VERSION_ID}`)
+    ).toBeHidden()
+  })
+
+  test('expanding sidebar restores settings group', async ({
+    page
+  }) => {
+    await login(page, 'einstein')
+
+    await page
+      .locator(`#${SIDEBAR_COLLAPSE_TOGGLE_ID}`)
+      .click()
+    await expect(
+      page.locator(`#${SETTINGS_LIST_SIDEBAR_ID}`)
+    ).toBeHidden()
+
+    await page
+      .locator(`#${SIDEBAR_COLLAPSE_TOGGLE_ID}`)
+      .click()
+    await expect(
+      page.locator(`#${SETTINGS_LIST_SIDEBAR_ID}`)
+    ).toBeVisible()
+  })
+
+  test('logout button is visible when expanded', async ({
+    page
+  }) => {
+    await login(page, 'einstein')
+
+    await expect(
+      page.locator(`#${LOGOUT_BUTTON_ID}`)
+    ).toBeVisible()
+  })
+
+  test('events navigation works in collapsed mode', async ({
+    page
+  }) => {
+    await login(page, 'einstein')
+
+    await page
+      .locator(`#${SIDEBAR_COLLAPSE_TOGGLE_ID}`)
+      .click()
+
+    await page.locator(`#${EVENTS_SIDEBAR_ID}`).click()
+    await page.waitForURL('**/events')
+    await expect(page).toHaveTitle(/RDepot - events/)
   })
 })

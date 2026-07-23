@@ -115,9 +115,13 @@ test.describe(TITLE, () => {
     await page
       .locator(`#${SUBMISSIONS_LIST_SELECT_ALL_ID}`)
       .click()
-    await page.locator('css=.mdi-chevron-right').click()
+    await page
+      .locator('.v-data-table-footer .mdi-chevron-right')
+      .click()
     await expect(submissionRowsSelector).toHaveCount(21)
-    await page.locator('css=.mdi-chevron-right').click()
+    await page
+      .locator('.v-data-table-footer .mdi-chevron-right')
+      .click()
     await expect(submissionRowsSelector).toHaveCount(3)
     await page
       .locator(`#${SUBMISSIONS_LIST_SELECT_ALL_ID}`)

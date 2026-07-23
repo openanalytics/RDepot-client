@@ -34,6 +34,7 @@ describe('Common Store', () => {
     const commonStore = useCommonStore()
     expect(commonStore.progressCircularActive).toBeFalsy()
     expect(commonStore.drawer).toBeTruthy()
+    expect(commonStore.miniDrawer).toBeFalsy()
     expect(commonStore.overlayText).toBe('')
     expect(commonStore.overlayComponent).toBe(undefined)
     expect(commonStore.key).toBe(0)
@@ -49,6 +50,12 @@ describe('Common Store', () => {
     const commonStore = useCommonStore()
     commonStore.drawer = false
     expect(commonStore.drawer).toBeFalsy()
+  })
+
+  it('Edit miniDrawer', () => {
+    const commonStore = useCommonStore()
+    commonStore.miniDrawer = true
+    expect(commonStore.miniDrawer).toBeTruthy()
   })
 
   it('Edit overlay text', () => {

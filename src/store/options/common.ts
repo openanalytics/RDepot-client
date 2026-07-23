@@ -25,6 +25,7 @@ import { defineStore } from 'pinia'
 
 interface State {
   drawer: boolean
+  miniDrawer: boolean
   progressCircularActive: boolean
   progress: boolean
   totalVisiblePages: number
@@ -42,6 +43,7 @@ export const useCommonStore = defineStore('commonStore', {
   state: (): State => {
     return {
       drawer: true,
+      miniDrawer: false,
       progressCircularActive: false,
       progress: false,
       totalVisiblePages: 10,

@@ -99,6 +99,10 @@ export const SETTINGS_GENERAL_LIST_SIDEBAR_ID =
   'sidebar-settings-general'
 export const ACCESS_TOKENS_SIDEBAR_ID =
   'sidebar-settings-access-tokens'
+export const SIDEBAR_COLLAPSE_TOGGLE_ID =
+  'sidebar-collapse-toggle'
+export const LOGOUT_BUTTON_ID = 'logout-button'
+export const SIDEBAR_VERSION_ID = 'sidebar-version'
 
 //login form
 export const USERNAME_INPUT_ID = 'username-input'

@@ -27,6 +27,8 @@
       "submit": "Submit",
       "unset": "Unset",
       "uploadPackages": "Upload packages",
+      "collapseSidebar": "Collapse sidebar",
+      "expandSidebar": "Expand sidebar",
       "refresh": "Refresh",
       "confirm": "Confirm"
     },
