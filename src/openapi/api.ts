@@ -194,6 +194,12 @@ export interface EntityModelAccessTokenDto {
     'lastUsed'?: string;
     /**
      * 
+     * @type {Array<string>}
+     * @memberof EntityModelAccessTokenDto
+     */
+    'permissions'?: Array<string>;
+    /**
+     * 
      * @type {Array<Link>}
      * @memberof EntityModelAccessTokenDto
      */
@@ -308,7 +314,8 @@ export const EntityModelNewsfeedEventDtoResourceTypeEnum = {
     EVENT: 'EVENT',
     ROLE: 'ROLE',
     USERSETTINGS: 'USER_SETTINGS',
-    ACCESSTOKEN: 'ACCESS_TOKEN'
+    ACCESSTOKEN: 'ACCESS_TOKEN',
+    PACKAGEMAINTAINERDSLTUPLE: 'PACKAGE_MAINTAINER_DSL_TUPLE'
 } as const;
 
 export type EntityModelNewsfeedEventDtoResourceTypeEnum = typeof EntityModelNewsfeedEventDtoResourceTypeEnum[keyof typeof EntityModelNewsfeedEventDtoResourceTypeEnum];
@@ -387,6 +394,12 @@ export interface EntityModelPackageDto {
     'binary'?: boolean;
     /**
      * 
+     * @type {Array<string>}
+     * @memberof EntityModelPackageDto
+     */
+    'permissions'?: Array<string>;
+    /**
+     * 
      * @type {string}
      * @memberof EntityModelPackageDto
      */
@@ -458,6 +471,12 @@ export interface EntityModelPackageMaintainerDto {
      * @memberof EntityModelPackageMaintainerDto
      */
     'deleted'?: boolean;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof EntityModelPackageMaintainerDto
+     */
+    'permissions'?: Array<string>;
     /**
      * 
      * @type {Array<Link>}
@@ -537,6 +556,12 @@ export interface EntityModelPythonPackageDto {
      * @memberof EntityModelPythonPackageDto
      */
     'binary'?: boolean;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof EntityModelPythonPackageDto
+     */
+    'permissions'?: Array<string>;
     /**
      * 
      * @type {string}
@@ -762,6 +787,12 @@ export interface EntityModelPythonRepositoryDto {
     'requiresAuthentication'?: boolean;
     /**
      * 
+     * @type {Array<string>}
+     * @memberof EntityModelPythonRepositoryDto
+     */
+    'permissions'?: Array<string>;
+    /**
+     * 
      * @type {number}
      * @memberof EntityModelPythonRepositoryDto
      */
@@ -887,6 +918,12 @@ export interface EntityModelRPackageDto {
      * @memberof EntityModelRPackageDto
      */
     'binary'?: boolean;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof EntityModelRPackageDto
+     */
+    'permissions'?: Array<string>;
     /**
      * 
      * @type {string}
@@ -1094,6 +1131,12 @@ export interface EntityModelRRepositoryDto {
     'requiresAuthentication'?: boolean;
     /**
      * 
+     * @type {Array<string>}
+     * @memberof EntityModelRRepositoryDto
+     */
+    'permissions'?: Array<string>;
+    /**
+     * 
      * @type {number}
      * @memberof EntityModelRRepositoryDto
      */
@@ -1203,6 +1246,12 @@ export interface EntityModelRepositoryDto {
     'requiresAuthentication'?: boolean;
     /**
      * 
+     * @type {Array<string>}
+     * @memberof EntityModelRepositoryDto
+     */
+    'permissions'?: Array<string>;
+    /**
+     * 
      * @type {number}
      * @memberof EntityModelRepositoryDto
      */
@@ -1270,6 +1319,12 @@ export interface EntityModelRepositoryMaintainerDto {
     'deleted'?: boolean;
     /**
      * 
+     * @type {Array<string>}
+     * @memberof EntityModelRepositoryMaintainerDto
+     */
+    'permissions'?: Array<string>;
+    /**
+     * 
      * @type {Array<Link>}
      * @memberof EntityModelRepositoryMaintainerDto
      */
@@ -1329,6 +1384,12 @@ export interface EntityModelSubmissionDto {
      * @memberof EntityModelSubmissionDto
      */
     'technology'?: string;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof EntityModelSubmissionDto
+     */
+    'permissions'?: Array<string>;
     /**
      * 
      * @type {Array<Link>}
@@ -1418,6 +1479,12 @@ export interface EntityModelUserDto {
      * @memberof EntityModelUserDto
      */
     'userSettings'?: UserSettingsProjection;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof EntityModelUserDto
+     */
+    'permissions'?: Array<string>;
     /**
      * 
      * @type {Array<Link>}
@@ -1517,6 +1584,12 @@ export interface PackageMaintainerDto {
      * @memberof PackageMaintainerDto
      */
     'deleted'?: boolean;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof PackageMaintainerDto
+     */
+    'permissions'?: Array<string>;
 }
 /**
  * 
@@ -2133,6 +2206,12 @@ export interface PythonRepositoryDto {
     'requiresAuthentication'?: boolean;
     /**
      * 
+     * @type {Array<string>}
+     * @memberof PythonRepositoryDto
+     */
+    'permissions'?: Array<string>;
+    /**
+     * 
      * @type {number}
      * @memberof PythonRepositoryDto
      */
@@ -2273,6 +2352,12 @@ export interface RRepositoryDto {
     'requiresAuthentication'?: boolean;
     /**
      * 
+     * @type {Array<string>}
+     * @memberof RRepositoryDto
+     */
+    'permissions'?: Array<string>;
+    /**
+     * 
      * @type {number}
      * @memberof RRepositoryDto
      */
@@ -2338,6 +2423,12 @@ export interface RepositoryMaintainerDto {
      * @memberof RepositoryMaintainerDto
      */
     'deleted'?: boolean;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof RepositoryMaintainerDto
+     */
+    'permissions'?: Array<string>;
 }
 /**
  * 
@@ -5794,12 +5885,12 @@ export const ApiV2RepositoryMaintainerControllerApiAxiosParamCreator = function 
          * @param {number} [size] The size of the page to be returned
          * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
          * @param {boolean} [deleted] 
-         * @param {Array<string>} [resourceTechnology] 
+         * @param {Array<string>} [technology] Deprecated. Use \&#39;technology\&#39; instead.
          * @param {string} [search] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllRepositoryMaintainers: async (page?: number, size?: number, sort?: Array<string>, deleted?: boolean, resourceTechnology?: Array<string>, search?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getAllRepositoryMaintainers: async (page?: number, size?: number, sort?: Array<string>, deleted?: boolean, technology?: Array<string>, search?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/v2/manager/repository-maintainers`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -5832,8 +5923,8 @@ export const ApiV2RepositoryMaintainerControllerApiAxiosParamCreator = function 
                 localVarQueryParameter['deleted'] = deleted;
             }
 
-            if (resourceTechnology) {
-                localVarQueryParameter['resourceTechnology'] = resourceTechnology;
+            if (technology) {
+                localVarQueryParameter['technology'] = technology;
             }
 
             if (search !== undefined) {
@@ -5971,13 +6062,13 @@ export const ApiV2RepositoryMaintainerControllerApiFp = function(configuration?:
          * @param {number} [size] The size of the page to be returned
          * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
          * @param {boolean} [deleted] 
-         * @param {Array<string>} [resourceTechnology] 
+         * @param {Array<string>} [technology] Deprecated. Use \&#39;technology\&#39; instead.
          * @param {string} [search] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getAllRepositoryMaintainers(page?: number, size?: number, sort?: Array<string>, deleted?: boolean, resourceTechnology?: Array<string>, search?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ResponseDtoPagedModelEntityModelRepositoryMaintainerDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getAllRepositoryMaintainers(page, size, sort, deleted, resourceTechnology, search, options);
+        async getAllRepositoryMaintainers(page?: number, size?: number, sort?: Array<string>, deleted?: boolean, technology?: Array<string>, search?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ResponseDtoPagedModelEntityModelRepositoryMaintainerDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getAllRepositoryMaintainers(page, size, sort, deleted, technology, search, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['ApiV2RepositoryMaintainerControllerApi.getAllRepositoryMaintainers']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -6041,13 +6132,13 @@ export const ApiV2RepositoryMaintainerControllerApiFactory = function (configura
          * @param {number} [size] The size of the page to be returned
          * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
          * @param {boolean} [deleted] 
-         * @param {Array<string>} [resourceTechnology] 
+         * @param {Array<string>} [technology] Deprecated. Use \&#39;technology\&#39; instead.
          * @param {string} [search] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllRepositoryMaintainers(page?: number, size?: number, sort?: Array<string>, deleted?: boolean, resourceTechnology?: Array<string>, search?: string, options?: any): AxiosPromise<ResponseDtoPagedModelEntityModelRepositoryMaintainerDto> {
-            return localVarFp.getAllRepositoryMaintainers(page, size, sort, deleted, resourceTechnology, search, options).then((request) => request(axios, basePath));
+        getAllRepositoryMaintainers(page?: number, size?: number, sort?: Array<string>, deleted?: boolean, technology?: Array<string>, search?: string, options?: any): AxiosPromise<ResponseDtoPagedModelEntityModelRepositoryMaintainerDto> {
+            return localVarFp.getAllRepositoryMaintainers(page, size, sort, deleted, technology, search, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -6106,14 +6197,14 @@ export class ApiV2RepositoryMaintainerControllerApi extends BaseAPI {
      * @param {number} [size] The size of the page to be returned
      * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
      * @param {boolean} [deleted] 
-     * @param {Array<string>} [resourceTechnology] 
+     * @param {Array<string>} [technology] Deprecated. Use \&#39;technology\&#39; instead.
      * @param {string} [search] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ApiV2RepositoryMaintainerControllerApi
      */
-    public getAllRepositoryMaintainers(page?: number, size?: number, sort?: Array<string>, deleted?: boolean, resourceTechnology?: Array<string>, search?: string, options?: RawAxiosRequestConfig) {
-        return ApiV2RepositoryMaintainerControllerApiFp(this.configuration).getAllRepositoryMaintainers(page, size, sort, deleted, resourceTechnology, search, options).then((request) => request(this.axios, this.basePath));
+    public getAllRepositoryMaintainers(page?: number, size?: number, sort?: Array<string>, deleted?: boolean, technology?: Array<string>, search?: string, options?: RawAxiosRequestConfig) {
+        return ApiV2RepositoryMaintainerControllerApiFp(this.configuration).getAllRepositoryMaintainers(page, size, sort, deleted, technology, search, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
