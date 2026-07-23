@@ -51,11 +51,15 @@ JSON_STRING='window.configs = { \
   "VITE_LOGO_BIG_WIDTH":"'"${VITE_LOGO_BIG_WIDTH}"'", \
   "VITE_LOGO_BIG_CLASSES":"'"${VITE_LOGO_BIG_CLASSES}"'", \
   "VITE_LOGO_BIG_STYLE":"'"${VITE_LOGO_BIG_STYLE}"'", \
+  "VITE_FAVICON_ICO_URL":"'"${VITE_FAVICON_ICO_URL}"'", \
+  "VITE_FAVICON_SVG_URL":"'"${VITE_FAVICON_SVG_URL}"'", \
   "VITE_BORDER_RADIUS":"'"${VITE_BORDER_RADIUS}"'", \
   "VITE_FONT_FAMILY":"'"${VITE_FONT_FAMILY}"'", \
   "VITE_FONT_URL":"'"${VITE_FONT_URL}"'" \
 }'
-sed -i "s@// CONFIGURATIONS_PLACEHOLDER@${JSON_STRING}@;s@src=\"/assets/@src=\"${VITE_URL_PREFIX}assets/@;s@href=\"/assets/@href=\"${VITE_URL_PREFIX}assets/@;s@/favicon.ico@${VITE_URL_PREFIX}favicon.ico@" /usr/share/nginx/html/index.html
+FAVICON_ICO_URL="${VITE_FAVICON_ICO_URL:-${VITE_URL_PREFIX}favicon.ico}"
+FAVICON_SVG_URL="${VITE_FAVICON_SVG_URL:-${VITE_URL_PREFIX}images/RDepotLogo.svg}"
+sed -i "s@// CONFIGURATIONS_PLACEHOLDER@${JSON_STRING}@;s@src=\"/assets/@src=\"${VITE_URL_PREFIX}assets/@;s@href=\"/assets/@href=\"${VITE_URL_PREFIX}assets/@;s@href=\"/favicon.ico\"@href=\"${FAVICON_ICO_URL}\"@;s@href=\"/images/RDepotLogo.svg\"@href=\"${FAVICON_SVG_URL}\"@" /usr/share/nginx/html/index.html
 for index in /usr/share/nginx/html/assets/index-*.js;
 do
     sed -i "s@\"assets/@\".${VITE_URL_PREFIX}assets/@g" $index
