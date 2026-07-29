@@ -58,4 +58,8 @@ onBeforeMount(() => {
   margin-left: 2px;
   font-size: 1rem;
 }
+
+.filtration-bar > .v-input:not(.v-switch) {
+  min-width: 200px;
+}
 </style>

@@ -123,6 +123,8 @@ test.describe(TITLE, () => {
       .getByText('ACCEPTEDREJECTED', { exact: true })
       .waitFor()
 
+    await page.keyboard.press('Escape')
+
     const closableTags = page
       .locator('span')
       .getByLabel('Close')

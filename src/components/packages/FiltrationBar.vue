@@ -22,7 +22,7 @@
 
 <template>
   <div
-    class="v-expansion d-flex py-3 ga-3 justify-space-between"
+    class="filtration-bar v-expansion d-flex flex-wrap py-3 ga-3"
     style="padding-left: 0; padding-right: 0"
   >
     <validated-input-field
@@ -176,8 +176,8 @@
       @change="setFiltration"
     ></validated-input-field>
 
-    <v-spacer />
     <ResetButton
+      class="ml-auto"
       :style="{
         visibility: packageStore.isDefaultFiltration
           ? 'hidden'

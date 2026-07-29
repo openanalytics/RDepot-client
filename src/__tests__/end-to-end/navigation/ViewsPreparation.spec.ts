@@ -146,6 +146,7 @@ test.describe(TITLE, () => {
     )
     await repositoryOptionLocator.waitFor()
     await repositoryOptionLocator.click()
+    await page.keyboard.press('Escape')
     await page
       .locator(`#${UPLOAD_SUBMISSION_CONTINUE_BUTTON_ID}`)
       .click()
