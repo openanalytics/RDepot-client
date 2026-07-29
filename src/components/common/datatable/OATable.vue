@@ -130,6 +130,7 @@
 import { useOATable } from '@/store/setup/oatable'
 import TechnologyChip from '../chips/TechnologyChip.vue'
 import Icons from '@/maps/Icons'
+import type { PropType } from 'vue'
 import { DataTableHeaders } from '@/models/DataTableOptions'
 import DateChip from '../chips/DateChip.vue'
 import StateIcon from '@/components/submissions/icons/StateIcon.vue'
@@ -163,7 +164,7 @@ const copyableKeys = [
 
 const stateKeys = ['state', 'submission.state']
 
-defineProps({
+const props = defineProps({
   headers: {
     type: Object as () => DataTableHeaders[],
     required: true
@@ -180,13 +181,24 @@ defineProps({
   itemsLength: {
     type: Number,
     required: true
+  },
+  rowClassFn: {
+    type: Function as PropType<
+      (item: any) => string | undefined
+    >,
+    required: false,
+    default: undefined
   }
 })
 
 function rowProps(item: any) {
-  return {
-    class: item.item.deleted ? 'deletedItem' : ''
+  const classes: string[] = []
+  if (item.item.deleted) classes.push('deletedItem')
+  if (props.rowClassFn) {
+    const extra = props.rowClassFn(item.item)
+    if (extra) classes.push(extra)
   }
+  return { class: classes.join(' ') }
 }
 </script>
 

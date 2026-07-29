@@ -298,6 +298,8 @@
     },
     "submissions": {
       "addAnotherSubmission": "Upload other packages",
+      "showSubmissions": "Show submissions",
+      "noSubmissionPassed": "No submission was uploaded successfully",
       "empty": "No repository chosen",
       "noChangesProvided": "There are no notes listed for this submission",
       "noPackageChosen": "No packages chosen",

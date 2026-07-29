@@ -32,9 +32,17 @@ import EditSubmissionModal from '@/components/submissions/modals/EditSubmissionM
 import FiltrationBar from '@/components/submissions/FiltrationBar.vue'
 import { computed } from 'vue'
 import { useCommonStore } from '@/store/options/common'
+import { useNewlyUploadedSubmissions } from '@/composable/submissions/newlyUploadedSubmissions'
+import { onBeforeRouteLeave } from 'vue-router'
 
 const commonStore = useCommonStore()
+const { clear: clearNewlyUploaded } =
+  useNewlyUploadedSubmissions()
 const componentKey = computed(() => {
   return commonStore.key
+})
+
+onBeforeRouteLeave(() => {
+  clearNewlyUploaded()
 })
 </script>

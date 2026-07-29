@@ -32,6 +32,7 @@
     item-value="name"
     :loading="submissionStore.loading"
     :sort-by="sortBy"
+    :row-class-fn="getRowClass"
     @update:options="fetchData"
     @refresh="fetchData"
     @chip-click="filterByChip"
@@ -201,8 +202,32 @@ import UploadPackageButton from '@/components/common/buttons/UploadPackageButton
 import MarkdownDescription from '@/components/common/markdown/MarkdownDescription.vue'
 import TechnologyChip from '@/components/common/chips/TechnologyChip.vue'
 import BinaryPackage from '@/components/packages/BinaryPackage.vue'
+import { useNewlyUploadedSubmissions } from '@/composable/submissions/newlyUploadedSubmissions'
 
 const submissionStore = useSubmissionStore()
+const { ids: newlyUploadedIds, includes: isNewlyUploaded } =
+  useNewlyUploadedSubmissions()
+
+function getRowClass(
+  item: EntityModelSubmissionDto
+): string | undefined {
+  if (!newlyUploadedIds.value.length || item.id == null)
+    return undefined
+  if (!isNewlyUploaded(item.id)) return undefined
+  const lastNewIndex = submissionStore.submissions.reduce(
+    (max, s, i) =>
+      s.id != null && isNewlyUploaded(s.id)
+        ? Math.max(max, i)
+        : max,
+    -1
+  )
+  const itemIndex = submissionStore.submissions.findIndex(
+    (s) => s.id === item.id
+  )
+  return itemIndex === lastNewIndex
+    ? 'newly-uploaded newly-uploaded-last'
+    : 'newly-uploaded'
+}
 
 const { getSort } = useSort()
 const defaultSort: Sort[] = [
@@ -326,5 +351,21 @@ tr {
 .expanded-package {
   margin: 0.5rem;
   overflow: hidden;
+}
+
+.newly-uploaded {
+  background-color: rgb(
+    var(--v-theme-primary) / 0.08
+  ) !important;
+}
+
+.v-theme--dark .newly-uploaded {
+  background-color: rgb(
+    var(--v-theme-primary) / 0.15
+  ) !important;
+}
+
+.newly-uploaded-last > td {
+  border-bottom: 2px solid rgb(var(--v-theme-primary) / 0.4) !important;
 }
 </style>

@@ -59,43 +59,27 @@
       </v-list>
     </v-card-text>
   </v-card>
-  <div class="d-flex justify-center">
+  <div class="d-flex justify-center ga-4">
     <v-tooltip
-      v-if="!uploadSubmissionStore.resolved"
-      location="center"
+      v-for="action in actions"
+      :key="action.id"
+      :disabled="!action.disabled"
+      location="bottom"
     >
       <template #activator="{ props }">
-        <div id="tooltip-activator" v-bind="props">
+        <div v-bind="props">
           <v-btn
-            id="back-button-disabled"
+            :id="action.id"
             color="primary"
-            style="pointer-events: none"
-            disabled
+            :disabled="action.disabled"
+            @click="action.onClick"
           >
-            {{
-              i18n.t(
-                'messages.submissions.addAnotherSubmission'
-              )
-            }}
+            {{ i18n.t(action.label) }}
           </v-btn>
         </div>
       </template>
-      <span id="tooltip-wait">{{
-        i18n.t(
-          'messages.submissions.waitForAllRequestsToFulfill'
-        )
-      }}</span>
+      <span>{{ i18n.t(action.tooltip) }}</span>
     </v-tooltip>
-    <v-btn
-      v-else
-      id="back-button"
-      color="primary"
-      @click="emits('next', 1)"
-    >
-      {{
-        i18n.t('messages.submissions.addAnotherSubmission')
-      }}
-    </v-btn>
   </div>
 </template>
 
@@ -105,8 +89,11 @@ import { Technologies } from '@/enum/Technologies'
 import { useField } from 'vee-validate'
 import { i18n } from '@/plugins/i18n'
 import { useUploadSubmissionStore } from '@/store/setup/uploadSubmission'
+import { useRouter } from 'vue-router'
+import { computed } from 'vue'
 
 const emits = defineEmits(['next'])
+const router = useRouter()
 
 const { value: repository } = useField<{ title: string }>(
   'repository'
@@ -114,6 +101,30 @@ const { value: repository } = useField<{ title: string }>(
 const { value: technology } = useField('technology')
 
 const uploadSubmissionStore = useUploadSubmissionStore()
+
+const waitForAllRequestsToFulfillTooltip =
+  'messages.submissions.waitForAllRequestsToFulfill'
+
+const actions = computed(() => [
+  {
+    id: 'upload-another-button',
+    label: 'messages.submissions.addAnotherSubmission',
+    tooltip: waitForAllRequestsToFulfillTooltip,
+    disabled: !uploadSubmissionStore.resolved,
+    onClick: () => emits('next', 1)
+  },
+  {
+    id: 'show-submissions-button',
+    label: 'messages.submissions.showSubmissions',
+    tooltip: !uploadSubmissionStore.resolved
+      ? waitForAllRequestsToFulfillTooltip
+      : 'messages.submissions.noSubmissionPassed',
+    disabled:
+      !uploadSubmissionStore.resolved ||
+      !uploadSubmissionStore.hasAnyUploaded,
+    onClick: () => router.push({ name: 'submissions' })
+  }
+])
 </script>
 
 <style lang="scss">
