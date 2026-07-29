@@ -305,10 +305,14 @@ export const PACKAGE_PROPERTY_NEEDS_COMPILATION_ID =
 //UPLOAD SUBMISSION
 export const UPLOAD_SUBMISSION_REPOSITORY_FIELD_ID =
   'upload-submission-repository-field'
+export const UPLOAD_SUBMISSION_REPOSITORY_TESTREPO1_ID =
+  'upload-submission-repository-testrepo1'
 export const UPLOAD_SUBMISSION_REPOSITORY_TESTREPO3_ID =
   'upload-submission-repository-testrepo3'
 export const UPLOAD_SUBMISSION_REPOSITORY_TESTREPO9_ID =
   'upload-submission-repository-testrepo9'
+export const UPLOAD_SUBMISSION_APPROVAL_ALERT_ID =
+  'upload-submission-approval-alert'
 export const UPLOAD_SUBMISSION_CONTINUE_BUTTON_ID =
   'next-button'
 export const DROP_ZONE_CLASS = 'drop-area'

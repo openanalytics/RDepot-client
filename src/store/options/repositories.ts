@@ -192,6 +192,19 @@ export const useRepositoryStore = defineStore(
         this.repositories = repositories
         return pageData
       },
+      async fetchByFiltration(
+        filtration: RepositoriesFiltration
+      ) {
+        const [repositories] =
+          await fetchRepositoriesService(
+            filtration,
+            undefined,
+            undefined,
+            ['name,asc'],
+            false
+          )
+        return repositories
+      },
       async deleteSoft() {
         if (this.chosenRepository) {
           this.patch({ deleted: true })

@@ -170,7 +170,9 @@
       "stepSecond": "Upload {technology} packages",
       "stepThird": "Summary",
       "binaryPython": "Uploaded package is binary (.whl)",
-      "noBinaryPython": "Uploaded package is not binary"
+      "noBinaryPython": "Uploaded package is not binary",
+      "autoApproved": "Your submissions will be automatically approved, making the submitted packages available immediately.",
+      "needsApproval": "Your submissions might require approval from a maintainer before the submitted packages are available."
     },
     "tokens": {
       "copyWarning": "Make sure to copy the access token now. You won't be able to see it again!",

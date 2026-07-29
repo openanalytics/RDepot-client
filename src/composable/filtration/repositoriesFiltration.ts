@@ -86,7 +86,8 @@ export function useRepositoriesFiltration() {
         subtitle: repositoryMaintainedByUser?.user?.name,
         disabled:
           repositoryMaintainedByUser?.user?.name || false,
-        allowedFiles: repository.allowedFiles
+        allowedFiles: repository.allowedFiles,
+        permissions: repository.permissions
       }
     } as RepositoryObject
   }

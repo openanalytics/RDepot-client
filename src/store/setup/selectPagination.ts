@@ -56,6 +56,7 @@ export type RepositoryObject = {
   props: {
     technology: string
     allowedFiles: Array<{ [key: string]: string }>
+    permissions?: string[]
   }
 }
 export type PackageObject = {
