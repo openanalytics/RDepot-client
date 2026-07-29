@@ -70,14 +70,22 @@
     <template #[`item.name`]="{ value, item }">
       <v-list-item
         :id="`packages-list-${value}`"
-        lines="two"
-        class="px-0 mx-0"
+        :lines="smAndDown ? 'one' : 'two'"
+        class="px-0 mx-0 packages-list-item"
       >
         <template #title>
-          {{ value.replaceAll('\\n', ' ') }}
-          <small style="opacity: 0.5"
-            >v.{{ item.version }}</small
-          >
+          <v-tooltip location="top">
+            <template #activator="{ props }">
+              <span v-bind="props">
+                {{ value.replaceAll('\\n', ' ') }}
+                <small style="opacity: 0.5"
+                  >v.{{ item.version }}</small
+                >
+              </span>
+            </template>
+            {{ value.replaceAll('\\n', ' ') }}
+            v.{{ item.version }}
+          </v-tooltip>
           <TechnologyChip
             size="x-small"
             class="ml-1"
@@ -85,7 +93,7 @@
           />
         </template>
         <template #subtitle>
-          <div>
+          <div class="d-none d-lg-block">
             <small>
               <div
                 class="d-flex justify-start align-center ga-2"
@@ -161,7 +169,9 @@ import OATable from '../common/datatable/OATable.vue'
 import TechnologyChip from '@/components/common/chips/TechnologyChip.vue'
 import GoToButton from '@/components/common/action_icons/GoToButton.vue'
 import UploadPackageButton from '@/components/common/buttons/UploadPackageButton.vue'
+import { useDisplay } from 'vuetify'
 
+const { smAndDown } = useDisplay()
 const exp = ref<string[]>([])
 
 const { getSort } = useSort()
@@ -188,7 +198,8 @@ const headers = computed<DataTableHeaders[]>(() => [
   {
     title: i18n.t('forms.general.name'),
     align: 'start',
-    key: 'name'
+    key: 'name',
+    minWidth: '140'
   },
   {
     title: i18n.t('resources.maintainer'),
@@ -262,6 +273,12 @@ watch(
 </script>
 
 <style lang="scss">
+.packages-list-item .v-list-item-title {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+}
+
 table {
   background: rgb(var(--v-theme-background)) !important;
 }
