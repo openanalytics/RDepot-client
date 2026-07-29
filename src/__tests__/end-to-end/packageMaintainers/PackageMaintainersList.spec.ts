@@ -23,12 +23,17 @@
 import { test, expect } from '@playwright/test'
 import { PACKAGE_MAINTAINERS_SIDEBAR_ID } from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '@/__tests__/end-to-end/helpers/login'
+import { awaitTableData } from '@/__tests__/end-to-end/helpers/awaitTableData'
 
 const TITLE_SERIAL = 'Package maintainers list'
 
 test.describe(TITLE_SERIAL, () => {
   test('renders properly', async ({ page }) => {
     await login(page, 'einstein')
+    const initialDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/package-maintainers'
+    )
     await page
       .locator(`#${PACKAGE_MAINTAINERS_SIDEBAR_ID}`)
       .click()
@@ -36,6 +41,7 @@ test.describe(TITLE_SERIAL, () => {
     await page.waitForURL('**/package-maintainers')
 
     const maintainersRowsSelector = page.locator('role=row')
+    await initialDataLoaded
     await expect(maintainersRowsSelector).toHaveCount(21)
   })
 
@@ -43,6 +49,10 @@ test.describe(TITLE_SERIAL, () => {
     page
   }) => {
     await login(page, 'einstein')
+    const initialDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/package-maintainers'
+    )
     await page
       .locator(`#${PACKAGE_MAINTAINERS_SIDEBAR_ID}`)
       .click()
@@ -51,6 +61,7 @@ test.describe(TITLE_SERIAL, () => {
       /RDepot - package maintainers/
     )
     const maintainersRowsSelector = page.locator('role=row')
+    await initialDataLoaded
     await expect(maintainersRowsSelector).toHaveCount(21)
     await expect(
       (

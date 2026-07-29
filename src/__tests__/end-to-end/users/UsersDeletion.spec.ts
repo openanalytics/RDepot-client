@@ -60,8 +60,8 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     const modalLocator = page.locator(
       `#${SUBMIT_USER_DELETION_BUTTON_ID}`
     )
-    modalLocator.waitFor()
-    page
+    await modalLocator.waitFor()
+    await page
       .locator(`#${SUBMIT_USER_DELETION_BUTTON_ID}`)
       .click()
 
@@ -76,7 +76,9 @@ test.describe(TITLE, { tag: '@serial' }, () => {
       `#${DELETE_USER_ROLE_USER_ID}`
     )
 
-    expect(meLocator).toHaveClass(/text-grey/)
-    expect(deletedUserLocator).toHaveClass(/text-grey/)
+    await expect(meLocator).toHaveClass(/text-grey/)
+    await expect(deletedUserLocator).toHaveClass(
+      /text-grey/
+    )
   })
 })

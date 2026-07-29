@@ -39,12 +39,7 @@ import { restoreData } from '@/__tests__/end-to-end/helpers/restoreData'
 import { i18n } from '@/plugins/i18n'
 
 const TITLE = 'repositories edition'
-test.describe(TITLE, { tag: '@serial' }, () => {
-  // eslint-disable-next-line no-empty-pattern
-  test.beforeAll(async ({}, testInfo) => {
-    await restoreData(testInfo.project.name)
-  })
-
+test.describe(TITLE, () => {
   test('server address alert as admin', async ({
     page
   }) => {
@@ -124,6 +119,46 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     await expect(serverAddressAlert).toHaveCount(0)
   })
 
+  test('edit repository name validation', async ({
+    page
+  }) => {
+    await login(page, 'einstein')
+    await page
+      .locator(`#${REPOSITORIES_SIDEBAR_ID}`)
+      .click()
+    await page.waitForURL('**/repositories')
+    await expect(page).toHaveTitle(/RDepot - repositories/)
+
+    await page
+      .locator(`#${EDIT_REPOSITORY_TESTREPO8_ICON_ID}`)
+      .click()
+
+    const nameError = page.locator(
+      `#${EDIT_REPOSITORY_NAME_FIELD_MESSAGES_ID}`
+    )
+    await expect(nameError).toHaveText('')
+
+    await page
+      .locator(`#${EDIT_REPOSITORY_NAME_FIELD_ID}`)
+      .fill('!@#$')
+    await expect(nameError).toHaveText(
+      i18n.t('messages.errors.reponame')
+    )
+
+    await page
+      .locator(`#${EDIT_REPOSITORY_NAME_FIELD_ID}`)
+      .fill('test123')
+
+    await expect(nameError).toHaveText('')
+  })
+})
+
+test.describe(TITLE, { tag: '@serial' }, () => {
+  // eslint-disable-next-line no-empty-pattern
+  test.beforeAll(async ({}, testInfo) => {
+    await restoreData(testInfo.project.name)
+  })
+
   test('hash field', async ({ page }) => {
     await login(page, 'einstein')
 
@@ -199,38 +234,5 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     await expect(
       repositoryNewHashMethodSelector
     ).toHaveCount(1)
-  })
-
-  test('edit repository name validation', async ({
-    page
-  }) => {
-    await login(page, 'einstein')
-    await page
-      .locator(`#${REPOSITORIES_SIDEBAR_ID}`)
-      .click()
-    await page.waitForURL('**/repositories')
-    await expect(page).toHaveTitle(/RDepot - repositories/)
-
-    await page
-      .locator(`#${EDIT_REPOSITORY_TESTREPO8_ICON_ID}`)
-      .click()
-
-    const nameError = page.locator(
-      `#${EDIT_REPOSITORY_NAME_FIELD_MESSAGES_ID}`
-    )
-    await expect(nameError).toHaveText('')
-
-    await page
-      .locator(`#${EDIT_REPOSITORY_NAME_FIELD_ID}`)
-      .fill('!@#$')
-    await expect(nameError).toHaveText(
-      i18n.t('messages.errors.reponame')
-    )
-
-    await page
-      .locator(`#${EDIT_REPOSITORY_NAME_FIELD_ID}`)
-      .fill('test123')
-
-    await expect(nameError).toHaveText('')
   })
 })

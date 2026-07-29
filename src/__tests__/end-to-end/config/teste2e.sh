@@ -5,6 +5,8 @@ if [ "$1" = "--ci" ]; then
 fi
 
 mkdir docker/testData docker/testData/itestGenerated docker/testData/itestNewFiles docker/testData/itestSourceFiles docker/testData/itestTrashFiles
+cp -rf src/__tests__/end-to-end/testData docker/
+cd docker/testData && tar -xzf itestSource.tar.gz && cd ../..
 mkdir -m 777 downloads
 docker $DOCKER_CONFIG_FLAG compose \
   --env-file src/__tests__/config/.env.test \

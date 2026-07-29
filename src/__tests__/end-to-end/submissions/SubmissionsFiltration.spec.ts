@@ -34,11 +34,16 @@ import {
   FILTRATION_RESET_BUTTON_ID
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '../helpers/login'
+import { awaitTableData } from '../helpers/awaitTableData'
 
 const TITLE = 'submissions filtration'
 test.describe(TITLE, () => {
   test('reset button', async ({ page }) => {
     await login(page, 'einstein')
+    const initialDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/submissions'
+    )
     await page.locator(`#${SUBMISSIONS_SIDEBAR_ID}`).click()
     await page.waitForURL('**/submissions')
     await expect(page).toHaveTitle(/RDepot - submissions/)
@@ -47,6 +52,7 @@ test.describe(TITLE, () => {
     await expect(
       page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
     ).toBeHidden()
+    await initialDataLoaded
     await expect(submissionsRowsSelector).toHaveCount(21)
 
     await page
@@ -57,6 +63,10 @@ test.describe(TITLE, () => {
     ).toBeVisible()
     await expect(submissionsRowsSelector).toHaveCount(7)
 
+    const filtrationResetDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/submissions'
+    )
     await page
       .locator(`#${FILTRATION_RESET_BUTTON_ID}`)
       .click()
@@ -64,6 +74,7 @@ test.describe(TITLE, () => {
     await expect(
       page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
     ).toBeHidden()
+    await filtrationResetDataLoaded
     await expect(submissionsRowsSelector).toHaveCount(21)
   })
 
@@ -71,6 +82,10 @@ test.describe(TITLE, () => {
     page
   }) => {
     await login(page, 'einstein')
+    const initialDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/submissions'
+    )
     await page.locator(`#${SUBMISSIONS_SIDEBAR_ID}`).click()
     await page.waitForURL('**/submissions')
     await expect(page).toHaveTitle(/RDepot - submissions/)
@@ -79,6 +94,7 @@ test.describe(TITLE, () => {
     await expect(
       page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
     ).toBeHidden()
+    await initialDataLoaded
     await expect(submissionsRowsSelector).toHaveCount(21)
 
     const searchValue = await page.locator(
@@ -141,6 +157,10 @@ test.describe(TITLE, () => {
       'R'
     )
 
+    const firstFiltrationResetDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/submissions'
+    )
     await page
       .locator(`#${FILTRATION_RESET_BUTTON_ID}`)
       .click()
@@ -148,6 +168,7 @@ test.describe(TITLE, () => {
     await expect(
       page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
     ).toBeHidden()
+    await firstFiltrationResetDataLoaded
     await expect(submissionsRowsSelector).toHaveCount(21)
 
     await fileTypeValue.waitFor()
@@ -157,6 +178,10 @@ test.describe(TITLE, () => {
       .click()
     await expect(submissionsRowsSelector).toHaveCount(2)
 
+    const secondFiltrationResetDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/submissions'
+    )
     await page
       .locator(`#${FILTRATION_RESET_BUTTON_ID}`)
       .click()
@@ -164,6 +189,7 @@ test.describe(TITLE, () => {
     await expect(
       page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
     ).toBeHidden()
+    await secondFiltrationResetDataLoaded
     await expect(submissionsRowsSelector).toHaveCount(21)
 
     await expect(await searchValue.inputValue()).toBe('')

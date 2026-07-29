@@ -163,7 +163,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
       `#${A3_TESTREPO3_ID}`
     )
     await a3TestRepo3Selector.waitFor()
-    expect(a3TestRepo3Selector).toHaveClass(
+    await expect(a3TestRepo3Selector).toHaveClass(
       /v-list-item--disabled/
     )
 

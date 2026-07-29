@@ -22,6 +22,7 @@
 
 import { expect, test } from '@playwright/test'
 import { login } from '../helpers/login'
+import { awaitTableData } from '@/__tests__/end-to-end/helpers/awaitTableData'
 import {
   PACKAGE_DETAILS_BUTTON_URLLIB_ID,
   PACKAGES_FILTRATION_SEARCH_FIELD_ID,
@@ -47,8 +48,13 @@ test.describe(TITLE, { tag: '@serial' }, () => {
   test('should copy code in package details without prompts', async ({
     page
   }) => {
+    const initialDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/packages'
+    )
     await login(page, 'einstein')
     const rowsSelector = page.locator('role=row')
+    await initialDataLoaded
     await expect(rowsSelector).toHaveCount(21)
 
     await page

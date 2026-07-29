@@ -16,7 +16,7 @@
     "test:e2e": "npm run test:e2e:serial && npm run test:e2e:parallel",
     "test:e2e:setup": "sh src/__tests__/end-to-end/config/teste2e.sh && npm run restore:firefox && npm run restore:chrome",
     "test:e2e:setup:ci": "sh src/__tests__/end-to-end/config/teste2e.sh --ci",
-    "test:e2e:restore": "npm run restore:chrome && npm run restore:firefox",
+    "test:e2e:restore": "npm run restore:chrome & npm run restore:firefox & wait",
     "test:e2e:cleanupCode": "sh src/__tests__/config/cleanupCode.sh",
     "test:e2e:parallel": "npm run test:e2e:restore && NODE_ENV=test PLAYWRIGHT_BLOB_OUTPUT_FILE=./reports/e2e/e2e-parallel.zip npx playwright test --grep-invert serial --reporter=blob",
     "test:e2e:serial": "NODE_ENV=test PLAYWRIGHT_BLOB_OUTPUT_FILE=./reports/e2e/e2e-serial.zip npx playwright test --grep serial --workers 1 --reporter=blob",

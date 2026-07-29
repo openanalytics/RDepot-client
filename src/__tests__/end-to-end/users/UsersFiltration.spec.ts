@@ -147,6 +147,7 @@ test.describe(TITLE, () => {
     await expect(page).toHaveTitle(/RDepot - users/)
 
     const usersRowsSelector = page.locator('role=row')
+    await expect(usersRowsSelector).toHaveCount(8)
     await page
       .locator(`#${USERS_FILTRATION_SEARCH_ID}`)
       .fill('aaaaaaaaaa')

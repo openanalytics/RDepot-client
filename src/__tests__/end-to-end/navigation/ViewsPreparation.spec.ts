@@ -31,8 +31,6 @@ import {
   REPOSITORIES_SIDEBAR_ID,
   REPOSITORY_MAINTAINERS_FILTRATION_SEARCH_FIELD_ID,
   REPOSITORY_MAINTAINERS_SIDEBAR_ID,
-  SUBMISSIONS_FILTRATION_REPOSITORY_FIELD_ID,
-  SUBMISSIONS_FILTRATION_REPOSITORY_FIELD_TESTREPO1_ID,
   SUBMISSIONS_SIDEBAR_ID,
   UPLOAD_PACKAGES_SIDEBAR_ID,
   UPLOAD_SUBMISSION_CONTINUE_BUTTON_ID,
@@ -40,6 +38,7 @@ import {
   UPLOAD_SUBMISSION_REPOSITORY_TESTREPO3_ID
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '../helpers/login'
+import { awaitTableData } from '../helpers/awaitTableData'
 
 const TITLE = 'views preparation - filtration cleaning'
 test.describe(TITLE, () => {
@@ -58,8 +57,8 @@ test.describe(TITLE, () => {
     const repositoryOptionLocator = page.locator(
       `#${UPLOAD_SUBMISSION_REPOSITORY_TESTREPO3_ID}`
     )
-    repositoryOptionLocator.waitFor()
-    repositoryOptionLocator.click()
+    await repositoryOptionLocator.waitFor()
+    await repositoryOptionLocator.click()
     await page
       .locator(`#${UPLOAD_SUBMISSION_CONTINUE_BUTTON_ID}`)
       .click()
@@ -151,17 +150,15 @@ test.describe(TITLE, () => {
       .locator(`#${UPLOAD_SUBMISSION_CONTINUE_BUTTON_ID}`)
       .click()
 
+    const initialDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/submissions'
+    )
     await page.locator(`#${SUBMISSIONS_SIDEBAR_ID}`).click()
     await page.waitForURL('**/submissions')
-    await page
-      .locator(
-        `#${SUBMISSIONS_FILTRATION_REPOSITORY_FIELD_ID}`
-      )
-      .click({ force: true })
-    await page
-      .locator(
-        `#${SUBMISSIONS_FILTRATION_REPOSITORY_FIELD_TESTREPO1_ID}`
-      )
-      .waitFor()
+    await expect(page).toHaveTitle(/RDepot - submissions/)
+    await initialDataLoaded
+    const submissionsRowsSelector = page.locator('role=row')
+    await expect(submissionsRowsSelector).toHaveCount(21)
   })
 })

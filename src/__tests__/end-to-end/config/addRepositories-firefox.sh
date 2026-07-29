@@ -1,8 +1,4 @@
 #!/bin/bash
-#CONTAINER="oa-rdepot-app-without-snapshots";
-# rm -rf docker/testData
-cp -rf src/__tests__/end-to-end/testData docker/
-cd docker/testData && tar -xzf itestSource.tar.gz
 rm -rf downloads/
 
 CONTAINER=$(docker ps --format "table {{.ID}}\t{{.Names}}" | tr -s ' ' | cut -d' ' -f1,2 | grep "backend-firefox" | cut -d' ' -f1)

@@ -22,6 +22,7 @@
 
 import { test, expect } from '@playwright/test'
 import { login } from '../helpers/login'
+import { awaitTableData } from '@/__tests__/end-to-end/helpers/awaitTableData'
 import {
   PACKAGE_DETAILS_BUTTON_R_ID,
   PACKAGE_EVENTS_CARD_ID
@@ -32,8 +33,13 @@ test.describe(TITLE, () => {
   test('should display events with correct filtration', async ({
     page
   }) => {
+    const initialDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/packages'
+    )
     await login(page, 'einstein')
     const packagesRowsSelector = page.locator('role=row')
+    await initialDataLoaded
     await expect(packagesRowsSelector).toHaveCount(21)
 
     const seePackageDetailsButtonSelector = page.locator(

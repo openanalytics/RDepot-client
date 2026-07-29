@@ -30,16 +30,18 @@ import {
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '@/__tests__/end-to-end/helpers/login'
 
-const TITLE_SERIAL = 'tokens filtration'
-test.describe(TITLE_SERIAL, { tag: '@serial' }, () => {
+const TITLE = 'tokens filtration'
+test.describe(TITLE, () => {
   test('active', async ({ page }) => {
     await login(page, 'einstein')
     await page
       .locator(`#${SETTINGS_LIST_SIDEBAR_ID}`)
       .click()
-    await page
-      .locator(`#${ACCESS_TOKENS_SIDEBAR_ID}`)
-      .click()
+    const accessTokensSidebarItem = page.locator(
+      `#${ACCESS_TOKENS_SIDEBAR_ID}`
+    )
+    await accessTokensSidebarItem.click({ trial: true })
+    await accessTokensSidebarItem.click()
     await page.waitForURL('**/settings-tokens')
 
     const tokenActiveSelector = page.locator(
@@ -76,9 +78,11 @@ test.describe(TITLE_SERIAL, { tag: '@serial' }, () => {
     await page
       .locator(`#${SETTINGS_LIST_SIDEBAR_ID}`)
       .click()
-    await page
-      .locator(`#${ACCESS_TOKENS_SIDEBAR_ID}`)
-      .click()
+    const accessTokensSidebarItem = page.locator(
+      `#${ACCESS_TOKENS_SIDEBAR_ID}`
+    )
+    await accessTokensSidebarItem.click({ trial: true })
+    await accessTokensSidebarItem.click()
     await page.waitForURL('**/settings-tokens')
     await expect(page).toHaveTitle(/RDepot - access tokens/)
 
@@ -109,9 +113,11 @@ test.describe(TITLE_SERIAL, { tag: '@serial' }, () => {
     await page
       .locator(`#${SETTINGS_LIST_SIDEBAR_ID}`)
       .click()
-    await page
-      .locator(`#${ACCESS_TOKENS_SIDEBAR_ID}`)
-      .click()
+    const accessTokensSidebarItem = page.locator(
+      `#${ACCESS_TOKENS_SIDEBAR_ID}`
+    )
+    await accessTokensSidebarItem.click({ trial: true })
+    await accessTokensSidebarItem.click()
     await page.waitForURL('**/settings-tokens')
     await expect(page).toHaveTitle(/RDepot - access tokens/)
 

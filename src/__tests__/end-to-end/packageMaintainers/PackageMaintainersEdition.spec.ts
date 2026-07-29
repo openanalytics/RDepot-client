@@ -38,6 +38,7 @@ import {
   WHEEL_TESTREPO10_ID
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '../helpers/login'
+import { awaitTableData } from '../helpers/awaitTableData'
 import { restoreData } from '@/__tests__/end-to-end/helpers/restoreData'
 import { i18n } from '@/plugins/i18n'
 
@@ -51,11 +52,16 @@ test.describe.serial(TITLE, { tag: '@serial' }, () => {
   test('has proper initial values', async ({ page }) => {
     await login(page, 'einstein')
 
+    const initialDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/package-maintainers'
+    )
     await page
       .locator(`#${PACKAGE_MAINTAINERS_SIDEBAR_ID}`)
       .click()
     await page.waitForURL('**/package-maintainers')
     const maintainersRowsSelector = page.locator('role=row')
+    await initialDataLoaded
     await expect(maintainersRowsSelector).toHaveCount(21)
 
     const editMaintainerButtonSelector = page.locator(
@@ -93,11 +99,16 @@ test.describe.serial(TITLE, { tag: '@serial' }, () => {
   test('change package', async ({ page }) => {
     await login(page, 'einstein')
 
+    const initialDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/package-maintainers'
+    )
     await page
       .locator(`#${PACKAGE_MAINTAINERS_SIDEBAR_ID}`)
       .click()
     await page.waitForURL('**/package-maintainers')
     const maintainersRowsSelector = page.locator('role=row')
+    await initialDataLoaded
     await expect(maintainersRowsSelector).toHaveCount(21)
 
     const editMaintainerButtonSelector = page.locator(
@@ -132,11 +143,16 @@ test.describe.serial(TITLE, { tag: '@serial' }, () => {
   }) => {
     await login(page, 'einstein')
 
+    const initialDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/package-maintainers'
+    )
     await page
       .locator(`#${PACKAGE_MAINTAINERS_SIDEBAR_ID}`)
       .click()
     await page.waitForURL('**/package-maintainers')
     const maintainersRowsSelector = page.locator('role=row')
+    await initialDataLoaded
     await expect(maintainersRowsSelector).toHaveCount(21)
 
     const editMaintainerButtonSelector = page.locator(
@@ -189,11 +205,16 @@ test.describe.serial(TITLE, { tag: '@serial' }, () => {
   }) => {
     await login(page, 'einstein')
 
+    const initialDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/package-maintainers'
+    )
     await page
       .locator(`#${PACKAGE_MAINTAINERS_SIDEBAR_ID}`)
       .click()
     await page.waitForURL('**/package-maintainers')
     const maintainersRowsSelector = page.locator('role=row')
+    await initialDataLoaded
     await expect(maintainersRowsSelector).toHaveCount(21)
 
     const editMaintainerSelector = page.locator(
