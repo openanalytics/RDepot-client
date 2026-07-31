@@ -20,9 +20,13 @@
  *
  */
 
-export default function getEnv(name: string) {
+export default function getEnv(
+  name: string,
+  fallback?: string
+) {
   return (
     (window as any)?.configs?.[name] ||
-    import.meta.env[name]
+    import.meta.env[name] ||
+    fallback
   )
 }
