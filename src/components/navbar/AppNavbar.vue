@@ -84,13 +84,19 @@ const currentRoute = computed(() => {
   return router.currentRoute.value.name
 })
 
-const navbarHeight = getEnv('VITE_NAVBAR_HEIGHT')
-const logoUrl = getEnv('VITE_LOGO_SMALL_URL')
-const logoHeight = getEnv('VITE_LOGO_SMALL_HEIGHT')
-const logoWidth = getEnv('VITE_LOGO_SMALL_WIDTH')
-const logoClasses = getEnv('VITE_LOGO_SMALL_CLASSES')
+const navbarHeight = getEnv('VITE_NAVBAR_HEIGHT', '64')
+const logoUrl = getEnv(
+  'VITE_LOGO_SMALL_URL',
+  '/images/logo.png'
+)
+const logoHeight = getEnv('VITE_LOGO_SMALL_HEIGHT', '64')
+const logoWidth = getEnv('VITE_LOGO_SMALL_WIDTH', '64')
+const logoClasses = getEnv(
+  'VITE_LOGO_SMALL_CLASSES',
+  'ml-2'
+)
 const logoStyle = getEnv('VITE_LOGO_SMALL_STYLE')
-const navbarTitle = getEnv('VITE_NAVBAR_TITLE')
+const navbarTitle = getEnv('VITE_NAVBAR_TITLE', 'RDepot')
 
 function showSidebar() {
   commonStore.drawer = !commonStore.drawer

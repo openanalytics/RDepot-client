@@ -23,8 +23,14 @@
 import getEnv from '@/utils/env'
 
 export function useFavicon() {
-  const icoUrl = getEnv('VITE_FAVICON_ICO_URL')
-  const svgUrl = getEnv('VITE_FAVICON_SVG_URL')
+  const icoUrl = getEnv(
+    'VITE_FAVICON_ICO_URL',
+    '/favicon.ico'
+  )
+  const svgUrl = getEnv(
+    'VITE_FAVICON_SVG_URL',
+    '/images/RDepotLogo.svg'
+  )
 
   if (icoUrl) {
     const link = document.querySelector<HTMLLinkElement>(

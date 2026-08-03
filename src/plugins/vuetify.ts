@@ -60,12 +60,12 @@ const accentLight = getEnv(
 
 const backgroundLight = getEnv(
   'VITE_BACKGROUND_COLOUR_LIGHT',
-  '#fff'
+  '#edebeb'
 )
 
 const backgroundDark = getEnv(
   'VITE_BACKGROUND_COLOUR_DARK',
-  '#fff'
+  '#2d2d2d'
 )
 
 const borderRadiusEnabled =
