@@ -38,7 +38,10 @@
           class="mx-3"
           @click="refresh"
         >
-          <v-icon :icon="Icons.get('republish')" />
+          <v-icon
+            class="icon-animate icon-hover-spin"
+            :icon="Icons.get('republish')"
+          />
         </v-btn>
       </div>
     </template>

@@ -173,6 +173,11 @@
           @set-entity="prepareRepositoryEdition(item)"
         />
 
+        <GoToButton
+          :item="item"
+          from="repositories"
+          :tooltip="i18n.t('actions.repositories.goTo')"
+        />
         <DeleteIcon
           v-if="item.name"
           :id="`delete-repository-icon-${item.id}`"
@@ -201,11 +206,6 @@
                   : undefined
           "
           @set-resource-id="prepareRepositoryDeletion(item)"
-        />
-        <GoToButton
-          :item="item"
-          from="repositories"
-          :tooltip="i18n.t('actions.repositories.goTo')"
         /> </span
     ></template>
     <template #expanded-row="{ columns }">

@@ -46,6 +46,7 @@
           <v-btn
             id="logout-button"
             v-tooltip:top="$t('actions.general.logout')"
+            class="icon-logout"
             color="grey-lighten-1"
             :icon="Icons.get('logout')"
             variant="text"
@@ -330,6 +331,7 @@
             <template #activator="{ props: tooltipProps }">
               <v-list-item
                 v-bind="tooltipProps"
+                class="icon-logout"
                 :prepend-icon="Icons.get('logout')"
                 @click="logout"
               ></v-list-item>
@@ -446,5 +448,15 @@ function logout() {
     0 1px #000,
     1px 0 #000,
     0 -1px #000;
+}
+
+.icon-logout :deep(.v-icon),
+.icon-logout:deep(.v-list-item__prepend .v-icon) {
+  transition: transform 0.25s ease;
+}
+
+.icon-logout:hover :deep(.v-icon),
+.icon-logout:hover:deep(.v-list-item__prepend .v-icon) {
+  transform: translateX(3px);
 }
 </style>

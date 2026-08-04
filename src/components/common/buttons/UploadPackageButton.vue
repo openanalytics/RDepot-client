@@ -32,7 +32,10 @@
           icon
           @click.stop="navigateToUpload"
         >
-          <v-icon :icon="Icons.get('upload')" />
+          <v-icon
+            class="icon-animate icon-hover-nudge-up"
+            :icon="Icons.get('upload')"
+          />
         </v-btn>
       </div>
     </template>

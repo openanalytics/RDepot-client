@@ -23,7 +23,11 @@
 <template>
   <v-tooltip location="top">
     <template #activator="{ props }">
-      <div id="tooltip-activator" v-bind="props">
+      <div
+        id="tooltip-activator"
+        class="icon-animate icon-hover-rotate"
+        v-bind="props"
+      >
         <CommonButton
           id="add-maintainer"
           :disabled="configStore.declarativeMode"

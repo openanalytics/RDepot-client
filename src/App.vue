@@ -48,6 +48,8 @@ onBeforeMount(() => {
 </script>
 
 <style lang="scss">
+@import '@/styles/animations.scss';
+
 #tooltip-activator {
   z-index: 100;
 }

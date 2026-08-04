@@ -32,6 +32,7 @@
     :tooltip="$t('actions.general.accept')"
     :icon="Icons.get('accept')"
     color="success"
+    animation="icon-hover-scale"
     @click.once="acceptSubmission(item)"
   />
 </template>

@@ -23,7 +23,8 @@
 <template>
   <v-icon
     :id="`republish-repository-${repo.id}`"
-    v-tooltip="tooltipText"
+    v-tooltip:top="tooltipText"
+    :class="{ 'icon-animate icon-hover-spin': !disabled }"
     :color="disabled ? 'grey' : 'primary'"
     style="margin-left: 2px"
     @click.stop

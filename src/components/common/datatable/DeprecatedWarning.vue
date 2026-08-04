@@ -26,6 +26,7 @@
       <v-icon
         v-bind="props"
         :id="`resources-list-${value.replace('@', '-').replaceAll('/', '').replaceAll(':', '')}-warning`"
+        class="icon-animate icon-hover-scale-lg"
         size="small"
         color="warning"
         :icon="Icons.get('alert')"

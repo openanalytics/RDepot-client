@@ -220,4 +220,10 @@ th.v-data-table__th--sortable
   pointer-events: auto;
   width: fit-content;
 }
+
+th.v-data-table__th--sortable
+  .v-data-table-header__content:hover
+  .v-data-table-header__sort-icon {
+  animation: icon-bounce 0.4s ease;
+}
 </style>

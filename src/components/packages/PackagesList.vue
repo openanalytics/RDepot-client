@@ -116,7 +116,6 @@
     <template #[`item.actions`]="{ item }">
       <ProgressCircularSmall v-if="isPending(item)" />
       <span v-else class="d-flex justify-end align-right">
-        <DeletePackage :item="item" />
         <GoToButton
           :item="item"
           from="packages"
@@ -128,6 +127,7 @@
             })
           "
         />
+        <DeletePackage :item="item" />
       </span>
     </template>
     <template #expanded-row="{ columns, item }">

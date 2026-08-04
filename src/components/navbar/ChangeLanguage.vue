@@ -32,6 +32,7 @@
       <v-icon
         id="change-language-navbar-button"
         v-tooltip="$t('actions.settings.changeLanguage')"
+        class="icon-animate icon-hover-flip"
         color="text"
         v-bind="props"
         depressed

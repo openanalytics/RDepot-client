@@ -23,7 +23,10 @@
 <template>
   <v-tooltip location="top">
     <template #activator="{ props }">
-      <div id="tooltip-activator">
+      <div
+        id="tooltip-activator"
+        class="icon-animate icon-hover-rotate"
+      >
         <CommonButton
           id="add-token"
           :component="OverlayEnum.enum.Create"

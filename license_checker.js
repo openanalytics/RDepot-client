@@ -31,6 +31,7 @@ const EXTENSIONS_WITH_LICENSE = [
   'ts',
   'js',
   'css',
+  'scss',
   'mjs'
 ]
 const EXTENSION_WITHOUT_LICENSE = [
@@ -124,7 +125,8 @@ function checkLicenseInAllFiles() {
     } else if (
       filename.includes('.ts') ||
       filename.includes('.js') ||
-      filename.includes('.css')
+      filename.includes('.css') ||
+      filename.includes('.scss')
     ) {
       comment = getFirstComment(content, '/*', '*/', '*')
       numberOfFilesChecked += 1

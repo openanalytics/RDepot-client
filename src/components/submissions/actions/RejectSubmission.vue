@@ -32,6 +32,7 @@
     :tooltip="$t('actions.general.reject')"
     :icon="Icons.get('reject')"
     color="oared"
+    animation="icon-hover-scale"
     @click.once="rejectSubmission(item)"
   />
 </template>

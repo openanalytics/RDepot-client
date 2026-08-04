@@ -88,6 +88,11 @@ $code_color: rgba(var(--v-theme-code));
 
   i {
     align-self: center;
+    transition: transform 0.2s ease;
+  }
+
+  i:hover {
+    transform: translate(2px, 2px);
   }
 
   pre {

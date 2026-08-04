@@ -38,6 +38,7 @@
                 class="pl-3"
               >
                 <v-icon
+                  class="icon-animate icon-hover-copy"
                   :icon="Icons.get('copy')"
                   size="large"
                   start
