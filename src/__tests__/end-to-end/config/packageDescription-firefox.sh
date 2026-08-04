@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 rm -rf downloads/
 
 CONTAINER=$(docker ps --format "table {{.ID}}\t{{.Names}}" | tr -s ' ' | cut -d' ' -f1,2 | grep "backend-firefox" | cut -d' ' -f1)

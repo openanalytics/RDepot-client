@@ -20,7 +20,7 @@ To develop the frontend with a live preview, you’ll need the backend up and ru
 Start by cloning the backend repository:
 
 ```
-https://scm.openanalytics.eu/git/RDepot.git
+https://github.com/openanalytics/RDepot.git
 ```
 
 Once cloned, switch to the `develop` branch and pull the latest changes (including Git LFS files):
@@ -99,14 +99,8 @@ http://localhost:3001/
 
 For E2E tests, **only the frontend project is required**.
 
-First, pull and build the Docker images used for browser-based testing (Firefox and Chrome):
 
-```
-docker compose -f src/__tests__/end-to-end/config/docker-compose-test-firefox.yml pull && docker compose -f src/__tests__/end-to-end/config/docker-compose-test-firefox.yml up --build
-docker compose -f src/__tests__/end-to-end/config/docker-compose-test-chrome.yml pull && docker compose -f src/__tests__/end-to-end/config/docker-compose-test-chrome.yml up --build
-```
-
-Next, run the setup script. This prepares all containers and restores the test database:
+Run the setup script. This prepares all containers and restores the test database:
 
 ```
 npm run test:e2e:setup
@@ -124,6 +118,11 @@ The built frontend used during E2E testing can be accessed at:
 http://192.168.51.20/
 ```
 
+If you want to shut down the containers and clean your environment use:
+
+```
+npm run test:e2e:cleanup
+```
 ---
 
 Learn more at https://rdepot.io

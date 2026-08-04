@@ -25,7 +25,7 @@
     "execute": "npm run license:check && npm run test:unit:once && npm run build",
     "prettier": "npx pretty-quick",
     "prettier:changes": "npx pretty-quick --staged --bail",
-    "prepare": "husky install",
+    "prepare": "husky",
     "restore:firefox": "src/__tests__/end-to-end/config/restore-firefox.sh",
     "restore:chrome": "src/__tests__/end-to-end/config/restore-chrome.sh",
     "generate:client": "sh scripts/downloadOpenApiSpec.sh && node scripts/updateOpenApiSpec.js && sh scripts/generateClient.sh && node scripts/updateOpenApiGenerated.js"
@@ -95,7 +95,7 @@
     "msw": "^2.4.11",
     "pre-commit": "^1.2.2",
     "prettier": "3.3.3",
-    "pretty-quick": "^4.0.0",
+    "pretty-quick": "^4.2.2",
     "sass": "^1.57.1",
     "typescript": "^5.6.3",
     "vite-plugin-vue-devtools": "^8.0.0",

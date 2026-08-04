@@ -70,7 +70,11 @@ const EXTENSION_WITHOUT_LICENSE = [
   'gitattributes',
   'eslintoutputrc',
   'eslintignore',
-  'openapi-generator-ignore'
+  'openapi-generator-ignore',
+  'rc',
+  'envrc',
+  'lock',
+  'nix'
 ]
 
 const DIRS_WITHOUT_LICENSE_CHECKING = [
