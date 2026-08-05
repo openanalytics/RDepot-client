@@ -32,6 +32,7 @@
     expand-on-click
     :sort-by="sortBy"
     :return-object="false"
+    :row-class-fn="rowClassFn"
     @update:options="fetchData"
     @refresh="fetchData"
   >
@@ -402,6 +403,19 @@ function isPending(
   return !!repositoryStore.pending.find(
     (repository) => repository.id == item.id
   )
+}
+
+function rowClassFn(
+  item: EntityModelRepositoryDto
+): string | undefined {
+  if (
+    repositoryStore.recentlyUpdated.includes(
+      item.id as number
+    )
+  ) {
+    return 'row-updated'
+  }
+  return undefined
 }
 </script>
 

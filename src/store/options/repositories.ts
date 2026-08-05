@@ -57,6 +57,7 @@ interface State {
   filtration: RepositoriesFiltration
   chosenRepository: CombinedRepositoryModel
   pending: CombinedRepositoryModel[]
+  recentlyUpdated: number[]
   loading: boolean
   totalNumber: number
   tableOptions?: DataTableOptions
@@ -72,6 +73,7 @@ export const useRepositoryStore = defineStore(
         filtration: defaultValues(RepositoriesFiltration),
         chosenRepository: {},
         pending: [],
+        recentlyUpdated: [],
         loading: false,
         totalNumber: 0,
         tableOptions: undefined,
@@ -93,6 +95,17 @@ export const useRepositoryStore = defineStore(
       }
     },
     actions: {
+      markRecentlyUpdated(id: number | undefined) {
+        if (id !== undefined) {
+          this.recentlyUpdated.push(id)
+          setTimeout(() => {
+            this.recentlyUpdated =
+              this.recentlyUpdated.filter(
+                (item) => item !== id
+              )
+          }, 1000)
+        }
+      },
       async getPage(options?: DataTableOptions) {
         if (options) {
           this.tableOptions = options
@@ -223,6 +236,9 @@ export const useRepositoryStore = defineStore(
             .then(async (success: any) => {
               if (success) {
                 await this.getPage()
+                this.markRecentlyUpdated(
+                  this.chosenRepository?.id
+                )
                 const repositories = await this.get(
                   this.chosenRepository.name || '',
                   this.chosenRepository
@@ -264,6 +280,9 @@ export const useRepositoryStore = defineStore(
             .then(async (success: any) => {
               if (success) {
                 await this.getPage()
+                this.markRecentlyUpdated(
+                  this.chosenRepository?.id
+                )
                 if (
                   this.chosenRepository?.name &&
                   this.chosenRepository?.technology
@@ -290,9 +309,19 @@ export const useRepositoryStore = defineStore(
       async create(
         newRepository: EntityModelRepositoryDto
       ) {
+        const oldIds = new Set(
+          this.repositories.map((r) => r.id)
+        )
         await createRepository(newRepository)?.then(
           async (success) => {
-            if (success) await this.getPage()
+            if (success) {
+              await this.getPage()
+              this.repositories.forEach((r) => {
+                if (!oldIds.has(r.id)) {
+                  this.markRecentlyUpdated(r.id)
+                }
+              })
+            }
           }
         )
       },

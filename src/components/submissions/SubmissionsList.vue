@@ -354,15 +354,7 @@ tr {
 }
 
 .newly-uploaded {
-  background-color: rgb(
-    var(--v-theme-primary) / 0.08
-  ) !important;
-}
-
-.v-theme--dark .newly-uploaded {
-  background-color: rgb(
-    var(--v-theme-primary) / 0.15
-  ) !important;
+  background-color: transparent !important;
 }
 
 .newly-uploaded-last > td {

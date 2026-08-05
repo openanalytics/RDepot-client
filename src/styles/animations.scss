@@ -116,3 +116,19 @@
     transform: translateY(0);
   }
 }
+
+.row-updated td {
+  animation: row-highlight 1s ease-out;
+}
+
+@keyframes row-highlight {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 1;
+  }
+}
