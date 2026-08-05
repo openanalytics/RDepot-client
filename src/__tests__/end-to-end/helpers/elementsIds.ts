@@ -335,6 +335,12 @@ export const UPLOAD_SUBMISSION_NOTES_INPUT =
   'upload-package-notes'
 export const UPLOAD_SUBMISSION_REPLACE_CHECKBOX =
   'replace-button'
+export const APPLY_ALL_RVERSION_ID = 'apply-all-rversion'
+export const APPLY_ALL_ARCHITECTURE_ID =
+  'apply-all-architecture'
+export const APPLY_ALL_DISTRIBUTION_ID =
+  'apply-all-distribution'
+export const APPLY_ALL_BUTTON_ID = 'apply-all-button'
 export const UPLOAD_ANOTHER_BUTTON_ID =
   'upload-another-button'
 export const SHOW_SUBMISSIONS_BUTTON_ID =

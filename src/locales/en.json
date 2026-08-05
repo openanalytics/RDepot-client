@@ -172,7 +172,9 @@
       "binaryPython": "Uploaded package is binary (.whl)",
       "noBinaryPython": "Uploaded package is not binary",
       "autoApproved": "Your submissions will be automatically approved, making the submitted packages available immediately.",
-      "needsApproval": "Your submissions might require approval from a maintainer before the submitted packages are available."
+      "needsApproval": "Your submissions might require approval from a maintainer before the submitted packages are available.",
+      "applyToAll": "Apply to all",
+      "applyToAllSubtitle": "Set these fields for every binary package at once"
     },
     "tokens": {
       "copyWarning": "Make sure to copy the access token now. You won't be able to see it again!",

@@ -29,6 +29,74 @@
       {{ repository?.title }}
     </div>
     <v-divider></v-divider>
+    <v-card
+      v-if="showApplyToAll"
+      flat
+      class="apply-to-all pa-5 mt-4 mb-3"
+    >
+      <div>
+        <div class="d-flex align-center ga-6">
+          <v-select
+            id="apply-all-rversion"
+            v-model="applyAllRversion"
+            :items="uploadSubmissionStore.allowedRVersions"
+            :label="t('fields.files.rVersion')"
+            variant="outlined"
+            density="compact"
+            clearable
+            persistent-clear
+            hide-details
+          />
+          <v-select
+            id="apply-all-architecture"
+            v-model="applyAllArchitecture"
+            :items="
+              uploadSubmissionStore.allowedArchitectures
+            "
+            :label="t('fields.files.architecture')"
+            variant="outlined"
+            density="compact"
+            clearable
+            persistent-clear
+            hide-details
+          />
+          <v-select
+            id="apply-all-distribution"
+            v-model="applyAllDistribution"
+            :items="
+              uploadSubmissionStore.allowedDistributions
+            "
+            :label="t('fields.files.distribution')"
+            variant="outlined"
+            density="compact"
+            clearable
+            persistent-clear
+            hide-details
+          />
+          <v-btn
+            id="apply-all-button"
+            color="primary"
+            height="40"
+            variant="outlined"
+            :disabled="
+              !applyAllRversion &&
+              !applyAllArchitecture &&
+              !applyAllDistribution
+            "
+            @click="applyToAllBinaryPackages()"
+          >
+            {{ i18n.t('forms.submissions.applyToAll') }}
+          </v-btn>
+        </div>
+        <div
+          class="text-caption text-medium-emphasis text-left mt-1"
+        >
+          {{
+            i18n.t('forms.submissions.applyToAllSubtitle')
+          }}
+        </div>
+      </div>
+    </v-card>
     <v-data-table
       :headers="filteredHeaders"
       :items="packages"
@@ -229,33 +297,7 @@
           />
         </div>
       </template>
-      <template #[`top`]>
-        <v-tooltip
-          v-if="packages && !!packages.length"
-          location="top"
-        >
-          <template #activator="{ props }">
-            <v-btn
-              v-if="packages && !!packages.length"
-              size="x-small"
-              color="oared mb-1"
-              class="reset-opacity"
-              variant="outlined"
-              v-bind="props"
-              style="
-                max-width: 15%;
-                align-self: end;
-                margin-top: 10px;
-              "
-              @click="resetPackages()"
-              >{{ i18n.t('actions.general.clear') }}
-            </v-btn>
-          </template>
-          <span id="tooltip-reset">
-            {{ i18n.t('actions.general.clear') }}</span
-          ></v-tooltip
-        >
-      </template>
+      <template #[`top`]> </template>
       <template #expanded-row="{ columns, index }">
         <td :colspan="columns.length">
           <div class="additional-row">
@@ -275,11 +317,25 @@
         </td>
       </template>
     </v-data-table>
+    <div
+      v-if="packages && !!packages.length"
+      class="d-flex justify-end mt-1"
+    >
+      <v-btn
+        size="x-small"
+        color="oared"
+        class="reset-opacity"
+        variant="outlined"
+        @click="resetPackages()"
+      >
+        {{ i18n.t('actions.general.clear') }}
+      </v-btn>
+    </div>
   </v-card-text>
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, onMounted } from 'vue'
+import { computed, nextTick, onMounted, ref } from 'vue'
 import { useFiles } from '@/composable/file'
 import { useConfigStore } from '@/store/options/config'
 import Icons from '@/maps/Icons'
@@ -335,6 +391,37 @@ async function removePackage(index: number) {
 
 function resetPackages() {
   packages.value = []
+}
+
+const applyAllRversion = ref<string | undefined>()
+const applyAllArchitecture = ref<string | undefined>()
+const applyAllDistribution = ref<string | undefined>()
+
+const showApplyToAll = computed(
+  () =>
+    technology.value === Technologies.enum.R &&
+    packages.value &&
+    packages.value.filter((p) => p.binary).length > 1
+)
+
+function applyToAllBinaryPackages() {
+  if (!packages.value) return
+  const updated = packages.value.map((pkg) => {
+    if (!pkg.binary) return pkg
+    return {
+      ...pkg,
+      ...(applyAllRversion.value && {
+        rversion: applyAllRversion.value
+      }),
+      ...(applyAllArchitecture.value && {
+        architecture: applyAllArchitecture.value
+      }),
+      ...(applyAllDistribution.value && {
+        distribution: applyAllDistribution.value
+      })
+    }
+  })
+  setValue(updated)
 }
 
 const headers = computed<DataTableHeaders[]>(() => [
@@ -461,6 +548,15 @@ onMounted(() => {
     transition: opacity ease-in-out 0.3s;
     opacity: 1 !important;
   }
+}
+
+.apply-to-all {
+  background: rgba(
+    var(--v-theme-on-surface),
+    0.05
+  ) !important;
+  border: none;
+  border-radius: 8px;
 }
 
 table {
