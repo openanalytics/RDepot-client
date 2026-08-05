@@ -80,8 +80,9 @@ export const useAuthorizationStore = defineStore(
     actions: {
       async postLoginOperations() {
         await this.getUserInfo()
-        vuetify.theme.global.name.value =
-          this.me.userSettings?.theme || 'dark'
+        vuetify.theme.change(
+          this.me.userSettings?.theme || 'system'
+        )
         const commonStore = useCommonStore()
         commonStore.closeOverlay()
         const configStore = useConfigStore()

@@ -129,18 +129,23 @@ test.describe(TITLE, () => {
       .first()
       .waitFor()
 
-    const packagesSubmissionStateSelector = page
-      .getByRole('combobox')
-      .nth(2)
+    const packagesSubmissionStateSelector = page.locator(
+      `#${PACKAGES_FILTRATION_SUBMISSION_STATE_FIELD_ID}`
+    )
     await packagesSubmissionStateSelector.waitFor()
     await packagesSubmissionStateSelector.evaluate((el) => {
-      el.dispatchEvent(
-        new MouseEvent('mousedown', { bubbles: true })
-      )
+      el
+        .closest('.v-field')
+        ?.dispatchEvent(
+          new MouseEvent('mousedown', { bubbles: true })
+        )
     })
 
     const packageSubmissionStateRejectedOptionSelector =
-      page.getByRole('option', { name: 'REJECTED' })
+      page.getByRole('option', {
+        name: 'REJECTED',
+        exact: true
+      })
 
     await packageSubmissionStateRejectedOptionSelector.waitFor()
     await packageSubmissionStateRejectedOptionSelector.click()
@@ -238,7 +243,9 @@ test.describe(TITLE, () => {
 
     await technologyValue.waitFor()
     await technologyValue.click({ force: true })
-    await page.getByRole('option', { name: 'R' }).click()
+    await page
+      .getByRole('option', { name: 'R', exact: true })
+      .click()
 
     await expect(
       page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
@@ -266,7 +273,7 @@ test.describe(TITLE, () => {
     await fileTypeValue.waitFor()
     await fileTypeValue.click({ force: true })
     await page
-      .getByRole('option', { name: 'Binary' })
+      .getByRole('option', { name: 'Binary', exact: true })
       .click()
     await expect(packagesRowsSelector).toHaveCount(2)
 

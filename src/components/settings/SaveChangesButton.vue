@@ -55,8 +55,7 @@ async function saveSettings() {
     settingsStore.newSettings as UserSettingsProjection
   )
   if (settingsStore.newSettings?.theme) {
-    theme.global.name.value =
-      settingsStore.newSettings.theme
+    theme.change(settingsStore.newSettings.theme)
     commonStore.updateThemeKey()
   }
   if (settingsStore.newSettings?.language) {

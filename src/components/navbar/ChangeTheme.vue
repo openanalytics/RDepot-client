@@ -56,7 +56,7 @@ async function changeTheme() {
     ? 'light'
     : 'dark'
 
-  theme.global.name.value = new_theme
+  theme.change(new_theme)
   var new_settings = authorizationStore.getCurrentSettings()
   new_settings.theme = new_theme
   if (await authorizationStore.isUserLoggedIn()) {
@@ -74,8 +74,7 @@ const getTheme = computed(() => {
 
 onUpdated(() => {
   if (authorizationStore.me.userSettings?.theme)
-    theme.global.name.value =
-      authorizationStore.me.userSettings.theme
+    theme.change(authorizationStore.me.userSettings.theme)
 })
 </script>
 

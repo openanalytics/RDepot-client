@@ -29,7 +29,7 @@ export function useThemeConfig() {
     const theme = useTheme()
     theme.global.name.value =
       useAuthorizationStore().me.userSettings?.theme ||
-      'dark'
+      'system'
   }
 
   function configureBorderRadius() {

@@ -21,7 +21,10 @@
  */
 
 import { test, expect } from '@playwright/test'
-import { EVENTS_SIDEBAR_ID } from '@/__tests__/end-to-end/helpers/elementsIds'
+import {
+  EVENTS_SIDEBAR_ID,
+  EVENTS_FILTRATION_RESOURCE_TYPE_ID
+} from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '../helpers/login'
 
 const TITLE = 'events filtration'
@@ -31,15 +34,16 @@ test.describe(TITLE, () => {
     await page.locator(`#${EVENTS_SIDEBAR_ID}`).click()
     await page.waitForURL('**/events')
 
-    const eventsResourceSelector = page
-      .getByRole('combobox')
-      .nth(2)
+    const eventsResourceSelector = page.locator(
+      `#${EVENTS_FILTRATION_RESOURCE_TYPE_ID}`
+    )
     await eventsResourceSelector.waitFor()
-    await eventsResourceSelector.click()
+    await eventsResourceSelector.click({ force: true })
 
-    const eventsPackageSelector = page
-      .getByRole('option', { name: 'Package' })
-      .nth(0)
+    const eventsPackageSelector = page.getByRole('option', {
+      name: 'Package',
+      exact: true
+    })
 
     await eventsPackageSelector.waitFor()
     await eventsPackageSelector.click()
@@ -57,17 +61,15 @@ test.describe(TITLE, () => {
     await page.locator(`#${EVENTS_SIDEBAR_ID}`).click()
     await page.waitForURL('**/events')
 
-    const eventsResourceSelector = page
-      .getByRole('combobox')
-      .nth(2)
+    const eventsResourceSelector = page.locator(
+      `#${EVENTS_FILTRATION_RESOURCE_TYPE_ID}`
+    )
     await eventsResourceSelector.waitFor()
-    await eventsResourceSelector.click()
+    await eventsResourceSelector.click({ force: true })
 
     const eventsSubmissionSelector = page.getByRole(
       'option',
-      {
-        name: 'Submission'
-      }
+      { name: 'Submission', exact: true }
     )
 
     await eventsSubmissionSelector.waitFor()

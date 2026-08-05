@@ -58,6 +58,7 @@ const EXTENSION_WITHOUT_LICENSE = [
   'test',
   'local',
   'eslintrc',
+  'git',
   'template',
   'gitignore',
   'production',
