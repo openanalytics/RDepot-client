@@ -31,7 +31,7 @@
     min-height="250px"
     height="100%"
   >
-    <FilesList />
+    <FilesList :set-field-value="setFieldValue" />
     <DropZone
       v-slot="{ dropZoneActive }"
       class="drop-area"
@@ -72,6 +72,10 @@ import { i18n } from '@/plugins/i18n'
 import { useConfigStore } from '@/store/options/config'
 import { useUploadSubmissionStore } from '@/store/setup/uploadSubmission.ts'
 import { RepositoryObject } from '@/store/setup/selectPagination.ts'
+
+defineProps<{
+  setFieldValue: (path: string, value: unknown) => void
+}>()
 
 const { value: packages, setValue: setPackages } = useField<
   Array<{

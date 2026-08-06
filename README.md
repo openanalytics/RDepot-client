@@ -99,7 +99,6 @@ http://localhost:3001/
 
 For E2E tests, **only the frontend project is required**.
 
-
 Run the setup script. This prepares all containers and restores the test database:
 
 ```
@@ -123,6 +122,7 @@ If you want to shut down the containers and clean your environment use:
 ```
 npm run test:e2e:cleanup
 ```
+
 ---
 
 Learn more at https://rdepot.io

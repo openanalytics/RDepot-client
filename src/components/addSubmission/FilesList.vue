@@ -189,9 +189,9 @@
       </template>
       <template #[`item.binary`]="{ item, index }">
         <v-tooltip location="top">
-          <template #activator="{ props }">
+          <template #activator="{ props: activatorProps }">
             <span
-              v-bind="props"
+              v-bind="activatorProps"
               class="d-flex justify-center align-center"
             >
               <validated-input-field
@@ -252,9 +252,9 @@
         #[`item.manual`]="{ item, index }"
       >
         <v-tooltip location="top">
-          <template #activator="{ props }">
+          <template #activator="{ props: activatorProps }">
             <span
-              v-bind="props"
+              v-bind="activatorProps"
               class="d-flex justify-center align-center"
             >
               <validated-input-field
@@ -335,7 +335,13 @@
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, onMounted, ref } from 'vue'
+import {
+  computed,
+  nextTick,
+  onMounted,
+  ref,
+  watch
+} from 'vue'
 import { useFiles } from '@/composable/file'
 import { useConfigStore } from '@/store/options/config'
 import Icons from '@/maps/Icons'
@@ -346,6 +352,10 @@ import ValidatedInputField from '@/components/common/fields/ValidatedInputField.
 import { i18n } from '@/plugins/i18n'
 import { useField } from 'vee-validate'
 import { useUploadSubmissionStore } from '@/store/setup/uploadSubmission.ts'
+
+const props = defineProps<{
+  setFieldValue: (path: string, value: unknown) => void
+}>()
 
 const { t } = useI18n()
 const uploadSubmissionStore = useUploadSubmissionStore()
@@ -371,6 +381,9 @@ const {
     notes: string
     replace: boolean
     generateManual: boolean
+    rversion?: string
+    architecture?: string
+    distribution?: string
   }>
 >('packages', {
   initialValue: [], // Add this
@@ -379,6 +392,57 @@ const {
 const { value: technology } = useField('technology')
 const { value: repository } = useField<{ title: string }>(
   'repository'
+)
+
+function preselectSingleOptions() {
+  if (
+    !packages.value ||
+    technology.value !== Technologies.enum.R
+  )
+    return
+  const {
+    allowedArchitectures,
+    allowedRVersions,
+    allowedDistributions
+  } = uploadSubmissionStore
+  packages.value.forEach((pkg, index) => {
+    if (!pkg.binary) return
+    if (
+      allowedArchitectures.length === 1 &&
+      !pkg.architecture
+    ) {
+      props.setFieldValue(
+        `packages.${index}.architecture`,
+        allowedArchitectures[0]
+      )
+    }
+    if (allowedRVersions.length === 1 && !pkg.rversion) {
+      props.setFieldValue(
+        `packages.${index}.rversion`,
+        allowedRVersions[0]
+      )
+    }
+    if (
+      allowedDistributions.length === 1 &&
+      !pkg.distribution
+    ) {
+      props.setFieldValue(
+        `packages.${index}.distribution`,
+        allowedDistributions[0]
+      )
+    }
+  })
+}
+
+watch(
+  [
+    packages,
+    () => uploadSubmissionStore.allowedArchitectures,
+    () => uploadSubmissionStore.allowedRVersions,
+    () => uploadSubmissionStore.allowedDistributions
+  ],
+  preselectSingleOptions,
+  { immediate: true, deep: true }
 )
 
 async function removePackage(index: number) {

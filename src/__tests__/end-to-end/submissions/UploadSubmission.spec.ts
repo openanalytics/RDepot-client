@@ -234,6 +234,164 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     ).toBeDisabled()
   })
 
+  test('auto-select single-option properties for binary R package', async ({
+    page
+  }) => {
+    await page.route(
+      '**/api/v2/manager/r/config',
+      async (route) => {
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify({
+            status: 'SUCCESS',
+            code: 200,
+            message: '',
+            messageCode: '',
+            data: {
+              allowedRVersions: ['4.2'],
+              allowedArchitectures: ['x86_64'],
+              allowedDistributions: ['centos7']
+            }
+          })
+        })
+      }
+    )
+
+    await login(page, 'einstein')
+    await page
+      .locator(`#${UPLOAD_PACKAGES_SIDEBAR_ID}`)
+      .click()
+    await page.waitForURL('**/upload-packages')
+    await page
+      .locator(`#${UPLOAD_SUBMISSION_REPOSITORY_FIELD_ID}`)
+      .click({ force: true })
+    await page
+      .locator(
+        `#${UPLOAD_SUBMISSION_REPOSITORY_TESTREPO3_ID}`
+      )
+      .click()
+    await page
+      .locator(`#${UPLOAD_SUBMISSION_CONTINUE_BUTTON_ID}`)
+      .click()
+
+    const fileChooserPromise =
+      page.waitForEvent('filechooser')
+    await page.locator(`.${DROP_ZONE_CLASS}`).click()
+    const fileChooser = await fileChooserPromise
+    await fileChooser.setFiles(
+      './src/__tests__/end-to-end/testData/arrow_8.0.0.tar.gz'
+    )
+
+    await page
+      .locator(`#${BINARY_SUBMISSION_CHECKBOX}`)
+      .click()
+
+    const rversionSelect = page
+      .locator(`#${UPLOAD_SUBMISSION_RVERSION}`)
+      .locator('..')
+    const architectureSelect = page
+      .locator(`#${UPLOAD_SUBMISSION_ARCHITECTURE}`)
+      .locator('..')
+    const distributionSelect = page
+      .locator(`#${UPLOAD_SUBMISSION_DISTRIBUTION}`)
+      .locator('..')
+
+    await expect(
+      rversionSelect.locator('.v-select__selection-text')
+    ).toHaveText('4.2')
+    await expect(
+      architectureSelect.locator(
+        '.v-select__selection-text'
+      )
+    ).toHaveText('x86_64')
+    await expect(
+      distributionSelect.locator(
+        '.v-select__selection-text'
+      )
+    ).toHaveText('centos7')
+  })
+
+  test('do not auto-select properties with multiple options for binary R package', async ({
+    page
+  }) => {
+    await page.route(
+      '**/api/v2/manager/r/config',
+      async (route) => {
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify({
+            status: 'SUCCESS',
+            code: 200,
+            message: '',
+            messageCode: '',
+            data: {
+              allowedRVersions: ['4.2', '4.3'],
+              allowedArchitectures: ['x86_64'],
+              allowedDistributions: ['centos7', 'ubuntu22']
+            }
+          })
+        })
+      }
+    )
+
+    await login(page, 'einstein')
+    await page
+      .locator(`#${UPLOAD_PACKAGES_SIDEBAR_ID}`)
+      .click()
+    await page.waitForURL('**/upload-packages')
+    await page
+      .locator(`#${UPLOAD_SUBMISSION_REPOSITORY_FIELD_ID}`)
+      .click({ force: true })
+    await page
+      .locator(
+        `#${UPLOAD_SUBMISSION_REPOSITORY_TESTREPO3_ID}`
+      )
+      .click()
+    await page
+      .locator(`#${UPLOAD_SUBMISSION_CONTINUE_BUTTON_ID}`)
+      .click()
+
+    const fileChooserPromise =
+      page.waitForEvent('filechooser')
+    await page.locator(`.${DROP_ZONE_CLASS}`).click()
+    const fileChooser = await fileChooserPromise
+    await fileChooser.setFiles(
+      './src/__tests__/end-to-end/testData/arrow_8.0.0.tar.gz'
+    )
+
+    await page
+      .locator(`#${BINARY_SUBMISSION_CHECKBOX}`)
+      .click()
+
+    const rversionSelect = page
+      .locator(`#${UPLOAD_SUBMISSION_RVERSION}`)
+      .locator('..')
+    const architectureSelect = page
+      .locator(`#${UPLOAD_SUBMISSION_ARCHITECTURE}`)
+      .locator('..')
+    const distributionSelect = page
+      .locator(`#${UPLOAD_SUBMISSION_DISTRIBUTION}`)
+      .locator('..')
+
+    await expect(
+      architectureSelect.locator(
+        '.v-select__selection-text'
+      )
+    ).toHaveText('x86_64')
+
+    await expect(
+      rversionSelect.locator('.v-select__selection-text')
+    ).toHaveCount(0)
+
+    await expect(
+      distributionSelect.locator(
+        '.v-select__selection-text'
+      )
+    ).toHaveCount(0)
+  })
+
   test('upload binary Python package', async ({ page }) => {
     await login(page, 'einstein')
     await page

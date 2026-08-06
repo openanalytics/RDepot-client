@@ -33,6 +33,7 @@
           <keep-alive>
             <component
               :is="components[el - 1]"
+              v-bind="el === 2 ? { setFieldValue } : {}"
               @next="changeValue"
             ></component>
           </keep-alive>
