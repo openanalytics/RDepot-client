@@ -27,6 +27,7 @@
     dark
     class="navbar"
     :height="navbarHeight"
+    elevation="0"
   >
     <v-row justify="space-around" align="center">
       <v-row justify="start" align="center" class="ml-4">
