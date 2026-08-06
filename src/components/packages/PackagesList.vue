@@ -33,6 +33,7 @@
     :loading="packagesStore.loading"
     expand-on-click
     :sort-by="sortBy"
+    :recently-updated="packagesStore.recentlyUpdated"
     @update:options="fetchData"
     @refresh="fetchData"
   >

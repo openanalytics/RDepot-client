@@ -29,6 +29,9 @@
     :loading="repositoryMaintainersStore.loading"
     :sort-by="sortBy"
     :title="i18n.t('resources.repositoryMaintainer', 2)"
+    :recently-updated="
+      repositoryMaintainersStore.recentlyUpdated
+    "
     @update:options="fetchData"
     @refresh="fetchData"
   >
@@ -106,6 +109,7 @@ import { useCommonStore } from '@/store/options/common.ts'
 const repositoryMaintainersStore =
   useRepositoryMaintainersStore()
 const { canPatch, canDelete } = useUserAuthorities()
+
 const authorizationStore = useAuthorizationStore()
 
 const { getSort } = useSort()

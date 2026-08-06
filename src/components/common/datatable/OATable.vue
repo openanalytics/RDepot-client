@@ -182,6 +182,11 @@ const props = defineProps({
     type: Number,
     required: true
   },
+  recentlyUpdated: {
+    type: Array as PropType<number[]>,
+    required: false,
+    default: () => []
+  },
   rowClassFn: {
     type: Function as PropType<
       (item: any) => string | undefined
@@ -194,6 +199,9 @@ const props = defineProps({
 function rowProps(item: any) {
   const classes: string[] = []
   if (item.item.deleted) classes.push('deletedItem')
+  if (props.recentlyUpdated.includes(item.item.id)) {
+    classes.push('row-updated')
+  }
   if (props.rowClassFn) {
     const extra = props.rowClassFn(item.item)
     if (extra) classes.push(extra)

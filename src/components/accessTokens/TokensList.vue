@@ -29,6 +29,7 @@
     :title="$t('resources.accessToken', 2)"
     :loading="accessTokensStore.loading"
     :sort-by="sortBy"
+    :recently-updated="accessTokensStore.recentlyUpdated"
     @update:options="fetchData"
     @refresh="fetchData"
   >

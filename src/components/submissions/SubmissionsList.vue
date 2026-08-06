@@ -32,6 +32,7 @@
     item-value="name"
     :loading="submissionStore.loading"
     :sort-by="sortBy"
+    :recently-updated="submissionStore.recentlyUpdated"
     :row-class-fn="getRowClass"
     @update:options="fetchData"
     @refresh="fetchData"

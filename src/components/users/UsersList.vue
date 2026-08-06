@@ -29,6 +29,7 @@
     :loading="userStore.loading"
     :sort-by="sortBy"
     :title="i18n.t('resources.user', 2)"
+    :recently-updated="userStore.recentlyUpdated"
     @update:options="fetchData"
     @refresh="fetchData"
   >

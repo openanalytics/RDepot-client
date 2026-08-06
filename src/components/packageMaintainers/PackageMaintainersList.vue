@@ -29,6 +29,9 @@
     :loading="packageMaintainersStore.loading"
     :title="i18n.t('resources.packageMaintainer', 2)"
     :sort-by="sortBy"
+    :recently-updated="
+      packageMaintainersStore.recentlyUpdated
+    "
     @update:options="fetchData"
     @refresh="fetchData"
   >
@@ -98,6 +101,7 @@ import { useCommonStore } from '@/store/options/common'
 
 const packageMaintainersStore = usePackageMaintainersStore()
 const { canPatch, canDelete } = useUserAuthorities()
+
 const authorizationStore = useAuthorizationStore()
 
 const { getSort } = useSort()

@@ -59,6 +59,7 @@ interface State {
   filtration: TokensFiltration
   newToken?: string
   currentToken: EntityModelAccessTokenDto
+  recentlyUpdated: number[]
   loading: boolean
   totalNumber: number
   tableOptions?: DataTableOptions
@@ -78,6 +79,7 @@ export const useAccessTokensStore = defineStore(
         filtration: defaultValues(TokensFiltration),
         newToken: '',
         currentToken: {},
+        recentlyUpdated: [],
         loading: false,
         totalNumber: 0,
         tableOptions: undefined,
@@ -97,6 +99,17 @@ export const useAccessTokensStore = defineStore(
       }
     },
     actions: {
+      markRecentlyUpdated(id: number | undefined) {
+        if (id !== undefined) {
+          this.recentlyUpdated.push(id)
+          setTimeout(() => {
+            this.recentlyUpdated =
+              this.recentlyUpdated.filter(
+                (item) => item !== id
+              )
+          }, 1000)
+        }
+      },
       async getPage(options?: DataTableOptions) {
         if (options) {
           this.tableOptions = options
@@ -169,6 +182,7 @@ export const useAccessTokensStore = defineStore(
           ?.then(async (success) => {
             if (success) {
               await this.getPage()
+              this.markRecentlyUpdated(this.currentToken.id)
             }
           })
           .finally(() => {
@@ -178,6 +192,7 @@ export const useAccessTokensStore = defineStore(
           })
       },
       async create(newToken: CreateAccessTokenDto) {
+        const oldIds = new Set(this.tokens.map((t) => t.id))
         await createToken(newToken)?.then(
           async (success) => {
             if (success) {
@@ -188,6 +203,11 @@ export const useAccessTokensStore = defineStore(
                 OverlayEnum.enum.Created
               )
               await this.getPage()
+              this.tokens.forEach((t) => {
+                if (!oldIds.has(t.id)) {
+                  this.markRecentlyUpdated(t.id)
+                }
+              })
             }
           }
         )
@@ -207,6 +227,7 @@ export const useAccessTokensStore = defineStore(
               const commonStore = useCommonStore()
               commonStore.closeOverlay()
               await this.getPage()
+              this.markRecentlyUpdated(oldToken.id)
             }
           })
           .finally(() => {
