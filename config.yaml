@@ -59,3 +59,8 @@ VITE_FONT_URL:
 
 #border radius (true = rounded, false = sharp corners)
 VITE_BORDER_RADIUS: true
+
+#external assets (comma-separated list of URLs or local paths)
+#supports both http(s):// URLs and local paths (e.g. /custom/style.css)
+VITE_CSS_FILES:
+VITE_JS_FILES:

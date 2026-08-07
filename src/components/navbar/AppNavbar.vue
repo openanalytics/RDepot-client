@@ -22,6 +22,7 @@
 
 <template>
   <v-app-bar
+    id="navbar"
     app
     color="primary"
     dark
@@ -29,8 +30,16 @@
     :height="navbarHeight"
     elevation="0"
   >
-    <v-row justify="space-around" align="center">
-      <v-row justify="start" align="center" class="ml-4">
+    <v-row
+      justify="space-around"
+      align="center"
+      no-gutters
+      class="mx-7"
+    >
+      <div
+        id="navbar-start"
+        class="navbar-section d-flex align-center ga-3"
+      >
         <v-app-bar-nav-icon
           v-show="mobile && currentRoute !== 'login'"
           color="primary-darken-2"
@@ -41,7 +50,7 @@
           v-ripple
           justify="start"
           align="center"
-          class="ml-2 d-flex"
+          class="d-flex ga-2"
           @click="router.push({ name: 'packages' })"
         >
           <v-img
@@ -55,8 +64,15 @@
           />
           <div class="logotext">{{ navbarTitle }}</div>
         </div>
-      </v-row>
-      <div class="d-flex align-center my-0 mx-12 ga-3">
+      </div>
+      <div
+        id="navbar-center"
+        class="navbar-section d-flex align-center justify-center ga-3"
+      ></div>
+      <div
+        id="navbar-end"
+        class="navbar-section d-flex align-center justify-end ga-3"
+      >
         <ChangeLanguage />
         <ChangeTheme />
         <EventsNotifications
@@ -72,10 +88,11 @@ import ChangeLanguage from '@/components/navbar/ChangeLanguage.vue'
 import ChangeTheme from '@/components/navbar/ChangeTheme.vue'
 import { useCommonStore } from '@/store/options/common'
 import { useDisplay } from 'vuetify'
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import EventsNotifications from './EventsNotifications.vue'
 import getEnv from '@/utils/env'
+import { NavbarReadyEvent } from '@/utils/NavbarReadyEvent'
 
 const router = useRouter()
 const commonStore = useCommonStore()
@@ -92,12 +109,20 @@ const logoUrl = getEnv(
 )
 const logoHeight = getEnv('VITE_LOGO_SMALL_HEIGHT', '64')
 const logoWidth = getEnv('VITE_LOGO_SMALL_WIDTH', '64')
-const logoClasses = getEnv(
-  'VITE_LOGO_SMALL_CLASSES',
-  'ml-2'
-)
+const logoClasses = getEnv('VITE_LOGO_SMALL_CLASSES')
 const logoStyle = getEnv('VITE_LOGO_SMALL_STYLE')
 const navbarTitle = getEnv('VITE_NAVBAR_TITLE', 'RDepot')
+
+onMounted(() => {
+  document.dispatchEvent(
+    new NavbarReadyEvent({
+      navbarId: 'navbar',
+      navbarStartId: 'navbar-start',
+      navbarCenterId: 'navbar-center',
+      navbarEndId: 'navbar-end'
+    })
+  )
+})
 
 function showSidebar() {
   commonStore.drawer = !commonStore.drawer
@@ -113,12 +138,17 @@ function showSidebar() {
   box-sizing: content-box;
 
   .logotext {
-    margin: auto 1em;
+    margin: auto;
     font-size: 1.25em;
     font-weight: 400;
     color: rgb(var(--v-theme-headerText));
     font-weight: 500;
   }
+}
+
+.navbar-section {
+  flex: 1 1 0;
+  min-width: 0;
 }
 
 .logo-container {

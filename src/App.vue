@@ -34,6 +34,7 @@ import en from 'javascript-time-ago/locale/en'
 import pl from 'javascript-time-ago/locale/pl'
 import TimeAgo from 'javascript-time-ago'
 import { useFavicon } from '@/composable/favicon'
+import { useExternalAssets } from '@/composable/externalAssets'
 import { useThemeConfig } from '@/composable/theme'
 
 TimeAgo.addDefaultLocale(en)
@@ -44,6 +45,7 @@ const { applyTheme } = useThemeConfig()
 onBeforeMount(() => {
   applyTheme()
   useFavicon()
+  useExternalAssets()
 })
 </script>
 
