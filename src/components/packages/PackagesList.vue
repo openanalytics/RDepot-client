@@ -36,6 +36,7 @@
     :recently-updated="packagesStore.recentlyUpdated"
     @update:options="fetchData"
     @refresh="fetchData"
+    @chip-click="filterByChip"
   >
     <template #topAction>
       <UploadPackageButton size="x-small" />
@@ -91,6 +92,9 @@
             size="x-small"
             class="ml-1"
             :technology="item.technology"
+            @click.stop="
+              filterByChip('technology', item.technology)
+            "
           />
         </template>
         <template #subtitle>
@@ -108,7 +112,12 @@
     </template>
 
     <template #[`item.binary`]="{ item }">
-      <BinaryPackage :item="item" />
+      <BinaryPackage
+        :item="item"
+        @click.stop="
+          filterByChip('binary', String(item.binary))
+        "
+      />
     </template>
 
     <template #[`item.active`]="{ item }">
@@ -166,6 +175,7 @@ import ProgressCircularSmall from '../common/progress/ProgressCircularSmall.vue'
 import MultiActionPackages from './actions/MultiActionPackages.vue'
 import SelectBoxPackages from './actions/SelectBoxPackages.vue'
 import { usePackagesActions } from '@/composable/packages/packagesActions'
+import { usePackagesChipFiltration } from '@/composable/packages/packagesChipFiltration'
 import OATable from '../common/datatable/OATable.vue'
 import TechnologyChip from '@/components/common/chips/TechnologyChip.vue'
 import GoToButton from '@/components/common/action_icons/GoToButton.vue'
@@ -194,6 +204,7 @@ const expanded = computed({
 
 const packagesStore = usePackagesStore()
 const { isPending } = usePackagesActions()
+const { filterByChip } = usePackagesChipFiltration()
 
 const headers = computed<DataTableHeaders[]>(() => [
   {

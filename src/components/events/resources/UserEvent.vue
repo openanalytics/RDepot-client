@@ -25,12 +25,13 @@
     {{ relatedResource?.name }} ({{
       relatedResource?.login
     }})
-    <span class="d-flex ga-3">
+    <span class="d-flex ga-3 align-center">
       <EventTag
         size="small"
         :value="getTime(event)"
         disable-copying
         disable-tooltip
+        @click="filterByChip('date', event.time)"
       />
     </span>
   </v-card-title>
@@ -112,6 +113,7 @@ import { i18n } from '@/plugins/i18n'
 import { computed } from 'vue'
 import EventTypeTag from './EventTypeTag.vue'
 import EventAuthor from '../EventAuthor.vue'
+import { useEventsChipFiltration } from '@/composable/events/eventsChipFiltration'
 
 const componentProps = defineProps({
   event: {
@@ -124,6 +126,7 @@ const relatedResource: EntityModelUserDto = componentProps
   .event?.relatedResource as EntityModelUserDto
 
 const { getTime } = useDates()
+const { filterByChip } = useEventsChipFiltration()
 
 const resourceType = computed(() =>
   i18n.t('resources.user').toUpperCase()

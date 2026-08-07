@@ -23,7 +23,7 @@
 <template>
   <v-card-title class="d-flex justify-lg-space-between">
     {{ relatedResource?.name }}
-    <span class="d-flex ga-3">
+    <span class="d-flex ga-3 align-center">
       <EventTag
         v-if="relatedResource?.binary"
         :value="$t('properties.packages.binary')"
@@ -43,6 +43,12 @@
         size="small"
         disable-copying
         disable-tooltip
+        @click="
+          filterByChip(
+            'technology',
+            relatedResource?.technology
+          )
+        "
       />
 
       <EventTag
@@ -50,6 +56,7 @@
         size="small"
         disable-copying
         disable-tooltip
+        @click="filterByChip('date', event.time)"
       />
     </span>
   </v-card-title>
@@ -113,6 +120,12 @@
       <EventTag
         :value="relatedResource?.repository?.name"
         :hover-message="i18n.t('resources.repository')"
+        @click="
+          filterByChip(
+            'repositoryName',
+            relatedResource?.repository?.name
+          )
+        "
       />
 
       <EventTag
@@ -152,6 +165,7 @@ import { computed } from 'vue'
 import EventTypeTag from './EventTypeTag.vue'
 import GoToButton from '@/components/common/action_icons/GoToButton.vue'
 import EventAuthor from '../EventAuthor.vue'
+import { useEventsChipFiltration } from '@/composable/events/eventsChipFiltration'
 
 const componentProps = defineProps({
   event: {
@@ -167,6 +181,7 @@ const relatedResource: EntityModelPackageDto =
 const { getTime } = useDates()
 const { getStatusIcon, getStatusColor } =
   useSubmissionIcons()
+const { filterByChip } = useEventsChipFiltration()
 
 const resourceType = computed(() =>
   i18n.t('resources.package').toUpperCase()

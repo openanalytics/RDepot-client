@@ -34,6 +34,7 @@
     "
     @update:options="fetchData"
     @refresh="fetchData"
+    @chip-click="filterByChip"
   >
     <template #topAction>
       <AddMaintainerButton v-if="postCondition" />
@@ -105,10 +106,13 @@ import ProgressCircularSmall from '../common/progress/ProgressCircularSmall.vue'
 import OATable from '../common/datatable/OATable.vue'
 import { OverlayEnum } from '@/enum/Overlay.ts'
 import { useCommonStore } from '@/store/options/common.ts'
+import { useRepositoryMaintainersChipFiltration } from '@/composable/repositoryMaintainers/repositoryMaintainersChipFiltration'
 
 const repositoryMaintainersStore =
   useRepositoryMaintainersStore()
 const { canPatch, canDelete } = useUserAuthorities()
+const { filterByChip } =
+  useRepositoryMaintainersChipFiltration()
 
 const authorizationStore = useAuthorizationStore()
 

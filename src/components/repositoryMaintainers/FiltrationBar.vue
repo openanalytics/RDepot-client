@@ -90,6 +90,7 @@ import { toTypedSchema } from '@vee-validate/zod'
 import { useRepositoryMaintainersStore } from '@/store/options/repositoryMaintainers'
 import ResetButton from '@/components/common/buttons/ResetButton.vue'
 import { i18n } from '@/plugins/i18n'
+import { useSyncFiltrationForm } from '@/composable/common/syncFiltrationForm'
 
 const { technologies } = useEnumFiltration()
 
@@ -102,6 +103,11 @@ const { setValues, values } = useForm({
   ),
   initialValues: repositoryMaintainerStore.filtration
 })
+
+useSyncFiltrationForm(
+  () => repositoryMaintainerStore.filtration,
+  setValues
+)
 
 function setFiltration() {
   repositoryMaintainerStore.setFiltration(

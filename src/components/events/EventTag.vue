@@ -33,7 +33,7 @@
         :color="color"
         :size="size"
         :variant="variant"
-        v-bind="props"
+        v-bind="{ ...props, ...$attrs }"
         @click="disableCopying || !value ? '' : copy(value)"
       >
         {{
@@ -121,5 +121,6 @@ defineProps({
   }
 })
 
+defineOptions({ inheritAttrs: false })
 const { copy, copied } = useClipboard()
 </script>

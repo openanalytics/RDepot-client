@@ -35,6 +35,7 @@
     :recently-updated="repositoryStore.recentlyUpdated"
     @update:options="fetchData"
     @refresh="fetchData"
+    @chip-click="filterByChip"
   >
     <template #topAction>
       <AddButton v-if="postCondition" />
@@ -65,6 +66,9 @@
             size="x-small"
             class="ml-1"
             :technology="item.technology"
+            @click.stop="
+              filterByChip('technology', item.technology)
+            "
           />
         </template>
         <template #subtitle>
@@ -254,6 +258,7 @@ import GoToButton from '@/components/common/action_icons/GoToButton.vue'
 import UploadPackageButton from '@/components/common/buttons/UploadPackageButton.vue'
 import { OverlayEnum } from '@/enum/Overlay'
 import { useCommonStore } from '@/store/options/common'
+import { useRepositoriesChipFiltration } from '@/composable/repositories/repositoriesChipFiltration'
 
 const { deepCopy } = useUtilities()
 const repositoryStore = useRepositoryStore()
@@ -262,6 +267,7 @@ const configStore = useConfigStore()
 const authorizationStore = useAuthorizationStore()
 const { deprecatedAddressTooltip } =
   useRepositoryDeprecated()
+const { filterByChip } = useRepositoriesChipFiltration()
 
 const exp = ref<string[]>([])
 

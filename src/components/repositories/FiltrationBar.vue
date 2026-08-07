@@ -146,6 +146,7 @@ import { useRepositoryStore } from '@/store/options/repositories'
 import { isAtLeastAdmin } from '@/enum/UserRoles'
 import ResetButton from '@/components/common/buttons/ResetButton.vue'
 import { useAuthorizationStore } from '@/store/options/authorization'
+import { useSyncFiltrationForm } from '@/composable/common/syncFiltrationForm'
 
 const { technologies } = useEnumFiltration()
 const authorizationStore = useAuthorizationStore()
@@ -161,6 +162,11 @@ const { setValues, values } = useForm({
   validationSchema: toTypedSchema(RepositoriesFiltration),
   initialValues: repositoryStore.filtration
 })
+
+useSyncFiltrationForm(
+  () => repositoryStore.filtration,
+  setValues
+)
 
 function setFiltration() {
   repositoryStore.setFiltration(

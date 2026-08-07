@@ -206,6 +206,7 @@ import {
 } from '@/enum/UserRoles'
 import ResetButton from '@/components/common/buttons/ResetButton.vue'
 import { useAuthorizationStore } from '@/store/options/authorization'
+import { useSyncFiltrationForm } from '@/composable/common/syncFiltrationForm'
 
 const { states, fileTypes, technologies, sortValues } =
   useEnumFiltration()
@@ -229,6 +230,11 @@ const { setValues, values, setFieldValue } = useForm({
     deleted: false
   }
 })
+
+useSyncFiltrationForm(
+  () => packageStore.filtration,
+  setValues
+)
 
 setFiltration()
 

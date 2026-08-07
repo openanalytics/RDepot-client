@@ -58,7 +58,7 @@
     >
       <TechnologyChip
         :technology="value"
-        @click="emits('chipClick', item, value)"
+        @click.stop="emits('chipClick', item, value)"
       />
     </template>
 
@@ -70,7 +70,7 @@
       <DateChip
         v-if="value"
         :date="value"
-        @click="emits('chipClick', item, value)"
+        @click.stop="emits('chipClick', item, value)"
       />
     </template>
 
@@ -79,7 +79,7 @@
       :key="i"
       #[`item.${item}`]="{ value }"
     >
-      <div @click="emits('chipClick', item, value)">
+      <div @click.stop="emits('chipClick', item, value)">
         <StateIcon :state="value" />
       </div>
     </template>

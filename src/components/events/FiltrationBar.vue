@@ -187,6 +187,7 @@ import DatePickerField from '@/components/common/fields/DatePickerField.vue'
 import { useDatePicker } from '@/composable/datePicker'
 import ResetButton from '@/components/common/buttons/ResetButton.vue'
 import { computed } from 'vue'
+import { useSyncFiltrationForm } from '@/composable/common/syncFiltrationForm'
 import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesFiltration'
 import { usePackagesFiltration } from '@/composable/filtration/packagesFiltration'
 
@@ -223,6 +224,11 @@ const { setValues, values, setFieldValue } = useForm({
   validationSchema: toTypedSchema(EventsFiltration),
   initialValues: eventStore.filtration
 })
+
+useSyncFiltrationForm(
+  () => eventStore.filtration,
+  setValues
+)
 
 const allowedDates = computed(() => {
   switch (changedDate.value) {

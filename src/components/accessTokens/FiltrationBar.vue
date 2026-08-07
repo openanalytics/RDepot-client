@@ -119,6 +119,7 @@ import { useUsersFiltration } from '@/composable/filtration/usersFiltration'
 import ResetButton from '@/components/common/buttons/ResetButton.vue'
 import { useAccessTokensStore } from '@/store/options/accessTokens'
 import { useAuthorizationStore } from '@/store/options/authorization'
+import { useSyncFiltrationForm } from '@/composable/common/syncFiltrationForm'
 
 const authorizationStore = useAuthorizationStore()
 const accessTokensStore = useAccessTokensStore()
@@ -129,6 +130,11 @@ const { setValues, values } = useForm({
   validationSchema: toTypedSchema(TokensFiltration),
   initialValues: accessTokensStore.filtration
 })
+
+useSyncFiltrationForm(
+  () => accessTokensStore.filtration,
+  setValues
+)
 
 function setFiltration() {
   accessTokensStore.setFiltration(

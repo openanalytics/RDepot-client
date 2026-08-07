@@ -25,12 +25,13 @@
     {{ relatedResource?.user?.name }} ({{
       relatedResource?.user?.login
     }})
-    <span class="d-flex ga-3">
+    <span class="d-flex ga-3 align-center">
       <EventTag
         :value="getTime(event)"
         size="small"
         disable-copying
         disable-tooltip
+        @click="filterByChip('date', event.time)"
       />
     </span>
   </v-card-title>
@@ -71,15 +72,17 @@
 
         <EventTag
           :value="relatedResource?.packageName"
-          :hover-message="
-            i18n.t('fields.packageMaintainers.packageName')
-          "
+          :hover-message="i18n.t('resources.package')"
         />
 
         <EventTag
           :value="relatedResource?.repository?.name"
-          :hover-message="
-            i18n.t('fields.packageMaintainers.repository')
+          :hover-message="i18n.t('resources.repository')"
+          @click="
+            filterByChip(
+              'repositoryName',
+              relatedResource?.repository?.name
+            )
           "
         />
 
@@ -120,6 +123,7 @@ import { i18n } from '@/plugins/i18n'
 import { computed } from 'vue'
 import EventTypeTag from './EventTypeTag.vue'
 import EventAuthor from '../EventAuthor.vue'
+import { useEventsChipFiltration } from '@/composable/events/eventsChipFiltration'
 
 const componentProps = defineProps({
   event: {
@@ -133,6 +137,7 @@ const relatedResource: EntityModelPackageMaintainerDto =
     ?.relatedResource as EntityModelPackageMaintainerDto
 
 const { getTime } = useDates()
+const { filterByChip } = useEventsChipFiltration()
 
 const resourceType = computed(() =>
   i18n.t('resources.packageMaintainer').toUpperCase()

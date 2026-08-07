@@ -24,7 +24,7 @@
   <v-card-title class="d-flex justify-lg-space-between">
     {{ relatedResource.name }}
 
-    <span class="d-flex ga-3">
+    <span class="d-flex ga-3 align-center">
       <EventTag
         :value="`v ${relatedResource?.version}`"
         size="small"
@@ -37,6 +37,12 @@
         size="small"
         disable-copying
         disable-tooltip
+        @click="
+          filterByChip(
+            'technology',
+            relatedResource?.technology
+          )
+        "
       />
 
       <EventTag
@@ -44,6 +50,7 @@
         size="small"
         disable-copying
         disable-tooltip
+        @click="filterByChip('date', event.time)"
       />
     </span>
   </v-card-title>
@@ -135,6 +142,7 @@ import { computed } from 'vue'
 import EventTypeTag from './EventTypeTag.vue'
 import { useAuthorizationStore } from '@/store/options/authorization'
 import EventAuthor from '../EventAuthor.vue'
+import { useEventsChipFiltration } from '@/composable/events/eventsChipFiltration'
 
 const componentProps = defineProps({
   event: {
@@ -150,6 +158,7 @@ const relatedResource: EntityModelRepositoryDto =
 const authorizationStore = useAuthorizationStore()
 
 const { getTime } = useDates()
+const { filterByChip } = useEventsChipFiltration()
 
 const resourceType = computed(() =>
   i18n.t('resources.repository').toUpperCase()

@@ -32,6 +32,7 @@
     :recently-updated="accessTokensStore.recentlyUpdated"
     @update:options="fetchData"
     @refresh="fetchData"
+    @chip-click="filterByChip"
   >
     <template #topAction>
       <AddToken />
@@ -52,7 +53,9 @@
         "
         class="mx-4"
         variant="text"
+        style="cursor: pointer"
         :color="item.active ? 'success' : 'oared'"
+        @click="filterByChip('active', String(item.active))"
       >
       </v-icon>
     </template>
@@ -125,10 +128,12 @@ import { useAccessTokensStore } from '@/store/options/accessTokens'
 import Icons from '@/maps/Icons'
 import { useCommonStore } from '@/store/options/common'
 import { OverlayEnum } from '@/enum/Overlay'
+import { useTokensChipFiltration } from '@/composable/tokens/tokensChipFiltration'
 
 const authorizationStore = useAuthorizationStore()
 const accessTokensStore = useAccessTokensStore()
 const { canPatch, canDelete } = useUserAuthorities()
+const { filterByChip } = useTokensChipFiltration()
 
 const { getSort } = useSort()
 const defaultSort: Sort[] = [{ key: 'name', order: 'asc' }]
