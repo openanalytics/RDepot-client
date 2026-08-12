@@ -11,7 +11,7 @@ spec:
         secretName: oa-sa-jenkins-registry-config
   containers:
     - name: rdepot-client-build
-      image: registry.openanalytics.eu/openanalytics/rdepot-client-build:latest
+      image: registry.openanalytics.eu/openanalytics/rdepot-client-build@sha256:8825eb61
       resources:
         limits:
           memory: '8Gi'
