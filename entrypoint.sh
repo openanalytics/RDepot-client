@@ -11,6 +11,7 @@ if [ -f "$CONFIG_FILE" ]; then
     esac
     key=$(echo "$line" | sed -n 's/^\([A-Za-z_][A-Za-z0-9_]*\):.*/\1/p')
     value=$(echo "$line" | sed -n 's/^[A-Za-z_][A-Za-z0-9_]*:[[:space:]]*//p')
+    value=$(echo "$value" | sed "s/^\(['\"]\\)\(.*\)\1$/\2/")
     if [ -n "$key" ]; then
       eval current_val=\${$key}
       if [ -z "$current_val" ]; then
