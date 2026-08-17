@@ -31,6 +31,8 @@ spec:
       env:
         - name: COMPOSE_HTTP_TIMEOUT
           value: 600
+        - name: DOCKER_CONFIG
+          value: /.docker
       imagePullPolicy: Always
     - name: jnlp
       resources:
