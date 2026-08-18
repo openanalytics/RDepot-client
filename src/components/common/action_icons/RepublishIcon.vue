@@ -40,10 +40,8 @@ import { useCommonStore } from '@/store/options/common'
 import { useConfigStore } from '@/store/options/config'
 import { computed } from 'vue'
 import Icons from '@/maps/Icons'
-import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
+import { hasPermission } from '@/utils/permissions'
 import { useRepositoryStore } from '@/store/options/repositories'
-import { isAtLeastRepositoryMaintainer } from '@/enum/UserRoles'
-import { useAuthorizationStore } from '@/store/options/authorization'
 
 const componentProps = defineProps({
   repo: {
@@ -54,9 +52,7 @@ const componentProps = defineProps({
 
 const emits = defineEmits(['setEntity'])
 const commonStore = useCommonStore()
-const authorizationStore = useAuthorizationStore()
 const configStore = useConfigStore()
-const { canPatch } = useUserAuthorities()
 
 const tooltipText = computed(() => {
   if (!disabled.value) {
@@ -78,14 +74,9 @@ const tooltipText = computed(() => {
 })
 
 const disabled = computed(() => {
-  return (
-    !canPatch(componentProps.repo.links) ||
-    (configStore.declarativeMode &&
-      !isAtLeastRepositoryMaintainer(
-        authorizationStore.userRole || 0
-      )) ||
-    componentProps.repo.deleted ||
-    !componentProps.repo.published
+  return !hasPermission(
+    componentProps.repo.permissions,
+    'repository.republish'
   )
 })
 

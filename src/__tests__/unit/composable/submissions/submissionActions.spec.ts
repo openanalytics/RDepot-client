@@ -59,7 +59,8 @@ describe('submissionActions', () => {
     const spy = vi.spyOn(submissionsStore, 'patch')
     const submission = {
       state: 'WAITING',
-      technology: Technologies.Enum.Python
+      technology: Technologies.Enum.Python,
+      permissions: ['submission.reject']
     } as EntityModelSubmissionDto
     await rejectSubmission(submission)
     expect(spy).toBeCalledTimes(1)
@@ -70,7 +71,8 @@ describe('submissionActions', () => {
     const spy = vi.spyOn(submissionsStore, 'patch')
     const submission = {
       state: 'WAITING',
-      technology: Technologies.Enum.Python
+      technology: Technologies.Enum.Python,
+      permissions: ['submission.accept']
     } as EntityModelSubmissionDto
     await acceptSubmission(submission)
     expect(spy).toBeCalledTimes(1)
@@ -81,7 +83,8 @@ describe('submissionActions', () => {
     const spy = vi.spyOn(submissionsStore, 'patch')
     const submission = {
       state: 'WAITING',
-      technology: Technologies.Enum.Python
+      technology: Technologies.Enum.Python,
+      permissions: ['submission.accept']
     } as EntityModelSubmissionDto
     await acceptSubmission(submission)
     expect(spy).toBeCalledTimes(1)

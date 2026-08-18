@@ -70,6 +70,7 @@ describe('Event Store', () => {
     server.resetHandlers()
     const authorizationStore = useAuthorizationStore()
     await authorizationStore.getUserInfo()
+    authorizationStore.me.permissions = ['event.list']
   })
 
   afterAll(() => {

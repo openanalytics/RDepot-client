@@ -31,7 +31,8 @@ import {
   validatedData
 } from './openApiAccess'
 import { createPatch } from 'rfc6902'
-import { isAuthorized } from '@/plugins/casl'
+import { usePermissions } from '@/composable/authorities/userAuthorities'
+import { hasPermission } from '@/utils/permissions'
 
 type ValidatedRepositoryMaintainers = Promise<
   validatedData<EntityModelRepositoryMaintainerDto[]>
@@ -41,6 +42,8 @@ type ValidatedRepositoryMaintainer = Promise<
   validatedData<EntityModelRepositoryMaintainerDto>
 >
 
+const { has } = usePermissions()
+
 export async function fetchRepositoryMaintainersService(
   filtration: RepositoryMaintainersFiltration,
   page?: number,
@@ -48,7 +51,7 @@ export async function fetchRepositoryMaintainersService(
   sort?: string[],
   showProgress = false
 ): ValidatedRepositoryMaintainers {
-  if (!isAuthorized('GET', 'submissions')) {
+  if (!has('repositoryMaintainer.list')) {
     return new Promise(() => validateRequest([]))
   }
   return openApiRequest<
@@ -74,7 +77,12 @@ export async function updateRepositoryMaintainer(
   oldMaintainer: EntityModelRepositoryMaintainerDto,
   newMaintainer: EntityModelRepositoryMaintainerDto
 ): ValidatedRepositoryMaintainer {
-  if (!isAuthorized('PATCH', 'repositoryMaintainers'))
+  if (
+    !hasPermission(
+      oldMaintainer.permissions,
+      'repositoryMaintainer.edit'
+    )
+  )
     return new Promise(() => false)
 
   const patch = createPatch(oldMaintainer, newMaintainer)
@@ -92,7 +100,7 @@ export async function updateRepositoryMaintainer(
 export async function createRepositoryMaintainer(
   maintainer: EntityModelRepositoryMaintainerDto
 ): ValidatedRepositoryMaintainer {
-  if (!isAuthorized('POST', 'repositoryMaintainers'))
+  if (!has('repositoryMaintainer.create'))
     return new Promise(() => false)
 
   return openApiRequest<EntityModelRepositoryMaintainerDto>(
@@ -106,7 +114,12 @@ export async function createRepositoryMaintainer(
 export async function deletedRepositoryMaintainer(
   maintainer: EntityModelRepositoryMaintainerDto
 ): ValidatedRepositoryMaintainer {
-  if (!isAuthorized('DELETE', 'repositoryMaintainers')) {
+  if (
+    !hasPermission(
+      maintainer.permissions,
+      'repositoryMaintainer.delete.soft'
+    )
+  ) {
     return new Promise(() => false)
   }
   return openApiRequest<EntityModelRepositoryMaintainerDto>(

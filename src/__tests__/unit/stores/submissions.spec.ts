@@ -54,6 +54,7 @@ describe('Submissions Store', () => {
     server.listen()
     const authorizationStore = useAuthorizationStore()
     await authorizationStore.getUserInfo()
+    authorizationStore.me.permissions = ['submission.list']
   })
 
   afterAll(() => server.close())
@@ -76,6 +77,7 @@ describe('Testing submissions store with failing backend', () => {
     failingServer.listen()
     const authorizationStore = useAuthorizationStore()
     await authorizationStore.getUserInfo()
+    authorizationStore.me.permissions = ['submission.list']
   })
 
   afterEach(() => {
@@ -103,6 +105,7 @@ describe('Testing submissions store with failing backend', () => {
     const submission = deepCopyAny(
       submissions.data.content[0]
     )
+    submission.permissions = ['submission.cancel']
 
     await submissionStore.patch(submission, {
       state: EntityModelSubmissionDtoStateEnum.CANCELLED

@@ -30,11 +30,13 @@ import {
   validateRequest,
   validatedData
 } from './openApiAccess'
-import { isAuthorized } from '@/plugins/casl'
+import { usePermissions } from '@/composable/authorities/userAuthorities'
 
 type ValidatedNewsFeed = Promise<
   validatedData<EntityModelNewsfeedEventDto[]>
 >
+
+const { has } = usePermissions()
 
 export async function fetchEventsService(
   filtration: EventsFiltration,
@@ -42,7 +44,7 @@ export async function fetchEventsService(
   pageSize?: number,
   showProgress = true
 ): ValidatedNewsFeed {
-  if (!isAuthorized('GET', 'events')) {
+  if (!has('event.list')) {
     return new Promise(() => validateRequest({}))
   }
   let localFiltration = undefined

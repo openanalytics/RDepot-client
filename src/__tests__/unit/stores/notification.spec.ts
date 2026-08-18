@@ -37,6 +37,7 @@ describe('Notifications Store', () => {
     await authorizationStore.getUserInfo()
     authorizationStore.me.lastLoggedInOn =
       '2024-01-18T13:42:34.341632'
+    authorizationStore.me.permissions = ['event.list']
   })
 
   afterAll(() => {

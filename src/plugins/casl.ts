@@ -34,8 +34,6 @@ import {
   isAtLeastUser
 } from '@/enum/UserRoles'
 import { z } from 'zod'
-import { RouteRecordName } from 'vue-router'
-import { useAuthorizationStore } from '@/store/options/authorization'
 
 const FrontendRoute = z.enum(['Home', 'packageDetails'])
 
@@ -120,26 +118,4 @@ export function defineAbilityFor(role: Role) {
   return build()
 }
 
-export function nameToActionAndSubject(
-  name: RouteRecordName | null | undefined
-): [Action, Subject] {
-  const parsedSubject = Subject.safeParse(name)
-  if (parsedSubject.success) {
-    return ['GET', parsedSubject.data]
-  } else {
-    throw Error(parsedSubject.error.message)
-  }
-}
-
 export const caslAbility = defineAbilityFor(Role.enum.user)
-
-export function isAuthorized(
-  action: Action,
-  subject: Subject
-): boolean {
-  const authorizationStore = useAuthorizationStore()
-  if (!authorizationStore.can(action, subject)) {
-    return false
-  }
-  return true
-}

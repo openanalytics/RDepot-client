@@ -20,63 +20,17 @@
  *
  */
 
-import { Link } from '@/openapi'
+import { useAuthorizationStore } from '@/store/options/authorization'
+import { hasPermission } from '@/utils/permissions'
 
-type PatchOptions = {
-  allowed: boolean
-  fields: string[]
-}
-
-export function useUserAuthorities() {
-  function canDelete(links?: Array<Link>): boolean {
-    return canPerformAction('delete', links).allowed
-  }
-
-  function canPatch(
-    links?: Array<Link>,
-    field?: string
-  ): boolean {
-    const result: PatchOptions = canPerformAction(
-      'patch',
-      links
+export function usePermissions() {
+  function has(permission: string): boolean {
+    const authorizationStore = useAuthorizationStore()
+    return hasPermission(
+      authorizationStore.me?.permissions,
+      permission
     )
-    if (result.fields.length === 0) {
-      return result.allowed
-    } else {
-      if (field) {
-        return result.fields.includes(field)
-      } else {
-        console.error(
-          'No field was specified in canPatch operation'
-        )
-        return false
-      }
-    }
   }
 
-  function canPerformAction(
-    action: string,
-    links?: Array<Link>
-  ) {
-    const result: PatchOptions = {
-      allowed: false,
-      fields: []
-    }
-
-    links?.forEach((link) => {
-      if (
-        link.rel === 'self' &&
-        link.type?.toLowerCase() === action.toLowerCase()
-      ) {
-        result.allowed = true
-        result.fields = link.modifiableProperties || []
-      }
-    })
-    return result
-  }
-
-  return {
-    canDelete,
-    canPatch
-  }
+  return { has }
 }

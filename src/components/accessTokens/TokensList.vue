@@ -68,13 +68,17 @@
       >
         <EditIcon
           :disabled="
-            (!canPatch(item.links) && item.active) ||
-            !item.active
+            !hasPermission(
+              item.permissions,
+              'accessToken.edit'
+            )
           "
           :text="$t('actions.general.edit')"
           :hover-message="
-            (!canPatch(item.links) && item.active) ||
-            !item.active
+            !hasPermission(
+              item.permissions,
+              'accessToken.edit'
+            )
               ? $t('properties.general.inactive')
               : $t('actions.general.edit')
           "
@@ -83,12 +87,17 @@
         <DeactivateIcon
           v-if="item.name"
           :disabled="
-            (!canPatch(item.links) && item.active) ||
-            !item.active
+            !hasPermission(
+              item.permissions,
+              'accessToken.deactivate'
+            )
           "
           :name="item.name"
           :hover-message="
-            !canPatch(item.links) && item.active
+            hasPermission(
+              item.permissions,
+              'accessToken.deactivate'
+            )
               ? $t('actions.general.deactivate')
               : $t('properties.general.inactive')
           "
@@ -98,7 +107,12 @@
         />
         <DeleteIcon
           v-if="item.name"
-          :disabled="!canDelete(item.links)"
+          :disabled="
+            !hasPermission(
+              item.permissions,
+              'accessToken.delete.hard'
+            )
+          "
           @set-resource-id="prepareDeletion(item)"
         /> </span
     ></template>
@@ -113,7 +127,7 @@ import {
   DataTableOptions,
   Sort
 } from '@/models/DataTableOptions'
-import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
+import { hasPermission } from '@/utils/permissions'
 import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
 import ProgressCircularSmall from '../common/progress/ProgressCircularSmall.vue'
 import DeactivateIcon from '@/components/common/action_icons/DeactivateIcon.vue'
@@ -132,7 +146,6 @@ import { useTokensChipFiltration } from '@/composable/tokens/tokensChipFiltratio
 
 const authorizationStore = useAuthorizationStore()
 const accessTokensStore = useAccessTokensStore()
-const { canPatch, canDelete } = useUserAuthorities()
 const { filterByChip } = useTokensChipFiltration()
 
 const { getSort } = useSort()

@@ -25,8 +25,7 @@ import {
   EntityModelSubmissionDto,
   EntityModelSubmissionDtoStateEnum
 } from '@/openapi'
-import { useAuthorizationStore } from '@/store/options/authorization'
-import { useUserAuthorities } from '../authorities/userAuthorities'
+import { hasPermission } from '@/utils/permissions'
 import { EditSubmissionWarnings } from '@/store/options/submission'
 
 export function useSubmissionAuthorizationCheck() {
@@ -55,11 +54,7 @@ export function useSubmissionAuthorizationCheck() {
         return isAuthorizedToCancel(submission)
       }
       case SubmissionEditOptions.Enum.download: {
-        return (
-          isAuthorizedToDownload(submission) ||
-          submission?.state ===
-            EntityModelSubmissionDtoStateEnum.ACCEPTED
-        )
+        return true
       }
       default: {
         return
@@ -79,31 +74,24 @@ export function useSubmissionAuthorizationCheck() {
   function isAuthorizedToCancel(
     submission?: EntityModelSubmissionDto
   ) {
-    const authorizationStore = useAuthorizationStore()
-    const { canPatch } = useUserAuthorities()
-    return (
-      authorizationStore.me?.id ==
-        submission?.submitter?.id &&
-      canPatch(submission?.links, 'state')
+    return hasPermission(
+      submission?.permissions,
+      'submission.cancel'
     )
-  }
-
-  function isAuthorizedToDownload(
-    submission?: EntityModelSubmissionDto
-  ) {
-    const { canPatch } = useUserAuthorities()
-    return canPatch(submission?.links, 'state')
   }
 
   function isAuthorizedToAcceptAndReject(
     submission?: EntityModelSubmissionDto
   ) {
-    const authorizationStore = useAuthorizationStore()
-    const { canPatch } = useUserAuthorities()
     return (
-      authorizationStore.me?.id !=
-        submission?.submitter?.id &&
-      canPatch(submission?.links, 'state')
+      hasPermission(
+        submission?.permissions,
+        'submission.accept'
+      ) ||
+      hasPermission(
+        submission?.permissions,
+        'submission.reject'
+      )
     )
   }
 

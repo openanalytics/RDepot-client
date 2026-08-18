@@ -37,7 +37,7 @@ import { usePackagesStore } from '@/store/options/packages'
 import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
 import { EntityModelPackageDto } from '@/openapi'
 import { i18n } from '@/plugins/i18n'
-import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
+import { hasPermission } from '@/utils/permissions'
 import { useConfigStore } from '@/store/options/config'
 import { computed } from 'vue'
 import { OverlayEnum } from '@/enum/Overlay.ts'
@@ -51,7 +51,6 @@ const componentProps = defineProps({
 })
 
 const packagesStore = usePackagesStore()
-const { canDelete } = useUserAuthorities()
 const configStore = useConfigStore()
 
 const id = computed(
@@ -66,11 +65,10 @@ const id = computed(
 
 const disabled = computed(
   () =>
-    !configStore.deletingPackages ||
-    (!canDelete(componentProps.item.links) &&
-      !componentProps.item.deleted) ||
-    componentProps.item.deleted ||
-    isPending.value
+    !hasPermission(
+      componentProps.item.permissions,
+      'package.delete.soft'
+    ) || isPending.value
 )
 
 const hoverMessage = computed(() => {

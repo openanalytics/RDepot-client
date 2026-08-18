@@ -66,6 +66,11 @@ describe('Package Maintainers Store', () => {
     server.resetHandlers()
     const authorizationStore = useAuthorizationStore()
     await authorizationStore.getUserInfo()
+    authorizationStore.me.permissions = [
+      'packageMaintainer.list',
+      'repository.list',
+      'package.list'
+    ]
   })
 
   afterEach(() => {
@@ -267,6 +272,11 @@ describe('Package Maintainers Store requests with failing backend', () => {
     failingServer.resetHandlers()
     const authorizationStore = useAuthorizationStore()
     await authorizationStore.getUserInfo()
+    authorizationStore.me.permissions = [
+      'packageMaintainer.list',
+      'repository.list',
+      'package.list'
+    ]
   })
 
   afterAll(() => {

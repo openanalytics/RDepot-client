@@ -48,8 +48,10 @@ import Icons from '@/maps/Icons'
 import { i18n } from '@/plugins/i18n'
 import { computed, type PropType } from 'vue'
 import { useRouter } from 'vue-router'
-import { useAuthorizationStore } from '@/store/options/authorization'
 import { useUploadSubmissionStore } from '@/store/setup/uploadSubmission'
+import { usePermissions } from '@/composable/authorities/userAuthorities'
+
+const { has } = usePermissions()
 
 const props = defineProps({
   repo: {
@@ -74,12 +76,9 @@ const props = defineProps({
 })
 
 const router = useRouter()
-const authorizationStore = useAuthorizationStore()
 const uploadSubmissionStore = useUploadSubmissionStore()
 
-const canUpload = computed(() =>
-  authorizationStore.can('POST', 'submissions')
-)
+const canUpload = computed(() => has('submission.create'))
 
 const buttonId = computed(() =>
   props.repo

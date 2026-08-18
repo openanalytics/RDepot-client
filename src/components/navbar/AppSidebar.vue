@@ -77,7 +77,7 @@
       </v-tooltip>
       <v-divider class="pb-3"></v-divider>
       <v-tooltip
-        v-if="authorizationStore.can('GET', 'events')"
+        v-if="has('event.list')"
         :text="$t('resources.event', 2)"
         location="end"
         :disabled="!miniDrawer"
@@ -96,7 +96,7 @@
         </template>
       </v-tooltip>
       <v-tooltip
-        v-if="authorizationStore.can('POST', 'submissions')"
+        v-if="has('submission.create')"
         :text="$t('actions.general.uploadPackages')"
         location="end"
         :disabled="!miniDrawer"
@@ -115,7 +115,7 @@
       </v-tooltip>
 
       <v-tooltip
-        v-if="authorizationStore.can('GET', 'packages')"
+        v-if="has('package.list')"
         :text="$t('resources.package', 2)"
         location="end"
         :disabled="!miniDrawer"
@@ -137,12 +137,7 @@
       </v-tooltip>
 
       <v-tooltip
-        v-if="
-          authorizationStore.can(
-            'GET',
-            'packageMaintainers'
-          )
-        "
+        v-if="has('packageMaintainer.list')"
         :text="$t('resources.packageMaintainer', 2)"
         location="end"
         :disabled="!miniDrawer"
@@ -172,7 +167,7 @@
       </v-tooltip>
 
       <v-tooltip
-        v-if="authorizationStore.can('GET', 'repositories')"
+        v-if="has('repository.list')"
         :text="$t('resources.repository', 2)"
         location="end"
         :disabled="!miniDrawer"
@@ -191,12 +186,7 @@
       </v-tooltip>
 
       <v-tooltip
-        v-if="
-          authorizationStore.can(
-            'GET',
-            'repositoryMaintainers'
-          )
-        "
+        v-if="has('repositoryMaintainer.list')"
         :text="$t('resources.repositoryMaintainer', 2)"
         location="end"
         :disabled="!miniDrawer"
@@ -228,7 +218,7 @@
       </v-tooltip>
 
       <v-tooltip
-        v-if="authorizationStore.can('GET', 'users')"
+        v-if="has('user.list')"
         :text="$t('resources.user', 2)"
         location="end"
         :disabled="!miniDrawer"
@@ -247,7 +237,7 @@
       </v-tooltip>
 
       <v-tooltip
-        v-if="authorizationStore.can('GET', 'submissions')"
+        v-if="has('submission.list')"
         :text="$t('resources.submission', 2)"
         location="end"
         :disabled="!miniDrawer"
@@ -381,7 +371,9 @@ import { useDisplay } from 'vuetify'
 import getEnv from '@/utils/env'
 import Icons from '@/maps/Icons'
 import UserAvatar from '@/components/common/users/UserAvatar.vue'
+import { usePermissions } from '@/composable/authorities/userAuthorities'
 
+const { has } = usePermissions()
 const { xs, mobile } = useDisplay()
 const authorizationStore = useAuthorizationStore()
 const commonStore = useCommonStore()

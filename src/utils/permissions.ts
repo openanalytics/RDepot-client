@@ -20,26 +20,21 @@
  *
  */
 
-import {
-  ApiV2ConfigControllerApiFactory,
-  PublicConfigurationDto
-} from '@/openapi'
-import {
-  openApiRequest,
-  validatedData,
-  validateRequest
-} from './openApiAccess'
+const setCache = new WeakMap<string[], Set<string>>()
 
-type ValidatedConfig = Promise<
-  validatedData<PublicConfigurationDto>
->
+function cachedSet(permissions: string[]): Set<string> {
+  let set = setCache.get(permissions)
+  if (!set) {
+    set = new Set(permissions)
+    setCache.set(permissions, set)
+  }
+  return set
+}
 
-export async function fetchConfiguration(): ValidatedConfig {
-  return openApiRequest<PublicConfigurationDto>(
-    ApiV2ConfigControllerApiFactory().getPublicConfig,
-    [],
-    false
-  ).catch(() => {
-    return validateRequest({})
-  })
+export function hasPermission(
+  permissions: string[] | undefined | null,
+  permission: string
+): boolean {
+  if (!permissions) return false
+  return cachedSet(permissions).has(permission)
 }

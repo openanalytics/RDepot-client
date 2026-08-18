@@ -23,9 +23,8 @@
 <template>
   <IconButton
     v-if="
-      (item.state ===
-        EntityModelSubmissionDtoStateEnum.WAITING &&
-        canPatch(item.links, 'state')) ||
+      item.state ===
+        EntityModelSubmissionDtoStateEnum.WAITING ||
       item.state ===
         EntityModelSubmissionDtoStateEnum.ACCEPTED
     "
@@ -44,7 +43,6 @@ import {
 } from '@/openapi'
 import { useSubmissionActions } from '@/composable/submissions/submissionActions'
 import IconButton from '@/components/common/buttons/IconButton.vue'
-import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
 import Icons from '@/maps/Icons'
 
 defineProps({
@@ -54,6 +52,5 @@ defineProps({
   }
 })
 
-const { canPatch } = useUserAuthorities()
 const { downloadSubmission } = useSubmissionActions()
 </script>
