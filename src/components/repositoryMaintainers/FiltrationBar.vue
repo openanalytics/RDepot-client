@@ -47,7 +47,7 @@
       multiple
       clearable
       as="v-select"
-      :label="i18n.t('resources.technology', 2)"
+      :label="i18n.t('resources.technology')"
       @update:model-value="setFiltration"
     ></validated-input-field>
 
