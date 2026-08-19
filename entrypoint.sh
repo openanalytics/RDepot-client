@@ -66,9 +66,9 @@ JSON_STRING='window.configs = { \
   "VITE_CSS_FILES":"'"${VITE_CSS_FILES}"'", \
   "VITE_JS_FILES":"'"${VITE_JS_FILES}"'" \
 }'
-FAVICON_ICO_URL="${VITE_FAVICON_ICO_URL:-${VITE_URL_PREFIX}favicon.ico}"
-FAVICON_SVG_URL="${VITE_FAVICON_SVG_URL:-${VITE_URL_PREFIX}images/RDepotLogo.svg}"
-sed -i "s@// CONFIGURATIONS_PLACEHOLDER@${JSON_STRING}@;s@src=\"/assets/@src=\"${VITE_URL_PREFIX}assets/@;s@href=\"/assets/@href=\"${VITE_URL_PREFIX}assets/@;s@href=\"/favicon.ico\"@href=\"${FAVICON_ICO_URL}\"@;s@href=\"/images/RDepotLogo.svg\"@href=\"${FAVICON_SVG_URL}\"@" /usr/share/nginx/html/index.html
+FAVICON_ICO_URL="${VITE_FAVICON_ICO_URL:-${VITE_URL_PREFIX}favicon-oa.ico}"
+FAVICON_SVG_URL="${VITE_FAVICON_SVG_URL:-${VITE_URL_PREFIX}images/logo.svg}"
+sed -i "s@// CONFIGURATIONS_PLACEHOLDER@${JSON_STRING}@;s@src=\"/assets/@src=\"${VITE_URL_PREFIX}assets/@;s@href=\"/assets/@href=\"${VITE_URL_PREFIX}assets/@;s@href=\"/favicon-oa.ico\"@href=\"${FAVICON_ICO_URL}\"@;s@href=\"/images/logo.svg\"@href=\"${FAVICON_SVG_URL}\"@" /usr/share/nginx/html/index.html
 for index in /usr/share/nginx/html/assets/index-*.js;
 do
     sed -i "s@\"assets/@\".${VITE_URL_PREFIX}assets/@g" $index

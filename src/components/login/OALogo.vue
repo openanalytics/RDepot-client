@@ -39,7 +39,7 @@ import getEnv from '@/utils/env'
 
 const logoUrl = getEnv(
   'VITE_LOGO_BIG_URL',
-  '/images/logo.png'
+  '/images/logo.svg'
 )
 const logoHeight = getEnv('VITE_LOGO_BIG_HEIGHT', '200')
 const logoWidth = getEnv('VITE_LOGO_BIG_WIDTH', '200')

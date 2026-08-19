@@ -25,11 +25,11 @@ import getEnv from '@/utils/env'
 export function useFavicon() {
   const icoUrl = getEnv(
     'VITE_FAVICON_ICO_URL',
-    '/favicon.ico'
+    '/favicon-oa.ico'
   )
   const svgUrl = getEnv(
     'VITE_FAVICON_SVG_URL',
-    '/images/RDepotLogo.svg'
+    '/images/logo.svg'
   )
 
   if (icoUrl) {

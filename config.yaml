@@ -34,22 +34,22 @@ VITE_ACCENT_COLOUR_LIGHT:
 VITE_NAVBAR_HEIGHT: 64
 
 #navbar logo - small (about 40x40 [px])
-VITE_LOGO_SMALL_URL: /images/RDepotLogo.svg
+VITE_LOGO_SMALL_URL: /images/logo.svg
 VITE_LOGO_SMALL_HEIGHT: 64
 VITE_LOGO_SMALL_WIDTH: 64
 VITE_LOGO_SMALL_CLASSES: ml-2
 VITE_LOGO_SMALL_STYLE:
 
 #login page logo - medium size (about 200x200 [px])
-VITE_LOGO_BIG_URL: /images/RDepotLogo.svg
+VITE_LOGO_BIG_URL: /images/logo.svg
 VITE_LOGO_BIG_HEIGHT: 200
 VITE_LOGO_BIG_WIDTH: 200
 VITE_LOGO_BIG_CLASSES:
 VITE_LOGO_BIG_STYLE:
 
 #favicon
-VITE_FAVICON_ICO_URL: /favicon.ico
-VITE_FAVICON_SVG_URL: /images/RDepotLogo.svg
+VITE_FAVICON_ICO_URL: /favicon-oa.ico
+VITE_FAVICON_SVG_URL: /images/logo.svg
 
 #font configuration
 #supported families: 'Roboto' (current default), 'Geist Mono' (bundled)
