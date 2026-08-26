@@ -291,7 +291,7 @@ export function usePackageProperties() {
             iconSlotName: vignette.title,
             appendIcon: Icons.get('download'),
             appendIconTooltip: i18n.t(
-              'action.general.download'
+              'actions.general.download'
             )
           }
         }
