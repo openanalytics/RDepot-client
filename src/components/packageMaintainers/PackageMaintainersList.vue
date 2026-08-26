@@ -53,8 +53,7 @@
             item.deleted
               ? i18n.t('messages.general.deleted', {
                   resource_name: i18n.t(
-                    'resources.packageMaintainer',
-                    2
+                    'resources.packageMaintainer'
                   )
                 })
               : i18n.t('actions.general.edit')
@@ -77,8 +76,7 @@
             item.deleted
               ? i18n.t('messages.general.deleted', {
                   resource_name: i18n.t(
-                    'resources.packageMaintainer',
-                    2
+                    'resources.packageMaintainer'
                   )
                 })
               : undefined
