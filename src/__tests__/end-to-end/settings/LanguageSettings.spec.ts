@@ -26,6 +26,7 @@ import {
   CHANGE_LANGUAGE_NAVBAR_ID,
   DUTCH_LANGUAGE_ID,
   ENGLISH_LANGUAGE_ID,
+  FRENCH_LANGUAGE_ID,
   GERMAN_LANGUAGE_ID,
   PACKAGE_MAINTAINERS_SIDEBAR_ID,
   POLISH_LANGUAGE_ID,
@@ -101,6 +102,24 @@ test.describe(TITLE_SERIAL, { tag: '@serial' }, () => {
 
     await enLanguageSelector.waitFor()
     await enLanguageSelector.click()
+  })
+
+  test('change language to french', async ({ page }) => {
+    await login(page, 'einstein')
+
+    const frLanguageSelector = page.locator(
+      `#${FRENCH_LANGUAGE_ID}`
+    )
+
+    await page
+      .locator(`#${CHANGE_LANGUAGE_NAVBAR_ID}`)
+      .click()
+
+    await frLanguageSelector.waitFor()
+    await frLanguageSelector.click()
+    await expect(
+      page.locator('.Toastify__toast--success')
+    ).toHaveCount(1)
   })
 
   test('change language on the packages site', async ({
