@@ -30,9 +30,10 @@ import {
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '@/__tests__/end-to-end/helpers/login'
 import { restoreData } from '@/__tests__/end-to-end/helpers/restoreData'
-import { i18n } from '@/plugins/i18n'
 
 const TITLE = 'upload submission approval alert'
+const AUTO_APPROVED_ALERT_CLASS = /text-success/
+const NEEDS_APPROVAL_ALERT_CLASS = /text-info/
 test.describe(TITLE, { tag: '@serial' }, () => {
   // eslint-disable-next-line no-empty-pattern
   test.beforeAll(async ({}, testInfo) => {
@@ -74,8 +75,8 @@ test.describe(TITLE, { tag: '@serial' }, () => {
       `#${UPLOAD_SUBMISSION_APPROVAL_ALERT_ID}`
     )
     await expect(alert).toBeVisible()
-    await expect(alert).toContainText(
-      i18n.t('forms.submissions.autoApproved')
+    await expect(alert).toHaveClass(
+      AUTO_APPROVED_ALERT_CLASS
     )
   })
 
@@ -99,8 +100,8 @@ test.describe(TITLE, { tag: '@serial' }, () => {
       `#${UPLOAD_SUBMISSION_APPROVAL_ALERT_ID}`
     )
     await expect(alert).toBeVisible()
-    await expect(alert).toContainText(
-      i18n.t('forms.submissions.autoApproved')
+    await expect(alert).toHaveClass(
+      AUTO_APPROVED_ALERT_CLASS
     )
   })
 
@@ -124,8 +125,8 @@ test.describe(TITLE, { tag: '@serial' }, () => {
       `#${UPLOAD_SUBMISSION_APPROVAL_ALERT_ID}`
     )
     await expect(alert).toBeVisible()
-    await expect(alert).toContainText(
-      i18n.t('forms.submissions.needsApproval')
+    await expect(alert).toHaveClass(
+      NEEDS_APPROVAL_ALERT_CLASS
     )
   })
 
@@ -149,8 +150,8 @@ test.describe(TITLE, { tag: '@serial' }, () => {
       `#${UPLOAD_SUBMISSION_APPROVAL_ALERT_ID}`
     )
     await expect(alert).toBeVisible()
-    await expect(alert).toContainText(
-      i18n.t('forms.submissions.needsApproval')
+    await expect(alert).toHaveClass(
+      NEEDS_APPROVAL_ALERT_CLASS
     )
   })
 })

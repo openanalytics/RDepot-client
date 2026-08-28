@@ -475,5 +475,18 @@
   },
   "packages": {
     "notes": "Notes"
+  },
+  "errors": {
+    "connection": {
+      "lost": "Connection to the back-end API is lost.",
+      "retryIn": "Next retry in {seconds}s.",
+      "restored": "Connection to the back-end API has been restored. Reload the page to refresh the data.",
+      "retry": "Retry now",
+      "reloadPage": "Reload page"
+    }
+  },
+  "submissions": {
+    "autoApproved": "Your submissions will be automatically approved, making the submitted packages available immediately.",
+    "needsApproval": "Your submissions might require approval from a maintainer before the submitted packages are available."
   }
 }
