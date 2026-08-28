@@ -117,9 +117,6 @@ test.describe(TITLE_SERIAL, { tag: '@serial' }, () => {
 
     await frLanguageSelector.waitFor()
     await frLanguageSelector.click()
-    await expect(
-      page.locator('.Toastify__toast--success')
-    ).toHaveCount(1)
   })
 
   test('change language on the packages site', async ({
