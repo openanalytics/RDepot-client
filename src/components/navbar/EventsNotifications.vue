@@ -40,6 +40,7 @@
       <template #activator="{ props }">
         <v-icon
           id="notifications-bell"
+          class="icon-animate icon-hover-ring"
           :icon="Icons.get('notification')"
           v-bind="props"
           color="text"
@@ -60,6 +61,7 @@
           >
           <v-icon
             v-tooltip="'refresh'"
+            class="icon-animate icon-hover-spin"
             icon="mdi-refresh"
             size="x-small"
             @click.stop="refresh"

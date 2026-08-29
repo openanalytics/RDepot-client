@@ -67,6 +67,7 @@ interface State {
   loading: boolean
   resolved: boolean
   pending: EntityModelPackageDto[]
+  recentlyUpdated: number[]
   tableOptions?: DataTableOptions
   localOptions: DataTableOptions
 }
@@ -91,6 +92,7 @@ export const usePackagesStore = defineStore(
         next: false,
         loading: false,
         pending: [],
+        recentlyUpdated: [],
         tableOptions: undefined,
         localOptions: {
           itemsPerPage: -1,
@@ -108,6 +110,17 @@ export const usePackagesStore = defineStore(
       }
     },
     actions: {
+      markRecentlyUpdated(id: number | undefined) {
+        if (id !== undefined) {
+          this.recentlyUpdated.push(id)
+          setTimeout(() => {
+            this.recentlyUpdated =
+              this.recentlyUpdated.filter(
+                (item) => item !== id
+              )
+          }, 1000)
+        }
+      },
       async getPage(options?: DataTableOptions) {
         if (options) {
           this.tableOptions = options
@@ -212,7 +225,10 @@ export const usePackagesStore = defineStore(
         if (updateFn) {
           await updateFn(oldPackage, newPackage).then(
             async (success: any) => {
-              if (success) await this.getPage()
+              if (success) {
+                await this.getPage()
+                this.markRecentlyUpdated(newPackage.id)
+              }
             }
           )
         }

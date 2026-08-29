@@ -1,6 +1,6 @@
 version: '3'
 services:
-  proxy:
+  proxy-firefox:
     image: registry.openanalytics.eu/proxy/library/nginx:bookworm
     restart: unless-stopped
     container_name: oa-rdepot-proxy-firefox
@@ -11,18 +11,18 @@ services:
       - ../../../../docker/proxy/rdepot-test.conf:/etc/nginx/sites-enabled/rdepot:ro
       - repository:/opt/rdepot/repo/:ro
     depends_on:
-      - backend
-      - repo
-      - frontend
+      - backend-firefox
+      - repo-firefox
+      - frontend-firefox
     #    ports:
     #       - 8018:80
     networks:
-      oa-rdepot:
+      oa-rdepot-firefox:
         ipv4_address: 192.168.51.20
         aliases:
           - oa-rdepot-proxy
-  backend:
-    image: registry.openanalytics.eu/openanalytics/rdepot-app:2.8.0
+  backend-firefox:
+    image: registry.openanalytics.eu/openanalytics/rdepot-app:2.9.0
     restart: unless-stopped
     hostname: oa-rdepot-backend
     container_name: oa-rdepot-backend-firefox
@@ -38,7 +38,7 @@ services:
     # ports:
     # - 8080:8080
     depends_on:
-      - db
+      - db-firefox
     healthcheck:
       test:
         [
@@ -52,11 +52,11 @@ services:
       - DB_URL=jdbc:postgresql://oa-rdepot-db:5432/rdepot
       - DB_USERNAME=rdepot
     networks:
-      oa-rdepot:
+      oa-rdepot-firefox:
         ipv4_address: 192.168.51.11
         aliases:
           - oa-rdepot-backend-firefox
-  db:
+  db-firefox:
     image: registry.openanalytics.eu/proxy/library/postgres:alpine
     labels:
       eu.openanalytics.rdepot.container.name: 'oa-rdepot-db-firefox'
@@ -71,11 +71,11 @@ services:
       - ../../../../docker/db/initial_scripts/:/docker-entrypoint-initdb.d/:ro
       - ../../../../docker/db/sql_files/:/opt/sql_files/:ro
     networks:
-      oa-rdepot:
+      oa-rdepot-firefox:
         aliases:
           - oa-rdepot-db-firefox
-  repo:
-    image: registry.openanalytics.eu/openanalytics/rdepot-repo:2.8.0
+  repo-firefox:
+    image: registry.openanalytics.eu/openanalytics/rdepot-repo:2.9.0
     restart: unless-stopped
     container_name: oa-rdepot-repo-firefox
     labels:
@@ -83,11 +83,12 @@ services:
     hostname: oa-rdepot-repo
     volumes:
       - repository:/opt/rdepot/
+      - ../../../../docker/testData/itestServer:/opt/testServer:ro
     networks:
-      oa-rdepot:
+      oa-rdepot-firefox:
         aliases:
           - oa-rdepot-repo-firefox
-  frontend:
+  frontend-firefox:
     container_name: oa-rdepot-frontend-firefox
     hostname: oa-rdepot-frontend
     build:
@@ -100,7 +101,7 @@ services:
     ports:
       - 3002:8080
     networks:
-      oa-rdepot:
+      oa-rdepot-firefox:
         ipv4_address: 192.168.51.13
         aliases:
           - oa-rdepot-frontend-firefox
@@ -112,7 +113,7 @@ services:
       - VITE_ADDRESS_DEPRECATION_WARNING=true
       - VITE_REPO_SERVER_ADDRESS=http://oa-rdepot-repo:8080/
 networks:
-  oa-rdepot:
+  oa-rdepot-firefox:
     ipam:
       config:
         - subnet: 192.168.51.0/24

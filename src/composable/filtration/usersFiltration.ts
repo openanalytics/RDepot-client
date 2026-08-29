@@ -56,25 +56,23 @@ export function useUsersFiltration() {
   }
 
   async function loadUsers() {
-    if (selectStore.shouldFetchNextPage) {
-      selectStore.nextPage()
-      if (selectStore.shouldFetchNextPage) {
-        await getUsers()
-        selectStore.addItems(
-          userStore.users.map(
-            (user: EntityModelUserDto) => {
-              return {
-                value: user.login,
-                title: user.name,
-                props: {
-                  id: `select-input-user-${user.name?.replace(' ', '-')}`
-                }
-              } as UserObject
-            }
-          )
-        )
-      }
+    if (!selectStore.shouldFetchNextPage) {
+      return
     }
+    selectStore.nextPage()
+
+    await getUsers()
+    selectStore.addItems(
+      userStore.users.map((user: EntityModelUserDto) => {
+        return {
+          value: user.login,
+          title: user.name,
+          props: {
+            id: `select-input-user-${user.name?.replace(' ', '-')}`
+          }
+        } as UserObject
+      })
+    )
   }
 
   function setUsersFiltration(isAtLeastRole?: Role) {
@@ -103,26 +101,26 @@ export function useUsersFiltration() {
   }
 
   async function loadUsersObjects(isAtLeastRole?: Role) {
-    if (selectStore.shouldFetchNextPage) {
-      selectStore.nextPage()
-      if (selectStore.shouldFetchNextPage) {
-        setUsersFiltration(isAtLeastRole)
-        await getUsers()
-        selectStore.addItems(
-          userStore.users.map(
-            (user: EntityModelUserDto) => {
-              return {
-                value: user.id,
-                title: user.name,
-                props: {
-                  id: `select-input-user-${user.name?.replace(' ', '-')}`
-                }
-              } as UserObjectCreate
-            }
-          )
-        )
-      }
+    if (!selectStore.shouldFetchNextPage) {
+      return
     }
+    selectStore.nextPage()
+    setUsersFiltration(isAtLeastRole)
+    await getUsers()
+    selectStore.addItems(
+      userStore.users.map((user: EntityModelUserDto) => {
+        return {
+          value: user.id,
+          title: user.name,
+          props: {
+            id: `select-input-user-${user.name?.replace(
+              ' ',
+              '-'
+            )}`
+          }
+        } as UserObjectCreate
+      })
+    )
   }
 
   function filtrateUsers(value: string | undefined) {

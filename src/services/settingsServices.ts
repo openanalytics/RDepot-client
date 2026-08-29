@@ -32,10 +32,10 @@ import {
   validateRequest
 } from './openApiAccess'
 import { createPatch } from 'rfc6902'
-import { isAuthorized } from '@/plugins/casl'
 import { useToast } from '@/composable/toasts'
 import { i18n } from '@/plugins/i18n'
 import { useTokenValidationSchema } from '@/composable/tokens/tokenSchema.ts'
+import { usePermissions } from '@/composable/authorities/userAuthorities'
 
 type ValidatedTokens = Promise<
   validatedData<EntityModelAccessTokenDto[]>
@@ -45,6 +45,8 @@ type ValidatedToken = Promise<
   validatedData<EntityModelAccessTokenDto>
 >
 
+const { has } = usePermissions()
+
 export async function fetchSettingsService(
   filtration: TokensFiltration,
   page?: number,
@@ -52,7 +54,7 @@ export async function fetchSettingsService(
   sort?: string[],
   showProgress = false
 ): ValidatedTokens {
-  if (!isAuthorized('GET', 'submissions')) {
+  if (!has('accessToken.list.my')) {
     return new Promise(() => validateRequest([]))
   }
   return openApiRequest<EntityModelAccessTokenDto[]>(
@@ -76,7 +78,7 @@ export async function fetchSettingsService(
 export async function createToken(
   newToken: CreateAccessTokenDto
 ): ValidatedToken {
-  if (!isAuthorized('POST', 'settings')) {
+  if (!has('accessToken.create')) {
     return new Promise(() => false)
   }
   const { tokenSchema } = useTokenValidationSchema()

@@ -32,17 +32,11 @@ import { SubmissionEditOptions } from '@/enum/SubmissionEditOptions'
 
 let authorizationStore: any
 
-const authorizationLinks = [
-  {
-    rel: 'self',
-    href: 'http://localhost:8017/api/v2/manager/submissions/1',
-    type: 'PATCH'
-  },
-  {
-    rel: 'self',
-    href: 'http://localhost:8017/api/v2/manager/submissions/1',
-    type: 'DELETE'
-  }
+const permissions = [
+  'submission.edit',
+  'submission.accept',
+  'submission.cancel',
+  'submission.delete'
 ]
 
 beforeEach(async () => {
@@ -58,7 +52,7 @@ describe('submission authorities', () => {
     const submission = {
       state: 'WAITING',
       technology: Technologies.Enum.Python,
-      links: authorizationLinks
+      permissions: permissions
     } as EntityModelSubmissionDto
     const canEdit = canChangeState(
       submission,
@@ -87,7 +81,7 @@ describe('submission authorities', () => {
     const submission = {
       state: 'WAITING',
       submitter: { id: 4 },
-      links: authorizationLinks
+      permissions: permissions
     } as EntityModelSubmissionDto
     const canEdit = canChangeState(
       submission,
@@ -101,7 +95,7 @@ describe('submission authorities', () => {
     const submission = {
       state: 'WAITING',
       submitter: { id: 5 },
-      links: authorizationLinks
+      permissions: []
     } as EntityModelSubmissionDto
     const canEdit = canChangeState(
       submission,
@@ -116,7 +110,7 @@ describe('submission authorities', () => {
     const submission = {
       state: 'WAITING',
       submitter: { id: 4 },
-      links: authorizationLinks
+      permissions: []
     } as EntityModelSubmissionDto
     const canEdit = canChangeState(
       submission,
@@ -130,7 +124,7 @@ describe('submission authorities', () => {
     const submission = {
       state: 'WAITING',
       submitter: { id: 5 },
-      links: authorizationLinks
+      permissions: permissions
     } as EntityModelSubmissionDto
     const canEdit = canChangeState(
       submission,
@@ -158,7 +152,7 @@ describe('submission authorities', () => {
     const submission = {
       state: 'WAITING',
       submitter: { id: 4 },
-      links: authorizationLinks
+      permissions: []
     } as EntityModelSubmissionDto
     const canEdit = canChangeState(
       submission,
@@ -172,7 +166,7 @@ describe('submission authorities', () => {
     const submission = {
       state: 'WAITING',
       submitter: { id: 5 },
-      links: authorizationLinks
+      permissions: permissions
     } as EntityModelSubmissionDto
     const canEdit = canChangeState(
       submission,

@@ -22,7 +22,7 @@
 
 <template>
   <div
-    class="v-expansion d-flex py-3 ga-3 justify-space-between"
+    class="filtration-bar v-expansion d-flex flex-wrap py-3 ga-3"
     style="padding-left: 0; padding-right: 0"
   >
     <validated-input-field
@@ -94,8 +94,8 @@
       class="flex-grow-0"
       @change="setFiltration"
     ></validated-input-field>
-    <v-spacer />
     <ResetButton
+      class="ml-auto"
       :style="{
         visibility: accessTokensStore.isDefaultFiltration
           ? 'hidden'
@@ -119,6 +119,7 @@ import { useUsersFiltration } from '@/composable/filtration/usersFiltration'
 import ResetButton from '@/components/common/buttons/ResetButton.vue'
 import { useAccessTokensStore } from '@/store/options/accessTokens'
 import { useAuthorizationStore } from '@/store/options/authorization'
+import { useSyncFiltrationForm } from '@/composable/common/syncFiltrationForm'
 
 const authorizationStore = useAuthorizationStore()
 const accessTokensStore = useAccessTokensStore()
@@ -129,6 +130,11 @@ const { setValues, values } = useForm({
   validationSchema: toTypedSchema(TokensFiltration),
   initialValues: accessTokensStore.filtration
 })
+
+useSyncFiltrationForm(
+  () => accessTokensStore.filtration,
+  setValues
+)
 
 function setFiltration() {
   accessTokensStore.setFiltration(

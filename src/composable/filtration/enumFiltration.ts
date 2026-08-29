@@ -45,6 +45,17 @@ export function useEnumFiltration() {
     )
   )
 
+  const fileTypes = computed(() => [
+    {
+      title: i18n.t('properties.packages.binary'),
+      value: 'true'
+    },
+    {
+      title: i18n.t('properties.packages.source'),
+      value: 'false'
+    }
+  ])
+
   const technologies = ref(Technologies.options)
 
   const resourceTypes = computed(() => [
@@ -114,6 +125,7 @@ export function useEnumFiltration() {
   return {
     states,
     technologies,
+    fileTypes,
     resourceTypes,
     eventTypes,
     roles,

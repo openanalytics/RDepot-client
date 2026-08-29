@@ -59,6 +59,15 @@ test.describe(TITLE, () => {
       )
       .click()
 
+    await expect(repositoriesRowsSelector).toHaveCount(4)
+    await expect(repositoryPublishedSelector).toHaveCount(4)
+
+    await page
+      .locator(
+        `#${REPOSITORIES_FILTRATION_PUBLISHED_FIELD_ID}`
+      )
+      .click()
+
     await expect(repositoriesRowsSelector).toHaveCount(5)
     await expect(repositoryPublishedSelector).toHaveCount(0)
 
@@ -70,15 +79,6 @@ test.describe(TITLE, () => {
 
     await expect(repositoriesRowsSelector).toHaveCount(8)
     await expect(repositoryPublishedSelector).toHaveCount(3)
-
-    await page
-      .locator(
-        `#${REPOSITORIES_FILTRATION_PUBLISHED_FIELD_ID}`
-      )
-      .click()
-
-    await expect(repositoriesRowsSelector).toHaveCount(4)
-    await expect(repositoryPublishedSelector).toHaveCount(4)
   })
 
   test('reset button', async ({ page }) => {
@@ -102,7 +102,7 @@ test.describe(TITLE, () => {
         `#${REPOSITORIES_FILTRATION_PUBLISHED_FIELD_ID}`
       )
       .click()
-    await expect(repositoriesRowsSelector).toHaveCount(5)
+    await expect(repositoriesRowsSelector).toHaveCount(4)
 
     await expect(
       page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)

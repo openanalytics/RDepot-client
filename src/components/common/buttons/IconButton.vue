@@ -26,6 +26,9 @@
       <div id="tooltip-activator" v-bind="props">
         <VIcon
           :id="id"
+          :class="{
+            ['icon-animate ' + animation]: color !== 'grey'
+          }"
           :color="color"
           :size="size"
           @click.stop="emit('click')"
@@ -66,6 +69,11 @@ const componentProps = defineProps({
     type: String,
     required: false,
     default: 'icon-button'
+  },
+  animation: {
+    type: String,
+    required: false,
+    default: 'icon-hover-slide-right'
   }
 })
 

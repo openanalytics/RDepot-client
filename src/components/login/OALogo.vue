@@ -37,9 +37,12 @@
 <script setup lang="ts">
 import getEnv from '@/utils/env'
 
-const logoUrl = getEnv('VITE_LOGO_BIG_URL')
-const logoHeight = getEnv('VITE_LOGO_BIG_HEIGHT')
-const logoWidth = getEnv('VITE_LOGO_BIG_WIDTH')
+const logoUrl = getEnv(
+  'VITE_LOGO_BIG_URL',
+  '/images/logo.svg'
+)
+const logoHeight = getEnv('VITE_LOGO_BIG_HEIGHT', '200')
+const logoWidth = getEnv('VITE_LOGO_BIG_WIDTH', '200')
 const logoClasses = getEnv('VITE_LOGO_BIG_CLASSES')
 const logoStyle = getEnv('VITE_LOGO_BIG_STYLE')
 </script>

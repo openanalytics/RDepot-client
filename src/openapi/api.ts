@@ -194,8 +194,45 @@ export interface EntityModelAccessTokenDto {
     'lastUsed'?: string;
     /**
      * 
+     * @type {Array<string>}
+     * @memberof EntityModelAccessTokenDto
+     */
+    'permissions'?: Array<string>;
+    /**
+     * 
      * @type {Array<Link>}
      * @memberof EntityModelAccessTokenDto
+     */
+    'links'?: Array<Link>;
+}
+/**
+ * 
+ * @export
+ * @interface EntityModelMaintainedPackageDto
+ */
+export interface EntityModelMaintainedPackageDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof EntityModelMaintainedPackageDto
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof EntityModelMaintainedPackageDto
+     */
+    'repositoryId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof EntityModelMaintainedPackageDto
+     */
+    'repositoryName'?: string;
+    /**
+     * 
+     * @type {Array<Link>}
+     * @memberof EntityModelMaintainedPackageDto
      */
     'links'?: Array<Link>;
 }
@@ -277,7 +314,8 @@ export const EntityModelNewsfeedEventDtoResourceTypeEnum = {
     EVENT: 'EVENT',
     ROLE: 'ROLE',
     USERSETTINGS: 'USER_SETTINGS',
-    ACCESSTOKEN: 'ACCESS_TOKEN'
+    ACCESSTOKEN: 'ACCESS_TOKEN',
+    PACKAGEMAINTAINERDSLTUPLE: 'PACKAGE_MAINTAINER_DSL_TUPLE'
 } as const;
 
 export type EntityModelNewsfeedEventDtoResourceTypeEnum = typeof EntityModelNewsfeedEventDtoResourceTypeEnum[keyof typeof EntityModelNewsfeedEventDtoResourceTypeEnum];
@@ -356,6 +394,12 @@ export interface EntityModelPackageDto {
     'binary'?: boolean;
     /**
      * 
+     * @type {Array<string>}
+     * @memberof EntityModelPackageDto
+     */
+    'permissions'?: Array<string>;
+    /**
+     * 
      * @type {string}
      * @memberof EntityModelPackageDto
      */
@@ -427,6 +471,12 @@ export interface EntityModelPackageMaintainerDto {
      * @memberof EntityModelPackageMaintainerDto
      */
     'deleted'?: boolean;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof EntityModelPackageMaintainerDto
+     */
+    'permissions'?: Array<string>;
     /**
      * 
      * @type {Array<Link>}
@@ -506,6 +556,12 @@ export interface EntityModelPythonPackageDto {
      * @memberof EntityModelPythonPackageDto
      */
     'binary'?: boolean;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof EntityModelPythonPackageDto
+     */
+    'permissions'?: Array<string>;
     /**
      * 
      * @type {string}
@@ -731,6 +787,12 @@ export interface EntityModelPythonRepositoryDto {
     'requiresAuthentication'?: boolean;
     /**
      * 
+     * @type {Array<string>}
+     * @memberof EntityModelPythonRepositoryDto
+     */
+    'permissions'?: Array<string>;
+    /**
+     * 
      * @type {number}
      * @memberof EntityModelPythonRepositoryDto
      */
@@ -856,6 +918,12 @@ export interface EntityModelRPackageDto {
      * @memberof EntityModelRPackageDto
      */
     'binary'?: boolean;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof EntityModelRPackageDto
+     */
+    'permissions'?: Array<string>;
     /**
      * 
      * @type {string}
@@ -1063,6 +1131,12 @@ export interface EntityModelRRepositoryDto {
     'requiresAuthentication'?: boolean;
     /**
      * 
+     * @type {Array<string>}
+     * @memberof EntityModelRRepositoryDto
+     */
+    'permissions'?: Array<string>;
+    /**
+     * 
      * @type {number}
      * @memberof EntityModelRRepositoryDto
      */
@@ -1172,6 +1246,12 @@ export interface EntityModelRepositoryDto {
     'requiresAuthentication'?: boolean;
     /**
      * 
+     * @type {Array<string>}
+     * @memberof EntityModelRepositoryDto
+     */
+    'permissions'?: Array<string>;
+    /**
+     * 
      * @type {number}
      * @memberof EntityModelRepositoryDto
      */
@@ -1239,6 +1319,12 @@ export interface EntityModelRepositoryMaintainerDto {
     'deleted'?: boolean;
     /**
      * 
+     * @type {Array<string>}
+     * @memberof EntityModelRepositoryMaintainerDto
+     */
+    'permissions'?: Array<string>;
+    /**
+     * 
      * @type {Array<Link>}
      * @memberof EntityModelRepositoryMaintainerDto
      */
@@ -1298,6 +1384,12 @@ export interface EntityModelSubmissionDto {
      * @memberof EntityModelSubmissionDto
      */
     'technology'?: string;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof EntityModelSubmissionDto
+     */
+    'permissions'?: Array<string>;
     /**
      * 
      * @type {Array<Link>}
@@ -1387,6 +1479,12 @@ export interface EntityModelUserDto {
      * @memberof EntityModelUserDto
      */
     'userSettings'?: UserSettingsProjection;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof EntityModelUserDto
+     */
+    'permissions'?: Array<string>;
     /**
      * 
      * @type {Array<Link>}
@@ -1486,6 +1584,12 @@ export interface PackageMaintainerDto {
      * @memberof PackageMaintainerDto
      */
     'deleted'?: boolean;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof PackageMaintainerDto
+     */
+    'permissions'?: Array<string>;
 }
 /**
  * 
@@ -1592,6 +1696,44 @@ export interface PagedModelEntityModelAccessTokenDtoEmbedded {
      * @memberof PagedModelEntityModelAccessTokenDtoEmbedded
      */
     'accessTokenDtoList'?: Array<EntityModelAccessTokenDto>;
+}
+/**
+ * 
+ * @export
+ * @interface PagedModelEntityModelMaintainedPackageDto
+ */
+export interface PagedModelEntityModelMaintainedPackageDto {
+    /**
+     * 
+     * @type {PagedModelEntityModelMaintainedPackageDtoEmbedded}
+     * @memberof PagedModelEntityModelMaintainedPackageDto
+     */
+    '_embedded'?: PagedModelEntityModelMaintainedPackageDtoEmbedded;
+    /**
+     * 
+     * @type {Array<Link>}
+     * @memberof PagedModelEntityModelMaintainedPackageDto
+     */
+    'links'?: Array<Link>;
+    /**
+     * 
+     * @type {PageMetadata}
+     * @memberof PagedModelEntityModelMaintainedPackageDto
+     */
+    'page'?: PageMetadata;
+}
+/**
+ * 
+ * @export
+ * @interface PagedModelEntityModelMaintainedPackageDtoEmbedded
+ */
+export interface PagedModelEntityModelMaintainedPackageDtoEmbedded {
+    /**
+     * 
+     * @type {Array<EntityModelMaintainedPackageDto>}
+     * @memberof PagedModelEntityModelMaintainedPackageDtoEmbedded
+     */
+    'maintainedPackageDtoList'?: Array<EntityModelMaintainedPackageDto>;
 }
 /**
  * 
@@ -2064,6 +2206,12 @@ export interface PythonRepositoryDto {
     'requiresAuthentication'?: boolean;
     /**
      * 
+     * @type {Array<string>}
+     * @memberof PythonRepositoryDto
+     */
+    'permissions'?: Array<string>;
+    /**
+     * 
      * @type {number}
      * @memberof PythonRepositoryDto
      */
@@ -2204,6 +2352,12 @@ export interface RRepositoryDto {
     'requiresAuthentication'?: boolean;
     /**
      * 
+     * @type {Array<string>}
+     * @memberof RRepositoryDto
+     */
+    'permissions'?: Array<string>;
+    /**
+     * 
      * @type {number}
      * @memberof RRepositoryDto
      */
@@ -2269,6 +2423,12 @@ export interface RepositoryMaintainerDto {
      * @memberof RepositoryMaintainerDto
      */
     'deleted'?: boolean;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof RepositoryMaintainerDto
+     */
+    'permissions'?: Array<string>;
 }
 /**
  * 
@@ -3091,6 +3251,52 @@ export const ResponseDtoPagedModelEntityModelAccessTokenDtoStatusEnum = {
 } as const;
 
 export type ResponseDtoPagedModelEntityModelAccessTokenDtoStatusEnum = typeof ResponseDtoPagedModelEntityModelAccessTokenDtoStatusEnum[keyof typeof ResponseDtoPagedModelEntityModelAccessTokenDtoStatusEnum];
+
+/**
+ * 
+ * @export
+ * @interface ResponseDtoPagedModelEntityModelMaintainedPackageDto
+ */
+export interface ResponseDtoPagedModelEntityModelMaintainedPackageDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof ResponseDtoPagedModelEntityModelMaintainedPackageDto
+     */
+    'status'?: ResponseDtoPagedModelEntityModelMaintainedPackageDtoStatusEnum;
+    /**
+     * 
+     * @type {number}
+     * @memberof ResponseDtoPagedModelEntityModelMaintainedPackageDto
+     */
+    'code'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ResponseDtoPagedModelEntityModelMaintainedPackageDto
+     */
+    'message'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ResponseDtoPagedModelEntityModelMaintainedPackageDto
+     */
+    'messageCode'?: string;
+    /**
+     * 
+     * @type {PagedModelEntityModelMaintainedPackageDto}
+     * @memberof ResponseDtoPagedModelEntityModelMaintainedPackageDto
+     */
+    'data'?: PagedModelEntityModelMaintainedPackageDto;
+}
+
+export const ResponseDtoPagedModelEntityModelMaintainedPackageDtoStatusEnum = {
+    SUCCESS: 'SUCCESS',
+    ERROR: 'ERROR',
+    WARNING: 'WARNING'
+} as const;
+
+export type ResponseDtoPagedModelEntityModelMaintainedPackageDtoStatusEnum = typeof ResponseDtoPagedModelEntityModelMaintainedPackageDtoStatusEnum[keyof typeof ResponseDtoPagedModelEntityModelMaintainedPackageDtoStatusEnum];
 
 /**
  * 
@@ -4655,10 +4861,11 @@ export const ApiV2PackageControllerApiAxiosParamCreator = function (configuratio
          * @param {string} [search] 
          * @param {Array<string>} [maintainer] 
          * @param {Array<string>} [notMaintainedBy] 
+         * @param {boolean} [binary] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllPackages: async (page?: number, size?: number, sort?: Array<string>, repository?: Array<string>, deleted?: boolean, submissionState?: Array<GetAllPackagesSubmissionStateEnum>, technology?: Array<string>, search?: string, maintainer?: Array<string>, notMaintainedBy?: Array<string>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getAllPackages: async (page?: number, size?: number, sort?: Array<string>, repository?: Array<string>, deleted?: boolean, submissionState?: Array<GetAllPackagesSubmissionStateEnum>, technology?: Array<string>, search?: string, maintainer?: Array<string>, notMaintainedBy?: Array<string>, binary?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/v2/manager/packages`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -4713,6 +4920,10 @@ export const ApiV2PackageControllerApiAxiosParamCreator = function (configuratio
 
             if (notMaintainedBy) {
                 localVarQueryParameter['notMaintainedBy'] = notMaintainedBy;
+            }
+
+            if (binary !== undefined) {
+                localVarQueryParameter['binary'] = binary;
             }
 
 
@@ -4785,11 +4996,12 @@ export const ApiV2PackageControllerApiFp = function(configuration?: Configuratio
          * @param {string} [search] 
          * @param {Array<string>} [maintainer] 
          * @param {Array<string>} [notMaintainedBy] 
+         * @param {boolean} [binary] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getAllPackages(page?: number, size?: number, sort?: Array<string>, repository?: Array<string>, deleted?: boolean, submissionState?: Array<GetAllPackagesSubmissionStateEnum>, technology?: Array<string>, search?: string, maintainer?: Array<string>, notMaintainedBy?: Array<string>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ResponseDtoPagedModelEntityModelPackageDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getAllPackages(page, size, sort, repository, deleted, submissionState, technology, search, maintainer, notMaintainedBy, options);
+        async getAllPackages(page?: number, size?: number, sort?: Array<string>, repository?: Array<string>, deleted?: boolean, submissionState?: Array<GetAllPackagesSubmissionStateEnum>, technology?: Array<string>, search?: string, maintainer?: Array<string>, notMaintainedBy?: Array<string>, binary?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ResponseDtoPagedModelEntityModelPackageDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getAllPackages(page, size, sort, repository, deleted, submissionState, technology, search, maintainer, notMaintainedBy, binary, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['ApiV2PackageControllerApi.getAllPackages']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -4828,11 +5040,12 @@ export const ApiV2PackageControllerApiFactory = function (configuration?: Config
          * @param {string} [search] 
          * @param {Array<string>} [maintainer] 
          * @param {Array<string>} [notMaintainedBy] 
+         * @param {boolean} [binary] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllPackages(page?: number, size?: number, sort?: Array<string>, repository?: Array<string>, deleted?: boolean, submissionState?: Array<GetAllPackagesSubmissionStateEnum>, technology?: Array<string>, search?: string, maintainer?: Array<string>, notMaintainedBy?: Array<string>, options?: any): AxiosPromise<ResponseDtoPagedModelEntityModelPackageDto> {
-            return localVarFp.getAllPackages(page, size, sort, repository, deleted, submissionState, technology, search, maintainer, notMaintainedBy, options).then((request) => request(axios, basePath));
+        getAllPackages(page?: number, size?: number, sort?: Array<string>, repository?: Array<string>, deleted?: boolean, submissionState?: Array<GetAllPackagesSubmissionStateEnum>, technology?: Array<string>, search?: string, maintainer?: Array<string>, notMaintainedBy?: Array<string>, binary?: boolean, options?: any): AxiosPromise<ResponseDtoPagedModelEntityModelPackageDto> {
+            return localVarFp.getAllPackages(page, size, sort, repository, deleted, submissionState, technology, search, maintainer, notMaintainedBy, binary, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -4865,12 +5078,13 @@ export class ApiV2PackageControllerApi extends BaseAPI {
      * @param {string} [search] 
      * @param {Array<string>} [maintainer] 
      * @param {Array<string>} [notMaintainedBy] 
+     * @param {boolean} [binary] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ApiV2PackageControllerApi
      */
-    public getAllPackages(page?: number, size?: number, sort?: Array<string>, repository?: Array<string>, deleted?: boolean, submissionState?: Array<GetAllPackagesSubmissionStateEnum>, technology?: Array<string>, search?: string, maintainer?: Array<string>, notMaintainedBy?: Array<string>, options?: RawAxiosRequestConfig) {
-        return ApiV2PackageControllerApiFp(this.configuration).getAllPackages(page, size, sort, repository, deleted, submissionState, technology, search, maintainer, notMaintainedBy, options).then((request) => request(this.axios, this.basePath));
+    public getAllPackages(page?: number, size?: number, sort?: Array<string>, repository?: Array<string>, deleted?: boolean, submissionState?: Array<GetAllPackagesSubmissionStateEnum>, technology?: Array<string>, search?: string, maintainer?: Array<string>, notMaintainedBy?: Array<string>, binary?: boolean, options?: RawAxiosRequestConfig) {
+        return ApiV2PackageControllerApiFp(this.configuration).getAllPackages(page, size, sort, repository, deleted, submissionState, technology, search, maintainer, notMaintainedBy, binary, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -5671,12 +5885,12 @@ export const ApiV2RepositoryMaintainerControllerApiAxiosParamCreator = function 
          * @param {number} [size] The size of the page to be returned
          * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
          * @param {boolean} [deleted] 
-         * @param {Array<string>} [resourceTechnology] 
+         * @param {Array<string>} [technology] Deprecated. Use \&#39;technology\&#39; instead.
          * @param {string} [search] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllRepositoryMaintainers: async (page?: number, size?: number, sort?: Array<string>, deleted?: boolean, resourceTechnology?: Array<string>, search?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getAllRepositoryMaintainers: async (page?: number, size?: number, sort?: Array<string>, deleted?: boolean, technology?: Array<string>, search?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/v2/manager/repository-maintainers`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -5709,8 +5923,8 @@ export const ApiV2RepositoryMaintainerControllerApiAxiosParamCreator = function 
                 localVarQueryParameter['deleted'] = deleted;
             }
 
-            if (resourceTechnology) {
-                localVarQueryParameter['resourceTechnology'] = resourceTechnology;
+            if (technology) {
+                localVarQueryParameter['technology'] = technology;
             }
 
             if (search !== undefined) {
@@ -5848,13 +6062,13 @@ export const ApiV2RepositoryMaintainerControllerApiFp = function(configuration?:
          * @param {number} [size] The size of the page to be returned
          * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
          * @param {boolean} [deleted] 
-         * @param {Array<string>} [resourceTechnology] 
+         * @param {Array<string>} [technology] Deprecated. Use \&#39;technology\&#39; instead.
          * @param {string} [search] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getAllRepositoryMaintainers(page?: number, size?: number, sort?: Array<string>, deleted?: boolean, resourceTechnology?: Array<string>, search?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ResponseDtoPagedModelEntityModelRepositoryMaintainerDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getAllRepositoryMaintainers(page, size, sort, deleted, resourceTechnology, search, options);
+        async getAllRepositoryMaintainers(page?: number, size?: number, sort?: Array<string>, deleted?: boolean, technology?: Array<string>, search?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ResponseDtoPagedModelEntityModelRepositoryMaintainerDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getAllRepositoryMaintainers(page, size, sort, deleted, technology, search, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['ApiV2RepositoryMaintainerControllerApi.getAllRepositoryMaintainers']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -5918,13 +6132,13 @@ export const ApiV2RepositoryMaintainerControllerApiFactory = function (configura
          * @param {number} [size] The size of the page to be returned
          * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
          * @param {boolean} [deleted] 
-         * @param {Array<string>} [resourceTechnology] 
+         * @param {Array<string>} [technology] Deprecated. Use \&#39;technology\&#39; instead.
          * @param {string} [search] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllRepositoryMaintainers(page?: number, size?: number, sort?: Array<string>, deleted?: boolean, resourceTechnology?: Array<string>, search?: string, options?: any): AxiosPromise<ResponseDtoPagedModelEntityModelRepositoryMaintainerDto> {
-            return localVarFp.getAllRepositoryMaintainers(page, size, sort, deleted, resourceTechnology, search, options).then((request) => request(axios, basePath));
+        getAllRepositoryMaintainers(page?: number, size?: number, sort?: Array<string>, deleted?: boolean, technology?: Array<string>, search?: string, options?: any): AxiosPromise<ResponseDtoPagedModelEntityModelRepositoryMaintainerDto> {
+            return localVarFp.getAllRepositoryMaintainers(page, size, sort, deleted, technology, search, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -5983,14 +6197,14 @@ export class ApiV2RepositoryMaintainerControllerApi extends BaseAPI {
      * @param {number} [size] The size of the page to be returned
      * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
      * @param {boolean} [deleted] 
-     * @param {Array<string>} [resourceTechnology] 
+     * @param {Array<string>} [technology] Deprecated. Use \&#39;technology\&#39; instead.
      * @param {string} [search] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ApiV2RepositoryMaintainerControllerApi
      */
-    public getAllRepositoryMaintainers(page?: number, size?: number, sort?: Array<string>, deleted?: boolean, resourceTechnology?: Array<string>, search?: string, options?: RawAxiosRequestConfig) {
-        return ApiV2RepositoryMaintainerControllerApiFp(this.configuration).getAllRepositoryMaintainers(page, size, sort, deleted, resourceTechnology, search, options).then((request) => request(this.axios, this.basePath));
+    public getAllRepositoryMaintainers(page?: number, size?: number, sort?: Array<string>, deleted?: boolean, technology?: Array<string>, search?: string, options?: RawAxiosRequestConfig) {
+        return ApiV2RepositoryMaintainerControllerApiFp(this.configuration).getAllRepositoryMaintainers(page, size, sort, deleted, technology, search, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -6146,10 +6360,11 @@ export const ApiV2SubmissionControllerApiAxiosParamCreator = function (configura
          * @param {string} [fromDate] 
          * @param {string} [toDate] 
          * @param {string} [search] 
+         * @param {boolean} [binary] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllSubmissions: async (page?: number, size?: number, sort?: Array<string>, state?: Array<GetAllSubmissionsStateEnum>, technology?: Array<string>, repository?: Array<string>, fromDate?: string, toDate?: string, search?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getAllSubmissions: async (page?: number, size?: number, sort?: Array<string>, state?: Array<GetAllSubmissionsStateEnum>, technology?: Array<string>, repository?: Array<string>, fromDate?: string, toDate?: string, search?: string, binary?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/v2/manager/submissions`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -6200,6 +6415,10 @@ export const ApiV2SubmissionControllerApiAxiosParamCreator = function (configura
 
             if (search !== undefined) {
                 localVarQueryParameter['search'] = search;
+            }
+
+            if (binary !== undefined) {
+                localVarQueryParameter['binary'] = binary;
             }
 
 
@@ -6271,11 +6490,12 @@ export const ApiV2SubmissionControllerApiFp = function(configuration?: Configura
          * @param {string} [fromDate] 
          * @param {string} [toDate] 
          * @param {string} [search] 
+         * @param {boolean} [binary] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getAllSubmissions(page?: number, size?: number, sort?: Array<string>, state?: Array<GetAllSubmissionsStateEnum>, technology?: Array<string>, repository?: Array<string>, fromDate?: string, toDate?: string, search?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ResponseDtoPagedModelEntityModelSubmissionDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getAllSubmissions(page, size, sort, state, technology, repository, fromDate, toDate, search, options);
+        async getAllSubmissions(page?: number, size?: number, sort?: Array<string>, state?: Array<GetAllSubmissionsStateEnum>, technology?: Array<string>, repository?: Array<string>, fromDate?: string, toDate?: string, search?: string, binary?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ResponseDtoPagedModelEntityModelSubmissionDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getAllSubmissions(page, size, sort, state, technology, repository, fromDate, toDate, search, binary, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['ApiV2SubmissionControllerApi.getAllSubmissions']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -6313,11 +6533,12 @@ export const ApiV2SubmissionControllerApiFactory = function (configuration?: Con
          * @param {string} [fromDate] 
          * @param {string} [toDate] 
          * @param {string} [search] 
+         * @param {boolean} [binary] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllSubmissions(page?: number, size?: number, sort?: Array<string>, state?: Array<GetAllSubmissionsStateEnum>, technology?: Array<string>, repository?: Array<string>, fromDate?: string, toDate?: string, search?: string, options?: any): AxiosPromise<ResponseDtoPagedModelEntityModelSubmissionDto> {
-            return localVarFp.getAllSubmissions(page, size, sort, state, technology, repository, fromDate, toDate, search, options).then((request) => request(axios, basePath));
+        getAllSubmissions(page?: number, size?: number, sort?: Array<string>, state?: Array<GetAllSubmissionsStateEnum>, technology?: Array<string>, repository?: Array<string>, fromDate?: string, toDate?: string, search?: string, binary?: boolean, options?: any): AxiosPromise<ResponseDtoPagedModelEntityModelSubmissionDto> {
+            return localVarFp.getAllSubmissions(page, size, sort, state, technology, repository, fromDate, toDate, search, binary, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -6349,12 +6570,13 @@ export class ApiV2SubmissionControllerApi extends BaseAPI {
      * @param {string} [fromDate] 
      * @param {string} [toDate] 
      * @param {string} [search] 
+     * @param {boolean} [binary] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ApiV2SubmissionControllerApi
      */
-    public getAllSubmissions(page?: number, size?: number, sort?: Array<string>, state?: Array<GetAllSubmissionsStateEnum>, technology?: Array<string>, repository?: Array<string>, fromDate?: string, toDate?: string, search?: string, options?: RawAxiosRequestConfig) {
-        return ApiV2SubmissionControllerApiFp(this.configuration).getAllSubmissions(page, size, sort, state, technology, repository, fromDate, toDate, search, options).then((request) => request(this.axios, this.basePath));
+    public getAllSubmissions(page?: number, size?: number, sort?: Array<string>, state?: Array<GetAllSubmissionsStateEnum>, technology?: Array<string>, repository?: Array<string>, fromDate?: string, toDate?: string, search?: string, binary?: boolean, options?: RawAxiosRequestConfig) {
+        return ApiV2SubmissionControllerApiFp(this.configuration).getAllSubmissions(page, size, sort, state, technology, repository, fromDate, toDate, search, binary, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -6442,6 +6664,69 @@ export const ApiV2UserControllerApiAxiosParamCreator = function (configuration?:
 
             if (search !== undefined) {
                 localVarQueryParameter['search'] = search;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} [page] Zero-based page index (0..N)
+         * @param {number} [size] The size of the page to be returned
+         * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+         * @param {string} [packageName] 
+         * @param {number} [repositoryId] 
+         * @param {string} [repositoryName] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getMaintainedPackages: async (page?: number, size?: number, sort?: Array<string>, packageName?: string, repositoryId?: number, repositoryName?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/v2/manager/users/me/maintained-packages`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (size !== undefined) {
+                localVarQueryParameter['size'] = size;
+            }
+
+            if (sort) {
+                localVarQueryParameter['sort'] = sort;
+            }
+
+            if (packageName !== undefined) {
+                localVarQueryParameter['packageName'] = packageName;
+            }
+
+            if (repositoryId !== undefined) {
+                localVarQueryParameter['repositoryId'] = repositoryId;
+            }
+
+            if (repositoryName !== undefined) {
+                localVarQueryParameter['repositoryName'] = repositoryName;
             }
 
 
@@ -6631,6 +6916,23 @@ export const ApiV2UserControllerApiFp = function(configuration?: Configuration) 
         },
         /**
          * 
+         * @param {number} [page] Zero-based page index (0..N)
+         * @param {number} [size] The size of the page to be returned
+         * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+         * @param {string} [packageName] 
+         * @param {number} [repositoryId] 
+         * @param {string} [repositoryName] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getMaintainedPackages(page?: number, size?: number, sort?: Array<string>, packageName?: string, repositoryId?: number, repositoryName?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ResponseDtoPagedModelEntityModelMaintainedPackageDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getMaintainedPackages(page, size, sort, packageName, repositoryId, repositoryName, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ApiV2UserControllerApi.getMaintainedPackages']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -6703,6 +7005,20 @@ export const ApiV2UserControllerApiFactory = function (configuration?: Configura
         },
         /**
          * 
+         * @param {number} [page] Zero-based page index (0..N)
+         * @param {number} [size] The size of the page to be returned
+         * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+         * @param {string} [packageName] 
+         * @param {number} [repositoryId] 
+         * @param {string} [repositoryName] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getMaintainedPackages(page?: number, size?: number, sort?: Array<string>, packageName?: string, repositoryId?: number, repositoryName?: string, options?: any): AxiosPromise<ResponseDtoPagedModelEntityModelMaintainedPackageDto> {
+            return localVarFp.getMaintainedPackages(page, size, sort, packageName, repositoryId, repositoryName, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -6761,6 +7077,22 @@ export class ApiV2UserControllerApi extends BaseAPI {
      */
     public getAllUsers(page?: number, size?: number, sort?: Array<string>, role?: Array<string>, active?: boolean, deleted?: boolean, search?: string, options?: RawAxiosRequestConfig) {
         return ApiV2UserControllerApiFp(this.configuration).getAllUsers(page, size, sort, role, active, deleted, search, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} [page] Zero-based page index (0..N)
+     * @param {number} [size] The size of the page to be returned
+     * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     * @param {string} [packageName] 
+     * @param {number} [repositoryId] 
+     * @param {string} [repositoryName] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ApiV2UserControllerApi
+     */
+    public getMaintainedPackages(page?: number, size?: number, sort?: Array<string>, packageName?: string, repositoryId?: number, repositoryName?: string, options?: RawAxiosRequestConfig) {
+        return ApiV2UserControllerApiFp(this.configuration).getMaintainedPackages(page, size, sort, packageName, repositoryId, repositoryName, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -7232,10 +7564,11 @@ export const PythonPackageControllerApiAxiosParamCreator = function (configurati
          * @param {string} [search] 
          * @param {Array<string>} [maintainer] 
          * @param {Array<string>} [notMaintainedBy] 
+         * @param {boolean} [binary] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllPythonPackages: async (page?: number, size?: number, sort?: Array<string>, repository?: Array<string>, deleted?: boolean, submissionState?: Array<GetAllPythonPackagesSubmissionStateEnum>, search?: string, maintainer?: Array<string>, notMaintainedBy?: Array<string>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getAllPythonPackages: async (page?: number, size?: number, sort?: Array<string>, repository?: Array<string>, deleted?: boolean, submissionState?: Array<GetAllPythonPackagesSubmissionStateEnum>, search?: string, maintainer?: Array<string>, notMaintainedBy?: Array<string>, binary?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/v2/manager/python/packages`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -7286,6 +7619,10 @@ export const PythonPackageControllerApiAxiosParamCreator = function (configurati
 
             if (notMaintainedBy) {
                 localVarQueryParameter['notMaintainedBy'] = notMaintainedBy;
+            }
+
+            if (binary !== undefined) {
+                localVarQueryParameter['binary'] = binary;
             }
 
 
@@ -7401,11 +7738,12 @@ export const PythonPackageControllerApiFp = function(configuration?: Configurati
          * @param {string} [search] 
          * @param {Array<string>} [maintainer] 
          * @param {Array<string>} [notMaintainedBy] 
+         * @param {boolean} [binary] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getAllPythonPackages(page?: number, size?: number, sort?: Array<string>, repository?: Array<string>, deleted?: boolean, submissionState?: Array<GetAllPythonPackagesSubmissionStateEnum>, search?: string, maintainer?: Array<string>, notMaintainedBy?: Array<string>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ResponseDtoObject>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getAllPythonPackages(page, size, sort, repository, deleted, submissionState, search, maintainer, notMaintainedBy, options);
+        async getAllPythonPackages(page?: number, size?: number, sort?: Array<string>, repository?: Array<string>, deleted?: boolean, submissionState?: Array<GetAllPythonPackagesSubmissionStateEnum>, search?: string, maintainer?: Array<string>, notMaintainedBy?: Array<string>, binary?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ResponseDtoObject>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getAllPythonPackages(page, size, sort, repository, deleted, submissionState, search, maintainer, notMaintainedBy, binary, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['PythonPackageControllerApi.getAllPythonPackages']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -7473,11 +7811,12 @@ export const PythonPackageControllerApiFactory = function (configuration?: Confi
          * @param {string} [search] 
          * @param {Array<string>} [maintainer] 
          * @param {Array<string>} [notMaintainedBy] 
+         * @param {boolean} [binary] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllPythonPackages(page?: number, size?: number, sort?: Array<string>, repository?: Array<string>, deleted?: boolean, submissionState?: Array<GetAllPythonPackagesSubmissionStateEnum>, search?: string, maintainer?: Array<string>, notMaintainedBy?: Array<string>, options?: any): AxiosPromise<ResponseDtoObject> {
-            return localVarFp.getAllPythonPackages(page, size, sort, repository, deleted, submissionState, search, maintainer, notMaintainedBy, options).then((request) => request(axios, basePath));
+        getAllPythonPackages(page?: number, size?: number, sort?: Array<string>, repository?: Array<string>, deleted?: boolean, submissionState?: Array<GetAllPythonPackagesSubmissionStateEnum>, search?: string, maintainer?: Array<string>, notMaintainedBy?: Array<string>, binary?: boolean, options?: any): AxiosPromise<ResponseDtoObject> {
+            return localVarFp.getAllPythonPackages(page, size, sort, repository, deleted, submissionState, search, maintainer, notMaintainedBy, binary, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -7545,12 +7884,13 @@ export class PythonPackageControllerApi extends BaseAPI {
      * @param {string} [search] 
      * @param {Array<string>} [maintainer] 
      * @param {Array<string>} [notMaintainedBy] 
+     * @param {boolean} [binary] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PythonPackageControllerApi
      */
-    public getAllPythonPackages(page?: number, size?: number, sort?: Array<string>, repository?: Array<string>, deleted?: boolean, submissionState?: Array<GetAllPythonPackagesSubmissionStateEnum>, search?: string, maintainer?: Array<string>, notMaintainedBy?: Array<string>, options?: RawAxiosRequestConfig) {
-        return PythonPackageControllerApiFp(this.configuration).getAllPythonPackages(page, size, sort, repository, deleted, submissionState, search, maintainer, notMaintainedBy, options).then((request) => request(this.axios, this.basePath));
+    public getAllPythonPackages(page?: number, size?: number, sort?: Array<string>, repository?: Array<string>, deleted?: boolean, submissionState?: Array<GetAllPythonPackagesSubmissionStateEnum>, search?: string, maintainer?: Array<string>, notMaintainedBy?: Array<string>, binary?: boolean, options?: RawAxiosRequestConfig) {
+        return PythonPackageControllerApiFp(this.configuration).getAllPythonPackages(page, size, sort, repository, deleted, submissionState, search, maintainer, notMaintainedBy, binary, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -8314,10 +8654,11 @@ export const PythonSubmissionControllerApiAxiosParamCreator = function (configur
          * @param {string} [fromDate] 
          * @param {string} [toDate] 
          * @param {string} [search] 
+         * @param {boolean} [binary] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllPythonSubmissions: async (page?: number, size?: number, sort?: Array<string>, state?: Array<GetAllPythonSubmissionsStateEnum>, repository?: Array<string>, fromDate?: string, toDate?: string, search?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getAllPythonSubmissions: async (page?: number, size?: number, sort?: Array<string>, state?: Array<GetAllPythonSubmissionsStateEnum>, repository?: Array<string>, fromDate?: string, toDate?: string, search?: string, binary?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/v2/manager/python/submissions`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -8364,6 +8705,10 @@ export const PythonSubmissionControllerApiAxiosParamCreator = function (configur
 
             if (search !== undefined) {
                 localVarQueryParameter['search'] = search;
+            }
+
+            if (binary !== undefined) {
+                localVarQueryParameter['binary'] = binary;
             }
 
 
@@ -8555,11 +8900,12 @@ export const PythonSubmissionControllerApiFp = function(configuration?: Configur
          * @param {string} [fromDate] 
          * @param {string} [toDate] 
          * @param {string} [search] 
+         * @param {boolean} [binary] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getAllPythonSubmissions(page?: number, size?: number, sort?: Array<string>, state?: Array<GetAllPythonSubmissionsStateEnum>, repository?: Array<string>, fromDate?: string, toDate?: string, search?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ResponseDtoPagedModelEntityModelSubmissionDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getAllPythonSubmissions(page, size, sort, state, repository, fromDate, toDate, search, options);
+        async getAllPythonSubmissions(page?: number, size?: number, sort?: Array<string>, state?: Array<GetAllPythonSubmissionsStateEnum>, repository?: Array<string>, fromDate?: string, toDate?: string, search?: string, binary?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ResponseDtoPagedModelEntityModelSubmissionDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getAllPythonSubmissions(page, size, sort, state, repository, fromDate, toDate, search, binary, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['PythonSubmissionControllerApi.getAllPythonSubmissions']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -8634,11 +8980,12 @@ export const PythonSubmissionControllerApiFactory = function (configuration?: Co
          * @param {string} [fromDate] 
          * @param {string} [toDate] 
          * @param {string} [search] 
+         * @param {boolean} [binary] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllPythonSubmissions(page?: number, size?: number, sort?: Array<string>, state?: Array<GetAllPythonSubmissionsStateEnum>, repository?: Array<string>, fromDate?: string, toDate?: string, search?: string, options?: any): AxiosPromise<ResponseDtoPagedModelEntityModelSubmissionDto> {
-            return localVarFp.getAllPythonSubmissions(page, size, sort, state, repository, fromDate, toDate, search, options).then((request) => request(axios, basePath));
+        getAllPythonSubmissions(page?: number, size?: number, sort?: Array<string>, state?: Array<GetAllPythonSubmissionsStateEnum>, repository?: Array<string>, fromDate?: string, toDate?: string, search?: string, binary?: boolean, options?: any): AxiosPromise<ResponseDtoPagedModelEntityModelSubmissionDto> {
+            return localVarFp.getAllPythonSubmissions(page, size, sort, state, repository, fromDate, toDate, search, binary, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -8703,12 +9050,13 @@ export class PythonSubmissionControllerApi extends BaseAPI {
      * @param {string} [fromDate] 
      * @param {string} [toDate] 
      * @param {string} [search] 
+     * @param {boolean} [binary] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PythonSubmissionControllerApi
      */
-    public getAllPythonSubmissions(page?: number, size?: number, sort?: Array<string>, state?: Array<GetAllPythonSubmissionsStateEnum>, repository?: Array<string>, fromDate?: string, toDate?: string, search?: string, options?: RawAxiosRequestConfig) {
-        return PythonSubmissionControllerApiFp(this.configuration).getAllPythonSubmissions(page, size, sort, state, repository, fromDate, toDate, search, options).then((request) => request(this.axios, this.basePath));
+    public getAllPythonSubmissions(page?: number, size?: number, sort?: Array<string>, state?: Array<GetAllPythonSubmissionsStateEnum>, repository?: Array<string>, fromDate?: string, toDate?: string, search?: string, binary?: boolean, options?: RawAxiosRequestConfig) {
+        return PythonSubmissionControllerApiFp(this.configuration).getAllPythonSubmissions(page, size, sort, state, repository, fromDate, toDate, search, binary, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -9045,10 +9393,11 @@ export const RPackageControllerApiAxiosParamCreator = function (configuration?: 
          * @param {string} [search] 
          * @param {Array<string>} [maintainer] 
          * @param {Array<string>} [notMaintainedBy] 
+         * @param {boolean} [binary] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllRPackages: async (page?: number, size?: number, sort?: Array<string>, repository?: Array<string>, deleted?: boolean, submissionState?: Array<GetAllRPackagesSubmissionStateEnum>, technology?: Array<string>, search?: string, maintainer?: Array<string>, notMaintainedBy?: Array<string>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getAllRPackages: async (page?: number, size?: number, sort?: Array<string>, repository?: Array<string>, deleted?: boolean, submissionState?: Array<GetAllRPackagesSubmissionStateEnum>, technology?: Array<string>, search?: string, maintainer?: Array<string>, notMaintainedBy?: Array<string>, binary?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/v2/manager/r/packages`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -9103,6 +9452,10 @@ export const RPackageControllerApiAxiosParamCreator = function (configuration?: 
 
             if (notMaintainedBy) {
                 localVarQueryParameter['notMaintainedBy'] = notMaintainedBy;
+            }
+
+            if (binary !== undefined) {
+                localVarQueryParameter['binary'] = binary;
             }
 
 
@@ -9344,11 +9697,12 @@ export const RPackageControllerApiFp = function(configuration?: Configuration) {
          * @param {string} [search] 
          * @param {Array<string>} [maintainer] 
          * @param {Array<string>} [notMaintainedBy] 
+         * @param {boolean} [binary] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getAllRPackages(page?: number, size?: number, sort?: Array<string>, repository?: Array<string>, deleted?: boolean, submissionState?: Array<GetAllRPackagesSubmissionStateEnum>, technology?: Array<string>, search?: string, maintainer?: Array<string>, notMaintainedBy?: Array<string>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ResponseDtoObject>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getAllRPackages(page, size, sort, repository, deleted, submissionState, technology, search, maintainer, notMaintainedBy, options);
+        async getAllRPackages(page?: number, size?: number, sort?: Array<string>, repository?: Array<string>, deleted?: boolean, submissionState?: Array<GetAllRPackagesSubmissionStateEnum>, technology?: Array<string>, search?: string, maintainer?: Array<string>, notMaintainedBy?: Array<string>, binary?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ResponseDtoObject>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getAllRPackages(page, size, sort, repository, deleted, submissionState, technology, search, maintainer, notMaintainedBy, binary, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['RPackageControllerApi.getAllRPackages']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -9464,11 +9818,12 @@ export const RPackageControllerApiFactory = function (configuration?: Configurat
          * @param {string} [search] 
          * @param {Array<string>} [maintainer] 
          * @param {Array<string>} [notMaintainedBy] 
+         * @param {boolean} [binary] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllRPackages(page?: number, size?: number, sort?: Array<string>, repository?: Array<string>, deleted?: boolean, submissionState?: Array<GetAllRPackagesSubmissionStateEnum>, technology?: Array<string>, search?: string, maintainer?: Array<string>, notMaintainedBy?: Array<string>, options?: any): AxiosPromise<ResponseDtoObject> {
-            return localVarFp.getAllRPackages(page, size, sort, repository, deleted, submissionState, technology, search, maintainer, notMaintainedBy, options).then((request) => request(axios, basePath));
+        getAllRPackages(page?: number, size?: number, sort?: Array<string>, repository?: Array<string>, deleted?: boolean, submissionState?: Array<GetAllRPackagesSubmissionStateEnum>, technology?: Array<string>, search?: string, maintainer?: Array<string>, notMaintainedBy?: Array<string>, binary?: boolean, options?: any): AxiosPromise<ResponseDtoObject> {
+            return localVarFp.getAllRPackages(page, size, sort, repository, deleted, submissionState, technology, search, maintainer, notMaintainedBy, binary, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -9577,12 +9932,13 @@ export class RPackageControllerApi extends BaseAPI {
      * @param {string} [search] 
      * @param {Array<string>} [maintainer] 
      * @param {Array<string>} [notMaintainedBy] 
+     * @param {boolean} [binary] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof RPackageControllerApi
      */
-    public getAllRPackages(page?: number, size?: number, sort?: Array<string>, repository?: Array<string>, deleted?: boolean, submissionState?: Array<GetAllRPackagesSubmissionStateEnum>, technology?: Array<string>, search?: string, maintainer?: Array<string>, notMaintainedBy?: Array<string>, options?: RawAxiosRequestConfig) {
-        return RPackageControllerApiFp(this.configuration).getAllRPackages(page, size, sort, repository, deleted, submissionState, technology, search, maintainer, notMaintainedBy, options).then((request) => request(this.axios, this.basePath));
+    public getAllRPackages(page?: number, size?: number, sort?: Array<string>, repository?: Array<string>, deleted?: boolean, submissionState?: Array<GetAllRPackagesSubmissionStateEnum>, technology?: Array<string>, search?: string, maintainer?: Array<string>, notMaintainedBy?: Array<string>, binary?: boolean, options?: RawAxiosRequestConfig) {
+        return RPackageControllerApiFp(this.configuration).getAllRPackages(page, size, sort, repository, deleted, submissionState, technology, search, maintainer, notMaintainedBy, binary, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -10441,10 +10797,11 @@ export const RSubmissionControllerApiAxiosParamCreator = function (configuration
          * @param {string} [fromDate] 
          * @param {string} [toDate] 
          * @param {string} [search] 
+         * @param {boolean} [binary] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllRSubmissions: async (page?: number, size?: number, sort?: Array<string>, state?: Array<GetAllRSubmissionsStateEnum>, repository?: Array<string>, fromDate?: string, toDate?: string, search?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getAllRSubmissions: async (page?: number, size?: number, sort?: Array<string>, state?: Array<GetAllRSubmissionsStateEnum>, repository?: Array<string>, fromDate?: string, toDate?: string, search?: string, binary?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/v2/manager/r/submissions`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -10491,6 +10848,10 @@ export const RSubmissionControllerApiAxiosParamCreator = function (configuration
 
             if (search !== undefined) {
                 localVarQueryParameter['search'] = search;
+            }
+
+            if (binary !== undefined) {
+                localVarQueryParameter['binary'] = binary;
             }
 
 
@@ -10702,11 +11063,12 @@ export const RSubmissionControllerApiFp = function(configuration?: Configuration
          * @param {string} [fromDate] 
          * @param {string} [toDate] 
          * @param {string} [search] 
+         * @param {boolean} [binary] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getAllRSubmissions(page?: number, size?: number, sort?: Array<string>, state?: Array<GetAllRSubmissionsStateEnum>, repository?: Array<string>, fromDate?: string, toDate?: string, search?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ResponseDtoPagedModelEntityModelSubmissionDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getAllRSubmissions(page, size, sort, state, repository, fromDate, toDate, search, options);
+        async getAllRSubmissions(page?: number, size?: number, sort?: Array<string>, state?: Array<GetAllRSubmissionsStateEnum>, repository?: Array<string>, fromDate?: string, toDate?: string, search?: string, binary?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ResponseDtoPagedModelEntityModelSubmissionDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getAllRSubmissions(page, size, sort, state, repository, fromDate, toDate, search, binary, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['RSubmissionControllerApi.getAllRSubmissions']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -10785,11 +11147,12 @@ export const RSubmissionControllerApiFactory = function (configuration?: Configu
          * @param {string} [fromDate] 
          * @param {string} [toDate] 
          * @param {string} [search] 
+         * @param {boolean} [binary] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAllRSubmissions(page?: number, size?: number, sort?: Array<string>, state?: Array<GetAllRSubmissionsStateEnum>, repository?: Array<string>, fromDate?: string, toDate?: string, search?: string, options?: any): AxiosPromise<ResponseDtoPagedModelEntityModelSubmissionDto> {
-            return localVarFp.getAllRSubmissions(page, size, sort, state, repository, fromDate, toDate, search, options).then((request) => request(axios, basePath));
+        getAllRSubmissions(page?: number, size?: number, sort?: Array<string>, state?: Array<GetAllRSubmissionsStateEnum>, repository?: Array<string>, fromDate?: string, toDate?: string, search?: string, binary?: boolean, options?: any): AxiosPromise<ResponseDtoPagedModelEntityModelSubmissionDto> {
+            return localVarFp.getAllRSubmissions(page, size, sort, state, repository, fromDate, toDate, search, binary, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -10858,12 +11221,13 @@ export class RSubmissionControllerApi extends BaseAPI {
      * @param {string} [fromDate] 
      * @param {string} [toDate] 
      * @param {string} [search] 
+     * @param {boolean} [binary] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof RSubmissionControllerApi
      */
-    public getAllRSubmissions(page?: number, size?: number, sort?: Array<string>, state?: Array<GetAllRSubmissionsStateEnum>, repository?: Array<string>, fromDate?: string, toDate?: string, search?: string, options?: RawAxiosRequestConfig) {
-        return RSubmissionControllerApiFp(this.configuration).getAllRSubmissions(page, size, sort, state, repository, fromDate, toDate, search, options).then((request) => request(this.axios, this.basePath));
+    public getAllRSubmissions(page?: number, size?: number, sort?: Array<string>, state?: Array<GetAllRSubmissionsStateEnum>, repository?: Array<string>, fromDate?: string, toDate?: string, search?: string, binary?: boolean, options?: RawAxiosRequestConfig) {
+        return RSubmissionControllerApiFp(this.configuration).getAllRSubmissions(page, size, sort, state, repository, fromDate, toDate, search, binary, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

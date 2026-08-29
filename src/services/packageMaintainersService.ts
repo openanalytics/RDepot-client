@@ -32,7 +32,8 @@ import {
   validatedData
 } from '@/services/openApiAccess'
 import { createPatch } from 'rfc6902'
-import { isAuthorized } from '@/plugins/casl'
+import { usePermissions } from '@/composable/authorities/userAuthorities'
+import { hasPermission } from '@/utils/permissions'
 
 type ValidatedPackageMaintainers = Promise<
   validatedData<EntityModelPackageMaintainerDto[]>
@@ -42,6 +43,8 @@ type ValidatedPackageMaintainer = Promise<
   validatedData<EntityModelPackageMaintainerDto>
 >
 
+const { has } = usePermissions()
+
 export async function fetchPackageMaintainerService(
   filtration: PackageMaintainersFiltration,
   page?: number,
@@ -49,7 +52,7 @@ export async function fetchPackageMaintainerService(
   sort?: string[],
   showProgress = false
 ): ValidatedPackageMaintainers {
-  if (!isAuthorized('GET', 'packageMaintainers')) {
+  if (!has('packageMaintainer.list')) {
     return new Promise(() => validateRequest([]))
   }
   return openApiRequest<EntityModelPackageMaintainerDto[]>(
@@ -73,7 +76,12 @@ export async function fetchPackageMaintainerService(
 export async function deletePackageMaintainerService(
   maintainer: EntityModelPackageMaintainerDto
 ): ValidatedPackageMaintainer {
-  if (!isAuthorized('DELETE', 'packageMaintainers')) {
+  if (
+    !hasPermission(
+      maintainer.permissions,
+      'packageMaintainer.delete.soft'
+    )
+  ) {
     return new Promise(() => false)
   }
   return openApiRequest<EntityModelPackageMaintainerDto>(
@@ -89,7 +97,12 @@ export async function updatePackageMaintainerService(
   oldMaintainer: PackageMaintainerDto,
   newMaintainer: PackageMaintainerDto
 ): ValidatedPackageMaintainer {
-  if (!isAuthorized('PATCH', 'packageMaintainers')) {
+  if (
+    !hasPermission(
+      oldMaintainer.permissions,
+      'packageMaintainer.edit'
+    )
+  ) {
     return new Promise(() => false)
   }
   const patch = createPatch(oldMaintainer, newMaintainer)
@@ -106,7 +119,7 @@ export async function updatePackageMaintainerService(
 export async function createPackageMaintainerService(
   maintainer: PackageMaintainerDto
 ): ValidatedPackageMaintainer {
-  if (!isAuthorized('POST', 'packageMaintainers')) {
+  if (!has('packageMaintainer.create')) {
     return new Promise(() => false)
   }
 

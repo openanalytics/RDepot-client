@@ -1,0 +1,66 @@
+VITE_LOGIN_SIMPLE: true
+VITE_LOGIN_OIDC: false
+
+#URL prefix when running RDepot UI ('/{prefix-value}')
+VITE_URL_PREFIX: /
+
+#RDepot app configuration
+VITE_SERVER_ADDRESS: http://localhost/backend
+
+#OIDC configuration
+VITE_OIDC_AUTHORITY: http://localhost/keycloak/realms/RDepot
+VITE_OIDC_CLIENT_ID: oa-rdepot-frontend
+VITE_OIDC_REDIRECT_URI: http://localhost/auth
+VITE_OIDC_POST_LOGOUT_REDIRECT_URI: http://localhost/logout
+VITE_OIDC_RESPONSE_TYPE: code
+VITE_OIDC_SCOPE: openid
+
+VITE_ADDRESS_DEPRECATION_WARNING: false
+
+#THEME
+VITE_NAVBAR_TITLE: RDepot
+
+#theme (hex or rgba, e.g. '#32a6d3')
+VITE_BACKGROUND_COLOUR_DARK: '#2d2d2d'
+VITE_BACKGROUND_COLOUR_LIGHT: '#edebeb'
+VITE_PRIMARY_COLOUR_DARK: '#32a6d3'
+VITE_PRIMARY_COLOUR_LIGHT: '#32a6d3'
+VITE_SECONDARY_COLOUR_DARK:
+VITE_SECONDARY_COLOUR_LIGHT:
+VITE_ACCENT_COLOUR_DARK:
+VITE_ACCENT_COLOUR_LIGHT:
+
+#navbar
+VITE_NAVBAR_HEIGHT: 64
+
+#navbar logo - small (about 40x40 [px])
+VITE_LOGO_SMALL_URL: /images/logo.svg
+VITE_LOGO_SMALL_HEIGHT: 64
+VITE_LOGO_SMALL_WIDTH: 64
+VITE_LOGO_SMALL_CLASSES:
+VITE_LOGO_SMALL_STYLE:
+
+#login page logo - medium size (about 200x200 [px])
+VITE_LOGO_BIG_URL: /images/logo.svg
+VITE_LOGO_BIG_HEIGHT: 200
+VITE_LOGO_BIG_WIDTH: 200
+VITE_LOGO_BIG_CLASSES:
+VITE_LOGO_BIG_STYLE:
+
+#favicon
+VITE_FAVICON_ICO_URL: /favicon-oa.ico
+VITE_FAVICON_SVG_URL: /images/logo.svg
+
+#font configuration
+#supported families: 'Roboto' (current default), 'Geist Mono' (bundled)
+#to use a custom font, provide its family name and a URL to its CSS stylesheet
+VITE_FONT_FAMILY: 'Roboto'
+VITE_FONT_URL:
+
+#border radius (true = rounded, false = sharp corners)
+VITE_BORDER_RADIUS: true
+
+#external assets (comma-separated list of URLs or local paths)
+#supports both http(s):// URLs and local paths (e.g. /custom/style.css)
+VITE_CSS_FILES:
+VITE_JS_FILES:

@@ -22,6 +22,7 @@
 
 import { test, expect } from '@playwright/test'
 import { login } from '../helpers/login'
+import { awaitTableData } from '@/__tests__/end-to-end/helpers/awaitTableData'
 import { i18n } from '@/plugins/i18n'
 import {
   OA_LIST_NOTES_RST,
@@ -96,10 +97,15 @@ test.describe(TITLE, () => {
   test('should check how many packages are in the table footer', async ({
     page
   }) => {
+    const initialDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/packages'
+    )
     await login(page, 'einstein')
     await page.waitForURL('**/packages')
     await expect(page).toHaveTitle(/RDepot - packages/)
     const packagesRowsSelector = page.locator('role=row')
+    await initialDataLoaded
     await expect(packagesRowsSelector).toHaveCount(21)
     await expect(
       (

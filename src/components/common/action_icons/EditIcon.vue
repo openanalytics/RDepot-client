@@ -26,6 +26,9 @@
       <v-icon
         :id="iconId"
         v-bind="props"
+        :class="{
+          'icon-animate icon-hover-scale': !disabled
+        }"
         :color="disabled ? 'grey' : 'primary'"
         @click.stop
         @click="edit"

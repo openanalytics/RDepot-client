@@ -1,0 +1,134 @@
+/*
+ * R Depot
+ *
+ * Copyright (C) 2012-2026 Open Analytics NV
+ *
+ * ===========================================================================
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the Apache License as published by
+ * The Apache Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * Apache License for more details.
+ *
+ * You should have received a copy of the Apache License
+ * along with this program. If not, see <http://www.apache.org/licenses/>
+ *
+ */
+
+.icon-animate {
+  transition: transform 0.25s ease;
+}
+
+.icon-hover-scale:hover {
+  transform: scale(1.15);
+}
+
+.icon-hover-scale-lg:hover {
+  transform: scale(1.4);
+}
+
+.icon-hover-slide-right:hover {
+  transform: translateX(3px);
+}
+
+.icon-hover-nudge-up:hover {
+  transform: translateY(-2px);
+}
+
+.icon-hover-nudge-down:hover {
+  transform: translateY(2px);
+}
+
+.icon-hover-copy:hover {
+  transform: translate(2px, 2px);
+}
+
+.icon-hover-rotate:hover {
+  transform: rotate(90deg);
+}
+
+.icon-hover-flip:hover {
+  transform: rotateY(180deg);
+}
+
+.icon-hover-spin:hover {
+  animation: icon-spin 0.5s ease;
+}
+
+.icon-hover-ring:hover {
+  animation: icon-ring 0.6s ease;
+  transform-origin: top center;
+}
+
+.icon-hover-bounce:hover {
+  animation: icon-bounce 0.4s ease;
+}
+
+@keyframes icon-spin {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes icon-ring {
+  0% {
+    transform: rotate(0);
+  }
+  15% {
+    transform: rotate(12deg);
+  }
+  30% {
+    transform: rotate(-10deg);
+  }
+  45% {
+    transform: rotate(8deg);
+  }
+  60% {
+    transform: rotate(-6deg);
+  }
+  75% {
+    transform: rotate(3deg);
+  }
+  100% {
+    transform: rotate(0);
+  }
+}
+
+@keyframes icon-bounce {
+  0% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-3px);
+  }
+  60% {
+    transform: translateY(1px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.row-updated td {
+  animation: row-highlight 1s ease-out;
+}
+
+@keyframes row-highlight {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 1;
+  }
+}

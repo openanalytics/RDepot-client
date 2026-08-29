@@ -22,7 +22,7 @@
 
 <template>
   <div
-    class="v-expansion d-flex py-3 ga-3 justify-space-between"
+    class="filtration-bar v-expansion d-flex flex-wrap py-3 ga-3"
     style="padding-left: 0; padding-right: 0"
   >
     <validated-input-field
@@ -120,9 +120,8 @@
       @change="setFiltration"
     ></validated-input-field>
 
-    <v-spacer />
-
     <ResetButton
+      class="ml-auto"
       :style="{
         visibility: repositoryStore.isDefaultFiltration
           ? 'hidden'
@@ -147,6 +146,7 @@ import { useRepositoryStore } from '@/store/options/repositories'
 import { isAtLeastAdmin } from '@/enum/UserRoles'
 import ResetButton from '@/components/common/buttons/ResetButton.vue'
 import { useAuthorizationStore } from '@/store/options/authorization'
+import { useSyncFiltrationForm } from '@/composable/common/syncFiltrationForm'
 
 const { technologies } = useEnumFiltration()
 const authorizationStore = useAuthorizationStore()
@@ -162,6 +162,11 @@ const { setValues, values } = useForm({
   validationSchema: toTypedSchema(RepositoriesFiltration),
   initialValues: repositoryStore.filtration
 })
+
+useSyncFiltrationForm(
+  () => repositoryStore.filtration,
+  setValues
+)
 
 function setFiltration() {
   repositoryStore.setFiltration(

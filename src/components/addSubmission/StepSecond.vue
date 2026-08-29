@@ -24,14 +24,14 @@
   <v-card
     class="mb-12 px-10 py-3 step d-flex flex-column text-center justify-space-between"
     :class="
-      files.value && files.value?.length > 0
+      files && files?.length > 0
         ? 'align-items-end'
         : 'align-items-start'
     "
     min-height="250px"
     height="100%"
   >
-    <FilesList />
+    <FilesList :set-field-value="setFieldValue" />
     <DropZone
       v-slot="{ dropZoneActive }"
       class="drop-area"
@@ -62,7 +62,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, watch } from 'vue'
+import { computed, onMounted, onActivated } from 'vue'
 import { useFileDialog } from '@vueuse/core'
 import DropZone from '@/components/common/files/DropZone.vue'
 import FilesList from '@/components/addSubmission/FilesList.vue'
@@ -72,6 +72,10 @@ import { i18n } from '@/plugins/i18n'
 import { useConfigStore } from '@/store/options/config'
 import { useUploadSubmissionStore } from '@/store/setup/uploadSubmission.ts'
 import { RepositoryObject } from '@/store/setup/selectPagination.ts'
+
+defineProps<{
+  setFieldValue: (path: string, value: unknown) => void
+}>()
 
 const { value: packages, setValue: setPackages } = useField<
   Array<{
@@ -91,27 +95,19 @@ const getExtensions = computed(() => {
     .map((file) => file.extension)
     .join(',')
 })
-
-const fileDialog = computed(() => {
-  return useFileDialog({
-    accept: getExtensions.value
-  })
+const { files, open, onChange, reset } = useFileDialog({
+  accept: getExtensions.value
 })
 
-const open = () => fileDialog.value.open()
-const files = computed(() => fileDialog.value.files)
+onChange((files) => {
+  if (files) updateFiles(files)
+})
+
+onActivated(() => {
+  reset()
+})
 
 const uploadSubmissionsStore = useUploadSubmissionStore()
-
-watch(
-  files,
-  (files) => {
-    if (files.value != undefined) {
-      updateFiles(files.value)
-    }
-  },
-  { deep: true }
-)
 
 const configStore = useConfigStore()
 

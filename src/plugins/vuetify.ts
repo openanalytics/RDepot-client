@@ -33,19 +33,61 @@ import 'vuetify/dist/vuetify.min.css'
 import { createVuetify } from 'vuetify'
 import getEnv from '@/utils/env'
 
-const primary = `#${getEnv('VITE_PRIMARY_COLOUR') || '32a6d3'}`
+const primaryDark = getEnv(
+  'VITE_PRIMARY_COLOUR_DARK',
+  '#32a6d3'
+)
+const primaryLight = getEnv(
+  'VITE_PRIMARY_COLOUR_LIGHT',
+  '#32a6d3'
+)
+const secondaryDark = getEnv(
+  'VITE_SECONDARY_COLOUR_DARK',
+  '#b0bec5'
+)
+const secondaryLight = getEnv(
+  'VITE_SECONDARY_COLOUR_LIGHT',
+  '#000'
+)
+const accentDark = getEnv(
+  'VITE_ACCENT_COLOUR_DARK',
+  '#8c9eff'
+)
+const accentLight = getEnv(
+  'VITE_ACCENT_COLOUR_LIGHT',
+  '#fff'
+)
+
+const backgroundLight = getEnv(
+  'VITE_BACKGROUND_COLOUR_LIGHT',
+  '#edebeb'
+)
+
+const backgroundDark = getEnv(
+  'VITE_BACKGROUND_COLOUR_DARK',
+  '#2d2d2d'
+)
+
+const borderRadiusEnabled =
+  getEnv('VITE_BORDER_RADIUS') !== 'false'
+
 export default createVuetify({
+  defaults: {
+    global: {
+      rounded: borderRadiusEnabled ? undefined : 0
+    }
+  },
   theme: {
-    defaultTheme: 'dark',
+    defaultTheme: 'system',
     themes: {
       dark: {
         colors: {
           headerText: '#fff',
-          primary: primary,
-          secondary: '#b0bec5',
-          accent: '#8c9eff',
+          primary: primaryDark,
+          secondary: secondaryDark,
+          accent: accentDark,
           error: '#b71c1c',
-          background: `#${getEnv('VITE_DARK_MODE_BACKGROUND_COLOUR') || '2d2d2d'}`,
+          background: backgroundDark,
           oared: '#e52323',
           'primary-darken-2': '#00729c',
           'primary-lighten-2': '#84cae5',
@@ -65,11 +107,11 @@ export default createVuetify({
       light: {
         colors: {
           headerText: '#fff',
-          primary: primary,
-          secondary: '#000',
-          accent: '#fff',
+          primary: primaryLight,
+          secondary: secondaryLight,
+          accent: accentLight,
           error: '#b71c1c',
-          background: `#${getEnv('VITE_LIGHT_MODE_BACKGROUND_COLOUR') || 'edebeb'}`,
+          background: backgroundLight,
           oared: '#e52323',
           'primary-darken-2': '#00729c',
           'primary-lighten-2': '#84cae5',

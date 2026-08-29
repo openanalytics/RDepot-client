@@ -29,20 +29,21 @@ import {
   EDIT_PACKAGE_MAINTAINER_REPOSITORY_INPUT_MESSAGES_ID,
   EDIT_PACKAGE_MAINTAINER_SUBMIT_ID,
   EDIT_PACKAGE_MAINTAINER_USER_INPUT_ID,
-  GALILEO_GALILEI_ABC_TESTREPO1_ID,
   GALILEO_GALILEI_ABC_TESTREPO3_ID,
   GALILEO_GALILEI_ACCRUED_TESTREPO1_ID,
+  GALILEO_GALILEI_ABC_TESTREPO1_ID,
   NUMPY_TESTREPO10_ID,
   PACKAGE_MAINTAINERS_SIDEBAR_ID,
   TEST_REPO_10_ID,
   WHEEL_TESTREPO10_ID
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '../helpers/login'
+import { awaitTableData } from '../helpers/awaitTableData'
 import { restoreData } from '@/__tests__/end-to-end/helpers/restoreData'
 import { i18n } from '@/plugins/i18n'
 
 const TITLE = 'package maintainers edition'
-test.describe(TITLE, { tag: '@serial' }, () => {
+test.describe.serial(TITLE, { tag: '@serial' }, () => {
   // eslint-disable-next-line no-empty-pattern
   test.beforeAll(async ({}, testInfo) => {
     await restoreData(testInfo.project.name)
@@ -51,12 +52,17 @@ test.describe(TITLE, { tag: '@serial' }, () => {
   test('has proper initial values', async ({ page }) => {
     await login(page, 'einstein')
 
+    const initialDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/package-maintainers'
+    )
     await page
       .locator(`#${PACKAGE_MAINTAINERS_SIDEBAR_ID}`)
       .click()
     await page.waitForURL('**/package-maintainers')
     const maintainersRowsSelector = page.locator('role=row')
-    await expect(maintainersRowsSelector).toHaveCount(12)
+    await initialDataLoaded
+    await expect(maintainersRowsSelector).toHaveCount(21)
 
     const editMaintainerButtonSelector = page.locator(
       `#${GALILEO_GALILEI_ACCRUED_TESTREPO1_ID}`
@@ -93,12 +99,17 @@ test.describe(TITLE, { tag: '@serial' }, () => {
   test('change package', async ({ page }) => {
     await login(page, 'einstein')
 
+    const initialDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/package-maintainers'
+    )
     await page
       .locator(`#${PACKAGE_MAINTAINERS_SIDEBAR_ID}`)
       .click()
     await page.waitForURL('**/package-maintainers')
     const maintainersRowsSelector = page.locator('role=row')
-    await expect(maintainersRowsSelector).toHaveCount(12)
+    await initialDataLoaded
+    await expect(maintainersRowsSelector).toHaveCount(21)
 
     const editMaintainerButtonSelector = page.locator(
       `#${GALILEO_GALILEI_ACCRUED_TESTREPO1_ID}`
@@ -132,12 +143,17 @@ test.describe(TITLE, { tag: '@serial' }, () => {
   }) => {
     await login(page, 'einstein')
 
+    const initialDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/package-maintainers'
+    )
     await page
       .locator(`#${PACKAGE_MAINTAINERS_SIDEBAR_ID}`)
       .click()
     await page.waitForURL('**/package-maintainers')
     const maintainersRowsSelector = page.locator('role=row')
-    await expect(maintainersRowsSelector).toHaveCount(12)
+    await initialDataLoaded
+    await expect(maintainersRowsSelector).toHaveCount(21)
 
     const editMaintainerButtonSelector = page.locator(
       `#${GALILEO_GALILEI_ABC_TESTREPO3_ID}`
@@ -189,12 +205,17 @@ test.describe(TITLE, { tag: '@serial' }, () => {
   }) => {
     await login(page, 'einstein')
 
+    const initialDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/package-maintainers'
+    )
     await page
       .locator(`#${PACKAGE_MAINTAINERS_SIDEBAR_ID}`)
       .click()
     await page.waitForURL('**/package-maintainers')
     const maintainersRowsSelector = page.locator('role=row')
-    await expect(maintainersRowsSelector).toHaveCount(12)
+    await initialDataLoaded
+    await expect(maintainersRowsSelector).toHaveCount(21)
 
     const editMaintainerSelector = page.locator(
       `#${GALILEO_GALILEI_ABC_TESTREPO1_ID}`

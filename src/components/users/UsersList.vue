@@ -29,6 +29,7 @@
     :loading="userStore.loading"
     :sort-by="sortBy"
     :title="i18n.t('resources.user', 2)"
+    :recently-updated="userStore.recentlyUpdated"
     @update:options="fetchData"
     @refresh="fetchData"
   >
@@ -44,7 +45,14 @@
           !(
             item.id === authorizationStore.me.id ||
             isPending(item) ||
-            !canPatch(item.links, 'active')
+            !hasPermission(
+              item.permissions,
+              'user.activate'
+            ) ||
+            !hasPermission(
+              item.permissions,
+              'user.deactivate'
+            )
           )
         "
       >
@@ -88,11 +96,24 @@
         <span v-if="isPending(item)">
           {{ i18n.t('messages.general.pending') }}
         </span>
-        <span v-else-if="!canPatch(item.links, 'active')">
-          {{ i18n.t('messages.general.notAuthorized') }}
-        </span>
-        <span v-else>
+        <span
+          v-else-if="item.id === authorizationStore.me.id"
+        >
           {{ i18n.t('messages.users.unableDeactivation') }}
+        </span>
+        <span
+          v-else-if="
+            !hasPermission(
+              item.permissions,
+              'user.activate'
+            ) ||
+            !hasPermission(
+              item.permissions,
+              'user.deactivate'
+            )
+          "
+        >
+          {{ i18n.t('messages.general.notAuthorized') }}
         </span>
       </v-tooltip>
     </template>
@@ -104,9 +125,11 @@
       >
         <EditIcon
           :icon-id="`edit-user-${item.id}`"
-          :disabled="!canPatch(item.links, 'roleId')"
+          :disabled="
+            !hasPermission(item.permissions, 'user.edit')
+          "
           :hover-message="
-            !canPatch(item.links, 'roleId')
+            !hasPermission(item.permissions, 'user.edit')
               ? i18n.t('messages.general.notAuthorized')
               : i18n.t('actions.general.edit')
           "
@@ -115,18 +138,24 @@
         <DeleteIcon
           :id="`delete-user-${item.id}`"
           :disabled="
-            !canPatch(item.links, 'deleted') || item.deleted
+            !hasPermission(
+              item.permissions,
+              'user.delete.soft'
+            )
           "
           :name="item.name"
           :hover-message="
-            !canPatch(item.links, 'deleted')
-              ? item.id == authorizationStore.me.id
-                ? i18n.t('messages.users.unableDeletion')
-                : i18n.t('messages.general.notAuthorized')
-              : item.deleted
-                ? i18n.t('messages.general.deleted', {
-                    resource_name: i18n.t('resources.user')
-                  })
+            item.deleted
+              ? i18n.t('messages.general.deleted', {
+                  resource_name: i18n.t('resources.user')
+                })
+              : !hasPermission(
+                    item.permissions,
+                    'user.delete.soft'
+                  )
+                ? item.id == authorizationStore.me.id
+                  ? i18n.t('messages.users.unableDeletion')
+                  : i18n.t('messages.general.notAuthorized')
                 : undefined
           "
           @set-resource-id="prepareDeletion(item)"
@@ -143,7 +172,7 @@ import { i18n } from '@/plugins/i18n'
 import { EntityModelUserDto } from '@/openapi'
 import { useUtilities } from '@/composable/utilities'
 import { isAtLeastAdmin } from '@/enum/UserRoles'
-import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
+import { hasPermission } from '@/utils/permissions'
 import {
   DataTableHeaders,
   DataTableOptions,
@@ -205,11 +234,13 @@ const headers = computed<DataTableHeaders[]>(() => [
   }
 ])
 
-const { canPatch } = useUserAuthorities()
 const { deepCopy } = useUtilities()
 
 function updateUserActive(item: EntityModelUserDto): void {
-  if (canPatch(item.links, 'active')) {
+  if (
+    hasPermission(item?.permissions, 'user.activate') ||
+    hasPermission(item?.permissions, 'user.deactivate')
+  ) {
     const oldUser = deepCopy(item)
     userStore.chosenUser = oldUser
     oldUser.active = !oldUser.active

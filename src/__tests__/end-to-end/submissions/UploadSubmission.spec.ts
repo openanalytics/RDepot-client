@@ -24,10 +24,11 @@ import { expect, test } from '@playwright/test'
 import {
   BINARY_SUBMISSION_CHECKBOX,
   DROP_ZONE_CLASS,
+  SHOW_SUBMISSIONS_BUTTON_ID,
   SUBMISSIONS_FILTRATION_SEARCH_FIELD_ID,
   SUBMISSIONS_LIST_NOTES_ARROW_TESTREPO3_ID,
   SUBMISSIONS_LIST_NOTES_MARKDOWN,
-  SUBMISSIONS_SIDEBAR_ID,
+  UPLOAD_ANOTHER_BUTTON_ID,
   UPLOAD_PACKAGES_SIDEBAR_ID,
   UPLOAD_SUBMISSION_ARCHITECTURE,
   UPLOAD_SUBMISSION_CONTINUE_BUTTON_ID,
@@ -145,9 +146,28 @@ test.describe(TITLE, { tag: '@serial' }, () => {
       page.locator(`#${UPLOAD_SUBMISSION_SUCCESS_ICON}`)
     ).toBeVisible()
 
-    await page.locator(`#${SUBMISSIONS_SIDEBAR_ID}`).click()
+    await expect(
+      page.locator(`#${UPLOAD_ANOTHER_BUTTON_ID}`)
+    ).toBeEnabled()
+    await expect(
+      page.locator(`#${SHOW_SUBMISSIONS_BUTTON_ID}`)
+    ).toBeEnabled()
+
+    await page
+      .locator(`#${SHOW_SUBMISSIONS_BUTTON_ID}`)
+      .click()
     await page.waitForURL('**/submissions')
     await expect(page).toHaveTitle(/RDepot - submissions/)
+
+    const highlightedRows = page.locator(
+      'tr.newly-uploaded'
+    )
+    await expect(highlightedRows).toHaveCount(1)
+
+    const dividerRow = page.locator(
+      'tr.newly-uploaded-last'
+    )
+    await expect(dividerRow).toHaveCount(1)
 
     await page
       .locator(`#${SUBMISSIONS_FILTRATION_SEARCH_FIELD_ID}`)
@@ -167,6 +187,209 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     await expect(notesMarkdown).toHaveText(
       'Test notes for upload'
     )
+  })
+
+  test('show submissions is disabled when upload fails', async ({
+    page
+  }) => {
+    await login(page, 'einstein')
+    await page
+      .locator(`#${UPLOAD_PACKAGES_SIDEBAR_ID}`)
+      .click()
+    await page.waitForURL('**/upload-packages')
+
+    await page
+      .locator(`#${UPLOAD_SUBMISSION_REPOSITORY_FIELD_ID}`)
+      .click({ force: true })
+    await page
+      .locator(
+        `#${UPLOAD_SUBMISSION_REPOSITORY_TESTREPO3_ID}`
+      )
+      .click()
+    await page
+      .locator(`#${UPLOAD_SUBMISSION_CONTINUE_BUTTON_ID}`)
+      .click()
+
+    const fileChooserPromise =
+      page.waitForEvent('filechooser')
+    await page.locator(`.${DROP_ZONE_CLASS}`).click()
+    const fileChooser = await fileChooserPromise
+    await fileChooser.setFiles(
+      './src/__tests__/end-to-end/testData/arrow_8.0.0.tar.gz'
+    )
+
+    await page
+      .locator(`#${UPLOAD_SUBMISSION_CONTINUE_BUTTON_ID}`)
+      .click()
+
+    await page
+      .locator('#submission-error-icon')
+      .waitFor({ timeout: 10000 })
+
+    await expect(
+      page.locator(`#${UPLOAD_ANOTHER_BUTTON_ID}`)
+    ).toBeEnabled()
+    await expect(
+      page.locator(`#${SHOW_SUBMISSIONS_BUTTON_ID}`)
+    ).toBeDisabled()
+  })
+
+  test('auto-select single-option properties for binary R package', async ({
+    page
+  }) => {
+    await page.route(
+      '**/api/v2/manager/r/config',
+      async (route) => {
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify({
+            status: 'SUCCESS',
+            code: 200,
+            message: '',
+            messageCode: '',
+            data: {
+              allowedRVersions: ['4.2'],
+              allowedArchitectures: ['x86_64'],
+              allowedDistributions: ['centos7']
+            }
+          })
+        })
+      }
+    )
+
+    await login(page, 'einstein')
+    await page
+      .locator(`#${UPLOAD_PACKAGES_SIDEBAR_ID}`)
+      .click()
+    await page.waitForURL('**/upload-packages')
+    await page
+      .locator(`#${UPLOAD_SUBMISSION_REPOSITORY_FIELD_ID}`)
+      .click({ force: true })
+    await page
+      .locator(
+        `#${UPLOAD_SUBMISSION_REPOSITORY_TESTREPO3_ID}`
+      )
+      .click()
+    await page
+      .locator(`#${UPLOAD_SUBMISSION_CONTINUE_BUTTON_ID}`)
+      .click()
+
+    const fileChooserPromise =
+      page.waitForEvent('filechooser')
+    await page.locator(`.${DROP_ZONE_CLASS}`).click()
+    const fileChooser = await fileChooserPromise
+    await fileChooser.setFiles(
+      './src/__tests__/end-to-end/testData/arrow_8.0.0.tar.gz'
+    )
+
+    await page
+      .locator(`#${BINARY_SUBMISSION_CHECKBOX}`)
+      .click()
+
+    const rversionSelect = page
+      .locator(`#${UPLOAD_SUBMISSION_RVERSION}`)
+      .locator('..')
+    const architectureSelect = page
+      .locator(`#${UPLOAD_SUBMISSION_ARCHITECTURE}`)
+      .locator('..')
+    const distributionSelect = page
+      .locator(`#${UPLOAD_SUBMISSION_DISTRIBUTION}`)
+      .locator('..')
+
+    await expect(
+      rversionSelect.locator('.v-select__selection-text')
+    ).toHaveText('4.2')
+    await expect(
+      architectureSelect.locator(
+        '.v-select__selection-text'
+      )
+    ).toHaveText('x86_64')
+    await expect(
+      distributionSelect.locator(
+        '.v-select__selection-text'
+      )
+    ).toHaveText('centos7')
+  })
+
+  test('do not auto-select properties with multiple options for binary R package', async ({
+    page
+  }) => {
+    await page.route(
+      '**/api/v2/manager/r/config',
+      async (route) => {
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: JSON.stringify({
+            status: 'SUCCESS',
+            code: 200,
+            message: '',
+            messageCode: '',
+            data: {
+              allowedRVersions: ['4.2', '4.3'],
+              allowedArchitectures: ['x86_64'],
+              allowedDistributions: ['centos7', 'ubuntu22']
+            }
+          })
+        })
+      }
+    )
+
+    await login(page, 'einstein')
+    await page
+      .locator(`#${UPLOAD_PACKAGES_SIDEBAR_ID}`)
+      .click()
+    await page.waitForURL('**/upload-packages')
+    await page
+      .locator(`#${UPLOAD_SUBMISSION_REPOSITORY_FIELD_ID}`)
+      .click({ force: true })
+    await page
+      .locator(
+        `#${UPLOAD_SUBMISSION_REPOSITORY_TESTREPO3_ID}`
+      )
+      .click()
+    await page
+      .locator(`#${UPLOAD_SUBMISSION_CONTINUE_BUTTON_ID}`)
+      .click()
+
+    const fileChooserPromise =
+      page.waitForEvent('filechooser')
+    await page.locator(`.${DROP_ZONE_CLASS}`).click()
+    const fileChooser = await fileChooserPromise
+    await fileChooser.setFiles(
+      './src/__tests__/end-to-end/testData/arrow_8.0.0.tar.gz'
+    )
+
+    await page
+      .locator(`#${BINARY_SUBMISSION_CHECKBOX}`)
+      .click()
+
+    const rversionSelect = page
+      .locator(`#${UPLOAD_SUBMISSION_RVERSION}`)
+      .locator('..')
+    const architectureSelect = page
+      .locator(`#${UPLOAD_SUBMISSION_ARCHITECTURE}`)
+      .locator('..')
+    const distributionSelect = page
+      .locator(`#${UPLOAD_SUBMISSION_DISTRIBUTION}`)
+      .locator('..')
+
+    await expect(
+      architectureSelect.locator(
+        '.v-select__selection-text'
+      )
+    ).toHaveText('x86_64')
+
+    await expect(
+      rversionSelect.locator('.v-select__selection-text')
+    ).toHaveCount(0)
+
+    await expect(
+      distributionSelect.locator(
+        '.v-select__selection-text'
+      )
+    ).toHaveCount(0)
   })
 
   test('upload binary Python package', async ({ page }) => {
@@ -216,9 +439,28 @@ test.describe(TITLE, { tag: '@serial' }, () => {
       page.locator(`#${UPLOAD_SUBMISSION_SUCCESS_ICON}`)
     ).toBeVisible()
 
-    await page.locator(`#${SUBMISSIONS_SIDEBAR_ID}`).click()
+    await expect(
+      page.locator(`#${UPLOAD_ANOTHER_BUTTON_ID}`)
+    ).toBeEnabled()
+    await expect(
+      page.locator(`#${SHOW_SUBMISSIONS_BUTTON_ID}`)
+    ).toBeEnabled()
+
+    await page
+      .locator(`#${SHOW_SUBMISSIONS_BUTTON_ID}`)
+      .click()
     await page.waitForURL('**/submissions')
     await expect(page).toHaveTitle(/RDepot - submissions/)
+
+    const highlightedRows = page.locator(
+      'tr.newly-uploaded'
+    )
+    await expect(highlightedRows).toHaveCount(1)
+
+    const dividerRow = page.locator(
+      'tr.newly-uploaded-last'
+    )
+    await expect(dividerRow).toHaveCount(1)
 
     await page
       .locator(`#${SUBMISSIONS_FILTRATION_SEARCH_FIELD_ID}`)

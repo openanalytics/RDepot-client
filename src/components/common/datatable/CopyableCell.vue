@@ -29,6 +29,7 @@
     <v-icon
       :id="`resources-list-${value.replace('@', '-').replaceAll('/', '').replaceAll(':', '')}-copy`"
       v-tooltip="onHoverMessage"
+      class="icon-animate icon-hover-copy"
       size="x-small"
       :icon="Icons.get('copy')"
       @click.stop="

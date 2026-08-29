@@ -30,7 +30,8 @@ import {
 import { validatedData } from '@/services/openApiAccess'
 import { useToast } from '@/composable/toasts'
 import { i18n } from '@/plugins/i18n'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
+import { useNewlyUploadedSubmissions } from '@/composable/submissions/newlyUploadedSubmissions'
 import { useSubmissionValidationSchema } from '@/composable/submissions/submissionSchema'
 import z from 'zod'
 import { Technologies } from '@/enum/Technologies'
@@ -54,11 +55,20 @@ export const useUploadSubmissionStore = defineStore(
         typeof useSubmissionValidationSchema
       >['submissionSchema']
     >
+    type PreselectedRepository =
+      | {
+          name: string
+          technology: string
+        }
+      | undefined
+
     const promises = ref<PackagePromise[]>([])
     const resolved = ref(false)
     const allowedRVersions = ref<string[]>([])
     const allowedDistributions = ref<string[]>([])
     const allowedArchitectures = ref<string[]>([])
+    const preselectedRepository =
+      ref<PreselectedRepository>(undefined)
 
     async function getRConfiguration() {
       await getRConfigurationService().then((response) => {
@@ -168,6 +178,16 @@ export const useUploadSubmissionStore = defineStore(
           .finally(() => {
             if (++fulfilled == promises.value.length) {
               resolved.value = true
+              const { set } = useNewlyUploadedSubmissions()
+              set(
+                promises.value
+                  .filter(
+                    (p) =>
+                      isUploaded(p) &&
+                      p.response?.[0]?.id != null
+                  )
+                  .map((p) => p.response![0].id!)
+              )
               if (warnings > 0) {
                 toasts.warning(
                   i18n.t(
@@ -180,14 +200,37 @@ export const useUploadSubmissionStore = defineStore(
       })
     }
 
+    const acceptedWarningCodes = [
+      'warning.file.name.has.been.updated',
+      'generate.manual.not.supported',
+      'warning.synchronization.failure',
+      'warning.unknown'
+    ]
+
+    function isUploaded(p: PackagePromise) {
+      return (
+        p.state === 'success' ||
+        (p.state === 'warning' &&
+          acceptedWarningCodes.includes(
+            p.messageCode ?? ''
+          ))
+      )
+    }
+
+    const hasAnyUploaded = computed(() =>
+      promises.value.some(isUploaded)
+    )
+
     return {
       addSubmissionRequests,
       promises,
       resolved,
+      hasAnyUploaded,
       getRConfiguration,
       allowedDistributions,
       allowedArchitectures,
-      allowedRVersions
+      allowedRVersions,
+      preselectedRepository
     }
   }
 )

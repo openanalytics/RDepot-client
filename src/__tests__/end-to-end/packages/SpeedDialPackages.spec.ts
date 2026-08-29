@@ -34,13 +34,19 @@ import {
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '../helpers/login'
 import { restoreData } from '@/__tests__/end-to-end/helpers/restoreData'
+import { awaitTableData } from '@/__tests__/end-to-end/helpers/awaitTableData'
 
 const TITLE = 'packages multi actions'
 test.describe(TITLE, () => {
   test('select and unselect', async ({ page }) => {
+    const initialDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/packages'
+    )
     await login(page, 'einstein')
 
     const packagesRowsSelector = page.locator('role=row')
+    await initialDataLoaded
     await expect(packagesRowsSelector).toHaveCount(21)
 
     await page
@@ -92,12 +98,21 @@ test.describe(TITLE, () => {
 
     await page.locator(`#${CANCEL_BUTTON_ID}`).click()
 
-    await page.locator('css=.mdi-chevron-right').click()
+    await page
+      .locator('.v-data-table-footer .mdi-chevron-right')
+      .click()
     await expect(packagesRowsSelector).toHaveCount(5)
     await page
       .locator(`#${PACKAGES_LIST_SELECT_ALL_ID}`)
       .click()
-    await page.locator('css=.mdi-chevron-left').click()
+    const prevPageDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/packages'
+    )
+    await page
+      .locator('.v-data-table-footer .mdi-chevron-left')
+      .click()
+    await prevPageDataLoaded
     await expect(packagesRowsSelector).toHaveCount(21)
     await page
       .locator(`#${PACKAGES_LIST_SELECT_ALL_ID}`)
@@ -137,8 +152,13 @@ test.describe(TITLE, () => {
   test('disable the speed dial options when no package is chosen', async ({
     page
   }) => {
+    const initialDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/packages'
+    )
     await login(page, 'einstein')
     const packagesRowsSelector = page.locator('role=row')
+    await initialDataLoaded
     await expect(packagesRowsSelector).toHaveCount(21)
 
     const speedDialOptionSelector = page.locator(
@@ -166,8 +186,13 @@ test.describe(TITLE_SERIAL, { tag: '@serial' }, () => {
   test('delete a few packages using speed dial', async ({
     page
   }) => {
+    const initialDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/packages'
+    )
     await login(page, 'einstein')
     const packagesRowsSelector = page.locator('role=row')
+    await initialDataLoaded
     await expect(packagesRowsSelector).toHaveCount(21)
     const speedDialOptionSelector = page.locator(
       `#${PACKAGES_MULTI_DELETE_ID}`

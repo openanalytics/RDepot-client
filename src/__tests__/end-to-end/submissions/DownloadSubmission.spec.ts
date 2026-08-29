@@ -28,6 +28,7 @@ import {
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '@/__tests__/end-to-end/helpers/login'
 import { downloadFile } from '@/__tests__/end-to-end/helpers/download'
+import { awaitTableData } from '../helpers/awaitTableData'
 
 const TITLE = 'submissions downloading'
 test.describe(TITLE, () => {
@@ -40,8 +41,13 @@ test.describe(TITLE, () => {
       'tr > th:nth-child(8) > div > i'
     )
     await sortByStateIcon.click()
+    const sortedDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/submissions'
+    )
     await sortByStateIcon.click()
     const submissionRowsSelector = page.locator('role=row')
+    await sortedDataLoaded
     await expect(submissionRowsSelector).toHaveCount(21)
 
     await downloadFile(

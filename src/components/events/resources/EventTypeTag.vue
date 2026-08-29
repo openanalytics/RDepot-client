@@ -30,6 +30,9 @@
     disable-copying
     disable-tooltip
     variant="outlined"
+    @click="
+      filterByChip('eventType', componentProps.eventType)
+    "
   />
 </template>
 
@@ -38,6 +41,7 @@ import EventTag from '../EventTag.vue'
 import { computed } from 'vue'
 import { useTranslations } from '@/composable/translations/translations'
 import eventTypeColors from '@/maps/events/EventTypeColors'
+import { useEventsChipFiltration } from '@/composable/events/eventsChipFiltration'
 
 const componentProps = defineProps({
   eventType: {
@@ -48,6 +52,7 @@ const componentProps = defineProps({
 
 const { getTranslationWithFallbackValue } =
   useTranslations()
+const { filterByChip } = useEventsChipFiltration()
 
 const value = computed(() =>
   getTranslationWithFallbackValue(

@@ -62,6 +62,7 @@ interface State {
   submissionsToEditWarnings?: EditSubmissionWarnings
   filtration: SubmissionsFiltration
   resolved: boolean
+  recentlyUpdated: number[]
   loading: boolean
   totalNumber: number
   tableOptions?: DataTableOptions
@@ -83,6 +84,7 @@ export const useSubmissionStore = defineStore(
         submissionsToEditWarnings: undefined,
         filtration: defaultValues(SubmissionsFiltration),
         resolved: false,
+        recentlyUpdated: [],
         loading: false,
         totalNumber: 0,
         tableOptions: undefined,
@@ -104,6 +106,17 @@ export const useSubmissionStore = defineStore(
       }
     },
     actions: {
+      markRecentlyUpdated(id: number | undefined) {
+        if (id !== undefined) {
+          this.recentlyUpdated.push(id)
+          setTimeout(() => {
+            this.recentlyUpdated =
+              this.recentlyUpdated.filter(
+                (item) => item !== id
+              )
+          }, 1000)
+        }
+      },
       async getPage(options?: DataTableOptions) {
         if (options) {
           this.tableOptions = options
@@ -160,6 +173,7 @@ export const useSubmissionStore = defineStore(
           .then(async (response) => {
             if (Object.keys(response[0]).length > 0) {
               await this.getPage()
+              this.markRecentlyUpdated(oldSubmission.id)
             }
           })
           .finally(() => {
@@ -256,7 +270,15 @@ export const useSubmissionStore = defineStore(
                     this.submissionsToEdit.submissions = []
                     this.submissionsToEdit.pending = false
                   }
-                  this.getPage()
+                  this.getPage().then(() => {
+                    promises.forEach((p) => {
+                      if (p.state !== 'error') {
+                        this.markRecentlyUpdated(
+                          p.packageBag.id
+                        )
+                      }
+                    })
+                  })
                 }
               })
           })

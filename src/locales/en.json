@@ -9,12 +9,10 @@
       "continue": "Continue",
       "copy": "Copy",
       "create": "Create",
-      "createResource": "Create {resource_type}",
       "deactivate": "Deactivate | Deactivate {resource_type}",
       "delete": "Delete",
       "download": "Download",
       "edit": "Edit",
-      "editResource": "Edit {resource_type}",
       "goBack": "Go back",
       "goTo": "See {resource_type} details",
       "install": "Install",
@@ -29,6 +27,8 @@
       "submit": "Submit",
       "unset": "Unset",
       "uploadPackages": "Upload packages",
+      "collapseSidebar": "Collapse sidebar",
+      "expandSidebar": "Expand sidebar",
       "refresh": "Refresh",
       "confirm": "Confirm"
     },
@@ -170,16 +170,17 @@
       "stepSecond": "Upload {technology} packages",
       "stepThird": "Summary",
       "binaryPython": "Uploaded package is binary (.whl)",
-      "noBinaryPython": "Uploaded package is not binary"
+      "noBinaryPython": "Uploaded package is not binary",
+      "autoApproved": "Your submissions will be automatically approved, making the submitted packages available immediately.",
+      "needsApproval": "Your submissions might require approval from a maintainer before the submitted packages are available.",
+      "applyToAll": "Apply to all",
+      "applyToAllSubtitle": "Set these fields for every binary package at once"
     },
     "tokens": {
       "copyWarning": "Make sure to copy the access token now. You won't be able to see it again!",
       "deactivateQuestion": "Are you sure you want to deactivate token <strong>{0}</strong>?",
-      "deactivated": "Token deactivated",
       "delete": "Delete token",
-      "deleted": "Token deleted",
       "edit": "Edit token name",
-      "edited": "Token edited",
       "newToken": "New access token",
       "notConfigurableExpirationDate": "Access token lifetime is not configurable",
       "expirationDate": "Lifetime (in days)"
@@ -190,8 +191,7 @@
       "error": "Unsuccessful login",
       "loggedIn": "Logged in",
       "notLoggedIn": "Not logged in",
-      "oidc": "Login via OIDC",
-      "success": "Successful login"
+      "oidc": "Login via OIDC"
     },
     "config": {
       "deletingPackages": "Deleting packages is disabled in the configuration",
@@ -226,10 +226,19 @@
       },
       "badGateway": "502 - Bad Gateway"
     },
+    "connection": {
+      "lost": "Connection to the back-end API is lost.",
+      "retryIn": "Next retry in {seconds}s.",
+      "restored": "Connection to the back-end API has been restored. Reload the page to refresh the data.",
+      "retry": "Retry now",
+      "reloadPage": "Reload page"
+    },
     "filtration": {
       "makeSure": "This action will clear all filtration"
     },
     "general": {
+      "acceptQuestion": "Are you sure you want to accept the following {resource_type}?",
+      "cancelQuestion": "Are you sure you want to cancel the following {resource_type}?",
       "chooseOneToEnable": "choose at least one {resource_type} to enable",
       "chooseOneToContinue": "Please add {resource_type} to continue",
       "copied": "Copied to clipboard",
@@ -237,12 +246,11 @@
       "deleteQuestion": "Are you sure you want to delete {resource_name}?",
       "deleteResourcesQuestion": "Are you sure you want to delete the following {resource_type}?",
       "deleted": "This {resource_name} is deleted",
-      "editResourceQuestion": "Are you sure you want to {edit_action} the following {resource_type}?",
       "goToDisabled": "Cannot go to the details",
       "noDataAvailable": "No data available",
       "notAuthorized": "You are not authorized to perform this action",
       "pending": "pending action",
-      "success": "Request processed successfully",
+      "rejectQuestion": "Are you sure you want to reject the following {resource_type}?",
       "successFiltration": "Successful filtration action"
     },
     "notifications": {
@@ -294,6 +302,8 @@
     },
     "submissions": {
       "addAnotherSubmission": "Upload other packages",
+      "showSubmissions": "Show submissions",
+      "noSubmissionPassed": "No submission was uploaded successfully",
       "empty": "No repository chosen",
       "noChangesProvided": "There are no notes listed for this submission",
       "noPackageChosen": "No packages chosen",
@@ -465,5 +475,18 @@
   },
   "packages": {
     "notes": "Notes"
+  },
+  "errors": {
+    "connection": {
+      "lost": "Connection to the back-end API is lost.",
+      "retryIn": "Next retry in {seconds}s.",
+      "restored": "Connection to the back-end API has been restored. Reload the page to refresh the data.",
+      "retry": "Retry now",
+      "reloadPage": "Reload page"
+    }
+  },
+  "submissions": {
+    "autoApproved": "Your submissions will be automatically approved, making the submitted packages available immediately.",
+    "needsApproval": "Your submissions might require approval from a maintainer before the submitted packages are available."
   }
 }

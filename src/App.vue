@@ -30,23 +30,28 @@
 <script setup lang="ts">
 import ProgressCircular from './components/common/progress/ProgressCircular.vue'
 import { onBeforeMount } from 'vue'
-import { useTheme } from 'vuetify'
-import { useAuthorizationStore } from './store/options/authorization'
 import en from 'javascript-time-ago/locale/en'
 import pl from 'javascript-time-ago/locale/pl'
 import TimeAgo from 'javascript-time-ago'
+import { useFavicon } from '@/composable/favicon'
+import { useExternalAssets } from '@/composable/externalAssets'
+import { useThemeConfig } from '@/composable/theme'
 
 TimeAgo.addDefaultLocale(en)
 TimeAgo.addLocale(pl)
 
+const { applyTheme } = useThemeConfig()
+
 onBeforeMount(() => {
-  const theme = useTheme()
-  theme.global.name.value =
-    useAuthorizationStore().me.userSettings?.theme || 'dark'
+  applyTheme()
+  useFavicon()
+  useExternalAssets()
 })
 </script>
 
 <style lang="scss">
+@import '@/styles/animations.scss';
+
 #tooltip-activator {
   z-index: 100;
 }
@@ -56,5 +61,9 @@ onBeforeMount(() => {
   color: rgb(var(--v-theme-primary));
   margin-left: 2px;
   font-size: 1rem;
+}
+
+.filtration-bar > .v-input:not(.v-switch) {
+  min-width: 200px;
 }
 </style>

@@ -33,6 +33,7 @@
       maxWidth: fieldMaxWidth + 'px'
     }"
     validate-on-blur
+    :indeterminate="isIndeterminate"
     :no-data-text="i18n.t('datatable.noDataAvailable')"
     @blur="(e: Event) => handleBlur(e, true)"
     @set-value="update"
@@ -117,6 +118,10 @@ watch(
       setErrors(componentProps.errormsg)
     }
   }
+)
+
+const isIndeterminate = computed(
+  () => componentProps.as === 'switch-indeterminate'
 )
 
 const isas = toComponent.get(componentProps.as)

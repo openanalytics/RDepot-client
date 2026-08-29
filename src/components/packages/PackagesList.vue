@@ -33,9 +33,14 @@
     :loading="packagesStore.loading"
     expand-on-click
     :sort-by="sortBy"
+    :recently-updated="packagesStore.recentlyUpdated"
     @update:options="fetchData"
     @refresh="fetchData"
+    @chip-click="filterByChip"
   >
+    <template #topAction>
+      <UploadPackageButton size="x-small" />
+    </template>
     <template
       #[`header.data-table-select`]="{
         selectAll,
@@ -67,22 +72,33 @@
     <template #[`item.name`]="{ value, item }">
       <v-list-item
         :id="`packages-list-${value}`"
-        lines="two"
-        class="px-0 mx-0"
+        :lines="smAndDown ? 'one' : 'two'"
+        class="px-0 mx-0 packages-list-item"
       >
         <template #title>
-          {{ value.replaceAll('\\n', ' ') }}
-          <small style="opacity: 0.5"
-            >v.{{ item.version }}</small
-          >
+          <v-tooltip location="top">
+            <template #activator="{ props }">
+              <span v-bind="props">
+                {{ value.replaceAll('\\n', ' ') }}
+                <small style="opacity: 0.5"
+                  >v.{{ item.version }}</small
+                >
+              </span>
+            </template>
+            {{ value.replaceAll('\\n', ' ') }}
+            v.{{ item.version }}
+          </v-tooltip>
           <TechnologyChip
             size="x-small"
             class="ml-1"
             :technology="item.technology"
+            @click.stop="
+              filterByChip('technology', item.technology)
+            "
           />
         </template>
         <template #subtitle>
-          <div>
+          <div class="d-none d-lg-block">
             <small>
               <div
                 class="d-flex justify-start align-center ga-2"
@@ -96,7 +112,12 @@
     </template>
 
     <template #[`item.binary`]="{ item }">
-      <BinaryPackage :item="item" />
+      <BinaryPackage
+        :item="item"
+        @click.stop="
+          filterByChip('binary', String(item.binary))
+        "
+      />
     </template>
 
     <template #[`item.active`]="{ item }">
@@ -105,7 +126,6 @@
     <template #[`item.actions`]="{ item }">
       <ProgressCircularSmall v-if="isPending(item)" />
       <span v-else class="d-flex justify-end align-right">
-        <DeletePackage :item="item" />
         <GoToButton
           :item="item"
           from="packages"
@@ -117,6 +137,7 @@
             })
           "
         />
+        <DeletePackage :item="item" />
       </span>
     </template>
     <template #expanded-row="{ columns, item }">
@@ -154,10 +175,14 @@ import ProgressCircularSmall from '../common/progress/ProgressCircularSmall.vue'
 import MultiActionPackages from './actions/MultiActionPackages.vue'
 import SelectBoxPackages from './actions/SelectBoxPackages.vue'
 import { usePackagesActions } from '@/composable/packages/packagesActions'
+import { usePackagesChipFiltration } from '@/composable/packages/packagesChipFiltration'
 import OATable from '../common/datatable/OATable.vue'
 import TechnologyChip from '@/components/common/chips/TechnologyChip.vue'
 import GoToButton from '@/components/common/action_icons/GoToButton.vue'
+import UploadPackageButton from '@/components/common/buttons/UploadPackageButton.vue'
+import { useDisplay } from 'vuetify'
 
+const { smAndDown } = useDisplay()
 const exp = ref<string[]>([])
 
 const { getSort } = useSort()
@@ -179,12 +204,14 @@ const expanded = computed({
 
 const packagesStore = usePackagesStore()
 const { isPending } = usePackagesActions()
+const { filterByChip } = usePackagesChipFiltration()
 
 const headers = computed<DataTableHeaders[]>(() => [
   {
     title: i18n.t('forms.general.name'),
     align: 'start',
-    key: 'name'
+    key: 'name',
+    minWidth: '140'
   },
   {
     title: i18n.t('resources.maintainer'),
@@ -258,6 +285,12 @@ watch(
 </script>
 
 <style lang="scss">
+.packages-list-item .v-list-item-title {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+}
+
 table {
   background: rgb(var(--v-theme-background)) !important;
 }

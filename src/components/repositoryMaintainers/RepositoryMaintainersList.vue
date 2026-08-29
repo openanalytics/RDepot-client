@@ -29,8 +29,12 @@
     :loading="repositoryMaintainersStore.loading"
     :sort-by="sortBy"
     :title="i18n.t('resources.repositoryMaintainer', 2)"
+    :recently-updated="
+      repositoryMaintainersStore.recentlyUpdated
+    "
     @update:options="fetchData"
     @refresh="fetchData"
+    @chip-click="filterByChip"
   >
     <template #topAction>
       <AddMaintainerButton v-if="postCondition" />
@@ -42,7 +46,12 @@
         class="d-flex justify-center align-center"
       >
         <EditIcon
-          :disabled="!canPatch(item.links) || item.deleted"
+          :disabled="
+            !hasPermission(
+              item.permissions,
+              'repositoryMaintainer.edit'
+            )
+          "
           :hover-message="
             item.deleted
               ? i18n.t('messages.general.deleted', {
@@ -62,7 +71,12 @@
 
         <DeleteIcon
           v-if="item.user?.name"
-          :disabled="!canDelete(item.links) || item.deleted"
+          :disabled="
+            !hasPermission(
+              item.permissions,
+              'repositoryMaintainer.delete.soft'
+            )
+          "
           :name="item.user?.name"
           :hover-message="
             item.deleted
@@ -93,27 +107,29 @@ import {
   EntityModelPackageMaintainerDto,
   EntityModelRepositoryMaintainerDto
 } from '@/openapi'
-import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
+import { hasPermission } from '@/utils/permissions'
 import { computed, ref } from 'vue'
 import { useSort } from '@/composable/sort'
-import { useAuthorizationStore } from '@/store/options/authorization'
 import AddMaintainerButton from '@/components/common/buttons/AddMaintainerButton.vue'
 import ProgressCircularSmall from '../common/progress/ProgressCircularSmall.vue'
 import OATable from '../common/datatable/OATable.vue'
 import { OverlayEnum } from '@/enum/Overlay.ts'
 import { useCommonStore } from '@/store/options/common.ts'
+import { usePermissions } from '@/composable/authorities/userAuthorities'
+import { useRepositoryMaintainersChipFiltration } from '@/composable/repositoryMaintainers/repositoryMaintainersChipFiltration'
 
 const repositoryMaintainersStore =
   useRepositoryMaintainersStore()
-const { canPatch, canDelete } = useUserAuthorities()
-const authorizationStore = useAuthorizationStore()
+const { filterByChip } =
+  useRepositoryMaintainersChipFiltration()
 
 const { getSort } = useSort()
 const defaultSort: Sort[] = [{ key: 'user', order: 'asc' }]
 const sortBy = ref(defaultSort)
+const { has } = usePermissions()
 
 const postCondition = computed(() =>
-  authorizationStore.can('POST', 'repositoryMaintainers')
+  has('repositoryMaintainer.create')
 )
 
 const headers = computed<DataTableHeaders[]>(() => [

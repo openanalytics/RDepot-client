@@ -22,7 +22,7 @@
 
 <template>
   <div
-    class="v-expansion d-flex py-3 ga-3 justify-space-between"
+    class="filtration-bar v-expansion d-flex flex-wrap py-3 ga-3"
     style="padding-left: 0; padding-right: 0"
   >
     <validated-input-field
@@ -47,7 +47,7 @@
       multiple
       clearable
       as="v-select"
-      :label="i18n.t('resources.technology', 2)"
+      :label="i18n.t('resources.technology')"
       @update:model-value="setFiltration"
     ></validated-input-field>
 
@@ -65,9 +65,8 @@
       @change="setFiltration"
     ></validated-input-field>
 
-    <v-spacer />
-
     <ResetButton
+      class="ml-auto"
       :style="{
         visibility:
           repositoryMaintainerStore.isDefaultFiltration
@@ -91,6 +90,7 @@ import { toTypedSchema } from '@vee-validate/zod'
 import { useRepositoryMaintainersStore } from '@/store/options/repositoryMaintainers'
 import ResetButton from '@/components/common/buttons/ResetButton.vue'
 import { i18n } from '@/plugins/i18n'
+import { useSyncFiltrationForm } from '@/composable/common/syncFiltrationForm'
 
 const { technologies } = useEnumFiltration()
 
@@ -103,6 +103,11 @@ const { setValues, values } = useForm({
   ),
   initialValues: repositoryMaintainerStore.filtration
 })
+
+useSyncFiltrationForm(
+  () => repositoryMaintainerStore.filtration,
+  setValues
+)
 
 function setFiltration() {
   repositoryMaintainerStore.setFiltration(

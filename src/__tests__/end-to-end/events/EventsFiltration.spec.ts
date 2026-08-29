@@ -39,17 +39,24 @@ test.describe(TITLE, () => {
     )
 
     const selectYearInputSelector = page.locator(
-      '.v-date-picker-controls__mode-btn'
+      '.v-date-picker-controls__only-year-btn'
     )
     const selectMonthInputSelector = page.locator(
-      '.v-date-picker-controls__month-btn'
+      '.v-date-picker-controls__only-month-btn'
     )
     const select2023YearSelector = page.locator(
       'button span:text-is("2023")'
     )
+    const yearsPickerSelector = page.locator(
+      '.v-date-picker-years'
+    )
 
     const select12MonthSelector = page.locator(
       'button span:text-is("Dec")'
+    )
+
+    const monthsPickerSelector = page.locator(
+      '.v-date-picker-months'
     )
 
     const select07DaySelector = page.locator(
@@ -69,14 +76,16 @@ test.describe(TITLE, () => {
     await selectDateSelector.waitFor()
     await selectYearInputSelector.waitFor()
     await selectYearInputSelector.click()
+    await expect(yearsPickerSelector).toHaveCount(1)
     await select2023YearSelector.waitFor()
     await select2023YearSelector.click()
-    await expect(select2023YearSelector).toHaveCount(0)
+    await expect(yearsPickerSelector).toHaveCount(0)
     await selectMonthInputSelector.waitFor()
     await selectMonthInputSelector.click()
+    await expect(monthsPickerSelector).toHaveCount(1)
     await select12MonthSelector.waitFor()
     await select12MonthSelector.click()
-    await expect(select12MonthSelector).toHaveCount(0)
+    await expect(monthsPickerSelector).toHaveCount(0)
     await select07DaySelector.waitFor()
     await select07DaySelector.click()
 
@@ -93,14 +102,16 @@ test.describe(TITLE, () => {
     await selectDateSelector.waitFor()
     await selectYearInputSelector.waitFor()
     await selectYearInputSelector.click()
+    await expect(yearsPickerSelector).toHaveCount(1)
     await select2023YearSelector.waitFor()
     await select2023YearSelector.click()
-    await expect(select2023YearSelector).toHaveCount(0)
+    await expect(yearsPickerSelector).toHaveCount(0)
     await selectMonthInputSelector.waitFor()
     await selectMonthInputSelector.click()
+    await expect(monthsPickerSelector).toHaveCount(1)
     await select12MonthSelector.waitFor()
     await select12MonthSelector.click()
-    await expect(select12MonthSelector).toHaveCount(0)
+    await expect(monthsPickerSelector).toHaveCount(0)
     await select07DaySelector.waitFor()
     await select07DaySelector.click()
 

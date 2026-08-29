@@ -35,9 +35,10 @@ import {
   validateRequest
 } from './openApiAccess'
 import { createPatch } from 'rfc6902'
-import { isAuthorized } from '@/plugins/casl'
 import { Technologies } from '@/enum/Technologies'
 import { getConfiguration } from './apiConfig'
+import { usePermissions } from '@/composable/authorities/userAuthorities'
+import { hasPermission } from '@/utils/permissions'
 
 type ValidatedSubmissions = Promise<
   validatedData<EntityModelSubmissionDto[]>
@@ -51,6 +52,8 @@ type ValidatedRConfiguration = Promise<
   validatedData<RPublicConfigurationDto>
 >
 
+const { has } = usePermissions()
+
 export async function fetchSubmissionsService(
   filtration: SubmissionsFiltration,
   page?: number,
@@ -58,8 +61,12 @@ export async function fetchSubmissionsService(
   sort?: string[],
   showProgress = false
 ): ValidatedSubmissions {
-  if (!isAuthorized('GET', 'submissions')) {
+  if (!has('submission.list')) {
     return new Promise(() => validateRequest([]))
+  }
+  let fileType = undefined
+  if (filtration.fileType?.length === 1) {
+    fileType = filtration.fileType[0]
   }
   return openApiRequest<EntityModelSubmissionDto[]>(
     ApiV2SubmissionControllerApiFactory().getAllSubmissions,
@@ -72,7 +79,8 @@ export async function fetchSubmissionsService(
       filtration?.repository,
       filtration?.fromDate,
       filtration?.toDate,
-      filtration?.search
+      filtration?.search,
+      fileType
     ],
     showProgress
   ).catch(() => {
@@ -84,10 +92,22 @@ export async function updateSubmission(
   oldSubmission: EntityModelSubmissionDto,
   newSubmission: EntityModelSubmissionDto
 ): ValidatedSubmission {
-  if (!isAuthorized('PATCH', 'submissions')) {
+  if (
+    !hasPermission(
+      oldSubmission.permissions,
+      'submission.cancel'
+    ) &&
+    !hasPermission(
+      oldSubmission.permissions,
+      'submission.accept'
+    ) &&
+    !hasPermission(
+      oldSubmission.permissions,
+      'submission.reject'
+    )
+  ) {
     return new Promise(() => false)
   }
-
   const patch_body = createPatch(
     oldSubmission,
     newSubmission
@@ -132,7 +152,7 @@ export async function addRSubmission(
   distribution?: string,
   note?: string
 ): ValidatedSubmission {
-  if (!isAuthorized('POST', 'submissions')) {
+  if (!has('submission.create')) {
     return new Promise(() => false)
   }
 
@@ -153,10 +173,6 @@ export async function addRSubmission(
       distribution,
       note
     ],
-    false,
-    undefined,
-    undefined,
-    undefined,
     false
   )
 }
@@ -168,7 +184,7 @@ export async function addPythonSubmission(
   binary?: boolean,
   note?: string
 ): ValidatedSubmission {
-  if (!isAuthorized('POST', 'submissions')) {
+  if (!has('submission.create')) {
     return new Promise(() => false)
   }
   const submissionApi =
@@ -179,10 +195,6 @@ export async function addPythonSubmission(
   return openApiRequest<EntityModelSubmissionDto>(
     submissionApi,
     [repository, file, replace, binary, note],
-    false,
-    undefined,
-    undefined,
-    undefined,
     false
   )
 }
@@ -190,7 +202,7 @@ export async function addPythonSubmission(
 export function fetchSubmission(
   id: number
 ): ValidatedSubmission {
-  if (!isAuthorized('GET', 'submissions')) {
+  if (!has('submission.list')) {
     return new Promise(() => {})
   }
 
@@ -203,7 +215,7 @@ export function fetchSubmission(
 }
 
 export function getRConfigurationService(): ValidatedRConfiguration {
-  if (!isAuthorized('GET', 'submissions')) {
+  if (!has('submission.list')) {
     return new Promise(() => {})
   }
   return openApiRequest<RPublicConfigurationDto>(

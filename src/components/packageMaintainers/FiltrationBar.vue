@@ -22,7 +22,7 @@
 
 <template>
   <div
-    class="v-expansion d-flex py-3 ga-3 justify-space-between"
+    class="filtration-bar v-expansion d-flex flex-wrap py-3 ga-3"
     style="padding-left: 0; padding-right: 0"
   >
     <validated-input-field
@@ -47,7 +47,7 @@
       multiple
       clearable
       as="v-select"
-      :label="$t('resources.technology', 2)"
+      :label="$t('resources.technology')"
       @update:model-value="setFiltration"
     ></validated-input-field>
 
@@ -93,9 +93,8 @@
       @change="setFiltration"
     ></validated-input-field>
 
-    <v-spacer />
-
     <ResetButton
+      class="ml-auto"
       :style="{
         visibility:
           packageMaintainerStore.isDefaultFiltration
@@ -119,6 +118,7 @@ import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { usePackageMaintainersStore } from '@/store/options/packageMaintainers'
 import ResetButton from '@/components/common/buttons/ResetButton.vue'
+import { useSyncFiltrationForm } from '@/composable/common/syncFiltrationForm'
 
 const { technologies } = useEnumFiltration()
 
@@ -136,6 +136,11 @@ const { setValues, values } = useForm({
   ),
   initialValues: packageMaintainerStore.filtration
 })
+
+useSyncFiltrationForm(
+  () => packageMaintainerStore.filtration,
+  setValues
+)
 
 function setFiltration() {
   packageMaintainerStore.setFiltration(

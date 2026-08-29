@@ -89,7 +89,7 @@ $code_color: rgba(var(--v-theme-code));
     background-color: $code_color;
     padding: 10px;
     line-height: 1.5;
-    border-radius: 8px;
+    border-radius: var(--rdepot-border-radius);
     -webkit-box-shadow: 4px 4px 12px 0px #42445a;
     -moz-box-shadow: 4px 4px 12px 0px rgba(66, 68, 90, 1);
     box-shadow: 2px 2px 6px 0px rgba(66, 68, 90, 1);

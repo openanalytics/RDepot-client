@@ -26,6 +26,9 @@
       id="change-theme-icon"
       :key="commonStore.themeKey"
       v-tooltip="$t('actions.settings.changeTheme')"
+      :class="
+        getTheme ? 'icon-theme-sun' : 'icon-theme-moon'
+      "
       :icon="
         getTheme
           ? Icons.get('light-theme')
@@ -53,7 +56,7 @@ async function changeTheme() {
     ? 'light'
     : 'dark'
 
-  theme.global.name.value = new_theme
+  theme.change(new_theme)
   var new_settings = authorizationStore.getCurrentSettings()
   new_settings.theme = new_theme
   if (await authorizationStore.isUserLoggedIn()) {
@@ -71,7 +74,25 @@ const getTheme = computed(() => {
 
 onUpdated(() => {
   if (authorizationStore.me.userSettings?.theme)
-    theme.global.name.value =
-      authorizationStore.me.userSettings.theme
+    theme.change(authorizationStore.me.userSettings.theme)
 })
 </script>
+
+<style scoped lang="scss">
+.icon-theme-sun,
+.icon-theme-moon {
+  transition:
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.icon-theme-sun:hover {
+  color: #ffffff !important;
+  transform: rotate(30deg);
+}
+
+.icon-theme-moon:hover {
+  color: #212121 !important;
+  transform: rotate(-20deg);
+}
+</style>

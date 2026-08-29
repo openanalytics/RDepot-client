@@ -36,13 +36,14 @@ import {
   RPackageControllerApiFactory,
   Vignette
 } from '@/openapi'
-import { isAuthorized } from '@/plugins/casl'
 import {
   openApiRequest,
   validatedData,
   validateRequest
 } from '@/services/openApiAccess'
 import { createPatch } from 'rfc6902'
+import { usePermissions } from '@/composable/authorities/userAuthorities'
+import { hasPermission } from '@/utils/permissions'
 
 type ValidatedPackages = Promise<
   validatedData<EntityModelPackageDto[]>
@@ -58,6 +59,8 @@ type ValidatedPackagePython = Promise<
 
 type ValidatedVignette = Promise<validatedData<Vignette[]>>
 
+const { has } = usePermissions()
+
 export async function fetchPackagesService(
   filtration: PackagesFiltration,
   page?: number,
@@ -65,8 +68,12 @@ export async function fetchPackagesService(
   sort?: string[],
   showProgress = false
 ): ValidatedPackages {
-  if (!isAuthorized('GET', 'submissions')) {
+  if (!has('package.list')) {
     return new Promise(() => validateRequest([]))
+  }
+  let fileType = undefined
+  if (filtration.fileType?.length === 1) {
+    fileType = filtration.fileType[0]
   }
   return openApiRequest<EntityModelPackageDto[]>(
     ApiV2PackageControllerApiFactory().getAllPackages,
@@ -80,7 +87,8 @@ export async function fetchPackagesService(
       filtration?.technologies,
       filtration?.search,
       filtration?.maintainer,
-      undefined
+      undefined,
+      fileType
     ],
     showProgress
   ).catch(() => {
@@ -101,7 +109,7 @@ export function fetchRPackageService(
   id: number,
   showProgress = false
 ): ValidatedPackage {
-  if (!isAuthorized('GET', 'packages')) {
+  if (!has('package.list')) {
     return new Promise(() => {})
   }
   return openApiRequest<EntityModelRPackageDto>(
@@ -117,7 +125,7 @@ export function fetchPythonPackageService(
   id: number,
   showProgress = false
 ): ValidatedPackagePython {
-  if (!isAuthorized('GET', 'packages')) {
+  if (!has('package.list')) {
     return new Promise(() => {})
   }
   return openApiRequest<EntityModelPythonPackageDto>(
@@ -134,7 +142,9 @@ export async function updateRPackage(
   oldPackage: EntityModelPackageDto,
   newPackage: EntityModelPackageDto
 ): ValidatedPackage {
-  if (!isAuthorized('PATCH', 'package')) {
+  if (
+    !hasPermission(oldPackage.permissions, 'package.edit')
+  ) {
     return new Promise(() => false)
   }
   const patch = createPatch(oldPackage, newPackage)
@@ -151,7 +161,9 @@ export async function updatePythonPackage(
   oldPackage: EntityModelPackageDto,
   newPackage: EntityModelPackageDto
 ): ValidatedPackage {
-  if (!isAuthorized('PATCH', 'package')) {
+  if (
+    !hasPermission(oldPackage.permissions, 'package.edit')
+  ) {
     return new Promise(() => false)
   }
   const patch = createPatch(oldPackage, newPackage)
@@ -255,7 +267,7 @@ export function downloadRPackageSourceFile(
   name: string,
   version: string
 ) {
-  if (!isAuthorized('GET', 'packages')) {
+  if (!has('package.list')) {
     return new Promise(() => {})
   }
   return openApiRequest<Promise<boolean>>(
@@ -273,7 +285,7 @@ export function downloadPythonPackageSourceFile(
   name: string,
   version: string
 ) {
-  if (!isAuthorized('GET', 'packages')) {
+  if (!has('package.list')) {
     return new Promise(() => {})
   }
   return openApiRequest<Promise<boolean>>(
@@ -310,12 +322,16 @@ export async function fetchVignettes(
 // }
 
 export async function deletePackage(
-  oldPackage: EntityModelPackageDto,
-  ifToast = false
+  oldPackage: EntityModelPackageDto
 ): Promise<validatedData<EntityModelPackageDto>> {
-  // if (!isAuthorized('PATCH', 'packages')) {
-  //   return new Promise(() => false)
-  // }
+  if (
+    !hasPermission(
+      oldPackage.permissions,
+      'package.delete.soft'
+    )
+  ) {
+    return new Promise(() => false)
+  }
   const { deepCopy } = useUtilities()
 
   let packagesApi
@@ -340,11 +356,6 @@ export async function deletePackage(
 
   return openApiRequest<EntityModelPackageDto>(
     packagesApi,
-    [oldPackage.id!, patch_body],
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    ifToast
+    [oldPackage.id!, patch_body]
   )
 }

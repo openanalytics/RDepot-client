@@ -1,4 +1,26 @@
 #!/bin/sh
+
+# Load configuration from YAML file if it exists.
+# Environment variables take precedence over YAML values
+# YAML values are only applied when the env var is unset or empty.
+CONFIG_FILE="${CONFIG_FILE:-/opt/rdepot/config.yaml}"
+if [ -f "$CONFIG_FILE" ]; then
+  while IFS= read -r line; do
+    case "$line" in
+      ''|\#*) continue ;;
+    esac
+    key=$(echo "$line" | sed -n 's/^\([A-Za-z_][A-Za-z0-9_]*\):.*/\1/p')
+    value=$(echo "$line" | sed -n 's/^[A-Za-z_][A-Za-z0-9_]*:[[:space:]]*//p')
+    value=$(echo "$value" | sed "s/^\(['\"]\\)\(.*\)\1$/\2/")
+    if [ -n "$key" ]; then
+      eval current_val=\${$key}
+      if [ -z "$current_val" ]; then
+        export "$key=$value"
+      fi
+    fi
+  done < "$CONFIG_FILE"
+fi
+
 VITE_URL_PREFIX="${VITE_URL_PREFIX:-/}"
 JSON_STRING='window.configs = { \
   "VITE_LOGIN_OIDC":"'"${VITE_LOGIN_OIDC}"'", \
@@ -9,6 +31,7 @@ JSON_STRING='window.configs = { \
   "VITE_OIDC_POST_LOGOUT_REDIRECT_URI":"'"${VITE_OIDC_POST_LOGOUT_REDIRECT_URI}"'", \
   "VITE_OIDC_RESPONSE_TYPE":"'"${VITE_OIDC_RESPONSE_TYPE}"'", \
   "VITE_OIDC_SCOPE":"'"${VITE_OIDC_SCOPE}"'", \
+  "VITE_REPO_SERVER_ADDRESS":"'"${VITE_REPO_SERVER_ADDRESS}"'", \
   "VITE_ADDRESS_DEPRECATION_WARNING":"'"${VITE_ADDRESS_DEPRECATION_WARNING}"'", \
   "VITE_DEV_MODE":"'"${VITE_DEV_MODE}"'", \
   "VITE_URL_PREFIX":"'"${VITE_URL_PREFIX}"'", \
@@ -16,9 +39,15 @@ JSON_STRING='window.configs = { \
   "VITE_CURRENT_COMMIT_VERSION":"'"${VITE_CURRENT_COMMIT_VERSION}"'", \
   "VITE_ALLOWED_PACKAGE_DESCRIPTION_TAGS":"'"${VITE_ALLOWED_PACKAGE_DESCRIPTION_TAGS}"'", \
   "VITE_NAVBAR_TITLE":"'"${VITE_NAVBAR_TITLE}"'", \
-  "VITE_DARK_MODE_BACKGROUND_COLOUR":"'"${VITE_DARK_MODE_BACKGROUND_COLOUR}"'", \
-  "VITE_LIGHT_MODE_BACKGROUND_COLOUR":"'"${VITE_LIGHT_MODE_BACKGROUND_COLOUR}"'", \
-  "VITE_PRIMARY_COLOUR":"'"${VITE_PRIMARY_COLOUR}"'", \
+  "VITE_BACKGROUND_COLOUR_DARK":"'"${VITE_BACKGROUND_COLOUR_DARK}"'", \
+  "VITE_BACKGROUND_COLOUR_LIGHT":"'"${VITE_BACKGROUND_COLOUR_LIGHT}"'", \
+  "VITE_PRIMARY_COLOUR_DARK":"'"${VITE_PRIMARY_COLOUR_DARK}"'", \
+  "VITE_PRIMARY_COLOUR_LIGHT":"'"${VITE_PRIMARY_COLOUR_LIGHT}"'", \
+  "VITE_SECONDARY_COLOUR_DARK":"'"${VITE_SECONDARY_COLOUR_DARK}"'", \
+  "VITE_SECONDARY_COLOUR_LIGHT":"'"${VITE_SECONDARY_COLOUR_LIGHT}"'", \
+  "VITE_ACCENT_COLOUR_DARK":"'"${VITE_ACCENT_COLOUR_DARK}"'", \
+  "VITE_ACCENT_COLOUR_LIGHT":"'"${VITE_ACCENT_COLOUR_LIGHT}"'", \
+  "VITE_NAVBAR_HEIGHT":"'"${VITE_NAVBAR_HEIGHT}"'", \
   "VITE_LOGO_SMALL_URL":"'"${VITE_LOGO_SMALL_URL}"'", \
   "VITE_LOGO_SMALL_HEIGHT":"'"${VITE_LOGO_SMALL_HEIGHT}"'", \
   "VITE_LOGO_SMALL_WIDTH":"'"${VITE_LOGO_SMALL_WIDTH}"'", \
@@ -29,8 +58,17 @@ JSON_STRING='window.configs = { \
   "VITE_LOGO_BIG_WIDTH":"'"${VITE_LOGO_BIG_WIDTH}"'", \
   "VITE_LOGO_BIG_CLASSES":"'"${VITE_LOGO_BIG_CLASSES}"'", \
   "VITE_LOGO_BIG_STYLE":"'"${VITE_LOGO_BIG_STYLE}"'", \
+  "VITE_FAVICON_ICO_URL":"'"${VITE_FAVICON_ICO_URL}"'", \
+  "VITE_FAVICON_SVG_URL":"'"${VITE_FAVICON_SVG_URL}"'", \
+  "VITE_BORDER_RADIUS":"'"${VITE_BORDER_RADIUS}"'", \
+  "VITE_FONT_FAMILY":"'"${VITE_FONT_FAMILY}"'", \
+  "VITE_FONT_URL":"'"${VITE_FONT_URL}"'", \
+  "VITE_CSS_FILES":"'"${VITE_CSS_FILES}"'", \
+  "VITE_JS_FILES":"'"${VITE_JS_FILES}"'" \
 }'
-sed -i "s@// CONFIGURATIONS_PLACEHOLDER@${JSON_STRING}@;s@src=\"/assets/@src=\"${VITE_URL_PREFIX}assets/@;s@href=\"/assets/@href=\"${VITE_URL_PREFIX}assets/@;s@/favicon.ico@${VITE_URL_PREFIX}favicon.ico@" /usr/share/nginx/html/index.html
+FAVICON_ICO_URL="${VITE_FAVICON_ICO_URL:-${VITE_URL_PREFIX}favicon-oa.ico}"
+FAVICON_SVG_URL="${VITE_FAVICON_SVG_URL:-${VITE_URL_PREFIX}images/logo.svg}"
+sed -i "s@// CONFIGURATIONS_PLACEHOLDER@${JSON_STRING}@;s@src=\"/assets/@src=\"${VITE_URL_PREFIX}assets/@;s@href=\"/assets/@href=\"${VITE_URL_PREFIX}assets/@;s@href=\"/favicon-oa.ico\"@href=\"${FAVICON_ICO_URL}\"@;s@href=\"/images/logo.svg\"@href=\"${FAVICON_SVG_URL}\"@" /usr/share/nginx/html/index.html
 for index in /usr/share/nginx/html/assets/index-*.js;
 do
     sed -i "s@\"assets/@\".${VITE_URL_PREFIX}assets/@g" $index

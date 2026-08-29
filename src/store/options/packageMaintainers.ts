@@ -51,6 +51,7 @@ interface State {
   packages: EntityModelRPackageDto[]
   chosenMaintainer: EntityModelPackageMaintainerDto
   pending: EntityModelPackageMaintainerDto[]
+  recentlyUpdated: number[]
   loading: boolean
   totalNumber: number
   tableOptions?: DataTableOptions
@@ -71,6 +72,7 @@ export const usePackageMaintainersStore = defineStore(
         repositories: [],
         packages: [],
         pending: [],
+        recentlyUpdated: [],
         chosenMaintainer: {},
         loading: false,
         totalNumber: 0,
@@ -93,6 +95,17 @@ export const usePackageMaintainersStore = defineStore(
       }
     },
     actions: {
+      markRecentlyUpdated(id: number | undefined) {
+        if (id !== undefined) {
+          this.recentlyUpdated.push(id)
+          setTimeout(() => {
+            this.recentlyUpdated =
+              this.recentlyUpdated.filter(
+                (item) => item !== id
+              )
+          }, 1000)
+        }
+      },
       async getPage(options?: DataTableOptions) {
         if (options) {
           this.tableOptions = options
@@ -227,7 +240,12 @@ export const usePackageMaintainersStore = defineStore(
           newMaintainer
         )
           .then(async (success) => {
-            if (success) await this.getPage()
+            if (success) {
+              await this.getPage()
+              this.markRecentlyUpdated(
+                this.chosenMaintainer.id
+              )
+            }
           })
           .finally(() => {
             this.pending = this.pending.filter(
@@ -238,9 +256,19 @@ export const usePackageMaintainersStore = defineStore(
       async create(
         maintainer: Partial<PackageMaintainerDto>
       ) {
+        const oldIds = new Set(
+          this.maintainers.map((m) => m.id)
+        )
         createPackageMaintainerService(maintainer).then(
           async (success) => {
-            if (success) await this.getPage()
+            if (success) {
+              await this.getPage()
+              this.maintainers.forEach((m) => {
+                if (!oldIds.has(m.id)) {
+                  this.markRecentlyUpdated(m.id)
+                }
+              })
+            }
           }
         )
       },

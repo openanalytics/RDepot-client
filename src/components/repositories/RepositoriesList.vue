@@ -32,8 +32,10 @@
     expand-on-click
     :sort-by="sortBy"
     :return-object="false"
+    :recently-updated="repositoryStore.recentlyUpdated"
     @update:options="fetchData"
     @refresh="fetchData"
+    @chip-click="filterByChip"
   >
     <template #topAction>
       <AddButton v-if="postCondition" />
@@ -64,6 +66,9 @@
             size="x-small"
             class="ml-1"
             :technology="item.technology"
+            @click.stop="
+              filterByChip('technology', item.technology)
+            "
           />
         </template>
         <template #subtitle>
@@ -120,9 +125,6 @@
             'messages.repositories.declarative.publish'
           )
         }}</span>
-        <span v-else-if="!canPatch(item.links)">{{
-          i18n.t('messages.general.notAuthorized')
-        }}</span>
         <span v-else-if="item.deleted">
           {{
             i18n.t('messages.general.deleted', {
@@ -132,6 +134,17 @@
         >
         <span v-else-if="isPending(item)">
           {{ i18n.t('messages.general.pending') }}</span
+        >
+        <span
+          v-else-if="
+            !hasPermission(
+              item.permissions,
+              'repository.publish'
+            )
+          "
+          >{{
+            i18n.t('messages.general.notAuthorized')
+          }}</span
         >
         <span v-else-if="item.published">
           {{ i18n.t('actions.repositories.unpublish') }}
@@ -149,12 +162,14 @@
         class="d-flex justify-center align-center ga-1"
       >
         <RepublishIcon :repo="item" />
+        <UploadPackageButton :repo="item" variant="text" />
         <EditIcon
           :icon-id="`edit-repository-${item.id}`"
           :disabled="
-            !canPatch(item.links) ||
-            configStore.declarativeMode ||
-            item.deleted
+            !hasPermission(
+              item.permissions,
+              'repository.edit'
+            )
           "
           :hover-message="
             configStore.declarativeMode
@@ -172,14 +187,20 @@
           @set-entity="prepareRepositoryEdition(item)"
         />
 
+        <GoToButton
+          :item="item"
+          from="repositories"
+          :tooltip="i18n.t('actions.repositories.goTo')"
+        />
         <DeleteIcon
           v-if="item.name"
           :id="`delete-repository-icon-${item.id}`"
           :disabled="
             !configStore.deletingRepositories ||
-            !canDelete(item.links) ||
-            configStore.declarativeMode ||
-            item.deleted
+            !hasPermission(
+              item.permissions,
+              'repository.delete.soft'
+            )
           "
           :name="item.name"
           :hover-message="
@@ -200,11 +221,6 @@
                   : undefined
           "
           @set-resource-id="prepareRepositoryDeletion(item)"
-        />
-        <GoToButton
-          :item="item"
-          from="repositories"
-          :tooltip="i18n.t('actions.repositories.goTo')"
         /> </span
     ></template>
     <template #expanded-row="{ columns }">
@@ -225,7 +241,7 @@ import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
 import EditIcon from '@/components/common/action_icons/EditIcon.vue'
 import RepublishIcon from '@/components/common/action_icons/RepublishIcon.vue'
 import { useRepositoryStore } from '@/store/options/repositories'
-import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
+import { hasPermission } from '@/utils/permissions'
 import { i18n } from '@/plugins/i18n'
 import {
   DataTableHeaders,
@@ -236,7 +252,6 @@ import { useConfigStore } from '@/store/options/config'
 import { useUtilities } from '@/composable/utilities'
 import { computed, ref } from 'vue'
 import { useSort } from '@/composable/sort'
-import { useAuthorizationStore } from '@/store/options/authorization'
 import ProgressCircularSmall from '../common/progress/ProgressCircularSmall.vue'
 import RepositoryDescription from './repositoryDetails/RepositoryDescription.vue'
 import { Technologies } from '@/enum/Technologies'
@@ -249,16 +264,19 @@ import getEnv from '@/utils/env'
 import { useRepositoryDeprecated } from '@/composable/repositories/repositoriesDeprecatedAddress'
 import DeprecatedWarning from '@/components/common/datatable/DeprecatedWarning.vue'
 import GoToButton from '@/components/common/action_icons/GoToButton.vue'
+import UploadPackageButton from '@/components/common/buttons/UploadPackageButton.vue'
 import { OverlayEnum } from '@/enum/Overlay'
 import { useCommonStore } from '@/store/options/common'
+import { usePermissions } from '@/composable/authorities/userAuthorities'
+import { useRepositoriesChipFiltration } from '@/composable/repositories/repositoriesChipFiltration'
 
+const { has } = usePermissions()
 const { deepCopy } = useUtilities()
 const repositoryStore = useRepositoryStore()
-const { canDelete, canPatch } = useUserAuthorities()
 const configStore = useConfigStore()
-const authorizationStore = useAuthorizationStore()
 const { deprecatedAddressTooltip } =
   useRepositoryDeprecated()
+const { filterByChip } = useRepositoriesChipFiltration()
 
 const exp = ref<string[]>([])
 
@@ -286,7 +304,7 @@ const expanded = computed({
 })
 
 const postCondition = computed(() =>
-  authorizationStore.can('POST', 'repository')
+  has('repository.create')
 )
 
 const headers = computed<DataTableHeaders[]>(() => [
@@ -305,7 +323,7 @@ const headers = computed<DataTableHeaders[]>(() => [
     title: i18n.t('fields.general.actions'),
     align: 'center',
     key: 'actions',
-    width: 100,
+    width: 130,
     sortable: false
   }
 ])
@@ -350,9 +368,18 @@ function fetchData(options?: DataTableOptions) {
 
 function isDisabled(item: EntityModelRepositoryDto) {
   return (
-    configStore.declarativeMode ||
-    !canPatch(item.links) ||
-    item.deleted ||
+    !hasPermission(
+      item.permissions,
+      'repository.publish'
+    ) ||
+    !hasPermission(
+      item.permissions,
+      'repository.republish'
+    ) ||
+    !hasPermission(
+      item.permissions,
+      'repository.unpublish'
+    ) ||
     isPending(item)
   )
 }
@@ -360,7 +387,7 @@ function isDisabled(item: EntityModelRepositoryDto) {
 function updateRepositoryPublished(
   item: EntityModelRepositoryDto
 ): void {
-  if (!isDisabled(item) && canPatch(item.links)) {
+  if (!isDisabled(item)) {
     repositoryStore.setChosen(item.id)
     const newRepository = deepCopy(item)
     newRepository.published = !newRepository.published

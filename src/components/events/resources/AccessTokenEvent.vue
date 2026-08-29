@@ -23,12 +23,13 @@
 <template>
   <v-card-title class="d-flex justify-lg-space-between">
     {{ relatedResource?.name }}
-    <span class="d-flex ga-3">
+    <span class="d-flex ga-3 align-center">
       <EventTag
         size="small"
         disable-copying
         disable-tooltip
         :value="getTime(event)"
+        @click="filterByChip('date', event.time)"
       />
     </span>
   </v-card-title>
@@ -117,6 +118,7 @@ import { i18n } from '@/plugins/i18n'
 import { computed } from 'vue'
 import EventTypeTag from './EventTypeTag.vue'
 import EventAuthor from '../EventAuthor.vue'
+import { useEventsChipFiltration } from '@/composable/events/eventsChipFiltration'
 
 const componentProps = defineProps({
   event: {
@@ -130,6 +132,7 @@ const relatedResource: EntityModelAccessTokenDto =
     ?.relatedResource as EntityModelAccessTokenDto
 
 const { getTime } = useDates()
+const { filterByChip } = useEventsChipFiltration()
 
 const resourceType = computed(() =>
   i18n.t('resources.accessToken').toUpperCase()

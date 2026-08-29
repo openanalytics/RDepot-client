@@ -21,9 +21,12 @@
 -->
 
 <template>
-  <v-tooltip location="left">
+  <v-tooltip location="top">
     <template #activator="{ props }">
-      <div id="tooltip-activator">
+      <div
+        id="tooltip-activator"
+        class="icon-animate icon-hover-rotate"
+      >
         <CommonButton
           id="add-token"
           :component="OverlayEnum.enum.Create"
@@ -36,13 +39,7 @@
       </div>
     </template>
     <span id="tooltip-wait"
-      ><span>{{
-        i18n.t('actions.general.createResource', {
-          resource_type: i18n
-            .t('resources.accessToken')
-            .toLowerCase()
-        })
-      }}</span>
+      ><span>{{ i18n.t('actions.general.create') }}</span>
     </span>
   </v-tooltip>
 </template>

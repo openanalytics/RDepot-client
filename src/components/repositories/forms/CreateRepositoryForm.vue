@@ -24,12 +24,11 @@
   <v-form>
     <v-card class="pa-5" width="400">
       <v-card-title>
-        {{
-          t('actions.general.createResource', {
-            resource_type: t('resources.repository')
-          })
-        }}
+        {{ t('actions.general.create') }}
       </v-card-title>
+      <v-card-subtitle>
+        {{ t('resources.repository') }}
+      </v-card-subtitle>
       <v-divider />
       <v-card-text>
         <validated-input-field

@@ -44,6 +44,7 @@ import {
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '../helpers/login'
 import { restoreData } from '@/__tests__/end-to-end/helpers/restoreData'
+import { awaitTableData } from '../helpers/awaitTableData'
 
 const TITLE = 'submissions multi actions'
 test.describe(TITLE, () => {
@@ -56,8 +57,13 @@ test.describe(TITLE, () => {
       'tr > th:nth-child(8) > div > i'
     )
     await sortByStateIcon.click()
+    const initialDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/submissions'
+    )
     await sortByStateIcon.click()
     const submissionRowsSelector = page.locator('role=row')
+    await initialDataLoaded
     await expect(submissionRowsSelector).toHaveCount(21)
 
     await page
@@ -115,9 +121,18 @@ test.describe(TITLE, () => {
     await page
       .locator(`#${SUBMISSIONS_LIST_SELECT_ALL_ID}`)
       .click()
-    await page.locator('css=.mdi-chevron-right').click()
+    const nextPageDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/submissions'
+    )
+    await page
+      .locator('.v-data-table-footer .mdi-chevron-right')
+      .click()
+    await nextPageDataLoaded
     await expect(submissionRowsSelector).toHaveCount(21)
-    await page.locator('css=.mdi-chevron-right').click()
+    await page
+      .locator('.v-data-table-footer .mdi-chevron-right')
+      .click()
     await expect(submissionRowsSelector).toHaveCount(3)
     await page
       .locator(`#${SUBMISSIONS_LIST_SELECT_ALL_ID}`)
@@ -138,11 +153,16 @@ test.describe(TITLE, () => {
     page
   }) => {
     await login(page, 'einstein')
+    const initialDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/submissions'
+    )
     await page.locator(`#${SUBMISSIONS_SIDEBAR_ID}`).click()
     await page.waitForURL('**/submissions')
     await expect(page).toHaveTitle(/RDepot - submissions/)
 
     const submissionRowsSelector = page.locator('role=row')
+    await initialDataLoaded
     await expect(submissionRowsSelector).toHaveCount(21)
 
     const speedDialOptionSelector = page.locator(
@@ -172,11 +192,16 @@ test.describe(TITLE, () => {
     page
   }) => {
     await login(page, 'einstein')
+    const initialDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/submissions'
+    )
     await page.locator(`#${SUBMISSIONS_SIDEBAR_ID}`).click()
     await page.waitForURL('**/submissions')
     await expect(page).toHaveTitle(/RDepot - submissions/)
 
     const submissionRowsSelector = page.locator('role=row')
+    await initialDataLoaded
     await expect(submissionRowsSelector).toHaveCount(21)
 
     const speedDialModalSelector = page.locator(
@@ -214,10 +239,15 @@ test.describe(TITLE, () => {
     page
   }) => {
     await login(page, 'einstein')
+    const initialDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/submissions'
+    )
     await page.locator(`#${SUBMISSIONS_SIDEBAR_ID}`).click()
     await page.waitForURL('**/submissions')
     await expect(page).toHaveTitle(/RDepot - submissions/)
     const submissionRowsSelector = page.locator('role=row')
+    await initialDataLoaded
     await expect(submissionRowsSelector).toHaveCount(21)
     const sortByStateIcon = await page.locator(
       'tr > th:nth-child(8) > div > i'
@@ -282,11 +312,16 @@ test.describe(TITLE_SERIAL, { tag: '@serial' }, () => {
     page
   }) => {
     await login(page, 'einstein')
+    const initialDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/submissions'
+    )
     await page.locator(`#${SUBMISSIONS_SIDEBAR_ID}`).click()
     await page.waitForURL('**/submissions')
     await expect(page).toHaveTitle(/RDepot - submissions/)
 
     const submissionRowsSelector = page.locator('role=row')
+    await initialDataLoaded
     await expect(submissionRowsSelector).toHaveCount(21)
 
     const speedDialModalSelector = page.locator(
@@ -373,11 +408,16 @@ test.describe(TITLE_SERIAL, { tag: '@serial' }, () => {
     page
   }) => {
     await login(page, 'einstein')
+    const initialDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/submissions'
+    )
     await page.locator(`#${SUBMISSIONS_SIDEBAR_ID}`).click()
     await page.waitForURL('**/submissions')
     await expect(page).toHaveTitle(/RDepot - submissions/)
 
     const submissionRowsSelector = page.locator('role=row')
+    await initialDataLoaded
     await expect(submissionRowsSelector).toHaveCount(21)
 
     const speedDialModalSelector = page.locator(

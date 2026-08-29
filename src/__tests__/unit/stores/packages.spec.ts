@@ -57,6 +57,7 @@ describe('Package Store', () => {
     server.listen()
     const authorizationStore = useAuthorizationStore()
     await authorizationStore.getUserInfo()
+    authorizationStore.me.permissions = ['package.list']
   })
 
   afterAll(() => {

@@ -41,9 +41,6 @@ export function useSimpleAuthorization() {
           'simpleAuthToken',
           res.data.data.token
         )
-        toasts.success(
-          i18n.t('messages.authorization.success')
-        )
         return res.data.data.token
       })
       .catch((err) => {

@@ -21,9 +21,13 @@
 -->
 
 <template>
-  <v-tooltip location="left">
+  <v-tooltip location="top">
     <template #activator="{ props }">
-      <div id="tooltip-activator" v-bind="props">
+      <div
+        id="tooltip-activator"
+        class="icon-animate icon-hover-rotate"
+        v-bind="props"
+      >
         <CommonButton
           id="add-maintainer"
           :component="OverlayEnum.enum.Create"
@@ -36,13 +40,7 @@
     </template>
     <span id="tooltip-wait"
       ><span>
-        {{
-          i18n.t('actions.general.createResource', {
-            resource_type: i18n
-              .t(i18n.t('resources.packageMaintainer'))
-              .toLowerCase()
-          })
-        }}
+        {{ i18n.t('actions.general.create') }}
       </span>
     </span>
   </v-tooltip>

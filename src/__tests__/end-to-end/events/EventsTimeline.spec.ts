@@ -27,6 +27,7 @@ import {
   PACKAGES_SIDEBAR_ID
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '../helpers/login'
+import { awaitTableData } from '@/__tests__/end-to-end/helpers/awaitTableData'
 
 const TITLE = 'events timeline'
 test.describe(TITLE, () => {
@@ -58,9 +59,14 @@ test.describe(TITLE, () => {
 
     await expect(maintainerTag).toHaveCount(12)
 
+    const navigationDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/packages'
+    )
     await page.locator(`#${PACKAGES_SIDEBAR_ID}`).click()
     await page.waitForURL('**/packages')
     const packagesRowsSelector = page.locator('role=row')
+    await navigationDataLoaded
     await expect(packagesRowsSelector).toHaveCount(21)
 
     await page.locator(`#${EVENTS_SIDEBAR_ID}`).click()

@@ -89,35 +89,49 @@ function search(value: string) {
 }
 
 async function loadItems() {
-  if (
-    selectStore.paginationData.totalNumber < 0 ||
-    !selectStore.shouldFetchNextPage
-  ) {
+  if (selectStore.shouldFetchNextPage) {
     await emits('loadItems')
   }
 }
 
 watchDebounced(
   queryTerm,
-  async () => {
-    const item = selectStore.items.find((item) => {
-      if (typeof item === 'string') return undefined
-      else {
-        if (
-          item?.value == value.value &&
-          item?.title == queryTerm.value
+  async (query) => {
+    if (!query) {
+      return
+    }
+
+    const normalize = (value: string) =>
+      value.toLowerCase().trim()
+
+    const hasMatch = () => {
+      return selectStore.items.some((item) => {
+        if (!item || typeof item === 'string') {
+          return false
+        }
+
+        return normalize(item.title).includes(
+          normalize(query)
         )
-          return item
-      }
-    })
-    if (item) {
-      selectStore.resetItems()
-      selectStore.resetPagination()
-      emits('filtrate', queryTerm.value)
+      })
+    }
+
+    // already loaded locally
+    if (hasMatch()) {
+      return
+    }
+
+    // keep fetching until:
+    // - found
+    // - OR no more pages
+    while (selectStore.shouldFetchNextPage && !hasMatch()) {
       await loadItems()
     }
   },
-  { debounce: 500, maxWait: 1000 }
+  {
+    debounce: 500,
+    maxWait: 1000
+  }
 )
 
 onMounted(async () => {

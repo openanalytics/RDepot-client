@@ -29,6 +29,74 @@
       {{ repository?.title }}
     </div>
     <v-divider></v-divider>
+    <v-card
+      v-if="showApplyToAll"
+      flat
+      class="apply-to-all pa-5 mt-4 mb-3"
+    >
+      <div>
+        <div class="d-flex align-center ga-6">
+          <v-select
+            id="apply-all-rversion"
+            v-model="applyAllRversion"
+            :items="uploadSubmissionStore.allowedRVersions"
+            :label="t('fields.files.rVersion')"
+            variant="outlined"
+            density="compact"
+            clearable
+            persistent-clear
+            hide-details
+          />
+          <v-select
+            id="apply-all-architecture"
+            v-model="applyAllArchitecture"
+            :items="
+              uploadSubmissionStore.allowedArchitectures
+            "
+            :label="t('fields.files.architecture')"
+            variant="outlined"
+            density="compact"
+            clearable
+            persistent-clear
+            hide-details
+          />
+          <v-select
+            id="apply-all-distribution"
+            v-model="applyAllDistribution"
+            :items="
+              uploadSubmissionStore.allowedDistributions
+            "
+            :label="t('fields.files.distribution')"
+            variant="outlined"
+            density="compact"
+            clearable
+            persistent-clear
+            hide-details
+          />
+          <v-btn
+            id="apply-all-button"
+            color="primary"
+            height="40"
+            variant="outlined"
+            :disabled="
+              !applyAllRversion &&
+              !applyAllArchitecture &&
+              !applyAllDistribution
+            "
+            @click="applyToAllBinaryPackages()"
+          >
+            {{ i18n.t('forms.submissions.applyToAll') }}
+          </v-btn>
+        </div>
+        <div
+          class="text-caption text-medium-emphasis text-left mt-1"
+        >
+          {{
+            i18n.t('forms.submissions.applyToAllSubtitle')
+          }}
+        </div>
+      </div>
+    </v-card>
     <v-data-table
       :headers="filteredHeaders"
       :items="packages"
@@ -121,9 +189,9 @@
       </template>
       <template #[`item.binary`]="{ item, index }">
         <v-tooltip location="top">
-          <template #activator="{ props }">
+          <template #activator="{ props: activatorProps }">
             <span
-              v-bind="props"
+              v-bind="activatorProps"
               class="d-flex justify-center align-center"
             >
               <validated-input-field
@@ -184,9 +252,9 @@
         #[`item.manual`]="{ item, index }"
       >
         <v-tooltip location="top">
-          <template #activator="{ props }">
+          <template #activator="{ props: activatorProps }">
             <span
-              v-bind="props"
+              v-bind="activatorProps"
               class="d-flex justify-center align-center"
             >
               <validated-input-field
@@ -229,33 +297,7 @@
           />
         </div>
       </template>
-      <template #[`top`]>
-        <v-tooltip
-          v-if="packages && !!packages.length"
-          location="top"
-        >
-          <template #activator="{ props }">
-            <v-btn
-              v-if="packages && !!packages.length"
-              size="x-small"
-              color="oared mb-1"
-              class="reset-opacity"
-              variant="outlined"
-              v-bind="props"
-              style="
-                max-width: 15%;
-                align-self: end;
-                margin-top: 10px;
-              "
-              @click="resetPackages()"
-              >{{ i18n.t('actions.general.clear') }}
-            </v-btn>
-          </template>
-          <span id="tooltip-reset">
-            {{ i18n.t('actions.general.clear') }}</span
-          ></v-tooltip
-        >
-      </template>
+      <template #[`top`]> </template>
       <template #expanded-row="{ columns, index }">
         <td :colspan="columns.length">
           <div class="additional-row">
@@ -275,11 +317,31 @@
         </td>
       </template>
     </v-data-table>
+    <div
+      v-if="packages && !!packages.length"
+      class="d-flex justify-end mt-1"
+    >
+      <v-btn
+        size="x-small"
+        color="oared"
+        class="reset-opacity"
+        variant="outlined"
+        @click="resetPackages()"
+      >
+        {{ i18n.t('actions.general.clear') }}
+      </v-btn>
+    </div>
   </v-card-text>
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, onMounted } from 'vue'
+import {
+  computed,
+  nextTick,
+  onMounted,
+  ref,
+  watch
+} from 'vue'
 import { useFiles } from '@/composable/file'
 import { useConfigStore } from '@/store/options/config'
 import Icons from '@/maps/Icons'
@@ -290,6 +352,10 @@ import ValidatedInputField from '@/components/common/fields/ValidatedInputField.
 import { i18n } from '@/plugins/i18n'
 import { useField } from 'vee-validate'
 import { useUploadSubmissionStore } from '@/store/setup/uploadSubmission.ts'
+
+const props = defineProps<{
+  setFieldValue: (path: string, value: unknown) => void
+}>()
 
 const { t } = useI18n()
 const uploadSubmissionStore = useUploadSubmissionStore()
@@ -315,6 +381,9 @@ const {
     notes: string
     replace: boolean
     generateManual: boolean
+    rversion?: string
+    architecture?: string
+    distribution?: string
   }>
 >('packages', {
   initialValue: [], // Add this
@@ -323,6 +392,57 @@ const {
 const { value: technology } = useField('technology')
 const { value: repository } = useField<{ title: string }>(
   'repository'
+)
+
+function preselectSingleOptions() {
+  if (
+    !packages.value ||
+    technology.value !== Technologies.enum.R
+  )
+    return
+  const {
+    allowedArchitectures,
+    allowedRVersions,
+    allowedDistributions
+  } = uploadSubmissionStore
+  packages.value.forEach((pkg, index) => {
+    if (!pkg.binary) return
+    if (
+      allowedArchitectures.length === 1 &&
+      !pkg.architecture
+    ) {
+      props.setFieldValue(
+        `packages.${index}.architecture`,
+        allowedArchitectures[0]
+      )
+    }
+    if (allowedRVersions.length === 1 && !pkg.rversion) {
+      props.setFieldValue(
+        `packages.${index}.rversion`,
+        allowedRVersions[0]
+      )
+    }
+    if (
+      allowedDistributions.length === 1 &&
+      !pkg.distribution
+    ) {
+      props.setFieldValue(
+        `packages.${index}.distribution`,
+        allowedDistributions[0]
+      )
+    }
+  })
+}
+
+watch(
+  [
+    packages,
+    () => uploadSubmissionStore.allowedArchitectures,
+    () => uploadSubmissionStore.allowedRVersions,
+    () => uploadSubmissionStore.allowedDistributions
+  ],
+  preselectSingleOptions,
+  { immediate: true, deep: true }
 )
 
 async function removePackage(index: number) {
@@ -335,6 +455,37 @@ async function removePackage(index: number) {
 
 function resetPackages() {
   packages.value = []
+}
+
+const applyAllRversion = ref<string | undefined>()
+const applyAllArchitecture = ref<string | undefined>()
+const applyAllDistribution = ref<string | undefined>()
+
+const showApplyToAll = computed(
+  () =>
+    technology.value === Technologies.enum.R &&
+    packages.value &&
+    packages.value.filter((p) => p.binary).length > 1
+)
+
+function applyToAllBinaryPackages() {
+  if (!packages.value) return
+  const updated = packages.value.map((pkg) => {
+    if (!pkg.binary) return pkg
+    return {
+      ...pkg,
+      ...(applyAllRversion.value && {
+        rversion: applyAllRversion.value
+      }),
+      ...(applyAllArchitecture.value && {
+        architecture: applyAllArchitecture.value
+      }),
+      ...(applyAllDistribution.value && {
+        distribution: applyAllDistribution.value
+      })
+    }
+  })
+  setValue(updated)
 }
 
 const headers = computed<DataTableHeaders[]>(() => [
@@ -461,6 +612,15 @@ onMounted(() => {
     transition: opacity ease-in-out 0.3s;
     opacity: 1 !important;
   }
+}
+
+.apply-to-all {
+  background: rgba(
+    var(--v-theme-on-surface),
+    0.05
+  ) !important;
+  border: none;
+  border-radius: 8px;
 }
 
 table {

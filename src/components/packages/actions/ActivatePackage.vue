@@ -27,7 +27,12 @@
       v-model="packageBag.active"
       :disabled="disabled"
       hide-details
-      :readonly="!canPatch(packageBag?.links)"
+      :readonly="
+        !hasPermission(
+          packageBag?.permissions,
+          'package.activate'
+        )
+      "
       :color="color"
       class="mr-6"
       @click.stop
@@ -39,7 +44,7 @@
 <script setup lang="ts">
 import { usePackagesStore } from '@/store/options/packages'
 import { EntityModelPackageDto } from '@/openapi'
-import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
+import { hasPermission } from '@/utils/permissions'
 import { computed } from 'vue'
 import { i18n } from '@/plugins/i18n'
 
@@ -53,7 +58,6 @@ const componentProps = defineProps({
 const packageBag = computed(() => componentProps.item)
 
 const packagesStore = usePackagesStore()
-const { canPatch } = useUserAuthorities()
 
 const id = computed(
   () =>
@@ -74,7 +78,12 @@ const isPending = computed(
 )
 
 const color = computed(() =>
-  !canPatch(packageBag.value.links) ? 'grey' : 'primary'
+  !hasPermission(
+    packageBag.value.permissions,
+    'package.activate'
+  )
+    ? 'grey'
+    : 'primary'
 )
 
 const disabled = computed(
@@ -82,7 +91,12 @@ const disabled = computed(
 )
 
 const onHoverMessage = computed(() => {
-  if (!canPatch(packageBag.value.links))
+  if (
+    !hasPermission(
+      packageBag.value.permissions,
+      'package.activate'
+    )
+  )
     return i18n.t('messages.general.notAuthorized')
   if (packageBag.value.deleted)
     return i18n.t('messages.general.deleted', {
@@ -97,7 +111,10 @@ const onHoverMessage = computed(() => {
 
 function updatePackageActive() {
   if (
-    canPatch(packageBag.value.links) &&
+    hasPermission(
+      packageBag.value.permissions,
+      'package.activate'
+    ) &&
     packageBag.value.id &&
     packageBag.value.active != undefined
   ) {

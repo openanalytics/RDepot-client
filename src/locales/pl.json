@@ -10,12 +10,10 @@
       "continue": "Kontynuuj",
       "copy": "Kopiuj",
       "create": "Utwórz",
-      "createResource": "Utwórz {resource_type}",
       "deactivate": "Dezaktywuj",
       "delete": "Usuń",
       "download": "Pobierz",
       "edit": "Edytuj",
-      "editResource": "Edytuj {resource_type}",
       "goBack": "Powróć",
       "goTo": "Przejdź do szczegółów",
       "install": "Zainstaluj",
@@ -31,7 +29,9 @@
       "unset": "Nieustawiony",
       "uploadPackages": "Prześlij Pakiety",
       "refresh": "Odśwież",
-      "confirm": "Potwierdzać"
+      "confirm": "Potwierdź",
+      "collapseSidebar": "Zwiń pasek boczny",
+      "expandSidebar": "Rozwiń pasek boczny"
     },
     "packageMaintainer": {
       "create": "Utwórz Opiekuna"
@@ -84,7 +84,7 @@
       "generateManual": "Generuj instrukcję",
       "name": "Nazwa",
       "notes": "Notatki",
-      "rVersion": "wersja R",
+      "rVersion": "Wersja R",
       "replace": "Podmień"
     },
     "general": {
@@ -205,7 +205,11 @@
       "stepSecond": "Wgraj pakiety {technology}",
       "stepThird": "Podsumowanie",
       "binaryPython": "Wgrano pakiet binarny (.whl)",
-      "noBinaryPython": "Wgrany pakiet nie jest binarny"
+      "noBinaryPython": "Wgrany pakiet nie jest binarny",
+      "autoApproved": "Twoje zgłoszenia będą zatwierdzane automatycznie, dzięki czemu przesłane pakiety będą dostępne natychmiast.",
+      "needsApproval": "Twoje zgłoszenia mogą wymagać zatwierdzenia przez opiekuna repozytorium, zanim przesłane pakiety będą dostępne.",
+      "applyToAll": "Zastosuj do wszystkich",
+      "applyToAllSubtitle": "Ustaw te pola dla każdego pakietu binarnego"
     },
     "tokens": {
       "copyWarning": "Upewnij się, że skopiowałeś token. Nie będzie on widoczny później!",
@@ -275,7 +279,6 @@
       "deactivateQuestion": "Jesteś pewien że chcesz dezaktywować {resource_name}?",
       "deleteResourcesQuestion": "Jesteś pewnien że chcesz usunąć {resource_type}?",
       "deleted": "{resource_name} jest usunięty",
-      "editResourceQuestion": "Jesteś pewien że chcesz {edit_action} nastepujące {resource_type}?",
       "goToDisabled": "Nie można przejść do szczegółów",
       "noDataAvailable": "Brak dostepnych danych",
       "notAuthorized": "Nie masz wystarczających uprawnień aby wykonać tę operację",
@@ -283,7 +286,10 @@
       "success": "Poprawnie wykonana operacja",
       "successFiltration": "Udane filtrowanie",
       "chooseOneToContinue": "Dodaj {resource_type} aby kontynuować",
-      "deleteQuestion": "Czy na pewno chcesz usunąć {resource_name}?"
+      "deleteQuestion": "Czy na pewno chcesz usunąć {resource_name}?",
+      "acceptQuestion": "Czy na pewno chcesz zaakceptować następujący(ą/e) {resource_type}?",
+      "cancelQuestion": "Czy na pewno chcesz anulować następujące {resource_type}?",
+      "rejectQuestion": "Czy na pewno chcesz odrzucić następujące {resource_type}?"
     },
     "notifications": {
       "alreadySeen": "przeczytane",
@@ -379,12 +385,21 @@
       },
       "wrongExtension": "Wybierz pakiety z odpowiednim rozszerzeniem",
       "wrongExtension-Python": "Wybierz pakiety z odpowiednim rozszerzeniem (.tar.gz/.whl)",
-      "wrongExtension-R": "Wybierz pakiety z odpowiednim rozszerzeniem (.tar.gz)"
+      "wrongExtension-R": "Wybierz pakiety z odpowiednim rozszerzeniem (.tar.gz)",
+      "showSubmissions": "Pokaż zgłoszenia",
+      "noSubmissionPassed": "Żadne zgłoszenie nie zostało przesłane pomyślnie"
     },
     "users": {
       "editAdmin": "Nie można edytowac użytkownika, który jest administratorem",
       "unableDeactivation": "Użytkownik nie może dezaktywować samego siebie",
       "unableDeletion": "Użytkownik nie może usunąć sam siebie"
+    },
+    "connection": {
+      "retry": "Spróbuj ponownie teraz",
+      "restored": "Połączenie z API zostało przywrócone. Odśwież stronę, aby zaktualizować dane.",
+      "retryIn": "Następna próba za [seconds]s.",
+      "reloadPage": "Załaduj stronę ponownie",
+      "lost": "Połączenie z API zostało utracone."
     }
   },
   "properties": {
@@ -397,7 +412,7 @@
         "delete": "Usunięcie",
         "update": "Aktualizacja",
         "upload": "Wgranie",
-        "republish": "Opublikuj ponownie"
+        "republish": "Ponowna publikacja"
       }
     },
     "general": {
@@ -516,5 +531,18 @@
   },
   "packages": {
     "notes": "Notatki"
+  },
+  "submissions": {
+    "needsApproval": "Twoje zgłoszenia mogą wymagać zatwierdzenia przez opiekuna repozytorium, zanim przesłane pakiety będą dostępne.",
+    "autoApproved": "Twoje zgłoszenia będą zatwierdzane automatycznie, dzięki czemu przesłane pakiety będą dostępne natychmiast."
+  },
+  "errors": {
+    "connection": {
+      "lost": "Połączenie z API zostało utracone.",
+      "restored": "Połączenie z API zostało przywrócone. Odśwież stronę, aby zaktualizować dane.",
+      "retry": "Spróbuj ponownie",
+      "reloadPage": "Załaduj stronę ponownie",
+      "retryIn": "Następna próba za {seconds}s."
+    }
   }
 }

@@ -1,1 +1,137 @@
-{}
+{
+  "actions": {
+    "general": {
+      "collapseSidebar": "Nascondi il menu laterale",
+      "expandSidebar": "Mostra il menu laterale",
+      "accept": "Accetta",
+      "activate": "Attiva | Attiva {resource_type}",
+      "cancel": "Annulla",
+      "clear": "Cancella tutto",
+      "click": "Clicca",
+      "continue": "Continua",
+      "copy": "Copia",
+      "deactivate": "Disattiva | Disattiva {resource_type}",
+      "delete": "Elimina",
+      "create": "Crea",
+      "download": "Scarica",
+      "edit": "Modifica",
+      "goBack": "Torna indietro",
+      "goTo": "Vedi i dettagli del {resource_type}",
+      "install": "Installa",
+      "login": "Login",
+      "logout": "Disconnettiti",
+      "ok": "Ok",
+      "open": "Apri in una nuova scheda",
+      "or": "o",
+      "reject": "Rifiuta",
+      "reset": "Reimposta",
+      "save": "Salva",
+      "submit": "Invia",
+      "unset": "Annulla",
+      "uploadPackages": "Carica pacchetti"
+    }
+  },
+  "forms": {
+    "tokens": {
+      "notConfigurableExpirationDate": "La durata del token di accesso non è configurabile",
+      "copyWarning": "Assicurati di copiare subito il token di accesso. Non potrai più visualizzarlo!",
+      "deactivateQuestion": "Sei sicuro di voler disattivare il token <strong>{0}</strong>?",
+      "delete": "Elimina il token",
+      "expirationDate": "Durata (in giorni)",
+      "edit": "Modifica il nome del token",
+      "newToken": "Nuovo token di accesso"
+    },
+    "submissions": {
+      "stepThird": "Riassunto",
+      "autoApproved": "Le tue richieste verranno approvate automaticamente, rendendo i pacchetti inviati immediatamente disponibili.",
+      "needsApproval": "Le tue richieste potrebbero richiedere l'approvazione di un maintainer prima che i pacchetti inviati siano disponibili.",
+      "applyToAll": "Applica a tutti",
+      "applyToAllSubtitle": "Imposta questi valori per ogni pacchetto binario qui di seguito",
+      "binary": "File binario",
+      "generateManual": "Genera manuale",
+      "generateManualNotAvailable": "non disponibile per pacchetti binari",
+      "stepFirst": "Scegli repository",
+      "stepSecond": "Carica {technology} pacchetti",
+      "binaryPython": "Il pacchetto caricato è binario (.whl)",
+      "noBinaryPython": "Il pacchetto caricato non è binario"
+    },
+    "authorization": {
+      "username": "Login"
+    },
+    "general": {
+      "name": "Nome visualizzato"
+    },
+    "packageMaintainers": {
+      "hints": {
+        "disabledPackageMessage": "Scegli un utente e un repository da abilitare",
+        "disclaimerPackages": "Vengono mostrati solo gli utenti con almeno il ruolo di maintainer del pacchetto."
+      }
+    },
+    "repositories": {
+      "errors": {
+        "duplicateName": "Questo nome di repository esiste già,"
+      },
+      "hash": "Metodo hash",
+      "hints": {
+        "deprecatedAddress": "Un indirizzo server senza la tecnologia nel suo percorso è obsoleto e non sarà supportato in RDepot v3.0. Si prega di utilizzare {address} al suo posto."
+      },
+      "redirectToSource": "Reindirizza alla sorgente",
+      "requiresAuthentication": "Richiede autenticazione"
+    },
+    "repositoryMaintainers": {
+      "hints": {
+        "disabledPackageMessage": "Scegli un utente e un repository da abilitare",
+        "disabledRepositoryMessage": "Scegli un utente da abilitare",
+        "disclaimer": "Vengono mostrati solo gli utenti che hanno almeno il ruolo di maintainer del repository."
+      }
+    }
+  },
+  "fields": {
+    "submissions": {
+      "author": "Autore",
+      "approver": "Validatore",
+      "submitter": "Autore dell'invio"
+    },
+    "general": {
+      "date": "Data",
+      "createdOn": "Data di creazione",
+      "actions": "Azioni",
+      "deleted": "Rimosso"
+    },
+    "files": {
+      "replace": "Sostituisci"
+    },
+    "packages": {
+      "fileType": "Tipo",
+      "source": "Source",
+      "submissionState": "Stato"
+    },
+    "repositories": {
+      "publicationUri": "URI di publicazione",
+      "published": "Publicato",
+      "serverAddress": "Indirizzo server",
+      "synchronizing": "Sincronizzando"
+    },
+    "tokens": {
+      "expirationDate": "Data di scadenza",
+      "lastUsed": "Ultimo utilizzo"
+    }
+  },
+  "messages": {
+    "errors": {
+      "403": "Impossibile eseguire questa richiesta perché l'utente non è autorizzato",
+      "401": "Impossibile eseguire questa richiesta perché l'utente non è autenticato.",
+      "404": "La pagina che stai cercando non esiste."
+    },
+    "authorization": {
+      "error": "Login non riuscito",
+      "loggedIn": "Logged in",
+      "notLoggedIn": "Not logged in",
+      "oidc": "Login con OIDC"
+    },
+    "config": {
+      "deletingPackages": "L'eliminazione dei pacchetti è disabilitata nella configurazione",
+      "deletingRepositories": "L'eliminazione dei repository è disabilitata nella configurazione"
+    }
+  }
+}

@@ -30,24 +30,33 @@ import {
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '@/__tests__/end-to-end/helpers/login'
 
-const TITLE_SERIAL = 'tokens filtration'
-test.describe(TITLE_SERIAL, { tag: '@serial' }, () => {
+const TITLE = 'tokens filtration'
+test.describe(TITLE, () => {
   test('active', async ({ page }) => {
     await login(page, 'einstein')
     await page
       .locator(`#${SETTINGS_LIST_SIDEBAR_ID}`)
       .click()
-    await page
-      .locator(`#${ACCESS_TOKENS_SIDEBAR_ID}`)
-      .click()
+    const accessTokensSidebarItem = page.locator(
+      `#${ACCESS_TOKENS_SIDEBAR_ID}`
+    )
+    await accessTokensSidebarItem.click({ trial: true })
+    await accessTokensSidebarItem.click()
     await page.waitForURL('**/settings-tokens')
 
-    const tokenActiveSelector = page.getByRole('checkbox', {
-      checked: true
-    })
+    const tokenActiveSelector = page.locator(
+      '#access-token-active-icon'
+    )
     const tokensRowSelector = page.locator('role=row')
     await expect(tokensRowSelector).toHaveCount(3)
-    await expect(tokenActiveSelector).toHaveCount(0)
+    await expect(tokenActiveSelector).toHaveCount(2)
+
+    await page
+      .locator(`#${TOKENS_FILTRATION_ACTIVE_ID}`)
+      .click()
+
+    await expect(tokensRowSelector).toHaveCount(3)
+    await expect(tokenActiveSelector).toHaveCount(2)
 
     await page
       .locator(`#${TOKENS_FILTRATION_ACTIVE_ID}`)
@@ -61,14 +70,7 @@ test.describe(TITLE_SERIAL, { tag: '@serial' }, () => {
       .click()
 
     await expect(tokensRowSelector).toHaveCount(3)
-    await expect(tokenActiveSelector).toHaveCount(0)
-
-    await page
-      .locator(`#${TOKENS_FILTRATION_ACTIVE_ID}`)
-      .click()
-
-    await expect(tokensRowSelector).toHaveCount(3)
-    await expect(tokenActiveSelector).toHaveCount(1)
+    await expect(tokenActiveSelector).toHaveCount(2)
   })
 
   test('expired', async ({ page }) => {
@@ -76,9 +78,11 @@ test.describe(TITLE_SERIAL, { tag: '@serial' }, () => {
     await page
       .locator(`#${SETTINGS_LIST_SIDEBAR_ID}`)
       .click()
-    await page
-      .locator(`#${ACCESS_TOKENS_SIDEBAR_ID}`)
-      .click()
+    const accessTokensSidebarItem = page.locator(
+      `#${ACCESS_TOKENS_SIDEBAR_ID}`
+    )
+    await accessTokensSidebarItem.click({ trial: true })
+    await accessTokensSidebarItem.click()
     await page.waitForURL('**/settings-tokens')
     await expect(page).toHaveTitle(/RDepot - access tokens/)
 
@@ -95,13 +99,13 @@ test.describe(TITLE_SERIAL, { tag: '@serial' }, () => {
       .locator(`#${TOKENS_FILTRATION_EXPIRED_ID}`)
       .click()
 
-    await expect(tokensRowSelector).toHaveCount(3)
+    await expect(tokensRowSelector).toHaveCount(2)
 
     await page
       .locator(`#${TOKENS_FILTRATION_EXPIRED_ID}`)
       .click()
 
-    await expect(tokensRowSelector).toHaveCount(2)
+    await expect(tokensRowSelector).toHaveCount(3)
   })
 
   test('no data available', async ({ page }) => {
@@ -109,9 +113,11 @@ test.describe(TITLE_SERIAL, { tag: '@serial' }, () => {
     await page
       .locator(`#${SETTINGS_LIST_SIDEBAR_ID}`)
       .click()
-    await page
-      .locator(`#${ACCESS_TOKENS_SIDEBAR_ID}`)
-      .click()
+    const accessTokensSidebarItem = page.locator(
+      `#${ACCESS_TOKENS_SIDEBAR_ID}`
+    )
+    await accessTokensSidebarItem.click({ trial: true })
+    await accessTokensSidebarItem.click()
     await page.waitForURL('**/settings-tokens')
     await expect(page).toHaveTitle(/RDepot - access tokens/)
 

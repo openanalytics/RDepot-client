@@ -7,11 +7,9 @@
       "continue": "Verder",
       "copy": "Kopiëren",
       "create": "Aanmaken",
-      "createResource": "{resource_type} Aanmaken",
       "delete": "Verwijderen",
       "download": "Downloaden",
       "edit": "Bewerken",
-      "editResource": "{resource_type} Bewerken",
       "goBack": "Terug",
       "goTo": "Details bekijken van {resource_type}",
       "install": "Installeren",
@@ -30,7 +28,9 @@
       "activate": "Activeren | {resource_type} Activeren",
       "deactivate": "Deactiveren | {resource_type} Deactiveren",
       "refresh": "Ververs",
-      "confirm": "Bevestigen"
+      "confirm": "Bevestigen",
+      "collapseSidebar": "Zijpaneel verbergen",
+      "expandSidebar": "Zijpaneel tonen"
     },
     "repositories": {
       "publish": "Publiceren",
@@ -164,7 +164,11 @@
       "stepThird": "Samenvatting",
       "generateManualNotAvailable": "niet beschikbaar voor binaire package",
       "binaryPython": "Geüpload package is binair (.whl)",
-      "noBinaryPython": "Geüpload package is niet binair"
+      "noBinaryPython": "Geüpload package is niet binair",
+      "autoApproved": "Je inzendingen zullen automatisch aanvaard worden, waardoor ingezonden packages meteen beschikbaar zijn.",
+      "needsApproval": "Je inzendingen moeten worden goedgekeurd door een beheerder, vooraleer je ingezonden packages beschikbaar zijn.",
+      "applyToAllSubtitle": "Gebruik deze waarden voor alle binaire packages",
+      "applyToAll": "Overal toepassen"
     },
     "tokens": {
       "deactivateQuestion": "Ben je zeker dat je volgende token wilt deactiveren: <strong>{0}</strong>\"?",
@@ -231,12 +235,12 @@
     },
     "repositoryMaintainers": {
       "warnings": {
-        "insufficientPermissions": "Permissies van de gebruiker laten niet toe een maintainer aan te maken."
+        "insufficientPermissions": "Permissies van de gebruiker laten niet toe om een beheerder aan te maken."
       }
     },
     "submissions": {
       "warnings": {
-        "notListedWarning": "Sommige submisies zijn niet opgelijst omdat {actionType} niet van toepassing is.",
+        "notListedWarning": "Sommige inzendingen zijn niet opgelijst omdat {actionType} niet van toepassing is.",
         "replace": {
           "duplication": "Een package met deze naam en versie bestaat reeds in de gekozen repository. Herstart het upload-process en selecteer \"vervangen\" om het te overschrijven."
         },
@@ -264,23 +268,25 @@
             }
           }
         },
-        "noSubmissionAvailable": "Geen geldige submissies geselecteerd",
+        "noSubmissionAvailable": "Geen geldige inzendingen geselecteerd",
         "onSubmissionAvailableTitle": "Selecteer andere inzendingen",
         "upload": {
           "warning": "Enkele van de ingezonden bestanden hebben waarschuwingen gegenereerd. Zie de individuele inzendingen voor meer details"
         }
       },
-      "replacingPackages": "Bestaande packages vervangen is uitgeschakeld in de configuratie",
+      "replacingPackages": "Het vervangen van bestaande packages is uitgeschakeld in de configuratie",
       "addAnotherSubmission": "Andere packages opladen",
       "empty": "Geen repository gekozen",
       "noChangesProvided": "Er zijn geen notities voor deze inzending",
       "noPackageChosen": "Geen packages gekozen",
-      "replaceOptionDesc": "Vervang het package indien er reeds een package bestaat met zelfde naam en versie in de gekozen repository",
-      "waitForAllRequestsToFulfill": "Wacht tot alle submissies zijn opgeladen",
-      "waitingForAction": "aan het wachten op actie",
+      "replaceOptionDesc": "Vervang het bestaande package indien er reeds een package bestaat met dezelfde naam en versie in de gekozen repository",
+      "waitForAllRequestsToFulfill": "Wacht tot alle inzendingen zijn opgeladen",
+      "waitingForAction": "aan het wachten op een review",
       "wrongExtension": "Kies bestanden met de juiste extensie",
       "wrongExtension-Python": "Kies bestanden met de juiste extensie (.tar.gz/.whl)",
-      "wrongExtension-R": "Kies bestanden met de juiste extensie (.tar.gz)"
+      "wrongExtension-R": "Kies bestanden met de juiste extensie (.tar.gz)",
+      "showSubmissions": "Toon inzendingen",
+      "noSubmissionPassed": "Geen enkele inzending werd correct geüpload"
     },
     "general": {
       "chooseOneToEnable": "kies tenminste één {resource_type} om te activeren",
@@ -288,7 +294,6 @@
       "deactivateQuestion": "Bent u zeker dat u {resource_name} wenst te deactiveren?",
       "deleteResourcesQuestion": "Bent u zeker dat u volgend {resource_type} wenst te verwijderen?",
       "deleted": "{resource_name} is verwijdered",
-      "editResourceQuestion": "Bent u zeker dat u de actie \"{edit_action}\" wenst toe te passen op volgend {resource_type}?",
       "noDataAvailable": "Geen data beschikbaar",
       "pending": "actie in afwachting",
       "success": "Verzoek succesvol verwerkt",
@@ -296,7 +301,10 @@
       "goToDisabled": "Niet mogelijk om details te bekijken",
       "notAuthorized": "U bent niet geauthorizeerd om deze actie uit te voeren",
       "chooseOneToContinue": "Gelieve een {resource_type} te selecteren alvorens verder te gaan",
-      "deleteQuestion": "Bent u zeker dat u {resource_name} wenst te verwijderen?"
+      "deleteQuestion": "Bent u zeker dat u {resource_name} wenst te verwijderen?",
+      "rejectQuestion": "Ben je zeker dat je de volgende {resource_type} wil weigeren?",
+      "cancelQuestion": "Ben je zeker dat je de volgende {resource_type} wil annuleren?",
+      "acceptQuestion": "Ben je zeker dat je de volgende {resource_type} wil aanvaarden?"
     },
     "repositories": {
       "deprecatedAddressTooltip": "Een server adres zonder technologie als onderdeel van het path is deprecated en zal niet langer ondersteund worden in RDepot v3.0",
@@ -344,6 +352,13 @@
       "editAdmin": "Niet mogelijk om een gebruiker te bewerken die een administrator is",
       "unableDeactivation": "Gebruikers kunnen zichzelf niet deactiveren",
       "unableDeletion": "Gebruikers kunnen zichzelf niet verwijderen"
+    },
+    "connection": {
+      "lost": "De verbinding met de server werd verbroken.",
+      "retryIn": "Opnieuw proberen in {seconds}s.",
+      "restored": "De verbinding met de server werd hersteld. Herlaad de pagina om de data te verversen.",
+      "retry": "Probeer opnieuw",
+      "reloadPage": "Herlaad de pagina"
     }
   },
   "properties": {
@@ -473,5 +488,18 @@
   },
   "packages": {
     "notes": "Notities"
+  },
+  "submissions": {
+    "needsApproval": "Je inzendingen moeten worden goedgekeurd door een beheerder, vooraleer je ingezonden packages beschikbaar zijn.",
+    "autoApproved": "Je inzendingen zullen automatisch aanvaard worden, waardoor ingezonden packages meteen beschikbaar zijn."
+  },
+  "errors": {
+    "connection": {
+      "lost": "De verbinding met de server werd verbroken.",
+      "retryIn": "Opnieuw proberen in {seconds}s.",
+      "restored": "De verbinding met de server werd hersteld. Herlaad de pagina om de data te verversen.",
+      "retry": "Probeer opnieuw",
+      "reloadPage": "Herlaad de pagina"
+    }
   }
 }

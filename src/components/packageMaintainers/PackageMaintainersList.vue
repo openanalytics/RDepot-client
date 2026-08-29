@@ -29,8 +29,12 @@
     :loading="packageMaintainersStore.loading"
     :title="i18n.t('resources.packageMaintainer', 2)"
     :sort-by="sortBy"
+    :recently-updated="
+      packageMaintainersStore.recentlyUpdated
+    "
     @update:options="fetchData"
     @refresh="fetchData"
+    @chip-click="filterByChip"
   >
     <template #topAction>
       <AddMaintainerButton v-if="postCondition" />
@@ -39,13 +43,17 @@
       <ProgressCircularSmall v-if="isPending(item)" />
       <span v-else class="d-flex justify-end align-center">
         <EditIcon
-          :disabled="!canPatch(item.links) || item.deleted"
+          :disabled="
+            !hasPermission(
+              item.permissions,
+              'packageMaintainer.edit'
+            )
+          "
           :hover-message="
             item.deleted
               ? i18n.t('messages.general.deleted', {
                   resource_name: i18n.t(
-                    'resources.packageMaintainer',
-                    2
+                    'resources.packageMaintainer'
                   )
                 })
               : i18n.t('actions.general.edit')
@@ -57,14 +65,18 @@
           @set-entity="prepareEdition(item)" />
         <DeleteIcon
           v-if="item.user?.name"
-          :disabled="!canDelete(item.links) || item.deleted"
+          :disabled="
+            !hasPermission(
+              item.permissions,
+              'packageMaintainer.delete.soft'
+            )
+          "
           :name="item.user?.name"
           :hover-message="
             item.deleted
               ? i18n.t('messages.general.deleted', {
                   resource_name: i18n.t(
-                    'resources.packageMaintainer',
-                    2
+                    'resources.packageMaintainer'
                   )
                 })
               : undefined
@@ -78,7 +90,7 @@
 import { usePackageMaintainersStore } from '@/store/options/packageMaintainers'
 import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
 import EditIcon from '@/components/common/action_icons/EditIcon.vue'
-import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
+import { hasPermission } from '@/utils/permissions'
 import { i18n } from '@/plugins/i18n'
 import {
   DataTableHeaders,
@@ -89,23 +101,25 @@ import { EntityModelPackageMaintainerDto } from '@/openapi'
 import { ref } from 'vue'
 import { useSort } from '@/composable/sort'
 import AddMaintainerButton from '@/components/common/buttons/AddMaintainerButton.vue'
-import { useAuthorizationStore } from '@/store/options/authorization'
 import { computed } from 'vue'
 import ProgressCircularSmall from '../common/progress/ProgressCircularSmall.vue'
 import OATable from '../common/datatable/OATable.vue'
 import { OverlayEnum } from '@/enum/Overlay'
 import { useCommonStore } from '@/store/options/common'
+import { usePermissions } from '@/composable/authorities/userAuthorities'
+import { usePackageMaintainersChipFiltration } from '@/composable/packageMaintainers/packageMaintainersChipFiltration'
 
 const packageMaintainersStore = usePackageMaintainersStore()
-const { canPatch, canDelete } = useUserAuthorities()
-const authorizationStore = useAuthorizationStore()
+const { filterByChip } =
+  usePackageMaintainersChipFiltration()
+const { has } = usePermissions()
 
 const { getSort } = useSort()
 const defaultSort: Sort[] = [{ key: 'user', order: 'asc' }]
 const sortBy = ref(defaultSort)
 
 const postCondition = computed(() =>
-  authorizationStore.can('POST', 'packageMaintainers')
+  has('packageMaintainer.create')
 )
 
 const headers = computed<DataTableHeaders[]>(() => [

@@ -15,7 +15,11 @@
       "stepFirst": "Choisir un dépôt",
       "stepSecond": "Télécharger les packages {technology}",
       "stepThird": "Résumé",
-      "noBinaryPython": "Le package téléchargé n'est pas binaire"
+      "noBinaryPython": "Le package téléchargé n'est pas binaire",
+      "autoApproved": "Vos soumissions seront automatiquement approuvées, rendant les packages soumis immédiatement disponibles.",
+      "needsApproval": "Vos soumissions pourraient nécessiter l'approbation d'un responsable avant que les paquets soumis ne soient disponibles.",
+      "applyToAll": "S'appliquer à tous",
+      "applyToAllSubtitle": "Définissez ces valeurs pour chaque package binaire ci-dessous"
     },
     "tokens": {
       "deactivateQuestion": "Êtes-vous sûr de vouloir désactiver le jeton <strong>{0}</strong>?",
@@ -89,7 +93,9 @@
       "submit": "Soumettre",
       "unset": "Désélectionner",
       "refresh": "Actualiser",
-      "confirm": "Confirmer"
+      "confirm": "Confirmer",
+      "collapseSidebar": "Réduire le menu latéral",
+      "expandSidebar": "Afficher le menu latéral"
     },
     "settings": {
       "theme": "Thème",
@@ -128,7 +134,10 @@
       "deleteResourcesQuestion": "Êtes-vous sûr de vouloir supprimer la {resource_type} suivante?",
       "deleted": "Cette {resource_name} est supprimée",
       "goToDisabled": "Il n'est pas possible d'accéder aux détails",
-      "successFiltration": "Filtrage réussi"
+      "successFiltration": "Filtrage réussi",
+      "rejectQuestion": "Êtes-vous sûr de vouloir rejeter la {resource_type} suivante?",
+      "acceptQuestion": "Êtes-vous sûr de vouloir accepter la {resource_type} suivant?",
+      "cancelQuestion": "Êtes-vous sûr de vouloir annuler la {resource_type} suivante?"
     },
     "authorization": {
       "error": "Échec de la connexion",
@@ -230,7 +239,9 @@
       "waitingForAction": "en attente d'une action",
       "wrongExtension": "Choisissez les packages qui ont une extension de fichier correcte",
       "wrongExtension-Python": "Choisissez les packages qui ont une extension de fichier correcte (.tar.gz/.whl)",
-      "wrongExtension-R": "Choisissez les packages qui ont une extension de fichier correcte (.tar.gz)"
+      "wrongExtension-R": "Choisissez les packages qui ont une extension de fichier correcte (.tar.gz)",
+      "showSubmissions": "Afficher les soumissions",
+      "noSubmissionPassed": "Aucune soumission n'a été téléchargée avec succès"
     },
     "config": {
       "deletingPackages": "La suppression des packages est désactivée dans la configuration",
@@ -271,6 +282,13 @@
     "users": {
       "unableDeactivation": "Les utilisateurs ne peuvent pas se désactiver eux-mêmes",
       "unableDeletion": "Les utilisateurs ne peuvent pas se supprimer eux-mêmes"
+    },
+    "connection": {
+      "lost": "La connexion au serveur est interrompue.",
+      "retryIn": "Prochaine tentative dans {seconds}s.",
+      "restored": "La connexion au serveur a été rétablie. Veuillez actualiser la page.",
+      "retry": "Réessayez maintenant",
+      "reloadPage": "Actualiser la page"
     }
   },
   "datatable": {
@@ -464,6 +482,19 @@
       "admin": {
         "left": "Il n'est pas possible de modifier le rôle du dernier administrateur - il doit rester au moins un administrateur"
       }
+    }
+  },
+  "submissions": {
+    "autoApproved": "Vos soumissions seront automatiquement approuvées, rendant les packages soumis immédiatement disponibles.",
+    "needsApproval": "Vos soumissions pourraient nécessiter l'approbation d'un responsable avant que les paquets soumis ne soient disponibles."
+  },
+  "errors": {
+    "connection": {
+      "lost": "La connexion au serveur est interrompue.",
+      "restored": "La connexion au serveur a été rétablie. Veuillez actualiser la page.",
+      "retry": "Réessayez maintenant",
+      "reloadPage": "Actualiser la page",
+      "retryIn": "Prochaine tentative dans {seconds}s."
     }
   }
 }

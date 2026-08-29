@@ -63,6 +63,11 @@ describe('Repository Maintainers Store', () => {
     server.resetHandlers()
     const authorizationStore = useAuthorizationStore()
     await authorizationStore.getUserInfo()
+    authorizationStore.me.permissions = [
+      'repositoryMaintainer.list',
+      'repository.list',
+      'package.list'
+    ]
   })
 
   afterEach(() => {
@@ -216,8 +221,6 @@ describe('Repository Maintainers Store', () => {
     const repositoryMaintainersStore =
       useRepositoryMaintainersStore()
     // vi.mock('@kyvg/vue3-notification')
-    vi.mock('vue3-toastify')
-    const notify = await import('vue3-toastify')
     const spy = vi.spyOn(
       repositoryMaintainersStore,
       'getPage'
@@ -226,12 +229,11 @@ describe('Repository Maintainers Store', () => {
     repositoryMaintainersStore.getPage()
     repositoryMaintainersStore.chosenMaintainer =
       repositoryMaintainers.data.content[2]
-
+    repositoryMaintainersStore.chosenMaintainer.permissions =
+      ['repositoryMaintainer.delete.soft']
     await repositoryMaintainersStore.delete()
 
     expect(spy).toBeCalled()
-    // expect(notify.notify).toBeCalledWith('success')
-    expect(notify.toast.success).toBeCalled()
   })
 })
 
@@ -245,6 +247,11 @@ describe('Repository Maintainers Store requests with failing backend', () => {
     failingServer.resetHandlers()
     const authorizationStore = useAuthorizationStore()
     await authorizationStore.getUserInfo()
+    authorizationStore.me.permissions = [
+      'repositoryMaintainer.list',
+      'repository.list',
+      'package.list'
+    ]
   })
 
   afterAll(() => {

@@ -57,8 +57,8 @@ export const ABC_TESTREPO1_ID =
 //package maintainers
 export const GALILEO_GALILEI_ACCRUED_TESTREPO1_ID =
   'edit-package-maintainer-Galileo-Galilei-accrued-testrepo1'
-export const GALILEO_GALILEI_USL_TESTREPO1_ID =
-  'edit-package-maintainer-Galileo-Galilei-usl-testrepo1'
+export const NIKOLA_TESLA_USL_TESTREPO1_ID =
+  'edit-package-maintainer-Nikola-Tesla-usl-testrepo1'
 export const GALILEO_GALILEI_ABC_TESTREPO1_ID =
   'edit-package-maintainer-Galileo-Galilei-abc-testrepo1'
 export const GALILEO_GALILEI_ABC_TESTREPO3_ID =
@@ -100,6 +100,10 @@ export const SETTINGS_GENERAL_LIST_SIDEBAR_ID =
   'sidebar-settings-general'
 export const ACCESS_TOKENS_SIDEBAR_ID =
   'sidebar-settings-access-tokens'
+export const SIDEBAR_COLLAPSE_TOGGLE_ID =
+  'sidebar-collapse-toggle'
+export const LOGOUT_BUTTON_ID = 'logout-button'
+export const SIDEBAR_VERSION_ID = 'sidebar-version'
 
 //login form
 export const USERNAME_INPUT_ID = 'username-input'
@@ -302,10 +306,14 @@ export const PACKAGE_PROPERTY_NEEDS_COMPILATION_ID =
 //UPLOAD SUBMISSION
 export const UPLOAD_SUBMISSION_REPOSITORY_FIELD_ID =
   'upload-submission-repository-field'
+export const UPLOAD_SUBMISSION_REPOSITORY_TESTREPO1_ID =
+  'upload-submission-repository-testrepo1'
 export const UPLOAD_SUBMISSION_REPOSITORY_TESTREPO3_ID =
   'upload-submission-repository-testrepo3'
 export const UPLOAD_SUBMISSION_REPOSITORY_TESTREPO9_ID =
   'upload-submission-repository-testrepo9'
+export const UPLOAD_SUBMISSION_APPROVAL_ALERT_ID =
+  'upload-submission-approval-alert'
 export const UPLOAD_SUBMISSION_CONTINUE_BUTTON_ID =
   'next-button'
 export const DROP_ZONE_CLASS = 'drop-area'
@@ -328,6 +336,16 @@ export const UPLOAD_SUBMISSION_NOTES_INPUT =
   'upload-package-notes'
 export const UPLOAD_SUBMISSION_REPLACE_CHECKBOX =
   'replace-button'
+export const APPLY_ALL_RVERSION_ID = 'apply-all-rversion'
+export const APPLY_ALL_ARCHITECTURE_ID =
+  'apply-all-architecture'
+export const APPLY_ALL_DISTRIBUTION_ID =
+  'apply-all-distribution'
+export const APPLY_ALL_BUTTON_ID = 'apply-all-button'
+export const UPLOAD_ANOTHER_BUTTON_ID =
+  'upload-another-button'
+export const SHOW_SUBMISSIONS_BUTTON_ID =
+  'show-submissions-button'
 
 //REPOSITORIES FILTRATION
 export const REPOSITORIES_FILTRATION_SEARCH_FIELD_ID =
@@ -376,6 +394,8 @@ export const PACKAGES_FILTRATION_SUBMISSION_STATE_FIELD_ID =
   'packages-filtration-submission-state'
 export const PACKAGES_FILTRATION_MAINTAINER_FIELD_ID =
   'packages-filtration-maintainer'
+export const PACKAGES_FILTRATION_FILE_TYPE_FIELD_ID =
+  'packages-filtration-file-type'
 export const PACKAGES_FILTRATION_MAINTAINER_FIELD_GALILEO_ID =
   'packages-filtration-maintainer-Galileo-Galilei'
 export const PACKAGES_FILTRATION_DELETED_FIELD_ID =
@@ -388,6 +408,8 @@ export const SUBMISSIONS_FILTRATION_TECHNOLOGY_FIELD_ID =
   'submissions-filtration-technology'
 export const SUBMISSIONS_FILTRATION_REPOSITORY_FIELD_ID =
   'submissions-filtration-repository'
+export const SUBMISSIONS_FILTRATION_FILE_TYPE_FIELD_ID =
+  'submissions-filtration-file-type'
 export const SUBMISSIONS_FILTRATION_REPOSITORY_FIELD_TESTREPO1_ID =
   'submissions-filtration-repository-testrepo1'
 export const SUBMISSIONS_FILTRATION_STATE_FIELD_ID =
@@ -484,6 +506,14 @@ export const SUBMISSIONS_LIST_NOT_ACCEPTED_GOTO_ID =
   'goTo-button-45'
 export const SUBMISSIONS_LIST_ACCEPTED_PACKAGE_GOTO_ID =
   'goTo-button-4'
+
+//UPLOAD PACKAGE BUTTON
+export const UPLOAD_PACKAGE_BUTTON_ID =
+  'upload-package-button'
+export const UPLOAD_PACKAGE_REPOSITORY_TESTREPO2_ICON_ID =
+  'upload-package-3'
+export const UPLOAD_PACKAGE_REPOSITORY_TESTREPO3_ICON_ID =
+  'upload-package-4'
 
 //REPOSITORIES LIST
 export const DELETE_REPO_2_ICON_ID =
@@ -611,3 +641,6 @@ export const NOTIFICATIONS_NOT_SEEN_EVENT_ID =
   'notifications-list-item-398'
 export const NOTIFICATIONS_SEEN_EVENT_ID =
   'notifications-list-item-394'
+
+// CONNECTION BANNER
+export const CONNECTION_BANNER_ID = 'connection-banner'

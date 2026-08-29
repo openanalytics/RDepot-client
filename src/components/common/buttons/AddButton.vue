@@ -21,9 +21,13 @@
 -->
 
 <template>
-  <v-tooltip location="left">
+  <v-tooltip location="top">
     <template #activator="{ props }">
-      <div id="tooltip-activator" v-bind="props">
+      <div
+        id="tooltip-activator"
+        class="icon-animate icon-hover-rotate"
+        v-bind="props"
+      >
         <CommonButton
           id="add-maintainer"
           :disabled="configStore.declarativeMode"
@@ -37,11 +41,7 @@
     </template>
     <span id="tooltip-wait"
       ><span v-if="!configStore.declarativeMode">{{
-        i18n.t('actions.general.createResource', {
-          resource_type: i18n
-            .t('resources.repository')
-            .toLowerCase()
-        })
+        i18n.t('actions.general.create')
       }}</span
       ><span v-else>
         {{

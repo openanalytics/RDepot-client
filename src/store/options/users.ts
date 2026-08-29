@@ -43,6 +43,7 @@ interface State {
   userName: string
   users: EntityModelUserDto[]
   pending: EntityModelUserDto[]
+  recentlyUpdated: number[]
   chosenUser: EntityModelUserDto
   filtration: UsersFiltration
   roles: RoleDto[]
@@ -59,6 +60,7 @@ export const useUserStore = defineStore('userStore', {
       userName: '',
       users: [],
       pending: [],
+      recentlyUpdated: [],
       chosenUser: {},
       filtration: defaultValues(UsersFiltration),
       roles: [],
@@ -81,6 +83,17 @@ export const useUserStore = defineStore('userStore', {
     }
   },
   actions: {
+    markRecentlyUpdated(id: number | undefined) {
+      if (id !== undefined) {
+        this.recentlyUpdated.push(id)
+        setTimeout(() => {
+          this.recentlyUpdated =
+            this.recentlyUpdated.filter(
+              (item) => item !== id
+            )
+        }, 1000)
+      }
+    },
     async getPage(options?: DataTableOptions) {
       if (options) {
         this.tableOptions = options
@@ -128,7 +141,8 @@ export const useUserStore = defineStore('userStore', {
           newUser
         )
         if (fetch) {
-          this.getPage()
+          await this.getPage()
+          this.markRecentlyUpdated(this.chosenUser.id)
         }
         return response
       } finally {

@@ -23,7 +23,7 @@
 <template>
   <v-card-title class="d-flex justify-lg-space-between">
     {{ relatedResource?.packageBag?.name }}
-    <span class="d-flex ga-3">
+    <span class="d-flex ga-3 align-center">
       <EventTag
         v-if="relatedResource?.packageBag"
         :value="`v ${relatedResource?.packageBag.version}`"
@@ -37,6 +37,12 @@
         size="small"
         disable-copying
         disable-tooltip
+        @click="
+          filterByChip(
+            'technology',
+            relatedResource?.technology
+          )
+        "
       />
 
       <EventTag
@@ -44,6 +50,7 @@
         size="small"
         disable-copying
         disable-tooltip
+        @click="filterByChip('date', event.time)"
       />
     </span>
   </v-card-title>
@@ -142,6 +149,12 @@
           relatedResource?.packageBag?.repository?.name
         "
         :hover-message="i18n.t('resources.repository')"
+        @click="
+          filterByChip(
+            'repositoryName',
+            relatedResource?.packageBag?.repository?.name
+          )
+        "
       />
 
       <EventTag
@@ -184,6 +197,7 @@ import EventTypeTag from './EventTypeTag.vue'
 import { useTranslations } from '@/composable/translations/translations'
 import GoToButton from '@/components/common/action_icons/GoToButton.vue'
 import EventAuthor from '../EventAuthor.vue'
+import { useEventsChipFiltration } from '@/composable/events/eventsChipFiltration'
 
 const componentProps = defineProps({
   event: {
@@ -199,6 +213,7 @@ const relatedResource: EntityModelSubmissionDto =
 const { getTime } = useDates()
 const { getStatusIcon, getStatusColor } =
   useSubmissionIcons()
+const { filterByChip } = useEventsChipFiltration()
 
 const { getTranslationWithFallbackValue } =
   useTranslations()

@@ -25,6 +25,7 @@ import { defineStore } from 'pinia'
 
 interface State {
   drawer: boolean
+  miniDrawer: boolean
   progressCircularActive: boolean
   progress: boolean
   totalVisiblePages: number
@@ -35,12 +36,14 @@ interface State {
   activeId: string
   themeKey: number
   error502: boolean
+  connectionLost: boolean
 }
 
 export const useCommonStore = defineStore('commonStore', {
   state: (): State => {
     return {
       drawer: true,
+      miniDrawer: false,
       progressCircularActive: false,
       progress: false,
       totalVisiblePages: 10,
@@ -50,7 +53,8 @@ export const useCommonStore = defineStore('commonStore', {
       overlayComponent: undefined,
       key: 0,
       themeKey: 0,
-      error502: false
+      error502: false,
+      connectionLost: false
     }
   },
   getters: {

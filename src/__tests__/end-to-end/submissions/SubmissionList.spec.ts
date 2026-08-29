@@ -28,6 +28,7 @@ import {
   SUBMISSIONS_LIST_ACCEPTED_PACKAGE_GOTO_ID
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '../helpers/login'
+import { awaitTableData } from '../helpers/awaitTableData'
 
 const TITLE = 'submissions multi actions'
 test.describe(TITLE, () => {
@@ -79,7 +80,14 @@ test.describe(TITLE, () => {
       'tr > th:nth-child(8) > div > i'
     )
     await sortByStateIcon.click()
+    const sortedDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/submissions'
+    )
     await sortByStateIcon.click()
+    const submissionRowsSelector = page.locator('role=row')
+    await sortedDataLoaded
+    await expect(submissionRowsSelector).toHaveCount(21)
     const goToSubmissionButton = page.locator(
       `#${SUBMISSIONS_LIST_ACCEPTED_PACKAGE_GOTO_ID}`
     )
@@ -95,10 +103,15 @@ test.describe(TITLE, () => {
     page
   }) => {
     await login(page, 'einstein')
+    const initialDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/submissions'
+    )
     await page.locator(`#${SUBMISSIONS_SIDEBAR_ID}`).click()
     await page.waitForURL('**/submissions')
     await expect(page).toHaveTitle(/RDepot - submissions/)
     const submissionsRowsSelector = page.locator('role=row')
+    await initialDataLoaded
     await expect(submissionsRowsSelector).toHaveCount(21)
     await expect(
       (

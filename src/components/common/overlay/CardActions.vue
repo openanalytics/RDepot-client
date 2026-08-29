@@ -58,7 +58,7 @@
               }"
               class="mx-1"
               @click="valid ? emit('submit') : ''"
-              >{{ submitText }}</v-btn
+              >{{ submitLabel }}</v-btn
             >
           </div>
         </template>
@@ -113,7 +113,7 @@ const prop = withDefaults(
   }
 )
 
-const submitText = computed(() =>
+const submitLabel = computed(() =>
   prop.submitText
     ? prop.submitText
     : commonStore.isDelete

@@ -32,7 +32,6 @@ import { createPinia, setActivePinia } from 'pinia'
 import { useUserSettings } from '@/composable/user/userSettings'
 import { useCommonStore } from '@/store/options/common'
 import { useAuthorizationStore } from '@/store/options/authorization'
-import { i18n } from '@/plugins/i18n'
 import { useOATable } from '@/store/setup/oatable'
 
 beforeEach(async () => {
@@ -48,30 +47,6 @@ describe('user settings composable', () => {
 
     getUserSettings()
     expect(spy).toBeCalledTimes(1)
-  })
-
-  it('should set pl language', () => {
-    const { getUserSettings } = useUserSettings()
-    const authorizationStore = useAuthorizationStore()
-    authorizationStore.me = {
-      userSettings: { language: 'pl-PL' }
-    }
-
-    getUserSettings()
-    expect(i18n.locale.value).toEqual('pl')
-  })
-
-  it('should set en language', () => {
-    const { getUserSettings } = useUserSettings()
-    const authorizationStore = useAuthorizationStore()
-    authorizationStore.me = {
-      userSettings: { language: 'en-US' }
-    }
-
-    i18n.locale.value = 'pl'
-
-    getUserSettings()
-    expect(i18n.locale.value).toEqual('en')
   })
 
   it('should set page size', async () => {

@@ -11,7 +11,7 @@ spec:
         secretName: oa-sa-jenkins-registry-config
   containers:
     - name: rdepot-client-build
-      image: registry.openanalytics.eu/openanalytics/rdepot-client-build:latest
+      image: registry.openanalytics.eu/openanalytics/rdepot-client-build:v2
       resources:
         limits:
           memory: '8Gi'
@@ -31,6 +31,8 @@ spec:
       env:
         - name: COMPOSE_HTTP_TIMEOUT
           value: 600
+        - name: DOCKER_CONFIG
+          value: /.docker
       imagePullPolicy: Always
     - name: jnlp
       resources:

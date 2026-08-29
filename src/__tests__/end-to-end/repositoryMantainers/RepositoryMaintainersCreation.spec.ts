@@ -129,7 +129,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
       `#${TEST_REPO_10_ID}`
     )
     await testRepo10Selector.waitFor()
-    expect(testRepo10Selector).toHaveClass(
+    await expect(testRepo10Selector).toHaveClass(
       /v-list-item--disabled/
     )
     expect(
@@ -140,7 +140,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
       `#${TEST_REPO_10_ID}`
     )
     await testRepo3Selector.waitFor()
-    expect(testRepo3Selector).not.toHaveClass(
+    await expect(testRepo3Selector).not.toHaveClass(
       'v-list-item--disabled'
     )
 

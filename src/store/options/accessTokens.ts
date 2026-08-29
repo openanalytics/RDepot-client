@@ -38,8 +38,6 @@ import {
 } from '@/services/settingsServices'
 import { useUtilities } from '@/composable/utilities'
 import { validatedData } from '@/services/openApiAccess'
-import { useToast } from '@/composable/toasts'
-import { i18n } from '@/plugins/i18n'
 import { useCommonStore } from '@/store/options/common'
 import { OverlayEnum } from '@/enum/Overlay'
 import { DataTableOptions } from '@/models/DataTableOptions'
@@ -61,6 +59,7 @@ interface State {
   filtration: TokensFiltration
   newToken?: string
   currentToken: EntityModelAccessTokenDto
+  recentlyUpdated: number[]
   loading: boolean
   totalNumber: number
   tableOptions?: DataTableOptions
@@ -80,6 +79,7 @@ export const useAccessTokensStore = defineStore(
         filtration: defaultValues(TokensFiltration),
         newToken: '',
         currentToken: {},
+        recentlyUpdated: [],
         loading: false,
         totalNumber: 0,
         tableOptions: undefined,
@@ -99,6 +99,17 @@ export const useAccessTokensStore = defineStore(
       }
     },
     actions: {
+      markRecentlyUpdated(id: number | undefined) {
+        if (id !== undefined) {
+          this.recentlyUpdated.push(id)
+          setTimeout(() => {
+            this.recentlyUpdated =
+              this.recentlyUpdated.filter(
+                (item) => item !== id
+              )
+          }, 1000)
+        }
+      },
       async getPage(options?: DataTableOptions) {
         if (options) {
           this.tableOptions = options
@@ -147,8 +158,6 @@ export const useAccessTokensStore = defineStore(
           this.pending.push(this.currentToken)
           await deleteToken(this.currentToken.id)
             .then(async () => {
-              const toast = useToast()
-              toast.success(i18n.t('forms.tokens.deleted'))
               const commonStore = useCommonStore()
               commonStore.closeOverlay()
               await this.getPage()
@@ -172,9 +181,8 @@ export const useAccessTokensStore = defineStore(
         await editToken(this.currentToken, newToken)
           ?.then(async (success) => {
             if (success) {
-              const toast = useToast()
-              toast.success(i18n.t('forms.tokens.edited'))
               await this.getPage()
+              this.markRecentlyUpdated(this.currentToken.id)
             }
           })
           .finally(() => {
@@ -184,6 +192,7 @@ export const useAccessTokensStore = defineStore(
           })
       },
       async create(newToken: CreateAccessTokenDto) {
+        const oldIds = new Set(this.tokens.map((t) => t.id))
         await createToken(newToken)?.then(
           async (success) => {
             if (success) {
@@ -194,6 +203,11 @@ export const useAccessTokensStore = defineStore(
                 OverlayEnum.enum.Created
               )
               await this.getPage()
+              this.tokens.forEach((t) => {
+                if (!oldIds.has(t.id)) {
+                  this.markRecentlyUpdated(t.id)
+                }
+              })
             }
           }
         )
@@ -210,13 +224,10 @@ export const useAccessTokensStore = defineStore(
         await deactivateToken(oldToken, newToken)
           ?.then(async (success) => {
             if (success) {
-              const toast = useToast()
-              toast.success(
-                i18n.t('forms.tokens.deactivated')
-              )
               const commonStore = useCommonStore()
               commonStore.closeOverlay()
               await this.getPage()
+              this.markRecentlyUpdated(oldToken.id)
             }
           })
           .finally(() => {

@@ -22,7 +22,7 @@
 
 <template>
   <div
-    class="v-expansion d-flex py-3 ga-3 justify-space-between"
+    class="filtration-bar v-expansion d-flex flex-wrap py-3 ga-3"
     style="padding-left: 0; padding-right: 0"
   >
     <validated-input-field
@@ -46,7 +46,7 @@
       multiple
       clearable
       as="v-select"
-      :label="$t('resources.technology', 2)"
+      :label="$t('resources.technology')"
       @update:model-value="setFiltration"
     ></validated-input-field>
 
@@ -142,6 +142,22 @@
     </validated-input-field>
 
     <validated-input-field
+      id="packages-filtration-file-type"
+      density="compact"
+      hide-details
+      chips
+      closable-chips
+      :items="sortValues(fileTypes)"
+      name="fileType"
+      multiple
+      clearable
+      as="v-select"
+      :label="$t('fields.packages.fileType')"
+      @click:clear="resetFileField"
+      @update:model-value="setFiltration"
+    ></validated-input-field>
+
+    <validated-input-field
       v-if="
         isAtLeastAdmin(
           authorizationStore.userRole
@@ -160,8 +176,8 @@
       @change="setFiltration"
     ></validated-input-field>
 
-    <v-spacer />
     <ResetButton
+      class="ml-auto"
       :style="{
         visibility: packageStore.isDefaultFiltration
           ? 'hidden'
@@ -190,8 +206,9 @@ import {
 } from '@/enum/UserRoles'
 import ResetButton from '@/components/common/buttons/ResetButton.vue'
 import { useAuthorizationStore } from '@/store/options/authorization'
+import { useSyncFiltrationForm } from '@/composable/common/syncFiltrationForm'
 
-const { states, technologies, sortValues } =
+const { states, fileTypes, technologies, sortValues } =
   useEnumFiltration()
 const authorizationStore = useAuthorizationStore()
 const {
@@ -214,6 +231,11 @@ const { setValues, values, setFieldValue } = useForm({
   }
 })
 
+useSyncFiltrationForm(
+  () => packageStore.filtration,
+  setValues
+)
+
 setFiltration()
 
 function setFiltration() {
@@ -222,6 +244,10 @@ function setFiltration() {
 
 function resetStateField() {
   setFieldValue('submissionState', [])
+}
+
+function resetFileField() {
+  setFieldValue('fileType', [])
 }
 
 function resetValues() {

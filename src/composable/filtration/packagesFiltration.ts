@@ -117,15 +117,14 @@ export function usePackagesFiltration() {
     userName: string,
     repositoryName: string
   ) {
-    if (selectStore.shouldFetchNextPage) {
-      selectStore.nextPage()
-      if (selectStore.shouldFetchNextPage) {
-        await getPackages()
-        selectStore.addItems(
-          await preparePackages(userName, repositoryName)
-        )
-      }
+    if (!selectStore.shouldFetchNextPage) {
+      return
     }
+    selectStore.nextPage()
+    await getPackages()
+    selectStore.addItems(
+      await preparePackages(userName, repositoryName)
+    )
   }
 
   function filtratePackagesObjects(
@@ -140,18 +139,17 @@ export function usePackagesFiltration() {
   }
 
   async function loadPackages() {
-    if (selectStore.shouldFetchNextPage) {
-      selectStore.nextPage()
-      if (selectStore.fetchNextPageCondition) {
-        await getPackages()
-        selectStore.addItems(
-          packagesStore.packages.map(
-            (packageBag: EntityModelPackageDto) =>
-              packageBag.name
-          )
-        )
-      }
+    if (!selectStore.shouldFetchNextPage) {
+      return
     }
+    selectStore.nextPage()
+    await getPackages()
+    selectStore.addItems(
+      packagesStore.packages.map(
+        (packageBag: EntityModelPackageDto) =>
+          packageBag.name
+      )
+    )
   }
 
   return {

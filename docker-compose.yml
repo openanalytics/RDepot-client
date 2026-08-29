@@ -23,7 +23,7 @@ services:
         aliases:
           - oa-rdepot-proxy
   backend:
-    image: openanalytics/rdepot-app:2.8.0
+    image: openanalytics/rdepot-app:2.9.0
     restart: unless-stopped
     hostname: oa-rdepot-backend
     container_name: oa-rdepot-backend
@@ -68,7 +68,7 @@ services:
         aliases:
           - oa-rdepot-db
   repo:
-    image: openanalytics/rdepot-repo:2.8.0
+    image: openanalytics/rdepot-repo:2.9.0
     restart: unless-stopped
     container_name: oa-rdepot-repo
     labels:
@@ -91,6 +91,8 @@ services:
       oa-rdepot:
         aliases:
           - oa-rdepot-frontend
+    volumes:
+      - ./config.yaml:/opt/rdepot/config.yaml:ro
     environment:
       - VITE_LOGIN_SIMPLE=false
       - VITE_LOGIN_OIDC=true

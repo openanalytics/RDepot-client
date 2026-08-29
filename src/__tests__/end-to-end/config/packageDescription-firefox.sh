@@ -1,8 +1,4 @@
-#!/bin/bash
-#CONTAINER="oa-rdepot-app-without-snapshots";
-# rm -rf docker/testData
-cp -rf src/__tests__/end-to-end/testData docker/
-cd docker/testData && tar -xzf itestSource.tar.gz
+#!/usr/bin/env bash
 rm -rf downloads/
 
 CONTAINER=$(docker ps --format "table {{.ID}}\t{{.Names}}" | tr -s ' ' | cut -d' ' -f1,2 | grep "backend-firefox" | cut -d' ' -f1)
@@ -27,7 +23,7 @@ docker exec $CONTAINER /bin/sh -c "rm -rf /opt/rdepot/repositories; rm -rf /opt/
 
 echo "RESTORING $CONTAINER_DB";
 
-docker exec $CONTAINER_DB su - postgres -c "psql -U rdepot rdepot -c 'TRUNCATE public.access_token, public.changed_variable, public.newsfeed_event, public.submission, public.repository_maintainer, public.package_maintainer, public.rpackage, public.package, public.rrepository, public.pythonpackage, public.pythonrepository, public.repository, public.api_token, public.user, public.user_settings'; psql -U rdepot rdepot < /opt/sql_files/rdepot_packageDescription.sql"
+docker exec $CONTAINER_DB su - postgres -c "psql -U rdepot rdepot -c 'TRUNCATE public.access_token, public.changed_variable, public.newsfeed_event, public.submission, public.repository_maintainer, public.package_maintainer, public.rpackage, public.package, public.rrepository, public.pythonpackage, public.pythonrepository, public.repository, public.package_package_maintainer, public.api_token, public.user, public.user_settings'; psql -U rdepot rdepot < /opt/sql_files/rdepot_packageDescription.sql"
 
 if [ $? -eq 0 ]; then
 	echo "REPOSITORIES ADDED";

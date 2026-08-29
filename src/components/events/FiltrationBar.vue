@@ -31,7 +31,7 @@
     @reset-date="resetDate"
   />
   <div
-    class="v-expansion d-flex py-3 ga-3 justify-space-between"
+    class="filtration-bar v-expansion d-flex flex-wrap py-3 ga-3"
     style="padding-left: 0; padding-right: 0"
   >
     <validated-input-field
@@ -161,8 +161,8 @@
       </template>
     </validated-input-field>
 
-    <v-spacer />
     <ResetButton
+      class="ml-auto"
       :style="{
         visibility: eventStore.isDefaultFiltration
           ? 'hidden'
@@ -187,6 +187,7 @@ import DatePickerField from '@/components/common/fields/DatePickerField.vue'
 import { useDatePicker } from '@/composable/datePicker'
 import ResetButton from '@/components/common/buttons/ResetButton.vue'
 import { computed } from 'vue'
+import { useSyncFiltrationForm } from '@/composable/common/syncFiltrationForm'
 import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesFiltration'
 import { usePackagesFiltration } from '@/composable/filtration/packagesFiltration'
 
@@ -223,6 +224,11 @@ const { setValues, values, setFieldValue } = useForm({
   validationSchema: toTypedSchema(EventsFiltration),
   initialValues: eventStore.filtration
 })
+
+useSyncFiltrationForm(
+  () => eventStore.filtration,
+  setValues
+)
 
 const allowedDates = computed(() => {
   switch (changedDate.value) {

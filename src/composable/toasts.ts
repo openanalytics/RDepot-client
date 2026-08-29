@@ -23,9 +23,7 @@
 import { toast, type ToastOptions } from 'vue3-toastify'
 import getEnv from '@/utils/env'
 import vuetify from '@/plugins/vuetify'
-import { AxiosError, AxiosResponse } from 'axios'
-import { ResponseDtoObject } from '@/openapi'
-import { i18n } from '@/plugins/i18n'
+import { AxiosError } from 'axios'
 import Toast500Error from '@/components/common/toasts/Toast500Error.vue'
 import { BackendError } from '@/models/errors/BackendError'
 
@@ -100,26 +98,6 @@ export function useToast() {
       : 'light'
   }
 
-  function notifyAPISuccess(
-    result: AxiosResponse<ResponseDtoObject>
-  ) {
-    if (getEnv('VITE_DEV_MODE') == 'true') {
-      devToast(
-        i18n.t('messages.general.success'),
-        'success'
-      )
-    } else {
-      if (
-        result.config.method?.toLowerCase() == 'post' ||
-        result.config.method?.toLowerCase() == 'put' ||
-        result.config.method?.toLowerCase() == 'delete' ||
-        result.config.method?.toLowerCase() == 'patch'
-      ) {
-        success(i18n.t('messages.general.success'))
-      }
-    }
-  }
-
   return {
     success,
     info,
@@ -128,7 +106,6 @@ export function useToast() {
     warning,
     devToast,
     error500,
-    getToastTheme,
-    notifyAPISuccess
+    getToastTheme
   }
 }

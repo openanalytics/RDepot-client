@@ -21,6 +21,12 @@
 -->
 
 <template>
+  <div
+    v-if="packageBagShort?.title"
+    class="d-lg-none text-subtitle-2 mt-5 px-4 ml-4"
+  >
+    {{ packageBagShort.title }}
+  </div>
   <div v-if="changes">
     <MarkdownDescription
       :description="changes"

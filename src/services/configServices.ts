@@ -29,16 +29,12 @@ import {
   validatedData,
   validateRequest
 } from './openApiAccess'
-import { isAuthorized } from '@/plugins/casl'
 
 type ValidatedConfig = Promise<
   validatedData<PublicConfigurationDto>
 >
 
 export async function fetchConfiguration(): ValidatedConfig {
-  if (!isAuthorized('GET', 'config')) {
-    return new Promise(() => validateRequest({}))
-  }
   return openApiRequest<PublicConfigurationDto>(
     ApiV2ConfigControllerApiFactory().getPublicConfig,
     [],

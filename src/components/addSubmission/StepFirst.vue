@@ -1,27 +1,27 @@
 <!--
  R Depot
- 
+
  Copyright (C) 2012-2026 Open Analytics NV
- 
+
  ===========================================================================
- 
+
  This program is free software: you can redistribute it and/or modify
  it under the terms of the Apache License as published by
  The Apache Software Foundation, either version 2 of the License, or
  (at your option) any later version.
- 
+
  This program is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  Apache License for more details.
- 
+
  You should have received a copy of the Apache License
  along with this program. If not, see <http://www.apache.org/licenses/>
- 
+
 -->
 
 <template>
-  <v-card class="mb-12 px-10 py-5 step" height="250px">
+  <v-card class="mb-12 px-10 py-5 step" min-height="250px">
     <validated-input-field
       id="upload-submission-repository-field"
       as="autocomplete"
@@ -65,16 +65,31 @@
         </v-list-item>
       </template>
     </validated-input-field>
+    <v-alert
+      v-if="values.repository"
+      id="upload-submission-approval-alert"
+      :type="willBeAutoApproved ? 'success' : 'info'"
+      variant="tonal"
+      density="compact"
+      class="mt-2"
+    >
+      {{
+        willBeAutoApproved
+          ? i18n.t('forms.submissions.autoApproved')
+          : i18n.t('forms.submissions.needsApproval')
+      }}
+    </v-alert>
   </v-card>
 </template>
 
 <script setup lang="ts">
 import { useRepositoriesFiltration } from '@/composable/filtration/repositoriesFiltration'
-import { onBeforeMount } from 'vue'
+import { useSubmissionAutoApproval } from '@/composable/submissions/submissionAutoApproval'
+import { computed, onBeforeMount } from 'vue'
 import { useRepositoryStore } from '@/store/options/repositories'
 import ValidatedInputField from '@/components/common/fields/ValidatedInputField.vue'
 import { i18n } from '@/plugins/i18n'
-import { useField } from 'vee-validate'
+import { useField, useFormValues } from 'vee-validate'
 
 const {
   storeId,
@@ -88,11 +103,21 @@ type SelectRepository = {
   value?: string
   props: {
     technology?: string
+    permissions?: string[]
   }
 }
 
 const { setValue: setRepository } = useField('repository')
 const { setValue: setTechnology } = useField('technology')
+const values = useFormValues()
+
+const selectedRepoPermissions = computed(
+  () => values.value.repository?.props?.permissions
+)
+
+const { willBeAutoApproved } = useSubmissionAutoApproval(
+  selectedRepoPermissions
+)
 
 function changeRepository(value: SelectRepository | null) {
   if (value) {

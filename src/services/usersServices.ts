@@ -31,8 +31,9 @@ import {
   validateRequest,
   validatedData
 } from './openApiAccess'
-import { isAuthorized } from '@/plugins/casl'
 import { createPatch } from 'rfc6902'
+import { usePermissions } from '@/composable/authorities/userAuthorities'
+import { hasPermission } from '@/utils/permissions'
 
 type ValidatedUsers = Promise<
   validatedData<EntityModelUserDto[]>
@@ -44,6 +45,8 @@ type ValidatedUser = Promise<
 
 type ValidatedRRoles = Promise<validatedData<RoleDto[]>>
 
+const { has } = usePermissions()
+
 export async function fetchUsersService(
   filtration: UsersFiltration,
   page?: number,
@@ -51,7 +54,7 @@ export async function fetchUsersService(
   sort?: string[],
   showProgress = false
 ): ValidatedUsers {
-  if (!isAuthorized('GET', 'users')) {
+  if (!has('user.list')) {
     return new Promise(() => validateRequest([]))
   }
   return openApiRequest<EntityModelUserDto[]>(
@@ -75,7 +78,14 @@ export async function updateUser(
   oldUser: EntityModelUserDto,
   newUser: EntityModelUserDto
 ): ValidatedUser {
-  if (!isAuthorized('PATCH', 'users')) {
+  if (
+    !hasPermission(oldUser.permissions, 'user.edit') &&
+    (!hasPermission(oldUser.permissions, 'user.activate') ||
+      !hasPermission(
+        oldUser.permissions,
+        'user.deactivate'
+      ))
+  ) {
     return new Promise(() => false)
   }
   const patch = createPatch(oldUser, newUser)
@@ -88,7 +98,7 @@ export async function updateUser(
 }
 
 export async function fetchRoles(): ValidatedRRoles {
-  if (!isAuthorized('GET', 'users')) {
+  if (!has('user.list')) {
     return new Promise(() => validateRequest)
   }
   return openApiRequest<RoleDto[]>(

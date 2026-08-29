@@ -33,6 +33,7 @@ import {
 import { login } from '../helpers/login'
 import { restoreData } from '@/__tests__/end-to-end/helpers/restoreData'
 import { downloadFile } from '../helpers/download'
+import { awaitTableData } from '../helpers/awaitTableData'
 
 const TITLE = 'submissions actions'
 test.describe(TITLE, { tag: '@serial' }, () => {
@@ -42,13 +43,26 @@ test.describe(TITLE, { tag: '@serial' }, () => {
   })
   test('accept', async ({ page }) => {
     await login(page, 'einstein')
+    const initialDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/submissions'
+    )
     await page.locator(`#${SUBMISSIONS_SIDEBAR_ID}`).click()
     await page.waitForURL('**/submissions')
+    const submissionRowsSelector = page.locator('role=row')
+    await initialDataLoaded
+    await expect(submissionRowsSelector).toHaveCount(21)
     const sortByStateIcon = await page.locator(
       'tr > th:nth-child(8) > div > i'
     )
     await sortByStateIcon.click()
+    const sortedDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/submissions'
+    )
     await sortByStateIcon.click()
+    await sortedDataLoaded
+    await expect(submissionRowsSelector).toHaveCount(21)
     const acceptSubmissionButton = page.locator(
       `#${WAITING_FOR_APPROVE_SUBMISSION_ID}`
     )

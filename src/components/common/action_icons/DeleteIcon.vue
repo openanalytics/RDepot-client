@@ -26,6 +26,9 @@
       <VIcon
         :id="id"
         v-bind="props"
+        :class="{
+          'icon-animate icon-hover-scale': !disabled
+        }"
         :color="disabled ? 'grey' : 'oared'"
         @click.stop
         @click="deleteDialog"

@@ -21,7 +21,6 @@
       "click": "Klicken Sie",
       "copy": "kopieren",
       "create": "erstellen",
-      "createResource": "{resource_type} erstellen",
       "deactivate": "deaktivieren | {resource_type} deaktivieren",
       "delete": "löschen",
       "download": "herunterladen",
@@ -40,11 +39,12 @@
       "uploadPackages": "Pakete hochladen",
       "continue": "weiter",
       "activate": "Aktivieren | {resource_type} aktivieren",
-      "editResource": "{resource_type} bearbeiten",
       "submit": "Bestätigen",
       "unset": "aufheben",
       "refresh": "Aktualisieren",
-      "confirm": "Bestätigen"
+      "confirm": "Bestätigen",
+      "collapseSidebar": "Seitenmenü ausblenden",
+      "expandSidebar": "Seitenmenü anzeigen"
     },
     "repositories": {
       "publish": "veröffentlichen",
@@ -170,7 +170,11 @@
       "stepThird": "Übersicht",
       "generateManualNotAvailable": "nicht verfügbar für binäre Pakete",
       "binaryPython": "Hochgeladenes Paket ist binär (.whl)",
-      "noBinaryPython": "Hochgeladenes Paket ist nicht binär"
+      "noBinaryPython": "Hochgeladenes Paket ist nicht binär",
+      "autoApproved": "Ihre Einreichungen werden automatisch genehmigt, sodass die eingereichten Pakete sofort verfügbar sind.",
+      "needsApproval": "Ihre Einreichungen müssen möglicherweise von einem Maintainer genehmigt werden, bevor die eingereichten Pakete verfügbar sind.",
+      "applyToAll": "Wenden Sie dies auf alle an",
+      "applyToAllSubtitle": "Legen Sie diese Werte für jedes Binärpaket unten fest"
     },
     "tokens": {
       "deactivateQuestion": "Sind Sie sicher, dass Sie das Token <strong>{0}</strong> deaktivieren möchten?",
@@ -228,7 +232,6 @@
     },
     "general": {
       "deactivateQuestion": "Sind Sie sicher, dass Sie {resource_name} deaktivieren möchten?",
-      "editResourceQuestion": "Sind Sie sicher, dass Sie den folgenden {resource_type} {edit_action} möchten?",
       "chooseOneToEnable": "mindestens ein {resource_type} wählen um zu ermöglichen",
       "chooseOneToContinue": "Bitte {resource_type} hinzufügen um fortzufahren",
       "copied": "In die Zwischenablage kopiert",
@@ -240,7 +243,10 @@
       "notAuthorized": "Sind sind nicht berechtigt die Aktion auszuführen",
       "pending": "ausstehende Aktion",
       "success": "Anfrage erfolgreich verarbeitet",
-      "successFiltration": "Filteraktion erfolgreich"
+      "successFiltration": "Filteraktion erfolgreich",
+      "acceptQuestion": "Sind Sie sicher, dass Sie die folgende {resource_type} annehmen möchten?",
+      "cancelQuestion": "Möchten Sie die folgende {resource_type} wirklich stornieren?",
+      "rejectQuestion": "Sind Sie sicher, dass Sie die folgende {resource_type} ablehnen möchten?"
     },
     "repositories": {
       "republishQuestion": "Sind Sie sicher, dass Sie {repo_name} neu veröffentlichen möchten?",
@@ -333,7 +339,9 @@
       "waitForAllRequestsToFulfill": "Bitte warten Sie, bis alle Einreichungen hochgeladen sind",
       "waitingForAction": "warten auf eine Aktion",
       "wrongExtension-Python": "Wählen Sie Pakete mit der richtigen Dateinamenerweiterung aus (.tar.gz/.whl)",
-      "wrongExtension-R": "Wählen Sie Pakete mit der richtigen Dateinamenerweiterung aus (.tar.gz)"
+      "wrongExtension-R": "Wählen Sie Pakete mit der richtigen Dateinamenerweiterung aus (.tar.gz)",
+      "showSubmissions": "Einreichungen anzeigen",
+      "noSubmissionPassed": "Es wurde keine Einreichung erfolgreich hochgeladen"
     },
     "repositoryMaintainers": {
       "warnings": {
@@ -343,6 +351,13 @@
     "users": {
       "unableDeactivation": "Benutzer können sich nicht selbst deaktivieren",
       "unableDeletion": "Benutzer können sich nicht selbst löschen"
+    },
+    "connection": {
+      "lost": "Die Verbindung zum Server ist unterbrochen.",
+      "retryIn": "Nächster Versuch in {seconds}s.",
+      "restored": "Die Verbindung zum Server wurde wiederhergestellt. Laden Sie die Seite neu, um die Daten zu aktualisieren.",
+      "retry": "Jetzt erneut versuchen",
+      "reloadPage": "Seite aktualisieren"
     }
   },
   "properties": {
@@ -466,5 +481,18 @@
   },
   "packages": {
     "notes": "Anmerkungen"
+  },
+  "errors": {
+    "connection": {
+      "restored": "Die Verbindung zum Server wurde wiederhergestellt. Laden Sie die Seite neu, um die Daten zu aktualisieren.",
+      "retry": "Jetzt erneut versuchen",
+      "reloadPage": "Seite aktualisieren",
+      "lost": "Die Verbindung zum Server ist unterbrochen.",
+      "retryIn": "Nächster Versuch in {seconds}s."
+    }
+  },
+  "submissions": {
+    "needsApproval": "Ihre Einreichungen müssen möglicherweise von einem Maintainer genehmigt werden, bevor die eingereichten Pakete verfügbar sind.",
+    "autoApproved": "Ihre Einreichungen werden automatisch genehmigt, sodass die eingereichten Pakete sofort verfügbar sind."
   }
 }

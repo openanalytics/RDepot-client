@@ -31,6 +31,7 @@ const EXTENSIONS_WITH_LICENSE = [
   'ts',
   'js',
   'css',
+  'scss',
   'mjs'
 ]
 const EXTENSION_WITHOUT_LICENSE = [
@@ -38,9 +39,11 @@ const EXTENSION_WITHOUT_LICENSE = [
   'sh',
   'gz',
   'env',
+  'git',
   'ico',
   'yml',
   'jar',
+  'ttf',
   'war',
   'whl',
   'png',
@@ -55,6 +58,8 @@ const EXTENSION_WITHOUT_LICENSE = [
   'test',
   'local',
   'eslintrc',
+  'git',
+  'template',
   'gitignore',
   'production',
   'properties',
@@ -66,7 +71,11 @@ const EXTENSION_WITHOUT_LICENSE = [
   'gitattributes',
   'eslintoutputrc',
   'eslintignore',
-  'openapi-generator-ignore'
+  'openapi-generator-ignore',
+  'rc',
+  'envrc',
+  'lock',
+  'nix'
 ]
 
 const DIRS_WITHOUT_LICENSE_CHECKING = [
@@ -121,7 +130,8 @@ function checkLicenseInAllFiles() {
     } else if (
       filename.includes('.ts') ||
       filename.includes('.js') ||
-      filename.includes('.css')
+      filename.includes('.css') ||
+      filename.includes('.scss')
     ) {
       comment = getFirstComment(content, '/*', '*/', '*')
       numberOfFilesChecked += 1

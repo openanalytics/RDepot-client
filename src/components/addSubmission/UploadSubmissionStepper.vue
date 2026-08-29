@@ -33,6 +33,7 @@
           <keep-alive>
             <component
               :is="components[el - 1]"
+              v-bind="el === 2 ? { setFieldValue } : {}"
               @next="changeValue"
             ></component>
           </keep-alive>
@@ -83,12 +84,14 @@ import StepTitle from './StepTitle.vue'
 import StepFirst from './StepFirst.vue'
 import StepSecond from './StepSecond.vue'
 import StepThird from './StepThird.vue'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useSubmissionValidationSchema } from '@/composable/submissions/submissionSchema'
 import { useUploadSubmissionStore } from '@/store/setup/uploadSubmission'
+import { useRepositoryStore } from '@/store/options/repositories'
 import { i18n } from '@/plugins/i18n'
+import { Technologies } from '@/enum/Technologies'
 
 const components = [StepFirst, StepSecond, StepThird]
 
@@ -98,6 +101,38 @@ const { values, setFieldValue, meta } = useForm({
   validationSchema: toTypedSchema(submissionSchema)
 })
 const uploadSubmissionStore = useUploadSubmissionStore()
+const repositoryStore = useRepositoryStore()
+
+onMounted(async () => {
+  const preselected =
+    uploadSubmissionStore.preselectedRepository
+  if (preselected) {
+    uploadSubmissionStore.preselectedRepository = undefined
+    const repositories = await repositoryStore.get(
+      preselected.name,
+      preselected.technology as Technologies
+    )
+    if (repositories.length > 0) {
+      const repo = repositories[0]
+      setFieldValue('repository', {
+        title: repo.name,
+        value: repo.id,
+        props: {
+          technology: repo.technology,
+          allowedFiles: (repo.allowedFiles || []) as {
+            extension: string
+            mimetype: string
+          }[]
+        }
+      })
+      setFieldValue(
+        'technology',
+        preselected.technology as Technologies
+      )
+      el.value = 2
+    }
+  }
+})
 
 async function changeValue(event: number) {
   el.value = event

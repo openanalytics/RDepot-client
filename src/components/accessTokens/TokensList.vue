@@ -29,8 +29,10 @@
     :title="$t('resources.accessToken', 2)"
     :loading="accessTokensStore.loading"
     :sort-by="sortBy"
+    :recently-updated="accessTokensStore.recentlyUpdated"
     @update:options="fetchData"
     @refresh="fetchData"
+    @chip-click="filterByChip"
   >
     <template #topAction>
       <AddToken />
@@ -51,7 +53,9 @@
         "
         class="mx-4"
         variant="text"
+        style="cursor: pointer"
         :color="item.active ? 'success' : 'oared'"
+        @click="filterByChip('active', String(item.active))"
       >
       </v-icon>
     </template>
@@ -64,13 +68,17 @@
       >
         <EditIcon
           :disabled="
-            (!canPatch(item.links) && item.active) ||
-            !item.active
+            !hasPermission(
+              item.permissions,
+              'accessToken.edit'
+            )
           "
           :text="$t('actions.general.edit')"
           :hover-message="
-            (!canPatch(item.links) && item.active) ||
-            !item.active
+            !hasPermission(
+              item.permissions,
+              'accessToken.edit'
+            )
               ? $t('properties.general.inactive')
               : $t('actions.general.edit')
           "
@@ -79,12 +87,17 @@
         <DeactivateIcon
           v-if="item.name"
           :disabled="
-            (!canPatch(item.links) && item.active) ||
-            !item.active
+            !hasPermission(
+              item.permissions,
+              'accessToken.deactivate'
+            )
           "
           :name="item.name"
           :hover-message="
-            !canPatch(item.links) && item.active
+            hasPermission(
+              item.permissions,
+              'accessToken.deactivate'
+            )
               ? $t('actions.general.deactivate')
               : $t('properties.general.inactive')
           "
@@ -94,7 +107,12 @@
         />
         <DeleteIcon
           v-if="item.name"
-          :disabled="!canDelete(item.links)"
+          :disabled="
+            !hasPermission(
+              item.permissions,
+              'accessToken.delete.hard'
+            )
+          "
           @set-resource-id="prepareDeletion(item)"
         /> </span
     ></template>
@@ -109,7 +127,7 @@ import {
   DataTableOptions,
   Sort
 } from '@/models/DataTableOptions'
-import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
+import { hasPermission } from '@/utils/permissions'
 import DeleteIcon from '@/components/common/action_icons/DeleteIcon.vue'
 import ProgressCircularSmall from '../common/progress/ProgressCircularSmall.vue'
 import DeactivateIcon from '@/components/common/action_icons/DeactivateIcon.vue'
@@ -124,10 +142,11 @@ import { useAccessTokensStore } from '@/store/options/accessTokens'
 import Icons from '@/maps/Icons'
 import { useCommonStore } from '@/store/options/common'
 import { OverlayEnum } from '@/enum/Overlay'
+import { useTokensChipFiltration } from '@/composable/tokens/tokensChipFiltration'
 
 const authorizationStore = useAuthorizationStore()
 const accessTokensStore = useAccessTokensStore()
-const { canPatch, canDelete } = useUserAuthorities()
+const { filterByChip } = useTokensChipFiltration()
 
 const { getSort } = useSort()
 const defaultSort: Sort[] = [{ key: 'name', order: 'asc' }]

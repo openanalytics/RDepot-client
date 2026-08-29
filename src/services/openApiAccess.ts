@@ -34,6 +34,7 @@ import { useToast } from '@/composable/toasts'
 import { i18n } from '@/plugins/i18n'
 import { BackendError } from '@/models/errors/BackendError'
 import router from '@/plugins/router'
+import { useHealthCheck } from '@/composable/healthCheck'
 
 export async function openApiRequest<T>(
   // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
@@ -42,8 +43,7 @@ export async function openApiRequest<T>(
   showProgress = false,
   blob = false,
   open = false,
-  fileName = '',
-  ifToast = true
+  fileName = ''
 ): Promise<validatedData<T>> {
   if (showProgress) {
     turnOnProgress()
@@ -58,7 +58,7 @@ export async function openApiRequest<T>(
     } else {
       return callback(...parameters, await getHeaders())
         .then((result: AxiosResponse<ResponseDtoObject>) =>
-          resolved(result, ifToast)
+          resolved(result)
         )
         .catch((error: AxiosError) => rejected(error))
     }
@@ -124,16 +124,11 @@ async function resolvedBlob(
 }
 
 async function resolved(
-  result: AxiosResponse<ResponseDtoObject>,
-  ifToast = true
+  result: AxiosResponse<ResponseDtoObject>
 ): Promise<validatedData<any>> {
   const commonStore = useCommonStore()
   commonStore.error502 = false
   commonStore.progressCircularActive = false
-  if (ifToast) {
-    const toasts = useToast()
-    toasts.notifyAPISuccess(result)
-  }
   const data = result.data.data?.content
     ? result.data.data?.content
     : result.data.data
@@ -160,9 +155,8 @@ async function errorsHandler(
 ) {
   const toasts = useToast()
   if (!error.response?.status) {
-    toasts.error(i18n.t('messages.errors.405'))
-    const authorizationStore = useAuthorizationStore()
-    authorizationStore.logout()
+    useHealthCheck().startConnectionHealthCheck()
+    return
   } else {
     switch (error.response?.status) {
       case 304: {
@@ -223,9 +217,12 @@ async function errorsHandler(
         }
         break
       }
-      case 502:
-      case 504: {
+      case 502: {
         useCommonStore().error502 = true
+        break
+      }
+      case 504: {
+        useHealthCheck().startConnectionHealthCheck()
         break
       }
     }

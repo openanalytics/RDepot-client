@@ -56,6 +56,7 @@ export type RepositoryObject = {
   props: {
     technology: string
     allowedFiles: Array<{ [key: string]: string }>
+    permissions?: string[]
   }
 }
 export type PackageObject = {
@@ -87,8 +88,8 @@ function defineSelectStore<SelectState>(id: SelectState) {
 
     const ifAllFetched = computed(() => {
       return (
-        pageSize * paginationData.value.page >=
-        paginationData.value.totalNumber
+        paginationData.value.page >=
+        paginationData.value.totalPages
       )
     })
 
@@ -146,8 +147,11 @@ function defineSelectStore<SelectState>(id: SelectState) {
         return paginationDataLocal.value
       },
       set(payload: Pagination) {
-        paginationDataLocal.value = payload
-        // setPage((payload.page += 1))
+        paginationDataLocal.value.totalNumber =
+          payload.totalNumber
+
+        paginationDataLocal.value.totalPages =
+          payload.totalPages
       }
     })
 
@@ -181,7 +185,7 @@ function defineSelectStore<SelectState>(id: SelectState) {
     const fetchNextPageCondition = computed(
       () =>
         (paginationData.value.totalNumber > 0 &&
-          paginationData.value.page <=
+          paginationData.value.page <
             Math.ceil(
               paginationData.value.totalNumber / pageSize
             )) ||

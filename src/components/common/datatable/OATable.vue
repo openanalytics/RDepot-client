@@ -42,7 +42,7 @@
       >
         <h2>{{ title }}</h2>
         <div
-          class="d-flex"
+          class="d-flex ga-2"
           style="justify-content: flex-end"
         >
           <slot name="topAction" />
@@ -56,7 +56,10 @@
       :key="i"
       #[`item.${item}`]="{ value }"
     >
-      <TechnologyChip :technology="value" />
+      <TechnologyChip
+        :technology="value"
+        @click.stop="emits('chipClick', item, value)"
+      />
     </template>
 
     <template
@@ -64,7 +67,11 @@
       :key="i"
       #[`item.${item}`]="{ value }"
     >
-      <DateChip v-if="value" :date="value" />
+      <DateChip
+        v-if="value"
+        :date="value"
+        @click.stop="emits('chipClick', item, value)"
+      />
     </template>
 
     <template
@@ -72,7 +79,9 @@
       :key="i"
       #[`item.${item}`]="{ value }"
     >
-      <StateIcon :state="value" />
+      <div @click.stop="emits('chipClick', item, value)">
+        <StateIcon :state="value" />
+      </div>
     </template>
 
     <template #[`item.requiresAuthentication`]="{ value }">
@@ -121,6 +130,7 @@
 import { useOATable } from '@/store/setup/oatable'
 import TechnologyChip from '../chips/TechnologyChip.vue'
 import Icons from '@/maps/Icons'
+import type { PropType } from 'vue'
 import { DataTableHeaders } from '@/models/DataTableOptions'
 import DateChip from '../chips/DateChip.vue'
 import StateIcon from '@/components/submissions/icons/StateIcon.vue'
@@ -128,7 +138,10 @@ import CopyableCell from './CopyableCell.vue'
 import AuthenticationInformation from './AuthenticationInformation.vue'
 import RefreshButton from '@/components/common/buttons/RefreshButton.vue'
 
-const emits = defineEmits(['refresh'])
+const emits = defineEmits<{
+  refresh: []
+  chipClick: [field: string, value: string]
+}>()
 const oaTableStore = useOATable()
 const technologyKeys = [
   'packageBag.repository.technology',
@@ -151,7 +164,7 @@ const copyableKeys = [
 
 const stateKeys = ['state', 'submission.state']
 
-defineProps({
+const props = defineProps({
   headers: {
     type: Object as () => DataTableHeaders[],
     required: true
@@ -168,22 +181,57 @@ defineProps({
   itemsLength: {
     type: Number,
     required: true
+  },
+  recentlyUpdated: {
+    type: Array as PropType<number[]>,
+    required: false,
+    default: () => []
+  },
+  rowClassFn: {
+    type: Function as PropType<
+      (item: any) => string | undefined
+    >,
+    required: false,
+    default: undefined
   }
 })
 
 function rowProps(item: any) {
-  return {
-    class: item.item.deleted ? 'deletedItem' : ''
+  const classes: string[] = []
+  if (item.item.deleted) classes.push('deletedItem')
+  if (props.recentlyUpdated.includes(item.item.id)) {
+    classes.push('row-updated')
   }
+  if (props.rowClassFn) {
+    const extra = props.rowClassFn(item.item)
+    if (extra) classes.push(extra)
+  }
+  return { class: classes.join(' ') }
 }
 </script>
 
 <style>
 .deletedItem {
-  background: rgb(183 28 28 / 20%) !important;
+  background: rgb(255 230 230 / 20%) !important;
 }
 
 .v-theme--dark .deletedItem {
-  background: rgb(183 28 28 / 40%) !important;
+  background: rgb(255 86 86 / 20%) !important;
+}
+
+th.v-data-table__th--sortable {
+  pointer-events: none;
+}
+
+th.v-data-table__th--sortable
+  .v-data-table-header__content {
+  pointer-events: auto;
+  width: fit-content;
+}
+
+th.v-data-table__th--sortable
+  .v-data-table-header__content:hover
+  .v-data-table-header__sort-icon {
+  animation: icon-bounce 0.4s ease;
 }
 </style>

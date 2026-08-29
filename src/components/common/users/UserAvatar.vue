@@ -21,8 +21,8 @@
 -->
 
 <template>
-  <v-avatar :color="getAvatarColor(username)">
-    <div class="avatarText">
+  <v-avatar :color="getAvatarColor(username)" :size="size">
+    <div class="avatarText" :style="{ fontSize: fontSize }">
       {{ getInitials(username) }}
     </div>
   </v-avatar>
@@ -36,6 +36,16 @@ defineProps({
     type: String,
     required: false,
     default: ''
+  },
+  size: {
+    type: [String, Number],
+    required: false,
+    default: undefined
+  },
+  fontSize: {
+    type: String,
+    required: false,
+    default: undefined
   }
 })
 

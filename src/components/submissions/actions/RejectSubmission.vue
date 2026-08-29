@@ -23,28 +23,22 @@
 <template>
   <IconButton
     v-if="
-      authorizationStore.me?.id != item.submitter?.id &&
-      item.state ===
-        EntityModelSubmissionDtoStateEnum.WAITING &&
-      canPatch(item.links, 'state')
+      hasPermission(item.permissions, 'submission.reject')
     "
     :id="`reject-button-${item.id}`"
     :tooltip="$t('actions.general.reject')"
     :icon="Icons.get('reject')"
     color="oared"
+    animation="icon-hover-scale"
     @click.once="rejectSubmission(item)"
   />
 </template>
 
 <script setup lang="ts">
-import {
-  EntityModelSubmissionDto,
-  EntityModelSubmissionDtoStateEnum
-} from '@/openapi'
+import { EntityModelSubmissionDto } from '@/openapi'
 import { useSubmissionActions } from '@/composable/submissions/submissionActions'
 import IconButton from '@/components/common/buttons/IconButton.vue'
-import { useAuthorizationStore } from '@/store/options/authorization'
-import { useUserAuthorities } from '@/composable/authorities/userAuthorities'
+import { hasPermission } from '@/utils/permissions'
 import Icons from '@/maps/Icons'
 
 defineProps({
@@ -54,7 +48,5 @@ defineProps({
   }
 })
 
-const authorizationStore = useAuthorizationStore()
-const { canPatch } = useUserAuthorities()
 const { rejectSubmission } = useSubmissionActions()
 </script>

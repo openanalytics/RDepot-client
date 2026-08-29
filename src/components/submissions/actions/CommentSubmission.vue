@@ -34,6 +34,7 @@
         : Icons.get('message-outline')
     "
     color="warning"
+    animation="icon-hover-ring"
     @click="showNotes"
   />
 </template>

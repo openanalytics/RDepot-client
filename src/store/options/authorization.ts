@@ -27,12 +27,6 @@ import { LoginType } from '@/enum/LoginType'
 import { Role, stringToRole } from '@/enum/UserRoles'
 import { Login } from '@/models/users/Login'
 import {
-  defineAbilityFor,
-  Ability,
-  Action,
-  Subject
-} from '@/plugins/casl'
-import {
   getMyData,
   updateUserSettings
 } from '@/services/loggedUserService'
@@ -49,13 +43,13 @@ import {
 } from '@/openapi'
 import vuetify from '@/plugins/vuetify'
 import { useNotificationStore } from './notifications'
+import { usePermissions } from '@/composable/authorities/userAuthorities'
 
 interface State {
   userToken: string
   userLogin: string
   userId: number
   loginType: LoginType
-  ability?: Ability
   me: EntityModelUserDto
   userRole?: Role
   redirectUrl: string
@@ -70,7 +64,6 @@ export const useAuthorizationStore = defineStore(
         userLogin: '',
         userId: 8,
         loginType: LoginType.Enum.OIDC,
-        ability: undefined,
         me: {},
         userRole: undefined,
         redirectUrl: ''
@@ -80,8 +73,9 @@ export const useAuthorizationStore = defineStore(
     actions: {
       async postLoginOperations() {
         await this.getUserInfo()
-        vuetify.theme.global.name.value =
-          this.me.userSettings?.theme || 'dark'
+        vuetify.theme.change(
+          this.me.userSettings?.theme || 'system'
+        )
         const commonStore = useCommonStore()
         commonStore.closeOverlay()
         const configStore = useConfigStore()
@@ -131,7 +125,6 @@ export const useAuthorizationStore = defineStore(
         logout()
         this.$reset()
         await router.push({ name: 'login' })
-        this.ability = undefined
         this.userRole = undefined
         this.me = {}
         localStorage.removeItem('authorizationStore')
@@ -203,34 +196,21 @@ export const useAuthorizationStore = defineStore(
       },
 
       checkUserAbility(pathName: RouteRecordName) {
+        const { has } = usePermissions()
         switch (pathName) {
           case 'events':
-            return this.can('GET', 'events')
+            return has('event.list')
           case 'addSubmission':
-            return this.can('POST', 'submissions')
+            return has('submission.list')
           case 'packageMaintainers':
-            return this.can('GET', 'packageMaintainers')
+            return has('packageMaintainer.list')
           case 'repositoryMaintainers':
-            return this.can('GET', 'repositoryMaintainers')
+            return has('repositoryMaintainer.list')
           case 'users':
-            return this.can('GET', 'users')
+            return has('user.list')
           default:
             return true
         }
-      },
-
-      can(action: Action, subject: Subject): boolean {
-        if (
-          JSON.stringify(this.me) !== '{}' &&
-          typeof this.ability?.can !== 'function'
-        ) {
-          this.ability = defineAbilityFor(
-            stringToRole(this.me.role || '')
-          )
-        }
-        return this.ability
-          ? this.ability?.can(action, subject)
-          : false
       },
 
       checkRoles(role: string | undefined) {
@@ -255,9 +235,6 @@ export const useAuthorizationStore = defineStore(
         const [me] = await getMyData()
         if (me) {
           if (me.role) {
-            this.ability = defineAbilityFor(
-              stringToRole(me.role)
-            )
             this.userRole = stringToRole(me.role)
           }
           if (this.checkRoles(me.role)) {

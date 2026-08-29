@@ -32,9 +32,15 @@
     item-value="name"
     :loading="submissionStore.loading"
     :sort-by="sortBy"
+    :recently-updated="submissionStore.recentlyUpdated"
+    :row-class-fn="getRowClass"
     @update:options="fetchData"
     @refresh="fetchData"
+    @chip-click="filterByChip"
   >
+    <template #topAction>
+      <UploadPackageButton size="x-small" />
+    </template>
     <template
       #[`header.data-table-select`]="{
         selectAll,
@@ -81,6 +87,12 @@
             size="x-small"
             class="ml-1"
             :technology="item.packageBag.technology"
+            @click="
+              filterByChip(
+                'packageBag.repository.technology',
+                item.packageBag.technology
+              )
+            "
           />
         </template>
         <template #subtitle>
@@ -98,7 +110,15 @@
     </template>
 
     <template #[`item.packageBag.binary`]="{ item }">
-      <BinaryPackage :item="item.packageBag" />
+      <BinaryPackage
+        :item="item.packageBag"
+        @click="
+          filterByChip(
+            'packageBag.binary',
+            String(item.packageBag.binary)
+          )
+        "
+      />
     </template>
 
     <template #[`item.actions`]="{ item }">
@@ -164,6 +184,7 @@ import {
   DataTableOptions,
   Sort
 } from '@/models/DataTableOptions'
+import { useSubmissionChipFiltration } from '@/composable/submissions/submissionChipFiltration'
 import { i18n } from '@/plugins/i18n'
 import { ref, computed } from 'vue'
 import { useSort } from '@/composable/sort'
@@ -178,11 +199,36 @@ import GoToButton from '@/components/common/action_icons/GoToButton.vue'
 import DownloadSubmission from './actions/DownloadSubmission.vue'
 import CommentSubmission from './actions/CommentSubmission.vue'
 import OATable from '../common/datatable/OATable.vue'
+import UploadPackageButton from '@/components/common/buttons/UploadPackageButton.vue'
 import MarkdownDescription from '@/components/common/markdown/MarkdownDescription.vue'
 import TechnologyChip from '@/components/common/chips/TechnologyChip.vue'
 import BinaryPackage from '@/components/packages/BinaryPackage.vue'
+import { useNewlyUploadedSubmissions } from '@/composable/submissions/newlyUploadedSubmissions'
 
 const submissionStore = useSubmissionStore()
+const { ids: newlyUploadedIds, includes: isNewlyUploaded } =
+  useNewlyUploadedSubmissions()
+
+function getRowClass(
+  item: EntityModelSubmissionDto
+): string | undefined {
+  if (!newlyUploadedIds.value.length || item.id == null)
+    return undefined
+  if (!isNewlyUploaded(item.id)) return undefined
+  const lastNewIndex = submissionStore.submissions.reduce(
+    (max, s, i) =>
+      s.id != null && isNewlyUploaded(s.id)
+        ? Math.max(max, i)
+        : max,
+    -1
+  )
+  const itemIndex = submissionStore.submissions.findIndex(
+    (s) => s.id === item.id
+  )
+  return itemIndex === lastNewIndex
+    ? 'newly-uploaded newly-uploaded-last'
+    : 'newly-uploaded'
+}
 
 const { getSort } = useSort()
 const defaultSort: Sort[] = [
@@ -241,6 +287,8 @@ const headers = computed<DataTableHeaders[]>(() => [
     sortable: false
   }
 ])
+
+const { filterByChip } = useSubmissionChipFiltration()
 
 function fetchData(options?: DataTableOptions) {
   if (options) {
@@ -304,5 +352,13 @@ tr {
 .expanded-package {
   margin: 0.5rem;
   overflow: hidden;
+}
+
+.newly-uploaded {
+  background-color: transparent !important;
+}
+
+.newly-uploaded-last > td {
+  border-bottom: 2px solid rgb(var(--v-theme-primary) / 0.4) !important;
 }
 </style>

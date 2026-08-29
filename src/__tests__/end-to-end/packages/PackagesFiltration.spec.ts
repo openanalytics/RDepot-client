@@ -27,14 +27,20 @@ import {
   PACKAGES_FILTRATION_TECHNOLOGY_FIELD_ID,
   PACKAGES_FILTRATION_REPOSITORY_FIELD_ID,
   PACKAGES_FILTRATION_SUBMISSION_STATE_FIELD_ID,
+  PACKAGES_FILTRATION_FILE_TYPE_FIELD_ID,
   PACKAGES_FILTRATION_MAINTAINER_FIELD_ID,
   FILTRATION_RESET_BUTTON_ID
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '../helpers/login'
+import { awaitTableData } from '@/__tests__/end-to-end/helpers/awaitTableData'
 
 const TITLE = 'packages filtration'
 test.describe(TITLE, () => {
   test('deleted', async ({ page }) => {
+    const initialDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/packages'
+    )
     await login(page, 'einstein')
 
     const packagesRowsSelector = page.locator('role=row')
@@ -42,13 +48,19 @@ test.describe(TITLE, () => {
       '.mdi-trash-can.text-grey'
     )
 
+    await initialDataLoaded
     await expect(packagesRowsSelector).toHaveCount(21)
     await expect(packagesDeletedSelector).toHaveCount(0)
 
+    const deletedFilterDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/packages'
+    )
     await page
       .locator(`#${PACKAGES_FILTRATION_DELETED_FIELD_ID}`)
       .click()
 
+    await deletedFilterDataLoaded
     await expect(packagesRowsSelector).toHaveCount(21)
     await expect(packagesDeletedSelector).toHaveCount(4)
 
@@ -59,17 +71,27 @@ test.describe(TITLE, () => {
     await expect(packagesRowsSelector).toHaveCount(7)
     await expect(packagesDeletedSelector).toHaveCount(6)
 
+    const deletedFilterClearedDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/packages'
+    )
     await page
       .locator(`#${PACKAGES_FILTRATION_DELETED_FIELD_ID}`)
       .click()
 
+    await deletedFilterClearedDataLoaded
     await expect(packagesRowsSelector).toHaveCount(21)
-    await expect(packagesDeletedSelector).toHaveCount(4)
+    await expect(packagesDeletedSelector).toHaveCount(0)
   })
 
   test('reset button', async ({ page }) => {
+    const initialDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/packages'
+    )
     await login(page, 'einstein')
     const packagesRowsSelector = page.locator('role=row')
+    await initialDataLoaded
     await expect(packagesRowsSelector).toHaveCount(21)
 
     await expect(
@@ -82,6 +104,10 @@ test.describe(TITLE, () => {
 
     await expect(packagesRowsSelector).toHaveCount(4)
 
+    const filtrationResetDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/packages'
+    )
     await page
       .locator(`#${FILTRATION_RESET_BUTTON_ID}`)
       .click()
@@ -90,6 +116,7 @@ test.describe(TITLE, () => {
       page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
     ).toBeHidden()
 
+    await filtrationResetDataLoaded
     await expect(packagesRowsSelector).toHaveCount(21)
   })
 
@@ -102,14 +129,23 @@ test.describe(TITLE, () => {
       .first()
       .waitFor()
 
-    const packagesSubmissionStateSelector = page
-      .getByRole('combobox')
-      .nth(2)
+    const packagesSubmissionStateSelector = page.locator(
+      `#${PACKAGES_FILTRATION_SUBMISSION_STATE_FIELD_ID}`
+    )
     await packagesSubmissionStateSelector.waitFor()
-    await packagesSubmissionStateSelector.click()
+    await packagesSubmissionStateSelector.evaluate((el) => {
+      el
+        .closest('.v-field')
+        ?.dispatchEvent(
+          new MouseEvent('mousedown', { bubbles: true })
+        )
+    })
 
     const packageSubmissionStateRejectedOptionSelector =
-      page.getByRole('option', { name: 'REJECTED' })
+      page.getByRole('option', {
+        name: 'REJECTED',
+        exact: true
+      })
 
     await packageSubmissionStateRejectedOptionSelector.waitFor()
     await packageSubmissionStateRejectedOptionSelector.click()
@@ -117,6 +153,8 @@ test.describe(TITLE, () => {
     await page
       .getByText('ACCEPTEDREJECTED', { exact: true })
       .waitFor()
+
+    await page.keyboard.press('Escape')
 
     const closableTags = page
       .locator('span')
@@ -138,6 +176,10 @@ test.describe(TITLE, () => {
   test('should check filtration fields before and after reset', async ({
     page
   }) => {
+    const initialDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/packages'
+    )
     await login(page, 'einstein')
     await page.waitForURL('**/packages')
     await expect(page).toHaveTitle(/RDepot - packages/)
@@ -146,6 +188,7 @@ test.describe(TITLE, () => {
     await expect(
       page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
     ).toBeVisible()
+    await initialDataLoaded
     await expect(packagesRowsSelector).toHaveCount(21)
 
     const searchValue = await page.locator(
@@ -166,6 +209,9 @@ test.describe(TITLE, () => {
     const maintainerValue = await page.locator(
       `#${PACKAGES_FILTRATION_MAINTAINER_FIELD_ID}`
     )
+    const fileTypeValue = await page.locator(
+      `#${PACKAGES_FILTRATION_FILE_TYPE_FIELD_ID}`
+    )
 
     await expect(await searchValue.inputValue()).toBe('')
     await expect(await technologyValue.inputValue()).toBe(
@@ -183,6 +229,7 @@ test.describe(TITLE, () => {
     await expect(await stateValue.inputValue()).toBe(
       'ACCEPTED'
     )
+    await expect(await fileTypeValue.inputValue()).toBe('')
 
     await repositoryValue.waitFor()
     await repositoryValue.click({ force: true })
@@ -196,7 +243,9 @@ test.describe(TITLE, () => {
 
     await technologyValue.waitFor()
     await technologyValue.click({ force: true })
-    await page.getByRole('option', { name: 'R' }).click()
+    await page
+      .getByRole('option', { name: 'R', exact: true })
+      .click()
 
     await expect(
       page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
@@ -207,6 +256,10 @@ test.describe(TITLE, () => {
       'R'
     )
 
+    const firstFiltrationResetDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/packages'
+    )
     await page
       .locator(`#${FILTRATION_RESET_BUTTON_ID}`)
       .click()
@@ -214,6 +267,28 @@ test.describe(TITLE, () => {
     await expect(
       page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
     ).toBeHidden()
+    await firstFiltrationResetDataLoaded
+    await expect(packagesRowsSelector).toHaveCount(21)
+
+    await fileTypeValue.waitFor()
+    await fileTypeValue.click({ force: true })
+    await page
+      .getByRole('option', { name: 'Binary', exact: true })
+      .click()
+    await expect(packagesRowsSelector).toHaveCount(2)
+
+    const secondFiltrationResetDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/packages'
+    )
+    await page
+      .locator(`#${FILTRATION_RESET_BUTTON_ID}`)
+      .click()
+
+    await expect(
+      page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
+    ).toBeHidden()
+    await secondFiltrationResetDataLoaded
     await expect(packagesRowsSelector).toHaveCount(21)
 
     await expect(await searchValue.inputValue()).toBe('')
@@ -235,9 +310,14 @@ test.describe(TITLE, () => {
   })
 
   test('no data available', async ({ page }) => {
+    const initialDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/packages'
+    )
     await login(page, 'einstein')
 
     const packagesRowsSelector = page.locator('role=row')
+    await initialDataLoaded
     await expect(packagesRowsSelector).toHaveCount(21)
 
     await page

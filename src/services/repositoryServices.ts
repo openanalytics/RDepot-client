@@ -40,8 +40,9 @@ import {
   validateRequest
 } from './openApiAccess'
 import { createPatch } from 'rfc6902'
-import { isAuthorized } from '@/plugins/casl'
 import { CombinedRepositoryModel } from '@/store/options/repositories'
+import { usePermissions } from '@/composable/authorities/userAuthorities'
+import { hasPermission } from '@/utils/permissions'
 
 type ValidatedRepositories = Promise<
   validatedData<EntityModelRepositoryDto[]>
@@ -55,6 +56,8 @@ type ValidatedRepository = Promise<
   validatedData<EntityModelRepositoryDto>
 >
 
+const { has } = usePermissions()
+
 export async function fetchRepositoriesService(
   filtration: RepositoriesFiltration,
   page?: number,
@@ -62,7 +65,7 @@ export async function fetchRepositoriesService(
   sort?: string[],
   showProgress = false
 ): ValidatedRepositories {
-  if (!isAuthorized('GET', 'submissions')) {
+  if (!has('repository.list')) {
     return new Promise(() => validateRequest([]))
   }
   return openApiRequest<EntityModelRepositoryDto[]>(
@@ -92,7 +95,7 @@ export async function fetchPythonRepositoriesService(
   sort?: string[],
   showProgress = false
 ): ValidatedRepositories {
-  if (!isAuthorized('GET', 'submissions')) {
+  if (!has('repository.list')) {
     return new Promise(() => validateRequest([]))
   }
   return openApiRequest<EntityModelPythonRepositoryDto[]>(
@@ -121,7 +124,7 @@ export async function fetchRRepositoriesService(
   sort?: string[],
   showProgress = false
 ): ValidatedRepositories {
-  if (!isAuthorized('GET', 'submissions')) {
+  if (!has('repository.list')) {
     return new Promise(() => validateRequest([]))
   }
   return openApiRequest<EntityModelRRepositoryDto[]>(
@@ -147,7 +150,7 @@ export async function fetchRepositoryByIdService(
   technology: Technologies,
   showProgress = false
 ): ValidatedCombinedRepository {
-  if (!isAuthorized('GET', 'submissions')) {
+  if (!has('repository.list')) {
     return new Promise(() => validateRequest([]))
   }
 
@@ -176,7 +179,7 @@ export async function fetchRepositoryByIdService(
 export async function createRepository(
   newRepository: EntityModelRepositoryDto
 ): ValidatedRepository {
-  if (!isAuthorized('POST', 'repository')) {
+  if (!has('repository.create')) {
     return new Promise(() => false)
   }
   const { technology, ...repository } = newRepository
@@ -199,7 +202,12 @@ export async function updateRRepositoryService(
   oldRepository: EntityModelRRepositoryDto,
   newRepository: EntityModelRRepositoryDto
 ): ValidatedRepository {
-  if (!isAuthorized('PATCH', 'repository')) {
+  if (
+    !hasPermission(
+      oldRepository.permissions,
+      'repository.edit'
+    )
+  ) {
     return new Promise(() => false)
   }
 
@@ -233,7 +241,24 @@ export async function updatePythonRepositoryService(
   oldRepository: EntityModelPythonRepositoryDto,
   newRepository: EntityModelPythonRepositoryDto
 ): ValidatedRepository {
-  if (!isAuthorized('PATCH', 'repository')) {
+  if (
+    !hasPermission(
+      oldRepository.permissions,
+      'repository.edit'
+    ) &&
+    (!hasPermission(
+      oldRepository.permissions,
+      'repository.publish'
+    ) ||
+      !hasPermission(
+        oldRepository.permissions,
+        'repository.unpublish'
+      )) &&
+    !hasPermission(
+      oldRepository.permissions,
+      'repository.republish'
+    )
+  ) {
     return new Promise(() => false)
   }
 
@@ -267,7 +292,7 @@ export async function republishRepositoryService(
   id: number,
   technology: Technologies
 ) {
-  if (!isAuthorized('POST', 'repository')) {
+  if (!has('repository.create')) {
     return new Promise(() => false)
   }
 

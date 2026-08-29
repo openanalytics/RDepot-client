@@ -28,16 +28,22 @@ import {
   SUBMISSIONS_FILTRATION_FROM_DATE_FIELD_ID,
   SUBMISSIONS_FILTRATION_TECHNOLOGY_FIELD_ID,
   SUBMISSIONS_FILTRATION_REPOSITORY_FIELD_ID,
+  SUBMISSIONS_FILTRATION_FILE_TYPE_FIELD_ID,
   SUBMISSIONS_FILTRATION_REPOSITORY_FIELD_TESTREPO1_ID,
   SUBMISSIONS_SIDEBAR_ID,
   FILTRATION_RESET_BUTTON_ID
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '../helpers/login'
+import { awaitTableData } from '../helpers/awaitTableData'
 
 const TITLE = 'submissions filtration'
 test.describe(TITLE, () => {
   test('reset button', async ({ page }) => {
     await login(page, 'einstein')
+    const initialDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/submissions'
+    )
     await page.locator(`#${SUBMISSIONS_SIDEBAR_ID}`).click()
     await page.waitForURL('**/submissions')
     await expect(page).toHaveTitle(/RDepot - submissions/)
@@ -46,6 +52,7 @@ test.describe(TITLE, () => {
     await expect(
       page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
     ).toBeHidden()
+    await initialDataLoaded
     await expect(submissionsRowsSelector).toHaveCount(21)
 
     await page
@@ -56,6 +63,10 @@ test.describe(TITLE, () => {
     ).toBeVisible()
     await expect(submissionsRowsSelector).toHaveCount(7)
 
+    const filtrationResetDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/submissions'
+    )
     await page
       .locator(`#${FILTRATION_RESET_BUTTON_ID}`)
       .click()
@@ -63,6 +74,7 @@ test.describe(TITLE, () => {
     await expect(
       page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
     ).toBeHidden()
+    await filtrationResetDataLoaded
     await expect(submissionsRowsSelector).toHaveCount(21)
   })
 
@@ -70,6 +82,10 @@ test.describe(TITLE, () => {
     page
   }) => {
     await login(page, 'einstein')
+    const initialDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/submissions'
+    )
     await page.locator(`#${SUBMISSIONS_SIDEBAR_ID}`).click()
     await page.waitForURL('**/submissions')
     await expect(page).toHaveTitle(/RDepot - submissions/)
@@ -78,6 +94,7 @@ test.describe(TITLE, () => {
     await expect(
       page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
     ).toBeHidden()
+    await initialDataLoaded
     await expect(submissionsRowsSelector).toHaveCount(21)
 
     const searchValue = await page.locator(
@@ -91,6 +108,9 @@ test.describe(TITLE, () => {
     )
     const stateValue = await page.locator(
       `#${SUBMISSIONS_FILTRATION_STATE_FIELD_ID}`
+    )
+    const fileTypeValue = await page.locator(
+      `#${SUBMISSIONS_FILTRATION_FILE_TYPE_FIELD_ID}`
     )
     const fromDateValue = await page.locator(
       `#${SUBMISSIONS_FILTRATION_FROM_DATE_FIELD_ID}`
@@ -106,6 +126,7 @@ test.describe(TITLE, () => {
     await expect(await repositoryValue.inputValue()).toBe(
       ''
     )
+    await expect(await fileTypeValue.inputValue()).toBe('')
     await expect(await fromDateValue.inputValue()).toBe('')
     await expect(await toDateValue.inputValue()).toBe('')
     await expect(await stateValue.inputValue()).toBe('')
@@ -136,6 +157,10 @@ test.describe(TITLE, () => {
       'R'
     )
 
+    const firstFiltrationResetDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/submissions'
+    )
     await page
       .locator(`#${FILTRATION_RESET_BUTTON_ID}`)
       .click()
@@ -143,6 +168,28 @@ test.describe(TITLE, () => {
     await expect(
       page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
     ).toBeHidden()
+    await firstFiltrationResetDataLoaded
+    await expect(submissionsRowsSelector).toHaveCount(21)
+
+    await fileTypeValue.waitFor()
+    await fileTypeValue.click({ force: true })
+    await page
+      .getByRole('option', { name: 'Binary' })
+      .click()
+    await expect(submissionsRowsSelector).toHaveCount(2)
+
+    const secondFiltrationResetDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/submissions'
+    )
+    await page
+      .locator(`#${FILTRATION_RESET_BUTTON_ID}`)
+      .click()
+
+    await expect(
+      page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
+    ).toBeHidden()
+    await secondFiltrationResetDataLoaded
     await expect(submissionsRowsSelector).toHaveCount(21)
 
     await expect(await searchValue.inputValue()).toBe('')

@@ -50,22 +50,22 @@ test.describe(TITLE, () => {
       .locator(`#${USERS_FILTRATION_DELETED_ID}`)
       .click()
 
-    await expect(usersRowsSelector).toHaveCount(8)
-    await expect(userDeletedSelector).toHaveCount(1)
-
-    await page
-      .locator(`#${USERS_FILTRATION_DELETED_ID}`)
-      .click()
-
-    await expect(usersRowsSelector).toHaveCount(8)
-    await expect(userDeletedSelector).toHaveCount(1)
-
-    await page
-      .locator(`#${USERS_FILTRATION_DELETED_ID}`)
-      .click()
-
     await expect(usersRowsSelector).toHaveCount(2)
     await expect(userDeletedSelector).toHaveCount(0)
+
+    await page
+      .locator(`#${USERS_FILTRATION_DELETED_ID}`)
+      .click()
+
+    await expect(usersRowsSelector).toHaveCount(8)
+    await expect(userDeletedSelector).toHaveCount(1)
+
+    await page
+      .locator(`#${USERS_FILTRATION_DELETED_ID}`)
+      .click()
+
+    await expect(usersRowsSelector).toHaveCount(8)
+    await expect(userDeletedSelector).toHaveCount(1)
   })
 
   test('active', async ({ page }) => {
@@ -86,8 +86,15 @@ test.describe(TITLE, () => {
       .locator(`#${USERS_FILTRATION_ACTIVE_ID}`)
       .click()
 
-    await expect(usersRowsSelector).toHaveCount(3)
+    await expect(usersRowsSelector).toHaveCount(6)
     //that one is tricky - it counts switch=true in the filtration bar
+    await expect(userActiveSelector).toHaveCount(6)
+
+    await page
+      .locator(`#${USERS_FILTRATION_ACTIVE_ID}`)
+      .click()
+
+    await expect(usersRowsSelector).toHaveCount(3)
     await expect(userActiveSelector).toHaveCount(0)
 
     await page
@@ -96,13 +103,6 @@ test.describe(TITLE, () => {
 
     await expect(usersRowsSelector).toHaveCount(8)
     await expect(userActiveSelector).toHaveCount(5)
-
-    await page
-      .locator(`#${USERS_FILTRATION_ACTIVE_ID}`)
-      .click()
-
-    await expect(usersRowsSelector).toHaveCount(6)
-    await expect(userActiveSelector).toHaveCount(6)
   })
 
   test('reset button', async ({ page }) => {
@@ -125,7 +125,7 @@ test.describe(TITLE, () => {
     await expect(
       page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
     ).toBeVisible()
-    await expect(usersRowsSelector).toHaveCount(3)
+    await expect(usersRowsSelector).toHaveCount(6)
 
     await page
       .locator(`#${FILTRATION_RESET_BUTTON_ID}`)
@@ -147,6 +147,7 @@ test.describe(TITLE, () => {
     await expect(page).toHaveTitle(/RDepot - users/)
 
     const usersRowsSelector = page.locator('role=row')
+    await expect(usersRowsSelector).toHaveCount(8)
     await page
       .locator(`#${USERS_FILTRATION_SEARCH_ID}`)
       .fill('aaaaaaaaaa')

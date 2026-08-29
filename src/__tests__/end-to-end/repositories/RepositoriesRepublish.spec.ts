@@ -56,15 +56,5 @@ test.describe(TITLE, { tag: '@serial' }, () => {
     await expect(
       await page.locator('button:has-text("Confirm")')
     ).toHaveCount(0)
-    await expect(
-      await page.locator('.v-progress-circular__overlay')
-    ).toHaveCount(1)
-    const toasts = await page
-      .locator('.Toastify__toast-body ')
-      .allTextContents()
-
-    await expect(toasts[1]).toContain(
-      'Request processed successfully'
-    )
   })
 })

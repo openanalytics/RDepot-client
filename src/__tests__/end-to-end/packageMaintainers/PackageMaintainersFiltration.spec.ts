@@ -28,12 +28,17 @@ import {
   FILTRATION_RESET_BUTTON_ID
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '../helpers/login'
+import { awaitTableData } from '../helpers/awaitTableData'
 
 const TITLE = 'package maintainers filtration'
 test.describe(TITLE, () => {
   test('deleted', async ({ page }) => {
     await login(page, 'einstein')
 
+    const initialDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/package-maintainers'
+    )
     await page
       .locator(`#${PACKAGE_MAINTAINERS_SIDEBAR_ID}`)
       .click()
@@ -42,8 +47,9 @@ test.describe(TITLE, () => {
       '.mdi-trash-can.text-grey'
     )
     const maintainersRowsSelector = page.locator('role=row')
-    await expect(maintainersRowsSelector).toHaveCount(12)
-    await expect(maintainerDeletedSelector).toHaveCount(2)
+    await initialDataLoaded
+    await expect(maintainersRowsSelector).toHaveCount(21)
+    await expect(maintainerDeletedSelector).toHaveCount(11)
 
     await page
       .locator(
@@ -51,8 +57,8 @@ test.describe(TITLE, () => {
       )
       .click()
 
-    await expect(maintainersRowsSelector).toHaveCount(10)
-    await expect(maintainerDeletedSelector).toHaveCount(0)
+    await expect(maintainersRowsSelector).toHaveCount(4)
+    await expect(maintainerDeletedSelector).toHaveCount(3)
 
     await page
       .locator(
@@ -60,8 +66,8 @@ test.describe(TITLE, () => {
       )
       .click()
 
-    await expect(maintainersRowsSelector).toHaveCount(12)
-    await expect(maintainerDeletedSelector).toHaveCount(2)
+    await expect(maintainersRowsSelector).toHaveCount(22)
+    await expect(maintainerDeletedSelector).toHaveCount(12)
 
     await page
       .locator(
@@ -69,18 +75,32 @@ test.describe(TITLE, () => {
       )
       .click()
 
-    await expect(maintainersRowsSelector).toHaveCount(3)
-    await expect(maintainerDeletedSelector).toHaveCount(2)
+    await expect(maintainersRowsSelector).toHaveCount(28)
+    await expect(maintainerDeletedSelector).toHaveCount(12)
+
+    await page
+      .locator(
+        `#${PACKAGE_MAINTAINERS_FILTRATION_DELETED_FIELD_ID}`
+      )
+      .click()
+
+    await expect(maintainersRowsSelector).toHaveCount(11)
+    await expect(maintainerDeletedSelector).toHaveCount(4)
   })
 
   test('reset button', async ({ page }) => {
     await login(page, 'einstein')
+    const initialDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/package-maintainers'
+    )
     await page
       .locator(`#${PACKAGE_MAINTAINERS_SIDEBAR_ID}`)
       .click()
     await page.waitForURL('**/package-maintainers')
     const maintainersRowsSelector = page.locator('role=row')
-    await expect(maintainersRowsSelector).toHaveCount(12)
+    await initialDataLoaded
+    await expect(maintainersRowsSelector).toHaveCount(21)
     await expect(
       page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
     ).toBeHidden()
@@ -94,8 +114,12 @@ test.describe(TITLE, () => {
       page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
     ).toBeVisible()
 
-    await expect(maintainersRowsSelector).toHaveCount(10)
+    await expect(maintainersRowsSelector).toHaveCount(4)
 
+    const filtrationResetDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/package-maintainers'
+    )
     await page
       .locator(`#${FILTRATION_RESET_BUTTON_ID}`)
       .click()
@@ -104,11 +128,16 @@ test.describe(TITLE, () => {
       page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
     ).toBeHidden()
 
-    await expect(maintainersRowsSelector).toHaveCount(12)
+    await filtrationResetDataLoaded
+    await expect(maintainersRowsSelector).toHaveCount(21)
   })
 
   test('no data available', async ({ page }) => {
     await login(page, 'einstein')
+    const initialDataLoaded = awaitTableData(
+      page,
+      '/api/v2/manager/package-maintainers'
+    )
     await page
       .locator(`#${PACKAGE_MAINTAINERS_SIDEBAR_ID}`)
       .click()
@@ -116,7 +145,8 @@ test.describe(TITLE, () => {
     await page.waitForURL('**/package-maintainers')
 
     const maintainersRowsSelector = page.locator('role=row')
-    await expect(maintainersRowsSelector).toHaveCount(12)
+    await initialDataLoaded
+    await expect(maintainersRowsSelector).toHaveCount(21)
 
     await page
       .locator(

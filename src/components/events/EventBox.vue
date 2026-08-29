@@ -29,10 +29,14 @@
         bottom: 0;
         opacity: 0.4;
         z-index: 100;
+        cursor: pointer;
       "
       color="primary"
       size="60"
       class="mb-1 mr-1"
+      @click="
+        filterByChip('resourceType', event?.resourceType)
+      "
       >{{ getIcon(event?.resourceType)[0] }}</v-icon
     >
     <v-icon
@@ -56,6 +60,7 @@ import { EntityModelNewsfeedEventDto } from '@/openapi'
 import { computed } from 'vue'
 import EventBoxDescription from '@/components/events/EventBoxDescription.vue'
 import { useIcons } from '@/composable/icons'
+import { useEventsChipFiltration } from '@/composable/events/eventsChipFiltration'
 
 const componentProps = defineProps({
   event: {
@@ -65,6 +70,7 @@ const componentProps = defineProps({
 })
 
 const { getIcon } = useIcons()
+const { filterByChip } = useEventsChipFiltration()
 
 const resourceType = computed(() => {
   return componentProps.event?.resourceType?.replaceAll(
@@ -89,7 +95,7 @@ const eventType = computed(() => {
     font-size: 12px;
     border-left: solid rgb(var(--v-theme-primary)) 1px;
     border-bottom: solid rgb(var(--v-theme-primary)) 1px;
-    border-bottom-left-radius: 16px;
+    border-bottom-left-radius: var(--rdepot-border-radius);
     padding: 10px 10px 10px 10px;
     max-height: 40px;
     display: flex;
