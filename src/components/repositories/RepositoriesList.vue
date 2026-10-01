@@ -135,17 +135,9 @@
         <span v-else-if="isPending(item)">
           {{ i18n.t('messages.general.pending') }}</span
         >
-        <span
-          v-else-if="
-            !hasPermission(
-              item.permissions,
-              'repository.publish'
-            )
-          "
-          >{{
-            i18n.t('messages.general.notAuthorized')
-          }}</span
-        >
+        <span v-else-if="!canTogglePublished(item)">{{
+          i18n.t('messages.general.notAuthorized')
+        }}</span>
         <span v-else-if="item.published">
           {{ i18n.t('actions.repositories.unpublish') }}
         </span>
@@ -366,22 +358,19 @@ function fetchData(options?: DataTableOptions) {
   repositoryStore.getPage(repositoryStore.localOptions)
 }
 
-function isDisabled(item: EntityModelRepositoryDto) {
-  return (
-    !hasPermission(
-      item.permissions,
-      'repository.publish'
-    ) ||
-    !hasPermission(
-      item.permissions,
-      'repository.republish'
-    ) ||
-    !hasPermission(
-      item.permissions,
-      'repository.unpublish'
-    ) ||
-    isPending(item)
+function canTogglePublished(
+  item: EntityModelRepositoryDto
+): boolean {
+  return hasPermission(
+    item.permissions,
+    item.published
+      ? 'repository.unpublish'
+      : 'repository.publish'
   )
+}
+
+function isDisabled(item: EntityModelRepositoryDto) {
+  return !canTogglePublished(item) || isPending(item)
 }
 
 function updateRepositoryPublished(
