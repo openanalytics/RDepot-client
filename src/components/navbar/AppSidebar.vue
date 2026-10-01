@@ -334,7 +334,7 @@
         style="font-size: 0.85rem"
       >
         <span v-if="!miniDrawer" id="sidebar-version">
-          v2.9.0
+          v2.9.1
           <span v-if="getEnv('VITE_DEV_MODE') === 'true'"
             >({{
               getEnv('VITE_CURRENT_COMMIT_VERSION')
