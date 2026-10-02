@@ -27,6 +27,12 @@ import {
   FILTRATION_RESET_BUTTON_ID
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '../helpers/login'
+import {
+  awaitTablePage,
+  expectRowsFrom
+} from '@/__tests__/end-to-end/helpers/tableRows'
+
+const API_PATH = '/api/v2/manager/package-maintainers'
 
 const TITLE = 'package maintainers chip filtration'
 test.describe(TITLE, () => {
@@ -34,6 +40,7 @@ test.describe(TITLE, () => {
     page
   }) => {
     await login(page, 'einstein')
+    const initialData = awaitTablePage(page, API_PATH)
     await page
       .locator(`#${PACKAGE_MAINTAINERS_SIDEBAR_ID}`)
       .click()
@@ -42,9 +49,10 @@ test.describe(TITLE, () => {
       /RDepot - package maintainers/
     )
 
-    const rowsSelector = page.locator('role=row')
-    await expect(rowsSelector).not.toHaveCount(0)
-    const initialRowCount = await rowsSelector.count()
+    const initialRowCount = await expectRowsFrom(
+      page,
+      initialData
+    )
 
     const firstTechnologyChip = page
       .locator('td .v-chip')
@@ -53,6 +61,7 @@ test.describe(TITLE, () => {
     await firstTechnologyChip.waitFor()
     const chipText = await firstTechnologyChip.innerText()
 
+    const filteredData = awaitTablePage(page, API_PATH)
     await firstTechnologyChip.click()
 
     const technologyField = page.locator(
@@ -64,7 +73,10 @@ test.describe(TITLE, () => {
       page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
     ).toBeVisible()
 
-    const filteredRowCount = await rowsSelector.count()
+    const filteredRowCount = await expectRowsFrom(
+      page,
+      filteredData
+    )
     expect(filteredRowCount).toBeLessThanOrEqual(
       initialRowCount
     )

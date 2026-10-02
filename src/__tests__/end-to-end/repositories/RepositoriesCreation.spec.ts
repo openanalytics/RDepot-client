@@ -85,7 +85,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
       .getByRole('option', { name: 'Python' })
       .press('ArrowDown')
     await page
-      .getByRole('option', { name: 'R' })
+      .getByRole('option', { name: 'R', exact: true })
       .press('Enter')
     await expect(
       page.locator(
@@ -321,7 +321,7 @@ test.describe(TITLE, { tag: '@serial' }, () => {
       .getByRole('option', { name: 'Python' })
       .press('ArrowDown')
     await page
-      .getByRole('option', { name: 'R' })
+      .getByRole('option', { name: 'R', exact: true })
       .press('Enter')
 
     await expect(nameError).toHaveText(

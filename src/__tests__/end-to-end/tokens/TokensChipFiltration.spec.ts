@@ -28,6 +28,12 @@ import {
   FILTRATION_RESET_BUTTON_ID
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '../helpers/login'
+import {
+  awaitTablePage,
+  expectRowsFrom
+} from '@/__tests__/end-to-end/helpers/tableRows'
+
+const API_PATH = '/api/v2/manager/access-tokens'
 
 const TITLE = 'tokens chip filtration'
 test.describe(TITLE, () => {
@@ -38,21 +44,24 @@ test.describe(TITLE, () => {
     await page
       .locator(`#${SETTINGS_LIST_SIDEBAR_ID}`)
       .click()
+    const initialData = awaitTablePage(page, API_PATH)
     await page
       .locator(`#${ACCESS_TOKENS_SIDEBAR_ID}`)
       .click()
     await page.waitForURL('**/settings-tokens')
     await expect(page).toHaveTitle(/RDepot - access tokens/)
 
-    const rowsSelector = page.locator('role=row')
-    await expect(rowsSelector).not.toHaveCount(0)
-    const initialRowCount = await rowsSelector.count()
+    const initialRowCount = await expectRowsFrom(
+      page,
+      initialData
+    )
 
     const firstActiveIcon = page
       .locator('td #access-token-active-icon')
       .first()
     await firstActiveIcon.waitFor()
 
+    const filteredData = awaitTablePage(page, API_PATH)
     await firstActiveIcon.click()
 
     const activeField = page.locator(
@@ -64,7 +73,10 @@ test.describe(TITLE, () => {
       page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
     ).toBeVisible()
 
-    const filteredRowCount = await rowsSelector.count()
+    const filteredRowCount = await expectRowsFrom(
+      page,
+      filteredData
+    )
     expect(filteredRowCount).toBeLessThanOrEqual(
       initialRowCount
     )

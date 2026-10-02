@@ -25,7 +25,7 @@
     :headers="headers"
     :items="packageMaintainersStore.maintainers"
     :items-length="packageMaintainersStore.totalNumber"
-    item-value="id"
+    :item-value="rowKey"
     :loading="packageMaintainersStore.loading"
     :title="i18n.t('resources.packageMaintainer', 2)"
     :sort-by="sortBy"
@@ -117,6 +117,15 @@ const { has } = usePermissions()
 const { getSort } = useSort()
 const defaultSort: Sort[] = [{ key: 'user', order: 'asc' }]
 const sortBy = ref(defaultSort)
+
+function rowKey(item: EntityModelPackageMaintainerDto) {
+  return [
+    item.id,
+    item.user?.id,
+    item.packageName,
+    item.repository?.id
+  ].join('-')
+}
 
 const postCondition = computed(() =>
   has('packageMaintainer.create')

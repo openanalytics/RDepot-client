@@ -27,9 +27,15 @@ import {
   PACKAGES_LIST_ACTIVATE_BUTTON_ID
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '../helpers/login'
+import { restoreData } from '@/__tests__/end-to-end/helpers/restoreData'
 
 const TITLE = 'notifications'
-test.describe(TITLE, () => {
+test.describe(TITLE, { tag: '@serial' }, () => {
+  // eslint-disable-next-line no-empty-pattern
+  test.beforeAll(async ({}, testInfo) => {
+    await restoreData(testInfo.project.name)
+  })
+
   test.fail(
     'display notifications bell with a new event badge',
     async ({ page }) => {

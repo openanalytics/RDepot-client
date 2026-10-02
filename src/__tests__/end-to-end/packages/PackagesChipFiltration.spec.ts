@@ -29,20 +29,28 @@ import {
   FILTRATION_RESET_BUTTON_ID
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '../helpers/login'
+import {
+  awaitTablePage,
+  expectRowsFrom
+} from '@/__tests__/end-to-end/helpers/tableRows'
+
+const API_PATH = '/api/v2/manager/packages'
 
 const TITLE = 'packages chip filtration'
 test.describe(TITLE, () => {
   test('clicking technology chip filters packages by that technology', async ({
     page
   }) => {
+    const initialData = awaitTablePage(page, API_PATH)
     await login(page, 'einstein')
     await page.locator(`#${PACKAGES_SIDEBAR_ID}`).click()
     await page.waitForURL('**/packages')
     await expect(page).toHaveTitle(/RDepot - packages/)
 
-    const rowsSelector = page.locator('role=row')
-    await expect(rowsSelector).not.toHaveCount(0)
-    const initialRowCount = await rowsSelector.count()
+    const initialRowCount = await expectRowsFrom(
+      page,
+      initialData
+    )
 
     const firstTechnologyChip = page
       .locator('td .v-chip')
@@ -51,6 +59,7 @@ test.describe(TITLE, () => {
     await firstTechnologyChip.waitFor()
     const chipText = await firstTechnologyChip.innerText()
 
+    const filteredData = awaitTablePage(page, API_PATH)
     await firstTechnologyChip.click()
 
     const technologyField = page.locator(
@@ -62,7 +71,10 @@ test.describe(TITLE, () => {
       page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
     ).toBeVisible()
 
-    const filteredRowCount = await rowsSelector.count()
+    const filteredRowCount = await expectRowsFrom(
+      page,
+      filteredData
+    )
     expect(filteredRowCount).toBeLessThanOrEqual(
       initialRowCount
     )
@@ -71,14 +83,16 @@ test.describe(TITLE, () => {
   test('clicking file type chip filters packages by that file type', async ({
     page
   }) => {
+    const initialData = awaitTablePage(page, API_PATH)
     await login(page, 'einstein')
     await page.locator(`#${PACKAGES_SIDEBAR_ID}`).click()
     await page.waitForURL('**/packages')
     await expect(page).toHaveTitle(/RDepot - packages/)
 
-    const rowsSelector = page.locator('role=row')
-    await expect(rowsSelector).not.toHaveCount(0)
-    const initialRowCount = await rowsSelector.count()
+    const initialRowCount = await expectRowsFrom(
+      page,
+      initialData
+    )
 
     const firstFileTypeChip = page
       .locator('td .v-chip')
@@ -86,6 +100,7 @@ test.describe(TITLE, () => {
       .first()
     await firstFileTypeChip.waitFor()
 
+    const filteredData = awaitTablePage(page, API_PATH)
     await firstFileTypeChip.click()
 
     const fileTypeField = page.locator(
@@ -97,7 +112,10 @@ test.describe(TITLE, () => {
       page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
     ).toBeVisible()
 
-    const filteredRowCount = await rowsSelector.count()
+    const filteredRowCount = await expectRowsFrom(
+      page,
+      filteredData
+    )
     expect(filteredRowCount).toBeLessThanOrEqual(
       initialRowCount
     )
@@ -106,20 +124,23 @@ test.describe(TITLE, () => {
   test('clicking state icon filters packages by that state', async ({
     page
   }) => {
+    const initialData = awaitTablePage(page, API_PATH)
     await login(page, 'einstein')
     await page.locator(`#${PACKAGES_SIDEBAR_ID}`).click()
     await page.waitForURL('**/packages')
     await expect(page).toHaveTitle(/RDepot - packages/)
 
-    const rowsSelector = page.locator('role=row')
-    await expect(rowsSelector).not.toHaveCount(0)
-    const initialRowCount = await rowsSelector.count()
+    const initialRowCount = await expectRowsFrom(
+      page,
+      initialData
+    )
 
     const firstStateIcon = page
       .locator('td #tooltip-activator')
       .first()
     await firstStateIcon.waitFor()
 
+    const filteredData = awaitTablePage(page, API_PATH)
     await firstStateIcon.click()
 
     const stateField = page.locator(
@@ -127,7 +148,10 @@ test.describe(TITLE, () => {
     )
     await expect(stateField).not.toHaveValue('')
 
-    const filteredRowCount = await rowsSelector.count()
+    const filteredRowCount = await expectRowsFrom(
+      page,
+      filteredData
+    )
     expect(filteredRowCount).toBeLessThanOrEqual(
       initialRowCount
     )

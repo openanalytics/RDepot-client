@@ -162,7 +162,9 @@ test.describe(TITLE, () => {
     await technologyValue.waitFor()
     await technologyValue.click({ force: true })
 
-    await page.getByRole('option', { name: 'R' }).click()
+    await page
+      .getByRole('option', { name: 'R', exact: true })
+      .click()
 
     await page
       .locator(

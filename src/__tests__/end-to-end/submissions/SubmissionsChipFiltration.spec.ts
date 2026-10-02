@@ -29,6 +29,12 @@ import {
   FILTRATION_RESET_BUTTON_ID
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '../helpers/login'
+import {
+  awaitTablePage,
+  expectRowsFrom
+} from '@/__tests__/end-to-end/helpers/tableRows'
+
+const API_PATH = '/api/v2/manager/submissions'
 
 const TITLE = 'submissions chip filtration'
 test.describe(TITLE, () => {
@@ -36,14 +42,15 @@ test.describe(TITLE, () => {
     page
   }) => {
     await login(page, 'einstein')
+    const initialData = awaitTablePage(page, API_PATH)
     await page.locator(`#${SUBMISSIONS_SIDEBAR_ID}`).click()
     await page.waitForURL('**/submissions')
     await expect(page).toHaveTitle(/RDepot - submissions/)
 
-    const submissionsRowsSelector = page.locator('role=row')
-    await expect(submissionsRowsSelector).toHaveCount(21)
-    const initialRowCount =
-      await submissionsRowsSelector.count()
+    const initialRowCount = await expectRowsFrom(
+      page,
+      initialData
+    )
 
     const firstTechnologyChip = page
       .locator('td .v-chip')
@@ -52,6 +59,7 @@ test.describe(TITLE, () => {
     await firstTechnologyChip.waitFor()
     const chipText = await firstTechnologyChip.innerText()
 
+    const filteredData = awaitTablePage(page, API_PATH)
     await firstTechnologyChip.click()
 
     const technologyField = page.locator(
@@ -63,8 +71,10 @@ test.describe(TITLE, () => {
       page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
     ).toBeVisible()
 
-    const filteredRowCount =
-      await submissionsRowsSelector.count()
+    const filteredRowCount = await expectRowsFrom(
+      page,
+      filteredData
+    )
     expect(filteredRowCount).toBeLessThanOrEqual(
       initialRowCount
     )
@@ -74,20 +84,22 @@ test.describe(TITLE, () => {
     page
   }) => {
     await login(page, 'einstein')
+    const initialData = awaitTablePage(page, API_PATH)
     await page.locator(`#${SUBMISSIONS_SIDEBAR_ID}`).click()
     await page.waitForURL('**/submissions')
     await expect(page).toHaveTitle(/RDepot - submissions/)
 
-    const submissionsRowsSelector = page.locator('role=row')
-    await expect(submissionsRowsSelector).toHaveCount(21)
-    const initialRowCount =
-      await submissionsRowsSelector.count()
+    const initialRowCount = await expectRowsFrom(
+      page,
+      initialData
+    )
 
     const firstStateIcon = page
       .locator('td #tooltip-activator')
       .first()
     await firstStateIcon.waitFor()
 
+    const filteredData = awaitTablePage(page, API_PATH)
     await firstStateIcon.click()
 
     const stateField = page.locator(
@@ -99,8 +111,10 @@ test.describe(TITLE, () => {
       page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
     ).toBeVisible()
 
-    const filteredRowCount =
-      await submissionsRowsSelector.count()
+    const filteredRowCount = await expectRowsFrom(
+      page,
+      filteredData
+    )
     expect(filteredRowCount).toBeLessThanOrEqual(
       initialRowCount
     )
@@ -110,14 +124,15 @@ test.describe(TITLE, () => {
     page
   }) => {
     await login(page, 'einstein')
+    const initialData = awaitTablePage(page, API_PATH)
     await page.locator(`#${SUBMISSIONS_SIDEBAR_ID}`).click()
     await page.waitForURL('**/submissions')
     await expect(page).toHaveTitle(/RDepot - submissions/)
 
-    const submissionsRowsSelector = page.locator('role=row')
-    await expect(submissionsRowsSelector).toHaveCount(21)
-    const initialRowCount =
-      await submissionsRowsSelector.count()
+    const initialRowCount = await expectRowsFrom(
+      page,
+      initialData
+    )
 
     const firstFileTypeChip = page
       .locator('td .v-chip')
@@ -125,6 +140,7 @@ test.describe(TITLE, () => {
       .first()
     await firstFileTypeChip.waitFor()
 
+    const filteredData = awaitTablePage(page, API_PATH)
     await firstFileTypeChip.click()
 
     const fileTypeField = page.locator(
@@ -136,8 +152,10 @@ test.describe(TITLE, () => {
       page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
     ).toBeVisible()
 
-    const filteredRowCount =
-      await submissionsRowsSelector.count()
+    const filteredRowCount = await expectRowsFrom(
+      page,
+      filteredData
+    )
     expect(filteredRowCount).toBeLessThanOrEqual(
       initialRowCount
     )

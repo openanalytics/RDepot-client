@@ -28,6 +28,12 @@ import {
   FILTRATION_RESET_BUTTON_ID
 } from '@/__tests__/end-to-end/helpers/elementsIds'
 import { login } from '../helpers/login'
+import {
+  awaitTablePage,
+  expectRowsFrom
+} from '@/__tests__/end-to-end/helpers/tableRows'
+
+const API_PATH = '/api/v2/manager/submissions'
 
 const TITLE = 'submissions date chip filtration'
 test.describe(TITLE, () => {
@@ -35,14 +41,15 @@ test.describe(TITLE, () => {
     page
   }) => {
     await login(page, 'einstein')
+    const initialData = awaitTablePage(page, API_PATH)
     await page.locator(`#${SUBMISSIONS_SIDEBAR_ID}`).click()
     await page.waitForURL('**/submissions')
     await expect(page).toHaveTitle(/RDepot - submissions/)
 
-    const submissionsRowsSelector = page.locator('role=row')
-    await expect(submissionsRowsSelector).toHaveCount(21)
-    const initialRowCount =
-      await submissionsRowsSelector.count()
+    const initialRowCount = await expectRowsFrom(
+      page,
+      initialData
+    )
 
     const firstDateChip = page
       .locator('td .v-chip')
@@ -54,6 +61,7 @@ test.describe(TITLE, () => {
     const [year, month, day] = chipText.split('.')
     const expectedDateValue = `${year}-${month}-${day}`
 
+    const filteredData = awaitTablePage(page, API_PATH)
     await firstDateChip.click()
 
     const fromDateField = page.locator(
@@ -72,8 +80,10 @@ test.describe(TITLE, () => {
       page.locator(`#${FILTRATION_RESET_BUTTON_ID}`)
     ).toBeVisible()
 
-    const filteredRowCount =
-      await submissionsRowsSelector.count()
+    const filteredRowCount = await expectRowsFrom(
+      page,
+      filteredData
+    )
     expect(filteredRowCount).toBeLessThan(initialRowCount)
   })
 })
