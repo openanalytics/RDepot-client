@@ -39,14 +39,18 @@ beforeEach(async () => {
 describe('oidc authorization composable', () => {
   it('should trigger login method', () => {
     const { login } = useOIDCAuthorization()
-    const spy = vi.spyOn(authService, 'login')
+    const spy = vi
+      .spyOn(authService, 'login')
+      .mockResolvedValue()
     login()
     expect(spy).toHaveBeenCalledOnce()
   })
 
   it('should trigger logout method', () => {
     const { logout } = useOIDCAuthorization()
-    const spy = vi.spyOn(authService, 'logout')
+    const spy = vi
+      .spyOn(authService, 'logout')
+      .mockResolvedValue()
     logout()
     expect(spy).toHaveBeenCalledOnce()
   })

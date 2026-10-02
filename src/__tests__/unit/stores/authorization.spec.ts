@@ -108,7 +108,9 @@ describe('Logged user store tests', () => {
     const authorizationStore = useAuthorizationStore()
     authorizationStore.me.role = 'packagemaintainer'
 
-    const spy = vi.spyOn(authorizationStore, 'logout')
+    const spy = vi
+      .spyOn(authorizationStore, 'logout')
+      .mockResolvedValue()
     await authorizationStore.getUserInfo()
     expect(spy).toBeCalledTimes(1)
   })

@@ -28,6 +28,8 @@ import { shallowMount } from '@vue/test-utils'
 import { useCommonStore } from '@/store/options/common'
 import EditUserModal from '@/components/users/modals/EditUserModal.vue'
 
+const VOverlay = { template: '<div><slot /></div>' }
+
 let wrapper: any
 let commonStore: any
 
@@ -36,6 +38,7 @@ describe('ModalOverlay - chosen component', () => {
     setActivePinia(createPinia())
     commonStore = useCommonStore()
     wrapper = shallowMount(ModalOverlay, {
+      global: { stubs: { VOverlay } },
       data() {
         return {}
       },
@@ -68,7 +71,9 @@ describe('ModalOverlay - chosen component', () => {
 describe('Overlay - default', () => {
   beforeEach(async () => {
     setActivePinia(createPinia())
-    wrapper = shallowMount(ModalOverlay)
+    wrapper = shallowMount(ModalOverlay, {
+      global: { stubs: { VOverlay } }
+    })
   })
 
   it('renders properly', () => {

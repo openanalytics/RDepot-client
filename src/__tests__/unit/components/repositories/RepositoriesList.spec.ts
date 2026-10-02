@@ -41,6 +41,7 @@ const repositories = [
     technology: 'R',
     publicationUri: 'http://localhost/repo/testrepo1',
     serverAddress: 'http://localhost/repo/testrepo1',
+    requiresAuthentication: false,
     published: true,
     permissions: [
       'repository.edit',
@@ -54,6 +55,7 @@ const repositories = [
     technology: 'R',
     publicationUri: 'http://localhost/repo/testrepo3',
     serverAddress: 'http://localhost/repo/testrepo3',
+    requiresAuthentication: false,
     published: false,
     permissions: ['repository.edit', 'repository.publish']
   }
@@ -118,6 +120,12 @@ describe('RepositoriesList', () => {
 
   it('does not expand the row when the published checkbox is clicked', async () => {
     const wrapper = await mountList()
+    const repositoryStore = useRepositoryStore()
+    vi.spyOn(repositoryStore, 'publish').mockResolvedValue()
+    vi.spyOn(
+      repositoryStore,
+      'unpublish'
+    ).mockResolvedValue()
 
     await wrapper
       .findAll('.v-selection-control')[1]

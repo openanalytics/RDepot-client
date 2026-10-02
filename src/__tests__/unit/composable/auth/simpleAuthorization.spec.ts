@@ -20,24 +20,33 @@
  *
  */
 
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect, vi, afterEach } from 'vitest'
 
 import { useSimpleAuthorization } from '@/composable/auth/simpleAuthorization'
 import { Login } from '@/models/users/Login'
 import axios from 'axios'
 
+const loginResponse = { data: { data: { token: 'token' } } }
+
 describe('simple authorization composable', () => {
-  it('should remove old data from local storage when logging in', () => {
+  afterEach(() => {
+    vi.mocked(axios.post).mockRestore?.()
+  })
+
+  it('should remove old data from local storage when logging in', async () => {
     const { login } = useSimpleAuthorization()
+    vi.spyOn(axios, 'post').mockResolvedValue(loginResponse)
     const spy = vi.spyOn(Storage.prototype, 'removeItem')
-    login({ username: 'user', password: '' } as Login)
+    await login({ username: 'user', password: '' } as Login)
     expect(spy).toHaveBeenCalledOnce()
   })
 
-  it('should trigger axios post method when logging in', () => {
+  it('should trigger axios post method when logging in', async () => {
     const { login } = useSimpleAuthorization()
-    const spy = vi.spyOn(axios, 'post')
-    login({ username: 'user', password: '' } as Login)
+    const spy = vi
+      .spyOn(axios, 'post')
+      .mockResolvedValue(loginResponse)
+    await login({ username: 'user', password: '' } as Login)
     expect(spy).toHaveBeenCalledOnce()
   })
 
