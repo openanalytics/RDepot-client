@@ -66,8 +66,8 @@ test.describe(TITLE, () => {
       )
       .click()
 
-    await expect(maintainersRowsSelector).toHaveCount(22)
-    await expect(maintainerDeletedSelector).toHaveCount(12)
+    await expect(maintainersRowsSelector).toHaveCount(21)
+    await expect(maintainerDeletedSelector).toHaveCount(11)
 
     await page
       .locator(
@@ -75,8 +75,8 @@ test.describe(TITLE, () => {
       )
       .click()
 
-    await expect(maintainersRowsSelector).toHaveCount(28)
-    await expect(maintainerDeletedSelector).toHaveCount(12)
+    await expect(maintainersRowsSelector).toHaveCount(21)
+    await expect(maintainerDeletedSelector).toHaveCount(11)
 
     await page
       .locator(
@@ -84,8 +84,8 @@ test.describe(TITLE, () => {
       )
       .click()
 
-    await expect(maintainersRowsSelector).toHaveCount(11)
-    await expect(maintainerDeletedSelector).toHaveCount(4)
+    await expect(maintainersRowsSelector).toHaveCount(4)
+    await expect(maintainerDeletedSelector).toHaveCount(3)
   })
 
   test('reset button', async ({ page }) => {
