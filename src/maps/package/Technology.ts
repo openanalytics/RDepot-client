@@ -25,9 +25,7 @@ import {
   fetchPythonPackageService,
   fetchRPackageService,
   downloadRPackageSourceFile,
-  downloadPythonPackageSourceFile,
-  updatePythonPackage,
-  updateRPackage
+  downloadPythonPackageSourceFile
 } from '@/services/packageServices'
 
 export const fetchTechnologyPackage: Map<
@@ -47,12 +45,4 @@ export const downloadTechnologyPackage: Map<
     downloadPythonPackageSourceFile
   ],
   [Technologies.Enum.R, downloadRPackageSourceFile]
-])
-
-export const updateTechnologyPackage: Map<
-  Technologies,
-  (...args: any[]) => any
-> = new Map<Technologies, (...args: any[]) => any>([
-  [Technologies.Enum.Python, updatePythonPackage],
-  [Technologies.Enum.R, updateRPackage]
 ])

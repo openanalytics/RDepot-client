@@ -201,7 +201,7 @@ export const useAuthorizationStore = defineStore(
           case 'events':
             return has('event.list')
           case 'addSubmission':
-            return has('submission.list')
+            return has('submission.create')
           case 'packageMaintainers':
             return has('packageMaintainer.list')
           case 'repositoryMaintainers':

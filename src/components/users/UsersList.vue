@@ -42,18 +42,7 @@
       <v-tooltip
         location="top"
         :disabled="
-          !(
-            item.id === authorizationStore.me.id ||
-            isPending(item) ||
-            !hasPermission(
-              item.permissions,
-              'user.activate'
-            ) ||
-            !hasPermission(
-              item.permissions,
-              'user.deactivate'
-            )
-          )
+          !(isPending(item) || !canToggleActive(item))
         "
       >
         <template #activator="{ props }">
@@ -64,55 +53,38 @@
           >
             <v-checkbox-btn
               id="checkbox-active"
-              v-model="item.active"
+              :model-value="item.active"
               hide-details
               style="justify-content: center"
               class="mr-5"
               :readonly="
-                !isAtLeastAdmin(
-                  authorizationStore.userRole
-                    ? authorizationStore.userRole
-                    : 0
-                ) ||
-                item.id === authorizationStore.me.id ||
-                isPending(item)
+                isPending(item) || !canToggleActive(item)
               "
               :color="
-                !isAtLeastAdmin(
-                  authorizationStore.userRole
-                    ? authorizationStore.userRole
-                    : 0
-                ) ||
-                item.id === authorizationStore.me.id ||
-                isPending(item)
+                isPending(item) || !canToggleActive(item)
                   ? 'grey'
                   : 'primary'
               "
               @click.stop
-              @change="updateUserActive(item)"
+              @update:model-value="
+                (active: boolean | null) =>
+                  updateUserActive(item, active)
+              "
             />
           </span>
         </template>
         <span v-if="isPending(item)">
           {{ i18n.t('messages.general.pending') }}
         </span>
+        <span v-else-if="item.deleted">
+          {{ deletedMessage }}
+        </span>
         <span
           v-else-if="item.id === authorizationStore.me.id"
         >
           {{ i18n.t('messages.users.unableDeactivation') }}
         </span>
-        <span
-          v-else-if="
-            !hasPermission(
-              item.permissions,
-              'user.activate'
-            ) ||
-            !hasPermission(
-              item.permissions,
-              'user.deactivate'
-            )
-          "
-        >
+        <span v-else-if="!canToggleActive(item)">
           {{ i18n.t('messages.general.notAuthorized') }}
         </span>
       </v-tooltip>
@@ -129,9 +101,7 @@
             !hasPermission(item.permissions, 'user.edit')
           "
           :hover-message="
-            !hasPermission(item.permissions, 'user.edit')
-              ? i18n.t('messages.general.notAuthorized')
-              : i18n.t('actions.general.edit')
+            item.deleted ? deletedMessage : undefined
           "
           @set-entity="prepareEdition(item)"
         />
@@ -146,9 +116,7 @@
           :name="item.name"
           :hover-message="
             item.deleted
-              ? i18n.t('messages.general.deleted', {
-                  resource_name: i18n.t('resources.user')
-                })
+              ? deletedMessage
               : !hasPermission(
                     item.permissions,
                     'user.delete.soft'
@@ -170,8 +138,6 @@ import EditIcon from '@/components/common/action_icons/EditIcon.vue'
 import { useUserStore } from '@/store/options/users'
 import { i18n } from '@/plugins/i18n'
 import { EntityModelUserDto } from '@/openapi'
-import { useUtilities } from '@/composable/utilities'
-import { isAtLeastAdmin } from '@/enum/UserRoles'
 import { hasPermission } from '@/utils/permissions'
 import {
   DataTableHeaders,
@@ -234,17 +200,31 @@ const headers = computed<DataTableHeaders[]>(() => [
   }
 ])
 
-const { deepCopy } = useUtilities()
+const deletedMessage = computed(() =>
+  i18n.t('messages.general.deleted', {
+    resource_name: i18n.t('resources.user')
+  })
+)
 
-function updateUserActive(item: EntityModelUserDto): void {
-  if (
-    hasPermission(item?.permissions, 'user.activate') ||
-    hasPermission(item?.permissions, 'user.deactivate')
-  ) {
-    const oldUser = deepCopy(item)
-    userStore.chosenUser = oldUser
-    oldUser.active = !oldUser.active
-    userStore.save(item)
+function canToggleActive(
+  item: EntityModelUserDto
+): boolean {
+  return hasPermission(
+    item.permissions,
+    item.active ? 'user.deactivate' : 'user.activate'
+  )
+}
+
+function updateUserActive(
+  item: EntityModelUserDto,
+  active: boolean | null
+): void {
+  if (!canToggleActive(item) || isPending(item)) return
+  item.active = !!active
+  if (active) {
+    userStore.activate(item)
+  } else {
+    userStore.deactivate(item)
   }
 }
 

@@ -21,7 +21,7 @@
 -->
 
 <template>
-  <v-tooltip location="bottom center">
+  <v-tooltip location="top">
     <template #activator="{ props }">
       <div
         id="tooltip-activator"

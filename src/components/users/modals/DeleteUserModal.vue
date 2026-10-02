@@ -26,15 +26,11 @@
 
 <script setup lang="ts">
 import ModalOverlay from '@/components/common/overlay/ModalOverlay.vue'
-import { useUtilities } from '@/composable/utilities'
 import { useUserStore } from '@/store/options/users'
 
 const userStore = useUserStore()
-const { deepCopy } = useUtilities()
 
 async function performAction() {
-  const newItem = deepCopy(userStore.chosenUser)
-  newItem.deleted = true
-  await userStore.save(newItem)
+  await userStore.delete(userStore.chosenUser)
 }
 </script>

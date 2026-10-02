@@ -59,7 +59,7 @@
                     'resources.repositoryMaintainer'
                   )
                 })
-              : i18n.t('actions.general.edit')
+              : undefined
           "
           :icon-id="`edit-repository-maintainer-${item.user?.name?.replace(
             ' ',

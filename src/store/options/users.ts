@@ -24,7 +24,10 @@ import { defineStore } from 'pinia'
 import {
   fetchRoles,
   updateUser,
-  fetchUsersService
+  fetchUsersService,
+  activateUserService,
+  deactivateUserService,
+  deleteUserService
 } from '@/services/usersServices'
 import { EntityModelUserDto, RoleDto } from '@/openapi'
 import { Role } from '@/enum/UserRoles'
@@ -148,6 +151,33 @@ export const useUserStore = defineStore('userStore', {
       } finally {
         this.pending = this.pending.filter(
           (item) => item.id != this.chosenUser.id
+        )
+      }
+    },
+    async activate(user: EntityModelUserDto) {
+      await this.applyTo(activateUserService, user)
+    },
+    async deactivate(user: EntityModelUserDto) {
+      await this.applyTo(deactivateUserService, user)
+    },
+    async delete(user: EntityModelUserDto) {
+      await this.applyTo(deleteUserService, user)
+    },
+    async applyTo(
+      service: (
+        user: EntityModelUserDto
+      ) => Promise<unknown>,
+      user: EntityModelUserDto
+    ) {
+      this.pending.push(user)
+      try {
+        if (await service(user)) {
+          await this.getPage()
+          this.markRecentlyUpdated(user.id)
+        }
+      } finally {
+        this.pending = this.pending.filter(
+          (item) => item.id != user.id
         )
       }
     },

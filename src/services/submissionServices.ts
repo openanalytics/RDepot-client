@@ -24,6 +24,7 @@ import { SubmissionsFiltration } from '@/models/Filtration'
 import {
   ApiV2SubmissionControllerApiFactory,
   EntityModelSubmissionDto,
+  EntityModelSubmissionDtoStateEnum,
   RPublicConfigurationDto,
   PythonSubmissionControllerApiFactory,
   RConfigControllerApiFactory,
@@ -34,7 +35,7 @@ import {
   validatedData,
   validateRequest
 } from './openApiAccess'
-import { createPatch } from 'rfc6902'
+import { Operation } from 'rfc6902'
 import { Technologies } from '@/enum/Technologies'
 import { getConfiguration } from './apiConfig'
 import { usePermissions } from '@/composable/authorities/userAuthorities'
@@ -88,44 +89,27 @@ export async function fetchSubmissionsService(
   })
 }
 
-export async function updateSubmission(
-  oldSubmission: EntityModelSubmissionDto,
-  newSubmission: EntityModelSubmissionDto
+async function changeState(
+  submission: EntityModelSubmissionDto,
+  state: EntityModelSubmissionDtoStateEnum
 ): ValidatedSubmission {
-  if (
-    !hasPermission(
-      oldSubmission.permissions,
-      'submission.cancel'
-    ) &&
-    !hasPermission(
-      oldSubmission.permissions,
-      'submission.accept'
-    ) &&
-    !hasPermission(
-      oldSubmission.permissions,
-      'submission.reject'
-    )
-  ) {
-    return new Promise(() => false)
-  }
-  const patch_body = createPatch(
-    oldSubmission,
-    newSubmission
-  )
-  if (oldSubmission.technology === Technologies.enum.R) {
+  const patch_body: Operation[] = [
+    { op: 'replace', path: '/state', value: state }
+  ]
+  if (submission.technology === Technologies.enum.R) {
     return openApiRequest<EntityModelSubmissionDto>(
       RSubmissionControllerApiFactory().updateRSubmission,
-      [oldSubmission.id!, patch_body]
+      [submission.id!, patch_body]
     ).catch(() => {
       return validateRequest({})
     })
   } else if (
-    oldSubmission.technology === Technologies.enum.Python
+    submission.technology === Technologies.enum.Python
   ) {
     return openApiRequest<EntityModelSubmissionDto>(
       PythonSubmissionControllerApiFactory()
         .updatePythonSubmission,
-      [oldSubmission.id!, patch_body]
+      [submission.id!, patch_body]
     ).catch(() => {
       return validateRequest({})
     })
@@ -135,10 +119,61 @@ export async function updateSubmission(
       name: 'NotImplemetedError',
       message:
         'Updating of "' +
-        oldSubmission.technology +
+        submission.technology +
         '" not implemented!'
     }
   }
+}
+
+export async function acceptSubmissionService(
+  submission: EntityModelSubmissionDto
+): ValidatedSubmission {
+  if (
+    !hasPermission(
+      submission.permissions,
+      'submission.accept'
+    )
+  ) {
+    return new Promise(() => false)
+  }
+  return changeState(
+    submission,
+    EntityModelSubmissionDtoStateEnum.ACCEPTED
+  )
+}
+
+export async function rejectSubmissionService(
+  submission: EntityModelSubmissionDto
+): ValidatedSubmission {
+  if (
+    !hasPermission(
+      submission.permissions,
+      'submission.reject'
+    )
+  ) {
+    return new Promise(() => false)
+  }
+  return changeState(
+    submission,
+    EntityModelSubmissionDtoStateEnum.REJECTED
+  )
+}
+
+export async function cancelSubmissionService(
+  submission: EntityModelSubmissionDto
+): ValidatedSubmission {
+  if (
+    !hasPermission(
+      submission.permissions,
+      'submission.cancel'
+    )
+  ) {
+    return new Promise(() => false)
+  }
+  return changeState(
+    submission,
+    EntityModelSubmissionDtoStateEnum.CANCELLED
+  )
 }
 
 export async function addRSubmission(

@@ -31,7 +31,6 @@ import {
   it,
   vi
 } from 'vitest'
-import { EntityModelSubmissionDtoStateEnum } from '@/openapi'
 import submissions from '@/__tests__/config/mockData/submissions.json'
 import { useUtilities } from '@/composable/utilities'
 import {
@@ -107,9 +106,7 @@ describe('Testing submissions store with failing backend', () => {
     )
     submission.permissions = ['submission.cancel']
 
-    await submissionStore.patch(submission, {
-      state: EntityModelSubmissionDtoStateEnum.CANCELLED
-    })
+    await submissionStore.cancel(submission)
 
     // expect(spy).toBeCalledTimes(1)
     // TODO update tests in submissions when the backed error handling will be completed and updated on fronted

@@ -21,7 +21,7 @@
 -->
 
 <template>
-  <VTooltip top>
+  <VTooltip location="top">
     <template #activator="{ props }">
       <VIcon
         :id="iconId"

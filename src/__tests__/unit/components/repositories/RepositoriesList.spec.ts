@@ -20,7 +20,13 @@
  *
  */
 
-import { describe, it, expect, beforeEach } from 'vitest'
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  vi
+} from 'vitest'
 
 import { mount } from '@vue/test-utils'
 import { plugins } from '@/__tests__/config/plugins'
@@ -121,5 +127,33 @@ describe('RepositoriesList', () => {
     expect(wrapper.find('.additional-row').exists()).toBe(
       false
     )
+  })
+
+  it.each([
+    ['unpublishes a published', 0, 'unpublish'],
+    ['publishes an unpublished', 1, 'publish']
+  ] as const)('%s repository', async (_, index, action) => {
+    const wrapper = await mountList()
+    const repositoryStore = useRepositoryStore()
+    const publish = vi
+      .spyOn(repositoryStore, 'publish')
+      .mockResolvedValue()
+    const unpublish = vi
+      .spyOn(repositoryStore, 'unpublish')
+      .mockResolvedValue()
+
+    await wrapper
+      .findAll('.v-selection-control input')
+      [index].trigger('click')
+
+    expect(repositoryStore.chosenRepository.id).toBe(
+      repositories[index].id
+    )
+    expect(
+      action === 'publish' ? publish : unpublish
+    ).toHaveBeenCalledOnce()
+    expect(
+      action === 'publish' ? unpublish : publish
+    ).not.toHaveBeenCalled()
   })
 })

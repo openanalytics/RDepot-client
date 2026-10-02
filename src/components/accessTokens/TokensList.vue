@@ -41,7 +41,7 @@
     <template #[`item.active`]="{ item }">
       <v-icon
         id="access-token-active-icon"
-        v-tooltip="
+        v-tooltip:top="
           item.active
             ? $t('properties.general.active')
             : $t('properties.general.inactive')
@@ -74,14 +74,7 @@
             )
           "
           :text="$t('actions.general.edit')"
-          :hover-message="
-            !hasPermission(
-              item.permissions,
-              'accessToken.edit'
-            )
-              ? $t('properties.general.inactive')
-              : $t('actions.general.edit')
-          "
+          :hover-message="disabledReason(item)"
           @set-entity="prepareEdition(item)"
         />
         <DeactivateIcon
@@ -99,7 +92,7 @@
               'accessToken.deactivate'
             )
               ? $t('actions.general.deactivate')
-              : $t('properties.general.inactive')
+              : disabledReason(item)
           "
           @set-resource-id="
             accessTokensStore.currentToken = item
@@ -113,6 +106,7 @@
               'accessToken.delete.hard'
             )
           "
+          :hover-message="disabledReason(item)"
           @set-resource-id="prepareDeletion(item)"
         /> </span
     ></template>
@@ -149,6 +143,17 @@ const accessTokensStore = useAccessTokensStore()
 const { filterByChip } = useTokensChipFiltration()
 
 const { getSort } = useSort()
+
+function disabledReason(item: EntityModelAccessTokenDto) {
+  if (item.active !== false) {
+    return i18n.t('messages.general.notAuthorized')
+  }
+  return i18n.t('messages.general.inactive', {
+    resource_name: i18n
+      .t('resources.accessToken', 1)
+      .toLowerCase()
+  })
+}
 const defaultSort: Sort[] = [{ key: 'name', order: 'asc' }]
 const sortBy = ref(defaultSort)
 

@@ -123,3 +123,23 @@ describe('Logged user store tests', () => {
     )
   })
 })
+
+describe('checkUserAbility', () => {
+  beforeEach(() => {
+    setActivePinia(createPinia())
+  })
+
+  it.each([
+    [['submission.create'], true],
+    [['submission.list'], false]
+  ])(
+    'opens the upload page with %j: %s',
+    (permissions, allowed) => {
+      const authorizationStore = useAuthorizationStore()
+      authorizationStore.me = { permissions }
+      expect(
+        authorizationStore.checkUserAbility('addSubmission')
+      ).toBe(allowed)
+    }
+  )
+})

@@ -56,7 +56,7 @@
                     'resources.packageMaintainer'
                   )
                 })
-              : i18n.t('actions.general.edit')
+              : undefined
           "
           :icon-id="`edit-package-maintainer-${item.user?.name?.replace(
             ' ',

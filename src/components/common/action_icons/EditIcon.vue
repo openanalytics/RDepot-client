@@ -72,6 +72,9 @@ function edit() {
 }
 
 const translatedHoverMessage = computed(() => {
+  if (!componentProps.disabled) {
+    return i18n.t('actions.general.edit')
+  }
   return (
     componentProps.hoverMessage ||
     i18n.t('messages.general.notAuthorized')

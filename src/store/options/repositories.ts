@@ -34,7 +34,10 @@ import {
   fetchRepositoriesService,
   fetchRepositoryByIdService,
   isServerAddressHealthy,
-  republishRepositoryService
+  deleteRepositoryService,
+  publishRepositoryService,
+  republishRepositoryService,
+  unpublishRepositoryService
 } from '@/services/repositoryServices'
 import { createRepository } from '@/services/repositoryServices'
 import { useUtilities } from '@/composable/utilities'
@@ -219,9 +222,36 @@ export const useRepositoryStore = defineStore(
         return repositories
       },
       async deleteSoft() {
-        if (this.chosenRepository) {
-          this.patch({ deleted: true })
-        }
+        await this.applyToChosen(deleteRepositoryService)
+      },
+      async publish() {
+        await this.applyToChosen(publishRepositoryService)
+      },
+      async unpublish() {
+        await this.applyToChosen(unpublishRepositoryService)
+      },
+      async applyToChosen(
+        service: (
+          repository: EntityModelRepositoryDto
+        ) => Promise<unknown>
+      ) {
+        if (!this.chosenRepository.id) return
+        this.pending.push(this.chosenRepository)
+        await service(this.chosenRepository)
+          .then(async (success) => {
+            if (success) {
+              await this.getPage()
+              this.markRecentlyUpdated(
+                this.chosenRepository.id
+              )
+            }
+          })
+          .finally(() => {
+            this.pending = this.pending.filter(
+              (item) =>
+                item?.id != this.chosenRepository?.id
+            )
+          })
       },
       async republish() {
         if (
@@ -231,7 +261,9 @@ export const useRepositoryStore = defineStore(
           this.pending.push(this.chosenRepository)
           await republishRepositoryService(
             this.chosenRepository.id,
-            this.chosenRepository.technology as Technologies
+            this.chosenRepository
+              .technology as Technologies,
+            this.chosenRepository.permissions
           )
             .then(async (success: any) => {
               if (success) {

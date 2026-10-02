@@ -39,7 +39,7 @@ import {
   validatedData,
   validateRequest
 } from './openApiAccess'
-import { createPatch } from 'rfc6902'
+import { createPatch, Operation } from 'rfc6902'
 import { CombinedRepositoryModel } from '@/store/options/repositories'
 import { usePermissions } from '@/composable/authorities/userAuthorities'
 import { hasPermission } from '@/utils/permissions'
@@ -210,7 +210,6 @@ export async function updateRRepositoryService(
   ) {
     return new Promise(() => false)
   }
-
   const patchBody = createPatch(
     oldRepository,
     newRepository
@@ -245,23 +244,10 @@ export async function updatePythonRepositoryService(
     !hasPermission(
       oldRepository.permissions,
       'repository.edit'
-    ) &&
-    (!hasPermission(
-      oldRepository.permissions,
-      'repository.publish'
-    ) ||
-      !hasPermission(
-        oldRepository.permissions,
-        'repository.unpublish'
-      )) &&
-    !hasPermission(
-      oldRepository.permissions,
-      'repository.republish'
     )
   ) {
     return new Promise(() => false)
   }
-
   const patchBody = createPatch(
     oldRepository,
     newRepository
@@ -288,11 +274,84 @@ export async function updatePythonRepositoryService(
   }
 }
 
+async function patchRepository(
+  repository: EntityModelRepositoryDto,
+  patchBody: Operation[]
+) {
+  if (repository.technology === Technologies.enum.R) {
+    return openApiRequest<RRepositoryDto>(
+      RRepositoryControllerApiFactory().updateRRepository,
+      [repository.id, patchBody]
+    )
+  } else if (
+    repository.technology === Technologies.enum.Python
+  ) {
+    return openApiRequest<PythonRepositoryDto>(
+      PythonRepositoryControllerApiFactory()
+        .updatePythonRepository,
+      [repository.id, patchBody]
+    )
+  } else {
+    throw new Error(
+      'Technologies not supported ' + repository.technology
+    )
+  }
+}
+
+export async function publishRepositoryService(
+  repository: EntityModelRepositoryDto
+) {
+  if (
+    !hasPermission(
+      repository.permissions,
+      'repository.publish'
+    )
+  ) {
+    return new Promise(() => false)
+  }
+  return patchRepository(repository, [
+    { op: 'replace', path: '/published', value: true }
+  ])
+}
+
+export async function unpublishRepositoryService(
+  repository: EntityModelRepositoryDto
+) {
+  if (
+    !hasPermission(
+      repository.permissions,
+      'repository.unpublish'
+    )
+  ) {
+    return new Promise(() => false)
+  }
+  return patchRepository(repository, [
+    { op: 'replace', path: '/published', value: false }
+  ])
+}
+
+export async function deleteRepositoryService(
+  repository: EntityModelRepositoryDto
+) {
+  if (
+    !hasPermission(
+      repository.permissions,
+      'repository.delete.soft'
+    )
+  ) {
+    return new Promise(() => false)
+  }
+  return patchRepository(repository, [
+    { op: 'replace', path: '/deleted', value: true }
+  ])
+}
+
 export async function republishRepositoryService(
   id: number,
-  technology: Technologies
+  technology: Technologies,
+  permissions?: string[]
 ) {
-  if (!has('repository.create')) {
+  if (!hasPermission(permissions, 'repository.republish')) {
     return new Promise(() => false)
   }
 

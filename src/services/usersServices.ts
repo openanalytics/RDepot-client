@@ -31,7 +31,7 @@ import {
   validateRequest,
   validatedData
 } from './openApiAccess'
-import { createPatch } from 'rfc6902'
+import { createPatch, Operation } from 'rfc6902'
 import { usePermissions } from '@/composable/authorities/userAuthorities'
 import { hasPermission } from '@/utils/permissions'
 
@@ -78,14 +78,7 @@ export async function updateUser(
   oldUser: EntityModelUserDto,
   newUser: EntityModelUserDto
 ): ValidatedUser {
-  if (
-    !hasPermission(oldUser.permissions, 'user.edit') &&
-    (!hasPermission(oldUser.permissions, 'user.activate') ||
-      !hasPermission(
-        oldUser.permissions,
-        'user.deactivate'
-      ))
-  ) {
+  if (!hasPermission(oldUser.permissions, 'user.edit')) {
     return new Promise(() => false)
   }
   const patch = createPatch(oldUser, newUser)
@@ -95,6 +88,53 @@ export async function updateUser(
   ).catch(() => {
     return validateRequest({})
   })
+}
+
+async function patchUser(
+  user: EntityModelUserDto,
+  patch: Operation[]
+): ValidatedUser {
+  return openApiRequest<EntityModelUserDto>(
+    ApiV2UserControllerApiFactory().patchUser,
+    [user.id, patch]
+  ).catch(() => {
+    return validateRequest({})
+  })
+}
+
+export async function activateUserService(
+  user: EntityModelUserDto
+): ValidatedUser {
+  if (!hasPermission(user.permissions, 'user.activate')) {
+    return new Promise(() => false)
+  }
+  return patchUser(user, [
+    { op: 'replace', path: '/active', value: true }
+  ])
+}
+
+export async function deactivateUserService(
+  user: EntityModelUserDto
+): ValidatedUser {
+  if (!hasPermission(user.permissions, 'user.deactivate')) {
+    return new Promise(() => false)
+  }
+  return patchUser(user, [
+    { op: 'replace', path: '/active', value: false }
+  ])
+}
+
+export async function deleteUserService(
+  user: EntityModelUserDto
+): ValidatedUser {
+  if (
+    !hasPermission(user.permissions, 'user.delete.soft')
+  ) {
+    return new Promise(() => false)
+  }
+  return patchUser(user, [
+    { op: 'replace', path: '/deleted', value: true }
+  ])
 }
 
 export async function fetchRoles(): ValidatedRRoles {

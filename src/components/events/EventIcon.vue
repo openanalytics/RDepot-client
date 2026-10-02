@@ -48,7 +48,7 @@
     </div>
   </div>
   <div v-else-if="event && event?.eventType">
-    <v-tooltip location="bottom">
+    <v-tooltip location="top">
       <template #activator="{ props }">
         <v-icon
           size="20"

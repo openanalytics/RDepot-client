@@ -30,10 +30,8 @@ import { loadFonts } from './webfontloader'
 import vuetify from './vuetify'
 import pinia from '../store'
 import router from '@/plugins/router'
-import { abilitiesPlugin } from '@casl/vue'
 import type { App } from 'vue'
 import { i18nInstance } from './i18n'
-import { caslAbility } from './casl'
 import { VueDOMPurifyHTMLconfig } from './vueDompurifyHtml'
 import VueDOMPurifyHTML from 'vue-dompurify-html'
 import Vue3Toastify, {
@@ -51,7 +49,6 @@ export function registerPlugins(app: App) {
     .use(router)
     .use(pinia)
     .use(i18nInstance)
-    .use(abilitiesPlugin, caslAbility)
     .use(VueApexCharts)
     .use(VueDOMPurifyHTML, VueDOMPurifyHTMLconfig)
     .use(Vue3Toastify, {

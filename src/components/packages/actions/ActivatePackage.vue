@@ -24,19 +24,14 @@
   <span v-tooltip:top="onHoverMessage">
     <v-checkbox-btn
       :id="id"
-      v-model="packageBag.active"
+      :model-value="packageBag.active"
       :disabled="disabled"
       hide-details
-      :readonly="
-        !hasPermission(
-          packageBag?.permissions,
-          'package.activate'
-        )
-      "
+      :readonly="!canToggleActive"
       :color="color"
       class="mr-6"
       @click.stop
-      @change="updatePackageActive"
+      @update:model-value="updatePackageActive"
     />
   </span>
 </template>
@@ -77,13 +72,17 @@ const isPending = computed(
     )
 )
 
-const color = computed(() =>
-  !hasPermission(
+const canToggleActive = computed(() =>
+  hasPermission(
     packageBag.value.permissions,
-    'package.activate'
+    packageBag.value.active
+      ? 'package.deactivate'
+      : 'package.activate'
   )
-    ? 'grey'
-    : 'primary'
+)
+
+const color = computed(() =>
+  canToggleActive.value ? 'primary' : 'grey'
 )
 
 const disabled = computed(
@@ -91,34 +90,31 @@ const disabled = computed(
 )
 
 const onHoverMessage = computed(() => {
-  if (
-    !hasPermission(
-      packageBag.value.permissions,
-      'package.activate'
-    )
-  )
-    return i18n.t('messages.general.notAuthorized')
   if (packageBag.value.deleted)
     return i18n.t('messages.general.deleted', {
       resource_name: 'package'
     })
   if (isPending.value)
     return i18n.t('messages.general.pending')
+  if (!canToggleActive.value)
+    return i18n.t('messages.general.notAuthorized')
   if (packageBag.value.active)
     return i18n.t('actions.general.deactivate')
   return i18n.t('actions.general.activate')
 })
 
-function updatePackageActive() {
+function updatePackageActive(active: boolean | null) {
   if (
-    hasPermission(
-      packageBag.value.permissions,
-      'package.activate'
-    ) &&
+    canToggleActive.value &&
     packageBag.value.id &&
     packageBag.value.active != undefined
   ) {
-    packagesStore.activatePackage(packageBag.value)
+    packageBag.value.active = !!active
+    if (active) {
+      packagesStore.activate(packageBag.value)
+    } else {
+      packagesStore.deactivate(packageBag.value)
+    }
   }
 }
 </script>

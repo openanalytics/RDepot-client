@@ -41,7 +41,7 @@ import {
   validatedData,
   validateRequest
 } from '@/services/openApiAccess'
-import { createPatch } from 'rfc6902'
+import { createPatch, Operation } from 'rfc6902'
 import { usePermissions } from '@/composable/authorities/userAuthorities'
 import { hasPermission } from '@/utils/permissions'
 
@@ -138,42 +138,64 @@ export function fetchPythonPackageService(
   })
 }
 
-export async function updateRPackage(
-  oldPackage: EntityModelPackageDto,
-  newPackage: EntityModelPackageDto
+async function setActive(
+  packageBag: EntityModelPackageDto,
+  active: boolean
 ): ValidatedPackage {
-  if (
-    !hasPermission(oldPackage.permissions, 'package.edit')
+  const patch: Operation[] = [
+    { op: 'replace', path: '/active', value: active }
+  ]
+
+  let packagesApi
+  if (packageBag.technology === Technologies.enum.R) {
+    packagesApi =
+      RPackageControllerApiFactory().updatePackage
+  } else if (
+    packageBag.technology === Technologies.enum.Python
   ) {
-    return new Promise(() => false)
+    packagesApi =
+      PythonPackageControllerApiFactory()
+        .updatePythonPackage
+  } else {
+    throw new Error(
+      'Technologies not supported ' + packageBag.technology
+    )
   }
-  const patch = createPatch(oldPackage, newPackage)
 
   return openApiRequest<EntityModelPackageDto>(
-    RPackageControllerApiFactory().updatePackage,
-    [oldPackage.id, patch]
+    packagesApi,
+    [packageBag.id, patch]
   ).catch(() => {
     return validateRequest({})
   })
 }
 
-export async function updatePythonPackage(
-  oldPackage: EntityModelPackageDto,
-  newPackage: EntityModelPackageDto
+export async function activatePackageService(
+  packageBag: EntityModelPackageDto
 ): ValidatedPackage {
   if (
-    !hasPermission(oldPackage.permissions, 'package.edit')
+    !hasPermission(
+      packageBag.permissions,
+      'package.activate'
+    )
   ) {
     return new Promise(() => false)
   }
-  const patch = createPatch(oldPackage, newPackage)
+  return setActive(packageBag, true)
+}
 
-  return openApiRequest<EntityModelPackageDto>(
-    PythonPackageControllerApiFactory().updatePythonPackage,
-    [oldPackage.id, patch]
-  ).catch(() => {
-    return validateRequest({})
-  })
+export async function deactivatePackageService(
+  packageBag: EntityModelPackageDto
+): ValidatedPackage {
+  if (
+    !hasPermission(
+      packageBag.permissions,
+      'package.deactivate'
+    )
+  ) {
+    return new Promise(() => false)
+  }
+  return setActive(packageBag, false)
 }
 
 export async function downloadReferenceManual(

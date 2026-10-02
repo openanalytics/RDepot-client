@@ -27,10 +27,11 @@ import {
   SubmissionsFiltration
 } from '@/models/Filtration'
 import {
+  acceptSubmissionService,
+  cancelSubmissionService,
   fetchSubmissionsService,
-  updateSubmission
+  rejectSubmissionService
 } from '@/services/submissionServices'
-import { useUtilities } from '@/composable/utilities'
 import { useToast } from '@/composable/toasts'
 import { DataTableOptions } from '@/models/DataTableOptions'
 import { useSortStore } from './sort'
@@ -68,8 +69,6 @@ interface State {
   tableOptions?: DataTableOptions
   localOptions: DataTableOptions
 }
-
-const { deepCopy } = useUtilities()
 
 export const useSubmissionStore = defineStore(
   'submissionStore',
@@ -160,25 +159,41 @@ export const useSubmissionStore = defineStore(
         this.submissions = submissions
         return pageData
       },
-      async patch(
-        oldSubmission: EntityModelSubmissionDto,
-        newValues: Partial<EntityModelSubmissionDto>
+      async accept(submission: EntityModelSubmissionDto) {
+        await this.applyTo(
+          acceptSubmissionService,
+          submission
+        )
+      },
+      async reject(submission: EntityModelSubmissionDto) {
+        await this.applyTo(
+          rejectSubmissionService,
+          submission
+        )
+      },
+      async cancel(submission: EntityModelSubmissionDto) {
+        await this.applyTo(
+          cancelSubmissionService,
+          submission
+        )
+      },
+      async applyTo(
+        service: (
+          submission: EntityModelSubmissionDto
+        ) => ReturnType<typeof acceptSubmissionService>,
+        submission: EntityModelSubmissionDto
       ) {
-        this.pending.push(oldSubmission)
-        const newSubmission = {
-          ...deepCopy(oldSubmission),
-          ...newValues
-        }
-        await updateSubmission(oldSubmission, newSubmission)
+        this.pending.push(submission)
+        await service(submission)
           .then(async (response) => {
             if (Object.keys(response[0]).length > 0) {
               await this.getPage()
-              this.markRecentlyUpdated(oldSubmission.id)
+              this.markRecentlyUpdated(submission.id)
             }
           })
           .finally(() => {
             this.pending = this.pending.filter(
-              (item) => item.id != oldSubmission.id
+              (item) => item.id != submission.id
             )
           })
       },

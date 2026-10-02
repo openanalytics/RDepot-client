@@ -45,10 +45,16 @@ export function useSubmissionAuthorizationCheck() {
   ) {
     switch (editOption) {
       case SubmissionEditOptions.Enum.accept: {
-        return isAuthorizedToAcceptAndReject(submission)
+        return hasPermission(
+          submission?.permissions,
+          'submission.accept'
+        )
       }
       case SubmissionEditOptions.Enum.reject: {
-        return isAuthorizedToAcceptAndReject(submission)
+        return hasPermission(
+          submission?.permissions,
+          'submission.reject'
+        )
       }
       case SubmissionEditOptions.Enum.cancel: {
         return isAuthorizedToCancel(submission)
@@ -77,21 +83,6 @@ export function useSubmissionAuthorizationCheck() {
     return hasPermission(
       submission?.permissions,
       'submission.cancel'
-    )
-  }
-
-  function isAuthorizedToAcceptAndReject(
-    submission?: EntityModelSubmissionDto
-  ) {
-    return (
-      hasPermission(
-        submission?.permissions,
-        'submission.accept'
-      ) ||
-      hasPermission(
-        submission?.permissions,
-        'submission.reject'
-      )
     )
   }
 

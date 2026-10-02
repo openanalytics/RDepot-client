@@ -156,7 +156,7 @@ export const useAccessTokensStore = defineStore(
       async delete() {
         if (this.currentToken?.id) {
           this.pending.push(this.currentToken)
-          await deleteToken(this.currentToken.id)
+          await deleteToken(this.currentToken)
             .then(async () => {
               const commonStore = useCommonStore()
               commonStore.closeOverlay()
@@ -213,15 +213,10 @@ export const useAccessTokensStore = defineStore(
         )
       },
       async deactivate(
-        oldToken: EntityModelAccessTokenDto,
-        newValues: Partial<EntityModelAccessTokenDto>
+        oldToken: EntityModelAccessTokenDto
       ) {
         this.pending.push(oldToken)
-        const newToken = {
-          ...deepCopy(oldToken),
-          ...newValues
-        }
-        await deactivateToken(oldToken, newToken)
+        await deactivateToken(oldToken)
           ?.then(async (success) => {
             if (success) {
               const commonStore = useCommonStore()

@@ -174,7 +174,7 @@
                       `resources.repository`
                     )
                   })
-                : i18n.t('actions.general.edit')
+                : undefined
           "
           @set-entity="prepareRepositoryEdition(item)"
         />
@@ -241,7 +241,6 @@ import {
   Sort
 } from '@/models/DataTableOptions'
 import { useConfigStore } from '@/store/options/config'
-import { useUtilities } from '@/composable/utilities'
 import { computed, ref } from 'vue'
 import { useSort } from '@/composable/sort'
 import ProgressCircularSmall from '../common/progress/ProgressCircularSmall.vue'
@@ -263,7 +262,6 @@ import { usePermissions } from '@/composable/authorities/userAuthorities'
 import { useRepositoriesChipFiltration } from '@/composable/repositories/repositoriesChipFiltration'
 
 const { has } = usePermissions()
-const { deepCopy } = useUtilities()
 const repositoryStore = useRepositoryStore()
 const configStore = useConfigStore()
 const { deprecatedAddressTooltip } =
@@ -378,9 +376,11 @@ function updateRepositoryPublished(
 ): void {
   if (!isDisabled(item)) {
     repositoryStore.setChosen(item.id)
-    const newRepository = deepCopy(item)
-    newRepository.published = !newRepository.published
-    repositoryStore.patch(newRepository)
+    if (item.published) {
+      repositoryStore.unpublish()
+    } else {
+      repositoryStore.publish()
+    }
   }
 }
 

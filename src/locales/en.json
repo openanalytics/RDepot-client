@@ -246,6 +246,7 @@
       "deleteQuestion": "Are you sure you want to delete {resource_name}?",
       "deleteResourcesQuestion": "Are you sure you want to delete the following {resource_type}?",
       "deleted": "This {resource_name} is deleted",
+      "inactive": "This {resource_name} is inactive",
       "goToDisabled": "Cannot go to the details",
       "noDataAvailable": "No data available",
       "notAuthorized": "You are not authorized to perform this action",

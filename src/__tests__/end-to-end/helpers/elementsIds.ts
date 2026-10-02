@@ -209,6 +209,8 @@ export const PACKAGES_LIST_CHECKBOX_ACTIONS_ANACODA_0213_TESTREPO4_ID =
   'checkbox-actions-AnaCoDa-0-1-2-3-testrepo4'
 export const PACKAGES_LIST_ACTIVATE_BUTTON_ID =
   'checkbox-active-A3-0-9-2-testrepo3'
+export const PACKAGES_LIST_ACTIVE_ACCRUED_10_TESTREPO1_ID =
+  'checkbox-active-accrued-1-0-testrepo1'
 
 //package details
 export const PACKAGE_VERSIONS_CHART_ID =

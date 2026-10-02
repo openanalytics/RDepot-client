@@ -33,16 +33,16 @@ import {
   downloadReferenceManual,
   fetchPackageService,
   fetchPackagesService,
-  deletePackage
+  deletePackage,
+  activatePackageService,
+  deactivatePackageService
 } from '@/services/packageServices'
-import { useUtilities } from '@/composable/utilities'
 import { fetchSubmission } from '@/services/submissionServices'
 import { Technologies } from '@/enum/Technologies'
 import { DataTableOptions } from '@/models/DataTableOptions'
 import { validatedData } from '@/services/openApiAccess'
 import { useToast } from '@/composable/toasts'
 import { useSortStore } from '@/store/options/sort'
-import { updateTechnologyPackage } from '@/maps/package/Technology'
 import { useOATable } from '@/store/setup/oatable'
 
 export type PackagePromise = {
@@ -71,8 +71,6 @@ interface State {
   tableOptions?: DataTableOptions
   localOptions: DataTableOptions
 }
-
-const { deepCopy } = useUtilities()
 
 export const usePackagesStore = defineStore(
   'packagesStore',
@@ -213,28 +211,37 @@ export const usePackagesStore = defineStore(
         this.packages = packages
         return pageData
       },
-      async activatePackage(
-        newPackage: EntityModelPackageDto
+      async activate(packageBag: EntityModelPackageDto) {
+        await this.setActive(
+          activatePackageService,
+          packageBag
+        )
+      },
+      async deactivate(packageBag: EntityModelPackageDto) {
+        await this.setActive(
+          deactivatePackageService,
+          packageBag
+        )
+      },
+      async setActive(
+        service: (
+          packageBag: EntityModelPackageDto
+        ) => Promise<unknown>,
+        packageBag: EntityModelPackageDto
       ) {
-        this.pending.push(newPackage)
-        const oldPackage = deepCopy(newPackage)
-        oldPackage.active = !newPackage.active
-        const updateFn = updateTechnologyPackage.get(
-          newPackage.technology as Technologies
-        )
-        if (updateFn) {
-          await updateFn(oldPackage, newPackage).then(
-            async (success: any) => {
-              if (success) {
-                await this.getPage()
-                this.markRecentlyUpdated(newPackage.id)
-              }
+        this.pending.push(packageBag)
+        await service(packageBag)
+          .then(async (success) => {
+            if (success) {
+              await this.getPage()
+              this.markRecentlyUpdated(packageBag.id)
             }
-          )
-        }
-        this.pending = this.pending.filter(
-          (packageBag) => packageBag.id != newPackage?.id
-        )
+          })
+          .finally(() => {
+            this.pending = this.pending.filter(
+              (item) => item.id != packageBag.id
+            )
+          })
       },
       async setFiltration(payload: PackagesFiltration) {
         if (PackagesFiltration.safeParse(payload).success) {

@@ -31,7 +31,8 @@ import {
   validatedData,
   validateRequest
 } from './openApiAccess'
-import { createPatch } from 'rfc6902'
+import { createPatch, Operation } from 'rfc6902'
+import { hasPermission } from '@/utils/permissions'
 import { useToast } from '@/composable/toasts'
 import { i18n } from '@/plugins/i18n'
 import { useTokenValidationSchema } from '@/composable/tokens/tokenSchema.ts'
@@ -99,11 +100,21 @@ export async function createToken(
   }
 }
 
-export async function deleteToken(id: number) {
+export async function deleteToken(
+  token: EntityModelAccessTokenDto
+) {
+  if (
+    !hasPermission(
+      token.permissions,
+      'accessToken.delete.hard'
+    )
+  ) {
+    return new Promise(() => false)
+  }
   return openApiRequest<CreateAccessTokenDto>(
     ApiV2AccessTokenControllerApiFactory()
       .deleteAccessToken,
-    [id]
+    [token.id]
   )
 }
 
@@ -111,6 +122,11 @@ export async function editToken(
   oldToken: EntityModelAccessTokenDto,
   newToken: EntityModelAccessTokenDto
 ): ValidatedToken {
+  if (
+    !hasPermission(oldToken.permissions, 'accessToken.edit')
+  ) {
+    return new Promise(() => false)
+  }
   const patch_body = createPatch(oldToken, newToken)
   return openApiRequest<EntityModelAccessTokenDto>(
     ApiV2AccessTokenControllerApiFactory().patchAccessToken,
@@ -119,14 +135,24 @@ export async function editToken(
     return validateRequest({})
   })
 }
+
 export async function deactivateToken(
-  oldToken: EntityModelAccessTokenDto,
-  newToken: EntityModelAccessTokenDto
+  token: EntityModelAccessTokenDto
 ): ValidatedToken {
-  const patch_body = createPatch(oldToken, newToken)
+  if (
+    !hasPermission(
+      token.permissions,
+      'accessToken.deactivate'
+    )
+  ) {
+    return new Promise(() => false)
+  }
+  const patch_body: Operation[] = [
+    { op: 'replace', path: '/active', value: false }
+  ]
   return openApiRequest<EntityModelAccessTokenDto>(
     ApiV2AccessTokenControllerApiFactory().patchAccessToken,
-    [oldToken.id!, patch_body]
+    [token.id!, patch_body]
   ).catch(() => {
     return validateRequest({})
   })

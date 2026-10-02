@@ -21,10 +21,7 @@
  */
 
 import { SubmissionEditOptions } from '@/enum/SubmissionEditOptions'
-import {
-  EntityModelSubmissionDto,
-  EntityModelSubmissionDtoStateEnum
-} from '@/openapi'
+import { EntityModelSubmissionDto } from '@/openapi'
 import { useSubmissionStore } from '@/store/options/submission'
 import { useSubmissionAuthorizationCheck } from './submissionAuthorities'
 import { usePackageDetailsStore } from '@/store/options/packageDetails'
@@ -60,10 +57,9 @@ export function useSubmissionActions() {
   async function acceptSubmission(
     submission?: EntityModelSubmissionDto
   ) {
-    return changeSubmissionState(
-      EntityModelSubmissionDtoStateEnum.ACCEPTED,
-      submission
-    )
+    if (submission) {
+      return useSubmissionStore().accept(submission)
+    }
   }
 
   async function downloadSubmission(
@@ -103,30 +99,16 @@ export function useSubmissionActions() {
   async function rejectSubmission(
     submission?: EntityModelSubmissionDto
   ) {
-    return changeSubmissionState(
-      EntityModelSubmissionDtoStateEnum.REJECTED,
-      submission
-    )
+    if (submission) {
+      return useSubmissionStore().reject(submission)
+    }
   }
 
   async function cancelSubmission(
     submission?: EntityModelSubmissionDto
   ) {
-    return changeSubmissionState(
-      EntityModelSubmissionDtoStateEnum.CANCELLED,
-      submission
-    )
-  }
-
-  async function changeSubmissionState(
-    state: EntityModelSubmissionDtoStateEnum,
-    submission?: EntityModelSubmissionDto
-  ) {
-    const submissionStore = useSubmissionStore()
     if (submission) {
-      return submissionStore.patch(submission, {
-        state: state
-      })
+      return useSubmissionStore().cancel(submission)
     }
   }
 

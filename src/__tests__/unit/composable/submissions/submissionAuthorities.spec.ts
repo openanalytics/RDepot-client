@@ -124,7 +124,7 @@ describe('submission authorities', () => {
     const submission = {
       state: 'WAITING',
       submitter: { id: 5 },
-      permissions: permissions
+      permissions: ['submission.reject']
     } as EntityModelSubmissionDto
     const canEdit = canChangeState(
       submission,
@@ -187,4 +187,31 @@ describe('submission authorities', () => {
     )
     expect(canEdit).toBeFalsy()
   })
+  it.each([
+    [
+      SubmissionEditOptions.Enum.accept,
+      ['submission.reject', 'submission.cancel']
+    ],
+    [
+      SubmissionEditOptions.Enum.reject,
+      ['submission.accept', 'submission.cancel']
+    ],
+    [
+      SubmissionEditOptions.Enum.cancel,
+      ['submission.accept', 'submission.reject']
+    ]
+  ])(
+    'should not allow to %s with only the other permissions',
+    (editOption, otherPermissions) => {
+      const { canChangeState } =
+        useSubmissionAuthorizationCheck()
+      const submission = {
+        state: 'WAITING',
+        permissions: otherPermissions
+      } as EntityModelSubmissionDto
+      expect(
+        canChangeState(submission, editOption)
+      ).toBeFalsy()
+    }
+  )
 })

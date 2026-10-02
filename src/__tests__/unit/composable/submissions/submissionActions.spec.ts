@@ -49,14 +49,14 @@ beforeEach(async () => {
 describe('submissionActions', () => {
   it('should not change submission state if submission is not provided', async () => {
     const { acceptSubmission } = useSubmissionActions()
-    const spy = vi.spyOn(submissionsStore, 'patch')
+    const spy = vi.spyOn(submissionsStore, 'accept')
     await acceptSubmission()
     expect(spy).toBeCalledTimes(0)
   })
 
   it('should change submission state to REJECTED', async () => {
     const { rejectSubmission } = useSubmissionActions()
-    const spy = vi.spyOn(submissionsStore, 'patch')
+    const spy = vi.spyOn(submissionsStore, 'reject')
     const submission = {
       state: 'WAITING',
       technology: Technologies.Enum.Python,
@@ -68,7 +68,7 @@ describe('submissionActions', () => {
 
   it('should change submission state to ACCEPTED', async () => {
     const { acceptSubmission } = useSubmissionActions()
-    const spy = vi.spyOn(submissionsStore, 'patch')
+    const spy = vi.spyOn(submissionsStore, 'accept')
     const submission = {
       state: 'WAITING',
       technology: Technologies.Enum.Python,
@@ -80,7 +80,7 @@ describe('submissionActions', () => {
 
   it('should change submission state to WAITING', async () => {
     const { acceptSubmission } = useSubmissionActions()
-    const spy = vi.spyOn(submissionsStore, 'patch')
+    const spy = vi.spyOn(submissionsStore, 'accept')
     const submission = {
       state: 'WAITING',
       technology: Technologies.Enum.Python,
