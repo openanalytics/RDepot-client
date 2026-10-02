@@ -2,7 +2,7 @@
   description = "Playwright testing environemnt";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
     nixpkgs-playwright.url = "github:NixOS/nixpkgs/4dfc61e9cd0c26b3bc3e6d6fac3ba10d18959fc4";
     flake-utils.url = "github:numtide/flake-utils";
   };
@@ -30,7 +30,7 @@
 
           buildInputs = with pkgs; [
             jq
-            nodejs
+            nodejs_22
             husky
           ];
 
