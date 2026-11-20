@@ -22,13 +22,14 @@
 
 import { vi } from 'vitest'
 
+vi.mock('vue3-toastify')
+
 export const mocks = {
   $t: (msg: string) => msg,
   $i18n: (msg: string) => msg
 }
 
 export function mockMatchMedia() {
-  vi.mock('vue3-toastify')
   Object.defineProperty(window, 'matchMedia', {
     value: vi.fn(() => ({
       matches: true,

@@ -41,6 +41,8 @@ import { useAuthorizationStore } from '@/store/options/authorization'
 import { server } from '@/__tests__/config/backend/server'
 import { failingServer } from '@/__tests__/config/backend/failingServer'
 
+vi.mock('vue3-toastify')
+
 const { deepCopyAny } = useUtilities()
 
 const defaultFiltration = defaultValues(
@@ -88,7 +90,6 @@ describe('Testing submissions store with failing backend', () => {
   it('Fetch submissions', async () => {
     const submissionStore = useSubmissionStore()
 
-    vi.mock('vue3-toastify')
     await submissionStore.getPage()
 
     expect(submissionStore.submissions).toStrictEqual([])

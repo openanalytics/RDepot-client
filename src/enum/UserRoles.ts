@@ -32,15 +32,11 @@ const userRoles = {
 export const Role = z.nativeEnum(userRoles)
 export type Role = z.infer<typeof Role>
 
-const StringUserRoles = z.enum([
-  'user',
-  'package maintainer',
-  'repository maintainer',
-  'admin'
-])
-export type StringUserRoles = z.infer<
-  typeof StringUserRoles
->
+export type StringUserRoles =
+  | 'user'
+  | 'package maintainer'
+  | 'repository maintainer'
+  | 'admin'
 
 const StringUserRolesBackend = z.enum([
   'user',

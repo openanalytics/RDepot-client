@@ -34,6 +34,8 @@ import { AxiosError } from 'axios'
 import { BackendError } from '@/models/errors/BackendError'
 import error500Json from '@/__tests__/config/mockData/error500.json'
 
+vi.mock('vue3-toastify')
+
 beforeEach(async () => {
   setActivePinia(createPinia())
 })
@@ -41,7 +43,6 @@ beforeEach(async () => {
 describe('toasts composable', () => {
   it('should call success toast', async () => {
     const { success } = useToast()
-    vi.mock('vue3-toastify')
     const notify = await import('vue3-toastify')
     success('message')
     expect(notify.toast.success).toBeCalled()
@@ -49,7 +50,6 @@ describe('toasts composable', () => {
 
   it('should call warn toast', async () => {
     const { warning } = useToast()
-    vi.mock('vue3-toastify')
     const notify = await import('vue3-toastify')
     warning('message')
     expect(notify.toast.warn).toBeCalled()
@@ -57,7 +57,6 @@ describe('toasts composable', () => {
 
   it('should call info toast', async () => {
     const { info } = useToast()
-    vi.mock('vue3-toastify')
     const notify = await import('vue3-toastify')
     info('message')
     expect(notify.toast.info).toBeCalled()
@@ -65,7 +64,6 @@ describe('toasts composable', () => {
 
   it('should call normal toast', async () => {
     const { normal } = useToast()
-    vi.mock('vue3-toastify')
     const notify = await import('vue3-toastify')
     normal('message')
     expect(notify.toast).toBeCalled()
@@ -73,7 +71,6 @@ describe('toasts composable', () => {
 
   it('should call error toast', async () => {
     const { error } = useToast()
-    vi.mock('vue3-toastify')
     const notify = await import('vue3-toastify')
     error('message')
     expect(notify.toast.error).toBeCalled()
@@ -81,7 +78,6 @@ describe('toasts composable', () => {
 
   it('should call error500 toast', async () => {
     const { error500 } = useToast()
-    vi.mock('vue3-toastify')
     const notify = await import('vue3-toastify')
     error500(error500Json as AxiosError<BackendError>)
     expect(notify.toast.error).toBeCalled()

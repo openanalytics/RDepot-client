@@ -33,8 +33,9 @@ function mockMatchMedia() {
   })
 }
 
+vi.mock('vue3-toastify')
+
 beforeAll(() => {
-  vi.mock('vue3-toastify')
   mockMatchMedia()
   global.ResizeObserver = ResizeObserver
 })

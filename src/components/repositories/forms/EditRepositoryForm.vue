@@ -151,7 +151,7 @@ import {
 } from '@/store/options/repositories'
 import { computed, ref } from 'vue'
 import { Technologies } from '@/enum/Technologies'
-import { toTypedSchema } from '@vee-validate/zod/dist/vee-validate-zod'
+import { toTypedSchema } from '@vee-validate/zod'
 import { useForm } from 'vee-validate'
 import ValidatedInputField from '@/components/common/fields/ValidatedInputField.vue'
 import CardActions from '@/components/common/overlay/CardActions.vue'
